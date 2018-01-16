@@ -13,7 +13,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="">
+            <form method="POST" action="/stores">
                 <div class="modal-body">    
                     {{ csrf_field() }}                    
                     <div class="form-group">
@@ -34,7 +34,7 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" class="btn btn-primary">Добави</button>
+                    <button type="submit" id="add" class="btn btn-primary">Добави</button>
                 </div>
             </form>
         </div>
