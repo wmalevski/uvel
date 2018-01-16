@@ -24,7 +24,7 @@ class ProductsController extends Controller
         $prices = Prices::where('type', 'sell')->get();
         $stones = Stones::all();
         
-        return \View::make('products/index', array('products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones));
+        return \View::make('admin/products/index', array('products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones));
     }
 
     /**
