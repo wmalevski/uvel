@@ -44,7 +44,7 @@ class StoresController extends Controller
         ]);
 
         $store = Stores::create($request->all());
-        return redirect('admin/stores');
+        return response()->json('vsi4ko s to4no');
     }
 
     /**

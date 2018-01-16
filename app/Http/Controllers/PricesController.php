@@ -52,7 +52,7 @@ class PricesController extends Controller
         ]);
 
         $price = Prices::create($request->all());
-        return redirect()->route('admin/prices', ['material' => $request->material]);
+        return redirect()->route('prices', ['material' => $request->material]);
     }
 
     /**
