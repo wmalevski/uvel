@@ -46,7 +46,7 @@ class StoresController extends Controller
          ]);
         
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            return response()->json(['errors' => $validator->errors()], 200);
         }
 
         $store = Stores::create($request->all());

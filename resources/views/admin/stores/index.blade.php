@@ -30,6 +30,7 @@ aria-hidden="true">
                         <label for="1">Телефон: </label>
                         <input type="text" class="form-control" id="1" name="phone" placeholder="Телефон на магазин:">
                     </div>
+                    <div id="errors-container"></div>
                 </div>
 
                 <div class="modal-footer">

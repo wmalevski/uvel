@@ -109,7 +109,7 @@ $(document).ready(function() {
 
         //    xhttp.setRequestHeader("Content-Type", "application/json");
         //    xhttp.send(JSON.stringify(collectionData));
-            // ajaxFn('POST', ajaxUrl, handleResponse, collectionData);
+            ajaxFn('POST', ajaxUrl, handleResponse, collectionData);
         });
     }
 
@@ -121,6 +121,29 @@ $(document).ready(function() {
     function handleResponse(response) {
 
         console.log(response);
+
+        if(response.hasOwnProperty("errors")) {
+
+            var errorsHolder = document.getElementById("errors-container");
+            var holder = document.createDocumentFragment();
+            var errors = response.errors;
+
+            errorsHolder.innerHTML = "";
+            
+            for(var err in errors) {
+
+                var collectionErr = errors[err];
+
+                collectionErr.forEach(function(msg) {
+                    
+                    var errorContainer = document.createElement('div');
+                        errorContainer.innerText = msg;
+                        errorContainer.className = "alert alert-danger";
+                        holder.appendChild(errorContainer);
+                })
+            }
+            errorsHolder.appendChild(holder);
+        }
     }
 
     function ajaxFn(method, url, callback, dataSend) {
