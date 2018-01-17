@@ -69,4 +69,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:superadministrator|adm
 
     Route::get('/products', 'ProductsController@index');
     Route::post('/products', 'ProductsController@store');
+
+    
 });

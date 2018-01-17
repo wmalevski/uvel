@@ -70,16 +70,16 @@ aria-hidden="true">
                         <div class="model-stones">
                             <div class="fields">
                                 <div class="form-group col-md-6">
-                                        <div class="form-group">
-                                    <label>Камък: </label>
-                                    <select name="stones[]" class="form-control">
-                                        <option value="">Избери</option>
-                            
-                                        @foreach($stones as $stone)
-                                            <option value="{{ $stone->id }}">{{ $stone->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                    <div class="form-group">
+                                        <label>Камък: </label>
+                                        <select name="stones[]" class="form-control">
+                                            <option value="">Избери</option>
+                                
+                                            @foreach($stones as $stone)
+                                                <option value="{{ $stone->id }}">{{ $stone->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <div class="form-group">

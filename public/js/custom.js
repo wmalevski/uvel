@@ -66,7 +66,7 @@ $(document).ready(function() {
     });
 
     var addBtn = document.getElementById('add');
-    var url = 'http://127.0.0.1:8000';
+    var url = 'http://localhost:8000/admin';
 
     if(addBtn) {
 
@@ -75,7 +75,7 @@ $(document).ready(function() {
             ev.preventDefault();
             var form = ev.target.parentElement.parentElement;
             var urlAction = form.getAttribute("action");
-            var token = $('input[name="_token"]').value;
+            var token = $('meta[name="csrf-token"]').attr('content');
             
             var collectionElements = document.querySelectorAll('.modal-body .form-control');
             var collectionData = {_token: token};
@@ -90,6 +90,8 @@ $(document).ready(function() {
                     collectionData[name] = value;
                 }
             });
+
+            console.log(collectionData);
         
             var xhttp = new XMLHttpRequest();
 

@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Dashboard</title>
   <style>
     #loader {
@@ -87,7 +88,7 @@
                     </div>
                   </div>
                   <div class="peer peer-greed">
-                    <h5 class="lh-1 mB-0 logo-text">Adminator</h5>
+                    <h5 class="lh-1 mB-0 logo-text">UVEL</h5>
                   </div>
                 </div>
               </a>
@@ -126,6 +127,15 @@
                   <span class="title">Цени</span>
                 </a>
               </li>
+
+              <li class="nav-item">
+                  <a class="sidebar-link" href="users">
+                    <span class="icon-holder">
+                      <i class="c-brown-500 ti-pencil"></i>
+                    </span>
+                    <span class="title">Потребители</span>
+                  </a>
+                </li>
 
             <li class="nav-item">
               <a class="sidebar-link" href="jewels">
@@ -501,7 +511,7 @@
                   <img class="w-2r bdrs-50p" src="https://randomuser.me/api/portraits/men/10.jpg" alt="">
                 </div>
                 <div class="peer">
-                  <span class="fsz-sm c-grey-900">John Doe</span>
+                  <span class="fsz-sm c-grey-900">{{ Auth::user()->name }}</span>
                 </div>
               </a>
               <ul class="dropdown-menu fsz-sm">
