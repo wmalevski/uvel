@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Stores;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class StoresController extends Controller
@@ -37,18 +38,19 @@ class StoresController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+
+        $validator = Validator::make( $request->all(), [
             'name' => 'required',
             'location' => 'required',
             'phone' => 'required',
-        ]);
+         ]);
         
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json(['errors' => $validator->errors()], 422);
         }
 
         $store = Stores::create($request->all());
-        return response()->json('vsi4ko s to4no', 200);
+        return response()->json($store, 200);
     }
 
     /**
