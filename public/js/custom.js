@@ -67,6 +67,7 @@ $(document).ready(function() {
 
     var addBtn = document.getElementById('add');
     var url = 'http://localhost:8000/admin';
+    var token = $('meta[name="csrf-token"]').attr('content');
 
     if(addBtn) {
 
@@ -75,7 +76,7 @@ $(document).ready(function() {
             ev.preventDefault();
             var form = ev.target.parentElement.parentElement;
             var urlAction = form.getAttribute("action");
-            var token = $('meta[name="csrf-token"]').attr('content');
+            
             
             var collectionElements = document.querySelectorAll('.modal-body .form-control');
             var collectionData = {_token: token};
@@ -163,6 +164,7 @@ $(document).ready(function() {
         };
 
         xhttp.setRequestHeader("Content-Type", "application/json");
+        xhttp.setRequestHeader("X-CSRF-TOKEN", token);
         xhttp.send(JSON.stringify(dataSend));
     }
 });
