@@ -66,7 +66,7 @@ $(document).ready(function() {
     });
 
     var addBtn = document.getElementById('add');
-    var url = 'http://127.0.0.1:8000';
+    var url = 'http://localhost:8000';
 
     if(addBtn) {
 
@@ -90,7 +90,9 @@ $(document).ready(function() {
                     collectionData[name] = value;
                 }
             });
-        
+            
+            // ajaxFn("POST", url + urlAction, console.log);
+
             var xhttp = new XMLHttpRequest();
 
             xhttp.open("POST", url + urlAction, true);
@@ -108,5 +110,30 @@ $(document).ready(function() {
             xhttp.send(JSON.stringify(collectionData));
             
         });
+
+        function log(str) {
+
+            console.log(str);
+        }
+
+        function ajaxFn(method, url, callback) {
+
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.open(method, url + urlAction, true);
+
+            xhttp.onreadystatechange = function () {
+
+                if (this.readyState == 4 && this.status == 200) {
+
+                    let data = JSON.parse(this.responseText);
+
+                    callback(data); 
+                }
+            };
+
+            xhttp.setRequestHeader("Content-Type", "application/json");
+            xhttp.send(JSON.stringify(collectionData));
+        }
     }
 });
