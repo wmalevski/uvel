@@ -70,9 +70,9 @@ $(document).ready(function() {
     var token = $('meta[name="csrf-token"]').attr('content');
 
     if(addBtn) {
-
+        
         addBtn.addEventListener('click', function(ev) {
-            
+            console.log("clicked");
             ev.preventDefault();
             var form = ev.target.parentElement.parentElement;
             var urlAction = form.getAttribute("action");
@@ -82,7 +82,7 @@ $(document).ready(function() {
             var collectionData = {_token: token};
 
             collectionElements.forEach( function(el) {
-                
+
                 //TODO: to get the elements diff from input 
                 if(typeof el != null) {
 
@@ -94,7 +94,7 @@ $(document).ready(function() {
             });
 
             var ajaxUrl = url + urlAction;
-    
+            
             ajaxFn('POST', ajaxUrl, handleResponse, collectionData, collectionElements);
         });
     }
@@ -105,7 +105,7 @@ $(document).ready(function() {
     }
 
     function ajaxFn(method, url, callback, dataSend, elements) {
-
+        console.log(method, url, callback, dataSend, elements);
         var xhttp = new XMLHttpRequest();
 
         xhttp.open(method , url, true);
@@ -135,13 +135,13 @@ $(document).ready(function() {
         var successHolder = document.getElementById("success-container");
             successHolder.innerHTML = "";
 
+        var errorsHolder = document.getElementById("errors-container");
+            errorsHolder.innerHTML = "";
+
         if(response.hasOwnProperty("errors")) {
 
-            var errorsHolder = document.getElementById("errors-container");
             var holder = document.createDocumentFragment();
             var errors = response.errors;
-
-            errorsHolder.innerHTML = "";
             
             for(var err in errors) {
 
@@ -166,7 +166,7 @@ $(document).ready(function() {
                 successHolder.appendChild(successContainer);
 
             elements.forEach(function(el) {
-
+                // TODO: do it for elements diff from input 
                 if(typeof el != null) {
 
                    el.value = "";
@@ -174,6 +174,7 @@ $(document).ready(function() {
             })
 
             // Todo: to append the information that is returned from the server to the table 
+            
         }
     }
 });

@@ -12,9 +12,10 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="">
+            <form method="POST" action="/materials">
                 <div class="modal-body">
                     {{ csrf_field() }}
+                    <div id="success-container"></div>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="1">Име: </label>
@@ -33,11 +34,12 @@ aria-hidden="true">
                             <input type="text" class="form-control" id="3" name="color" placeholder="Цвят:">
                         </div>
                     </div>
+                    <div id="errors-container"></div>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" class="btn btn-primary">Добави</button>
+                    <button type="submit" id="add" class="btn btn-primary">Добави</button>
                 </div>
             </form>
         </div>
