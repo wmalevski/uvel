@@ -48,11 +48,19 @@ class StoresController extends Controller
          ]);
         
         if ($validator->fails()) {
-            return Response::json($validator->getMessageBag()->toArray(), 401);
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
         $store = Stores::create($request->all());
-        return Response::json($store, 200);
+        return Response::json([ 'html' => '
+        <tr>
+            <td></td>
+            <td>'.$request->name.'</td> 
+            <td>'.$request->location.'</td> 
+            <td>'.$request->phone.'</td> 
+            <td><a href="stores/'.$request->id.'"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
+        </tr>
+        '], 200);
     }
 
     /**
