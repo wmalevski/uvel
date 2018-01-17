@@ -70,3 +70,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:superadministrator|adm
     Route::get('/products', 'ProductsController@index')->name('products');
     Route::post('/products', 'ProductsController@store');
 });
+
+Route::group(['prefix' => 'ajax', 'middleware' => ['role:superadministrator|administrator']], function() {
+    Route::post('/stores', 'StoresController@store');
+});

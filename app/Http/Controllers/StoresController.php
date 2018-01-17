@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Stores;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Response;
 
 class StoresController extends Controller
 {
@@ -46,11 +48,11 @@ class StoresController extends Controller
          ]);
         
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 400);
+            return Response::json($validator->getMessageBag()->toArray(), 401);
         }
 
         $store = Stores::create($request->all());
-        return response()->json($store, 200);
+        return Response::json($store, 200);
     }
 
     /**
