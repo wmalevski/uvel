@@ -45,12 +45,16 @@ class ModelsController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make( $request->all(), [
             'name' => 'required',
             'jewel' => 'required',
             'retail_price' => 'required',
             'wholesale_price' => 'required'
-        ]);
+         ]);
+
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
 
         $model = Models::create($request->all());
 
@@ -74,7 +78,11 @@ class ModelsController extends Controller
             $product->code = 'AAADDDDDDD8333';
         }
 
-        return redirect('admin/models');
+        return Response::json([ 'html' => '
+        <tr>
+           
+        </tr>
+    '], 200);
     }
 
     /**

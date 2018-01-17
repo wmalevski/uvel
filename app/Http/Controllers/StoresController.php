@@ -52,14 +52,15 @@ class StoresController extends Controller
         }
 
         $store = Stores::create($request->all());
+
         return Response::json([ 'html' => '
-        <tr>
-            <td></td>
-            <td>'.$request->name.'</td> 
-            <td>'.$request->location.'</td> 
-            <td>'.$request->phone.'</td> 
-            <td><a href="stores/'.$request->id.'"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
-        </tr>
+            <tr>
+                <td></td>
+                <td>'.$request->name.'</td> 
+                <td>'.$request->location.'</td> 
+                <td>'.$request->phone.'</td> 
+                <td><a href="stores/'.$request->id.'"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
+            </tr>
         '], 200);
     }
 

@@ -39,14 +39,27 @@ class MaterialsController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make( $request->all(), [
             'name' => 'required',
             'code' => 'required',
             'color' => 'required',
-        ]);
+         ]);
 
-        $materials = Materials::create($request->all());
-        return redirect('admin/materials');
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
+        $material = Materials::create($request->all());
+
+        return Response::json([ 'html' => '
+            <tr>
+                <td></td>
+                <td>'.$material->name.'</td> 
+                <td>'.$material->code.'</td> 
+                <td>'.$material->color.'</td> 
+                <td><a href="materials/'.$request->id.'"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
+            </tr>
+        '], 200);
     }
 
     /**
