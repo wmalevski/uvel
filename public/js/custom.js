@@ -92,23 +92,49 @@ $(document).ready(function() {
             });
 
             console.log(collectionData);
-        
+            var ajaxUrl = url + urlAction;
+            // var xhttp = new XMLHttpRequest();
+
+            // xhttp.open("POST", url + urlAction, true);
+
+            // xhttp.onreadystatechange = function () {
+
+            //     if (this.readyState == 4 && this.status == 200) {
+
+            //         let data = JSON.parse(this.responseText);
+            //         console.log(data); 
+            //     }
+            // };
+
+            // xhttp.setRequestHeader("Content-Type", "application/json");
+            // xhttp.send(JSON.stringify(collectionData));
+            
+            ajaxFn('POST', ajaxUrl, log, collectionData);
+        });
+
+        function log(str) {
+
+            console.log(str);
+        }
+
+        function ajaxFn(method, url, callback, dataSend) {
+
             var xhttp = new XMLHttpRequest();
 
-            xhttp.open("POST", url + urlAction, true);
+            xhttp.open(method , url, true);
 
             xhttp.onreadystatechange = function () {
 
                 if (this.readyState == 4 && this.status == 200) {
 
                     let data = JSON.parse(this.responseText);
-                    console.log(data); 
+
+                    callback(data); 
                 }
             };
 
             xhttp.setRequestHeader("Content-Type", "application/json");
-            xhttp.send(JSON.stringify(collectionData));
-            
-        });
+            xhttp.send(JSON.stringify(dataSend));
+        }
     }
 });
