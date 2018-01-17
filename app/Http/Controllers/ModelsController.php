@@ -9,6 +9,9 @@ use App\Stones;
 use App\Model_stones;
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\JsonResponse;
+use Response;
 
 class ModelsController extends Controller
 {

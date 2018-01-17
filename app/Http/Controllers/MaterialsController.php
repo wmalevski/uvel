@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Materials;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Response;
 
 class MaterialsController extends Controller
 {
