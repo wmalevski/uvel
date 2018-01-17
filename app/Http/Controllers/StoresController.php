@@ -42,9 +42,13 @@ class StoresController extends Controller
             'location' => 'required',
             'phone' => 'required',
         ]);
+        
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
 
         $store = Stores::create($request->all());
-        return response()->json('vsi4ko s to4no');
+        return response()->json('vsi4ko s to4no', 200);
     }
 
     /**
