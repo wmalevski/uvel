@@ -535,7 +535,9 @@
                 </li>
                 <li role="separator" class="divider"></li>
                 <li>
-                  <a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
+                  <a href="{{ route('logout') }}"
+                  onclick="event.preventDefault();
+                           document.getElementById('logout-form').submit();" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
                     <i class="ti-power-off mR-10"></i>
                     <span>Logout</span>
                   </a>
@@ -556,6 +558,9 @@
       </footer>
     </div>
   </div>
+  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+    {{ csrf_field() }}
+  </form>
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="{{ URL::asset('vendor.js') }}"></script>
