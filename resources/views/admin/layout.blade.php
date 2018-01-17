@@ -112,7 +112,7 @@
             </a>
           </li>
           <li class="nav-item">
-              <a class="sidebar-link" href="stores">
+              <a class="sidebar-link" href="{{ route('stores') }}">
                 <span class="icon-holder">
                   <i class="c-brown-500 ti-pencil"></i>
                 </span>
@@ -120,7 +120,7 @@
               </a>
             </li>
             <li class="nav-item">
-                <a class="sidebar-link" href="prices">
+                <a class="sidebar-link" href="{{ route('prices') }}">
                   <span class="icon-holder">
                     <i class="c-brown-500 ti-pencil"></i>
                   </span>
@@ -129,7 +129,7 @@
               </li>
 
               <li class="nav-item">
-                  <a class="sidebar-link" href="users">
+                  <a class="sidebar-link" href="">
                     <span class="icon-holder">
                       <i class="c-brown-500 ti-pencil"></i>
                     </span>
@@ -138,7 +138,7 @@
                 </li>
 
             <li class="nav-item">
-              <a class="sidebar-link" href="jewels">
+              <a class="sidebar-link" href="{{ route('jewels') }}">
                 <span class="icon-holder">
                   <i class="c-brown-500 ti-pencil"></i>
                 </span>
@@ -146,7 +146,7 @@
               </a>
             </li>
             <li class="nav-item">
-                <a class="sidebar-link" href="models">
+                <a class="sidebar-link" href="{{ route('models') }}">
                   <span class="icon-holder">
                     <i class="c-brown-500 ti-pencil"></i>
                   </span>
@@ -154,7 +154,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="sidebar-link" href="products">
+                <a class="sidebar-link" href="{{ route('products') }}">
                   <span class="icon-holder">
                     <i class="c-brown-500 ti-pencil"></i>
                   </span>
@@ -162,7 +162,7 @@
                 </a>
               </li>
           <li class="nav-item">
-            <a class="sidebar-link" href="materials">
+            <a class="sidebar-link" href="{{ route('materials') }}">
               <span class="icon-holder">
                 <i class="c-brown-500 ti-pencil"></i>
               </span>
@@ -170,7 +170,7 @@
             </a>
           </li>
           <li class="nav-item">
-              <a class="sidebar-link" href="stones">
+              <a class="sidebar-link" href="{{ route('stones') }}">
                 <span class="icon-holder">
                   <i class="c-brown-500 ti-pencil"></i>
                 </span>
