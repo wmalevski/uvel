@@ -91,50 +91,39 @@ $(document).ready(function() {
                 }
             });
 
-            console.log(collectionData);
             var ajaxUrl = url + urlAction;
-            // var xhttp = new XMLHttpRequest();
-
-            // xhttp.open("POST", url + urlAction, true);
-
-            // xhttp.onreadystatechange = function () {
-
-            //     if (this.readyState == 4 && this.status == 200) {
-
-            //         let data = JSON.parse(this.responseText);
-            //         console.log(data); 
-            //     }
-            // };
-
-            // xhttp.setRequestHeader("Content-Type", "application/json");
-            // xhttp.send(JSON.stringify(collectionData));
             
             ajaxFn('POST', ajaxUrl, log, collectionData);
         });
+    }
 
-        function log(str) {
+    function log(str) {
 
-            console.log(str);
-        }
+        console.log(str);
+    }
 
-        function ajaxFn(method, url, callback, dataSend) {
+    function handleResponse(response) {
 
-            var xhttp = new XMLHttpRequest();
+        console.log(str);
+    }
 
-            xhttp.open(method , url, true);
+    function ajaxFn(method, url, callback, dataSend) {
 
-            xhttp.onreadystatechange = function () {
+        var xhttp = new XMLHttpRequest();
 
-                if (this.readyState == 4 && this.status == 200) {
+        xhttp.open(method , url, true);
 
-                    let data = JSON.parse(this.responseText);
+        xhttp.onreadystatechange = function () {
 
-                    callback(data); 
-                }
-            };
+            if (this.readyState == 4 && this.status == 200) {
 
-            xhttp.setRequestHeader("Content-Type", "application/json");
-            xhttp.send(JSON.stringify(dataSend));
-        }
+                let data = JSON.parse(this.responseText);
+
+                callback(data); 
+            }
+        };
+
+        xhttp.setRequestHeader("Content-Type", "application/json");
+        xhttp.send(JSON.stringify(dataSend));
     }
 });
