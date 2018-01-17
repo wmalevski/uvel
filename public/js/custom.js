@@ -66,7 +66,7 @@ $(document).ready(function() {
     });
 
     var addBtn = document.getElementById('add');
-    var url = 'http://localhost:8000/admin';
+    var url = 'http://localhost:8000/ajax';
     var token = $('meta[name="csrf-token"]').attr('content');
 
     if(addBtn) {
@@ -129,6 +129,14 @@ $(document).ready(function() {
                 })
             }
             errorsHolder.appendChild(holder);
+
+        } else {
+
+            var successHolder = document.getElementById("success-container");
+            var successContainer = document.createElement('div');
+                successContainer.innerText = "Успешно добавихте";
+                successContainer.className = "alert alert-success";
+                successHolder.appendChild(successContainer);
         }
     }
 
@@ -143,7 +151,11 @@ $(document).ready(function() {
             if (this.readyState == 4 && this.status == 200) {
 
                 let data = JSON.parse(this.responseText);
+                callback(data); 
 
+            } else if(this.readyState == 4 && this.status == 401) {
+
+                let data = JSON.parse(this.responseText);
                 callback(data); 
             }
         };

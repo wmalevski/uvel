@@ -15,7 +15,8 @@ aria-hidden="true">
             </div>
             <form method="POST" action="/stores">
                 <div class="modal-body">    
-                    {{ csrf_field() }}                    
+                    {{ csrf_field() }}  
+                    <div id="success-container"></div>                  
                     <div class="form-group">
                         <label for="1">Име: </label>
                         <input type="text" class="form-control" id="1" name="name" placeholder="Име на магазин:">
