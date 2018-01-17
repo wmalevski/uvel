@@ -82,7 +82,8 @@ $(document).ready(function() {
             var collectionData = {_token: token};
 
             collectionElements.forEach( function(el) {
-
+                
+                //TODO: to get the elements diff from input 
                 if(typeof el != null) {
 
                     var name = el.getAttribute('name');
@@ -93,9 +94,8 @@ $(document).ready(function() {
             });
 
             var ajaxUrl = url + urlAction;
-            console.log(collectionData);
     
-            ajaxFn('POST', ajaxUrl, handleResponse, collectionData);
+            ajaxFn('POST', ajaxUrl, handleResponse, collectionData, collectionElements);
         });
     }
 
@@ -104,9 +104,36 @@ $(document).ready(function() {
         console.log(str);
     }
 
-    function handleResponse(response) {
+    function ajaxFn(method, url, callback, dataSend, elements) {
+
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.open(method , url, true);
+
+        xhttp.onreadystatechange = function () {
+
+            if (this.readyState == 4 && this.status == 200) {
+
+                let data = JSON.parse(this.responseText);
+                callback(data, elements); 
+
+            } else if(this.readyState == 4 && this.status == 401) {
+
+                let data = JSON.parse(this.responseText);
+                callback(data); 
+            }
+        };
+
+        xhttp.setRequestHeader("Content-Type", "application/json");
+        xhttp.setRequestHeader("X-CSRF-TOKEN", token);
+        xhttp.send(JSON.stringify(dataSend));
+    }
+
+    function handleResponse(response, elements) {
 
         console.log(response);
+        var successHolder = document.getElementById("success-container");
+            successHolder.innerHTML = "";
 
         if(response.hasOwnProperty("errors")) {
 
@@ -132,36 +159,21 @@ $(document).ready(function() {
 
         } else {
 
-            var successHolder = document.getElementById("success-container");
             var successContainer = document.createElement('div');
                 successContainer.innerText = "Успешно добавихте";
                 successContainer.className = "alert alert-success";
+
                 successHolder.appendChild(successContainer);
+
+            elements.forEach(function(el) {
+
+                if(typeof el != null) {
+
+                   el.value = "";
+                }
+            })
+
+            // Todo: to append the information that is returned from the server to the table 
         }
-    }
-
-    function ajaxFn(method, url, callback, dataSend) {
-
-        var xhttp = new XMLHttpRequest();
-
-        xhttp.open(method , url, true);
-
-        xhttp.onreadystatechange = function () {
-
-            if (this.readyState == 4 && this.status == 200) {
-
-                let data = JSON.parse(this.responseText);
-                callback(data); 
-
-            } else if(this.readyState == 4 && this.status == 401) {
-
-                let data = JSON.parse(this.responseText);
-                callback(data); 
-            }
-        };
-
-        xhttp.setRequestHeader("Content-Type", "application/json");
-        xhttp.setRequestHeader("X-CSRF-TOKEN", token);
-        xhttp.send(JSON.stringify(dataSend));
     }
 });
