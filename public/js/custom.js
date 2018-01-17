@@ -66,7 +66,7 @@ $(document).ready(function() {
     });
 
     var addBtn = document.getElementById('add');
-    var url = 'http://localhost:8000/ajax';
+    var url = 'http://localhost:8000/admin';
     var token = $('meta[name="csrf-token"]').attr('content');
 
     if(addBtn) {
