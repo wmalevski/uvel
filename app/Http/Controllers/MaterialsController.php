@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Response;
+use Illuminate\Support\Facades\View;
 
 class MaterialsController extends Controller
 {

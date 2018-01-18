@@ -13,7 +13,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="">
+            <form method="POST" name="addJewel" action="/jewels">
                 <div class="modal-body">
                     {{ csrf_field() }}
                     <div class="form-row">
@@ -101,12 +101,7 @@ aria-hidden="true">
         </thead>
         <tbody>
             @foreach($jewels as $jewel)
-                <tr>
-                    <td scope="col"></td>
-                    <td>{{ $jewel->name }}</td> 
-                    <td>{{ App\Materials::find($jewel->material)->name }}</td> 
-                    <td><a href="jewels/{{ $jewel->id }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
-                </tr>
+                @include('admin.jewels.table')
             @endforeach
         </tbody>
       </table>

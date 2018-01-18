@@ -79,4 +79,5 @@ Route::group(['prefix' => 'ajax', 'middleware' => ['role:superadministrator|admi
     Route::post('/stones/styles', 'StoneStylesController@store');
     Route::post('/stones/contours', 'StoneContoursController@store');
     Route::post('/prices/{material}', 'PricesController@store');
+    Route::post('/jewels', 'JewelsController@store');
 });

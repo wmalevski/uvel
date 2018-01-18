@@ -49,9 +49,9 @@ class StonesController extends Controller
         $validator = Validator::make( $request->all(), [
             'name' => 'required',
             'type' => 'required',
-            'weight' => 'required',
-            'carat' => 'required',
-            'size' => 'required',
+            'weight' => 'required|numeric',
+            'carat' => 'required|numeric',
+            'size' => 'required|numeric',
             'style' => 'required',
             'contour' => 'required',
             'price' => 'required',

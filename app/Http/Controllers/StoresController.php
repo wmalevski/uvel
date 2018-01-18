@@ -45,7 +45,7 @@ class StoresController extends Controller
         $validator = Validator::make( $request->all(), [
             'name' => 'required',
             'location' => 'required',
-            'phone' => 'required',
+            'phone' => 'required|numeric',
          ]);
         
         if ($validator->fails()) {
