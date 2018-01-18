@@ -136,18 +136,6 @@ $(document).ready(function() {
 
                 // TODO: GO throug all radio buttons
 
-                // collectionElements.forEach( function(el) {
-    
-                //     //TODO: to get the elements diff from input 
-                //     if(typeof el != null) {
-    
-                //         var name = el.getAttribute('name');
-                //         var value = el.value;
-    
-                //         collectionData[name] = value;
-                //     }
-                // });
-
                 ajaxFn('POST', ajaxUrl, handleResponse, collectionData, collectionElements);
             });
         })
@@ -179,7 +167,7 @@ $(document).ready(function() {
 
     function handleResponse(response, elements) {
 
-        var responseHolder = document.forms[nameForm].firstElementChild;
+        var responseHolder = document.forms[nameForm].firstElementChild.firstElementChild;
             responseHolder.innerHTML = "";
 
         if(response.hasOwnProperty("errors")) {
@@ -202,7 +190,7 @@ $(document).ready(function() {
             responseHolder.appendChild(holder);
 
         } else {
-
+            
             var successContainer = document.createElement('div');
                 successContainer.innerText = "Успешно добавихте";
                 successContainer.className = "alert alert-success";
@@ -217,8 +205,8 @@ $(document).ready(function() {
                 }
             })
 
-            // TODO: to append the information that is returned from the server to the table 
-            console.log(response)
+            var tableBody = document.querySelector("table.table tbody");
+                tableBody.innerHTML += response.success;
         }
     }
 });

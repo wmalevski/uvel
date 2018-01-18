@@ -14,9 +14,10 @@ aria-hidden="true">
                 </button>
             </div>
             <form method="POST" action="/stores" name="addStore">
-                <div class="modal-body info-cont">
-                </div> 
+                 
                 <div class="modal-body">    
+                    <div class="info-cont">
+                    </div>
                     {{ csrf_field() }}  
                                 
                     <div class="form-group">
