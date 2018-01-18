@@ -52,7 +52,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:superadministrator|adm
     Route::get('/prices', 'PricesController@index')->name('prices');
     Route::post('/prices', 'PricesController@index');
 
-    Route::get('/prices/{material}', 'PricesController@show');
+    Route::get('/prices/{material}', 'PricesController@show')->name('view-price');
     Route::post('/prices/{material}', 'PricesController@store');
 
     Route::get('/jewels', 'JewelsController@index')->name('jewels');
@@ -74,7 +74,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:superadministrator|adm
 Route::group(['prefix' => 'ajax', 'middleware' => ['role:superadministrator|administrator']], function() {
     Route::post('/stores', 'StoresController@store');
     Route::post('/materials', 'MaterialsController@store');
+    Route::post('/stones', 'StonesController@store');
     Route::post('/stones/sizes', 'StoneSizesController@store');
     Route::post('/stones/styles', 'StoneStylesController@store');
     Route::post('/stones/contours', 'StoneContoursController@store');
+    Route::post('/prices/{material}', 'PricesController@store');
 });

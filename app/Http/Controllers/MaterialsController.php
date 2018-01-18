@@ -54,15 +54,7 @@ class MaterialsController extends Controller
 
         $material = Materials::create($request->all());
 
-        return Response::json([ 'html' => '
-            <tr>
-                <td></td>
-                <td>'.$material->name.'</td> 
-                <td>'.$material->code.'</td> 
-                <td>'.$material->color.'</td> 
-                <td><a href="materials/'.$request->id.'"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
-            </tr>
-        '], 200);
+        return response(view('admin.materials.table', compact('material')),200, ['Content-Type' => 'application/json']);
     }
 
     /**

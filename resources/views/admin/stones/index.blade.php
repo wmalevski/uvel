@@ -98,7 +98,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="">
+            <form method="POST" action="stones/styles">
                 <div class="modal-body">    
                     {{ csrf_field() }}                    
                     <div class="form-group">
@@ -126,7 +126,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="">
+            <form method="POST" action="" action="stones/contours">
                 <div class="modal-body">    
                     {{ csrf_field() }}                    
                     <div class="form-group">
@@ -154,7 +154,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="">
+            <form method="POST" action="" action="stones/sizes">
                 <div class="modal-body">    
                     {{ csrf_field() }}                    
                     <div class="form-group">
@@ -208,18 +208,7 @@ aria-hidden="true">
         </thead>
         <tbody>
             @foreach($stones as $stone)
-                <tr>
-                    <td scope="col"></td>
-                    <td>{{ $stone->name }}</td> 
-                    <td> @if($stone->type == 1) Синтатичен  @else Естествен  @endif </td> 
-                    <td>{{ $stone->weight }}</td> 
-                    <td>{{ $stone->carat }}</td> 
-                    <td>{{ App\Stone_sizes::find($stone->size)->name }}</td> 
-                    <td>{{ App\Stone_styles::find($stone->style)->name }}</td> 
-                    <td>{{ App\Stone_contours::find($stone->contour)->name }}</td> 
-                    <td>{{ $stone->amount }}</td> 
-                    <td>{{ $stone->price }}</td>
-                </tr>
+                @include('admin.stones.table')
             @endforeach
         </tbody>
       </table>

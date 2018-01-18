@@ -21,7 +21,7 @@ class PricesController extends Controller
 
         if ($request->isMethod('post')){
 
-            return redirect()->route('prices', ['material' => $request->material]);
+            return redirect()->route('view-price', ['material' => $request->material]);
         }
 
         return \View::make('admin/prices/index', array('materials' => $materials));

@@ -42,7 +42,7 @@ class StoneContoursController extends Controller
         ]);
 
         $contours = Stone_contours::create($request->all());
-        return redirect('admin/stones/contours');
+        return redirect('admin/stones');
     }
 
     /**
