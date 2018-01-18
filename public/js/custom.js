@@ -182,9 +182,6 @@ $(document).ready(function() {
         var responseHolder = document.forms[nameForm].firstElementChild;
             responseHolder.innerHTML = "";
 
-        // var errorsHolder = document.getElementById("errors-container");
-        //     errorsHolder.innerHTML = "";
-
         if(response.hasOwnProperty("errors")) {
 
             var holder = document.createDocumentFragment();
@@ -215,13 +212,13 @@ $(document).ready(function() {
             elements.forEach(function(el) {
                 // TODO: do it for elements diff from input 
                 if(typeof el != null) {
-
+                    // TODO: check if select ???
                    el.value = "";
                 }
             })
 
             // TODO: to append the information that is returned from the server to the table 
-            
+            console.log(response)
         }
     }
 });
