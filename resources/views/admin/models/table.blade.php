@@ -6,7 +6,7 @@
     <td> {{ App\Prices::find($model->wholesale_price)->price }} </td>
     <td> {{ $model->weight }} </td>
     <td> {{ (App\Prices::find($model->retail_price)->price)*$model->weight }} </td>
-    <td><a href="models/{{ $model->id }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
+    <td><a href="models/{{ $model->id }}"><i class="c-brown-500 ti-pencil"></i></a></td>
 </tr>
 
 <tr>
