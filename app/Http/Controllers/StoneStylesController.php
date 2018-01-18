@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Stone_styles;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Response;
 
 class StoneStylesController extends Controller
 {
@@ -16,7 +18,7 @@ class StoneStylesController extends Controller
     {
         $styles = Stone_styles::all();
 
-        return \View::make('stone_styles/index', array('styles' => $styles));
+        return \View::make('admin/stone_styles/index', array('styles' => $styles));
     }
 
     /**
@@ -37,9 +39,13 @@ class StoneStylesController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make( $request->all(), [
             'name' => 'required|unique:stone_styles',
         ]);
+
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
 
         $style = Stone_styles::create($request->all());
         return redirect('admin/stones/styles');

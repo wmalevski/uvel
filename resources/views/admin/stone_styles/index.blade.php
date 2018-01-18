@@ -1,9 +1,4 @@
-@extends('layouts.shop')
-@section('aimeos_scripts')
-@parent
-<script type="text/javascript" src="<?php echo asset('packages/aimeos/shop/themes/aimeos-detail.js'); ?>"></script>
-@stop
-
+@extends('admin.layout')
 
 @section('content')
 <h3>Стилове Камъни</h3>

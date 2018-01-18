@@ -21,9 +21,7 @@ class PricesController extends Controller
 
         $materials = Materials::all();
         
-
         if ($request->isMethod('post')){
-
             return redirect()->route('view-price', ['material' => $request->material]);
         }
 

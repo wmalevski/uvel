@@ -169,14 +169,31 @@
               <span class="title">Материали</span>
             </a>
           </li>
-          <li class="nav-item">
-              <a class="sidebar-link" href="{{ route('stones') }}">
-                <span class="icon-holder">
-                  <i class="c-brown-500 ti-pencil"></i>
-                </span>
-                <span class="title">Камъни</span>
-              </a>
-            </li>
+          <li class="nav-item dropdown">
+            <a class="dropdown-toggle" href="javascript:void(0);">
+              <span class="icon-holder">
+                <i class="c-orange-500 ti-layout-list-thumb"></i>
+              </span>
+              <span class="title">Камъни</span>
+              <span class="arrow">
+                <i class="ti-angle-right"></i>
+              </span>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="sidebar-link" href="{{ route('stones') }}">Камъни</a>
+              </li>
+              <li>
+                <a class="sidebar-link" href="{{ route('sizes') }}">Размери</a>
+              </li>
+              <li>
+                <a class="sidebar-link" href="{{ route('contours') }}">Контури</a>
+              </li>
+              <li>
+                <a class="sidebar-link" href="{{ route('styles') }}">Стилове</a>
+              </li>
+            </ul>
+          </li>
           {{--  <li class="nav-item">
             <a class="sidebar-link" href="compose.html">
               <span class="icon-holder">

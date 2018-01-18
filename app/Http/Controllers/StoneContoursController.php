@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Stone_contours;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Response;
 
 class StoneContoursController extends Controller
 {
@@ -16,7 +18,7 @@ class StoneContoursController extends Controller
     {
         $contours = Stone_contours::all();
 
-        return \View::make('stone_contours/index', array('contours' => $contours));
+        return \View::make('admin/stone_contours/index', array('contours' => $contours));
     }
 
     /**
@@ -37,12 +39,16 @@ class StoneContoursController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make( $request->all(), [
             'name' => 'required|unique:stone_contours',
         ]);
 
-        $contours = Stone_contours::create($request->all());
-        return redirect('admin/stones');
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
+        $contour = Stone_contours::create($request->all());
+        return response(view('admin.stones.table', compact('stone')),200, ['Content-Type' => 'application/json']);
     }
 
     /**
