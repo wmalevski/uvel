@@ -9,6 +9,7 @@ use App\Stone_sizes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
+use Illuminate\Support\Facades\View;
 
 
 class StonesController extends Controller
