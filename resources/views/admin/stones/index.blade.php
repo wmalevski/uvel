@@ -14,9 +14,9 @@ aria-hidden="true">
                 </button>
             </div>
             <form method="POST" action="/stones" name="addStones">
-                <div class="info-cont">
-                </div>
                 <div class="modal-body">    
+                    <div class="info-cont">
+                    </div>
                     {{ csrf_field() }}
                     <select name="type" id="stone_type" class="form-control">
                         <option value="1">Синтатичен</option>

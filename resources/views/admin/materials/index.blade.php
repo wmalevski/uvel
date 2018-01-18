@@ -14,6 +14,8 @@ aria-hidden="true">
             </div>
             <form method="POST" name="addMaterial" action="/materials">
                 <div class="modal-body">
+                    <div class="info-cont">
+                    </div>
                     {{ csrf_field() }}
                     <div id="success-container"></div>
                     <div class="form-row">

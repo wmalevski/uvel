@@ -12,9 +12,9 @@ aria-hidden="true">
                 </button>
             </div>
             <form method="POST" name="addContour" action="/stones/contours">
-                <div class="info-cont">
-                </div>
-                <div class="modal-body">    
+                <div class="modal-body">  
+                    <div class="info-cont">
+                    </div>  
                     {{ csrf_field() }}                    
                     <div class="form-group">
                         <label for="1">Име: </label>

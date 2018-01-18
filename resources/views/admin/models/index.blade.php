@@ -14,6 +14,8 @@ aria-hidden="true">
             </div>
             <form method="POST" action="">
                 <div class="modal-body">
+                    <div class="info-cont">
+                    </div>
                     {{ csrf_field() }}
                     <div class="form-row">
                         <div class="form-group col-md-6">

@@ -166,7 +166,7 @@ $(document).ready(function() {
     }
 
     function handleResponse(response, elements) {
-
+        
         var responseHolder = document.forms[nameForm].firstElementChild.firstElementChild;
             responseHolder.innerHTML = "";
 
