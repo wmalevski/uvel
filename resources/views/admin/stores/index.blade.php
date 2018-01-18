@@ -14,7 +14,12 @@ aria-hidden="true">
                 </button>
             </div>
             <form method="POST" action="/stores" name="addStore">
+<<<<<<< HEAD
                  
+=======
+                <div class="info-cont">
+                </div> 
+>>>>>>> 53db3df2d2c9e9b66b64c30ea4fc0df90e884b49
                 <div class="modal-body">    
                     <div class="info-cont">
                     </div>

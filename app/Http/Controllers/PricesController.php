@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Response;
+use Illuminate\Support\Facades\View;
 
 class PricesController extends Controller
 {
@@ -21,9 +22,7 @@ class PricesController extends Controller
 
         $materials = Materials::all();
         
-
         if ($request->isMethod('post')){
-
             return redirect()->route('view-price', ['material' => $request->material]);
         }
 
@@ -48,14 +47,18 @@ class PricesController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make( $request->all(), [
             'slug' => 'required',
-            'price' => 'required',
+            'price' => 'required|numeric',
             'type' => 'required',
         ]);
 
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
         $price = Prices::create($request->all());
-        return redirect()->route('prices', ['material' => $request->material]);
+        return Response::json(array('success' => View::make('admin/prices/table',array('price'=>$price))->render()));
     }
 
     /**

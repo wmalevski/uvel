@@ -62,7 +62,7 @@ class StonesController extends Controller
         }
 
         $stone = Stones::create($request->all());
-        return response(view('admin.stones.table', compact('stone')),200, ['Content-Type' => 'application/json']);
+        return Response::json(array('success' => View::make('admin/stones/table',array('stone'=>$stone))->render()));
     }
 
     /**

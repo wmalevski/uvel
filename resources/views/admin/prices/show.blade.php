@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/prices/{{$material->id}}">
+            <form method="POST" name="addPrice" action="/prices/{{$material->id}}">
                 <div class="modal-body">
                     {{ csrf_field() }}
                     <div id="success-container"></div>
