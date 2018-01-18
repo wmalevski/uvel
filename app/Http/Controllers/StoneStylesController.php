@@ -6,6 +6,7 @@ use App\Stone_styles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
+use Illuminate\Support\Facades\View;
 
 class StoneStylesController extends Controller
 {
@@ -48,7 +49,7 @@ class StoneStylesController extends Controller
         }
 
         $style = Stone_styles::create($request->all());
-        return redirect('admin/stones/styles');
+        return Response::json(array('success' => View::make('admin/stone_styles/table',array('style'=>$style))->render()));
     }
 
     /**

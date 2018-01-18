@@ -1,22 +1,36 @@
 @extends('admin.layout')
 
 @section('content')
-    <h3>Размери Камъни</h3>
+<div class="modal fade" id="addSize" tabindex="-1" role="dialog" aria-labelledby="addSizeLabel"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addSizeLabel">Добавяне на размер</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" name="addSize" action="/stones/sizes">
+                <div class="info-cont">
+                </div> 
+                <div class="modal-body">    
+                    {{ csrf_field() }}                    
+                    <div class="form-group">
+                        <label for="1">Име: </label>
+                        <input type="text" class="form-control" id="1" name="name" placeholder="Име на размер:">
+                    </div>
+                </div>
 
-    <form method="POST" class="form-inline" action="">
-        {{ csrf_field() }}
-
-        <div class="form-group">
-            <label for="1">Име: </label>
-            <input type="text" class="form-control" id="1" name="name" placeholder="Вид/Име:">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+                    <button type="submit" class="btn btn-primary">Добави</button>
+                </div>
+            </form>
         </div>
-
-        <button type="submit" class="btn btn-default">Добави</button>
-    </form>
-
-    @foreach ($errors->all() as $message)
-        {{ $message }}
-    @endforeach
+    </div>
+</div>
+    <h3>Размери Камъни <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-toggle="modal" data-target="#addSize">Добави</button></h3>
 
     <h3>Преглед на материали</h3>
     
@@ -27,10 +41,7 @@
         </tr>
         
         @foreach($sizes as $size)
-            <tr>
-                <td></td>
-                <td>{{ $size->name }}</td> 
-            </tr>
+            @include('admin.stone_sizes.table')
         @endforeach
     </table>
 @endsection

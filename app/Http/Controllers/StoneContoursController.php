@@ -6,6 +6,7 @@ use App\Stone_contours;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
+use Illuminate\Support\Facades\View;
 
 class StoneContoursController extends Controller
 {
@@ -48,7 +49,7 @@ class StoneContoursController extends Controller
         }
 
         $contour = Stone_contours::create($request->all());
-        return response(view('admin.stones.table', compact('stone')),200, ['Content-Type' => 'application/json']);
+        return Response::json(array('success' => View::make('admin/stone_contours/table',array('contour'=>$contour))->render()));
     }
 
     /**

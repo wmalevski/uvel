@@ -14,7 +14,7 @@ aria-hidden="true">
                 </button>
             </div>
             <form method="POST" action="/stores" name="addStore">
-                <div class="modal-body info-cont">
+                <div class="info-cont">
                 </div> 
                 <div class="modal-body">    
                     {{ csrf_field() }}  

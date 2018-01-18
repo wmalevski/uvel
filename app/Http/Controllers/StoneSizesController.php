@@ -6,6 +6,7 @@ use App\Stone_sizes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
+use Illuminate\Support\Facades\View;
 
 class StoneSizesController extends Controller
 {
@@ -48,7 +49,7 @@ class StoneSizesController extends Controller
         }
 
         $size = Stone_sizes::create($request->all());
-        return redirect('admin/stones/sizes');
+        return Response::json(array('success' => View::make('admin/stone_sizes/table',array('size'=>$size))->render()));
     }
 
     /**
