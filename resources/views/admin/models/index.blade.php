@@ -125,7 +125,7 @@ aria-hidden="true">
     </tr>
     
     @foreach($models as $model)
-        @include('admin.stones.table')
+        @include('admin.models.table')
     @endforeach
 </table>
 @endsection
