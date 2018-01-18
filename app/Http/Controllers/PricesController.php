@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Prices;
 use App\Materials;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\JsonResponse;
+use Response;
 
 class PricesController extends Controller
 {
