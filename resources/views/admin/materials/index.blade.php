@@ -12,7 +12,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/materials" name="addMaterials">
+            <form method="POST" name="addMaterial" action="/materials">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>
