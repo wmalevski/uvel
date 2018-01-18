@@ -10,4 +10,3 @@
     <td>{{ $stone->amount }}</td> 
     <td>{{ $stone->price }}</td>
 </tr>
-@endforeach

@@ -13,9 +13,9 @@ aria-hidden="true">
             </div>
             <form method="POST" name="addPrice" action="/prices/{{$material->id}}">
                 <div class="modal-body">
+                    <div class="info-cont">
+                    </div>
                     {{ csrf_field() }}
-                    <div id="success-container"></div>
-                    
                         <div class="form-group">
                             <label for="1">Име: </label>
                             <input type="text" class="form-control" id="1" name="slug" placeholder="Етикет:">
@@ -35,7 +35,6 @@ aria-hidden="true">
                         </select>
                     
                         <input type="hidden" name="material" value="{{ $material->id }}">
-                    <div id="errors-container"></div>
                 </div>
 
                 <div class="modal-footer">
