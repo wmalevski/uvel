@@ -65,51 +65,99 @@ $(document).ready(function() {
         }
     });
 
-    var addBtn = document.getElementById('add');
-    var url = 'http://localhost:8000/ajax';
+    var collectionBtns = document.querySelectorAll('.modal-dialog .modal-footer button[type="submit"]');
+    var url = 'http://127.0.0.1:8000/ajax';
     var token = $('meta[name="csrf-token"]').attr('content');
+    var form;
+    var nameForm
+    
+    if(collectionBtns.length) {
 
-    if(addBtn) {
-        
-        addBtn.addEventListener('click', function(ev) {
-            console.log("clicked");
-            ev.preventDefault();
-            var form = ev.target.parentElement.parentElement;
-            var urlAction = form.getAttribute("action");
-            
-            
-            var collectionElements = document.querySelectorAll('.modal-body .form-control');
-            var collectionData = {_token: token};
+        collectionBtns.forEach(function(btn){
 
-            collectionElements.forEach( function(el) {
+            btn.addEventListener('click', function(ev) {
 
-                //TODO: to get the elements diff from input 
-                if(typeof el != null) {
+                ev.preventDefault();
 
-                    var name = el.getAttribute('name');
-                    var value = el.value;
+                form = ev.target.parentElement.parentElement;
+                nameForm = form.getAttribute("name");
 
-                    collectionData[name] = value;
+                var urlAction = form.getAttribute("action"),
+                    ajaxUrl = url + urlAction;
+                    collectionInputs = document.forms[nameForm].getElementsByTagName("input");
+                    collectionSelects = document.forms[nameForm].getElementsByTagName("select");
+                    collectionElements = [];
+                // TODO: check for radio buttons
+
+                // var collectionElements = document.querySelectorAll('.modal-body .form-control');
+                var collectionData = {_token: token};
+                
+                // Check the inputs
+
+                if(collectionInputs.length != 0) {
+
+                    for(var i=0; i <= collectionInputs.length; i += 1) {
+
+                        var el = collectionInputs[i];
+
+                        if(typeof collectionInputs[i] != 'undefined') {
+
+                            var name = el.getAttribute('name');
+                            var value = el.value;
+                            collectionData[name] = value;
+                            collectionElements.push(collectionInputs[i] );
+                        }
+                    }
                 }
+
+                // Check the selects
+
+                if(collectionSelects.length != 0) {
+
+                    for(var i=0; i <= collectionSelects.length; i += 1) {
+
+                        var el = collectionSelects[i];
+                        if(typeof  el != 'undefined') {
+
+                            var name = el.getAttribute('name');
+
+                            if(el.options && el.options[el.selectedIndex]) {
+
+                                var value = el.options[el.selectedIndex].value;
+                                collectionData[name] = value;
+                                collectionElements.push(collectionSelects[i] );
+                            } else {
+
+                                collectionData[name] = '';
+                            }
+                        }
+                    }
+                }
+
+                // TODO: GO throug all radio buttons
+
+                // collectionElements.forEach( function(el) {
+    
+                //     //TODO: to get the elements diff from input 
+                //     if(typeof el != null) {
+    
+                //         var name = el.getAttribute('name');
+                //         var value = el.value;
+    
+                //         collectionData[name] = value;
+                //     }
+                // });
+
+                ajaxFn('POST', ajaxUrl, handleResponse, collectionData, collectionElements);
             });
-
-            var ajaxUrl = url + urlAction;
-            
-            ajaxFn('POST', ajaxUrl, handleResponse, collectionData, collectionElements);
-        });
-    }
-
-    function log(str) {
-
-        console.log(str);
+        })
     }
 
     function ajaxFn(method, url, callback, dataSend, elements) {
-        console.log(method, url, callback, dataSend, elements);
+
         var xhttp = new XMLHttpRequest();
 
         xhttp.open(method , url, true);
-
         xhttp.onreadystatechange = function () {
 
             if (this.readyState == 4 && this.status == 200) {
@@ -131,12 +179,11 @@ $(document).ready(function() {
 
     function handleResponse(response, elements) {
 
-        console.log(response);
-        var successHolder = document.getElementById("success-container");
-            successHolder.innerHTML = "";
+        var responseHolder = document.forms[nameForm].firstElementChild;
+            responseHolder.innerHTML = "";
 
-        var errorsHolder = document.getElementById("errors-container");
-            errorsHolder.innerHTML = "";
+        // var errorsHolder = document.getElementById("errors-container");
+        //     errorsHolder.innerHTML = "";
 
         if(response.hasOwnProperty("errors")) {
 
@@ -155,7 +202,7 @@ $(document).ready(function() {
                         holder.appendChild(errorContainer);
                 })
             }
-            errorsHolder.appendChild(holder);
+            responseHolder.appendChild(holder);
 
         } else {
 
@@ -163,7 +210,7 @@ $(document).ready(function() {
                 successContainer.innerText = "Успешно добавихте";
                 successContainer.className = "alert alert-success";
 
-                successHolder.appendChild(successContainer);
+                responseHolder.appendChild(successContainer);
 
             elements.forEach(function(el) {
                 // TODO: do it for elements diff from input 
@@ -173,7 +220,7 @@ $(document).ready(function() {
                 }
             })
 
-            // Todo: to append the information that is returned from the server to the table 
+            // TODO: to append the information that is returned from the server to the table 
             
         }
     }

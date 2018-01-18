@@ -13,10 +13,12 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/stores">
+            <form method="POST" action="/stores" name="addStore">
+                <div class="modal-body info-cont">
+                </div> 
                 <div class="modal-body">    
                     {{ csrf_field() }}  
-                    <div id="success-container"></div>                  
+                                
                     <div class="form-group">
                         <label for="1">Име: </label>
                         <input type="text" class="form-control" id="1" name="name" placeholder="Име на магазин:">
@@ -31,7 +33,6 @@ aria-hidden="true">
                         <label for="1">Телефон: </label>
                         <input type="text" class="form-control" id="1" name="phone" placeholder="Телефон на магазин:">
                     </div>
-                    <div id="errors-container"></div>
                 </div>
 
                 <div class="modal-footer">

@@ -13,7 +13,9 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="">
+            <form method="POST" action="/stones" name="addStones">
+                <div class="info-cont">
+                </div>
                 <div class="modal-body">    
                     {{ csrf_field() }}
                     <select name="type" id="stone_type" class="form-control">
