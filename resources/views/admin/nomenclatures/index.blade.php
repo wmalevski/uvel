@@ -9,6 +9,8 @@
 Adding Nomenclatures
 
 <form method="POST" action="">
+    <div class="info-cont">
+    </div>
     {{ csrf_field() }}
 
     <label>

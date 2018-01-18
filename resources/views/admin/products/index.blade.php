@@ -14,8 +14,10 @@ aria-hidden="true">
             </div>
             <form method="POST" action="/materials">
                 <div class="modal-body">
+                    <div class="info-cont">
+                    </div>
                     {{ csrf_field() }}
-                    <div id="success-container"></div>
+                    
                     <div class="checkbox">
                         <label><input type="checkbox" name="with_stones" value="">Тегло без камъни</label>
                     </div>

@@ -5,6 +5,8 @@
 <h3>Изберете материал</h3>
     
 <form method="POST" class="form-inline" action="">
+    <div class="info-cont">
+    </div>
     {{ csrf_field() }}
 
     <select name="material" class="form-control">
