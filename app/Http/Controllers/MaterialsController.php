@@ -54,7 +54,7 @@ class MaterialsController extends Controller
 
         $material = Materials::create($request->all());
 
-        return response(view('admin.materials.table', compact('material')),200, ['Content-Type' => 'application/json']);
+        return Response::json(array('success' => View::make('admin/materials/table',array('material'=>$material))->render()));
     }
 
     /**

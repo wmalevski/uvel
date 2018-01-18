@@ -54,7 +54,7 @@ class StoresController extends Controller
 
         $store = Stores::create($request->all());
         
-        return response(view('admin.stores.table', compact('store')),200, ['Content-Type' => 'application/json']);
+        return Response::json(array('success' => View::make('admin/stores/table',array('store'=>$store))->render()));
     }
 
     /**

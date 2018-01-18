@@ -7,6 +7,9 @@ use App\Stone_styles;
 use App\Stone_contours;
 use App\Stone_sizes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Response;
+
 
 class StonesController extends Controller
 {

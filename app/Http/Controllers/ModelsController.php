@@ -81,11 +81,7 @@ class ModelsController extends Controller
             $product->code = 'AAADDDDDDD8333';
         }
 
-        return Response::json([ 'html' => '
-        <tr>
-           
-        </tr>
-    '], 200);
+        return Response::json(array('success' => View::make('admin/models/table',array('model'=>$model))->render()));
     }
 
     /**
