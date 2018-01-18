@@ -6,6 +6,10 @@ use App\Jewels;
 use App\Stones;
 use App\Materials;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Response;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Validator;
 
 class JewelsController extends Controller
 {
@@ -40,13 +44,18 @@ class JewelsController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make( $request->all(), [
             'name' => 'required',
             'material' => 'required',
         ]);
 
-        $jewels = Jewels::create($request->all());
-        return redirect('admin/jewels');
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
+        $jewel = Jewels::create($request->all());
+
+        return Response::json(array('success' => View::make('admin/jewels/table',array('jewel'=>$jewel))->render()));
     }
 
     /**
