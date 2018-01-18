@@ -43,7 +43,7 @@ class StonesController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make( $request->all(), [
             'name' => 'required',
             'type' => 'required',
             'weight' => 'required',
@@ -52,10 +52,14 @@ class StonesController extends Controller
             'style' => 'required',
             'contour' => 'required',
             'price' => 'required',
-        ]);
+         ]);
 
-        $stones = Stones::create($request->all());
-        return redirect('admin/stones');
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
+        $stone = Stones::create($request->all());
+        return response(view('admin.stones.table', compact('stone')),200, ['Content-Type' => 'application/json']);
     }
 
     /**

@@ -16,7 +16,7 @@ class StoneSizesController extends Controller
     {
         $sizes = Stone_sizes::all();
 
-        return \View::make('stone_sizes/index', array('sizes' => $sizes));
+        //return \View::make('stone_sizes/index', array('sizes' => $sizes));
     }
 
     /**
