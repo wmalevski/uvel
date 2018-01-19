@@ -18,8 +18,9 @@
                                 <option value="{{ $material->id }}">{{ $material->name }} - {{ $material->code }}</option>
                                 @endforeach
                             </select>
+                            <button type="submit" class="btn btn-primary">Покажи цени</button>
                         </div>
-                        <button type="submit" class="btn btn-primary">Покажи цени</button>
+                        
                     </div>
                 </form>
             </div>

@@ -232,8 +232,8 @@ $(document).ready(function() {
                 responseHolder.appendChild(successContainer);
 
             elements.forEach(function(el) {
-                // TODO: do it for elements diff from input 
-                if(typeof el != null) {
+                // TODO: do it for elements diff from input  and dont do it for hidden inputs
+                if(typeof el != null ) {
                     // TODO: check if select ???
                    el.value = "";
                 }

@@ -7,11 +7,12 @@ use App\Jewels;
 use App\Prices;
 use App\Stones;
 use App\Model_stones;
-use App\Product;
+use App\Products;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Response;
+use Illuminate\Support\Facades\View;
 
 class ModelsController extends Controller
 {
@@ -70,7 +71,7 @@ class ModelsController extends Controller
         }
 
         if (isset($request->release_product)) {
-            $product = new Product();
+            $product = new Products();
             $product->model = $model->id;
             $product->type = $request->jewel;
             $product->weight = $request->weight;
