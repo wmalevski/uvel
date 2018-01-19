@@ -28,7 +28,7 @@ aria-hidden="true">
                                 <option value="">Избери</option>
                         
                                 @foreach($jewels as $jewel)
-                                    <option value="{{ $jewel->id }}" data-pricebuy="{{ App\Prices::where('material', $jewel->material)->where('type', 'buy')->first()->price }}" data-price="{{ $jewel->material }}">{{ $jewel->name }}</option>
+                                    <option value="{{ $jewel->id }}" data-pricebuy="@if(App\Prices::where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" data-price="{{$jewel->material}}">{{ $jewel->name }}</option>
                                 @endforeach
                             </select>
                         </div>
