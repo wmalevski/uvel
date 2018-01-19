@@ -71,7 +71,51 @@ $(document).ready(function() {
     var token = $('meta[name="csrf-token"]').attr('content');
     var form;
     var nameForm
+
+    var collectionModelPrice = document.querySelectorAll(".calculate");
+
+    if(collectionModelPrice.length) {
+
+        var typeJewery = collectionModelPrice[0];
+        var price = collectionModelPrice[1];
+        var weight = collectionModelPrice[2];
+
+        collectionModelPrice.forEach(function(el) {
+            console.log(el);
+            el.addEventListener('change', function(ev) {
     
+                var typeJeweryData = typeJewery.options[typeJewery.selectedIndex].getAttribute("data-pricebuy"),
+                    priceData = price.options[price.selectedIndex].getAttribute("data-retail"),
+                    weightData = weight.value;
+
+                var priceDevTag = document.getElementById('priceDev'),
+                    inputDev = document.getElementById('inputDev'),
+                    priceTag = document.getElementById('price'),
+                    inputPrice = document.getElementById('inputPrice');
+
+                if(typeJeweryData && priceData && weightData) {
+                    
+                    var priceDev = (priceData - typeJeweryData) * weightData;
+                    var productPrice = (priceData * weightData);
+
+                    priceDevTag.innerText = priceDev;
+                    priceTag.innerText = productPrice;
+
+                    inputDev.value = priceDev;
+                    inputPrice.value = productPrice;
+
+                } else {
+
+                    priceDevTag.innerText = "0";
+                    priceTag.innerText = "0";
+                    inputDev.value = "0";
+                    inputPrice.value = "0";
+                }
+                // TODO: if all of them have values, then calculate 
+            });
+        })
+    }
+
     if(collectionBtns.length) {
 
         collectionBtns.forEach(function(btn){
@@ -88,9 +132,7 @@ $(document).ready(function() {
                     collectionInputs = document.forms[nameForm].getElementsByTagName("input");
                     collectionSelects = document.forms[nameForm].getElementsByTagName("select");
                     collectionElements = [];
-                // TODO: check for radio buttons
 
-                // var collectionElements = document.querySelectorAll('.modal-body .form-control');
                 var collectionData = {_token: token};
                 
                 // Check the inputs
@@ -105,18 +147,25 @@ $(document).ready(function() {
 
                             var name = el.getAttribute('name');
                             var value = el.value;
+                            var elType = el.getAttribute("type");
 
-                            if(name.includes('[]')){
+                            if(elType === "checkbox") {
+
+                                collectionData[name] = el.checked;
+
+                            } else if(name.includes('[]')){
 
                                 name = name.replace('[]','');
 
                                 if(collectionData.hasOwnProperty(name)) {
 
                                     collectionData[name].push(value);
+
                                 } else {
 
                                     collectionData[name] = [value];
                                 }
+
                             } else {
 
                                 collectionData[name] = value;
@@ -162,14 +211,12 @@ $(document).ready(function() {
                                 collectionData[name] = value;
                                 collectionElements.push(collectionSelects[i] );
                             }
-
-                             
                         }
                     }
                 }
 
                 // TODO: GO throug all radio buttons
-                console.log(collectionData);
+
                 ajaxFn('POST', ajaxUrl, handleResponse, collectionData, collectionElements);
             });
         })
