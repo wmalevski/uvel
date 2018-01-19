@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
     var max_fields      = 10; 
-    var wrapper         = $('.model-stones'); 
+    var wrapper         = $('.model_stones'); 
     var add_button      = $('.add_field_button'); 
     
     var x = 1; 
@@ -10,7 +10,7 @@ $(document).ready(function() {
         e.preventDefault();
         if(x < max_fields) { 
             x++;
-            $('.model-stones .fields').clone().appendTo(wrapper); 
+            $('.model-stones').clone().appendTo(wrapper); 
         }
     });
     
