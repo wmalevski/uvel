@@ -12,7 +12,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="">
+            <form method="POST" action="/models" name="addModel">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>
@@ -95,7 +95,7 @@ aria-hidden="true">
                     </div>
 
                     <br/>
-                    
+
                     <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
                         <input type="checkbox" id="inputCall1" name="release_product" class="peer">
                         <label for="inputCall1" class="peers peer-greed js-sb ai-c">
