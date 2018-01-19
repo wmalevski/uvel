@@ -233,8 +233,9 @@ $(document).ready(function() {
 
             elements.forEach(function(el) {
                 // TODO: do it for elements diff from input  and dont do it for hidden inputs
-                if(typeof el != null ) {
+                if(typeof el != null && el.name !== '_token') {
                     // TODO: check if select ???
+                    console.log(el);
                    el.value = "";
                 }
             })
