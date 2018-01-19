@@ -105,8 +105,23 @@ $(document).ready(function() {
 
                             var name = el.getAttribute('name');
                             var value = el.value;
-                            collectionData[name] = value;
-                            collectionElements.push(collectionInputs[i] );
+
+                            if(name.includes('[]')){
+
+                                name = name.replace('[]','');
+
+                                if(collectionData.hasOwnProperty(name)) {
+
+                                    collectionData[name].push(value);
+                                } else {
+
+                                    collectionData[name] = [value];
+                                }
+                            } else {
+
+                                collectionData[name] = value;
+                                collectionElements.push(collectionInputs[i] );
+                            }
                         }
                     }
                 }
@@ -121,22 +136,40 @@ $(document).ready(function() {
                         if(typeof  el != 'undefined') {
 
                             var name = el.getAttribute('name');
+                            var value;
 
                             if(el.options && el.options[el.selectedIndex]) {
 
-                                var value = el.options[el.selectedIndex].value;
-                                collectionData[name] = value;
-                                collectionElements.push(collectionSelects[i] );
+                                value = el.options[el.selectedIndex].value;
+                            } else {
+    
+                                value = "";
+                            }
+
+                            if(name.includes('[]')) {
+
+                                name = name.replace('[]','');
+
+                                if(collectionData.hasOwnProperty(name)) {
+
+                                    collectionData[name].push(value);
+                                } else {
+
+                                    collectionData[name] = [value];
+                                }
                             } else {
 
-                                collectionData[name] = '';
+                                collectionData[name] = value;
+                                collectionElements.push(collectionSelects[i] );
                             }
+
+                             
                         }
                     }
                 }
 
                 // TODO: GO throug all radio buttons
-
+                console.log(collectionData);
                 ajaxFn('POST', ajaxUrl, handleResponse, collectionData, collectionElements);
             });
         })
