@@ -68,37 +68,41 @@ aria-hidden="true">
                                 <input type="text" class="form-control" id="1" name="size" placeholder="Размер:">
                             </div>
                         </div>
-                            
-                        <div class="model-stones">
-                            <div class="fields">
-                                <div class="form-group col-md-6">
-                                    <div class="form-group">
-                                        <label>Камък: </label>
-                                        <select name="stones[]" class="form-control">
-                                            <option value="">Избери</option>
-                                
-                                            @foreach($stones as $stone)
-                                                <option value="{{ $stone->id }}">{{ $stone->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <div class="form-group">
-                                        <label for="1">Брой: </label>
-                                        <input type="text" class="form-control" id="1" name="stone_amount[]" placeholder="Брой:">
-                                    </div>
-                                </div>
+                    </div>
+                    <div class="form-row model-stones">        
+                        <div class="form-group col-md-6">
+                            <div class="form-group">
+                                <label>Камък: </label>
+                                <select name="stones[]" class="form-control">
+                                    <option value="">Избери</option>
+                        
+                                    @foreach($stones as $stone)
+                                        <option value="{{ $stone->id }}">{{ $stone->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
-                        
-                        <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>
-                        
-                        
-                        <div class="checkbox">
-                            <label><input type="checkbox" name="release_product" value="1">Създай и продукт по този модел</label>
+                        <div class="form-group col-md-6">
+                            <div class="form-group">
+                                <label for="1">Брой: </label>
+                                <input type="text" class="form-control" id="1" name="stone_amount[]" placeholder="Брой:">
+                            </div>
                         </div>
                     </div>
+
+                    <div class="form-row">
+                            <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>
+                    </div>
+
+                    <br/>
+                    
+                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                        <input type="checkbox" id="inputCall1" name="release_product" class="peer">
+                        <label for="inputCall1" class="peers peer-greed js-sb ai-c">
+                            <span class="peer peer-greed">Добави като продукт</span>
+                        </label>
+                    </div>
+                    
                 </div>
 
                 <div class="modal-footer">
