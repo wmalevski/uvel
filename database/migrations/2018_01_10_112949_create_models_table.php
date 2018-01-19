@@ -21,6 +21,8 @@ class CreateModelsTable extends Migration
             $table->integer('wholesale_price');
             $table->float('weight');
             $table->integer('size');
+            $table->float('workmanship');
+            $table->float('price');
             $table->timestamps();
         });
     }

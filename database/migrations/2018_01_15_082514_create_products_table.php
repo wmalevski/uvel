@@ -20,8 +20,8 @@ class CreateProductsTable extends Migration
             $table->float('weight');
             $table->integer('price_list')->references('id')->on('prices');;
             $table->integer('size');
-            $table->integer('workmanship');
-            $table->integer('price');
+            $table->float('workmanship');
+            $table->float('price');
             $table->integer('code')->nullable();
             $table->timestamps();
         });
