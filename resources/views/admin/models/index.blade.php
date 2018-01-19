@@ -28,7 +28,7 @@ aria-hidden="true">
                                 <option value="">Избери</option>
                         
                                 @foreach($jewels as $jewel)
-                                    <option value="{{ $jewel->id }}" data-price="{{ $jewel->material }}">{{ $jewel->name }}</option>
+                                    <option value="{{ $jewel->id }}" data-pricebuy="{{ App\Prices::where('material', $jewel->material)->where('type', 'buy')->first()->price }}" data-price="{{ $jewel->material }}">{{ $jewel->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -39,7 +39,7 @@ aria-hidden="true">
                                 <option value="">Избери</option>
                         
                                 @foreach($prices->where('type', 'sell') as $price)
-                                    <option value="{{ $price->id }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
+                                    <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -50,7 +50,7 @@ aria-hidden="true">
                                 <option value="">Избери</option>
                         
                                 @foreach($prices->where('type', 'sell') as $price)
-                                    <option value="{{ $price->id }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
+                                    <option value="{{ $price->id }}" data-wholesale="{{ $price->price }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -92,9 +92,20 @@ aria-hidden="true">
                         </div>
                     </div>
                     <div class="form-row">
-                            <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>
+                        <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>
                     </div>
 
+                    <br/>
+
+                    <div class="form-row">
+                        Избработка: <strong>0</strong>
+                        <input type="hidden" name="workmanship">
+                    </div>
+
+                    <div class="form-row">
+                        Цена: <strong>0</strong>
+                        <input type="hidden" name="price">
+                    </div>
                     <br/>
 
                     <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
