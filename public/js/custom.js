@@ -66,7 +66,8 @@ $(document).ready(function() {
     });
 
     var collectionBtns = document.querySelectorAll('.modal-dialog .modal-footer button[type="submit"]');
-    var url = 'http://127.0.0.1:8000/ajax';
+    var urlTaken = window.location.href.split('/');
+    var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
     var token = $('meta[name="csrf-token"]').attr('content');
     var form;
     var nameForm
