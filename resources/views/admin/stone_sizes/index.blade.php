@@ -30,18 +30,23 @@ aria-hidden="true">
         </div>
     </div>
 </div>
-    <h3>Размери Камъни <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-toggle="modal" data-target="#addSize">Добави</button></h3>
 
-    <h3>Преглед на материали</h3>
-    
-    <table class="table table-condensed">
-        <tr>
-            <th>#</th>
-            <th>Име</th> 
-        </tr>
-        
-        @foreach($sizes as $size)
-            @include('admin.stone_sizes.table')
-        @endforeach
-    </table>
+<div class="row">
+    <div class="col-md-12">
+        <div class="bgc-white bd bdrs-3 p-20 mB-20">
+            <h4 class="c-grey-900 mB-20">Камъни Размери <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addSize">Добави</button></h4>
+            <p>Преглед на създадените размери.</p>
+            <table class="table table-condensed">
+                <tr>
+                    <th>#</th>
+                    <th>Име</th> 
+                </tr>
+                
+                @foreach($sizes as $size)
+                    @include('admin.stone_sizes.table')
+                @endforeach
+            </table>
+        </div>
+    </div>
+</div>
 @endsection

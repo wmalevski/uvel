@@ -30,18 +30,23 @@ aria-hidden="true">
         </div>
     </div>
 </div>
-<h3>Стилове Камъни <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-toggle="modal" data-target="#addStyle">Добави</button></h3>
 
-<h3>Преглед на стилове</h3>
-
-<table class="table table-condensed">
-    <tr>
-        <th>#</th>
-        <th>Име</th> 
-    </tr>
-    
-    @foreach($styles as $style)
-        @include('admin.stone_styles.table')
-    @endforeach
-</table>
+<div class="row">
+    <div class="col-md-12">
+        <div class="bgc-white bd bdrs-3 p-20 mB-20">
+            <h4 class="c-grey-900 mB-20">Камъни Стилове <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addStyle">Добави</button></h4>
+            <p>Преглед на създадените стилове.</p>
+            <table class="table table-condensed">
+                <tr>
+                    <th>#</th>
+                    <th>Име</th> 
+                </tr>
+                
+                @foreach($styles as $style)
+                    @include('admin.stone_styles.table')
+                @endforeach
+            </table>
+        </div>
+    </div>
+</div>
 @endsection

@@ -46,52 +46,11 @@ aria-hidden="true">
     </div>
 </div>
 
-{{--  <div class="row gap-20 masonry pos-r">
-    <div class="masonry-sizer col-md-6"></div>
-    <div class="masonry-item col-md-6">
-        <div class="bgc-white p-20 bd">
-            <h6 class="c-grey-900">Добави вид бижу</h6>
-            <div class="mT-30">
-                <form method="POST" action="">
-                        {{ csrf_field() }}
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="1">Име: </label>
-                            <input type="text" class="form-control" id="1" name="name" placeholder="Име:">
-                        </div>
-        
-                        <div class="form-group col-md-6">
-                            <label>Материал: </label>
-                            <select name="material" class="form-control">
-                                <option value="">Избер материал</option>
-                        
-                                @foreach($materials as $material)
-                                    <option value="{{ $material->id }}">{{ $material->name }} - {{ $material->code }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Добави</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>  --}}
-
-{{--  <div class="mT-30">
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-        aria-haspopup="true" aria-expanded="false">Добави</button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#">Бижу</a>
-        </div>
-    </div>
-</div>  --}}
 <div class="row">
   <div class="col-md-12">
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
       <h4 class="c-grey-900 mB-20">Вид бижу <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Добави</button></h4>
-      <p>Преглед на създадените бижута.</p>
+      <p>Преглед на създадените видове бижута.</p>
       <table class="table">
         <thead>
           <tr>

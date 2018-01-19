@@ -45,19 +45,28 @@ aria-hidden="true">
     </div>
 </div>
 
-<h3>Магазини <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addStore">Добави</button></h3>
-
-<table class="table table-condensed">
-    <tr>
-        <th>#</th>
-        <th>Име</th>
-        <th>Адрес</th> 
-        <th>Телефон</th> 
-        <th>Действия</th>
-    </tr>
-    
-    @foreach($stores as $store)
-        @include('admin.stores.table')
-    @endforeach
-</table>
-@endsection
+<div class="row">
+    <div class="col-md-12">
+      <div class="bgc-white bd bdrs-3 p-20 mB-20">
+        <h4 class="c-grey-900 mB-20">Магазини <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addStore">Добави</button></h4>
+        <p>Преглед на магазините.</p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Име</th> 
+              <th scope="col">Адрес</th>
+              <th scope="col">Телефон</th>
+              <th scope="col">Действия</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($stores as $store)
+                @include('admin.stores.table')
+            @endforeach
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  @endsection
