@@ -99,12 +99,12 @@ aria-hidden="true">
 
                     <div class="form-row">
                         Избработка: <strong>0</strong>
-                        <input type="hidden" name="workmanship">
+                        <input type="hidden" value="0" name="workmanship">
                     </div>
 
                     <div class="form-row">
                         Цена: <strong>0</strong>
-                        <input type="hidden" name="price">
+                        <input type="hidden" value="0" name="price">
                     </div>
                     <br/>
 
