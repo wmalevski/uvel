@@ -12,7 +12,9 @@ class Models extends Model
         'retail_price',
         'wholesale_price',
         'weight',
-        'size'
+        'size',
+        'workmanship',
+        'price'
     ];
 
     protected $table = 'models';    
