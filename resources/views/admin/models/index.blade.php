@@ -24,7 +24,7 @@ aria-hidden="true">
                         </div>
                         <div class="form-group col-md-6">
                             <label>Избери вид бижу: </label>
-                            <select id="jewel" name="jewel" class="form-control">
+                            <select id="jewel" name="jewel" class="form-control calculate">
                                 <option value="">Избери</option>
                         
                                 @foreach($jewels as $jewel)
@@ -35,7 +35,7 @@ aria-hidden="true">
 
                         <div class="form-group col-md-6">
                             <label>Цена на дребно: </label>
-                            <select id="retail_price" name="retail_price" class="form-control disabled-first" disabled>
+                            <select id="retail_price" name="retail_price" class="form-control disabled-first calculate" disabled>
                                 <option value="">Избери</option>
                         
                                 @foreach($prices->where('type', 'sell') as $price)
@@ -58,7 +58,7 @@ aria-hidden="true">
                         <div class="form-group col-md-6">
                             <div class="form-group">
                                 <label for="1">Тегло: </label>
-                                <input type="text" class="form-control" id="1" name="weight" placeholder="Тегло:">
+                                <input type="text" class="form-control calculate" id="1" name="weight" placeholder="Тегло:">
                             </div>
                         </div>
 
@@ -98,13 +98,13 @@ aria-hidden="true">
                     <br/>
 
                     <div class="form-row">
-                        Избработка: <strong>0</strong>
-                        <input type="hidden" value="0" name="workmanship">
+                        Избработка: <strong id="priceDev">0</strong>
+                        <input id="inputDev" type="hidden" value="0" name="workmanship">
                     </div>
 
                     <div class="form-row">
-                        Цена: <strong>0</strong>
-                        <input type="hidden" value="0" name="price">
+                        Цена: <strong id="price">0</strong>
+                        <input id="inputPrice" type="hidden" value="0" name="price">
                     </div>
                     <br/>
 
