@@ -20,7 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['prefix' => 'admin', 'middleware' => ['role:superadministrator|administrator']], function() {
-    Route::get('/', 'Dashboardcontroller@index');
+    Route::get('/', 'DashboardController@index');
 
     Route::get('/stones/sizes', 'StoneSizesController@index')->name('sizes');
     Route::post('/stones/sizes', 'StoneSizesController@store');
