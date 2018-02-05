@@ -62,13 +62,14 @@
 </head>
 
 <body class="app">
-  <div id="loader">
+  <div id="loader" class="nojs">
     <div class="spinner"></div>
   </div>
   <script type="text/javascript">
-    window.addEventListener('load', () => {
-      const loader = document.getElementById('loader');
-      setTimeout(() => {
+    window.addEventListener('load', function(){
+      var loader = document.getElementById('loader');
+
+      setTimeout(function() {
         loader.classList.add('fadeOut');
       }, 300);
     });
