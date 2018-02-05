@@ -78,7 +78,7 @@ class StoresController extends Controller
     {
         $store = Stores::find($store);
         
-        return \View::make('stores/edit', array('store' => $store));
+        return \View::make('admin/stores/edit', array('store' => $store));
     }
 
     /**
@@ -98,7 +98,7 @@ class StoresController extends Controller
         
         $store->save();
 
-        return \View::make('stores/edit', array('store' => $store));
+        return \View::make('admin/stores/edit', array('store' => $store));
     }
 
     /**

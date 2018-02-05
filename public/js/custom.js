@@ -81,7 +81,6 @@ $(document).ready(function() {
         var weight = collectionModelPrice[2];
 
         collectionModelPrice.forEach(function(el) {
-            console.log(el);
             el.addEventListener('change', function(ev) {
     
                 var typeJeweryData = typeJewery.options[typeJewery.selectedIndex].getAttribute("data-pricebuy"),

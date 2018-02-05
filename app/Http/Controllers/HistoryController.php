@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Stone_sizes;
+use App\History;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Response;
-use Illuminate\Support\Facades\View;
 
-class StoneSizesController extends Controller
+class HistoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +14,7 @@ class StoneSizesController extends Controller
      */
     public function index()
     {
-        $sizes = Stone_sizes::all();
-
-        return \View::make('admin/stone_sizes/index', array('sizes' => $sizes));
+        //
     }
 
     /**
@@ -40,19 +35,16 @@ class StoneSizesController extends Controller
      */
     public function store(Request $request)
     {
-        $size = new Stone_sizes();
-        $response = $size->create($request->all());
-
-        return Response::json(array('success' => View::make('admin/stone_sizes/table',array('size'=>$response))->render()));
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Stone_sizes  $stone_sizes
+     * @param  \App\History  $history
      * @return \Illuminate\Http\Response
      */
-    public function show(Stone_sizes $stone_sizes)
+    public function show(History $history)
     {
         //
     }
@@ -60,10 +52,10 @@ class StoneSizesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Stone_sizes  $stone_sizes
+     * @param  \App\History  $history
      * @return \Illuminate\Http\Response
      */
-    public function edit(Stone_sizes $stone_sizes)
+    public function edit(History $history)
     {
         //
     }
@@ -72,10 +64,10 @@ class StoneSizesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Stone_sizes  $stone_sizes
+     * @param  \App\History  $history
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Stone_sizes $stone_sizes)
+    public function update(Request $request, History $history)
     {
         //
     }
@@ -83,10 +75,10 @@ class StoneSizesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Stone_sizes  $stone_sizes
+     * @param  \App\History  $history
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Stone_sizes $stone_sizes)
+    public function destroy(History $history)
     {
         //
     }
