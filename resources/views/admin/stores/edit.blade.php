@@ -5,7 +5,7 @@
     </button>
 </div>
 
-<form method="POST" action="">
+<form method="PUT" action="/stores/{{ $store->id }}">
     <div class="modal-body">    
         <div class="info-cont">
         </div>
