@@ -38,7 +38,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:superadministrator|adm
     Route::post('/stores', 'StoresController@store');
 
     Route::get('/stores/{store}', 'StoresController@edit');
-    Route::post('/stores/{store}', 'StoresController@update');
+    Route::put('/stores/{store}', 'StoresController@update');
 
     Route::get('/nomenclatures', 'NomenclaturesController@index')->name('nomenclatures');
     Route::post('/nomenclatures', 'NomenclaturesController@store');
@@ -47,7 +47,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:superadministrator|adm
     Route::post('/materials', 'MaterialsController@store');
 
     Route::get('/materials/{material}', 'MaterialsController@edit');
-    Route::post('/materials/{material}', 'MaterialsController@update');
+    Route::put('/materials/{material}', 'MaterialsController@update');
 
     Route::get('/prices', 'PricesController@index')->name('prices');
     Route::post('/prices', 'PricesController@index');
@@ -59,13 +59,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:superadministrator|adm
     Route::post('/jewels', 'JewelsController@store');
 
     Route::get('/jewels/{jewel}', 'JewelsController@edit');
-    Route::post('/jewels/{jewel}', 'JewelsController@update');
+    Route::put('/jewels/{jewel}', 'JewelsController@update');
 
     Route::get('/models', 'ModelsController@index')->name('models');
     Route::post('/models', 'ModelsController@store');
 
     Route::get('/models/{model}', 'ModelsController@edit');
-    Route::post('/models/{model}', 'ModelsController@update');
+    Route::put('/models/{model}', 'ModelsController@update');
 
     Route::get('/products', 'ProductsController@index')->name('products');
     Route::post('/products', 'ProductsController@store');
@@ -81,4 +81,5 @@ Route::group(['prefix' => 'ajax', 'middleware' => ['role:superadministrator|admi
     Route::post('/prices/{material}', 'PricesController@store');
     Route::post('/jewels', 'JewelsController@store');
     Route::post('/models', 'ModelsController@store');
+    Route::put('/stores/{store}', 'StoresController@update');
 });

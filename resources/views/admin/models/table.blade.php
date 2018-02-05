@@ -6,7 +6,7 @@
     <td> {{ App\Prices::find($model->wholesale_price)->price }} </td>
     <td> {{ $model->weight }} </td>
     <td> {{ (App\Prices::find($model->retail_price)->price)*$model->weight }} </td>
-    <td><a href="models/{{ $model->id }}"><i class="c-brown-500 ti-pencil"></i></a></td>
+    <td><a href="models/{{$model->id}}" class="edit-btn" data-toggle="modal" data-target="#editModel"><i class="c-brown-500 ti-pencil"></i></a></td>
 </tr>
 
 <tr>
