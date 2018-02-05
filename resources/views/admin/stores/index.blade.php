@@ -1,6 +1,5 @@
 @extends('admin.layout')
 
-
 @section('content')
 
 <div class="modal fade" id="addStore" tabindex="-1" role="dialog" aria-labelledby="addStore"
@@ -26,13 +25,13 @@ aria-hidden="true">
                     </div>
                 
                     <div class="form-group">
-                        <label for="1">Адрес: </label>
-                        <input type="text" class="form-control" id="1" name="location" placeholder="Адрес на магазин:">
+                        <label for="2">Адрес: </label>
+                        <input type="text" class="form-control" id="2" name="location" placeholder="Адрес на магазин:">
                     </div>
                 
                     <div class="form-group">
-                        <label for="1">Телефон: </label>
-                        <input type="text" class="form-control" id="1" name="phone" placeholder="Телефон на магазин:">
+                        <label for="3">Телефон: </label>
+                        <input type="text" class="form-control" id="3" name="phone" placeholder="Телефон на магазин:">
                     </div>
                 </div>
 
@@ -41,6 +40,16 @@ aria-hidden="true">
                     <button type="submit" id="add" class="btn btn-primary">Добави</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editStore" tabindex="-1" role="dialog" aria-labelledby="editStore"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            
+
         </div>
     </div>
 </div>

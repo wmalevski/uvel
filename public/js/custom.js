@@ -1,6 +1,5 @@
 $(document).ready(function() {
 
-    
     var max_fields      = 10; 
     var wrapper         = $('.model_stones'); 
     var add_button      = $('.add_field_button'); 
@@ -82,7 +81,7 @@ $(document).ready(function() {
         var weight = collectionModelPrice[2];
 
         collectionModelPrice.forEach(function(el) {
-
+            console.log(el);
             el.addEventListener('change', function(ev) {
     
                 var typeJeweryData = typeJewery.options[typeJewery.selectedIndex].getAttribute("data-pricebuy"),
@@ -112,6 +111,7 @@ $(document).ready(function() {
                     inputDev.value = "0";
                     inputPrice.value = "0";
                 }
+                // TODO: if all of them have values, then calculate 
             });
         })
     }
