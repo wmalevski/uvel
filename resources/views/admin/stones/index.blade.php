@@ -110,6 +110,7 @@ aria-hidden="true">
             <th scope="col">Контур</th> 
             <th scope="col">Количество</th> 
             <th scope="col">Цена</th> 
+            <th scope="col">Действия</th>
           </tr>
         </thead>
         <tbody>
