@@ -71,14 +71,17 @@ class ModelsController extends Controller
 
         if (isset($request->release_product)) {
             $product = new Products();
+            $product->name = $request->name;
             $product->model = $model->id;
             $product->type = $request->jewel;
             $product->weight = $request->weight;
             $product->price_list = $request->retail_price;
             $product->size = $request->size;
-            $product->workmanship = '1';
-            $product->price = '1';
-            $product->code = 'AAADDDDDDD8333';
+            $product->workmanship = $request->workmanship;
+            $product->price = $request->price;
+            $product->code = '3215';
+
+            $product->save();
         }
 
         return Response::json(array('success' => View::make('admin/models/table',array('model'=>$model))->render()));
