@@ -53,7 +53,6 @@ class ModelsController extends Controller
             'name' => 'required',
             'jewel' => 'required',
             'retail_price' => 'required',
-            'wholesale_price' => 'required'
          ]);
 
         if ($validator->fails()) {

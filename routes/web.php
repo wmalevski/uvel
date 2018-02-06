@@ -32,7 +32,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:superadministrator|adm
     Route::post('/stones/contours', 'StoneContoursController@store');
 
     Route::get('/users', 'UserController@index')->name('users');
-    //Route::post('/users', 'StonesController@store');
+    Route::get('/users/{user}', 'UserController@edit');
 
     Route::get('/stones', 'StonesController@index')->name('stones');
     Route::post('/stones', 'StonesController@store');

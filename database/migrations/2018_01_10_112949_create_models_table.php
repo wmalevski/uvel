@@ -18,7 +18,6 @@ class CreateModelsTable extends Migration
             $table->string('name');
             $table->integer('jewel')->references('id')->on('jewels');
             $table->integer('retail_price');
-            $table->integer('wholesale_price');
             $table->float('weight');
             $table->integer('size');
             $table->float('workmanship');

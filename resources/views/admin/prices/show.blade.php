@@ -54,10 +54,6 @@ aria-hidden="true">
   <div class="col-md-12">
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
       <h4 class="c-grey-900 mB-20">Цени Купува</h4>
-      <p>Using the most basic table markup, here’s how
-        <code class="highlighter-rouge">.table</code>-based tables look in Bootstrap.
-        <strong>All table styles are inherited in Bootstrap 4</strong>, meaning any nested tables will be styled in the
-        same manner as the parent.</p>
 
         @if(isset($prices)) 
         <table class="table table-condensed">
@@ -85,10 +81,6 @@ aria-hidden="true">
     <div class="col-md-12">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
         <h4 class="c-grey-900 mB-20">Цени Продава</h4>
-        <p>Using the most basic table markup, here’s how
-          <code class="highlighter-rouge">.table</code>-based tables look in Bootstrap.
-          <strong>All table styles are inherited in Bootstrap 4</strong>, meaning any nested tables will be styled in the
-          same manner as the parent.</p>
   
           @if(isset($prices))
           <table class="table table-condensed">

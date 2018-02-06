@@ -28,12 +28,12 @@ aria-hidden="true">
                                 <option value="">Избери</option>
                         
                                 @foreach($jewels as $jewel)
-                                    <option value="{{ $jewel->id }}" data-pricebuy="@if(App\Prices::where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" data-price="{{$jewel->material}}">{{ $jewel->name }}</option>
+                                    <option value="{{ $jewel->id }}" data-pricebuy="@if(App\Prices::where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" data-price="{{$jewel->material}}">{{ $jewel->name }} - {{ App\Materials::find($jewel->material)->name }}, {{ App\Materials::find($jewel->material)->code }}, {{ App\Materials::find($jewel->material)->color }}</option>
                                 @endforeach
                             </select>
                         </div>
 
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-12">
                             <label>Цена на дребно: </label>
                             <select id="retail_price" name="retail_price" class="form-control disabled-first calculate" disabled>
                                 <option value="">Избери</option>
@@ -44,16 +44,6 @@ aria-hidden="true">
                             </select>
                         </div>
 
-                        <div class="form-group col-md-6">
-                            <label>Цена на едро: </label>
-                            <select name="wholesale_price" class="form-control disabled-first" disabled>
-                                <option value="">Избери</option>
-                        
-                                @foreach($prices->where('type', 'sell') as $price)
-                                    <option value="{{ $price->id }}" data-wholesale="{{ $price->price }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
-                                @endforeach
-                            </select>
-                        </div>
 
                         <div class="form-group col-md-6">
                             <div class="form-group">

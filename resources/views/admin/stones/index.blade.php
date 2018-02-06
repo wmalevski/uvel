@@ -86,17 +86,11 @@ aria-hidden="true">
     </div>
 </div>
 
-<h4 class="c-grey-900 mT-10 mB-30">Камъни 
-    <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-toggle="modal" data-target="#addStone">Добави</button>
-</h4>
 <div class="row">
   <div class="col-md-12">
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
-      <h4 class="c-grey-900 mB-20">Simple Table</h4>
-      <p>Using the most basic table markup, here’s how
-        <code class="highlighter-rouge">.table</code>-based tables look in Bootstrap.
-        <strong>All table styles are inherited in Bootstrap 4</strong>, meaning any nested tables will be styled in the
-        same manner as the parent.</p>
+      <h4 class="c-grey-900 mB-20">Камъни <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-toggle="modal" data-target="#addStone">Добави</button></h4>
+      <p>Преглед на камъни</p>
       <table class="table">
         <thead>
           <tr>
