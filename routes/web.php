@@ -31,6 +31,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:superadministrator|adm
     Route::get('/stones/contours', 'StoneContoursController@index')->name('contours');
     Route::post('/stones/contours', 'StoneContoursController@store');
 
+    Route::get('/users', 'UserController@index')->name('users');
+    //Route::post('/users', 'StonesController@store');
+
     Route::get('/stones', 'StonesController@index')->name('stones');
     Route::post('/stones', 'StonesController@store');
 

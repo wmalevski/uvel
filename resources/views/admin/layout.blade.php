@@ -130,7 +130,7 @@
               </li>
 
               <li class="nav-item">
-                  <a class="sidebar-link" href="">
+                  <a class="sidebar-link" href="{{ route('users') }}">
                     <span class="icon-holder">
                       <i class="c-brown-500 ti-pencil"></i>
                     </span>
@@ -536,28 +536,28 @@
                 <li>
                   <a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
                     <i class="ti-settings mR-10"></i>
-                    <span>Setting</span>
+                    <span>Настройки</span>
                   </a>
                 </li>
-                <li>
+                {{--  <li>
                   <a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
                     <i class="ti-user mR-10"></i>
                     <span>Profile</span>
                   </a>
-                </li>
-                <li>
+                </li>  --}}
+                {{--  <li>
                   <a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
                     <i class="ti-email mR-10"></i>
                     <span>Messages</span>
                   </a>
-                </li>
+                </li>  --}}
                 <li role="separator" class="divider"></li>
                 <li>
                   <a href="{{ route('logout') }}"
                   onclick="event.preventDefault();
                            document.getElementById('logout-form').submit();" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
                     <i class="ti-power-off mR-10"></i>
-                    <span>Logout</span>
+                    <span>Изход</span>
                   </a>
                 </li>
               </ul>

@@ -30,7 +30,7 @@ aria-hidden="true">
                                 <option value="">Избер материал</option>
                         
                                 @foreach($materials as $material)
-                                    <option value="{{ $material->id }}">{{ $material->name }} - {{ $material->code }}</option>
+                                    <option value="{{ $material->id }}">{{ $material->name }} - {{ $material->color }} - {{ $material->code }}</option>
                                 @endforeach
                             </select>
                         </div>
