@@ -19,19 +19,19 @@ aria-hidden="true">
                     {{ csrf_field() }}
                     <div id="success-container"></div>
                     <div class="form-row">
-                        <div class="form-group">
+                        <div class="form-group col-md-12">
                             <label for="1">Име: </label>
                             <input type="text" class="form-control" id="1" name="name" placeholder="Вид/Име:">
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group">
+                        <div class="form-group col-md-12">
                             <label for="2">Проба: </label>
                             <input type="text" class="form-control" id="2" name="code" placeholder="Проба:">
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group">
+                        <div class="form-group col-md-12">
                             <label for="3">Цвят: </label>
                             <input type="text" class="form-control" id="3" name="color" placeholder="Цвят:">
                         </div>

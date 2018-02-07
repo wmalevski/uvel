@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+use App\Materials_quantity;
 use App\Materials;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Response;
 use Illuminate\Support\Facades\View;
 
-class MaterialsController extends Controller
+class MaterialsQuantityController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,10 +20,10 @@ class MaterialsController extends Controller
      */
     public function index()
     {
+        $materials = Materials_quantity::where('store', Auth::user()->store)->get();
+        $materials_types = Materials::all();
         
-        $materials = Materials::all();
-        
-        return \View::make('admin/materials/index', array('materials' => $materials));
+        return \View::make('admin/materials_quantity/index', array('materials' => $materials, 'types' => $materials_types));
     }
 
     /**
@@ -43,27 +45,27 @@ class MaterialsController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make( $request->all(), [
-            'name' => 'required',
-            'code' => 'required',
-            'color' => 'required',
+            'material' => 'required',
+            'quantity' => 'required',
+            'carat' => 'required',
          ]);
 
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $material = Materials::create($request->all());
+        $material = Materials_quantity::create($request->all());
 
-        return Response::json(array('success' => View::make('admin/materials/table',array('material'=>$material))->render()));
+        return Response::json(array('success' => View::make('admin/materials_quantity/table',array('material'=>$material))->render()));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Materials  $materials
+     * @param  \App\Materials_quantity  $materials_quantity
      * @return \Illuminate\Http\Response
      */
-    public function show(Materials $materials)
+    public function show(Materials_quantity $materials_quantity)
     {
         //
     }
@@ -71,43 +73,33 @@ class MaterialsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Materials  $materials
+     * @param  \App\Materials_quantity  $materials_quantity
      * @return \Illuminate\Http\Response
      */
-    public function edit(Materials $materials, $material)
+    public function edit(Materials_quantity $materials_quantity)
     {
-        $material = Materials::find($material);
-
-        return \View::make('materials/edit', array('material' => $material));
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Materials  $materials
+     * @param  \App\Materials_quantity  $materials_quantity
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Materials $materials, $material)
+    public function update(Request $request, Materials_quantity $materials_quantity)
     {
-        $material = Materials::find($material);
-        
-        $material->name = $request->name;
-        $material->code = $request->code;
-        $material->color = $request->color;
-        
-        $material->save();
-
-        return \View::make('materials/edit', array('material' => $material));
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Materials  $materials
+     * @param  \App\Materials_quantity  $materials_quantity
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Materials $materials)
+    public function destroy(Materials_quantity $materials_quantity)
     {
         //
     }

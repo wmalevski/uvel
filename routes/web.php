@@ -52,6 +52,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:superadministrator|adm
     Route::get('/materials/{material}', 'MaterialsController@edit');
     Route::put('/materials/{material}', 'MaterialsController@update');
 
+
+
+
+    Route::get('/mquantity', 'MaterialsQuantityController@index')->name('materials_quantity');
+    Route::post('/mquantity', 'MaterialsQuantityController@store');
+
+    Route::get('/mquantity/{material}', 'MaterialsQuantityController@edit');
+    Route::put('/mquantity/{material}', 'MaterialsQuantityController@update');
+
+
+
     Route::get('/prices', 'PricesController@index')->name('prices');
     Route::post('/prices', 'PricesController@index');
 
@@ -85,4 +96,5 @@ Route::group(['prefix' => 'ajax', 'middleware' => ['role:superadministrator|admi
     Route::post('/jewels', 'JewelsController@store');
     Route::post('/models', 'ModelsController@store');
     Route::put('/stores/{store}', 'StoresController@update');
+    Route::post('/mquantity', 'MaterialsQuantityController@store');
 });

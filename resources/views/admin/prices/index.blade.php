@@ -10,17 +10,19 @@
                 <form method="POST" class="form-inline" action="">
                     {{ csrf_field() }}
                     <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <select name="material" class="form-control">
+                        <div class="form-group col-md-12">
+                            <select name="material" class="form-control col-md-9">
                                 <option value="">Избери</option>
 
                                 @foreach($materials as $material)
-                                <option value="{{ $material->id }}">{{ $material->name }} - {{ $material->code }}</option>
+                                    <option value="{{ $material->id }}">{{ $material->name }} - {{ $material->code }}</option>
                                 @endforeach
                             </select>
-                            <button type="submit" class="btn btn-primary">Покажи цени</button>
+
+                            <div class="form-group col-md-3">
+                                <button type="submit" class="btn btn-primary">Покажи цени</button>
+                            </div>
                         </div>
-                        
                     </div>
                 </form>
             </div>
