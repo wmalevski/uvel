@@ -23,8 +23,14 @@
         </div>
 
         <div class="form-group">
-            <label for="1">Магазин: </label>
-            <input type="text" class="form-control" value="{{ $user->store }}" id="1" name="phone" placeholder="Магазин:">
+            <label>Магазин: </label>
+            <select name="material" class="form-control">
+                <option value="">Избер магазин</option>
+        
+                @foreach($stores as $store)
+                    <option value="{{ $store->id }}" @if(Auth::user()->store == $store->id) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
+                @endforeach
+            </select>
         </div>
     </div>
     <div class="modal-footer">

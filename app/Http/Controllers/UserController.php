@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Stores;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -28,7 +29,8 @@ class UserController extends Controller
     public function edit(User $users, $user)
     {
         $user = User::find($user);
+        $stores = Stores::all();
         
-        return \View::make('admin/users/edit', array('user' => $user));
+        return \View::make('admin/users/edit', array('user' => $user, 'stores' => $stores));
     }
 }
