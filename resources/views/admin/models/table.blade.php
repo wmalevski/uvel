@@ -13,7 +13,7 @@
     <td>
         <table class="table table-condensed">
             <tr>
-                <th>тип</th>
+                <th>Тип</th>
                 <th>Брой</th>
             </tr>
 

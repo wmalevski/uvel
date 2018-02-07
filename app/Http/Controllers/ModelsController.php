@@ -8,6 +8,7 @@ use App\Prices;
 use App\Stones;
 use App\Model_stones;
 use App\Products;
+use App\Product_stones;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
@@ -69,7 +70,7 @@ class ModelsController extends Controller
             $model_stones->save();
         }
 
-        if (isset($request->release_product)) {
+        if ($request->release_product == true) {
             $product = new Products();
             $product->name = $request->name;
             $product->model = $model->id;
@@ -79,9 +80,18 @@ class ModelsController extends Controller
             $product->size = $request->size;
             $product->workmanship = $request->workmanship;
             $product->price = $request->price;
-            $product->code = '3215';
+            $product->code = unique_random('products', 'code', 6);
 
             $product->save();
+
+            foreach($request->stones as $key => $stone){
+                $product_stones = new Product_stones();
+                $product_stones->product = $product->id;
+                $product_stones->model = $model->id;
+                $product_stones->stone = $stone;
+                $product_stones->amount = $request->stone_amount[$key];
+                $product_stones->save();
+            }
         }
 
         return Response::json(array('success' => View::make('admin/models/table',array('model'=>$model))->render()));

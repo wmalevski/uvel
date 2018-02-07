@@ -77,7 +77,7 @@ aria-hidden="true">
 
 <table class="table table-condensed">
     <tr>
-        <th>#</th>
+        <th>Код</th>
         <th>Име</th> 
         <th>Виж бижу</th>
         <th>Цена на дребно</th>

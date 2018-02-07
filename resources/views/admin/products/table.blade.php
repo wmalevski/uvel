@@ -1,5 +1,5 @@
 <tr>
-    <td></td>
+    <td> {{ $product->code }} </td>
     <td> {{ $product->name }} </td>
     <td> {{ App\Jewels::find(App\Models::find($product->model)->jewel)->name }} </td> 
     <td> {{ App\Prices::find($product->price_list)->price }} </td> 
@@ -13,11 +13,11 @@
     <td>
         <table class="table table-condensed">
             <tr>
-                <th>тип</th>
+                <th>Тип</th>
                 <th>Брой</th>
             </tr>
 
-            @foreach(App\Model_stones::where('model', $product->id)->get() as $stone)
+            @foreach(App\Product_stones::where('product', $product->id)->get() as $stone)
                 <tr>
                     <td>{{ App\Stones::find($stone->stone)->name }}</td>
                     <td>{{ $stone->amount }}</td>
