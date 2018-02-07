@@ -89,7 +89,7 @@ class ModelsController extends Controller
                 $product_stones->product = $product->id;
                 $product_stones->model = $model->id;
                 $product_stones->stone = $stone;
-                $product_stones->amount = $request->stone_amount[$key];
+                $product_stones->amount = 'P'.$request->stone_amount[$key];
                 $product_stones->save();
             }
         }
@@ -121,7 +121,7 @@ class ModelsController extends Controller
         $prices = Prices::where('type', 'sell')->get();
         $stones = Stones::all();
         
-        return \View::make('models/edit', array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones));
+        return Response::json(array('success' => View::make('admin/models/edit',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render()));
     }
 
     /**
@@ -147,7 +147,7 @@ class ModelsController extends Controller
         
         $model->save();
 
-        return \View::make('models/edit', array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones));
+        return Response::json(array('success' => View::make('admin/models/edit',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render()));
     }
 
     /**
