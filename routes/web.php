@@ -97,4 +97,5 @@ Route::group(['prefix' => 'ajax', 'middleware' => ['role:superadministrator|admi
     Route::post('/models', 'ModelsController@store');
     Route::put('/stores/{store}', 'StoresController@update');
     Route::post('/mquantity', 'MaterialsQuantityController@store');
+    Route::post('/sendMaterial', 'MaterialsTravellingController@store');
 });
