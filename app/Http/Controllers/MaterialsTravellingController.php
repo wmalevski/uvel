@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Materials_travelling;
 use App\Materials_quantity;
+use App\History;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
@@ -69,6 +70,14 @@ class MaterialsTravellingController extends Controller
             $quantity->save();
         }
 
+        $history = new History();
+
+        $history->action = '1';
+        $history->user = Auth::user()->id;
+        $history->table = 'materials_travelling';
+        $history->result_id = $material->id;
+
+        $history->save();
         //return Response::json(array('success' => View::make('admin/materials_travelling/table',array('material'=>$material))->render()));
     }
 

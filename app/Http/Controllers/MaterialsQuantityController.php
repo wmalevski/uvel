@@ -25,7 +25,7 @@ class MaterialsQuantityController extends Controller
         $materials = Materials_quantity::where('store', Auth::user()->store)->get();
         $stores = Stores::where('id', '!=', Auth::user()->store)->get();
         $materials_types = Materials::all();
-        $travelling = Materials_travelling::where('storeFrom', Auth::user()->store)->get();
+        $travelling = Materials_travelling::where('storeFrom', Auth::user()->store)->orWhere('storeTo', Auth::user()->store)->get();
         
         return \View::make('admin/materials_quantity/index', array('materials' => $materials, 'types' => $materials_types, 'stores' => $stores, 'travelling' => $travelling));
     }
