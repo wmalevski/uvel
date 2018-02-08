@@ -78,7 +78,7 @@ aria-hidden="true">
                                 <option value="">Избер материал</option>
                         
                                 @foreach($materials as $material)
-                                    <option value="{{ $material->material }}">
+                                    <option value="{{ $material->id }}">
                                         {{ App\Materials::find($material->material)->name }} - {{ App\Materials::find($material->material)->color }} - {{ App\Materials::find($material->material)->code }} ({{ $material->quantity }})
                                     </option>
                                 @endforeach
@@ -107,7 +107,7 @@ aria-hidden="true">
                 </div>
 
                 <input type="hidden" name="store" value="{{  Auth::user()->store }}">
-                <input type="hidden" name="quantityID" value="{{ $material->id }}">
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
                     <button type="submit" id="add" class="btn btn-primary">Добави</button>
@@ -154,6 +154,7 @@ aria-hidden="true">
                       <th>Стойност</th> 
                       <th>Изпратен на</th> 
                       <th>Статус</th> 
+                      <th></th> 
                   </tr>
                   
                   @foreach($travelling as $material)

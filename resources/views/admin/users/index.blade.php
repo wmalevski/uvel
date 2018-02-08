@@ -22,6 +22,7 @@ aria-hidden="true">
             <tr>
               <th scope="col">#</th>
               <th scope="col">Име</th> 
+              <th scope="col">Email</th>
               <th scope="col">Вид</th>
               <th scope="col">Магазин</th>
               <th scope="col">Действия</th>
@@ -32,6 +33,7 @@ aria-hidden="true">
                 <tr>
                     <td></td>
                     <td>{{ $user->name }}</td> 
+                    <td>{{ $user->email }}</td> 
                     <td>{{ $user->roles->first()['display_name'] }}</td>
                     <td>@if($user->store != '') {{ App\Stores::find($user->store)->name }} @endif</td> 
                     <td><a href="users/{{$user->id}}" class="edit-btn" data-toggle="modal" data-target="#editUser"><i class="c-brown-500 ti-pencil"></i></a></td>

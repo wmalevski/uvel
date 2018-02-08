@@ -17,7 +17,7 @@ class CreateHistoriesTable extends Migration
             $table->increments('id');
             $table->integer('action');
             $table->integer('user');
-            $table->integer('table');
+            $table->string('table');
             $table->integer('result_id');
             $table->timestamps();
         });

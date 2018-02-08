@@ -63,7 +63,7 @@ class MaterialsTravellingController extends Controller
 
         $material->save();
 
-        $quantity = Materials_quantity::find($request->quantityID);
+        $quantity = Materials_quantity::find($request->type);
 
         if($quantity){
             $quantity->quantity = $quantity->quantity - $request->quantity;
