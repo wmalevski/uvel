@@ -5,7 +5,7 @@
     </button>
 </div>
 
-<form method="PUT" action="/ajax/stores/{{ $store->id }}">
+<form id="shit" method="PUT" name="update" action="/stores/{{ $store->id }}">
     <div class="modal-body">    
         <div class="info-cont">
         </div>

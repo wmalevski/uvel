@@ -67,6 +67,18 @@ $(document).ready(function() {
 
     checkAllForms();
 
+    var collectionEditBtns = [].slice.apply(document.querySelectorAll('.edit-btn'));
+
+        collectionEditBtns.forEach(function(btn){
+ 
+            btn.addEventListener('click', function(){
+
+                setTimeout(
+                    checkAllForms
+                , 600);
+            });
+        });
+
     function checkAllForms() {
 
         var collectionBtns = document.querySelectorAll('.modal-dialog .modal-footer button[type="submit"]');
@@ -75,7 +87,7 @@ $(document).ready(function() {
         var token = $('meta[name="csrf-token"]').attr('content');
         var form;
         var nameForm
-    
+        
         var collectionModelPrice = document.querySelectorAll(".calculate");
     
         if(collectionModelPrice.length) {
@@ -123,19 +135,21 @@ $(document).ready(function() {
         if(collectionBtns.length) {
     
             collectionBtns.forEach(function(btn){
-    
+
+                btn.style.border = "1px solid yellow";
+
                 btn.addEventListener('click', function(ev) {
     
                     ev.preventDefault();
     
                     form = ev.target.parentElement.parentElement;
                     nameForm = form.getAttribute("name");
-    
+
                     var urlAction = form.getAttribute("action"),
-                        formMethod = form.method,
+                        formMethod = document.forms[nameForm].attributes.method.value,
                         ajaxUrl = url + urlAction;
-                        collectionInputs = document.forms[nameForm].getElementsByTagName("input");
-                        collectionSelects = document.forms[nameForm].getElementsByTagName("select");
+                        collectionInputs = [].slice.apply(document.forms[nameForm].getElementsByTagName("input"));
+                        collectionSelects = [].slice.apply(document.forms[nameForm].getElementsByTagName("select"));
                         collectionElements = [];
     
                     var collectionData = {_token: token};
@@ -143,17 +157,15 @@ $(document).ready(function() {
                     // Check the inputs
     
                     if(collectionInputs.length != 0) {
-    
-                        for(var i=0; i <= collectionInputs.length; i += 1) {
-    
-                            var el = collectionInputs[i];
-    
-                            if(typeof collectionInputs[i] != 'undefined') {
-    
+
+                        collectionInputs.map(function(el) {
+
+                            if( el != 'undefined') {
+                                
                                 var name = el.getAttribute('name');
                                 var value = el.value;
                                 var elType = el.getAttribute("type");
-    
+
                                 if(elType === "checkbox") {
     
                                     collectionData[name] = el.checked;
@@ -174,10 +186,10 @@ $(document).ready(function() {
                                 } else {
     
                                     collectionData[name] = value;
-                                    collectionElements.push(collectionInputs[i] );
+                                    collectionElements.push(el);
                                 }
                             }
-                        }
+                        });
                     }
     
                     // Check the selects
@@ -219,10 +231,21 @@ $(document).ready(function() {
                             }
                         }
                     }
-    
-                    // TODO: GO throug all radio buttons
-    
-                    ajaxFn(formMethod, ajaxUrl, handleResponse, collectionData, collectionElements);
+
+                    if(formMethod === 'POST') {
+
+                        ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements);
+
+                    } else if(formMethod === 'PUT' ) {
+
+                        ajaxFn(formMethod, ajaxUrl, test, collectionData, collectionElements);
+                    }
+                    
+                    function test(data) {
+
+                        console.log(data);
+                    }
+
                 });
             })
         }
@@ -230,7 +253,7 @@ $(document).ready(function() {
         function ajaxFn(method, url, callback, dataSend, elements) {
 
             var xhttp = new XMLHttpRequest();
-    
+            console.log(method);
             xhttp.open(method , url, true);
             xhttp.onreadystatechange = function () {
     
@@ -251,7 +274,7 @@ $(document).ready(function() {
             xhttp.send(JSON.stringify(dataSend));
         }
     
-        function handleResponse(response, elements) {
+        function handleResponsePost(response, elements) {
             
             var responseHolder = document.forms[nameForm].firstElementChild.firstElementChild;
                 responseHolder.innerHTML = "";
@@ -285,8 +308,8 @@ $(document).ready(function() {
     
                 elements.forEach(function(el) {
                     // TODO: do it for elements diff from input  and dont do it for hidden inputs
-                    if(typeof el != null && el.name !== '_token') {
-                        // TODO: check if select ???
+                    var elType = el.getAttribute("type");
+                    if(typeof el != null && elType !== 'hidden') {
                         console.log(el);
                        el.value = "";
                     }
