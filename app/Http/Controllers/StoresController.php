@@ -78,7 +78,8 @@ class StoresController extends Controller
     {
         $store = Stores::find($store);
         
-        return \View::make('admin/stores/edit', array('store' => $store));
+
+        return Response::json(array('success' => View::make('admin/stores/edit', array('store' => $store))->render()));
     }
 
     /**
