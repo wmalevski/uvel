@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Materials;
 use App\Materials_travelling;
 use App\Materials_quantity;
 use App\History;
@@ -56,10 +57,12 @@ class MaterialsTravellingController extends Controller
 
         if($check){
             if($request->quantity <= $check->quantity){
+                $price = Materials::find($request->type);
+
                 $material = new Materials_travelling();
                 $material->type = $request->type;
                 $material->quantity = $request->quantity;
-                $material->price = '12';
+                $material->price = ($request->quantity)*($price->stock_price);
                 $material->storeFrom = Auth::user()->store;
                 $material->storeTo  = $request->storeTo;
                 $material->dateSent = new \DateTime();

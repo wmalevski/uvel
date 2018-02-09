@@ -75,6 +75,7 @@ class DatabaseSeeder extends Seeder
         $material->code = '525';
         $material->color = 'Жълто';
         $material->carat = '14';
+        $material->stock_price = '24';
         $material->save();
 
         $price = new Prices();
@@ -96,6 +97,7 @@ class DatabaseSeeder extends Seeder
         $material->code = '925';
         $material->color = 'Сив';
         $material->carat = '14';
+        $material->stock_price = '24';
         $material->save();
 
         $price = new Prices();
