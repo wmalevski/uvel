@@ -41,7 +41,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:superadministrator|adm
     Route::post('/stores', 'StoresController@store');
 
     Route::get('/stores/{store}', 'StoresController@edit');
-    Route::put('/stores/{store}', 'StoresController@update');
+    //Route::put('/stores/{store}', 'StoresController@update');
 
     Route::get('/nomenclatures', 'NomenclaturesController@index')->name('nomenclatures');
     Route::post('/nomenclatures', 'NomenclaturesController@store');
@@ -52,16 +52,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:superadministrator|adm
     Route::get('/materials/{material}', 'MaterialsController@edit');
     Route::put('/materials/{material}', 'MaterialsController@update');
 
-
-
-
     Route::get('/mquantity', 'MaterialsQuantityController@index')->name('materials_quantity');
     Route::post('/mquantity', 'MaterialsQuantityController@store');
 
     Route::get('/mquantity/{material}', 'MaterialsQuantityController@edit');
-    Route::put('/mquantity/{material}', 'MaterialsQuantityController@update');
-
-
 
     Route::get('/prices', 'PricesController@index')->name('prices');
     Route::post('/prices', 'PricesController@index');
@@ -73,7 +67,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:superadministrator|adm
     Route::post('/jewels', 'JewelsController@store');
 
     Route::get('/jewels/{jewel}', 'JewelsController@edit');
-    Route::put('/jewels/{jewel}', 'JewelsController@update');
 
     Route::get('/models', 'ModelsController@index')->name('models');
     Route::post('/models', 'ModelsController@store');
@@ -94,8 +87,13 @@ Route::group(['prefix' => 'ajax', 'middleware' => ['role:superadministrator|admi
     Route::post('/stones/contours', 'StoneContoursController@store');
     Route::post('/prices/{material}', 'PricesController@store');
     Route::post('/jewels', 'JewelsController@store');
+    Route::put('/jewels/{jewel}', 'JewelsController@update');
     Route::post('/models', 'ModelsController@store');
     Route::put('/stores/{store}', 'StoresController@update');
     Route::post('/mquantity', 'MaterialsQuantityController@store');
     Route::post('/sendMaterial', 'MaterialsTravellingController@store');
+    Route::put('/mquantity/{material}', 'MaterialsQuantityController@update');
+    Route::put('/materials/{material}', 'MaterialsController@update');
+    Route::put('/models/{model}', 'ModelsController@update');
+    Route::put('/users/{user}', 'UserController@update');
 });

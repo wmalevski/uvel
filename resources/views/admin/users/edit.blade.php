@@ -5,7 +5,8 @@
     </button>
 </div>
 
-<form method="PUT" action="/ajax/users/{{ $user->id }}">
+<form method="POST" action="/ajax/users/{{ $user->id }}">
+    <input name="_method" type="hidden" value="PUT">
     <div class="modal-body">    
         <div class="info-cont">
         </div>

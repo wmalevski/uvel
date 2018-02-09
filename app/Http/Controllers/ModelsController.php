@@ -26,7 +26,7 @@ class ModelsController extends Controller
     {
         $models = Models::all();
         $jewels = Jewels::all();
-        $prices = Prices::where('type', 'sell')->get();
+        $prices = Prices::all();
         $stones = Stones::all();
 
         return \View::make('admin/models/index', array('jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones));
@@ -89,7 +89,7 @@ class ModelsController extends Controller
                 $product_stones->product = $product->id;
                 $product_stones->model = $model->id;
                 $product_stones->stone = $stone;
-                $product_stones->amount = 'P'.$request->stone_amount[$key];
+                $product_stones->amount = $request->stone_amount[$key];
                 $product_stones->save();
             }
         }

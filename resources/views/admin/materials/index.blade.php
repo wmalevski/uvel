@@ -59,6 +59,7 @@ aria-hidden="true">
                 <th>Име</th> 
                 <th>Проба</th> 
                 <th>Цвят</th> 
+                <th>Карат</th>
                 <th>Действия</th> 
             </tr>
             

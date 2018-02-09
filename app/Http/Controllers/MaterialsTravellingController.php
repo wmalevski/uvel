@@ -46,39 +46,47 @@ class MaterialsTravellingController extends Controller
             'type' => 'required',
             'quantity' => 'required',
             'storeTo' => 'required',
-         ]);
+        ]);
 
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $material = new Materials_travelling();
-        $material->type = $request->type;
-        $material->quantity = $request->quantity;
-        $material->price = '12';
-        $material->storeFrom = Auth::user()->store;
-        $material->storeTo  = $request->storeTo;
-        $material->dateSent = new \DateTime();
-        $material->userSent = Auth::user()->id;
+        $check = Materials_quantity::find($request->type);
 
-        $material->save();
+        if($check){
+            if($request->quantity <= $check->quantity){
+                $material = new Materials_travelling();
+                $material->type = $request->type;
+                $material->quantity = $request->quantity;
+                $material->price = '12';
+                $material->storeFrom = Auth::user()->store;
+                $material->storeTo  = $request->storeTo;
+                $material->dateSent = new \DateTime();
+                $material->userSent = Auth::user()->id;
 
-        $quantity = Materials_quantity::find($request->type);
+                $material->save();
 
-        if($quantity){
-            $quantity->quantity = $quantity->quantity - $request->quantity;
-            $quantity->save();
+                $quantity = Materials_quantity::find($request->type);
+
+                if($quantity){
+                    $quantity->quantity = $quantity->quantity - $request->quantity;
+                    $quantity->save();
+                }
+
+                $history = new History();
+
+                $history->action = '1';
+                $history->user = Auth::user()->id;
+                $history->table = 'materials_travelling';
+                $history->result_id = $material->id;
+
+                $history->save();
+                //return Response::json(array('success' => View::make('admin/materials_travelling/table',array('material'=>$material))->render()))
+            }else{
+                return Response::json(['errors' => array('quantity' => ['Въведохте невалидно количество!'])], 401);
+            }
         }
-
-        $history = new History();
-
-        $history->action = '1';
-        $history->user = Auth::user()->id;
-        $history->table = 'materials_travelling';
-        $history->result_id = $material->id;
-
-        $history->save();
-        //return Response::json(array('success' => View::make('admin/materials_travelling/table',array('material'=>$material))->render()));
     }
 
     /**

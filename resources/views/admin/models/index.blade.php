@@ -33,13 +33,24 @@ aria-hidden="true">
                             </select>
                         </div>
 
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6">
                             <label>Цена на дребно: </label>
                             <select id="retail_price" name="retail_price" class="form-control disabled-first calculate" disabled>
                                 <option value="">Избери</option>
                         
                                 @foreach($prices->where('type', 'sell') as $price)
                                     <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label>Цена на едро: </label>
+                            <select id="wholesale_price" name="wholesale_price" class="form-control disabled-first calculate" disabled>
+                                <option value="">Избери</option>
+                        
+                                @foreach($prices->where('type', 'buy') as $price)
+                                    <option value="{{ $price->id }}" data-pricebuy="{{ $price->price }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -124,6 +135,7 @@ aria-hidden="true">
         <th>Име</th> 
         <th>Виж бижу</th>
         <th>Цена на дребно</th>
+        <th>Цена на едро</th>
         <th>Тегло</th>
         <th>Цена</th>
         <th>Действия</th>

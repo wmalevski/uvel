@@ -33,4 +33,17 @@ class UserController extends Controller
         
         return \View::make('admin/users/edit', array('user' => $user, 'stores' => $stores));
     }
+
+    public function update(Request $request, User $users, $user)
+    {
+        $user = User::find($user);
+        
+        // $store->name = $request->name;
+        // $store->location = $request->location;
+        // $store->phone = $request->phone;
+        
+        // $store->save();
+        
+        //return Response::json( View::make('admin/stores/edit', array('store' => $store))->render());
+    }
 }
