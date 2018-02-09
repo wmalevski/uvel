@@ -80,29 +80,28 @@ $(document).ready(function() {
                 var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/' + path;
                 var xhttp = new XMLHttpRequest();
 
-                xhttp.open(method , url, true);
+                xhttp.open('GET' , url, true);
                 xhttp.onreadystatechange = function () {
         
                     if (this.readyState == 4 && this.status == 200) {
         
                         let data = JSON.parse(this.responseText);
-                        callback(data, elements); 
+                        // callback(data, elements); 
         
                     } else if(this.readyState == 4 && this.status == 401) {
         
                         let data = JSON.parse(this.responseText);
-                        callback(data); 
+                        // callback(data); 
                     }
                 };
         
                 xhttp.setRequestHeader("Content-Type", "application/json");
-                xhttp.setRequestHeader("X-CSRF-TOKEN", token);
-                xhttp.send(JSON.stringify(dataSend));
+                xhttp.send();
 
                 setTimeout(
 
                     function() {
-                        
+
                         checkAllForms()
                     }
                 , 600);
@@ -302,11 +301,13 @@ $(document).ready(function() {
                     if (this.readyState == 4 && this.status == 200) {
         
                         let data = JSON.parse(this.responseText);
+                        console.log(data);
                         callback(data, elements); 
         
                     } else if(this.readyState == 4 && this.status == 401) {
         
                         let data = JSON.parse(this.responseText);
+                        console.log(data);
                         callback(data); 
                     }
                 };
