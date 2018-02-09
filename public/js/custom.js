@@ -85,13 +85,19 @@ $(document).ready(function() {
         
                     if (this.readyState == 4 && this.status == 200) {
         
-                        let data = JSON.parse(this.responseText);
+                        var data = JSON.parse(this.responseText);
                         // callback(data, elements); 
+                        console.log(data);
+                        var holder = document.querySelector('#editStore .modal-content');
+                        holder.innerHTML = "";
+                        holder.innerHTML += data.success;
         
                     } else if(this.readyState == 4 && this.status == 401) {
         
-                        let data = JSON.parse(this.responseText);
+                        var data = JSON.parse(this.responseText);
                         // callback(data); 
+                        
+                        console.log(data);
                     }
                 };
         
@@ -300,14 +306,14 @@ $(document).ready(function() {
         
                     if (this.readyState == 4 && this.status == 200) {
         
-                        let data = JSON.parse(this.responseText);
-                        console.log(data);
+                        var data = JSON.parse(this.responseText);
+
                         callback(data, elements); 
         
                     } else if(this.readyState == 4 && this.status == 401) {
         
-                        let data = JSON.parse(this.responseText);
-                        console.log(data);
+                        var data = JSON.parse(this.responseText);
+
                         callback(data); 
                     }
                 };
