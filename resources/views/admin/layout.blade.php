@@ -81,7 +81,7 @@
         <div class="sidebar-logo">
           <div class="peers ai-c fxw-nw">
             <div class="peer peer-greed">
-              <a class="sidebar-link td-n" href="/" class="td-n">
+              <a class="sidebar-link td-n" href="{{ route('admin') }}" class="td-n">
                 <div class="peers ai-c fxw-nw">
                   <div class="peer">
                     <div class="logo">
@@ -105,7 +105,7 @@
         </div>
         <ul class="sidebar-menu scrollable pos-r">
           <li class="nav-item mT-30 active">
-            <a class="sidebar-link" href="/" default>
+            <a class="sidebar-link" href="{{ route('admin') }}" default>
               <span class="icon-holder">
                 <i class="c-blue-500 ti-home"></i>
               </span>
@@ -130,7 +130,7 @@
               </li>
 
               <li class="nav-item">
-                  <a class="sidebar-link" href="">
+                  <a class="sidebar-link" href="{{ route('users') }}">
                     <span class="icon-holder">
                       <i class="c-brown-500 ti-pencil"></i>
                     </span>
@@ -162,14 +162,25 @@
                   <span class="title">Продукти</span>
                 </a>
               </li>
-          <li class="nav-item">
-            <a class="sidebar-link" href="{{ route('materials') }}">
-              <span class="icon-holder">
-                <i class="c-brown-500 ti-pencil"></i>
-              </span>
-              <span class="title">Материали</span>
-            </a>
-          </li>
+              <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                  <span class="icon-holder">
+                    <i class="c-orange-500 ti-layout-list-thumb"></i>
+                  </span>
+                  <span class="title">Материали</span>
+                  <span class="arrow">
+                    <i class="ti-angle-right"></i>
+                  </span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="sidebar-link" href="{{ route('materials') }}">Видове</a>
+                  </li>
+                  <li>
+                    <a class="sidebar-link" href="{{ route('materials_quantity') }}">Наличности</a>
+                  </li>
+                </ul>
+              </li>
           <li class="nav-item dropdown">
             <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
@@ -536,28 +547,28 @@
                 <li>
                   <a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
                     <i class="ti-settings mR-10"></i>
-                    <span>Setting</span>
+                    <span>Настройки</span>
                   </a>
                 </li>
-                <li>
+                {{--  <li>
                   <a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
                     <i class="ti-user mR-10"></i>
                     <span>Profile</span>
                   </a>
-                </li>
-                <li>
+                </li>  --}}
+                {{--  <li>
                   <a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
                     <i class="ti-email mR-10"></i>
                     <span>Messages</span>
                   </a>
-                </li>
+                </li>  --}}
                 <li role="separator" class="divider"></li>
                 <li>
                   <a href="{{ route('logout') }}"
                   onclick="event.preventDefault();
                            document.getElementById('logout-form').submit();" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
                     <i class="ti-power-off mR-10"></i>
-                    <span>Logout</span>
+                    <span>Изход</span>
                   </a>
                 </li>
               </ul>

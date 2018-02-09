@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
 
     var max_fields      = 10; 
@@ -70,12 +71,42 @@ $(document).ready(function() {
     var collectionEditBtns = [].slice.apply(document.querySelectorAll('.edit-btn'));
 
         collectionEditBtns.forEach(function(btn){
- 
+            
+            var path = btn.dataset.path;
+
             btn.addEventListener('click', function(){
 
+                var urlTaken = window.location.href.split('/');
+                var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/' + path;
+                var xhttp = new XMLHttpRequest();
+
+                xhttp.open(method , url, true);
+                xhttp.onreadystatechange = function () {
+        
+                    if (this.readyState == 4 && this.status == 200) {
+        
+                        let data = JSON.parse(this.responseText);
+                        callback(data, elements); 
+        
+                    } else if(this.readyState == 4 && this.status == 401) {
+        
+                        let data = JSON.parse(this.responseText);
+                        callback(data); 
+                    }
+                };
+        
+                xhttp.setRequestHeader("Content-Type", "application/json");
+                xhttp.setRequestHeader("X-CSRF-TOKEN", token);
+                xhttp.send(JSON.stringify(dataSend));
+
                 setTimeout(
-                    checkAllForms
+
+                    function() {
+                        
+                        checkAllForms()
+                    }
                 , 600);
+
             });
         });
 
@@ -127,7 +158,6 @@ $(document).ready(function() {
                         inputDev.value = "0";
                         inputPrice.value = "0";
                     }
-                    // TODO: if all of them have values, then calculate 
                 });
             })
         }
@@ -146,7 +176,7 @@ $(document).ready(function() {
                     nameForm = form.getAttribute("name");
 
                     var urlAction = form.getAttribute("action"),
-                        formMethod = document.forms[nameForm].attributes.method.value,
+                        formMethod,
                         ajaxUrl = url + urlAction;
                         collectionInputs = [].slice.apply(document.forms[nameForm].getElementsByTagName("input"));
                         collectionSelects = [].slice.apply(document.forms[nameForm].getElementsByTagName("select"));
@@ -166,30 +196,39 @@ $(document).ready(function() {
                                 var value = el.value;
                                 var elType = el.getAttribute("type");
 
-                                if(elType === "checkbox") {
-    
-                                    collectionData[name] = el.checked;
-    
-                                } else if(name.includes('[]')){
-    
-                                    name = name.replace('[]','');
-    
-                                    if(collectionData.hasOwnProperty(name)) {
-    
-                                        collectionData[name].push(value);
-    
+                                if( name !== "_method") {
+
+                                    formMethod = 'POST';
+
+                                    if(elType === "checkbox") {
+
+                                        collectionData[name] = el.checked;
+        
+                                    } else if(name.includes('[]')){
+        
+                                        name = name.replace('[]','');
+        
+                                        if(collectionData.hasOwnProperty(name)) {
+        
+                                            collectionData[name].push(value);
+        
+                                        } else {
+        
+                                            collectionData[name] = [value];
+                                        }
+        
                                     } else {
-    
-                                        collectionData[name] = [value];
+        
+                                        collectionData[name] = value;
+                                        collectionElements.push(el);
                                     }
-    
                                 } else {
-    
-                                    collectionData[name] = value;
-                                    collectionElements.push(el);
+                                    console.log(name);
+                                    formMethod = value;
                                 }
                             }
                         });
+
                     }
     
                     // Check the selects
@@ -199,6 +238,7 @@ $(document).ready(function() {
                         for(var i=0; i <= collectionSelects.length; i += 1) {
     
                             var el = collectionSelects[i];
+
                             if(typeof  el != 'undefined') {
     
                                 var name = el.getAttribute('name');
@@ -207,6 +247,7 @@ $(document).ready(function() {
                                 if(el.options && el.options[el.selectedIndex]) {
     
                                     value = el.options[el.selectedIndex].value;
+
                                 } else {
         
                                     value = "";
@@ -224,6 +265,7 @@ $(document).ready(function() {
                                         collectionData[name] = [value];
                                     }
                                 } else {
+
     
                                     collectionData[name] = value;
                                     collectionElements.push(collectionSelects[i] );
@@ -253,25 +295,25 @@ $(document).ready(function() {
         function ajaxFn(method, url, callback, dataSend, elements) {
 
             var xhttp = new XMLHttpRequest();
-            console.log(method);
-            xhttp.open(method , url, true);
-            xhttp.onreadystatechange = function () {
-    
-                if (this.readyState == 4 && this.status == 200) {
-    
-                    let data = JSON.parse(this.responseText);
-                    callback(data, elements); 
-    
-                } else if(this.readyState == 4 && this.status == 401) {
-    
-                    let data = JSON.parse(this.responseText);
-                    callback(data); 
-                }
-            };
-    
-            xhttp.setRequestHeader("Content-Type", "application/json");
-            xhttp.setRequestHeader("X-CSRF-TOKEN", token);
-            xhttp.send(JSON.stringify(dataSend));
+
+                xhttp.open(method , url, true);
+                xhttp.onreadystatechange = function () {
+        
+                    if (this.readyState == 4 && this.status == 200) {
+        
+                        let data = JSON.parse(this.responseText);
+                        callback(data, elements); 
+        
+                    } else if(this.readyState == 4 && this.status == 401) {
+        
+                        let data = JSON.parse(this.responseText);
+                        callback(data); 
+                    }
+                };
+        
+                xhttp.setRequestHeader("Content-Type", "application/json");
+                xhttp.setRequestHeader("X-CSRF-TOKEN", token);
+                xhttp.send(JSON.stringify(dataSend));
         }
     
         function handleResponsePost(response, elements) {
@@ -307,10 +349,11 @@ $(document).ready(function() {
                     responseHolder.appendChild(successContainer);
     
                 elements.forEach(function(el) {
-                    // TODO: do it for elements diff from input  and dont do it for hidden inputs
+                    
                     var elType = el.getAttribute("type");
+
                     if(typeof el != null && elType !== 'hidden') {
-                        console.log(el);
+
                        el.value = "";
                     }
                 })

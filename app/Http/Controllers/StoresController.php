@@ -97,8 +97,8 @@ class StoresController extends Controller
         $store->phone = $request->phone;
         
         $store->save();
-
-        return \View::make('admin/stores/edit', array('store' => $store));
+        
+        return Response::json( View::make('admin/stores/edit', array('store' => $store))->render());
     }
 
     /**

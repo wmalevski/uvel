@@ -21,7 +21,6 @@ class MaterialsController extends Controller
         
         $materials = Materials::all();
         
-        
         return \View::make('admin/materials/index', array('materials' => $materials));
     }
 
@@ -79,7 +78,7 @@ class MaterialsController extends Controller
     {
         $material = Materials::find($material);
 
-        return \View::make('materials/edit', array('material' => $material));
+        return Response::json(array('success' => View::make('admin/materials/edit',array('material'=>$material))->render()));
     }
 
     /**
@@ -99,7 +98,7 @@ class MaterialsController extends Controller
         
         $material->save();
 
-        return \View::make('materials/edit', array('material' => $material));
+        return Response::json(array('success' => View::make('admin/materials/edit',array('material'=>$material))->render()));
     }
 
     /**

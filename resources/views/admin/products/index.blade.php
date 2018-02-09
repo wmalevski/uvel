@@ -75,6 +75,22 @@ aria-hidden="true">
 
 <h3>Добави готово изделие <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
 
+<table class="table table-condensed">
+    <tr>
+        <th>Код</th>
+        <th>Име</th> 
+        <th>Виж бижу</th>
+        <th>Цена на дребно</th>
+        <th>Тегло</th>
+        <th>Цена</th>
+        <th>Действия</th>
+    </tr>
+    
+    @foreach($products as $product)
+        @include('admin.products.table')
+    @endforeach
+</table>
+
 <form method="POST" action="">
     {{ csrf_field() }}
 

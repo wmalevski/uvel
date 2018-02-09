@@ -15,6 +15,7 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
             $table->integer('model')->references('id')->on('models');;
             $table->integer('type')->references('id')->on('jewels');;
             $table->float('weight');
@@ -22,7 +23,7 @@ class CreateProductsTable extends Migration
             $table->integer('size');
             $table->float('workmanship');
             $table->float('price');
-            $table->integer('code')->nullable();
+            $table->string('code')->nullable();
             $table->timestamps();
         });
     }

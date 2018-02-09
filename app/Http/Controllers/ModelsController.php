@@ -8,6 +8,7 @@ use App\Prices;
 use App\Stones;
 use App\Model_stones;
 use App\Products;
+use App\Product_stones;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
@@ -25,7 +26,7 @@ class ModelsController extends Controller
     {
         $models = Models::all();
         $jewels = Jewels::all();
-        $prices = Prices::where('type', 'sell')->get();
+        $prices = Prices::all();
         $stones = Stones::all();
 
         return \View::make('admin/models/index', array('jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones));
@@ -53,7 +54,6 @@ class ModelsController extends Controller
             'name' => 'required',
             'jewel' => 'required',
             'retail_price' => 'required',
-            'wholesale_price' => 'required'
          ]);
 
         if ($validator->fails()) {
@@ -70,16 +70,28 @@ class ModelsController extends Controller
             $model_stones->save();
         }
 
-        if (isset($request->release_product)) {
+        if ($request->release_product == true) {
             $product = new Products();
+            $product->name = $request->name;
             $product->model = $model->id;
             $product->type = $request->jewel;
             $product->weight = $request->weight;
             $product->price_list = $request->retail_price;
             $product->size = $request->size;
-            $product->workmanship = '1';
-            $product->price = '1';
-            $product->code = 'AAADDDDDDD8333';
+            $product->workmanship = $request->workmanship;
+            $product->price = $request->price;
+            $product->code = unique_random('products', 'code', 6);
+
+            $product->save();
+
+            foreach($request->stones as $key => $stone){
+                $product_stones = new Product_stones();
+                $product_stones->product = $product->id;
+                $product_stones->model = $model->id;
+                $product_stones->stone = $stone;
+                $product_stones->amount = $request->stone_amount[$key];
+                $product_stones->save();
+            }
         }
 
         return Response::json(array('success' => View::make('admin/models/table',array('model'=>$model))->render()));
@@ -109,7 +121,7 @@ class ModelsController extends Controller
         $prices = Prices::where('type', 'sell')->get();
         $stones = Stones::all();
         
-        return \View::make('models/edit', array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones));
+        return Response::json(array('success' => View::make('admin/models/edit',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render()));
     }
 
     /**
@@ -135,7 +147,7 @@ class ModelsController extends Controller
         
         $model->save();
 
-        return \View::make('models/edit', array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones));
+        return Response::json(array('success' => View::make('admin/models/edit',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render()));
     }
 
     /**
