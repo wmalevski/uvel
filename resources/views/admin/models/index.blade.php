@@ -99,13 +99,19 @@ aria-hidden="true">
                     <br/>
 
                     <div class="form-row">
-                        Избработка: <strong id="priceDev">0</strong>
-                        <input id="inputDev" type="hidden" value="0" name="workmanship">
-                    </div>
-
-                    <div class="form-row">
-                        Цена: <strong id="price">0</strong>
-                        <input id="inputPrice" type="hidden" value="0" name="price">
+                        <div class="form-group col-md-6">
+                            <div class="form-group">
+                                <label>Избработка:</label>
+                                <input id="inputDev" type="text" class="form-control" value="0" name="workmanship">
+                            </div>
+                        </div>
+                        
+                         <div class="form-group col-md-6">
+                            <div class="form-group">
+                                <label>Цена:</label>
+                                <input id="inputPrice" type="text" class="form-control" value="0" name="price">
+                            </div>
+                        </div>
                     </div>
                     <br/>
 
