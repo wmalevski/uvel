@@ -98,7 +98,6 @@ aria-hidden="true">
                   </tr>
               @endforeach
           </table>
-  
           @endif
         </div>
       </div>

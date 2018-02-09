@@ -58,7 +58,7 @@ class PricesController extends Controller
         }
 
         $price = Prices::create($request->all());
-        return Response::json(array('success' => View::make('admin/prices/table',array('price'=>$price))->render()));
+        return Response::json(array('success' => View::make('admin/prices/table',array('price'=>$price, 'type' => $request->type))->render()));
     }
 
     /**
