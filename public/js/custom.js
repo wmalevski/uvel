@@ -179,7 +179,7 @@ $(document).ready(function() {
                     nameForm = form.getAttribute("name");
 
                     var urlAction = form.getAttribute("action"),
-                        formMethod,
+                        formMethod = 'POST',
                         ajaxUrl = url + urlAction;
                         collectionInputs = [].slice.apply(document.forms[nameForm].getElementsByTagName("input"));
                         collectionSelects = [].slice.apply(document.forms[nameForm].getElementsByTagName("select"));
@@ -199,36 +199,34 @@ $(document).ready(function() {
                                 var value = el.value;
                                 var elType = el.getAttribute("type");
 
-                                if( name !== "_method") {
+                                if( name === "_method") {
 
-                                    formMethod = 'POST';
-
-                                    if(elType === "checkbox") {
-
-                                        collectionData[name] = el.checked;
-        
-                                    } else if(name.includes('[]')){
-        
-                                        name = name.replace('[]','');
-        
-                                        if(collectionData.hasOwnProperty(name)) {
-        
-                                            collectionData[name].push(value);
-        
-                                        } else {
-        
-                                            collectionData[name] = [value];
-                                        }
-        
-                                    } else {
-        
-                                        collectionData[name] = value;
-                                        collectionElements.push(el);
-                                    }
-                                } else {
-                                    console.log(name);
                                     formMethod = value;
+
                                 }
+                                
+                                if(elType === "checkbox") {
+
+                                    collectionData[name] = el.checked;
+    
+                                } else if(name.includes('[]')){
+    
+                                    name = name.replace('[]','');
+    
+                                    if(collectionData.hasOwnProperty(name)) {
+    
+                                        collectionData[name].push(value);
+    
+                                    } else {
+    
+                                        collectionData[name] = [value];
+                                    }
+    
+                                } else {
+    
+                                    collectionData[name] = value;
+                                    collectionElements.push(el);
+                                }   
                             }
                         });
 
@@ -276,7 +274,7 @@ $(document).ready(function() {
                             }
                         }
                     }
-
+                    console.log(formMethod);
                     if(formMethod == 'POST') {
 
                         ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements);
