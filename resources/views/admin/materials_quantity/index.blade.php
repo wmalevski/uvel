@@ -2,7 +2,7 @@
 
 
 @section('content')
-<div class="modal fade" id="addMQuantity" tabindex="-1" role="dialog" aria-labelledby="addMQuantity"
+<div class="modal fade" id="addMQuantity"   role="dialog" aria-labelledby="addMQuantity"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -55,7 +55,7 @@ aria-hidden="true">
 </div>
 
 
-<div class="modal fade" id="sendMaterial" tabindex="-1" role="dialog" aria-labelledby="sendMaterial"
+<div class="modal fade" id="sendMaterial"   role="dialog" aria-labelledby="sendMaterial"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

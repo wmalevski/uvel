@@ -2,7 +2,7 @@
 
 
 @section('content')
-<div class="modal fade" id="addMaterial" tabindex="-1" role="dialog" aria-labelledby="addMateriallLabel"
+<div class="modal fade" id="addMaterial"   role="dialog" aria-labelledby="addMateriallLabel"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

@@ -3,7 +3,7 @@
 @section('content')
 
 
-<div class="modal fade" id="addStone" tabindex="-1" role="dialog" aria-labelledby="addStoneLabel"
+<div class="modal fade" id="addStone"   role="dialog" aria-labelledby="addStoneLabel"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -86,7 +86,7 @@ aria-hidden="true">
     </div>
 </div>
 
-<div class="modal fade" id="editStone" tabindex="-1" role="dialog" aria-labelledby="editStone"
+<div class="modal fade" id="editStone"   role="dialog" aria-labelledby="editStone"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
