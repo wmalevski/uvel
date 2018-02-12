@@ -68,6 +68,8 @@ $(document).ready(function() {
 
     checkAllForms();
 
+    var currentPressedBtn;
+
     var collectionEditBtns = [].slice.apply(document.querySelectorAll('.edit-btn'));
 
         collectionEditBtns.forEach(function(btn){
@@ -75,6 +77,8 @@ $(document).ready(function() {
             var path = btn.dataset.path;
 
             btn.addEventListener('click', function(){
+
+                currentPressedBtn = this;
 
                 var urlTaken = window.location.href.split('/');
                 var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/' + path;
@@ -279,14 +283,8 @@ $(document).ready(function() {
 
                     } else if(formMethod == 'PUT' ) {
 
-                        ajaxFn(formMethod, ajaxUrl, test, collectionData, collectionElements);
+                        ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements);
                     }
-                    
-                    function test(data, shits) {
-
-                        console.log(data);
-                    }
-
                 });
             })
         }
@@ -371,6 +369,14 @@ $(document).ready(function() {
                     }
                 })
             }
+        }
+
+        function handleUpdateResponse(data, elements) {
+
+            var content = data.table.replace("<tr>","").replace("</tr>","");
+            var tableRow = currentPressedBtn.parentElement.parentElement;
+            
+            tableRow.innerHTML = content;
         }
     }
 });
