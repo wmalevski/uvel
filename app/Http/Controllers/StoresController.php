@@ -99,7 +99,7 @@ class StoresController extends Controller
         
         $store->save();
         
-        return Response::json(array('table' => View::make('admin/stores/edit', array('store' => $store))->render()));
+        return Response::json(array('table' => View::make('admin/stores/table', array('store' => $store))->render()));
     }
 
     /**
