@@ -16,19 +16,18 @@ class SettingsController extends Controller
      */
     public function index()
     {
-        $materials = Materials::groupBy('carat')->get();
+        $materials = Materials::groupBy('name')->get();
         return \View::make('admin/settings/index', array('materials' => $materials));
     }
 
     public function updatePrices(Request $request){
-        foreach($request->carat as $carat => $key){
-            
-            print_r($carat[$key]);
-
+        foreach($request->mat as $mat => $key){
+            //dd($key);
             DB::table('materials')
-            ->where('carat', $carat)
-            ->update(['stock_price' => $key]);
+            ->where('id', '=', $mat)
+            ->update(['stock_price' => $request->stock_price[$key]]);
         }
+        
         return Redirect::back();
     }
 }

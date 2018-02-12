@@ -1,6 +1,8 @@
 
 $(document).ready(function() {
 
+    $('select').select2();
+
     var max_fields      = 10; 
     var wrapper         = $('.model_stones'); 
     var add_button      = $('.add_field_button'); 
