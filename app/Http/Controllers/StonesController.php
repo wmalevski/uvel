@@ -83,9 +83,11 @@ class StonesController extends Controller
      * @param  \App\Stones  $stones
      * @return \Illuminate\Http\Response
      */
-    public function edit(Stones $stones)
+    public function edit(Stones $stones, $stone)
     {
-        //
+        $stone = Stones::find($stone);
+        
+        return Response::json(array('success' => View::make('admin/stones/edit', array('stone' => $stone))->render()));
     }
 
     /**

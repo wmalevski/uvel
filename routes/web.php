@@ -101,4 +101,7 @@ Route::group(['prefix' => 'ajax', 'middleware' => ['role:superadministrator|admi
     Route::put('/materials/{material}', 'MaterialsController@update');
     Route::put('/models/{model}', 'ModelsController@update');
     Route::put('/users/{user}', 'UserController@update');
+
+    Route::put('/stones/{stone}', 'StonesController@update');
+    Route::get('/stones/{stone}', 'StonesController@edit');
 });
