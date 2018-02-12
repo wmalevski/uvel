@@ -79,6 +79,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:superadministrator|adm
 
     Route::get('/settings', 'SettingsController@index')->name('settings');
     Route::post('/settings', 'SettingsController@store');
+    Route::post('/settings/updatePrices', 'SettingsController@updatePrices');
 });
 
 Route::group(['prefix' => 'ajax', 'middleware' => ['role:superadministrator|administrator']], function() {
