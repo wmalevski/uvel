@@ -206,6 +206,14 @@
               </li>
             </ul>
           </li>
+          <li class="nav-item">
+            <a class="sidebar-link" href="{{ route('settings') }}">
+              <span class="icon-holder">
+                <i class="c-brown-500 ti-pencil"></i>
+              </span>
+              <span class="title">Настройки</span>
+            </a>
+          </li>
           {{--  <li class="nav-item">
             <a class="sidebar-link" href="compose.html">
               <span class="icon-holder">
@@ -544,12 +552,6 @@
                 </div>
               </a>
               <ul class="dropdown-menu fsz-sm">
-                <li>
-                  <a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
-                    <i class="ti-settings mR-10"></i>
-                    <span>Настройки</span>
-                  </a>
-                </li>
                 {{--  <li>
                   <a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
                     <i class="ti-user mR-10"></i>

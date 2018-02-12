@@ -79,7 +79,9 @@ aria-hidden="true">
                                         <option value="">Избери</option>
                             
                                         @foreach($stones as $stone)
-                                            <option value="{{ $stone->id }}">{{ $stone->name }}</option>
+                                            <option value="{{ $stone->id }}">
+                                                {{ $stone->name }} ({{ App\Stone_contours::find($stone->contour)->name }}, {{ App\Stone_sizes::find($stone->size)->name }})
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
