@@ -13,8 +13,8 @@ $(document).ready(function() {
             x++;
             $('.model-stones').clone().appendTo(wrapper); 
         }
-    });
-    
+    });      
+
     $(wrapper).on('click', '.remove_field', function(e) { 
 
         e.preventDefault(); 
