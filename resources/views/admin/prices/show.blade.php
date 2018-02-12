@@ -56,7 +56,7 @@ aria-hidden="true">
       <h4 class="c-grey-900 mB-20">Цени Купува</h4>
 
         @if(isset($prices)) 
-        <table class="table table-condensed">
+        <table class="table table-condensed" id="buy">
             <tr>
                 <th>#</th>
                 <th>Име</th> 
@@ -83,7 +83,7 @@ aria-hidden="true">
         <h4 class="c-grey-900 mB-20">Цени Продава</h4>
   
           @if(isset($prices))
-          <table class="table table-condensed">
+          <table class="table table-condensed" id="sell">
               <tr>
                   <th>#</th>
                   <th>Име</th> 

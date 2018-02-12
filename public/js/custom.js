@@ -202,9 +202,8 @@ $(document).ready(function() {
                                 if( name === "_method") {
 
                                     formMethod = value;
-
                                 }
-                                
+
                                 if(elType === "checkbox") {
 
                                     collectionData[name] = el.checked;
@@ -229,7 +228,6 @@ $(document).ready(function() {
                                 }   
                             }
                         });
-
                     }
     
                     // Check the selects
@@ -274,17 +272,17 @@ $(document).ready(function() {
                             }
                         }
                     }
-                    console.log(formMethod);
+
                     if(formMethod == 'POST') {
 
                         ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements);
 
                     } else if(formMethod == 'PUT' ) {
-                        console.log("update");
+
                         ajaxFn(formMethod, ajaxUrl, test, collectionData, collectionElements);
                     }
                     
-                    function test(data) {
+                    function test(data, shits) {
 
                         console.log(data);
                     }
@@ -303,7 +301,7 @@ $(document).ready(function() {
                     if (this.readyState == 4 && this.status == 200) {
         
                         var data = JSON.parse(this.responseText);
-
+                        console.log(data);
                         callback(data, elements); 
         
                     } else if(this.readyState == 4 && this.status == 401) {
@@ -350,7 +348,19 @@ $(document).ready(function() {
                     successContainer.className = "alert alert-success";
     
                     responseHolder.appendChild(successContainer);
-    
+                
+                if(nameForm === 'addPrice') {
+                    
+                    var select = collectionSelects[0];
+                    var tableId = document.querySelector('#' + select.options[select.selectedIndex].value + ' tbody');
+                    console.log(tableId);
+                    tableId.innerHTML += response.success;
+
+                } else {
+                    var tableBody = document.querySelector("table.table tbody");
+                        tableBody.innerHTML += response.success;
+                }
+                
                 elements.forEach(function(el) {
                     
                     var elType = el.getAttribute("type");
@@ -360,9 +370,6 @@ $(document).ready(function() {
                        el.value = "";
                     }
                 })
-    
-                var tableBody = document.querySelector("table.table tbody");
-                    tableBody.innerHTML += response.success;
             }
         }
     }
