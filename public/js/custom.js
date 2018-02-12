@@ -87,7 +87,6 @@ $(document).ready(function() {
         
                         var data = JSON.parse(this.responseText);
                         // callback(data, elements); 
-                        console.log(data);
                         var holder = document.querySelector('#editStore .modal-content');
                         holder.innerHTML = "";
                         holder.innerHTML += data.success;
@@ -111,7 +110,6 @@ $(document).ready(function() {
                         checkAllForms()
                     }
                 , 600);
-
             });
         });
 
@@ -279,12 +277,12 @@ $(document).ready(function() {
                         }
                     }
 
-                    if(formMethod === 'POST') {
+                    if(formMethod == 'POST') {
 
                         ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements);
 
-                    } else if(formMethod === 'PUT' ) {
-
+                    } else if(formMethod == 'PUT' ) {
+                        console.log("update");
                         ajaxFn(formMethod, ajaxUrl, test, collectionData, collectionElements);
                     }
                     
