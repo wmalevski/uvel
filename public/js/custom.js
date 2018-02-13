@@ -1,6 +1,5 @@
 
 $(document).ready(function() {
-
     $('select').select2();
 
     var max_fields      = 10; 
