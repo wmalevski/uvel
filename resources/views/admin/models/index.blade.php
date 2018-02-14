@@ -71,26 +71,22 @@ aria-hidden="true">
                         </div>
                     </div>
                     <div class="model_stones">
-                        <div class="form-row model-stones">        
+                        <div class="form-row fields">
                             <div class="form-group col-md-6">
-                                <div class="form-group">
-                                    <label>Камък: </label>
-                                    <select name="stones[]" class="form-control">
-                                        <option value="">Избери</option>
-                            
-                                        @foreach($stones as $stone)
-                                            <option value="{{ $stone->id }}">
-                                                {{ $stone->name }} ({{ App\Stone_contours::find($stone->contour)->name }}, {{ App\Stone_sizes::find($stone->size)->name }})
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                <label>Камък: </label>
+                                <select name="stones[]" class="form-control">
+                                    <option value="">Избери</option>
+
+                                    @foreach($stones as $stone)
+                                        <option value="{{ $stone->id }}">
+                                            {{ $stone->name }} ({{ App\Stone_contours::find($stone->contour)->name }}, {{ App\Stone_sizes::find($stone->size)->name }})
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-group col-md-6">
-                                <div class="form-group">
-                                    <label for="1">Брой: </label>
-                                    <input type="text" class="form-control" id="1" name="stone_amount[]" placeholder="Брой:">
-                                </div>
+                                <label for="1">Брой: </label>
+                                <input type="text" class="form-control" name="stone_amount[]" placeholder="Брой">
                             </div>
                         </div>
                     </div>
