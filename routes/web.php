@@ -37,6 +37,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:superadministrator|adm
     Route::get('/stones', 'StonesController@index')->name('stones');
     Route::post('/stones', 'StonesController@store');
 
+    Route::get('/stones/{stone}', 'StonesController@edit');
+
     Route::get('/stores', 'StoresController@index')->name('stores');
     Route::post('/stores', 'StoresController@store');
 

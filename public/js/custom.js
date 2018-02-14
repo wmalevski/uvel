@@ -12,7 +12,7 @@ $(document).ready(function() {
         e.preventDefault();
         if(x < max_fields) { 
             x++;
-            $('.model-stones').clone().appendTo(wrapper); 
+            $($('.model-stones .fields')[0]).clone().appendTo(wrapper);
         }
     });      
 
