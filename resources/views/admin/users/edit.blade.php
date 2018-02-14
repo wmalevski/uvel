@@ -5,7 +5,7 @@
     </button>
 </div>
 
-<form method="POST" action="/ajax/users/{{ $user->id }}">
+<form method="POST" name="edit" action="/users/{{ $user->id }}">
     <input name="_method" type="hidden" value="PUT">
     <div class="modal-body">    
         <div class="info-cont">
@@ -25,7 +25,7 @@
 
         <div class="form-group">
             <label>Магазин: </label>
-            <select name="material" class="form-control">
+            <select name="store" class="form-control">
                 <option value="">Избер магазин</option>
         
                 @foreach($stores as $store)

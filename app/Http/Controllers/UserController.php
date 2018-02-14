@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Stores;
 use Illuminate\Http\Request;
+use Response;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
@@ -38,12 +42,11 @@ class UserController extends Controller
     {
         $user = User::find($user);
         
-        // $store->name = $request->name;
-        // $store->location = $request->location;
-        // $store->phone = $request->phone;
+        $user->name = $request->name;
+        $user->store = $request->store;
         
-        // $store->save();
+        $user->save();
         
-        //return Response::json( View::make('admin/stores/edit', array('store' => $store))->render());
+        return Response::json( View::make('admin/users/table', array('user' => $user))->render());
     }
 }
