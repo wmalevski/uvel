@@ -22,12 +22,11 @@ class SettingsController extends Controller
 
     public function updatePrices(Request $request){
         foreach($request->mat as $mat => $key){
-            //dd($key);
-            DB::table('materials')
-            ->where('id', '=', $mat)
-            ->update(['stock_price' => $request->stock_price[$key]]);
+            $material = Materials::find($key);
+            $material->stock_price = $request->stock_price[$mat];
+            $material->save();
         }
-        
+
         return Redirect::back();
     }
 }
