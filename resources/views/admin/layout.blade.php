@@ -608,5 +608,4 @@
   <script type="text/javascript" src="{{ URL::asset('js/custom.js') }}"></script>
   @yield('footer-scripts')
 </body>
-
 </html>
