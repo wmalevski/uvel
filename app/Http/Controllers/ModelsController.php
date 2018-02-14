@@ -60,6 +60,12 @@ class ModelsController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
+        foreach($request->images as $img){
+            echo $img;
+        }
+
+        die;
+
         $model = Models::create($request->all());
 
         foreach($request->stones as $key => $stone){
