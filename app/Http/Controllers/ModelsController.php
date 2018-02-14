@@ -32,13 +32,13 @@ class ModelsController extends Controller
         $pass_stones = array();
         
         foreach($stones as $stone){
-            $pass_stones[] = (object)[
+            $pass_stones[] = [
                 'value' => $stone->id,
                 'label' => $stone->name
             ];
         }
 
-        return \View::make('admin/models/index', array('jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES ), 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones));
+        return \View::make('admin/models/index', array('jsStones' =>  json_encode($pass_stones), 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones));
     }
 
     /**
