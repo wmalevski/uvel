@@ -24,9 +24,9 @@ var uvel,
         addButton = addModelForm.find('.add_field_button'),
         fields = addModelForm.find('.model_stones .fields'),
         fieldsWrapper = addModelForm.find('.model_stones'),
-        stonesData = $('#stones_data').length > 0 ? JSON.parse(JSON.stringify($('#stones_data'))) : null;
+        stonesData = $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null;
 
-      console.log(stonesData);
+        console.log(stonesData);
 
       //Add Fields
       addButton.on('click', function(e) {

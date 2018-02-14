@@ -156,9 +156,6 @@ aria-hidden="true">
 
 @section('footer-scripts')
 <script id="stones_data" type="application/json">
-    {
-        "stones": {!! $jsStones !!}
-    }
-
+ {!! $jsStones !!}
 </script>
 @endsection
