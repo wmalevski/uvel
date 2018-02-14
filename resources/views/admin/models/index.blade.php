@@ -153,3 +153,9 @@ aria-hidden="true">
     @endforeach
 </table>
 @endsection
+
+@section('footer-scripts')
+<script>
+    var stones = {!! $jsStones !!};
+</script>
+@endsection

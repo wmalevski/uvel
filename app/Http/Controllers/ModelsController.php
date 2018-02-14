@@ -29,7 +29,16 @@ class ModelsController extends Controller
         $prices = Prices::all();
         $stones = Stones::all();
 
-        return \View::make('admin/models/index', array('jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones));
+        $pass_stones = array();
+        
+        foreach($stones as $stone){
+            $pass_stones[] = (object)[
+                'value' => $stone->id,
+                'label' => $stone->name
+            ];
+        }
+
+        return \View::make('admin/models/index', array('jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES ), 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones));
     }
 
     /**
