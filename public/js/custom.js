@@ -1,27 +1,87 @@
 
-$(document).ready(function() {
-    $('select').select2();
+var uvel,
+  uvelController = function () {
+    var $self = this,
+      $window = $(window);
 
-    var max_fields      = 10; 
-    var wrapper         = $('.model_stones'); 
-    var add_button      = $('.add_field_button'); 
-    
-    var x = 1; 
+    this.init = function () {
+      $self.initializeSelect();
+      $self.addModelstoneFields();
+    };
 
-    $(add_button).click(function(e) { 
+
+    this.initializeSelect = function () {
+      $('select').select2();
+
+      $('body').on('DOMNodeInserted', 'select', function() {
+        $(this).select2();
+      })
+    }
+
+    this.addModelstoneFields = function () {
+      var maxFields = 10,
+        addModelForm = $('form[name="addModel"]'),
+        addButton = addModelForm.find('.add_field_button'),
+        fields = addModelForm.find('.model_stones .fields'),
+        fieldsWrapper = addModelForm.find('.model_stones'),
+        stonesData = $('#stones_data').length > 0 ? JSON.parse($('#stones_data')) : null;
+
+      console.log(stonesData);
+
+      //Add Fields
+      addButton.on('click', function(e) {
         e.preventDefault();
-        if(x < max_fields) { 
-            x++;
-            $($('.model-stones .fields')[0]).clone().appendTo(wrapper);
+
+        if(fields.length <= maxFields) {
+          $(fields[0]).clone().appendTo(fieldsWrapper);
         }
-    });      
+      });
 
-    $(wrapper).on('click', '.remove_field', function(e) { 
+      //Remove Fields
+      $(fieldsWrapper).on('click', '.remove_field', function() {
+        e.preventDefault();
+        $(this).parent().remove();
+      })
+    }
+  };
 
-        e.preventDefault(); 
-        $(this).parent('div').remove(); 
-        x--;
-    });
+$(function () {
+  if (!window.console) window.console = {};
+  if (!window.console.log) window.console.log = function () {
+  };
+  if (!window.console.info) window.console.info = function () {
+  };
+
+  uvel = new uvelController();
+  uvel.init();
+});
+
+
+
+
+$(document).ready(function() {
+    //$('select').select2();
+    //
+    //var max_fields      = 10;
+    //var wrapper         = $('.model_stones');
+    //var add_button      = $('.add_field_button');
+    //
+    //var x = 1;
+    //
+    //$(add_button).click(function(e) {
+    //    e.preventDefault();
+    //    if(x < max_fields) {
+    //        x++;
+    //        $($('.model-stones .fields')[0]).clone().appendTo(wrapper);
+    //    }
+    //});
+    //
+    //$(wrapper).on('click', '.remove_field', function(e) {
+    //
+    //    e.preventDefault();
+    //    $(this).parent('div').remove();
+    //    x--;
+    //});
 
     var select_input = $('#jewel');
     var disabled_input = $('.disabled-first');
