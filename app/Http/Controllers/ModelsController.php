@@ -34,7 +34,7 @@ class ModelsController extends Controller
         foreach($stones as $stone){
             $pass_stones[] = [
                 'value' => $stone->id,
-                'label' => $stone->name
+                'label' => $stone->name.' ('.\App\Stone_contours::find($stone->contour)->name.', '.\App\Stone_sizes::find($stone->size)->name.' )'
             ];
         }
 
@@ -69,11 +69,11 @@ class ModelsController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        foreach($request->images as $img){
-            echo $img;
-        }
+        // foreach($request->images as $img){
+        //     echo $img;
+        // }
 
-        die;
+        // die;
 
         $model = Models::create($request->all());
 
