@@ -30,7 +30,7 @@ aria-hidden="true">
                 
                     <div class="form-group">
                         <label for="weight">Тегло: </label>
-                        <input type="text" class="form-control" id="weight" name="weight" placeholder="Тегло:">
+                        <input type="number" class="form-control" id="weight" name="weight" placeholder="Тегло:">
                     </div>
                 
                     <div class="form-group">
@@ -68,7 +68,7 @@ aria-hidden="true">
                 
                     <div class="form-group">
                         <label for="4">Количество: </label>
-                        <input type="text" class="form-control" id="4" name="amount" placeholder="Количество:">
+                        <input type="number" class="form-control" id="4" name="amount" placeholder="Количество:">
                     </div>
                 
                     <div class="form-group">

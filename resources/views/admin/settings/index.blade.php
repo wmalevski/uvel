@@ -13,7 +13,7 @@
                     @foreach($materials as $material)
                         <div class="form-group col-md-2">
                             {{ $material->name }} {{ $material->carat }}к
-                            цена: <input type="text" class="form-control" name="stock_price[]" value="{{ $material->stock_price }}">
+                            цена: <input type="number" class="form-control" name="stock_price[]" value="{{ $material->stock_price }}">
                             <input type="hidden" class="form-control" name="mat[]" value="{{ $material->id }}">
                             <input type="hidden" class="form-control" name="carat[]" value="{{ $material->carat }}">
                         </div>

@@ -27,13 +27,19 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="2">Проба: </label>
-                            <input type="text" class="form-control" id="2" name="code" placeholder="Проба:">
+                            <input type="number" class="form-control" id="2" name="code" placeholder="Проба:">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="3">Цвят: </label>
                             <input type="text" class="form-control" id="3" name="color" placeholder="Цвят:">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="3">Карат: </label>
+                            <input type="number" class="form-control" id="4" name="carat" placeholder="Карати:">
                         </div>
                     </div>
                     <div id="errors-container"></div>
