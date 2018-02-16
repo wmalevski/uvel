@@ -9,7 +9,8 @@
 
 <h3>Промени модел</h3>
 
-<form method="POST" action="">
+<form method="POST" name="edit" action="/models/{{ $model->id }}">
+    <input name="_method" type="hidden" value="PUT">
     {{ csrf_field() }}
 
     <div class="form-group">

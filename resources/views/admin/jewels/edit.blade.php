@@ -9,7 +9,8 @@
 
 <h3>Промени бижу</h3>
 
-<form method="POST" action="">
+<form method="POST" name="edit" action="/jewels/{{ $jewel->id }}">
+    <input name="_method" type="hidden" value="PUT">
     {{ csrf_field() }}
 
     <div class="form-group">

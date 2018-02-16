@@ -8,7 +8,8 @@
 @section('content')
 <h3>Редактиране на материал: {{ $material->name }}</h3>
 
-<form method="POST" class="form-inline" action="">
+<form method="POST" class="form-inline" name="edit" action="/materials/{{ $material->id }}">
+    <input name="_method" type="hidden" value="PUT">
     {{ csrf_field() }}
 
     <div class="form-group">
