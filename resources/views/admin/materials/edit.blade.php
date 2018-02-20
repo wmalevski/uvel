@@ -1,11 +1,3 @@
-@extends('layouts.shop')
-@section('aimeos_scripts')
-@parent
-<script type="text/javascript" src="<?php echo asset('packages/aimeos/shop/themes/aimeos-detail.js'); ?>"></script>
-@stop
-
-
-@section('content')
 <h3>Редактиране на материал: {{ $material->name }}</h3>
 
 <form method="POST" class="form-inline" name="edit" action="/materials/{{ $material->id }}">
@@ -33,4 +25,3 @@
 @foreach ($errors->all() as $message)
     <div class="bg-danger"> {{ $message }} </div>
 @endforeach
-@endsection

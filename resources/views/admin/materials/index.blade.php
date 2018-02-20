@@ -1,6 +1,5 @@
 @extends('admin.layout')
 
-
 @section('content')
 <div class="modal fade" id="addMaterial"   role="dialog" aria-labelledby="addMateriallLabel"
 aria-hidden="true">
