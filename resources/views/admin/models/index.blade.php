@@ -46,7 +46,7 @@ aria-hidden="true">
 
                         <div class="form-group col-md-6">
                             <label>Цена на едро: </label>
-                            <select id="wholesale_price" name="wholesale_price" class="form-control disabled-first calculate" disabled>
+                            <select id="wholesale_price" name="wholesale_price" class="form-control disabled-first" disabled>
                                 <option value="">Избери</option>
                         
                                 @foreach($prices->where('type', 'buy') as $price)
@@ -59,7 +59,7 @@ aria-hidden="true">
                         <div class="form-group col-md-6">
                             <div class="form-group">
                                 <label for="1">Тегло: </label>
-                                <input type="number" class="form-control calculate" id="1" name="weight" placeholder="Тегло:">
+                                <input type="number" class="form-control calculate" id="weight" name="weight" placeholder="Тегло:">
                             </div>
                         </div>
 

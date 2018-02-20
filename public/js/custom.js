@@ -6,7 +6,7 @@ var uvel,
     this.init = function () {
       $self.initializeSelect($('select'));
       $self.addAndRemoveFields($('form[name="addModel"]'));
-
+      $self.checkAllForms();
     };
 
     this.initializeSelect = function (select) {
@@ -63,6 +63,271 @@ var uvel,
         })
       })
     }
+
+    this.checkAllForms = function() {
+
+      var collectionBtns = document.querySelectorAll('.modal-dialog .modal-footer button[type="submit"]');
+      var urlTaken = window.location.href.split('/');
+      var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
+      var token = $('meta[name="csrf-token"]').attr('content');
+      var form;
+      var nameForm;
+
+      var collectionModelPrice = [].slice.apply(document.querySelectorAll('.calculate'));
+
+      if (collectionModelPrice.length) {
+
+        var typeJewery = collectionModelPrice[0]
+        var price = collectionModelPrice[1];
+        var weight = collectionModelPrice[2];
+
+        collectionModelPrice.forEach(function (el) {
+          if(el.tagName === 'SELECT') {
+            $(el).on('select2:select', function(e) {
+              calculatePrice();
+            })
+          } else {
+            el.addEventListener('change', function (ev) {
+              calculatePrice();
+            });
+          }
+        })
+      }
+
+      if (collectionBtns.length) {
+
+        collectionBtns.forEach(function (btn) {
+
+          btn.style.border = '1px solid yellow';
+
+          btn.addEventListener('click', function (ev) {
+
+            ev.preventDefault();
+
+            form = ev.target.parentElement.parentElement;
+            nameForm = form.getAttribute('name');
+
+            var urlAction = form.getAttribute('action'),
+              formMethod = 'POST',
+              ajaxUrl = url + urlAction;
+            collectionInputs = [].slice.apply(document.forms[nameForm].getElementsByTagName('input'));
+            collectionSelects = [].slice.apply(document.forms[nameForm].getElementsByTagName('select'));
+            collectionElements = [];
+
+            var collectionData = {_token: token};
+
+            // Check the inputs
+
+            if (collectionInputs.length != 0) {
+
+              collectionInputs.map(function (el) {
+
+                if (el != 'undefined') {
+
+                  var name = el.getAttribute('name');
+                  var value = el.value;
+                  var elType = el.getAttribute('type');
+
+                  if (name === '_method') {
+
+                    formMethod = value;
+                  }
+
+                  if (elType === 'checkbox') {
+
+                    collectionData[name] = el.checked;
+
+                  } else if (name.includes('[]')) {
+
+                    name = name.replace('[]', '');
+
+                    if (collectionData.hasOwnProperty(name)) {
+
+                      collectionData[name].push(value);
+
+                    } else {
+
+                      collectionData[name] = [value];
+                    }
+
+                  } else {
+
+                    collectionData[name] = value;
+                    collectionElements.push(el);
+                  }
+                }
+              });
+            }
+
+            // Check the selects
+
+            if (collectionSelects.length != 0) {
+
+              for (var i = 0; i <= collectionSelects.length; i += 1) {
+
+                var el = collectionSelects[i];
+
+                if (typeof  el != 'undefined') {
+
+                  var name = el.getAttribute('name');
+                  var value;
+
+                  if (el.options && el.options[el.selectedIndex]) {
+
+                    value = el.options[el.selectedIndex].value;
+
+                  } else {
+
+                    value = '';
+                  }
+
+                  if (name.includes('[]')) {
+
+                    name = name.replace('[]', '');
+
+                    if (collectionData.hasOwnProperty(name)) {
+
+                      collectionData[name].push(value);
+                    } else {
+
+                      collectionData[name] = [value];
+                    }
+                  } else {
+
+
+                    collectionData[name] = value;
+                    collectionElements.push(collectionSelects[i]);
+                  }
+                }
+              }
+            }
+
+            if (formMethod == 'POST') {
+
+              ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements);
+
+            } else if (formMethod == 'PUT') {
+
+              ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements);
+            }
+
+          });
+        })
+      }
+
+      function calculatePrice() {
+        var typeJeweryData = typeJewery.options[typeJewery.selectedIndex].getAttribute('data-pricebuy'),
+          priceData = price.options[price.selectedIndex].getAttribute('data-retail'),
+          weightData = weight.value;
+
+        var inputDev = document.getElementById('inputDev'),
+          inputPrice = document.getElementById('inputPrice');
+
+        if (typeJeweryData && priceData && weightData) {
+
+          var priceDev = (priceData - typeJeweryData) * weightData;
+          var productPrice = (priceData * weightData);
+
+          inputDev.value = priceDev;
+          inputPrice.value = productPrice;
+
+        } else {
+          inputDev.value = '0';
+          inputPrice.value = '0';
+        }
+      }
+
+      function ajaxFn(method, url, callback, dataSend, elements) {
+
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.open(method, url, true);
+        xhttp.onreadystatechange = function () {
+
+          if (this.readyState == 4 && this.status == 200) {
+
+            var data = JSON.parse(this.responseText);
+            console.log(data);
+            callback(data, elements);
+
+          } else if (this.readyState == 4 && this.status == 401) {
+
+            var data = JSON.parse(this.responseText);
+
+            callback(data);
+          }
+        };
+
+        xhttp.setRequestHeader('Content-Type', 'application/json');
+        xhttp.setRequestHeader('X-CSRF-TOKEN', token);
+        xhttp.send(JSON.stringify(dataSend));
+      }
+
+      function handleResponsePost(response, elements) {
+
+        var responseHolder = document.forms[nameForm].firstElementChild.firstElementChild;
+        responseHolder.innerHTML = '';
+
+        if (response.hasOwnProperty('errors')) {
+
+          var holder = document.createDocumentFragment();
+          var errors = response.errors;
+
+          for (var err in errors) {
+
+            var collectionErr = errors[err];
+
+            collectionErr.forEach(function (msg) {
+
+              var errorContainer = document.createElement('div');
+              errorContainer.innerText = msg;
+              errorContainer.className = 'alert alert-danger';
+              holder.appendChild(errorContainer);
+            })
+          }
+          responseHolder.appendChild(holder);
+
+        } else {
+
+          var successContainer = document.createElement('div');
+          successContainer.innerText = 'Успешно добавихте';
+          successContainer.className = 'alert alert-success';
+
+          responseHolder.appendChild(successContainer);
+
+          if (nameForm === 'addPrice') {
+
+            var select = collectionSelects[0];
+            var tableId = document.querySelector('#' + select.options[select.selectedIndex].value + ' tbody');
+            console.log(tableId);
+            tableId.innerHTML += response.success;
+
+          } else {
+            var tableBody = document.querySelector('table.table tbody');
+            tableBody.innerHTML += response.success;
+          }
+
+          elements.forEach(function (el) {
+
+            var elType = el.getAttribute('type');
+
+            if (typeof el != null && elType !== 'hidden') {
+
+              el.value = '';
+            }
+          })
+        }
+      }
+
+      function handleUpdateResponse(data, elements) {
+
+        var content = data.table.replace('<tr>', '').replace('</tr>', '');
+        var tableRow = currentPressedBtn.parentElement.parentElement;
+
+        tableRow.innerHTML = content;
+      }
+    }
+
   };
 
 $(function () {
@@ -122,7 +387,6 @@ $(document).ready(function () {
     }
   });
 
-  checkAllForms();
 
   var currentPressedBtn;
 
@@ -172,266 +436,4 @@ $(document).ready(function () {
     });
   });
 
-  function checkAllForms() {
-
-    var collectionBtns = document.querySelectorAll('.modal-dialog .modal-footer button[type="submit"]');
-    var urlTaken = window.location.href.split('/');
-    var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
-    var token = $('meta[name="csrf-token"]').attr('content');
-    var form;
-    var nameForm
-
-    var collectionModelPrice = document.querySelectorAll('.calculate');
-
-    if (collectionModelPrice.length) {
-
-      var typeJewery = collectionModelPrice[0];
-      var price = collectionModelPrice[1];
-      var weight = collectionModelPrice[2];
-
-      collectionModelPrice.forEach(function (el) {
-
-        el.addEventListener('change', function (ev) {
-
-          var typeJeweryData = typeJewery.options[typeJewery.selectedIndex].getAttribute('data-pricebuy'),
-            priceData = price.options[price.selectedIndex].getAttribute('data-retail'),
-            weightData = weight.value;
-
-          var priceDevTag = document.getElementById('priceDev'),
-            inputDev = document.getElementById('inputDev'),
-            priceTag = document.getElementById('price'),
-            inputPrice = document.getElementById('inputPrice');
-
-          if (typeJeweryData && priceData && weightData) {
-
-            var priceDev = (priceData - typeJeweryData) * weightData;
-            var productPrice = (priceData * weightData);
-
-            priceDevTag.innerText = priceDev;
-            priceTag.innerText = productPrice;
-
-            inputDev.value = priceDev;
-            inputPrice.value = productPrice;
-
-          } else {
-
-            priceDevTag.innerText = '0';
-            priceTag.innerText = '0';
-            inputDev.value = '0';
-            inputPrice.value = '0';
-          }
-        });
-      })
-    }
-
-    if (collectionBtns.length) {
-
-      collectionBtns.forEach(function (btn) {
-
-        btn.style.border = '1px solid yellow';
-
-        btn.addEventListener('click', function (ev) {
-
-          ev.preventDefault();
-
-          form = ev.target.parentElement.parentElement;
-          nameForm = form.getAttribute('name');
-
-          var urlAction = form.getAttribute('action'),
-            formMethod = 'POST',
-            ajaxUrl = url + urlAction;
-          collectionInputs = [].slice.apply(document.forms[nameForm].getElementsByTagName('input'));
-          collectionSelects = [].slice.apply(document.forms[nameForm].getElementsByTagName('select'));
-          collectionElements = [];
-
-          var collectionData = {_token: token};
-
-          // Check the inputs
-
-          if (collectionInputs.length != 0) {
-
-            collectionInputs.map(function (el) {
-
-              if (el != 'undefined') {
-
-                var name = el.getAttribute('name');
-                var value = el.value;
-                var elType = el.getAttribute('type');
-
-                if (name === '_method') {
-
-                  formMethod = value;
-                }
-
-                if (elType === 'checkbox') {
-
-                  collectionData[name] = el.checked;
-
-                } else if (name.includes('[]')) {
-
-                  name = name.replace('[]', '');
-
-                  if (collectionData.hasOwnProperty(name)) {
-
-                    collectionData[name].push(value);
-
-                  } else {
-
-                    collectionData[name] = [value];
-                  }
-
-                } else {
-
-                  collectionData[name] = value;
-                  collectionElements.push(el);
-                }
-              }
-            });
-          }
-
-          // Check the selects
-
-          if (collectionSelects.length != 0) {
-
-            for (var i = 0; i <= collectionSelects.length; i += 1) {
-
-              var el = collectionSelects[i];
-
-              if (typeof  el != 'undefined') {
-
-                var name = el.getAttribute('name');
-                var value;
-
-                if (el.options && el.options[el.selectedIndex]) {
-
-                  value = el.options[el.selectedIndex].value;
-
-                } else {
-
-                  value = '';
-                }
-
-                if (name.includes('[]')) {
-
-                  name = name.replace('[]', '');
-
-                  if (collectionData.hasOwnProperty(name)) {
-
-                    collectionData[name].push(value);
-                  } else {
-
-                    collectionData[name] = [value];
-                  }
-                } else {
-
-
-                  collectionData[name] = value;
-                  collectionElements.push(collectionSelects[i]);
-                }
-              }
-            }
-          }
-
-          if (formMethod == 'POST') {
-
-            ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements);
-
-          } else if (formMethod == 'PUT') {
-
-            ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements);
-          }
-        });
-      })
-    }
-
-    function ajaxFn(method, url, callback, dataSend, elements) {
-
-      var xhttp = new XMLHttpRequest();
-
-      xhttp.open(method, url, true);
-      xhttp.onreadystatechange = function () {
-
-        if (this.readyState == 4 && this.status == 200) {
-
-          var data = JSON.parse(this.responseText);
-          console.log(data);
-          callback(data, elements);
-
-        } else if (this.readyState == 4 && this.status == 401) {
-
-          var data = JSON.parse(this.responseText);
-
-          callback(data);
-        }
-      };
-
-      xhttp.setRequestHeader('Content-Type', 'application/json');
-      xhttp.setRequestHeader('X-CSRF-TOKEN', token);
-      xhttp.send(JSON.stringify(dataSend));
-    }
-
-    function handleResponsePost(response, elements) {
-
-      var responseHolder = document.forms[nameForm].firstElementChild.firstElementChild;
-      responseHolder.innerHTML = '';
-
-      if (response.hasOwnProperty('errors')) {
-
-        var holder = document.createDocumentFragment();
-        var errors = response.errors;
-
-        for (var err in errors) {
-
-          var collectionErr = errors[err];
-
-          collectionErr.forEach(function (msg) {
-
-            var errorContainer = document.createElement('div');
-            errorContainer.innerText = msg;
-            errorContainer.className = 'alert alert-danger';
-            holder.appendChild(errorContainer);
-          })
-        }
-        responseHolder.appendChild(holder);
-
-      } else {
-
-        var successContainer = document.createElement('div');
-        successContainer.innerText = 'Успешно добавихте';
-        successContainer.className = 'alert alert-success';
-
-        responseHolder.appendChild(successContainer);
-
-        if (nameForm === 'addPrice') {
-
-          var select = collectionSelects[0];
-          var tableId = document.querySelector('#' + select.options[select.selectedIndex].value + ' tbody');
-          console.log(tableId);
-          tableId.innerHTML += response.success;
-
-        } else {
-          var tableBody = document.querySelector('table.table tbody');
-          tableBody.innerHTML += response.success;
-        }
-
-        elements.forEach(function (el) {
-
-          var elType = el.getAttribute('type');
-
-          if (typeof el != null && elType !== 'hidden') {
-
-            el.value = '';
-          }
-        })
-      }
-    }
-
-    function handleUpdateResponse(data, elements) {
-
-      var content = data.table.replace('<tr>', '').replace('</tr>', '');
-      var tableRow = currentPressedBtn.parentElement.parentElement;
-
-      tableRow.innerHTML = content;
-    }
-  }
 });
