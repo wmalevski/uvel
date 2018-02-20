@@ -15,7 +15,6 @@ var uvel,
 
     //todo: refactor when it's starts being used for another form, so it's not hardcoded
     this.addAndRemoveFields = function (form) {
-      console.log(form);
       form.each(function() {
         var currentForm = $(this),
           maxFields = 10,
