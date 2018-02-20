@@ -6,57 +6,62 @@ var uvel,
     this.init = function () {
       $self.initializeSelect($('select'));
       $self.addAndRemoveFields($('form[name="addModel"]'));
+
     };
 
     this.initializeSelect = function (select) {
       select.select2();
     }
 
-    //todo: refactor when it's starts being used for another form, so
+    //todo: refactor when it's starts being used for another form, so it's not hardcoded
     this.addAndRemoveFields = function (form) {
-      var maxFields = 10,
-          addButton = $(form[0]).find('.add_field_button'),
-          fields = $(form[0]).find('.fields'),
-          fieldsWrapper = $(form[0]).find('.model_stones'),
+      console.log(form);
+      form.each(function() {
+        var currentForm = $(this),
+          maxFields = 10,
+          addButton = currentForm.find('.add_field_button'),
+          fields = currentForm.find('.fields'),
+          fieldsWrapper = currentForm.find('.model_stones'),
           stonesData = $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null;
 
 
-      //Add Fields
-      addButton.on('click', function (e) {
-        e.preventDefault();
+        //Add Fields
+        addButton.on('click', function (e) {
+          e.preventDefault();
 
-        if (fields.length <= maxFields) {
-          var fieldsHolder = document.createElement('div');
-          fieldsHolder.classList.add('form-row', 'fields');
+          if (fields.length <= maxFields) {
+            var fieldsHolder = document.createElement('div');
+            fieldsHolder.classList.add('form-row', 'fields');
 
-          var newFields =
-            '<div class="form-group col-md-6">' +
-            '<label>Камък:</label>' +
-            '<select name="stones[]" class="form-control">';
+            var newFields =
+              '<div class="form-group col-md-6">' +
+              '<label>Камък:</label>' +
+              '<select name="stones[]" class="form-control">';
 
-          stonesData.forEach(function (option) {
-            newFields += `<option value=${option.value}>${option.label}</option>`
-          })
+            stonesData.forEach(function (option) {
+              newFields += `<option value=${option.value}>${option.label}</option>`
+            })
 
-          newFields +=
-            '</select>' +
-            '</div>' +
-            '<div class="form-group col-md-6">' +
-            '<label>Брой:</label>' +
-            '<input type="text" class="form-control" name="stone_amount[]" placeholder="Брой">' +
-            '</div>';
+            newFields +=
+              '</select>' +
+              '</div>' +
+              '<div class="form-group col-md-6">' +
+              '<label>Брой:</label>' +
+              '<input type="text" class="form-control" name="stone_amount[]" placeholder="Брой">' +
+              '</div>';
 
-          fieldsHolder.innerHTML = newFields;
-          fieldsWrapper.append(fieldsHolder);
+            fieldsHolder.innerHTML = newFields;
+            fieldsWrapper.append(fieldsHolder);
 
-          $self.initializeSelect(fieldsWrapper.find('select'));
-        }
-      });
+            $self.initializeSelect(fieldsWrapper.find('select'));
+          }
+        });
 
-      //Remove Fields
-      $(fieldsWrapper).on('click', '.remove_field', function () {
-        e.preventDefault();
-        $(this).parent().remove();
+        //Remove Fields
+        $(fieldsWrapper).on('click', '.remove_field', function () {
+          e.preventDefault();
+          $(this).parent().remove();
+        })
       })
     }
   };
@@ -72,7 +77,7 @@ $(function () {
   uvel.init();
 });
 
-
+//todo: IN PROGRESS refactor this in RBD WAY
 $(document).ready(function () {
   var select_input = $('#jewel');
   var disabled_input = $('.disabled-first');
