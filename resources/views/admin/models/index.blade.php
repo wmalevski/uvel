@@ -59,14 +59,14 @@ aria-hidden="true">
                         <div class="form-group col-md-6">
                             <div class="form-group">
                                 <label for="1">Тегло: </label>
-                                <input type="text" class="form-control calculate" id="1" name="weight" placeholder="Тегло:">
+                                <input type="number" class="form-control calculate" id="1" name="weight" placeholder="Тегло:">
                             </div>
                         </div>
 
                         <div class="form-group col-md-6">
                             <div class="form-group">
                                 <label for="1">Размер: </label>
-                                <input type="text" class="form-control" id="1" name="size" placeholder="Размер:">
+                                <input type="number" class="form-control" id="1" name="size" placeholder="Размер:">
                             </div>
                         </div>
                     </div>
@@ -86,7 +86,7 @@ aria-hidden="true">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="1">Брой: </label>
-                                <input type="text" class="form-control" name="stone_amount[]" placeholder="Брой">
+                                <input type="number" class="form-control" name="stone_amount[]" placeholder="Брой">
                             </div>
                         </div>
                     </div>
@@ -100,14 +100,14 @@ aria-hidden="true">
                         <div class="form-group col-md-6">
                             <div class="form-group">
                                 <label>Избработка:</label>
-                                <input id="inputDev" type="text" class="form-control" value="0" name="workmanship">
+                                <input id="inputDev" type="number" class="form-control" value="0" name="workmanship">
                             </div>
                         </div>
                         
                          <div class="form-group col-md-6">
                             <div class="form-group">
                                 <label>Цена:</label>
-                                <input id="inputPrice" type="text" class="form-control" value="0" name="price">
+                                <input id="inputPrice" type="number" class="form-control" value="0" name="price">
                             </div>
                         </div>
                     </div>

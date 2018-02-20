@@ -1,15 +1,7 @@
-@extends('layouts.shop')
-@section('aimeos_scripts')
-@parent
-<script type="text/javascript" src="<?php echo asset('packages/aimeos/shop/themes/aimeos-detail.js'); ?>"></script>
-@stop
-
-
-@section('content')
-
 <h3>Промени модел</h3>
 
-<form method="POST" action="">
+<form method="POST" name="edit" action="/models/{{ $model->id }}">
+    <input name="_method" type="hidden" value="PUT">
     {{ csrf_field() }}
 
     <div class="form-group">
@@ -51,4 +43,3 @@
     
     <button type="submit" class="btn btn-default">Промени</button>
 </form>
-@endsection

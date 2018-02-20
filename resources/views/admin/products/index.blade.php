@@ -1,13 +1,12 @@
 @extends('admin.layout')
 
-
 @section('content')
 <div class="modal fade" id="addProduct"   role="dialog" aria-labelledby="addProductlLabel"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addProductLabel">Добавяне на материал</h5>
+                <h5 class="modal-title" id="addProductLabel">Добавяне на продукт</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
