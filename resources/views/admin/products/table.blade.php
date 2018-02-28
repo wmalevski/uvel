@@ -2,9 +2,9 @@
     <td> {{ $product->code }} </td>
     <td> {{ $product->name }} </td>
     <td> {{ App\Jewels::find(App\Models::find($product->model)->jewel)->name }} </td> 
-    <td> {{ App\Prices::find($product->price_list)->price }} </td> 
+    <td> {{ App\Prices::find($product->retail_price)->price }} </td> 
     <td> {{ $product->weight }} </td>
-    <td> {{ (App\Prices::find($product->price_list)->price)*$product->weight }} </td>
+    <td> {{ (App\Prices::find($product->retail_price)->price)*$product->weight }} </td>
     <td><a href="models/{{$product->id}}" class="edit-btn" data-toggle="modal" data-target="#editModel"><i class="c-brown-500 ti-pencil"></i></a></td>
 </tr>
 

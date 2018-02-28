@@ -38,12 +38,21 @@ aria-hidden="true">
                             <option value="{{ $jewel->id }}" data-price="{{ $jewel->material }}">{{ $jewel->name }}</option>
                         @endforeach
                     </select>
+
+                    <label>Цена на дребно: </label>
+                    <select id="retail_price" name="retail_price" class="form-control disabled-first calculate" disabled>
+                        <option value="">Избери</option>
                 
+                        @foreach($prices->where('type', 'sell') as $price)
+                            <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
+                        @endforeach
+                    </select>
+                    
                     <label>Цена на едро: </label>
                     <select name="wholesale_price" class="form-control disabled-first" disabled>
                         <option value="">Избери</option>
                 
-                        @foreach($prices->where('type', 'sell') as $price)
+                        @foreach($prices->where('type', 'buy') as $price)
                             <option value="{{ $price->id }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
                         @endforeach
                     </select>

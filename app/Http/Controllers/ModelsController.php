@@ -91,7 +91,8 @@ class ModelsController extends Controller
             $product->model = $model->id;
             $product->type = $request->jewel;
             $product->weight = $request->weight;
-            $product->price_list = $request->retail_price;
+            $product->retail_price = $request->retail_price;
+            $product->wholesale_price  = $request->wholesale_price;
             $product->size = $request->size;
             $product->workmanship = $request->workmanship;
             $product->price = $request->price;
