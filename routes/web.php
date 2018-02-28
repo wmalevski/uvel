@@ -87,14 +87,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:superadministrator|adm
     Route::post('/settings/updatePrices', 'SettingsController@updatePrices');
 });
 
-Route::group(['prefix' => 'ajax', 'middleware' => ['role:superadministrator|administrator']], function() {
+//Route::group(['prefix' => 'ajax', 'middleware' => ['role:superadministrator|administrator']], function() {
+Route::group(['prefix' => 'ajax'], function() {
     Route::post('/stores', 'StoresController@store');
     Route::post('/materials', 'MaterialsController@store');
     Route::post('/stones', 'StonesController@store');
     Route::post('/stones/sizes', 'StoneSizesController@store');
     Route::post('/stones/styles', 'StoneStylesController@store');
     Route::post('/stones/contours', 'StoneContoursController@store');
-    
     Route::post('/prices/{material}', 'PricesController@store');
     Route::post('/jewels', 'JewelsController@store');
     Route::put('/jewels/{jewel}', 'JewelsController@update');
@@ -111,4 +111,6 @@ Route::group(['prefix' => 'ajax', 'middleware' => ['role:superadministrator|admi
 
     Route::put('/stones/{stone}', 'StonesController@update');
     Route::get('/stones/{stone}', 'StonesController@edit');
+
+    Route::get('/products/{model}', 'ProductsController@chainedSelects');
 });
