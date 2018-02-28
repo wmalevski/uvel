@@ -7,6 +7,7 @@ use App\Models;
 use App\Jewels;
 use App\Prices;
 use App\Stones;
+use App\Model_stones;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -43,7 +44,12 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        //
+        
+    }
+
+    public function chainedSelects(Request $request, $model){
+        $product = new Products;
+        return $product->chainedSelects($model);
     }
 
     /**
