@@ -9,6 +9,9 @@ use App\Materials;
 use App\Prices;
 use App\Stones;
 use App\Jewels;
+use App\Role;
+use App\Permission;
+use App\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -63,13 +66,6 @@ class DatabaseSeeder extends Seeder
         // Allow a user to...
         $manageOrders->description  = 'пускане и издаване на поръчки'; // optional
         $manageOrders->save();
-
-        $manageRepairs = new Permission();
-        $manageRepairs->name         = 'manage-repairs';
-        $manageRepairs->display_name = 'Пускане и издаване на ремонти'; // optional
-        // Allow a user to...
-        $manageRepairs->description  = 'пускане и издаване на ремонти'; // optional
-        $manageRepairs->save();
 
         $manageRepairs = new Permission();
         $manageRepairs->name         = 'manage-repairs';
@@ -140,6 +136,30 @@ class DatabaseSeeder extends Seeder
         // Allow a user to...
         $deleteProducts->description  = 'Изтриване на готово изделие'; // optional
         $deleteProducts->save();
+
+        $admin->attachPermissions([
+            $sellingProducts, 
+            $manageOrders,
+            $manageRepairs,
+            $sellingsStatus,
+            $jewelsStatus,
+            $cashStatus,
+            $materialsStatus,
+            $transferJewels,
+            $editProducts,
+            $storeSale,
+            $addingSafe,
+            $deleteProducts
+        ]);
+
+        $user = new User();
+        $user->name = 'Admin';
+        $user->email = 'admin@uvel.com';
+        $user->password = bcrypt('administrator');
+        $user->store = 1;
+        $user->save();
+
+        $user->attachRole($admin);
 
         for($i = 1; $i <= 5; $i++){
             $stone_styles = new Stone_styles();

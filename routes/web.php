@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['prefix' => 'admin', 'middleware' => ['role:superadministrator|administrator']], function() {
+Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function() {
     Route::get('/', 'DashboardController@index')->name('admin');
 
     Route::get('/stones/sizes', 'StoneSizesController@index')->name('sizes');
