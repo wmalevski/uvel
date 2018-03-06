@@ -89,7 +89,7 @@ class ModelsController extends Controller
             $product = new Products();
             $product->name = $request->name;
             $product->model = $model->id;
-            $product->type = $request->jewel;
+            $product->jewel_type = $request->jewel;
             $product->weight = $request->weight;
             $product->retail_price = $request->retail_price;
             $product->wholesale_price  = $request->wholesale_price;
