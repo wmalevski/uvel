@@ -22,6 +22,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::get('/', 'DashboardController@index')->name('admin');
 
+    Route::get('/repairtypes', 'RepairTypesController@index')->name('repairtypes');
+    Route::post('/repairtypes', 'RepairTypesController@store');
+
     Route::get('/stones/sizes', 'StoneSizesController@index')->name('sizes');
     Route::post('/stones/sizes', 'StoneSizesController@store');
 
@@ -90,6 +93,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
 Route::group(['prefix' => 'ajax'], function() {
     Route::post('/stores', 'StoresController@store');
     Route::post('/materials', 'MaterialsController@store');
+    Route::post('/repairtypes', 'RepairTypesController@store');
     Route::post('/stones', 'StonesController@store');
     Route::post('/stones/sizes', 'StoneSizesController@store');
     Route::post('/stones/styles', 'StoneStylesController@store');

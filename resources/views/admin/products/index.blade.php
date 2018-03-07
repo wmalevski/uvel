@@ -17,7 +17,19 @@ aria-hidden="true">
                     </div>
                     {{ csrf_field() }}
 
-                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15"><input type="checkbox" id="inputCall1" name="with_stones" class="peer"><label for="inputCall1" class="peers peer-greed js-sb ai-c"><span class="peer peer-greed">Тегло без камъни</span></label></div>
+                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                        <input type="checkbox" id="inputCall1" name="with_stones" class="peer">
+                        <label for="inputCall1" class="peers peer-greed js-sb ai-c">
+                            <span class="peer peer-greed">Тегло без камъни</span>
+                        </label>
+                    </div>
+
+                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                            <input type="checkbox" id="inputCall2" name="for_wholesale" class="peer">
+                            <label for="inputCall2" class="peers peer-greed js-sb ai-c">
+                                <span class="peer peer-greed">За продажба на едро</span>
+                            </label>
+                        </div>
                 
                     <label>Модел: </label>
                     <select id="jewel" name="model" class="form-control">
