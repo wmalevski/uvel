@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function() {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::get('/', 'DashboardController@index')->name('admin');
 
     Route::get('/stones/sizes', 'StoneSizesController@index')->name('sizes');
@@ -87,7 +87,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function() {
     Route::post('/settings/updatePrices', 'SettingsController@updatePrices');
 });
 
-//Route::group(['prefix' => 'ajax', 'middleware' => ['role:superadministrator|administrator']], function() {
 Route::group(['prefix' => 'ajax'], function() {
     Route::post('/stores', 'StoresController@store');
     Route::post('/materials', 'MaterialsController@store');

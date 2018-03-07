@@ -5,7 +5,7 @@
     </button>
 </div>
 
-<form method="POST" name="edit" action="/users/{{ $user->id }}">
+<form method="POST" name="edit" action="users/{{ $user->id }}">
     <input name="_method" type="hidden" value="PUT">
     <div class="modal-body">    
         <div class="info-cont">
@@ -15,12 +15,12 @@
 
         <div class="form-group">
             <label for="1">Име: </label>
-            <input type="text" class="form-control" value="{{ $user->name }}" id="1" name="name" placeholder="Име на потребителя:">
+            <input type="text" class="form-control" value="{{ $user->name }}" name="name" placeholder="Име на потребителя:">
         </div>
 
         <div class="form-group">
             <label for="1">Вид: </label>
-            <input type="text" class="form-control" value="{{ $user->name }}" id="1" name="location" placeholder="Вид:">
+            <input type="text" class="form-control" value="{{ $user->name }}" name="location" placeholder="Вид:">
         </div>
 
         <div class="form-group">

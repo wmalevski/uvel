@@ -20,8 +20,9 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
+        $stores = Stores::all();
         
-        return \View::make('admin/users/index', array('users' => $users));
+        return \View::make('admin/users/index', array('users' => $users, 'stores' => $stores));
     }
 
     /**

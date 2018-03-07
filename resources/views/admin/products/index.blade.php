@@ -16,10 +16,8 @@ aria-hidden="true">
                     <div class="info-cont">
                     </div>
                     {{ csrf_field() }}
-                    
-                    <div class="checkbox">
-                        <label><input type="checkbox" name="with_stones" value="">Тегло без камъни</label>
-                    </div>
+
+                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15"><input type="checkbox" id="inputCall1" name="with_stones" class="peer"><label for="inputCall1" class="peers peer-greed js-sb ai-c"><span class="peer peer-greed">Тегло без камъни</span></label></div>
                 
                     <label>Модел: </label>
                     <select id="jewel" name="model" class="form-control">

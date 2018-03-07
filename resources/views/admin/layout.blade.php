@@ -185,9 +185,13 @@
                   <li>
                     <a class="sidebar-link" href="{{ route('materials') }}">Видове</a>
                   </li>
+
+                  @if(Auth::user()->hasRole('admin'))
                   <li>
                     <a class="sidebar-link" href="{{ route('materials_quantity') }}">Наличности</a>
                   </li>
+                  @endif
+
                 </ul>
               </li>
           <li class="nav-item dropdown {{ Active::check('admin/stones',true) }}">
@@ -215,6 +219,7 @@
               </li>
             </ul>
           </li>
+          @if(Auth::user()->hasRole('admin'))
           <li class="nav-item {{ Active::check('admin/settings',true) }}">
             <a class="sidebar-link" href="{{ route('settings') }}">
               <span class="icon-holder">
@@ -223,6 +228,7 @@
               <span class="title">Настройки</span>
             </a>
           </li>
+          @endif
           {{--  <li class="nav-item">
             <a class="sidebar-link" href="compose.html">
               <span class="icon-holder">
