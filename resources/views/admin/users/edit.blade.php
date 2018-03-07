@@ -19,14 +19,20 @@
         </div>
 
         <div class="form-group">
-            <label for="1">Вид: </label>
-            <input type="text" class="form-control" value="{{ $user->name }}" name="location" placeholder="Вид:">
+            <label>Роля: </label>
+            <select name="role" class="form-control">
+                <option value="">Избери роля</option>
+        
+                @foreach($roles as $role)
+                    <option value="{{ $role->id }}" @if(Auth::user()->roles->first()['id'] == $role->id) selected @endif>{{ $role->display_name }}</option>
+                @endforeach
+            </select>
         </div>
 
         <div class="form-group">
             <label>Магазин: </label>
             <select name="store" class="form-control">
-                <option value="">Избер магазин</option>
+                <option value="">Избери магазин</option>
         
                 @foreach($stores as $store)
                     <option value="{{ $store->id }}" @if(Auth::user()->store == $store->id) selected @endif>{{ $store->name }} - {{ $store->location }}</option>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Stores;
+use App\Role;
 use Illuminate\Http\Request;
 use Response;
 use Illuminate\Http\JsonResponse;
@@ -35,8 +36,9 @@ class UserController extends Controller
     {
         $user = User::find($user);
         $stores = Stores::all();
+        $roles = Role::all();
         
-        return \View::make('admin/users/edit', array('user' => $user, 'stores' => $stores));
+        return \View::make('admin/users/edit', array('user' => $user, 'stores' => $stores, 'roles' => $roles));
     }
 
     public function update(Request $request, User $users, $user)
