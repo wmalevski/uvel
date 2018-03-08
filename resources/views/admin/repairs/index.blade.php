@@ -156,68 +156,30 @@
                             <textarea class="form-control"></textarea>
                         </div>
 
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Приложи отстъпка</button>
+                            <button type="submit" class="btn btn-primary">Приложи</button>
+                        </div>
 
-                        {{--  <div class="form-group">
+                        <div class="form-group">
                             <div class="checkbox checkbox-circle checkbox-info peers ai-c">
                                 <input type="checkbox" id="inputCall2" name="inputCheckboxesCall" class="peer">
                                 <label for="inputCall2" class="peers peer-greed js-sb ai-c">
-                                    <span class="peer peer-greed">Обмяна</span>
+                                    <span class="peer peer-greed">Фискален</span>
+                                </label>
+                            </div>
+
+                            <div class="checkbox checkbox-circle checkbox-info peers ai-c">
+                                <input type="checkbox" id="inputCall2" name="inputCheckboxesCall" class="peer">
+                                <label for="inputCall2" class="peers peer-greed js-sb ai-c">
+                                    <span class="peer peer-greed">Служебен</span>
                                 </label>
                             </div>
                         </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="inputEmail4">Даден материал в карати</label>
-                                <input type="email" class="form-control" id="inputEmail4" placeholder="Име на клиент">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="inputPassword4">Даден материал в 14к</label>
-                                <input type="text" class="form-control" id="inputPassword4" placeholder="Телефон на клиента">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="inputPassword4">Готов продукт в 14к</label>
-                                <input type="text" class="form-control" id="inputPassword4" placeholder="Телефон на клиента">
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="inputEmail4">Разлика в гр.</label>
-                                <input type="email" class="form-control" id="inputEmail4" placeholder="Име на клиент">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="inputPassword4">Разлика в лв.</label>
-                                <input type="text" class="form-control" id="inputPassword4" placeholder="Телефон на клиента">
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="inputEmail4">Цена</label>
-                                <input type="email" class="form-control" id="inputEmail4" placeholder="Име на клиент">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="inputPassword4">Капаро</label>
-                                <input type="text" class="form-control" id="inputPassword4" placeholder="Телефон на клиента">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="inputPassword4">Остатък</label>
-                                <input type="text" class="form-control" id="inputPassword4" placeholder="Телефон на клиента">
-                            </div>
-                        </div>
-
                         <div class="form-group">
-                            <label>Отстъпка</label>
-                            <select id="repair_type" name="repair_type" class="form-control">
-                                <option value="">Избери</option>
-                            </select>
+                            <button type="submit" class="btn btn-primary">Плащане</button>
+                            <button type="submit" class="btn btn-primary">Ръчно пускане на фискален бон</button>
                         </div>
-
-                        <div class="form-group">
-                            <label>Описание</label>
-                            <textarea class="form-control"></textarea>
-                        </div>  --}}
                     </div>
                 </div>
             </form>
