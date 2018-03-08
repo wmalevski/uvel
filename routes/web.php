@@ -25,6 +25,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::get('/repairtypes', 'RepairTypesController@index')->name('repairtypes');
     Route::post('/repairtypes', 'RepairTypesController@store');
 
+    Route::get('/repairs', 'RepairsController@index')->name('repairs');
+    Route::post('/repairs', 'RepairsController@store');
+
     Route::get('/stones/sizes', 'StoneSizesController@index')->name('sizes');
     Route::post('/stones/sizes', 'StoneSizesController@store');
 

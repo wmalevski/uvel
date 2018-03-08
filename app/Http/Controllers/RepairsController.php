@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Repair_types;
-use Response;
+use App\Repairs;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\View;
+use App\Repair_types;
 
-class RepairTypesController extends Controller
+class RepairsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +17,7 @@ class RepairTypesController extends Controller
     {
         $repairTypes = Repair_types::all();
         
-        return \View::make('admin/repair_types/index', array('repairTypes' => $repairTypes));
+        return \View::make('admin/repairs/index', array('repairTypes' => $repairTypes));
     }
 
     /**
@@ -40,18 +38,16 @@ class RepairTypesController extends Controller
      */
     public function store(Request $request)
     {
-
-        $repairType = Repair_types::create($request->all());
-        return Response::json(array('success' => View::make('admin/repair_types/table',array('repairType'=>$repairType))->render()));
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Repair_types  $repairTypes
+     * @param  \App\Repairs  $repairs
      * @return \Illuminate\Http\Response
      */
-    public function show(Repair_types $repairTypes)
+    public function show(Repairs $repairs)
     {
         //
     }
@@ -59,10 +55,10 @@ class RepairTypesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Repair_types  $repairTypes
+     * @param  \App\Repairs  $repairs
      * @return \Illuminate\Http\Response
      */
-    public function edit(Repair_types $repairTypes)
+    public function edit(Repairs $repairs)
     {
         //
     }
@@ -71,10 +67,10 @@ class RepairTypesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Repair_types  $repairTypes
+     * @param  \App\Repairs  $repairs
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Repair_types $repairTypes)
+    public function update(Request $request, Repairs $repairs)
     {
         //
     }
@@ -82,10 +78,10 @@ class RepairTypesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\RepairTypes  $repairTypes
+     * @param  \App\Repairs  $repairs
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Repair_types $repairTypes)
+    public function destroy(Repairs $repairs)
     {
         //
     }

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RepairTypes extends Model
+class Repair_types extends Model
 {
     protected $fillable = [
         'name',

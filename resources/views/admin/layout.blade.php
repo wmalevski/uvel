@@ -219,6 +219,25 @@
               </li>
             </ul>
           </li>
+          <li class="nav-item dropdown {{ Active::check('admin/repairtypes',true) }}">
+            <a class="dropdown-toggle" href="javascript:void(0);">
+              <span class="icon-holder">
+                <i class="c-orange-500 ti-layout-list-thumb"></i>
+              </span>
+              <span class="title">Ремонтни дейности</span>
+              <span class="arrow">
+                <i class="ti-angle-right"></i>
+              </span>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="sidebar-link" href="{{ route('repairtypes') }}">Видове</a>
+              </li>
+              <li>
+                <a class="sidebar-link" href="{{ route('repairtypes') }}">Ремонти</a>
+              </li>
+            </ul>
+          </li>
           @if(Auth::user()->hasRole('admin'))
           <li class="nav-item {{ Active::check('admin/settings',true) }}">
             <a class="sidebar-link" href="{{ route('settings') }}">
