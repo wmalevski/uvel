@@ -29,5 +29,6 @@
 </tr>
 
 <td>
-       {!! '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG(hexdec($product->id), "C128") . '" alt="barcode"   />' !!}
+       {{--  {!! DNS1D::getBarcodeHTML($product->id, "C128") !!}  --}}
+       {{ $product->barcode }}
 </td>

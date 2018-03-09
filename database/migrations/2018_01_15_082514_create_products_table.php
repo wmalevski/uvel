@@ -26,6 +26,7 @@ class CreateProductsTable extends Migration
             $table->float('workmanship');
             $table->float('price');
             $table->string('code')->nullable();
+            $table->string('barcode');
             $table->timestamps();
         });
     }

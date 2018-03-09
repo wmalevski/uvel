@@ -99,6 +99,7 @@ class ModelsController extends Controller
             $product->workmanship = $request->workmanship;
             $product->price = $request->price;
             $product->code = unique_random('products', 'code', 6);
+            $product->barcode = pack("h*", str_replace('-', '', $product->id));
 
             $product->save();
 
