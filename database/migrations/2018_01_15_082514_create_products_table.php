@@ -14,7 +14,7 @@ class CreateProductsTable extends Migration
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->increments('id');
+            $table->string('id');
             $table->string('name');
             $table->integer('model')->references('id')->on('models');
             $table->integer('jewel_type')->references('id')->on('jewels');

@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Response;
+use Uuid;
 use Illuminate\Support\Facades\View;
 
 class ModelsController extends Controller
@@ -87,6 +88,7 @@ class ModelsController extends Controller
 
         if ($request->release_product == true) {
             $product = new Products();
+            $product->id = Uuid::generate();
             $product->name = $request->name;
             $product->model = $model->id;
             $product->jewel_type = $request->jewel;

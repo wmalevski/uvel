@@ -12,7 +12,7 @@ use App\Jewels;
 use App\Role;
 use App\Permission;
 use App\User;
-use App\RepairTypes;
+use App\Repair_types;
 
 class DatabaseSeeder extends Seeder
 {
@@ -244,7 +244,7 @@ class DatabaseSeeder extends Seeder
         $price->type = 'sell';
         $price->save();
 
-        $repairType = new RepairTypes();
+        $repairType = new Repair_types();
         $repairType->name = 'Залепяне на камък';
         $repairType->price = '30';
         $repairType->save();
