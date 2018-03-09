@@ -72,7 +72,7 @@
                                 <option value="">Избери</option>
 
                                 @foreach($repairTypes as $repairType)
-                                <option value="{{ $repairType->id }}">{{ $repairType->name }} - {{ $repairType->price }}</option>
+                                    <option value="{{ $repairType->id }}">{{ $repairType->name }} - {{ $repairType->price }}</option>
                                 @endforeach
                             </select>
                         </div>

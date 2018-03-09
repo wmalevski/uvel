@@ -234,7 +234,7 @@
                 <a class="sidebar-link" href="{{ route('repairtypes') }}">Видове</a>
               </li>
               <li>
-                <a class="sidebar-link" href="{{ route('repairtypes') }}">Ремонти</a>
+                <a class="sidebar-link" href="{{ route('repairs') }}">Ремонти</a>
               </li>
             </ul>
           </li>
