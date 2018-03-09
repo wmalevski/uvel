@@ -27,3 +27,8 @@
         
     </td>
 </tr>
+
+<td>
+       {{--  {!! DNS1D::getBarcodeHTML($product->id, "C128") !!}  --}}
+       {{ $product->barcode }}
+</td>

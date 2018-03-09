@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Response;
+use Uuid;
 use Illuminate\Support\Facades\View;
 
 class ModelsController extends Controller
@@ -87,6 +88,7 @@ class ModelsController extends Controller
 
         if ($request->release_product == true) {
             $product = new Products();
+            $product->id = Uuid::generate()->string;
             $product->name = $request->name;
             $product->model = $model->id;
             $product->jewel_type = $request->jewel;
@@ -97,6 +99,7 @@ class ModelsController extends Controller
             $product->workmanship = $request->workmanship;
             $product->price = $request->price;
             $product->code = unique_random('products', 'code', 6);
+            $product->barcode = pack("h*", str_replace('-', '', $product->id));
 
             $product->save();
 

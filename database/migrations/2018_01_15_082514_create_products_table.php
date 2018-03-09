@@ -14,7 +14,7 @@ class CreateProductsTable extends Migration
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id');
             $table->string('name');
             $table->integer('model')->references('id')->on('models');
             $table->integer('jewel_type')->references('id')->on('jewels');
@@ -26,6 +26,7 @@ class CreateProductsTable extends Migration
             $table->float('workmanship');
             $table->float('price');
             $table->string('code')->nullable();
+            $table->string('barcode');
             $table->timestamps();
         });
     }
