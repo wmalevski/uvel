@@ -46,6 +46,7 @@ class MaterialsController extends Controller
             'name' => 'required',
             'code' => 'required',
             'color' => 'required',
+            'carat' => 'required'
          ]);
 
         if ($validator->fails()) {

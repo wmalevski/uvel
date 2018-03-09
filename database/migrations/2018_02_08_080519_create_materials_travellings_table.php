@@ -18,8 +18,8 @@ class CreateMaterialsTravellingsTable extends Migration
             $table->integer('type');
             $table->float('quantity');
             $table->float('price');
-            $table->integer('storeFrom');
-            $table->integer('storeTo');
+            $table->integer('storeFrom')->references('id')->on('stores');;
+            $table->integer('storeTo')->references('id')->on('stores');;
             $table->dateTime('dateSent');
             $table->dateTime('dateReceived')->nullable();
             $table->integer('userSent');

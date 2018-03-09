@@ -3,7 +3,7 @@
 @section('content')
 
 
-<div class="modal fade" id="addStone" tabindex="-1" role="dialog" aria-labelledby="addStoneLabel"
+<div class="modal fade" id="addStone"   role="dialog" aria-labelledby="addStoneLabel"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -30,7 +30,7 @@ aria-hidden="true">
                 
                     <div class="form-group">
                         <label for="weight">Тегло: </label>
-                        <input type="text" class="form-control" id="weight" name="weight" placeholder="Тегло:">
+                        <input type="number" class="form-control" id="weight" name="weight" placeholder="Тегло:">
                     </div>
                 
                     <div class="form-group">
@@ -68,7 +68,7 @@ aria-hidden="true">
                 
                     <div class="form-group">
                         <label for="4">Количество: </label>
-                        <input type="text" class="form-control" id="4" name="amount" placeholder="Количество:">
+                        <input type="number" class="form-control" id="4" name="amount" placeholder="Количество:">
                     </div>
                 
                     <div class="form-group">
@@ -86,7 +86,7 @@ aria-hidden="true">
     </div>
 </div>
 
-<div class="modal fade" id="editStone" tabindex="-1" role="dialog" aria-labelledby="editStone"
+<div class="modal fade" id="editStone" role="dialog" aria-labelledby="editStone"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

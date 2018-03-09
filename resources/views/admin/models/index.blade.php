@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="modal fade" id="addModel" tabindex="-1" role="dialog" aria-labelledby="addModelLabel"
+<div class="modal fade" id="addModel"   role="dialog" aria-labelledby="addModelLabel"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -46,7 +46,7 @@ aria-hidden="true">
 
                         <div class="form-group col-md-6">
                             <label>Цена на едро: </label>
-                            <select id="wholesale_price" name="wholesale_price" class="form-control disabled-first calculate" disabled>
+                            <select id="wholesale_price" name="wholesale_price" class="form-control disabled-first" disabled>
                                 <option value="">Избери</option>
                         
                                 @foreach($prices->where('type', 'buy') as $price)
@@ -59,38 +59,34 @@ aria-hidden="true">
                         <div class="form-group col-md-6">
                             <div class="form-group">
                                 <label for="1">Тегло: </label>
-                                <input type="text" class="form-control calculate" id="1" name="weight" placeholder="Тегло:">
+                                <input type="number" class="form-control calculate" id="weight" name="weight" placeholder="Тегло:">
                             </div>
                         </div>
 
                         <div class="form-group col-md-6">
                             <div class="form-group">
                                 <label for="1">Размер: </label>
-                                <input type="text" class="form-control" id="1" name="size" placeholder="Размер:">
+                                <input type="number" class="form-control" id="1" name="size" placeholder="Размер:">
                             </div>
                         </div>
                     </div>
                     <div class="model_stones">
-                        <div class="form-row model-stones">        
+                        <div class="form-row fields">
                             <div class="form-group col-md-6">
-                                <div class="form-group">
-                                    <label>Камък: </label>
-                                    <select name="stones[]" class="form-control">
-                                        <option value="">Избери</option>
-                            
-                                        @foreach($stones as $stone)
-                                            <option value="{{ $stone->id }}">
-                                                {{ $stone->name }} ({{ App\Stone_contours::find($stone->contour)->name }}, {{ App\Stone_sizes::find($stone->size)->name }})
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                <label>Камък: </label>
+                                <select name="stones[]" class="form-control">
+                                    <option value="">Избери</option>
+
+                                    @foreach($stones as $stone)
+                                        <option value="{{ $stone->id }}">
+                                            {{ $stone->name }} ({{ App\Stone_contours::find($stone->contour)->name }}, {{ App\Stone_sizes::find($stone->size)->name }})
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-group col-md-6">
-                                <div class="form-group">
-                                    <label for="1">Брой: </label>
-                                    <input type="text" class="form-control" id="1" name="stone_amount[]" placeholder="Брой:">
-                                </div>
+                                <label for="1">Брой: </label>
+                                <input type="number" class="form-control" name="stone_amount[]" placeholder="Брой">
                             </div>
                         </div>
                     </div>
@@ -104,14 +100,14 @@ aria-hidden="true">
                         <div class="form-group col-md-6">
                             <div class="form-group">
                                 <label>Избработка:</label>
-                                <input id="inputDev" type="text" class="form-control" value="0" name="workmanship">
+                                <input id="inputDev" type="number" class="form-control" value="0" name="workmanship">
                             </div>
                         </div>
                         
                          <div class="form-group col-md-6">
                             <div class="form-group">
                                 <label>Цена:</label>
-                                <input id="inputPrice" type="text" class="form-control" value="0" name="price">
+                                <input id="inputPrice" type="number" class="form-control" value="0" name="price">
                             </div>
                         </div>
                     </div>
@@ -123,7 +119,6 @@ aria-hidden="true">
                             <span class="peer peer-greed">Добави като продукт</span>
                         </label>
                     </div>
-                    
                 </div>
 
                 <div class="modal-footer">
@@ -153,4 +148,10 @@ aria-hidden="true">
         @include('admin.models.table')
     @endforeach
 </table>
+@endsection
+
+@section('footer-scripts')
+<script id="stones_data" type="application/json">
+ {!! $jsStones !!}
+</script>
 @endsection

@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('content')
-<div class="modal fade" id="addSize" tabindex="-1" role="dialog" aria-labelledby="addSizeLabel"
+<div class="modal fade" id="addSize"   role="dialog" aria-labelledby="addSizeLabel"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

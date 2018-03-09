@@ -1,8 +1,7 @@
 @extends('admin.layout')
 
-
 @section('content')
-<div class="modal fade" id="addMQuantity" tabindex="-1" role="dialog" aria-labelledby="addMQuantity"
+<div class="modal fade" id="addMQuantity"   role="dialog" aria-labelledby="addMQuantity"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -33,11 +32,11 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="2">Количество: </label>
-                            <input type="text" class="form-control" id="2" name="quantity" placeholder="Проба:">
+                            <input type="text" class="form-control" id="2" name="quantity" placeholder="Количество:">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="3">В 14 Карата: </label>
-                            <input type="text" class="form-control" id="3" name="carat" placeholder="Цвят:">
+                            <input type="text" class="form-control" id="3" name="carat" placeholder="В 14 карата:">
                         </div>
                     </div>
                     <div id="errors-container"></div>
@@ -55,7 +54,7 @@ aria-hidden="true">
 </div>
 
 
-<div class="modal fade" id="sendMaterial" tabindex="-1" role="dialog" aria-labelledby="sendMaterial"
+<div class="modal fade" id="sendMaterial"   role="dialog" aria-labelledby="sendMaterial"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -152,7 +151,8 @@ aria-hidden="true">
                       <th>Тип</th> 
                       <th>Количество</th> 
                       <th>Стойност</th> 
-                      <th>Изпратен на</th> 
+                      <th>Изпратен на</th>
+                      <th>До магазин</th> 
                       <th>Статус</th> 
                       <th></th> 
                   </tr>

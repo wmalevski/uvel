@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Stores;
+use App\Role;
 use Illuminate\Http\Request;
+use Response;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
@@ -16,8 +21,9 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
+        $stores = Stores::all();
         
-        return \View::make('admin/users/index', array('users' => $users));
+        return \View::make('admin/users/index', array('users' => $users, 'stores' => $stores));
     }
 
     /**
@@ -30,20 +36,20 @@ class UserController extends Controller
     {
         $user = User::find($user);
         $stores = Stores::all();
+        $roles = Role::all();
         
-        return \View::make('admin/users/edit', array('user' => $user, 'stores' => $stores));
+        return \View::make('admin/users/edit', array('user' => $user, 'stores' => $stores, 'roles' => $roles));
     }
 
     public function update(Request $request, User $users, $user)
     {
         $user = User::find($user);
         
-        // $store->name = $request->name;
-        // $store->location = $request->location;
-        // $store->phone = $request->phone;
+        $user->name = $request->name;
+        $user->store = $request->store;
         
-        // $store->save();
+        $user->save();
         
-        //return Response::json( View::make('admin/stores/edit', array('store' => $store))->render());
+        return Response::json( View::make('admin/users/table', array('user' => $user))->render());
     }
 }

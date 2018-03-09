@@ -12,14 +12,17 @@
                 <div class="form-row">
                     @foreach($materials as $material)
                         <div class="form-group col-md-2">
-                            {{ $material->carat }}к
-                            цена: <input type="text" class="form-control" name="carat[{{ $material->carat }}]" value="{{ $material->stock_price }}">
+                            {{ $material->name }} {{ $material->carat }}к
+                            цена: <input type="number" class="form-control" name="stock_price[]" value="{{ $material->stock_price }}">
+                            <input type="hidden" class="form-control" name="mat[]" value="{{ $material->id }}">
+                            <input type="hidden" class="form-control" name="carat[]" value="{{ $material->carat }}">
                         </div>
                     @endforeach
                 </div>
+                
                 <button type="submit" class="btn btn-primary">Промени цена</button>
             </form>
-        </div>
+        </
     </div>
 </div>
 

@@ -9,9 +9,11 @@ use App\History;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\View;
+use Faker\Provider\tr_TR\DateTime;
+use Illuminate\Support\Facades\Redirect;
 use Response;
 use Auth;
-use Illuminate\Support\Facades\View;
 
 class MaterialsTravellingController extends Controller
 {
@@ -89,6 +91,39 @@ class MaterialsTravellingController extends Controller
             }else{
                 return Response::json(['errors' => array('quantity' => ['Въведохте невалидно количество!'])], 401);
             }
+        }
+    }
+
+    public function accept(Request $request, $material)
+    {
+        $material = Materials_travelling::find($material);
+
+        if($material->status == 0){
+            $check = Materials_quantity::where(
+                [
+                    ['material', '=', $material->type],
+                    ['store', '=', $material->storeTo]
+                ]
+            )->first();
+    
+            if($check->count()){
+                $check->quantity = $check->quantity + $material->quantity;
+                $check->save();
+            } else{
+                $quantity = new Materials_quantity();
+                $quantity->material = $material->type;
+                $quantity->quantity = $material->quantity;
+                $quantity->store = $material->storeTo;
+                $quantity->carat = '';
+    
+                $quantity->save();
+            }
+
+            $material->status = '1';
+            $material->dateReceived = new \DateTime();
+            $material->save();
+
+            return Redirect::back();
         }
     }
 

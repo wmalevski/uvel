@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('content')
-<div class="modal fade" id="addContour" tabindex="-1" role="dialog" aria-labelledby="addContourLabel"
+<div class="modal fade" id="addContour"   role="dialog" aria-labelledby="addContourLabel"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

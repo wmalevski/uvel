@@ -16,10 +16,12 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('model')->references('id')->on('models');;
-            $table->integer('type')->references('id')->on('jewels');;
+            $table->integer('model')->references('id')->on('models');
+            $table->integer('jewel_type')->references('id')->on('jewels');
+            $table->integer('type');
             $table->float('weight');
-            $table->integer('price_list')->references('id')->on('prices');;
+            $table->integer('retail_price')->references('id')->on('prices');
+            $table->integer('wholesale_price')->references('id')->on('prices');
             $table->integer('size');
             $table->float('workmanship');
             $table->float('price');

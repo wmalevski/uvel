@@ -9,7 +9,8 @@ class Materials extends Model
     protected $fillable = [
         'name',
         'code',
-        'color'
+        'color',
+        'carat'
     ];
 
     protected $table = 'materials';

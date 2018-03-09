@@ -7,6 +7,7 @@ use App\Models;
 use App\Jewels;
 use App\Prices;
 use App\Stones;
+use App\Model_stones;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -23,8 +24,17 @@ class ProductsController extends Controller
         $jewels = Jewels::all();
         $prices = Prices::where('type', 'sell')->get();
         $stones = Stones::all();
+
+        $pass_stones = array();
+
+        foreach($stones as $stone){
+            $pass_stones[] = (object)[
+                'value' => $stone->id,
+                'label' => $stone->name
+            ];
+        }
         
-        return \View::make('admin/products/index', array('products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones));
+        return \View::make('admin/products/index', array('products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
     }
 
     /**
@@ -34,7 +44,12 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        //
+        
+    }
+
+    public function chainedSelects(Request $request, $model){
+        $product = new Products;
+        return $product->chainedSelects($model);
     }
 
     /**

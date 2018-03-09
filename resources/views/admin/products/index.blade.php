@@ -1,13 +1,12 @@
 @extends('admin.layout')
 
-
 @section('content')
-<div class="modal fade" id="addProduct" tabindex="-1" role="dialog" aria-labelledby="addProductlLabel"
+<div class="modal fade" id="addProduct"   role="dialog" aria-labelledby="addProductlLabel"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addProductLabel">Добавяне на материал</h5>
+                <h5 class="modal-title" id="addProductLabel">Добавяне на продукт</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -17,10 +16,20 @@ aria-hidden="true">
                     <div class="info-cont">
                     </div>
                     {{ csrf_field() }}
-                    
-                    <div class="checkbox">
-                        <label><input type="checkbox" name="with_stones" value="">Тегло без камъни</label>
+
+                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                        <input type="checkbox" id="inputCall1" name="with_stones" class="peer">
+                        <label for="inputCall1" class="peers peer-greed js-sb ai-c">
+                            <span class="peer peer-greed">Тегло без камъни</span>
+                        </label>
                     </div>
+
+                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                            <input type="checkbox" id="inputCall2" name="for_wholesale" class="peer">
+                            <label for="inputCall2" class="peers peer-greed js-sb ai-c">
+                                <span class="peer peer-greed">За продажба на едро</span>
+                            </label>
+                        </div>
                 
                     <label>Модел: </label>
                     <select id="jewel" name="model" class="form-control">
@@ -39,12 +48,21 @@ aria-hidden="true">
                             <option value="{{ $jewel->id }}" data-price="{{ $jewel->material }}">{{ $jewel->name }}</option>
                         @endforeach
                     </select>
+
+                    <label>Цена на дребно: </label>
+                    <select id="retail_price" name="retail_price" class="form-control disabled-first calculate" disabled>
+                        <option value="">Избери</option>
                 
+                        @foreach($prices->where('type', 'sell') as $price)
+                            <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
+                        @endforeach
+                    </select>
+                    
                     <label>Цена на едро: </label>
                     <select name="wholesale_price" class="form-control disabled-first" disabled>
                         <option value="">Избери</option>
                 
-                        @foreach($prices->where('type', 'sell') as $price)
+                        @foreach($prices->where('type', 'buy') as $price)
                             <option value="{{ $price->id }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
                         @endforeach
                     </select>
@@ -165,4 +183,10 @@ aria-hidden="true">
         </tr>
     @endforeach
 </table>  --}}
+@endsection
+
+@section('footer-scripts')
+<script id="stones_data" type="application/json">
+    {!!  $jsStones !!}
+</script>
 @endsection

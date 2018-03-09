@@ -29,7 +29,16 @@ class ModelsController extends Controller
         $prices = Prices::all();
         $stones = Stones::all();
 
-        return \View::make('admin/models/index', array('jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones));
+        $pass_stones = array();
+        
+        foreach($stones as $stone){
+            $pass_stones[] = [
+                'value' => $stone->id,
+                'label' => $stone->name.' ('.\App\Stone_contours::find($stone->contour)->name.', '.\App\Stone_sizes::find($stone->size)->name.' )'
+            ];
+        }
+
+        return \View::make('admin/models/index', array('jsStones' =>  json_encode($pass_stones), 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones));
     }
 
     /**
@@ -60,6 +69,12 @@ class ModelsController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
+        // foreach($request->images as $img){
+        //     echo $img;
+        // }
+
+        // die;
+
         $model = Models::create($request->all());
 
         foreach($request->stones as $key => $stone){
@@ -74,9 +89,10 @@ class ModelsController extends Controller
             $product = new Products();
             $product->name = $request->name;
             $product->model = $model->id;
-            $product->type = $request->jewel;
+            $product->jewel_type = $request->jewel;
             $product->weight = $request->weight;
-            $product->price_list = $request->retail_price;
+            $product->retail_price = $request->retail_price;
+            $product->wholesale_price  = $request->wholesale_price;
             $product->size = $request->size;
             $product->workmanship = $request->workmanship;
             $product->price = $request->price;

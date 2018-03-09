@@ -7,6 +7,14 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Dashboard</title>
   <style>
+    .select2{
+      width: 100% !important;
+    }
+
+    .nav-item.active{
+      background: #d2d2d2;
+    }
+
     #loader {
       transition: all .3s ease-in-out;
       opacity: 1;
@@ -105,7 +113,7 @@
           </div>
         </div>
         <ul class="sidebar-menu scrollable pos-r">
-          <li class="nav-item mT-30 active">
+          <li class="nav-item mT-30 {{ Active::check('admin') }}">
             <a class="sidebar-link" href="{{ route('admin') }}" default>
               <span class="icon-holder">
                 <i class="c-blue-500 ti-home"></i>
@@ -113,7 +121,7 @@
               <span class="title">Начало</span>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item {{ Active::check('admin/stores',true) }}">
               <a class="sidebar-link" href="{{ route('stores') }}">
                 <span class="icon-holder">
                   <i class="c-brown-500 ti-pencil"></i>
@@ -121,7 +129,7 @@
                 <span class="title">Магазини</span>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {{ Active::check('admin/prices',true) }}">
                 <a class="sidebar-link" href="{{ route('prices') }}">
                   <span class="icon-holder">
                     <i class="c-brown-500 ti-pencil"></i>
@@ -130,7 +138,7 @@
                 </a>
               </li>
 
-              <li class="nav-item">
+              <li class="nav-item {{ Active::check('admin/users',true) }}">
                   <a class="sidebar-link" href="{{ route('users') }}">
                     <span class="icon-holder">
                       <i class="c-brown-500 ti-pencil"></i>
@@ -139,7 +147,7 @@
                   </a>
                 </li>
 
-            <li class="nav-item">
+            <li class="nav-item {{ Active::check('admin/jewels',true) }}">
               <a class="sidebar-link" href="{{ route('jewels') }}">
                 <span class="icon-holder">
                   <i class="c-brown-500 ti-pencil"></i>
@@ -147,7 +155,7 @@
                 <span class="title">Бижута</span>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {{ Active::check('admin/models',true) }}">
                 <a class="sidebar-link" href="{{ route('models') }}">
                   <span class="icon-holder">
                     <i class="c-brown-500 ti-pencil"></i>
@@ -155,7 +163,7 @@
                   <span class="title">Модели</span>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item {{ Active::check('admin/products',true) }}">
                 <a class="sidebar-link" href="{{ route('products') }}">
                   <span class="icon-holder">
                     <i class="c-brown-500 ti-pencil"></i>
@@ -163,7 +171,7 @@
                   <span class="title">Продукти</span>
                 </a>
               </li>
-              <li class="nav-item dropdown">
+              <li class="nav-item dropdown {{ Active::check('admin/materials',true) }}">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                   <span class="icon-holder">
                     <i class="c-orange-500 ti-layout-list-thumb"></i>
@@ -177,12 +185,16 @@
                   <li>
                     <a class="sidebar-link" href="{{ route('materials') }}">Видове</a>
                   </li>
+
+                  @if(Auth::user()->hasRole('admin'))
                   <li>
                     <a class="sidebar-link" href="{{ route('materials_quantity') }}">Наличности</a>
                   </li>
+                  @endif
+
                 </ul>
               </li>
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown {{ Active::check('admin/stones',true) }}">
             <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
                 <i class="c-orange-500 ti-layout-list-thumb"></i>
@@ -207,7 +219,27 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item">
+          <li class="nav-item dropdown {{ Active::check('admin/repairtypes',true) }}">
+            <a class="dropdown-toggle" href="javascript:void(0);">
+              <span class="icon-holder">
+                <i class="c-orange-500 ti-layout-list-thumb"></i>
+              </span>
+              <span class="title">Ремонтни дейности</span>
+              <span class="arrow">
+                <i class="ti-angle-right"></i>
+              </span>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="sidebar-link" href="{{ route('repairtypes') }}">Видове</a>
+              </li>
+              <li>
+                <a class="sidebar-link" href="{{ route('repairs') }}">Ремонти</a>
+              </li>
+            </ul>
+          </li>
+          @if(Auth::user()->hasRole('admin'))
+          <li class="nav-item {{ Active::check('admin/settings',true) }}">
             <a class="sidebar-link" href="{{ route('settings') }}">
               <span class="icon-holder">
                 <i class="c-brown-500 ti-pencil"></i>
@@ -215,6 +247,7 @@
               <span class="title">Настройки</span>
             </a>
           </li>
+          @endif
           {{--  <li class="nav-item">
             <a class="sidebar-link" href="compose.html">
               <span class="icon-holder">
@@ -565,7 +598,6 @@
                     <span>Messages</span>
                   </a>
                 </li>  --}}
-                <li role="separator" class="divider"></li>
                 <li>
                   <a href="{{ route('logout') }}"
                   onclick="event.preventDefault();
@@ -599,6 +631,6 @@
   <script type="text/javascript" src="{{ URL::asset('vendor.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('bundle.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('js/custom.js') }}"></script>
+  @yield('footer-scripts')
 </body>
-
 </html>

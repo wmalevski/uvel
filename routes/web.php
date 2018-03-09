@@ -19,8 +19,17 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['prefix' => 'admin', 'middleware' => ['role:superadministrator|administrator']], function() {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::get('/', 'DashboardController@index')->name('admin');
+
+    Route::get('/repairtypes', 'RepairTypesController@index')->name('repairtypes');
+    Route::post('/repairtypes', 'RepairTypesController@store');
+
+    Route::get('/repairs', 'RepairsController@index')->name('repairs');
+    Route::post('/repairs', 'RepairsController@store');
+
+    Route::get('/selling', 'SellingsController@index')->name('selling');
+    Route::post('/selling', 'SellingsController@store');
 
     Route::get('/stones/sizes', 'StoneSizesController@index')->name('sizes');
     Route::post('/stones/sizes', 'StoneSizesController@store');
@@ -37,6 +46,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:superadministrator|adm
     Route::get('/stones', 'StonesController@index')->name('stones');
     Route::post('/stones', 'StonesController@store');
 
+    Route::get('/stones/{stone}', 'StonesController@edit');
+
     Route::get('/stores', 'StoresController@index')->name('stores');
     Route::post('/stores', 'StoresController@store');
 
@@ -51,6 +62,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:superadministrator|adm
 
     Route::get('/materials/{material}', 'MaterialsController@edit');
     Route::put('/materials/{material}', 'MaterialsController@update');
+
+    Route::get('/materials/accept/{material}', 'MaterialsTravellingController@accept');
 
     Route::get('/mquantity', 'MaterialsQuantityController@index')->name('materials_quantity');
     Route::post('/mquantity', 'MaterialsQuantityController@store');
@@ -79,12 +92,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:superadministrator|adm
 
     Route::get('/settings', 'SettingsController@index')->name('settings');
     Route::post('/settings', 'SettingsController@store');
+
     Route::post('/settings/updatePrices', 'SettingsController@updatePrices');
 });
 
-Route::group(['prefix' => 'ajax', 'middleware' => ['role:superadministrator|administrator']], function() {
+Route::group(['prefix' => 'ajax'], function() {
     Route::post('/stores', 'StoresController@store');
     Route::post('/materials', 'MaterialsController@store');
+    Route::post('/repairtypes', 'RepairTypesController@store');
     Route::post('/stones', 'StonesController@store');
     Route::post('/stones/sizes', 'StoneSizesController@store');
     Route::post('/stones/styles', 'StoneStylesController@store');
@@ -100,8 +115,11 @@ Route::group(['prefix' => 'ajax', 'middleware' => ['role:superadministrator|admi
     Route::put('/mquantity/{material}', 'MaterialsQuantityController@update');
     Route::put('/materials/{material}', 'MaterialsController@update');
     Route::put('/models/{model}', 'ModelsController@update');
+
     Route::put('/users/{user}', 'UserController@update');
 
     Route::put('/stones/{stone}', 'StonesController@update');
     Route::get('/stones/{stone}', 'StonesController@edit');
+
+    Route::get('/products/{model}', 'ProductsController@chainedSelects');
 });

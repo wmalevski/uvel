@@ -5,7 +5,7 @@
     </button>
 </div>
 
-<form method="POST" action="/ajax/users/{{ $user->id }}">
+<form method="POST" name="edit" action="users/{{ $user->id }}">
     <input name="_method" type="hidden" value="PUT">
     <div class="modal-body">    
         <div class="info-cont">
@@ -15,18 +15,24 @@
 
         <div class="form-group">
             <label for="1">Име: </label>
-            <input type="text" class="form-control" value="{{ $user->name }}" id="1" name="name" placeholder="Име на потребителя:">
+            <input type="text" class="form-control" value="{{ $user->name }}" name="name" placeholder="Име на потребителя:">
         </div>
 
         <div class="form-group">
-            <label for="1">Вид: </label>
-            <input type="text" class="form-control" value="{{ $user->name }}" id="1" name="location" placeholder="Вид:">
+            <label>Роля: </label>
+            <select name="role" class="form-control">
+                <option value="">Избери роля</option>
+        
+                @foreach($roles as $role)
+                    <option value="{{ $role->id }}" @if(Auth::user()->roles->first()['id'] == $role->id) selected @endif>{{ $role->display_name }}</option>
+                @endforeach
+            </select>
         </div>
 
         <div class="form-group">
             <label>Магазин: </label>
-            <select name="material" class="form-control">
-                <option value="">Избер магазин</option>
+            <select name="store" class="form-control">
+                <option value="">Избери магазин</option>
         
                 @foreach($stores as $store)
                     <option value="{{ $store->id }}" @if(Auth::user()->store == $store->id) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
