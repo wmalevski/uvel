@@ -88,7 +88,7 @@ class ModelsController extends Controller
 
         if ($request->release_product == true) {
             $product = new Products();
-            $product->id = Uuid::generate();
+            $product->id = Uuid::generate()->string;
             $product->name = $request->name;
             $product->model = $model->id;
             $product->jewel_type = $request->jewel;

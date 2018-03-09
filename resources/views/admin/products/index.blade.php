@@ -102,6 +102,7 @@ aria-hidden="true">
         <th>Тегло</th>
         <th>Цена</th>
         <th>Действия</th>
+        <th>Баркод</th>
     </tr>
     
     @foreach($products as $product)

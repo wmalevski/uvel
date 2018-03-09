@@ -9,9 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Response;
 
+
 class Products extends Model
 {
     protected $fillable = [
+        'id',
         'model',
         'type',
         'weight',
@@ -24,6 +26,8 @@ class Products extends Model
     ];
 
     protected $table = 'products';
+
+    public $incrementing = false;
 
     public function chainedSelects($model){
         $model = Models::find($model);
