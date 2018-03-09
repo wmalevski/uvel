@@ -10,6 +10,7 @@ var uvel,
     };
 
     this.initializeSelect = function (select) {
+
       select.select2();
     }
 
@@ -82,23 +83,43 @@ var uvel,
         var weight = collectionModelPrice[2];
 
         collectionModelPrice.forEach(function (el) {
+
           if(el.tagName === 'SELECT') {
+
             $(el).on('select2:select', function(e) {
+
               calculatePrice();
             })
+
           } else {
+
             el.addEventListener('change', function (ev) {
+
               calculatePrice();
             });
           }
-        })
+        });
       }
 
       if (collectionBtns.length) {
 
-        collectionBtns.forEach(function (btn) {
+        var modelSelect = $('#modelSelect');
+        console.log(modelSelect);
+        if(modelSelect) {
 
-          btn.style.border = '1px solid yellow';
+          
+          modelSelect.on('select2:close', function(ev) {
+
+            if(modelSelect.val()) {
+              
+              var tempUrl = url + '/products/' + modelSelect.val();
+
+              ajaxFn('GET', tempUrl, log, '', '');
+            }
+          });
+        }
+          
+        collectionBtns.forEach(function (btn) {
 
           btn.addEventListener('click', function (ev) {
 
@@ -110,9 +131,9 @@ var uvel,
             var urlAction = form.getAttribute('action'),
               formMethod = 'POST',
               ajaxUrl = url + urlAction;
-            collectionInputs = [].slice.apply(document.forms[nameForm].getElementsByTagName('input'));
-            collectionSelects = [].slice.apply(document.forms[nameForm].getElementsByTagName('select'));
-            collectionElements = [];
+              collectionInputs = [].slice.apply(document.forms[nameForm].getElementsByTagName('input'));
+              collectionSelects = [].slice.apply(document.forms[nameForm].getElementsByTagName('select'));
+              collectionElements = [];
 
             var collectionData = {_token: token};
 
@@ -210,12 +231,14 @@ var uvel,
 
               ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements);
             }
-
           });
         })
       }
-
+      function log(data, sm) {
+        console.log(data, sm)
+      }
       function calculatePrice() {
+
         var typeJeweryData = typeJewery.options[typeJewery.selectedIndex].getAttribute('data-pricebuy'),
           priceData = price.options[price.selectedIndex].getAttribute('data-retail'),
           weightData = weight.value;
@@ -232,6 +255,7 @@ var uvel,
           inputPrice.value = productPrice;
 
         } else {
+
           inputDev.value = '0';
           inputPrice.value = '0';
         }
@@ -290,8 +314,8 @@ var uvel,
         } else {
 
           var successContainer = document.createElement('div');
-          successContainer.innerText = 'Успешно добавихте';
-          successContainer.className = 'alert alert-success';
+              successContainer.innerText = 'Успешно добавихте';
+              successContainer.className = 'alert alert-success';
 
           responseHolder.appendChild(successContainer);
 
@@ -328,6 +352,59 @@ var uvel,
       }
     }
 
+    // adding functionality to the eddit buttons
+    // Todo: response of the action: handle the errors and also refactor the hardcoded holder
+    this.editAction = function() {
+
+      var currentPressedBtn;
+      var collectionEditBtns = [].slice.apply(document.querySelectorAll('.edit-btn'));
+
+      collectionEditBtns.forEach(function (btn) {
+
+        var path = btn.dataset.path;
+
+        btn.addEventListener('click', function () {
+
+          currentPressedBtn = this;
+
+          var urlTaken = window.location.href.split('/');
+          var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/' + path;
+          var xhttp = new XMLHttpRequest();
+
+          xhttp.open('GET', url, true);
+          xhttp.onreadystatechange = function () {
+
+            if (this.readyState == 4 && this.status == 200) {
+
+              var data = JSON.parse(this.responseText);
+              // callback(data, elements);
+              var holder = document.querySelector('#editStore .modal-content');
+              holder.innerHTML = '';
+              holder.innerHTML += data.success;
+
+            } else if (this.readyState == 4 && this.status == 401) {
+
+              var data = JSON.parse(this.responseText);
+              // callback(data);
+
+              console.log(data);
+            }
+          };
+
+          xhttp.setRequestHeader('Content-Type', 'application/json');
+          xhttp.send();
+
+          setTimeout(
+            function () {
+
+              checkAllForms()
+            }
+            , 600);
+        });
+      });
+    }
+
+
   };
 
 $(function () {
@@ -343,97 +420,53 @@ $(function () {
 
 //todo: IN PROGRESS refactor this in RBD WAY
 $(document).ready(function () {
-  var select_input = $('#jewel');
-  var disabled_input = $('.disabled-first');
 
-  if ($(this).find(':checked').val() != '') {
+  // Gosho's creation ! extra attention :D 
 
-    disabled_input.removeAttr('disabled');
-  } else {
-
-    disabled_input.prop('disabled', true);
-    disabled_input.prop('selectedIndex', 0);
-  }
-
-  select_input.on('change', function () {
+    var select_input = $('#jewel');
+    var disabled_input = $('.disabled-first');
 
     if ($(this).find(':checked').val() != '') {
 
       disabled_input.removeAttr('disabled');
+
     } else {
 
       disabled_input.prop('disabled', true);
       disabled_input.prop('selectedIndex', 0);
     }
 
-    var val = $(this).find(':checked').data('price');
+    select_input.on('change', function () {
 
-    $('option[data-material]').hide();
-    $('option[data-material="' + val + '"]').show();
-  });
+      if ($(this).find(':checked').val() != '') {
 
-  var select_stone_type = $('select#stone_type');
+        disabled_input.removeAttr('disabled');
+      } else {
 
-  select_stone_type.on('change', function () {
-    $('#weight').val('');
-    $('#carat').val('0');
-  });
+        disabled_input.prop('disabled', true);
+        disabled_input.prop('selectedIndex', 0);
+      }
 
-  $('#weight').focusout(function () {
+      var val = $(this).find(':checked').data('price');
 
-    if ($(select_stone_type).find(':checked').val() == 2) {
-
-      $('#carat').val($(this).val() * 5);
-    }
-  });
-
-
-  var currentPressedBtn;
-
-  var collectionEditBtns = [].slice.apply(document.querySelectorAll('.edit-btn'));
-
-  collectionEditBtns.forEach(function (btn) {
-
-    var path = btn.dataset.path;
-
-    btn.addEventListener('click', function () {
-
-      currentPressedBtn = this;
-
-      var urlTaken = window.location.href.split('/');
-      var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/' + path;
-      var xhttp = new XMLHttpRequest();
-
-      xhttp.open('GET', url, true);
-      xhttp.onreadystatechange = function () {
-
-        if (this.readyState == 4 && this.status == 200) {
-
-          var data = JSON.parse(this.responseText);
-          // callback(data, elements);
-          var holder = document.querySelector('#editStore .modal-content');
-          holder.innerHTML = '';
-          holder.innerHTML += data.success;
-
-        } else if (this.readyState == 4 && this.status == 401) {
-
-          var data = JSON.parse(this.responseText);
-          // callback(data);
-
-          console.log(data);
-        }
-      };
-
-      xhttp.setRequestHeader('Content-Type', 'application/json');
-      xhttp.send();
-
-      setTimeout(
-        function () {
-
-          checkAllForms()
-        }
-        , 600);
+      $('option[data-material]').hide();
+      $('option[data-material="' + val + '"]').show();
     });
-  });
 
+    var select_stone_type = $('select#stone_type');
+
+    select_stone_type.on('change', function () {
+      $('#weight').val('');
+      $('#carat').val('0');
+    });
+
+    $('#weight').focusout(function () {
+
+      if ($(select_stone_type).find(':checked').val() == 2) {
+
+        $('#carat').val($(this).val() * 5);
+      }
+    });
+  
+  // end of G.'s creation  
 });

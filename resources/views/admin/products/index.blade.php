@@ -32,7 +32,7 @@ aria-hidden="true">
                         </div>
                 
                     <label>Модел: </label>
-                    <select id="jewel" name="model" class="form-control">
+                    <select id="modelSelect" name="model" class="form-control">
                         <option value="">Избери</option>
                 
                         @foreach($models as $model)
@@ -41,7 +41,7 @@ aria-hidden="true">
                     </select>
                 
                     <label>Вид: </label>
-                    <select id="jewel" name="jewel" class="form-control">
+                    <select id="jewelsType" name="jewel" class="form-control">
                         <option value="">Избери</option>
                 
                         @foreach($jewels as $jewel)
