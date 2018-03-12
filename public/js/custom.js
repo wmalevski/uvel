@@ -105,15 +105,16 @@ var uvel,
 
         var modelSelect = $('#modelSelect');
         console.log(modelSelect);
+
         if(modelSelect) {
 
-          
           modelSelect.on('select2:close', function(ev) {
 
             if(modelSelect.val()) {
               
-              var tempUrl = url + '/products/' + modelSelect.val();
-
+              var value = modelSelect.find(':selected').data('jewel')
+              var tempUrl = url + '/products/' + value;
+              
               ajaxFn('GET', tempUrl, log, '', '');
             }
           });

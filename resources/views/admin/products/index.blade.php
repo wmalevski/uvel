@@ -41,7 +41,7 @@ aria-hidden="true">
                     </select>
                 
                     <label>Вид: </label>
-                    <select id="jewelsType" name="jewel" class="form-control">
+                    <select id="jewels_type" name="jewelsType" class="form-control">
                         <option value="">Избери</option>
                 
                         @foreach($jewels as $jewel)
@@ -59,7 +59,7 @@ aria-hidden="true">
                     </select>
                     
                     <label>Цена на едро: </label>
-                    <select name="wholesale_price" class="form-control disabled-first" disabled>
+                    <select id="wholesale_price" name="wholesale_price" class="form-control disabled-first">
                         <option value="">Избери</option>
                 
                         @foreach($prices->where('type', 'buy') as $price)
@@ -69,16 +69,17 @@ aria-hidden="true">
                 
                     <div class="form-group">
                         <label for="1">Тегло: </label>
-                        <input type="text" class="form-control" id="1" name="weight" placeholder="Тегло:">
+                        <input type="text" class="form-control" id="weight" name="weight" placeholder="Тегло:">
                     </div>
                 
                     <div class="form-group">
                         <label for="1">Размер: </label>
-                        <input type="text" class="form-control" id="1" name="size" placeholder="Размер:">
+                        <input type="text" class="form-control" id="size" name="size" placeholder="Размер:">
                     </div>
                 
-                    Изработка: 71<br/>
-                    Цена: 256<br/><br/>
+                    Изработка: <span id="workmanship">71</span>   <br/>
+
+                    Цена: <span id="price">256</span><br/><br/>
                     <div id="errors-container"></div>
                 </div>
 
