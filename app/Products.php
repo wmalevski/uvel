@@ -36,6 +36,17 @@ class Products extends Model
             $model_material = Jewels::find($model->jewel);
             $jewels = Jewels::where('material', $model_material->material)->get();
             $prices = Prices::where('material', $model_material->material)->get();
+
+            $retail_prices = Prices::where([
+                'material' => $model_material->material,
+                'type' => 'buy'
+            ])->get();
+
+            $wholesale_prices = Prices::where([
+                'material' => $model_material->material,
+                'type' => 'sell'
+            ])->get();
+
             $model_stones = Model_stones::where('model', $model)->get();
     
             $pass_jewels = array();
@@ -47,10 +58,19 @@ class Products extends Model
                 ];
             }
     
-            $pass_prices = array();
+            $prices_retail = array();
             
-            foreach($prices as $price){
-                $pass_prices[] = (object)[
+            foreach($retail_prices as $price){
+                $prices_retail[] = (object)[
+                    'value' => $price->id,
+                    'label' => $price->slug
+                ];
+            }
+
+            $prices_wholesale = array();
+            
+            foreach($wholesale_prices as $price){
+                $prices_wholesale[] = (object)[
                     'value' => $price->id,
                     'label' => $price->slug
                 ];
@@ -66,8 +86,9 @@ class Products extends Model
             }
     
             return array(
-                'prices' => json_encode($pass_jewels, JSON_UNESCAPED_SLASHES), 
-                'jewels' => json_encode($pass_prices, JSON_UNESCAPED_SLASHES),
+                'retail_prices' => json_encode($prices_retail, JSON_UNESCAPED_SLASHES), 
+                'wholesale_prices' => json_encode($prices_wholesale, JSON_UNESCAPED_SLASHES), 
+                'jewels_types' => json_encode($pass_jewels, JSON_UNESCAPED_SLASHES),
                 'stones' => json_encode($pass_stones, JSON_UNESCAPED_SLASHES),
                 'weight' => $model->weight,
                 'size'   => $model->size,
