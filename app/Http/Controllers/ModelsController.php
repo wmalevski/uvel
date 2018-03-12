@@ -99,7 +99,7 @@ class ModelsController extends Controller
             $product->size = $request->size;
             $product->workmanship = $request->workmanship;
             $product->price = $request->price;
-            $product->code = unique_random('products', 'code', 5);
+            $product->code = unique_number('products', 'code', 5);
 
             $barcode = str_replace('-', '', $product->id);
 
