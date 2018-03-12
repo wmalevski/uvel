@@ -86,10 +86,10 @@ class Products extends Model
             }
     
             return array(
-                'retail_prices' => json_encode($prices_retail, JSON_UNESCAPED_SLASHES), 
-                'wholesale_prices' => json_encode($prices_wholesale, JSON_UNESCAPED_SLASHES), 
-                'jewels_types' => json_encode($pass_jewels, JSON_UNESCAPED_SLASHES),
-                'stones' => json_encode($pass_stones, JSON_UNESCAPED_SLASHES),
+                'retail_prices' => $prices_retail, 
+                'wholesale_prices' => $prices_wholesale, 
+                'jewels_types' => $pass_jewels,
+                'stones' => $pass_stones, JSON_UNESCAPED_SLASHES,
                 'weight' => $model->weight,
                 'size'   => $model->size,
                 'workmanship' => $model->workmanship,

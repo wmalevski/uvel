@@ -15,6 +15,7 @@ use Illuminate\Http\JsonResponse;
 use Response;
 use Uuid;
 use Illuminate\Support\Facades\View;
+use Carbon\Carbon;
 
 class ModelsController extends Controller
 {
@@ -111,8 +112,7 @@ class ModelsController extends Controller
                 $newbarcode .= $bars;
             }
 
-            $product->barcode = str_replace('-', '', $newbarcode);
-
+            $product->barcode = Carbon::now()->timestamp; 
             $product->save();
 
             foreach($request->stones as $key => $stone){
