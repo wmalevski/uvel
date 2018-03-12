@@ -30,6 +30,12 @@
 
 <td>
        
-       {!! DNS1D::getBarcodeHTML($product->barcode, "EAN13") !!}
-       {{ $product->barcode }}
+       {!! DNS1D::getBarcodeHTML('256874214568', "EAN13", 3, 33, true) !!}
+       
+       {{--  {!! DNS1D::getBarcodeSVG("4445645656", "PHARMA2T",3,33,"green", true) !!}
+       {!! DNS1D::getBarcodeHTML("4445645656", "PHARMA2T",3,33,"green", true) !!}  --}}
+       {{--  {!! '<img src="' . DNS1D::getBarcodePNG("4", "C39+",3,33,array(1,1,1), true) . '" alt="barcode"   />' !!}  --}}
+       {{--  {!! DNS1D::getBarcodePNGPath("4445645656", "PHARMA2T",3,33,array(255,255,0), true) !!}  --}}
+       {!! '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG("4", "C39+",3,33,array(1,1,1), true) . '" alt="barcode"   />' !!}  
+       {{--  {{ $product->barcode }}  --}}
 </td>
