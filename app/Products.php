@@ -34,7 +34,7 @@ class Products extends Model
     
         if($model){
             $model_material = Jewels::find($model->jewel);
-            $jewels = Jewels::where('material', $model_material->material)->get();
+            $jewels = Jewels::all();
             $prices = Prices::where('material', $model_material->material)->get();
 
             $retail_prices = Prices::where([
@@ -52,9 +52,16 @@ class Products extends Model
             $pass_jewels = array();
             
             foreach($jewels as $jewel){
+                if($jewel->id == $model->jewel){
+                    $selected = true;
+                }else{
+                    $selected = false;
+                }
+
                 $pass_jewels[] = (object)[
                     'value' => $jewel->id,
-                    'label' => $jewel->name
+                    'label' => $jewel->name,
+                    'selected' => $selected
                 ];
             }
     
@@ -89,7 +96,7 @@ class Products extends Model
                 'retail_prices' => $prices_retail, 
                 'wholesale_prices' => $prices_wholesale, 
                 'jewels_types' => $pass_jewels,
-                'stones' => $pass_stones, JSON_UNESCAPED_SLASHES,
+                'stones' => $pass_stones,
                 'weight' => $model->weight,
                 'size'   => $model->size,
                 'workmanship' => $model->workmanship,
