@@ -36,7 +36,7 @@ aria-hidden="true">
                         <option value="">Избери</option>
                 
                         @foreach($models as $model)
-                            <option value="{{ $model->id }}">{{ $model->name }}</option>
+                            <option value="{{ $model->id }}" data-jewel="{{ App\Jewels::find($model->jewel)->id }}">{{ $model->name }}</option>
                         @endforeach
                     </select>
                 
