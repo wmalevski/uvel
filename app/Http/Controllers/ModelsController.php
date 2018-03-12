@@ -105,11 +105,13 @@ class ModelsController extends Controller
             $barcode = pack('h*', $barcode);
             $barcode = unpack('L*', $barcode);
 
+            $newbarcode = '';
+
             foreach($barcode as $bars){
-                $barcode .= $bars;
+                $newbarcode .= $bars;
             }
 
-            $product->barcode = str_replace('-', '', $barcode);
+            $product->barcode = str_replace('-', '', $newbarcode);
 
             $product->save();
 
