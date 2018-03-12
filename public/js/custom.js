@@ -104,72 +104,29 @@ var uvel,
       if (collectionBtns.length) {
 
         var modelSelect = $('#model_select');
-        console.log(modelSelect);
+        var typeSelect;
+
         if(modelSelect) {
 
-          modelSelect.on('select2:close', function(ev) {
+          modelSelect.on('select2:select', function(ev) {
 
             if(modelSelect.val()) {
               
-              var value = modelSelect.find(':selected').data('jewel')
-              var tempUrl = url + '/products/' + value;
+              var value = modelSelect.find(':selected').data('jewel'),
+                  tempUrl = url + '/products/' + value,
+                  xhttp = new XMLHttpRequest(),
+                  typeSelect = $('#jewels_types');
 
-              var xhttp = new XMLHttpRequest();
+              typeSelect.on('select2:select', function(ev) {
 
-              xhttp.open('GET', tempUrl, true);
-              xhttp.onreadystatechange = function () {
+                var valueSelect = typeSelect.val();
+                var urlType = url + '/products/' + 1//valueSelect;
 
-                if (this.readyState == 4 && this.status == 200) {
+                productsRequest(urlType);
+                modelSelect.val('0');
+              })
 
-                  var data = JSON.parse(this.responseText);
-                  console.log(data);
-                  for(var key in data) {
-
-                    var holder = document.getElementById(key);
-
-                    if(holder) {
-
-                      var tagName = holder.tagName.toLowerCase();
-
-                      switch (tagName) {
-
-                        case 'input':
-
-                          holder.value = data[key];
-                          break;
-
-                        case 'select':
-
-                          var collectionData = data[key];
-                          
-                          collectionData.map(function(el) {
-
-                            var option = document.createElement('option');
-                                option.text = el.label;
-                                option.value = el.value;
-                                // option.selected = true;
-                            holder.add(option);
-                          })
-
-                          break;
-
-                        case 'span':
-
-                          holder.innerText = data[key];
-                          break;
-
-                        default:
-                          console.log("something went wrong");
-                          break;
-                      }
-                    }
-                  }
-                }
-              };
-
-              xhttp.setRequestHeader('Content-Type', 'application/json');
-              xhttp.setRequestHeader('X-CSRF-TOKEN', token);
-              xhttp.send();
+              productsRequest(tempUrl);
             }
           });
         }
@@ -289,9 +246,78 @@ var uvel,
           });
         })
       }
-      function log(data, sm) {
-        console.log(data, sm)
+      
+      function productsRequest(tempUrl) {
+
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.open('GET', tempUrl, true);
+        xhttp.onreadystatechange = function () {
+
+          if (this.readyState == 4 && this.status == 200) {
+
+            var data = JSON.parse(this.responseText);
+
+            for(var key in data) {
+
+              var holder = document.getElementById(key);
+
+              if(holder) {
+
+                var tagName = holder.tagName.toLowerCase();
+
+                switch (tagName) {
+
+                  case 'input':
+
+                    holder.value = data[key];
+                    break;
+
+                  case 'select':
+
+                    var collectionData = data[key];
+                    
+                    for(i = holder.options.length - 1 ; i >= 1 ; i--){
+                    
+                      holder.remove(i);
+                    }
+
+                    collectionData.map(function(el) {
+                      
+
+                      var option = document.createElement('option');
+                          option.text = el.label;
+                          option.value = el.value;
+                          
+                      if(el.hasOwnProperty('selected') && el['selected']) {
+
+                        option.selected = true;
+                      }
+
+                      holder.add(option);
+                    })
+
+                    break;
+
+                  case 'span':
+
+                    holder.innerText = data[key];
+                    break;
+
+                  default:
+                    console.log("something went wrong");
+                    break;
+                }
+              }
+            }
+          }
+        };
+
+        xhttp.setRequestHeader('Content-Type', 'application/json');
+        xhttp.setRequestHeader('X-CSRF-TOKEN', token);
+        xhttp.send();
       }
+
       function calculatePrice() {
 
         var typeJeweryData = typeJewery.options[typeJewery.selectedIndex].getAttribute('data-pricebuy'),
@@ -326,7 +352,7 @@ var uvel,
           if (this.readyState == 4 && this.status == 200) {
 
             var data = JSON.parse(this.responseText);
-            console.log(data);
+
             callback(data, elements);
 
           } else if (this.readyState == 4 && this.status == 401) {
@@ -378,7 +404,7 @@ var uvel,
 
             var select = collectionSelects[0];
             var tableId = document.querySelector('#' + select.options[select.selectedIndex].value + ' tbody');
-            console.log(tableId);
+
             tableId.innerHTML += response.success;
 
           } else {
