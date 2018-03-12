@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/materials">
+            <form method="POST" name="products" action="/products">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>
@@ -59,7 +59,7 @@ aria-hidden="true">
                     </select>
                     
                     <label>Цена на едро: </label>
-                    <select id="wholesale_price" name="wholesale_prices" class="form-control">
+                    <select id="wholesale_prices" name="wholesale_prices" class="form-control">
                         <option value="">Избери</option>
                 
                         <!-- @foreach($prices->where('type', 'buy') as $price)

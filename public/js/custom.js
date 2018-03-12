@@ -140,17 +140,16 @@ var uvel,
 
                         case 'select':
 
-                          // var optionsHolder = document.createDocumentFragment();
                           var collectionData = data[key];
-                          console.log(typeof collectionData);
-                          // collectionData.map(function(el) {
+                          
+                          collectionData.map(function(el) {
 
-                          //   var option = document.createElement('option');
-                          //       option.text = el.label;
-                          //       option.value = el.value;
-
-                          //   holder.add(option);
-                          // })
+                            var option = document.createElement('option');
+                                option.text = el.label;
+                                option.value = el.value;
+                                // option.selected = true;
+                            holder.add(option);
+                          })
 
                           break;
 
