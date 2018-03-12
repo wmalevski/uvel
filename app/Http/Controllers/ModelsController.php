@@ -99,7 +99,7 @@ class ModelsController extends Controller
             $product->size = $request->size;
             $product->workmanship = $request->workmanship;
             $product->price = $request->price;
-            $product->code = unique_random('products', 'code', 6);
+            $product->code = unique_number('products', 'code', 5);
 
             $barcode = str_replace('-', '', $product->id);
 
@@ -112,7 +112,7 @@ class ModelsController extends Controller
                 $newbarcode .= $bars;
             }
 
-            $product->barcode = Carbon::now()->timestamp; 
+            $product->barcode = '380'.unique_number('products', 'barcode', 5).$product->code; 
             $product->save();
 
             foreach($request->stones as $key => $stone){
