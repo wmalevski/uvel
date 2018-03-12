@@ -103,9 +103,8 @@ var uvel,
 
       if (collectionBtns.length) {
 
-        var modelSelect = $('#modelSelect');
+        var modelSelect = $('#model_select');
         console.log(modelSelect);
-
         if(modelSelect) {
 
           modelSelect.on('select2:close', function(ev) {
@@ -114,8 +113,64 @@ var uvel,
               
               var value = modelSelect.find(':selected').data('jewel')
               var tempUrl = url + '/products/' + value;
-              
-              ajaxFn('GET', tempUrl, log, '', '');
+
+              var xhttp = new XMLHttpRequest();
+
+              xhttp.open('GET', tempUrl, true);
+              xhttp.onreadystatechange = function () {
+
+                if (this.readyState == 4 && this.status == 200) {
+
+                  var data = JSON.parse(this.responseText);
+                  console.log(data);
+                  for(var key in data) {
+
+                    var holder = document.getElementById(key);
+
+                    if(holder) {
+
+                      var tagName = holder.tagName.toLowerCase();
+
+                      switch (tagName) {
+
+                        case 'input':
+
+                          holder.value = data[key];
+                          break;
+
+                        case 'select':
+
+                          // var optionsHolder = document.createDocumentFragment();
+                          var collectionData = data[key];
+                          console.log(typeof collectionData);
+                          // collectionData.map(function(el) {
+
+                          //   var option = document.createElement('option');
+                          //       option.text = el.label;
+                          //       option.value = el.value;
+
+                          //   holder.add(option);
+                          // })
+
+                          break;
+
+                        case 'span':
+
+                          holder.innerText = data[key];
+                          break;
+
+                        default:
+                          console.log("something went wrong");
+                          break;
+                      }
+                    }
+                  }
+                }
+              };
+
+              xhttp.setRequestHeader('Content-Type', 'application/json');
+              xhttp.setRequestHeader('X-CSRF-TOKEN', token);
+              xhttp.send();
             }
           });
         }
