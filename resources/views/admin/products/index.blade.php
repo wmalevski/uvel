@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/materials">
+            <form method="POST" name="products" action="/products">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>
@@ -32,7 +32,7 @@ aria-hidden="true">
                         </div>
                 
                     <label>Модел: </label>
-                    <select id="modelSelect" name="model" class="form-control">
+                    <select id="model_select" name="model" class="form-control">
                         <option value="">Избери</option>
                 
                         @foreach($models as $model)
@@ -41,44 +41,45 @@ aria-hidden="true">
                     </select>
                 
                     <label>Вид: </label>
-                    <select id="jewelsType" name="jewel" class="form-control">
+                    <select id="jewels_types" name="jewelsTypes" class="form-control">
                         <option value="">Избери</option>
                 
-                        @foreach($jewels as $jewel)
+                        <!-- @foreach($jewels as $jewel)
                             <option value="{{ $jewel->id }}" data-price="{{ $jewel->material }}">{{ $jewel->name }}</option>
-                        @endforeach
+                        @endforeach -->
                     </select>
 
                     <label>Цена на дребно: </label>
-                    <select id="retail_price" name="retail_price" class="form-control disabled-first calculate" disabled>
+                    <select id="retail_prices" name="retail_price" class="form-control" >
                         <option value="">Избери</option>
                 
-                        @foreach($prices->where('type', 'sell') as $price)
+                        <!-- @foreach($prices->where('type', 'sell') as $price)
                             <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
-                        @endforeach
+                        @endforeach -->
                     </select>
                     
                     <label>Цена на едро: </label>
-                    <select name="wholesale_price" class="form-control disabled-first" disabled>
+                    <select id="wholesale_prices" name="wholesale_prices" class="form-control">
                         <option value="">Избери</option>
                 
-                        @foreach($prices->where('type', 'buy') as $price)
+                        <!-- @foreach($prices->where('type', 'buy') as $price)
                             <option value="{{ $price->id }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
-                        @endforeach
+                        @endforeach -->
                     </select>
                 
                     <div class="form-group">
                         <label for="1">Тегло: </label>
-                        <input type="text" class="form-control" id="1" name="weight" placeholder="Тегло:">
+                        <input type="text" class="form-control" id="weight" name="weight" placeholder="Тегло:">
                     </div>
                 
                     <div class="form-group">
                         <label for="1">Размер: </label>
-                        <input type="text" class="form-control" id="1" name="size" placeholder="Размер:">
+                        <input type="text" class="form-control" id="size" name="size" placeholder="Размер:">
                     </div>
                 
-                    Изработка: 71<br/>
-                    Цена: 256<br/><br/>
+                    Изработка: <span id="workmanship">0</span>   <br/>
+
+                    Цена: <span id="price">0</span><br/><br/>
                     <div id="errors-container"></div>
                 </div>
 
