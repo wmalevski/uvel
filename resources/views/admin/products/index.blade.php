@@ -12,7 +12,10 @@ aria-hidden="true">
                 </button>
             </div>
             <form method="POST" name="products" action="/products">
+
+
                 <div class="modal-body">
+
                     <div class="info-cont">
                     </div>
                     {{ csrf_field() }}
@@ -25,11 +28,11 @@ aria-hidden="true">
                     </div>
 
                     <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                            <input type="checkbox" id="inputCall2" name="for_wholesale" class="peer">
-                            <label for="inputCall2" class="peers peer-greed js-sb ai-c">
-                                <span class="peer peer-greed">За продажба на едро</span>
-                            </label>
-                        </div>
+                        <input type="checkbox" id="inputCall2" name="for_wholesale" class="peer">
+                        <label for="inputCall2" class="peers peer-greed js-sb ai-c">
+                            <span class="peer peer-greed">За продажба на едро</span>
+                        </label>
+                    </div>
                 
                     <label>Модел: </label>
                     <select id="model_select" name="model" class="form-control">
@@ -80,6 +83,14 @@ aria-hidden="true">
                     Изработка: <span id="workmanship">0</span>   <br/>
 
                     Цена: <span id="price">0</span><br/><br/>
+                    <div id="drop-area">
+
+                        <p>Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region</p>
+                        <input type="file" name="images[]" id="fileElem" multiple accept="image/*" >
+                        <label class="button" for="fileElem">Select some files</label>
+
+                      <div id="gallery" /></div>
+                    </div>
                     <div id="errors-container"></div>
                 </div>
 
