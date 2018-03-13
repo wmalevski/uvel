@@ -54,6 +54,12 @@ class DatabaseSeeder extends Seeder
         $manager->description  = 'Управител на магазин'; // optional
         $manager->save();
 
+        $customer = new Role();
+        $customer->name         = 'customer';
+        $customer->display_name = 'Клиент'; // optional
+        $customer->description  = 'Клиентски профил'; // optional
+        $customer->save();
+
         $sellingProducts = new Permission();
         $sellingProducts->name         = 'selling-products';
         $sellingProducts->display_name = 'Извършване на продажби'; // optional

@@ -15,6 +15,16 @@ class CreateRepairsTable extends Migration
     {
         Schema::create('repairs', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('customer_name');
+            $table->integer('customer_phone');
+            $table->integer('type');
+            $table->string('date_recieved');
+            $table->string('date_returned');
+            $table->enum('status', ['repairing', 'returned'])->default('repairing');
+            $table->string('code');
+            $table->float('weight');
+            $table->string('barcode')->nullable();
+            $table->text('repair_description')->nullable();
             $table->timestamps();
         });
     }

@@ -10,6 +10,7 @@ use Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -22,8 +23,9 @@ class UserController extends Controller
     {
         $users = User::all();
         $stores = Stores::all();
+        $roles = Role::all();
         
-        return \View::make('admin/users/index', array('users' => $users, 'stores' => $stores));
+        return \View::make('admin/users/index', array('users' => $users, 'stores' => $stores, 'roles' => $roles));
     }
 
     /**
@@ -51,5 +53,36 @@ class UserController extends Controller
         $user->save();
         
         return Response::json( View::make('admin/users/table', array('user' => $user))->render());
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+
+        $validator = Validator::make( $request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+         ]);
+        
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
+        //$user = User::create($request->all());
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'store' => $request->store
+        ]);
+        
+        return Response::json(array('success' => View::make('admin/users/table',array('user'=>$user))->render()));
     }
 }
