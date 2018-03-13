@@ -118,6 +118,8 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::put('/users/{user}', 'UserController@update');
 
+    Route::post('/users', 'UserController@store');
+
     Route::put('/stones/{stone}', 'StonesController@update');
     Route::get('/stones/{stone}', 'StonesController@edit');
 

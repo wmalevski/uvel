@@ -79,7 +79,37 @@
                         <button type="submit" class="btn btn-primary">Сертификат</button>
                     </div>
                     <div class="col-md-6 masonry-item form-horizontal">
-                        <div class="form-group">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Модел</th>
+                                    <th scope="col">Уникален номер</th>
+                                    <th scope="col">Грамаж</th>
+                                    <th scope="col">Цена</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td>@mdo</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                    <td>@fat</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>Larry</td>
+                                    <td>the Bird</td>
+                                    <td>@twitter</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {{--  <div class="form-group">
                             <div class="checkbox checkbox-circle checkbox-info peers ai-c">
                                 <input type="checkbox" id="inputCall2" name="inputCheckboxesCall" class="peer">
                                 <label for="inputCall2" class="peers peer-greed js-sb ai-c">
@@ -179,7 +209,7 @@
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Плащане</button>
                             <button type="submit" class="btn btn-primary">Ръчно пускане на фискален бон</button>
-                        </div>
+                        </div>  --}}
                     </div>
                 </div>
             </form>
