@@ -43,6 +43,20 @@ class RepairsController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make( $request->all(), [
+            'customer_name' => 'required',
+            'customer_phone' => 'required',
+            'type' => 'required',
+            'date_returned' => 'required',
+            'weight' => 'required',
+            'phone' => 'required|numeric',
+         ]);
+        
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
+
         $repair = Repairs::create([
             'customer_name' => $request->customer_name,
             'customer_phone' => $request->customer_phone,
