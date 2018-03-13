@@ -120,7 +120,10 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/users', 'UserController@store');
 
+    Route::post('/repairs', 'RepairsController@store');
+
     Route::put('/stones/{stone}', 'StonesController@update');
+
     Route::get('/stones/{stone}', 'StonesController@edit');
 
     Route::get('/products/{model}', 'ProductsController@chainedSelects');

@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Repairs;
 use Illuminate\Http\Request;
 use App\Repair_types;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\JsonResponse;
+use Response;
+use Illuminate\Support\Facades\View;
 
 class RepairsController extends Controller
 {
@@ -16,8 +20,9 @@ class RepairsController extends Controller
     public function index()
     {
         $repairTypes = Repair_types::all();
+        $repairs = Repairs::all();
         
-        return \View::make('admin/repairs/index', array('repairTypes' => $repairTypes));
+        return \View::make('admin/repairs/index', array('repairTypes' => $repairTypes, 'repairs' => $repairs));
     }
 
     /**
@@ -38,7 +43,22 @@ class RepairsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $repair = Repairs::create([
+            'customer_name' => $request->customer_name,
+            'customer_phone' => $request->customer_phone,
+            'type' => $request->type,
+            'date_recieved' => $request->date_recieved,
+            'date_returned' => $request->date_returned,
+            'code' =>  unique_random('repairs', 'code', 4),
+            'weight' => $request->weight,
+            'repair_description' => $request->repair_description
+        ]);
+        
+        $repair->barcode = '380'.unique_number('repairs', 'code', 7);
+
+        $repair->save();
+
+        return Response::json(array('success' => View::make('admin/repairs/table',array('repair'=>$repair))->render()));
     }
 
     /**
