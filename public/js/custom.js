@@ -243,14 +243,26 @@ var uvel,
             if(modelSelect.val()) {
               
               var value = modelSelect.find(':selected').data('jewel'),
+<<<<<<< HEAD
                   tempUrl = url + '/products/' + value,
+=======
+                  tempUrl = url + '/products/' + value + '/model',
+>>>>>>> 299b0e350e4df2e2690aec1fa729674c5e2406fe
                   xhttp = new XMLHttpRequest(),
                   typeSelect = $('#jewels_types');
 
               typeSelect.on('select2:select', function(ev) {
 
+<<<<<<< HEAD
                 modelSelect.val('0').trigger('change.select2');
                 
+=======
+                var valueSelect = typeSelect.val();
+                var urlType = url + '/products/' + valueSelect + '/jewel';
+
+                productsRequest(urlType, false);
+                modelSelect.val('0');
+>>>>>>> 299b0e350e4df2e2690aec1fa729674c5e2406fe
               })
 
               productsRequest(tempUrl);
