@@ -29,10 +29,9 @@ class Products extends Model
 
     public $incrementing = false;
 
-    public function chainedSelects($model){
-        //$model = Models::find($model);
-    
-        //if($model){
+    public function chainedSelects($model, $type){
+        if($ype == 'model'){
+            $model = Models::find($model);
             $model_material = Jewels::find($model);
             $jewels = Jewels::all();
             $prices = Prices::where('material', $model_material->material)->get();
@@ -47,7 +46,7 @@ class Products extends Model
                 'type' => 'sell'
             ])->get();
 
-            //$model_stones = Model_stones::where('model', $model)->get();
+            $model_stones = Model_stones::where('model', $model)->get();
     
             $pass_jewels = array();
             
@@ -85,12 +84,12 @@ class Products extends Model
 
             $pass_stones = array();
             
-            // foreach($model_stones as $stone){
-            //     $pass_stones[] = [
-            //         'value' => $stone->id,
-            //         'label' => $stone->name.' ('.\App\Stone_contours::find($stone->contour)->name.', '.\App\Stone_sizes::find($stone->size)->name.' )'
-            //     ];
-            // }
+            foreach($model_stones as $stone){
+                $pass_stones[] = [
+                    'value' => $stone->id,
+                    'label' => $stone->name.' ('.\App\Stone_contours::find($stone->contour)->name.', '.\App\Stone_sizes::find($stone->size)->name.' )'
+                ];
+            }
     
             return array(
                 'retail_prices' => $prices_retail, 
@@ -102,6 +101,8 @@ class Products extends Model
                 'workmanship' => $model->workmanship,
                 'price' => $model->price
             );
+        } else if($type == 'jewel'){
+
         }
-    //}
+    }
 }
