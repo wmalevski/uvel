@@ -68,10 +68,22 @@ var uvel,
     this.dropFuntionality = function(instanceFiles) {
       
       var dropArea = document.getElementById("drop-area");
-
+      var input = document.getElementById("fileElem");
       var preventEvents = ['dragenter', 'dragover', 'dragleave', 'drop'],
           highlightEvents = ['dragenter', 'dragover'],
           unhighlightEvents = ['dragleave', 'drop'];
+
+      input.addEventListener('change', function(ev) {
+        var files = ev.target.files,
+            collectionFiles= [];
+
+        for(var file of files) {
+
+          collectionFiles.push(file);
+        }
+
+        handleFiles(collectionFiles);
+      })
 
       preventEvents.forEach(function(eventName) {
 
@@ -122,20 +134,11 @@ var uvel,
 
       function handleFiles(files) {
 
-        // files.forEach(uploadFile)
         files.forEach(previewFile);
-
-        // files.forEach(function(file) {
-          
-        //   instanceFiles.push(file);
-        // })
-
-        // return files;
       }
 
       function previewFile(file) {
         
-        console.log("shit");
         var reader = new FileReader()
         reader.readAsDataURL(file)
 
@@ -229,7 +232,7 @@ var uvel,
         if(dropZone) {
 
           this.dropFuntionality(collectionFiles);
-          // Todo: onchange="handleFiles(this.files)"
+          // Todo: make a removing functionality
          
         }
 
