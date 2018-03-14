@@ -38,12 +38,10 @@ class Products extends Model
             $prices = Prices::where('material', $model->jewel)->get();
 
             $retail_prices = Prices::where([
-                'material' => $model->jewel,
                 'type' => 'buy'
             ])->get();
 
             $wholesale_prices = Prices::where([
-                'material' => $model->jewel,
                 'type' => 'sell'
             ])->get();
 
@@ -68,18 +66,32 @@ class Products extends Model
             $prices_retail = array();
             
             foreach($retail_prices as $price){
+                if($price->material == $model->jewel){
+                    $selected = true;
+                }else{
+                    $selected = false;
+                }
+
                 $prices_retail[] = (object)[
                     'value' => $price->id,
-                    'label' => $price->slug
+                    'label' => $price->slug,
+                    'selected' => $selected
                 ];
             }
 
             $prices_wholesale = array();
             
             foreach($wholesale_prices as $price){
+                if($price->material == $model->jewel){
+                    $selected = true;
+                }else{
+                    $selected = false;
+                }
+
                 $prices_wholesale[] = (object)[
                     'value' => $price->id,
-                    'label' => $price->slug
+                    'label' => $price->slug,
+                    'selected' => $selected
                 ];
             }
 
