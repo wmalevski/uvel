@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Discount_codes;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\JsonResponse;
+use Response;
+use Illuminate\Support\Facades\View;
 
 class DiscountCodesController extends Controller
 {
@@ -14,7 +19,10 @@ class DiscountCodesController extends Controller
      */
     public function index()
     {
-        //
+        $discounts = Discount_codes::all();
+        $users = User::all();
+        
+        return \View::make('admin/discounts/index', array('discounts' => $discounts, 'users' => $users));
     }
 
     /**
@@ -35,7 +43,28 @@ class DiscountCodesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make( $request->all(), [
+            'discount' => 'required',
+            'date_expires' => 'required',
+         ]);
+        
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
+
+        $discount = Discount_codes::create([
+            'discount' => $request->discount,
+            'expires' => $request->date_expires,
+            'user' => $request->user,
+            'code' =>  unique_random('discount_codes', 'code', 4),
+        ]);
+        
+        $discount->barcode = '380'.unique_number('discount_codes', 'code', 7);
+
+        $discount->save();
+
+        return Response::json(array('success' => View::make('admin/discounts/table',array('discount'=>$discount))->render()));
     }
 
     /**
