@@ -243,14 +243,14 @@ var uvel,
             if(modelSelect.val()) {
               
               var value = modelSelect.find(':selected').data('jewel'),
-                  tempUrl = url + '/products/' + value + '/type',
+                  tempUrl = url + '/products/' + value + '/model',
                   xhttp = new XMLHttpRequest(),
                   typeSelect = $('#jewels_types');
 
               typeSelect.on('select2:select', function(ev) {
 
                 var valueSelect = typeSelect.val();
-                var urlType = url + '/products/' + valueSelect + '/type';
+                var urlType = url + '/products/' + valueSelect + '/jewel';
 
                 productsRequest(urlType, false);
                 modelSelect.val('0');
