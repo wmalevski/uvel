@@ -8,31 +8,35 @@
                 <div class="row gap-20 masonry pos-r">
                     <div class="masonry-sizer col-md-6"></div>
                     <div class="col-md-6 masonry-item form-horizontal">
+                        <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                            <input type="checkbox" id="amount_check" name="amount_check" class="peer">
+                            <label for="amount_check" class="peers peer-greed js-sb ai-c">
+                                <span class="peer peer-greed">Повече от един продукт</span>
+                            </label>
+                        </div>
                         <div class="form-group form-row">
-                            <label for="inputEmail3" class="col-sm-9 control-label">Номер на артикула</label>
+                            <label for="number_item" class="col-sm-9 control-label">Номер на артикула</label>
                             <div class="col-sm-3">
-                                <input type="email" class="form-control" id="inputEmail3" placeholder="Артикулне номер">
+                                <input type="text" class="form-control" name="number_item" id="number_item" placeholder="Артикулне номер">
+                            </div>
+                        </div>
+                        <div class="form-group form-row">
+                            <label for="catalog_number" class="col-sm-9 control-label">Каталожен номер</label>
+                            <div class="col-sm-3">
+                                <input type="email" class="form-control" id="catalog_number" name="catalog_number" placeholder="Номер от каталога">
+                            </div>
+                        </div>
+                        <div class="form-group form-row">
+                            <label for="amount" class="col-sm-9 control-label">Брой</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control" id="amount" name="amount" placeholder="1">
                             </div>
                         </div>
 
                         <div class="form-group form-row">
-                            <label for="inputEmail3" class="col-sm-9 control-label">Каталожен номер</label>
+                            <label for="discount" class="col-sm-9 control-label">Отстъпка</label>
                             <div class="col-sm-3">
-                                <input type="email" class="form-control" id="inputEmail3" placeholder="Номер от каталога">
-                            </div>
-                        </div>
-
-                        <div class="form-group form-row">
-                            <label for="inputEmail3" class="col-sm-9 control-label">Брой</label>
-                            <div class="col-sm-3">
-                                <input type="email" class="form-control" id="inputEmail3" placeholder="1">
-                            </div>
-                        </div>
-
-                        <div class="form-group form-row">
-                            <label for="inputEmail3" class="col-sm-9 control-label">Отстъпка</label>
-                            <div class="col-sm-3">
-                                <select id="repair_type" name="repair_type" class="form-control">
+                                <select id="discount" name="discount" class="form-control">
                                     <option value="">Избери</option>
     
                                     <option value="5">5%</option>
@@ -41,8 +45,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Описание</label>
-                            <textarea class="form-control"></textarea>
+                            <label for="description">Описание</label>
+                            <textarea name="description" id="description" class="form-control"></textarea>
                         </div>
 
                         <div class="form-group">

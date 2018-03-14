@@ -243,20 +243,20 @@ var uvel,
             if(modelSelect.val()) {
               
               var value = modelSelect.find(':selected').data('jewel'),
-                  tempUrl = url + '/products/' + value,
+                  tempUrl = url + '/products/' + value + '/type',
                   xhttp = new XMLHttpRequest(),
                   typeSelect = $('#jewels_types');
 
               typeSelect.on('select2:select', function(ev) {
 
                 var valueSelect = typeSelect.val();
-                var urlType = url + '/products/' + 1//valueSelect;
+                var urlType = url + '/products/' + valueSelect + '/type';
 
-                productsRequest(urlType);
+                productsRequest(urlType, false);
                 modelSelect.val('0');
               })
 
-              productsRequest(tempUrl);
+              productsRequest(tempUrl, true);
             }
           });
         }
