@@ -123,17 +123,19 @@ var uvel,
       function handleFiles(files) {
 
         // files.forEach(uploadFile)
-        files.forEach(previewFile)
-        files.forEach(function(file) {
-          
-          instanceFiles.push(file);
-        })
+        files.forEach(previewFile);
 
-        return files;
+        // files.forEach(function(file) {
+          
+        //   instanceFiles.push(file);
+        // })
+
+        // return files;
       }
 
       function previewFile(file) {
-  
+        
+        console.log("shit");
         var reader = new FileReader()
         reader.readAsDataURL(file)
 
@@ -142,8 +144,43 @@ var uvel,
           var img = document.createElement('img')
           img.src = reader.result
           document.getElementById('gallery').appendChild(img)
+
+          toDataURL(
+            reader.result,
+            function(dataUrl) {
+
+              var data = dataUrl.replace('data:image/png;base64,','');
+              instanceFiles.push(data);
+              console.log('instanceFiles:', instanceFiles)
+            }
+          )
         }
       }
+
+      function toDataURL(src, callback, outputFormat) {
+
+        var img = new Image();
+        img.crossOrigin = 'Anonymous';
+
+        img.onload = function() {
+
+          var canvas = document.createElement('CANVAS');
+          var ctx = canvas.getContext('2d');
+          var dataURL;
+          canvas.height = this.naturalHeight;
+          canvas.width = this.naturalWidth;
+          ctx.drawImage(this, 0, 0);
+          dataURL = canvas.toDataURL(outputFormat);
+          callback(dataURL);
+        };
+
+        img.src = src;
+        if (img.complete || img.complete === undefined) {
+
+          img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+          img.src = src;
+        }
+      } 
     }
 
     this.checkAllForms = function() {
@@ -256,6 +293,12 @@ var uvel,
                     formMethod = value;
                   }
 
+                  if(name === 'images') {
+                    
+                    collectionData[name] = [].slice.apply(collectionFiles);
+                    return true;
+                  }
+
                   if (elType === 'checkbox') {
 
                     collectionData[name] = el.checked;
@@ -274,7 +317,7 @@ var uvel,
                     }
 
                   } else {
-
+                    
                     collectionData[name] = value;
                     collectionElements.push(el);
                   }
@@ -328,12 +371,6 @@ var uvel,
             console.log(`collectionData`, collectionData, 'collectionFiles', collectionFiles);
 
             if (formMethod == 'POST') {
-
-              if(collectionFiles.length) {
-
-                ajaxFnAndFiles(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements, collectionFiles)
-                return true;
-              }
 
               ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements);
 
@@ -464,43 +501,6 @@ var uvel,
         xhttp.setRequestHeader('Content-Type', 'application/json');
         xhttp.setRequestHeader('X-CSRF-TOKEN', token);
         xhttp.send(JSON.stringify(dataSend));
-      }
-
-      function ajaxFnAndFiles(method, url, callback, dataSend, elements, collectionFiles) {
-
-        var xhttp = new XMLHttpRequest();
-        var formData = new FormData();
-
-        formData.append('data', dataSend);
-        console.log(dataSend);
-        collectionFiles.forEach(function(file, index) {
-
-          formData.append('file', file);
-        })
-
-        xhttp.open(method, url, true);
-        xhttp.onreadystatechange = function () {
-
-          if (this.readyState == 4 && this.status == 200) {
-
-            var data = JSON.parse(this.responseText);
-
-            callback(data, elements);
-
-          } else if (this.readyState == 4 && this.status == 401) {
-
-            var data = JSON.parse(this.responseText);
-
-            callback(data);
-          }
-        };
-
-        console.log(formData.getAll('file'));
-
-        xhttp.setRequestHeader('Content-Type', 'application/json');
-        xhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
-        xhttp.setRequestHeader('X-CSRF-TOKEN', token);
-        xhttp.send(formData);
       }
 
       function handleResponsePost(response, elements) {

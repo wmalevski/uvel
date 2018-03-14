@@ -84,11 +84,8 @@ aria-hidden="true">
 
                     Цена: <span id="price">0</span><br/><br/>
                     <div id="drop-area">
-
-                        <p>Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region</p>
-                        <input type="file" name="images[]" id="fileElem" multiple accept="image/*" >
+                        <input type="file" name="images" id="fileElem" multiple accept="image/*" >
                         <label class="button" for="fileElem">Select some files</label>
-
                       <div id="gallery" /></div>
                     </div>
                     <div id="errors-container"></div>
