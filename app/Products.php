@@ -30,10 +30,10 @@ class Products extends Model
     public $incrementing = false;
 
     public function chainedSelects($model){
-        $model = Models::find($model);
+        //$model = Models::find($model);
     
-        if($model){
-            $model_material = Jewels::find($model->jewel);
+        //if($model){
+            $model_material = Jewels::find($model);
             $jewels = Jewels::all();
             $prices = Prices::where('material', $model_material->material)->get();
 
@@ -47,12 +47,12 @@ class Products extends Model
                 'type' => 'sell'
             ])->get();
 
-            $model_stones = Model_stones::where('model', $model)->get();
+            //$model_stones = Model_stones::where('model', $model)->get();
     
             $pass_jewels = array();
             
             foreach($jewels as $jewel){
-                if($jewel->id == $model->jewel){
+                if($jewel->id == $model){
                     $selected = true;
                 }else{
                     $selected = false;
@@ -85,23 +85,23 @@ class Products extends Model
 
             $pass_stones = array();
             
-            foreach($model_stones as $stone){
-                $pass_stones[] = [
-                    'value' => $stone->id,
-                    'label' => $stone->name.' ('.\App\Stone_contours::find($stone->contour)->name.', '.\App\Stone_sizes::find($stone->size)->name.' )'
-                ];
-            }
+            // foreach($model_stones as $stone){
+            //     $pass_stones[] = [
+            //         'value' => $stone->id,
+            //         'label' => $stone->name.' ('.\App\Stone_contours::find($stone->contour)->name.', '.\App\Stone_sizes::find($stone->size)->name.' )'
+            //     ];
+            // }
     
             return array(
                 'retail_prices' => $prices_retail, 
                 'wholesale_prices' => $prices_wholesale, 
                 'jewels_types' => $pass_jewels,
-                'stones' => $pass_stones,
+                //'stones' => $pass_stones,
                 'weight' => $model->weight,
                 'size'   => $model->size,
                 'workmanship' => $model->workmanship,
                 'price' => $model->price
             );
         }
-    }
+    //}
 }

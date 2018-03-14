@@ -94,6 +94,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::post('/settings', 'SettingsController@store');
 
     Route::post('/settings/updatePrices', 'SettingsController@updatePrices');
+
+    Route::get('/discounts', 'DiscountCodesController@index')->name('discounts');
 });
 
 Route::group(['prefix' => 'ajax'], function() {
@@ -121,6 +123,8 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/users', 'UserController@store');
 
     Route::post('/repairs', 'RepairsController@store');
+
+    Route::post('/discounts', 'DiscountCodesController@store');
 
     Route::put('/stones/{stone}', 'StonesController@update');
 

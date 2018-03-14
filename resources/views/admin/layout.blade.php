@@ -121,6 +121,21 @@
               <span class="title">Начало</span>
             </a>
           </li>
+          <li class="nav-item {{ Active::check('admin/selling', true) }}">
+            <a class="sidebar-link" href="{{ route('selling') }}" default>
+              <span class="icon-holder">
+                <i class="c-blue-500 ti-home"></i>
+              </span>
+              <span class="title">Продажби</span>
+            </a>
+          </li>
+          <li class="nav-item {{ Active::check('admin/discounts',true) }}">
+            <a class="sidebar-link" href="{{ route('discounts') }}">
+              <span class="icon-holder">
+                <i class="c-brown-500 ti-pencil"></i>
+              </span>
+              <span class="title">Отстъпки</span>
+            </a>
           <li class="nav-item {{ Active::check('admin/stores',true) }}">
               <a class="sidebar-link" href="{{ route('stores') }}">
                 <span class="icon-holder">

@@ -20,15 +20,15 @@ aria-hidden="true">
                     {{ csrf_field() }}  
                                 
                     <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="inputEmail4">Име</label>
-                                <input type="text" class="form-control" name="customer_name" placeholder="Име на клиент">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="inputPassword4">Телефон</label>
-                                <input type="text" class="form-control" name="customer_phone" placeholder="Телефон на клиента">
-                            </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputEmail4">Име</label>
+                            <input type="text" class="form-control" name="customer_name" placeholder="Име на клиент">
                         </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputPassword4">Телефон</label>
+                            <input type="text" class="form-control" name="customer_phone" placeholder="Телефон на клиента">
+                        </div>
+                    </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
@@ -58,20 +58,28 @@ aria-hidden="true">
                             <label>Описание</label>
                             <textarea class="form-control" name="repair_description"></textarea>
                         </div>
-                        <div class="form-group">
-                            <label>Тип ремонт</label>
-                            <select name="type" class="form-control">
-                                <option value="">Избери</option>
 
-                                @foreach($repairTypes as $repairType)
-                                    <option value="{{ $repairType->id }}">{{ $repairType->name }} - {{ $repairType->price }}</option>
-                                @endforeach
-                            </select>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Тип ремонт</label>
+                                <select name="type" class="form-control">
+                                    <option value="">Избери</option>
+    
+                                    @foreach($repairTypes as $repairType)
+                                        <option value="{{ $repairType->id }}">{{ $repairType->name }} - {{ $repairType->price }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputPassword4">Тегло в карати</label>
+                                <input type="text" class="form-control" name="weight" placeholder="Тегло на артикула в карати">
+                            </div>
                         </div>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+                    <button type="submit" id="sertificate" class="btn btn-primary">Сертификат</button>
                     <button type="submit" id="add" class="btn btn-primary">Добави</button>
                 </div>
             </form>
