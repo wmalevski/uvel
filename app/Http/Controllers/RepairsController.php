@@ -45,11 +45,10 @@ class RepairsController extends Controller
     {
         $validator = Validator::make( $request->all(), [
             'customer_name' => 'required',
-            'customer_phone' => 'required',
+            'customer_phone' => 'required|numeric',
             'type' => 'required',
             'date_returned' => 'required',
             'weight' => 'required',
-            'phone' => 'required|numeric',
          ]);
         
         if ($validator->fails()) {

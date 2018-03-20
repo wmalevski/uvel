@@ -140,4 +140,6 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/discounts', 'DiscountCodesController@store');
 
     Route::get('/products/{model}', 'ProductsController@chainedSelects');
+
+    Route::post('/products', 'ProductsController@store');
 });

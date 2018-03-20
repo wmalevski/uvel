@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
 use Illuminate\Support\Facades\View;
+use Uuid;
+use App\Gallery;
 
 
 class StonesController extends Controller
@@ -63,6 +65,21 @@ class StonesController extends Controller
         }
 
         $stone = Stones::create($request->all());
+
+        $file_data = $request->input('images'); 
+        foreach($file_data as $img){
+            $file_name = 'productimage_'.uniqid().time().'.png';
+            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+            file_put_contents(public_path('uploads/stones/').$file_name, $data);
+
+            $photo = new Gallery();
+            $photo->photo = $file_name;
+            $photo->row_id = $stone->id;
+            $photo->table = 'stones';
+
+            $photo->save();
+        }
+
         return Response::json(array('success' => View::make('admin/stones/table',array('stone'=>$stone))->render()));
     }
 

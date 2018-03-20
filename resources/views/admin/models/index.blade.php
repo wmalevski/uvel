@@ -111,6 +111,12 @@ aria-hidden="true">
                             </div>
                         </div>
                     </div>
+
+                    <div id="drop-area">
+                        <input type="file" name="images" id="fileElem" multiple accept="image/*" >
+                        <label class="button" for="fileElem">Select some files</label>
+                      <div id="gallery" /></div>
+                    </div>
                     <br/>
 
                     <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">

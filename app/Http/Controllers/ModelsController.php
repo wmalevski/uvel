@@ -16,6 +16,7 @@ use Response;
 use Uuid;
 use Illuminate\Support\Facades\View;
 use Carbon\Carbon;
+use App\Gallery;
 
 class ModelsController extends Controller
 {
@@ -85,6 +86,21 @@ class ModelsController extends Controller
             $model_stones->stone = $stone;
             $model_stones->amount = $request->stone_amount[$key];
             $model_stones->save();
+        }
+
+        $file_data = $request->input('images'); 
+        
+        foreach($file_data as $img){
+            $file_name = 'productimage_'.uniqid().time().'.png';
+            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+            file_put_contents(public_path('uploads/models/').$file_name, $data);
+
+            $photo = new Gallery();
+            $photo->photo = $file_name;
+            $photo->row_id = $model->id;
+            $photo->table = 'models';
+
+            $photo->save();
         }
 
         if ($request->release_product == true) {

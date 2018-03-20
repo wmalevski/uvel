@@ -87,9 +87,6 @@ aria-hidden="true">
     </div>
 </div>
 
-
-
-
 <div class="modal fade" id="editRepair" role="dialog" aria-labelledby="editRepair"
 aria-hidden="true">
     <div class="modal-dialog" role="document">

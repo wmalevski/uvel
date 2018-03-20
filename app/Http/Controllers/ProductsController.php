@@ -9,6 +9,8 @@ use App\Prices;
 use App\Stones;
 use App\Model_stones;
 use Illuminate\Http\Request;
+use Uuid;
+use App\Gallery;
 
 class ProductsController extends Controller
 {
@@ -60,7 +62,34 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $file_data = $request->input('images'); 
+        foreach($file_data as $img){
+            $file_name = 'productimage_'.uniqid().time().'.png';
+            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+            file_put_contents(public_path('uploads/products/').$file_name, $data);
+
+            $photo = new Gallery();
+            $photo->photo = $file_name;
+            $photo->row_id = 1;
+            $photo->table = 'products';
+
+            $photo->save();
+        }
+
+        // $product = new Products();
+        // $product->id = Uuid::generate()->string;
+        // $product->model = $request->model;
+        // $product->jewel_type = $request->jewelsTypes;
+        // $product->weight = $request->weight;
+        // $product->retail_price = $request->retail_price;
+        // $product->wholesale_price  = $request->wholesale_prices;
+        // $product->size = $request->size;
+        // $product->workmanship = $request->workmanship;
+        // $product->price = $request->price;
+        // $product->code = unique_number('products', 'code', 4);
+        // $product->barcode = '380'.unique_number('products', 'barcode', 4).$product->code; 
+        // $product->save();
     }
 
     /**
