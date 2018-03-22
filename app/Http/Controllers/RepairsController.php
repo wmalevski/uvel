@@ -74,6 +74,12 @@ class RepairsController extends Controller
         return Response::json(array('success' => View::make('admin/repairs/table',array('repair'=>$repair))->render()));
     }
 
+    public function scan($barcode){
+        $repair = Repairs::where('barcode', $barcode)->get();
+
+        return Response::json(array('repair' => $repair));
+    }
+
     /**
      * Display the specified resource.
      *

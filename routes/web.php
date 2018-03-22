@@ -136,6 +136,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/users', 'UserController@store');
 
     Route::post('/repairs', 'RepairsController@store');
+    Route::get('/repairs/{barcode}', 'RepairsController@scan');
 
     Route::post('/discounts', 'DiscountCodesController@store');
 

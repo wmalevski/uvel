@@ -114,7 +114,7 @@ aria-hidden="true">
 
                     <div id="drop-area">
                         <input type="file" name="images" id="fileElem" multiple accept="image/*" >
-                        <label class="button" for="fileElem">Select some files</label>
+                        <label class="button" for="fileElem">Избери снимки</label>
                       <div id="gallery" /></div>
                     </div>
                     <br/>

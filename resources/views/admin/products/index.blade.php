@@ -80,12 +80,12 @@ aria-hidden="true">
                         <input type="text" class="form-control" id="size" name="size" placeholder="Размер:">
                     </div>
                 
-                    Изработка: <span id="workmanship">0</span>   <br/>
+                    Изработка: <span id="workmanship">0</span>лв   <br/>
 
-                    Цена: <span id="price">0</span><br/><br/>
+                    Цена: <span id="price">0</span>лв<br/><br/>
                     <div id="drop-area">
                         <input type="file" name="images" id="fileElem" multiple accept="image/*" >
-                        <label class="button" for="fileElem">Select some files</label>
+                        <label class="button" for="fileElem">Избери снимки</label>
                       <div id="gallery" /></div>
                     </div>
                     <div id="errors-container"></div>

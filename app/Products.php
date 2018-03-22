@@ -74,7 +74,7 @@ class Products extends Model
 
                 $prices_retail[] = (object)[
                     'value' => $price->id,
-                    'label' => $price->slug,
+                    'label' => $price->slug.' - '.$price->price.'лв',
                     'selected' => $selected
                 ];
             }
@@ -90,7 +90,7 @@ class Products extends Model
 
                 $prices_wholesale[] = (object)[
                     'value' => $price->id,
-                    'label' => $price->slug,
+                    'label' => $price->slug.' - '.$price->price.'лв',
                     'selected' => $selected
                 ];
             }
