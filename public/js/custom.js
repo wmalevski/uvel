@@ -325,6 +325,20 @@ var uvel,
               });
             }
 
+            // Check the textareas
+
+            if(collectionTextareas.length != 0) {
+              collectionTextareas.map(function(el) {
+                  if(el != 'undefined') {
+                    var name = el.getAttribute('name');
+                    var value = el.value;
+
+                    collectionData[name] = value;
+                    collectionElements.push(el);
+                  }
+              })
+            }
+
             // Check the selects
 
             if (collectionSelects.length != 0) {
