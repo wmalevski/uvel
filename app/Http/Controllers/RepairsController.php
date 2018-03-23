@@ -71,7 +71,7 @@ class RepairsController extends Controller
 
         $repair->save();
 
-        return Response::json(array('success' => View::make('admin/repairs/table',array('repair'=>$repair))->render()));
+        return Response::json(array('success' => View::make('admin/repairs/table',array('repair'=>$repair))->render(), 'id' => $repair->id));
     }
 
     public function scan($barcode){
