@@ -38,7 +38,7 @@ aria-hidden="true">
                                         <div class="input-group-addon bgc-white bd bdwR-0">
                                             <i class="ti-calendar"></i>
                                         </div>
-                                    <input type="text" value="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" class="form-control bdc-grey-200 start-date" name="date_recieved" placeholder="Дата на приемане" data-date-format="dd-mm-yyyy" data-provide="datepicker">
+                                    <input readonly type="text" value="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" class="form-control bdc-grey-200 start-date" name="date_recieved" placeholder="Дата на приемане" data-date-format="dd-mm-yyyy" data-provide="datepicker" data-clear="false">
                                     </div>
                                 </div>
                             </div>
@@ -62,7 +62,7 @@ aria-hidden="true">
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label>Тип ремонт</label>
-                                <select name="type" class="form-control">
+                                <select name="type" class="form-control fill-field" data-fieldToFill="input[name='price']">
                                     <option value="">Избери</option>
     
                                     @foreach($repairTypes as $repairType)
@@ -88,7 +88,7 @@ aria-hidden="true">
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputEmail4">Цена</label>
-                                <input type="text" class="form-control" name="prize" placeholder="Цена на ремонта">
+                                <input type="text" class="form-control" name="price" placeholder="Цена на ремонта">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputPassword4">Капаро</label>
