@@ -576,15 +576,22 @@ var uvel,
             tableId.innerHTML += response.success;
 
           } else {
+            if(nameForm === 'addRepair') {
+              var repairId = response.id,
+                  certificateButton = document.querySelector('button#certificate');
+
+              certificateButton.dataset.repairId = repairId;
+              certificateButton.disabled = false;
+            }
+
             var tableBody = document.querySelector('table.table tbody');
             tableBody.innerHTML += response.success;
           }
 
           elements.forEach(function (el) {
-            console.log(el);
             var elType = el.getAttribute('type');
 
-            if (typeof el != null && elType !== 'hidden' && el.data.clear !== "false") {
+            if (typeof el != null && elType !== 'hidden' && typeof(el.dataset.clear) == 'undefined') {
               if(elType == 'checkbox') {
                 el.checked = false;
               }
