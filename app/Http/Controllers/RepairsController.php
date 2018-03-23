@@ -71,11 +71,17 @@ class RepairsController extends Controller
 
         $repair->save();
 
-        return Response::json(array('success' => View::make('admin/repairs/table',array('repair'=>$repair))->render()));
+        return Response::json(array('success' => View::make('admin/repairs/table',array('repair'=>$repair))->render(), 'id' => $repair->id));
     }
 
     public function scan($barcode){
         $repair = Repairs::where('barcode', $barcode)->get();
+
+        return Response::json(array('repair' => $repair));
+    }
+
+    public function certificate($id){
+        $repair = Repairs::find($id);
 
         return Response::json(array('repair' => $repair));
     }
