@@ -20,10 +20,14 @@ class CreateRepairsTable extends Migration
             $table->integer('type');
             $table->string('date_recieved');
             $table->string('date_returned');
-            $table->enum('status', ['repairing', 'returned'])->default('repairing');
+            $table->enum('status', ['repairing', 'done', 'returned'])->default('repairing');
             $table->string('code');
             $table->float('weight');
+            $table->float('price');
+            $table->float('deposit')->default(0);
+            $table->float('price_after')->nullable();
             $table->string('barcode')->nullable();
+            $table->integer('discount');
             $table->text('repair_description')->nullable();
             $table->timestamps();
         });

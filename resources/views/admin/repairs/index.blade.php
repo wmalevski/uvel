@@ -60,7 +60,7 @@ aria-hidden="true">
                         </div>
 
                         <div class="form-row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-12">
                                 <label>Тип ремонт</label>
                                 <select name="type" class="form-control">
                                     <option value="">Избери</option>
@@ -70,16 +70,56 @@ aria-hidden="true">
                                     @endforeach
                                 </select>
                             </div>
+                        </div>
+
+                        <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="inputPassword4">Тегло в карати</label>
-                                <input type="text" class="form-control" name="weight" placeholder="Тегло на артикула в карати">
+                                <label for="inputPassword4">Тегло</label>
+                                <input type="text" class="form-control" name="weight" placeholder="Тегло на артикула">
                             </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="inputPassword4">Карати</label>
+                                <input type="text" class="form-control" name="carates" placeholder="Карати">
+                            </div>
+
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Цена</label>
+                                <input type="text" class="form-control" name="prize" placeholder="Цена на ремонта">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputPassword4">Капаро</label>
+                                <input type="text" class="form-control" name="deposit" placeholder="Оставено капаро">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="checkbox checkbox-circle checkbox-info peers ai-c">
+                                <input type="checkbox" id="inputCall2" name="inputCheckboxesCall" class="peer">
+                                <label for="inputCall2" class="peers peer-greed js-sb ai-c">
+                                    <span class="peer peer-greed">Фискален</span>
+                                </label>
+                            </div>
+
+                            <div class="checkbox checkbox-circle checkbox-info peers ai-c">
+                                <input type="checkbox" id="inputCall2" name="inputCheckboxesCall" class="peer">
+                                <label for="inputCall2" class="peers peer-greed js-sb ai-c">
+                                    <span class="peer peer-greed">Без</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Плащане</button>
+                            <button type="submit" class="btn btn-primary">Ръчно пускане на фискален бон</button>
                         </div>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" id="sertificate" class="btn btn-primary">Сертификат</button>
+                    <button type="button" id="sertificate" class="btn btn-primary">Сертификат</button>
                     <button type="submit" id="add" class="btn btn-primary">Добави</button>
                 </div>
             </form>
@@ -92,7 +132,7 @@ aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editRepairLabel">Добавяне на артикул за ремонт</h5>
+                <h5 class="modal-title" id="editRepairLabel">Редактиране на артикул за ремонт</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -106,12 +146,49 @@ aria-hidden="true">
                     {{ csrf_field() }}  
                                 
 
-
+                    
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" id="add" class="btn btn-primary">Добави</button>
+                    <button type="submit" id="add" class="btn btn-primary">Завърши ремонта</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="returnRepair" role="dialog" aria-labelledby="returnRepair"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="returnRepairLabel">Връщане на ремонтиран артикул</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="/repairs/return" name="returnRepair">
+                 
+                <div class="modal-body">    
+                    <div class="info-cont">
+                    </div>
+
+                    {{ csrf_field() }}  
+                                
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="inputEmail4">Баркод</label>
+                            <input type="text" class="form-control" name="barcode" placeholder="Моля сканирайте баркода за артикула">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+                    <button type="submit" id="add" class="btn btn-primary">Върни</button>
                 </div>
             </form>
         </div>
