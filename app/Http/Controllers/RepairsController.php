@@ -80,6 +80,12 @@ class RepairsController extends Controller
         return Response::json(array('repair' => $repair));
     }
 
+    public function certificate($id){
+        $repair = Repairs::find($id);
+
+        return Response::json(array('repair' => $repair));
+    }
+
     /**
      * Display the specified resource.
      *
