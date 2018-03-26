@@ -82,7 +82,7 @@ class RepairsController extends Controller
 
     public function certificate($id){
         $repair = Repairs::find($id);
-
+        $repair->barcode =  \DNS1D::getBarcodePNG($repair->barcode, "EAN13");
         return Response::json(array('repair' => $repair));
     }
 

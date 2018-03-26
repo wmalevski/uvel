@@ -77,19 +77,19 @@ class ProductsController extends Controller
             $photo->save();
         }
 
-        // $product = new Products();
-        // $product->id = Uuid::generate()->string;
-        // $product->model = $request->model;
-        // $product->jewel_type = $request->jewelsTypes;
-        // $product->weight = $request->weight;
-        // $product->retail_price = $request->retail_price;
-        // $product->wholesale_price  = $request->wholesale_prices;
-        // $product->size = $request->size;
-        // $product->workmanship = $request->workmanship;
-        // $product->price = $request->price;
-        // $product->code = unique_number('products', 'code', 4);
-        // $product->barcode = '380'.unique_number('products', 'barcode', 4).$product->code; 
-        // $product->save();
+        $product = new Products();
+        $product->id = Uuid::generate()->string;
+        $product->model = $request->model;
+        $product->jewel_type = $request->jewelsTypes;
+        $product->weight = $request->weight;
+        $product->retail_price = $request->retail_price;
+        $product->wholesale_price  = $request->wholesale_prices;
+        $product->size = $request->size;
+        $product->workmanship = $request->workmanship;
+        $product->price = $request->price;
+        $product->code = unique_number('products', 'code', 4);
+        $product->barcode = '380'.unique_number('products', 'barcode', 4).$product->code; 
+        $product->save();
     }
 
     /**

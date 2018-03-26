@@ -90,6 +90,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::get('/products', 'ProductsController@index')->name('products');
     Route::post('/products', 'ProductsController@store');
 
+    Route::get('/productsothers', 'ProductsOthersController@index')->name('productsothers');
+
+    Route::get('/productsotherstypes', 'ProductsOthersTypesController@index')->name('productsotherstypes');
+
     Route::get('/settings', 'SettingsController@index')->name('settings');
     Route::post('/settings', 'SettingsController@store');
 
@@ -144,4 +148,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::get('/products/{model}', 'ProductsController@chainedSelects');
 
     Route::post('/products', 'ProductsController@store');
+
+    Route::post('/productsotherstypes', 'ProductsOthersTypesController@store');
+    Route::post('/productsothers', 'ProductsOthersController@store');
 });

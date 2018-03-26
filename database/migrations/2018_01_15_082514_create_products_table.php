@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->integer('model')->references('id')->on('models');
             $table->integer('jewel_type')->references('id')->on('jewels');
-            $table->integer('type');
+            $table->integer('type')->default(1);
             $table->float('weight');
             $table->integer('retail_price')->references('id')->on('prices');
             $table->integer('wholesale_price')->references('id')->on('prices');
