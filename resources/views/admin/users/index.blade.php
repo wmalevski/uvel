@@ -21,12 +21,12 @@ aria-hidden="true">
                                 
                     <div class="form-group">
                         <label for="1">Име: </label>
-                        <input type="text" class="form-control" id="1" name="name" placeholder="Име на потребител:">
+                        <input type="text" class="form-control" id="name-1" name="name" placeholder="Име на потребител:">
                     </div>
 
                     <div class="form-group">
                         <label for="1">Email: </label>
-                        <input type="email" class="form-control" id="1" name="email" placeholder="Имейл на потребител:">
+                        <input type="email" class="form-control" id="email-1" name="email" placeholder="Имейл на потребител:">
                     </div>
 
                     <div class="form-group">
@@ -71,8 +71,7 @@ aria-hidden="true">
     </div>
 </div>
 
-<div class="modal fade" id="editUser"   role="dialog" aria-labelledby="editUser"
-aria-hidden="true">
+<div class="modal fade" id="editUser" role="dialog" aria-labelledby="editUser" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             
@@ -141,7 +140,7 @@ aria-hidden="true">
         </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-            <button type="submit" id="add" class="btn btn-primary">Промени</button>
+            <button type="submit" id="editForm" class="btn btn-primary">Промени</button>
           </div>
       </form>
     </div>
