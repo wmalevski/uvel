@@ -55,7 +55,6 @@ class RepairsController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-
         $repair = Repairs::create([
             'customer_name' => $request->customer_name,
             'customer_phone' => $request->customer_phone,
@@ -64,6 +63,8 @@ class RepairsController extends Controller
             'date_returned' => $request->date_returned,
             'code' =>  unique_random('repairs', 'code', 4),
             'weight' => $request->weight,
+            'price' => $request->price,
+            'deposit' => $request->deposit,
             'repair_description' => $request->repair_description
         ]);
         
@@ -103,9 +104,12 @@ class RepairsController extends Controller
      * @param  \App\Repairs  $repairs
      * @return \Illuminate\Http\Response
      */
-    public function edit(Repairs $repairs)
+    public function edit(Repairs $repairs, $repair)
     {
-        //
+        $repair = Repairs::find($repair);
+        $repairTypes = Repair_types::all();
+
+        return \View::make('admin/repairs/edit', array('repair' => $repair, 'repairTypes' => $repairTypes));
     }
 
     /**

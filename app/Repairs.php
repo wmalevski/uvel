@@ -14,7 +14,10 @@ class Repairs extends Model
         'date_recieved',
         'date_returned',
         'code',
-        'barcode'
+        'barcode',
+        'weight',
+        'deposit',
+        'price'
     ];
 
     protected $table = 'repairs';

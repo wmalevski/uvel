@@ -185,7 +185,7 @@ aria-hidden="true">
                         </div>
                     </div>
 
-                    <div class="form-row">
+                    {{--  <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="inputEmail4">Име</label>
                             <input type="text" class="form-control" name="customer_name" placeholder="Име на клиент">
@@ -280,7 +280,7 @@ aria-hidden="true">
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Плащане</button>
                             <button type="submit" class="btn btn-primary">Ръчно пускане на фискален бон</button>
-                        </div>
+                        </div>  --}}
                 </div>
 
                 <div class="modal-footer">

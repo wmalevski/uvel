@@ -62,6 +62,8 @@ class DiscountCodesController extends Controller
         
         $discount->barcode = '380'.unique_number('discount_codes', 'code', 7);
 
+        $discount->active = 'yes';
+
         $discount->save();
 
         return Response::json(array('success' => View::make('admin/discounts/table',array('discount'=>$discount))->render()));

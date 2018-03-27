@@ -92,7 +92,7 @@ aria-hidden="true">
       </div>
     
     <form method="POST" name="edit" action="">
-        <input name="_method" type="hidden" value="PUT">
+        <input name="_method" type="hidden" value="PUT">    
         <div class="modal-body">    
           <div class="info-cont">
           </div>

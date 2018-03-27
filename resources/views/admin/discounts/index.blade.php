@@ -73,6 +73,7 @@ aria-hidden="true">
                 <th>Валидна до</th> 
                 <th>Статус</th>
                 <th>Потребител</th>
+                <th>Действия</th>
             </tr>
             
             @foreach($discounts as $discount)
