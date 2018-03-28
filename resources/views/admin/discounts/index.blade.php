@@ -59,6 +59,15 @@ aria-hidden="true">
     </div>
 </div>
 
+<div class="modal fade" id="editDiscount" role="dialog" aria-labelledby="editDiscount" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            
+
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-md-12">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
@@ -67,7 +76,6 @@ aria-hidden="true">
         <table class="table table-condensed">
             <tr>
                 <th>#</th>
-                <th>Код</th> 
                 <th>Баркод</th> 
                 <th>Отстъпка</th> 
                 <th>Валидна до</th> 

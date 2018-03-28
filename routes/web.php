@@ -101,6 +101,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::post('/settings/updatePrices', 'SettingsController@updatePrices');
 
     Route::get('/discounts', 'DiscountCodesController@index')->name('discounts');
+
+    Route::get('/discounts/{discount}', 'DiscountCodesController@edit');
+    Route::put('/discounts/{discount}', 'DiscountCodesController@update');
 });
 
 Route::group(['prefix' => 'ajax'], function() {
