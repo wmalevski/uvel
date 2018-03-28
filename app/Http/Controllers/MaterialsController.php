@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Materials;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Response;
+use Illuminate\Support\Facades\View;
 
 class MaterialsController extends Controller
 {
@@ -16,7 +20,6 @@ class MaterialsController extends Controller
     {
         
         $materials = Materials::all();
-        
         
         return \View::make('admin/materials/index', array('materials' => $materials));
     }
@@ -39,14 +42,20 @@ class MaterialsController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make( $request->all(), [
             'name' => 'required',
             'code' => 'required',
             'color' => 'required',
-        ]);
+            'carat' => 'required'
+         ]);
 
-        $materials = Materials::create($request->all());
-        return redirect('admin/materials');
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
+        $material = Materials::create($request->all());
+
+        return Response::json(array('success' => View::make('admin/materials/table',array('material'=>$material))->render()));
     }
 
     /**
@@ -70,7 +79,7 @@ class MaterialsController extends Controller
     {
         $material = Materials::find($material);
 
-        return \View::make('materials/edit', array('material' => $material));
+        return Response::json(array('success' => View::make('admin/materials/edit',array('material'=>$material))->render()));
     }
 
     /**
@@ -90,7 +99,7 @@ class MaterialsController extends Controller
         
         $material->save();
 
-        return \View::make('materials/edit', array('material' => $material));
+        return Response::json(array('success' => View::make('admin/materials/edit',array('material'=>$material))->render()));
     }
 
     /**

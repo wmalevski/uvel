@@ -7,7 +7,10 @@ use App\Models;
 use App\Jewels;
 use App\Prices;
 use App\Stones;
+use App\Model_stones;
 use Illuminate\Http\Request;
+use Uuid;
+use App\Gallery;
 
 class ProductsController extends Controller
 {
@@ -23,8 +26,17 @@ class ProductsController extends Controller
         $jewels = Jewels::all();
         $prices = Prices::where('type', 'sell')->get();
         $stones = Stones::all();
-        
-        return \View::make('products/index', array('products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones));
+
+        $pass_stones = array();
+
+        foreach($stones as $stone){
+            $pass_stones[] = (object)[
+                'value' => $stone->id,
+                'label' => $stone->name
+            ];
+        }
+
+        return \View::make('admin/products/index', array('products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
     }
 
     /**
@@ -34,7 +46,12 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        //
+        
+    }
+
+    public function chainedSelects(Request $request, $model){
+        $product = new Products;
+        return $product->chainedSelects($model);
     }
 
     /**
@@ -45,7 +62,34 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $file_data = $request->input('images'); 
+        foreach($file_data as $img){
+            $file_name = 'productimage_'.uniqid().time().'.png';
+            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+            file_put_contents(public_path('uploads/products/').$file_name, $data);
+
+            $photo = new Gallery();
+            $photo->photo = $file_name;
+            $photo->row_id = 1;
+            $photo->table = 'products';
+
+            $photo->save();
+        }
+
+        $product = new Products();
+        $product->id = Uuid::generate()->string;
+        $product->model = $request->model;
+        $product->jewel_type = $request->jewelsTypes;
+        $product->weight = $request->weight;
+        $product->retail_price = $request->retail_price;
+        $product->wholesale_price  = $request->wholesale_prices;
+        $product->size = $request->size;
+        $product->workmanship = $request->workmanship;
+        $product->price = $request->price;
+        $product->code = unique_number('products', 'code', 4);
+        $product->barcode = '380'.unique_number('products', 'barcode', 4).$product->code; 
+        $product->save();
     }
 
     /**

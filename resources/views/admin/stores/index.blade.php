@@ -1,9 +1,8 @@
 @extends('admin.layout')
 
-
 @section('content')
 
-<div class="modal fade" id="addStore" tabindex="-1" role="dialog" aria-labelledby="addStore"
+<div class="modal fade" id="addStore"   role="dialog" aria-labelledby="addStore"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -13,22 +12,26 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/stores">
+            <form method="POST" action="/stores" name="addStore">
+                 
                 <div class="modal-body">    
-                    {{ csrf_field() }}                    
+                    <div class="info-cont">
+                    </div>
+                    {{ csrf_field() }}  
+                                
                     <div class="form-group">
                         <label for="1">Име: </label>
                         <input type="text" class="form-control" id="1" name="name" placeholder="Име на магазин:">
                     </div>
                 
                     <div class="form-group">
-                        <label for="1">Адрес: </label>
-                        <input type="text" class="form-control" id="1" name="location" placeholder="Адрес на магазин:">
+                        <label for="2">Адрес: </label>
+                        <input type="text" class="form-control" id="2" name="location" placeholder="Адрес на магазин:">
                     </div>
                 
                     <div class="form-group">
-                        <label for="1">Телефон: </label>
-                        <input type="text" class="form-control" id="1" name="phone" placeholder="Телефон на магазин:">
+                        <label for="3">Телефон: </label>
+                        <input type="text" class="form-control" id="3" name="phone" placeholder="Телефон на магазин:">
                     </div>
                 </div>
 
@@ -41,25 +44,38 @@ aria-hidden="true">
     </div>
 </div>
 
-<h3>Магазини <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addStore">Добави</button></h3>
+<div class="modal fade" id="editStore"   role="dialog" aria-labelledby="editStore"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            
 
-<table class="table table-condensed">
-    <tr>
-        <th>#</th>
-        <th>Име</th>
-        <th>Адрес</th> 
-        <th>Телефон</th> 
-        <th>Действия</th>
-    </tr>
-    
-    @foreach($stores as $store)
-        <tr>
-            <td></td>
-            <td>{{ $store->name }}</td> 
-            <td>{{ $store->location }}</td> 
-            <td>{{ $store->phone }}</td> 
-            <td><a href="stores/{{ $store->id }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
-        </tr>
-    @endforeach
-</table>
-@endsection
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+      <div class="bgc-white bd bdrs-3 p-20 mB-20">
+        <h4 class="c-grey-900 mB-20">Магазини <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addStore">Добави</button></h4>
+        <p>Преглед на магазините.</p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Име</th> 
+              <th scope="col">Адрес</th>
+              <th scope="col">Телефон</th>
+              <th scope="col">Действия</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($stores as $store)
+                @include('admin.stores.table')
+            @endforeach
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  @endsection

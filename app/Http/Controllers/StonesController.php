@@ -7,6 +7,12 @@ use App\Stone_styles;
 use App\Stone_contours;
 use App\Stone_sizes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Response;
+use Illuminate\Support\Facades\View;
+use Uuid;
+use App\Gallery;
+
 
 class StonesController extends Controller
 {
@@ -43,19 +49,38 @@ class StonesController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make( $request->all(), [
             'name' => 'required',
             'type' => 'required',
-            'weight' => 'required',
-            'carat' => 'required',
-            'size' => 'required',
+            'weight' => 'required|numeric',
+            'carat' => 'required|numeric',
+            'size' => 'required|numeric',
             'style' => 'required',
             'contour' => 'required',
             'price' => 'required',
-        ]);
+         ]);
 
-        $stones = Stones::create($request->all());
-        return redirect('admin/stones');
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
+        $stone = Stones::create($request->all());
+
+        $file_data = $request->input('images'); 
+        foreach($file_data as $img){
+            $file_name = 'productimage_'.uniqid().time().'.png';
+            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+            file_put_contents(public_path('uploads/stones/').$file_name, $data);
+
+            $photo = new Gallery();
+            $photo->photo = $file_name;
+            $photo->row_id = $stone->id;
+            $photo->table = 'stones';
+
+            $photo->save();
+        }
+
+        return Response::json(array('success' => View::make('admin/stones/table',array('stone'=>$stone))->render()));
     }
 
     /**
@@ -75,9 +100,11 @@ class StonesController extends Controller
      * @param  \App\Stones  $stones
      * @return \Illuminate\Http\Response
      */
-    public function edit(Stones $stones)
+    public function edit(Stones $stones, $stone)
     {
-        //
+        $stone = Stones::find($stone);
+        
+        return Response::json(array('success' => View::make('admin/stones/edit', array('stone' => $stone))->render()));
     }
 
     /**

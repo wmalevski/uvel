@@ -14,15 +14,19 @@ class CreateProductsTable extends Migration
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('model')->references('id')->on('models');;
-            $table->integer('type')->references('id')->on('jewels');;
+            $table->uuid('id');
+            $table->string('name');
+            $table->integer('model')->references('id')->on('models');
+            $table->integer('jewel_type')->references('id')->on('jewels');
+            $table->integer('type')->default(1);
             $table->float('weight');
-            $table->integer('price_list')->references('id')->on('prices');;
+            $table->integer('retail_price')->references('id')->on('prices');
+            $table->integer('wholesale_price')->references('id')->on('prices');
             $table->integer('size');
-            $table->integer('workmanship');
-            $table->integer('price');
-            $table->integer('code')->nullable();
+            $table->float('workmanship');
+            $table->float('price');
+            $table->string('code')->nullable();
+            $table->string('barcode');
             $table->timestamps();
         });
     }

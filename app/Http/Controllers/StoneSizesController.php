@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Stone_sizes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Response;
+use Illuminate\Support\Facades\View;
 
 class StoneSizesController extends Controller
 {
@@ -16,7 +19,7 @@ class StoneSizesController extends Controller
     {
         $sizes = Stone_sizes::all();
 
-        return \View::make('stone_sizes/index', array('sizes' => $sizes));
+        return \View::make('admin/stone_sizes/index', array('sizes' => $sizes));
     }
 
     /**
@@ -37,12 +40,10 @@ class StoneSizesController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|unique:stone_sizes',
-        ]);
+        $size = new Stone_sizes();
+        $response = $size->create($request->all());
 
-        $size = Stone_sizes::create($request->all());
-        return redirect('admin/stones/sizes');
+        return Response::json(array('success' => View::make('admin/stone_sizes/table',array('size'=>$response))->render()));
     }
 
     /**

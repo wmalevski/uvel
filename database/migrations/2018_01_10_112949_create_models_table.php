@@ -17,10 +17,12 @@ class CreateModelsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('jewel')->references('id')->on('jewels');
-            $table->integer('retail_price');
-            $table->integer('wholesale_price');
+            $table->integer('retail_price')->references('id')->on('prices');
+            $table->integer('wholesale_price')->references('id')->on('prices');
             $table->float('weight');
             $table->integer('size');
+            $table->float('workmanship');
+            $table->float('price');
             $table->timestamps();
         });
     }

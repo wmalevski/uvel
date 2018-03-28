@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Stores;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\View;
+use Response;
 
 class StoresController extends Controller
 {
@@ -37,14 +41,20 @@ class StoresController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+
+        $validator = Validator::make( $request->all(), [
             'name' => 'required',
             'location' => 'required',
-            'phone' => 'required',
-        ]);
+            'phone' => 'required|numeric',
+         ]);
+        
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
 
         $store = Stores::create($request->all());
-        return redirect('admin/stores');
+        
+        return Response::json(array('success' => View::make('admin/stores/table',array('store'=>$store))->render()));
     }
 
     /**
@@ -68,7 +78,8 @@ class StoresController extends Controller
     {
         $store = Stores::find($store);
         
-        return \View::make('stores/edit', array('store' => $store));
+        //return Response::json(array('success' => View::make('admin/stores/edit', array('store' => $store))->render()));
+        return \View::make('admin/stores/edit', array('store' => $store));
     }
 
     /**
@@ -87,8 +98,8 @@ class StoresController extends Controller
         $store->phone = $request->phone;
         
         $store->save();
-
-        return \View::make('stores/edit', array('store' => $store));
+        
+        return Response::json(array('table' => View::make('admin/stores/table', array('store' => $store))->render()));
     }
 
     /**

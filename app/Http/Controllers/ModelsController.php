@@ -7,8 +7,16 @@ use App\Jewels;
 use App\Prices;
 use App\Stones;
 use App\Model_stones;
-use App\Product;
+use App\Products;
+use App\Product_stones;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\JsonResponse;
+use Response;
+use Uuid;
+use Illuminate\Support\Facades\View;
+use Carbon\Carbon;
+use App\Gallery;
 
 class ModelsController extends Controller
 {
@@ -21,10 +29,19 @@ class ModelsController extends Controller
     {
         $models = Models::all();
         $jewels = Jewels::all();
-        $prices = Prices::where('type', 'sell')->get();
+        $prices = Prices::all();
         $stones = Stones::all();
 
-        return \View::make('admin/models/index', array('jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones));
+        $pass_stones = array();
+        
+        foreach($stones as $stone){
+            $pass_stones[] = [
+                'value' => $stone->id,
+                'label' => $stone->name.' ('.\App\Stone_contours::find($stone->contour)->name.', '.\App\Stone_sizes::find($stone->size)->name.' )'
+            ];
+        }
+
+        return \View::make('admin/models/index', array('jsStones' =>  json_encode($pass_stones), 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones));
     }
 
     /**
@@ -45,12 +62,21 @@ class ModelsController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make( $request->all(), [
             'name' => 'required',
             'jewel' => 'required',
             'retail_price' => 'required',
-            'wholesale_price' => 'required'
-        ]);
+         ]);
+
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
+        // foreach($request->images as $img){
+        //     echo $img;
+        // }
+
+        // die;
 
         $model = Models::create($request->all());
 
@@ -62,19 +88,60 @@ class ModelsController extends Controller
             $model_stones->save();
         }
 
-        if (isset($request->release_product)) {
-            $product = new Product();
-            $product->model = $model->id;
-            $product->type = $request->jewel;
-            $product->weight = $request->weight;
-            $product->price_list = $request->retail_price;
-            $product->size = $request->size;
-            $product->workmanship = '1';
-            $product->price = '1';
-            $product->code = 'AAADDDDDDD8333';
+        $file_data = $request->input('images'); 
+        
+        foreach($file_data as $img){
+            $file_name = 'productimage_'.uniqid().time().'.png';
+            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+            file_put_contents(public_path('uploads/models/').$file_name, $data);
+
+            $photo = new Gallery();
+            $photo->photo = $file_name;
+            $photo->row_id = $model->id;
+            $photo->table = 'models';
+
+            $photo->save();
         }
 
-        return redirect('admin/models');
+        if ($request->release_product == true) {
+            $product = new Products();
+            $product->id = Uuid::generate()->string;
+            $product->name = $request->name;
+            $product->model = $model->id;
+            $product->jewel_type = $request->jewel;
+            $product->weight = $request->weight;
+            $product->retail_price = $request->retail_price;
+            $product->wholesale_price  = $request->wholesale_price;
+            $product->size = $request->size;
+            $product->workmanship = $request->workmanship;
+            $product->price = $request->price;
+            $product->code = unique_number('products', 'code', 4);
+
+            $barcode = str_replace('-', '', $product->id);
+
+            $barcode = pack('h*', $barcode);
+            $barcode = unpack('L*', $barcode);
+
+            $newbarcode = '';
+
+            foreach($barcode as $bars){
+                $newbarcode .= $bars;
+            }
+
+            $product->barcode = '380'.unique_number('products', 'barcode', 4).$product->code; 
+            $product->save();
+
+            foreach($request->stones as $key => $stone){
+                $product_stones = new Product_stones();
+                $product_stones->product = $product->id;
+                $product_stones->model = $model->id;
+                $product_stones->stone = $stone;
+                $product_stones->amount = $request->stone_amount[$key];
+                $product_stones->save();
+            }
+        }
+
+        return Response::json(array('success' => View::make('admin/models/table',array('model'=>$model))->render()));
     }
 
     /**
@@ -101,7 +168,7 @@ class ModelsController extends Controller
         $prices = Prices::where('type', 'sell')->get();
         $stones = Stones::all();
         
-        return \View::make('models/edit', array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones));
+        return Response::json(array('success' => View::make('admin/models/edit',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render()));
     }
 
     /**
@@ -127,7 +194,7 @@ class ModelsController extends Controller
         
         $model->save();
 
-        return \View::make('models/edit', array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones));
+        return Response::json(array('success' => View::make('admin/models/edit',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render()));
     }
 
     /**

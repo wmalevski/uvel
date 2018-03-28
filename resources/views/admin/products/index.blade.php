@@ -1,60 +1,126 @@
-@extends('layouts.shop')
-@section('aimeos_scripts')
-@parent
-<script type="text/javascript" src="<?php echo asset('packages/aimeos/shop/themes/aimeos-detail.js'); ?>"></script>
-@stop
-
+@extends('admin.layout')
 
 @section('content')
+<div class="modal fade" id="addProduct"   role="dialog" aria-labelledby="addProductlLabel"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addProductLabel">Добавяне на продукт</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" name="products" action="/products">
 
-<h3>Добави готово изделие</h3>
+
+                <div class="modal-body">
+
+                    <div class="info-cont">
+                    </div>
+                    {{ csrf_field() }}
+
+                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                        <input type="checkbox" id="inputCall1" name="with_stones" class="peer">
+                        <label for="inputCall1" class="peers peer-greed js-sb ai-c">
+                            <span class="peer peer-greed">Тегло без камъни</span>
+                        </label>
+                    </div>
+
+                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                        <input type="checkbox" id="inputCall2" name="for_wholesale" class="peer">
+                        <label for="inputCall2" class="peers peer-greed js-sb ai-c">
+                            <span class="peer peer-greed">За продажба на едро</span>
+                        </label>
+                    </div>
+                
+                    <label>Модел: </label>
+                    <select id="model_select" name="model" class="form-control">
+                        <option value="">Избери</option>
+                
+                        @foreach($models as $model)
+                            <option value="{{ $model->id }}" data-jewel="{{ App\Jewels::find($model->jewel)->id }}">{{ $model->name }}</option>
+                        @endforeach
+                    </select>
+                
+                    <label>Вид: </label>
+                    <select id="jewels_types" name="jewelsTypes" class="form-control">
+                        <option value="">Избери</option>
+                
+                        <!-- @foreach($jewels as $jewel)
+                            <option value="{{ $jewel->id }}" data-price="{{ $jewel->material }}">{{ $jewel->name }}</option>
+                        @endforeach -->
+                    </select>
+
+                    <label>Цена на дребно: </label>
+                    <select id="retail_prices" name="retail_price" class="form-control" >
+                        <option value="">Избери</option>
+                
+                        <!-- @foreach($prices->where('type', 'sell') as $price)
+                            <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
+                        @endforeach -->
+                    </select>
+                    
+                    <label>Цена на едро: </label>
+                    <select id="wholesale_prices" name="wholesale_prices" class="form-control">
+                        <option value="">Избери</option>
+                
+                        <!-- @foreach($prices->where('type', 'buy') as $price)
+                            <option value="{{ $price->id }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
+                        @endforeach -->
+                    </select>
+                
+                    <div class="form-group">
+                        <label for="1">Тегло: </label>
+                        <input type="text" class="form-control" id="weight" name="weight" placeholder="Тегло:">
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="1">Размер: </label>
+                        <input type="text" class="form-control" id="size" name="size" placeholder="Размер:">
+                    </div>
+                
+                    Изработка: <span id="workmanship">0</span>лв   <br/>
+
+                    Цена: <span id="price">0</span>лв<br/><br/>
+                    <div id="drop-area">
+                        <input type="file" name="images" id="fileElem" multiple accept="image/*" >
+                        <label class="button" for="fileElem">Избери снимки</label>
+                      <div id="gallery" /></div>
+                    </div>
+                    <div id="errors-container"></div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+                    <button type="submit" id="add" class="btn btn-primary">Добави</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<h3>Добави готово изделие <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
+
+<table class="table table-condensed">
+    <tr>
+        <th>Код</th>
+        <th>Име</th> 
+        <th>Виж бижу</th>
+        <th>Цена на дребно</th>
+        <th>Тегло</th>
+        <th>Цена</th>
+        <th>Действия</th>
+        <th>Баркод</th>
+    </tr>
+    
+    @foreach($products as $product)
+        @include('admin.products.table')
+    @endforeach
+</table>
 
 <form method="POST" action="">
     {{ csrf_field() }}
-
-    <div class="checkbox">
-        <label><input type="checkbox" name="with_stones" value="">Тегло без камъни</label>
-    </div>
-
-    <label>Модел: </label>
-    <select id="jewel" name="model" class="form-control">
-        <option value="">Избери</option>
-
-        @foreach($models as $model)
-            <option value="{{ $model->id }}">{{ $model->name }}</option>
-        @endforeach
-    </select>
-
-    <label>Вид: </label>
-    <select id="jewel" name="jewel" class="form-control">
-        <option value="">Избери</option>
-
-        @foreach($jewels as $jewel)
-            <option value="{{ $jewel->id }}" data-price="{{ $jewel->material }}">{{ $jewel->name }}</option>
-        @endforeach
-    </select>
-
-    <label>Цена на едро: </label>
-    <select name="wholesale_price" class="form-control disabled-first" disabled>
-        <option value="">Избери</option>
-
-        @foreach($prices->where('type', 'sell') as $price)
-            <option value="{{ $price->id }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
-        @endforeach
-    </select>
-
-    <div class="form-group">
-        <label for="1">Тегло: </label>
-        <input type="text" class="form-control" id="1" name="weight" placeholder="Тегло:">
-    </div>
-
-    <div class="form-group">
-        <label for="1">Размер: </label>
-        <input type="text" class="form-control" id="1" name="size" placeholder="Размер:">
-    </div>
-
-    Изработка: 71<br/>
-    Цена: 256<br/><br/>
 
     {{--  <h3>Камъни към този модел</h3>
 
@@ -78,9 +144,6 @@
     </div>  --}}
 
     {{--  <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>  --}}
-
-    
-    <button type="submit" class="btn btn-default">Добави</button>
 </form>
 
 {{--  <h3>Видове модели</h3>
@@ -130,4 +193,10 @@
         </tr>
     @endforeach
 </table>  --}}
+@endsection
+
+@section('footer-scripts')
+<script id="stones_data" type="application/json">
+    {!!  $jsStones !!}
+</script>
 @endsection
