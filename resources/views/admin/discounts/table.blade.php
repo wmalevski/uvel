@@ -1,6 +1,5 @@
 <tr>
     <td></td>
-    <td>{{ $discount->code }}</td> 
     <td>{{ $discount->barcode }}</td> 
     <td>{{ $discount->discount }}%</td> 
     <td>{{ $discount->expires }}</td> 

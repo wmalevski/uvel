@@ -86,9 +86,12 @@ class DiscountCodesController extends Controller
      * @param  \App\Discount_codes  $discount_codes
      * @return \Illuminate\Http\Response
      */
-    public function edit(Discount_codes $discount_codes)
+    public function edit(Discount_codes $discount_codes, $discount)
     {
-        //
+        $users = User::all();
+        $discount = Discount_codes::find($discount);
+        
+        return \View::make('admin/discounts/edit', array('users' => $users, 'discount' => $discount));
     }
 
     /**
