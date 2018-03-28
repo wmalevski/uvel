@@ -1,7 +1,8 @@
 var uvel,
   uvelController = function () {
     var $self = this,
-      $window = $(window);
+      $window = $(window),
+      currentPressedBtn;
 
     this.init = function () {
       $self.initializeSelect($('select'));
@@ -186,7 +187,7 @@ var uvel,
       } 
     }
 
-    this.checkAllForms = function() {
+    this.checkAllForms = function(currentPressedBtn) {
 
       var collectionBtns = document.querySelectorAll('.modal-dialog .modal-footer button[type="submit"]');
       var urlTaken = window.location.href.split('/');
@@ -194,8 +195,6 @@ var uvel,
       var token = $('meta[name="csrf-token"]').attr('content');
       var form;
       var nameForm;
-
-      console.log(collectionBtns);
 
       var collectionModelPrice = [].slice.apply(document.querySelectorAll('.calculate'));
       var collectionFillFields = [].slice.apply(document.querySelectorAll('.fill-field'));
@@ -274,141 +273,127 @@ var uvel,
         }
           
         collectionBtns.forEach(function (btn) {
+          btn.removeEventListener('click', getFormData, true);
+          btn.addEventListener('click', getFormData);
+        })
+      }
 
-          btn.addEventListener('click', function (ev) {
+      function getFormData() {
+        window.event.preventDefault();
 
-            ev.preventDefault();
+        form = window.event.target.parentElement.parentElement;
+        nameForm = form.getAttribute('name');
 
-            form = ev.target.parentElement.parentElement;
-            nameForm = form.getAttribute('name');
+        var urlAction = form.getAttribute('action'),
+          formMethod = 'POST',
+          ajaxUrl = url + urlAction;
+          collectionInputs = [].slice.apply(document.forms[nameForm].getElementsByTagName('input'));
+          collectionTextareas = [].slice.apply(document.forms[nameForm].getElementsByTagName('textarea'));              
+          collectionSelects = [].slice.apply(document.forms[nameForm].getElementsByTagName('select'));
+          collectionElements = [];
 
-            var urlAction = form.getAttribute('action'),
-              formMethod = 'POST',
-              ajaxUrl = url + urlAction;
-              collectionInputs = [].slice.apply(document.forms[nameForm].getElementsByTagName('input'));
-              collectionTextareas = [].slice.apply(document.forms[nameForm].getElementsByTagName('textarea'));              
-              collectionSelects = [].slice.apply(document.forms[nameForm].getElementsByTagName('select'));
-              collectionElements = [];
+        var collectionData = {_token: token};
 
-            var collectionData = {_token: token};
+        // Check the inputs
 
-            // Check the inputs
+        if (collectionInputs.length != 0) {
 
-            if (collectionInputs.length != 0) {
+          collectionInputs.map(function (el) {
+            if (el != 'undefined') {
 
-              collectionInputs.map(function (el) {
+              var name = el.getAttribute('name');
+              var value = el.value;
+              var elType = el.getAttribute('type');
 
-                if (el != 'undefined') {
+              if(name === 'images') {
+                collectionData[name] = [].slice.apply(collectionFiles);
+                return true;
+              }
 
-                  var name = el.getAttribute('name');
-                  var value = el.value;
-                  var elType = el.getAttribute('type');
+              if (elType === 'checkbox') {
+                collectionData[name] = el.checked;
 
+              } else if (name.includes('[]')) {
+                name = name.replace('[]', '');
 
-                  if(name === 'images') {
-                    
-                    collectionData[name] = [].slice.apply(collectionFiles);
-                    return true;
-                  }
+                if (collectionData.hasOwnProperty(name)) {
+                  collectionData[name].push(value);
 
-                  if (elType === 'checkbox') {
-
-                    collectionData[name] = el.checked;
-
-                  } else if (name.includes('[]')) {
-
-                    name = name.replace('[]', '');
-
-                    if (collectionData.hasOwnProperty(name)) {
-
-                      collectionData[name].push(value);
-
-                    } else {
-
-                      collectionData[name] = [value];
-                    }
-
-                  } else {
-
-                    if (name === '_method') {
-
-                      formMethod = value;
-                    }
-                    
-                    collectionData[name] = value;
-                    collectionElements.push(el);
-                  }
+                } else {
+                  collectionData[name] = [value];
                 }
-              });
-            }
-
-            // Check the textareas
-
-            if(collectionTextareas.length) {
-              collectionTextareas.map(function(el) {
-                  if(el != 'undefined') {
-                    var name = el.getAttribute('name');
-                    var value = el.value;
-
-                    collectionData[name] = value;
-                    collectionElements.push(el);
-                  }
-              })
-            }
-
-            // Check the selects
-
-            if (collectionSelects.length != 0) {
-
-              for (var i = 0; i <= collectionSelects.length; i += 1) {
-
-                var el = collectionSelects[i];
-
-                if (typeof  el != 'undefined') {
-
-                  var name = el.getAttribute('name');
-                  var value;
-
-                  if (el.options && el.options[el.selectedIndex]) {
-
-                    value = el.options[el.selectedIndex].value;
-
-                  } else {
-
-                    value = '';
-                  }
-
-                  if (name.includes('[]')) {
-
-                    name = name.replace('[]', '');
-
-                    if (collectionData.hasOwnProperty(name)) {
-
-                      collectionData[name].push(value);
-                    } else {
-
-                      collectionData[name] = [value];
-                    }
-                  } else {
-
-
-                    collectionData[name] = value;
-                    collectionElements.push(collectionSelects[i]);
-                  }
+              } else {
+                if (name === '_method') {
+                  formMethod = value;
                 }
+                
+                collectionData[name] = value;
+                collectionElements.push(el);
               }
             }
-
-            if (formMethod == 'POST') {
-
-              ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements);
-
-            } else if (formMethod == 'PUT') {
-
-              ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements);
-            }
           });
-        })
+        }
+
+        // Check the textareas
+
+        if(collectionTextareas.length) {
+          collectionTextareas.map(function(el) {
+              if(el != 'undefined') {
+                var name = el.getAttribute('name');
+                var value = el.value;
+
+                collectionData[name] = value;
+                collectionElements.push(el);
+              }
+          })
+        }
+
+        // Check the selects
+
+        if (collectionSelects.length != 0) {
+
+          for (var i = 0; i <= collectionSelects.length; i += 1) {
+
+            var el = collectionSelects[i];
+
+            if (typeof  el != 'undefined') {
+
+              var name = el.getAttribute('name');
+              var value;
+
+              if (el.options && el.options[el.selectedIndex]) {
+
+                value = el.options[el.selectedIndex].value;
+
+              } else {
+
+                value = '';
+              }
+
+              if (name.includes('[]')) {
+                name = name.replace('[]', '');
+
+                if (collectionData.hasOwnProperty(name)) {
+                  collectionData[name].push(value);
+                } else {
+                  collectionData[name] = [value];
+                }
+              } else {
+                collectionData[name] = value;
+                collectionElements.push(collectionSelects[i]);
+              }
+            }
+          }
+        }
+
+        if (formMethod == 'POST') {
+
+          ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements, currentPressedBtn);
+
+        } else if (formMethod == 'PUT') {
+
+          ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
+        }
       }
       
       function productsRequest(tempUrl) {
@@ -514,7 +499,7 @@ var uvel,
           document.querySelector(el).value = value;
       }
 
-      function ajaxFn(method, url, callback, dataSend, elements) {
+      function ajaxFn(method, url, callback, dataSend, elements, currentPressedBtn) {
 
         var xhttp = new XMLHttpRequest();
 
@@ -525,7 +510,7 @@ var uvel,
 
             var data = JSON.parse(this.responseText);
 
-            callback(data, elements);
+            callback(data, elements, currentPressedBtn);
 
           } else if (this.readyState == 4 && this.status == 401) {
 
@@ -540,7 +525,7 @@ var uvel,
         xhttp.send(JSON.stringify(dataSend));
       }
 
-      function handleResponsePost(response, elements) {
+      function handleResponsePost(response, elements, currentPressedBtn) {
 
         var responseHolder = document.forms[nameForm].firstElementChild.firstElementChild;
         responseHolder.innerHTML = '';
@@ -606,30 +591,31 @@ var uvel,
         }
       }
 
-      function handleUpdateResponse(data, elements) {
-
+      function handleUpdateResponse(data, elements, currentPressedBtn) {
+        console.log($self.currentPressedBtn);
         var content = data.table.replace('<tr>', '').replace('</tr>', '');
-        var tableRow = currentPressedBtn.parentElement.parentElement;
-
+        var tableRow = $self.currentPressedBtn.parentElement.parentElement;
+        $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
         tableRow.innerHTML = content;
+        $self.editAction();
       }
     }
-
     // adding functionality to the eddit buttons
     // Todo: response of the action: handle the errors and also refactor the hardcoded holder
     this.editAction = function() {
       var collectionEditBtns = [].slice.apply(document.querySelectorAll('.edit-btn'));
+      console.log(collectionEditBtns);
       
       collectionEditBtns.forEach(function (btn) {
-
-        btn.addEventListener('click', function () {
-          setTimeout(function() {$self.checkAllForms();}, 500)
-        });
+        btn.addEventListener('click', $self.clickEditButton);
       });
     }
 
-
-  };
+    this.clickEditButton = function() {
+      $self.currentPressedBtn = this;      
+      setTimeout(function() {$self.checkAllForms(currentPressedBtn);}, 500);
+    }
+  }
 
 $(function () {
   if (!window.console) window.console = {};
