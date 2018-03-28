@@ -7,6 +7,7 @@ var uvel,
       $self.initializeSelect($('select'));
       $self.addAndRemoveFields($('form[name="addModel"]'));
       $self.checkAllForms();
+      this.editAction();
     };
 
     this.initializeSelect = function (select) {
@@ -194,6 +195,8 @@ var uvel,
       var form;
       var nameForm;
 
+      console.log(collectionBtns);
+
       var collectionModelPrice = [].slice.apply(document.querySelectorAll('.calculate'));
       var collectionFillFields = [].slice.apply(document.querySelectorAll('.fill-field'));
 
@@ -301,10 +304,6 @@ var uvel,
                   var value = el.value;
                   var elType = el.getAttribute('type');
 
-                  if (name === '_method') {
-
-                    formMethod = value;
-                  }
 
                   if(name === 'images') {
                     
@@ -330,6 +329,11 @@ var uvel,
                     }
 
                   } else {
+
+                    if (name === '_method') {
+
+                      formMethod = value;
+                    }
                     
                     collectionData[name] = value;
                     collectionElements.push(el);
@@ -514,7 +518,7 @@ var uvel,
 
         var xhttp = new XMLHttpRequest();
 
-        xhttp.open(method, url, true);
+        xhttp.open('POST', url, true);
         xhttp.onreadystatechange = function () {
 
           if (this.readyState == 4 && this.status == 200) {
@@ -614,50 +618,12 @@ var uvel,
     // adding functionality to the eddit buttons
     // Todo: response of the action: handle the errors and also refactor the hardcoded holder
     this.editAction = function() {
-
-      var currentPressedBtn;
       var collectionEditBtns = [].slice.apply(document.querySelectorAll('.edit-btn'));
-
+      
       collectionEditBtns.forEach(function (btn) {
 
-        var path = btn.dataset.path;
-
         btn.addEventListener('click', function () {
-
-          currentPressedBtn = this;
-
-          var urlTaken = window.location.href.split('/');
-          var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/' + path;
-          var xhttp = new XMLHttpRequest();
-
-          xhttp.open('GET', url, true);
-          xhttp.onreadystatechange = function () {
-
-            if (this.readyState == 4 && this.status == 200) {
-
-              var data = JSON.parse(this.responseText);
-              // callback(data, elements);
-              var holder = document.querySelector('#editStore .modal-content');
-              holder.innerHTML = '';
-              holder.innerHTML += data.success;
-
-            } else if (this.readyState == 4 && this.status == 401) {
-
-              var data = JSON.parse(this.responseText);
-              // callback(data);
-
-            }
-          };
-
-          xhttp.setRequestHeader('Content-Type', 'application/json');
-          xhttp.send();
-
-          setTimeout(
-            function () {
-
-              checkAllForms()
-            }
-            , 600);
+          setTimeout(function() {$self.checkAllForms();}, 500)
         });
       });
     }
