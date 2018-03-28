@@ -52,7 +52,9 @@ class UserController extends Controller
         
         $user->save();
         
-        return Response::json( View::make('admin/users/table', array('user' => $user))->render());
+        //return Response::json( View::make('admin/users/table', array('user' => $user))->render());
+        return Response::json(array('table' => View::make('admin/users/table',array('user'=>$user))->render()));
+        //return \View::make('admin/users/table', array('user' => $user));
     }
 
     /**
