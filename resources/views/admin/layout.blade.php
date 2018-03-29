@@ -453,7 +453,7 @@
             </li>
           </ul>
           <ul class="nav-right">
-            <li class="notifications dropdown">
+            {{--  <li class="notifications dropdown">
               <span class="counter bgc-red">3</span>
               <a href="" class="dropdown-toggle no-after" data-toggle="dropdown">
                 <i class="ti-bell"></i>
@@ -612,7 +612,7 @@
                   </span>
                 </li>
               </ul>
-            </li>
+            </li>  --}}
             <li class="dropdown">
               <a href="" class="dropdown-toggle no-after peers fxw-nw ai-c lh-1" data-toggle="dropdown">
                 <div class="peer mR-10">
