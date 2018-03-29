@@ -1,7 +1,7 @@
 <tr>
-    <td> {!! DNS1D::getBarcodeSVG($product->barcode, "EAN13",1,33,"black", true) !!} <br/>
+    {{--  <td> {!! DNS1D::getBarcodeSVG($product->barcode, "EAN13",1,33,"black", true) !!} <br/>
          {{ $product->barcode }} 
-    </td>
+    </td>  --}}
     <td> {{ $product->model }} </td>
     <td> {{ $product->price }} </td>
     <td> {{ $product->quantity }} </td>

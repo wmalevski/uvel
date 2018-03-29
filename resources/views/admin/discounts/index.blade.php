@@ -76,7 +76,6 @@ aria-hidden="true">
         <table class="table table-condensed">
             <tr>
                 <th>#</th>
-                <th>Баркод</th> 
                 <th>Отстъпка</th> 
                 <th>Валидна до</th> 
                 <th>Статус</th>

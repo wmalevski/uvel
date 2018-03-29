@@ -433,8 +433,8 @@ aria-hidden="true">
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">Баркод</th>
-                        <th scope="col">Уникален номер</th>
+                        {{--  <th scope="col">Баркод</th>  --}}
+                        {{--  <th scope="col">Уникален номер</th>  --}}
                         <th scope="col">Име</th>
                         <th scope="col">Телефон</th>
                         <th scope="col">Тип ремонт</th>
