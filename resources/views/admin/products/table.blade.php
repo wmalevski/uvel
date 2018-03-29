@@ -5,7 +5,10 @@
     <td> {{ App\Prices::find($product->retail_price)->price }} </td> 
     <td> {{ $product->weight }} </td>
     <td> {{ (App\Prices::find($product->retail_price)->price)*$product->weight }} </td>
-    <td><a href="models/{{$product->id}}" class="edit-btn" data-toggle="modal" data-target="#editModel"><i class="c-brown-500 ti-pencil"></i></a></td>
+    <td>
+        <a href="models/{{$product->id}}" class="edit-btn" data-toggle="modal" data-target="#editModel"><i class="c-brown-500 ti-pencil"></i></a> 
+        <a href="models/print/{{$product->id}}" class="edit-btn"><i class="c-brown-500 ti-printer"></i></a> 
+    </td>
 </tr>
 
 <tr>
