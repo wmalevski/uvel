@@ -86,7 +86,7 @@ aria-hidden="true">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="1">Брой: </label>
-                                <input type="number" class="form-control" name="stone_amount[]" placeholder="Брой">
+                                <input type="number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="100">
                             </div>
                         </div>
                     </div>

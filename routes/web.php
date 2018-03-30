@@ -28,7 +28,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::get('/repairs', 'RepairsController@index')->name('repairs');
     Route::post('/repairs', 'RepairsController@store');
     Route::get('/repairs/{repair}', 'RepairsController@edit');
-    Route::get('/repairs/return/{repair}', 'RepairsController@return');
 
     Route::get('/selling', 'SellingsController@index')->name('selling');
     Route::post('/selling', 'SellingsController@store');

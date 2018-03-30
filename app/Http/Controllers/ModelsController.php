@@ -63,7 +63,7 @@ class ModelsController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make( $request->all(), [
-            'name' => 'required',
+            'name' => 'required|unique:models,name',
             'jewel' => 'required',
             'retail_price' => 'required',
          ]);

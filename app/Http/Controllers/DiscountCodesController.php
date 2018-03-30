@@ -44,7 +44,7 @@ class DiscountCodesController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make( $request->all(), [
-            'discount' => 'required',
+            'discount' => 'required|digits_between:min,max',
             'date_expires' => 'required',
          ]);
         

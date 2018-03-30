@@ -65,7 +65,7 @@ aria-hidden="true">
             
             @foreach($prices->where('type', 'buy') as $price)
                 <tr>
-                    <td></td>
+                    <td>@if($price->id == 1) Индикация за образуване на цена @endif</td>
                     <td>{{ $price->slug }}</td> 
                     <td>{{ $price->price }}</td> 
                 </tr>
@@ -92,7 +92,7 @@ aria-hidden="true">
               
               @foreach($prices->where('type', 'sell') as $price)
                   <tr>
-                      <td></td>
+                      <td>@if($price->id == 1) Индикация за образуване на цена @endif</td>
                       <td>{{ $price->slug }}</td> 
                       <td>{{ $price->price }}</td> 
                   </tr>
