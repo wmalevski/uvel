@@ -127,17 +127,17 @@ aria-hidden="true">
     </div>
 </div>
 
-<div class="modal fade" id="editRepair" role="dialog" aria-labelledby="editRepair"
+<div class="modal fade" id="fullEditRepair" role="dialog" aria-labelledby="fullEditRepair"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editRepairLabel">Редактиране на артикул за ремонт</h5>
+                <h5 class="modal-title" id="fullEditRepairLabel">Редактиране на артикул за ремонт</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/repairs" name="editRepair">
+            <form method="POST" action="/repairs" name="fullEditRepair">
                  
                 <div class="modal-body">    
                     <div class="info-cont">
@@ -418,7 +418,7 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" id="add" class="btn btn-primary">Промени</button>
+                    <button type="submit" id="add" class="btn btn-primary">Върни</button>
                 </div>
             </form>
         </div>

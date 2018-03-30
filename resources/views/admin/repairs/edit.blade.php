@@ -1,10 +1,10 @@
 <div class="modal-header">
-    <h5 class="modal-title" id="addRepairLabel">Добавяне на артикул за ремонт</h5>
+    <h5 class="modal-title" id="fullEditRepairLabel">Редактиране на артикул за ремонт</h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<form method="POST" action="/repairs" name="addRepair">
+<form method="POST" action="/repairs/{{ $repair->id }}" name="fullEditRepair">
     <input name="_method" type="hidden" value="PUT">
     <div class="modal-body">    
         <div class="info-cont">
@@ -68,31 +68,40 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputPassword4">Тегло</label>
-                    <input type="text" class="form-control" name="weight" value="{{ $repair->weight }}" placeholder="Тегло на артикула">
+                    <input type="text" class="form-control" name="weight" value="{{ $repair->weight }}" placeholder="Тегло на артикула" readonly>
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="inputPassword4">Карати</label>
-                    <input type="text" class="form-control" name="carates" value="{{ $repair->weight }}" placeholder="Карати">
+                    <input type="text" class="form-control" name="carates" value="{{ $repair->weight }}" placeholder="Карати" readonly>
                 </div>
-
             </div>
 
             <div class="form-row">
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-4">
                     <label for="inputEmail4">Цена</label>
-                    <input type="text" class="form-control" name="price" value="{{ $repair->price }}" placeholder="Цена на ремонта">
+                    <input type="text" class="form-control" name="price" value="{{ $repair->price }}" placeholder="Цена на ремонта" readonly>
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-4">
+                    <label for="inputEmail4">Цена след ремонта</label>
+                    <input type="text" class="form-control" name="price_after" value="{{ $repair->price }}" placeholder="Цена на ремонта">
+                </div>
+                <div class="form-group col-md-4">
                     <label for="inputPassword4">Капаро</label>
-                    <input type="text" class="form-control" name="deposit" value="{{ $repair->deposit }}" placeholder="Оставено капаро">
+                    <input type="text" class="form-control" name="deposit" value="{{ $repair->deposit }}" placeholder="Оставено капаро" readonly>
                 </div>
+            </div>
+
+            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                <input type="checkbox" id="inputCall1" name="status" class="peer" value="done">
+                <label for="inputCall1" class="peers peer-greed js-sb ai-c">
+                    <span class="peer peer-greed">Готов за връщане</span>
+                </label>
             </div>
     </div>
 
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-        <button type="submit" id="finish" class="btn btn-primary">Приключи</button>
         <button type="submit" id="edit" class="btn btn-primary">Промени</button>
     </div>
 </form>

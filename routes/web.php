@@ -28,6 +28,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::get('/repairs', 'RepairsController@index')->name('repairs');
     Route::post('/repairs', 'RepairsController@store');
     Route::get('/repairs/{repair}', 'RepairsController@edit');
+    Route::get('/repairs/return/{repair}', 'RepairsController@return');
 
     Route::get('/selling', 'SellingsController@index')->name('selling');
     Route::post('/selling', 'SellingsController@store');
@@ -144,10 +145,11 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/users', 'UserController@store');
 
     Route::post('/repairs', 'RepairsController@store');
+    Route::get('/repairs/return/{repair}', 'RepairsController@return');
     Route::get('/repairs/{barcode}', 'RepairsController@scan');
     Route::get('/repairs/certificate/{id}', 'RepairsController@certificate');
 
-    //Route::put('/repairs/{repair}', 'RepairsController@update');
+    Route::put('/repairs/{repair}', 'RepairsController@update');
 
     Route::post('/discounts', 'DiscountCodesController@store');
 
