@@ -104,14 +104,12 @@ aria-hidden="true">
 
 <table class="table table-condensed">
     <tr>
-        <th>Код</th>
         <th>Име</th> 
         <th>Виж бижу</th>
         <th>Цена на дребно</th>
         <th>Тегло</th>
         <th>Цена</th>
         <th>Действия</th>
-        <th>Баркод</th>
     </tr>
     
     @foreach($products as $product)

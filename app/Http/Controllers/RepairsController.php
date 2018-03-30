@@ -112,6 +112,15 @@ class RepairsController extends Controller
         return \View::make('admin/repairs/edit', array('repair' => $repair, 'repairTypes' => $repairTypes));
     }
 
+
+    public function return(Repairs $repairs, $repair)
+    {
+        $repair = Repairs::find($repair);
+        $repairTypes = Repair_types::all();
+
+        return \View::make('admin/repairs/return', array('repair' => $repair, 'repairTypes' => $repairTypes));
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -119,9 +128,21 @@ class RepairsController extends Controller
      * @param  \App\Repairs  $repairs
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Repairs $repairs)
+    public function update(Request $request, Repairs $repairs, $repair)
     {
-        //
+        $repair = Repairs::find($repair);
+        
+        $repair->date_returned = $request->date_returned;
+        $repair->price_after = $request->price_after; 
+        $repair->repair_description = $request->repair_description;
+
+        if($request->status){
+            $repair->status = 'done';
+        }
+    
+        $repair->save();
+        
+        return Response::json(array('table' => View::make('admin/repairs/table',array('repair'=>$repair))->render()));
     }
 
     /**

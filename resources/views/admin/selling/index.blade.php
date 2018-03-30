@@ -29,7 +29,7 @@
                         <div class="form-group form-row">
                             <label for="amount" class="col-sm-9 control-label">Брой</label>
                             <div class="col-sm-3">
-                                <input type="number" class="form-control" id="amount" name="amount" placeholder="1">
+                                <input type="number" class="form-control" value="1" id="amount" name="amount" placeholder="1">
                             </div>
                         </div>
 
@@ -125,18 +125,6 @@
                             <div class="col-sm-3">
                                 <input type="email" class="form-control" id="inputEmail3" placeholder="">
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Отстъпка</label>
-                            <select id="repair_type" name="repair_type" class="form-control">
-                                <option value="">Избери</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Описание</label>
-                            <textarea class="form-control"></textarea>
                         </div>
 
                         <div class="form-group">
