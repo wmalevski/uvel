@@ -62,9 +62,11 @@ class RepairTypesController extends Controller
      * @param  \App\Repair_types  $repairTypes
      * @return \Illuminate\Http\Response
      */
-    public function edit(Repair_types $repairTypes)
+    public function edit(Repair_types $repairTypes, $type)
     {
-        //
+        $type = Repair_types::find($type);
+
+        return \View::make('admin/repair_types/edit', array('repair' => $type));
     }
 
     /**
@@ -74,9 +76,15 @@ class RepairTypesController extends Controller
      * @param  \App\Repair_types  $repairTypes
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Repair_types $repairTypes)
+    public function update(Request $request, Repair_types $repairTypes, $type)
     {
-        //
+        $type = Repair_types::find($type);
+        $type->name = $request->name;
+        $type->price = $request->price;
+
+        $type->save();
+        
+        return Response::json(array('table' => View::make('admin/repair_types/table',array('repairType'=>$type))->render()));
     }
 
     /**

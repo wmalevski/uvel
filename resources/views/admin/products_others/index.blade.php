@@ -68,7 +68,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="products" action="/productsothers">
+            <form method="POST" name="edit" action="/productsothers">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>
@@ -79,7 +79,7 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" id="edit" class="btn btn-primary">Обнови</button>
+                    <button type="submit" id="edit" class="btn btn-primary" data-dismiss="modal">Обнови</button>
                 </div>
             </form>
         </div>

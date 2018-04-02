@@ -44,7 +44,7 @@ class DiscountCodesController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make( $request->all(), [
-            'discount' => 'required',
+            'discount' => 'required|integer|between:1,100',
             'date_expires' => 'required',
          ]);
         
@@ -101,9 +101,18 @@ class DiscountCodesController extends Controller
      * @param  \App\Discount_codes  $discount_codes
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Discount_codes $discount_codes)
+    public function update(Request $request, Discount_codes $discount_codes, $discount)
     {
-        //
+        $users = User::all();
+        $discount = Discount_codes::find($discount);
+
+        $discount->discount = $request->discount;
+        $discount->expires = $request->date_expires;
+        $discount->user = $request->user;
+
+        $discount->save();
+
+        return Response::json(array('table' => View::make('admin/discounts/table',array('discount' => $discount, 'users' => $users))->render()));
     }
 
     /**

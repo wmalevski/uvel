@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Stores;
 use App\Role;
-use Illuminate\Http\Request;
 use Response;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
@@ -51,10 +51,8 @@ class UserController extends Controller
         $user->store = $request->store;
         
         $user->save();
-        
-        //return Response::json( View::make('admin/users/table', array('user' => $user))->render());
+    
         return Response::json(array('table' => View::make('admin/users/table',array('user'=>$user))->render()));
-        //return \View::make('admin/users/table', array('user' => $user));
     }
 
     /**

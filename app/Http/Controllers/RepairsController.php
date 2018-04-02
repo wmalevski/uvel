@@ -132,6 +132,8 @@ class RepairsController extends Controller
     {
         $repair = Repairs::find($repair);
         
+        $repair->customer_name = $request->customer_name;
+        $repair->customer_phone = $request->customer_phone;
         $repair->date_returned = $request->date_returned;
         $repair->price_after = $request->price_after; 
         $repair->repair_description = $request->repair_description;

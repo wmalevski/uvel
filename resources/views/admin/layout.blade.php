@@ -451,6 +451,9 @@
             <li class="search-input">
               <input class="form-control" type="text" placeholder="Search...">
             </li>
+            <li>
+                {{ App\Stores::find(Auth::user()->store)->name }} 
+            </li>
           </ul>
           <ul class="nav-right">
             {{--  <li class="notifications dropdown">

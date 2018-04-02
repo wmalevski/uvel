@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Response;
-
+use App\Stones;
+use App\Stone_styles;
+use App\Stone_contours;
+use App\Stone_sizes;
 
 class Products extends Model
 {
@@ -97,18 +100,18 @@ class Products extends Model
 
             $pass_stones = array();
             
-            // foreach($model_stones as $stone){
-            //     $pass_stones[] = [
-            //         'value' => $stone->id,
-            //         'label' => $stone->name.' ('.\App\Stone_contours::find($stone->contour)->name.', '.\App\Stone_sizes::find($stone->size)->name.' )'
-            //     ];
-            // }
+            foreach($model_stones as $stone){
+                $pass_stones[] = [
+                    'value' => Stones::find($stone->stone)->id,
+                    'label' => Stones::find($stone->stone)->name.' ('.Stone_contours::find(Stones::find($stone->stone)->contour)->name. ', ' .Stone_sizes::find(Stones::find($stone->stone)->size)->name. ' )'
+                ];
+            }
     
             return array(
                 'retail_prices' => $prices_retail, 
                 'wholesale_prices' => $prices_wholesale, 
                 'jewels_types' => $pass_jewels,
-                //'stones' => $pass_stones,
+                'stones' => $pass_stones,
                 'weight' => $model->weight,
                 'size'   => $model->size,
                 'workmanship' => $model->workmanship,

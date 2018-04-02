@@ -1,5 +1,4 @@
 <tr>
-    <td></td>
     <td> {{ $model->name }} </td>
     <td> {{ App\Jewels::find($model->jewel)->name }} </td> 
     <td> {{ App\Prices::find($model->retail_price)->price }} </td> 

@@ -46,8 +46,8 @@ class ProductsOthersController extends Controller
         $validator = Validator::make( $request->all(), [
             'model' => 'required',
             'type' => 'required',
-            'price' => 'required',
-            'quantity' => 'required'
+            'price' => 'required|numeric|between:0.1,10000',
+            'quantity' => 'required|numeric|between:1,10000'
         ]); 
 
         if ($validator->fails()) {
@@ -76,9 +76,12 @@ class ProductsOthersController extends Controller
      * @param  \App\Products_others  $products_others
      * @return \Illuminate\Http\Response
      */
-    public function edit(Products_others $products_others)
+    public function edit(Products_others $products_others, $product)
     {
-        //
+        $product = Products_others::find($product);
+        $types = Products_others_types::all();
+
+        return \View::make('admin/products_others/edit', array('product' => $product, 'types' => $types));
     }
 
     /**
@@ -88,9 +91,18 @@ class ProductsOthersController extends Controller
      * @param  \App\Products_others  $products_others
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Products_others $products_others)
+    public function update(Request $request, Products_others $products_others, $product)
     {
-        //
+        $product = Products_others::find($product);
+        
+        $product->model = $request->model;
+        $product->type = $request->type;
+        $product->price = $request->price;
+        $product->quantity = $request->quantity;
+        
+        $product->save();
+        
+        return Response::json(array('table' => View::make('admin/products_others/table',array('product'=>$product))->render()));
     }
 
     /**

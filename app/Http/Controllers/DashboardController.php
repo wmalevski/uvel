@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Dashboard;
+use App\Usersubstitutions;
 use Illuminate\Http\Request;
+use Auth;
 
 class DashboardController extends Controller
 {
@@ -14,6 +16,15 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        $substitution = Usersubstitutions::where([
+            ['user_id', '=', Auth::user()->id],
+            ['date_to', '>=', date("dd-mm-yyyy")]
+        ])->first();
+
+        if($substitution){
+            Auth::user()->store = $substitution->store_id;
+        }
+
         return view('admin.selling.index');
     }
 
