@@ -35,7 +35,14 @@ class UsersubstitutionsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $substitution = Usersubstitutions::where([
+        //     ['user_id', '=', Auth::user()->id],
+        //     ['date_to', '>=', date("dd-mm-yyyy")]
+        // ])->first();
+
+        // if($substitution){
+        //     Auth::user()->store = $substitution->store_id;
+        // }
     }
 
     /**
