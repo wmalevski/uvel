@@ -169,7 +169,12 @@ class ModelsController extends Controller
         $prices = Prices::where('type', 'sell')->get();
         $stones = Stones::all();
         
-        return Response::json(array('success' => View::make('admin/models/edit',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render()));
+        //return Response::json(array('success' => View::make('admin/models/edit',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render()));
+
+        //$product = Products_others::find($product);
+        //$types = Products_others_types::all();
+
+        return \View::make('admin/models/edit', array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones));
     }
 
     /**
@@ -195,7 +200,7 @@ class ModelsController extends Controller
         
         $model->save();
 
-        return Response::json(array('success' => View::make('admin/models/edit',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render()));
+        return Response::json(array('success' => View::make('admin/models/table',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render()));
     }
 
     /**

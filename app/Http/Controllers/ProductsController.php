@@ -11,6 +11,10 @@ use App\Model_stones;
 use Illuminate\Http\Request;
 use Uuid;
 use App\Gallery;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
+use Illuminate\Http\JsonResponse;
+use Response;
 
 class ProductsController extends Controller
 {
@@ -63,6 +67,19 @@ class ProductsController extends Controller
     public function store(Request $request)
     {
 
+        $validator = Validator::make( $request->all(), [
+            'model' => 'required',
+            'jewelsTypes' => 'required',
+            'retail_price' => 'required',
+            'wholesale_prices' => 'required',
+            'weight' => 'required',
+            'size' => 'required'
+        ]); 
+
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
         $file_data = $request->input('images'); 
         foreach($file_data as $img){
             $file_name = 'productimage_'.uniqid().time().'.png';
@@ -90,6 +107,8 @@ class ProductsController extends Controller
         $product->code = unique_number('products', 'code', 4);
         $product->barcode = '380'.unique_number('products', 'barcode', 4).$product->code; 
         $product->save();
+        
+        return Response::json(array('table' => View::make('admin/products/table',array('product'=>$product))->render()));
     }
 
     /**

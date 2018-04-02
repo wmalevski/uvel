@@ -49,7 +49,7 @@ aria-hidden="true">
                             <select id="wholesale_price" name="wholesale_price" class="form-control disabled-first" disabled>
                                 <option value="">Избери</option>
                         
-                                @foreach($prices->where('type', 'buy') as $price)
+                                @foreach($prices->where('type', 'sell') as $price)
                                     <option value="{{ $price->id }}" data-pricebuy="{{ $price->price }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
                                 @endforeach
                             </select>
@@ -130,6 +130,35 @@ aria-hidden="true">
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
                     <button type="submit" class="btn btn-primary">Добави</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editModel" role="dialog" aria-labelledby="editModelLabel"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModelLabel">Редактиране на модел</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" name="products" action="/productstypesothers">
+                <div class="modal-body">
+                    <div class="info-cont">
+                    </div>
+                    {{ csrf_field() }}
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+                    <button type="submit" id="edit" class="btn btn-primary">Обнови</button>
                 </div>
             </form>
         </div>

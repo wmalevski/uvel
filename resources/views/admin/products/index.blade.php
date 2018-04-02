@@ -47,27 +47,27 @@ aria-hidden="true">
                     <select id="jewels_types" name="jewelsTypes" class="form-control">
                         <option value="">Избери</option>
                 
-                        <!-- @foreach($jewels as $jewel)
+                        @foreach($jewels as $jewel)
                             <option value="{{ $jewel->id }}" data-price="{{ $jewel->material }}">{{ $jewel->name }}</option>
-                        @endforeach -->
+                        @endforeach
                     </select>
 
                     <label>Цена на дребно: </label>
                     <select id="retail_prices" name="retail_price" class="form-control" >
                         <option value="">Избери</option>
                 
-                        <!-- @foreach($prices->where('type', 'sell') as $price)
+                        @foreach($prices->where('type', 'sell') as $price)
                             <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
-                        @endforeach -->
+                        @endforeach
                     </select>
                     
                     <label>Цена на едро: </label>
                     <select id="wholesale_prices" name="wholesale_prices" class="form-control">
                         <option value="">Избери</option>
                 
-                        <!-- @foreach($prices->where('type', 'buy') as $price)
+                        @foreach($prices->where('type', 'sell') as $price)
                             <option value="{{ $price->id }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
-                        @endforeach -->
+                        @endforeach
                     </select>
                 
                     <div class="form-group">
@@ -80,9 +80,17 @@ aria-hidden="true">
                         <input type="text" class="form-control" id="size" name="size" placeholder="Размер:">
                     </div>
                 
-                    Изработка: <span id="workmanship">0</span>лв   <br/>
+                    <label for="workmanship">Изработка: </label>
+                    <div class="input-group"> 
+                        <input type="number" class="form-control" name="workmanship" id="workmanship" value="0">
+                        <span class="input-group-addon">лв</span>
+                    </div>
 
-                    Цена: <span id="price">0</span>лв<br/><br/>
+                    <label for="price">Цена: </label>
+                    <div class="input-group"> 
+                        <input type="number" class="form-control" name="price" id="price" value="0">
+                        <span class="input-group-addon">лв</span>
+                    </div>
                     <div id="drop-area">
                         <input type="file" name="images" id="fileElem" multiple accept="image/*" >
                         <label class="button" for="fileElem">Избери снимки</label>

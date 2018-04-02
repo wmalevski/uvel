@@ -71,9 +71,11 @@ class ProductsOthersTypesController extends Controller
      * @param  \App\Products_others_types  $products_others_types
      * @return \Illuminate\Http\Response
      */
-    public function edit(Products_others_types $products_others_types)
+    public function edit(Products_others_types $products_others_types, $type)
     {
-        //
+        $type = Products_others_types::find($type);
+
+        return \View::make('admin/products_others_types/edit', array('type' => $type));
     }
 
     /**
@@ -83,9 +85,14 @@ class ProductsOthersTypesController extends Controller
      * @param  \App\Products_others_types  $products_others_types
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Products_others_types $products_others_types)
+    public function update(Request $request, Products_others_types $products_others_types, $type)
     {
-        //
+        $type = Products_others_types::find($type);
+        
+        $type->name = $request->name;
+        $type->save();
+        
+        return Response::json(array('table' => View::make('admin/products_others_types/table',array('type'=>$type))->render()));
     }
 
     /**

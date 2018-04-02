@@ -22,9 +22,9 @@ aria-hidden="true">
                     </div>
 
                     <div class="form-group">
-                            <label for="1">Цена: </label>
-                            <input type="text" class="form-control" id="1" name="price" placeholder="Цена на ремонтната дейност:">
-                        </div>
+                        <label for="1">Цена: </label>
+                        <input type="number" class="form-control" id="1" name="price" placeholder="Цена на ремонтната дейност:" min="0">
+                    </div>
                 </div>
 
                 <div class="modal-footer">
@@ -32,6 +32,16 @@ aria-hidden="true">
                     <button type="submit" class="btn btn-primary">Добави</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editRepairType" role="dialog" aria-labelledby="editRepairType"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            
+
         </div>
     </div>
 </div>
@@ -46,6 +56,7 @@ aria-hidden="true">
                     <th>#</th>
                     <th>Име</th> 
                     <th>Цена</th>
+                    <th>Опции</th>
                 </tr>
                 
                 @foreach($repairTypes as $repairType)

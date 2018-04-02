@@ -35,11 +35,40 @@ aria-hidden="true">
     </div>
 </div>
 
+<div class="modal fade" id="editProductType" role="dialog" aria-labelledby="editProductTypelLabel"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProductTypeLabel">Редактиране на тип продукт</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" name="products" action="/productstypesothers">
+                <div class="modal-body">
+                    <div class="info-cont">
+                    </div>
+                    {{ csrf_field() }}
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+                    <button type="submit" id="edit" class="btn btn-primary">Обнови</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <h3>Добави друг тип <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
 
 <table class="table table-condensed">
     <tr>
         <th>Име</th>
+        <th></th>
     </tr>
     
     @foreach($products_others_types as $type)
