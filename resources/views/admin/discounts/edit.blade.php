@@ -1,15 +1,15 @@
 <div class="modal-header">
-    <h5 class="modal-title" id="addDiscountLabel">Промяна на отстъпка</h5>
+    <h5 class="modal-title" id="editDiscountLabel">Промяна на отстъпка</h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<form method="POST" name="addDiscount" action="/discounts">
+<form method="POST" name="editDiscount" action="/discounts/{{ $discount->id }}">
+    <input name="_method" type="hidden" value="PUT">
     <div class="modal-body">
         <div class="info-cont">
-        </div>
-        {{ csrf_field() }}
-        <div id="success-container"></div>
+            </div>
+            {{ csrf_field() }}
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="1">Отстъпка: </label>
@@ -45,6 +45,6 @@
 
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-        <button type="submit" id="add" class="btn btn-primary">Промени</button>
+        <button type="submit" id="edit" class="btn btn-primary" data-dismiss="modal">Промени</button>
     </div>
 </form>

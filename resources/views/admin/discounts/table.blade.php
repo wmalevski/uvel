@@ -1,5 +1,4 @@
 <tr>
-    <td></td>
     <td>{{ $discount->discount }}%</td> 
     <td>{{ $discount->expires }}</td> 
     <td>@if($discount->active == 'yes') Валидна @else Невалидна @endif</td> 

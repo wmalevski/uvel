@@ -103,8 +103,11 @@ class StonesController extends Controller
     public function edit(Stones $stones, $stone)
     {
         $stone = Stones::find($stone);
+        $stone_sizes = Stone_sizes::all();
+        $stone_contours = Stone_contours::all();
+        $stone_styles = Stone_styles::all();
         
-        return Response::json(array('success' => View::make('admin/stones/edit', array('stone' => $stone))->render()));
+        return \View::make('admin/stones/edit', array('stone' => $stone, 'stone_sizes' => $stone_sizes, 'stone_contours' => $stone_contours, 'stone_styles' => $stone_styles));
     }
 
     /**
@@ -114,9 +117,21 @@ class StonesController extends Controller
      * @param  \App\Stones  $stones
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Stones $stones)
+    public function update(Request $request, Stones $stones, $stone)
     {
-        //
+        $stone = Stones::find($stone);
+        $stone->name = $request->name;
+        $stone->weight = $request->weight;
+        $stone->carat = $request->carat;
+        $stone->contour = $request->contour;
+        $stone->style = $request->style;
+        $stone->size = $request->size;
+        $stone->amount = $request->amount;
+        $stone->price = $request->price;
+
+        $stone->save();
+
+        return Response::json(array('table' => View::make('admin/stones/table',array('stone'=>$stone))->render()));
     }
 
     /**

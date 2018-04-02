@@ -53,7 +53,6 @@ aria-hidden="true">
             <p>Преглед на създадените ремонтни дейности.</p>
             <table class="table table-condensed">
                 <tr>
-                    <th>#</th>
                     <th>Име</th> 
                     <th>Цена</th>
                     <th>Опции</th>

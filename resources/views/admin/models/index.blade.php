@@ -59,17 +59,18 @@ aria-hidden="true">
                         <div class="form-group col-md-6">
                             <div class="form-group">
                                 <label for="1">Тегло: </label>
-                                <input type="number" class="form-control calculate" id="weight" name="weight" placeholder="Тегло:">
+                                <input type="number" class="form-control calculate" id="weight" name="weight" placeholder="Тегло:" min="0.1" max="10000">
                             </div>
                         </div>
 
                         <div class="form-group col-md-6">
                             <div class="form-group">
                                 <label for="1">Размер: </label>
-                                <input type="number" class="form-control" id="1" name="size" placeholder="Размер:">
+                                <input type="number" class="form-control" id="1" name="size" placeholder="Размер:" min="0.1" max="100">
                             </div>
                         </div>
                     </div>
+
                     <div class="model_stones">
                         <div class="form-row fields">
                             <div class="form-group col-md-6">
@@ -86,10 +87,11 @@ aria-hidden="true">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="1">Брой: </label>
-                                <input type="number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="100">
+                                <input type="number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="50">
                             </div>
                         </div>
                     </div>
+
                     <div class="form-row">
                         <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>
                     </div>
@@ -147,7 +149,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="products" action="/productstypesothers">
+            <form method="POST" name="addModel" action="/productstypesothers">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>
@@ -165,11 +167,10 @@ aria-hidden="true">
     </div>
 </div>
 
-<h3>Видове модели <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModel">Добави</button></h3>
+<h3>Модели <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModel">Добави</button></h3>
 
 <table class="table table-condensed">
     <tr>
-        <th>#</th>
         <th>Име</th> 
         <th>Виж бижу</th>
         <th>Цена на дребно</th>

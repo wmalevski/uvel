@@ -46,8 +46,8 @@ class ProductsOthersController extends Controller
         $validator = Validator::make( $request->all(), [
             'model' => 'required',
             'type' => 'required',
-            'price' => 'required',
-            'quantity' => 'required'
+            'price' => 'required|numeric|between:0.1,10000',
+            'quantity' => 'required|numeric|between:1,10000'
         ]); 
 
         if ($validator->fails()) {

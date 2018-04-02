@@ -110,7 +110,6 @@ aria-hidden="true">
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">#</th>
             <th scope="col">Име</th> 
             <th scope="col">Тип</th>
             <th scope="col">Тегло</th> 

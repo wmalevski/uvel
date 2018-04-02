@@ -107,7 +107,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::get('/discounts', 'DiscountCodesController@index')->name('discounts');
 
     Route::get('/discounts/{discount}', 'DiscountCodesController@edit');
-    Route::put('/discounts/{discount}', 'DiscountCodesController@update');
 });
 
 Route::group(['prefix' => 'ajax'], function() {
@@ -157,6 +156,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::put('/repairs/{repair}', 'RepairsController@update');
 
     Route::post('/discounts', 'DiscountCodesController@store');
+    Route::put('/discounts/{discount}', 'DiscountCodesController@update');
 
     Route::get('/products/{model}', 'ProductsController@chainedSelects');
 

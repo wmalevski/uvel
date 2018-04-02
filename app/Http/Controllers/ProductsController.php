@@ -72,8 +72,8 @@ class ProductsController extends Controller
             'jewelsTypes' => 'required',
             'retail_price' => 'required',
             'wholesale_prices' => 'required',
-            'weight' => 'required',
-            'size' => 'required'
+            'weight' => 'required|numeric|between:0.1,10000',
+            'size' => 'required|numeric|between:0.1,10000'
         ]); 
 
         if ($validator->fails()) {

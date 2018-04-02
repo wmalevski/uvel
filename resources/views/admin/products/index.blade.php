@@ -72,12 +72,12 @@ aria-hidden="true">
                 
                     <div class="form-group">
                         <label for="1">Тегло: </label>
-                        <input type="text" class="form-control" id="weight" name="weight" placeholder="Тегло:">
+                        <input type="text" class="form-control" id="weight" name="weight" placeholder="Тегло:" min="1" max="10000">
                     </div>
                 
                     <div class="form-group">
                         <label for="1">Размер: </label>
-                        <input type="text" class="form-control" id="size" name="size" placeholder="Размер:">
+                        <input type="text" class="form-control" id="size" name="size" placeholder="Размер:" min="1" max="10000">
                     </div>
                 
                     <label for="workmanship">Изработка: </label>

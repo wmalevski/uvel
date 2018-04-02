@@ -66,7 +66,9 @@ class ModelsController extends Controller
             'name' => 'required|unique:models,name',
             'jewel' => 'required',
             'retail_price' => 'required',
-            'stone_amount.*' => 'required|integer|between:1,5'
+            'stone_amount.*' => 'required|numeric|between:1,50',
+            'weight' => 'required|numeric|between:0.1,10000',
+            'size'  => 'required|numeric|between:0.1,100'
          ]);
 
         if ($validator->fails()) {
@@ -168,13 +170,16 @@ class ModelsController extends Controller
         $jewels = Jewels::all();
         $prices = Prices::where('type', 'sell')->get();
         $stones = Stones::all();
+        $modelStones = Model_stones::where('model', $model->id)->get();
+
+        //dd($modelStones);
         
         //return Response::json(array('success' => View::make('admin/models/edit',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render()));
 
         //$product = Products_others::find($product);
         //$types = Products_others_types::all();
 
-        return \View::make('admin/models/edit', array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones));
+        return \View::make('admin/models/edit', array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones, 'modelStones' => $modelStones));
     }
 
     /**
