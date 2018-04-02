@@ -63,9 +63,9 @@ aria-hidden="true">
                 <th>Стойност</th>
             </tr>
             
-            @foreach($prices->where('type', 'buy') as $price)
+            @foreach($prices->where('type', 'buy') as $indexKey => $price)
                 <tr>
-                    <td>@if($price->id == 1) Индикация за образуване на цена @endif</td>
+                    <td>@if ($loop->first) Индикация за образуване на цена @endif</td>
                     <td>{{ $price->slug }}</td> 
                     <td>{{ $price->price }}</td> 
                 </tr>
@@ -90,9 +90,9 @@ aria-hidden="true">
                   <th>Стойност</th>
               </tr>
               
-              @foreach($prices->where('type', 'sell') as $price)
+              @foreach($prices->where('type', 'sell') as $indexKey => $price)
                   <tr>
-                      <td>@if($price->id == 1) Индикация за образуване на цена @endif</td>
+                      <td>@if ($loop->first) Индикация за образуване на цена @endif</td>
                       <td>{{ $price->slug }}</td> 
                       <td>{{ $price->price }}</td> 
                   </tr>

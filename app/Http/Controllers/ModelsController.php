@@ -66,6 +66,7 @@ class ModelsController extends Controller
             'name' => 'required|unique:models,name',
             'jewel' => 'required',
             'retail_price' => 'required',
+            'stone_amount.*' => 'required|integer|between:1,5'
          ]);
 
         if ($validator->fails()) {
