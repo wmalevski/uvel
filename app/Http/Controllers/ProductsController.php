@@ -73,7 +73,9 @@ class ProductsController extends Controller
             'retail_price' => 'required',
             'wholesale_prices' => 'required',
             'weight' => 'required|numeric|between:0.1,10000',
-            'size' => 'required|numeric|between:0.1,10000'
+            'size' => 'required|numeric|between:0.1,10000',
+            'workmanship' => 'required|numeric|between:0.1,500000',
+            'price' => 'required|numeric|between:0.1,500000'
         ]); 
 
         if ($validator->fails()) {
@@ -104,8 +106,8 @@ class ProductsController extends Controller
         $product->size = $request->size;
         $product->workmanship = $request->workmanship;
         $product->price = $request->price;
-        $product->code = unique_number('products', 'code', 4);
-        $product->barcode = '380'.unique_number('products', 'barcode', 4).$product->code; 
+        $product->code = unique_number('products', 'code', 8);
+        $product->barcode = '380'.unique_number('products', 'barcode', 8); 
         $product->save();
         
         return Response::json(array('table' => View::make('admin/products/table',array('product'=>$product))->render()));

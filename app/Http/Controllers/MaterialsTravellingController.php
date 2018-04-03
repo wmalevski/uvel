@@ -87,7 +87,7 @@ class MaterialsTravellingController extends Controller
                 $history->result_id = $material->id;
 
                 $history->save();
-                //return Response::json(array('success' => View::make('admin/materials_travelling/table',array('material'=>$material))->render()))
+                return Response::json(array('success' => View::make('admin/materials_quantity/table',array('material'=>$material))->render()));
             }else{
                 return Response::json(['errors' => array('quantity' => ['Въведохте невалидно количество!'])], 401);
             }

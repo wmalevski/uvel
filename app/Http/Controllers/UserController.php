@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Stores;
 use App\Role;
+use App\Permission;
 use Response;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -82,6 +83,9 @@ class UserController extends Controller
             'password' => bcrypt($request->password),
             'store' => $request->store
         ]);
+
+        //$user->attachRole($request->role);
+        $user->roles()->attach([$request->role]);
         
         return Response::json(array('success' => View::make('admin/users/table',array('user'=>$user))->render()));
     }
