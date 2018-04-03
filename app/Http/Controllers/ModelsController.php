@@ -66,7 +66,7 @@ class ModelsController extends Controller
             'name' => 'required|unique:models,name',
             'jewel' => 'required',
             'retail_price' => 'required',
-            'stone_amount.*' => 'required|numeric|between:1,50',
+            'stone_amount.*' => 'required|numeric|between:1,100',
             'weight' => 'required|numeric|between:0.1,10000',
             'size'  => 'required|numeric|between:0.1,10000'
          ]);
@@ -74,12 +74,6 @@ class ModelsController extends Controller
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
-
-        // foreach($request->images as $img){
-        //     echo $img;
-        // }
-
-        // die;
 
         $model = Models::create($request->all());
 
