@@ -68,7 +68,7 @@ class ModelsController extends Controller
             'retail_price' => 'required',
             'stone_amount.*' => 'required|numeric|between:1,50',
             'weight' => 'required|numeric|between:0.1,10000',
-            'size'  => 'required|numeric|between:0.1,100'
+            'size'  => 'required|numeric|between:0.1,10000'
          ]);
 
         if ($validator->fails()) {
