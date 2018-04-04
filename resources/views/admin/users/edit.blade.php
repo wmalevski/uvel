@@ -49,7 +49,6 @@
                     </label>
                 </div>
             @endforeach
-            {{-- {{$user->permissions()}} --}}
         </div>
     </div>
     <div class="modal-footer">
