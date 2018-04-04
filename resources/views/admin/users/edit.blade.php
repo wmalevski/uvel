@@ -35,7 +35,7 @@
                 <option value="">Избери магазин</option>
         
                 @foreach($stores as $store)
-                    <option value="{{ $store->id }}" @if(Auth::user()->store == $store->id) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
+                    <option value="{{ $store->id }}" @if($user->store == $store->id) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
                 @endforeach
             </select>
         </div>

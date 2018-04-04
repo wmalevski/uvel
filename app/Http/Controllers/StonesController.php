@@ -130,14 +130,14 @@ class StonesController extends Controller
             'size' => 'required|numeric',
             'style' => 'required',
             'contour' => 'required',
-            'price' => 'required|between:0.1,100000',
+            'price' => 'required|numeric|between:0.1,100000',
             'amount' => 'required|numeric|between:0.01,100000'
          ]);
 
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
-        
+
         $stone->name = $request->name;
         $stone->weight = $request->weight;
         $stone->carat = $request->carat;
