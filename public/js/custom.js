@@ -268,17 +268,12 @@ var uvel,
           collectionInputs.map(function (el) {
             if (el != 'undefined') {
               var name = el.getAttribute('name');
-              var value = el.value;
-              var elType = el.getAttribute('type');
+              var elType = el.getAttribute('type');              
+              var value = elType === 'checkbox' ? el.checked : el.value;
 
               if(name === 'images') {
                 collectionData[name] = [].slice.apply(collectionFiles);
                 return true;
-              }
-
-              if (elType === 'checkbox') {
-                collectionData[name] = el.checked;
-
               } else if (name.includes('[]')) {
                 name = name.replace('[]', '');
 
