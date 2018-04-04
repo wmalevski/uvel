@@ -26,7 +26,6 @@ var uvel,
           fieldsWrapper = currentForm.find('.model_stones'),
           stonesData = $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null;
 
-
         //Add Fields
         addButton.on('click', function (e) {
           e.preventDefault();
@@ -42,7 +41,7 @@ var uvel,
 
             stonesData.forEach(function (option) {
               newFields += `<option value=${option.value}>${option.label}</option>`
-            })
+            });
 
             newFields +=
               '</select>' +
@@ -68,7 +67,6 @@ var uvel,
     }
 
     this.dropFunctionality = function(instanceFiles) {
-      
       var dropArea = document.getElementById("drop-area");
       var input = document.getElementById("fileElem");
       var preventEvents = ['dragenter', 'dragover', 'dragleave', 'drop'],
@@ -80,7 +78,6 @@ var uvel,
             collectionFiles= [];
 
         for(var file of files) {
-
           collectionFiles.push(file);
         }
 
@@ -88,72 +85,60 @@ var uvel,
       })
 
       preventEvents.forEach(function(eventName) {
-
         dropArea.addEventListener(eventName, preventDefaults, false);
       }); 
       
       highlightEvents.forEach(function(eventName) {
-
         dropArea.addEventListener(eventName, highlight, false);
       });
 
       unhighlightEvents.forEach(function(eventName) {
-
         dropArea.addEventListener(eventName, unhighlight, false);
       });
       
-      dropArea.addEventListener('drop', handleDrop, false)
+      dropArea.addEventListener('drop', handleDrop, false);
 
       function highlight(e) {
-
-        dropArea.classList.add('highlight')
+        dropArea.classList.add('highlight');
       }
       
       function unhighlight(e) {
-
-        dropArea.classList.remove('highlight')
+        dropArea.classList.remove('highlight');
       }
 
       function preventDefaults(e) {
-
-        e.preventDefault()
-        e.stopPropagation()
+        e.preventDefault();
+        e.stopPropagation();
       } 
 
       function handleDrop(e) {
-
         var dt = e.dataTransfer,
             files = dt.files,
             collectionFiles= [];
 
         for(var file of files) {
-
           collectionFiles.push(file);
         }
 
-        handleFiles(collectionFiles)
+        handleFiles(collectionFiles);
       }
 
       function handleFiles(files) {
-
         files.forEach(previewFile);
       }
 
       function previewFile(file) {
-        
-        var reader = new FileReader()
-        reader.readAsDataURL(file)
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
 
         reader.onloadend = function() {
-
-          var img = document.createElement('img')
-          img.src = reader.result
-          document.getElementById('gallery').appendChild(img)
+          var img = document.createElement('img');
+          img.src = reader.result;
+          document.getElementById('gallery').appendChild(img);
 
           toDataURL(
             reader.result,
             function(dataUrl) {
-
               var data = dataUrl.replace('data:image/png;base64,','');
               instanceFiles.push(data);
             }
@@ -162,12 +147,10 @@ var uvel,
       }
 
       function toDataURL(src, callback, outputFormat) {
-
         var img = new Image();
         img.crossOrigin = 'Anonymous';
 
         img.onload = function() {
-
           var canvas = document.createElement('CANVAS');
           var ctx = canvas.getContext('2d');
           var dataURL;
@@ -180,7 +163,6 @@ var uvel,
 
         img.src = src;
         if (img.complete || img.complete === undefined) {
-
           img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
           img.src = src;
         }
@@ -188,7 +170,6 @@ var uvel,
     }
 
     this.checkAllForms = function(currentPressedBtn) {
-
       var collectionBtns = document.querySelectorAll('.modal-dialog .modal-footer button[type="submit"]');
       var urlTaken = window.location.href.split('/');
       var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
@@ -200,23 +181,17 @@ var uvel,
       var collectionFillFields = [].slice.apply(document.querySelectorAll('.fill-field'));
 
       if (collectionModelPrice.length) {
-
         var typeJewery = collectionModelPrice[0]
         var price = collectionModelPrice[1];
         var weight = collectionModelPrice[2];
 
         collectionModelPrice.forEach(function (el) {
-
           if(el.tagName === 'SELECT') {
-
             $(el).on('select2:select', function(e) {
               calculatePrice();
             })
-
           } else {
-
             el.addEventListener('change', function (ev) {
-
               calculatePrice();
             });
           }
@@ -237,35 +212,28 @@ var uvel,
       }
 
       if (collectionBtns.length) {
-
         var modelSelect = $('#model_select');
         var typeSelect;
         var collectionFiles = [];
         var dropZone = document.getElementById("drop-area");
 
         if(dropZone) {
-
           this.dropFunctionality(collectionFiles);
           // Todo: make a removing functionality
          
         }
 
         if(modelSelect) {
-
           modelSelect.on('select2:select', function(ev) {
-
             if(modelSelect.val()) {
-              
-              var value = modelSelect.find(':selected').data('jewel'),
+              var value = modelSelect.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
                   xhttp = new XMLHttpRequest(),
                   typeSelect = $('#jewels_types');
 
               typeSelect.on('select2:select', function(ev) {
-
                 modelSelect.val('0').trigger('change.select2');
-                
-              })
+              });
 
               productsRequest(tempUrl);
             }
@@ -297,10 +265,8 @@ var uvel,
         // Check the inputs
 
         if (collectionInputs.length != 0) {
-
           collectionInputs.map(function (el) {
             if (el != 'undefined') {
-
               var name = el.getAttribute('name');
               var value = el.value;
               var elType = el.getAttribute('type');
@@ -351,22 +317,16 @@ var uvel,
         // Check the selects
 
         if (collectionSelects.length != 0) {
-
           for (var i = 0; i <= collectionSelects.length; i += 1) {
-
             var el = collectionSelects[i];
 
             if (typeof  el != 'undefined') {
-
               var name = el.getAttribute('name');
               var value;
 
               if (el.options && el.options[el.selectedIndex]) {
-
                 value = el.options[el.selectedIndex].value;
-
               } else {
-
                 value = '';
               }
 
@@ -387,69 +347,54 @@ var uvel,
         }
 
         if (formMethod == 'POST') {
-
           ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements, currentPressedBtn);
-
         } else if (formMethod == 'PUT') {
-
           ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
         }
       }
       
       function productsRequest(tempUrl) {
-
         var xhttp = new XMLHttpRequest();
 
         xhttp.open('GET', tempUrl, true);
         xhttp.onreadystatechange = function () {
 
           if (this.readyState == 4 && this.status == 200) {
-
             var data = JSON.parse(this.responseText);
 
             for(var key in data) {
-
               var holder = document.getElementById(key);
 
               if(holder) {
-
                 var tagName = holder.tagName.toLowerCase();
 
                 switch (tagName) {
-
                   case 'input':
-
                     holder.value = data[key];
                     break;
 
                   case 'select':
-
                     var collectionData = data[key];
-                    
+
                     for(i = holder.options.length - 1 ; i >= 1 ; i--){
-                    
                       holder.remove(i);
                     }
 
                     collectionData.map(function(el) {
-                      
-
                       var option = document.createElement('option');
                           option.text = el.label;
                           option.value = el.value;
                           
                       if(el.hasOwnProperty('selected') && el['selected']) {
-
                         option.selected = true;
                       }
 
                       holder.add(option);
-                    })
+                    });
 
                     break;
 
                   case 'span':
-
                     holder.innerText = data[key];
                     break;
 
@@ -468,7 +413,6 @@ var uvel,
       }
 
       function calculatePrice() {
-
         var typeJeweryData = typeJewery.options[typeJewery.selectedIndex].getAttribute('data-pricebuy'),
           priceData = price.options[price.selectedIndex].getAttribute('data-retail'),
           weightData = weight.value;
@@ -477,15 +421,12 @@ var uvel,
           inputPrice = document.getElementById('inputPrice');
 
         if (typeJeweryData && priceData && weightData) {
-
           var priceDev = (priceData - typeJeweryData) * weightData;
           var productPrice = (priceData * weightData);
 
           inputDev.value = priceDev;
           inputPrice.value = productPrice;
-
         } else {
-
           inputDev.value = '0';
           inputPrice.value = '0';
         }
@@ -500,22 +441,16 @@ var uvel,
       }
 
       function ajaxFn(method, url, callback, dataSend, elements, currentPressedBtn) {
-
         var xhttp = new XMLHttpRequest();
 
         xhttp.open('POST', url, true);
         xhttp.onreadystatechange = function () {
 
           if (this.readyState == 4 && this.status == 200) {
-
             var data = JSON.parse(this.responseText);
-
             callback(data, elements, currentPressedBtn);
-
           } else if (this.readyState == 4 && this.status == 401) {
-
             var data = JSON.parse(this.responseText);
-
             callback(data);
           }
         };
@@ -526,31 +461,26 @@ var uvel,
       }
 
       function handleResponsePost(response, elements, currentPressedBtn) {
-
         var responseHolder = document.forms[nameForm].firstElementChild.firstElementChild;
         responseHolder.innerHTML = '';
 
         if (response.hasOwnProperty('errors')) {
-
           var holder = document.createDocumentFragment();
           var errors = response.errors;
 
           for (var err in errors) {
-
             var collectionErr = errors[err];
 
             collectionErr.forEach(function (msg) {
-
               var errorContainer = document.createElement('div');
               errorContainer.innerText = msg;
               errorContainer.className = 'alert alert-danger';
               holder.appendChild(errorContainer);
-            })
+            });
           }
+
           responseHolder.appendChild(holder);
-
         } else {
-
           var successContainer = document.createElement('div');
               successContainer.innerText = 'Успешно добавихте';
               successContainer.className = 'alert alert-success';
@@ -558,12 +488,10 @@ var uvel,
           responseHolder.appendChild(successContainer);
 
           if (nameForm === 'addPrice') {
-
             var select = collectionSelects[0];
             var tableId = document.querySelector('#' + select.options[select.selectedIndex].value + ' tbody');
 
             tableId.innerHTML += response.success;
-
           } else {
             if(nameForm === 'addRepair') {
               var repairId = response.id,
@@ -630,53 +558,43 @@ $(function () {
 
 //todo: IN PROGRESS refactor this in RBD WAY
 $(document).ready(function () {
+  // Gosho's creation ! extra attention :D
+  var select_input = $('#jewel');
+  var disabled_input = $('.disabled-first');
 
-  // Gosho's creation ! extra attention :D 
+  if ($(this).find(':checked').val() != '') {
+    disabled_input.removeAttr('disabled');
+  } else {
 
-    var select_input = $('#jewel');
-    var disabled_input = $('.disabled-first');
+    disabled_input.prop('disabled', true);
+    disabled_input.prop('selectedIndex', 0);
+  }
 
+  select_input.on('change', function () {
     if ($(this).find(':checked').val() != '') {
-
       disabled_input.removeAttr('disabled');
-
     } else {
-
       disabled_input.prop('disabled', true);
       disabled_input.prop('selectedIndex', 0);
     }
 
-    select_input.on('change', function () {
+    var val = $(this).find(':checked').data('price');
 
-      if ($(this).find(':checked').val() != '') {
+    $('option[data-material]').hide();
+    $('option[data-material="' + val + '"]').show();
+  });
 
-        disabled_input.removeAttr('disabled');
-      } else {
+  var select_stone_type = $('select#stone_type');
 
-        disabled_input.prop('disabled', true);
-        disabled_input.prop('selectedIndex', 0);
-      }
+  select_stone_type.on('change', function () {
+    $('#weight').val('');
+    $('#carat').val('0');
+  });
 
-      var val = $(this).find(':checked').data('price');
-
-      $('option[data-material]').hide();
-      $('option[data-material="' + val + '"]').show();
-    });
-
-    var select_stone_type = $('select#stone_type');
-
-    select_stone_type.on('change', function () {
-      $('#weight').val('');
-      $('#carat').val('0');
-    });
-
-    $('#weight').focusout(function () {
-
-      if ($(select_stone_type).find(':checked').val() == 2) {
-
-        $('#carat').val($(this).val() * 5);
-      }
-    });
-  
-  // end of G.'s creation  
+  $('#weight').focusout(function () {
+    if ($(select_stone_type).find(':checked').val() == 2) {
+      $('#carat').val($(this).val() * 5);
+    }
+  });
+  // end of G.'s creation
 });

@@ -4,6 +4,7 @@ namespace App;
 
 use App\Jewels;
 use App\Prices;
+use App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -34,7 +35,6 @@ class Products extends Model
 
     public function chainedSelects($model){
         $model = Models::find($model);
-    
         if($model){
             $model_material = Jewels::find($model->material);
             $jewels = Jewels::all();

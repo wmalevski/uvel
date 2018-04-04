@@ -35,7 +35,7 @@ aria-hidden="true">
                 
                     <div class="form-group">
                         <label for="carat">Карат: </label>
-                        <input type="text" class="form-control" id="carat" value="0" name="carat" placeholder="Карат:" readonly>
+                        <input type="number" class="form-control" id="carat" value="0" name="carat" placeholder="Карат:" readonly>
                     </div>
                 
                     <label>Размер: </label>
@@ -73,7 +73,7 @@ aria-hidden="true">
                 
                     <div class="form-group">
                         <label for="5">Цена: </label>
-                        <input type="text" class="form-control" id="5" name="price" placeholder="Цена:">
+                        <input type="number" class="form-control" id="5" name="price" placeholder="Цена:">
                     </div>
 
                     <div id="drop-area">
