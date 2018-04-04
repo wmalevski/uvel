@@ -18,7 +18,7 @@ class CreateMaterialsTable extends Migration
             $table->string('name');
             $table->string('code');
             $table->string('color');
-            $table->integer('carat');
+            $table->integer('carat')->nullable();
             $table->float('stock_price');
             $table->timestamps();
         });

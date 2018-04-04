@@ -24,7 +24,7 @@
                 <option value="">Избери роля</option>
         
                 @foreach($roles as $role)
-                    <option value="{{ $role->id }}" @if(Auth::user()->roles->first()['id'] == $role->id) selected @endif>{{ $role->display_name }}</option>
+                    <option value="{{ $role->id }}" @if($user->roles->first()['id'] == $role->id) selected @endif>{{ $role->display_name }}</option>
                 @endforeach
             </select>
         </div>

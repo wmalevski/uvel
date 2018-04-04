@@ -42,7 +42,7 @@ class ProductsOthersTypesController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make( $request->all(), [
-            'name' => 'required'
+            'name' => 'required|unique:products_others_types,name'
         ]);
 
         if ($validator->fails()) {
