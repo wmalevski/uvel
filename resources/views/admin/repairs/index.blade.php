@@ -26,7 +26,7 @@ aria-hidden="true">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputPassword4">Телефон</label>
-                            <input type="text" class="form-control" name="customer_phone" placeholder="Телефон на клиента">
+                            <input type="number" class="form-control" name="customer_phone" placeholder="Телефон на клиента">
                         </div>
                     </div>
 
@@ -75,12 +75,18 @@ aria-hidden="true">
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputPassword4">Тегло</label>
-                                <input type="text" class="form-control" name="weight" placeholder="Тегло на артикула">
+                                <input type="number" class="form-control" name="weight" placeholder="Тегло на артикула">
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label for="inputPassword4">Карати</label>
-                                <input type="text" class="form-control" name="carates" placeholder="Карати">
+                                <label>Материал: </label>
+                                <select name="material" class="form-control">
+                                    <option value="">Избер материал</option>
+                            
+                                    @foreach($materials as $material)
+                                        <option value="{{ $material->id }}">{{ $material->name }} - {{ $material->color }} - {{ $material->code }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                         </div>
@@ -88,11 +94,11 @@ aria-hidden="true">
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputEmail4">Цена</label>
-                                <input type="text" class="form-control" name="price" placeholder="Цена на ремонта">
+                                <input type="number" class="form-control" name="price" placeholder="Цена на ремонта">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputPassword4">Капаро</label>
-                                <input type="text" class="form-control" name="deposit" placeholder="Оставено капаро">
+                                <input type="number" class="form-control" name="deposit" placeholder="Оставено капаро">
                             </div>
                         </div>
 
@@ -119,7 +125,7 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="button" id="certificate" disabled class="btn btn-primary">Сертификат</button>
+                    <button type="button" id="certificate" disabled class="btn btn-primary">Разписка</button>
                     <button type="submit" id="add" class="btn btn-primary">Добави</button>
                 </div>
             </form>

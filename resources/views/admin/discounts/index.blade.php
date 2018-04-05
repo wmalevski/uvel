@@ -35,6 +35,16 @@ aria-hidden="true">
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                            <input type="checkbox" id="lifetime" name="lifetime" class="peer">
+                            <label for="lifetime" class="peers peer-greed js-sb ai-c">
+                                <span class="peer peer-greed">Безсрочна</span>
+                            </label>
+                        </div>
+                    </div>
+
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="2">Потребител: </label>
@@ -42,7 +52,7 @@ aria-hidden="true">
                                 <option value="">Избери</option>
 
                                 @foreach($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    <option value="{{ $user->id }}">{{ $user->name }} - {{ $user->roles->first()['display_name'] }}</option>
                                 @endforeach
                             </select>
                         </div>

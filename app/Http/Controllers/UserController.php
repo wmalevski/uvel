@@ -55,8 +55,12 @@ class UserController extends Controller
         $user->roles()->attach([$request->role]);
         
         $user->save();
+
+        foreach($request->permissions as $permision){
+            print_r($permision);
+        }
     
-        return Response::json(array('table' => View::make('admin/users/table',array('user'=>$user))->render()));
+        //return Response::json(array('table' => View::make('admin/users/table',array('user'=>$user))->render()));
     }
 
     /**

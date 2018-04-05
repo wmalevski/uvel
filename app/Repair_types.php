@@ -8,7 +8,7 @@ class Repair_types extends Model
 {
     protected $fillable = [
         'name',
-        'price'
+        'price',
     ];
 
     protected $table = 'repair_types';

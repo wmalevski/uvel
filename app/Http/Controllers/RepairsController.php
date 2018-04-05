@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Repairs;
-use Illuminate\Http\Request;
 use App\Repair_types;
+use App\Materials;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Response;
@@ -21,8 +22,9 @@ class RepairsController extends Controller
     {
         $repairTypes = Repair_types::all();
         $repairs = Repairs::all();
+        $materials = Materials::all();
         
-        return \View::make('admin/repairs/index', array('repairTypes' => $repairTypes, 'repairs' => $repairs));
+        return \View::make('admin/repairs/index', array('repairTypes' => $repairTypes, 'repairs' => $repairs, 'materials' => $materials));
     }
 
     /**
@@ -48,7 +50,9 @@ class RepairsController extends Controller
             'customer_phone' => 'required|numeric',
             'type' => 'required',
             'date_returned' => 'required',
-            'weight' => 'required',
+            'weight' => 'required|numeric',
+            'price' => 'required|numeric|between:0.1,5000',
+            'deposit' => 'required|numeric|between:0.1,5000'
          ]);
         
         if ($validator->fails()) {
@@ -65,7 +69,8 @@ class RepairsController extends Controller
             'weight' => $request->weight,
             'price' => $request->price,
             'deposit' => $request->deposit,
-            'repair_description' => $request->repair_description
+            'repair_description' => $request->repair_description,
+            'material' => $request->material
         ]);
         
         $repair->barcode = '380'.unique_number('repairs', 'code', 7);
@@ -108,8 +113,9 @@ class RepairsController extends Controller
     {
         $repair = Repairs::find($repair);
         $repairTypes = Repair_types::all();
+        $materials = Materials::all();
 
-        return \View::make('admin/repairs/edit', array('repair' => $repair, 'repairTypes' => $repairTypes));
+        return \View::make('admin/repairs/edit', array('repair' => $repair, 'repairTypes' => $repairTypes, 'materials' => $materials));
     }
 
 
@@ -137,6 +143,7 @@ class RepairsController extends Controller
         $repair->date_returned = $request->date_returned;
         $repair->price_after = $request->price_after; 
         $repair->repair_description = $request->repair_description;
+        $repair->material = $request->material;
 
         if($request->status){
             $repair->status = 'done';

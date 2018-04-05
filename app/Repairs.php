@@ -17,7 +17,8 @@ class Repairs extends Model
         'barcode',
         'weight',
         'deposit',
-        'price'
+        'price',
+        'material'
     ];
 
     protected $table = 'repairs';

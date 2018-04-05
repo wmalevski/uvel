@@ -39,6 +39,17 @@
                 @endforeach
             </select>
         </div>
+
+        <div class="form-group">
+            @foreach($user->allPermissions() as $permission)
+                <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                    <input type="checkbox" id="inputCall{{ $permission->id }}" name="permissions[]" class="peer" @if($user->can($permission->name)) checked @endif>
+                    <label for="inputCall2" class="peers peer-greed js-sb ai-c">
+                        <span class="peer peer-greed">{{ $permission->display_name }}</span>
+                    </label>
+                </div>
+            @endforeach
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>

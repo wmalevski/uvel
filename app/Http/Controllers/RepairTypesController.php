@@ -40,6 +40,14 @@ class RepairTypesController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make( $request->all(), [
+            'name' => 'required',
+            'price' => 'required|numeric|between:0.1,50000',
+        ]);
+        
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
 
         $repairType = Repair_types::create($request->all());
         return Response::json(array('success' => View::make('admin/repair_types/table',array('repairType'=>$repairType))->render()));
