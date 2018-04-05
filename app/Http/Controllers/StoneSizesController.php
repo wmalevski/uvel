@@ -40,6 +40,14 @@ class StoneSizesController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make( $request->all(), [
+            'name' => 'required|unique:stone_sizes',
+        ]);
+        
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
         $size = new Stone_sizes();
         $response = $size->create($request->all());
 

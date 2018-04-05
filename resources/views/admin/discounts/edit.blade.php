@@ -28,6 +28,25 @@
                 </div>
             </div>
         </div>
+
+        <div class="form-group">
+            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                <input type="checkbox" id="lifetime" name="lifetime" class="peer" @if($discount->lifetime == 'yes') checked @endif>
+                <label for="lifetime" class="peers peer-greed js-sb ai-c">
+                    <span class="peer peer-greed">Безсрочна</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                <input type="checkbox" id="active" name="active" class="peer" @if($discount->active == 'yes') checked @endif>
+                <label for="active" class="peers peer-greed js-sb ai-c">
+                    <span class="peer peer-greed">Активна</span>
+                </label>
+            </div>
+        </div>
+
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="2">Потребител: </label>

@@ -44,8 +44,7 @@ class DiscountCodesController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make( $request->all(), [
-            'discount' => 'required|integer|between:1,100',
-            'date_expires' => 'required',
+            'discount' => 'required|integer|between:1,100'
          ]);
         
         if ($validator->fails()) {
@@ -59,6 +58,10 @@ class DiscountCodesController extends Controller
             'user' => $request->user,
             'code' =>  unique_random('discount_codes', 'code', 4),
         ]);
+
+        if($request->lifetime){
+            $discount->lifetime = 'yes';
+        }
         
         $discount->barcode = '380'.unique_number('discount_codes', 'code', 7);
 
@@ -103,12 +106,32 @@ class DiscountCodesController extends Controller
      */
     public function update(Request $request, Discount_codes $discount_codes, $discount)
     {
+        $validator = Validator::make( $request->all(), [
+            'discount' => 'required|integer|between:1,100'
+         ]);
+        
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
         $users = User::all();
         $discount = Discount_codes::find($discount);
 
         $discount->discount = $request->discount;
         $discount->expires = $request->date_expires;
         $discount->user = $request->user;
+
+        if($request->active == false){
+            $discount->active = 'no';
+        } else{
+            $discount->active = 'yes';
+        }
+
+        if($request->lifetime == false){
+            $discount->lifetime = 'no';
+        } else{
+            $discount->lifetime = 'yes';
+        }
 
         $discount->save();
 

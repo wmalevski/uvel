@@ -38,7 +38,7 @@ aria-hidden="true">
 
                     <div class="form-group">
                         <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                            <input type="checkbox" id="lifetime" name="lifetime[]" class="peer">
+                            <input type="checkbox" id="lifetime" name="lifetime" class="peer">
                             <label for="lifetime" class="peers peer-greed js-sb ai-c">
                                 <span class="peer peer-greed">Безсрочна</span>
                             </label>

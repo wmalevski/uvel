@@ -17,8 +17,9 @@ class CreateDiscountCodesTable extends Migration
             $table->increments('id');
             $table->integer('discount');
             $table->integer('user')->nullable();
-            $table->string('expires');
+            $table->string('expires')->nullable();
             $table->enum('active', ['yes', 'no'])->default('yes');
+            $table->enum('lifetime', ['yes', 'no'])->default('no');
             $table->string('code');
             $table->string('barcode');
             $table->timestamps();

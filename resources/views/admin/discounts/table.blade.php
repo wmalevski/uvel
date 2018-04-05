@@ -1,6 +1,6 @@
 <tr>
     <td>{{ $discount->discount }}%</td> 
-    <td>{{ $discount->expires }}</td> 
+    <td>@if($discount->lifetime == 'yes') Безсрочна @else {{ $discount->expires }} @endif</td> 
     <td>@if($discount->active == 'yes') Валидна @else Невалидна @endif</td> 
     <td>@if($discount->user) {{ App\User::find($discount->user)->name }} @endif</td>
     <td>

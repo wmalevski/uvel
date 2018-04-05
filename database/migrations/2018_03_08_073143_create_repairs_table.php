@@ -24,11 +24,12 @@ class CreateRepairsTable extends Migration
             $table->string('code');
             $table->float('weight');
             $table->float('price');
-            $table->float('deposit')->default(0);
+            $table->float('deposit')->default(0)->nullable();
             $table->float('price_after')->nullable();
             $table->string('barcode')->nullable();
             $table->integer('discount');
             $table->text('repair_description')->nullable();
+            $table->integer('material')->nullable();
             $table->timestamps();
         });
     }

@@ -38,12 +38,12 @@ aria-hidden="true">
 
                     <div class="form-group">
                         <label for="1">Цена: </label>
-                        <input type="text" class="form-control" id="price" name="price" placeholder="Цена на брой:">
+                        <input type="number" class="form-control" id="price" name="price" placeholder="Цена на брой:">
                     </div>
 
                     <div class="form-group">
                         <label for="1">Количество: </label>
-                        <input type="text" class="form-control" id="quantity" name="quantity" placeholder="Налично количество:">
+                        <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Налично количество:">
                     </div>
                 </div>
 

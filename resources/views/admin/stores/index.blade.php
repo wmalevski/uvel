@@ -31,7 +31,7 @@ aria-hidden="true">
                 
                     <div class="form-group">
                         <label for="3">Телефон: </label>
-                        <input type="text" class="form-control" id="3" name="phone" placeholder="Телефон на магазин:">
+                        <input type="number" class="form-control" id="3" name="phone" placeholder="Телефон на магазин:">
                     </div>
                 </div>
 

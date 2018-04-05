@@ -72,8 +72,14 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="inputPassword4">Карати</label>
-                    <input type="text" class="form-control" name="carates" value="{{ $repair->weight }}" placeholder="Карати" readonly>
+                    <label>Материал: </label>
+                    <select name="material" class="form-control">
+                        <option value="">Избер материал</option>
+                
+                        @foreach($materials as $material)
+                            <option value="{{ $material->id }}" @if($repair->material == $material->id) selected @endif>{{ $material->name }} - {{ $material->color }} - {{ $material->code }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
 

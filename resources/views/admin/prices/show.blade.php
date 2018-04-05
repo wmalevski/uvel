@@ -23,7 +23,7 @@ aria-hidden="true">
                     
                         <div class="form-group">
                             <label for="2">Стойност: </label>
-                            <input type="text" class="form-control" id="2" name="price" placeholder="Цена:">
+                            <input type="number" class="form-control" id="2" name="price" placeholder="Цена:">
                         </div>
                     
                         <label>Тип: </label>

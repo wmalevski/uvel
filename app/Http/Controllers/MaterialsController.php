@@ -45,7 +45,8 @@ class MaterialsController extends Controller
         $validator = Validator::make( $request->all(), [
             'name' => 'required',
             'code' => 'required',
-            'color' => 'required'
+            'color' => 'required',
+            'carat' => 'numeric|between:1,100'
          ]);
 
         if ($validator->fails()) {

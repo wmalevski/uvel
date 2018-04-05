@@ -62,16 +62,32 @@ class ModelsController extends Controller
      */
     public function store(Request $request)
     {
+        // $messsages = array(
+        //     'name.required'=>'Полето Име е задължително',
+        //     'name.unique'=>'Вече съществува модел с това име',
+        //     'jewel.required'=>'Полето Вид Бижу е задължително',
+        //     'retail_price.required'=>'Полето Цена на дребно е задължително',
+        //     'stone_amount.*.between'=>'Броят камъни може да е от 1 до 100',
+        //     'weight.between'=>'Теглото може да е от 1 до 10000',
+        //     'weight.required'=>'Полето тегло е задължително',
+        //     'size.between'=>'Размера може да е от 1 до 10000',
+        //     'size.required'=>'Полето Размер е задължително',
+        //     'workmanship.between'=>'Изработката може да е от 0.1 до 500000',
+        //     'workmanship.required'=>'Полето Изработка е задължително',
+        //     'price.between'=>'Цената може да е от 0.1 до 500000',
+        //     'price.required'=>'Полето Цена е задължително',
+        // );
+
         $validator = Validator::make( $request->all(), [
             'name' => 'required|unique:models,name',
             'jewel' => 'required',
             'retail_price' => 'required',
-            'stone_amount.*' => 'required|numeric|between:1,100',
+            'stone_amount.*' => 'nullable|numeric|between:1,100',
             'weight' => 'required|numeric|between:0.1,10000',
             'size'  => 'required|numeric|between:0.1,10000',
             'workmanship' => 'required|numeric|between:0.1,500000',
             'price' => 'required|numeric|between:0.1,500000'
-         ]);
+        ]);
 
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
@@ -80,11 +96,13 @@ class ModelsController extends Controller
         $model = Models::create($request->all());
 
         foreach($request->stones as $key => $stone){
-            $model_stones = new Model_stones();
-            $model_stones->model = $model->id;
-            $model_stones->stone = $stone;
-            $model_stones->amount = $request->stone_amount[$key];
-            $model_stones->save();
+            if($stone){
+                $model_stones = new Model_stones();
+                $model_stones->model = $model->id;
+                $model_stones->stone = $stone;
+                $model_stones->amount = $request->stone_amount[$key];
+                $model_stones->save();
+            }
         }
 
         $file_data = $request->input('images'); 

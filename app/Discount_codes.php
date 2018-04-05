@@ -11,7 +11,9 @@ class Discount_codes extends Model
         'expires',
         'user',
         'code',
-        'barcode'
+        'barcode',
+        'lifetime',
+        'active'
     ];
 
     protected $table = 'discount_codes';
