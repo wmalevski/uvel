@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Repairs extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'customer_name',
         'customer_phone',
@@ -20,6 +23,8 @@ class Repairs extends Model
         'price',
         'material'
     ];
+
+    protected $dates = ['deleted_at'];
 
     protected $table = 'repairs';
 }

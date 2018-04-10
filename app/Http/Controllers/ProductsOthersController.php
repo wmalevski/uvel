@@ -98,7 +98,14 @@ class ProductsOthersController extends Controller
         $product->model = $request->model;
         $product->type = $request->type;
         $product->price = $request->price;
-        $product->quantity = $request->quantity;
+
+        //$product->quantity = $request->quantity;
+
+        if($request->quantity_action == 'add'){
+            $product->quantity = $request->quantity+$request->quantity_after;
+        } else if($request->quantity_action == 'remove'){
+            $product->quantity = $request->quantity-$request->quantity_after;
+        }
         
         $product->save();
         

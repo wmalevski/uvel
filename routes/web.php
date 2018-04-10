@@ -150,6 +150,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::get('/repairs/return/{repair}', 'RepairsController@return');
     Route::get('/repairs/{barcode}', 'RepairsController@scan');
     Route::get('/repairs/certificate/{id}', 'RepairsController@certificate');
+    Route::delete('/repairs/{repair}', 'RepairsController@destroy');
 
     Route::put('/repairtypes/{type}', 'RepairTypesController@update');
 
@@ -167,4 +168,6 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/productsothers', 'ProductsOthersController@store');
     Route::put('/productsothers/{product}', 'ProductsOthersController@update');
+
+    Route::get('discounts/check/{id}', 'DiscountCodesController@check');
 });

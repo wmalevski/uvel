@@ -1,9 +1,9 @@
 <tr>
     <td></td>
-    <td>{{ App\Materials::find($material->type)->name }} - {{ App\Materials::find($material->type)->code }} - {{ App\Materials::find($material->type)->color }}</td> 
+    <td>{{ App\Materials::find(App\Materials_quantity::find($material->type)->material)->name }} - {{ App\Materials::find(App\Materials_quantity::find($material->type)->material)->code }} - {{ App\Materials::find(App\Materials_quantity::find($material->type)->material)->color }}</td> 
     <td>{{ $material->quantity }}</td> 
     <td>{{ $material->price }}</td> 
-    <td>{{ $material->dateSent }}</td> 
+    <td></td> 
     <td>{{ App\Stores::find($material->storeTo)->name }}</td>
     <td>@if($material->status == 0) На път @else Приет @endif</td>
 
