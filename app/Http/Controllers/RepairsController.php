@@ -160,8 +160,9 @@ class RepairsController extends Controller
      * @param  \App\Repairs  $repairs
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Repairs $repairs)
+    public function destroy(Repairs $repairs, $repair)
     {
-        //
+        $repair = Repairs::find($repair);
+        $repair->delete();
     }
 }

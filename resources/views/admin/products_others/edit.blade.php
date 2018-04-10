@@ -36,7 +36,20 @@
 
             <div class="form-group">
                 <label for="1">Количество: </label>
-                <input type="text" class="form-control" id="quantity" value="{{ $product->quantity }}" name="quantity" placeholder="Налично количество:">
+                <input type="number" min="0" class="form-control" id="quantity" value="{{ $product->quantity }}" name="quantity" placeholder="Налично количество:">
+            </div>
+
+            <div class="form-group">
+                <label for="1">Действие: </label>
+                <select id="quantity_after" name="quantity_action" class="form-control">
+                    <option value="add" selected="selected">Добави</option>
+                    <option value="remove">Извади</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="1">Количество: </label>
+                <input type="number" min="0" class="form-control" id="quantity_after" name="quantity_after" placeholder="Допълнително количество:">
             </div>
         </div>
 

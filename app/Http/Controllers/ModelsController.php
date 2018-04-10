@@ -62,22 +62,6 @@ class ModelsController extends Controller
      */
     public function store(Request $request)
     {
-        // $messsages = array(
-        //     'name.required'=>'Полето Име е задължително',
-        //     'name.unique'=>'Вече съществува модел с това име',
-        //     'jewel.required'=>'Полето Вид Бижу е задължително',
-        //     'retail_price.required'=>'Полето Цена на дребно е задължително',
-        //     'stone_amount.*.between'=>'Броят камъни може да е от 1 до 100',
-        //     'weight.between'=>'Теглото може да е от 1 до 10000',
-        //     'weight.required'=>'Полето тегло е задължително',
-        //     'size.between'=>'Размера може да е от 1 до 10000',
-        //     'size.required'=>'Полето Размер е задължително',
-        //     'workmanship.between'=>'Изработката може да е от 0.1 до 500000',
-        //     'workmanship.required'=>'Полето Изработка е задължително',
-        //     'price.between'=>'Цената може да е от 0.1 до 500000',
-        //     'price.required'=>'Полето Цена е задължително',
-        // );
-
         $validator = Validator::make( $request->all(), [
             'name' => 'required|unique:models,name',
             'jewel' => 'required',

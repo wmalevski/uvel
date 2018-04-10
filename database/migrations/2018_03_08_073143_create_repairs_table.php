@@ -31,6 +31,7 @@ class CreateRepairsTable extends Migration
             $table->text('repair_description')->nullable();
             $table->integer('material')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -59,16 +59,16 @@ class MaterialsTravellingController extends Controller
 
         if($check){
             if($request->quantity <= $check->quantity){
-                $price = Materials::find($request->type);
+                $price = Materials::find($check->material);
 
                 $material = new Materials_travelling();
                 $material->type = $request->type;
                 $material->quantity = $request->quantity;
                 $material->price = ($request->quantity)*($price->stock_price);
-                $material->storeFrom = Auth::user()->store;
+                $material->storeFrom = 1;
                 $material->storeTo  = $request->storeTo;
                 $material->dateSent = new \DateTime();
-                $material->userSent = Auth::user()->id;
+                $material->userSent = Auth::user()->getId();
 
                 $material->save();
 
@@ -82,12 +82,17 @@ class MaterialsTravellingController extends Controller
                 $history = new History();
 
                 $history->action = '1';
-                $history->user = Auth::user()->id;
+                $history->user = Auth::user()->getId();
                 $history->table = 'materials_travelling';
                 $history->result_id = $material->id;
 
                 $history->save();
-                return Response::json(array('success' => View::make('admin/materials_quantity/table',array('material'=>$material))->render()));
+                
+
+                //dd($material);
+
+                return Response::json(array('table' => View::make('admin/materials_quantity/travelling', array('material' => $material, 'matID' => $check->material))->render()));
+
             }else{
                 return Response::json(['errors' => array('quantity' => ['Въведохте невалидно количество!'])], 401);
             }

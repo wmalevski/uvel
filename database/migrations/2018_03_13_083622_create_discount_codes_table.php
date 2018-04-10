@@ -23,6 +23,7 @@ class CreateDiscountCodesTable extends Migration
             $table->string('code');
             $table->string('barcode');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

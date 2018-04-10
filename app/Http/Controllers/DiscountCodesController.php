@@ -35,6 +35,12 @@ class DiscountCodesController extends Controller
         //
     }
 
+    public function check($id){
+        $discount = new Discount_codes;
+        return json_encode($discount->check($id));
+    }
+
+
     /**
      * Store a newly created resource in storage.
      *
