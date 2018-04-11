@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Response;
+use App\Prices;
 use App\Repairs;
 use App\Repair_types;
 use App\Materials;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
-use Response;
 use Illuminate\Support\Facades\View;
 
 class RepairsController extends Controller
@@ -127,6 +129,17 @@ class RepairsController extends Controller
         return \View::make('admin/repairs/return', array('repair' => $repair, 'repairTypes' => $repairTypes));
     }
 
+    public function returnRepair(Repairs $repairs, $repair)
+    {
+        $repair = Repairs::find($repair);
+        
+        if($repair){
+            $repair->status = 'returned';
+            $repair->date_received = Carbon::parse(Carbon::now())->format('d-m-Y');
+            $repair->save();
+        }
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -144,6 +157,17 @@ class RepairsController extends Controller
         $repair->price_after = $request->price_after; 
         $repair->repair_description = $request->repair_description;
         $repair->material = $request->material;
+        $repair->weight_after = $request->weight_after;
+
+        if($repair->weight < $request->weight_after){
+            $repair->price_after = $repair->price + ($repair->weight*Prices::where(
+                [
+                    ['material', '=', $repair->material],
+                    ['type', '=', 'sell']
+                ])->first()->price);
+        }else{
+            $repair->price_after = $repair->price;
+        }
 
         if($request->status){
             $repair->status = 'done';

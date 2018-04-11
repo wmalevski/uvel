@@ -53,22 +53,15 @@
             </div>
 
             <div class="form-row">
-                <div class="form-group col-md-12">
+                <div class="form-group col-md-6">
                     <label>Тип ремонт</label>
                     <select name="type" class="form-control fill-field" data-fieldToFill="input[name='price']">
                         <option value="">Избери</option>
 
                         @foreach($repairTypes as $repairType)
-                            <option value="{{ $repairType->id }}" data-price="{{ $repairType->price }}">{{ $repairType->name }} - {{ $repairType->price }}</option>
+                            <option value="{{ $repairType->id }}" data-price="{{ $repairType->price }}" @if($repair->type == $repairType->id) selected @endif>{{ $repairType->name }} - {{ $repairType->price }}</option>
                         @endforeach
                     </select>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="inputPassword4">Тегло</label>
-                    <input type="text" class="form-control" name="weight" value="{{ $repair->weight }}" placeholder="Тегло на артикула" readonly>
                 </div>
 
                 <div class="form-group col-md-6">
@@ -84,13 +77,25 @@
             </div>
 
             <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputPassword4">Тегло</label>
+                    <input type="text" class="form-control" name="weight" value="{{ $repair->weight }}" placeholder="Тегло на артикула" readonly>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="inputPassword4">Тегло</label>
+                    <input type="text" class="form-control" name="weight_after" value="{{ $repair->weight_after }}" placeholder="Тегло на артикула след ремонта">
+                </div>
+            </div>
+
+            <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="inputEmail4">Цена</label>
                     <input type="text" class="form-control" name="price" value="{{ $repair->price }}" placeholder="Цена на ремонта" readonly>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="inputEmail4">Цена след ремонта</label>
-                    <input type="text" class="form-control" name="price_after" value="{{ $repair->price }}" placeholder="Цена на ремонта">
+                    <input type="text" class="form-control" name="price_after" value="{{ $repair->price_after }}" placeholder="Цена на ремонта">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="inputPassword4">Капаро</label>
