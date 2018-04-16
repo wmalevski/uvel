@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Database\Seeder;
 use App\Stone_sizes;
 use App\Stone_styles;
@@ -12,7 +11,6 @@ use App\Stones;
 use App\Jewels;
 use App\User;
 use App\Repair_types;
-use Bouncer;
 
 class DatabaseSeeder extends Seeder
 {
