@@ -106,7 +106,7 @@ class DatabaseSeeder extends Seeder
             'title' => 'Изтриване на готово изделие',
         ]);
 
-        Bouncer::allow('admin')->everything();
+        //Bouncer::allow('admin')->everything();
 
         $user = new User();
         $user->name = 'Admin';
@@ -116,6 +116,7 @@ class DatabaseSeeder extends Seeder
         $user->save();
 
         Bouncer::assign('admin')->to($user);
+        Bouncer::allow($user)->to('delete-products');
 
         for($i = 1; $i <= 5; $i++){
             $stone_styles = new Stone_styles();

@@ -57,6 +57,13 @@ class UserController extends Controller
         // foreach($request->permissions as $permision){
         //     print_r($permision);
         // }
+
+        foreach($request->permissions as $role){
+            //$abillity = Bouncer::ability($role)->first();
+            Bouncer::allow($user)->to($role);
+
+            print_r($abillity);
+        }
     
         //return Response::json(array('table' => View::make('admin/users/table',array('user'=>$user))->render()));
     }

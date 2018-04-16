@@ -13,6 +13,11 @@
 
         {{ csrf_field() }}
 
+        <select name="type" id="stone_type" class="form-control">
+            <option value="1">Синтатичен</option>
+            <option value="2">Естествен</option>
+        </select>
+
         <div class="form-group">
             <label for="1">Име: </label>
             <input type="text" class="form-control" value="{{ $stone->name }}" id="1" name="name" placeholder="Име на камък:">
@@ -25,7 +30,7 @@
     
         <div class="form-group">
             <label for="carat">Карат: </label>
-            <input type="text" class="form-control" id="carat" value="{{ $stone->carat }}" value="0" name="carat" placeholder="Карат:" >
+            <input type="number" class="form-control" id="carat" value="{{ $stone->carat }}" value="0" name="carat" placeholder="Карат:" >
         </div>
     
         <label>Размер: </label>
@@ -63,7 +68,7 @@
     
         <div class="form-group">
             <label for="5">Цена: </label>
-            <input type="text" class="form-control" id="5" value="{{ $stone->price }}" name="price" placeholder="Цена:">
+            <input type="number" class="form-control" id="5" value="{{ $stone->price }}" name="price" placeholder="Цена:">
         </div>
 
         <div id="drop-area">

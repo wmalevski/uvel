@@ -1,5 +1,5 @@
 <tr>
-    {{--  <td>{!! DNS1D::getBarcodeSVG($repair->barcode, "EAN13",1,33,"black", true) !!}</td>   --}}
+     <td>{!! DNS1D::getBarcodeSVG($repair->barcode, "EAN13",1,33,"black", true) !!}</td>  
     {{--  <td>{{ $repair->code }}</td>   --}}
     <td>{{ $repair->customer_name }}</td> 
     <td>{{ $repair->customer_phone }}</td> 

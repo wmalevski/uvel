@@ -116,7 +116,7 @@ class ModelsController extends Controller
             $product->size = $request->size;
             $product->workmanship = $request->workmanship;
             $product->price = $request->price;
-            $product->code = unique_number('products', 'code', 4);
+            $product->code = unique_number('products', 'code', 7);
 
             $barcode = str_replace('-', '', $product->id);
 
@@ -129,7 +129,8 @@ class ModelsController extends Controller
                 $newbarcode .= $bars;
             }
 
-            $product->barcode = '380'.unique_number('products', 'barcode', 4).$product->code; 
+            $product->barcode = '380'.unique_number('products', 'barcode', 7);
+            
             $product->save();
 
             foreach($request->stones as $key => $stone){
