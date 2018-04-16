@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Stores;
-use App\Role;
 use App\Permission;
 use Response;
 use Bouncer;
@@ -25,9 +24,8 @@ class UserController extends Controller
     {
         $users = User::all();
         $stores = Stores::all();
-        $roles = Role::all();
         
-        return \View::make('admin/users/index', array('users' => $users, 'stores' => $stores, 'roles' => $roles));
+        return \View::make('admin/users/index', array('users' => $users, 'stores' => $stores));
     }
 
     /**
@@ -40,9 +38,8 @@ class UserController extends Controller
     {
         $user = User::find($user);
         $stores = Stores::all();
-        $roles = Role::all();
         
-        return \View::make('admin/users/edit', array('user' => $user, 'stores' => $stores, 'roles' => $roles));
+        return \View::make('admin/users/edit', array('user' => $user, 'stores' => $stores));
     }
 
     public function update(Request $request, User $users, $user)
@@ -52,14 +49,14 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->store = $request->store;
 
-        $user->detachRoles($user->roles);
-        $user->roles()->attach([$request->role]);
+        // $user->detachRoles($user->roles);
+        // $user->roles()->attach([$request->role]);
         
         $user->save();
 
-        foreach($request->permissions as $permision){
-            print_r($permision);
-        }
+        // foreach($request->permissions as $permision){
+        //     print_r($permision);
+        // }
     
         //return Response::json(array('table' => View::make('admin/users/table',array('user'=>$user))->render()));
     }
@@ -93,7 +90,7 @@ class UserController extends Controller
         ]);
 
         //$user->attachRole($request->role);
-        $user->roles()->attach([$request->role]);
+        //$user->roles()->attach([$request->role]);
         
         return Response::json(array('success' => View::make('admin/users/table',array('user'=>$user))->render()));
     }

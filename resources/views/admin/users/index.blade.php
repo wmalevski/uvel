@@ -41,13 +41,13 @@ aria-hidden="true">
                 
                     <div class="form-group">
                         <label>Роля: </label>
-                        <select name="role" class="form-control">
+                        {{-- <select name="role" class="form-control">
                           <option value="">Избери роля</option>
                   
                           @foreach($roles as $role)
                               <option value="{{ $role->id }}">{{ $role->display_name }}</option>
                           @endforeach
-                      </select>
+                      </select> --}}
                     </div>
           
                     <div class="form-group">
