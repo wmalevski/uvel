@@ -20,13 +20,13 @@
 
         <div class="form-group">
             <label>Роля: </label>
-            <select name="role" class="form-control">
+            {{-- <select name="role" class="form-control">
                 <option value="">Избери роля</option>
         
                 @foreach($roles as $role)
                     <option value="{{ $role->id }}" @if($user->roles->first()['id'] == $role->id) selected @endif>{{ $role->display_name }}</option>
                 @endforeach
-            </select>
+            </select> --}}
         </div>
 
         <div class="form-group">
@@ -40,7 +40,7 @@
             </select>
         </div>
 
-        <div class="form-group">
+        {{-- <div class="form-group">
             @foreach($user->allPermissions() as $permission)
                 <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
                     <input type="checkbox" id="inputCall{{ $permission->id }}" name="permissions[]" class="peer" @if($user->can($permission->name)) checked @endif>
@@ -49,7 +49,7 @@
                     </label>
                 </div>
             @endforeach
-        </div>
+        </div> --}}
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
