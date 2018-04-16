@@ -101,7 +101,7 @@ class MaterialsTravellingController extends Controller
 
     public function accept(Request $request, $material)
     {
-        $material = Materials_travelling::find($material);
+        $material = Materials_travelling::findOrFail($material);
 
         if($material->status == 0){
             $check = Materials_quantity::where(
@@ -111,7 +111,7 @@ class MaterialsTravellingController extends Controller
                 ]
             )->first();
     
-            if($check->count()){
+            if($check){
                 $check->quantity = $check->quantity + $material->quantity;
                 $check->save();
             } else{

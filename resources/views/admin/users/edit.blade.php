@@ -20,13 +20,13 @@
 
         <div class="form-group">
             <label>Роля: </label>
-            {{-- <select name="role" class="form-control">
+            <select name="role" class="form-control">
                 <option value="">Избери роля</option>
         
-                @foreach($roles as $role)
-                    <option value="{{ $role->id }}" @if($user->roles->first()['id'] == $role->id) selected @endif>{{ $role->display_name }}</option>
+                @foreach(Bouncer::role()->all() as $role)
+                    <option value="{{ $role->id }}" @if(Bouncer::is($user)->an($role->name)) selected @endif>{{ $role->title }}</option>
                 @endforeach
-            </select> --}}
+            </select>
         </div>
 
         <div class="form-group">
@@ -39,17 +39,16 @@
                 @endforeach
             </select>
         </div>
-
-        {{-- <div class="form-group">
-            @foreach($user->allPermissions() as $permission)
+        <div class="form-group">
+            @foreach($user->getAbilities() as $permission)
                 <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                    <input type="checkbox" id="inputCall{{ $permission->id }}" name="permissions[]" class="peer" @if($user->can($permission->name)) checked @endif>
+                    <input type="checkbox" id="inputCall{{ $permission->id }}" name="permissions[]" class="peer">
                     <label for="inputCall2" class="peers peer-greed js-sb ai-c">
-                        <span class="peer peer-greed">{{ $permission->display_name }}</span>
+                        <span class="peer peer-greed">{{ $permission->title }}</span>
                     </label>
                 </div>
             @endforeach
-        </div> --}}
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
