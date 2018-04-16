@@ -170,7 +170,9 @@ var uvel,
     }
 
     this.checkAllForms = function(currentPressedBtn) {
+
       var collectionBtns = document.querySelectorAll('.modal-dialog .modal-footer button[type="submit"]');
+
       var urlTaken = window.location.href.split('/');
       var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
       var token = $('meta[name="csrf-token"]').attr('content');
@@ -246,11 +248,16 @@ var uvel,
         })
       }
 
-      function getFormData() {
-        window.event.preventDefault();
+      function getFormData(event) {
 
-        form = window.event.target.parentElement.parentElement;
-        nameForm = form.getAttribute('name');
+        var evt = event || window.event;
+
+        evt.preventDefault();
+
+       form = evt.target.parentElement.parentElement;
+
+  
+       nameForm = form.getAttribute('name');
 
         var urlAction = form.getAttribute('action'),
           formMethod = 'POST',
@@ -341,7 +348,7 @@ var uvel,
           }
         }
 
-        if (formMethod == 'POST') {
+        if (formMethod == 'POST') {       
           ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements, currentPressedBtn);
         } else if (formMethod == 'PUT') {
           ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
