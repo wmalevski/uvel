@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d7e46d43e5f7b96ccba73c2a546dcbdc",
+    "content-hash": "567fc693875dbda7352d322c0b687b03",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -406,51 +406,6 @@
                 }
             ],
             "time": "2015-04-20T18:58:01+00:00"
-        },
-        {
-            "name": "kkszymanowski/traitor",
-            "version": "0.2.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/KKSzymanowski/Traitor.git",
-                "reference": "05462468d0592545448f1a2877d045f5048abea1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/KKSzymanowski/Traitor/zipball/05462468d0592545448f1a2877d045f5048abea1",
-                "reference": "05462468d0592545448f1a2877d045f5048abea1",
-                "shasum": ""
-            },
-            "require": {
-                "nikic/php-parser": "^1.0|^2.0|^3.0",
-                "php": ">=5.4"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Traitor\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kuba Szymanowski",
-                    "email": "kuba.szymanowski@inf24.pl"
-                }
-            ],
-            "description": "Add a trait use statement to existing PHP class",
-            "keywords": [
-                "add",
-                "php",
-                "trait"
-            ],
-            "time": "2017-08-28T11:34:42+00:00"
         },
         {
             "name": "laravel/framework",
@@ -1396,47 +1351,52 @@
             "time": "2018-01-20T00:28:24+00:00"
         },
         {
-            "name": "santigarcor/laratrust",
-            "version": "5.0.9",
+            "name": "silber/bouncer",
+            "version": "v1.0.0-rc.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/santigarcor/laratrust.git",
-                "reference": "526cc3e8970c35b97c71a7a6d8b63c2073568bb1"
+                "url": "https://github.com/JosephSilber/bouncer.git",
+                "reference": "658fca6169b3426ca5be6168b13fde7b3c0e9069"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/santigarcor/laratrust/zipball/526cc3e8970c35b97c71a7a6d8b63c2073568bb1",
-                "reference": "526cc3e8970c35b97c71a7a6d8b63c2073568bb1",
+                "url": "https://api.github.com/repos/JosephSilber/bouncer/zipball/658fca6169b3426ca5be6168b13fde7b3c0e9069",
+                "reference": "658fca6169b3426ca5be6168b13fde7b3c0e9069",
                 "shasum": ""
             },
             "require": {
-                "illuminate/auth": "~5.2",
-                "illuminate/cache": "~5.2",
-                "illuminate/console": "~5.2",
-                "illuminate/database": "^5.2.32",
-                "illuminate/support": "~5.2",
-                "kkszymanowski/traitor": "^0.2.0",
-                "php": ">=5.5.9"
+                "illuminate/auth": "5.1.20 - 5.6",
+                "illuminate/container": "5.1.20 - 5.6",
+                "illuminate/contracts": "5.1.20 - 5.6",
+                "illuminate/database": "5.1.20 - 5.6"
             },
             "require-dev": {
-                "mockery/mockery": ">=0.9.9",
-                "orchestra/testbench": "~3.2",
-                "phpunit/phpunit": ">=4.1"
+                "illuminate/cache": "5.1.20 - 5.6",
+                "illuminate/console": "5.1.20 - 5.6",
+                "illuminate/events": "5.1.20 - 5.6",
+                "larapack/dd": "^1.1",
+                "mockery/mockery": "^0.9.5",
+                "phpunit/phpunit": "^4.8.35"
+            },
+            "suggest": {
+                "illuminate/cache": "Allows caching bouncer's database queries",
+                "illuminate/console": "Allows running registered bouncer seeders via artisan",
+                "illuminate/events": "Required for multi-tenancy support"
             },
             "type": "library",
             "extra": {
                 "laravel": {
                     "providers": [
-                        "Laratrust\\LaratrustServiceProvider"
+                        "Silber\\Bouncer\\BouncerServiceProvider"
                     ],
                     "aliases": {
-                        "Laratrust": "Laratrust\\LaratrustFacade"
+                        "Bouncer": "Silber\\Bouncer\\BouncerFacade"
                     }
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Laratrust\\": "src/"
+                    "Silber\\Bouncer\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1445,24 +1405,21 @@
             ],
             "authors": [
                 {
-                    "name": "Santiago Garcia",
-                    "homepage": "http://santigarcor.me"
+                    "name": "Joseph Silber",
+                    "email": "contact@josephsilber.com"
                 }
             ],
-            "description": "This package provides a flexible way to add Role-based Permissions to Laravel",
+            "description": "Eloquent roles and abilities.",
             "keywords": [
-                "Teams",
+                "abilities",
                 "acl",
-                "authorization",
-                "laratrust",
+                "capabilities",
+                "eloquent",
                 "laravel",
-                "multiusers",
                 "permissions",
-                "php",
-                "rbac",
                 "roles"
             ],
-            "time": "2018-03-05T13:21:52+00:00"
+            "time": "2018-02-01T03:05:24+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -4216,7 +4173,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "silber/bouncer": 5
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

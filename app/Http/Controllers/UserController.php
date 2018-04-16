@@ -7,6 +7,7 @@ use App\Stores;
 use App\Role;
 use App\Permission;
 use Response;
+use Bouncer;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;

@@ -7,6 +7,8 @@ use App\Prices;
 use App\Repairs;
 use App\Repair_types;
 use App\Materials;
+use App\History;
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -137,6 +139,11 @@ class RepairsController extends Controller
             $repair->status = 'returned';
             $repair->date_received = Carbon::parse(Carbon::now())->format('d-m-Y');
             $repair->save();
+
+            $history = new History;
+            $history->action = 'repair';
+            $history->user = Auth::user()->id;
+            $history->result_id = $repair->id;
         }
     }
 

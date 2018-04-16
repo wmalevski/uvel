@@ -11,7 +11,7 @@
         "laravel/tinker": "~1.0",
         "milon/barcode": "^5.3",
         "pyaesone17/active-state": "1.1.1",
-        "santigarcor/laratrust": "5.0.*",
+        "silber/bouncer": "v1.0.0-rc.1",
         "webpatser/laravel-uuid": "3.0"
     },
     "require-dev": {
