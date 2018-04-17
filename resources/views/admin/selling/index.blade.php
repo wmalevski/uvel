@@ -62,7 +62,7 @@
                         </div>
                     </div>
                     <div class="col-md-6 masonry-item form-horizontal">
-                        <table class="table">
+                        <table class="table" id="shopping-table">
                             <thead class="thead-dark">
                                 <tr>
                                     <th scope="col">Артикул</th>
