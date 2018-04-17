@@ -250,16 +250,16 @@ var uvel,
       }
 
       
-      if(deleteBtns.length) {
-        document.addEventListener('click', deleteRowRecord);
-      }
+
+      document.addEventListener('click', deleteRowRecord);
+
 
       function deleteRowRecord(event) {
-        
-        event.preventDefault();
-        event.stopPropagation();
-        
+              
         if(event.target && event.target.parentElement.classList.contains('delete-btn')) {
+
+          event.preventDefault();
+          event.stopPropagation();
 
           if (confirm("Сигурен ли си, че искаш да изтриеш записа?")) {
 
