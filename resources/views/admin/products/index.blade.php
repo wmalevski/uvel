@@ -79,6 +79,36 @@ aria-hidden="true">
                         <label for="1">Размер: </label>
                         <input type="text" class="form-control" id="size" name="size" placeholder="Размер:" min="1" max="10000">
                     </div>
+
+                    <div class="model_stones">
+                        <div class="form-row fields">
+                            <div class="form-group col-md-6">
+                                <label>Камък: </label>
+                                <select name="stones[]" class="form-control">
+                                    <option value="">Избери</option>
+
+                                    @foreach($stones as $stone)
+                                        <option value="{{ $stone->id }}">
+                                            {{ $stone->name }} ({{ App\Stone_contours::find($stone->contour)->name }}, {{ App\Stone_sizes::find($stone->size)->name }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="1">Брой: </label>
+                                <input type="number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="50">
+                            </div>
+                            <div class="form-group col-md-2">
+                                <span class="delete-stone"><i class="c-brown-500 ti-trash"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>
+                    </div>
+
+                    <br/>
                 
                     <label for="workmanship">Изработка: </label>
                     <div class="input-group"> 

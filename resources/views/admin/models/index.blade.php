@@ -85,9 +85,12 @@ aria-hidden="true">
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label for="1">Брой: </label>
                                 <input type="number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="50">
+                            </div>
+                            <div class="form-group col-md-2">
+                                <span class="delete-stone"><i class="c-brown-500 ti-trash"></i></span>
                             </div>
                         </div>
                     </div>

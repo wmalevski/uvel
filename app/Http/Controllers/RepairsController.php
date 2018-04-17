@@ -194,6 +194,10 @@ class RepairsController extends Controller
     public function destroy(Repairs $repairs, $repair)
     {
         $repair = Repairs::find($repair);
-        $repair->delete();
+
+        if($repair){
+            $repair->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

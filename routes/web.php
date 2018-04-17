@@ -153,7 +153,7 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::get('/repairs/{barcode}', 'RepairsController@scan');
     Route::get('/repairs/certificate/{id}', 'RepairsController@certificate');
-    Route::delete('/repairs/{repair}', 'RepairsController@destroy');
+    Route::post('/repairs/delete/{repair}', 'RepairsController@destroy');
 
     Route::put('/repairtypes/{type}', 'RepairTypesController@update');
 
