@@ -8,6 +8,10 @@ use App\Repair_types;
 use Cart;
 use App\Products;
 use Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
+use Illuminate\Http\JsonResponse;
+use Response;
 
 class SellingsController extends Controller
 {
@@ -93,8 +97,12 @@ class SellingsController extends Controller
         $item = Products::where('barcode', $request->barcode)->first();
 
         if($item){
-            Cart::add($item, $request->quantity, 210,00);
-            Cart::store(Auth::user()->getId());
+            $cart = Cart::add($item, $request->quantity, 210,00);
+            //Cart::store(1);
+            //Cart::store(Auth::user()->getId());
+            return Response::json(array('table' => View::make('admin/selling/table',array('row'=>$cart))->render()));
+        }else{
+            echo 'no';
         }
     }
 }
