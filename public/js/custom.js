@@ -249,38 +249,47 @@ var uvel,
         })
       }
 
-
+      
       if(deleteBtns.length) {
-
-        deleteBtns.forEach(function (btn) {
-           btn.addEventListener('click', deleteRowRecord);
-        })
-
+        document.addEventListener('click', deleteRowRecord);
       }
 
-
-      function deleteRowRecord() {
-
+      function deleteRowRecord(event) {
+        
         event.preventDefault();
+        event.stopPropagation();
+        
+        if(event.target && event.target.parentElement.classList.contains('delete-btn')) {
 
-        var urlTaken = event.target.parentElement.href.split('/');
-        var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
+          if (confirm("Сигурен ли си, че искаш да изтриеш записа?")) {
 
-        let link = event.target.parentElement;
-        let linkPath = link.href.split("admin")[1];
-        let ajaxUrl = url+linkPath;
+            var urlTaken = event.target.parentElement.href.split('/');
+            var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
+    
+            let link = event.target.parentElement;
+            let linkPath = link.href.split("admin")[1];
+            let ajaxUrl = url+linkPath;
 
+            ajaxFn('PОST',ajaxUrl,deleteBtnSuccess,' ',' ',link);
 
-        ajaxFn('PОST',ajaxUrl,deleteBtnSuccess,' ',' ',link);
-
+          }       
+        }
       }
+
+
 
       function deleteBtnSuccess(data, elements, btn) {
 
-        let tr = btn.parentElement.parentElement.tagName;
-        
-        document.getElementsByTagName("TABLE").remove(tr);       
+       
+        let td = btn.parentElement;
+        let tr = td.parentElement;
+        let table = tr.parentElement;
+        let index = tr.rowIndex;
 
+        console.log(index);
+        table.removeChild(tr);  
+        
+       
       }
 
       function getFormData(event) {
