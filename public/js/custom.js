@@ -179,6 +179,8 @@ var uvel,
       var token = $('meta[name="csrf-token"]').attr('content');
       var form;
       var nameForm;
+      var numberItemInput = document.getElementById("number_item");
+      var amountInput =  document.getElementById("amount");
 
       var collectionModelPrice = [].slice.apply(document.querySelectorAll('.calculate'));
       var collectionFillFields = [].slice.apply(document.querySelectorAll('.fill-field'));
@@ -249,7 +251,42 @@ var uvel,
         })
       }
 
-      
+
+      numberItemInput.onchange = sendItem;
+
+      function sendItem(event) {
+
+        var numberItemValue = this.value;
+        var amountValue = amountInput.value;
+
+        /*if(numberItemValue.length == 11){*/
+
+        
+          var dataSend = {'barcode' : Number(numberItemValue), 'quantity' : Number(amountValue)};
+  
+          var currentElement = $(event.target);
+          var form = currentElement.closest("form");
+          var ajaxUrl = form.attr("data-scan");
+
+          ajaxFn("POST", ajaxUrl, sendSuccess, dataSend, '', '');
+
+          
+          
+        /*}*/
+
+      }
+
+      function sendSuccess(data, elements, btn){
+
+        var html = $.parseHTML(data.table);
+
+        var shoppingTable = $("#shopping-table");
+
+        shoppingTable.append(html);
+        
+
+
+      }
 
       document.addEventListener('click', deleteRowRecord);
 
@@ -284,9 +321,7 @@ var uvel,
         let td = btn.parentElement;
         let tr = td.parentElement;
         let table = tr.parentElement;
-        let index = tr.rowIndex;
 
-        console.log(index);
         table.removeChild(tr);  
         
        
