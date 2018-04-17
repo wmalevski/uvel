@@ -4,7 +4,7 @@
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
             <h4 class="c-grey-900 mB-20">Продажби</h4>
 
-            <form>
+            <form data-scan="{{ route('sellScan') }}">
                 <div class="row gap-20 masonry pos-r">
                     <div class="masonry-sizer col-md-6"></div>
                     <div class="col-md-6 masonry-item form-horizontal">

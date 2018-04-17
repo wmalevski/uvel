@@ -12,6 +12,8 @@ use App\Jewels;
 use App\User;
 use App\Repair_types;
 use App\Currencies;
+use App\Products;
+use App\Models;
 
 class DatabaseSeeder extends Seeder
 {
@@ -220,5 +222,32 @@ class DatabaseSeeder extends Seeder
         $currency->name = 'EUR';
         $currency->currency = '0.51';
         $currency->save();
+        
+        $model = new Models();
+        $model->name = 'Модел 1';
+        $model->jewel = 1;
+        $model->retail_price = 2;
+        $model->wholesale_price = 4;
+        $model->weight = 56;
+        $model->size = 56;
+        $model->workmanship = 3920;
+        $model->price = 5040;
+        $model->save();
+
+        $product = new Products();
+        $product->id = Uuid::generate()->string;
+        $product->name = 'Продукт 1';
+        $product->model = 1;
+        $product->jewel_type = 1;
+        $product->type = 1;
+        $product->retail_price = 2;
+        $product->wholesale_price = 4;
+        $product->weight = 56;
+        $product->size = 56;
+        $product->workmanship = 120;
+        $product->price = 210;
+        $product->code = 88539905;
+        $product->barcode = 380726006971;
+        $product->save();
     }
 }

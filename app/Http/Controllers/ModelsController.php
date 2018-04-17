@@ -129,7 +129,7 @@ class ModelsController extends Controller
                 $newbarcode .= $bars;
             }
 
-            $product->barcode = '380'.unique_number('products', 'barcode', 7);
+            $product->barcode = '380'.unique_number('products', 'barcode', 7).'1';
             
             $product->save();
 
