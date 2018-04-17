@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Dashboard;
-use App\Usersubstitutions;
+use App\Currencies;
 use Illuminate\Http\Request;
-use Auth;
-use Cart;
 
-class DashboardController extends Controller
+class CurrenciesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,16 +14,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $substitution = Usersubstitutions::where([
-            ['user_id', '=', Auth::user()->id],
-            ['date_to', '>=', date("dd-mm-yyyy")]
-        ])->first();
-
-        if($substitution){
-            Auth::user()->store = $substitution->store_id;
-        }
-
-        return view('admin.selling.index');
+        //
     }
 
     /**
@@ -53,10 +41,10 @@ class DashboardController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Dashboard  $dashboard
+     * @param  \App\Currencies  $currencies
      * @return \Illuminate\Http\Response
      */
-    public function show(Dashboard $dashboard)
+    public function show(Currencies $currencies)
     {
         //
     }
@@ -64,10 +52,10 @@ class DashboardController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Dashboard  $dashboard
+     * @param  \App\Currencies  $currencies
      * @return \Illuminate\Http\Response
      */
-    public function edit(Dashboard $dashboard)
+    public function edit(Currencies $currencies)
     {
         //
     }
@@ -76,10 +64,10 @@ class DashboardController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Dashboard  $dashboard
+     * @param  \App\Currencies  $currencies
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Dashboard $dashboard)
+    public function update(Request $request, Currencies $currencies)
     {
         //
     }
@@ -87,10 +75,10 @@ class DashboardController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Dashboard  $dashboard
+     * @param  \App\Currencies  $currencies
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Dashboard $dashboard)
+    public function destroy(Currencies $currencies)
     {
         //
     }
