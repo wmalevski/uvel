@@ -182,6 +182,8 @@ var uvel,
       var numberItemInput = document.getElementById("number_item");
       var amountInput =  document.getElementById("amount");
 
+      var sellingForm = document.getElementById('selling-form');
+
       var collectionModelPrice = [].slice.apply(document.querySelectorAll('.calculate'));
       var collectionFillFields = [].slice.apply(document.querySelectorAll('.fill-field'));
 
@@ -251,6 +253,11 @@ var uvel,
         })
       }
 
+      sellingForm.onsubmit = function(e){
+          e.preventDefault();
+      };
+
+    
 
       numberItemInput.onchange = sendItem;
 
