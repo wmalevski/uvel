@@ -172,6 +172,7 @@ var uvel,
     this.checkAllForms = function(currentPressedBtn) {
 
       var collectionBtns = document.querySelectorAll('.modal-dialog .modal-footer button[type="submit"]');
+      var deleteBtns = document.querySelectorAll('.delete-btn');
 
       var urlTaken = window.location.href.split('/');
       var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
@@ -246,6 +247,40 @@ var uvel,
           btn.removeEventListener('click', getFormData, true);
           btn.addEventListener('click', getFormData);
         })
+      }
+
+
+      if(deleteBtns.length) {
+
+        deleteBtns.forEach(function (btn) {
+           btn.addEventListener('click', deleteRowRecord);
+        })
+
+      }
+
+
+      function deleteRowRecord() {
+
+        event.preventDefault();
+
+        var urlTaken = event.target.parentElement.href.split('/');
+        var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
+
+        let link = event.target.parentElement;
+        let linkPath = link.href.split("admin")[1];
+        let ajaxUrl = url+linkPath;
+
+
+        ajaxFn('PОST',ajaxUrl,deleteBtnSuccess,' ',' ',link);
+
+      }
+
+      function deleteBtnSuccess(data, elements, btn) {
+
+        let tr = btn.parentElement.parentElement.tagName;
+        
+        document.getElementsByTagName("TABLE").remove(tr);       
+
       }
 
       function getFormData(event) {
@@ -461,6 +496,8 @@ var uvel,
         xhttp.setRequestHeader('X-CSRF-TOKEN', token);
         xhttp.send(JSON.stringify(dataSend));
       }
+
+     
 
       function handleResponsePost(response, elements, currentPressedBtn) {
         var responseHolder = document.forms[nameForm].firstElementChild.firstElementChild;
