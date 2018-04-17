@@ -107,7 +107,7 @@ class ProductsController extends Controller
         $product->workmanship = $request->workmanship;
         $product->price = $request->price;
         $product->code = unique_number('products', 'code', 7);
-        $product->barcode = '380'.unique_number('products', 'barcode', 7); 
+        $product->barcode = '380'.unique_number('products', 'barcode', 7).'1'; 
         $product->save();
         
         return Response::json(array('table' => View::make('admin/products/table',array('product'=>$product))->render()));

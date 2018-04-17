@@ -93,7 +93,7 @@ class SellingsController extends Controller
         $item = Products::where('barcode', $request->barcode)->first();
 
         if($item){
-            Cart::add($item, $request->quantity, number_format($item->price, 2, ',', ''));
+            Cart::add($item, $request->quantity, 210,00);
             Cart::store(Auth::user()->getId());
         }
     }

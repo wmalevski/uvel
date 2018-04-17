@@ -178,5 +178,5 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::get('discounts/check/{id}', 'DiscountCodesController@check');
 
 
-    Route::post('/sell', 'SellingsController@sell');
+    Route::post('/sell', 'SellingsController@sell')->name('sellScan');
 });
