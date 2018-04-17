@@ -11,6 +11,7 @@ use App\Stones;
 use App\Jewels;
 use App\User;
 use App\Repair_types;
+use App\Currencies;
 
 class DatabaseSeeder extends Seeder
 {
@@ -204,5 +205,20 @@ class DatabaseSeeder extends Seeder
         $repairType->name = 'Залепяне на камък';
         $repairType->price = '30';
         $repairType->save();
+
+        $currency = new Currencies();
+        $currency->name = 'GBP';
+        $currency->currency = '0.44';
+        $currency->save();
+
+        $currency = new Currencies();
+        $currency->name = 'USD';
+        $currency->currency = '0.63';
+        $currency->save();
+
+        $currency = new Currencies();
+        $currency->name = 'EUR';
+        $currency->currency = '0.51';
+        $currency->save();
     }
 }
