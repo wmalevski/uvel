@@ -6,6 +6,7 @@ use App\Materials;
 use App\Materials_travelling;
 use App\Materials_quantity;
 use App\History;
+use App\Stores;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
@@ -24,7 +25,12 @@ class MaterialsTravellingController extends Controller
      */
     public function index()
     {
-        //
+        $materials = Materials_quantity::where('store', Auth::user()->store)->get();
+        $stores = Stores::where('id', '!=', Auth::user()->store)->get();
+        $materials_types = Materials::all();
+        $travelling = Materials_travelling::where('storeFrom', Auth::user()->store)->orWhere('storeTo', Auth::user()->store)->get();
+        
+        return \View::make('admin/materials_travelling/index', array('materials' => $materials, 'types' => $materials_types, 'stores' => $stores, 'travelling' => $travelling));
     }
 
     /**

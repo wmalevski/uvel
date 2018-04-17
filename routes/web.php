@@ -70,6 +70,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::get('/mquantity', 'MaterialsQuantityController@index')->name('materials_quantity');
     Route::post('/mquantity', 'MaterialsQuantityController@store');
 
+    Route::get('/mtravelling', 'MaterialsTravellingController@index')->name('materials_travelling');
+    Route::post('/mtravelling', 'MaterialsTravellingController@store');
+
     Route::get('/mquantity/{material}', 'MaterialsQuantityController@edit');
 
     Route::get('/prices', 'PricesController@index')->name('prices');

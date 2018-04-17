@@ -24,7 +24,7 @@
                 <option value="">Избери роля</option>
         
                 @foreach(Bouncer::role()->all() as $role)
-                    <option value="{{ $role->id }}" @if(Bouncer::is($user)->an($role->name)) selected @endif>{{ $role->title }}</option>
+                    <option value="{{ $role->name }}" @if(Bouncer::is($user)->an($role->name)) selected @endif>{{ $role->title }}</option>
                 @endforeach
             </select>
         </div>

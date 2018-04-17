@@ -52,7 +52,7 @@ aria-hidden="true">
                                 <option value="">Избери</option>
 
                                 @foreach($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }} - {{ $user->roles->first()['display_name'] }}</option>
+                                    <option value="{{ $user->id }}">{{ $user->name }} - {{ $user->roles->first()['title'] }}</option>
                                 @endforeach
                             </select>
                         </div>

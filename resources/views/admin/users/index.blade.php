@@ -45,7 +45,7 @@ aria-hidden="true">
                             <option value="">Избери роля</option>
                     
                             @foreach(Bouncer::role()->all() as $role)
-                                <option value="{{ $role->id }}">{{ $role->title }}</option>
+                                <option value="{{ $role->name }}">{{ $role->title }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -90,7 +90,7 @@ aria-hidden="true">
         </button>
       </div>
     
-    <form method="POST" name="edit" action="">
+    <form method="POST" name="sendUser" action="/users">
         <input name="_method" type="hidden" value="PUT">    
         <div class="modal-body">    
           <div class="info-cont">
@@ -140,7 +140,7 @@ aria-hidden="true">
         </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-            <button type="submit" id="editForm" class="btn btn-primary">Промени</button>
+            <button type="submit" id="sendUserForm" class="btn btn-primary">Изпрати</button>
           </div>
       </form>
     </div>

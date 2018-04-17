@@ -229,6 +229,10 @@
                   </li>
                   {{-- @endif --}}
 
+                  <li>
+                    <a class="sidebar-link" href="{{ route('materials_travelling') }}">На път</a>
+                  </li>
+
                 </ul>
               </li>
           <li class="nav-item dropdown {{ Active::check('admin/stones',true) }}">
