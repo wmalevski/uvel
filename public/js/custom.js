@@ -588,8 +588,11 @@ var uvel,
     }
 
     this.clickEditButton = function() {
-      $self.currentPressedBtn = this;      
-      setTimeout(function() {$self.checkAllForms(currentPressedBtn);}, 500);
+
+      $self.currentPressedBtn = this;  
+      
+      console.log("editaction");
+      //setTimeout(function() {$self.checkAllForms(currentPressedBtn);}, 500);
     }
   }
 

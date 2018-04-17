@@ -14,8 +14,8 @@
         {{ csrf_field() }}
 
         <div class="form-group">
-            <label for="1">Име: </label>
-            <input type="text" class="form-control" value="{{ $store->name }}" id="1" name="name" placeholder="Име на магазин:">
+            <label for="1">Име:</label>
+            <input type="text" class="form-control" value="{{ $store->name }}" id="1"  name="name" placeholder="Име на магазин:">
         </div>
 
         <div class="form-group">
