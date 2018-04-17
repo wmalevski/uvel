@@ -259,8 +259,7 @@ var uvel,
         var numberItemValue = this.value;
         var amountValue = amountInput.value;
 
-        /*if(numberItemValue.length == 11){*/
-
+        if(numberItemValue.length == 11){
         
           var dataSend = {'barcode' : Number(numberItemValue), 'quantity' : Number(amountValue)};
   
@@ -269,10 +268,8 @@ var uvel,
           var ajaxUrl = form.attr("data-scan");
 
           ajaxFn("POST", ajaxUrl, sendSuccess, dataSend, '', '');
-
           
-          
-        /*}*/
+        }
 
       }
 
