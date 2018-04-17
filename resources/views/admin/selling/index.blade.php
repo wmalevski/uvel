@@ -130,6 +130,10 @@
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Печат</button>
                         </div>
+
+                        @foreach(Cart::content() as $row)
+                            {{ $row->name }}
+                        @endforeach
                     </div>
                 </div>
             </form>

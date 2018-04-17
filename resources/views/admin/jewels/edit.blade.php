@@ -1,23 +1,35 @@
-<h3>Промени бижу</h3>
+<div class="modal-header">
+    <h5 class="modal-title" id="fullEditRepairLabel">Промени бижу</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
 
 <form method="POST" name="edit" action="/jewels/{{ $jewel->id }}">
     <input name="_method" type="hidden" value="PUT">
-    {{ csrf_field() }}
+    <div class="modal-body">    
+            <div class="info-cont">
+            </div>
+        {{ csrf_field() }}
 
-    <div class="form-group">
-        <label for="1">Име: </label>
-        <input type="text" class="form-control" value="{{ $jewel->name }}" id="1" name="name" placeholder="Име:">
+        <div class="form-group">
+            <label for="1">Име: </label>
+            <input type="text" class="form-control" value="{{ $jewel->name }}" id="1" name="name" placeholder="Име:">
+        </div>
+
+        <label>Материал: </label>
+        <select name="material" class="form-control">
+            <option value="">Избер материал</option>
+
+            @foreach($materials as $material)
+                <option value="{{ $material->id }}" @if($jewel->material == $material->id) selected @endif>{{ $material->name }} - {{ $material->code }}</option>
+            @endforeach
+        </select>
+        
     </div>
 
-    <label>Материал: </label>
-    <select name="material" class="form-control">
-        <option value="">Избер материал</option>
-
-        @foreach($materials as $material)
-            <option value="{{ $material->id }}" @if($jewel->material == $material->id) selected @endif>{{ $material->name }} - {{ $material->code }}</option>
-        @endforeach
-    </select>
-    <br>
-    
-    <button type="submit" class="btn btn-default">Промени</button>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+        <button type="submit" id="edit" class="btn btn-primary" data-dismiss="modal">Промени</button>
+    </div>
 </form>

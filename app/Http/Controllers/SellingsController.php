@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Sellings;
 use Illuminate\Http\Request;
 use App\Repair_types;
+use Cart;
+use App\Products;
+use Auth;
 
 class SellingsController extends Controller
 {
@@ -84,5 +87,14 @@ class SellingsController extends Controller
     public function destroy(Sellings $sellings)
     {
         //
+    }
+
+    public function sell(Request $request){
+        $item = Products::where('barcode', $request->barcode)->first();
+
+        if($item){
+            Cart::add($item, $request->quantity, number_format($item->price, 2, ',', ''));
+            Cart::store(Auth::user()->getId());
+        }
     }
 }

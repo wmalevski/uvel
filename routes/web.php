@@ -176,4 +176,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::put('/productsothers/{product}', 'ProductsOthersController@update');
 
     Route::get('discounts/check/{id}', 'DiscountCodesController@check');
+
+
+    Route::post('/sell', 'SellingsController@sell');
 });

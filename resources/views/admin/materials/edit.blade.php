@@ -1,27 +1,46 @@
-<h3>Редактиране на материал: {{ $material->name }}</h3>
+<div class="modal-header">
+    <h5 class="modal-title" id="addProductLabel">Редактиране на материал</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
 
-<form method="POST" class="form-inline" name="edit" action="/materials/{{ $material->id }}">
+<form method="POST" name="edit" action="/materials/{{ $material->id }}">
     <input name="_method" type="hidden" value="PUT">
-    {{ csrf_field() }}
+    <div class="modal-body">
+            
+        <div class="info-cont">
+        </div>
+        {{ csrf_field() }}
 
-    <div class="form-group">
-        <label for="1">Име: </label>
-        <input type="text" class="form-control" value="{{ $material->name }}" id="1" name="name" placeholder="Вид/Име:">
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="1">Име: </label>
+                <input type="text" class="form-control" value="{{ $material->name }}" id="1" name="name" placeholder="Вид/Име:">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="2">Проба: </label>
+                <input type="number" class="form-control" value="{{ $material->code }}" id="2" name="code" placeholder="Проба:">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="3">Цвят: </label>
+                <input type="text" class="form-control" id="3" value="{{ $material->color }}" name="color" placeholder="Цвят:">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="3">Карат: </label>
+                <input type="number" class="form-control" id="4" value="{{ $material->carat }}" name="carat" placeholder="Карати:">
+            </div>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label for="2">Проба: </label>
-        <input type="text" class="form-control" value="{{ $material->code }}" id="2" name="code" placeholder="Проба:">
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+        <button type="submit" id="edit" class="btn btn-primary" data-dismiss="modal">Промени</button>
     </div>
-
-    <div class="form-group">
-        <label for="3">Цвят: </label>
-        <input type="text" class="form-control" value="{{ $material->color }}" id="3" name="color" placeholder="Цвят:">
-    </div>
-
-    <button type="submit" class="btn btn-default">Промени</button>
 </form>
-
-@foreach ($errors->all() as $message)
-    <div class="bg-danger"> {{ $message }} </div>
-@endforeach

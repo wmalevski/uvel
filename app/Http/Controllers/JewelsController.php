@@ -81,7 +81,8 @@ class JewelsController extends Controller
         $jewel = Jewels::find($jewel);
         $materials = Materials::all();
         
-        return Response::json(array('success' => View::make('admin/jewels/edit',array('jewel'=>$jewel, 'materials'=>$materials))->render()));
+        //return Response::json(array('success' => View::make('admin/jewels/edit',array('jewel'=>$jewel, 'materials'=>$materials))->render()));
+        return \View::make('admin/jewels/edit',array('jewel'=>$jewel, 'materials'=>$materials));
     }
 
     /**
@@ -101,7 +102,7 @@ class JewelsController extends Controller
         
         $jewel->save();
 
-        return Response::json(array('success' => View::make('admin/jewels/edit',array('jewel'=>$jewel, 'materials'=>$materials))->render()));
+        return Response::json(array('table' => View::make('admin/jewels/table',array('jewel'=>$jewel, 'materials'=>$materials))->render()));
     }
 
     /**
