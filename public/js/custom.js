@@ -253,6 +253,14 @@ var uvel,
         })
       }
 
+      if(sellingForm !== null){
+      
+        sellingForm.onsubmit = function(e){
+            e.preventDefault();
+        };
+  
+      }  
+
       if(numberItemInput !== null){
         numberItemInput.onchange = sendItem;
       }
@@ -304,24 +312,20 @@ var uvel,
             let linkPath = link.href.split("admin")[1];
             let ajaxUrl = url+linkPath;
 
-            ajaxFn('PОST',ajaxUrl,deleteBtnSuccess,' ',' ',link);
+            ajaxFn("POST",ajaxUrl,deleteBtnSuccess,'','',link);
 
           }       
         }
       }
 
-
-
       function deleteBtnSuccess(data, elements, btn) {
-
-       
+      
         let td = btn.parentElement;
         let tr = td.parentElement;
         let table = tr.parentElement;
 
         table.removeChild(tr);  
-        
-       
+
       }
 
       function getFormData(event) {
@@ -518,19 +522,41 @@ var uvel,
           document.querySelector(el).value = value;
       }
 
+      function IsJsonString(str) {
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            return false;
+        }
+        return true;
+      }
+
       function ajaxFn(method, url, callback, dataSend, elements, currentPressedBtn) {
+
         var xhttp = new XMLHttpRequest();
 
-        xhttp.open('POST', url, true);
+        xhttp.open(method, url, true);
+
         xhttp.onreadystatechange = function () {
 
           if (this.readyState == 4 && this.status == 200) {
-            var data = JSON.parse(this.responseText);
+
+            //var data = JSON.parse(this.responseText);
+            
+            if(IsJsonString(this.responseText)){
+              var data = JSON.parse(this.responseText);
+            }
+            else {
+              var data = this.responseText;
+            }
+            
             callback(data, elements, currentPressedBtn);
+
           } else if (this.readyState == 4 && this.status == 401) {
             var data = JSON.parse(this.responseText);
             callback(data);
           }
+
         };
 
         xhttp.setRequestHeader('Content-Type', 'application/json');
@@ -600,7 +626,7 @@ var uvel,
       }
 
       function handleUpdateResponse(data, elements, currentPressedBtn) {
-        console.log($self.currentPressedBtn);
+        
         var content = data.table.replace('<tr>', '').replace('</tr>', '');
         var tableRow = $self.currentPressedBtn.parentElement.parentElement;
         $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
@@ -608,7 +634,7 @@ var uvel,
         $self.editAction();
       }
 
-      //aaa
+      //edit buttons
 
       this.editAction = function() {
         var collectionEditBtns = [].slice.apply(document.querySelectorAll('.edit-btn'));
@@ -625,7 +651,11 @@ var uvel,
 
         var link = event.target.parentElement;
         var linkAjax = link.href;
-  
+
+        ajaxFn("GET", linkAjax, editBtnSuccess, '', '', '');
+
+
+        /*
         $.ajax({
           url: linkAjax,
           type: 'GET',
@@ -637,16 +667,23 @@ var uvel,
 
           }
         });
-
+        */
       
         $self.currentPressedBtn = this;  
         
         setTimeout(function() {$self.checkAllForms(currentPressedBtn);}, 500);
       }
 
+
+      function editBtnSuccess(data){
+
+        var html = $.parseHTML(data);
+
+        $("#editStoreModalWrapper").replaceWith(html);
+
+      }
+
     }
-    // adding functionality to the eddit buttons
-    // Todo: response of the action: handle the errors and also refactor the hardcoded holder
 
     
   }
