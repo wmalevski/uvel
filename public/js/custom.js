@@ -627,7 +627,8 @@ var uvel,
 
       function handleUpdateResponse(data, elements, currentPressedBtn) {
         
-        var content = data.table.replace('<tr>', '').replace('</tr>', '');
+        //var content = data.table.replace('<tr>', '').replace('</tr>', '');
+        var content = data.table;
         var tableRow = $self.currentPressedBtn.parentElement.parentElement;
         $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
         tableRow.innerHTML = content;
