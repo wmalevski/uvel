@@ -35,9 +35,9 @@ class DiscountCodesController extends Controller
         //
     }
 
-    public function check($id){
+    public function check($barcode){
         $discount = new Discount_codes;
-        return json_encode($discount->check($id));
+        return json_encode($discount->check($barcode));
     }
 
 

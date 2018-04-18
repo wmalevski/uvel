@@ -98,6 +98,7 @@ class ProductsController extends Controller
 
         $product = new Products();
         $product->id = Uuid::generate()->string;
+        $product->name = 'Test name';
         $product->model = $request->model;
         $product->jewel_type = $request->jewelsTypes;
         $product->weight = $request->weight;

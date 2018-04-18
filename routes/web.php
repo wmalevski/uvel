@@ -110,6 +110,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::get('/discounts', 'DiscountCodesController@index')->name('discounts');
 
     Route::get('/discounts/{discount}', 'DiscountCodesController@edit');
+
+    Route::get('/setDiscount/{barcode}',  'SellingsController@setDiscount');
+
+    Route::get('/sell/clearCart', 'SellingsController@clearCart')->name('clearCart');
 });
 
 Route::group(['prefix' => 'ajax'], function() {
@@ -175,8 +179,9 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/productsothers', 'ProductsOthersController@store');
     Route::put('/productsothers/{product}', 'ProductsOthersController@update');
 
-    Route::get('discounts/check/{id}', 'DiscountCodesController@check');
+    Route::get('discounts/check/{barcode}', 'DiscountCodesController@check');
 
 
     Route::post('/sell', 'SellingsController@sell')->name('sellScan');
+    Route::get('/setDiscount/{barcode}',  'SellingsController@setDiscount');
 });

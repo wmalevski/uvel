@@ -25,15 +25,16 @@ class SellingsController extends Controller
     {
         $repairTypes = Repair_types::all();
         $discounts = Discount_codes::all();
+        $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
 
         $items = [];
-
+        
         Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
         {
             $items[] = $item;
         });
         
-        return \View::make('admin/selling/index', array('repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts));
+        return \View::make('admin/selling/index', array('repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions));
     }
 
     /**
@@ -107,15 +108,22 @@ class SellingsController extends Controller
 
         if($item){            
             $userId = Auth::user()->getId(); // or any string represents user identifier
-            Cart::session($userId)->add(array(
-                'id' => $item->barcode,
-                'name' => $item->name,
-                'price' => $item->price,
-                'quantity' => $request->quantity,
-                'attributes' => array(
-                    'weight' => $item->weight
-                )
-            ));
+            
+            $find = Cart::session($userId)->get($item->barcode);
+
+            if($find && $request->quantity == 1) {
+                
+            }else{
+                Cart::session($userId)->add(array(
+                    'id' => $item->barcode,
+                    'name' => $item->name,
+                    'price' => $item->price,
+                    'quantity' => $request->quantity,
+                    'attributes' => array(
+                        'weight' => $item->weight
+                    )
+                ));
+            }
             
             // $row = Cart::add(['id' => $request->barcode, 'name' => $item->name, 'qty' => $request->quantity, 'price' => 9.99, 'options' => ['weight' => $item->weight]]);
 
@@ -125,6 +133,20 @@ class SellingsController extends Controller
             // if(!$cart){
             //     Cart::store(Auth::user()->getId());
             // }
+
+            $tax = new \Darryldecode\Cart\CartCondition(array(
+                'name' => 'ДДС',
+                'type' => 'tax',
+                'target' => 'subtotal',
+                'value' => '+20%',
+                'attributes' => array(
+                    'description' => 'Value added tax',
+                    'more_data' => 'more data here'
+                )
+            ));
+
+            Cart::condition($tax);
+            Cart::session($userId)->condition($tax);
 
             $total = Cart::session($userId)->getTotal();
             $subtotal = Cart::session($userId)->getSubTotal();
@@ -169,5 +191,47 @@ class SellingsController extends Controller
         }
 
         return Response::json(array('table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity));  
+    }
+
+    public function clearCart(){
+        $userId = Auth::user()->getId(); 
+
+        Cart::clear();
+        Cart::clearCartConditions();
+        Cart::session($userId)->clear();
+        Cart::session($userId)->clearCartConditions();
+
+        return redirect()->route('admin');
+    }
+
+    public function setDiscount(Request $request, $barcode){
+        
+        $userId = Auth::user()->getId(); 
+
+        $discount = new Discount_codes;
+        $result = json_encode($discount->check($barcode));
+
+        if($result == 'true'){
+            $card = Discount_codes::where('barcode', $barcode)->first();
+
+            $condition = new \Darryldecode\Cart\CartCondition(array(
+                'name' => 'Отстъпка',
+                'type' => 'discount',
+                'target' => 'subtotal',
+                'value' => '-'.$card->discount.'%',
+                'attributes' => array(
+                    'description' => 'Value added tax',
+                    'more_data' => 'more data here'
+                )
+            ));
+
+            Cart::condition($condition);
+            Cart::session($userId)->condition($condition);
+
+            $total = Cart::session($userId)->getTotal();
+            $subtotal = Cart::session($userId)->getSubTotal();
+
+            return Response::json(array('total' => $total, 'subtotal' => $subtotal));  
+        } 
     }
 }

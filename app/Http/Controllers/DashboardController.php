@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Dashboard;
 use App\Usersubstitutions;
+use App\Discount_codes;
 use Illuminate\Http\Request;
 use Auth;
 use Cart;
@@ -17,6 +18,9 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        $discounts = Discount_codes::all();
+        $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
+
         $substitution = Usersubstitutions::where([
             ['user_id', '=', Auth::user()->id],
             ['date_to', '>=', date("dd-mm-yyyy")]
@@ -33,7 +37,7 @@ class DashboardController extends Controller
             $items[] = $item;
         });
 
-        return \View::make('admin/selling/index', array('items' => $items));
+        return \View::make('admin/selling/index', array('items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions));
     }
 
     /**

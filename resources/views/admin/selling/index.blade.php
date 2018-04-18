@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
-            <h4 class="c-grey-900 mB-20">Продажби</h4>
+            <h4 class="c-grey-900 mB-20">Продажби <a href="{{ route('clearCart') }}" class="btn btn-primary">Изчисти продажбата</a></h4>
 
             <form id="selling-form" data-scan="{{ route('sellScan') }}">
                 <div class="row gap-20 masonry pos-r">
@@ -106,6 +106,10 @@
                             <button type="submit" class="btn btn-primary">Плащане</button>
                             <button type="submit" class="btn btn-primary">Ръчно пускане на фискален бон</button>
                         </div>
+
+                        @foreach($conditions as $condition)
+                            {{ $condition->getName() }} {{ $condition->getValue() }}
+                        @endforeach
 
                         <div class="form-group form-row">
                             <label for="inputEmail3" class="col-sm-9 control-label">Цена</label>

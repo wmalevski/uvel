@@ -18,9 +18,9 @@ class Discount_codes extends Model
 
     protected $table = 'discount_codes';
 
-    public function check($id){
-        $discount = Discount_codes::findOrFail($id);
-
+    public function check($barcode){
+        $discount = Discount_codes::where('barcode', $barcode)->first();
+        
         if($discount){
             if($discount->expires != ''){
                 if($discount->expires >= date('dd-mm-yyyy') && $discount->active == 'yes'){
