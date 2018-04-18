@@ -78,6 +78,7 @@
                                     <th scope="col">Брой</th>
                                     <th scope="col">Грам</th>
                                     <th scope="col">Цена</th>
+                                    <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -108,8 +109,9 @@
                         </div>
 
                         @foreach($conditions as $condition)
-                            {{ $condition->getName() }} {{ $condition->getValue() }}
+                            <div>{{ $condition->getName() }} {{ $condition->getValue() }}</div>
                         @endforeach
+                        <br/>
 
                         <div class="form-group form-row">
                             <label for="inputEmail3" class="col-sm-9 control-label">Цена</label>
@@ -125,12 +127,12 @@
                             </div>
                         </div>
 
-                        <div class="form-group form-row">
+                        {{-- <div class="form-group form-row">
                             <label for="inputEmail3" class="col-sm-9 control-label">Количество</label>
                             <div class="col-sm-3">
                                 <input type="totalQuantity" value="{{ Cart::session(Auth::user()->id)->getTotalQuantity() }}" class="form-control" id="inputEmail3" placeholder="" readonly>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Печат</button>

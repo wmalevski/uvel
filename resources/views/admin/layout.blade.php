@@ -125,7 +125,7 @@
           <li class="nav-item {{ Active::check('admin/selling', true) }}">
             <a class="sidebar-link" href="{{ route('selling') }}" default>
               <span class="icon-holder">
-                <i class="c-blue-500 ti-home"></i>
+                <i class=" ti-shopping-cart"></i>
               </span>
               <span class="title">Продажби</span>
             </a>
@@ -133,14 +133,14 @@
           <li class="nav-item {{ Active::check('admin/discounts',true) }}">
             <a class="sidebar-link" href="{{ route('discounts') }}">
               <span class="icon-holder">
-                <i class="c-brown-500 ti-pencil"></i>
+                <i class=" ti-money"></i>
               </span>
               <span class="title">Отстъпки</span>
             </a>
           <li class="nav-item {{ Active::check('admin/stores',true) }}">
               <a class="sidebar-link" href="{{ route('stores') }}">
                 <span class="icon-holder">
-                  <i class="c-brown-500 ti-pencil"></i>
+                  <i class=" ti-pencil"></i>
                 </span>
                 <span class="title">Магазини</span>
               </a>
@@ -148,7 +148,7 @@
             <li class="nav-item {{ Active::check('admin/prices',true) }}">
                 <a class="sidebar-link" href="{{ route('prices') }}">
                   <span class="icon-holder">
-                    <i class="c-brown-500 ti-pencil"></i>
+                    <i class=" ti-money"></i>
                   </span>
                   <span class="title">Цени</span>
                 </a>
@@ -157,7 +157,7 @@
               <li class="nav-item {{ Active::check('admin/users',true) }}">
                   <a class="sidebar-link" href="{{ route('users') }}">
                     <span class="icon-holder">
-                      <i class="c-brown-500 ti-pencil"></i>
+                      <i class=" ti-user"></i>
                     </span>
                     <span class="title">Потребители</span>
                   </a>
@@ -166,7 +166,7 @@
             <li class="nav-item {{ Active::check('admin/jewels',true) }}">
               <a class="sidebar-link" href="{{ route('jewels') }}">
                 <span class="icon-holder">
-                  <i class="c-brown-500 ti-pencil"></i>
+                  <i class=" ti-package"></i>
                 </span>
                 <span class="title">Бижута</span>
               </a>
@@ -174,7 +174,7 @@
             <li class="nav-item {{ Active::check('admin/models',true) }}">
                 <a class="sidebar-link" href="{{ route('models') }}">
                   <span class="icon-holder">
-                    <i class="c-brown-500 ti-pencil"></i>
+                    <i class=" ti-blackboard"></i>
                   </span>
                   <span class="title">Модели</span>
                 </a>
@@ -182,7 +182,7 @@
               <li class="nav-item {{ Active::check('admin/products',true) }}">
                 <a class="sidebar-link" href="{{ route('products') }}">
                   <span class="icon-holder">
-                    <i class="c-brown-500 ti-pencil"></i>
+                    <i class=" ti-package"></i>
                   </span>
                   <span class="title">Продукти</span>
                 </a>
@@ -191,7 +191,7 @@
               <li class="nav-item dropdown {{ Active::check('admin/productsothers',true) }}">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                   <span class="icon-holder">
-                    <i class="c-orange-500 ti-layout-list-thumb"></i>
+                    <i class="ti-folder"></i>
                   </span>
                   <span class="title">Кутии/Икони</span>
                   <span class="arrow">
@@ -211,7 +211,7 @@
               <li class="nav-item dropdown {{ Active::check('admin/materials',true) }}">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                   <span class="icon-holder">
-                    <i class="c-orange-500 ti-layout-list-thumb"></i>
+                    <i class=" ti-magnet"></i>
                   </span>
                   <span class="title">Материали</span>
                   <span class="arrow">
@@ -238,7 +238,7 @@
           <li class="nav-item dropdown {{ Active::check('admin/stones',true) }}">
             <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
-                <i class="c-orange-500 ti-layout-list-thumb"></i>
+                <i class=" ti-hummer"></i>
               </span>
               <span class="title">Камъни</span>
               <span class="arrow">
@@ -263,7 +263,7 @@
           <li class="nav-item dropdown {{ Active::check('admin/repairtypes',true) }}">
             <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
-                <i class="c-orange-500 ti-layout-list-thumb"></i>
+                <i class=" ti-slice"></i>
               </span>
               <span class="title">Ремонтни дейности</span>
               <span class="arrow">
@@ -283,7 +283,7 @@
           <li class="nav-item {{ Active::check('admin/settings',true) }}">
             <a class="sidebar-link" href="{{ route('settings') }}">
               <span class="icon-holder">
-                <i class="c-brown-500 ti-pencil"></i>
+                <i class=" ti-settings"></i>
               </span>
               <span class="title">Настройки</span>
             </a>
