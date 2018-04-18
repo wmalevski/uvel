@@ -109,7 +109,7 @@ class SellingsController extends Controller
             $userId = Auth::user()->getId(); // or any string represents user identifier
             Cart::session($userId)->add(array(
                 'id' => $item->barcode,
-                'name' => 'Sample Item',
+                'name' => $item->name,
                 'price' => $item->price,
                 'quantity' => $request->quantity,
                 'attributes' => array(
@@ -126,9 +126,23 @@ class SellingsController extends Controller
             //     Cart::store(Auth::user()->getId());
             // }
 
-            // return Response::json(array('table' => View::make('admin/selling/table',array('row'=>$row))->render()));  
+            $total = Cart::session($userId)->getTotal();
+            $subtotal = Cart::session($userId)->getSubTotal();
+            $quantity = Cart::session($userId)->getTotalQuantity();
 
+            $items = [];
+            
+            Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
+            {
+                $items[] = $item;
+            });
 
+            $table = '';
+            foreach($items as $item){
+                $table .= View::make('admin/selling/table',array('item'=>$item))->render();
+            }
+
+            return Response::json(array('table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity));  
 
         }else{
             echo 'no';

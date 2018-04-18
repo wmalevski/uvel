@@ -29,7 +29,7 @@
                         <div class="form-group form-row">
                             <label for="amount" class="col-sm-9 control-label">Брой</label>
                             <div class="col-sm-3">
-                                <input type="number" class="form-control" value="1" id="amount" name="amount" placeholder="1">
+                                <input type="number" class="form-control" value="1" id="amount" name="amount" placeholder="1" readonly>
                             </div>
                         </div>
 
@@ -44,22 +44,29 @@
                             </div>
                         </div>
 
+                        <div class="form-group form-row">
+                            <label for="amount" class="col-sm-9 control-label">Сканирай карта за отстъпка</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control" name="discount_cart" placeholder="Баркод" >
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label for="description">Описание</label>
                             <textarea name="description" id="description" class="form-control"></textarea>
                         </div>
 
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Приложи отстъпка</button>
+                            <button type="submit" class="btn btn-primary">Предложи отстъпка</button>
                             <button type="submit" class="btn btn-primary">Приложи</button>
                         </div>
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <button type="submit" class="btn btn-primary">Обмяна</button>
                             <button type="submit" class="btn btn-primary">Поръчка/Ремонт</button>
                             <button type="submit" class="btn btn-primary">Материали</button>
                             <button type="submit" class="btn btn-primary">Транзакции </button>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="col-md-6 masonry-item form-horizontal">
                         <table class="table" id="shopping-table">
@@ -101,14 +108,14 @@
                         <div class="form-group form-row">
                             <label for="inputEmail3" class="col-sm-9 control-label">Цена</label>
                             <div class="col-sm-3">
-                                <input type="email" class="form-control" id="inputEmail3" placeholder="">
+                                <input type="totalPrice" value="{{ Cart::session(Auth::user()->id)->getTotal() }}" class="form-control" id="inputEmail3" placeholder="" readonly>
                             </div>
                         </div>
 
                         <div class="form-group form-row">
                             <label for="inputEmail3" class="col-sm-9 control-label">Количество</label>
                             <div class="col-sm-3">
-                                <input type="email" class="form-control" id="inputEmail3" placeholder="">
+                                <input type="totalQuantity" value="{{ Cart::session(Auth::user()->id)->getTotalQuantity() }}" class="form-control" id="inputEmail3" placeholder="" readonly>
                             </div>
                         </div>
 
