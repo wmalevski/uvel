@@ -433,6 +433,7 @@ var uvel,
         } else if (formMethod == 'PUT') {
           ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
         }
+        
       }
       
       function productsRequest(tempUrl) {
@@ -539,15 +540,15 @@ var uvel,
 
         xhttp.onreadystatechange = function () {
 
-          if (this.readyState == 4 && this.status == 200) {
+          if(this.readyState == 4 && this.status == 200) {
 
             //var data = JSON.parse(this.responseText);
             
             if(IsJsonString(this.responseText)){
               var data = JSON.parse(this.responseText);
             }
-            else {
-              var data = this.responseText;
+             else {
+               var data = this.responseText;
             }
             
             callback(data, elements, currentPressedBtn);
@@ -559,9 +560,18 @@ var uvel,
 
         };
 
+
         xhttp.setRequestHeader('Content-Type', 'application/json');
         xhttp.setRequestHeader('X-CSRF-TOKEN', token);
-        xhttp.send(JSON.stringify(dataSend));
+        
+        if(method === "GET") {
+          xhttp.send();
+        }
+        else {
+          xhttp.send(JSON.stringify(dataSend));
+        }
+
+        
       }
 
      
@@ -627,11 +637,15 @@ var uvel,
 
       function handleUpdateResponse(data, elements, currentPressedBtn) {
         
-        //var content = data.table.replace('<tr>', '').replace('</tr>', '');
-        var content = data.table;
+        var content = data.table.replace('<tr>', '').replace('</tr>', '');       
         var tableRow = $self.currentPressedBtn.parentElement.parentElement;
+ 
         $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
-        tableRow.innerHTML = content;
+
+        if(tableRow !== null){
+          tableRow.innerHTML = content;
+        }
+        
         $self.editAction();
       }
 
@@ -639,36 +653,21 @@ var uvel,
 
       this.editAction = function() {
         var collectionEditBtns = [].slice.apply(document.querySelectorAll('.edit-btn'));
-        console.log(collectionEditBtns);
-        
+                
         collectionEditBtns.forEach(function (btn) {
           btn.addEventListener('click', $self.clickEditButton);
         });
       }
   
-      this.clickEditButton = function() {
+      this.clickEditButton = function(event) {
 
         event.preventDefault();
+        //event.stopPropagation();
 
         var link = event.target.parentElement;
         var linkAjax = link.href;
 
         ajaxFn("GET", linkAjax, editBtnSuccess, '', '', '');
-
-
-        /*
-        $.ajax({
-          url: linkAjax,
-          type: 'GET',
-          success: function (data) {
-
-            var html = $.parseHTML(data);
-
-            $("#editStoreModalWrapper").replaceWith(html);
-
-          }
-        });
-        */
       
         $self.currentPressedBtn = this;  
         
