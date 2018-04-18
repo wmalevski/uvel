@@ -8,7 +8,6 @@ var uvel,
       $self.initializeSelect($('select'));
       $self.addAndRemoveFields($('form[name="addModel"]'));
       $self.checkAllForms();
-      this.editAction();
     };
 
     this.initializeSelect = function (select) {
@@ -186,6 +185,9 @@ var uvel,
 
       var collectionModelPrice = [].slice.apply(document.querySelectorAll('.calculate'));
       var collectionFillFields = [].slice.apply(document.querySelectorAll('.fill-field'));
+
+      editAction();
+      
 
       if (collectionModelPrice.length) {
         var typeJewery = collectionModelPrice[0]
@@ -645,27 +647,36 @@ var uvel,
         if(tableRow !== null){
           tableRow.innerHTML = content;
         }
-        
-        $self.editAction();
+
+       editAction();
       }
 
       //edit buttons
 
-      this.editAction = function() {
+      function editAction() {
         var collectionEditBtns = [].slice.apply(document.querySelectorAll('.edit-btn'));
-                
+  
         collectionEditBtns.forEach(function (btn) {
-          btn.addEventListener('click', $self.clickEditButton);
+          
+          //btn.removeEventListener('click', clickEditButton);
+
+          //btn.addEventListener('click', clickEditButton);
+
+          $(btn).off('click');
+          $(btn).on('click',clickEditButton);
+
         });
       }
   
-      this.clickEditButton = function(event) {
+      function clickEditButton (event) {
 
         event.preventDefault();
         //event.stopPropagation();
 
         var link = event.target.parentElement;
         var linkAjax = link.href;
+
+        $('#editStore').modal();
 
         ajaxFn("GET", linkAjax, editBtnSuccess, '', '', '');
       
