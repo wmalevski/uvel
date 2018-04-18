@@ -14,6 +14,7 @@ use App\Repair_types;
 use App\Currencies;
 use App\Products;
 use App\Models;
+use App\Discount_codes;
 
 class DatabaseSeeder extends Seeder
 {
@@ -246,8 +247,15 @@ class DatabaseSeeder extends Seeder
         $product->size = 56;
         $product->workmanship = 120;
         $product->price = 210;
-        $product->code = 88539905;
+        $product->code = 'PE0NM23K';
         $product->barcode = 3807260069719;
         $product->save();
+
+        $discount = new Discount_codes();
+        $discount->discount = 20;
+        $discount->lifetime = 'no';
+        $discount->code = '4RFI';
+        $discount->barcode = '3801863488922';
+        $discount->save();
     }
 }

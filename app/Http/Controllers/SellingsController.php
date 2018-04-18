@@ -11,6 +11,7 @@ use Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\JsonResponse;
+use App\Discount_codes;
 use Response;
 
 class SellingsController extends Controller
@@ -23,6 +24,7 @@ class SellingsController extends Controller
     public function index()
     {
         $repairTypes = Repair_types::all();
+        $discounts = Discount_codes::all();
 
         $items = [];
 
@@ -30,10 +32,8 @@ class SellingsController extends Controller
         {
             $items[] = $item;
         });
-
-        //dd($items);
         
-        return \View::make('admin/selling/index', array('repairTypes' => $repairTypes, 'items' => $items));
+        return \View::make('admin/selling/index', array('repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts));
     }
 
     /**
@@ -147,5 +147,27 @@ class SellingsController extends Controller
         }else{
             echo 'no';
         }
+    }
+
+    public function getCartTable(){
+        $userId = Auth::user()->getId(); // or any string represents user identifier
+
+        $total = Cart::session($userId)->getTotal();
+        $subtotal = Cart::session($userId)->getSubTotal();
+        $quantity = Cart::session($userId)->getTotalQuantity();
+
+        $items = [];
+        
+        Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
+        {
+            $items[] = $item;
+        });
+
+        $table = '';
+        foreach($items as $item){
+            $table .= View::make('admin/selling/table',array('item'=>$item))->render();
+        }
+
+        return Response::json(array('table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity));  
     }
 }

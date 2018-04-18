@@ -38,8 +38,10 @@
                             <div class="col-sm-3">
                                 <select id="discount" name="discount" class="form-control">
                                     <option value="">Избери</option>
-    
-                                    <option value="5">5%</option>
+                                    
+                                    @foreach($discounts as $discount)
+                                        <option value="{{ $discount->barcode }}">{{ $discount->discount }}%</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -107,6 +109,13 @@
 
                         <div class="form-group form-row">
                             <label for="inputEmail3" class="col-sm-9 control-label">Цена</label>
+                            <div class="col-sm-3">
+                                <input type="price" value="{{ Cart::session(Auth::user()->id)->getSubTotal() }}" class="form-control" id="inputEmail3" placeholder="" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-row">
+                            <label for="inputEmail3" class="col-sm-9 control-label">Крайна цена</label>
                             <div class="col-sm-3">
                                 <input type="totalPrice" value="{{ Cart::session(Auth::user()->id)->getTotal() }}" class="form-control" id="inputEmail3" placeholder="" readonly>
                             </div>
