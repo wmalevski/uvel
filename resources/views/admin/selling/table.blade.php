@@ -1,6 +1,6 @@
 <tr>
-    <td>{{ $row->name }}</th>
-    <td>Mark</td>
-    <td>Otto</td>
-    <td>@mdo</td>
+    <td>{{ $item->name }}</th>
+    <td>{{ $item->quantity }}</td>
+    <td>{{ $item->attributes->weight }}</td>
+    <td>{{ $item->price }}</td>
 </tr>

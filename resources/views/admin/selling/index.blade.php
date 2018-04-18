@@ -72,7 +72,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach(Cart::content() as $row)
+                                @foreach($items as $item)
                                     @include('admin.selling.table')
                                 @endforeach
                             </tbody>
@@ -116,9 +116,9 @@
                             <button type="submit" class="btn btn-primary">Печат</button>
                         </div>
 
-                        @foreach(Cart::content() as $row)
+                        {{-- @foreach(Cart::content() as $row)
                             {{ $row->name }}
-                        @endforeach
+                        @endforeach --}}
                     </div>
                 </div>
             </form>

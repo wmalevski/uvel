@@ -26,7 +26,14 @@ class DashboardController extends Controller
             Auth::user()->store = $substitution->store_id;
         }
 
-        return view('admin.selling.index');
+        $items = [];
+        
+        Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
+        {
+            $items[] = $item;
+        });
+
+        return \View::make('admin/selling/index', array('items' => $items));
     }
 
     /**

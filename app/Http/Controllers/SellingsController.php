@@ -23,8 +23,17 @@ class SellingsController extends Controller
     public function index()
     {
         $repairTypes = Repair_types::all();
+
+        $items = [];
+
+        Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
+        {
+            $items[] = $item;
+        });
+
+        //dd($items);
         
-        return \View::make('admin/selling/index', array('repairTypes' => $repairTypes));
+        return \View::make('admin/selling/index', array('repairTypes' => $repairTypes, 'items' => $items));
     }
 
     /**
@@ -96,11 +105,31 @@ class SellingsController extends Controller
     public function sell(Request $request){
         $item = Products::where('barcode', $request->barcode)->first();
 
-        if($item){
-            $cart = Cart::add($item, $request->quantity, 210,00);
-            //Cart::store(1);
-            //Cart::store(Auth::user()->getId());
-            return Response::json(array('table' => View::make('admin/selling/table',array('row'=>$cart))->render()));
+        if($item){            
+            $userId = Auth::user()->getId(); // or any string represents user identifier
+            Cart::session($userId)->add(array(
+                'id' => $item->barcode,
+                'name' => 'Sample Item',
+                'price' => $item->price,
+                'quantity' => $request->quantity,
+                'attributes' => array(
+                    'weight' => $item->weight
+                )
+            ));
+            
+            // $row = Cart::add(['id' => $request->barcode, 'name' => $item->name, 'qty' => $request->quantity, 'price' => 9.99, 'options' => ['weight' => $item->weight]]);
+
+            // $cart = Cart::restore(Auth::user()->getId());
+
+
+            // if(!$cart){
+            //     Cart::store(Auth::user()->getId());
+            // }
+
+            // return Response::json(array('table' => View::make('admin/selling/table',array('row'=>$row))->render()));  
+
+
+
         }else{
             echo 'no';
         }

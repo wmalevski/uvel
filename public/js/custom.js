@@ -253,6 +253,7 @@ var uvel,
         })
       }
 
+<<<<<<< HEAD
 
     if(sellingForm !== null){
       
@@ -265,6 +266,11 @@ var uvel,
     if(numberItemInput !== null){
       numberItemInput.onchange = sendItem;
     }
+=======
+      if(numberItemInput !== null){
+        numberItemInput.onchange = sendItem;
+      }
+>>>>>>> d913ea07ba678473daecaa2fdc1a83b7b9fcb1a6
 
      function sendItem(event) {
 
@@ -288,13 +294,10 @@ var uvel,
       function sendSuccess(data, elements, btn){
 
         var html = $.parseHTML(data.table);
-
         var shoppingTable = $("#shopping-table");
 
         shoppingTable.append(html);
         
-
-
       }
 
       document.addEventListener('click', deleteRowRecord);
@@ -619,25 +622,48 @@ var uvel,
         tableRow.innerHTML = content;
         $self.editAction();
       }
+
+      //aaa
+
+      this.editAction = function() {
+        var collectionEditBtns = [].slice.apply(document.querySelectorAll('.edit-btn'));
+        console.log(collectionEditBtns);
+        
+        collectionEditBtns.forEach(function (btn) {
+          btn.addEventListener('click', $self.clickEditButton);
+        });
+      }
+  
+      this.clickEditButton = function() {
+
+        event.preventDefault();
+
+        var link = event.target.parentElement;
+        var linkAjax = link.href;
+  
+        $.ajax({
+          url: linkAjax,
+          type: 'GET',
+          success: function (data) {
+
+            var html = $.parseHTML(data);
+
+            $("#editStoreModalWrapper").replaceWith(html);
+
+          }
+        });
+
+      
+        $self.currentPressedBtn = this;  
+        
+        setTimeout(function() {$self.checkAllForms(currentPressedBtn);}, 500);
+      }
+
     }
     // adding functionality to the eddit buttons
     // Todo: response of the action: handle the errors and also refactor the hardcoded holder
-    this.editAction = function() {
-      var collectionEditBtns = [].slice.apply(document.querySelectorAll('.edit-btn'));
-      console.log(collectionEditBtns);
-      
-      collectionEditBtns.forEach(function (btn) {
-        btn.addEventListener('click', $self.clickEditButton);
-      });
-    }
 
-    this.clickEditButton = function() {
-
-      $self.currentPressedBtn = this;  
-      
-      console.log("editaction");
-      //setTimeout(function() {$self.checkAllForms(currentPressedBtn);}, 500);
-    }
+    
   }
 
 $(function () {

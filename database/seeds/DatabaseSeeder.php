@@ -247,7 +247,7 @@ class DatabaseSeeder extends Seeder
         $product->workmanship = 120;
         $product->price = 210;
         $product->code = 88539905;
-        $product->barcode = 380726006971;
+        $product->barcode = 3807260069719;
         $product->save();
     }
 }
