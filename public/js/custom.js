@@ -253,32 +253,37 @@ var uvel,
         })
       }
 
+
+    if(sellingForm !== null){
+      
       sellingForm.onsubmit = function(e){
           e.preventDefault();
       };
 
-    
+    }
 
+    if(numberItemInput !== null){
       numberItemInput.onchange = sendItem;
+    }
 
-      function sendItem(event) {
+     function sendItem(event) {
 
-        var numberItemValue = this.value;
-        var amountValue = amountInput.value;
+         var numberItemValue = this.value;
+         var amountValue = amountInput.value;
 
-        if(numberItemValue.length == 13){
+         if(numberItemValue.length == 13){
         
-          var dataSend = {'barcode' : Number(numberItemValue), 'quantity' : Number(amountValue)};
+           var dataSend = {'barcode' : Number(numberItemValue), 'quantity' : Number(amountValue)};
   
-          var currentElement = $(event.target);
-          var form = currentElement.closest("form");
-          var ajaxUrl = form.attr("data-scan");
+           var currentElement = $(event.target);
+           var form = currentElement.closest("form");
+           var ajaxUrl = form.attr("data-scan");
 
-          ajaxFn("POST", ajaxUrl, sendSuccess, dataSend, '', '');
+           ajaxFn("POST", ajaxUrl, sendSuccess, dataSend, '', '');
 
-        }
+         }
 
-      }
+     }
 
       function sendSuccess(data, elements, btn){
 
