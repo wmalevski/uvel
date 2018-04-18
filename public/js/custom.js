@@ -253,24 +253,9 @@ var uvel,
         })
       }
 
-<<<<<<< HEAD
-
-    if(sellingForm !== null){
-      
-      sellingForm.onsubmit = function(e){
-          e.preventDefault();
-      };
-
-    }
-
-    if(numberItemInput !== null){
-      numberItemInput.onchange = sendItem;
-    }
-=======
       if(numberItemInput !== null){
         numberItemInput.onchange = sendItem;
       }
->>>>>>> d913ea07ba678473daecaa2fdc1a83b7b9fcb1a6
 
      function sendItem(event) {
 
