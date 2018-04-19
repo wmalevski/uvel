@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Repair_types;
 use Cart;
 use App\Products;
+use App\Products_others;
 use Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
@@ -104,7 +105,11 @@ class SellingsController extends Controller
     }
 
     public function sell(Request $request){
-        $item = Products::where('barcode', $request->barcode)->first();
+        if($request->quantity == 1){
+            $item = Products::where('barcode', $request->barcode)->first();
+        }else{
+            $item = Products_others::where('barcode', $request->barcode)->first();
+        }
 
         if($item){            
             $userId = Auth::user()->getId(); // or any string represents user identifier
@@ -164,10 +169,10 @@ class SellingsController extends Controller
                 $table .= View::make('admin/selling/table',array('item'=>$item))->render();
             }
 
-            return Response::json(array('table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity));  
+            return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity));  
 
         }else{
-            echo 'no';
+            return Response::json(array('success' => false)); 
         }
     }
 
@@ -190,7 +195,7 @@ class SellingsController extends Controller
             $table .= View::make('admin/selling/table',array('item'=>$item))->render();
         }
 
-        return Response::json(array('table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity));  
+        return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity));  
     }
 
     public function clearCart(){

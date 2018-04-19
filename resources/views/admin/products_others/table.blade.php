@@ -2,7 +2,7 @@
     {{--  <td> {!! DNS1D::getBarcodeSVG($product->barcode, "EAN13",1,33,"black", true) !!} <br/>
          {{ $product->barcode }} 
     </td>  --}}
-    <td> {{ $product->model }} </td>
+    <td> {{ $product->name }} </td>
     <td> {{ $product->price }} </td>
     <td> {{ $product->quantity }} </td>
     <td>

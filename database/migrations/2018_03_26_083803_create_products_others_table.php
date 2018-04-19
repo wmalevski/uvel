@@ -15,7 +15,7 @@ class CreateProductsOthersTable extends Migration
     {
         Schema::create('products_others', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('model');
+            $table->string('name');
             $table->integer('type')->references('id')->on('products_others_types');
             $table->float('price');
             $table->integer('quantity');

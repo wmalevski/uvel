@@ -15,7 +15,7 @@
 
             <div class="form-group">
                 <label for="1">Модел: </label>
-                <input type="text" class="form-control" id="model" value="{{ $product->model }}" name="model" placeholder="Модел:">
+                <input type="text" class="form-control" id="name" value="{{ $product->name }}" name="name" placeholder="Модел:">
             </div>
         
             <div class="form-group">

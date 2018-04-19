@@ -44,7 +44,7 @@ class ProductsOthersController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make( $request->all(), [
-            'model' => 'required|unique:products_others,model',
+            'name' => 'required|unique:products_others,name',
             'type' => 'required',
             'price' => 'required|numeric|between:0.1,10000',
             'quantity' => 'required|numeric|between:1,10000'
@@ -57,7 +57,7 @@ class ProductsOthersController extends Controller
         //$product = Products_others::create($request->all());
 
         $product = Products_others::create([
-            'model' => $request->model,
+            'name' => $request->name,
             'type' => $request->type,
             'price' => $request->price,
             'quantity' => $request->quantity,
@@ -121,7 +121,7 @@ class ProductsOthersController extends Controller
     {
         $product = Products_others::find($product);
         
-        $product->model = $request->model;
+        $product->name = $request->name;
         $product->type = $request->type;
         $product->price = $request->price;
 
