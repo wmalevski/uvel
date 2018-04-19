@@ -257,16 +257,17 @@ var uvel,
 
 
       var moreProductsInput = document.getElementById("amount_check");
+      var amountInput = document.getElementById("amount");
 
       if(moreProductsInput!==null){
 
         moreProductsInput.onclick = function() {
           
           if(this.checked ) {
-            document.getElementById("amount").readOnly = false;
+            amountInput.readOnly = false;
           } 
           else {
-            document.getElementById("amount").readOnly = true;
+            amountInput.readOnly = true;
           }
 
       };
