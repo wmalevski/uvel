@@ -8,7 +8,6 @@ var uvel,
       $self.initializeSelect($('select'));
       $self.addAndRemoveFields($('form[name="addModel"]'));
       $self.checkAllForms();
-      this.editAction();
     };
 
     this.initializeSelect = function (select) {
@@ -186,6 +185,9 @@ var uvel,
 
       var collectionModelPrice = [].slice.apply(document.querySelectorAll('.calculate'));
       var collectionFillFields = [].slice.apply(document.querySelectorAll('.fill-field'));
+
+      editAction();
+      
 
       if (collectionModelPrice.length) {
         var typeJewery = collectionModelPrice[0]
@@ -645,21 +647,34 @@ var uvel,
         if(tableRow !== null){
           tableRow.innerHTML = content;
         }
-        
-        $self.editAction();
+
+       editAction();
       }
 
       //edit buttons
 
-      this.editAction = function() {
+      $('#editStore').on('loaded', function () {
+        e.preventDefault();
+      });
+      
+
+      function editAction() {
         var collectionEditBtns = [].slice.apply(document.querySelectorAll('.edit-btn'));
-                
+  
         collectionEditBtns.forEach(function (btn) {
-          btn.addEventListener('click', $self.clickEditButton);
+          
+          $(btn).off('click');
+
+          $(btn).on('click',clickEditButton);
+          
         });
       }
   
-      this.clickEditButton = function(event) {
+      
+   
+
+
+      function clickEditButton(event) {
 
         event.preventDefault();
         //event.stopPropagation();
@@ -668,23 +683,33 @@ var uvel,
         var linkAjax = link.href;
 
         ajaxFn("GET", linkAjax, editBtnSuccess, '', '', '');
-      
+
+        
+              
         $self.currentPressedBtn = this;  
         
         setTimeout(function() {$self.checkAllForms(currentPressedBtn);}, 500);
-      }
 
+        //event.stopImmediatePropagation();
+  
+
+      }
+      
 
       function editBtnSuccess(data){
 
-        var html = $.parseHTML(data);
+          var html = $.parseHTML(data);
 
-        $("#editStoreModalWrapper").replaceWith(html);
+          //$("#editStore .modal-content").replaceWith(html);
+          $("#editStoreModalWrapper").replaceWith(html);
+
+          //$('#editStore').modal();
+          //$('#editStore').modal("show");
 
       }
 
+    
     }
-
     
   }
 
