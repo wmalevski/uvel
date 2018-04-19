@@ -15,9 +15,9 @@
                             </label>
                         </div>
                         <div class="form-group form-row">
-                            <label for="number_item" class="col-sm-9 control-label">Номер на артикула</label>
+                            <label for="product_barcode" class="col-sm-9 control-label">Номер на артикула</label>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="number_item" id="number_item" placeholder="Артикулне номер">
+                                <input type="text" class="form-control" name="product_barcode" id="product_barcode" placeholder="Артикулне номер">
                             </div>
                         </div>
                         <div class="form-group form-row">
