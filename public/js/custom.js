@@ -365,6 +365,19 @@ var uvel,
 
         table.removeChild(tr);  
 
+        if($(btn).hasClass("cart")){
+
+          var success = data.success;
+          var subTotalInput = document.getElementById("subTotal");
+          var totalInput = document.getElementById("total");
+
+          if(success) {
+            subTotalInput.value = data.subtotal;
+            totalInput.value = data.total;
+          }
+
+        }
+
       }
 
       function getFormData(event) {
