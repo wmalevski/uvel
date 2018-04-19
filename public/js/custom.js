@@ -288,10 +288,15 @@ var uvel,
 
       function sendSuccess(data, elements, btn){
 
+        console.log(data);
         var html = $.parseHTML(data.table);
         var shoppingTable = $("#shopping-table");
 
-        shoppingTable.append(html);
+        shoppingTable.innerHTML = html;
+
+
+
+
         
       }
 

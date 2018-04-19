@@ -114,16 +114,16 @@
                         <br/>
 
                         <div class="form-group form-row">
-                            <label for="inputEmail3" class="col-sm-9 control-label">Цена</label>
+                            <label for="subTotal" class="col-sm-9 control-label">Цена</label>
                             <div class="col-sm-3">
-                                <input type="price" value="{{ Cart::session(Auth::user()->id)->getSubTotal() }}" class="form-control" id="inputEmail3" placeholder="" readonly>
+                                <input type="price" name="subTotal" value="{{ Cart::session(Auth::user()->id)->getSubTotal() }}" class="form-control" id="subTotal" placeholder="" readonly>
                             </div>
                         </div>
 
                         <div class="form-group form-row">
-                            <label for="inputEmail3" class="col-sm-9 control-label">Крайна цена</label>
+                            <label for="total" class="col-sm-9 control-label">Крайна цена</label>
                             <div class="col-sm-3">
-                                <input type="totalPrice" value="{{ Cart::session(Auth::user()->id)->getTotal() }}" class="form-control" id="inputEmail3" placeholder="" readonly>
+                                <input type="totalPrice" name="total" value="{{ Cart::session(Auth::user()->id)->getTotal() }}" class="form-control" id="total" placeholder="" readonly>
                             </div>
                         </div>
 
