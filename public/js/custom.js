@@ -258,6 +258,7 @@ var uvel,
 
       var moreProductsInput = document.getElementById("amount_check");
       var amountInput = document.getElementById("amount");
+      var amount_checkInput = document.getElementById("amount_check");
 
       if(moreProductsInput!==null){
 
@@ -291,10 +292,11 @@ var uvel,
 
          var numberItemValue = this.value;
          var amountValue = amountInput.value;
+         var amount_check = amount_checkInput.value;
 
          if(numberItemValue.length == 13){
         
-           var dataSend = {'barcode' : Number(numberItemValue), 'quantity' : Number(amountValue)};
+           var dataSend = {'barcode' : Number(numberItemValue), 'quantity' : Number(amountValue), 'amount_check' : amount_check};
   
            var currentElement = $(event.target);
            var form = currentElement.closest("form");
@@ -308,6 +310,7 @@ var uvel,
 
       function sendSuccess(data, elements, btn){
 
+        var success = data.success;
         var subTotalInput = document.getElementById("subTotal");
         var totalInput = document.getElementById("total");
         var barcodeInput = document.getElementById("product_barcode");
@@ -315,14 +318,16 @@ var uvel,
         //var html = $.parseHTML(data.table);
         var shoppingTable = document.getElementById("shopping-table");
 
-        var thead = shoppingTable.childNodes;
-        var tbody = thead[3];
+        var nodes = shoppingTable.childNodes;
 
-        tbody.innerHTML = html;
+        var tbody = nodes[3];
 
-        subTotalInput.value = data.subtotal;
-        totalInput.value = data.total;
-        barcodeInput.value = "";
+        if(success) {
+          tbody.innerHTML = html;
+          subTotalInput.value = data.subtotal;
+          totalInput.value = data.total;
+          barcodeInput.value = "";
+        }
 
         
       }
