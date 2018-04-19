@@ -261,7 +261,9 @@ var uvel,
       var amountCheckInput = document.getElementById("amount_check");
       var discountInput = document.getElementById("addDiscount");
 
-      discountInput.addEventListener('click', addDiscount);
+      if(discountInput !== null){
+        discountInput.addEventListener('click', addDiscount);
+      }
 
       function addDiscount() {
 
