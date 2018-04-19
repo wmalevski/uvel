@@ -60,7 +60,7 @@
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Предложи отстъпка</button>
-                            <button type="submit" id="addDiscount" data-url="sell/addDiscount" class="btn btn-primary">Приложи</button>
+                            <button type="submit" id="addDiscount" data-url="sell/setDiscount" class="btn btn-primary">Приложи</button>
                         </div>
 
                         {{-- <div class="form-group">
