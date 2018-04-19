@@ -311,10 +311,15 @@ var uvel,
         var subTotalInput = document.getElementById("subTotal");
         var totalInput = document.getElementById("total");
         var barcodeInput = document.getElementById("product_barcode");
-        var html = $.parseHTML(data.table);
-        var shoppingTable = $("#shopping-table");
+        var html = data.table;
+        //var html = $.parseHTML(data.table);
+        var shoppingTable = document.getElementById("shopping-table");
 
-        shoppingTable.innerHTML = html;
+        var thead = shoppingTable.childNodes;
+        var tbody = thead[3];
+
+        tbody.innerHTML = html;
+
         subTotalInput.value = data.subtotal;
         totalInput.value = data.total;
         barcodeInput.value = "";
