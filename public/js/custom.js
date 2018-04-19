@@ -258,7 +258,7 @@ var uvel,
 
       var moreProductsInput = document.getElementById("amount_check");
       var amountInput = document.getElementById("amount");
-      var amount_checkInput = document.getElementById("amount_check");
+      var amountCheckInput = document.getElementById("amount_check");
 
       if(moreProductsInput!==null){
 
@@ -292,11 +292,11 @@ var uvel,
 
          var numberItemValue = this.value;
          var amountValue = amountInput.value;
-         var amount_check = amount_checkInput.value;
+         var amountCheck = amountCheckInput.checked;
 
          if(numberItemValue.length == 13){
         
-           var dataSend = {'barcode' : Number(numberItemValue), 'quantity' : Number(amountValue), 'amount_check' : amount_check};
+           var dataSend = {'barcode' : Number(numberItemValue), 'quantity' : Number(amountValue), 'amount_check' : amountCheck};
   
            var currentElement = $(event.target);
            var form = currentElement.closest("form");
