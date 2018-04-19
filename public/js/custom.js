@@ -653,22 +653,28 @@ var uvel,
 
       //edit buttons
 
+      $('#editStore').on('loaded', function () {
+        e.preventDefault();
+      });
+      
+
       function editAction() {
         var collectionEditBtns = [].slice.apply(document.querySelectorAll('.edit-btn'));
   
         collectionEditBtns.forEach(function (btn) {
           
-          //btn.removeEventListener('click', clickEditButton);
-
-          //btn.addEventListener('click', clickEditButton);
-
           $(btn).off('click');
-          $(btn).on('click',clickEditButton);
 
+          $(btn).on('click',clickEditButton);
+          
         });
       }
   
-      function clickEditButton (event) {
+      
+   
+
+
+      function clickEditButton(event) {
 
         event.preventDefault();
         //event.stopPropagation();
@@ -676,26 +682,34 @@ var uvel,
         var link = event.target.parentElement;
         var linkAjax = link.href;
 
-        $('#editStore').modal();
-
         ajaxFn("GET", linkAjax, editBtnSuccess, '', '', '');
-      
+
+        
+              
         $self.currentPressedBtn = this;  
         
         setTimeout(function() {$self.checkAllForms(currentPressedBtn);}, 500);
-      }
 
+        //event.stopImmediatePropagation();
+  
+
+      }
+      
 
       function editBtnSuccess(data){
 
-        var html = $.parseHTML(data);
+          var html = $.parseHTML(data);
 
-        $("#editStoreModalWrapper").replaceWith(html);
+          //$("#editStore .modal-content").replaceWith(html);
+          $("#editStoreModalWrapper").replaceWith(html);
+
+          //$('#editStore').modal();
+          //$('#editStore').modal("show");
 
       }
 
+    
     }
-
     
   }
 
