@@ -105,7 +105,7 @@ class SellingsController extends Controller
     }
 
     public function sell(Request $request){
-        if($request->quantity == 1){
+        if($request->amount_check == false){
             $item = Products::where('barcode', $request->barcode)->first();
         }else{
             $item = Products_others::where('barcode', $request->barcode)->first();

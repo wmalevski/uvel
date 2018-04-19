@@ -185,9 +185,8 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::get('discounts/check/{barcode}', 'DiscountCodesController@check');
 
-
     Route::post('/sell', 'SellingsController@sell')->name('sellScan');
-    Route::get('/setDiscount/{barcode}',  'SellingsController@setDiscount');
+    Route::get('/sell/setDiscount/{barcode}',  'SellingsController@setDiscount')->name('addDiscount');
 
     Route::post('/sell/removeItem/{item}', 'SellingsController@removeItem');
 
