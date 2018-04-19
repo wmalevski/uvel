@@ -44,8 +44,7 @@ aria-hidden="true">
     </div>
 </div>
 
-<div class="modal fade" id="editStore"   role="dialog" aria-labelledby="editStore"
-aria-hidden="true">
+<div class="modal fade" id="editStore" tabindex="-1"  role="dialog" aria-labelledby="editStore">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             
