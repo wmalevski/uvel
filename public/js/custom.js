@@ -255,6 +255,25 @@ var uvel,
         })
       }
 
+
+      var moreProductsInput = document.getElementById("amount_check");
+
+      if(moreProductsInput!==null){
+
+        moreProductsInput.onclick = function() {
+          
+          if(this.checked ) {
+            document.getElementById("amount").readOnly = false;
+          } 
+          else {
+            document.getElementById("amount").readOnly = true;
+          }
+
+      };
+
+     }
+      
+
       if(sellingForm !== null){
       
         sellingForm.onsubmit = function(e){
