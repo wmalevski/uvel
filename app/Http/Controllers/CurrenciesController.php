@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Currencies;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Validator;
+use Response;
 
 class CurrenciesController extends Controller
 {
@@ -35,7 +38,18 @@ class CurrenciesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make( $request->all(), [
+            'name' => 'required',
+            'currency' => 'numeric|between:0.1,100'
+         ]);
+
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
+        $currency = Currencies::create($request->all());
+
+        return Response::json(array('success' => View::make('admin/settings/currencytable',array('currency'=>$currency))->render()));
     }
 
     /**

@@ -105,7 +105,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::get('/settings', 'SettingsController@index')->name('settings');
     Route::post('/settings', 'SettingsController@store');
 
-    Route::post('/settings/updatePrices', 'SettingsController@updatePrices');
+    Route::get('/settings/stock', 'SettingsController@stockPrices')->name('stockPrices');
+    Route::post('/settings/stock', 'SettingsController@updatePrices');
+
+    Route::get('/settings/currencies', 'SettingsController@currencies')->name('currencies');
+    Route::post('/settings/currencies', 'CurrenciesController@store');
 
     Route::get('/discounts', 'DiscountCodesController@index')->name('discounts');
 
@@ -114,6 +118,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::get('/setDiscount/{barcode}',  'SellingsController@setDiscount');
 
     Route::get('/sell/clearCart', 'SellingsController@clearCart')->name('clearCart');
+    Route::get('/sell/removeItem/{item}', 'SellingsController@removeItem');
 });
 
 Route::group(['prefix' => 'ajax'], function() {
@@ -184,4 +189,6 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/sell', 'SellingsController@sell')->name('sellScan');
     Route::get('/setDiscount/{barcode}',  'SellingsController@setDiscount');
+
+    Route::post('/settings/currencies', 'CurrenciesController@store');
 });

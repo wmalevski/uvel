@@ -234,4 +234,17 @@ class SellingsController extends Controller
             return Response::json(array('total' => $total, 'subtotal' => $subtotal));  
         } 
     }
+
+    public function removeItem(Request $request, $item){
+        $userId = Auth::user()->getId(); 
+        $remove = Cart::session($userId)->remove($item);
+
+        $total = Cart::session($userId)->getTotal();
+        $subtotal = Cart::session($userId)->getSubTotal();
+        $quantity = Cart::session($userId)->getTotalQuantity();
+
+        if($remove){
+            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity));  
+        }
+    }
 }

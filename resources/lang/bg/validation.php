@@ -137,6 +137,7 @@ return [
         'color' => 'Цвят',
         'style' => 'Стил',
         'contour' => 'Контур',
+        'currency ' => 'Курс',
 
         //Repairs
         'customer_name' => 'Име на клиент',

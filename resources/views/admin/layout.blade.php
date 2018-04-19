@@ -162,7 +162,7 @@
                     <span class="title">Потребители</span>
                   </a>
                 </li>
-
+ 
             <li class="nav-item {{ Active::check('admin/jewels',true) }}">
               <a class="sidebar-link" href="{{ route('jewels') }}">
                 <span class="icon-holder">
@@ -279,14 +279,25 @@
               </li>
             </ul>
           </li>
-          {{-- @if(Auth::user()->hasRole('admin')) --}}
-          <li class="nav-item {{ Active::check('admin/settings',true) }}">
-            <a class="sidebar-link" href="{{ route('settings') }}">
+
+          <li class="nav-item dropdown {{ Active::check('admin/settings',true) }}">
+            <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
-                <i class=" ti-settings"></i>
+                <i class="ti-settings"></i>
               </span>
               <span class="title">Настройки</span>
+              <span class="arrow">
+                <i class="ti-angle-right"></i>
+              </span>
             </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="sidebar-link" href="{{ route('stockPrices') }}">Борсови цени</a>
+              </li>
+              <li>
+                <a class="sidebar-link" href="{{ route('currencies') }}">Валути и курсове</a>
+              </li>
+            </ul>
           </li>
           {{-- @endif --}}
           {{--  <li class="nav-item">
@@ -446,7 +457,7 @@
                 <i class="ti-menu"></i>
               </a>
             </li>
-            <li class="search-box">
+            {{-- <li class="search-box">
               <a class="search-toggle no-pdd-right" href="javascript:void(0);">
                 <i class="search-icon ti-search pdd-right-10"></i>
                 <i class="search-icon-close ti-close pdd-right-10"></i>
@@ -454,10 +465,10 @@
             </li>
             <li class="search-input">
               <input class="form-control" type="text" placeholder="Search...">
-            </li>
-            <li>
+            </li> --}}
+            {{-- <li>
                 {{ App\Stores::find(Auth::user()->store)->name }} 
-            </li>
+            </li> --}}
           </ul>
           <ul class="nav-right">
             {{--  <li class="notifications dropdown">
@@ -651,6 +662,16 @@
                   </a>
                 </li>
               </ul>
+            </li>
+
+
+
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle no-after peers fxw-nw ai-c lh-1">
+                <div class="peer">
+                  <span class="fsz-sm c-grey-900">{{ App\Stores::find(Auth::user()->store)->name }} </span>
+                </div>
+              </a>
             </li>
           </ul>
         </div>
