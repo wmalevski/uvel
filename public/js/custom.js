@@ -178,7 +178,7 @@ var uvel,
       var token = $('meta[name="csrf-token"]').attr('content');
       var form;
       var nameForm;
-      var numberItemInput = document.getElementById("number_item");
+      var numberItemInput = document.getElementById("product_barcode");
       var amountInput =  document.getElementById("amount");
 
       var sellingForm = document.getElementById('selling-form');
@@ -308,14 +308,16 @@ var uvel,
 
       function sendSuccess(data, elements, btn){
 
-        console.log(data);
+        var subTotalInput = document.getElementById("subTotal");
+        var totalInput = document.getElementById("total");
+        var barcodeInput = document.getElementById("product_barcode");
         var html = $.parseHTML(data.table);
         var shoppingTable = $("#shopping-table");
 
         shoppingTable.innerHTML = html;
-
-
-
+        subTotalInput.value = data.subtotal;
+        totalInput.value = data.total;
+        barcodeInput.value = "";
 
         
       }
