@@ -663,7 +663,7 @@ var uvel,
   
         collectionEditBtns.forEach(function (btn) {
           
-          $(btn).off('click');
+          $(btn).off();
 
           $(btn).on('click',clickEditButton);
           
