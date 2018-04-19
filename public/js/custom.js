@@ -259,6 +259,40 @@ var uvel,
       var moreProductsInput = document.getElementById("amount_check");
       var amountInput = document.getElementById("amount");
       var amountCheckInput = document.getElementById("amount_check");
+      var discountInput = document.getElementById("addDiscount");
+
+      discountInput.addEventListener('click', addDiscount);
+
+      function addDiscount() {
+
+        var urlTaken = window.location.href.split('/');
+        var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/';
+        var discountUrl = this.getAttribute("data-url");
+        var discountSelect = document.getElementById("discount");
+        var barcode = discountSelect.options[discountSelect.selectedIndex].value;
+
+        if(barcode.length > 0){
+
+          var ajaxUrl = url + discountUrl + '/' + barcode;
+          ajaxFn("GET", ajaxUrl, discountSuccess, '', '', '');
+        }
+
+  
+      }
+
+
+      function discountSuccess() {
+
+        var success = data.success;
+        var subTotalInput = document.getElementById("subTotal");
+        var totalInput = document.getElementById("total");
+
+        if(success) {
+          subTotalInput.value = data.subtotal;
+          totalInput.value = data.total;
+        }
+
+      }
 
       if(moreProductsInput!==null){
 
@@ -271,7 +305,7 @@ var uvel,
             amountInput.readOnly = true;
           }
 
-      };
+        };
 
      }
       
@@ -617,7 +651,7 @@ var uvel,
         xhttp.setRequestHeader('X-CSRF-TOKEN', token);
         
         if(method === "GET") {
-          xhttp.send();
+          xhttp.send( null );
         }
         else {
           xhttp.send(JSON.stringify(dataSend));
@@ -721,9 +755,6 @@ var uvel,
       }
   
       
-   
-
-
       function clickEditButton(event) {
 
         event.preventDefault();
