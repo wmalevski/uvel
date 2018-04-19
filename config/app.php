@@ -178,7 +178,6 @@ return [
         App\Providers\RouteServiceProvider::class,
         Pyaesone17\ActiveState\ActiveStateServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
-        Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
         Darryldecode\Cart\CartServiceProvider::class
 
     ],
