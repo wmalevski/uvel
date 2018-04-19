@@ -118,7 +118,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::get('/setDiscount/{barcode}',  'SellingsController@setDiscount');
 
     Route::get('/sell/clearCart', 'SellingsController@clearCart')->name('clearCart');
-    Route::get('/sell/removeItem/{item}', 'SellingsController@removeItem');
 });
 
 Route::group(['prefix' => 'ajax'], function() {
@@ -189,6 +188,8 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/sell', 'SellingsController@sell')->name('sellScan');
     Route::get('/setDiscount/{barcode}',  'SellingsController@setDiscount');
+
+    Route::post('/sell/removeItem/{item}', 'SellingsController@removeItem');
 
     Route::post('/settings/currencies', 'CurrenciesController@store');
 });
