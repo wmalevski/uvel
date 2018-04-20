@@ -244,7 +244,7 @@ class SellingsController extends Controller
             $total = Cart::session($userId)->getTotal();
             $subtotal = Cart::session($userId)->getSubTotal();
 
-            return Response::json(array('total' => $total, 'subtotal' => $subtotal));  
+            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal));  
         } 
     }
 
