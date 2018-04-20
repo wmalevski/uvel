@@ -791,7 +791,8 @@ var uvel,
         var collectionEditBtns = [].slice.apply(document.querySelectorAll('.edit-btn'));
   
         collectionEditBtns.forEach(function (btn) {
- 
+          
+          typeof(btn);
           $(btn).off();
 
           $(btn).on('click',clickEditButton);
@@ -808,14 +809,18 @@ var uvel,
 
         var link = event.target.parentElement;
 
-        var linkAjax = link.href;
+        var linkAjax = 'http://localhost:8000/admin/'+link.getAttribute('data-url');
 
         ajaxFn("GET", linkAjax, editBtnSuccess, '', '', this);
 
+        
+              
         $self.currentPressedBtn = this;  
         
         setTimeout(function() {$self.checkAllForms(currentPressedBtn);}, 500);
 
+        //event.stopImmediatePropagation();
+  
 
       }
       
@@ -823,16 +828,12 @@ var uvel,
       function editBtnSuccess(data,elements,btn){
 
          var id = btn.getAttribute("data-target");
-         var selector = id + ' '+ '.editModalWrapper';
+         var selector = id + ' '+ '.modal-content';
          var html = $.parseHTML(data);
          
-         $(selector).replaceWith(html);
-
+         $(selector).html(html);
       }
-
-    
     }
-    
   }
 
 $(function () {
