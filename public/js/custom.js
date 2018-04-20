@@ -179,6 +179,7 @@ var uvel,
       var form;
       var nameForm;
       var numberItemInput = document.getElementById("product_barcode");
+      var catalogNumberInput = document.getElementById("catalog_number");
       var amountInput =  document.getElementById("amount");
       var moreProductsInput = document.getElementById("amount_check");
       var discountInput = document.getElementById("addDiscount");
@@ -257,6 +258,23 @@ var uvel,
           btn.addEventListener('click', getFormData);
         })
       }
+
+      if(catalogNumberInput !== null){
+        catalogNumberInput.onchange = addCatalogNumber;
+      }
+
+      function addCatalogNumber(){
+
+        var catalogNumber = this.value;
+        
+        var ajaxUrl = sellingForm.getAttribute("data-scan");
+
+        var dataSend = {'catalog_number' : Number(catalogNumber)};
+
+        ajaxFn('POST', ajaxUrl, sendSuccess, dataSend, '', '');
+
+      }
+
 
       if(discountInput !== null){
         discountInput.addEventListener('click', addDiscount);
