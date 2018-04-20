@@ -181,8 +181,8 @@ var uvel,
       var numberItemInput = document.getElementById("product_barcode");
       var amountInput =  document.getElementById("amount");
       var moreProductsInput = document.getElementById("amount_check");
-      var amountInput = document.getElementById("amount");
       var discountInput = document.getElementById("addDiscount");
+      var discountCardInput = document.getElementById("discount_card");
 
       var sellingForm = document.getElementById('selling-form');
 
@@ -261,6 +261,27 @@ var uvel,
       if(discountInput !== null){
         discountInput.addEventListener('click', addDiscount);
       }
+
+      if(discountCardInput !== null){
+        discountCardInput.onchange = addCardDiscount;
+      }
+
+      function addCardDiscount() {
+
+        var discountCardBarcode = this.value;
+        var urlTaken = window.location.href.split('/');
+        var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/';
+        var discountUrl = discountInput.getAttribute("data-url");
+
+        if(discountCardBarcode.length == 13){
+
+          var ajaxUrl = url + discountUrl + '/'+ discountCardBarcode;
+          ajaxFn("GET", ajaxUrl, discountSuccess, '', '', '');
+
+        }
+        
+      }
+
 
       function addDiscount() {
 
