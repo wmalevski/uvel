@@ -464,10 +464,10 @@ var uvel,
 
         evt.preventDefault();
 
-       form = evt.target.parentElement.parentElement;
+        form = evt.target.parentElement.parentElement;
 
   
-       nameForm = form.getAttribute('name');
+        nameForm = form.getAttribute('name');
 
         var urlAction = form.getAttribute('action'),
           formMethod = 'POST',
@@ -558,9 +558,11 @@ var uvel,
           }
         }
 
-        if (formMethod == 'POST') {       
+        if (formMethod == 'POST') {     
+          console.log(collectionData);
           ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements, currentPressedBtn);
         } else if (formMethod == 'PUT') {
+          console.log(collectionData);
           ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
         }
         
@@ -694,7 +696,6 @@ var uvel,
         xhttp.setRequestHeader('Content-Type', 'application/json');
         xhttp.setRequestHeader('X-CSRF-TOKEN', token);
         
-        console.log(method);
         if(method === "GET") {
           xhttp.send();
         }
@@ -706,7 +707,6 @@ var uvel,
       }
 
      
-
       function handleResponsePost(response, elements, currentPressedBtn) {
         var responseHolder = document.forms[nameForm].firstElementChild.firstElementChild;
         responseHolder.innerHTML = '';
@@ -792,10 +792,12 @@ var uvel,
   
         collectionEditBtns.forEach(function (btn) {
           
+          typeof(btn);
           $(btn).off();
 
           $(btn).on('click',clickEditButton);
-          
+
+       
         });
       }
   
@@ -809,7 +811,7 @@ var uvel,
 
         var linkAjax = link.href;
 
-        ajaxFn("GET", linkAjax, editBtnSuccess, '', '', '');
+        ajaxFn("GET", linkAjax, editBtnSuccess, '', '', this);
 
         
               
@@ -823,15 +825,13 @@ var uvel,
       }
       
 
-      function editBtnSuccess(data){
+      function editBtnSuccess(data,elements,btn){
 
-          var html = $.parseHTML(data);
-
-          //$("#editStore .modal-content").replaceWith(html);
-          $("#editStoreModalWrapper").replaceWith(html);
-
-          //$('#editStore').modal();
-          //$('#editStore').modal("show");
+         var id = btn.getAttribute("data-target");
+         var selector = id + ' '+ '.editModalWrapper';
+         var html = $.parseHTML(data);
+         
+         $(selector).replaceWith(html);
 
       }
 

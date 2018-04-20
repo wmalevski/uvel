@@ -1,4 +1,4 @@
-<div id="editStoreModalWrapper">
+<div class="editModalWrapper">
 
     <div class="modal-header">
         <h5 class="modal-title" id="editStoreLabel">Промяна на магазин</h5>
