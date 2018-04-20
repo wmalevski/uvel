@@ -23,7 +23,7 @@
                         <div class="form-group form-row">
                             <label for="catalog_number" class="col-sm-9 control-label">Каталожен номер</label>
                             <div class="col-sm-3">
-                                <input type="email" class="form-control" id="catalog_number" name="catalog_number" placeholder="Номер от каталога">
+                                <input type="text" class="form-control" id="catalog_number" name="catalog_number" placeholder="Номер от каталога">
                             </div>
                         </div>
                         <div class="form-group form-row">
