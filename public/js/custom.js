@@ -180,6 +180,9 @@ var uvel,
       var nameForm;
       var numberItemInput = document.getElementById("product_barcode");
       var amountInput =  document.getElementById("amount");
+      var moreProductsInput = document.getElementById("amount_check");
+      var amountInput = document.getElementById("amount");
+      var discountInput = document.getElementById("addDiscount");
 
       var sellingForm = document.getElementById('selling-form');
 
@@ -254,11 +257,6 @@ var uvel,
           btn.addEventListener('click', getFormData);
         })
       }
-
-
-      var moreProductsInput = document.getElementById("amount_check");
-      var amountInput = document.getElementById("amount");
-      var discountInput = document.getElementById("addDiscount");
 
       if(discountInput !== null){
         discountInput.addEventListener('click', addDiscount);
