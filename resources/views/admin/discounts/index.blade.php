@@ -85,6 +85,7 @@ aria-hidden="true">
         <p>Преглед на създадените отстъпки.</p>
         <table class="table table-condensed">
             <tr>
+                <th>Баркод</th> 
                 <th>Отстъпка</th> 
                 <th>Валидна до</th> 
                 <th>Статус</th>

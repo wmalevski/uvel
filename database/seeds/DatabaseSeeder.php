@@ -15,6 +15,8 @@ use App\Currencies;
 use App\Products;
 use App\Models;
 use App\Discount_codes;
+use App\Products_others;
+use App\Products_others_types;
 
 class DatabaseSeeder extends Seeder
 {
@@ -257,5 +259,18 @@ class DatabaseSeeder extends Seeder
         $discount->code = '4RFI';
         $discount->barcode = '3801863488922';
         $discount->save();
+
+        $products_others_types = new Products_others_types();
+        $products_others_types->name = 'Кутия';
+        $products_others_types->save();
+
+        $products_others = new Products_others();
+        $products_others->name = 'Синя кутия';
+        $products_others->type = 1;
+        $products_others->price = 0.10;
+        $products_others->quantity = 200;
+        $products_others->barcode = 3808345766226;
+        $products_others->code = 'BWGKIDKA';
+        $products_others->save();
     }
 }
