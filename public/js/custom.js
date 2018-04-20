@@ -559,10 +559,8 @@ var uvel,
         }
 
         if (formMethod == 'POST') {     
-          console.log(collectionData);
           ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements, currentPressedBtn);
         } else if (formMethod == 'PUT') {
-          console.log(collectionData);
           ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
         }
         
@@ -809,11 +807,12 @@ var uvel,
 
         var link = event.target.parentElement;
 
-        var linkAjax = 'http://localhost:8000/admin/'+link.getAttribute('data-url');
+        var urlTaken = window.location.href.split('/');
+        var url = urlTaken[0] + '//' + urlTaken[2] + '/' + urlTaken[3] + '/';
+
+        var linkAjax = url+link.getAttribute('data-url');
 
         ajaxFn("GET", linkAjax, editBtnSuccess, '', '', this);
-
-        
               
         $self.currentPressedBtn = this;  
         
