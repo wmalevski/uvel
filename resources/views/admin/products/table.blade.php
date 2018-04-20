@@ -15,8 +15,8 @@
  
     <td>{{ $product->code }}</td>
     <td>
-        <span data-url="models/{{$product->id}}" class="edit-btn" data-toggle="modal" data-target="#editModel"><i class="c-brown-500 ti-pencil"></i></a> 
-        <a href="models/print/{{$product->id}}" class="edit-btn"><i class="c-brown-500 ti-printer"></i></a> 
+        <span data-url="products/{{$product->id}}" class="edit-btn" data-toggle="modal" data-target="#editModel"><i class="c-brown-500 ti-pencil"></i></a> 
+        <a href="products/print/{{$product->id}}" class="edit-btn"><i class="c-brown-500 ti-printer"></i></a> 
     </td>
 </tr>
 

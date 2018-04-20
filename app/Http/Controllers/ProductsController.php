@@ -145,9 +145,11 @@ class ProductsController extends Controller
      * @param  \App\Products  $products
      * @return \Illuminate\Http\Response
      */
-    public function edit(Products $products)
+    public function edit(Products $products, $product)
     {
-        //
+        $product = Models::find($product);
+
+        return \View::make('admin/products/edit', array('product' => $product));
     }
 
     /**
