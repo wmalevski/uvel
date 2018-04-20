@@ -90,7 +90,7 @@ aria-hidden="true">
 
 <table class="table table-condensed">
     <tr>
-        {{--  <th>Код</th>  --}}
+        <th>Баркод</th> 
         <th>Модел</th>
         <th>Цена/бр</th>
         <th>Количество</th>
