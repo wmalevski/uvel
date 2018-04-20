@@ -258,7 +258,6 @@ var uvel,
 
       var moreProductsInput = document.getElementById("amount_check");
       var amountInput = document.getElementById("amount");
-      var amountCheckInput = document.getElementById("amount_check");
       var discountInput = document.getElementById("addDiscount");
 
       if(discountInput !== null){
@@ -328,7 +327,7 @@ var uvel,
 
          var numberItemValue = this.value;
          var amountValue = amountInput.value;
-         var amountCheck = amountCheckInput.checked;
+         var amountCheck = moreProductsInput.checked;
 
          if(numberItemValue.length == 13){
         
