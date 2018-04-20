@@ -269,7 +269,7 @@ var uvel,
         
         var ajaxUrl = sellingForm.getAttribute("data-scan");
 
-        var dataSend = {'catalog_number' : Number(catalogNumber)};
+        var dataSend = {'catalog_number' : catalogNumber};
 
         ajaxFn('POST', ajaxUrl, sendSuccess, dataSend, '', '');
 
