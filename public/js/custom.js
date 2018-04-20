@@ -266,12 +266,16 @@ var uvel,
       function addCatalogNumber(){
 
         var catalogNumber = this.value;
+        var amountValue = amountInput.value;
+        var amountCheck = moreProductsInput.checked;
         
         var ajaxUrl = sellingForm.getAttribute("data-scan");
 
-        var dataSend = {'catalog_number' : catalogNumber};
+        var dataSend = {'catalog_number' : catalogNumber, 'quantity' : Number(amountValue), 'amount_check' : amountCheck};
 
         ajaxFn('POST', ajaxUrl, sendSuccess, dataSend, '', '');
+
+        catalogNumberInput.value = "";
 
       }
 
@@ -295,6 +299,8 @@ var uvel,
 
           var ajaxUrl = url + discountUrl + '/'+ discountCardBarcode;
           ajaxFn("GET", ajaxUrl, discountSuccess, '', '', '');
+
+          discountCardInput.value="";
 
         }
         
