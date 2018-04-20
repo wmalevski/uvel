@@ -694,8 +694,9 @@ var uvel,
         xhttp.setRequestHeader('Content-Type', 'application/json');
         xhttp.setRequestHeader('X-CSRF-TOKEN', token);
         
+        console.log(method);
         if(method === "GET") {
-          xhttp.send( null );
+          xhttp.send(null);
         }
         else {
           xhttp.send(JSON.stringify(dataSend));
