@@ -696,7 +696,7 @@ var uvel,
         
         console.log(method);
         if(method === "GET") {
-          xhttp.send(null);
+          xhttp.send();
         }
         else {
           xhttp.send(JSON.stringify(dataSend));
@@ -806,6 +806,7 @@ var uvel,
         //event.stopPropagation();
 
         var link = event.target.parentElement;
+
         var linkAjax = link.href;
 
         ajaxFn("GET", linkAjax, editBtnSuccess, '', '', '');
