@@ -791,8 +791,7 @@ var uvel,
         var collectionEditBtns = [].slice.apply(document.querySelectorAll('.edit-btn'));
   
         collectionEditBtns.forEach(function (btn) {
-          
-          typeof(btn);
+ 
           $(btn).off();
 
           $(btn).on('click',clickEditButton);
@@ -813,14 +812,10 @@ var uvel,
 
         ajaxFn("GET", linkAjax, editBtnSuccess, '', '', this);
 
-        
-              
         $self.currentPressedBtn = this;  
         
         setTimeout(function() {$self.checkAllForms(currentPressedBtn);}, 500);
 
-        //event.stopImmediatePropagation();
-  
 
       }
       
