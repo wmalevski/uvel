@@ -16,7 +16,7 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->uuid('id');
             $table->string('name');
-            $table->integer('model')->references('id')->on('models');
+            $table->integer('model')->references('id')->on('models')->nullable();
             $table->integer('jewel_type')->references('id')->on('jewels');
             $table->integer('type')->default(1);
             $table->float('weight');

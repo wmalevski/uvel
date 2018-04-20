@@ -97,7 +97,7 @@ class MaterialsTravellingController extends Controller
 
                 //dd($material);
 
-                return Response::json(array('table' => View::make('admin/materials_quantity/travelling', array('material' => $material, 'matID' => $check->material))->render()));
+                return Response::json(array('table' => View::make('admin/materials_travelling/table', array('material' => $material, 'matID' => $check->material))->render()));
 
             }else{
                 return Response::json(['errors' => array('quantity' => ['Въведохте невалидно количество!'])], 401);
