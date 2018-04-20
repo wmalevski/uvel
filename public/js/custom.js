@@ -182,7 +182,7 @@ var uvel,
       var catalogNumberInput = document.getElementById("catalog_number");
       var amountInput =  document.getElementById("amount");
       var moreProductsInput = document.getElementById("amount_check");
-      var discountInput = document.getElementById("addDiscount");
+      var discountInput = document.getElementById("add_discount");
       var discountCardInput = document.getElementById("discount_card");
 
       var sellingForm = document.getElementById('selling-form');
