@@ -47,9 +47,9 @@
                         </div>
 
                         <div class="form-group form-row">
-                            <label for="amount" class="col-sm-9 control-label">Сканирай карта за отстъпка</label>
+                            <label for="discount_card" class="col-sm-9 control-label">Сканирай карта за отстъпка</label>
                             <div class="col-sm-3">
-                                <input type="number" class="form-control" name="discount_cart" placeholder="Баркод" >
+                                <input type="text" class="form-control" name="discount_card" id="discount_card" placeholder="Баркод" >
                             </div>
                         </div>
 
