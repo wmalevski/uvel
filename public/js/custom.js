@@ -182,7 +182,7 @@ var uvel,
       var catalogNumberInput = document.getElementById("catalog_number");
       var amountInput =  document.getElementById("amount");
       var moreProductsInput = document.getElementById("amount_check");
-      var discountInput = document.getElementById("addDiscount");
+      var discountInput = document.getElementById("add_discount");
       var discountCardInput = document.getElementById("discount_card");
 
       var sellingForm = document.getElementById('selling-form');
@@ -266,12 +266,16 @@ var uvel,
       function addCatalogNumber(){
 
         var catalogNumber = this.value;
+        var amountValue = amountInput.value;
+        var amountCheck = moreProductsInput.checked;
         
         var ajaxUrl = sellingForm.getAttribute("data-scan");
 
-        var dataSend = {'catalog_number' : catalogNumber};
+        var dataSend = {'catalog_number' : catalogNumber, 'quantity' : Number(amountValue), 'amount_check' : amountCheck};
 
         ajaxFn('POST', ajaxUrl, sendSuccess, dataSend, '', '');
+
+        catalogNumberInput.value = "";
 
       }
 
@@ -295,6 +299,8 @@ var uvel,
 
           var ajaxUrl = url + discountUrl + '/'+ discountCardBarcode;
           ajaxFn("GET", ajaxUrl, discountSuccess, '', '', '');
+
+          discountCardInput.value="";
 
         }
         
