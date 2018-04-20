@@ -283,7 +283,7 @@ var uvel,
       }
 
 
-      function discountSuccess() {
+      function discountSuccess(data) {
 
         var success = data.success;
         var subTotalInput = document.getElementById("subTotal");
