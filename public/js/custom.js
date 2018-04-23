@@ -66,6 +66,7 @@ var uvel,
     }
 
     this.dropFunctionality = function(instanceFiles) {
+
       var dropArea = document.getElementById("drop-area");
       var input = document.getElementById("fileElem");
       var preventEvents = ['dragenter', 'dragover', 'dragleave', 'drop'],
@@ -79,6 +80,8 @@ var uvel,
         for(var file of files) {
           collectionFiles.push(file);
         }
+
+        console.log("collectionFiles");
 
         handleFiles(collectionFiles);
       })
@@ -559,8 +562,10 @@ var uvel,
         }
 
         if (formMethod == 'POST') {     
+          console.log(collectionData);
           ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements, currentPressedBtn);
         } else if (formMethod == 'PUT') {
+          console.log(collectionData);
           ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
         }
         
@@ -786,11 +791,12 @@ var uvel,
       
 
       function editAction() {
+
+        
         var collectionEditBtns = [].slice.apply(document.querySelectorAll('.edit-btn'));
   
         collectionEditBtns.forEach(function (btn) {
-          
-          typeof(btn);
+ 
           $(btn).off();
 
           $(btn).on('click',clickEditButton);
@@ -805,21 +811,15 @@ var uvel,
         event.preventDefault();
         //event.stopPropagation();
 
-        var link = event.target.parentElement;
-
-        var urlTaken = window.location.href.split('/');
-        var url = urlTaken[0] + '//' + urlTaken[2] + '/' + urlTaken[3] + '/';
-
-        var linkAjax = url+link.getAttribute('data-url');
+        var span = event.target.parentElement;
+        var linkAjax = span.getAttribute("data-url");
 
         ajaxFn("GET", linkAjax, editBtnSuccess, '', '', this);
-              
+
         $self.currentPressedBtn = this;  
         
         setTimeout(function() {$self.checkAllForms(currentPressedBtn);}, 500);
 
-        //event.stopImmediatePropagation();
-  
 
       }
       
@@ -827,12 +827,16 @@ var uvel,
       function editBtnSuccess(data,elements,btn){
 
          var id = btn.getAttribute("data-target");
-         var selector = id + ' '+ '.modal-content';
+         var selector = id + ' '+ '.editModalWrapper';
          var html = $.parseHTML(data);
          
-         $(selector).html(html);
+         $(selector).replaceWith(html);
+
       }
+
+    
     }
+    
   }
 
 $(function () {
