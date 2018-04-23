@@ -147,9 +147,13 @@ class ProductsController extends Controller
      */
     public function edit(Products $products, $product)
     {
-        $product = Models::find($product);
+        $product = Products::find($product);
+        $models = Models::all();
+        $jewels = Jewels::all();
+        $prices = Prices::where('type', 'sell')->get();
+        $stones = Stones::all();
 
-        return \View::make('admin/products/edit', array('product' => $product));
+        return \View::make('admin/products/edit', array('product' => $product, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones));
     }
 
     /**
