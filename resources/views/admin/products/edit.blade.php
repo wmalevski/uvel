@@ -74,6 +74,33 @@
                 <input type="text" class="form-control" id="size" value="{{ $product->size }}" name="size" placeholder="Размер:" min="1" max="10000">
             </div>
 
+            <div class="model_stones2">
+                <div class="form-row fields2">
+                    <div class="form-group col-md-6">
+                        <label>Камъни: </label>
+                        @foreach(App\Product_stones::where('product', $product->id)->get() as $product_stone)
+                            <select name="stones[]" class="form-control">
+                                <option value="">Избери</option>
+    
+                                @foreach($stones as $stone)
+                                    <option value="{{ $stone->id }}" @if($product_stone->stone == $stone->id) selected @endif>
+                                        {{ App\Stones::find($stone->id)->name }} 
+    
+                                        ({{ App\Stone_contours::find($stone->contour)->name }}, {{ App\Stone_sizes::find($stone->size)->name }})
+                                    </option>
+                                @endforeach
+                            </select>
+                        @endforeach
+                    </div>
+                    <div class="form-group col-md-6">
+                            <label for="1">Брой: </label>
+                    @foreach(App\Product_stones::where('product', $product->id)->get() as $product_stone)
+                        <input type="number" class="form-control" value="{{ $product_stone->amount }}" name="stone_amount[]" placeholder="Брой" min="1" max="50">
+                    @endforeach
+                </div>
+                </div>
+            </div>
+
             <div class="model_stones">
                 <div class="form-row fields">
                     <div class="form-group col-md-6">
