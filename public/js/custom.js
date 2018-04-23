@@ -580,11 +580,11 @@ var uvel,
           console.log(ajaxUrl);
           console.log(collectionData);
           console.log(collectionElements);
-          //console.log(currentPressedBtn);
+          console.log(currentPressedBtn);
           
 
 
-          ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, ' ');
+          ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
         }
         
       }
