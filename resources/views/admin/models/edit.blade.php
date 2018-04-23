@@ -6,7 +6,7 @@
     </button>
 </div>
 
-<form method="POST" name="addModel" action="/models/{{ $model->id }}">
+<form method="POST" name="edit" action="/models/{{ $model->id }}">
     <input name="_method" type="hidden" value="PUT">
     <div class="modal-body">
             
