@@ -122,7 +122,7 @@ aria-hidden="true">
                         <label class="button" for="fileElem">Избери снимки</label>
                       <div id="gallery" /></div>
                     </div>
-                    <br/>
+                    <br/>d
 
                     <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
                         <input type="checkbox" id="inputCall1" name="release_product" class="peer">

@@ -111,4 +111,15 @@ class PricesController extends Controller
     {
         //
     }
+
+    public function getByMaterial($material){
+        $prices = Prices::where(
+            [
+                ['material', '=', $material],
+                ['type', '=', 'sell']
+            ]
+        )->get();
+
+        return Response::json(array('prices' => $prices));
+    }
 }

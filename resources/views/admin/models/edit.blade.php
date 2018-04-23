@@ -121,7 +121,6 @@
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
             <button type="submit" id="edit" class="btn btn-primary" data-dismiss="modal">Промени</button>
         </div>
-
     </div>
 </form>
 </div>
