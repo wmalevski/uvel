@@ -66,15 +66,20 @@ var uvel,
     }
 
     this.dropFunctionality = function(instanceFiles) {
+
       var dropArea = document.getElementById("drop-area");
       var input = document.getElementById("fileElem");
       var preventEvents = ['dragenter', 'dragover', 'dragleave', 'drop'],
           highlightEvents = ['dragenter', 'dragover'],
           unhighlightEvents = ['dragleave', 'drop'];
 
-      input.addEventListener('change', function(ev) {
+      $(input).off();
+      $(input).on('change', function(ev) {
+
         var files = ev.target.files,
             collectionFiles= [];
+
+            console.log(files);
 
         for(var file of files) {
           collectionFiles.push(file);
@@ -131,9 +136,10 @@ var uvel,
         reader.readAsDataURL(file);
 
         reader.onloadend = function() {
+
           var img = document.createElement('img');
+  
           img.src = reader.result;
-          document.getElementById('gallery').appendChild(img);
 
           toDataURL(
             reader.result,
@@ -142,6 +148,13 @@ var uvel,
               instanceFiles.push(data);
             }
           )
+          
+          //$("div#gallery").after(img);   
+
+          $(img).appendTo("div#gallery");
+
+          //document.getElementById("gallery").appendChild($(img));  
+        
         }
       }
 
@@ -465,6 +478,8 @@ var uvel,
         evt.preventDefault();
 
         form = evt.target.parentElement.parentElement;
+
+        console.log(evt.target.parentElement.parentElement);
 
   
         nameForm = form.getAttribute('name');
