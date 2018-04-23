@@ -90,7 +90,7 @@ aria-hidden="true">
                                 <input type="number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="50">
                             </div>
                             <div class="form-group col-md-2">
-                                <span class="delete-stone"><i class="c-brown-500 ti-trash"></i></span>
+                                <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
                             </div>
                         </div>
                     </div>

@@ -78,6 +78,7 @@
             <div id="gallery" /></div>
         </div>
     </div>
+
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
         <button type="submit" id="add" class="btn btn-primary">Промени</button>
