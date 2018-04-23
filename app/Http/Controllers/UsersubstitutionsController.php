@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Usersubstitutions;
 use Illuminate\Http\Request;
+use App\Stores;
 
 class UsersubstitutionsController extends Controller
 {
@@ -33,16 +34,15 @@ class UsersubstitutionsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $user)
     {
-        // $substitution = Usersubstitutions::where([
-        //     ['user_id', '=', Auth::user()->id],
-        //     ['date_to', '>=', date("dd-mm-yyyy")]
-        // ])->first();
+        $substitution = new Usersubstitutions();
+        $substitution->user_id = $user;
+        $substitution->store_id = $request->store;
+        $substitution->date_from = $request->dateFrom;
+        $substitution->date_to = $request->dateTo;
 
-        // if($substitution){
-        //     Auth::user()->store = $substitution->store_id;
-        // }
+        $substitution->save();
     }
 
     /**
@@ -51,9 +51,26 @@ class UsersubstitutionsController extends Controller
      * @param  \App\Usersubstitutions  $usersubstitutions
      * @return \Illuminate\Http\Response
      */
-    public function show(Usersubstitutions $usersubstitutions)
+    public function show(Usersubstitutions $usersubstitutions, $user)
     {
-        //
+        $stores = Stores::all();
+
+        $status = 0;
+
+        $substitution = Usersubstitutions::where([
+            ['user_id', '=', $user],
+            ['date_to', '>=', date("dd-mm-yyyy")]
+        ])->first();
+
+        if($substitution){
+            $status = 1;
+        }
+
+        if($status == 0){
+            return \View::make('admin/users/substitutions', array('user' => $user, 'stores' => $stores));
+        } else if($status == 1){
+            return \View::make('admin/users/alreadysub', array('user' => $user, 'store' => $substitution->store_id, 'dateFrom' => $substitution->date_from, 'dateTo' => $substitution->date_to));
+        }
     }
 
     /**
@@ -64,7 +81,7 @@ class UsersubstitutionsController extends Controller
      */
     public function edit(Usersubstitutions $usersubstitutions)
     {
-        //
+        
     }
 
     /**

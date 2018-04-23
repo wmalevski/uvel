@@ -90,7 +90,7 @@ aria-hidden="true">
                                 <input type="number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="50">
                             </div>
                             <div class="form-group col-md-2">
-                                <span class="delete-stone"><i class="c-brown-500 ti-trash"></i></span>
+                                <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
                             </div>
                         </div>
                     </div>
@@ -122,7 +122,7 @@ aria-hidden="true">
                         <label class="button" for="fileElem">Избери снимки</label>
                       <div id="gallery" /></div>
                     </div>
-                    <br/>
+                    <br/>d
 
                     <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
                         <input type="checkbox" id="inputCall1" name="release_product" class="peer">
@@ -152,20 +152,13 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="addModel" action="/productstypesothers">
-                <div class="modal-body">
-                    <div class="info-cont">
-                    </div>
-                    {{ csrf_field() }}
-
-
+            <div class="modal-body">
+                <div class="info-cont">
                 </div>
+                {{ csrf_field() }}
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" id="edit" class="btn btn-primary">Обнови</button>
-                </div>
-            </form>
+
+            </div>
         </div>
     </div>
 </div>

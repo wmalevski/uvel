@@ -41,7 +41,7 @@ class Products extends Model
             $prices = Prices::where('material', $model->jewel)->get();
 
             $retail_prices = Prices::where([
-                'type' => 'buy'
+                'type' => 'sell'
             ])->get();
 
             $wholesale_prices = Prices::where([

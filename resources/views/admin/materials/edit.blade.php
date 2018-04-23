@@ -1,3 +1,4 @@
+<div class="editModalWrapper">
 <div class="modal-header">
     <h5 class="modal-title" id="addProductLabel">Редактиране на материал</h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -44,3 +45,4 @@
         <button type="submit" id="edit" class="btn btn-primary" data-dismiss="modal">Промени</button>
     </div>
 </form>
+</div>

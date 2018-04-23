@@ -1,4 +1,4 @@
-<div id="editStoreModalWrapper">
+<div class="editModalWrapper">
 
     <div class="modal-header">
         <h5 class="modal-title" id="editStoreLabel">Промяна на магазин</h5>
@@ -17,17 +17,17 @@
 
             <div class="form-group">
                 <label for="1">Име:</label>
-                <input type="text" class="form-control" value="{{ $store->name }}" id="1"  name="name" placeholder="Име на магазин:">
+                <input type="text" class="form-control" value="{{ $store->name }}" id="1"  name="name" placeholder="Име на магазин:" autocomplete="off">
             </div>
 
             <div class="form-group">
                 <label for="1">Адрес: </label>
-                <input type="text" class="form-control" value="{{ $store->location }}" id="1" name="location" placeholder="Адрес на магазин:">
+                <input type="text" class="form-control" value="{{ $store->location }}" id="1" name="location" placeholder="Адрес на магазин:" autocomplete="off">
             </div>
 
             <div class="form-group">
                 <label for="1">Телефон: </label>
-                <input type="text" class="form-control" value="{{ $store->phone }}" id="1" name="phone" placeholder="Телефон на магазин:">
+                <input type="text" class="form-control" value="{{ $store->phone }}" id="1" name="phone" placeholder="Телефон на магазин:" autocomplete="off">
             </div>
         </div>
         <div class="modal-footer">

@@ -45,10 +45,13 @@ var uvel,
             newFields +=
               '</select>' +
               '</div>' +
-              '<div class="form-group col-md-6">' +
+              '<div class="form-group col-md-4">' +
               '<label>Брой:</label>' +
               '<input type="text" class="form-control" name="stone_amount[]" placeholder="Брой">' +
-              '</div>';
+              '</div>' +
+              '<div class="form-group col-md-2">' +
+              '<span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>'+
+          '</div>';
 
             fieldsHolder.innerHTML = newFields;
             fieldsWrapper.append(fieldsHolder);
@@ -58,21 +61,28 @@ var uvel,
         });
 
         //Remove Fields
-        $(fieldsWrapper).on('click', '.remove_field', function () {
+        $(fieldsWrapper).on('click', '.remove_field', function (e) {
+
           e.preventDefault();
-          $(this).parent().remove();
+          var parents = $(this).parentsUntil(".form-row .fields");
+
+          parents[1].remove();
+
         })
       })
     }
 
     this.dropFunctionality = function(instanceFiles) {
+
       var dropArea = document.getElementById("drop-area");
       var input = document.getElementById("fileElem");
       var preventEvents = ['dragenter', 'dragover', 'dragleave', 'drop'],
           highlightEvents = ['dragenter', 'dragover'],
           unhighlightEvents = ['dragleave', 'drop'];
 
-      input.addEventListener('change', function(ev) {
+      $(input).off();
+      $(input).on('change', function(ev) {
+
         var files = ev.target.files,
             collectionFiles= [];
 
@@ -131,9 +141,10 @@ var uvel,
         reader.readAsDataURL(file);
 
         reader.onloadend = function() {
+
           var img = document.createElement('img');
+  
           img.src = reader.result;
-          document.getElementById('gallery').appendChild(img);
 
           toDataURL(
             reader.result,
@@ -142,6 +153,13 @@ var uvel,
               instanceFiles.push(data);
             }
           )
+          
+          //$("div#gallery").after(img);   
+
+          $(img).appendTo("div#gallery");
+
+          //document.getElementById("gallery").appendChild($(img));  
+        
         }
       }
 
@@ -178,8 +196,12 @@ var uvel,
       var token = $('meta[name="csrf-token"]').attr('content');
       var form;
       var nameForm;
-      var numberItemInput = document.getElementById("number_item");
+      var numberItemInput = document.getElementById("product_barcode");
+      var catalogNumberInput = document.getElementById("catalog_number");
       var amountInput =  document.getElementById("amount");
+      var moreProductsInput = document.getElementById("amount_check");
+      var discountInput = document.getElementById("add_discount");
+      var discountCardInput = document.getElementById("discount_card");
 
       var sellingForm = document.getElementById('selling-form');
 
@@ -255,6 +277,101 @@ var uvel,
         })
       }
 
+      if(catalogNumberInput !== null){
+        catalogNumberInput.onchange = addCatalogNumber;
+      }
+
+      function addCatalogNumber(){
+
+        var catalogNumber = this.value;
+        var amountValue = amountInput.value;
+        var amountCheck = moreProductsInput.checked;
+        
+        var ajaxUrl = sellingForm.getAttribute("data-scan");
+
+        var dataSend = {'catalog_number' : catalogNumber, 'quantity' : Number(amountValue), 'amount_check' : amountCheck};
+
+        ajaxFn('POST', ajaxUrl, sendSuccess, dataSend, '', '');
+
+        catalogNumberInput.value = "";
+
+      }
+
+
+      if(discountInput !== null){
+        discountInput.addEventListener('click', addDiscount);
+      }
+
+      if(discountCardInput !== null){
+        discountCardInput.onchange = addCardDiscount;
+      }
+
+      function addCardDiscount() {
+
+        var discountCardBarcode = this.value;
+        var urlTaken = window.location.href.split('/');
+        var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/';
+        var discountUrl = discountInput.getAttribute("data-url");
+
+        if(discountCardBarcode.length == 13){
+
+          var ajaxUrl = url + discountUrl + '/'+ discountCardBarcode;
+          ajaxFn("GET", ajaxUrl, discountSuccess, '', '', '');
+
+          discountCardInput.value="";
+
+        }
+        
+      }
+
+
+      function addDiscount() {
+
+        var urlTaken = window.location.href.split('/');
+        var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/';
+        var discountUrl = this.getAttribute("data-url");
+        var discountSelect = document.getElementById("discount");
+        var barcode = discountSelect.options[discountSelect.selectedIndex].value;
+
+        if(barcode.length > 0){
+
+          var ajaxUrl = url + discountUrl + '/' + barcode;
+          ajaxFn("GET", ajaxUrl, discountSuccess, '', '', '');
+        }
+
+  
+      }
+
+
+      function discountSuccess(data) {
+
+        var success = data.success;
+        var subTotalInput = document.getElementById("subTotal");
+        var totalInput = document.getElementById("total");
+
+        if(success) {
+          subTotalInput.value = data.subtotal;
+          totalInput.value = data.total;
+        }
+
+      }
+
+      if(moreProductsInput!==null){
+
+        moreProductsInput.onclick = function() {
+          
+          if(this.checked ) {
+            amountInput.readOnly = false;
+          } 
+          else {
+            amountInput.readOnly = true;
+          }
+
+        };
+
+     }
+      
+
       if(sellingForm !== null){
       
         sellingForm.onsubmit = function(e){
@@ -271,10 +388,11 @@ var uvel,
 
          var numberItemValue = this.value;
          var amountValue = amountInput.value;
+         var amountCheck = moreProductsInput.checked;
 
          if(numberItemValue.length == 13){
         
-           var dataSend = {'barcode' : Number(numberItemValue), 'quantity' : Number(amountValue)};
+           var dataSend = {'barcode' : Number(numberItemValue), 'quantity' : Number(amountValue), 'amount_check' : amountCheck};
   
            var currentElement = $(event.target);
            var form = currentElement.closest("form");
@@ -288,10 +406,25 @@ var uvel,
 
       function sendSuccess(data, elements, btn){
 
-        var html = $.parseHTML(data.table);
-        var shoppingTable = $("#shopping-table");
+        var success = data.success;
+        var subTotalInput = document.getElementById("subTotal");
+        var totalInput = document.getElementById("total");
+        var barcodeInput = document.getElementById("product_barcode");
+        var html = data.table;
+        //var html = $.parseHTML(data.table);
+        var shoppingTable = document.getElementById("shopping-table");
 
-        shoppingTable.append(html);
+        var nodes = shoppingTable.childNodes;
+
+        var tbody = nodes[3];
+
+        if(success) {
+          tbody.innerHTML = html;
+          subTotalInput.value = data.subtotal;
+          totalInput.value = data.total;
+          barcodeInput.value = "";
+        }
+
         
       }
 
@@ -328,6 +461,19 @@ var uvel,
 
         table.removeChild(tr);  
 
+        if($(btn).hasClass("cart")){
+
+          var success = data.success;
+          var subTotalInput = document.getElementById("subTotal");
+          var totalInput = document.getElementById("total");
+
+          if(success) {
+            subTotalInput.value = data.subtotal;
+            totalInput.value = data.total;
+          }
+
+        }
+
       }
 
       function getFormData(event) {
@@ -336,10 +482,9 @@ var uvel,
 
         evt.preventDefault();
 
-       form = evt.target.parentElement.parentElement;
-
-  
-       nameForm = form.getAttribute('name');
+        form = evt.target.parentElement.parentElement;
+ 
+        nameForm = form.getAttribute('name');
 
         var urlAction = form.getAttribute('action'),
           formMethod = 'POST',
@@ -430,9 +575,9 @@ var uvel,
           }
         }
 
-        if (formMethod == 'POST') {       
+        if (formMethod == 'POST') {     
           ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements, currentPressedBtn);
-        } else if (formMethod == 'PUT') {
+        } else if (formMethod == 'PUT') {      
           ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
         }
         
@@ -577,7 +722,6 @@ var uvel,
       }
 
      
-
       function handleResponsePost(response, elements, currentPressedBtn) {
         var responseHolder = document.forms[nameForm].firstElementChild.firstElementChild;
         responseHolder.innerHTML = '';
@@ -666,25 +810,25 @@ var uvel,
           $(btn).off();
 
           $(btn).on('click',clickEditButton);
-          
+
+       
         });
       }
   
       
-   
-
-
       function clickEditButton(event) {
 
         event.preventDefault();
         //event.stopPropagation();
 
         var link = event.target.parentElement;
-        var linkAjax = link.href;
 
-        ajaxFn("GET", linkAjax, editBtnSuccess, '', '', '');
+        var urlTaken = window.location.href.split('/');
+        var url = urlTaken[0] + '//' + urlTaken[2] + '/' + urlTaken[3] + '/';
 
-        
+        var linkAjax = url+link.getAttribute('data-url');
+
+        ajaxFn("GET", linkAjax, editBtnSuccess, '', '', this);
               
         $self.currentPressedBtn = this;  
         
@@ -696,21 +840,15 @@ var uvel,
       }
       
 
-      function editBtnSuccess(data){
+      function editBtnSuccess(data,elements,btn){
 
-          var html = $.parseHTML(data);
-
-          //$("#editStore .modal-content").replaceWith(html);
-          $("#editStoreModalWrapper").replaceWith(html);
-
-          //$('#editStore').modal();
-          //$('#editStore').modal("show");
-
+         var id = btn.getAttribute("data-target");
+         var selector = id + ' '+ '.modal-content';
+         var html = $.parseHTML(data);
+         
+         $(selector).html(html);
       }
-
-    
     }
-    
   }
 
 $(function () {

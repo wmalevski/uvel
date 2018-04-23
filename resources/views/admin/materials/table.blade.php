@@ -6,6 +6,6 @@
     <td>{{ $material->carat }}@if($material->carat)к@endif</td> 
     <td>{{ $material->stock_price }}</td> 
     <td>
-        <a href="materials/{{$material->id}}" class="edit-btn" data-toggle="modal" data-target="#editMaterial"><i class="c-brown-500 ti-pencil"></i></a>
+        <span data-url="materials/{{$material->id}}" class="edit-btn" data-toggle="modal" data-target="#editMaterial"><i class="c-brown-500 ti-pencil"></i></span>
     </td>
 </tr>

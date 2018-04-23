@@ -170,6 +170,12 @@ class ModelsController extends Controller
         $prices = Prices::where('type', 'sell')->get();
         $stones = Stones::all();
         $modelStones = Model_stones::where('model', $model->id)->get();
+        $photos = Gallery::where(
+            [
+                ['table', '=', 'models'],
+                ['row_id', '=', $model]
+            ]
+        )->get();
 
         //dd($modelStones);
         
@@ -178,7 +184,7 @@ class ModelsController extends Controller
         //$product = Products_others::find($product);
         //$types = Products_others_types::all();
 
-        return \View::make('admin/models/edit', array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones, 'modelStones' => $modelStones));
+        return \View::make('admin/models/edit', array('photos' => $photos, 'model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones, 'modelStones' => $modelStones));
     }
 
     /**
@@ -204,7 +210,7 @@ class ModelsController extends Controller
         
         $model->save();
 
-        return Response::json(array('success' => View::make('admin/models/table',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render()));
+        return Response::json(array('table' => View::make('admin/models/table',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render()));
     }
 
     /**

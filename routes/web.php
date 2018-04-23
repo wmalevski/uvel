@@ -42,6 +42,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::get('/stones/contours', 'StoneContoursController@index')->name('contours');
     Route::post('/stones/contours', 'StoneContoursController@store');
 
+    Route::get('/users/substitution/{user}', 'UsersubstitutionsController@show');
+
     Route::get('/users', 'UserController@index')->name('users');
     Route::get('/users/{user}', 'UserController@edit');
 
@@ -92,6 +94,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::get('/models/{model}', 'ModelsController@edit');
     Route::put('/models/{model}', 'ModelsController@update');
 
+    Route::get('/products/{id}', 'ProductsController@edit');
     Route::get('/products', 'ProductsController@index')->name('products');
     Route::post('/products', 'ProductsController@store');
 
@@ -118,7 +121,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::get('/setDiscount/{barcode}',  'SellingsController@setDiscount');
 
     Route::get('/sell/clearCart', 'SellingsController@clearCart')->name('clearCart');
-    Route::get('/sell/removeItem/{item}', 'SellingsController@removeItem');
 });
 
 Route::group(['prefix' => 'ajax'], function() {
@@ -158,6 +160,8 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/users', 'UserController@store');
 
+    Route::put('/users/substitutions/{user}', 'UsersubstitutionsController@store');
+
     Route::post('/repairs', 'RepairsController@store');
 
     Route::get('/repairs/return/{repair}', 'RepairsController@return');
@@ -186,9 +190,12 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::get('discounts/check/{barcode}', 'DiscountCodesController@check');
 
-
     Route::post('/sell', 'SellingsController@sell')->name('sellScan');
-    Route::get('/setDiscount/{barcode}',  'SellingsController@setDiscount');
+    Route::get('/sell/setDiscount/{barcode}',  'SellingsController@setDiscount')->name('addDiscount');
+
+    Route::post('/sell/removeItem/{item}', 'SellingsController@removeItem');
 
     Route::post('/settings/currencies', 'CurrenciesController@store');
+
+    Route::get('/getPrices/{material}', 'PricesController@getByMaterial');
 });

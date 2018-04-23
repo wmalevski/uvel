@@ -149,7 +149,7 @@ class StonesController extends Controller
 
         $stone->save();
 
-        return Response::json(array('success' => View::make('admin/stones/table',array('stone'=>$stone))->render()));
+        return Response::json(array('table' => View::make('admin/stones/table',array('stone'=>$stone))->render()));
     }
 
     /**

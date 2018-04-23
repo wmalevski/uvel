@@ -22,7 +22,7 @@ aria-hidden="true">
 
                     <div class="form-group">
                         <label for="1">Модел: </label>
-                        <input type="text" class="form-control" id="model" name="model" placeholder="Модел:">
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Модел:">
                     </div>
                 
                     <div class="form-group">
@@ -90,7 +90,7 @@ aria-hidden="true">
 
 <table class="table table-condensed">
     <tr>
-        {{--  <th>Код</th>  --}}
+        <th>Баркод</th> 
         <th>Модел</th>
         <th>Цена/бр</th>
         <th>Количество</th>

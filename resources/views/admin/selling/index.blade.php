@@ -15,15 +15,15 @@
                             </label>
                         </div>
                         <div class="form-group form-row">
-                            <label for="number_item" class="col-sm-9 control-label">Номер на артикула</label>
+                            <label for="product_barcode" class="col-sm-9 control-label">Номер на артикула</label>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="number_item" id="number_item" placeholder="Артикулне номер">
+                                <input type="text" class="form-control" name="product_barcode" id="product_barcode" placeholder="Артикулне номер">
                             </div>
                         </div>
                         <div class="form-group form-row">
                             <label for="catalog_number" class="col-sm-9 control-label">Каталожен номер</label>
                             <div class="col-sm-3">
-                                <input type="email" class="form-control" id="catalog_number" name="catalog_number" placeholder="Номер от каталога">
+                                <input type="text" class="form-control" id="catalog_number" name="catalog_number" placeholder="Номер от каталога">
                             </div>
                         </div>
                         <div class="form-group form-row">
@@ -47,9 +47,9 @@
                         </div>
 
                         <div class="form-group form-row">
-                            <label for="amount" class="col-sm-9 control-label">Сканирай карта за отстъпка</label>
+                            <label for="discount_card" class="col-sm-9 control-label">Сканирай карта за отстъпка</label>
                             <div class="col-sm-3">
-                                <input type="number" class="form-control" name="discount_cart" placeholder="Баркод" >
+                                <input type="text" class="form-control" name="discount_card" id="discount_card" placeholder="Баркод" >
                             </div>
                         </div>
 
@@ -60,7 +60,7 @@
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Предложи отстъпка</button>
-                            <button type="submit" class="btn btn-primary">Приложи</button>
+                            <button type="submit" id="add_discount" data-url="sell/setDiscount" class="btn btn-primary">Приложи</button>
                         </div>
 
                         {{-- <div class="form-group">
@@ -114,16 +114,16 @@
                         <br/>
 
                         <div class="form-group form-row">
-                            <label for="inputEmail3" class="col-sm-9 control-label">Цена</label>
+                            <label for="subTotal" class="col-sm-9 control-label">Цена</label>
                             <div class="col-sm-3">
-                                <input type="price" value="{{ Cart::session(Auth::user()->id)->getSubTotal() }}" class="form-control" id="inputEmail3" placeholder="" readonly>
+                                <input type="price" name="subTotal" value="{{ Cart::session(Auth::user()->id)->getSubTotal() }}" class="form-control" id="subTotal" placeholder="" readonly>
                             </div>
                         </div>
 
                         <div class="form-group form-row">
-                            <label for="inputEmail3" class="col-sm-9 control-label">Крайна цена</label>
+                            <label for="total" class="col-sm-9 control-label">Крайна цена</label>
                             <div class="col-sm-3">
-                                <input type="totalPrice" value="{{ Cart::session(Auth::user()->id)->getTotal() }}" class="form-control" id="inputEmail3" placeholder="" readonly>
+                                <input type="totalPrice" name="total" value="{{ Cart::session(Auth::user()->id)->getTotal() }}" class="form-control" id="total" placeholder="" readonly>
                             </div>
                         </div>
 
