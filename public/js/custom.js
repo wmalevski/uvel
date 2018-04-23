@@ -478,10 +478,7 @@ var uvel,
         evt.preventDefault();
 
         form = evt.target.parentElement.parentElement;
-
-        console.log(evt.target.parentElement.parentElement);
-
-  
+ 
         nameForm = form.getAttribute('name');
 
         var urlAction = form.getAttribute('action'),
@@ -576,7 +573,18 @@ var uvel,
         if (formMethod == 'POST') {     
           ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements, currentPressedBtn);
         } else if (formMethod == 'PUT') {
-          ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
+
+
+          console.log(formMethod);
+
+          console.log(ajaxUrl);
+          console.log(collectionData);
+          console.log(collectionElements);
+          //console.log(currentPressedBtn);
+          
+
+
+          ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, ' ');
         }
         
       }
