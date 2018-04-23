@@ -149,7 +149,11 @@ var uvel,
             }
           )
           
-          $("div#gallery").after(img);              
+          //$("div#gallery").after(img);   
+
+          $(img).appendTo("div#gallery");
+
+          //document.getElementById("gallery").appendChild($(img));  
         
         }
       }
@@ -474,6 +478,8 @@ var uvel,
         evt.preventDefault();
 
         form = evt.target.parentElement.parentElement;
+
+        console.log(evt.target.parentElement.parentElement);
 
   
         nameForm = form.getAttribute('name');
