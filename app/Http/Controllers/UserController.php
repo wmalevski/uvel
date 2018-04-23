@@ -67,7 +67,7 @@ class UserController extends Controller
         //     print_r($abillity);
         // }
     
-        //return Response::json(array('table' => View::make('admin/users/table',array('user'=>$user))->render()));
+        return Response::json(array('table' => View::make('admin/users/table',array('user'=>$user))->render()));
     }
 
     /**
