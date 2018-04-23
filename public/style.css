@@ -118,3 +118,13 @@ p {
 #fileElem {
   display: none;
 }
+
+.delete-stone.remove_field {
+  position: absolute;
+  bottom: 8px;
+}
+
+.select2-container--default .select2-selection--single{
+  height: 35px !important;
+  border: 1px solid #ced4da !important;
+}
