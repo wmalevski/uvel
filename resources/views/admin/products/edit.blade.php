@@ -33,7 +33,7 @@
                 <option value="">Избери</option>
         
                 @foreach($models as $model)
-                    <option value="{{ $model->id }}" data-jewel="{{ App\Jewels::find($model->jewel)->id }}">{{ $model->name }}</option>
+                    <option value="{{ $model->id }}" data-jewel="{{ App\Jewels::find($model->jewel)->id }}" @if($product->model == $model->id) selected @endif>{{ $model->name }}</option>
                 @endforeach
             </select>
         
@@ -42,7 +42,7 @@
                 <option value="">Избери</option>
         
                 @foreach($jewels as $jewel)
-                    <option value="{{ $jewel->id }}" data-price="{{ $jewel->material }}">{{ $jewel->name }}</option>
+                    <option value="{{ $jewel->id }}" data-price="{{ $jewel->material }}" @if($product->jewel_type == $jewel->id) selected @endif>{{ $jewel->name }}</option>
                 @endforeach
             </select>
 
@@ -51,7 +51,7 @@
                 <option value="">Избери</option>
         
                 @foreach($prices->where('type', 'sell') as $price)
-                    <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
+                    <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}" @if($product->retail_price == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
                 @endforeach
             </select>
             
@@ -60,18 +60,45 @@
                 <option value="">Избери</option>
         
                 @foreach($prices->where('type', 'sell') as $price)
-                    <option value="{{ $price->id }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
+                    <option value="{{ $price->id }}" data-material="{{ $price->material }}" @if($product->wholesale_price == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
                 @endforeach
             </select>
         
             <div class="form-group">
                 <label for="1">Тегло: </label>
-                <input type="text" class="form-control" id="weight" name="weight" placeholder="Тегло:" min="1" max="10000">
+                <input type="text" class="form-control" id="weight" value="{{ $product->weight }}" name="weight" placeholder="Тегло:" min="1" max="10000">
             </div>
         
             <div class="form-group">
                 <label for="1">Размер: </label>
-                <input type="text" class="form-control" id="size" name="size" placeholder="Размер:" min="1" max="10000">
+                <input type="text" class="form-control" id="size" value="{{ $product->size }}" name="size" placeholder="Размер:" min="1" max="10000">
+            </div>
+
+            <div class="model_stones2">
+                <div class="form-row fields2">
+                    <div class="form-group col-md-6">
+                        <label>Камъни: </label>
+                        @foreach(App\Product_stones::where('product', $product->id)->get() as $product_stone)
+                            <select name="stones[]" class="form-control">
+                                <option value="">Избери</option>
+    
+                                @foreach($stones as $stone)
+                                    <option value="{{ $stone->id }}" @if($product_stone->stone == $stone->id) selected @endif>
+                                        {{ App\Stones::find($stone->id)->name }} 
+    
+                                        ({{ App\Stone_contours::find($stone->contour)->name }}, {{ App\Stone_sizes::find($stone->size)->name }})
+                                    </option>
+                                @endforeach
+                            </select>
+                        @endforeach
+                    </div>
+                    <div class="form-group col-md-6">
+                            <label for="1">Брой: </label>
+                    @foreach(App\Product_stones::where('product', $product->id)->get() as $product_stone)
+                        <input type="number" class="form-control" value="{{ $product_stone->amount }}" name="stone_amount[]" placeholder="Брой" min="1" max="50">
+                    @endforeach
+                </div>
+                </div>
             </div>
 
             <div class="model_stones">
@@ -106,13 +133,13 @@
         
             <label for="workmanship">Изработка: </label>
             <div class="input-group"> 
-                <input type="number" class="form-control" name="workmanship" id="workmanship" value="0">
+                <input type="number" class="form-control" value="{{ $product->workmanship }}" name="workmanship" id="workmanship" value="0">
                 <span class="input-group-addon">лв</span>
             </div>
 
             <label for="price">Цена: </label>
             <div class="input-group"> 
-                <input type="number" class="form-control" name="price" id="price" value="0">
+                <input type="number" class="form-control" value="{{ $product->price }}" name="price" id="price" value="0">
                 <span class="input-group-addon">лв</span>
             </div>
             <div id="drop-area">

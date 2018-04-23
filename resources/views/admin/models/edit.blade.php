@@ -72,10 +72,7 @@
                 <div class="form-group col-md-6">
                         <label for="1">Брой: </label>
                 @foreach($modelStones as $modelStone)
-
-                        
-                        <input type="number" class="form-control" value="{{ $modelStone->amount }}" name="stone_amount[]" placeholder="Брой" min="1" max="50">
-
+                    <input type="number" class="form-control" value="{{ $modelStone->amount }}" name="stone_amount[]" placeholder="Брой" min="1" max="50">
                 @endforeach
             </div>
             </div>

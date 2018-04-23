@@ -8,6 +8,7 @@ use App\Jewels;
 use App\Prices;
 use App\Stones;
 use App\Model_stones;
+use App\Product_stones;
 use Illuminate\Http\Request;
 use Uuid;
 use App\Gallery;
@@ -148,12 +149,13 @@ class ProductsController extends Controller
     public function edit(Products $products, $product)
     {
         $product = Products::find($product);
+        $product_stones = Product_stones::where('product', $product)->get();
         $models = Models::all();
         $jewels = Jewels::all();
         $prices = Prices::where('type', 'sell')->get();
         $stones = Stones::all();
 
-        return \View::make('admin/products/edit', array('product' => $product, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones));
+        return \View::make('admin/products/edit', array('product_stones' => $product_stones, 'product' => $product, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones));
     }
 
     /**
