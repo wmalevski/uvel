@@ -45,10 +45,13 @@ var uvel,
             newFields +=
               '</select>' +
               '</div>' +
-              '<div class="form-group col-md-6">' +
+              '<div class="form-group col-md-4">' +
               '<label>Брой:</label>' +
               '<input type="text" class="form-control" name="stone_amount[]" placeholder="Брой">' +
-              '</div>';
+              '</div>' +
+              '<div class="form-group col-md-2">' +
+              '<span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>'+
+          '</div>';
 
             fieldsHolder.innerHTML = newFields;
             fieldsWrapper.append(fieldsHolder);
@@ -58,9 +61,13 @@ var uvel,
         });
 
         //Remove Fields
-        $(fieldsWrapper).on('click', '.remove_field', function () {
+        $(fieldsWrapper).on('click', '.remove_field', function (e) {
+
           e.preventDefault();
-          $(this).parent().remove();
+          var parents = $(this).parentsUntil(".form-row .fields");
+
+          parents[1].remove();
+
         })
       })
     }
@@ -78,8 +85,6 @@ var uvel,
 
         var files = ev.target.files,
             collectionFiles= [];
-
-            console.log(files);
 
         for(var file of files) {
           collectionFiles.push(file);
@@ -572,18 +577,7 @@ var uvel,
 
         if (formMethod == 'POST') {     
           ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements, currentPressedBtn);
-        } else if (formMethod == 'PUT') {
-
-
-          console.log(formMethod);
-
-          console.log(ajaxUrl);
-          console.log(collectionData);
-          console.log(collectionElements);
-          console.log(currentPressedBtn);
-          
-
-
+        } else if (formMethod == 'PUT') {      
           ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
         }
         
@@ -813,7 +807,6 @@ var uvel,
   
         collectionEditBtns.forEach(function (btn) {
           
-          typeof(btn);
           $(btn).off();
 
           $(btn).on('click',clickEditButton);
