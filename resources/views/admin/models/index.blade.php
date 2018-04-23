@@ -152,20 +152,13 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="addModel" action="/productstypesothers">
-                <div class="modal-body">
-                    <div class="info-cont">
-                    </div>
-                    {{ csrf_field() }}
-
-
+            <div class="modal-body">
+                <div class="info-cont">
                 </div>
+                {{ csrf_field() }}
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" id="edit" class="btn btn-primary">Обнови</button>
-                </div>
-            </form>
+
+            </div>
         </div>
     </div>
 </div>

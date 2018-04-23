@@ -204,7 +204,7 @@ class ModelsController extends Controller
         
         $model->save();
 
-        return Response::json(array('success' => View::make('admin/models/table',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render()));
+        return Response::json(array('table' => View::make('admin/models/table',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render()));
     }
 
     /**
