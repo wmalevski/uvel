@@ -811,11 +811,15 @@ var uvel,
         event.preventDefault();
         //event.stopPropagation();
 
-        var span = event.target.parentElement;
-        var linkAjax = span.getAttribute("data-url");
+        var link = event.target.parentElement;
+
+        var urlTaken = window.location.href.split('/');
+        var url = urlTaken[0] + '//' + urlTaken[2] + '/' + urlTaken[3] + '/';
+
+        var linkAjax = url+link.getAttribute('data-url');
 
         ajaxFn("GET", linkAjax, editBtnSuccess, '', '', this);
-
+              
         $self.currentPressedBtn = this;  
         
         setTimeout(function() {$self.checkAllForms(currentPressedBtn);}, 500);
