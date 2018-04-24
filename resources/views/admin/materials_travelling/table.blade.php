@@ -1,5 +1,4 @@
 <tr>
-    <td></td>
     <td>{{ App\Materials::find(App\Materials_quantity::find($material->type)->material)->name }} - {{ App\Materials::find(App\Materials_quantity::find($material->type)->material)->code }} - {{ App\Materials::find(App\Materials_quantity::find($material->type)->material)->color }}</td> 
     <td>{{ $material->quantity }}</td> 
     <td>{{ $material->price }}</td> 

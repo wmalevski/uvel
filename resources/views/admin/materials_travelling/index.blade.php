@@ -72,7 +72,6 @@ aria-hidden="true">
               <p>Преглед на пътуващите материали.</p>
               <table class="table table-condensed">
                   <tr>
-                      <th>#</th>
                       <th>Тип</th> 
                       <th>Количество</th> 
                       <th>Стойност</th> 

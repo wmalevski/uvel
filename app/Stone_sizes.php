@@ -10,6 +10,8 @@ use Response;
 
 class Stone_sizes extends Model
 {
+    use SoftDeletes;
+    
     protected $fillable = [
         'name',
     ];
