@@ -83,7 +83,6 @@ aria-hidden="true">
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">#</th>
             <th scope="col">Име</th> 
             <th scope="col">Материал</th>
             <th scope="col">Действия</th>

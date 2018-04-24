@@ -1,6 +1,6 @@
 <tr>
     <td> {{ $product->name }} </td>
-    <td> {{ App\Jewels::find(App\Models::find($product->model)->jewel)->name }} </td> 
+    <td> @if(App\Jewels::find(App\Models::find($product->model)->jewel)) {{ App\Jewels::find(App\Models::find($product->model)->jewel)->name }} @endif </td> 
     <td> {{ App\Prices::find($product->retail_price)->price }} </td> 
     <td> {{ $product->weight }} </td>
     <td> {{ (App\Prices::find($product->retail_price)->price)*$product->weight }} </td>
@@ -31,7 +31,7 @@
 
             @foreach(App\Product_stones::where('product', $product->id)->get() as $stone)
                 <tr>
-                    <td>{{ App\Stones::find($stone->stone)->name }}</td>
+                    <td> @if(App\Stones::find($stone->stone)) {{App\Stones::find($stone->stone)->name}} @endif</td>
                     <td>{{ $stone->amount }}</td>
                 </tr>
             @endforeach

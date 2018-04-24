@@ -96,7 +96,6 @@ aria-hidden="true">
         <table class="table">
           <thead>
             <tr>
-              <th scope="col">#</th>
               <th scope="col">Име</th> 
               <th scope="col">Email</th>
               <th scope="col">Вид</th>

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Stone_contours extends Model
 {
@@ -11,4 +12,5 @@ class Stone_contours extends Model
     ];
 
     protected $table = 'stone_contours';
+    protected $dates = ['deleted_at'];
 }

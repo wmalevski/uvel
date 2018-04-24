@@ -140,6 +140,10 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::get('/stones/{stone}', 'StonesController@edit');
     Route::post('/stones/contours', 'StoneContoursController@store');
 
+    Route::post('/stones/sizes/delete/{size}', 'StoneSizesController@destroy');
+    Route::post('/stones/styles/delete/{style}', 'StoneStylesController@destroy');
+    Route::post('/stones/contours/delete/{contour}', 'StoneContoursController@destroy');
+
     Route::post('/prices/{material}', 'PricesController@store');
 
     Route::post('/jewels', 'JewelsController@store');
@@ -172,6 +176,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/repairs/delete/{repair}', 'RepairsController@destroy');
 
     Route::put('/repairtypes/{type}', 'RepairTypesController@update');
+    Route::post('/repairtypes/delete/{type}', 'RepairTypesController@destroy');
 
     Route::put('/repairs/{repair}', 'RepairsController@update');
 
@@ -184,9 +189,11 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/productsotherstypes', 'ProductsOthersTypesController@store');
     Route::put('/productsotherstypes/{type}', 'ProductsOthersTypesController@update');
+    Route::post('/productsotherstypes/delete/{type}', 'ProductsOthersTypesController@destroy');
 
     Route::post('/productsothers', 'ProductsOthersController@store');
     Route::put('/productsothers/{product}', 'ProductsOthersController@update');
+    
 
     Route::get('discounts/check/{barcode}', 'DiscountCodesController@check');
 
