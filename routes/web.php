@@ -189,9 +189,11 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/productsotherstypes', 'ProductsOthersTypesController@store');
     Route::put('/productsotherstypes/{type}', 'ProductsOthersTypesController@update');
+    Route::post('/productsotherstypes/delete/{type}', 'ProductsOthersTypesController@destroy');
 
     Route::post('/productsothers', 'ProductsOthersController@store');
     Route::put('/productsothers/{product}', 'ProductsOthersController@update');
+    
 
     Route::get('discounts/check/{barcode}', 'DiscountCodesController@check');
 
