@@ -72,7 +72,7 @@
                 <input type="number" class="form-control" id="5" value="{{ $stone->price }}" name="price" placeholder="Цена:">
             </div>
 
-            <div id="drop-area">
+            <div id="drop-area" name="edit">
                 <input type="file" name="images" id="fileElem" multiple accept="image/*" >
                 <label class="button" for="fileElem">Select some files</label>
                 <div id="gallery" /></div>

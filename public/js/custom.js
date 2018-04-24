@@ -72,9 +72,10 @@ var uvel,
       })
     }
 
-    this.dropFunctionality = function(instanceFiles) {
+    this.dropFunctionality = function(instanceFiles,dropArea) {
 
-      var dropArea = document.getElementById("drop-area");
+      //console.log(dropArea);
+      //var dropArea = document.getElementById("drop-area");
       var input = document.getElementById("fileElem");
       var preventEvents = ['dragenter', 'dragover', 'dragleave', 'drop'],
           highlightEvents = ['dragenter', 'dragover'],
@@ -153,12 +154,10 @@ var uvel,
               instanceFiles.push(data);
             }
           )
-          
-          //$("div#gallery").after(img);   
+      
+          var imagesArea = $(dropArea).find("#gallery");
 
-          $(img).appendTo("div#gallery");
-
-          //document.getElementById("gallery").appendChild($(img));  
+          $(img).appendTo(imagesArea);
         
         }
       }
@@ -188,7 +187,9 @@ var uvel,
 
     this.checkAllForms = function(currentPressedBtn) {
 
-      var collectionBtns = document.querySelectorAll('.modal-dialog .modal-footer button[type="submit"]');
+      //var collectionBtns = document.querySelectorAll('.modal-dialog .modal-footer button[type="submit"]');
+
+      var collectionEditBtns = document.querySelectorAll('.modal-dialog .modal-footer .edit-btn');
       var deleteBtns = document.querySelectorAll('.delete-btn');
 
       var urlTaken = window.location.href.split('/');
@@ -242,7 +243,30 @@ var uvel,
         })
       }
 
-      if (collectionBtns.length) {
+ 
+      /* edit button images */
+
+      if (collectionEditBtns.length) {
+
+        var editForm = collectionEditBtns[0].parentElement.parentElement;
+
+        var dropArea = editForm.querySelector("#drop-area");
+
+        var input = editForm.querySelector("#fileElem");
+
+        var collectionFiles = [];
+
+       
+        this.dropFunctionality(collectionFiles,dropArea);
+
+      }
+
+
+      /* end edit button images */
+
+
+      /* Back UP */
+      /* if (collectionBtns.length) {
         var modelSelect = $('#model_select');
         var typeSelect;
         var collectionFiles = [];
@@ -275,7 +299,13 @@ var uvel,
           btn.removeEventListener('click', getFormData, true);
           btn.addEventListener('click', getFormData);
         })
-      }
+      }*/
+
+      /*END Back UP */
+     
+
+
+
 
       if(catalogNumberInput !== null){
         catalogNumberInput.onchange = addCatalogNumber;
