@@ -1,5 +1,4 @@
 <tr>
-    <td></td>
     <td>{{ $currency->name }}</td> 
     <td>{{ $currency->currency }}</td> 
     <td>

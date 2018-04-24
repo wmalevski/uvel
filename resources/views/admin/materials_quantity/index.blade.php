@@ -58,7 +58,6 @@ aria-hidden="true">
         <p>Преглед на наличност.</p>
         <table class="table table-condensed">
             <tr>
-                <th>#</th>
                 <th>Тип</th> 
                 <th>Количество</th> 
                 <th>Действия</th> 
