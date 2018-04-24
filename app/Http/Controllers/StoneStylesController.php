@@ -92,8 +92,13 @@ class StoneStylesController extends Controller
      * @param  \App\Stone_styles  $stone_styles
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Stone_styles $stone_styles)
+    public function destroy(Stone_styles $stone_styles, $style)
     {
-        //
+        $style = Stone_styles::find($style);
+        
+        if($style){
+            $style->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

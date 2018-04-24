@@ -39,6 +39,7 @@ aria-hidden="true">
             <table class="table table-condensed">
                 <tr>
                     <th>Име</th> 
+                    <th>Действия</th> 
                 </tr>
                 
                 @foreach($sizes as $size)
