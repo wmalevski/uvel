@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Stone_styles extends Model
 {
+    use SoftDeletes;
+    
     protected $fillable = [
         'name',
     ];

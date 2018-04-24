@@ -193,9 +193,9 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/productsothers', 'ProductsOthersController@store');
     Route::put('/productsothers/{product}', 'ProductsOthersController@update');
-    
 
     Route::get('discounts/check/{barcode}', 'DiscountCodesController@check');
+    Route::post('discounts/delete/{discount}', 'DiscountCodesController@destroy');
 
     Route::post('/sell', 'SellingsController@sell')->name('sellScan');
     Route::get('/sell/setDiscount/{barcode}',  'SellingsController@setDiscount')->name('addDiscount');

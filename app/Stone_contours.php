@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Stone_contours extends Model
 {
+    use SoftDeletes;
+    
     protected $fillable = [
         'name',
     ];
