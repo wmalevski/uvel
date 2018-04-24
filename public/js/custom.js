@@ -188,7 +188,12 @@ var uvel,
 
     this.checkAllForms = function(currentPressedBtn) {
 
-      var collectionBtns = document.querySelectorAll('.modal-dialog .modal-footer button[type="submit"]');
+      //var collectionBtns = document.querySelectorAll('.modal-dialog .modal-footer button[type="submit"]');
+
+      var collectionEditBtns = document.querySelectorAll('.modal-dialog .modal-footer .edit-btn-modal');
+
+
+
       var deleteBtns = document.querySelectorAll('.delete-btn');
 
       var urlTaken = window.location.href.split('/');
@@ -242,6 +247,55 @@ var uvel,
         })
       }
 
+      /* edit button images */
+
+   
+        if (collectionEditBtns.length > 0) {
+
+          var editForm = collectionEditBtns[0].parentElement.parentElement;
+          var dropArea = editForm.querySelector("#drop-area");
+          var input = editForm.querySelector("#fileElem");
+          var collectionFiles = [];
+  
+          var modelSelect = $('#model_select');
+          var typeSelect;
+  
+           
+          //this.dropFunctionality(collectionFiles,dropArea);
+  
+  
+          if(modelSelect) {
+            modelSelect.on('select2:select', function(ev) {
+              if(modelSelect.val()) {
+                var value = modelSelect.find(':selected').val(),
+                    tempUrl = url + '/products/' + value,
+                    xhttp = new XMLHttpRequest(),
+                    typeSelect = $('#jewels_types');
+  
+                typeSelect.on('select2:select', function(ev) {
+                  modelSelect.val('0').trigger('change.select2');
+                });
+  
+                productsRequest(tempUrl);
+              }
+            });
+          }
+            
+          collectionEditBtns.forEach(function (btn) {
+            btn.removeEventListener('click', getFormData, true);
+            btn.addEventListener('click', getFormData);
+          })
+  
+        }
+  
+  
+      /* end edit button images */
+  
+
+
+
+
+      /*
       if (collectionBtns.length) {
         var modelSelect = $('#model_select');
         var typeSelect;
@@ -276,6 +330,7 @@ var uvel,
           btn.addEventListener('click', getFormData);
         })
       }
+      */
 
       if(catalogNumberInput !== null){
         catalogNumberInput.onchange = addCatalogNumber;
@@ -577,7 +632,9 @@ var uvel,
 
         if (formMethod == 'POST') {     
           ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements, currentPressedBtn);
-        } else if (formMethod == 'PUT') {      
+        } else if (formMethod == 'PUT') { 
+          
+          console.log("put edit");
           ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
         }
         
