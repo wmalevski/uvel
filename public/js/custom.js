@@ -249,15 +249,36 @@ var uvel,
       if (collectionEditBtns.length) {
 
         var editForm = collectionEditBtns[0].parentElement.parentElement;
-
         var dropArea = editForm.querySelector("#drop-area");
-
         var input = editForm.querySelector("#fileElem");
-
         var collectionFiles = [];
 
+        var modelSelect = $('#model_select');
+        var typeSelect;
        
         this.dropFunctionality(collectionFiles,dropArea);
+
+        if(modelSelect) {
+          modelSelect.on('select2:select', function(ev) {
+            if(modelSelect.val()) {
+              var value = modelSelect.find(':selected').val(),
+                  tempUrl = url + '/products/' + value,
+                  xhttp = new XMLHttpRequest(),
+                  typeSelect = $('#jewels_types');
+
+              typeSelect.on('select2:select', function(ev) {
+                modelSelect.val('0').trigger('change.select2');
+              });
+
+              productsRequest(tempUrl);
+            }
+          });
+        }
+          
+        collectionEditBtns.forEach(function (btn) {
+          btn.removeEventListener('click', getFormData, true);
+          btn.addEventListener('click', getFormData);
+        })
 
       }
 
