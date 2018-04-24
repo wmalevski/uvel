@@ -38,7 +38,6 @@ aria-hidden="true">
         <p>Преглед на създадените контури.</p>
         <table class="table table-condensed">
             <tr>
-                <th>#</th>
                 <th>Име</th> 
             </tr>
             

@@ -30,13 +30,9 @@ aria-hidden="true">
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-12">
                             <label for="2">Количество: </label>
-                            <input type="text" class="form-control" id="2" name="quantity" placeholder="Количество:">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="3">В 14 Карата: </label>
-                            <input type="text" class="form-control" id="3" name="carat" placeholder="В 14 карата:">
+                            <input type="number" class="form-control" id="2" name="quantity" placeholder="Количество:" min="1">
                         </div>
                     </div>
                     <div id="errors-container"></div>
@@ -65,7 +61,6 @@ aria-hidden="true">
                 <th>#</th>
                 <th>Тип</th> 
                 <th>Количество</th> 
-                <th>В 14 Карата</th> 
                 <th>Действия</th> 
             </tr>
             

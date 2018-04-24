@@ -51,7 +51,6 @@ class MaterialsQuantityController extends Controller
         $validator = Validator::make( $request->all(), [
             'material' => 'required',
             'quantity' => 'required',
-            'carat' => 'required',
          ]);
 
         if ($validator->fails()) {
