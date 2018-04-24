@@ -636,9 +636,8 @@ var uvel,
 
         if (formMethod == 'POST') {     
           ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements, currentPressedBtn);
-        } else if (formMethod == 'PUT') {   
-          alert("test");   
-          //ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
+        } else if (formMethod == 'PUT') {    
+          ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
         }
         
       }
