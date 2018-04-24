@@ -191,8 +191,7 @@ var uvel,
       //var collectionBtns = document.querySelectorAll('.modal-dialog .modal-footer button[type="submit"]');
 
       var collectionEditBtns = document.querySelectorAll('.modal-dialog .modal-footer .edit-btn-modal');
-
-
+      var collectionAddBtns = document.querySelectorAll('.modal-dialog .modal-footer .add-btn-modal');
 
       var deleteBtns = document.querySelectorAll('.delete-btn');
 
@@ -291,6 +290,48 @@ var uvel,
   
       /* end edit button images */
   
+      /* add button images */
+
+      if(collectionAddBtns.length > 0) {
+
+        var addForm = collectionAddBtns[0].parentElement.parentElement;
+        var dropArea = addForm.querySelector("#drop-area");
+        var input = addForm.querySelector("#fileElem");
+        var collectionFiles = [];
+
+        var modelSelect = $('#model_select');
+        var typeSelect;
+
+         
+        //this.dropFunctionality(collectionFiles,dropArea);
+
+
+        if(modelSelect) {
+          modelSelect.on('select2:select', function(ev) {
+            if(modelSelect.val()) {
+              var value = modelSelect.find(':selected').val(),
+                  tempUrl = url + '/products/' + value,
+                  xhttp = new XMLHttpRequest(),
+                  typeSelect = $('#jewels_types');
+
+              typeSelect.on('select2:select', function(ev) {
+                modelSelect.val('0').trigger('change.select2');
+              });
+
+              productsRequest(tempUrl);
+            }
+          });
+        }
+          
+        collectionAddBtns.forEach(function (btn) {
+          btn.removeEventListener('click', getFormData, true);
+          btn.addEventListener('click', getFormData);
+        })
+
+      }
+
+
+      /*end add button images*/
 
 
 
