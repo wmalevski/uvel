@@ -73,9 +73,7 @@ var uvel,
     }
 
     this.dropFunctionality = function(instanceFiles,dropArea) {
-
-      //console.log(dropArea);
-      //var dropArea = document.getElementById("drop-area");
+      
       var input = document.getElementById("fileElem");
       var preventEvents = ['dragenter', 'dragover', 'dragleave', 'drop'],
           highlightEvents = ['dragenter', 'dragover'],
@@ -94,27 +92,32 @@ var uvel,
         handleFiles(collectionFiles);
       })
 
-      preventEvents.forEach(function(eventName) {
-        dropArea.addEventListener(eventName, preventDefaults, false);
-      }); 
-      
-      highlightEvents.forEach(function(eventName) {
-        dropArea.addEventListener(eventName, highlight, false);
-      });
+      if(dropArea !== null){
+        preventEvents.forEach(function(eventName) {
+          dropArea.addEventListener(eventName, preventDefaults, false);
+        }); 
+        
+        highlightEvents.forEach(function(eventName) {
+          dropArea.addEventListener(eventName, highlight, false);
+        });
 
-      unhighlightEvents.forEach(function(eventName) {
-        dropArea.addEventListener(eventName, unhighlight, false);
-      });
+        unhighlightEvents.forEach(function(eventName) {
+          dropArea.addEventListener(eventName, unhighlight, false);
+        });
+        
+        dropArea.addEventListener('drop', handleDrop, false);
       
-      dropArea.addEventListener('drop', handleDrop, false);
 
-      function highlight(e) {
-        dropArea.classList.add('highlight');
-      }
+        function highlight(e) {
+          dropArea.classList.add('highlight');
+        }
       
-      function unhighlight(e) {
-        dropArea.classList.remove('highlight');
+        function unhighlight(e) {
+          dropArea.classList.remove('highlight');
+        }
+
       }
+
 
       function preventDefaults(e) {
         e.preventDefault();
@@ -246,7 +249,8 @@ var uvel,
  
       /* edit button images */
 
-      if (collectionEditBtns.length) {
+   
+      if (collectionEditBtns.length > 0) {
 
         var editForm = collectionEditBtns[0].parentElement.parentElement;
         var dropArea = editForm.querySelector("#drop-area");
@@ -255,8 +259,10 @@ var uvel,
 
         var modelSelect = $('#model_select');
         var typeSelect;
-       
+
+         
         this.dropFunctionality(collectionFiles,dropArea);
+
 
         if(modelSelect) {
           modelSelect.on('select2:select', function(ev) {
@@ -276,6 +282,8 @@ var uvel,
         }
           
         collectionEditBtns.forEach(function (btn) {
+
+          console.log("collectionEditBtns");
           btn.removeEventListener('click', getFormData, true);
           btn.addEventListener('click', getFormData);
         })
@@ -528,6 +536,8 @@ var uvel,
       }
 
       function getFormData(event) {
+
+        console.log("getFormData");
 
         var evt = event || window.event;
 
