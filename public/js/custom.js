@@ -190,9 +190,11 @@ var uvel,
 
     this.checkAllForms = function(currentPressedBtn) {
 
+      
+
       //var collectionBtns = document.querySelectorAll('.modal-dialog .modal-footer button[type="submit"]');
 
-      var collectionEditBtns = document.querySelectorAll('.modal-dialog .modal-footer .edit-btn');
+      var collectionEditBtns = document.querySelectorAll('.modal-dialog .modal-footer .edit-btn-modal');
       var deleteBtns = document.querySelectorAll('.delete-btn');
 
       var urlTaken = window.location.href.split('/');
@@ -282,8 +284,6 @@ var uvel,
         }
           
         collectionEditBtns.forEach(function (btn) {
-
-          console.log("collectionEditBtns");
           btn.removeEventListener('click', getFormData, true);
           btn.addEventListener('click', getFormData);
         })
@@ -537,8 +537,6 @@ var uvel,
 
       function getFormData(event) {
 
-        console.log("getFormData");
-
         var evt = event || window.event;
 
         evt.preventDefault();
@@ -638,8 +636,9 @@ var uvel,
 
         if (formMethod == 'POST') {     
           ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements, currentPressedBtn);
-        } else if (formMethod == 'PUT') {      
-          ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
+        } else if (formMethod == 'PUT') {   
+          alert("test");   
+          //ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
         }
         
       }
