@@ -13,7 +13,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/stones" name="addStones">
+            <form method="POST" id="add-stones-form" action="/stones" name="addStones">
                 <div class="modal-body">    
                     <div class="info-cont">
                     </div>
@@ -85,7 +85,7 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" class="btn btn-primary">Добави</button>
+                    <button type="submit" class="add-btn btn btn-primary">Добави</button>
                 </div>
             </form>
         </div>
@@ -105,7 +105,7 @@ aria-hidden="true">
 <div class="row">
   <div class="col-md-12">
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
-      <h4 class="c-grey-900 mB-20">Камъни <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-toggle="modal" data-target="#addStone">Добави</button></h4>
+      <h4 class="c-grey-900 mB-20">Камъни <button class="add-btn btn btn-primary" type="button" id="dropdownMenuButton" data-toggle="modal" data-target="#addStone">Добави</button></h4>
       <p>Преглед на камъни</p>
       <table class="table">
         <thead>
