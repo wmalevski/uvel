@@ -195,6 +195,9 @@ var uvel,
       //var collectionBtns = document.querySelectorAll('.modal-dialog .modal-footer button[type="submit"]');
 
       var collectionEditBtns = document.querySelectorAll('.modal-dialog .modal-footer .edit-btn-modal');
+
+      var collectionAddBtns = document.querySelectorAll('.modal-dialog .modal-footer .add-btn-modal');
+
       var deleteBtns = document.querySelectorAll('.delete-btn');
 
       var urlTaken = window.location.href.split('/');
