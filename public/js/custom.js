@@ -72,8 +72,9 @@ var uvel,
       })
     }
 
-    this.dropFunctionality = function(instanceFiles,dropArea) {
-      
+    this.dropFunctionality = function(instanceFiles) {
+
+      var dropArea = document.getElementById("drop-area");
       var input = document.getElementById("fileElem");
       var preventEvents = ['dragenter', 'dragover', 'dragleave', 'drop'],
           highlightEvents = ['dragenter', 'dragover'],
@@ -92,32 +93,27 @@ var uvel,
         handleFiles(collectionFiles);
       })
 
-      if(dropArea !== null){
-        preventEvents.forEach(function(eventName) {
-          dropArea.addEventListener(eventName, preventDefaults, false);
-        }); 
-        
-        highlightEvents.forEach(function(eventName) {
-          dropArea.addEventListener(eventName, highlight, false);
-        });
-
-        unhighlightEvents.forEach(function(eventName) {
-          dropArea.addEventListener(eventName, unhighlight, false);
-        });
-        
-        dropArea.addEventListener('drop', handleDrop, false);
+      preventEvents.forEach(function(eventName) {
+        dropArea.addEventListener(eventName, preventDefaults, false);
+      }); 
       
+      highlightEvents.forEach(function(eventName) {
+        dropArea.addEventListener(eventName, highlight, false);
+      });
 
-        function highlight(e) {
-          dropArea.classList.add('highlight');
-        }
+      unhighlightEvents.forEach(function(eventName) {
+        dropArea.addEventListener(eventName, unhighlight, false);
+      });
       
-        function unhighlight(e) {
-          dropArea.classList.remove('highlight');
-        }
+      dropArea.addEventListener('drop', handleDrop, false);
 
+      function highlight(e) {
+        dropArea.classList.add('highlight');
       }
-
+      
+      function unhighlight(e) {
+        dropArea.classList.remove('highlight');
+      }
 
       function preventDefaults(e) {
         e.preventDefault();
@@ -157,10 +153,12 @@ var uvel,
               instanceFiles.push(data);
             }
           )
-      
-          var imagesArea = $(dropArea).find("#gallery");
+          
+          //$("div#gallery").after(img);   
 
-          $(img).appendTo(imagesArea);
+          $(img).appendTo("div#gallery");
+
+          //document.getElementById("gallery").appendChild($(img));  
         
         }
       }
@@ -190,11 +188,7 @@ var uvel,
 
     this.checkAllForms = function(currentPressedBtn) {
 
-      
-
-      //var collectionBtns = document.querySelectorAll('.modal-dialog .modal-footer button[type="submit"]');
-
-      var collectionEditBtns = document.querySelectorAll('.modal-dialog .modal-footer .edit-btn-modal');
+      var collectionBtns = document.querySelectorAll('.modal-dialog .modal-footer button[type="submit"]');
       var deleteBtns = document.querySelectorAll('.delete-btn');
 
       var urlTaken = window.location.href.split('/');
@@ -248,54 +242,7 @@ var uvel,
         })
       }
 
- 
-      /* edit button images */
-
-   
-      if (collectionEditBtns.length > 0) {
-
-        var editForm = collectionEditBtns[0].parentElement.parentElement;
-        var dropArea = editForm.querySelector("#drop-area");
-        var input = editForm.querySelector("#fileElem");
-        var collectionFiles = [];
-
-        var modelSelect = $('#model_select');
-        var typeSelect;
-
-         
-        this.dropFunctionality(collectionFiles,dropArea);
-
-
-        if(modelSelect) {
-          modelSelect.on('select2:select', function(ev) {
-            if(modelSelect.val()) {
-              var value = modelSelect.find(':selected').val(),
-                  tempUrl = url + '/products/' + value,
-                  xhttp = new XMLHttpRequest(),
-                  typeSelect = $('#jewels_types');
-
-              typeSelect.on('select2:select', function(ev) {
-                modelSelect.val('0').trigger('change.select2');
-              });
-
-              productsRequest(tempUrl);
-            }
-          });
-        }
-          
-        collectionEditBtns.forEach(function (btn) {
-          btn.removeEventListener('click', getFormData, true);
-          btn.addEventListener('click', getFormData);
-        })
-
-      }
-
-
-      /* end edit button images */
-
-
-      /* Back UP */
-      /* if (collectionBtns.length) {
+      if (collectionBtns.length) {
         var modelSelect = $('#model_select');
         var typeSelect;
         var collectionFiles = [];
@@ -328,13 +275,7 @@ var uvel,
           btn.removeEventListener('click', getFormData, true);
           btn.addEventListener('click', getFormData);
         })
-      }*/
-
-      /*END Back UP */
-     
-
-
-
+      }
 
       if(catalogNumberInput !== null){
         catalogNumberInput.onchange = addCatalogNumber;
@@ -636,7 +577,7 @@ var uvel,
 
         if (formMethod == 'POST') {     
           ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements, currentPressedBtn);
-        } else if (formMethod == 'PUT') {    
+        } else if (formMethod == 'PUT') {      
           ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
         }
         
