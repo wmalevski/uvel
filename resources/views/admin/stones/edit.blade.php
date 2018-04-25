@@ -73,7 +73,7 @@
             </div>
 
             <div id="drop-area" name="edit">
-                <input type="file" name="images" id="fileElem" multiple accept="image/*" >
+                <input type="file" name="edit-images-input" id="fileElem" multiple accept="image/*" >
                 <label class="button" for="fileElem">Select some files</label>
                 <div id="gallery" /></div>
             </div>

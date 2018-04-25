@@ -75,6 +75,7 @@ var uvel,
     this.dropFunctionality = function(instanceFiles) {
 
       var dropArea = document.getElementById("drop-area");
+
       var input = document.getElementById("fileElem");
       var preventEvents = ['dragenter', 'dragover', 'dragleave', 'drop'],
           highlightEvents = ['dragenter', 'dragover'],
@@ -93,6 +94,7 @@ var uvel,
         handleFiles(collectionFiles);
       })
 
+      
       preventEvents.forEach(function(eventName) {
         dropArea.addEventListener(eventName, preventDefaults, false);
       }); 
@@ -184,14 +186,18 @@ var uvel,
           img.src = src;
         }
       } 
+      
     }
 
-    this.checkAllForms = function(currentPressedBtn) {
+
+
+
+    this.checkAllForms = function(currentPressedBtn) {    
 
       //var collectionBtns = document.querySelectorAll('.modal-dialog .modal-footer button[type="submit"]');
 
-      var collectionEditBtns = document.querySelectorAll('.modal-dialog .modal-footer .edit-btn-modal');
-      var collectionAddBtns = document.querySelectorAll('.modal-dialog .modal-footer .add-btn-modal');
+      var collectionModalEditBtns = document.querySelectorAll('.modal-dialog .modal-footer .edit-btn-modal');
+      var collectionModalAddBtns = document.querySelectorAll('.modal-dialog .modal-footer .add-btn-modal');
 
       var deleteBtns = document.querySelectorAll('.delete-btn');
 
@@ -249,18 +255,22 @@ var uvel,
       /* edit button images */
 
    
-        if (collectionEditBtns.length > 0) {
+      if(collectionModalEditBtns.length > 0) {
 
-          var editForm = collectionEditBtns[0].parentElement.parentElement;
-          var dropArea = editForm.querySelector("#drop-area");
-          var input = editForm.querySelector("#fileElem");
-          var collectionFiles = [];
-  
-          var modelSelect = $('#model_select');
-          var typeSelect;
-  
-           
-          //this.dropFunctionality(collectionFiles,dropArea);
+        var addForm = collectionModalEditBtns[0].parentElement.parentElement;
+        var dropEditArea = addForm.querySelector("#drop-area");
+
+        //console.log(dropArea);
+
+        var collectionFiles = [];
+          
+        var modelSelect = $('#model_select');
+        var typeSelect;
+
+
+        //this.dropFunctionality(collectionFiles,dropEditArea);
+
+        this.dropFunctionality(collectionFiles);
   
   
           if(modelSelect) {
@@ -280,30 +290,34 @@ var uvel,
             });
           }
             
-          collectionEditBtns.forEach(function (btn) {
+        collectionModalEditBtns.forEach(function (btn) {
             btn.removeEventListener('click', getFormData, true);
             btn.addEventListener('click', getFormData);
-          })
+        })
   
-        }
+      }
   
   
       /* end edit button images */
   
       /* add button images */
 
-      if(collectionAddBtns.length > 0) {
+      if(collectionModalAddBtns.length > 0) {
 
-        var addForm = collectionAddBtns[0].parentElement.parentElement;
-        var dropArea = addForm.querySelector("#drop-area");
-        var input = addForm.querySelector("#fileElem");
+        var addForm = collectionModalAddBtns[0].parentElement.parentElement;
+        var dropAddArea = addForm.querySelector("#drop-area");
+   
+        //console.log(dropArea);
+
+
         var collectionFiles = [];
 
         var modelSelect = $('#model_select');
         var typeSelect;
 
-         
-        //this.dropFunctionality(collectionFiles,dropArea);
+        //this.dropFunctionality(collectionFiles,dropAddArea);
+
+        this.dropFunctionality(collectionFiles);
 
 
         if(modelSelect) {
@@ -323,7 +337,7 @@ var uvel,
           });
         }
           
-        collectionAddBtns.forEach(function (btn) {
+        collectionModalAddBtns.forEach(function (btn) {
           btn.removeEventListener('click', getFormData, true);
           btn.addEventListener('click', getFormData);
         })
@@ -595,10 +609,14 @@ var uvel,
         // Check the inputs
 
         if (collectionInputs.length != 0) {
+
           collectionInputs.map(function (el) {
+
             if (el != 'undefined') {
+
               var name = el.getAttribute('name');
-              var elType = el.getAttribute('type');              
+              var elType = el.getAttribute('type'); 
+
               var value = elType === 'checkbox' ? el.checked : el.value;
 
               if(name === 'images') {
@@ -682,6 +700,9 @@ var uvel,
         
       }
       
+
+      /*end getFormData() */
+
       function productsRequest(tempUrl) {
         var xhttp = new XMLHttpRequest();
 
