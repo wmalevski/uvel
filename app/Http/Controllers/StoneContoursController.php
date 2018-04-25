@@ -69,9 +69,11 @@ class StoneContoursController extends Controller
      * @param  \App\Stone_contours  $stone_contours
      * @return \Illuminate\Http\Response
      */
-    public function edit(Stone_contours $stone_contours)
+    public function edit(Stone_contours $stone_contours, $contour)
     {
-        //
+        $contour = Stone_contours::find($contour);
+        
+        return \View::make('admin/stone_contours/edit', array('contour' => $contour));
     }
 
     /**
@@ -81,9 +83,15 @@ class StoneContoursController extends Controller
      * @param  \App\Stone_contours  $stone_contours
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Stone_contours $stone_contours)
+    public function update(Request $request, Stone_contours $stone_contours, $contour)
     {
-        //
+        $contour = Stone_contours::find($contour);
+        
+        $contour->name = $request->name;
+        
+        $contour->save();
+        
+        return Response::json(array('table' => View::make('admin/stone_contours/table', array('contour' => $contour))->render()));
     }
 
     /**

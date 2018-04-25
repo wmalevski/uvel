@@ -25,6 +25,7 @@ class CreateStonesTable extends Migration
             $table->integer('amount');
             $table->float('price');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

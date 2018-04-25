@@ -1,9 +1,9 @@
 <tr>
     <td> {{ $product->name }} </td>
-    <td> @if(App\Jewels::find(App\Models::find($product->model)->jewel)) {{ App\Jewels::find(App\Models::find($product->model)->jewel)->name }} @endif </td> 
-    <td> {{ App\Prices::find($product->retail_price)->price }} </td> 
+    <td> @if(App\Jewels::withTrashed()->find(App\Models::withTrashed()->find($product->model)->jewel)) {{ App\Jewels::find(App\Models::withTrashed()->find($product->model)->jewel)->name }} @endif </td> 
+    <td> {{ App\Prices::withTrashed()->find($product->retail_price)->price }} </td> 
     <td> {{ $product->weight }} </td>
-    <td> {{ (App\Prices::find($product->retail_price)->price)*$product->weight }} </td>
+    <td> {{ (App\Prices::withTrashed()->find($product->retail_price)->price)*$product->weight }} </td>
     <td>
          {!! DNS1D::getBarcodeSVG($product->barcode, "EAN13",1,33,"black", true) !!} <br/> 
         {{--  {!! '<img src="' . DNS1D::getBarcodePNG("4", "C39+",3,33,array(1,1,1), true) . '" alt="barcode"   />' !!}  --}}
@@ -29,9 +29,9 @@
                 <th>Брой</th>
             </tr>
 
-            @foreach(App\Product_stones::where('product', $product->id)->get() as $stone)
+            @foreach(App\Product_stones::withTrashed()->where('product', $product->id)->get() as $stone)
                 <tr>
-                    <td> @if(App\Stones::find($stone->stone)) {{App\Stones::find($stone->stone)->name}} @endif</td>
+                    <td> @if(App\Stones::withTrashed()->find($stone->stone)) {{App\Stones::withTrashed()->find($stone->stone)->name}} @endif</td>
                     <td>{{ $stone->amount }}</td>
                 </tr>
             @endforeach
