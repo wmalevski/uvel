@@ -74,96 +74,96 @@ var uvel,
     
 
     this.dropFunctionality = function(instanceFiles) {
-
-      var dropArea = document.getElementById("drop-area");
-
-      var input = document.getElementById("fileElem");
-      var preventEvents = ['dragenter', 'dragover', 'dragleave', 'drop'],
+      
+      var dropArea = $('.drop-area'),
+          preventEvents = ['dragenter', 'dragover', 'dragleave', 'drop'],
           highlightEvents = ['dragenter', 'dragover'],
           unhighlightEvents = ['dragleave', 'drop'];
 
-      $(input).off();
-      $(input).on('change', function(ev) {
+      dropArea.each(function() {
+        var thisArea = $(this),
+            dropAreaInput = thisArea.find('.drop-area-input'),
+            dropAreaGallery = thisArea.find('.drop-area-gallery');
 
-        var files = ev.target.files,
-            collectionFiles= [];
+        dropAreaInput.off();
+        dropAreaInput.on('change', function(ev) {
+          var files = ev.target.files,
+              collectionFiles= [];
 
-        for(var file of files) {
-          collectionFiles.push(file);
-        }
+          for(var file of files) {
+            collectionFiles.push(file);
+          }
 
-        handleFiles(collectionFiles);
-      })
+          handleFiles(collectionFiles);
+        });
 
-      preventEvents.forEach(function(eventName) {
-        dropArea.addEventListener(eventName, preventDefaults, false);
-      }); 
-      
-      highlightEvents.forEach(function(eventName) {
-        dropArea.addEventListener(eventName, highlight, false);
-      });
-
-      unhighlightEvents.forEach(function(eventName) {
-        dropArea.addEventListener(eventName, unhighlight, false);
-      });
-      
-      dropArea.addEventListener('drop', handleDrop, false);
-
-      function highlight(e) {
-        dropArea.classList.add('highlight');
-      }
-      
-      function unhighlight(e) {
-        dropArea.classList.remove('highlight');
-      }
-
-      function preventDefaults(e) {
-        e.preventDefault();
-        e.stopPropagation();
-      } 
-
-      function handleDrop(e) {
-        var dt = e.dataTransfer,
-            files = dt.files,
-            collectionFiles= [];
-
-        for(var file of files) {
-          collectionFiles.push(file);
-        }
-
-        handleFiles(collectionFiles);
-      }
-
-      function handleFiles(files) {
-        files.forEach(previewFile);
-      }
-
-      function previewFile(file) {
-        var reader = new FileReader();
-        reader.readAsDataURL(file);
-
-        reader.onloadend = function() {
-
-          var img = document.createElement('img');
-  
-          img.src = reader.result;
-
-          toDataURL(
-            reader.result,
-            function(dataUrl) {
-              var data = dataUrl.replace('data:image/png;base64,','');
-              instanceFiles.push(data);
-            }
-          )
-          
-          //$("div#gallery").after(img);   
-
-          $(img).appendTo("div#gallery");
-
-          //document.getElementById("gallery").appendChild($(img));  
+        preventEvents.forEach(function(eventName) {
+          thisArea[0].addEventListener(eventName, preventDefaults, false);
+        }); 
         
+        highlightEvents.forEach(function(eventName) {
+          thisArea[0].addEventListener(eventName, highlight, false);
+        });
+  
+        unhighlightEvents.forEach(function(eventName) {
+          thisArea[0].addEventListener(eventName, unhighlight, false);
+        });
+        
+        thisArea[0].addEventListener('drop', handleDrop, false);
+
+        function highlight(e) {
+          thisArea.addClass('highlight');
         }
-      }
+        
+        function unhighlight(e) {
+          thisArea.removeClass('highlight');
+        }
+  
+        function preventDefaults(e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+
+        function handleDrop(e) {
+          var dt = e.dataTransfer,
+              files = dt.files,
+              collectionFiles= [];
+  
+          for(var file of files) {
+            collectionFiles.push(file);
+          }
+  
+          handleFiles(collectionFiles);
+        }
+  
+        function handleFiles(files) {
+          files.forEach(previewFile);
+        }
+  
+        function previewFile(file) {
+          var reader = new FileReader();
+          reader.readAsDataURL(file);
+  
+          reader.onloadend = function() {
+  
+            var img = document.createElement('img');
+    
+            img.src = reader.result;
+  
+            toDataURL(
+              reader.result,
+              function(dataUrl) {
+                var data = dataUrl.replace('data:image/png;base64,','');
+                instanceFiles.push(data);
+              }
+            )
+  
+            $(img).appendTo(dropAreaGallery);
+          }
+        }
+
+      });
+
 
       function toDataURL(src, callback, outputFormat) {
         var img = new Image();
@@ -186,7 +186,6 @@ var uvel,
           img.src = src;
         }
       } 
-      
     }
 
 
@@ -257,6 +256,8 @@ var uvel,
    
       if(collectionModalEditBtns.length > 0) {
 
+       
+
         var addForm = collectionModalEditBtns[0].parentElement.parentElement;
         var dropEditArea = addForm.querySelector("#drop-area");
 
@@ -315,7 +316,7 @@ var uvel,
         var modelSelect = $('#model_select');
         var typeSelect;
 
-        //this.dropFunctionality(collectionFiles,dropAddArea);
+        //this.dropFunctionality(collectionFiles,"addStone");
 
         this.dropFunctionality(collectionFiles);
 
@@ -970,6 +971,7 @@ var uvel,
          var html = $.parseHTML(data);
          
          $(selector).html(html);
+
       }
     }
   }

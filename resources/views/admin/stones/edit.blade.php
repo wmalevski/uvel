@@ -71,13 +71,13 @@
                 <label for="5">Цена: </label>
                 <input type="number" class="form-control" id="5" value="{{ $stone->price }}" name="price" placeholder="Цена:">
             </div>
-
-            <div id="drop-area" name="edit">
-                <input type="file" name="edit-images-input" id="fileElem" multiple accept="image/*" >
-                <label class="button" for="fileElem">Select some files</label>
-                <div id="gallery" /></div>
+      
+            <div class="drop-area" name="edit">
+                <input type="file" name="v-images-input" class="drop-area-input" id="fileElem_edit" multiple accept="image/*" >
+                <label class="button" for="fileElem_edit">Select some files</label>
+                <div class="drop-area-gallery"></div>
             </div>
-
+          
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
                 <button type="submit" class="edit-btn-modal btn btn-primary" data-dismiss="modal">Промени</button>
