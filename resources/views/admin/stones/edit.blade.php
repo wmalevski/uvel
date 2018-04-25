@@ -73,15 +73,17 @@
             </div>
       
             <div class="drop-area" name="edit">
-                <input type="file" name="v-images-input" class="drop-area-input" id="fileElem_edit" multiple accept="image/*" >
+                <input type="file" name="add-images-input" class="drop-area-input" id="fileElem_edit" multiple accept="image/*" >
                 <label class="button" for="fileElem_edit">Select some files</label>
                 <div class="drop-area-gallery"></div>
             </div>
           
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                <button type="submit" class="edit-btn-modal btn btn-primary" data-dismiss="modal">Промени</button>
-            </div>
         </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+            <button type="submit" class="edit-btn-modal btn btn-primary" data-dismiss="modal">Промени</button>
+        </div>
+        
     </form>
 </div>
