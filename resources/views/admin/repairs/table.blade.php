@@ -3,7 +3,7 @@
     {{--  <td>{{ $repair->code }}</td>   --}}
     <td>{{ $repair->customer_name }}</td> 
     <td>{{ $repair->customer_phone }}</td> 
-    <td>{{ App\Repair_types::find($repair->type)->name }}</td> 
+    <td>{{ App\Repair_types::withTrashed()->find($repair->type)->name }}</td> 
     <td>@if($repair->status == 'repairing') Приет @elseif($repair->status == 'done') Готов @else Върнат  @endif</td> 
 
     <td> @if($repair->status == 'repairing') 

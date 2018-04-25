@@ -9,8 +9,7 @@ class Materials_quantity extends Model
     protected $fillable = [
         'material',
         'quantity',
-        'store',
-        'carat'
+        'store'
     ];
 
     protected $table = 'materials_quantities';

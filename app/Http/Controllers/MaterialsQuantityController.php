@@ -22,8 +22,10 @@ class MaterialsQuantityController extends Controller
      */
     public function index()
     {
-        $materials = Materials_quantity::where('store', Auth::user()->store)->get();
-        $stores = Stores::where('id', '!=', Auth::user()->store)->get();
+        //$materials = Materials_quantity::where('store', Auth::user()->store)->get();
+        $materials = Materials_quantity::all();
+        //$stores = Stores::where('id', '!=', Auth::user()->store)->get();
+        $stores = Stores::all();
         $materials_types = Materials::all();
         $travelling = Materials_travelling::where('storeFrom', Auth::user()->store)->orWhere('storeTo', Auth::user()->store)->get();
         
@@ -51,6 +53,7 @@ class MaterialsQuantityController extends Controller
         $validator = Validator::make( $request->all(), [
             'material' => 'required',
             'quantity' => 'required',
+            'store' => 'required'
          ]);
 
         if ($validator->fails()) {

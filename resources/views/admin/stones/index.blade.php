@@ -75,11 +75,11 @@ aria-hidden="true">
                         <label for="5">Цена: </label>
                         <input type="number" class="form-control" id="5" name="price" placeholder="Цена:">
                     </div>
-
-                    <div id="drop-area"  name="add">
-                        <input type="file" name="images" id="fileElem" multiple accept="image/*" >
-                        <label class="button" for="fileElem">Select some files</label>
-                      <div id="gallery" /></div>
+                    
+                    <div class="drop-area" name="add">
+                        <input type="file" name="add-images-input" class="drop-area-input" id="fileElem_add" multiple accept="image/*" >
+                        <label class="button" for="fileElem_add">Select some files</label>
+                        <div class="drop-area-gallery"></div>
                     </div>
                 </div>
 
