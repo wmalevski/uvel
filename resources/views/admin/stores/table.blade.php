@@ -1,5 +1,4 @@
 <tr>
-    <td></td>
     <td>{{ $store->name }}</td> 
     <td>{{ $store->location }}</td> 
     <td>{{ $store->phone }}</td> 

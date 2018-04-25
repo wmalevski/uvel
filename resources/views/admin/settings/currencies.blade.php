@@ -48,7 +48,6 @@ aria-hidden="true">
             <table class="table">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
                   <th scope="col">Валута</th> 
                   <th scope="col">Курс</th>
                   <th scope="col">Действия</th>

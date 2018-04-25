@@ -12,8 +12,6 @@ aria-hidden="true">
                 </button>
             </div>
             <form method="POST" name="products" action="/products">
-
-
                 <div class="modal-body">
 
                     <div class="info-cont">
@@ -131,7 +129,7 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" id="add" class="btn btn-primary">Добави</button>
+                    <button type="submit" id="add" class="add-btn-modal btn btn-primary">Добави</button>
                 </div>
             </form>
         </div>

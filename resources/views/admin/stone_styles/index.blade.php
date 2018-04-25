@@ -38,8 +38,8 @@ aria-hidden="true">
             <p>Преглед на създадените стилове.</p>
             <table class="table table-condensed">
                 <tr>
-                    <th>#</th>
                     <th>Име</th> 
+                    <th>Действия</th> 
                 </tr>
                 
                 @foreach($styles as $style)

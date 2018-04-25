@@ -92,8 +92,13 @@ class StoneContoursController extends Controller
      * @param  \App\Stone_contours  $stone_contours
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Stone_contours $stone_contours)
+    public function destroy(Stone_contours $stone_contours, $contour)
     {
-        //
+        $contour = Stone_contours::find($contour);
+        
+        if($contour){
+            $contour->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

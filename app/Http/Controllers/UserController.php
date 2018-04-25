@@ -48,7 +48,7 @@ class UserController extends Controller
         
         $user->name = $request->name;
         $user->store = $request->store;
-        $user->retract($user->roles->first()['name']);
+        $user->roles()->detach();
         $user->assign($request->role);
 
         // $user->detachRoles($user->roles);

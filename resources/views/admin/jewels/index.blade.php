@@ -37,7 +37,7 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" class="btn btn-primary">Добави</button>
+                    <button type="submit" class="add-btn-modal btn btn-primary">Добави</button>
                 </div>
             </form>
         </div>
@@ -83,7 +83,6 @@ aria-hidden="true">
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">#</th>
             <th scope="col">Име</th> 
             <th scope="col">Материал</th>
             <th scope="col">Действия</th>

@@ -94,8 +94,13 @@ class StoneSizesController extends Controller
      * @param  \App\Stone_sizes  $stone_sizes
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Stone_sizes $stone_sizes)
+    public function destroy(Stone_sizes $stone_sizes, $size)
     {
-        //
+        $size = Stone_sizes::find($size);
+        
+        if($size){
+            $size->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }
