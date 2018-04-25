@@ -110,12 +110,11 @@
             <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>
         </div>
 
-        <div id="drop-area">
-            <input type="file" name="images" id="fileElem" multiple accept="image/*" >
-            <label class="button" for="fileElem">Избери снимки</label>
-            <div id="gallery" /></div>
+        <div class="drop-area" name="edit">
+            <input type="file" name="images" class="drop-area-input" id="drop-area-models" multiple accept="image/*" >
+            <label class="button" for="drop-area-models">Select some files</label>
+            <div class="drop-area-gallery"></div>
         </div>
-        <br/>
 
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
