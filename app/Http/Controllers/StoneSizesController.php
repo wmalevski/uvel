@@ -71,9 +71,11 @@ class StoneSizesController extends Controller
      * @param  \App\Stone_sizes  $stone_sizes
      * @return \Illuminate\Http\Response
      */
-    public function edit(Stone_sizes $stone_sizes)
+    public function edit(Stone_sizes $stone_sizes, $size)
     {
-        //
+        $size = Stone_sizes::find($size);
+        
+        return \View::make('admin/stone_sizes/edit', array('size' => $size));
     }
 
     /**
@@ -83,9 +85,15 @@ class StoneSizesController extends Controller
      * @param  \App\Stone_sizes  $stone_sizes
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Stone_sizes $stone_sizes)
+    public function update(Request $request, Stone_sizes $stone_sizes, $size)
     {
-        //
+        $size = Stone_sizes::find($size);
+        
+        $size->name = $request->name;
+        
+        $size->save();
+        
+        return Response::json(array('table' => View::make('admin/stone_sizes/table', array('size' => $size))->render()));
     }
 
     /**

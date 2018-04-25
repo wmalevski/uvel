@@ -20,6 +20,7 @@ class CreateProductStonesTable extends Migration
             $table->integer('stone')->references('id')->on('stones');
             $table->integer('amount');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
