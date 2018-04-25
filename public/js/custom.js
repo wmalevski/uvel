@@ -71,6 +71,7 @@ var uvel,
         })
       })
     }
+    
 
     this.dropFunctionality = function(instanceFiles) {
 
@@ -92,6 +93,7 @@ var uvel,
 
         handleFiles(collectionFiles);
       })
+
 
       preventEvents.forEach(function(eventName) {
         dropArea.addEventListener(eventName, preventDefaults, false);
