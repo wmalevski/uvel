@@ -95,11 +95,6 @@ var uvel,
         handleFiles(collectionFiles);
       })
 
-<<<<<<< HEAD
-      
-=======
-
->>>>>>> 6547d6425033670e95292427e0819f8bca1a2849
       preventEvents.forEach(function(eventName) {
         dropArea.addEventListener(eventName, preventDefaults, false);
       }); 
