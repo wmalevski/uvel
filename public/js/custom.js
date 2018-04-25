@@ -564,11 +564,16 @@ var uvel,
 
         //form = evt.target.parentElement.parentElement.parentElement;
 
-        var form = $(evt.target).closest("form");
+        //var form = $(evt.target).closest("form");
 
-        nameForm = form.attr('name');
+        //nameForm = form.attr('name');
 
-        var urlAction = form.attr('action'),
+        form = evt.target.parentElement.parentElement;
+ 
+        nameForm = form.getAttribute('name');
+
+
+        var urlAction = form.getAttribute('action'),
           formMethod = 'POST',
           ajaxUrl = url + urlAction;
           collectionInputs = [].slice.apply(document.forms[nameForm].getElementsByTagName('input'));
