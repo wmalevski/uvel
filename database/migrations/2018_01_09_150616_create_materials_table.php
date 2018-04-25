@@ -21,6 +21,7 @@ class CreateMaterialsTable extends Migration
             $table->integer('carat')->nullable();
             $table->float('stock_price');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
