@@ -77,8 +77,8 @@ aria-hidden="true">
                     </div>
                     
                     <div class="drop-area" name="add">
-                        <input type="file" name="images" class="drop-area-input" id="drop-area-images" multiple accept="image/*" >
-                        <label class="button" for="drop-area-images">Select some files</label>
+                        <input type="file" name="images" class="drop-area-input" id="fileElem-add" multiple accept="image/*" >
+                        <label class="button" for="fileElem-add">Select some files</label>
                         <div class="drop-area-gallery"></div>
                     </div>
                 </div>
