@@ -49,7 +49,7 @@ aria-hidden="true">
                                         <div class="input-group-addon bgc-white bd bdwR-0">
                                             <i class="ti-calendar"></i>
                                         </div>
-                                        <input type="text" data-date-format="dd-mm-yyyy" name="date_returned" class="form-control bdc-grey-200 start-date" placeholder="Дата на връщане" data-date-start-date="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" data-provide="datepicker">
+                                        <input type="text" data-date-autoclose="true" data-date-format="dd-mm-yyyy" name="date_returned" class="form-control bdc-grey-200 start-date" placeholder="Дата на връщане" data-date-start-date="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" data-provide="datepicker">
                                     </div>
                                 </div>
                             </div>
@@ -210,7 +210,7 @@ aria-hidden="true">
                                         <div class="input-group-addon bgc-white bd bdwR-0">
                                             <i class="ti-calendar"></i>
                                         </div>
-                                    <input type="text" value="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" class="form-control bdc-grey-200 start-date" name="date_recieved" placeholder="Дата на приемане" data-date-format="dd-mm-yyyy" data-provide="datepicker">
+                                    <input type="text" value="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" class="form-control bdc-grey-200 start-date" name="date_recieved" placeholder="Дата на приемане" data-date-format="dd-mm-yyyy" data-date-autoclose="true" data-provide="datepicker">
                                     </div>
                                 </div>
                             </div>
@@ -221,7 +221,7 @@ aria-hidden="true">
                                         <div class="input-group-addon bgc-white bd bdwR-0">
                                             <i class="ti-calendar"></i>
                                         </div>
-                                        <input type="text" data-date-format="dd-mm-yyyy" name="date_returned" class="form-control bdc-grey-200 start-date" placeholder="Дата на връщане" data-provide="datepicker">
+                                        <input type="text" data-date-format="dd-mm-yyyy" name="date_returned" class="form-control bdc-grey-200 start-date" placeholder="Дата на връщане" data-date-autoclose="true" data-provide="datepicker">
                                     </div>
                                 </div>
                             </div>
@@ -343,7 +343,7 @@ aria-hidden="true">
                                         <div class="input-group-addon bgc-white bd bdwR-0">
                                             <i class="ti-calendar"></i>
                                         </div>
-                                    <input type="text" value="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" class="form-control bdc-grey-200 start-date" name="date_recieved" placeholder="Дата на приемане" data-date-format="dd-mm-yyyy" data-provide="datepicker">
+                                    <input type="text" value="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" class="form-control bdc-grey-200 start-date" name="date_recieved" placeholder="Дата на приемане" data-date-format="dd-mm-yyyy" data-date-autoclose="true" data-provide="datepicker">
                                     </div>
                                 </div>
                             </div>
@@ -354,7 +354,7 @@ aria-hidden="true">
                                         <div class="input-group-addon bgc-white bd bdwR-0">
                                             <i class="ti-calendar"></i>
                                         </div>
-                                        <input type="text" data-date-format="dd-mm-yyyy" name="date_returned" class="form-control bdc-grey-200 start-date" placeholder="Дата на връщане" data-provide="datepicker">
+                                        <input type="text" data-date-format="dd-mm-yyyy" name="date_returned" class="form-control bdc-grey-200 start-date" placeholder="Дата на връщане" data-date-autoclose="true" data-provide="datepicker">
                                     </div>
                                 </div>
                             </div>
