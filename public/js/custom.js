@@ -671,11 +671,12 @@ var uvel,
           }
         }
 
-        if (formMethod == 'POST') {     
+        if (formMethod == 'POST') { 
+
           ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements, currentPressedBtn);
+
         } else if (formMethod == 'PUT') { 
           
-          console.log("put edit");
           ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
         }
         
@@ -877,6 +878,9 @@ var uvel,
             }
           })
         }
+
+        editAction();
+
       }
 
       function handleUpdateResponse(data, elements, currentPressedBtn) {
