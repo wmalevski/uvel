@@ -28,7 +28,7 @@ aria-hidden="true">
                                 <option value="">Избери</option>
                         
                                 @foreach($jewels as $jewel)
-                                    <option value="{{ $jewel->id }}" data-pricebuy="@if(App\Prices::where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" data-price="{{$jewel->material}}">{{ $jewel->name }} - {{ App\Materials::find($jewel->material)->name }}, {{ App\Materials::find($jewel->material)->code }}, {{ App\Materials::find($jewel->material)->color }}</option>
+                                    <option value="{{ $jewel->id }}" data-pricebuy="@if(App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" data-price="{{$jewel->material}}">{{ $jewel->name }} - {{ App\Materials::withTrashed()->find($jewel->material)->name }}, {{ App\Materials::withTrashed()->find($jewel->material)->code }}, {{ App\Materials::withTrashed()->find($jewel->material)->color }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -80,7 +80,7 @@ aria-hidden="true">
 
                                     @foreach($stones as $stone)
                                         <option value="{{ $stone->id }}">
-                                            {{ $stone->name }} ({{ App\Stone_contours::find($stone->contour)->name }}, {{ App\Stone_sizes::find($stone->size)->name }})
+                                            {{ $stone->name }} ({{ App\Stone_contours::withTrashed()->find($stone->contour)->name }}, {{ App\Stone_sizes::withTrashed()->find($stone->size)->name }})
                                         </option>
                                     @endforeach
                                 </select>

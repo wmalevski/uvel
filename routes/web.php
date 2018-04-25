@@ -148,6 +148,7 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/jewels', 'JewelsController@store');
     Route::put('/jewels/{jewel}', 'JewelsController@update');
+    Route::post('/jewels/delete/{jewel}', 'JewelsController@destroy');
 
     Route::post('/models', 'ModelsController@store');
     Route::put('/models/{model}', 'ModelsController@update');
@@ -203,6 +204,8 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/sell/removeItem/{item}', 'SellingsController@removeItem');
 
     Route::post('/settings/currencies', 'CurrenciesController@store');
+    Route::post('/settings/currencies/delete/{currency}', 'CurrenciesController@destroy');
 
     Route::get('/getPrices/{material}', 'PricesController@getByMaterial');
+    
 });

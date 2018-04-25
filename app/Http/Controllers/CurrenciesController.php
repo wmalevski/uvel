@@ -92,8 +92,13 @@ class CurrenciesController extends Controller
      * @param  \App\Currencies  $currencies
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Currencies $currencies)
+    public function destroy(Currencies $currencies, $currency)
     {
-        //
+        $currency = Currencies::find($currency);
+        
+        if($currency){
+            $currency->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }
