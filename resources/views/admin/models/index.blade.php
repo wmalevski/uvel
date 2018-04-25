@@ -117,12 +117,11 @@ aria-hidden="true">
                         </div>
                     </div>
 
-                    <div id="drop-area">
-                        <input type="file" name="images" id="fileElem" multiple accept="image/*" >
-                        <label class="button" for="fileElem">Избери снимки</label>
-                      <div id="gallery" /></div>
+                    <div class="drop-area" name="add">
+                        <input type="file" name="images" class="drop-area-input" id="drop-area-images" multiple accept="image/*" >
+                        <label class="button" for="drop-area-images">Select some files</label>
+                        <div class="drop-area-gallery"></div>
                     </div>
-                    <br/>
 
                     <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
                         <input type="checkbox" id="inputCall1" name="release_product" class="peer">

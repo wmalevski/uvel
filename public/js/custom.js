@@ -74,7 +74,7 @@ var uvel,
     
 
     this.dropFunctionality = function(instanceFiles) {
-      
+
       var dropArea = $('.drop-area'),
           preventEvents = ['dragenter', 'dragover', 'dragleave', 'drop'],
           highlightEvents = ['dragenter', 'dragover'],
@@ -251,75 +251,51 @@ var uvel,
         })
       }
 
-      /* edit button images */
+      if(collectionModalEditBtns.length > 0){
 
-   
-      if(collectionModalEditBtns.length > 0) {
-
-       
-
-        var addForm = collectionModalEditBtns[0].parentElement.parentElement;
-        var dropEditArea = addForm.querySelector("#drop-area");
-
-        //console.log(dropArea);
-
+        var modelSelect = $('#model_select');
+        var typeSelect;
         var collectionFiles = [];
+        var dropZone = document.getElementsByClassName("drop-area");
+
+        if(dropZone) {
+          this.dropFunctionality(collectionFiles);        
+        }
+
+        if(modelSelect) {
+          modelSelect.on('select2:select', function(ev) {
+            if(modelSelect.val()) {
+              var value = modelSelect.find(':selected').val(),
+                  tempUrl = url + '/products/' + value,
+                  xhttp = new XMLHttpRequest(),
+                  typeSelect = $('#jewels_types');
+
+              typeSelect.on('select2:select', function(ev) {
+                modelSelect.val('0').trigger('change.select2');
+              });
+
+              productsRequest(tempUrl);
+            }
+          });
+        }
           
-        var modelSelect = $('#model_select');
-        var typeSelect;
-
-
-        //this.dropFunctionality(collectionFiles,dropEditArea);
-
-        this.dropFunctionality(collectionFiles);
-  
-  
-          if(modelSelect) {
-            modelSelect.on('select2:select', function(ev) {
-              if(modelSelect.val()) {
-                var value = modelSelect.find(':selected').val(),
-                    tempUrl = url + '/products/' + value,
-                    xhttp = new XMLHttpRequest(),
-                    typeSelect = $('#jewels_types');
-  
-                typeSelect.on('select2:select', function(ev) {
-                  modelSelect.val('0').trigger('change.select2');
-                });
-  
-                productsRequest(tempUrl);
-              }
-            });
-          }
-            
         collectionModalEditBtns.forEach(function (btn) {
-            btn.removeEventListener('click', getFormData, true);
-            btn.addEventListener('click', getFormData);
+          btn.removeEventListener('click', getFormData, true);
+          btn.addEventListener('click', getFormData);
         })
-  
       }
-  
-  
-      /* end edit button images */
-  
-      /* add button images */
+     
 
-      if(collectionModalAddBtns.length > 0) {
-
-        var addForm = collectionModalAddBtns[0].parentElement.parentElement;
-        var dropAddArea = addForm.querySelector("#drop-area");
-   
-        //console.log(dropArea);
-
-
-        var collectionFiles = [];
+      if(collectionModalAddBtns.length > 0){
 
         var modelSelect = $('#model_select');
         var typeSelect;
+        var collectionFiles = [];
+        var dropZone = document.getElementsByClassName("drop-area");
 
-        //this.dropFunctionality(collectionFiles,"addStone");
-
-        this.dropFunctionality(collectionFiles);
-
+        if(dropZone) {
+          this.dropFunctionality(collectionFiles);         
+        }
 
         if(modelSelect) {
           modelSelect.on('select2:select', function(ev) {
@@ -342,21 +318,14 @@ var uvel,
           btn.removeEventListener('click', getFormData, true);
           btn.addEventListener('click', getFormData);
         })
-
       }
-
-
-      /*end add button images*/
-
-
-
 
       /*
       if (collectionBtns.length) {
         var modelSelect = $('#model_select');
         var typeSelect;
         var collectionFiles = [];
-        var dropZone = document.getElementById("drop-area");
+        var dropZone = document.getElementsByClassName("drop-area");
 
         if(dropZone) {
           this.dropFunctionality(collectionFiles);
@@ -593,9 +562,16 @@ var uvel,
 
         evt.preventDefault();
 
+        //form = evt.target.parentElement.parentElement.parentElement;
+
+        //var form = $(evt.target).closest("form");
+
+        //nameForm = form.attr('name');
+
         form = evt.target.parentElement.parentElement;
  
         nameForm = form.getAttribute('name');
+
 
         var urlAction = form.getAttribute('action'),
           formMethod = 'POST',
@@ -604,6 +580,7 @@ var uvel,
           collectionTextareas = [].slice.apply(document.forms[nameForm].getElementsByTagName('textarea'));              
           collectionSelects = [].slice.apply(document.forms[nameForm].getElementsByTagName('select'));
           collectionElements = [];
+
 
         var collectionData = {_token: token};
 
@@ -698,6 +675,7 @@ var uvel,
           
           ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
         }
+        
         
       }
       
