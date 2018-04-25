@@ -101,8 +101,13 @@ class ProductsOthersTypesController extends Controller
      * @param  \App\Products_others_types  $products_others_types
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Products_others_types $products_others_types)
+    public function destroy(Products_others_types $products_others_types, $type)
     {
-        //
+        $type = Products_others_types::find($type);
+        
+        if($type){
+            $type->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

@@ -35,14 +35,26 @@ aria-hidden="true">
                             <input type="number" class="form-control" id="2" name="quantity" placeholder="Количество:" min="1">
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label>Магазин: </label>
+                        <select name="store" class="form-control">
+                            <option value="">Избери магазин</option>
+                    
+                            @foreach($stores as $store)
+                                <option value="{{ $store->id }}">{{ $store->name }} - {{ $store->location }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <div id="errors-container"></div>
                 </div>
 
-                <input type="hidden" name="store" value="{{  Auth::user()->store }}">
+                {{-- <input type="hidden" name="store" value="{{  Auth::user()->store }}"> --}}
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" id="add" class="btn btn-primary">Добави</button>
+                    <button type="submit" id="add" class="btn btn-primary add-btn-modal">Добави</button>
                 </div>
             </form>
         </div>
@@ -60,6 +72,7 @@ aria-hidden="true">
             <tr>
                 <th>Тип</th> 
                 <th>Количество</th> 
+                <th>Магазин</th>
                 <th>Действия</th> 
             </tr>
             
