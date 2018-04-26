@@ -196,6 +196,7 @@ var uvel,
       var collectionModalEditBtns = document.querySelectorAll('.modal-dialog .modal-footer .edit-btn-modal');
       var collectionModalAddBtns = document.querySelectorAll('.modal-dialog .modal-footer .add-btn-modal');
 
+      var printBtns = document.querySelectorAll('.print-btn');
       var deleteBtns = document.querySelectorAll('.delete-btn');
 
       var urlTaken = window.location.href.split('/');
@@ -469,8 +470,46 @@ var uvel,
         
       }
 
+      document.addEventListener('click', print);
       document.addEventListener('click', deleteRowRecord);
 
+      function print(event) {
+
+        if(event.target && event.target.parentElement.classList.contains('print-btn')) {
+
+          event.preventDefault();
+          event.stopPropagation();
+
+          var urlTaken = event.target.parentElement.href.split('/');
+          var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
+    
+          var link = event.target.parentElement;
+          var linkPath = link.href.split("admin")[1];
+          var ajaxUrl = url+linkPath;
+
+     
+          //ajaxFn("GET",ajaxUrl,printBtnSuccess,'','',link);
+          
+
+        }
+
+
+      }
+
+
+      function printBtnSuccess() {
+
+        var originalPageContent = document.body.innerHTML;
+
+        document.body.innerHTML = 
+        "<html><head><title></title></head><body>" + 
+        "print test preview" + "</body>";
+
+        window.print();
+
+        document.body.innerHTML = originalPageContent;
+
+      }
 
       function deleteRowRecord(event) {
               
@@ -484,9 +523,9 @@ var uvel,
             var urlTaken = event.target.parentElement.href.split('/');
             var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
     
-            let link = event.target.parentElement;
-            let linkPath = link.href.split("admin")[1];
-            let ajaxUrl = url+linkPath;
+            var link = event.target.parentElement;
+            var linkPath = link.href.split("admin")[1];
+            var ajaxUrl = url+linkPath;
 
             ajaxFn("POST",ajaxUrl,deleteBtnSuccess,'','',link);
 
@@ -573,7 +612,7 @@ var uvel,
                 }
 
                 collectionElements.push(el);
-                
+
               } else {
                 if (name === '_method') {
                   formMethod = value;
