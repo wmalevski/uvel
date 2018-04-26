@@ -110,6 +110,12 @@ class ProductsController extends Controller
         $product->code = 'P'.unique_random('products', 'code', 7);
         $bar = '380'.unique_number('products', 'barcode', 7).'1'; 
 
+        if($request->for_wholesale == false){
+            $product->for_wholesale = 'no';
+        } else{
+            $product->for_wholesale = 'yes';
+        }
+
         $digits =(string)$bar;
         // 1. Add the values of the digits in the even-numbered positions: 2, 4, 6, etc.
         $even_sum = $digits{1} + $digits{3} + $digits{5} + $digits{7} + $digits{9} + $digits{11};
