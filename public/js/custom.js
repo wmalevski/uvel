@@ -561,7 +561,8 @@ var uvel,
               if(name === 'images') {
                 collectionData[name] = [].slice.apply(collectionFiles);
                 return true;
-              } else if (name.includes('[]')) {
+              } 
+              else if (name.includes('[]')) {
                 name = name.replace('[]', '');
 
                 if (collectionData.hasOwnProperty(name)) {
@@ -570,6 +571,9 @@ var uvel,
                 } else {
                   collectionData[name] = [value];
                 }
+
+                collectionElements.push(el);
+                
               } else {
                 if (name === '_method') {
                   formMethod = value;
@@ -578,6 +582,9 @@ var uvel,
                 collectionData[name] = value;
                 collectionElements.push(el);
               }
+
+
+
             }
           });
         }
