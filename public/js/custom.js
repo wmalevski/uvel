@@ -193,8 +193,6 @@ var uvel,
 
     this.checkAllForms = function(currentPressedBtn) {    
 
-      //var collectionBtns = document.querySelectorAll('.modal-dialog .modal-footer button[type="submit"]');
-
       var collectionModalEditBtns = document.querySelectorAll('.modal-dialog .modal-footer .edit-btn-modal');
       var collectionModalAddBtns = document.querySelectorAll('.modal-dialog .modal-footer .add-btn-modal');
 
@@ -319,43 +317,6 @@ var uvel,
           btn.addEventListener('click', getFormData);
         })
       }
-
-      /*
-      if (collectionBtns.length) {
-        var modelSelect = $('#model_select');
-        var typeSelect;
-        var collectionFiles = [];
-        var dropZone = document.getElementsByClassName("drop-area");
-
-        if(dropZone) {
-          this.dropFunctionality(collectionFiles);
-          // Todo: make a removing functionality
-         
-        }
-
-        if(modelSelect) {
-          modelSelect.on('select2:select', function(ev) {
-            if(modelSelect.val()) {
-              var value = modelSelect.find(':selected').val(),
-                  tempUrl = url + '/products/' + value,
-                  xhttp = new XMLHttpRequest(),
-                  typeSelect = $('#jewels_types');
-
-              typeSelect.on('select2:select', function(ev) {
-                modelSelect.val('0').trigger('change.select2');
-              });
-
-              productsRequest(tempUrl);
-            }
-          });
-        }
-          
-        collectionBtns.forEach(function (btn) {
-          btn.removeEventListener('click', getFormData, true);
-          btn.addEventListener('click', getFormData);
-        })
-      }
-      */
 
       if(catalogNumberInput !== null){
         catalogNumberInput.onchange = addCatalogNumber;
@@ -600,7 +561,8 @@ var uvel,
               if(name === 'images') {
                 collectionData[name] = [].slice.apply(collectionFiles);
                 return true;
-              } else if (name.includes('[]')) {
+              } 
+              else if (name.includes('[]')) {
                 name = name.replace('[]', '');
 
                 if (collectionData.hasOwnProperty(name)) {
@@ -609,6 +571,9 @@ var uvel,
                 } else {
                   collectionData[name] = [value];
                 }
+
+                collectionElements.push(el);
+                
               } else {
                 if (name === '_method') {
                   formMethod = value;
@@ -617,6 +582,9 @@ var uvel,
                 collectionData[name] = value;
                 collectionElements.push(el);
               }
+
+
+
             }
           });
         }
@@ -659,6 +627,9 @@ var uvel,
                 } else {
                   collectionData[name] = [value];
                 }
+
+                collectionElements.push(collectionSelects[i]);
+
               } else {
                 collectionData[name] = value;
                 collectionElements.push(collectionSelects[i]);
@@ -866,6 +837,7 @@ var uvel,
             tableBody.innerHTML += response.success;
           }
 
+
           elements.forEach(function (el) {
             var elType = el.getAttribute('type');
 
@@ -873,9 +845,16 @@ var uvel,
               if(elType == 'checkbox') {
                 el.checked = false;
               }
+
+              if(el.tagName == 'SELECT') {
+                $(el).val(null).trigger('change');
+              }
+
               
               el.value = '';
+
             }
+
           })
         }
 

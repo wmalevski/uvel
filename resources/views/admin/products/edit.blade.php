@@ -131,16 +131,20 @@
 
             <br/>
         
-            <label for="workmanship">Изработка: </label>
-            <div class="input-group"> 
-                <input type="number" class="form-control" value="{{ $product->workmanship }}" name="workmanship" id="workmanship" value="0">
-                <span class="input-group-addon">лв</span>
+            <div class="form-group">
+                <label for="workmanship">Изработка: </label>
+                <div class="input-group"> 
+                    <input type="number" class="form-control" value="{{ $product->workmanship }}" name="workmanship" id="workmanship" value="0">
+                    <span class="input-group-addon">лв</span>
+                </div>
             </div>
 
-            <label for="price">Цена: </label>
-            <div class="input-group"> 
-                <input type="number" class="form-control" value="{{ $product->price }}" name="price" id="price" value="0">
-                <span class="input-group-addon">лв</span>
+            <div class="form-group">
+                <label for="price">Цена: </label>
+                <div class="input-group"> 
+                    <input type="number" class="form-control" value="{{ $product->price }}" name="price" id="price" value="0">
+                    <span class="input-group-addon">лв</span>
+                </div>
             </div>
 
             <div class="drop-area" name="edit">

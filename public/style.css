@@ -97,11 +97,16 @@ p {
   margin-bottom: 10px;
 }
 
-.drop-area-gallery img {
+.drop-area-gallery img,
+.uploaded-images-area  img{
   width: 150px;
   margin-bottom: 10px;
   margin-right: 10px;
   vertical-align: middle;
+}
+
+.uploaded-images-area {
+  margin-top: 20px;
 }
 
 .button {
