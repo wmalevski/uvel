@@ -173,7 +173,7 @@ class ModelsController extends Controller
         $photos = Gallery::where(
             [
                 ['table', '=', 'models'],
-                ['row_id', '=', $model]
+                ['row_id', '=', $model->id]
             ]
         )->get();
 

@@ -164,7 +164,14 @@ class ProductsController extends Controller
         $prices = Prices::where('type', 'sell')->get();
         $stones = Stones::all();
 
-        return \View::make('admin/products/edit', array('product_stones' => $product_stones, 'product' => $product, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones));
+        $photos = Gallery::where(
+            [
+                ['table', '=', 'models'],
+                ['row_id', '=', $model->id]
+            ]
+        )->get();
+
+        return \View::make('admin/products/edit', array('photos' => $photos, 'product_stones' => $product_stones, 'product' => $product, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones));
     }
 
     /**

@@ -107,8 +107,14 @@ class StonesController extends Controller
         $stone_sizes = Stone_sizes::all();
         $stone_contours = Stone_contours::all();
         $stone_styles = Stone_styles::all();
+        $stone_photos = Gallery::where(
+            [
+                ['table', '=', 'stones'],
+                ['row_id', '=', $stone->id]
+            ]
+        )->get();
         
-        return \View::make('admin/stones/edit', array('stone' => $stone, 'stone_sizes' => $stone_sizes, 'stone_contours' => $stone_contours, 'stone_styles' => $stone_styles));
+        return \View::make('admin/stones/edit', array('stone' => $stone, 'stone_sizes' => $stone_sizes, 'stone_contours' => $stone_contours, 'stone_styles' => $stone_styles, 'stone_photos' => $stone_photos));
     }
 
     /**
