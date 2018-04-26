@@ -89,7 +89,7 @@
             <div class="uploaded-images-area">
                 <img src="{{ asset("uploads/stones/" . $photo->photo) }}" alt="" class="img-responsive" />
             </div>
-          @endforeach
+          @endforeach 
           
         </div>
 
