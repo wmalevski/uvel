@@ -58,9 +58,9 @@ aria-hidden="true">
         @if(isset($prices)) 
         <table class="table table-condensed" id="buy">
             <tr>
-                <th>#</th>
-                <th>Име</th> 
-                <th>Стойност</th>
+                <th width="40%">#</th>
+                <th width="40%">Име</th> 
+                <th width="20%">Стойност</th>
             </tr>
             
             @foreach($prices->where('type', 'buy') as $indexKey => $price)
@@ -85,9 +85,9 @@ aria-hidden="true">
           @if(isset($prices))
           <table class="table table-condensed" id="sell">
               <tr>
-                  <th>#</th>
-                  <th>Име</th> 
-                  <th>Стойност</th>
+                  <th width="40%">#</th>
+                  <th width="40%">Име</th> 
+                  <th width="20%">Стойност</th>
               </tr>
               
               @foreach($prices->where('type', 'sell') as $indexKey => $price)
