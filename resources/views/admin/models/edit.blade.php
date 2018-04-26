@@ -116,6 +116,12 @@
             <div class="drop-area-gallery"></div>
         </div>
 
+        @foreach($photos as $photo)
+            <div class="col-md-3">
+                <img src="{{ asset("uploads/models/" . $photo->photo) }}" alt="" class="img-responsive" />
+            </div>
+        @endforeach
+
     </div>
 
     <div class="modal-footer">
