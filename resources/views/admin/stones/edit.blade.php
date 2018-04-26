@@ -84,11 +84,13 @@
                 <label class="button" for="fileElem-edit">Select some files</label>
                 <div class="drop-area-gallery"></div>
             </div>
+
           @foreach($stone_photos as $photo)
-            <div class="col-md-3">
+            <div class="uploaded-images-area">
                 <img src="{{ asset("uploads/stones/" . $photo->photo) }}" alt="" class="img-responsive" />
             </div>
           @endforeach
+          
         </div>
 
         <div class="modal-footer">
