@@ -18,6 +18,7 @@ class CreateJewelsTable extends Migration
             $table->string('name');
             $table->integer('material')->references('id')->on('materials');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

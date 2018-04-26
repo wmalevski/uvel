@@ -106,21 +106,22 @@
         </div>
         
 
-        <div class="form-row">
+        <div class="form-row form-group">
             <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>
         </div>
 
-        <div id="drop-area">
-            <input type="file" name="images" id="fileElem" multiple accept="image/*" >
-            <label class="button" for="fileElem">Избери снимки</label>
-            <div id="gallery" /></div>
+        <div class="drop-area" name="edit">
+            <input type="file" name="images" class="drop-area-input" id="fileElem-edit" multiple accept="image/*" >
+            <label class="button" for="fileElem-edit">Select some files</label>
+            <div class="drop-area-gallery"></div>
         </div>
-        <br/>
 
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-            <button type="submit" id="edit" class="edit-btn-modal btn btn-primary" data-dismiss="modal">Промени</button>
-        </div>
     </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+        <button type="submit" id="edit" class="edit-btn-modal btn btn-primary" data-dismiss="modal">Промени</button>
+    </div>
+    
 </form>
 </div>

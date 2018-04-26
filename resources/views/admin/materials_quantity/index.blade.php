@@ -54,7 +54,7 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" id="add" class="btn btn-primary add-btn-modal">Добави</button>
+                    <button type="submit" id="add" class="add-btn-modal btn btn-primary">Добави</button>
                 </div>
             </form>
         </div>
@@ -65,7 +65,7 @@ aria-hidden="true">
     <div class="col-md-12">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
         <h4 class="c-grey-900 mB-20">Налични материали 
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addMQuantity">Добави</button>
+            <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addMQuantity">Добави</button>
         </h4>
         <p>Преглед на наличност.</p>
         <table class="table table-condensed">

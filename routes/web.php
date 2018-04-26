@@ -121,6 +121,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::get('/setDiscount/{barcode}',  'SellingsController@setDiscount');
 
     Route::get('/sell/clearCart', 'SellingsController@clearCart')->name('clearCart');
+
+    Route::get('/stones/sizes/{size}', 'StoneSizesController@edit');
+
+    Route::get('/stones/styles/{style}', 'StoneStylesController@edit');
+
+    Route::get('/stones/{stone}', 'StonesController@edit');
+
+    Route::get('/stones/contours/{contour}', 'StoneContoursController@edit');
 });
 
 Route::group(['prefix' => 'ajax'], function() {
@@ -134,20 +142,32 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/repairtypes', 'RepairTypesController@store');
 
     Route::post('/stones', 'StonesController@store');
+
     Route::post('/stones/sizes', 'StoneSizesController@store');
+    Route::get('/stones/sizes/{size}', 'StoneSizesController@edit');
+
     Route::post('/stones/styles', 'StoneStylesController@store');
+    Route::get('/stones/styles/{style}', 'StoneStylesController@edit');
+
     Route::put('/stones/{stone}', 'StonesController@update');
     Route::get('/stones/{stone}', 'StonesController@edit');
+
     Route::post('/stones/contours', 'StoneContoursController@store');
+    Route::get('/stones/contours/{contour}', 'StoneContoursController@edit');
 
     Route::post('/stones/sizes/delete/{size}', 'StoneSizesController@destroy');
     Route::post('/stones/styles/delete/{style}', 'StoneStylesController@destroy');
     Route::post('/stones/contours/delete/{contour}', 'StoneContoursController@destroy');
 
+    Route::put('/stones/sizes/{size}', 'StoneSizesController@update');
+    Route::put('/stones/styles/{style}', 'StoneStylesController@update');
+    Route::put('/stones/contours/{contour}', 'StoneContoursController@update');
+
     Route::post('/prices/{material}', 'PricesController@store');
 
     Route::post('/jewels', 'JewelsController@store');
     Route::put('/jewels/{jewel}', 'JewelsController@update');
+    Route::post('/jewels/delete/{jewel}', 'JewelsController@destroy');
 
     Route::post('/models', 'ModelsController@store');
     Route::put('/models/{model}', 'ModelsController@update');
@@ -203,6 +223,8 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/sell/removeItem/{item}', 'SellingsController@removeItem');
 
     Route::post('/settings/currencies', 'CurrenciesController@store');
+    Route::post('/settings/currencies/delete/{currency}', 'CurrenciesController@destroy');
 
     Route::get('/getPrices/{material}', 'PricesController@getByMaterial');
+    
 });

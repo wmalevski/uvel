@@ -20,6 +20,7 @@ class CreatePricesTable extends Migration
             $table->float('price');
             $table->enum('type', ['buy', 'sell']);	
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

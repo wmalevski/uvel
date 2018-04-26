@@ -28,7 +28,7 @@ aria-hidden="true">
                                 <option value="">Избери</option>
                         
                                 @foreach($jewels as $jewel)
-                                    <option value="{{ $jewel->id }}" data-pricebuy="@if(App\Prices::where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" data-price="{{$jewel->material}}">{{ $jewel->name }} - {{ App\Materials::find($jewel->material)->name }}, {{ App\Materials::find($jewel->material)->code }}, {{ App\Materials::find($jewel->material)->color }}</option>
+                                    <option value="{{ $jewel->id }}" data-pricebuy="@if(App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" data-price="{{$jewel->material}}">{{ $jewel->name }} - {{ App\Materials::withTrashed()->find($jewel->material)->name }}, {{ App\Materials::withTrashed()->find($jewel->material)->code }}, {{ App\Materials::withTrashed()->find($jewel->material)->color }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -80,7 +80,7 @@ aria-hidden="true">
 
                                     @foreach($stones as $stone)
                                         <option value="{{ $stone->id }}">
-                                            {{ $stone->name }} ({{ App\Stone_contours::find($stone->contour)->name }}, {{ App\Stone_sizes::find($stone->size)->name }})
+                                            {{ $stone->name }} ({{ App\Stone_contours::withTrashed()->find($stone->contour)->name }}, {{ App\Stone_sizes::withTrashed()->find($stone->size)->name }})
                                         </option>
                                     @endforeach
                                 </select>
@@ -117,12 +117,11 @@ aria-hidden="true">
                         </div>
                     </div>
 
-                    <div id="drop-area">
-                        <input type="file" name="images" id="fileElem" multiple accept="image/*" >
-                        <label class="button" for="fileElem">Избери снимки</label>
-                      <div id="gallery" /></div>
+                    <div class="drop-area" name="add">
+                        <input type="file" name="images" class="drop-area-input" id="fileElem-add" multiple accept="image/*" >
+                        <label class="button" for="fileElem-add">Select some files</label>
+                        <div class="drop-area-gallery"></div>
                     </div>
-                    <br/>
 
                     <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
                         <input type="checkbox" id="inputCall1" name="release_product" class="peer">
@@ -163,7 +162,7 @@ aria-hidden="true">
     </div>
 </div>
 
-<h3>Модели <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModel">Добави</button></h3>
+<h3>Модели <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addModel">Добави</button></h3>
 
 <table class="table table-condensed">
     <tr>

@@ -37,7 +37,7 @@ aria-hidden="true">
                         <option value="">Избери</option>
                 
                         @foreach($models as $model)
-                            <option value="{{ $model->id }}" data-jewel="{{ App\Jewels::find($model->jewel)->id }}">{{ $model->name }}</option>
+                            <option value="{{ $model->id }}" data-jewel="{{ App\Jewels::withTrashed()->find($model->jewel)->id }}">{{ $model->name }}</option>
                         @endforeach
                     </select>
                 
@@ -87,7 +87,7 @@ aria-hidden="true">
 
                                     @foreach($stones as $stone)
                                         <option value="{{ $stone->id }}">
-                                            {{ $stone->name }} ({{ App\Stone_contours::find($stone->contour)->name }}, {{ App\Stone_sizes::find($stone->size)->name }})
+                                            {{ $stone->name }} ({{ App\Stone_contours::withTrashed()->find($stone->contour)->name }}, {{ App\Stone_sizes::withTrashed()->find($stone->size)->name }})
                                         </option>
                                     @endforeach
                                 </select>
@@ -119,11 +119,13 @@ aria-hidden="true">
                         <input type="number" class="form-control" name="price" id="price" value="0">
                         <span class="input-group-addon">лв</span>
                     </div>
-                    <div id="drop-area">
-                        <input type="file" name="images" id="fileElem" multiple accept="image/*" >
-                        <label class="button" for="fileElem">Избери снимки</label>
-                      <div id="gallery" /></div>
+
+                    <div class="drop-area" name="add">
+                        <input type="file" name="images" class="drop-area-input" id="fileElem-add" multiple accept="image/*" >
+                        <label class="button" for="fileElem-add">Select some files</label>
+                        <div class="drop-area-gallery"></div>
                     </div>
+
                     <div id="errors-container"></div>
                 </div>
 
@@ -164,7 +166,7 @@ aria-hidden="true">
     </div>
 </div>
 
-<h3>Добави готово изделие <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
+<h3>Добави готово изделие <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
 
 <table class="table table-condensed">
     <tr>
