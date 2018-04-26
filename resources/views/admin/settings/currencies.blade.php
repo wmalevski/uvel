@@ -39,6 +39,15 @@ aria-hidden="true">
     </div>
 </div>
 
+<div class="modal fade" id="editCurrency" tabindex="-1"  role="dialog" aria-labelledby="editCurrency">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            
+
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-md-12">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">

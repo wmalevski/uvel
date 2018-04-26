@@ -179,6 +179,20 @@ class RepairsController extends Controller
         if($request->status){
             $repair->status = 'done';
         }
+
+        $validator = Validator::make( $request->all(), [
+            'customer_name' => 'required',
+            'customer_phone' => 'required|numeric',
+            'type' => 'required',
+            'date_returned' => 'required',
+            'weight' => 'required|numeric',
+            'price' => 'required|numeric|between:0.1,5000',
+            'deposit' => 'required|numeric|between:0.1,5000'
+         ]);
+        
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
     
         $repair->save();
         

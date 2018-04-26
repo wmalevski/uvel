@@ -114,6 +114,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::get('/settings/currencies', 'SettingsController@currencies')->name('currencies');
     Route::post('/settings/currencies', 'CurrenciesController@store');
 
+    Route::get('/settings/currencies/{currency}', 'CurrenciesController@edit');
+
     Route::get('/discounts', 'DiscountCodesController@index')->name('discounts');
 
     Route::get('/discounts/{discount}', 'DiscountCodesController@edit');
@@ -224,6 +226,7 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/settings/currencies', 'CurrenciesController@store');
     Route::post('/settings/currencies/delete/{currency}', 'CurrenciesController@destroy');
+    Route::put('/settings/currencies/{currency}', 'CurrenciesController@update');
 
     Route::get('/getPrices/{material}', 'PricesController@getByMaterial');
     

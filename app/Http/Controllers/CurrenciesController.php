@@ -69,9 +69,11 @@ class CurrenciesController extends Controller
      * @param  \App\Currencies  $currencies
      * @return \Illuminate\Http\Response
      */
-    public function edit(Currencies $currencies)
+    public function edit(Currencies $currencies, $currency)
     {
-        //
+        $currency = Currencies::find($currency);
+
+        return \View::make('admin/settings/editCurrency', array('currency' => $currency));
     }
 
     /**
@@ -81,9 +83,27 @@ class CurrenciesController extends Controller
      * @param  \App\Currencies  $currencies
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Currencies $currencies)
+    public function update(Request $request, Currencies $currencies, $currency)
     {
-        //
+        $currency = Currencies::find($currency);
+        
+        if($currency){
+            $validator = Validator::make( $request->all(), [
+                'name' => 'required',
+                'currency' => 'numeric|between:0.1,100'
+            ]);
+
+            if ($validator->fails()) {
+                return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+            }
+
+            $currency->name = $request->name;
+            $currency->currency = $request->currency;
+
+            $currency->save();
+
+            return Response::json(array('table' => View::make('admin/settings/currencytable',array('currency'=>$currency))->render()));
+        }
     }
 
     /**
