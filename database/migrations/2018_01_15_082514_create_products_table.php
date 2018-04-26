@@ -27,6 +27,7 @@ class CreateProductsTable extends Migration
             $table->float('price');
             $table->string('code')->nullable();
             $table->string('barcode');
+            $table->enum('for_wholesale', ['yes', 'no'])->default('no');
             $table->timestamps();
         });
     }
