@@ -62,6 +62,7 @@ class Products extends Model
                 $pass_jewels[] = (object)[
                     'value' => $jewel->id,
                     'label' => $jewel->name,
+                    'material' => $jewel->material,
                     'selected' => $selected
                 ];
             }
