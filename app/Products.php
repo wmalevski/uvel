@@ -63,6 +63,7 @@ class Products extends Model
                     'value' => $jewel->id,
                     'label' => $jewel->name,
                     'material' => $jewel->material,
+                    'pricebuy' => Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price,
                     'selected' => $selected
                 ];
             }
