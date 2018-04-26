@@ -75,7 +75,7 @@ aria-hidden="true">
                         <div class="form-row fields">
                             <div class="form-group col-md-6">
                                 <label>Камък: </label>
-                                <select name="stones[]" class="form-control">
+                                <select id="model-stone" name="stones[]" class="form-control">
                                     <option value="">Избери</option>
 
                                     @foreach($stones as $stone)

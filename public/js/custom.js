@@ -620,6 +620,9 @@ var uvel,
                 } else {
                   collectionData[name] = [value];
                 }
+
+                collectionElements.push(collectionSelects[i]);
+
               } else {
                 collectionData[name] = value;
                 collectionElements.push(collectionSelects[i]);
