@@ -7,9 +7,12 @@
             <p>Избери материал за да видиш ценовата листа</p>
 
             <form method="POST" class="form-inline" action="">
+
                 {{ csrf_field() }}
-                <div class="form-row">
-                    <div class="form-group col-md-12">
+
+                <div class="form-row  col-md-12">
+
+                    <div class="form-group col-md-3">
                         <select name="material" class="form-control col-md-9">
                             <option value="">Избери</option>
 
@@ -17,11 +20,12 @@
                                 <option value="{{ $material->id }}">{{ $material->name }} - {{ $material->code }} - {{ $material->color }}</option>
                             @endforeach
                         </select>
-
-                        <div class="form-group col-md-3">
-                            <button type="submit" class="btn btn-primary">Покажи цени</button>
-                        </div>
                     </div>
+
+                    <div class="form-group col-md-3">
+                        <button type="submit" class="btn btn-primary">Покажи цени</button>
+                    </div>
+                    
                 </div>
             </form>
         </div>
