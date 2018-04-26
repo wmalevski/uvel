@@ -118,8 +118,8 @@ aria-hidden="true">
                     </div>
 
                     <div class="drop-area" name="add">
-                        <input type="file" name="images" class="drop-area-input" id="drop-area-images" multiple accept="image/*" >
-                        <label class="button" for="drop-area-images">Select some files</label>
+                        <input type="file" name="images" class="drop-area-input" id="fileElem-add" multiple accept="image/*" >
+                        <label class="button" for="fileElem-add">Select some files</label>
                         <div class="drop-area-gallery"></div>
                     </div>
 
@@ -162,7 +162,7 @@ aria-hidden="true">
     </div>
 </div>
 
-<h3>Модели <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModel">Добави</button></h3>
+<h3>Модели <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addModel">Добави</button></h3>
 
 <table class="table table-condensed">
     <tr>

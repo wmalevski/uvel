@@ -142,17 +142,20 @@
                 <input type="number" class="form-control" value="{{ $product->price }}" name="price" id="price" value="0">
                 <span class="input-group-addon">лв</span>
             </div>
-            <div id="drop-area">
-                <input type="file" name="images" id="fileElem" multiple accept="image/*" >
-                <label class="button" for="fileElem">Избери снимки</label>
-              <div id="gallery" /></div>
+
+            <div class="drop-area" name="edit">
+                <input type="file" name="images" class="drop-area-input" id="fileElem-edit" multiple accept="image/*" >
+                <label class="button" for="fileElem-edit">Select some files</label>
+                <div class="drop-area-gallery"></div>
             </div>
+
+
             <div id="errors-container"></div>
         </div>
 
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-            <button type="submit" id="add" class="btn btn-primary">Добави</button>
+            <button type="submit" id="add" class="edit-btn-modal btn btn-primary">Промени</button>
         </div>
     </form>
 </div>

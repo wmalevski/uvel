@@ -111,8 +111,8 @@
         </div>
 
         <div class="drop-area" name="edit">
-            <input type="file" name="images" class="drop-area-input" id="drop-area-models" multiple accept="image/*" >
-            <label class="button" for="drop-area-models">Select some files</label>
+            <input type="file" name="images" class="drop-area-input" id="fileElem-edit" multiple accept="image/*" >
+            <label class="button" for="fileElem-edit">Select some files</label>
             <div class="drop-area-gallery"></div>
         </div>
 
