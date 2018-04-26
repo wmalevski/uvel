@@ -866,6 +866,7 @@ var uvel,
             tableBody.innerHTML += response.success;
           }
 
+
           elements.forEach(function (el) {
             var elType = el.getAttribute('type');
 
@@ -873,9 +874,16 @@ var uvel,
               if(elType == 'checkbox') {
                 el.checked = false;
               }
+
+              if(el.tagName == 'SELECT') {
+                $(el).val(null).trigger('change');
+              }
+
               
               el.value = '';
+
             }
+
           })
         }
 
