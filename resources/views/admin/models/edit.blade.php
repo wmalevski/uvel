@@ -106,7 +106,7 @@
         </div>
         
 
-        <div class="form-row">
+        <div class="form-row form-group">
             <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>
         </div>
 
@@ -116,10 +116,12 @@
             <div class="drop-area-gallery"></div>
         </div>
 
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-            <button type="submit" id="edit" class="edit-btn-modal btn btn-primary" data-dismiss="modal">Промени</button>
-        </div>
     </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+        <button type="submit" id="edit" class="edit-btn-modal btn btn-primary" data-dismiss="modal">Промени</button>
+    </div>
+    
 </form>
 </div>
