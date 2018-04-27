@@ -89,6 +89,7 @@ var uvel,
           var files = ev.target.files,
               collectionFiles= [];
 
+         
           for(var file of files) {
             collectionFiles.push(file);
           }
@@ -152,10 +153,19 @@ var uvel,
             toDataURL(
               reader.result,
               function(dataUrl) {
-                var data = dataUrl.replace('data:image/png;base64,','');
+
+                var data = dataUrl.replace('data:image/png;base64,',''); 
+                
+                //var data = dataUrl.replace('/^data:image\/(png|jpg|jpeg);base64,','');
+
+
                 instanceFiles.push(data);
+          
               }
             )
+
+            
+
   
             $(img).appendTo(dropAreaGallery);
           }
