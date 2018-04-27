@@ -202,6 +202,7 @@ var uvel,
       var nameForm;
       var numberItemInput = document.getElementById("product_barcode");
       var barcodeProcessRepairInput = document.getElementById("barcode_process-repairs");
+      var barcodeReturnRepairInput = document.getElementById("barcode_return-repairs");
       var catalogNumberInput = document.getElementById("catalog_number");
       var amountInput =  document.getElementById("amount");
       var moreProductsInput = document.getElementById("amount_check");
@@ -490,6 +491,30 @@ var uvel,
       function sendProcessRepairBarcodeSuccess() {
 
         console.log("sendProcessRepairBarcodeSuccess");
+      }
+
+      if(barcodeReturnRepairInput !== null){
+        barcodeReturnRepairInput.onchange = sendReturnRepairBarcode;
+      }
+
+      function sendReturnRepairBarcode(event){
+
+        var processReturnBarcode = event.target.value;
+
+        if(processReturnBarcode.length > 0){
+
+          var urlTaken = window.location.href.split('/');
+          var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs/return';
+          var ajaxUrl = url + '/' + processReturnBarcode;
+
+          ajaxFn("GET",ajaxUrl,sendProcessReturnBarcodeSuccess,'','','');
+        } 
+      }
+
+      function sendProcessReturnBarcodeSuccess(){
+
+        console.log("sendProcessReturnBarcodeSuccess");
+
       }
 
 

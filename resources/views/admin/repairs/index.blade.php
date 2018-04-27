@@ -186,8 +186,8 @@ aria-hidden="true">
 
                     <div class="form-row">
                         <div class="form-group col-md-12">
-                            <label for="inputEmail4">Баркод re</label>
-                            <input type="text" class="form-control" name="barcode" placeholder="Моля сканирайте баркода за артикула">
+                            <label for="barcode_return-repairs">Баркод</label>
+                            <input type="text" class="form-control" id="barcode_return-repairs" name="barcode" placeholder="Моля сканирайте баркода за артикула">
                         </div>
                     </div>
 
