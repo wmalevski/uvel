@@ -133,12 +133,14 @@ class ProductsController extends Controller
         $product->save();
 
         foreach($request->stones as $key => $stone){
-            $product_stones = new Product_stones();
-            $product_stones->product = $product->id;
-            $product_stones->model = $request->model;
-            $product_stones->stone = $stone;
-            $product_stones->amount = $request->stone_amount[$key];
-            $product_stones->save();
+            if($stone) {
+                $product_stones = new Product_stones();
+                $product_stones->product = $product->id;
+                $product_stones->model = $request->model;
+                $product_stones->stone = $stone;
+                $product_stones->amount = $request->stone_amount[$key];
+                $product_stones->save();
+            }
         }
         
         return Response::json(array('table' => View::make('admin/products/table',array('product'=>$product))->render()));
