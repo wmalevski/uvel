@@ -180,6 +180,7 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/models', 'ModelsController@store');
     Route::put('/models/{model}', 'ModelsController@update');
+    Route::post('/models/delete/{model}', 'ModelsController@destroy');
 
     Route::post('/mquantity', 'MaterialsQuantityController@store');
     Route::post('/mquantity/delete/{material}', 'MaterialsQuantityController@destroy');
@@ -216,6 +217,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::get('/products/{model}', 'ProductsController@chainedSelects');
 
     Route::post('/products', 'ProductsController@store');
+    Route::post('/products/delete/{product}', 'ProductsController@destroy');
 
     Route::post('/productsotherstypes', 'ProductsOthersTypesController@store');
     Route::put('/productsotherstypes/{type}', 'ProductsOthersTypesController@update');
