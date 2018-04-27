@@ -143,7 +143,7 @@ class ProductsController extends Controller
             }
         }
         
-        return Response::json(array('table' => View::make('admin/products/table',array('product'=>$product))->render()));
+        return Response::json(array('success' => View::make('admin/products/table',array('product'=>$product))->render()));
     }
 
     /**
