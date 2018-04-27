@@ -230,5 +230,4 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::put('/settings/currencies/{currency}', 'CurrenciesController@update');
 
     Route::get('/getPrices/{material}', 'PricesController@getByMaterial');
-    
 });
