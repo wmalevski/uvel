@@ -201,6 +201,7 @@ var uvel,
       var form;
       var nameForm;
       var numberItemInput = document.getElementById("product_barcode");
+      var barcodeProcessRepairInput = document.getElementById("barcode_process-repairs");
       var catalogNumberInput = document.getElementById("catalog_number");
       var amountInput =  document.getElementById("amount");
       var moreProductsInput = document.getElementById("amount_check");
@@ -466,9 +467,36 @@ var uvel,
         
       }
 
+    if(barcodeProcessRepairInput !== null){
+      barcodeProcessRepairInput.onchange = sendProcessRepairBarcode;
+    }
+
+    function sendProcessRepairBarcode(event) {
+
+      var processRepairBarcode = event.target.value;
+    
+      if(processRepairBarcode.length > 0){
+
+        var urlTaken = window.location.href.split('/');
+        var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs';
+        var ajaxUrl = url + '/' + processRepairBarcode;
+
+        ajaxFn("GET",ajaxUrl,sendProcessRepairBarcodeSuccess,'','','');
+      } 
+
+    }
+
+
+    function sendProcessRepairBarcodeSuccess() {
+
+      console.log("success");
+    }
+
+
+
       document.addEventListener('click', print);
       document.addEventListener('click', deleteRowRecord);
-
+  
       function print(event) {
 
         if(event.target && event.target.parentElement.classList.contains('print-btn')) {
@@ -551,6 +579,9 @@ var uvel,
         }
 
       }
+
+     
+
 
       function getFormData(event) {
 
@@ -949,11 +980,6 @@ var uvel,
               editAction();
 
         }
-
-           
-
-        //editAction();
-
         
       }
 
