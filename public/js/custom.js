@@ -914,7 +914,7 @@ var uvel,
               var select = collectionSelects[0];
               var tableId = document.querySelector('#' + select.options[select.selectedIndex].value + ' tbody');
 
-              tableId.innerHTML += response.table;
+              tableId.innerHTML += response.success;
 
             } else {
 
@@ -929,7 +929,7 @@ var uvel,
 
             var tableBody = document.querySelector('table.table tbody');
 
-            tableBody.innerHTML += response.table;
+            tableBody.innerHTML += response.success;
           }
 
 
