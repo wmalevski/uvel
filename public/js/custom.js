@@ -654,34 +654,42 @@ var uvel,
               var value = elType === 'checkbox' ? el.checked : el.value;
 
               if(name === 'images') {
+
                 collectionData[name] = [].slice.apply(collectionFiles);
+                collectionElements.push(el);
+
                 return true;
               } 
+
               else if (name.includes('[]')) {
+
                 name = name.replace('[]', '');
 
                 if (collectionData.hasOwnProperty(name)) {
                   collectionData[name].push(value);
 
-                } else {
+                } 
+                else {
                   collectionData[name] = [value];
                 }
 
                 collectionElements.push(el);
 
               } else {
+
                 if (name === '_method') {
                   formMethod = value;
                 }
                 
                 collectionData[name] = value;
                 collectionElements.push(el);
+
               }
 
-
-
             }
+
           });
+
         }
 
         // Check the textareas
@@ -944,6 +952,7 @@ var uvel,
 
 
           elements.forEach(function (el) {
+
             var elType = el.getAttribute('type');
 
             if (typeof el != null && elType !== 'hidden' && typeof(el.dataset.clear) == 'undefined') {
@@ -957,6 +966,20 @@ var uvel,
 
               
               el.value = '';
+
+              if(elType == 'file'){
+
+                $(el).val('');
+                var gallery = $(el).parent().children('.drop-area-gallery');
+                gallery.find('img').remove();
+
+                var modalBody = $(el).parents()[1];
+                var tokenInput = $(modalBody).find('input[type="hidden"]');
+                $(tokenInput).val('');
+
+                //console.log($(el).parentsUntil('.modal-body').find('input[type="hidden"]'));
+                
+              }            
 
             }
 
