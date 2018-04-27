@@ -21,7 +21,7 @@
     </td>
 </tr>
 
-<tr>
+{{-- <tr>
     <th>камъни</th>
     <td>
         <table class="table table-condensed">
@@ -39,4 +39,4 @@
         </table>
         
     </td>
-</tr>
+</tr> --}}
