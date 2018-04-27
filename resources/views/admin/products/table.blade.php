@@ -1,6 +1,6 @@
 <tr>
     <td> {{ $product->name }} </td>
-    <td> @if(App\Jewels::withTrashed()->find(App\Models::withTrashed()->find($product->model)->jewel)) {{ App\Jewels::find(App\Models::withTrashed()->find($product->model)->jewel)->name }} @endif </td> 
+    <td> @if($product->model) @if(App\Jewels::withTrashed()->find(App\Models::withTrashed()->find($product->model)->jewel)) {{ App\Jewels::find(App\Models::withTrashed()->find($product->model)->jewel)->name }} @endif @endif </td> 
     <td> {{ App\Prices::withTrashed()->find($product->retail_price)->price }} </td> 
     <td> {{ $product->weight }} </td>
     <td> {{ (App\Prices::withTrashed()->find($product->retail_price)->price)*$product->weight }} </td>

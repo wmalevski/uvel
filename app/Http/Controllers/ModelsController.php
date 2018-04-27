@@ -210,6 +210,21 @@ class ModelsController extends Controller
         
         $model->save();
 
+        $file_data = $request->input('images'); 
+        
+        foreach($file_data as $img){
+            $file_name = 'productimage_'.uniqid().time().'.png';
+            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+            file_put_contents(public_path('uploads/models/').$file_name, $data);
+
+            $photo = new Gallery();
+            $photo->photo = $file_name;
+            $photo->row_id = $model->id;
+            $photo->table = 'models';
+
+            $photo->save();
+        }
+
         return Response::json(array('table' => View::make('admin/models/table',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render()));
     }
 
