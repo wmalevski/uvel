@@ -85,11 +85,11 @@
                 <div class="drop-area-gallery"></div>
             </div>
 
-          @foreach($stone_photos as $photo)
             <div class="uploaded-images-area">
+            @foreach($stone_photos as $photo)
                 <img src="{{ asset("uploads/stones/" . $photo->photo) }}" alt="" class="img-responsive" />
+            @endforeach 
             </div>
-          @endforeach 
           
         </div>
 
