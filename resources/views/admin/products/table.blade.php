@@ -15,7 +15,7 @@
  
     <td>{{ $product->code }}</td>
     <td>
-        <span data-url="products/{{$product->id}}" class="edit-btn" data-toggle="modal" data-target="#editProduct"><i class="c-brown-500 ti-pencil"></i></a> 
+        <span data-url="products/{{$product->id}}" class="edit-btn" data-toggle="modal" data-target="#editProduct"><i class="c-brown-500 ti-pencil"></i></span> 
         <a href="products/print/{{$product->id}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a> 
         <a href="products/delete/{{$product->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></a> 
     </td>
