@@ -108,8 +108,13 @@ class StoresController extends Controller
      * @param  \App\Stores  $stores
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Stores $stores)
+    public function destroy(Stores $stores, $store)
     {
-        //
+        $store = Stores::find($store);
+        
+        if($store){
+            $store->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

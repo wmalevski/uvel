@@ -138,6 +138,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/stores', 'StoresController@store');
     Route::put('/stores/{store}', 'StoresController@update');
     Route::get('/stores/{store}', 'StoresController@edit');
+    Route::post('/stores/delete/{store}', 'StoresController@destroy');
 
     Route::post('/materials', 'MaterialsController@store');
 
