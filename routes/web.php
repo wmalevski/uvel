@@ -143,10 +143,12 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/stores/delete/{store}', 'StoresController@destroy');
 
     Route::post('/materials', 'MaterialsController@store');
+    Route::post('/materials/delete/{material}', 'MaterialsController@destroy');
 
     Route::post('/repairtypes', 'RepairTypesController@store');
 
     Route::post('/stones', 'StonesController@store');
+    Route::post('/stones/delete/{stone}', 'StonesController@destroy');
 
     Route::post('/stones/sizes', 'StoneSizesController@store');
     Route::get('/stones/sizes/{size}', 'StoneSizesController@edit');
@@ -180,6 +182,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::put('/models/{model}', 'ModelsController@update');
 
     Route::post('/mquantity', 'MaterialsQuantityController@store');
+    Route::post('/mquantity/delete/{material}', 'MaterialsQuantityController@destroy');
 
     Route::post('/sendMaterial', 'MaterialsTravellingController@store');
 

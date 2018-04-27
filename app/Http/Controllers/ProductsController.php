@@ -200,8 +200,13 @@ class ProductsController extends Controller
      * @param  \App\Products  $products
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Products $products)
+    public function destroy(Products $products, $product)
     {
-        //
+        $product = Products::find($product);
+        
+        if($product){
+            $product->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

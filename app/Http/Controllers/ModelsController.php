@@ -234,8 +234,13 @@ class ModelsController extends Controller
      * @param  \App\Models  $models
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Models $models)
+    public function destroy(Models $models, $model)
     {
-        //
+        $model = Models::find($model);
+        
+        if($model){
+            $model->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

@@ -164,8 +164,13 @@ class StonesController extends Controller
      * @param  \App\Stones  $stones
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Stones $stones)
+    public function destroy(Stones $stones, $stone)
     {
-        //
+        $stone = Stones::find($stone);
+        
+        if($stone){
+            $stone->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

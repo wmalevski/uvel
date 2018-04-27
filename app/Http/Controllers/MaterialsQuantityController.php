@@ -109,8 +109,13 @@ class MaterialsQuantityController extends Controller
      * @param  \App\Materials_quantity  $materials_quantity
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Materials_quantity $materials_quantity)
+    public function destroy(Materials_quantity $materials_quantity, $material)
     {
-        //
+        $material = Materials_quantity::find($material);
+        
+        if($material){
+            $material->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

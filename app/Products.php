@@ -13,9 +13,12 @@ use App\Stones;
 use App\Stone_styles;
 use App\Stone_contours;
 use App\Stone_sizes;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Products extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'id',
         'model',
@@ -28,6 +31,8 @@ class Products extends Model
         'price',
         'code'
     ];
+
+    protected $dates = ['deleted_at'];
 
     protected $table = 'products';
 
