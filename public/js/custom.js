@@ -72,7 +72,6 @@ var uvel,
       })
     }
     
-
     this.dropFunctionality = function(instanceFiles) {
 
       var dropArea = $('.drop-area'),
@@ -188,9 +187,6 @@ var uvel,
       } 
     }
 
-
-
-
     this.checkAllForms = function(currentPressedBtn) {    
 
       var collectionModalEditBtns = document.querySelectorAll('.modal-dialog .modal-footer .edit-btn-modal');
@@ -205,6 +201,7 @@ var uvel,
       var form;
       var nameForm;
       var numberItemInput = document.getElementById("product_barcode");
+      var barcodeProcessRepairInput = document.getElementById("barcode_process-repairs");
       var catalogNumberInput = document.getElementById("catalog_number");
       var amountInput =  document.getElementById("amount");
       var moreProductsInput = document.getElementById("amount_check");
@@ -470,9 +467,36 @@ var uvel,
         
       }
 
+    if(barcodeProcessRepairInput !== null){
+      barcodeProcessRepairInput.onchange = sendProcessRepairBarcode;
+    }
+
+    function sendProcessRepairBarcode(event) {
+
+      var processRepairBarcode = event.target.value;
+    
+      if(processRepairBarcode.length > 0){
+
+        var urlTaken = window.location.href.split('/');
+        var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs';
+        var ajaxUrl = url + '/' + processRepairBarcode;
+
+        ajaxFn("GET",ajaxUrl,sendProcessRepairBarcodeSuccess,'','','');
+      } 
+
+    }
+
+
+    function sendProcessRepairBarcodeSuccess() {
+
+      console.log("success");
+    }
+
+
+
       document.addEventListener('click', print);
       document.addEventListener('click', deleteRowRecord);
-
+  
       function print(event) {
 
         if(event.target && event.target.parentElement.classList.contains('print-btn')) {
@@ -556,17 +580,14 @@ var uvel,
 
       }
 
+     
+
+
       function getFormData(event) {
 
         var evt = event || window.event;
 
         evt.preventDefault();
-
-        //form = evt.target.parentElement.parentElement.parentElement;
-
-        //var form = $(evt.target).closest("form");
-
-        //nameForm = form.attr('name');
 
         form = evt.target.parentElement.parentElement;
  
@@ -832,10 +853,13 @@ var uvel,
 
      
       function handleResponsePost(response, elements, currentPressedBtn) {
+
         var responseHolder = document.forms[nameForm].firstElementChild.firstElementChild;
+
         responseHolder.innerHTML = '';
 
         if (response.hasOwnProperty('errors')) {
+
           var holder = document.createDocumentFragment();
           var errors = response.errors;
 
@@ -851,25 +875,31 @@ var uvel,
           }
 
           responseHolder.appendChild(holder);
+
         } else {
-          var successContainer = document.createElement('div');
+
+            var successContainer = document.createElement('div');
               successContainer.innerText = 'Успешно добавихте';
               successContainer.className = 'alert alert-success';
 
-          responseHolder.appendChild(successContainer);
+            responseHolder.appendChild(successContainer);
 
-          if (nameForm === 'addPrice') {
-            var select = collectionSelects[0];
-            var tableId = document.querySelector('#' + select.options[select.selectedIndex].value + ' tbody');
+            if (nameForm === 'addPrice') {
 
-            tableId.innerHTML += response.success;
-          } else {
-            if(nameForm === 'addRepair') {
+              var select = collectionSelects[0];
+              var tableId = document.querySelector('#' + select.options[select.selectedIndex].value + ' tbody');
+
+              tableId.innerHTML += response.success;
+
+            } else {
+
+              if(nameForm === 'addRepair') {
               var repairId = response.id,
                   certificateButton = document.querySelector('button#certificate');
 
               certificateButton.dataset.repairId = repairId;
               certificateButton.disabled = false;
+
             }
 
             var tableBody = document.querySelector('table.table tbody');
@@ -901,18 +931,56 @@ var uvel,
 
       }
 
-      function handleUpdateResponse(data, elements, currentPressedBtn) {
-        
-        var content = data.table.replace('<tr>', '').replace('</tr>', '');       
-        var tableRow = $self.currentPressedBtn.parentElement.parentElement;
- 
-        $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
+      function handleUpdateResponse(response, elements, currentPressedBtn) {
 
-        if(tableRow !== null){
-          tableRow.innerHTML = content;
+
+        var responseHolder = document.forms[nameForm].firstElementChild.nextElementSibling.firstElementChild;
+
+        responseHolder.innerHTML = '';
+       
+        if(response.hasOwnProperty('errors')) {
+
+          var holder = document.createDocumentFragment();
+          var errors = response.errors;
+
+          for (var err in errors) {
+            var collectionErr = errors[err];
+
+            collectionErr.forEach(function (msg) {
+              var errorContainer = document.createElement('div');
+              errorContainer.innerText = msg;
+              errorContainer.className = 'alert alert-danger';
+              holder.appendChild(errorContainer);
+            });
+          }
+
+          responseHolder.appendChild(holder);
+      
+          
+          
+
+        } else {
+
+            var successContainer = document.createElement('div');
+                successContainer.innerText = 'Успешно променихте';
+                successContainer.className = 'alert alert-success';
+
+              responseHolder.appendChild(successContainer);
+
+              var content = response.table.replace('<tr>', '').replace('</tr>', '');
+
+              var tableRow = $self.currentPressedBtn.parentElement.parentElement;
+
+              $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
+  
+              if(tableRow !== null){
+                  tableRow.innerHTML = content;
+              }
+              
+              editAction();
+
         }
-
-       editAction();
+        
       }
 
       //edit buttons
