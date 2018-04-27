@@ -84,9 +84,11 @@ class PricesController extends Controller
      * @param  \App\Prices  $prices
      * @return \Illuminate\Http\Response
      */
-    public function edit(Prices $prices)
+    public function edit(Prices $prices, $price)
     {
-        //
+        $price = Prices::find($price);
+        
+        return \View::make('admin/prices/edit', array('price' => $price));
     }
 
     /**
@@ -96,9 +98,27 @@ class PricesController extends Controller
      * @param  \App\Prices  $prices
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Prices $prices)
+    public function update(Request $request, Prices $prices, $price)
     {
-        //
+        $price = Prices::find($price);
+        
+        $price->slug = $request->slug;
+        $price->price = $request->price;
+        $price->type = $request->type;
+
+        $validator = Validator::make( $request->all(), [
+            'slug' => 'required',
+            'price' => 'required|numeric',
+            'type' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+        
+        $price->save();
+        
+        return Response::json(array('table' => View::make('admin/prices/table', array('price' => $price, 'type' => $request->type))->render()));
     }
 
     /**
@@ -107,9 +127,14 @@ class PricesController extends Controller
      * @param  \App\Prices  $prices
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Prices $prices)
+    public function destroy(Prices $prices, $price)
     {
-        //
+        $price = Prices::find($price);
+        
+        if($price){
+            $price->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 
     public function getByMaterial($material){

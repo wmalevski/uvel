@@ -83,6 +83,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::get('/prices/{material}', 'PricesController@show')->name('view-price');
     Route::post('/prices/{material}', 'PricesController@store');
 
+    Route::get('/prices/edit/{price}', 'PricesController@edit');
+
     Route::get('/jewels', 'JewelsController@index')->name('jewels');
     Route::post('/jewels', 'JewelsController@store');
 
@@ -167,6 +169,8 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::put('/stones/contours/{contour}', 'StoneContoursController@update');
 
     Route::post('/prices/{material}', 'PricesController@store');
+    Route::post('/prices/delete/{price}', 'PricesController@destroy');
+    Route::put('/prices/{price}', 'PricesController@update');
 
     Route::post('/jewels', 'JewelsController@store');
     Route::put('/jewels/{jewel}', 'JewelsController@update');
