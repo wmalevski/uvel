@@ -21,7 +21,7 @@
 
         <div class="form-group">
             <label>Избери вид бижу: </label>
-            <select id="jewel" name="jewel" class="form-control">
+            <select id="jewel" name="jewel" class="form-control calculate">
                 <option value="">Избери</option>
 
                 @foreach($jewels as $jewel)
@@ -32,7 +32,7 @@
 
         <div class="form-group">
             <label>Цена на дребно: </label>
-            <select id="retail_price" name="retail_price" class="form-control">
+            <select id="retail_price" name="retail_price" class="form-control calculate">
                 <option value="">Избери</option>
 
                 @foreach($prices->where('type', 'sell') as $price)
@@ -110,23 +110,40 @@
             <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>
         </div>
 
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <div class="form-group">
+                    <label>Избработка:</label>
+                    <input id="inputDev" type="number" class="form-control" value="{{ $model->workmanship }}" name="workmanship">
+                </div>
+            </div>
+            
+             <div class="form-group col-md-6">
+                <div class="form-group">
+                    <label>Цена:</label>
+                    <input id="inputPrice" type="number" class="form-control" value="{{ $model->price }}" value="0" name="price">
+                </div>
+            </div>
+        </div>
+
         <div class="drop-area" name="edit">
             <input type="file" name="images" class="drop-area-input" id="fileElem-edit" multiple accept="image/*" >
             <label class="button" for="fileElem-edit">Select some files</label>
             <div class="drop-area-gallery"></div>
         </div>
 
-        @foreach($photos as $photo)
-            <div class="uploaded-images-area">
+        <div class="uploaded-images-area">
+            @foreach($photos as $photo)
                 <img src="{{ asset("uploads/models/" . $photo->photo) }}" alt="" class="img-responsive" />
-            </div>
-        @endforeach
+            @endforeach
+        </div>
 
     </div>
 
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-        <button type="submit" id="edit" class="edit-btn-modal btn btn-primary" data-dismiss="modal">Промени</button>
+        <button type="submit" id="edit" class="edit-btn-modal btn btn-primary">Промени</button>
     </div>
     
 </form>
