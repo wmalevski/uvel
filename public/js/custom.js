@@ -423,7 +423,7 @@ var uvel,
         numberItemInput.onchange = sendItem;
       }
 
-     function sendItem(event) {
+      function sendItem(event) {
 
          var numberItemValue = this.value;
          var amountValue = amountInput.value;
@@ -441,7 +441,7 @@ var uvel,
 
          }
 
-     }
+      }
 
       function sendSuccess(data, elements, btn){
 
@@ -467,30 +467,30 @@ var uvel,
         
       }
 
-    if(barcodeProcessRepairInput !== null){
-      barcodeProcessRepairInput.onchange = sendProcessRepairBarcode;
-    }
+      if(barcodeProcessRepairInput !== null){
+        barcodeProcessRepairInput.onchange = sendProcessRepairBarcode;
+      }
 
-    function sendProcessRepairBarcode(event) {
+      function sendProcessRepairBarcode(event) {
 
-      var processRepairBarcode = event.target.value;
-    
-      if(processRepairBarcode.length > 0){
+        var processRepairBarcode = event.target.value;
+      
+        if(processRepairBarcode.length > 0){
 
-        var urlTaken = window.location.href.split('/');
-        var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs';
-        var ajaxUrl = url + '/' + processRepairBarcode;
+          var urlTaken = window.location.href.split('/');
+          var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs';
+          var ajaxUrl = url + '/' + processRepairBarcode;
 
-        ajaxFn("GET",ajaxUrl,sendProcessRepairBarcodeSuccess,'','','');
-      } 
+          ajaxFn("GET",ajaxUrl,sendProcessRepairBarcodeSuccess,'','','');
+        } 
 
-    }
+      }
 
 
-    function sendProcessRepairBarcodeSuccess() {
+      function sendProcessRepairBarcodeSuccess() {
 
-      console.log("success");
-    }
+        console.log("sendProcessRepairBarcodeSuccess");
+      }
 
 
 
@@ -889,7 +889,7 @@ var uvel,
               var select = collectionSelects[0];
               var tableId = document.querySelector('#' + select.options[select.selectedIndex].value + ' tbody');
 
-              tableId.innerHTML += response.success;
+              tableId.innerHTML += response.table;
 
             } else {
 
@@ -903,7 +903,8 @@ var uvel,
             }
 
             var tableBody = document.querySelector('table.table tbody');
-            tableBody.innerHTML += response.success;
+
+            tableBody.innerHTML += response.table;
           }
 
 
