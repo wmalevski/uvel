@@ -155,8 +155,13 @@ class ProductsOthersController extends Controller
      * @param  \App\Products_others  $products_others
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Products_others $products_others)
+    public function destroy(Products_others $products_others, $product)
     {
-        //
+        $product = Products_others::find($product);
+        
+        if($product){
+            $product->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }
