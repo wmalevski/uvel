@@ -143,7 +143,7 @@ class ProductsController extends Controller
             }
         }
         
-        return Response::json(array('table' => View::make('admin/products/table',array('product'=>$product))->render()));
+        return Response::json(array('success' => View::make('admin/products/table',array('product'=>$product))->render()));
     }
 
     /**
@@ -200,8 +200,13 @@ class ProductsController extends Controller
      * @param  \App\Products  $products
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Products $products)
+    public function destroy(Products $products, $product)
     {
-        //
+        $product = Products::find($product);
+        
+        if($product){
+            $product->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

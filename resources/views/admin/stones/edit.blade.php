@@ -85,17 +85,17 @@
                 <div class="drop-area-gallery"></div>
             </div>
 
-          @foreach($stone_photos as $photo)
             <div class="uploaded-images-area">
+            @foreach($stone_photos as $photo)
                 <img src="{{ asset("uploads/stones/" . $photo->photo) }}" alt="" class="img-responsive" />
+            @endforeach 
             </div>
-          @endforeach 
           
         </div>
 
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-            <button type="submit" class="edit-btn-modal btn btn-primary" data-dismiss="modal">Промени</button>
+            <button type="submit" class="edit-btn-modal btn btn-primary">Промени</button>
         </div>
         
     </form>

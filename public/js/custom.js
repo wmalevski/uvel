@@ -72,7 +72,6 @@ var uvel,
       })
     }
     
-
     this.dropFunctionality = function(instanceFiles) {
 
       var dropArea = $('.drop-area'),
@@ -90,6 +89,7 @@ var uvel,
           var files = ev.target.files,
               collectionFiles= [];
 
+         
           for(var file of files) {
             collectionFiles.push(file);
           }
@@ -153,10 +153,19 @@ var uvel,
             toDataURL(
               reader.result,
               function(dataUrl) {
-                var data = dataUrl.replace('data:image/png;base64,','');
+
+                var data = dataUrl.replace('data:image/png;base64,',''); 
+                
+                //var data = dataUrl.replace('/^data:image\/(png|jpg|jpeg);base64,','');
+
+
                 instanceFiles.push(data);
+          
               }
             )
+
+            
+
   
             $(img).appendTo(dropAreaGallery);
           }
@@ -188,9 +197,6 @@ var uvel,
       } 
     }
 
-
-
-
     this.checkAllForms = function(currentPressedBtn) {    
 
       var collectionModalEditBtns = document.querySelectorAll('.modal-dialog .modal-footer .edit-btn-modal');
@@ -205,6 +211,8 @@ var uvel,
       var form;
       var nameForm;
       var numberItemInput = document.getElementById("product_barcode");
+      var barcodeProcessRepairInput = document.getElementById("barcode_process-repairs");
+      var barcodeReturnRepairInput = document.getElementById("barcode_return-repairs");
       var catalogNumberInput = document.getElementById("catalog_number");
       var amountInput =  document.getElementById("amount");
       var moreProductsInput = document.getElementById("amount_check");
@@ -426,7 +434,7 @@ var uvel,
         numberItemInput.onchange = sendItem;
       }
 
-     function sendItem(event) {
+      function sendItem(event) {
 
          var numberItemValue = this.value;
          var amountValue = amountInput.value;
@@ -444,7 +452,7 @@ var uvel,
 
          }
 
-     }
+      }
 
       function sendSuccess(data, elements, btn){
 
@@ -470,9 +478,60 @@ var uvel,
         
       }
 
+      if(barcodeProcessRepairInput !== null){
+        barcodeProcessRepairInput.onchange = sendProcessRepairBarcode;
+      }
+
+      function sendProcessRepairBarcode(event) {
+
+        var processRepairBarcode = event.target.value;
+      
+        if(processRepairBarcode.length > 0){
+
+          var urlTaken = window.location.href.split('/');
+          var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs';
+          var ajaxUrl = url + '/' + processRepairBarcode;
+
+          ajaxFn("GET",ajaxUrl,sendProcessRepairBarcodeSuccess,'','','');
+        } 
+
+      }
+
+
+      function sendProcessRepairBarcodeSuccess() {
+
+        console.log("sendProcessRepairBarcodeSuccess");
+      }
+
+      if(barcodeReturnRepairInput !== null){
+        barcodeReturnRepairInput.onchange = sendReturnRepairBarcode;
+      }
+
+      function sendReturnRepairBarcode(event){
+
+        var processReturnBarcode = event.target.value;
+
+        if(processReturnBarcode.length > 0){
+
+          var urlTaken = window.location.href.split('/');
+          var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs/return';
+          var ajaxUrl = url + '/' + processReturnBarcode;
+
+          ajaxFn("GET",ajaxUrl,sendProcessReturnBarcodeSuccess,'','','');
+        } 
+      }
+
+      function sendProcessReturnBarcodeSuccess(){
+
+        console.log("sendProcessReturnBarcodeSuccess");
+
+      }
+
+
+
       document.addEventListener('click', print);
       document.addEventListener('click', deleteRowRecord);
-
+  
       function print(event) {
 
         if(event.target && event.target.parentElement.classList.contains('print-btn')) {
@@ -556,17 +615,14 @@ var uvel,
 
       }
 
+     
+
+
       function getFormData(event) {
 
         var evt = event || window.event;
 
         evt.preventDefault();
-
-        //form = evt.target.parentElement.parentElement.parentElement;
-
-        //var form = $(evt.target).closest("form");
-
-        //nameForm = form.attr('name');
 
         form = evt.target.parentElement.parentElement;
  
@@ -598,34 +654,42 @@ var uvel,
               var value = elType === 'checkbox' ? el.checked : el.value;
 
               if(name === 'images') {
+
                 collectionData[name] = [].slice.apply(collectionFiles);
+                collectionElements.push(el);
+
                 return true;
               } 
+
               else if (name.includes('[]')) {
+
                 name = name.replace('[]', '');
 
                 if (collectionData.hasOwnProperty(name)) {
                   collectionData[name].push(value);
 
-                } else {
+                } 
+                else {
                   collectionData[name] = [value];
                 }
 
                 collectionElements.push(el);
 
               } else {
+
                 if (name === '_method') {
                   formMethod = value;
                 }
                 
                 collectionData[name] = value;
                 collectionElements.push(el);
+
               }
 
-
-
             }
+
           });
+
         }
 
         // Check the textareas
@@ -832,10 +896,13 @@ var uvel,
 
      
       function handleResponsePost(response, elements, currentPressedBtn) {
+
         var responseHolder = document.forms[nameForm].firstElementChild.firstElementChild;
+
         responseHolder.innerHTML = '';
 
         if (response.hasOwnProperty('errors')) {
+
           var holder = document.createDocumentFragment();
           var errors = response.errors;
 
@@ -851,33 +918,41 @@ var uvel,
           }
 
           responseHolder.appendChild(holder);
+
         } else {
-          var successContainer = document.createElement('div');
+
+            var successContainer = document.createElement('div');
               successContainer.innerText = 'Успешно добавихте';
               successContainer.className = 'alert alert-success';
 
-          responseHolder.appendChild(successContainer);
+            responseHolder.appendChild(successContainer);
 
-          if (nameForm === 'addPrice') {
-            var select = collectionSelects[0];
-            var tableId = document.querySelector('#' + select.options[select.selectedIndex].value + ' tbody');
+            if (nameForm === 'addPrice') {
 
-            tableId.innerHTML += response.success;
-          } else {
-            if(nameForm === 'addRepair') {
+              var select = collectionSelects[0];
+              var tableId = document.querySelector('#' + select.options[select.selectedIndex].value + ' tbody');
+
+              tableId.innerHTML += response.success;
+
+            } else {
+
+              if(nameForm === 'addRepair') {
               var repairId = response.id,
                   certificateButton = document.querySelector('button#certificate');
 
               certificateButton.dataset.repairId = repairId;
               certificateButton.disabled = false;
+
             }
 
             var tableBody = document.querySelector('table.table tbody');
+
             tableBody.innerHTML += response.success;
           }
 
 
           elements.forEach(function (el) {
+
             var elType = el.getAttribute('type');
 
             if (typeof el != null && elType !== 'hidden' && typeof(el.dataset.clear) == 'undefined') {
@@ -892,6 +967,20 @@ var uvel,
               
               el.value = '';
 
+              if(elType == 'file'){
+
+                $(el).val('');
+                var gallery = $(el).parent().children('.drop-area-gallery');
+                gallery.find('img').remove();
+
+                var modalBody = $(el).parents()[1];
+                var tokenInput = $(modalBody).find('input[type="hidden"]');
+                $(tokenInput).val('');
+
+                //console.log($(el).parentsUntil('.modal-body').find('input[type="hidden"]'));
+                
+              }            
+
             }
 
           })
@@ -901,18 +990,56 @@ var uvel,
 
       }
 
-      function handleUpdateResponse(data, elements, currentPressedBtn) {
-        
-        var content = data.table.replace('<tr>', '').replace('</tr>', '');       
-        var tableRow = $self.currentPressedBtn.parentElement.parentElement;
- 
-        $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
+      function handleUpdateResponse(response, elements, currentPressedBtn) {
 
-        if(tableRow !== null){
-          tableRow.innerHTML = content;
+
+        var responseHolder = document.forms[nameForm].firstElementChild.nextElementSibling.firstElementChild;
+
+        responseHolder.innerHTML = '';
+       
+        if(response.hasOwnProperty('errors')) {
+
+          var holder = document.createDocumentFragment();
+          var errors = response.errors;
+
+          for (var err in errors) {
+            var collectionErr = errors[err];
+
+            collectionErr.forEach(function (msg) {
+              var errorContainer = document.createElement('div');
+              errorContainer.innerText = msg;
+              errorContainer.className = 'alert alert-danger';
+              holder.appendChild(errorContainer);
+            });
+          }
+
+          responseHolder.appendChild(holder);
+      
+          
+          
+
+        } else {
+
+            var successContainer = document.createElement('div');
+                successContainer.innerText = 'Успешно променихте';
+                successContainer.className = 'alert alert-success';
+
+              responseHolder.appendChild(successContainer);
+
+              var content = response.table.replace('<tr>', '').replace('</tr>', '');
+
+              var tableRow = $self.currentPressedBtn.parentElement.parentElement;
+
+              $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
+  
+              if(tableRow !== null){
+                  tableRow.innerHTML = content;
+              }
+              
+              editAction();
+
         }
-
-       editAction();
+        
       }
 
       //edit buttons

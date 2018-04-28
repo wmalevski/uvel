@@ -124,7 +124,7 @@ class SellingsController extends Controller
             
             $find = Cart::session($userId)->get($item->barcode);
 
-            if($find && $request->quantity == 1) {
+            if($find && $request->amount_check == false) {
                 
             }else{
                 Cart::session($userId)->add(array(
