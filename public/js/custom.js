@@ -62,8 +62,8 @@ var uvel,
           
         });
 
-        $(fieldsWrapper).on('click', '.remove_field', function (e) {
-
+        $(fieldsWrapper).on('click', '.remove_field', function(e) {
+          
           e.preventDefault();
           var parents = $(this).parentsUntil(".form-row .fields");
 
