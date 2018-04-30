@@ -23,7 +23,7 @@ class DashboardController extends Controller
 
         $substitution = Usersubstitutions::where([
             ['user_id', '=', Auth::user()->id],
-            ['date_to', '>=', date("dd-mm-yyyy")]
+            ['date_to', '>=', date("d-m-Y")]
         ])->first();
 
         if($substitution){

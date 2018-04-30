@@ -153,7 +153,7 @@
                   <span class="title">Цени</span>
                 </a>
               </li>
-
+{{-- 
               <li class="nav-item {{ Active::check('admin/users',true) }}">
                   <a class="sidebar-link" href="{{ route('users') }}">
                     <span class="icon-holder">
@@ -161,6 +161,31 @@
                     </span>
                     <span class="title">Потребители</span>
                   </a>
+                </li> --}}
+
+
+                <li class="nav-item dropdown {{ Active::check('admin/users',true) }}">
+                  <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                      <i class=" ti-user"></i>
+                    </span>
+                    <span class="title">Потребители</span>
+                    <span class="arrow">
+                      <i class="ti-angle-right"></i>
+                    </span>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a class="sidebar-link" href="{{ route('users') }}">Потребители</a>
+                    </li>
+  
+                    {{-- @if(Auth::user()->hasRole('admin')) --}}
+                    <li>
+                      <a class="sidebar-link" href="{{ route('substitutions') }}">Замествания</a>
+                    </li>
+                    {{-- @endif --}}
+  
+                  </ul>
                 </li>
  
             <li class="nav-item {{ Active::check('admin/jewels',true) }}">
