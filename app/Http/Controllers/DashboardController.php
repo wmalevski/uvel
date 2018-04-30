@@ -21,14 +21,14 @@ class DashboardController extends Controller
         $discounts = Discount_codes::all();
         $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
 
-        $substitution = Usersubstitutions::where([
-            ['user_id', '=', Auth::user()->id],
-            ['date_to', '>=', date("d-m-Y")]
-        ])->first();
+        // $substitution = Usersubstitutions::where([
+        //     ['user_id', '=', Auth::user()->id],
+        //     ['date_to', '>=', date("Y-m-d")]
+        // ])->first();
 
-        if($substitution){
-            Auth::user()->store = $substitution->store_id;
-        }
+        // if($substitution){
+        //     Auth::user()->store = $substitution->store_id;
+        // }
 
         $items = [];
         

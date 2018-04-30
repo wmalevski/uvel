@@ -20,13 +20,13 @@ class UsersubstitutionsController extends Controller
      */
     public function index()
     {
-        $activeSubstitutions = Usersubstitutions::where([
-            ['date_to', '>=', date("d-m-Y")]
-        ])->get();
+        $activeSubstitutions = Usersubstitutions::where(
+            'date_to', '>=', date("Y-m-d")
+        )->get();
 
-        $inactiveSubstitutions = Usersubstitutions::where([
-            ['date_to', '<', date("d-m-Y")]
-        ])->get();
+        $inactiveSubstitutions = Usersubstitutions::where(
+            'date_to', '<=', date("Y-m-d")
+        )->get();
 
         $stores = Stores::all();
         $users = User::all();
@@ -56,7 +56,7 @@ class UsersubstitutionsController extends Controller
         
         $substitution = Usersubstitutions::where([
             ['user_id', '=', $request->user],
-            ['date_to', '>=', date("d-m-Y")]
+            ['date_to', '>=', date("Y-m-d")]
         ])->first();
 
         // foreach($substitution as $sub){
@@ -108,24 +108,24 @@ class UsersubstitutionsController extends Controller
      */
     public function show(Usersubstitutions $usersubstitutions, $user)
     {
-        $stores = Stores::all();
+        // $stores = Stores::all();
 
-        $status = 0;
+        // $status = 0;
 
-        $substitution = Usersubstitutions::where([
-            ['user_id', '=', $user],
-            ['date_to', '>=', date("dd-mm-yyyy")]
-        ])->first();
+        // $substitution = Usersubstitutions::where([
+        //     ['user_id', '=', $user],
+        //     ['date_to', '>=', date("dd-mm-yyyy")]
+        // ])->first();
 
-        if($substitution){
-            $status = 1;
-        }
+        // if($substitution){
+        //     $status = 1;
+        // }
 
-        if($status == 0){
-            return \View::make('admin/users/substitutions', array('user' => $user, 'stores' => $stores));
-        } else if($status == 1){
-            return \View::make('admin/users/alreadysub', array('user' => $user, 'store' => $substitution->store_id, 'dateFrom' => $substitution->date_from, 'dateTo' => $substitution->date_to));
-        }
+        // if($status == 0){
+        //     return \View::make('admin/users/substitutions', array('user' => $user, 'stores' => $stores));
+        // } else if($status == 1){
+        //     return \View::make('admin/users/alreadysub', array('user' => $user, 'store' => $substitution->store_id, 'dateFrom' => $substitution->date_from, 'dateTo' => $substitution->date_to));
+        // }
     }
 
     /**
@@ -140,7 +140,7 @@ class UsersubstitutionsController extends Controller
         $stores = Stores::all();
         $users = User::all();
         
-        return \View::make('admin/substitutions/edit', array('users' => $users, 'stores' => $stores, 'substitution' => $substitution));
+        return \View::make('admin/substitutions/edit', array('users' => $users, 'stores' => $stores, 'substitution' => $substitution, 'place' => 'active'));
     }
 
     /**
@@ -154,10 +154,15 @@ class UsersubstitutionsController extends Controller
     {
         $substitution = Usersubstitutions::find($substitution);
         if($substitution){
+            $place = 'active';
             $substitution->user_id = $request->user;
             $substitution->store_id = $request->store;
             $substitution->date_from = date('Y-m-d', strtotime($request->dateFrom));
             $substitution->date_to = date('Y-m-d', strtotime($request->dateTo));
+
+            if($substitution->date_to <= date("Y-m-d")){
+                $place = 'inactive';
+            }
     
             $validator = Validator::make( $request->all(), [
                 'user' => 'required',
@@ -172,7 +177,18 @@ class UsersubstitutionsController extends Controller
     
             $substitution->save();
     
-            return Response::json(array('table' => View::make('admin/substitutions/table',array('substitution'=>$substitution))->render()));
+            return Response::json(array('table' => View::make('admin/substitutions/table',array('substitution'=>$substitution))->render(), 'place' => $place));
+        }
+    }
+
+    public function setStore(){
+        $substitution = Usersubstitutions::where([
+            ['user_id', '=', Auth::user()->id],
+            ['date_to', '>=', date("Y-m-d")]
+        ])->first();
+
+        if($substitution){
+            Auth::user()->store = $substitution->store_id;
         }
     }
 
