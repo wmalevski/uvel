@@ -87,7 +87,10 @@
 
             <div class="uploaded-images-area">
             @foreach($stone_photos as $photo)
-                <img src="{{ asset("uploads/stones/" . $photo->photo) }}" alt="" class="img-responsive" />
+                <div class='image-wrapper'>
+                    <div class='close'>×</div>
+                    <img src="{{ asset("uploads/stones/" . $photo->photo) }}" alt="" class="img-responsive" />
+                </div>
             @endforeach 
             </div>
           

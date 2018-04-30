@@ -75,8 +75,10 @@ var uvel,
       });
       
     }
+
     
     this.dropFunctionality = function(instanceFiles) {
+      
 
       var dropArea = $('.drop-area'),
           preventEvents = ['dragenter', 'dragover', 'dragleave', 'drop'],
@@ -93,12 +95,16 @@ var uvel,
 
           var files = ev.target.files,
               collectionFiles= [];
+
+              console.log(ev.target.files);
          
           for(var file of files) {
             collectionFiles.push(file);
           }
 
           handleFiles(collectionFiles);
+
+        
         });
 
         preventEvents.forEach(function(eventName) {
@@ -146,6 +152,7 @@ var uvel,
   
         function previewFile(file) {
 
+          
           var reader = new FileReader();
           reader.readAsDataURL(file);
   
@@ -171,6 +178,7 @@ var uvel,
                 //console.log(instanceFiles);
 
                 instanceFiles.push(data);
+    
           
               }
             )
@@ -189,6 +197,7 @@ var uvel,
             $(imageWrapper).appendTo(dropAreaGallery);
  
             //$(img).appendTo(dropAreaGallery);
+            console.log($('.drop-area-input').val());
 
           }
         }
@@ -286,9 +295,10 @@ var uvel,
         var typeSelect;
         var collectionFiles = [];
         var dropZone = document.getElementsByClassName("drop-area");
-
+        
         if(dropZone) {
-          this.dropFunctionality(collectionFiles);        
+            this.dropFunctionality(collectionFiles);   
+
         }
 
         if(modelSelect) {
@@ -320,6 +330,7 @@ var uvel,
         var modelSelect = $('#model_select');
         var typeSelect;
         var collectionFiles = [];
+
         var dropZone = document.getElementsByClassName("drop-area");
 
         if(dropZone) {
@@ -650,7 +661,6 @@ var uvel,
  
         nameForm = form.getAttribute('name');
 
-
         var urlAction = form.getAttribute('action'),
           formMethod = 'POST',
           ajaxUrl = url + urlAction;
@@ -678,7 +688,22 @@ var uvel,
 
               if(name === 'images') {
   
-                collectionData[name] = [].slice.apply(collectionFiles);
+
+                //collectionData[name] = [].slice.apply(collectionFiles);
+                //collectionData[name] = $('.drop-area-gallery').find('img');
+                
+                /* new logic */
+                var images = el.nextElementSibling.nextElementSibling.children;
+
+                for(var i=0; i<images.length; i++){
+
+                  console.log(images[i]);
+                }
+                /* new logic */
+
+
+
+                collectionData[name] = [];
                 collectionElements.push(el);
 
                 return true;
@@ -990,18 +1015,19 @@ var uvel,
               
               el.value = '';
 
-              console.log(elType);
-
               if(elType == 'file'){
 
                 $(el).parent().find('drop-area-input').val('');
+                $(el).parent().find('drop-area-input').val(null);
 
                 $(el).val('');
 
-                var gallery = $(el).parent().children('.drop-area-gallery');
-                gallery.find('img').remove();
+                console.log(el.files);
 
-                $(el).parents().find('form')[0].reset();
+                var gallery = $(el).parent().children('.drop-area-gallery');
+                //gallery.find('img').remove();
+
+                //$(el).parents().find('form')[0].reset();
 
                 //var modalBody = $(el).parents()[1];
                 //var tokenInput = $(modalBody).find('input[type="hidden"]');
