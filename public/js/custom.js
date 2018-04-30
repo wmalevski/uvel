@@ -63,7 +63,7 @@ var uvel,
         });
 
         $(fieldsWrapper).on('click', '.remove_field', function(e) {
-          
+
           e.preventDefault();
           var parents = $(this).parentsUntil(".form-row .fields");
 
@@ -151,6 +151,10 @@ var uvel,
   
           reader.onloadend = function() {
   
+            var imageWrapper = document.createElement('div');
+            imageWrapper.setAttribute("class", "image-wrapper");
+            var closeBtn = document.createElement('div');
+            closeBtn.setAttribute("class", "close");
             var img = document.createElement('img');
     
             img.src = reader.result;
@@ -170,8 +174,21 @@ var uvel,
           
               }
             )
+
+
+            closeBtn.textContent = '×';
+
+            closeBtn.onclick = function() {
+              this.parentElement.remove();
+            }
+
+            $(closeBtn).appendTo(imageWrapper);
+
+            $(img).appendTo(imageWrapper);
+
+            $(imageWrapper).appendTo(dropAreaGallery);
  
-            $(img).appendTo(dropAreaGallery);
+            //$(img).appendTo(dropAreaGallery);
 
           }
         }

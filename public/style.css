@@ -97,6 +97,21 @@ p {
   margin-bottom: 10px;
 }
 
+.image-wrapper {
+  width: 150px;
+  position: relative;
+}
+
+.image-wrapper .close {
+  position: absolute;
+  color: #fff;
+  right: 5px;
+  top: 0px;
+  opacity: 1;
+  box-shadow: none;
+  cursor: pointer;
+}
+
 .drop-area-gallery img{
   width: 150px;
   margin-bottom: 10px;
