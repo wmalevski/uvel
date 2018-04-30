@@ -8,8 +8,6 @@ var uvel,
       $self.initializeSelect($('select'));
       $self.addAndRemoveFields($('form[name="addModel"]'));
       $self.checkAllForms();
-
-      $self.jewelTypeCalculatePrice();
     };
 
     this.addSelect2CustomAttributes = function(data, container) {
@@ -242,7 +240,6 @@ var uvel,
 
       editAction();
 
-      // Calculating for each form , add and edit.
       function calculatePrice(jeweryPrice, dataWeight , priceDev , currentElement) {
         var typeJeweryData = jeweryPrice;
         var weightData = dataWeight;
@@ -278,8 +275,6 @@ var uvel,
       var dataWeight = 0;
       var priceDev = 0;
 
-      // Creating dynamic calculating due to dynamic adding fields for the edit.
-      
       $(document).on('change' , '.calculate' , function(e) {
         var _element = $(e.currentTarget);
         var ajaxUrl = window.location.origin + '/ajax/getPrices/';
