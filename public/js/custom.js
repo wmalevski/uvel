@@ -6,7 +6,8 @@ var uvel,
 
     this.init = function () {
       $self.initializeSelect($('select'));
-      $self.addAndRemoveFields($('form[name="addModel"]'));
+      //$self.addAndRemoveFields($('form[name="addModel"]'));
+      $self.addAndRemoveFields();
       $self.checkAllForms();
     };
 
@@ -16,8 +17,70 @@ var uvel,
     }
 
     //todo: refactor when it's starts being used for another form, so it's not hardcoded
-    this.addAndRemoveFields = function (form) {
+    this.addAndRemoveFields = function () {
+
+      var collectionAddFieldBtn = $('.add_field_button');
+
+      collectionAddFieldBtn.each(function() {
+
+        var thisBtn = $(this);
+        var fieldsWrapper = $(this).parents().find('.model_stones');
+
+        thisBtn.on('click', function (e) {
+          
+          var fields = fieldsWrapper.find('.fields');
+          var stonesData = $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null;
+          var maxFields = 10;
+                    
+          if (fields.length <= maxFields) {
+            var fieldsHolder = document.createElement('div');
+            fieldsHolder.classList.add('form-row', 'fields');
+
+            var newFields =
+              '<div class="form-group col-md-6">' +
+              '<label>Камък:</label>' +
+              '<select name="stones[]" class="form-control">';
+
+            stonesData.forEach(function (option) {
+              newFields += `<option value=${option.value}>${option.label}</option>`
+            });
+
+            newFields +=
+              '</select>' +
+              '</div>' +
+              '<div class="form-group col-md-4">' +
+              '<label>Брой:</label>' +
+              '<input type="text" class="form-control" name="stone_amount[]" placeholder="Брой">' +
+              '</div>' +
+              '<div class="form-group col-md-2">' +
+              '<span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>'+
+          '</div>';
+
+            fieldsHolder.innerHTML = newFields;
+            fieldsWrapper.append(fieldsHolder);
+
+            $self.initializeSelect(fieldsWrapper.find('select'));
+          }
+          
+        });
+
+        $(fieldsWrapper).on('click', '.remove_field', function (e) {
+
+          e.preventDefault();
+          var parents = $(this).parentsUntil(".form-row .fields");
+
+          parents[1].remove();
+
+        });
+        
+
+      });
+      
+      
+      /*
       form.each(function() {
+
+        //alert('addButtonForm');
         var currentForm = $(this),
           maxFields = 10,
           addButton = currentForm.find('.add_field_button'),
@@ -69,7 +132,7 @@ var uvel,
           parents[1].remove();
 
         })
-      })
+      })*/
     }
     
     this.dropFunctionality = function(instanceFiles) {
@@ -86,9 +149,9 @@ var uvel,
 
         dropAreaInput.off();
         dropAreaInput.on('change', function(ev) {
+
           var files = ev.target.files,
               collectionFiles= [];
-
          
           for(var file of files) {
             collectionFiles.push(file);
@@ -141,6 +204,7 @@ var uvel,
         }
   
         function previewFile(file) {
+
           var reader = new FileReader();
           reader.readAsDataURL(file);
   
@@ -149,7 +213,7 @@ var uvel,
             var img = document.createElement('img');
     
             img.src = reader.result;
-  
+
             toDataURL(
               reader.result,
               function(dataUrl) {
@@ -159,15 +223,15 @@ var uvel,
                 //var data = dataUrl.replace('/^data:image\/(png|jpg|jpeg);base64,','');
 
 
+                //console.log(instanceFiles);
+
                 instanceFiles.push(data);
           
               }
             )
-
-            
-
-  
+ 
             $(img).appendTo(dropAreaGallery);
+
           }
         }
 
@@ -636,9 +700,10 @@ var uvel,
           collectionTextareas = [].slice.apply(document.forms[nameForm].getElementsByTagName('textarea'));              
           collectionSelects = [].slice.apply(document.forms[nameForm].getElementsByTagName('select'));
           collectionElements = [];
+ 
+        var collectionData = {_token: token};   
 
-
-        var collectionData = {_token: token};
+     
 
         // Check the inputs
 
@@ -654,7 +719,7 @@ var uvel,
               var value = elType === 'checkbox' ? el.checked : el.value;
 
               if(name === 'images') {
-
+  
                 collectionData[name] = [].slice.apply(collectionFiles);
                 collectionElements.push(el);
 
@@ -967,15 +1032,21 @@ var uvel,
               
               el.value = '';
 
+              console.log(elType);
+
               if(elType == 'file'){
 
+                $(el).parent().find('drop-area-input').val('');
+
                 $(el).val('');
+
                 var gallery = $(el).parent().children('.drop-area-gallery');
                 gallery.find('img').remove();
 
-                var modalBody = $(el).parents()[1];
-                var tokenInput = $(modalBody).find('input[type="hidden"]');
-                $(tokenInput).val('');
+                //var modalBody = $(el).parents()[1];
+                //var tokenInput = $(modalBody).find('input[type="hidden"]');
+                //$(tokenInput).val('');
+
 
                 //console.log($(el).parentsUntil('.modal-body').find('input[type="hidden"]'));
                 
