@@ -6,7 +6,6 @@ var uvel,
 
     this.init = function () {
       $self.initializeSelect($('select'));
-      //$self.addAndRemoveFields($('form[name="addModel"]'));
       $self.addAndRemoveFields();
       $self.checkAllForms();
     };
@@ -16,7 +15,6 @@ var uvel,
       select.select2();
     }
 
-    //todo: refactor when it's starts being used for another form, so it's not hardcoded
     this.addAndRemoveFields = function () {
 
       var collectionAddFieldBtn = $('.add_field_button');
@@ -64,8 +62,8 @@ var uvel,
           
         });
 
-        $(fieldsWrapper).on('click', '.remove_field', function (e) {
-
+        $(fieldsWrapper).on('click', '.remove_field', function(e) {
+          
           e.preventDefault();
           var parents = $(this).parentsUntil(".form-row .fields");
 
@@ -76,63 +74,6 @@ var uvel,
 
       });
       
-      
-      /*
-      form.each(function() {
-
-        //alert('addButtonForm');
-        var currentForm = $(this),
-          maxFields = 10,
-          addButton = currentForm.find('.add_field_button'),
-          fields = currentForm.find('.fields'),
-          fieldsWrapper = currentForm.find('.model_stones'),
-          stonesData = $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null;
-
-        //Add Fields
-        addButton.on('click', function (e) {
-          e.preventDefault();
-
-          if (fields.length <= maxFields) {
-            var fieldsHolder = document.createElement('div');
-            fieldsHolder.classList.add('form-row', 'fields');
-
-            var newFields =
-              '<div class="form-group col-md-6">' +
-              '<label>Камък:</label>' +
-              '<select name="stones[]" class="form-control">';
-
-            stonesData.forEach(function (option) {
-              newFields += `<option value=${option.value}>${option.label}</option>`
-            });
-
-            newFields +=
-              '</select>' +
-              '</div>' +
-              '<div class="form-group col-md-4">' +
-              '<label>Брой:</label>' +
-              '<input type="text" class="form-control" name="stone_amount[]" placeholder="Брой">' +
-              '</div>' +
-              '<div class="form-group col-md-2">' +
-              '<span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>'+
-          '</div>';
-
-            fieldsHolder.innerHTML = newFields;
-            fieldsWrapper.append(fieldsHolder);
-
-            $self.initializeSelect(fieldsWrapper.find('select'));
-          }
-        });
-
-        //Remove Fields
-        $(fieldsWrapper).on('click', '.remove_field', function (e) {
-
-          e.preventDefault();
-          var parents = $(this).parentsUntil(".form-row .fields");
-
-          parents[1].remove();
-
-        })
-      })*/
     }
     
     this.dropFunctionality = function(instanceFiles) {
@@ -1042,6 +983,8 @@ var uvel,
 
                 var gallery = $(el).parent().children('.drop-area-gallery');
                 gallery.find('img').remove();
+
+                $(el).parents().find('form')[0].reset();
 
                 //var modalBody = $(el).parents()[1];
                 //var tokenInput = $(modalBody).find('input[type="hidden"]');
