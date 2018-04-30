@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function() {
     Route::get('/', 'DashboardController@index')->name('admin');
 
     Route::get('/repairtypes', 'RepairTypesController@index')->name('repairtypes');

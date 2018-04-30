@@ -37,9 +37,9 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
-        'auth' => [
-            \App\Http\Middleware\CheckStore::class,
-        ],
+        // 'auth' => [
+        //     \App\Http\Middleware\CheckStore::class,
+        // ],
 
         'api' => [
             'throttle:60,1',
@@ -61,5 +61,6 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'store' => \App\Http\Middleware\CheckStore::class
     ];
 }
