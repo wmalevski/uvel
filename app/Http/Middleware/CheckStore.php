@@ -17,14 +17,17 @@ class CheckStore
      */
     public function handle($request, Closure $next)
     {
-        $substitution = Usersubstitutions::where([
-            ['user_id', '=', Auth::user()->id],
-            ['date_to', '>=', date("Y-m-d")]
-        ])->first();
+        if(Auth::user()){
+            $substitution = Usersubstitutions::where([
+                ['user_id', '=', Auth::user()->id],
+                ['date_to', '>=', date("Y-m-d")]
+            ])->first();
 
-        if($substitution){
-            Auth::user()->store = $substitution->store_id;
+            if($substitution){
+                Auth::user()->store = $substitution->store_id;
+            }
         }
+        
 
         return $next($request);
     }
