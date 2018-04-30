@@ -145,3 +145,8 @@ p {
   height: 35px !important;
   border: 1px solid #ced4da !important;
 }
+
+textarea {
+  resize: none !important;
+  min-height: 120px;
+}
