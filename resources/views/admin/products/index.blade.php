@@ -42,16 +42,16 @@ aria-hidden="true">
                     </select>
                 
                     <label>Вид: </label>
-                    <select id="jewels_types" name="jewelsTypes" class="form-control">
+                    <select id="jewel" name="jewelsTypes" class="form-control calculate">
                         <option value="">Избери</option>
                 
                         @foreach($jewels as $jewel)
-                            <option value="{{ $jewel->id }}" data-price="{{ $jewel->material }}">{{ $jewel->name }}</option>
+                            <option value="{{ $jewel->id }}" data-pricebuy="@if(App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" data-material="{{ $jewel->material }}">{{ $jewel->name }}</option>
                         @endforeach
                     </select>
-
+                    
                     <label>Цена на дребно: </label>
-                    <select id="retail_prices" name="retail_price" class="form-control" >
+                    <select id="retail_price" name="retail_price" class="form-control calculate prices-filled">
                         <option value="">Избери</option>
                 
                         @foreach($prices->where('type', 'sell') as $price)
@@ -60,7 +60,7 @@ aria-hidden="true">
                     </select>
                     
                     <label>Цена на едро: </label>
-                    <select id="wholesale_prices" name="wholesale_prices" class="form-control">
+                    <select id="wholesale_prices" name="wholesale_prices" class="form-control prices-filled">
                         <option value="">Избери</option>
                 
                         @foreach($prices->where('type', 'sell') as $price)
@@ -70,7 +70,7 @@ aria-hidden="true">
                 
                     <div class="form-group">
                         <label for="1">Тегло: </label>
-                        <input type="text" class="form-control" id="weight" name="weight" placeholder="Тегло:" min="1" max="10000">
+                        <input type="text" class="form-control calculate" id="weight" name="weight" placeholder="Тегло:" min="1" max="10000">
                     </div>
                 
                     <div class="form-group">
@@ -110,13 +110,13 @@ aria-hidden="true">
                 
                     <label for="workmanship">Изработка: </label>
                     <div class="input-group"> 
-                        <input type="number" class="form-control" name="workmanship" id="workmanship" value="0">
+                        <input type="number" class="form-control worksmanship_price" name="workmanship" id="workmanship" value="0">
                         <span class="input-group-addon">лв</span>
                     </div>
 
                     <label for="price">Цена: </label>
                     <div class="input-group"> 
-                        <input type="number" class="form-control" name="price" id="price" value="0">
+                        <input type="number" class="form-control final_price" name="price" id="price" value="0">
                         <span class="input-group-addon">лв</span>
                     </div>
 

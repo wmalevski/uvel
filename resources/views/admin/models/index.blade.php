@@ -28,14 +28,14 @@ aria-hidden="true">
                                 <option value="">Избери</option>
                         
                                 @foreach($jewels as $jewel)
-                                    <option value="{{ $jewel->id }}" data-pricebuy="@if(App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" data-price="{{$jewel->material}}">{{ $jewel->name }} - {{ App\Materials::withTrashed()->find($jewel->material)->name }}, {{ App\Materials::withTrashed()->find($jewel->material)->code }}, {{ App\Materials::withTrashed()->find($jewel->material)->color }}</option>
+                                    <option value="{{ $jewel->id }}" data-pricebuy="@if(App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" data-material="{{$jewel->material}}">{{ $jewel->name }} - {{ App\Materials::withTrashed()->find($jewel->material)->name }}, {{ App\Materials::withTrashed()->find($jewel->material)->code }}, {{ App\Materials::withTrashed()->find($jewel->material)->color }}</option>
                                 @endforeach
                             </select>
                         </div>
 
                         <div class="form-group col-md-6">
                             <label>Цена на дребно: </label>
-                            <select id="retail_price" name="retail_price" class="form-control disabled-first calculate" disabled>
+                            <select id="retail_price" name="retail_price" class="form-control disabled-first calculate prices-filled" disabled>
                                 <option value="">Избери</option>
                         
                                 @foreach($prices->where('type', 'sell') as $price)
@@ -46,7 +46,7 @@ aria-hidden="true">
 
                         <div class="form-group col-md-6">
                             <label>Цена на едро: </label>
-                            <select id="wholesale_price" name="wholesale_price" class="form-control disabled-first" disabled>
+                            <select id="wholesale_price" name="wholesale_price" class="form-control disabled-first prices-filled" disabled>
                                 <option value="">Избери</option>
                         
                                 @foreach($prices->where('type', 'sell') as $price)
@@ -105,14 +105,14 @@ aria-hidden="true">
                         <div class="form-group col-md-6">
                             <div class="form-group">
                                 <label>Избработка:</label>
-                                <input id="inputDev" type="number" class="form-control" value="0" name="workmanship">
+                                <input id="workmanship" type="number" class="form-control worksmanship_price" value="0" name="workmanship">
                             </div>
                         </div>
                         
                          <div class="form-group col-md-6">
                             <div class="form-group">
                                 <label>Цена:</label>
-                                <input id="inputPrice" type="number" class="form-control" value="0" name="price">
+                                <input id="price" type="number" class="form-control final_price" value="0" name="price">
                             </div>
                         </div>
                     </div>
