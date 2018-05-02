@@ -177,7 +177,7 @@ var uvel,
             )
 
 
-            closeBtn.textContent = '×';
+            closeBtn.textContent = '';
 
             closeBtn.onclick = function() {
               this.parentElement.remove();
@@ -593,8 +593,7 @@ var uvel,
 
         var originalPageContent = document.body.innerHTML;
 
-        if(data.successs){
-
+        if(data.success){
           document.body.innerHTML = data.html;
           window.print();
           document.body.innerHTML = originalPageContent;
