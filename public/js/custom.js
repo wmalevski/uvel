@@ -248,6 +248,8 @@ var uvel,
       var collectionModelPrice = [].slice.apply(document.querySelectorAll('.calculate'));
       var collectionFillFields = [].slice.apply(document.querySelectorAll('.fill-field'));
 
+      var isClicked = true;
+
       editAction();
       
 
@@ -353,8 +355,10 @@ var uvel,
                     
           $(btn).off();
 
-          $(btn).on('click',getFormData);
-          
+          if(isClicked){
+            $(btn).on('click',getFormData);
+          }
+
         })
       }
 
@@ -1022,7 +1026,10 @@ var uvel,
                 var gallery = $(el).parent().children('.drop-area-gallery');
                 gallery.html('');
                       
-              }            
+              }     
+              
+              
+              isClicked = false;
 
             }
 
