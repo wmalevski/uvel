@@ -169,11 +169,6 @@ var uvel,
               function(dataUrl) {
 
                 var data = dataUrl.replace('data:image/png;base64,',''); 
-                
-                //var data = dataUrl.replace('/^data:image\/(png|jpg|jpeg);base64,','');
-
-
-                //console.log(instanceFiles);
 
                 instanceFiles.push(data);
     
@@ -688,8 +683,6 @@ var uvel,
   
                 //collectionData[name] = [].slice.apply(collectionFiles);
                 
-                /* new logic */
-
                 var images = [];
                 var uploadedImages = $(el).parent().find('.drop-area-gallery').children();
 
@@ -704,9 +697,6 @@ var uvel,
                 }
 
                 collectionData[name] = images;
-
-
-                /* new logic */
 
                 collectionElements.push(el);
 
