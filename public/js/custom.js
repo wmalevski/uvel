@@ -95,8 +95,6 @@ var uvel,
 
           var files = ev.target.files,
               collectionFiles= [];
-
-              console.log(ev.target.files);
          
           for(var file of files) {
             collectionFiles.push(file);
@@ -197,7 +195,7 @@ var uvel,
             $(imageWrapper).appendTo(dropAreaGallery);
  
             //$(img).appendTo(dropAreaGallery);
-            console.log($('.drop-area-input').val());
+
 
           }
         }
@@ -688,22 +686,28 @@ var uvel,
 
               if(name === 'images') {
   
-
                 //collectionData[name] = [].slice.apply(collectionFiles);
-                //collectionData[name] = $('.drop-area-gallery').find('img');
                 
                 /* new logic */
-                var images = el.nextElementSibling.nextElementSibling.children;
 
-                for(var i=0; i<images.length; i++){
+                var images = [];
+                var uploadedImages = $(el).parent().find('.drop-area-gallery').children();
 
-                  console.log(images[i]);
+                for(var i=0; i<uploadedImages.length; i++){
+
+                  var image = $(uploadedImages[i]).find('img');
+                  var imageSrc = $(image).attr('src');
+                  var imagePath = imageSrc.split(',')[1];
+
+                  images.push(imagePath);
+
                 }
+
+                collectionData[name] = images;
+
+
                 /* new logic */
 
-
-
-                collectionData[name] = [];
                 collectionElements.push(el);
 
                 return true;
@@ -1012,30 +1016,17 @@ var uvel,
                 $(el).val(null).trigger('change');
               }
 
-              
               el.value = '';
 
               if(elType == 'file'){
 
                 $(el).parent().find('drop-area-input').val('');
-                $(el).parent().find('drop-area-input').val(null);
 
                 $(el).val('');
 
-                console.log(el.files);
-
                 var gallery = $(el).parent().children('.drop-area-gallery');
-                //gallery.find('img').remove();
-
-                //$(el).parents().find('form')[0].reset();
-
-                //var modalBody = $(el).parents()[1];
-                //var tokenInput = $(modalBody).find('input[type="hidden"]');
-                //$(tokenInput).val('');
-
-
-                //console.log($(el).parentsUntil('.modal-body').find('input[type="hidden"]'));
-                
+                gallery.html('');
+                      
               }            
 
             }
