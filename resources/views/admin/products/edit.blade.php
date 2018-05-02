@@ -153,11 +153,14 @@
                 <div class="drop-area-gallery"></div>
             </div>
 
-            @foreach($photos as $photo)
-                <div class="col-md-3">
-                    <img src="{{ asset("uploads/products/" . $photo->photo) }}" alt="" class="img-responsive" />
-                </div>
-            @endforeach
+            <div class="uploaded-images-area">
+                @foreach($photos as $photo)
+                    <div class='image-wrapper'>
+                        <div class='close'><a href="gallery/delete/{{$photo->id}}">&#215;</a></div>
+                        <img src="{{ asset("uploads/products/" . $photo->photo) }}" alt="" class="img-responsive" />
+                    </div>
+                @endforeach 
+            </div>
 
             <div id="errors-container"></div>
         </div>

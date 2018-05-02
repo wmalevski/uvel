@@ -135,8 +135,11 @@
 
         <div class="uploaded-images-area">
             @foreach($photos as $photo)
-                <img src="{{ asset("uploads/models/" . $photo->photo) }}" alt="" class="img-responsive" />
-            @endforeach
+                <div class='image-wrapper'>
+                    <div class='close'><a href="gallery/delete/{{$photo->id}}">&#215;</a></div>
+                    <img src="{{ asset("uploads/models/" . $photo->photo) }}" alt="" class="img-responsive" />
+                </div>
+            @endforeach 
         </div>
 
     </div>
