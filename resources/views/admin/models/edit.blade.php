@@ -57,7 +57,7 @@
             <input type="number" class="form-control calculate" id="weight" value="{{ $model->weight }}" name="weight" placeholder="Тегло:" min="0.1" max="10000">
         </div>
 
-        <div class="model_stones2">
+        <div class="model_stones">
             <div class="form-row fields2">
                  @foreach($modelStones as $modelStone)
                 <div class="form-group col-md-6">
@@ -87,9 +87,7 @@
                 </div>
                 @endforeach
             </div>
-        </div>
 
-        <div class="model_stones">
             <div class="form-row fields">
                 <div class="form-group col-md-6">
                     <label>Камък: </label>
@@ -112,11 +110,36 @@
                 </div>
             </div>
         </div>
-        
 
         <div class="form-row form-group">
             <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>
         </div>
+
+        {{-- <div class="model_stones">
+            <div class="form-row fields">
+                <div class="form-group col-md-6">
+                    <label>Камък: </label>
+                    <select name="stones[]" class="form-control">
+                        <option value="">Избери</option>
+
+                        @foreach($stones as $stone)
+                            <option value="{{ $stone->id }}">
+                                {{ $stone->name }} ({{ App\Stone_contours::find($stone->contour)->name }}, {{ App\Stone_sizes::find($stone->size)->name }})
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="1">Брой: </label>
+                    <input type="number" id="model-stone-number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="50">
+                </div>
+                <div class="form-group col-md-2">
+                    <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
+                </div>
+            </div>
+        </div> --}}
+        
+
 
 
         <div class="form-row">
