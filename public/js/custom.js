@@ -593,13 +593,12 @@ var uvel,
 
         var originalPageContent = document.body.innerHTML;
 
-        document.body.innerHTML = 
-        "<html><head><title></title></head><body>" + 
-        data + "</body>";
+        if(data.successs){
 
-        window.print();
-
-        document.body.innerHTML = originalPageContent;
+          document.body.innerHTML = data.html;
+          window.print();
+          document.body.innerHTML = originalPageContent;
+        }
 
       }
 
