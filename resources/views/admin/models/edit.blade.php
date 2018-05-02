@@ -59,9 +59,10 @@
 
         <div class="model_stones2">
             <div class="form-row fields2">
+                 @foreach($modelStones as $modelStone)
                 <div class="form-group col-md-6">
                     <label>Камъни: </label>
-                    @foreach($modelStones as $modelStone)
+                    
                         <select name="stones[]" class="form-control">
                             <option value="">Избери</option>
 
@@ -73,14 +74,18 @@
                                 </option>
                             @endforeach
                         </select>
-                    @endforeach
+                    
                 </div>
-                <div class="form-group col-md-6">
-                        <label for="1">Брой: </label>
-                @foreach($modelStones as $modelStone)
-                    <input type="number" class="form-control" value="{{ $modelStone->amount }}" name="stone_amount[]" placeholder="Брой" min="1" max="50">
+
+                <div class="form-group col-md-4">
+                    <label for="1">Брой: </label>
+                    <input type="number" id="model-stone-number" class="form-control" name="stone_amount[]" placeholder="Брой" value="{{  $modelStone->amount  }}" min="1" max="50">
+                </div>
+
+                <div class="form-group col-md-2">
+                    <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
+                </div>
                 @endforeach
-            </div>
             </div>
         </div>
 
@@ -98,9 +103,12 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-4">
                     <label for="1">Брой: </label>
-                    <input type="number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="50">
+                    <input type="number" id="model-stone-number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="50">
+                </div>
+                <div class="form-group col-md-2">
+                    <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
                 </div>
             </div>
         </div>
