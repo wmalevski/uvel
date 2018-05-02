@@ -85,6 +85,7 @@ class GalleryController extends Controller
         if($photo){
             unlink(public_path('uploads/'.$photo->table.'/').$photo->photo);
             $photo->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
         }
     }
 }
