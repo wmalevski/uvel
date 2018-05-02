@@ -580,7 +580,7 @@ var uvel,
           var ajaxUrl = url+linkPath;
 
      
-          //ajaxFn("GET",ajaxUrl,printBtnSuccess,'','',link);
+          ajaxFn("GET",ajaxUrl,printBtnSuccess,'','',link);
           
 
         }
