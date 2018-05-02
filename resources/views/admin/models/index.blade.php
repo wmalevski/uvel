@@ -123,7 +123,7 @@ aria-hidden="true">
                         <div class="drop-area-gallery"></div>
                     </div>
 
-                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
                         <input type="checkbox" id="inputCall1" name="release_product" class="peer">
                         <label for="inputCall1" class="peers peer-greed js-sb ai-c">
                             <span class="peer peer-greed">Добави като продукт</span>

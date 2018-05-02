@@ -348,8 +348,13 @@ var uvel,
         }
           
         collectionModalAddBtns.forEach(function (btn) {
-          btn.removeEventListener('click', getFormData, true);
-          btn.addEventListener('click', getFormData);
+          //btn.removeEventListener('click', getFormData, true);
+          //btn.addEventListener('click', getFormData);
+                    
+          $(btn).off();
+
+          $(btn).on('click',getFormData);
+          
         })
       }
 
