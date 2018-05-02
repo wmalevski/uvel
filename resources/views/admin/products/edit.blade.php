@@ -38,7 +38,7 @@
             </select>
         
             <label>Вид: </label>
-            <select id="jewels_types" name="jewelsTypes" class="form-control">
+            <select id="jewel_edit" name="jewelsTypes" class="form-control">
                 <option value="">Избери</option>
         
                 @foreach($jewels as $jewel)
@@ -47,7 +47,7 @@
             </select>
 
             <label>Цена на дребно: </label>
-            <select id="retail_prices" name="retail_price" class="form-control" >
+            <select id="retail_price_edit" name="retail_price" class="form-control calculate prices-filled" >
                 <option value="">Избери</option>
         
                 @foreach($prices->where('type', 'sell') as $price)
@@ -56,7 +56,7 @@
             </select>
             
             <label>Цена на едро: </label>
-            <select id="wholesale_prices" name="wholesale_prices" class="form-control">
+            <select id="wholesale_price_edit" name="wholesale_prices" class="form-control prices-filled">
                 <option value="">Избери</option>
         
                 @foreach($prices->where('type', 'sell') as $price)
@@ -66,7 +66,7 @@
         
             <div class="form-group">
                 <label for="1">Тегло: </label>
-                <input type="text" class="form-control" id="weight" value="{{ $product->weight }}" name="weight" placeholder="Тегло:" min="1" max="10000">
+                <input type="text" class="form-control calculate" id="weight" value="{{ $product->weight }}" name="weight" placeholder="Тегло:" min="1" max="10000">
             </div>
         
             <div class="form-group">
@@ -134,7 +134,7 @@
             <div class="form-group">
                 <label for="workmanship">Изработка: </label>
                 <div class="input-group"> 
-                    <input type="number" class="form-control" value="{{ $product->workmanship }}" name="workmanship" id="workmanship" value="0">
+                    <input type="number" class="form-control worksmanship_price" value="{{ $product->workmanship }}" name="workmanship" id="workmanship" value="0">
                     <span class="input-group-addon">лв</span>
                 </div>
             </div>
@@ -142,7 +142,7 @@
             <div class="form-group">
                 <label for="price">Цена: </label>
                 <div class="input-group"> 
-                    <input type="number" class="form-control" value="{{ $product->price }}" name="price" id="price" value="0">
+                    <input type="number" class="form-control final_price" value="{{ $product->price }}" name="price" id="price" value="0">
                     <span class="input-group-addon">лв</span>
                 </div>
             </div>
@@ -153,11 +153,14 @@
                 <div class="drop-area-gallery"></div>
             </div>
 
-            @foreach($photos as $photo)
-                <div class="col-md-3">
-                    <img src="{{ asset("uploads/products/" . $photo->photo) }}" alt="" class="img-responsive" />
-                </div>
-            @endforeach
+            <div class="uploaded-images-area">
+                @foreach($photos as $photo)
+                    <div class='image-wrapper'>
+                        <div class='close'><a href="gallery/delete/{{$photo->id}}">&#215;</a></div>
+                        <img src="{{ asset("uploads/products/" . $photo->photo) }}" alt="" class="img-responsive" />
+                    </div>
+                @endforeach 
+            </div>
 
             <div id="errors-container"></div>
         </div>

@@ -10,9 +10,23 @@ var uvel,
       $self.checkAllForms();
     };
 
-    this.initializeSelect = function (select) {
+    this.addSelect2CustomAttributes = function(data, container) {
+      if(data.element) {
+        $(container).attr({
+          'data-price': $(data.element).attr('data-price') || 0,
+          'data-pricebuy': $(data.element).attr('data-pricebuy') || 0,
+          'data-retail': $(data.element).attr('data-retail') || 0,
+          'data-material': $(data.element).attr('data-material') || 0
+        });
+      }
+      return data.text;
+    }
 
-      select.select2();
+    this.initializeSelect = function (select) {
+      select.select2({
+        templateResult: $self.addSelect2CustomAttributes,
+        templateSelection: $self.addSelect2CustomAttributes
+      });
     }
 
     this.addAndRemoveFields = function () {
@@ -229,9 +243,7 @@ var uvel,
     }
     */
 
-
-
-    this.checkAllForms = function(currentPressedBtn) {    
+    this.checkAllForms = function(currentPressedBtn) {
 
       var collectionModalEditBtns = document.querySelectorAll('.modal-dialog .modal-footer .edit-btn-modal');
       var collectionModalAddBtns = document.querySelectorAll('.modal-dialog .modal-footer .add-btn-modal');
@@ -261,25 +273,84 @@ var uvel,
       var pendingRequest = false;
 
       editAction();
+
+      function calculatePrice(jeweryPrice, dataWeight , priceDev , currentElement) {
+        var typeJeweryData = jeweryPrice;
+        var weightData = dataWeight;
+        var priceData = priceDev;
+
+        var element = currentElement;
       
+        console.log('calculating..');
+        console.log(typeJeweryData);
+        console.log(weightData);
+        console.log(priceData);
+        console.log('/calculating..');
+        
+        var inputDev = element.children().find('.worksmanship_price'),
+          inputPrice = element.children().find('.final_price');
 
-      if (collectionModelPrice.length) {
-        var typeJewery = collectionModelPrice[0]
-        var price = collectionModelPrice[1];
-        var weight = collectionModelPrice[2];
+        if (typeJeweryData && priceData && weightData) {
+          var priceDev = (priceData - typeJeweryData) * weightData;
+          var productPrice = (priceData * weightData);
 
-        collectionModelPrice.forEach(function (el) {
-          if(el.tagName === 'SELECT') {
-            $(el).on('select2:select', function(e) {
-              calculatePrice();
-            })
-          } else {
-            el.addEventListener('change', function (ev) {
-              calculatePrice();
-            });
-          }
-        });
+          inputDev.val(priceDev);
+          inputPrice.val(productPrice);
+
+          console.log('isndei');
+        } else {
+          inputDev.val('0');
+          inputPrice.val('0');
+        }
       }
+
+
+      var jeweryPrice = 0;
+      var dataWeight = 0;
+      var priceDev = 0;
+
+      $(document).on('change' , '.calculate' , function(e) {
+        var _element = $(e.currentTarget);
+        var ajaxUrl = window.location.origin + '/ajax/getPrices/';
+        var parentElement = _element.parents('form');
+
+        if(_element[0].nodeName == 'SELECT') {
+          if(_element[0].id == 'jewel' || _element[0].id == 'jewel_edit') {
+            var materialType = _element.find(':selected').attr('data-material');
+            var requestLink = ajaxUrl + materialType;    
+
+            jeweryPrice = _element.find(':selected').attr('data-pricebuy');
+
+            ajaxFn('GET' , requestLink , function(response) {
+                var data = response.prices;
+  
+                var newData = data.map(function(keys) {
+                  return {
+                    id: keys.id,
+                    text: keys.slug + ' - ' + keys.price,
+                    price: keys.price,
+                    material: keys.material
+                  }
+                });
+                
+                _element.parents('form').children().find('.prices-filled').empty();
+                _element.parents('form').children().find('.prices-filled').select2({
+                  data: newData,
+                  templateResult: $self.addSelect2CustomAttributes,
+                  templateSelection: $self.addSelect2CustomAttributes
+                });              
+              });  
+          } else {
+            priceDev = _element.select2('data')[0].price;
+          }
+
+          calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
+        } else {
+          dataWeight = _element[0].value;
+          calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
+        }
+      });
+
 
       if(collectionFillFields.length) {
         collectionFillFields.map(function(el) {
@@ -294,7 +365,7 @@ var uvel,
         })
       }
 
-      if(collectionModalEditBtns.length > 0){
+      if(collectionModalEditBtns.length > 0) {
 
         var modelSelect = $('#model_select');
         var typeSelect;
@@ -308,11 +379,15 @@ var uvel,
 
         if(modelSelect) {
           modelSelect.on('select2:select', function(ev) {
+            
             if(modelSelect.val()) {
+              
+            
+
               var value = modelSelect.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
                   xhttp = new XMLHttpRequest(),
-                  typeSelect = $('#jewels_types');
+                  typeSelect = $('#jewel_edit');
 
               typeSelect.on('select2:select', function(ev) {
                 modelSelect.val('0').trigger('change.select2');
@@ -348,13 +423,16 @@ var uvel,
               var value = modelSelect.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
                   xhttp = new XMLHttpRequest(),
-                  typeSelect = $('#jewels_types');
+                  typeSelect = $('#jewel');
 
+            
+                  
               typeSelect.on('select2:select', function(ev) {
                 modelSelect.val('0').trigger('change.select2');
               });
 
               productsRequest(tempUrl);
+              
             }
           });
         }
@@ -381,7 +459,7 @@ var uvel,
         var amountCheck = moreProductsInput.checked;
         
         var ajaxUrl = sellingForm.getAttribute("data-scan");
-
+        
         var dataSend = {'catalog_number' : catalogNumber, 'quantity' : Number(amountValue), 'amount_check' : amountCheck};
 
         ajaxFn('POST', ajaxUrl, sendSuccess, dataSend, '', '');
@@ -567,7 +645,6 @@ var uvel,
       function sendProcessReturnBarcodeSuccess(){
 
         console.log("sendProcessReturnBarcodeSuccess");
-
       }
 
 
@@ -824,6 +901,8 @@ var uvel,
             var data = JSON.parse(this.responseText);
 
             for(var key in data) {
+              
+
               var holder = document.getElementById(key);
 
               if(holder) {
@@ -840,16 +919,24 @@ var uvel,
                     for(i = holder.options.length - 1 ; i >= 1 ; i--){
                       holder.remove(i);
                     }
-
+                    
                     collectionData.map(function(el) {
                       var option = document.createElement('option');
                           option.text = el.label;
                           option.value = el.value;
                           
+                          option.setAttribute('data-pricebuy' , el.pricebuy || 0);
+
+                      if(el.price) {
+                        console.log('TRUE');
+                        option.setAttribute('data-price' , el.price || 0);
+                      }
+
+                      
                       if(el.hasOwnProperty('selected') && el['selected']) {
                         option.selected = true;
                       }
-
+                      
                       holder.add(option);
                     });
 
@@ -871,26 +958,6 @@ var uvel,
         xhttp.setRequestHeader('Content-Type', 'application/json');
         xhttp.setRequestHeader('X-CSRF-TOKEN', token);
         xhttp.send();
-      }
-
-      function calculatePrice() {
-        var typeJeweryData = typeJewery.options[typeJewery.selectedIndex].getAttribute('data-pricebuy'),
-          priceData = price.options[price.selectedIndex].getAttribute('data-retail'),
-          weightData = weight.value;
-
-        var inputDev = document.getElementById('inputDev'),
-          inputPrice = document.getElementById('inputPrice');
-
-        if (typeJeweryData && priceData && weightData) {
-          var priceDev = (priceData - typeJeweryData) * weightData;
-          var productPrice = (priceData * weightData);
-
-          inputDev.value = priceDev;
-          inputPrice.value = productPrice;
-        } else {
-          inputDev.value = '0';
-          inputPrice.value = '0';
-        }
       }
 
       function fillValue(el, value) {
@@ -1116,12 +1183,9 @@ var uvel,
           $(btn).off();
 
           $(btn).on('click',clickEditButton);
-
-       
         });
       }
   
-      
       function clickEditButton(event) {
 
         event.preventDefault();
@@ -1138,22 +1202,23 @@ var uvel,
               
         $self.currentPressedBtn = this;  
         
+        
+
         setTimeout(function() {$self.checkAllForms(currentPressedBtn);}, 500);
 
         //event.stopImmediatePropagation();
-  
-
       }
       
 
-      function editBtnSuccess(data,elements,btn){
+      function editBtnSuccess(data,elements,btn) {
 
          var id = btn.getAttribute("data-target");
          var selector = id + ' '+ '.modal-content';
          var html = $.parseHTML(data);
-         
-         $(selector).html(html);
 
+         $(selector).html(html);
+         console.log($(selector));         
+         $self.initializeSelect($(selector).children().find('select'));
       }
     }
   }
