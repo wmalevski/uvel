@@ -177,7 +177,7 @@ var uvel,
             )
 
 
-            closeBtn.textContent = '';
+            closeBtn.innerHTML = '&#215;';
 
             closeBtn.onclick = function() {
               this.parentElement.remove();
