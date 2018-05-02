@@ -248,8 +248,6 @@ var uvel,
       var collectionModelPrice = [].slice.apply(document.querySelectorAll('.calculate'));
       var collectionFillFields = [].slice.apply(document.querySelectorAll('.fill-field'));
 
-      var isClicked = true;
-
       editAction();
       
 
@@ -325,7 +323,7 @@ var uvel,
         var modelSelect = $('#model_select');
         var typeSelect;
         var collectionFiles = [];
-
+   
         var dropZone = document.getElementsByClassName("drop-area");
 
         if(dropZone) {
@@ -352,14 +350,12 @@ var uvel,
         collectionModalAddBtns.forEach(function (btn) {
           //btn.removeEventListener('click', getFormData, true);
           //btn.addEventListener('click', getFormData);
-                    
+            
+          //$(btn).unbind('click');
           $(btn).off();
-
-          if(isClicked){
             $(btn).on('click',getFormData);
-          }
-
-        })
+ 
+        });
       }
 
       if(catalogNumberInput !== null){
@@ -659,148 +655,153 @@ var uvel,
 
         evt.preventDefault();
 
-        form = evt.target.parentElement.parentElement;
- 
-        nameForm = form.getAttribute('name');
+        if(evt.handled !== true) {
 
-        var urlAction = form.getAttribute('action'),
-          formMethod = 'POST',
-          ajaxUrl = url + urlAction;
-          collectionInputs = [].slice.apply(document.forms[nameForm].getElementsByTagName('input'));
-          collectionTextareas = [].slice.apply(document.forms[nameForm].getElementsByTagName('textarea'));              
-          collectionSelects = [].slice.apply(document.forms[nameForm].getElementsByTagName('select'));
-          collectionElements = [];
- 
-        var collectionData = {_token: token};   
+              form = evt.target.parentElement.parentElement;
+      
+              nameForm = form.getAttribute('name');
 
-     
+              var urlAction = form.getAttribute('action'),
+                formMethod = 'POST',
+                ajaxUrl = url + urlAction;
+                collectionInputs = [].slice.apply(document.forms[nameForm].getElementsByTagName('input'));
+                collectionTextareas = [].slice.apply(document.forms[nameForm].getElementsByTagName('textarea'));              
+                collectionSelects = [].slice.apply(document.forms[nameForm].getElementsByTagName('select'));
+                collectionElements = [];
+      
+              var collectionData = {_token: token};   
 
-        // Check the inputs
+              // Check the inputs
 
-        if (collectionInputs.length != 0) {
+              if (collectionInputs.length != 0) {
 
-          collectionInputs.map(function (el) {
+                collectionInputs.map(function (el) {
 
-            if (el != 'undefined') {
+                  if (el != 'undefined') {
 
-              var name = el.getAttribute('name');
-              var elType = el.getAttribute('type'); 
+                    var name = el.getAttribute('name');
+                    var elType = el.getAttribute('type'); 
 
-              var value = elType === 'checkbox' ? el.checked : el.value;
+                    var value = elType === 'checkbox' ? el.checked : el.value;
 
-              if(name === 'images') {
-  
-                //collectionData[name] = [].slice.apply(collectionFiles);
-                
-                var images = [];
-                var uploadedImages = $(el).parent().find('.drop-area-gallery').children();
-
-                for(var i=0; i<uploadedImages.length; i++){
-
-                  var image = $(uploadedImages[i]).find('img');
-                  var imageSrc = $(image).attr('src');
-                  var imagePath = imageSrc.split(',')[1];
-
-                  images.push(imagePath);
-
-                }
-
-                collectionData[name] = images;
-
-                collectionElements.push(el);
-
-                return true;
-              } 
-
-              else if (name.includes('[]')) {
-
-                name = name.replace('[]', '');
-
-                if (collectionData.hasOwnProperty(name)) {
-                  collectionData[name].push(value);
-
-                } 
-                else {
-                  collectionData[name] = [value];
-                }
-
-                collectionElements.push(el);
-
-              } else {
-
-                if (name === '_method') {
-                  formMethod = value;
-                }
-                
-                collectionData[name] = value;
-                collectionElements.push(el);
-
-              }
-
-            }
-
-          });
-
-        }
-
-        // Check the textareas
-
-        if(collectionTextareas.length) {
-          collectionTextareas.map(function(el) {
-              if(el != 'undefined') {
-                var name = el.getAttribute('name');
-                var value = el.value;
-
-                collectionData[name] = value;
-                collectionElements.push(el);
-              }
-          })
-        }
-
-        // Check the selects
-
-        if (collectionSelects.length != 0) {
-          for (var i = 0; i <= collectionSelects.length; i += 1) {
-            var el = collectionSelects[i];
-
-            if (typeof  el != 'undefined') {
-              var name = el.getAttribute('name');
-              var value;
-
-              if (el.options && el.options[el.selectedIndex]) {
-                value = el.options[el.selectedIndex].value;
-              } else {
-                value = '';
-              }
-
-              if (name.includes('[]')) {
-                name = name.replace('[]', '');
-
-                if (collectionData.hasOwnProperty(name)) {
-                  collectionData[name].push(value);
-                } else {
-                  collectionData[name] = [value];
-                }
-
-                collectionElements.push(collectionSelects[i]);
-
-              } else {
-                collectionData[name] = value;
-                collectionElements.push(collectionSelects[i]);
-              }
-            }
-          }
-        }
-
-        if (formMethod == 'POST') { 
-
-          ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements, currentPressedBtn);
-
-        } else if (formMethod == 'PUT') { 
-          
-          ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
-        }
+                    if(name === 'images') {
         
+                      //collectionData[name] = [].slice.apply(collectionFiles);
+                      
+                      var images = [];
+                      var uploadedImages = $(el).parent().find('.drop-area-gallery').children();
+
+                      for(var i=0; i<uploadedImages.length; i++){
+
+                        var image = $(uploadedImages[i]).find('img');
+                        var imageSrc = $(image).attr('src');
+                        var imagePath = imageSrc.split(',')[1];
+
+                        images.push(imagePath);
+
+                      }
+
+                      collectionData[name] = images;
+
+                      collectionElements.push(el);
+
+                      return true;
+                    } 
+
+                    else if (name.includes('[]')) {
+
+                      name = name.replace('[]', '');
+
+                      if (collectionData.hasOwnProperty(name)) {
+                        collectionData[name].push(value);
+
+                      } 
+                      else {
+                        collectionData[name] = [value];
+                      }
+
+                      collectionElements.push(el);
+
+                    } else {
+
+                      if (name === '_method') {
+                        formMethod = value;
+                      }
+                      
+                      collectionData[name] = value;
+                      collectionElements.push(el);
+
+                    }
+
+                  }
+
+                });
+
+              }
+
+              // Check the textareas
+
+              if(collectionTextareas.length) {
+                collectionTextareas.map(function(el) {
+                    if(el != 'undefined') {
+                      var name = el.getAttribute('name');
+                      var value = el.value;
+
+                      collectionData[name] = value;
+                      collectionElements.push(el);
+                    }
+                })
+              }
+
+              // Check the selects
+
+              if (collectionSelects.length != 0) {
+                for (var i = 0; i <= collectionSelects.length; i += 1) {
+                  var el = collectionSelects[i];
+
+                  if (typeof  el != 'undefined') {
+                    var name = el.getAttribute('name');
+                    var value;
+
+                    if (el.options && el.options[el.selectedIndex]) {
+                      value = el.options[el.selectedIndex].value;
+                    } else {
+                      value = '';
+                    }
+
+                    if (name.includes('[]')) {
+                      name = name.replace('[]', '');
+
+                      if (collectionData.hasOwnProperty(name)) {
+                        collectionData[name].push(value);
+                      } else {
+                        collectionData[name] = [value];
+                      }
+
+                      collectionElements.push(collectionSelects[i]);
+
+                    } else {
+                      collectionData[name] = value;
+                      collectionElements.push(collectionSelects[i]);
+                    }
+                  }
+                }
+              }
+
+              if (formMethod == 'POST') { 
+
+                ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements, currentPressedBtn);
+
+              } else if (formMethod == 'PUT') { 
+                
+                ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
+              }
+        
+            evt.handled = true;
+
+        }
+
+        return false;
         
       }
       
@@ -1028,8 +1029,6 @@ var uvel,
                       
               }     
               
-              
-              isClicked = false;
 
             }
 
