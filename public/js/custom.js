@@ -589,13 +589,13 @@ var uvel,
       }
 
 
-      function printBtnSuccess() {
+      function printBtnSuccess(data) {
 
         var originalPageContent = document.body.innerHTML;
 
         document.body.innerHTML = 
         "<html><head><title></title></head><body>" + 
-        "print test preview" + "</body>";
+        data + "</body>";
 
         window.print();
 
