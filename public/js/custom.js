@@ -349,12 +349,12 @@ var uvel,
           
         collectionModalAddBtns.forEach(function (btn) {
           //btn.removeEventListener('click', getFormData, true);
-          //btn.addEventListener('click', getFormData);
-            
-          //$(btn).unbind('click');
+          //btn.addEventListener('click', getFormData); 
+
           $(btn).off();
-            $(btn).on('click',getFormData);
- 
+
+          $(btn).one('click', getFormData); 
+
         });
       }
 
@@ -654,21 +654,20 @@ var uvel,
         var evt = event || window.event;
 
         evt.preventDefault();
-        evt.stopPropagation();
 
-              form = evt.target.parentElement.parentElement;
+        form = evt.target.parentElement.parentElement;
       
-              nameForm = form.getAttribute('name');
+        nameForm = form.getAttribute('name');
 
-              var urlAction = form.getAttribute('action'),
-                formMethod = 'POST',
-                ajaxUrl = url + urlAction;
-                collectionInputs = [].slice.apply(document.forms[nameForm].getElementsByTagName('input'));
-                collectionTextareas = [].slice.apply(document.forms[nameForm].getElementsByTagName('textarea'));              
-                collectionSelects = [].slice.apply(document.forms[nameForm].getElementsByTagName('select'));
-                collectionElements = [];
+        var urlAction = form.getAttribute('action'),
+            formMethod = 'POST',
+            ajaxUrl = url + urlAction;
+            collectionInputs = [].slice.apply(document.forms[nameForm].getElementsByTagName('input'));
+            collectionTextareas = [].slice.apply(document.forms[nameForm].getElementsByTagName('textarea'));              
+            collectionSelects = [].slice.apply(document.forms[nameForm].getElementsByTagName('select'));
+            collectionElements = [];
       
-              var collectionData = {_token: token};   
+            var collectionData = {_token: token};   
 
               // Check the inputs
 
