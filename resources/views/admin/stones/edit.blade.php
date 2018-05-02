@@ -88,7 +88,7 @@
             <div class="uploaded-images-area">
             @foreach($stone_photos as $photo)
                 <div class='image-wrapper'>
-                    <div class='close'>×</div>
+                    <div class='close'><a href="gallery/delete/{{$photo->id}}">×</a></div>
                     <img src="{{ asset("uploads/stones/" . $photo->photo) }}" alt="" class="img-responsive" />
                 </div>
             @endforeach 
