@@ -120,6 +120,10 @@ p {
   transition: all 0.3s linear;  
 }
 
+.image-wrapper .close a{
+  color: #fff;
+}
+
 .image-wrapper .close:hover {
   color: #fff;
 }
