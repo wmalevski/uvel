@@ -21,18 +21,18 @@
 
         <div class="form-group">
             <label>Избери вид бижу: </label>
-            <select id="jewel" name="jewel" class="form-control calculate">
+            <select id="jewel_edit" name="jewel" class="form-control calculate">
                 <option value="">Избери</option>
 
                 @foreach($jewels as $jewel)
-                    <option value="{{ $jewel->id }}" data-price="{{ $jewel->material }}" @if($model->jewel == $jewel->id) selected @endif>{{ $jewel->name }}</option>
+                    <option value="{{ $jewel->id }}" data-material="{{ $jewel->material }}" data-pricebuy="@if(App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" @if($model->jewel == $jewel->id) selected @endif>{{ $jewel->name }}</option>
                 @endforeach
             </select>
         </div>
 
         <div class="form-group">
             <label>Цена на дребно: </label>
-            <select id="retail_price" name="retail_price" class="form-control calculate">
+            <select id="retail_price_edit" name="retail_price" class="form-control calculate prices-filled">
                 <option value="">Избери</option>
 
                 @foreach($prices->where('type', 'sell') as $price)
@@ -43,7 +43,7 @@
 
         <div class="form-group">
             <label>Цена на едро: </label>
-            <select name="wholesale_price" class="form-control">
+            <select id="wholesale_price_edit" name="wholesale_price" class="form-control prices-filled">
                 <option value="">Избери</option>
 
                 @foreach($prices->where('type', 'sell') as $price)
@@ -54,7 +54,7 @@
         
         <div class="form-group">
             <label for="1">Тегло: </label>
-            <input type="number" class="form-control" id="1" value="{{ $model->weight }}" name="weight" placeholder="Тегло:" min="0.1" max="10000">
+            <input type="number" class="form-control calculate" id="weight" value="{{ $model->weight }}" name="weight" placeholder="Тегло:" min="0.1" max="10000">
         </div>
 
         <div class="model_stones2">
@@ -115,14 +115,14 @@
             <div class="form-group col-md-6">
                 <div class="form-group">
                     <label>Избработка:</label>
-                    <input id="inputDev" type="number" class="form-control" value="{{ $model->workmanship }}" name="workmanship">
+                    <input type="number" class="form-control worksmanship_price" value="{{ $model->workmanship }}" name="workmanship">
                 </div>
             </div>
             
              <div class="form-group col-md-6">
                 <div class="form-group">
                     <label>Цена:</label>
-                    <input id="inputPrice" type="number" class="form-control" value="{{ $model->price }}" value="0" name="price">
+                    <input type="number" class="form-control final_price" value="{{ $model->price }}" value="0" name="price">
                 </div>
             </div>
         </div>
