@@ -654,8 +654,7 @@ var uvel,
         var evt = event || window.event;
 
         evt.preventDefault();
-
-        if(evt.handled !== true) {
+        evt.stopPropagation();
 
               form = evt.target.parentElement.parentElement;
       
@@ -797,12 +796,7 @@ var uvel,
                 ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
               }
         
-            evt.handled = true;
-
-        }
-
-        return false;
-        
+         
       }
       
 
