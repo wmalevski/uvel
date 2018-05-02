@@ -248,6 +248,8 @@ var uvel,
       var collectionModelPrice = [].slice.apply(document.querySelectorAll('.calculate'));
       var collectionFillFields = [].slice.apply(document.querySelectorAll('.fill-field'));
 
+      var pendingRequest = false;
+
       editAction();
       
 
@@ -353,7 +355,7 @@ var uvel,
 
           $(btn).off();
 
-          $(btn).one('click', getFormData); 
+          $(btn).on('click', getFormData); 
 
         });
       }
@@ -654,6 +656,9 @@ var uvel,
         var evt = event || window.event;
 
         evt.preventDefault();
+
+        if(pendingRequest) return;
+        pendingRequest = true;
 
         form = evt.target.parentElement.parentElement;
       
@@ -1030,6 +1035,8 @@ var uvel,
 
         editAction();
 
+        pendingRequest = false;
+
       }
 
       function handleUpdateResponse(response, elements, currentPressedBtn) {
@@ -1081,6 +1088,8 @@ var uvel,
               editAction();
 
         }
+
+        pendingRequest = false;
         
       }
 
