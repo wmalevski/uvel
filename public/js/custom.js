@@ -167,12 +167,8 @@ var uvel,
             toDataURL(
               reader.result,
               function(dataUrl) {
-
                 var data = dataUrl.replace('data:image/png;base64,',''); 
-
-                instanceFiles.push(data);
-    
-          
+                instanceFiles.push(data);          
               }
             )
 
@@ -181,6 +177,8 @@ var uvel,
 
             closeBtn.onclick = function() {
               this.parentElement.remove();
+
+
             }
 
             $(closeBtn).appendTo(imageWrapper);
@@ -191,13 +189,13 @@ var uvel,
  
             //$(img).appendTo(dropAreaGallery);
 
-
           }
         }
 
+  
       });
 
-
+        
       function toDataURL(src, callback, outputFormat) {
         var img = new Image();
         img.crossOrigin = 'Anonymous';
@@ -220,6 +218,18 @@ var uvel,
         }
       } 
     }
+
+    /*
+    function deleteImage(e) {
+
+          e.preventDefault();
+
+          console.log('delete');
+
+    }
+    */
+
+
 
     this.checkAllForms = function(currentPressedBtn) {    
 
