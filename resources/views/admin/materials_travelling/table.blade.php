@@ -1,5 +1,5 @@
 <tr>
-    <td>{{ App\Materials::find(App\Materials_quantity::find($material->type)->material)->name }} - {{ App\Materials::find(App\Materials_quantity::find($material->type)->material)->code }} - {{ App\Materials::find(App\Materials_quantity::find($material->type)->material)->color }}</td> 
+    <td>{{ App\Materials::withTrashed()->find(App\Materials_quantity::withTrashed()->find($material->type)->material)->name }} - {{ App\Materials::withTrashed()->find(App\Materials_quantity::withTrashed()->find($material->type)->material)->code }} - {{ App\Materials::withTrashed()->find(App\Materials_quantity::withTrashed()->find($material->type)->material)->color }}</td> 
     <td>{{ $material->quantity }}</td> 
     <td>{{ $material->price }}</td> 
     <td>{{ $material->created_at }} </td> 

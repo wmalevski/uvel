@@ -197,6 +197,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::put('/users/{user}', 'UserController@update');
 
     Route::post('/users', 'UserController@store');
+    Route::post('/users/delete/{user}', 'UserController@destroy');
 
     //Route::put('/users/substitutions/{user}', 'UsersubstitutionsController@store');
 

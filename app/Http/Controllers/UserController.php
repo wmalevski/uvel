@@ -105,4 +105,20 @@ class UserController extends Controller
         
         return Response::json(array('success' => View::make('admin/users/table',array('user'=>$user))->render()));
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\User  $stores
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(User $users, $user)
+    {
+        $user = User::find($user);
+        
+        if($user){
+            $user->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
+    }
 }
