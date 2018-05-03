@@ -38,8 +38,11 @@ var uvel,
         var thisBtn = $(this);
         var fieldsWrapper = $(this).parents().find('.model_stones');
 
+        console.log(thisBtn);
+
         thisBtn.on('click', function (e) {
           
+          console.log('dd');
           var fields = fieldsWrapper.find('.fields');
           var stonesData = $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null;
           var maxFields = 10;
@@ -189,10 +192,10 @@ var uvel,
 
             closeBtn.innerHTML = '&#215;';
 
-            closeBtn.onclick = function() {
-              this.parentElement.remove();
+            closeBtn.addEventListener('click', removeImage);
 
-
+            function removeImage() {
+                this.parentElement.remove();
             }
 
             $(closeBtn).appendTo(imageWrapper);
@@ -449,7 +452,7 @@ var uvel,
       }
 
       if(catalogNumberInput !== null){
-        catalogNumberInput.onchange = addCatalogNumber;
+        catalogNumberInput.addEventListener('change', addCatalogNumber);
       }
 
       function addCatalogNumber(){
@@ -474,7 +477,7 @@ var uvel,
       }
 
       if(discountCardInput !== null){
-        discountCardInput.onchange = addCardDiscount;
+        discountCardInput.addEventListener('change',addCardDiscount);
       }
 
       function addCardDiscount() {
@@ -529,7 +532,9 @@ var uvel,
 
       if(moreProductsInput!==null){
 
-        moreProductsInput.onclick = function() {
+        moreProductsInput.addEventListener('click', moreProductsSelected)
+
+        function moreProductsSelected(){
           
           if(this.checked ) {
             amountInput.readOnly = false;
@@ -552,7 +557,8 @@ var uvel,
       }  
 
       if(numberItemInput !== null){
-        numberItemInput.onchange = sendItem;
+
+        numberItemInput.addEventListener('change',sendItem);
       }
 
       function sendItem(event) {
@@ -600,7 +606,7 @@ var uvel,
       }
 
       if(barcodeProcessRepairInput !== null){
-        barcodeProcessRepairInput.onchange = sendProcessRepairBarcode;
+        barcodeProcessRepairInput.addEventListener('change',sendProcessRepairBarcode);
       }
 
       function sendProcessRepairBarcode(event) {
@@ -625,7 +631,7 @@ var uvel,
       }
 
       if(barcodeReturnRepairInput !== null){
-        barcodeReturnRepairInput.onchange = sendReturnRepairBarcode;
+        barcodeReturnRepairInput.addEventListener('change',sendReturnRepairBarcode);
       }
 
       function sendReturnRepairBarcode(event){
@@ -1216,8 +1222,7 @@ var uvel,
          var selector = id + ' '+ '.modal-content';
          var html = $.parseHTML(data);
 
-         $(selector).html(html);
-         console.log($(selector));         
+         $(selector).html(html);      
          $self.initializeSelect($(selector).children().find('select'));
       }
     }
