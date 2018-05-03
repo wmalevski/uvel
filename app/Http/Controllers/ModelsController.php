@@ -239,7 +239,24 @@ class ModelsController extends Controller
             $photo->save();
         }
 
-        return Response::json(array('table' => View::make('admin/models/table',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render()));
+        $model_photos = Gallery::where(
+            [
+                ['table', '=', 'models'],
+                ['row_id', '=', $model->id]
+            ]
+        )->get();
+
+        $photosHtml = '';
+        
+        foreach($model_photos as $photo){
+            $photosHtml .= '
+                <div class="image-wrapper">
+                <div class="close"><span data-url="gallery/delete/'.$photo->id.'">&#215;</span></div>
+                <img src="'.asset("uploads/models/" . $photo->photo).'" alt="" class="img-responsive" />
+            </div>';
+        }
+
+        return Response::json(array('table' => View::make('admin/models/table',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render(), 'photos' => $photosHtml));
     }
 
     /**

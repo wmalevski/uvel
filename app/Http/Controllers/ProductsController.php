@@ -142,6 +142,21 @@ class ProductsController extends Controller
                 $product_stones->save();
             }
         }
+
+        $file_data = $request->input('images'); 
+        
+        foreach($file_data as $img){
+            $file_name = 'productimage_'.uniqid().time().'.png';
+            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+            file_put_contents(public_path('uploads/products/').$file_name, $data);
+
+            $photo = new Gallery();
+            $photo->photo = $file_name;
+            $photo->row_id = $product->id;
+            $photo->table = 'products';
+
+            $photo->save();
+        }
         
         return Response::json(array('success' => View::make('admin/products/table',array('product'=>$product))->render()));
     }
@@ -265,7 +280,24 @@ class ProductsController extends Controller
                 }
             }
 
-            return Response::json(array('table' => View::make('admin/products/table',array('product' => $product))->render()));
+            $product_photos = Gallery::where(
+                [
+                    ['table', '=', 'products'],
+                    ['row_id', '=', $product->id]
+                ]
+            )->get();
+    
+            $photosHtml = '';
+            
+            foreach($product_photos as $photo){
+                $photosHtml .= '
+                    <div class="image-wrapper">
+                    <div class="close"><span data-url="gallery/delete/'.$photo->id.'">&#215;</span></div>
+                    <img src="'.asset("uploads/products/" . $photo->photo).'" alt="" class="img-responsive" />
+                </div>';
+            }
+
+            return Response::json(array('table' => View::make('admin/products/table',array('product' => $product))->render(), 'photos' => $photosHtml));
         }  
     }
 
