@@ -409,8 +409,6 @@ var uvel,
           this.dropFunctionality(collectionFiles);         
         }
 
-        this.addAndRemoveFields();
-
         if(modelSelect) {
           modelSelect.on('select2:select', function(ev) {
             if(modelSelect.val()) {
