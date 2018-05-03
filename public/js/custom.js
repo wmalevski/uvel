@@ -6,7 +6,7 @@ var uvel,
 
     this.init = function () {
       $self.initializeSelect($('select'));
-      $self.checkAllForms();
+      $self.checkAllForms();     
     };
 
     this.addSelect2CustomAttributes = function(data, container) {
@@ -1180,6 +1180,7 @@ var uvel,
 
               if(photos.length > 0){
                 uploadedArea.innerHTML = response.photos;
+                $self.dropFunctionality();
               }
               
               editAction();
@@ -1238,7 +1239,8 @@ var uvel,
          $self.initializeSelect($(selector).children().find('select'));
       }
 
-      $self.addAndRemoveFields();      
+      $self.addAndRemoveFields(); 
+ 
     }
   }
 
