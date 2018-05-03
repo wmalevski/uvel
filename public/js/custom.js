@@ -1170,6 +1170,17 @@ var uvel,
               if(tableRow !== null){
                   tableRow.innerHTML = content;
               }
+
+
+              var dropAreaGallery = responseHolder.parentElement.querySelector('.drop-area-gallery');
+              var uploadedArea = responseHolder.parentElement.querySelector('.uploaded-images-area');
+              var photos = response.photos;
+
+              dropAreaGallery.innerHTML = '';
+
+              if(photos.length > 0){
+                uploadedArea.innerHTML = response.photos;
+              }
               
               editAction();
 
