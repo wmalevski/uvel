@@ -58,8 +58,8 @@
         </div>
 
         <div class="model_stones">
-            <div class="form-row fields2">
-                 @foreach($modelStones as $modelStone)
+            @foreach($modelStones as $modelStone)
+            <div class="form-row fields">
                 <div class="form-group col-md-6">
                     <label>Камъни: </label>
                     
@@ -85,8 +85,9 @@
                 <div class="form-group col-md-2">
                     <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
                 </div>
-                @endforeach
             </div>
+            @endforeach
+            
 
             <div class="form-row fields">
                 <div class="form-group col-md-6">
