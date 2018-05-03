@@ -170,7 +170,24 @@ class StonesController extends Controller
             $photo->save();
         }
 
-        return Response::json(array('table' => View::make('admin/stones/table',array('stone'=>$stone))->render()));
+        $stone_photos = Gallery::where(
+            [
+                ['table', '=', 'stones'],
+                ['row_id', '=', $stone->id]
+            ]
+        )->get();
+
+        $photosHtml = '';
+
+        foreach($stone_photos as $photo){
+            $photosHtml .= '
+                <div class="image-wrapper">
+                <div class="close"><span data-url="gallery/delete/'.$photo->id.'">&#215;</span></div>
+                <img src="'.asset("uploads/stones/" . $photo->photo).'" alt="" class="img-responsive" />
+            </div>';
+        }
+
+        return Response::json(array('table' => View::make('admin/stones/table',array('stone'=>$stone))->render(), 'photos' => $photosHtml));
     }
 
     /**
