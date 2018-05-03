@@ -31,8 +31,6 @@ var uvel,
 
     this.addAndRemoveFields = function () {
 
-      console.log('render');
-
       var collectionAddFieldBtn = $('.add_field_button');
 
       collectionAddFieldBtn.each(function() {
@@ -41,8 +39,7 @@ var uvel,
         var fieldsWrapper = $(this).parents().find('.model_stones');
 
         thisBtn.on('click', function(e) {
-          
-          console.log('dd');
+
           var fields = fieldsWrapper.find('.fields');
           var stonesData = $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null;
           var maxFields = 10;
@@ -1182,7 +1179,6 @@ var uvel,
       function clickEditButton(event) {
 
         event.preventDefault();
-        //event.stopPropagation();
 
         var link = event.target.parentElement;
 
@@ -1195,11 +1191,8 @@ var uvel,
               
         $self.currentPressedBtn = this;  
         
-        
-
         setTimeout(function() {$self.checkAllForms(currentPressedBtn);}, 500);
 
-        //event.stopImmediatePropagation();
       }
       
 
