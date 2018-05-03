@@ -174,8 +174,8 @@ class ProductsController extends Controller
 
         $photos = Gallery::where(
             [
-                ['table', '=', 'models'],
-                ['row_id', '=', $model->id]
+                ['table', '=', 'products'],
+                ['row_id', '=', $product->id]
             ]
         )->get();
 
@@ -189,9 +189,84 @@ class ProductsController extends Controller
      * @param  \App\Products  $products
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Products $products)
+    public function update(Request $request, Products $products, $product)
     {
-        //
+        $product = Products::find($product);
+        
+        if($product){
+            $product_stones = Product_stones::where('product', $product)->get();
+            $models = Models::all();
+            $jewels = Jewels::all();
+            $prices = Prices::where('type', 'sell')->get();
+            $stones = Stones::all();
+    
+            $photos = Gallery::where(
+                [
+                    ['table', '=', 'products'],
+                    ['row_id', '=', $product->id]
+                ]
+            )->get();
+
+            $validator = Validator::make( $request->all(), [
+                'jewelsTypes' => 'required',
+                'retail_price' => 'required',
+                'wholesale_prices' => 'required',
+                'weight' => 'required|numeric|between:0.1,10000',
+                'size' => 'required|numeric|between:0.1,10000',
+                'workmanship' => 'required|numeric|between:0.1,500000',
+                'price' => 'required|numeric|between:0.1,500000'
+            ]); 
+    
+            if ($validator->fails()) {
+                return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+            }
+    
+            $file_data = $request->input('images'); 
+            foreach($file_data as $img){
+                $file_name = 'productimage_'.uniqid().time().'.png';
+                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                file_put_contents(public_path('uploads/products/').$file_name, $data);
+    
+                $photo = new Gallery();
+                $photo->photo = $file_name;
+                $photo->row_id = $product->id;
+                $photo->table = 'products';
+    
+                $photo->save();
+            }
+    
+            $product->model = $request->model;
+            $product->jewel_type = $request->jewelsTypes;
+            $product->weight = $request->weight;
+            $product->retail_price = $request->retail_price;
+            $product->wholesale_price  = $request->wholesale_prices;
+            $product->size = $request->size;
+            $product->workmanship = $request->workmanship;
+            $product->price = $request->price;
+    
+            if($request->for_wholesale == false){
+                $product->for_wholesale = 'no';
+            } else{
+                $product->for_wholesale = 'yes';
+            }
+    
+            $product->save();
+
+            $deleteStones = Product_stones::where('product', $product->id)->delete();
+    
+            foreach($request->stones as $key => $stone){
+                if($stone) {
+                    $product_stones = new Product_stones();
+                    $product_stones->product = $product->id;
+                    $product_stones->model = $request->model;
+                    $product_stones->stone = $stone;
+                    $product_stones->amount = $request->stone_amount[$key];
+                    $product_stones->save();
+                }
+            }
+
+            return Response::json(array('table' => View::make('admin/products/table',array('product' => $product))->render()));
+        }  
     }
 
     /**

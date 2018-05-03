@@ -5,8 +5,8 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <form method="POST" name="products" action="/products">
-
+    <form method="POST" name="edit" action="/products/{{ $product->id }}">
+        <input name="_method" type="hidden" value="PUT">
 
         <div class="modal-body">
 
@@ -167,7 +167,7 @@
 
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-            <button type="submit" id="add" class="edit-btn-modal btn btn-primary">Промени</button>
+            <button type="submit" id="edit" class="edit-btn-modal btn btn-primary">Промени</button>
         </div>
     </form>
 </div>

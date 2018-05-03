@@ -145,6 +145,25 @@ class PricesController extends Controller
             ]
         )->get();
 
-        return Response::json(array('prices' => $prices));
+        $prices_retail = array();
+
+        $prices_retail[0] = (object)[
+            'id' => '',
+            'material' => '',
+            'slug' => 'Избери цена',
+            'price' => ''
+        ];
+        
+        foreach($prices as $price){
+
+            $prices_retail[] = (object)[
+                'id' => $price->id,
+                'material' => $price->material,
+                'slug' => $price->slug.' - '.$price->price.'лв',
+                'price' => $price->price
+            ];
+        }
+
+        return Response::json(array('prices' => $prices_retail));
     }
 }

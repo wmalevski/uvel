@@ -134,12 +134,14 @@ class ModelsController extends Controller
             $product->save();
 
             foreach($request->stones as $key => $stone){
-                $product_stones = new Product_stones();
-                $product_stones->product = $product->id;
-                $product_stones->model = $model->id;
-                $product_stones->stone = $stone;
-                $product_stones->amount = $request->stone_amount[$key];
-                $product_stones->save();
+                if($stone){
+                    $product_stones = new Product_stones();
+                    $product_stones->product = $product->id;
+                    $product_stones->model = $model->id;
+                    $product_stones->stone = $stone;
+                    $product_stones->amount = $request->stone_amount[$key];
+                    $product_stones->save();
+                }
             }
         }
 
@@ -209,6 +211,18 @@ class ModelsController extends Controller
         $model->weight = $request->weight;
         
         $model->save();
+
+        $deleteStones = Model_stones::where('model', $model->id)->delete();
+
+        foreach($request->stones as $key => $stone){
+            if($stone){
+                $model_stones = new Model_stones();
+                $model_stones->model = $model->id;
+                $model_stones->stone = $stone;
+                $model_stones->amount = $request->stone_amount[$key];
+                $model_stones->save();
+            }
+        }
 
         $file_data = $request->input('images'); 
         

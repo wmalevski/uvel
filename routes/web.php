@@ -221,6 +221,7 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/products', 'ProductsController@store');
     Route::post('/products/delete/{product}', 'ProductsController@destroy');
+    Route::put('/products/{id}', 'ProductsController@update');
 
     Route::post('/productsotherstypes', 'ProductsOthersTypesController@store');
     Route::put('/productsotherstypes/{type}', 'ProductsOthersTypesController@update');
