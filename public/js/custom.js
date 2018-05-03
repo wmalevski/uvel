@@ -6,7 +6,6 @@ var uvel,
 
     this.init = function () {
       $self.initializeSelect($('select'));
-      $self.addAndRemoveFields();
       $self.checkAllForms();
     };
 
@@ -38,8 +37,8 @@ var uvel,
         var thisBtn = $(this);
         var fieldsWrapper = $(this).parents().find('.model_stones');
 
-        thisBtn.on('click', function (e) {
-          
+        thisBtn.on('click', function(e) {
+
           var fields = fieldsWrapper.find('.fields');
           var stonesData = $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null;
           var maxFields = 10;
@@ -157,7 +156,7 @@ var uvel,
   
           handleFiles(collectionFiles);
         }
-  
+
         function handleFiles(files) {
           files.forEach(previewFile);
         }
@@ -181,20 +180,18 @@ var uvel,
             toDataURL(
               reader.result,
               function(dataUrl) {
-
                 var data = dataUrl.replace('data:image/png;base64,',''); 
-
-                instanceFiles.push(data);
-    
-          
+                instanceFiles.push(data);          
               }
             )
 
 
             closeBtn.innerHTML = '&#215;';
 
-            closeBtn.onclick = function() {
-              this.parentElement.remove();
+            closeBtn.addEventListener('click', removeImage);
+
+            function removeImage() {
+                this.parentElement.remove();
             }
 
             $(closeBtn).appendTo(imageWrapper);
@@ -205,13 +202,13 @@ var uvel,
  
             //$(img).appendTo(dropAreaGallery);
 
-
           }
         }
 
+  
       });
 
-
+        
       function toDataURL(src, callback, outputFormat) {
         var img = new Image();
         img.crossOrigin = 'Anonymous';
@@ -296,7 +293,6 @@ var uvel,
         }
       }
 
-
       var jeweryPrice = 0;
       var dataWeight = 0;
       var priceDev = 0;
@@ -366,16 +362,14 @@ var uvel,
         
         if(dropZone) {
             this.dropFunctionality(collectionFiles);   
-
         }
+
 
         if(modelSelect) {
           modelSelect.on('select2:select', function(ev) {
             
             if(modelSelect.val()) {
               
-            
-
               var value = modelSelect.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
                   xhttp = new XMLHttpRequest(),
@@ -409,6 +403,7 @@ var uvel,
           this.dropFunctionality(collectionFiles);         
         }
 
+
         if(modelSelect) {
           modelSelect.on('select2:select', function(ev) {
             if(modelSelect.val()) {
@@ -430,8 +425,6 @@ var uvel,
         }
           
         collectionModalAddBtns.forEach(function (btn) {
-          //btn.removeEventListener('click', getFormData, true);
-          //btn.addEventListener('click', getFormData); 
 
           $(btn).off();
 
@@ -441,7 +434,7 @@ var uvel,
       }
 
       if(catalogNumberInput !== null){
-        catalogNumberInput.onchange = addCatalogNumber;
+        catalogNumberInput.addEventListener('change', addCatalogNumber);
       }
 
       function addCatalogNumber(){
@@ -466,7 +459,7 @@ var uvel,
       }
 
       if(discountCardInput !== null){
-        discountCardInput.onchange = addCardDiscount;
+        discountCardInput.addEventListener('change',addCardDiscount);
       }
 
       function addCardDiscount() {
@@ -521,7 +514,9 @@ var uvel,
 
       if(moreProductsInput!==null){
 
-        moreProductsInput.onclick = function() {
+        moreProductsInput.addEventListener('click', moreProductsSelected)
+
+        function moreProductsSelected(){
           
           if(this.checked ) {
             amountInput.readOnly = false;
@@ -544,7 +539,8 @@ var uvel,
       }  
 
       if(numberItemInput !== null){
-        numberItemInput.onchange = sendItem;
+
+        numberItemInput.addEventListener('change',sendItem);
       }
 
       function sendItem(event) {
@@ -592,7 +588,7 @@ var uvel,
       }
 
       if(barcodeProcessRepairInput !== null){
-        barcodeProcessRepairInput.onchange = sendProcessRepairBarcode;
+        barcodeProcessRepairInput.addEventListener('change',sendProcessRepairBarcode);
       }
 
       function sendProcessRepairBarcode(event) {
@@ -610,14 +606,13 @@ var uvel,
 
       }
 
-
       function sendProcessRepairBarcodeSuccess() {
 
         console.log("sendProcessRepairBarcodeSuccess");
       }
 
       if(barcodeReturnRepairInput !== null){
-        barcodeReturnRepairInput.onchange = sendReturnRepairBarcode;
+        barcodeReturnRepairInput.addEventListener('change',sendReturnRepairBarcode);
       }
 
       function sendReturnRepairBarcode(event){
@@ -637,10 +632,7 @@ var uvel,
       function sendProcessReturnBarcodeSuccess(){
 
         console.log("sendProcessReturnBarcodeSuccess");
-
       }
-
-
 
       document.addEventListener('click', print);
       document.addEventListener('click', deleteRowRecord);
@@ -667,7 +659,6 @@ var uvel,
 
 
       }
-
 
       function printBtnSuccess(data) {
 
@@ -876,9 +867,7 @@ var uvel,
               } else if (formMethod == 'PUT') { 
                 
                 ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
-              }
-        
-         
+              }        
       }
       
 
@@ -1182,7 +1171,6 @@ var uvel,
       function clickEditButton(event) {
 
         event.preventDefault();
-        //event.stopPropagation();
 
         var link = event.target.parentElement;
 
@@ -1195,11 +1183,8 @@ var uvel,
               
         $self.currentPressedBtn = this;  
         
-        
-
         setTimeout(function() {$self.checkAllForms(currentPressedBtn);}, 500);
 
-        //event.stopImmediatePropagation();
       }
       
 
@@ -1209,10 +1194,11 @@ var uvel,
          var selector = id + ' '+ '.modal-content';
          var html = $.parseHTML(data);
 
-         $(selector).html(html);
-         console.log($(selector));         
+         $(selector).html(html);      
          $self.initializeSelect($(selector).children().find('select'));
       }
+
+      $self.addAndRemoveFields();      
     }
   }
 
