@@ -6,7 +6,6 @@ var uvel,
 
     this.init = function () {
       $self.initializeSelect($('select'));
-      $self.addAndRemoveFields();
       $self.checkAllForms();
     };
 
@@ -294,7 +293,6 @@ var uvel,
         }
       }
 
-
       var jeweryPrice = 0;
       var dataWeight = 0;
       var priceDev = 0;
@@ -366,7 +364,6 @@ var uvel,
             this.dropFunctionality(collectionFiles);   
         }
 
-        this.addAndRemoveFields();
 
         if(modelSelect) {
           modelSelect.on('select2:select', function(ev) {
@@ -405,6 +402,7 @@ var uvel,
         if(dropZone) {
           this.dropFunctionality(collectionFiles);         
         }
+
 
         if(modelSelect) {
           modelSelect.on('select2:select', function(ev) {
@@ -608,7 +606,6 @@ var uvel,
 
       }
 
-
       function sendProcessRepairBarcodeSuccess() {
 
         console.log("sendProcessRepairBarcodeSuccess");
@@ -637,8 +634,6 @@ var uvel,
         console.log("sendProcessReturnBarcodeSuccess");
       }
 
-
-
       document.addEventListener('click', print);
       document.addEventListener('click', deleteRowRecord);
   
@@ -664,7 +659,6 @@ var uvel,
 
 
       }
-
 
       function printBtnSuccess(data) {
 
@@ -873,9 +867,7 @@ var uvel,
               } else if (formMethod == 'PUT') { 
                 
                 ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
-              }
-        
-         
+              }        
       }
       
 
@@ -1205,6 +1197,8 @@ var uvel,
          $(selector).html(html);      
          $self.initializeSelect($(selector).children().find('select'));
       }
+
+      $self.addAndRemoveFields();      
     }
   }
 
