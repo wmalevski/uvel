@@ -31,6 +31,8 @@ var uvel,
 
     this.addAndRemoveFields = function () {
 
+      console.log('render');
+
       var collectionAddFieldBtn = $('.add_field_button');
 
       collectionAddFieldBtn.each(function() {
@@ -38,9 +40,7 @@ var uvel,
         var thisBtn = $(this);
         var fieldsWrapper = $(this).parents().find('.model_stones');
 
-        console.log(thisBtn);
-
-        thisBtn.on('click', function (e) {
+        thisBtn.on('click', function(e) {
           
           console.log('dd');
           var fields = fieldsWrapper.find('.fields');
@@ -160,7 +160,7 @@ var uvel,
   
           handleFiles(collectionFiles);
         }
-  
+
         function handleFiles(files) {
           files.forEach(previewFile);
         }
@@ -235,16 +235,6 @@ var uvel,
         }
       } 
     }
-
-    /*
-    function deleteImage(e) {
-
-          e.preventDefault();
-
-          console.log('delete');
-
-    }
-    */
 
     this.checkAllForms = function(currentPressedBtn) {
 
@@ -377,16 +367,15 @@ var uvel,
         
         if(dropZone) {
             this.dropFunctionality(collectionFiles);   
-
         }
+
+        this.addAndRemoveFields();
 
         if(modelSelect) {
           modelSelect.on('select2:select', function(ev) {
             
             if(modelSelect.val()) {
               
-            
-
               var value = modelSelect.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
                   xhttp = new XMLHttpRequest(),
@@ -420,6 +409,8 @@ var uvel,
           this.dropFunctionality(collectionFiles);         
         }
 
+        this.addAndRemoveFields();
+
         if(modelSelect) {
           modelSelect.on('select2:select', function(ev) {
             if(modelSelect.val()) {
@@ -441,8 +432,6 @@ var uvel,
         }
           
         collectionModalAddBtns.forEach(function (btn) {
-          //btn.removeEventListener('click', getFormData, true);
-          //btn.addEventListener('click', getFormData); 
 
           $(btn).off();
 
