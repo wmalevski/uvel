@@ -166,12 +166,12 @@
         </div>
 
         <div class="uploaded-images-area">
-            @foreach($photos as $photo)
-                <div class='image-wrapper'>
-                    <div class='close'><a href="gallery/delete/{{$photo->id}}">&#215;</a></div>
-                    <img src="{{ asset("uploads/models/" . $photo->photo) }}" alt="" class="img-responsive" />
-                </div>
-            @endforeach 
+        @foreach($photos as $photo)
+            <div class='image-wrapper'>
+                <div class='close'><span data-url="gallery/delete/{{$photo->id}}">&#215;</span></div>
+                <img src="{{ asset("uploads/models/" . $photo->photo) }}" alt="" class="img-responsive" />
+            </div>
+        @endforeach 
         </div>
 
     </div>
