@@ -155,6 +155,21 @@ class StonesController extends Controller
 
         $stone->save();
 
+        $file_data = $request->input('images'); 
+
+        foreach($file_data as $img){
+            $file_name = 'stoneimage_'.uniqid().time().'.png';
+            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+            file_put_contents(public_path('uploads/stones/').$file_name, $data);
+
+            $photo = new Gallery();
+            $photo->photo = $file_name;
+            $photo->row_id = $stone->id;
+            $photo->table = 'stones';
+
+            $photo->save();
+        }
+
         return Response::json(array('table' => View::make('admin/stones/table',array('stone'=>$stone))->render()));
     }
 

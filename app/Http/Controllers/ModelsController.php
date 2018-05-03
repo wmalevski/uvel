@@ -227,7 +227,7 @@ class ModelsController extends Controller
         $file_data = $request->input('images'); 
         
         foreach($file_data as $img){
-            $file_name = 'productimage_'.uniqid().time().'.png';
+            $file_name = 'modelimage_'.uniqid().time().'.png';
             $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
             file_put_contents(public_path('uploads/models/').$file_name, $data);
 
