@@ -173,6 +173,7 @@ var uvel,
             imageWrapper.setAttribute("class", "image-wrapper");
             var closeBtn = document.createElement('div');
             closeBtn.setAttribute("class", "close");
+            closeBtn.innerHTML = '&#215;';
             var img = document.createElement('img');
     
             img.src = reader.result;
@@ -183,24 +184,15 @@ var uvel,
                 var data = dataUrl.replace('data:image/png;base64,',''); 
                 instanceFiles.push(data);          
               }
-            )
-
-
-            closeBtn.innerHTML = '&#215;';
-
-            closeBtn.addEventListener('click', removeImage);
-
-            function removeImage() {
-                this.parentElement.remove();
-            }
+            )   
+            
+            closeBtn.addEventListener('click', deleteUploadedImage);
 
             $(closeBtn).appendTo(imageWrapper);
 
             $(img).appendTo(imageWrapper);
 
             $(imageWrapper).appendTo(dropAreaGallery);
- 
-            //$(img).appendTo(dropAreaGallery);
 
           }
         }
@@ -208,7 +200,44 @@ var uvel,
   
       });
 
+      var imageDeleteBtn = $('.image-wrapper .close');
+      
+      imageDeleteBtn.each(function() {
+
+        var imageDeleteBtn = $(this);
+
+        imageDeleteBtn.off();
+        imageDeleteBtn.on('click', deleteUploadedImage);
+
+      });
+
+      function deleteUploadedImage(e) {
+           
+        var deleteUrl = $(this).find('span').attr('data-url');
+        var urlTaken = window.location.href.split('/');
+        var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
+
+        if((deleteUrl !== undefined) && (deleteUrl.length > 0)){
+          var ajaxUrl = url + '/' + deleteUrl;
+
+          $.ajax({
+            url: ajaxUrl,
+            method: "POST",
+            success: deleteUploadedImageSuccess(e)
+          });
+
+          //ajaxFn('POST', ajaxUrl, deleteUploadedImageSuccess, '', '', '');
+
+        }
         
+      }
+
+      function deleteUploadedImageSuccess(e) {
+
+        $(e.target).parents('.image-wrapper').remove();
+
+      }
+
       function toDataURL(src, callback, outputFormat) {
         var img = new Image();
         img.crossOrigin = 'Anonymous';
@@ -230,7 +259,7 @@ var uvel,
           img.src = src;
         }
       } 
-    }
+    }   
 
     this.checkAllForms = function(currentPressedBtn) {
 

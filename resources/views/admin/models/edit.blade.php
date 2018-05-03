@@ -111,7 +111,7 @@
             </div>
         </div>
 
-        <div class="form-row">
+        <div class="form-row form-group">
             <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>
         </div>
 
