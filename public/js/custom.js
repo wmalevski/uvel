@@ -268,6 +268,7 @@ var uvel,
 
       var printBtns = document.querySelectorAll('.print-btn');
       var deleteBtns = document.querySelectorAll('.delete-btn');
+      var certificateBtns = document.querySelectorAll('.certificate');
 
       var urlTaken = window.location.href.split('/');
       var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
@@ -663,10 +664,26 @@ var uvel,
         console.log("sendProcessReturnBarcodeSuccess");
       }
 
-      document.addEventListener('click', print);
-      document.addEventListener('click', deleteRowRecord);
+      //document.addEventListener('click', print);
+      //document.addEventListener('click', deleteRowRecord);
+
+      printBtns.forEach(function(btn){
+        $(btn).off('click',print);
+        $(btn).on('click',print);
+      });
+
+      deleteBtns.forEach(function(btn){
+        btn.addEventListener('click',deleteRowRecord);
+      });
+
+      certificateBtns.forEach(function(btn){
+        btn.addEventListener('click',printCertificate);
+      });
   
       function print(event) {
+
+        console.log(event);
+        console.log(event.target.parentElement.classList);
 
         if(event.target && event.target.parentElement.classList.contains('print-btn')) {
 
@@ -679,13 +696,10 @@ var uvel,
           var link = event.target.parentElement;
           var linkPath = link.href.split("admin")[1];
           var ajaxUrl = url+linkPath;
-
      
           ajaxFn("GET",ajaxUrl,printBtnSuccess,'','',link);
           
-
         }
-
 
       }
 
@@ -746,7 +760,18 @@ var uvel,
 
       }
 
-     
+
+      function printCertificate(e) {
+
+        var urlTaken = window.location.href.split('/');
+        var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs';
+        var certificateId = e.target.getAttribute('data-repair-id');
+
+        var ajaxUrl = url + '/certificate/' + certificateId;
+
+        ajaxFn("GET",ajaxUrl,printBtnSuccess,'','','');
+
+      } 
 
 
       function getFormData(event) {
