@@ -31,9 +31,9 @@
     <hr/>
 
     <div>
-        <strong>Цена: </strong> {{ $repair->price }} 
-        <strong style="margin-left: 50px;">Капаро: </strong> {{ $repair->deposit }}
-        <strong style="margin-left: 50px;">Остатък: </strong> {{ $repair->price-$repair->deposit }}
+        <strong>Цена: </strong> {{ $repair->price }}лв.
+        <strong style="margin-left: 50px;">Капаро: </strong> {{ $repair->deposit }}лв.
+        <strong style="margin-left: 50px;">Остатък: </strong> {{ $repair->price-$repair->deposit }}лв.
     </div>
     <hr/>
 
