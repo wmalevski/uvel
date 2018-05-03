@@ -125,7 +125,7 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="button" id="certificate" disabled class="btn btn-primary">Разписка</button>
+                    <button type="button" id="certificate" disabled class="certificate btn btn-primary">Разписка</button>
                     <button type="submit" id="add" class="btn btn-primary add-btn-modal">Добави</button>
                 </div>
             </form>
