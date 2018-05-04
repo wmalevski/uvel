@@ -146,7 +146,7 @@ class RepairsController extends Controller
 
     public function returnRepair(Repairs $repairs, $repair)
     {
-        $repair = Repairs::find($repair);
+        $repair = Repairs::where('barcode', $repair)->first();
         
         if($repair){
             $repair->status = 'returned';
@@ -169,7 +169,7 @@ class RepairsController extends Controller
      */
     public function update(Request $request, Repairs $repairs, $repair)
     {
-        $repair = Repairs::find($repair);
+        $repair = Repairs::where('barcode', $repair)->first();
         
         $repair->customer_name = $request->customer_name;
         $repair->customer_phone = $request->customer_phone;
