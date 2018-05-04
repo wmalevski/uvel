@@ -30,25 +30,21 @@ class DatabaseSeeder extends Seeder
             'title' => 'Админ',
         ]);
 
-        $admin = Bouncer::role()->create([
+        $merchant = Bouncer::role()->create([
             'name' => 'merchant',
             'title' => 'Магазинер',
         ]);
 
-        $admin = Bouncer::role()->create([
-            'name' => 'Manager',
+        $manager = Bouncer::role()->create([
+            'name' => 'manager',
             'title' => 'Управител',
         ]);
 
-        $admin = Bouncer::role()->create([
+        $customer = Bouncer::role()->create([
             'name' => 'customer',
             'title' => 'Клиент',
         ]);
         
-        $ban = Bouncer::ability()->create([
-            'name' => 'selling-products',
-            'title' => 'Извършване на продажби',
-        ]);
 
         $sellingProducts = Bouncer::ability()->create([
             'name' => 'selling-products',
@@ -60,55 +56,70 @@ class DatabaseSeeder extends Seeder
             'title' => 'Пускане и издаване на поръчки',
         ]);
 
-        $manageOrders = Bouncer::ability()->create([
+        $manageRepairs = Bouncer::ability()->create([
             'name' => 'manage-repairs',
             'title' => 'Пускане и издаване на поръчки',
         ]);
 
-        $manageOrders = Bouncer::ability()->create([
+        $sellingStatus = Bouncer::ability()->create([
             'name' => 'sellings-status',
             'title' => 'Справка за фискални продажби',
         ]);
 
-        $manageOrders = Bouncer::ability()->create([
+        $jewelStatus = Bouncer::ability()->create([
             'name' => 'jewels-status',
             'title' => 'Справка за налични бижута',
         ]);
 
-        $manageOrders = Bouncer::ability()->create([
+        $cashStatus = Bouncer::ability()->create([
             'name' => 'cash-status',
             'title' => 'Справка за налични пари в касата',
         ]);
 
-        $manageOrders = Bouncer::ability()->create([
+        $materialStatus = Bouncer::ability()->create([
             'name' => 'materials-status',
             'title' => 'Справка за наличен материал',
         ]);
 
-        $manageOrders = Bouncer::ability()->create([
+        $transferJewels = Bouncer::ability()->create([
             'name' => 'transfer-jewels',
             'title' => 'Tрансфер на бижута м/у обекти',
         ]);
 
-        $manageOrders = Bouncer::ability()->create([
+        $editProducts = Bouncer::ability()->create([
             'name' => 'edit-products',
             'title' => 'Корекция на готово изделие',
         ]);
 
-        $manageOrders = Bouncer::ability()->create([
+        $storeSale = Bouncer::ability()->create([
             'name' => 'store-sale',
             'title' => 'Сторниране на продажби',
         ]);
 
-        $manageOrders = Bouncer::ability()->create([
+        $addingSafe = Bouncer::ability()->create([
             'name' => 'adding-safe',
             'title' => 'Въвеждане на разходи в касата',
         ]);
 
-        $manageOrders = Bouncer::ability()->create([
+        $deleteProducts = Bouncer::ability()->create([
             'name' => 'delete-products',
             'title' => 'Изтриване на готово изделие',
         ]);
+
+        //Admin permissions
+        Bouncer::allow($admin)->to($sellingProducts);
+        Bouncer::allow($admin)->to($manageOrders);
+        Bouncer::allow($admin)->to($manageRepairs);
+        Bouncer::allow($admin)->to($sellingStatus);
+        Bouncer::allow($admin)->to($jewelStatus);
+        Bouncer::allow($admin)->to($cashStatus);
+        Bouncer::allow($admin)->to($materialStatus);
+        Bouncer::allow($admin)->to($transferJewels);
+        Bouncer::allow($admin)->to($editProducts);
+        Bouncer::allow($admin)->to($storeSale);
+        Bouncer::allow($admin)->to($addingSafe);
+        Bouncer::allow($admin)->to($deleteProducts);
+
 
         //Bouncer::allow('admin')->everything();
 
@@ -120,7 +131,15 @@ class DatabaseSeeder extends Seeder
         $user->save();
 
         Bouncer::assign('admin')->to($user);
-        Bouncer::allow($user)->to('delete-products');
+
+        $merchant = new User();
+        $merchant->name = 'Merchant';
+        $merchant->email = 'merchant@uvel.com';
+        $merchant->password = bcrypt('merchant');
+        $merchant->store = 2;
+        $merchant->save();
+
+        Bouncer::assign('merchant')->to($merchant);
 
         for($i = 1; $i <= 5; $i++){
             $stone_styles = new Stone_styles();
