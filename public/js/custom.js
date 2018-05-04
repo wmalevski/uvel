@@ -811,7 +811,6 @@ var uvel,
             formMethod = 'POST',
             ajaxUrl = url + urlAction;
             //collectionInputs = [].slice.apply(document.forms[nameForm].getElementsByTagName('input'));
-            //collectionInputs = $(form).find('input');
             collectionInputs = [].slice.apply(form.getElementsByTagName('input'));
             collectionTextareas = [].slice.apply(document.forms[nameForm].getElementsByTagName('textarea'));              
             collectionSelects = [].slice.apply(document.forms[nameForm].getElementsByTagName('select'));
@@ -820,8 +819,6 @@ var uvel,
             var collectionData = {_token: token};   
 
               // Check the inputs
-
-              console.log(collectionInputs);
 
               if (collectionInputs.length != 0) {
 
@@ -1176,10 +1173,7 @@ var uvel,
 
       function handleUpdateResponse(response, elements, currentPressedBtn) {
 
-
         var responseHolder = document.forms[nameForm].firstElementChild.nextElementSibling.firstElementChild;
-
-        //info-cont;
 
         responseHolder.innerHTML = '';
        
