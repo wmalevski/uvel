@@ -635,22 +635,26 @@ var uvel,
 
       function sendProcessRepairBarcode(event) {
 
-        var processRepairBarcode = event.target.value;
+        var processRepairBarcodeInput = event.target;
+        var processRepairBarcode = processRepairBarcodeInput.value;
+        
       
         if(processRepairBarcode.length > 0){
 
           var urlTaken = window.location.href.split('/');
-          var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs';
+          var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs/edit';
           var ajaxUrl = url + '/' + processRepairBarcode;
 
-          ajaxFn("GET",ajaxUrl,sendProcessRepairBarcodeSuccess,'','','');
+          ajaxFn("GET",ajaxUrl,sendProcessRepairBarcodeSuccess,'','',processRepairBarcodeInput);
         } 
 
       }
 
-      function sendProcessRepairBarcodeSuccess(data) {
+      function sendProcessRepairBarcodeSuccess(data,element,btn) {
 
-        console.log(data);
+        var modalContent = $(btn).parents('.modal-content');
+
+        modalContent.html(data);
       }
 
       if(barcodeReturnRepairInput !== null){
