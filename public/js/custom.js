@@ -682,9 +682,6 @@ var uvel,
   
       function print(event) {
 
-        console.log(event);
-        console.log(event.target.parentElement.classList);
-
         if(event.target && event.target.parentElement.classList.contains('print-btn')) {
 
           event.preventDefault();
@@ -696,7 +693,7 @@ var uvel,
           var link = event.target.parentElement;
           var linkPath = link.href.split("admin")[1];
           var ajaxUrl = url+linkPath;
-     
+    
           ajaxFn("GET",ajaxUrl,printBtnSuccess,'','',link);
           
         }
@@ -705,12 +702,20 @@ var uvel,
 
       function printBtnSuccess(data) {
 
-        var originalPageContent = document.body.innerHTML;
-
         if(data.success){
-          document.body.innerHTML = data.html;
+
+          var toPrint = data.html;
+          var node = document.createElement("div");
+          var printElement = document.body.appendChild(node);
+
+          printElement.classList.add("to-print");
+          printElement.innerHTML = toPrint;
+          document.body.classList.add("print-mode");
+
           window.print();
-          document.body.innerHTML = originalPageContent;
+      
+          document.body.removeChild(node);
+          document.body.classList.remove("print-mode")
         }
 
       }
