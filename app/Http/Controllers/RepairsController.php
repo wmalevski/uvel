@@ -128,7 +128,7 @@ class RepairsController extends Controller
      */
     public function edit(Repairs $repairs, $repair)
     {
-        $repair = Repairs::find($repair);
+        $repair = Repairs::where('barcode', $repair)->first();
         $repairTypes = Repair_types::all();
         $materials = Materials::all();
 
@@ -138,7 +138,7 @@ class RepairsController extends Controller
 
     public function return(Repairs $repairs, $repair)
     {
-        $repair = Repairs::find($repair);
+        $repair = Repairs::where('barcode', $repair)->first();
         $repairTypes = Repair_types::all();
 
         return \View::make('admin/repairs/return', array('repair' => $repair, 'repairTypes' => $repairTypes));
