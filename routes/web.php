@@ -138,6 +138,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/stones/contours/{contour}', 'StoneContoursController@edit');
 
     Route::get('/repairs/certificate/{id}', 'RepairsController@certificate');
+
+
+    Route::get('/repairs/return/{repair}', 'RepairsController@return');
+    Route::get('/repairs/edit/{repair}', 'RepairsController@edit');
 });
 
 Route::group(['prefix' => 'ajax'], function() {
@@ -207,6 +211,9 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::get('/repairs/return/{repair}', 'RepairsController@return');
     Route::post('/repairs/return/{repair}', 'RepairsController@returnRepair');
+
+    Route::get('/repairs/edit/{repair}', 'RepairsController@edit');
+    Route::put('/repairs/edit/{repair}', 'RepairsController@update');
 
     Route::get('/repairs/{barcode}', 'RepairsController@scan');
     Route::get('/repairs/certificate/{id}', 'RepairsController@certificate');
