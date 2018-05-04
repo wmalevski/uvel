@@ -24,7 +24,7 @@
                         <div class="input-group-addon bgc-white bd bdwR-0">
                             <i class="ti-calendar"></i>
                         </div>
-                        <input type="text" name="date_expires" value="{{ $discount->expires }}" class="form-control bdc-grey-200 start-date" placeholder="Валидна до: " data-provide="datepicker" data-date-format="dd-mm-yyyy" data-date-start-date="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}">
+                        <input type="text" name="date_expires" value="{{ $discount->expires }}" class="form-control bdc-grey-200 start-date" placeholder="Валидна до: " data-date-autoclose="true" data-provide="datepicker" data-date-format="dd-mm-yyyy" data-date-start-date="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}">
                     </div>
                 </div>
             </div>
@@ -65,7 +65,7 @@
 
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-        <button type="submit" id="edit" class="btn btn-primary" data-dismiss="modal">Промени</button>
+        <button type="submit" id="edit" class="edit-btn-modal btn btn-primary">Промени</button>
     </div>
 </form>
 </div>

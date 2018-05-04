@@ -101,8 +101,13 @@ class RepairTypesController extends Controller
      * @param  \App\RepairTypes  $repairTypes
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Repair_types $repairTypes)
+    public function destroy(Repair_types $repairTypes, $type)
     {
-        //
+        $type = Repair_types::find($type);
+        
+        if($type){
+            $type->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

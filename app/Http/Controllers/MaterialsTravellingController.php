@@ -26,10 +26,11 @@ class MaterialsTravellingController extends Controller
     public function index()
     {
         $materials = Materials_quantity::where('store', Auth::user()->store)->get();
+        //$materials = Materials_quantity::all();
         $stores = Stores::where('id', '!=', Auth::user()->store)->get();
         $materials_types = Materials::all();
-        $travelling = Materials_travelling::where('storeFrom', Auth::user()->store)->orWhere('storeTo', Auth::user()->store)->get();
-        
+        $travelling = Materials_travelling::where('storeFrom', Auth::user()->getStore())->orWhere('storeTo', Auth::user()->getStore())->get();
+  
         return \View::make('admin/materials_travelling/index', array('materials' => $materials, 'types' => $materials_types, 'stores' => $stores, 'travelling' => $travelling));
     }
 
@@ -71,7 +72,7 @@ class MaterialsTravellingController extends Controller
                 $material->type = $request->type;
                 $material->quantity = $request->quantity;
                 $material->price = ($request->quantity)*($price->stock_price);
-                $material->storeFrom = 1;
+                $material->storeFrom = Auth::user()->getStore();
                 $material->storeTo  = $request->storeTo;
                 $material->dateSent = new \DateTime();
                 $material->userSent = Auth::user()->getId();
@@ -97,7 +98,7 @@ class MaterialsTravellingController extends Controller
 
                 //dd($material);
 
-                return Response::json(array('table' => View::make('admin/materials_travelling/table', array('material' => $material, 'matID' => $check->material))->render()));
+                return Response::json(array('success' => View::make('admin/materials_travelling/table', array('material' => $material, 'matID' => $check->material))->render()));
 
             }else{
                 return Response::json(['errors' => array('quantity' => ['Въведохте невалидно количество!'])], 401);

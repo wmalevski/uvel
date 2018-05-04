@@ -69,9 +69,11 @@ class StoneStylesController extends Controller
      * @param  \App\Stone_styles  $stone_styles
      * @return \Illuminate\Http\Response
      */
-    public function edit(Stone_styles $stone_styles)
+    public function edit(Stone_styles $stone_styles, $style)
     {
-        //
+        $style = Stone_styles::find($style);
+
+        return \View::make('admin/stone_styles/edit', array('style' => $style));
     }
 
     /**
@@ -81,9 +83,15 @@ class StoneStylesController extends Controller
      * @param  \App\Stone_styles  $stone_styles
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Stone_styles $stone_styles)
+    public function update(Request $request, Stone_styles $stone_styles, $style)
     {
-        //
+        $style = Stone_styles::find($style);
+        
+        $style->name = $request->name;
+        
+        $style->save();
+        
+        return Response::json(array('table' => View::make('admin/stone_styles/table', array('style' => $style))->render()));
     }
 
     /**
@@ -92,8 +100,13 @@ class StoneStylesController extends Controller
      * @param  \App\Stone_styles  $stone_styles
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Stone_styles $stone_styles)
+    public function destroy(Stone_styles $stone_styles, $style)
     {
-        //
+        $style = Stone_styles::find($style);
+        
+        if($style){
+            $style->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

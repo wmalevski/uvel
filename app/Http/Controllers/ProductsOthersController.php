@@ -132,6 +132,17 @@ class ProductsOthersController extends Controller
         } else if($request->quantity_action == 'remove'){
             $product->quantity = $request->quantity-$request->quantity_after;
         }
+
+        $validator = Validator::make( $request->all(), [
+            'name' => 'required|unique:products_others,name',
+            'type' => 'required',
+            'price' => 'required|numeric|between:0.1,10000',
+            'quantity' => 'required|numeric|between:1,10000'
+        ]); 
+
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
         
         $product->save();
         
@@ -144,8 +155,13 @@ class ProductsOthersController extends Controller
      * @param  \App\Products_others  $products_others
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Products_others $products_others)
+    public function destroy(Products_others $products_others, $product)
     {
-        //
+        $product = Products_others::find($product);
+        
+        if($product){
+            $product->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

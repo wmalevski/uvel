@@ -49,7 +49,7 @@ aria-hidden="true">
                                         <div class="input-group-addon bgc-white bd bdwR-0">
                                             <i class="ti-calendar"></i>
                                         </div>
-                                        <input type="text" data-date-format="dd-mm-yyyy" name="date_returned" class="form-control bdc-grey-200 start-date" placeholder="Дата на връщане" data-date-start-date="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" data-provide="datepicker">
+                                        <input type="text" data-date-autoclose="true" data-date-format="dd-mm-yyyy" name="date_returned" class="form-control bdc-grey-200 start-date" placeholder="Дата на връщане" data-date-start-date="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" data-provide="datepicker">
                                     </div>
                                 </div>
                             </div>
@@ -125,8 +125,8 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="button" id="certificate" disabled class="btn btn-primary">Разписка</button>
-                    <button type="submit" id="add" class="btn btn-primary">Добави</button>
+                    <button type="button" id="certificate" disabled class="certificate btn btn-primary">Разписка</button>
+                    <button type="submit" id="add" class="btn btn-primary add-btn-modal">Добави</button>
                 </div>
             </form>
         </div>
@@ -186,8 +186,8 @@ aria-hidden="true">
 
                     <div class="form-row">
                         <div class="form-group col-md-12">
-                            <label for="inputEmail4">Баркод</label>
-                            <input type="text" class="form-control" name="barcode" placeholder="Моля сканирайте баркода за артикула">
+                            <label for="barcode_return-repairs">Баркод</label>
+                            <input type="text" class="form-control" id="barcode_return-repairs" name="barcode" placeholder="Моля сканирайте баркода за артикула">
                         </div>
                     </div>
 
@@ -210,7 +210,7 @@ aria-hidden="true">
                                         <div class="input-group-addon bgc-white bd bdwR-0">
                                             <i class="ti-calendar"></i>
                                         </div>
-                                    <input type="text" value="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" class="form-control bdc-grey-200 start-date" name="date_recieved" placeholder="Дата на приемане" data-date-format="dd-mm-yyyy" data-provide="datepicker">
+                                    <input type="text" value="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" class="form-control bdc-grey-200 start-date" name="date_recieved" placeholder="Дата на приемане" data-date-format="dd-mm-yyyy" data-date-autoclose="true" data-provide="datepicker">
                                     </div>
                                 </div>
                             </div>
@@ -221,7 +221,7 @@ aria-hidden="true">
                                         <div class="input-group-addon bgc-white bd bdwR-0">
                                             <i class="ti-calendar"></i>
                                         </div>
-                                        <input type="text" data-date-format="dd-mm-yyyy" name="date_returned" class="form-control bdc-grey-200 start-date" placeholder="Дата на връщане" data-provide="datepicker">
+                                        <input type="text" data-date-format="dd-mm-yyyy" name="date_returned" class="form-control bdc-grey-200 start-date" placeholder="Дата на връщане" data-date-autoclose="true" data-provide="datepicker">
                                     </div>
                                 </div>
                             </div>
@@ -319,8 +319,8 @@ aria-hidden="true">
 
                     <div class="form-row">
                         <div class="form-group col-md-12">
-                            <label for="inputEmail4">Баркод</label>
-                            <input type="text" class="form-control" name="barcode" placeholder="Моля сканирайте баркода за артикула">
+                            <label for="barcode_process-repairs">Баркод</label>
+                            <input type="text" class="form-control" id="barcode_process-repairs" name="barcode" placeholder="Моля сканирайте баркода за артикула">
                         </div>
                     </div>
 
@@ -343,7 +343,7 @@ aria-hidden="true">
                                         <div class="input-group-addon bgc-white bd bdwR-0">
                                             <i class="ti-calendar"></i>
                                         </div>
-                                    <input type="text" value="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" class="form-control bdc-grey-200 start-date" name="date_recieved" placeholder="Дата на приемане" data-date-format="dd-mm-yyyy" data-provide="datepicker">
+                                    <input type="text" value="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" class="form-control bdc-grey-200 start-date" name="date_recieved" placeholder="Дата на приемане" data-date-format="dd-mm-yyyy" data-date-autoclose="true" data-provide="datepicker">
                                     </div>
                                 </div>
                             </div>
@@ -354,7 +354,7 @@ aria-hidden="true">
                                         <div class="input-group-addon bgc-white bd bdwR-0">
                                             <i class="ti-calendar"></i>
                                         </div>
-                                        <input type="text" data-date-format="dd-mm-yyyy" name="date_returned" class="form-control bdc-grey-200 start-date" placeholder="Дата на връщане" data-provide="datepicker">
+                                        <input type="text" data-date-format="dd-mm-yyyy" name="date_returned" class="form-control bdc-grey-200 start-date" placeholder="Дата на връщане" data-date-autoclose="true" data-provide="datepicker">
                                     </div>
                                 </div>
                             </div>
@@ -434,7 +434,7 @@ aria-hidden="true">
 <div class="row">
     <div class="col-md-12">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
-            <h4 class="c-grey-900 mB-20">Ремонти <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addRepair">Добави</button> <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#returnRepair">Върни</button> <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#scanRepair">Обработи</button></h4>
+            <h4 class="c-grey-900 mB-20">Ремонти <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addRepair">Добави</button> <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#returnRepair">Върни</button> <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#scanRepair">Обработи</button></h4>
             <p>Артикули за ремонт</p>
             <table class="table repair-records-table">
                 <thead class="thead-dark">

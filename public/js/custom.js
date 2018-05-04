@@ -6,29 +6,43 @@ var uvel,
 
     this.init = function () {
       $self.initializeSelect($('select'));
-      $self.addAndRemoveFields($('form[name="addModel"]'));
-      $self.checkAllForms();
+      $self.checkAllForms();     
     };
 
-    this.initializeSelect = function (select) {
-
-      select.select2();
+    this.addSelect2CustomAttributes = function(data, container) {
+      if(data.element) {
+        $(container).attr({
+          'data-price': $(data.element).attr('data-price') || 0,
+          'data-pricebuy': $(data.element).attr('data-pricebuy') || 0,
+          'data-retail': $(data.element).attr('data-retail') || 0,
+          'data-material': $(data.element).attr('data-material') || 0
+        });
+      }
+      return data.text;
     }
 
-    //todo: refactor when it's starts being used for another form, so it's not hardcoded
-    this.addAndRemoveFields = function (form) {
-      form.each(function() {
-        var currentForm = $(this),
-          maxFields = 10,
-          addButton = currentForm.find('.add_field_button'),
-          fields = currentForm.find('.fields'),
-          fieldsWrapper = currentForm.find('.model_stones'),
-          stonesData = $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null;
+    this.initializeSelect = function (select) {
+      select.select2({
+        templateResult: $self.addSelect2CustomAttributes,
+        templateSelection: $self.addSelect2CustomAttributes
+      });
+    }
 
-        //Add Fields
-        addButton.on('click', function (e) {
-          e.preventDefault();
+    this.addAndRemoveFields = function () {
 
+      var collectionAddFieldBtn = $('.add_field_button');
+
+      collectionAddFieldBtn.each(function() {
+
+        var thisBtn = $(this);
+        var fieldsWrapper = $(this).parents().find('.model_stones');
+
+        thisBtn.on('click', function(e) {
+
+          var fields = fieldsWrapper.find('.fields');
+          var stonesData = $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null;
+          var maxFields = 10;
+                    
           if (fields.length <= maxFields) {
             var fieldsHolder = document.createElement('div');
             fieldsHolder.classList.add('form-row', 'fields');
@@ -58,109 +72,170 @@ var uvel,
 
             $self.initializeSelect(fieldsWrapper.find('select'));
           }
+          
         });
 
-        //Remove Fields
-        $(fieldsWrapper).on('click', '.remove_field', function (e) {
+        $(fieldsWrapper).on('click', '.remove_field', function(e) {
 
           e.preventDefault();
           var parents = $(this).parentsUntil(".form-row .fields");
 
           parents[1].remove();
 
-        })
-      })
+        });
+        
+
+      });
+      
     }
 
+    
     this.dropFunctionality = function(instanceFiles) {
+      
 
-      var dropArea = document.getElementById("drop-area");
-      var input = document.getElementById("fileElem");
-      var preventEvents = ['dragenter', 'dragover', 'dragleave', 'drop'],
+      var dropArea = $('.drop-area'),
+          preventEvents = ['dragenter', 'dragover', 'dragleave', 'drop'],
           highlightEvents = ['dragenter', 'dragover'],
           unhighlightEvents = ['dragleave', 'drop'];
 
-      $(input).off();
-      $(input).on('change', function(ev) {
+      dropArea.each(function() {
+        var thisArea = $(this),
+            dropAreaInput = thisArea.find('.drop-area-input'),
+            dropAreaGallery = thisArea.find('.drop-area-gallery');
 
-        var files = ev.target.files,
-            collectionFiles= [];
+        dropAreaInput.off();
+        dropAreaInput.on('change', function(ev) {
 
-        for(var file of files) {
-          collectionFiles.push(file);
-        }
+          var files = ev.target.files,
+              collectionFiles= [];
+         
+          for(var file of files) {
+            collectionFiles.push(file);
+          }
 
-        handleFiles(collectionFiles);
-      })
+          handleFiles(collectionFiles);
 
-      preventEvents.forEach(function(eventName) {
-        dropArea.addEventListener(eventName, preventDefaults, false);
-      }); 
-      
-      highlightEvents.forEach(function(eventName) {
-        dropArea.addEventListener(eventName, highlight, false);
-      });
-
-      unhighlightEvents.forEach(function(eventName) {
-        dropArea.addEventListener(eventName, unhighlight, false);
-      });
-      
-      dropArea.addEventListener('drop', handleDrop, false);
-
-      function highlight(e) {
-        dropArea.classList.add('highlight');
-      }
-      
-      function unhighlight(e) {
-        dropArea.classList.remove('highlight');
-      }
-
-      function preventDefaults(e) {
-        e.preventDefault();
-        e.stopPropagation();
-      } 
-
-      function handleDrop(e) {
-        var dt = e.dataTransfer,
-            files = dt.files,
-            collectionFiles= [];
-
-        for(var file of files) {
-          collectionFiles.push(file);
-        }
-
-        handleFiles(collectionFiles);
-      }
-
-      function handleFiles(files) {
-        files.forEach(previewFile);
-      }
-
-      function previewFile(file) {
-        var reader = new FileReader();
-        reader.readAsDataURL(file);
-
-        reader.onloadend = function() {
-
-          var img = document.createElement('img');
-  
-          img.src = reader.result;
-
-          toDataURL(
-            reader.result,
-            function(dataUrl) {
-              var data = dataUrl.replace('data:image/png;base64,','');
-              instanceFiles.push(data);
-            }
-          )
-          
-          //$("div#gallery").after(img);   
-
-          $(img).appendTo("div#gallery");
-
-          //document.getElementById("gallery").appendChild($(img));  
         
+        });
+
+        preventEvents.forEach(function(eventName) {
+          thisArea[0].addEventListener(eventName, preventDefaults, false);
+        }); 
+        
+        highlightEvents.forEach(function(eventName) {
+          thisArea[0].addEventListener(eventName, highlight, false);
+        });
+  
+        unhighlightEvents.forEach(function(eventName) {
+          thisArea[0].addEventListener(eventName, unhighlight, false);
+        });
+        
+        thisArea[0].addEventListener('drop', handleDrop, false);
+
+        function highlight(e) {
+          thisArea.addClass('highlight');
         }
+        
+        function unhighlight(e) {
+          thisArea.removeClass('highlight');
+        }
+  
+        function preventDefaults(e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+
+        function handleDrop(e) {
+          var dt = e.dataTransfer,
+              files = dt.files,
+              collectionFiles= [];
+  
+          for(var file of files) {
+            collectionFiles.push(file);
+          }
+  
+          handleFiles(collectionFiles);
+        }
+
+        function handleFiles(files) {
+          files.forEach(previewFile);
+        }
+  
+        function previewFile(file) {
+
+          
+          var reader = new FileReader();
+          reader.readAsDataURL(file);
+  
+          reader.onloadend = function() {
+  
+            var imageWrapper = document.createElement('div');
+            imageWrapper.setAttribute("class", "image-wrapper");
+            var closeBtn = document.createElement('div');
+            closeBtn.setAttribute("class", "close");
+            closeBtn.innerHTML = '&#215;';
+            var img = document.createElement('img');
+    
+            img.src = reader.result;
+
+            toDataURL(
+              reader.result,
+              function(dataUrl) {
+                var data = dataUrl.replace('data:image/png;base64,',''); 
+                instanceFiles.push(data);          
+              }
+            )   
+            
+            closeBtn.addEventListener('click', deleteUploadedImage);
+
+            $(closeBtn).appendTo(imageWrapper);
+
+            $(img).appendTo(imageWrapper);
+
+            $(imageWrapper).appendTo(dropAreaGallery);
+
+          }
+        }
+
+  
+      });
+
+      var imageDeleteBtn = $('.image-wrapper .close');
+      
+      imageDeleteBtn.each(function() {
+
+        var imageDeleteBtn = $(this);
+
+        imageDeleteBtn.off();
+        imageDeleteBtn.on('click', deleteUploadedImage);
+
+      });
+
+      function deleteUploadedImage(e) {
+           
+        var deleteUrl = $(this).find('span').attr('data-url');
+        var urlTaken = window.location.href.split('/');
+        var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
+
+        if((deleteUrl !== undefined) && (deleteUrl.length > 0)){
+          var ajaxUrl = url + '/' + deleteUrl;
+
+          $.ajax({
+            url: ajaxUrl,
+            method: "POST",
+            success: deleteUploadedImageSuccess(e)
+          });
+
+          //ajaxFn('POST', ajaxUrl, deleteUploadedImageSuccess, '', '', '');
+
+        }
+        
+      }
+
+      function deleteUploadedImageSuccess(e) {
+
+        $(e.target).parents('.image-wrapper').remove();
+
       }
 
       function toDataURL(src, callback, outputFormat) {
@@ -184,12 +259,16 @@ var uvel,
           img.src = src;
         }
       } 
-    }
+    }   
 
     this.checkAllForms = function(currentPressedBtn) {
 
-      var collectionBtns = document.querySelectorAll('.modal-dialog .modal-footer button[type="submit"]');
+      var collectionModalEditBtns = document.querySelectorAll('.modal-dialog .modal-footer .edit-btn-modal');
+      var collectionModalAddBtns = document.querySelectorAll('.modal-dialog .modal-footer .add-btn-modal');
+
+      var printBtns = document.querySelectorAll('.print-btn');
       var deleteBtns = document.querySelectorAll('.delete-btn');
+      var certificateBtns = document.querySelectorAll('.certificate');
 
       var urlTaken = window.location.href.split('/');
       var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
@@ -197,6 +276,8 @@ var uvel,
       var form;
       var nameForm;
       var numberItemInput = document.getElementById("product_barcode");
+      var barcodeProcessRepairInput = document.getElementById("barcode_process-repairs");
+      var barcodeReturnRepairInput = document.getElementById("barcode_return-repairs");
       var catalogNumberInput = document.getElementById("catalog_number");
       var amountInput =  document.getElementById("amount");
       var moreProductsInput = document.getElementById("amount_check");
@@ -208,26 +289,86 @@ var uvel,
       var collectionModelPrice = [].slice.apply(document.querySelectorAll('.calculate'));
       var collectionFillFields = [].slice.apply(document.querySelectorAll('.fill-field'));
 
+      var pendingRequest = false;
+
       editAction();
+
+      function calculatePrice(jeweryPrice, dataWeight , priceDev , currentElement) {
+        var typeJeweryData = jeweryPrice;
+        var weightData = dataWeight;
+        var priceData = priceDev;
+
+        var element = currentElement;
       
+        console.log('calculating..');
+        console.log(typeJeweryData);
+        console.log(weightData);
+        console.log(priceData);
+        console.log('/calculating..');
+        
+        var inputDev = element.children().find('.worksmanship_price'),
+          inputPrice = element.children().find('.final_price');
 
-      if (collectionModelPrice.length) {
-        var typeJewery = collectionModelPrice[0]
-        var price = collectionModelPrice[1];
-        var weight = collectionModelPrice[2];
+        if (typeJeweryData && priceData && weightData) {
+          var priceDev = (priceData - typeJeweryData) * weightData;
+          var productPrice = (priceData * weightData);
 
-        collectionModelPrice.forEach(function (el) {
-          if(el.tagName === 'SELECT') {
-            $(el).on('select2:select', function(e) {
-              calculatePrice();
-            })
-          } else {
-            el.addEventListener('change', function (ev) {
-              calculatePrice();
-            });
-          }
-        });
+          inputDev.val(priceDev);
+          inputPrice.val(productPrice);
+
+          console.log('isndei');
+        } else {
+          inputDev.val('0');
+          inputPrice.val('0');
+        }
       }
+
+      var jeweryPrice = 0;
+      var dataWeight = 0;
+      var priceDev = 0;
+
+      $(document).on('change' , '.calculate' , function(e) {
+        var _element = $(e.currentTarget);
+        var ajaxUrl = window.location.origin + '/ajax/getPrices/';
+        var parentElement = _element.parents('form');
+
+        if(_element[0].nodeName == 'SELECT') {
+          if(_element[0].id == 'jewel' || _element[0].id == 'jewel_edit') {
+            var materialType = _element.find(':selected').attr('data-material');
+            var requestLink = ajaxUrl + materialType;    
+
+            jeweryPrice = _element.find(':selected').attr('data-pricebuy');
+
+            ajaxFn('GET' , requestLink , function(response) {
+                var data = response.prices;
+  
+                var newData = data.map(function(keys) {
+                  return {
+                    id: keys.id,
+                    text: keys.slug + ' - ' + keys.price,
+                    price: keys.price,
+                    material: keys.material
+                  }
+                });
+                
+                _element.parents('form').children().find('.prices-filled').empty();
+                _element.parents('form').children().find('.prices-filled').select2({
+                  data: newData,
+                  templateResult: $self.addSelect2CustomAttributes,
+                  templateSelection: $self.addSelect2CustomAttributes
+                });              
+              });  
+          } else {
+            priceDev = _element.select2('data')[0].price;
+          }
+
+          calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
+        } else {
+          dataWeight = _element[0].value;
+          calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
+        }
+      });
+
 
       if(collectionFillFields.length) {
         collectionFillFields.map(function(el) {
@@ -242,25 +383,27 @@ var uvel,
         })
       }
 
-      if (collectionBtns.length) {
+      if(collectionModalEditBtns.length > 0) {
+
         var modelSelect = $('#model_select');
         var typeSelect;
         var collectionFiles = [];
-        var dropZone = document.getElementById("drop-area");
-
+        var dropZone = document.getElementsByClassName("drop-area");
+        
         if(dropZone) {
-          this.dropFunctionality(collectionFiles);
-          // Todo: make a removing functionality
-         
+            this.dropFunctionality(collectionFiles);   
         }
+
 
         if(modelSelect) {
           modelSelect.on('select2:select', function(ev) {
+            
             if(modelSelect.val()) {
+              
               var value = modelSelect.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
                   xhttp = new XMLHttpRequest(),
-                  typeSelect = $('#jewels_types');
+                  typeSelect = $('#jewel_edit');
 
               typeSelect.on('select2:select', function(ev) {
                 modelSelect.val('0').trigger('change.select2');
@@ -271,14 +414,57 @@ var uvel,
           });
         }
           
-        collectionBtns.forEach(function (btn) {
+        collectionModalEditBtns.forEach(function (btn) {
           btn.removeEventListener('click', getFormData, true);
           btn.addEventListener('click', getFormData);
         })
       }
+     
+
+      if(collectionModalAddBtns.length > 0){
+
+        var modelSelect = $('#model_select');
+        var typeSelect;
+        var collectionFiles = [];
+   
+        var dropZone = document.getElementsByClassName("drop-area");
+
+        if(dropZone) {
+          this.dropFunctionality(collectionFiles);         
+        }
+
+
+        if(modelSelect) {
+          modelSelect.on('select2:select', function(ev) {
+            if(modelSelect.val()) {
+              var value = modelSelect.find(':selected').val(),
+                  tempUrl = url + '/products/' + value,
+                  xhttp = new XMLHttpRequest(),
+                  typeSelect = $('#jewel');
+
+            
+                  
+              typeSelect.on('select2:select', function(ev) {
+                modelSelect.val('0').trigger('change.select2');
+              });
+
+              productsRequest(tempUrl);
+              
+            }
+          });
+        }
+          
+        collectionModalAddBtns.forEach(function (btn) {
+
+          $(btn).off();
+
+          $(btn).on('click', getFormData); 
+
+        });
+      }
 
       if(catalogNumberInput !== null){
-        catalogNumberInput.onchange = addCatalogNumber;
+        catalogNumberInput.addEventListener('change', addCatalogNumber);
       }
 
       function addCatalogNumber(){
@@ -288,7 +474,7 @@ var uvel,
         var amountCheck = moreProductsInput.checked;
         
         var ajaxUrl = sellingForm.getAttribute("data-scan");
-
+        
         var dataSend = {'catalog_number' : catalogNumber, 'quantity' : Number(amountValue), 'amount_check' : amountCheck};
 
         ajaxFn('POST', ajaxUrl, sendSuccess, dataSend, '', '');
@@ -303,7 +489,7 @@ var uvel,
       }
 
       if(discountCardInput !== null){
-        discountCardInput.onchange = addCardDiscount;
+        discountCardInput.addEventListener('change',addCardDiscount);
       }
 
       function addCardDiscount() {
@@ -358,7 +544,9 @@ var uvel,
 
       if(moreProductsInput!==null){
 
-        moreProductsInput.onclick = function() {
+        moreProductsInput.addEventListener('click', moreProductsSelected)
+
+        function moreProductsSelected(){
           
           if(this.checked ) {
             amountInput.readOnly = false;
@@ -381,10 +569,11 @@ var uvel,
       }  
 
       if(numberItemInput !== null){
-        numberItemInput.onchange = sendItem;
+
+        numberItemInput.addEventListener('change',sendItem);
       }
 
-     function sendItem(event) {
+      function sendItem(event) {
 
          var numberItemValue = this.value;
          var amountValue = amountInput.value;
@@ -402,7 +591,7 @@ var uvel,
 
          }
 
-     }
+      }
 
       function sendSuccess(data, elements, btn){
 
@@ -428,8 +617,108 @@ var uvel,
         
       }
 
-      document.addEventListener('click', deleteRowRecord);
+      if(barcodeProcessRepairInput !== null){
+        barcodeProcessRepairInput.addEventListener('change',sendProcessRepairBarcode);
+      }
 
+      function sendProcessRepairBarcode(event) {
+
+        var processRepairBarcode = event.target.value;
+      
+        if(processRepairBarcode.length > 0){
+
+          var urlTaken = window.location.href.split('/');
+          var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs';
+          var ajaxUrl = url + '/' + processRepairBarcode;
+
+          ajaxFn("GET",ajaxUrl,sendProcessRepairBarcodeSuccess,'','','');
+        } 
+
+      }
+
+      function sendProcessRepairBarcodeSuccess() {
+
+        console.log("sendProcessRepairBarcodeSuccess");
+      }
+
+      if(barcodeReturnRepairInput !== null){
+        barcodeReturnRepairInput.addEventListener('change',sendReturnRepairBarcode);
+      }
+
+      function sendReturnRepairBarcode(event){
+
+        var processReturnBarcode = event.target.value;
+
+        if(processReturnBarcode.length > 0){
+
+          var urlTaken = window.location.href.split('/');
+          var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs/return';
+          var ajaxUrl = url + '/' + processReturnBarcode;
+
+          ajaxFn("GET",ajaxUrl,sendProcessReturnBarcodeSuccess,'','','');
+        } 
+      }
+
+      function sendProcessReturnBarcodeSuccess(){
+
+        console.log("sendProcessReturnBarcodeSuccess");
+      }
+
+      //document.addEventListener('click', print);
+      //document.addEventListener('click', deleteRowRecord);
+
+      printBtns.forEach(function(btn){
+        $(btn).off('click',print);
+        $(btn).on('click',print);
+      });
+
+      deleteBtns.forEach(function(btn){
+        btn.addEventListener('click',deleteRowRecord);
+      });
+
+      certificateBtns.forEach(function(btn){
+        btn.addEventListener('click',printCertificate);
+      });
+  
+      function print(event) {
+
+        if(event.target && event.target.parentElement.classList.contains('print-btn')) {
+
+          event.preventDefault();
+          event.stopPropagation();
+
+          var urlTaken = event.target.parentElement.href.split('/');
+          var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
+    
+          var link = event.target.parentElement;
+          var linkPath = link.href.split("admin")[1];
+          var ajaxUrl = url+linkPath;
+    
+          ajaxFn("GET",ajaxUrl,printBtnSuccess,'','',link);
+          
+        }
+
+      }
+
+      function printBtnSuccess(data) {
+
+        if(data.success){
+
+          var toPrint = data.html;
+          var node = document.createElement("div");
+          var printElement = document.body.appendChild(node);
+
+          printElement.classList.add("to-print");
+          printElement.innerHTML = toPrint;
+          document.body.classList.add("print-mode");
+
+          window.print();
+      
+          document.body.removeChild(node);
+          document.body.classList.remove("print-mode")
+        }
+
+      }
 
       function deleteRowRecord(event) {
               
@@ -443,9 +732,9 @@ var uvel,
             var urlTaken = event.target.parentElement.href.split('/');
             var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
     
-            let link = event.target.parentElement;
-            let linkPath = link.href.split("admin")[1];
-            let ajaxUrl = url+linkPath;
+            var link = event.target.parentElement;
+            var linkPath = link.href.split("admin")[1];
+            var ajaxUrl = url+linkPath;
 
             ajaxFn("POST",ajaxUrl,deleteBtnSuccess,'','',link);
 
@@ -476,113 +765,173 @@ var uvel,
 
       }
 
+
+      function printCertificate(e) {
+
+        var urlTaken = window.location.href.split('/');
+        var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs';
+        var certificateId = e.target.getAttribute('data-repair-id');
+
+        var ajaxUrl = url + '/certificate/' + certificateId;
+
+        ajaxFn("GET",ajaxUrl,printBtnSuccess,'','','');
+
+      } 
+
+
       function getFormData(event) {
 
         var evt = event || window.event;
 
         evt.preventDefault();
 
+        if(pendingRequest) return;
+        pendingRequest = true;
+
         form = evt.target.parentElement.parentElement;
- 
+      
         nameForm = form.getAttribute('name');
 
         var urlAction = form.getAttribute('action'),
-          formMethod = 'POST',
-          ajaxUrl = url + urlAction;
-          collectionInputs = [].slice.apply(document.forms[nameForm].getElementsByTagName('input'));
-          collectionTextareas = [].slice.apply(document.forms[nameForm].getElementsByTagName('textarea'));              
-          collectionSelects = [].slice.apply(document.forms[nameForm].getElementsByTagName('select'));
-          collectionElements = [];
+            formMethod = 'POST',
+            ajaxUrl = url + urlAction;
+            collectionInputs = [].slice.apply(document.forms[nameForm].getElementsByTagName('input'));
+            collectionTextareas = [].slice.apply(document.forms[nameForm].getElementsByTagName('textarea'));              
+            collectionSelects = [].slice.apply(document.forms[nameForm].getElementsByTagName('select'));
+            collectionElements = [];
+      
+            var collectionData = {_token: token};   
 
-        var collectionData = {_token: token};
+              // Check the inputs
 
-        // Check the inputs
+              if (collectionInputs.length != 0) {
 
-        if (collectionInputs.length != 0) {
-          collectionInputs.map(function (el) {
-            if (el != 'undefined') {
-              var name = el.getAttribute('name');
-              var elType = el.getAttribute('type');              
-              var value = elType === 'checkbox' ? el.checked : el.value;
+                collectionInputs.map(function (el) {
 
-              if(name === 'images') {
-                collectionData[name] = [].slice.apply(collectionFiles);
-                return true;
-              } else if (name.includes('[]')) {
-                name = name.replace('[]', '');
+                  if (el != 'undefined') {
 
-                if (collectionData.hasOwnProperty(name)) {
-                  collectionData[name].push(value);
+                    var name = el.getAttribute('name');
+                    var elType = el.getAttribute('type'); 
 
-                } else {
-                  collectionData[name] = [value];
-                }
-              } else {
-                if (name === '_method') {
-                  formMethod = value;
-                }
-                
-                collectionData[name] = value;
-                collectionElements.push(el);
-              }
-            }
-          });
-        }
+                    var value = elType === 'checkbox' ? el.checked : el.value;
 
-        // Check the textareas
-
-        if(collectionTextareas.length) {
-          collectionTextareas.map(function(el) {
-              if(el != 'undefined') {
-                var name = el.getAttribute('name');
-                var value = el.value;
-
-                collectionData[name] = value;
-                collectionElements.push(el);
-              }
-          })
-        }
-
-        // Check the selects
-
-        if (collectionSelects.length != 0) {
-          for (var i = 0; i <= collectionSelects.length; i += 1) {
-            var el = collectionSelects[i];
-
-            if (typeof  el != 'undefined') {
-              var name = el.getAttribute('name');
-              var value;
-
-              if (el.options && el.options[el.selectedIndex]) {
-                value = el.options[el.selectedIndex].value;
-              } else {
-                value = '';
-              }
-
-              if (name.includes('[]')) {
-                name = name.replace('[]', '');
-
-                if (collectionData.hasOwnProperty(name)) {
-                  collectionData[name].push(value);
-                } else {
-                  collectionData[name] = [value];
-                }
-              } else {
-                collectionData[name] = value;
-                collectionElements.push(collectionSelects[i]);
-              }
-            }
-          }
-        }
-
-        if (formMethod == 'POST') {     
-          ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements, currentPressedBtn);
-        } else if (formMethod == 'PUT') {      
-          ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
-        }
+                    if(name === 'images') {
         
+                      //collectionData[name] = [].slice.apply(collectionFiles);
+                      
+                      var images = [];
+                      var uploadedImages = $(el).parent().find('.drop-area-gallery').children();
+
+                      for(var i=0; i<uploadedImages.length; i++){
+
+                        var image = $(uploadedImages[i]).find('img');
+                        var imageSrc = $(image).attr('src');
+                        var imagePath = imageSrc.split(',')[1];
+
+                        images.push(imagePath);
+
+                      }
+
+                      collectionData[name] = images;
+
+                      collectionElements.push(el);
+
+                      return true;
+                    } 
+
+                    else if (name.includes('[]')) {
+
+                      name = name.replace('[]', '');
+
+                      if (collectionData.hasOwnProperty(name)) {
+                        collectionData[name].push(value);
+
+                      } 
+                      else {
+                        collectionData[name] = [value];
+                      }
+
+                      collectionElements.push(el);
+
+                    } else {
+
+                      if (name === '_method') {
+                        formMethod = value;
+                      }
+                      
+                      collectionData[name] = value;
+                      collectionElements.push(el);
+
+                    }
+
+                  }
+
+                });
+
+              }
+
+              // Check the textareas
+
+              if(collectionTextareas.length) {
+                collectionTextareas.map(function(el) {
+                    if(el != 'undefined') {
+                      var name = el.getAttribute('name');
+                      var value = el.value;
+
+                      collectionData[name] = value;
+                      collectionElements.push(el);
+                    }
+                })
+              }
+
+              // Check the selects
+
+              if (collectionSelects.length != 0) {
+                for (var i = 0; i <= collectionSelects.length; i += 1) {
+                  var el = collectionSelects[i];
+
+                  if (typeof  el != 'undefined') {
+                    var name = el.getAttribute('name');
+                    var value;
+
+                    if (el.options && el.options[el.selectedIndex]) {
+                      value = el.options[el.selectedIndex].value;
+                    } else {
+                      value = '';
+                    }
+
+                    if (name.includes('[]')) {
+                      name = name.replace('[]', '');
+
+                      if (collectionData.hasOwnProperty(name)) {
+                        collectionData[name].push(value);
+                      } else {
+                        collectionData[name] = [value];
+                      }
+
+                      collectionElements.push(collectionSelects[i]);
+
+                    } else {
+                      collectionData[name] = value;
+                      collectionElements.push(collectionSelects[i]);
+                    }
+                  }
+                }
+              }
+
+              if (formMethod == 'POST') { 
+
+                ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements, currentPressedBtn);
+
+              } else if (formMethod == 'PUT') { 
+                
+                ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
+              }        
       }
       
+
+      /*end getFormData() */
+
       function productsRequest(tempUrl) {
         var xhttp = new XMLHttpRequest();
 
@@ -593,6 +942,8 @@ var uvel,
             var data = JSON.parse(this.responseText);
 
             for(var key in data) {
+              
+
               var holder = document.getElementById(key);
 
               if(holder) {
@@ -609,16 +960,24 @@ var uvel,
                     for(i = holder.options.length - 1 ; i >= 1 ; i--){
                       holder.remove(i);
                     }
-
+                    
                     collectionData.map(function(el) {
                       var option = document.createElement('option');
                           option.text = el.label;
                           option.value = el.value;
                           
+                          option.setAttribute('data-pricebuy' , el.pricebuy || 0);
+
+                      if(el.price) {
+                        console.log('TRUE');
+                        option.setAttribute('data-price' , el.price || 0);
+                      }
+
+                      
                       if(el.hasOwnProperty('selected') && el['selected']) {
                         option.selected = true;
                       }
-
+                      
                       holder.add(option);
                     });
 
@@ -640,26 +999,6 @@ var uvel,
         xhttp.setRequestHeader('Content-Type', 'application/json');
         xhttp.setRequestHeader('X-CSRF-TOKEN', token);
         xhttp.send();
-      }
-
-      function calculatePrice() {
-        var typeJeweryData = typeJewery.options[typeJewery.selectedIndex].getAttribute('data-pricebuy'),
-          priceData = price.options[price.selectedIndex].getAttribute('data-retail'),
-          weightData = weight.value;
-
-        var inputDev = document.getElementById('inputDev'),
-          inputPrice = document.getElementById('inputPrice');
-
-        if (typeJeweryData && priceData && weightData) {
-          var priceDev = (priceData - typeJeweryData) * weightData;
-          var productPrice = (priceData * weightData);
-
-          inputDev.value = priceDev;
-          inputPrice.value = productPrice;
-        } else {
-          inputDev.value = '0';
-          inputPrice.value = '0';
-        }
       }
 
       function fillValue(el, value) {
@@ -723,10 +1062,13 @@ var uvel,
 
      
       function handleResponsePost(response, elements, currentPressedBtn) {
+
         var responseHolder = document.forms[nameForm].firstElementChild.firstElementChild;
+
         responseHolder.innerHTML = '';
 
         if (response.hasOwnProperty('errors')) {
+
           var holder = document.createDocumentFragment();
           var errors = response.errors;
 
@@ -742,57 +1084,141 @@ var uvel,
           }
 
           responseHolder.appendChild(holder);
+
         } else {
-          var successContainer = document.createElement('div');
+
+            var successContainer = document.createElement('div');
               successContainer.innerText = 'Успешно добавихте';
               successContainer.className = 'alert alert-success';
 
-          responseHolder.appendChild(successContainer);
+            responseHolder.appendChild(successContainer);
 
-          if (nameForm === 'addPrice') {
-            var select = collectionSelects[0];
-            var tableId = document.querySelector('#' + select.options[select.selectedIndex].value + ' tbody');
+            if (nameForm === 'addPrice') {
 
-            tableId.innerHTML += response.success;
-          } else {
-            if(nameForm === 'addRepair') {
+              var select = collectionSelects[0];
+              var tableId = document.querySelector('#' + select.options[select.selectedIndex].value + ' tbody');
+
+              tableId.innerHTML += response.success;
+
+            } else {
+
+              if(nameForm === 'addRepair') {
               var repairId = response.id,
                   certificateButton = document.querySelector('button#certificate');
 
               certificateButton.dataset.repairId = repairId;
               certificateButton.disabled = false;
+
             }
 
             var tableBody = document.querySelector('table.table tbody');
+
             tableBody.innerHTML += response.success;
           }
 
+
           elements.forEach(function (el) {
+
             var elType = el.getAttribute('type');
 
             if (typeof el != null && elType !== 'hidden' && typeof(el.dataset.clear) == 'undefined') {
               if(elType == 'checkbox') {
                 el.checked = false;
               }
-              
+
+              if(el.tagName == 'SELECT') {
+                $(el).val(null).trigger('change');
+              }
+
               el.value = '';
+
+              if(elType == 'file'){
+
+                $(el).parent().find('drop-area-input').val('');
+
+                $(el).val('');
+
+                var gallery = $(el).parent().children('.drop-area-gallery');
+                gallery.html('');
+                      
+              }     
+              
+
             }
+
           })
         }
+
+        editAction();
+
+        pendingRequest = false;
+
       }
 
-      function handleUpdateResponse(data, elements, currentPressedBtn) {
-        
-        var content = data.table.replace('<tr>', '').replace('</tr>', '');       
-        var tableRow = $self.currentPressedBtn.parentElement.parentElement;
- 
-        $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
+      function handleUpdateResponse(response, elements, currentPressedBtn) {
 
-        if(tableRow !== null){
-          tableRow.innerHTML = content;
+
+        var responseHolder = document.forms[nameForm].firstElementChild.nextElementSibling.firstElementChild;
+
+        responseHolder.innerHTML = '';
+       
+        if(response.hasOwnProperty('errors')) {
+
+          var holder = document.createDocumentFragment();
+          var errors = response.errors;
+
+          for (var err in errors) {
+            var collectionErr = errors[err];
+
+            collectionErr.forEach(function (msg) {
+              var errorContainer = document.createElement('div');
+              errorContainer.innerText = msg;
+              errorContainer.className = 'alert alert-danger';
+              holder.appendChild(errorContainer);
+            });
+          }
+
+          responseHolder.appendChild(holder);
+      
+          
+          
+
+        } else {
+
+            var successContainer = document.createElement('div');
+                successContainer.innerText = 'Успешно променихте';
+                successContainer.className = 'alert alert-success';
+
+              responseHolder.appendChild(successContainer);
+
+              var content = response.table.replace('<tr>', '').replace('</tr>', '');
+
+              var tableRow = $self.currentPressedBtn.parentElement.parentElement;
+
+              $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
+  
+              if(tableRow !== null){
+                  tableRow.innerHTML = content;
+              }
+
+
+              var dropAreaGallery = responseHolder.parentElement.querySelector('.drop-area-gallery');
+              var uploadedArea = responseHolder.parentElement.querySelector('.uploaded-images-area');
+              var photos = response.photos;
+
+              dropAreaGallery.innerHTML = '';
+
+              if(photos.length > 0){
+                uploadedArea.innerHTML = response.photos;
+                $self.dropFunctionality();
+              }
+              
+              editAction();
+
         }
 
-       editAction();
+        pendingRequest = false;
+        
       }
 
       //edit buttons
@@ -810,16 +1236,12 @@ var uvel,
           $(btn).off();
 
           $(btn).on('click',clickEditButton);
-
-       
         });
       }
   
-      
       function clickEditButton(event) {
 
         event.preventDefault();
-        //event.stopPropagation();
 
         var link = event.target.parentElement;
 
@@ -834,20 +1256,21 @@ var uvel,
         
         setTimeout(function() {$self.checkAllForms(currentPressedBtn);}, 500);
 
-        //event.stopImmediatePropagation();
-  
-
       }
       
 
-      function editBtnSuccess(data,elements,btn){
+      function editBtnSuccess(data,elements,btn) {
 
          var id = btn.getAttribute("data-target");
          var selector = id + ' '+ '.modal-content';
          var html = $.parseHTML(data);
-         
-         $(selector).html(html);
+
+         $(selector).html(html);      
+         $self.initializeSelect($(selector).children().find('select'));
       }
+
+      $self.addAndRemoveFields(); 
+ 
     }
   }
 

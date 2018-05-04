@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\gallery;
 use Illuminate\Http\Request;
+use Response;
 
 class GalleryController extends Controller
 {
@@ -78,8 +79,14 @@ class GalleryController extends Controller
      * @param  \App\gallery  $gallery
      * @return \Illuminate\Http\Response
      */
-    public function destroy(gallery $gallery)
+    public function destroy(gallery $gallery, $photo)
     {
-        //
+        $photo = Gallery::find($photo);
+
+        if($photo){
+            unlink(public_path('uploads/'.$photo->table.'/').$photo->photo);
+            $photo->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

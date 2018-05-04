@@ -28,7 +28,7 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" id="add" class="btn btn-primary">Добави</button>
+                    <button type="submit" id="add" class="add-btn-modal btn btn-primary">Добави</button>
                 </div>
             </form>
         </div>
@@ -63,7 +63,7 @@ aria-hidden="true">
     </div>
 </div>
 
-<h3>Добави друг тип <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
+<h3>Добави друг тип <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
 
 <table class="table table-condensed">
     <tr>

@@ -84,9 +84,11 @@ class PricesController extends Controller
      * @param  \App\Prices  $prices
      * @return \Illuminate\Http\Response
      */
-    public function edit(Prices $prices)
+    public function edit(Prices $prices, $price)
     {
-        //
+        $price = Prices::find($price);
+        
+        return \View::make('admin/prices/edit', array('price' => $price));
     }
 
     /**
@@ -96,9 +98,27 @@ class PricesController extends Controller
      * @param  \App\Prices  $prices
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Prices $prices)
+    public function update(Request $request, Prices $prices, $price)
     {
-        //
+        $price = Prices::find($price);
+        
+        $price->slug = $request->slug;
+        $price->price = $request->price;
+        $price->type = $request->type;
+
+        $validator = Validator::make( $request->all(), [
+            'slug' => 'required',
+            'price' => 'required|numeric',
+            'type' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+        
+        $price->save();
+        
+        return Response::json(array('table' => View::make('admin/prices/table', array('price' => $price, 'type' => $request->type))->render()));
     }
 
     /**
@@ -107,9 +127,14 @@ class PricesController extends Controller
      * @param  \App\Prices  $prices
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Prices $prices)
+    public function destroy(Prices $prices, $price)
     {
-        //
+        $price = Prices::find($price);
+        
+        if($price){
+            $price->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 
     public function getByMaterial($material){
@@ -120,6 +145,25 @@ class PricesController extends Controller
             ]
         )->get();
 
-        return Response::json(array('prices' => $prices));
+        $prices_retail = array();
+
+        $prices_retail[0] = (object)[
+            'id' => '',
+            'material' => '',
+            'slug' => 'Избери цена',
+            'price' => ''
+        ];
+        
+        foreach($prices as $price){
+
+            $prices_retail[] = (object)[
+                'id' => $price->id,
+                'material' => $price->material,
+                'slug' => $price->slug.' - '.$price->price.'лв',
+                'price' => $price->price
+            ];
+        }
+
+        return Response::json(array('prices' => $prices_retail));
     }
 }

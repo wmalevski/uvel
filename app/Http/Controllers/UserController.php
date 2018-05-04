@@ -48,7 +48,7 @@ class UserController extends Controller
         
         $user->name = $request->name;
         $user->store = $request->store;
-        $user->retract($user->roles->first()['name']);
+        $user->roles()->detach();
         $user->assign($request->role);
 
         // $user->detachRoles($user->roles);
@@ -104,5 +104,21 @@ class UserController extends Controller
         $user->assign($request->role);
         
         return Response::json(array('success' => View::make('admin/users/table',array('user'=>$user))->render()));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\User  $stores
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(User $users, $user)
+    {
+        $user = User::find($user);
+        
+        if($user){
+            $user->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

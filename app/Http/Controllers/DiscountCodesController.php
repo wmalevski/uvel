@@ -164,8 +164,13 @@ class DiscountCodesController extends Controller
      * @param  \App\Discount_codes  $discount_codes
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Discount_codes $discount_codes)
+    public function destroy(Discount_codes $discount_codes, $discount)
     {
-        //
+        $discount = Discount_codes::find($discount);
+        
+        if($discount){
+            $discount->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }
