@@ -120,8 +120,12 @@ class DatabaseSeeder extends Seeder
         Bouncer::allow($admin)->to($addingSafe);
         Bouncer::allow($admin)->to($deleteProducts);
 
-
-        //Bouncer::allow('admin')->everything();
+        //Merchant permissions 
+        Bouncer::allow($merchant)->to($sellingProducts);
+        Bouncer::allow($merchant)->to($manageOrders);
+        Bouncer::allow($merchant)->to($manageRepairs);
+        Bouncer::allow($merchant)->to($sellingStatus);
+        Bouncer::allow($merchant)->to($jewelStatus);
 
         $user = new User();
         $user->name = 'Admin';
