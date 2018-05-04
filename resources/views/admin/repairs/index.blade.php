@@ -175,7 +175,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/repairs/return" name="returnRepair">
+            <form method="POST" action="/repairs/return" id='return-repair-form' name="returnRepair">
                  
                 <div class="modal-body">    
                     <div class="info-cont">
@@ -308,7 +308,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/repairs/return" name="scanRepair">
+            <form method="POST" action="/repairs/return" id='scan-repair-form' name="scanRepair">
                  
                 <div class="modal-body">    
                     <div class="info-cont">

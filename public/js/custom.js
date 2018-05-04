@@ -285,6 +285,8 @@ var uvel,
       var discountCardInput = document.getElementById("discount_card");
 
       var sellingForm = document.getElementById('selling-form');
+      var returnRepairForm = document.getElementById('return-repair-form');
+      var returnScanForm = document.getElementById('scan-repair-form');
 
       var collectionModelPrice = [].slice.apply(document.querySelectorAll('.calculate'));
       var collectionFillFields = [].slice.apply(document.querySelectorAll('.fill-field'));
@@ -562,9 +564,19 @@ var uvel,
 
       if(sellingForm !== null){
       
-        sellingForm.onsubmit = function(e){
-            e.preventDefault();
-        };
+        sellingForm.addEventListener('submit',function(e){e.preventDefault();});
+  
+      }  
+
+      if(returnRepairForm !== null){
+      
+        returnRepairForm.addEventListener('submit',function(e){e.preventDefault();});
+  
+      }  
+
+      if(returnScanForm !== null){
+      
+        returnScanForm.addEventListener('submit',function(e){e.preventDefault();});
   
       }  
 
