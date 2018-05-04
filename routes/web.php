@@ -136,6 +136,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/stones/{stone}', 'StonesController@edit');
 
     Route::get('/stones/contours/{contour}', 'StoneContoursController@edit');
+
+    Route::get('/repairs/certificate/{id}', 'RepairsController@certificate');
 });
 
 Route::group(['prefix' => 'ajax'], function() {

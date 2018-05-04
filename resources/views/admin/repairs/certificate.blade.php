@@ -1,12 +1,4 @@
-{{-- {!! DNS1D::getBarcodeSVG($repair->barcode, "EAN13",1,33,"black", true) !!} --}}
 
-<!DOCTYPE html>
-<html lang="en-US">
-  <head>
-  <meta charset="utf-8" />
-  <title>Uvel</title>
-  </head>
-  <body>
     <h2 style="text-align: center;">Магазин за златна и сребърна бижутерия</h1>
     <h2 style="text-align: center;">ул. "Позитано" №20</h1>
     <h2 style="text-align: center;">Тел: 0887977322</h1>
@@ -47,6 +39,3 @@
         <strong>Дата за получаване: </strong> {{ $repair->date_returned }} 
     </div>
     <hr/>
-
-  </body>
-</html>
