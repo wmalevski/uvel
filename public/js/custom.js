@@ -1173,9 +1173,14 @@ var uvel,
 
       function handleUpdateResponse(response, elements, currentPressedBtn) {
 
-        var responseHolder = document.forms[nameForm].firstElementChild.nextElementSibling.firstElementChild;
+        //var responseHolder = document.forms[nameForm].firstElementChild.nextElementSibling.firstElementChild;
+         
+        //var responseHolder = document.forms[nameForm].querySelector('.info-cont');
 
-        responseHolder.innerHTML = '';
+        var responseHolder = document.forms[nameForm].querySelector('.info-cont');
+
+        console.log(responseHolder);
+        //responseHolder.innerHTML = '';
        
         if(response.hasOwnProperty('errors')) {
 
