@@ -636,9 +636,9 @@ var uvel,
 
       }
 
-      function sendProcessRepairBarcodeSuccess() {
+      function sendProcessRepairBarcodeSuccess(data) {
 
-        console.log("sendProcessRepairBarcodeSuccess");
+        console.log(data);
       }
 
       if(barcodeReturnRepairInput !== null){
