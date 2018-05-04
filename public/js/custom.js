@@ -226,8 +226,6 @@ var uvel,
             success: deleteUploadedImageSuccess(e)
           });
 
-          //ajaxFn('POST', ajaxUrl, deleteUploadedImageSuccess, '', '', '');
-
         }
         
       }
@@ -654,7 +652,11 @@ var uvel,
 
         var modalContent = $(btn).parents('.modal-content');
 
-        modalContent.html(data);
+        modalContent.html(data);  
+        
+        $self.checkAllForms();
+        pendingRequest = true;
+    
       }
 
       if(barcodeReturnRepairInput !== null){
@@ -679,9 +681,6 @@ var uvel,
 
         console.log("sendProcessReturnBarcodeSuccess");
       }
-
-      //document.addEventListener('click', print);
-      //document.addEventListener('click', deleteRowRecord);
 
       printBtns.forEach(function(btn){
         $(btn).off('click',print);
@@ -1222,9 +1221,11 @@ var uvel,
               var uploadedArea = responseHolder.parentElement.querySelector('.uploaded-images-area');
               var photos = response.photos;
 
-              dropAreaGallery.innerHTML = '';
+              if(dropAreaGallery!==null){
+                dropAreaGallery.innerHTML = '';
+              }
 
-              if(photos.length > 0){
+              if((photos !== undefined) && (photos.length > 0)){
                 uploadedArea.innerHTML = response.photos;
                 $self.dropFunctionality();
               }
