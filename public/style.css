@@ -188,3 +188,11 @@ textarea {
   resize: none !important;
   min-height: 120px;
 }
+
+
+@media print{
+  body.print-mode>*:not(:last-child){
+    display:none;
+  }
+  
+}
