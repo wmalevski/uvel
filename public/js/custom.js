@@ -263,6 +263,7 @@ var uvel,
 
       var collectionModalEditBtns = document.querySelectorAll('.modal-dialog .modal-footer .edit-btn-modal');
       var collectionModalAddBtns = document.querySelectorAll('.modal-dialog .modal-footer .add-btn-modal');
+      var collectionScanRepairBtns = document.querySelectorAll('.scan-repair');
 
       var printBtns = document.querySelectorAll('.print-btn');
       var deleteBtns = document.querySelectorAll('.delete-btn');
@@ -463,6 +464,25 @@ var uvel,
         });
       }
 
+      
+
+      if(collectionScanRepairBtns.length > 0){
+
+        collectionScanRepairBtns.forEach(function (btn) {
+
+          btn.addEventListener('click', function() {
+            
+            $('.scan-repair-wrapper').show();
+            $('.editModalWrapper').remove();
+            $('#barcode_process-repairs').val('');
+
+          });
+
+        });
+
+
+      }
+
       if(catalogNumberInput !== null){
         catalogNumberInput.addEventListener('change', addCatalogNumber);
       }
@@ -652,21 +672,13 @@ var uvel,
 
         var modalContent = $(btn).parents('.modal-content');
 
-        modalContent.html(data);  
+        $(modalContent).children().not(':first').remove();
+
+        $(data).appendTo(modalContent);
+
+        $('.scan-repair-wrapper').hide();
 
         $self.checkAllForms();
-
-    
-
-        /*
-        var dataID = 
-
-        console.log(tableRow);
-        console.log(repairId);
-        if(tableRow === repairId){
-          $self.currentPressedBtn = document.querySelector(tableRow);
-        }
-        */
 
         pendingRequest = true;
     
@@ -1219,8 +1231,8 @@ var uvel,
               var content = response.table.replace('<tr>', '').replace('</tr>', '');
 
               if(response.ID){
-                var id = response.ID;
 
+                var id = response.ID;
                 var tableRow = $('table tr');
 
                 for(var row of tableRow){
@@ -1230,7 +1242,6 @@ var uvel,
                     var tableRow = row;
                   }
                 }
-
 
               }
               else {
@@ -1257,6 +1268,8 @@ var uvel,
               }
               
               editAction();
+
+ 
 
         }
 
