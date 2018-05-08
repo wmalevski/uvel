@@ -191,6 +191,12 @@ class RepairsController extends Controller
 
         if($request->status){
             $repair->status = 'done';
+
+            $history = new History;
+            $history->action = 'repair';
+            $history->user = Auth::user()->id;
+            $history->result_id = $repair->id;
+            $history->save();
         }
 
         $validator = Validator::make( $request->all(), [
