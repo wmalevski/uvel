@@ -48,8 +48,8 @@ class UserController extends Controller
         
         $user->name = $request->name;
         $user->store = $request->store;
-        $user->roles()->detach();
-        $user->assign($request->role);
+        //$user->roles()->detach();
+        //$user->assign($request->role);
 
         // $user->detachRoles($user->roles);
         // $user->roles()->attach([$request->role]);
@@ -68,9 +68,9 @@ class UserController extends Controller
             //Bouncer::allow($user)->to($role);
 
             if($role == true){
-                Bouncer::allow($user)->to($key);
+                Bouncer::allow($user)->to($key+1);
             }else{
-                Bouncer::disallow($user)->to($key);
+                Bouncer::disallow($user)->to($key+1);
             }
         }
     
