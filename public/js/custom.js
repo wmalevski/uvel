@@ -650,18 +650,30 @@ var uvel,
           var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs/return';
           var ajaxUrl = url + '/' + processReturnBarcode;
 
-          ajaxFn("GET",ajaxUrl,sendProcessReturnBarcodeSuccess,'','',processReturnBarcodeInput);
+          ajaxFn("GET",ajaxUrl,sendProcessRepairBarcodeSuccess,'','',processReturnBarcodeInput);
         } 
       }
 
+      /*
       function sendProcessReturnBarcodeSuccess(data, elements, btn) {
 
         var modalContent = btn.parentElement.closest('.modal-content');
          
-        modalContent.innerHTML = data;
+        var editWrapper = document.createElement('DIV');
+
+        editWrapper.innerHTML = data; 
+        modalContent.children[0].style.display = 'none';
+
+        if(modalContent.children.length > 1){
+          modalContent.children[1].remove();
+        }
+
+        modalContent.appendChild(editWrapper);
+        $self.checkAllForms();
         
 
-      }
+      }*/
+
 
       printBtns.forEach(function(btn){
         $(btn).off('click',print);
@@ -677,29 +689,22 @@ var uvel,
       });
   
       function print(event) {
-
         if(event.target && event.target.parentElement.classList.contains('print-btn')) {
-
           event.preventDefault();
           event.stopPropagation();
 
           var urlTaken = event.target.parentElement.href.split('/');
           var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
-    
           var link = event.target.parentElement;
           var linkPath = link.href.split("admin")[1];
           var ajaxUrl = url+linkPath;
     
           ajaxFn("GET",ajaxUrl,printBtnSuccess,'','',link);
-          
         }
-
       }
 
       function printBtnSuccess(data) {
-
         if(data.success){
-
           var toPrint = data.html;
           var node = document.createElement("div");
           var printElement = document.body.appendChild(node);
@@ -707,33 +712,25 @@ var uvel,
           printElement.classList.add("to-print");
           printElement.innerHTML = toPrint;
           document.body.classList.add("print-mode");
-
           window.print();
-      
           document.body.removeChild(node);
           document.body.classList.remove("print-mode")
         }
-
       }
 
-      function deleteRowRecord(event) {
-              
+      function deleteRowRecord(event) {    
         if(event.target && event.target.parentElement.classList.contains('delete-btn')) {
-
           event.preventDefault();
           event.stopPropagation();
 
           if (confirm("Сигурен ли си, че искаш да изтриеш записа?")) {
-
             var urlTaken = event.target.parentElement.href.split('/');
             var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
-    
             var link = event.target.parentElement;
             var linkPath = link.href.split("admin")[1];
             var ajaxUrl = url+linkPath;
 
             ajaxFn("POST",ajaxUrl,deleteBtnSuccess,'','',link);
-
           }       
         }
       }
@@ -1155,8 +1152,11 @@ var uvel,
 
       function handleUpdateResponse(response, elements, currentPressedBtn) {
         
-        var responseHolder = document.forms[nameForm].querySelector('.info-cont');
-        responseHolder.innerHTML = '';
+        //var responseHolder = document.forms[nameForm].querySelector('.info-cont');
+
+        var responseHolder = document.forms[nameForm].querySelectorAll('.info-cont')[0];
+       
+        //responseHolder.innerHTML = '';
        
         if(response.hasOwnProperty('errors')) {
 
@@ -1184,6 +1184,8 @@ var uvel,
 
             responseHolder.appendChild(successContainer);
 
+            console.log(responseHolder);
+
               var content = response.table.replace('<tr>', '').replace('</tr>', '');
 
               if(response.ID){
@@ -1206,7 +1208,7 @@ var uvel,
               }
            
               if(tableRow !== null){
-                  tableRow.innerHTML = content;
+                tableRow.innerHTML = content;
               }
               
 
