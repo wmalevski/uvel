@@ -157,6 +157,8 @@ class RepairsController extends Controller
             $history->action = 'repair';
             $history->user = Auth::user()->id;
             $history->result_id = $repair->id;
+
+            return Response::json(array('table' => View::make('admin/repairs/table',array('repair'=>$repair))->render(), 'ID' => $repair->id));
         }
     }
 
@@ -215,7 +217,7 @@ class RepairsController extends Controller
     
         $repair->save();
         
-        return Response::json(array('table' => View::make('admin/repairs/table',array('repair'=>$repair))->render()));
+        return Response::json(array('table' => View::make('admin/repairs/table',array('repair'=>$repair))->render(), 'ID' => $repair->id));
     }
 
     /**
