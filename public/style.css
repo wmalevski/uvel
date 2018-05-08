@@ -73,37 +73,90 @@ svg{touch-action:none}.jvectormap-container{width:100%;height:100%;position:rela
     display: none;
  }
 
- #drop-area {
+ .drop-area {
   border: 2px dashed #ccc;
   border-radius: 20px;
   width: 100%;
   font-family: sans-serif;
   padding: 5px 10px;
 }
-#drop-area.highlight {
+
+.drop-area.highlight {
   border-color: purple;
 }
 
-#drop-area label {
-  margin-bottom: 0;
-  margin-top: 10px;
+.drop-area label {
+  margin: 10px;
 }
 
 p {
   margin-top: 0;
 }
+
 .my-form {
   margin-bottom: 10px;
 }
-#gallery {
-  margin-top: 10px;
-}
-#gallery img {
+
+.image-wrapper {
   width: 150px;
-  margin-bottom: 10px;
-  margin-right: 10px;
+  position: relative;
+  margin: 5px 10px 5px 0px;
+}
+
+.image-wrapper .close {
+  position: absolute;
+  color: #fff;
+  right: 5px;
+  top: 5px;
+  padding: 0px 2px;
+  opacity: 1;
+  box-shadow: none;
+  text-shadow: none;
+  font-weight: normal;
+  font-size: 18px;
+  cursor: pointer;
+  background-color: rgba(30, 150, 243, 0.4);
+  -webkit-transition: 0.5s;
+  transition: all 0.3s linear;  
+}
+
+.image-wrapper .close a{
+  color: #fff;
+}
+
+.image-wrapper .close:hover {
+  color: #fff;
+}
+
+.drop-area-gallery,
+.uploaded-images-area {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+.drop-area-gallery img,
+.drop-area-gallery .image-wrapper{
+  width: 140px;
   vertical-align: middle;
 }
+
+.image-wrapper:nth-child(3n){
+  margin-right: 0px;
+} 
+
+.uploaded-images-area  img,
+.uploaded-images-area .image-wrapper{
+  width: 148px;
+  vertical-align: middle;
+}
+
+
+
+.uploaded-images-area {
+  margin-top: 20px;
+}
+
 .button {
   display: inline-block;
   padding: 10px;
@@ -112,9 +165,34 @@ p {
   border-radius: 5px;
   border: 1px solid #ccc;
 }
+
 .button:hover {
   background: #ddd;
 }
-#fileElem {
+
+.drop-area-input {
   display: none;
+}
+
+.delete-stone.remove_field {
+  position: absolute;
+  bottom: 8px;
+}
+
+.select2-container--default .select2-selection--single{
+  height: 35px !important;
+  border: 1px solid #ced4da !important;
+}
+
+textarea {
+  resize: none !important;
+  min-height: 120px;
+}
+
+
+@media print{
+  body.print-mode>*:not(:last-child){
+    display:none;
+  }
+  
 }

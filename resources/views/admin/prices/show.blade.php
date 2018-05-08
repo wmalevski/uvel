@@ -39,7 +39,38 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" id="add" class="btn btn-primary">Добави</button>
+                    <button type="submit" id="add" class="btn btn-primary  add-btn-modal">Добави</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editPrice" role="dialog" aria-labelledby="editPrice"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editPriceLabel">Редактиране на артикул за ремонт</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="/prices" name="editPrice">
+                 
+                <div class="modal-body">    
+                    <div class="info-cont">
+                    </div>
+
+                    {{ csrf_field() }}  
+                                
+
+                    
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+                    <button type="submit" id="edit" class="btn btn-primary">Промени</button>
                 </div>
             </form>
         </div>
@@ -61,14 +92,11 @@ aria-hidden="true">
                 <th>#</th>
                 <th>Име</th> 
                 <th>Стойност</th>
+                <th>Действия</th>
             </tr>
             
             @foreach($prices->where('type', 'buy') as $indexKey => $price)
-                <tr>
-                    <td>@if ($loop->first) Индикация за образуване на цена @endif</td>
-                    <td>{{ $price->slug }}</td> 
-                    <td>{{ $price->price }}</td> 
-                </tr>
+                @include('admin.prices.table')
             @endforeach
         </table>
 
@@ -88,14 +116,11 @@ aria-hidden="true">
                   <th>#</th>
                   <th>Име</th> 
                   <th>Стойност</th>
+                  <th>Действия</th>
               </tr>
               
               @foreach($prices->where('type', 'sell') as $indexKey => $price)
-                  <tr>
-                      <td>@if ($loop->first) Индикация за образуване на цена @endif</td>
-                      <td>{{ $price->slug }}</td> 
-                      <td>{{ $price->price }}</td> 
-                  </tr>
+                @include('admin.prices.table')
               @endforeach
           </table>
           @endif

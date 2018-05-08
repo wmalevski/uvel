@@ -12,8 +12,6 @@ aria-hidden="true">
                 </button>
             </div>
             <form method="POST" name="products" action="/products">
-
-
                 <div class="modal-body">
 
                     <div class="info-cont">
@@ -28,7 +26,7 @@ aria-hidden="true">
                     </div>
 
                     <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                        <input type="checkbox" id="inputCall2" name="for_wholesale" class="peer">
+                        <input type="checkbox" id="for_wholesale" name="for_wholesale" class="peer">
                         <label for="inputCall2" class="peers peer-greed js-sb ai-c">
                             <span class="peer peer-greed">За продажба на едро</span>
                         </label>
@@ -39,21 +37,21 @@ aria-hidden="true">
                         <option value="">Избери</option>
                 
                         @foreach($models as $model)
-                            <option value="{{ $model->id }}" data-jewel="{{ App\Jewels::find($model->jewel)->id }}">{{ $model->name }}</option>
+                            <option value="{{ $model->id }}" data-jewel="{{ App\Jewels::withTrashed()->find($model->jewel)->id }}">{{ $model->name }}</option>
                         @endforeach
                     </select>
                 
                     <label>Вид: </label>
-                    <select id="jewels_types" name="jewelsTypes" class="form-control">
+                    <select id="jewel" name="jewelsTypes" class="form-control calculate">
                         <option value="">Избери</option>
                 
                         @foreach($jewels as $jewel)
-                            <option value="{{ $jewel->id }}" data-price="{{ $jewel->material }}">{{ $jewel->name }}</option>
+                            <option value="{{ $jewel->id }}" data-pricebuy="@if(App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" data-material="{{ $jewel->material }}">{{ $jewel->name }}</option>
                         @endforeach
                     </select>
-
+                    
                     <label>Цена на дребно: </label>
-                    <select id="retail_prices" name="retail_price" class="form-control" >
+                    <select id="retail_price" name="retail_price" class="form-control calculate prices-filled">
                         <option value="">Избери</option>
                 
                         @foreach($prices->where('type', 'sell') as $price)
@@ -62,7 +60,7 @@ aria-hidden="true">
                     </select>
                     
                     <label>Цена на едро: </label>
-                    <select id="wholesale_prices" name="wholesale_prices" class="form-control">
+                    <select id="wholesale_prices" name="wholesale_prices" class="form-control prices-filled">
                         <option value="">Избери</option>
                 
                         @foreach($prices->where('type', 'sell') as $price)
@@ -72,7 +70,7 @@ aria-hidden="true">
                 
                     <div class="form-group">
                         <label for="1">Тегло: </label>
-                        <input type="text" class="form-control" id="weight" name="weight" placeholder="Тегло:" min="1" max="10000">
+                        <input type="text" class="form-control calculate" id="weight" name="weight" placeholder="Тегло:" min="1" max="10000">
                     </div>
                 
                     <div class="form-group">
@@ -89,7 +87,7 @@ aria-hidden="true">
 
                                     @foreach($stones as $stone)
                                         <option value="{{ $stone->id }}">
-                                            {{ $stone->name }} ({{ App\Stone_contours::find($stone->contour)->name }}, {{ App\Stone_sizes::find($stone->size)->name }})
+                                            {{ $stone->name }} ({{ App\Stone_contours::withTrashed()->find($stone->contour)->name }}, {{ App\Stone_sizes::withTrashed()->find($stone->size)->name }})
                                         </option>
                                     @endforeach
                                 </select>
@@ -99,7 +97,7 @@ aria-hidden="true">
                                 <input type="number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="50">
                             </div>
                             <div class="form-group col-md-2">
-                                <span class="delete-stone"><i class="c-brown-500 ti-trash"></i></span>
+                                <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
                             </div>
                         </div>
                     </div>
@@ -107,38 +105,47 @@ aria-hidden="true">
                     <div class="form-row">
                         <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>
                     </div>
-
-                    <br/>
                 
                     <label for="workmanship">Изработка: </label>
                     <div class="input-group"> 
-                        <input type="number" class="form-control" name="workmanship" id="workmanship" value="0">
+                        <input type="number" class="form-control worksmanship_price" name="workmanship" id="workmanship" value="0">
                         <span class="input-group-addon">лв</span>
                     </div>
 
                     <label for="price">Цена: </label>
                     <div class="input-group"> 
-                        <input type="number" class="form-control" name="price" id="price" value="0">
+                        <input type="number" class="form-control final_price" name="price" id="price" value="0">
                         <span class="input-group-addon">лв</span>
                     </div>
-                    <div id="drop-area">
-                        <input type="file" name="images" id="fileElem" multiple accept="image/*" >
-                        <label class="button" for="fileElem">Избери снимки</label>
-                      <div id="gallery" /></div>
+
+                    <div class="drop-area" name="add">
+                        <input type="file" name="images" class="drop-area-input" id="fileElem-add" multiple accept="image/*" >
+                        <label class="button" for="fileElem-add">Select some files</label>
+                        <div class="drop-area-gallery"></div>
                     </div>
+
                     <div id="errors-container"></div>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" id="add" class="btn btn-primary">Добави</button>
+                    <button type="submit" id="add" class="add-btn-modal btn btn-primary">Добави</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<h3>Добави готово изделие <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
+<div class="modal fade" id="editProduct" role="dialog" aria-labelledby="editProductLabel"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            
+        </div>
+    </div>
+</div>
+
+<h3>Добави готово изделие <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
 
 <table class="table table-condensed">
     <tr>

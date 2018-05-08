@@ -31,6 +31,16 @@ aria-hidden="true">
     </div>
 </div>
 
+<div class="modal fade" id="editSize" tabindex="-1"  role="dialog" aria-labelledby="editSize">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            
+
+        </div>
+    </div>
+</div>
+
+
 <div class="row">
     <div class="col-md-12">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
@@ -38,8 +48,8 @@ aria-hidden="true">
             <p>Преглед на създадените размери.</p>
             <table class="table table-condensed">
                 <tr>
-                    <th>#</th>
                     <th>Име</th> 
+                    <th>Действия</th> 
                 </tr>
                 
                 @foreach($sizes as $size)

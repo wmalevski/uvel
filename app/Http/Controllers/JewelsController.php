@@ -111,8 +111,13 @@ class JewelsController extends Controller
      * @param  \App\Jewels  $jewels
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Jewels $jewels)
+    public function destroy(Jewels $jewels, $jewel)
     {
-        //
+        $jewel = Jewels::find($jewel);
+        
+        if($jewel){
+            $jewel->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }
