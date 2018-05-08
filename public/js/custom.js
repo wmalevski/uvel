@@ -653,8 +653,21 @@ var uvel,
         var modalContent = $(btn).parents('.modal-content');
 
         modalContent.html(data);  
-        
+
         $self.checkAllForms();
+
+    
+
+        /*
+        var dataID = 
+
+        console.log(tableRow);
+        console.log(repairId);
+        if(tableRow === repairId){
+          $self.currentPressedBtn = document.querySelector(tableRow);
+        }
+        */
+
         pendingRequest = true;
     
       }
@@ -799,7 +812,7 @@ var uvel,
         var evt = event || window.event;
 
         evt.preventDefault();
-
+   
         if(pendingRequest) return;
         pendingRequest = true;
 
@@ -813,7 +826,8 @@ var uvel,
             //collectionInputs = [].slice.apply(document.forms[nameForm].getElementsByTagName('input'));
             collectionInputs = [].slice.apply(form.getElementsByTagName('input'));
             collectionTextareas = [].slice.apply(document.forms[nameForm].getElementsByTagName('textarea'));              
-            collectionSelects = [].slice.apply(document.forms[nameForm].getElementsByTagName('select'));
+            //collectionSelects = [].slice.apply(document.forms[nameForm].getElementsByTagName('select'));
+            collectionSelects = [].slice.apply(form.getElementsByTagName('select'));
             collectionElements = [];
       
             var collectionData = {_token: token};   
@@ -1172,15 +1186,9 @@ var uvel,
       }
 
       function handleUpdateResponse(response, elements, currentPressedBtn) {
-
-        //var responseHolder = document.forms[nameForm].firstElementChild.nextElementSibling.firstElementChild;
-         
-        //var responseHolder = document.forms[nameForm].querySelector('.info-cont');
-
+        
         var responseHolder = document.forms[nameForm].querySelector('.info-cont');
-
-        console.log(responseHolder);
-        //responseHolder.innerHTML = '';
+        responseHolder.innerHTML = '';
        
         if(response.hasOwnProperty('errors')) {
 
@@ -1199,9 +1207,6 @@ var uvel,
           }
 
           responseHolder.appendChild(holder);
-      
-          
-          
 
         } else {
 
@@ -1209,18 +1214,34 @@ var uvel,
                 successContainer.innerText = 'Успешно променихте';
                 successContainer.className = 'alert alert-success';
 
-              responseHolder.appendChild(successContainer);
+            responseHolder.appendChild(successContainer);
 
               var content = response.table.replace('<tr>', '').replace('</tr>', '');
 
-              var tableRow = $self.currentPressedBtn.parentElement.parentElement;
+              if(response.ID){
+                var id = response.ID;
 
-              $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
-  
+                var tableRow = $('table tr');
+
+                for(var row of tableRow){
+                  var dataID = $(row).attr('data-id');
+                 
+                  if(Number(dataID) === Number(id)){
+                    var tableRow = row;
+                  }
+                }
+
+
+              }
+              else {
+                var tableRow = $self.currentPressedBtn.parentElement.parentElement;
+                $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
+              }
+           
               if(tableRow !== null){
                   tableRow.innerHTML = content;
               }
-
+              
 
               var dropAreaGallery = responseHolder.parentElement.querySelector('.drop-area-gallery');
               var uploadedArea = responseHolder.parentElement.querySelector('.uploaded-images-area');
@@ -1239,9 +1260,14 @@ var uvel,
 
         }
 
-        pendingRequest = false;
+        pendingRequest = false; 
         
       }
+
+
+
+
+
 
       //edit buttons
 
