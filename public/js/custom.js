@@ -226,8 +226,6 @@ var uvel,
             success: deleteUploadedImageSuccess(e)
           });
 
-          //ajaxFn('POST', ajaxUrl, deleteUploadedImageSuccess, '', '', '');
-
         }
         
       }
@@ -265,6 +263,7 @@ var uvel,
 
       var collectionModalEditBtns = document.querySelectorAll('.modal-dialog .modal-footer .edit-btn-modal');
       var collectionModalAddBtns = document.querySelectorAll('.modal-dialog .modal-footer .add-btn-modal');
+      var collectionScanRepairBtns = document.querySelectorAll('.scan-repair');
 
       var printBtns = document.querySelectorAll('.print-btn');
       var deleteBtns = document.querySelectorAll('.delete-btn');
@@ -285,6 +284,8 @@ var uvel,
       var discountCardInput = document.getElementById("discount_card");
 
       var sellingForm = document.getElementById('selling-form');
+      var returnRepairForm = document.getElementById('return-repair-form');
+      var returnScanForm = document.getElementById('scan-repair-form');
 
       var collectionModelPrice = [].slice.apply(document.querySelectorAll('.calculate'));
       var collectionFillFields = [].slice.apply(document.querySelectorAll('.fill-field'));
@@ -463,6 +464,25 @@ var uvel,
         });
       }
 
+      
+
+      if(collectionScanRepairBtns.length > 0){
+
+        collectionScanRepairBtns.forEach(function (btn) {
+
+          btn.addEventListener('click', function() {
+            
+            $('.scan-repair-wrapper').show();
+            $('.editModalWrapper').remove();
+            $('#barcode_process-repairs').val('');
+
+          });
+
+        });
+
+
+      }
+
       if(catalogNumberInput !== null){
         catalogNumberInput.addEventListener('change', addCatalogNumber);
       }
@@ -562,9 +582,19 @@ var uvel,
 
       if(sellingForm !== null){
       
-        sellingForm.onsubmit = function(e){
-            e.preventDefault();
-        };
+        sellingForm.addEventListener('submit',function(e){e.preventDefault();});
+  
+      }  
+
+      if(returnRepairForm !== null){
+      
+        returnRepairForm.addEventListener('submit',function(e){e.preventDefault();});
+  
+      }  
+
+      if(returnScanForm !== null){
+      
+        returnScanForm.addEventListener('submit',function(e){e.preventDefault();});
   
       }  
 
@@ -623,22 +653,35 @@ var uvel,
 
       function sendProcessRepairBarcode(event) {
 
-        var processRepairBarcode = event.target.value;
+        var processRepairBarcodeInput = event.target;
+        var processRepairBarcode = processRepairBarcodeInput.value;
+        
       
         if(processRepairBarcode.length > 0){
 
           var urlTaken = window.location.href.split('/');
-          var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs';
+          var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs/edit';
           var ajaxUrl = url + '/' + processRepairBarcode;
 
-          ajaxFn("GET",ajaxUrl,sendProcessRepairBarcodeSuccess,'','','');
+          ajaxFn("GET",ajaxUrl,sendProcessRepairBarcodeSuccess,'','',processRepairBarcodeInput);
         } 
 
       }
 
-      function sendProcessRepairBarcodeSuccess() {
+      function sendProcessRepairBarcodeSuccess(data,element,btn) {
 
-        console.log("sendProcessRepairBarcodeSuccess");
+        var modalContent = $(btn).parents('.modal-content');
+
+        $(modalContent).children().not(':first').remove();
+
+        $(data).appendTo(modalContent);
+
+        $('.scan-repair-wrapper').hide();
+
+        $self.checkAllForms();
+
+        pendingRequest = true;
+    
       }
 
       if(barcodeReturnRepairInput !== null){
@@ -663,9 +706,6 @@ var uvel,
 
         console.log("sendProcessReturnBarcodeSuccess");
       }
-
-      //document.addEventListener('click', print);
-      //document.addEventListener('click', deleteRowRecord);
 
       printBtns.forEach(function(btn){
         $(btn).off('click',print);
@@ -784,7 +824,7 @@ var uvel,
         var evt = event || window.event;
 
         evt.preventDefault();
-
+   
         if(pendingRequest) return;
         pendingRequest = true;
 
@@ -795,9 +835,11 @@ var uvel,
         var urlAction = form.getAttribute('action'),
             formMethod = 'POST',
             ajaxUrl = url + urlAction;
-            collectionInputs = [].slice.apply(document.forms[nameForm].getElementsByTagName('input'));
+            //collectionInputs = [].slice.apply(document.forms[nameForm].getElementsByTagName('input'));
+            collectionInputs = [].slice.apply(form.getElementsByTagName('input'));
             collectionTextareas = [].slice.apply(document.forms[nameForm].getElementsByTagName('textarea'));              
-            collectionSelects = [].slice.apply(document.forms[nameForm].getElementsByTagName('select'));
+            //collectionSelects = [].slice.apply(document.forms[nameForm].getElementsByTagName('select'));
+            collectionSelects = [].slice.apply(form.getElementsByTagName('select'));
             collectionElements = [];
       
             var collectionData = {_token: token};   
@@ -1156,10 +1198,8 @@ var uvel,
       }
 
       function handleUpdateResponse(response, elements, currentPressedBtn) {
-
-
-        var responseHolder = document.forms[nameForm].firstElementChild.nextElementSibling.firstElementChild;
-
+        
+        var responseHolder = document.forms[nameForm].querySelector('.info-cont');
         responseHolder.innerHTML = '';
        
         if(response.hasOwnProperty('errors')) {
@@ -1179,9 +1219,6 @@ var uvel,
           }
 
           responseHolder.appendChild(holder);
-      
-          
-          
 
         } else {
 
@@ -1189,37 +1226,61 @@ var uvel,
                 successContainer.innerText = 'Успешно променихте';
                 successContainer.className = 'alert alert-success';
 
-              responseHolder.appendChild(successContainer);
+            responseHolder.appendChild(successContainer);
 
               var content = response.table.replace('<tr>', '').replace('</tr>', '');
 
-              var tableRow = $self.currentPressedBtn.parentElement.parentElement;
+              if(response.ID){
 
-              $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
-  
+                var id = response.ID;
+                var tableRow = $('table tr');
+
+                for(var row of tableRow){
+                  var dataID = $(row).attr('data-id');
+                 
+                  if(Number(dataID) === Number(id)){
+                    var tableRow = row;
+                  }
+                }
+
+              }
+              else {
+                var tableRow = $self.currentPressedBtn.parentElement.parentElement;
+                $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
+              }
+           
               if(tableRow !== null){
                   tableRow.innerHTML = content;
               }
-
+              
 
               var dropAreaGallery = responseHolder.parentElement.querySelector('.drop-area-gallery');
               var uploadedArea = responseHolder.parentElement.querySelector('.uploaded-images-area');
               var photos = response.photos;
 
-              dropAreaGallery.innerHTML = '';
+              if(dropAreaGallery!==null){
+                dropAreaGallery.innerHTML = '';
+              }
 
-              if(photos.length > 0){
+              if((photos !== undefined) && (photos.length > 0)){
                 uploadedArea.innerHTML = response.photos;
                 $self.dropFunctionality();
               }
               
               editAction();
 
+ 
+
         }
 
-        pendingRequest = false;
+        pendingRequest = false; 
         
       }
+
+
+
+
+
 
       //edit buttons
 

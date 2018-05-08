@@ -4,8 +4,8 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<form method="POST" action="/repairs/return" name="scanRepair">
-     
+<form method="POST" action="/repairs/return/{{ $repair->barcode }}" name="scanRepair">
+    <input name="_method" type="hidden" value="PUT">
     <div class="modal-body">    
         <div class="info-cont">
         </div>
@@ -120,6 +120,6 @@
 
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-        <button type="submit" id="add" class="btn btn-primary">Върни</button>
+        <button type="submit" id="edit" class="btn edit-btn-modal btn-primary">Върни</button>
     </div>
 </form>
