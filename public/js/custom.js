@@ -75,13 +75,10 @@ var uvel,
           
         });
 
-        $(fieldsWrapper).on('click', '.remove_field', function(e) {
-
-          e.preventDefault();
+        $(fieldsWrapper).on('click', '.remove_field', function(event) {
+          event.preventDefault();
           var parents = $(this).parentsUntil(".form-row .fields");
-
           parents[1].remove();
-
         });
         
 
@@ -92,7 +89,6 @@ var uvel,
     
     this.dropFunctionality = function(instanceFiles) {
       
-
       var dropArea = $('.drop-area'),
           preventEvents = ['dragenter', 'dragover', 'dragleave', 'drop'],
           highlightEvents = ['dragenter', 'dragover'],
@@ -114,7 +110,6 @@ var uvel,
           }
 
           handleFiles(collectionFiles);
-
         
         });
 
@@ -260,15 +255,12 @@ var uvel,
     }   
 
     this.checkAllForms = function(currentPressedBtn) {
-
       var collectionModalEditBtns = document.querySelectorAll('.modal-dialog .modal-footer .edit-btn-modal');
       var collectionModalAddBtns = document.querySelectorAll('.modal-dialog .modal-footer .add-btn-modal');
       var collectionScanRepairBtns = document.querySelectorAll('.scan-repair');
-
       var printBtns = document.querySelectorAll('.print-btn');
       var deleteBtns = document.querySelectorAll('.delete-btn');
       var certificateBtns = document.querySelectorAll('.certificate');
-
       var urlTaken = window.location.href.split('/');
       var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
       var token = $('meta[name="csrf-token"]').attr('content');
@@ -282,14 +274,11 @@ var uvel,
       var moreProductsInput = document.getElementById("amount_check");
       var discountInput = document.getElementById("add_discount");
       var discountCardInput = document.getElementById("discount_card");
-
       var sellingForm = document.getElementById('selling-form');
       var returnRepairForm = document.getElementById('return-repair-form');
       var returnScanForm = document.getElementById('scan-repair-form');
-
       var collectionModelPrice = [].slice.apply(document.querySelectorAll('.calculate'));
       var collectionFillFields = [].slice.apply(document.querySelectorAll('.fill-field'));
-
       var pendingRequest = false;
 
       editAction();
@@ -298,9 +287,8 @@ var uvel,
         var typeJeweryData = jeweryPrice;
         var weightData = dataWeight;
         var priceData = priceDev;
-
         var element = currentElement;
-      
+
         console.log('calculating..');
         console.log(typeJeweryData);
         console.log(weightData);
@@ -370,7 +358,6 @@ var uvel,
         }
       });
 
-
       if(collectionFillFields.length) {
         collectionFillFields.map(function(el) {
           if(el.tagName === 'SELECT') {
@@ -394,7 +381,6 @@ var uvel,
         if(dropZone) {
             this.dropFunctionality(collectionFiles);   
         }
-
 
         if(modelSelect) {
           modelSelect.on('select2:select', function(ev) {
@@ -421,8 +407,7 @@ var uvel,
         })
       }
      
-
-      if(collectionModalAddBtns.length > 0){
+      if(collectionModalAddBtns.length > 0) {
 
         var modelSelect = $('#model_select');
         var typeSelect;
@@ -464,9 +449,7 @@ var uvel,
         });
       }
 
-      
-
-      if(collectionScanRepairBtns.length > 0){
+      if(collectionScanRepairBtns.length > 0) {
 
         collectionScanRepairBtns.forEach(function (btn) {
 
@@ -483,26 +466,20 @@ var uvel,
 
       }
 
-      if(catalogNumberInput !== null){
+      if(catalogNumberInput !== null) {
         catalogNumberInput.addEventListener('change', addCatalogNumber);
       }
 
-      function addCatalogNumber(){
-
+      function addCatalogNumber() {
         var catalogNumber = this.value;
         var amountValue = amountInput.value;
         var amountCheck = moreProductsInput.checked;
-        
         var ajaxUrl = sellingForm.getAttribute("data-scan");
-        
         var dataSend = {'catalog_number' : catalogNumber, 'quantity' : Number(amountValue), 'amount_check' : amountCheck};
 
         ajaxFn('POST', ajaxUrl, sendSuccess, dataSend, '', '');
-
         catalogNumberInput.value = "";
-
       }
-
 
       if(discountInput !== null){
         discountInput.addEventListener('click', addDiscount);
@@ -519,33 +496,27 @@ var uvel,
         var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/';
         var discountUrl = discountInput.getAttribute("data-url");
 
-        if(discountCardBarcode.length == 13){
-
+        if(discountCardBarcode.length == 13) {
           var ajaxUrl = url + discountUrl + '/'+ discountCardBarcode;
+
           ajaxFn("GET", ajaxUrl, discountSuccess, '', '', '');
-
           discountCardInput.value="";
-
         }
         
       }
 
-
       function addDiscount() {
-
         var urlTaken = window.location.href.split('/');
         var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/';
         var discountUrl = this.getAttribute("data-url");
         var discountSelect = document.getElementById("discount");
         var barcode = discountSelect.options[discountSelect.selectedIndex].value;
 
-        if(barcode.length > 0){
-
+        if(barcode.length > 0) {
           var ajaxUrl = url + discountUrl + '/' + barcode;
+
           ajaxFn("GET", ajaxUrl, discountSuccess, '', '', '');
         }
-
-  
       }
 
 
@@ -578,63 +549,51 @@ var uvel,
         };
 
      }
-      
 
-      if(sellingForm !== null){
+
+     function formPreventDefault(form) {
+        form.addEventListener('submit', function(event) { event.preventDefault(); });
+     }
       
-        sellingForm.addEventListener('submit',function(e){e.preventDefault();});
-  
+      if(sellingForm !== null) {
+        formPreventDefault(sellingForm);
       }  
 
-      if(returnRepairForm !== null){
-      
-        returnRepairForm.addEventListener('submit',function(e){e.preventDefault();});
-  
+      if(returnRepairForm !== null) {
+        formPreventDefault(returnRepairForm);
       }  
 
-      if(returnScanForm !== null){
-      
-        returnScanForm.addEventListener('submit',function(e){e.preventDefault();});
-  
+      if(returnScanForm !== null) {
+        formPreventDefault(returnScanForm);
       }  
 
-      if(numberItemInput !== null){
-
+      if(numberItemInput !== null) {
         numberItemInput.addEventListener('change',sendItem);
       }
 
       function sendItem(event) {
-
          var numberItemValue = this.value;
          var amountValue = amountInput.value;
          var amountCheck = moreProductsInput.checked;
 
          if(numberItemValue.length == 13){
-        
            var dataSend = {'barcode' : Number(numberItemValue), 'quantity' : Number(amountValue), 'amount_check' : amountCheck};
-  
            var currentElement = $(event.target);
            var form = currentElement.closest("form");
            var ajaxUrl = form.attr("data-scan");
 
            ajaxFn("POST", ajaxUrl, sendSuccess, dataSend, '', '');
-
          }
-
       }
 
-      function sendSuccess(data, elements, btn){
-
+      function sendSuccess(data, elements, btn) {
         var success = data.success;
         var subTotalInput = document.getElementById("subTotal");
         var totalInput = document.getElementById("total");
         var barcodeInput = document.getElementById("product_barcode");
         var html = data.table;
-        //var html = $.parseHTML(data.table);
         var shoppingTable = document.getElementById("shopping-table");
-
         var nodes = shoppingTable.childNodes;
-
         var tbody = nodes[3];
 
         if(success) {
@@ -643,68 +602,65 @@ var uvel,
           totalInput.value = data.total;
           barcodeInput.value = "";
         }
-
-        
       }
 
-      if(barcodeProcessRepairInput !== null){
+      if(barcodeProcessRepairInput !== null) {
         barcodeProcessRepairInput.addEventListener('change',sendProcessRepairBarcode);
       }
 
       function sendProcessRepairBarcode(event) {
-
         var processRepairBarcodeInput = event.target;
         var processRepairBarcode = processRepairBarcodeInput.value;
-        
-      
-        if(processRepairBarcode.length > 0){
 
+        if(processRepairBarcode.length > 0) {
           var urlTaken = window.location.href.split('/');
           var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs/edit';
           var ajaxUrl = url + '/' + processRepairBarcode;
 
           ajaxFn("GET",ajaxUrl,sendProcessRepairBarcodeSuccess,'','',processRepairBarcodeInput);
         } 
-
       }
 
-      function sendProcessRepairBarcodeSuccess(data,element,btn) {
+      function sendProcessRepairBarcodeSuccess(data, elements, btn) {
+        var modalContent = btn.parentElement.closest('.modal-content');
+        var editWrapper = document.createElement('DIV');
 
-        var modalContent = $(btn).parents('.modal-content');
+        editWrapper.innerHTML = data; 
+        modalContent.children[0].style.display = 'none';
 
-        $(modalContent).children().not(':first').remove();
+        if(modalContent.children.length > 1){
+          modalContent.children[1].remove();
+        }
 
-        $(data).appendTo(modalContent);
-
-        $('.scan-repair-wrapper').hide();
-
+        modalContent.appendChild(editWrapper);
         $self.checkAllForms();
-
         pendingRequest = true;
-    
       }
 
-      if(barcodeReturnRepairInput !== null){
+      if(barcodeReturnRepairInput !== null) {
         barcodeReturnRepairInput.addEventListener('change',sendReturnRepairBarcode);
       }
 
-      function sendReturnRepairBarcode(event){
+      function sendReturnRepairBarcode(event) {
+        var processReturnBarcodeInput = event.target;
+        var processReturnBarcode = processReturnBarcodeInput.value;
 
-        var processReturnBarcode = event.target.value;
-
-        if(processReturnBarcode.length > 0){
-
+        if(processReturnBarcode.length > 0) {
           var urlTaken = window.location.href.split('/');
           var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs/return';
           var ajaxUrl = url + '/' + processReturnBarcode;
 
-          ajaxFn("GET",ajaxUrl,sendProcessReturnBarcodeSuccess,'','','');
+          ajaxFn("GET",ajaxUrl,sendProcessReturnBarcodeSuccess,'','',processReturnBarcodeInput);
         } 
       }
 
-      function sendProcessReturnBarcodeSuccess(){
+      function sendProcessReturnBarcodeSuccess(data, elements, btn) {
 
-        console.log("sendProcessReturnBarcodeSuccess");
+        var modalContent = btn.parentElement.closest('.modal-content');
+         
+        modalContent.innerHTML = data;
+        
+
       }
 
       printBtns.forEach(function(btn){
