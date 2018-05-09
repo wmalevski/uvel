@@ -455,11 +455,16 @@ var uvel,
         collectionScanRepairBtns.forEach(function (btn) {
 
           btn.addEventListener('click', function() {
-            
-            $('.scan-repair-wrapper').show();
-            $('.editModalWrapper').remove();
-            $('#barcode_process-repairs').val('');
+            var returnRepairWrapper = document.getElementById('scan-repair-wrapper');
+            var nextElement = returnRepairWrapper.nextElementSibling;
 
+            if(nextElement != null){
+              nextElement.parentNode.removeChild(nextElement);
+            }
+
+            returnRepairWrapper.style.display = 'block';
+            returnRepairWrapper.querySelector('.info-cont').innerHTML='';
+            document.getElementById('barcode_process-repairs').value = '';
           });
 
         });
@@ -471,27 +476,20 @@ var uvel,
         collectionReturnRepairBtns.forEach(function (btn) {
 
           btn.addEventListener('click', function() {
-
             var returnRepairWrapper = document.getElementById('return-repair-wrapper');
-            returnRepairWrapper.style.display = 'block';
-
             var nextElement = returnRepairWrapper.nextElementSibling;
-            if(nextElement!==null){
+
+            if(nextElement != null){
               nextElement.parentNode.removeChild(nextElement);
             }
 
+            returnRepairWrapper.style.display = 'block';
             returnRepairWrapper.querySelector('.info-cont').innerHTML='';
-            
             document.getElementById('barcode_return-repairs').value = '';
-
           });
 
         });
-        
       }
-
-
-
 
       if(catalogNumberInput !== null) {
         catalogNumberInput.addEventListener('change', addCatalogNumber);

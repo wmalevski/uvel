@@ -198,7 +198,7 @@ aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
 
-            <div class='scan-repair-wrapper'>
+            <div id='scan-repair-wrapper'>
                 <div class="modal-header">
                     <h5 class="modal-title" id="scanRepairLabel">Обработка на ремонтиран артикул</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
