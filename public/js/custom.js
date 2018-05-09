@@ -1134,20 +1134,34 @@ var uvel,
 
               tableId.innerHTML += response.success;
 
-            } else {
+            }
+            else if(nameForm === 'sendUser') {
+              if(response.place === 'active'){
+                var table = document.getElementById('user-substitute-active');
+                var tableBody = table.querySelector('tbody');
+
+                tableBody.innerHTML += response.success;
+              }
+              else if(response.place === 'inactive') {
+                var table = document.getElementById('user-substitute-inactive');
+                var tableBody = table.querySelector('tbody');
+
+                tableBody.innerHTML += response.success;
+              }
+            }
+            else {
 
               if(nameForm === 'addRepair') {
-              var repairId = response.id,
-                  certificateButton = document.querySelector('button#certificate');
+                var repairId = response.id,
+                    certificateButton = document.querySelector('button#certificate');
 
-              certificateButton.dataset.repairId = repairId;
-              certificateButton.disabled = false;
+                certificateButton.dataset.repairId = repairId;
+                certificateButton.disabled = false;
+              }
 
-            }
+              var tableBody = document.querySelector('table.table tbody');
 
-            var tableBody = document.querySelector('table.table tbody');
-
-            tableBody.innerHTML += response.success;
+              tableBody.innerHTML += response.success;
           }
 
 
@@ -1184,12 +1198,7 @@ var uvel,
         }
 
         editAction();
-
         pendingRequest = false;
-
-
-
-
       }
 
       function handleUpdateResponse(response, elements, currentPressedBtn) {
