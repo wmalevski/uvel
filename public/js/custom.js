@@ -1155,7 +1155,7 @@ var uvel,
       }
 
       function handleUpdateResponse(response, elements, currentPressedBtn) {
-        var alertAreas = document.getElementsByClassName('info-cont');
+        var alertAreas = [].slice.apply(document.getElementsByClassName('info-cont'));
 
         Array.from(alertAreas).forEach(function(responseHolder) {
           responseHolder.innerHTML = "";
