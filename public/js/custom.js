@@ -258,6 +258,7 @@ var uvel,
       var collectionModalEditBtns = document.querySelectorAll('.modal-dialog .modal-footer .edit-btn-modal');
       var collectionModalAddBtns = document.querySelectorAll('.modal-dialog .modal-footer .add-btn-modal');
       var collectionScanRepairBtns = document.querySelectorAll('.scan-repair');
+      var collectionReturnRepairBtns = document.querySelectorAll('.return-repair');
       var printBtns = document.querySelectorAll('.print-btn');
       var deleteBtns = document.querySelectorAll('.delete-btn');
       var certificateBtns = document.querySelectorAll('.certificate');
@@ -463,8 +464,34 @@ var uvel,
 
         });
 
-
       }
+
+      if(collectionReturnRepairBtns.length > 0) {
+
+        collectionReturnRepairBtns.forEach(function (btn) {
+
+          btn.addEventListener('click', function() {
+
+            var returnRepairWrapper = document.getElementById('return-repair-wrapper');
+            returnRepairWrapper.style.display = 'block';
+
+            var nextElement = returnRepairWrapper.nextElementSibling;
+            if(nextElement!==null){
+              nextElement.parentNode.removeChild(nextElement);
+            }
+
+            returnRepairWrapper.querySelector('.info-cont').innerHTML='';
+            
+            document.getElementById('barcode_return-repairs').value = '';
+
+          });
+
+        });
+        
+      }
+
+
+
 
       if(catalogNumberInput !== null) {
         catalogNumberInput.addEventListener('change', addCatalogNumber);
@@ -626,7 +653,9 @@ var uvel,
         var editWrapper = document.createElement('DIV');
 
         editWrapper.innerHTML = data; 
+
         modalContent.children[0].style.display = 'none';
+           
 
         if(modalContent.children.length > 1){
           modalContent.children[1].remove();
@@ -1154,10 +1183,88 @@ var uvel,
         
         //var responseHolder = document.forms[nameForm].querySelector('.info-cont');
 
-        var responseHolder = document.forms[nameForm].querySelectorAll('.info-cont')[0];
-       
-        //responseHolder.innerHTML = '';
-       
+        //var responseHolder = document.forms[nameForm].querySelectorAll('.modal-body > .info-cont');
+
+        var alertAreas = document.getElementsByClassName('info-cont');
+
+        Array.from(alertAreas).forEach(function(responseHolder) {
+
+          responseHolder.innerHTML = "";
+
+          if(response.hasOwnProperty('errors')) {
+
+            var holder = document.createDocumentFragment();
+            var errors = response.errors;
+  
+            for (var err in errors) {
+              var collectionErr = errors[err];
+  
+              collectionErr.forEach(function (msg) {
+                var errorContainer = document.createElement('div');
+                errorContainer.innerText = msg;
+                errorContainer.className = 'alert alert-danger';
+                holder.appendChild(errorContainer);
+              });
+            }
+  
+            responseHolder.appendChild(holder);
+  
+          } else {
+  
+              var successContainer = document.createElement('div');
+                  successContainer.innerText = 'Успешно променихте';
+                  successContainer.className = 'alert alert-success';
+  
+              responseHolder.appendChild(successContainer);
+  
+              var content = response.table.replace('<tr>', '').replace('</tr>', '');
+  
+              if(response.ID){
+  
+                  var id = response.ID;
+                  var tableRow = $('table tr');
+  
+                  for(var row of tableRow){
+                    var dataID = $(row).attr('data-id');
+                   
+                    if(Number(dataID) === Number(id)){
+                      var tableRow = row;
+                    }
+                  }
+  
+                }
+
+                else {
+                  var tableRow = $self.currentPressedBtn.parentElement.parentElement;
+                  $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
+                }
+             
+                if(tableRow !== null){
+                  tableRow.innerHTML = content;
+                }
+                
+                var dropAreaGallery = responseHolder.parentElement.querySelector('.drop-area-gallery');
+                var uploadedArea = responseHolder.parentElement.querySelector('.uploaded-images-area');
+                var photos = response.photos;
+  
+                if(dropAreaGallery!==null){
+                  dropAreaGallery.innerHTML = '';
+                }
+  
+                if((!photos) && (photos !== undefined) && (photos.length > 0)){
+                  uploadedArea.innerHTML = response.photos;
+                  $self.dropFunctionality();
+                }
+                
+                editAction();
+  
+          }
+
+        });
+  
+        //responseHolder.innerHTML = 'aaa';
+
+        /*
         if(response.hasOwnProperty('errors')) {
 
           var holder = document.createDocumentFragment();
@@ -1182,9 +1289,8 @@ var uvel,
                 successContainer.innerText = 'Успешно променихте';
                 successContainer.className = 'alert alert-success';
 
-            responseHolder.appendChild(successContainer);
-
-            console.log(responseHolder);
+            //responseHolder.appendChild(successContainer);
+            responseHolder.html(successContainer);
 
               var content = response.table.replace('<tr>', '').replace('</tr>', '');
 
@@ -1230,6 +1336,9 @@ var uvel,
  
 
         }
+        */
+
+
 
         pendingRequest = false; 
         

@@ -164,6 +164,7 @@ aria-hidden="true">
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
+            <div id='return-repair-wrapper'>
             <div class="modal-header">
                 <h5 class="modal-title" id="returnRepairLabel">Връщане на ремонтиран артикул</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -187,6 +188,7 @@ aria-hidden="true">
                     </div>
                 </div>
             </form>
+            </div>
         </div>
     </div>
 </div>
@@ -325,7 +327,7 @@ aria-hidden="true">
 <div class="row">
     <div class="col-md-12">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
-            <h4 class="c-grey-900 mB-20">Ремонти <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addRepair">Добави</button> <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#returnRepair">Върни</button> <button type="button" class="scan-repair btn btn-primary" data-toggle="modal" data-target="#scanRepair">Обработи</button></h4>
+            <h4 class="c-grey-900 mB-20">Ремонти <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addRepair">Добави</button> <button type="button" class="return-repair btn btn-primary" data-toggle="modal" data-target="#returnRepair">Върни</button> <button type="button" class="scan-repair btn btn-primary" data-toggle="modal" data-target="#scanRepair">Обработи</button></h4>
             <p>Артикули за ремонт</p>
             <table class="table repair-records-table">
                 <thead class="thead-dark">
