@@ -25,11 +25,12 @@ class MaterialsTravellingController extends Controller
      */
     public function index()
     {
-        $materials = Materials_quantity::where('store', Auth::user()->store)->get();
+        $materials = Materials_quantity::all();
         //$materials = Materials_quantity::all();
-        $stores = Stores::where('id', '!=', Auth::user()->store)->get();
+        //$stores = Stores::where('id', '!=', Auth::user()->store)->get();
+        $stores = Stores::all();
         $materials_types = Materials::all();
-        $travelling = Materials_travelling::where('storeFrom', Auth::user()->getStore())->orWhere('storeTo', Auth::user()->getStore())->get();
+        $travelling = Materials_travelling::all();
   
         return \View::make('admin/materials_travelling/index', array('materials' => $materials, 'types' => $materials_types, 'stores' => $stores, 'travelling' => $travelling));
     }
