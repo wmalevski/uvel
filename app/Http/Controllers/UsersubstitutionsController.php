@@ -73,13 +73,6 @@ class UsersubstitutionsController extends Controller
             $user = User::find($request->user);
 
             if($user->store != $request->store){
-                $status = 1;
-                $substitution = new Usersubstitutions();
-                $substitution->user_id = $request->user;
-                $substitution->store_id = $request->store;
-                $substitution->date_from = date('Y-m-d', strtotime($request->dateFrom));
-                $substitution->date_to = date('Y-m-d', strtotime($request->dateTo));
-
                 $validator = Validator::make( $request->all(), [
                     'user' => 'required',
                     'store' => 'required',
@@ -90,6 +83,13 @@ class UsersubstitutionsController extends Controller
                 if ($validator->fails()) {
                     return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
                 }
+
+                $status = 1;
+                $substitution = new Usersubstitutions();
+                $substitution->user_id = $request->user;
+                $substitution->store_id = $request->store;
+                $substitution->date_from = date('Y-m-d', strtotime($request->dateFrom));
+                $substitution->date_to = date('Y-m-d', strtotime($request->dateTo));
         
                 $substitution->save();
 
@@ -154,16 +154,6 @@ class UsersubstitutionsController extends Controller
     {
         $substitution = Usersubstitutions::find($substitution);
         if($substitution){
-            $place = 'active';
-            $substitution->user_id = $request->user;
-            $substitution->store_id = $request->store;
-            $substitution->date_from = date('Y-m-d', strtotime($request->dateFrom));
-            $substitution->date_to = date('Y-m-d', strtotime($request->dateTo));
-
-            if($substitution->date_to <= date("Y-m-d")){
-                $place = 'inactive';
-            }
-    
             $validator = Validator::make( $request->all(), [
                 'user' => 'required',
                 'store' => 'required',
@@ -174,6 +164,17 @@ class UsersubstitutionsController extends Controller
             if ($validator->fails()) {
                 return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
             }
+
+            $place = 'active';
+            $substitution->user_id = $request->user;
+            $substitution->store_id = $request->store;
+            $substitution->date_from = date('Y-m-d', strtotime($request->dateFrom));
+            $substitution->date_to = date('Y-m-d', strtotime($request->dateTo));
+
+            if($substitution->date_to <= date("Y-m-d")){
+                $place = 'inactive';
+            }
+
     
             $substitution->save();
     
