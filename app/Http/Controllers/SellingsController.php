@@ -9,6 +9,7 @@ use Cart;
 use App\Products;
 use App\Products_others;
 use Auth;
+use App\Currencies;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\JsonResponse;
@@ -26,6 +27,7 @@ class SellingsController extends Controller
     {
         $repairTypes = Repair_types::all();
         $discounts = Discount_codes::all();
+        $currencies = Currencies::all();
         $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
 
         $items = [];
@@ -35,7 +37,7 @@ class SellingsController extends Controller
             $items[] = $item;
         });
         
-        return \View::make('admin/selling/index', array('repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions));
+        return \View::make('admin/selling/index', array('repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies));
     }
 
     /**
