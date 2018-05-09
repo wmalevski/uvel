@@ -18,6 +18,7 @@ class CreateCurrenciesTable extends Migration
             $table->string('name');
             $table->float('currency');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

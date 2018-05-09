@@ -22,7 +22,7 @@ aria-hidden="true">
 
                     <div class="form-group">
                         <label for="1">Модел: </label>
-                        <input type="text" class="form-control" id="model" name="model" placeholder="Модел:">
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Модел:">
                     </div>
                 
                     <div class="form-group">
@@ -49,7 +49,7 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" id="add" class="btn btn-primary">Добави</button>
+                    <button type="submit" id="add" class="add-btn-modal btn btn-primary">Добави</button>
                 </div>
             </form>
         </div>
@@ -86,11 +86,11 @@ aria-hidden="true">
     </div>
 </div>
 
-<h3>Добави друг продукт <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
+<h3>Добави друг продукт <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
 
 <table class="table table-condensed">
     <tr>
-        {{--  <th>Код</th>  --}}
+        <th>Баркод</th> 
         <th>Модел</th>
         <th>Цена/бр</th>
         <th>Количество</th>

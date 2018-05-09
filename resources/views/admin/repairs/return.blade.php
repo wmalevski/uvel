@@ -4,8 +4,8 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<form method="POST" action="/repairs/return" name="scanRepair">
-     
+<form method="POST" action="/repairs/return/{{ $repair->barcode }}" name="scanRepair">
+    <input name="_method" type="hidden" value="PUT">
     <div class="modal-body">    
         <div class="info-cont">
         </div>
@@ -39,7 +39,7 @@
                             <div class="input-group-addon bgc-white bd bdwR-0">
                                 <i class="ti-calendar"></i>
                             </div>
-                        <input type="text" value="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" class="form-control bdc-grey-200 start-date" name="date_recieved" placeholder="Дата на приемане" data-date-format="dd-mm-yyyy" data-provide="datepicker">
+                        <input type="text" value="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" class="form-control bdc-grey-200 start-date" data-date-autoclose="true" name="date_recieved" placeholder="Дата на приемане" data-date-format="dd-mm-yyyy" data-provide="datepicker">
                         </div>
                     </div>
                 </div>
@@ -120,6 +120,6 @@
 
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-        <button type="submit" id="add" class="btn btn-primary">Върни</button>
+        <button type="submit" id="edit" class="btn edit-btn-modal btn-primary">Върни</button>
     </div>
 </form>

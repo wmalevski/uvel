@@ -69,7 +69,7 @@ class RepairsController extends Controller
             'type' => $request->type,
             'date_recieved' => $request->date_recieved,
             'date_returned' => $request->date_returned,
-            'code' =>  unique_random('repairs', 'code', 4),
+            'code' =>  'R'.unique_random('products', 'code', 7),
             'weight' => $request->weight,
             'price' => $request->price,
             'deposit' => $request->deposit,
@@ -77,7 +77,21 @@ class RepairsController extends Controller
             'material' => $request->material
         ]);
         
-        $repair->barcode = '380'.unique_number('repairs', 'code', 7);
+        $bar = '380'.unique_number('repairs', 'barcode', 7).'1'; 
+
+        $digits =(string)$bar;
+        // 1. Add the values of the digits in the even-numbered positions: 2, 4, 6, etc.
+        $even_sum = $digits{1} + $digits{3} + $digits{5} + $digits{7} + $digits{9} + $digits{11};
+        // 2. Multiply this result by 3.
+        $even_sum_three = $even_sum * 3;
+        // 3. Add the values of the digits in the odd-numbered positions: 1, 3, 5, etc.
+        $odd_sum = $digits{0} + $digits{2} + $digits{4} + $digits{6} + $digits{8} + $digits{10};
+        // 4. Sum the results of steps 2 and 3.
+        $total_sum = $even_sum_three + $odd_sum;
+        // 5. The check character is the smallest number which, when added to the result in step 4,  produces a multiple of 10.
+        $next_ten = (ceil($total_sum/10))*10;
+        $check_digit = $next_ten - $total_sum;
+        $repair->barcode = $digits . $check_digit;
 
         $repair->save();
 
@@ -92,8 +106,7 @@ class RepairsController extends Controller
 
     public function certificate($id){
         $repair = Repairs::find($id);
-        $repair->barcode =  \DNS1D::getBarcodePNG($repair->barcode, "EAN13");
-        return Response::json(array('repair' => $repair));
+        return Response::json(array('success' => 'yes', 'html' => View::make('admin/repairs/certificate',array('repair'=>$repair))->render()));
     }
 
     /**
@@ -115,7 +128,7 @@ class RepairsController extends Controller
      */
     public function edit(Repairs $repairs, $repair)
     {
-        $repair = Repairs::find($repair);
+        $repair = Repairs::where('barcode', $repair)->first();
         $repairTypes = Repair_types::all();
         $materials = Materials::all();
 
@@ -125,7 +138,7 @@ class RepairsController extends Controller
 
     public function return(Repairs $repairs, $repair)
     {
-        $repair = Repairs::find($repair);
+        $repair = Repairs::where('barcode', $repair)->first();
         $repairTypes = Repair_types::all();
 
         return \View::make('admin/repairs/return', array('repair' => $repair, 'repairTypes' => $repairTypes));
@@ -133,7 +146,7 @@ class RepairsController extends Controller
 
     public function returnRepair(Repairs $repairs, $repair)
     {
-        $repair = Repairs::find($repair);
+        $repair = Repairs::where('barcode', $repair)->first();
         
         if($repair){
             $repair->status = 'returned';
@@ -144,6 +157,8 @@ class RepairsController extends Controller
             $history->action = 'repair';
             $history->user = Auth::user()->id;
             $history->result_id = $repair->id;
+
+            return Response::json(array('table' => View::make('admin/repairs/table',array('repair'=>$repair))->render(), 'ID' => $repair->id));
         }
     }
 
@@ -156,7 +171,7 @@ class RepairsController extends Controller
      */
     public function update(Request $request, Repairs $repairs, $repair)
     {
-        $repair = Repairs::find($repair);
+        $repair = Repairs::where('barcode', $repair)->first();
         
         $repair->customer_name = $request->customer_name;
         $repair->customer_phone = $request->customer_phone;
@@ -178,11 +193,31 @@ class RepairsController extends Controller
 
         if($request->status){
             $repair->status = 'done';
+
+            $history = new History;
+            $history->action = 'repair';
+            $history->user = Auth::user()->id;
+            $history->result_id = $repair->id;
+            $history->save();
+        }
+
+        $validator = Validator::make( $request->all(), [
+            'customer_name' => 'required',
+            'customer_phone' => 'required|numeric',
+            'type' => 'required',
+            'date_returned' => 'required',
+            'weight' => 'required|numeric',
+            'price' => 'required|numeric|between:0.1,5000',
+            'deposit' => 'required|numeric|between:0.1,5000'
+         ]);
+        
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
     
         $repair->save();
         
-        return Response::json(array('table' => View::make('admin/repairs/table',array('repair'=>$repair))->render()));
+        return Response::json(array('table' => View::make('admin/repairs/table',array('repair'=>$repair))->render(), 'ID' => $repair->id));
     }
 
     /**

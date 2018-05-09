@@ -1,3 +1,4 @@
+<div class="editModalWrapper">
 <div class="modal-header">
     <h5 class="modal-title" id="editProductTypeLabel">Промяна на вид на продукт</h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -20,6 +21,7 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-        <button type="submit" id="add" class="btn btn-primary" data-dismiss="modal">Промени</button>
+        <button type="submit" id="add" class="edit-btn-modal btn btn-primary">Промени</button>
     </div>
 </form>
+</div>

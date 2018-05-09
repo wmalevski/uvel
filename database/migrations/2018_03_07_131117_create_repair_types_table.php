@@ -18,6 +18,7 @@ class CreateRepairTypesTable extends Migration
             $table->string('name');
             $table->float('price');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
