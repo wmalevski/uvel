@@ -70,20 +70,20 @@ class UsersubstitutionsController extends Controller
             return Response::json(['errors' => ['already_sub' => ['Този потребител вмомента замества в друг магазин']]], 401);
 
         } else{
+            $validator = Validator::make( $request->all(), [
+                'user' => 'required',
+                'store' => 'required',
+                'dateFrom' => 'required',
+                'dateTo' => 'required',
+             ]);
+            
+            if ($validator->fails()) {
+                return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+            }
+            
             $user = User::find($request->user);
 
             if($user->store != $request->store){
-                $validator = Validator::make( $request->all(), [
-                    'user' => 'required',
-                    'store' => 'required',
-                    'dateFrom' => 'required',
-                    'dateTo' => 'required',
-                 ]);
-                
-                if ($validator->fails()) {
-                    return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
-                }
-
                 $status = 1;
                 $substitution = new Usersubstitutions();
                 $substitution->user_id = $request->user;
