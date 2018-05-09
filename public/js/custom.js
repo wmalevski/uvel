@@ -1188,11 +1188,11 @@ var uvel,
               if(response.ID) {
                   var id = response.ID;
                   var tableRow = $('table tr');
-  
-                  for(var row of tableRow){
+
+                  for(var row of tableRow) {
                     var dataID = $(row).attr('data-id');
                    
-                    if(Number(dataID) === Number(id)){
+                    if(Number(dataID) == Number(id)){
                       var tableRow = row;
                     }
                   }
@@ -1234,9 +1234,7 @@ var uvel,
         var collectionEditBtns = [].slice.apply(document.querySelectorAll('.edit-btn'));
   
         collectionEditBtns.forEach(function (btn) {
-          
           $(btn).off();
-
           $(btn).on('click',clickEditButton);
         });
       }
