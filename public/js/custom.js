@@ -268,7 +268,9 @@ var uvel,
 
       var printBtns = document.querySelectorAll('.print-btn');
       var deleteBtns = document.querySelectorAll('.delete-btn');
+      var paymentBtns = document.querySelectorAll('.payment-btn');
       var certificateBtns = document.querySelectorAll('.certificate');
+
 
       var urlTaken = window.location.href.split('/');
       var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
@@ -283,6 +285,11 @@ var uvel,
       var moreProductsInput = document.getElementById("amount_check");
       var discountInput = document.getElementById("add_discount");
       var discountCardInput = document.getElementById("discount_card");
+      var paymentModalCashRadio = document.getElementById('pay-method-cash');
+      var paymentModalPosRadio = document.getElementById('pay-method-pos');
+      var paymentModalPriceInput = document.getElementById('wanted-sum');
+      var paymentModalGivenInput = document.getElementById('given-sum');
+      var paymentModalReturnInput = document.getElementById('return-sum');
 
       var sellingForm = document.getElementById('selling-form');
 
@@ -718,6 +725,47 @@ var uvel,
           document.body.classList.remove("print-mode")
         }
 
+      }
+
+      paymentBtns.forEach(function(btn) {
+        btn.addEventListener('click', paymentBtnClick);
+      })
+
+      paymentModalPosRadio.addEventListener('change', paymentPosClicked);
+
+      paymentModalCashRadio.addEventListener('change', paymentCashClicked);
+
+      paymentModalGivenInput.addEventListener('keyup', calculateReturn);
+
+      function paymentBtnClick(event) {
+        if (event.target.classList.contains('payment-btn')) {
+          var price = document.getElementById('total').value;
+
+          paymentModalPriceInput.value = price;
+        }
+      }
+
+      function paymentPosClicked(event) {
+        var disable = document.createAttribute('readonly');
+        var price = document.getElementById('total').value;
+
+        paymentModalGivenInput.setAttributeNode(disable);
+        paymentModalGivenInput.value = price;
+        paymentModalReturnInput.value = 0;
+      }
+
+      function paymentCashClicked(event) {
+        paymentModalGivenInput.removeAttribute('readonly');
+        paymentModalGivenInput.value = '';
+        paymentModalReturnInput.value = '';
+      }
+
+      function calculateReturn(event) {
+        var price = paymentModalPriceInput.value;
+        var given = paymentModalGivenInput.value;
+        var returnSum = price - given;
+
+        paymentModalReturnInput.value = returnSum;
       }
 
       function deleteRowRecord(event) {
