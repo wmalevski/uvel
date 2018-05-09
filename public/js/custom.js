@@ -651,10 +651,8 @@ var uvel,
         var editWrapper = document.createElement('DIV');
 
         editWrapper.innerHTML = data; 
-
         modalContent.children[0].style.display = 'none';
            
-
         if(modalContent.children.length > 1){
           modalContent.children[1].remove();
         }
@@ -680,27 +678,6 @@ var uvel,
           ajaxFn("GET",ajaxUrl,sendProcessRepairBarcodeSuccess,'','',processReturnBarcodeInput);
         } 
       }
-
-      /*
-      function sendProcessReturnBarcodeSuccess(data, elements, btn) {
-
-        var modalContent = btn.parentElement.closest('.modal-content');
-         
-        var editWrapper = document.createElement('DIV');
-
-        editWrapper.innerHTML = data; 
-        modalContent.children[0].style.display = 'none';
-
-        if(modalContent.children.length > 1){
-          modalContent.children[1].remove();
-        }
-
-        modalContent.appendChild(editWrapper);
-        $self.checkAllForms();
-        
-
-      }*/
-
 
       printBtns.forEach(function(btn){
         $(btn).off('click',print);
@@ -1178,19 +1155,12 @@ var uvel,
       }
 
       function handleUpdateResponse(response, elements, currentPressedBtn) {
-        
-        //var responseHolder = document.forms[nameForm].querySelector('.info-cont');
-
-        //var responseHolder = document.forms[nameForm].querySelectorAll('.modal-body > .info-cont');
-
         var alertAreas = document.getElementsByClassName('info-cont');
 
         Array.from(alertAreas).forEach(function(responseHolder) {
-
           responseHolder.innerHTML = "";
 
           if(response.hasOwnProperty('errors')) {
-
             var holder = document.createDocumentFragment();
             var errors = response.errors;
   
@@ -1206,19 +1176,16 @@ var uvel,
             }
   
             responseHolder.appendChild(holder);
-  
           } else {
   
               var successContainer = document.createElement('div');
                   successContainer.innerText = 'Успешно променихте';
                   successContainer.className = 'alert alert-success';
-  
+              var content = response.table.replace('<tr>', '').replace('</tr>', '');
+
               responseHolder.appendChild(successContainer);
   
-              var content = response.table.replace('<tr>', '').replace('</tr>', '');
-  
-              if(response.ID){
-  
+              if(response.ID) {
                   var id = response.ID;
                   var tableRow = $('table tr');
   
@@ -1229,9 +1196,7 @@ var uvel,
                       var tableRow = row;
                     }
                   }
-  
                 }
-
                 else {
                   var tableRow = $self.currentPressedBtn.parentElement.parentElement;
                   $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
@@ -1255,105 +1220,16 @@ var uvel,
                 }
                 
                 editAction();
-  
           }
-
         });
-  
-        //responseHolder.innerHTML = 'aaa';
-
-        /*
-        if(response.hasOwnProperty('errors')) {
-
-          var holder = document.createDocumentFragment();
-          var errors = response.errors;
-
-          for (var err in errors) {
-            var collectionErr = errors[err];
-
-            collectionErr.forEach(function (msg) {
-              var errorContainer = document.createElement('div');
-              errorContainer.innerText = msg;
-              errorContainer.className = 'alert alert-danger';
-              holder.appendChild(errorContainer);
-            });
-          }
-
-          responseHolder.appendChild(holder);
-
-        } else {
-
-            var successContainer = document.createElement('div');
-                successContainer.innerText = 'Успешно променихте';
-                successContainer.className = 'alert alert-success';
-
-            //responseHolder.appendChild(successContainer);
-            responseHolder.html(successContainer);
-
-              var content = response.table.replace('<tr>', '').replace('</tr>', '');
-
-              if(response.ID){
-
-                var id = response.ID;
-                var tableRow = $('table tr');
-
-                for(var row of tableRow){
-                  var dataID = $(row).attr('data-id');
-                 
-                  if(Number(dataID) === Number(id)){
-                    var tableRow = row;
-                  }
-                }
-
-              }
-              else {
-                var tableRow = $self.currentPressedBtn.parentElement.parentElement;
-                $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
-              }
-           
-              if(tableRow !== null){
-                tableRow.innerHTML = content;
-              }
-              
-
-              var dropAreaGallery = responseHolder.parentElement.querySelector('.drop-area-gallery');
-              var uploadedArea = responseHolder.parentElement.querySelector('.uploaded-images-area');
-              var photos = response.photos;
-
-              if(dropAreaGallery!==null){
-                dropAreaGallery.innerHTML = '';
-              }
-
-              if((photos !== undefined) && (photos.length > 0)){
-                uploadedArea.innerHTML = response.photos;
-                $self.dropFunctionality();
-              }
-              
-              editAction();
-
- 
-
-        }
-        */
-
-
 
         pendingRequest = false; 
-        
       }
-
-
-
-
-
-
-      //edit buttons
 
       $('#editStore').on('loaded', function () {
         e.preventDefault();
       });
       
-
       function editAction() {
         var collectionEditBtns = [].slice.apply(document.querySelectorAll('.edit-btn'));
   
