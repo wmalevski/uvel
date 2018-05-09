@@ -422,18 +422,15 @@ var uvel,
       }
      
 
-      if(collectionModalAddBtns.length > 0){
-
+      if(collectionModalAddBtns.length > 0) {
         var modelSelect = $('#model_select');
         var typeSelect;
         var collectionFiles = [];
-   
         var dropZone = document.getElementsByClassName("drop-area");
 
         if(dropZone) {
           this.dropFunctionality(collectionFiles);         
         }
-
 
         if(modelSelect) {
           modelSelect.on('select2:select', function(ev) {
@@ -456,15 +453,10 @@ var uvel,
         }
           
         collectionModalAddBtns.forEach(function (btn) {
-
           $(btn).off();
-
           $(btn).on('click', getFormData); 
-
         });
       }
-
-      
 
       if(collectionScanRepairBtns.length > 0){
 
@@ -1104,7 +1096,7 @@ var uvel,
 
      
       function handleResponsePost(response, elements, currentPressedBtn) {
-
+        
         var responseHolder = document.forms[nameForm].firstElementChild.firstElementChild;
 
         responseHolder.innerHTML = '';
@@ -1194,6 +1186,9 @@ var uvel,
         editAction();
 
         pendingRequest = false;
+
+
+
 
       }
 
