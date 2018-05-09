@@ -21,7 +21,7 @@ class UsersubstitutionsController extends Controller
     public function index()
     {
         $activeSubstitutions = Usersubstitutions::where(
-            'date_to', '>=', date("Y-m-d")
+            'date_to', '>', date("Y-m-d")
         )->get();
 
         $inactiveSubstitutions = Usersubstitutions::where(
@@ -93,7 +93,7 @@ class UsersubstitutionsController extends Controller
         
                 $substitution->save();
 
-                return Response::json(array('table' => View::make('admin/substitutions/table',array('substitution'=>$substitution))->render(), 'place' => 'active'));
+                return Response::json(array('success' => View::make('admin/substitutions/table',array('substitution'=>$substitution))->render(), 'place' => 'active'));
             }else{
                 return Response::json(['errors' => ['same_store' => ['Не може да изпратите потребителя в същият магазин']]], 401);
             }
