@@ -1276,32 +1276,36 @@ var uvel,
         setTimeout(function() {$self.checkAllForms(currentPressedBtn);}, 500);
 
       }
+
+      var parseHTML = function(str) {
+        var tmp = document.implementation.createHTMLDocument();
+        tmp.body.innerHTML = str;
+        return tmp.body.children;
+      };
       
 
       function editBtnSuccess(data, elements, btn) {
-
          var id = btn.getAttribute("data-target");
          var selector = id + ' '+ '.modal-content';
          var html = $.parseHTML(data);
+         var table = btn.parentElement.closest('table');
+         var tableId = table.getAttribute('id');
 
-         //console.log(data);
+         if(tableId === 'user-substitute-inactive'){
+          var dateToInput = $(html).children().find('input[name=dateTo]');
+          var dateFromInput = $(html).children().find('input[name=dateFrom]');
 
-         var tableClassName = btn.parentElement.closest('table').className;
-         var tableClass = tableClassName.split(' ')[1];
-
-         if((tableClass.length > 0) && (tableClass === 'inactive')){
-
-          console.log('inactive');
-
+          dateToInput.attr('disabled', 'disabled');
+          dateFromInput.attr('disabled', 'disabled');
          }
 
-         $(selector).html(html);      
+         $(selector).html(html);    
          $self.initializeSelect($(selector).children().find('select'));
       }
 
       $self.addAndRemoveFields(); 
- 
     }
+    
   }
 
 $(function () {
