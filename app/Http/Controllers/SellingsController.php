@@ -276,6 +276,10 @@ class SellingsController extends Controller
     public function printInfo(){
         //$repair = Repairs::find($id);
 
+        $userId = Auth::user()->getId(); 
+        $total = Cart::session($userId)->getTotal();
+        $subtotal = Cart::session($userId)->getSubTotal();
+
         $items = [];
         
         Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
@@ -288,6 +292,6 @@ class SellingsController extends Controller
             $table .= View::make('admin/selling/table',array('item'=>$item))->render();
         }
 
-        return Response::json(array('success' => 'yes', 'html' => View::make('admin/sellings/certificate',array('table'=>$table))->render()));
+        return Response::json(array('success' => 'yes', 'html' => View::make('admin/selling/information',array('items'=>$items, 'total' => $subtotal, 'subtotal' => $subtotal))->render()));
     }
 }
