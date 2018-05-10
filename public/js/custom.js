@@ -75,13 +75,10 @@ var uvel,
           
         });
 
-        $(fieldsWrapper).on('click', '.remove_field', function(e) {
-
-          e.preventDefault();
+        $(fieldsWrapper).on('click', '.remove_field', function(event) {
+          event.preventDefault();
           var parents = $(this).parentsUntil(".form-row .fields");
-
           parents[1].remove();
-
         });
         
 
@@ -92,7 +89,6 @@ var uvel,
     
     this.dropFunctionality = function(instanceFiles) {
       
-
       var dropArea = $('.drop-area'),
           preventEvents = ['dragenter', 'dragover', 'dragleave', 'drop'],
           highlightEvents = ['dragenter', 'dragover'],
@@ -114,7 +110,6 @@ var uvel,
           }
 
           handleFiles(collectionFiles);
-
         
         });
 
@@ -260,15 +255,13 @@ var uvel,
     }   
 
     this.checkAllForms = function(currentPressedBtn) {
-
       var collectionModalEditBtns = document.querySelectorAll('.modal-dialog .modal-footer .edit-btn-modal');
       var collectionModalAddBtns = document.querySelectorAll('.modal-dialog .modal-footer .add-btn-modal');
       var collectionScanRepairBtns = document.querySelectorAll('.scan-repair');
-
+      var collectionReturnRepairBtns = document.querySelectorAll('.return-repair');
       var printBtns = document.querySelectorAll('.print-btn');
       var deleteBtns = document.querySelectorAll('.delete-btn');
       var certificateBtns = document.querySelectorAll('.certificate');
-
       var urlTaken = window.location.href.split('/');
       var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
       var token = $('meta[name="csrf-token"]').attr('content');
@@ -282,14 +275,11 @@ var uvel,
       var moreProductsInput = document.getElementById("amount_check");
       var discountInput = document.getElementById("add_discount");
       var discountCardInput = document.getElementById("discount_card");
-
       var sellingForm = document.getElementById('selling-form');
       var returnRepairForm = document.getElementById('return-repair-form');
       var returnScanForm = document.getElementById('scan-repair-form');
-
       var collectionModelPrice = [].slice.apply(document.querySelectorAll('.calculate'));
       var collectionFillFields = [].slice.apply(document.querySelectorAll('.fill-field'));
-
       var pendingRequest = false;
 
       editAction();
@@ -298,9 +288,8 @@ var uvel,
         var typeJeweryData = jeweryPrice;
         var weightData = dataWeight;
         var priceData = priceDev;
-
         var element = currentElement;
-      
+
         console.log('calculating..');
         console.log(typeJeweryData);
         console.log(weightData);
@@ -370,7 +359,6 @@ var uvel,
         }
       });
 
-
       if(collectionFillFields.length) {
         collectionFillFields.map(function(el) {
           if(el.tagName === 'SELECT') {
@@ -394,7 +382,6 @@ var uvel,
         if(dropZone) {
             this.dropFunctionality(collectionFiles);   
         }
-
 
         if(modelSelect) {
           modelSelect.on('select2:select', function(ev) {
@@ -421,16 +408,18 @@ var uvel,
         })
       }
      
-
       if(collectionModalAddBtns.length > 0) {
+
         var modelSelect = $('#model_select');
         var typeSelect;
         var collectionFiles = [];
+   
         var dropZone = document.getElementsByClassName("drop-area");
 
         if(dropZone) {
           this.dropFunctionality(collectionFiles);         
         }
+
 
         if(modelSelect) {
           modelSelect.on('select2:select', function(ev) {
@@ -453,48 +442,69 @@ var uvel,
         }
           
         collectionModalAddBtns.forEach(function (btn) {
+
           $(btn).off();
+
           $(btn).on('click', getFormData); 
+
         });
       }
 
-      if(collectionScanRepairBtns.length > 0){
+      if(collectionScanRepairBtns.length > 0) {
 
         collectionScanRepairBtns.forEach(function (btn) {
 
           btn.addEventListener('click', function() {
-            
-            $('.scan-repair-wrapper').show();
-            $('.editModalWrapper').remove();
-            $('#barcode_process-repairs').val('');
+            var returnRepairWrapper = document.getElementById('scan-repair-wrapper');
+            var nextElement = returnRepairWrapper.nextElementSibling;
 
+            if(nextElement != null){
+              nextElement.parentNode.removeChild(nextElement);
+            }
+
+            returnRepairWrapper.style.display = 'block';
+            returnRepairWrapper.querySelector('.info-cont').innerHTML='';
+            document.getElementById('barcode_process-repairs').value = '';
           });
 
         });
 
-
       }
 
-      if(catalogNumberInput !== null){
+      if(collectionReturnRepairBtns.length > 0) {
+
+        collectionReturnRepairBtns.forEach(function (btn) {
+
+          btn.addEventListener('click', function() {
+            var returnRepairWrapper = document.getElementById('return-repair-wrapper');
+            var nextElement = returnRepairWrapper.nextElementSibling;
+
+            if(nextElement != null){
+              nextElement.parentNode.removeChild(nextElement);
+            }
+
+            returnRepairWrapper.style.display = 'block';
+            returnRepairWrapper.querySelector('.info-cont').innerHTML='';
+            document.getElementById('barcode_return-repairs').value = '';
+          });
+
+        });
+      }
+
+      if(catalogNumberInput !== null) {
         catalogNumberInput.addEventListener('change', addCatalogNumber);
       }
 
-      function addCatalogNumber(){
-
+      function addCatalogNumber() {
         var catalogNumber = this.value;
         var amountValue = amountInput.value;
         var amountCheck = moreProductsInput.checked;
-        
         var ajaxUrl = sellingForm.getAttribute("data-scan");
-        
         var dataSend = {'catalog_number' : catalogNumber, 'quantity' : Number(amountValue), 'amount_check' : amountCheck};
 
         ajaxFn('POST', ajaxUrl, sendSuccess, dataSend, '', '');
-
         catalogNumberInput.value = "";
-
       }
-
 
       if(discountInput !== null){
         discountInput.addEventListener('click', addDiscount);
@@ -511,33 +521,27 @@ var uvel,
         var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/';
         var discountUrl = discountInput.getAttribute("data-url");
 
-        if(discountCardBarcode.length == 13){
-
+        if(discountCardBarcode.length == 13) {
           var ajaxUrl = url + discountUrl + '/'+ discountCardBarcode;
+
           ajaxFn("GET", ajaxUrl, discountSuccess, '', '', '');
-
           discountCardInput.value="";
-
         }
         
       }
 
-
       function addDiscount() {
-
         var urlTaken = window.location.href.split('/');
         var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/';
         var discountUrl = this.getAttribute("data-url");
         var discountSelect = document.getElementById("discount");
         var barcode = discountSelect.options[discountSelect.selectedIndex].value;
 
-        if(barcode.length > 0){
-
+        if(barcode.length > 0) {
           var ajaxUrl = url + discountUrl + '/' + barcode;
+
           ajaxFn("GET", ajaxUrl, discountSuccess, '', '', '');
         }
-
-  
       }
 
 
@@ -570,63 +574,51 @@ var uvel,
         };
 
      }
-      
 
-      if(sellingForm !== null){
+
+     function formPreventDefault(form) {
+        form.addEventListener('submit', function(event) { event.preventDefault(); });
+     }
       
-        sellingForm.addEventListener('submit',function(e){e.preventDefault();});
-  
+      if(sellingForm !== null) {
+        formPreventDefault(sellingForm);
       }  
 
-      if(returnRepairForm !== null){
-      
-        returnRepairForm.addEventListener('submit',function(e){e.preventDefault();});
-  
+      if(returnRepairForm !== null) {
+        formPreventDefault(returnRepairForm);
       }  
 
-      if(returnScanForm !== null){
-      
-        returnScanForm.addEventListener('submit',function(e){e.preventDefault();});
-  
+      if(returnScanForm !== null) {
+        formPreventDefault(returnScanForm);
       }  
 
-      if(numberItemInput !== null){
-
+      if(numberItemInput !== null) {
         numberItemInput.addEventListener('change',sendItem);
       }
 
       function sendItem(event) {
-
          var numberItemValue = this.value;
          var amountValue = amountInput.value;
          var amountCheck = moreProductsInput.checked;
 
          if(numberItemValue.length == 13){
-        
            var dataSend = {'barcode' : Number(numberItemValue), 'quantity' : Number(amountValue), 'amount_check' : amountCheck};
-  
            var currentElement = $(event.target);
            var form = currentElement.closest("form");
            var ajaxUrl = form.attr("data-scan");
 
            ajaxFn("POST", ajaxUrl, sendSuccess, dataSend, '', '');
-
          }
-
       }
 
-      function sendSuccess(data, elements, btn){
-
+      function sendSuccess(data, elements, btn) {
         var success = data.success;
         var subTotalInput = document.getElementById("subTotal");
         var totalInput = document.getElementById("total");
         var barcodeInput = document.getElementById("product_barcode");
         var html = data.table;
-        //var html = $.parseHTML(data.table);
         var shoppingTable = document.getElementById("shopping-table");
-
         var nodes = shoppingTable.childNodes;
-
         var tbody = nodes[3];
 
         if(success) {
@@ -635,68 +627,56 @@ var uvel,
           totalInput.value = data.total;
           barcodeInput.value = "";
         }
-
-        
       }
 
-      if(barcodeProcessRepairInput !== null){
+      if(barcodeProcessRepairInput !== null) {
         barcodeProcessRepairInput.addEventListener('change',sendProcessRepairBarcode);
       }
 
       function sendProcessRepairBarcode(event) {
-
         var processRepairBarcodeInput = event.target;
         var processRepairBarcode = processRepairBarcodeInput.value;
-        
-      
-        if(processRepairBarcode.length > 0){
 
+        if(processRepairBarcode.length > 0) {
           var urlTaken = window.location.href.split('/');
           var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs/edit';
           var ajaxUrl = url + '/' + processRepairBarcode;
 
           ajaxFn("GET",ajaxUrl,sendProcessRepairBarcodeSuccess,'','',processRepairBarcodeInput);
         } 
-
       }
 
-      function sendProcessRepairBarcodeSuccess(data,element,btn) {
+      function sendProcessRepairBarcodeSuccess(data, elements, btn) {
+        var modalContent = btn.parentElement.closest('.modal-content');
+        var editWrapper = document.createElement('DIV');
 
-        var modalContent = $(btn).parents('.modal-content');
+        editWrapper.innerHTML = data; 
+        modalContent.children[0].style.display = 'none';
+           
+        if(modalContent.children.length > 1){
+          modalContent.children[1].remove();
+        }
 
-        $(modalContent).children().not(':first').remove();
-
-        $(data).appendTo(modalContent);
-
-        $('.scan-repair-wrapper').hide();
-
+        modalContent.appendChild(editWrapper);
         $self.checkAllForms();
-
         pendingRequest = true;
-    
       }
 
-      if(barcodeReturnRepairInput !== null){
+      if(barcodeReturnRepairInput !== null) {
         barcodeReturnRepairInput.addEventListener('change',sendReturnRepairBarcode);
       }
 
-      function sendReturnRepairBarcode(event){
+      function sendReturnRepairBarcode(event) {
+        var processReturnBarcodeInput = event.target;
+        var processReturnBarcode = processReturnBarcodeInput.value;
 
-        var processReturnBarcode = event.target.value;
-
-        if(processReturnBarcode.length > 0){
-
+        if(processReturnBarcode.length > 0) {
           var urlTaken = window.location.href.split('/');
           var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs/return';
           var ajaxUrl = url + '/' + processReturnBarcode;
 
-          ajaxFn("GET",ajaxUrl,sendProcessReturnBarcodeSuccess,'','','');
+          ajaxFn("GET",ajaxUrl,sendProcessRepairBarcodeSuccess,'','',processReturnBarcodeInput);
         } 
-      }
-
-      function sendProcessReturnBarcodeSuccess(){
-
-        console.log("sendProcessReturnBarcodeSuccess");
       }
 
       printBtns.forEach(function(btn){
@@ -713,29 +693,22 @@ var uvel,
       });
   
       function print(event) {
-
         if(event.target && event.target.parentElement.classList.contains('print-btn')) {
-
           event.preventDefault();
           event.stopPropagation();
 
           var urlTaken = event.target.parentElement.href.split('/');
           var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
-    
           var link = event.target.parentElement;
           var linkPath = link.href.split("admin")[1];
           var ajaxUrl = url+linkPath;
     
           ajaxFn("GET",ajaxUrl,printBtnSuccess,'','',link);
-          
         }
-
       }
 
       function printBtnSuccess(data) {
-
         if(data.success){
-
           var toPrint = data.html;
           var node = document.createElement("div");
           var printElement = document.body.appendChild(node);
@@ -743,33 +716,25 @@ var uvel,
           printElement.classList.add("to-print");
           printElement.innerHTML = toPrint;
           document.body.classList.add("print-mode");
-
           window.print();
-      
           document.body.removeChild(node);
           document.body.classList.remove("print-mode")
         }
-
       }
 
-      function deleteRowRecord(event) {
-              
+      function deleteRowRecord(event) {    
         if(event.target && event.target.parentElement.classList.contains('delete-btn')) {
-
           event.preventDefault();
           event.stopPropagation();
 
           if (confirm("Сигурен ли си, че искаш да изтриеш записа?")) {
-
             var urlTaken = event.target.parentElement.href.split('/');
             var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
-    
             var link = event.target.parentElement;
             var linkPath = link.href.split("admin")[1];
             var ajaxUrl = url+linkPath;
 
             ajaxFn("POST",ajaxUrl,deleteBtnSuccess,'','',link);
-
           }       
         }
       }
@@ -1096,13 +1061,11 @@ var uvel,
 
      
       function handleResponsePost(response, elements, currentPressedBtn) {
-        
         var responseHolder = document.forms[nameForm].firstElementChild.firstElementChild;
 
         responseHolder.innerHTML = '';
 
         if (response.hasOwnProperty('errors')) {
-
           var holder = document.createDocumentFragment();
           var errors = response.errors;
 
@@ -1118,25 +1081,21 @@ var uvel,
           }
 
           responseHolder.appendChild(holder);
-
         } else {
-
             var successContainer = document.createElement('div');
-              successContainer.innerText = 'Успешно добавихте';
-              successContainer.className = 'alert alert-success';
 
+            successContainer.innerText = 'Успешно добавихте';
+            successContainer.className = 'alert alert-success';
             responseHolder.appendChild(successContainer);
 
             if (nameForm === 'addPrice') {
-
               var select = collectionSelects[0];
               var tableId = document.querySelector('#' + select.options[select.selectedIndex].value + ' tbody');
 
               tableId.innerHTML += response.success;
-
-            }
+            } 
             else if(nameForm === 'sendUser') {
-              if(response.place === 'active'){
+              if(response.place === 'active') {
                 var table = document.getElementById('user-substitute-active');
                 var tableBody = table.querySelector('tbody');
 
@@ -1150,10 +1109,9 @@ var uvel,
               }
             }
             else {
-
               if(nameForm === 'addRepair') {
                 var repairId = response.id,
-                    certificateButton = document.querySelector('button#certificate');
+                certificateButton = document.querySelector('button#certificate');
 
                 certificateButton.dataset.repairId = repairId;
                 certificateButton.disabled = false;
@@ -1163,7 +1121,6 @@ var uvel,
 
               tableBody.innerHTML += response.success;
           }
-
 
           elements.forEach(function (el) {
 
@@ -1198,108 +1155,104 @@ var uvel,
         }
 
         editAction();
+
         pendingRequest = false;
+
       }
 
       function handleUpdateResponse(response, elements, currentPressedBtn) {
-        
-        var responseHolder = document.forms[nameForm].querySelector('.info-cont');
-        responseHolder.innerHTML = '';
-       
-        if(response.hasOwnProperty('errors')) {
+        var alertAreas = [].slice.apply(document.getElementsByClassName('info-cont'));
 
-          var holder = document.createDocumentFragment();
-          var errors = response.errors;
+        alertAreas.forEach(function(responseHolder) {
+          responseHolder.innerHTML = "";
 
-          for (var err in errors) {
-            var collectionErr = errors[err];
+          if(response.hasOwnProperty('errors')) {
+            var holder = document.createDocumentFragment();
+            var errors = response.errors;
+  
+            for (var err in errors) {
+              var collectionErr = errors[err];
+  
+              collectionErr.forEach(function (msg) {
+                var errorContainer = document.createElement('div');
+                errorContainer.innerText = msg;
+                errorContainer.className = 'alert alert-danger';
+                holder.appendChild(errorContainer);
+              });
+            }
+  
+            responseHolder.appendChild(holder);
+          } 
+          else {
+              var successContainer = document.createElement('div');
+                  successContainer.innerText = 'Успешно променихте';
+                  successContainer.className = 'alert alert-success';
 
-            collectionErr.forEach(function (msg) {
-              var errorContainer = document.createElement('div');
-              errorContainer.innerText = msg;
-              errorContainer.className = 'alert alert-danger';
-              holder.appendChild(errorContainer);
-            });
           }
 
-          responseHolder.appendChild(holder);
+        });
+        /* end alert areas */
 
-        } else {
+        if(nameForm === 'sendUser') {
 
-            var successContainer = document.createElement('div');
-                successContainer.innerText = 'Успешно променихте';
-                successContainer.className = 'alert alert-success';
+                console.log('sendUser');
 
-            responseHolder.appendChild(successContainer);
-
-              var content = response.table.replace('<tr>', '').replace('</tr>', '');
-
-              if(response.ID){
-
-                var id = response.ID;
-                var tableRow = $('table tr');
-
-                for(var row of tableRow){
-                  var dataID = $(row).attr('data-id');
-                 
-                  if(Number(dataID) === Number(id)){
-                    var tableRow = row;
-                  }
-                }
-
-              }
-              else {
-                var tableRow = $self.currentPressedBtn.parentElement.parentElement;
-                $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
-              }
-           
-              if(tableRow !== null){
-                  tableRow.innerHTML = content;
-              }
-              
-
-              var dropAreaGallery = responseHolder.parentElement.querySelector('.drop-area-gallery');
-              var uploadedArea = responseHolder.parentElement.querySelector('.uploaded-images-area');
-              var photos = response.photos;
-
-              if(dropAreaGallery!==null){
-                dropAreaGallery.innerHTML = '';
-              }
-
-              if((photos !== undefined) && (photos.length > 0)){
-                uploadedArea.innerHTML = response.photos;
-                $self.dropFunctionality();
-              }
-              
-              editAction();
-
- 
 
         }
+        else {
+          var content = response.table.replace('<tr>', '').replace('</tr>', '');
 
-        pendingRequest = false; 
+          responseHolder.appendChild(successContainer);
+    
+          if(response.ID) {
+            var id = response.ID;
+            var tableRow = $('table tr');
+
+            for(var row of tableRow) {
+              var dataID = $(row).attr('data-id');
+                    
+              if(Number(dataID) == Number(id)){
+                var tableRow = row;
+              }
+            }
+          }
+          else {
+            var tableRow = $self.currentPressedBtn.parentElement.parentElement;
+
+            $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
+          }
+              
+          if(tableRow !== null){
+            tableRow.innerHTML = content;
+          }
+                  
+          var dropAreaGallery = responseHolder.parentElement.querySelector('.drop-area-gallery');
+          var uploadedArea = responseHolder.parentElement.querySelector('.uploaded-images-area');
+          var photos = response.photos;
+    
+          if(dropAreaGallery!==null){
+            dropAreaGallery.innerHTML = '';
+          }
+    
+          if((!photos) && (photos !== undefined) && (photos.length > 0)){
+            uploadedArea.innerHTML = response.photos;
+            $self.dropFunctionality();
+          }
         
+          editAction();     
+        }
+        pendingRequest = false; 
       }
-
-
-
-
-
-
-      //edit buttons
 
       $('#editStore').on('loaded', function () {
         e.preventDefault();
       });
       
-
       function editAction() {
         var collectionEditBtns = [].slice.apply(document.querySelectorAll('.edit-btn'));
   
         collectionEditBtns.forEach(function (btn) {
-          
           $(btn).off();
-
           $(btn).on('click',clickEditButton);
         });
       }
