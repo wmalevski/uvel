@@ -721,23 +721,18 @@ var uvel,
       });
   
       function print(event) {
-
-        if(event.target && event.target.parentElement.classList.contains('print-btn')) {
-
+        if(event.currentTarget && event.currentTarget.classList.contains('print-btn')) {
           event.preventDefault();
           event.stopPropagation();
 
-          var urlTaken = event.target.parentElement.href.split('/');
+          var urlTaken = event.currentTarget.href.split('/');
           var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
-    
-          var link = event.target.parentElement;
+          var link = event.currentTarget;
           var linkPath = link.href.split("admin")[1];
           var ajaxUrl = url+linkPath;
     
-          ajaxFn("GET",ajaxUrl,printBtnSuccess,'','',link);
-          
+          ajaxFn("GET",ajaxUrl,printBtnSuccess,'','',link); 
         }
-
       }
 
       function printBtnSuccess(data) {
