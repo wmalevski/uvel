@@ -1300,6 +1300,17 @@ var uvel,
          var selector = id + ' '+ '.modal-content';
          var html = $.parseHTML(data);
 
+         //console.log(data);
+
+         var tableClassName = btn.parentElement.closest('table').className;
+         var tableClass = tableClassName.split(' ')[1];
+
+         if((tableClass.length > 0) && (tableClass === 'inactive')){
+
+          console.log('inactive');
+
+         }
+
          $(selector).html(html);      
          $self.initializeSelect($(selector).children().find('select'));
       }
