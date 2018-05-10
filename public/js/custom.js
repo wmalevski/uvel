@@ -729,11 +729,9 @@ var uvel,
           var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
           var link = event.currentTarget;
           var linkPath = link.href.split("admin")[1];
-
           if (typeof linkPath == 'undefined') {
             linkPath = '/sellings/information';
           }
-          
           var ajaxUrl = url+linkPath;
           
           ajaxFn("GET",ajaxUrl,printBtnSuccess,'','',link); 
