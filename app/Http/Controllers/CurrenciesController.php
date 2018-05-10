@@ -90,7 +90,7 @@ class CurrenciesController extends Controller
         if($currency){
             $validator = Validator::make( $request->all(), [
                 'name' => 'required',
-                'currency' => 'numeric|between:0.1,100'
+                'currency' => 'numeric|between:0,100'
             ]);
 
             if ($validator->fails()) {
