@@ -1185,24 +1185,41 @@ var uvel,
           } 
           else {
               var successContainer = document.createElement('div');
-                  successContainer.innerText = 'Успешно променихте';
-                  successContainer.className = 'alert alert-success';
 
+              successContainer.innerText = 'Успешно променихте';
+              successContainer.className = 'alert alert-success';
+              responseHolder.appendChild(successContainer);
           }
 
         });
         /* end alert areas */
 
         if(nameForm === 'sendUser') {
+          var content = response.table;
+          var currentRow = $self.currentPressedBtn.closest('tr')
+          var currentRowIndex = currentRow.rowIndex;
 
-                console.log('sendUser');
+          console.log(currentRowIndex);
+          console.log(response.place);
 
+          if(response.place === 'active') {
+            var table = document.getElementById('user-substitute-active');
+            table.deleteRow(currentRowIndex);
+            var row = table.insertRow(currentRowIndex);
+            row.innerHTML = content;
+          }
+          else if(response.place === 'inactive') {
+            var table = document.getElementById('user-substitute-inactive');
+            var activeTable = document.getElementById('user-substitute-active');
+            activeTable.deleteRow(currentRowIndex);
 
+            var rows = table.rows.length;
+            var newRow = table.insertRow(rows);
+            newRow.innerHTML = content;
+          }
         }
         else {
           var content = response.table.replace('<tr>', '').replace('</tr>', '');
-
-          responseHolder.appendChild(successContainer);
     
           if(response.ID) {
             var id = response.ID;
@@ -1277,7 +1294,7 @@ var uvel,
       }
       
 
-      function editBtnSuccess(data,elements,btn) {
+      function editBtnSuccess(data, elements, btn) {
 
          var id = btn.getAttribute("data-target");
          var selector = id + ' '+ '.modal-content';
