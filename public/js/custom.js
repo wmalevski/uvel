@@ -270,6 +270,7 @@ var uvel,
       var deleteBtns = document.querySelectorAll('.delete-btn');
       var paymentBtns = document.querySelectorAll('.payment-btn');
       var certificateBtns = document.querySelectorAll('.certificate');
+      var paymentModalSubmitBtns = document.querySelectorAll('.payment-modal .btn-primary');
 
 
       var urlTaken = window.location.href.split('/');
@@ -290,6 +291,7 @@ var uvel,
       var paymentModalPriceInput = document.getElementById('wanted-sum');
       var paymentModalGivenInput = document.getElementById('given-sum');
       var paymentModalReturnInput = document.getElementById('return-sum');
+      var paymentModalCurrencySelector = document.getElementById('pay-currency');
 
       var sellingForm = document.getElementById('selling-form');
 
@@ -582,22 +584,20 @@ var uvel,
 
       function sendItem(event) {
 
-         var numberItemValue = this.value;
-         var amountValue = amountInput.value;
-         var amountCheck = moreProductsInput.checked;
+        var numberItemValue = this.value;
+        var amountValue = amountInput.value;
+        var amountCheck = moreProductsInput.checked;
 
-         if(numberItemValue.length == 13){
+        if(numberItemValue.length == 13){
         
-           var dataSend = {'barcode' : Number(numberItemValue), 'quantity' : Number(amountValue), 'amount_check' : amountCheck};
+          var dataSend = {'barcode' : Number(numberItemValue), 'quantity' : Number(amountValue), 'amount_check' : amountCheck};
   
-           var currentElement = $(event.target);
-           var form = currentElement.closest("form");
-           var ajaxUrl = form.attr("data-scan");
+          var currentElement = $(event.target);
+          var form = currentElement.closest("form");
+          var ajaxUrl = form.attr("data-scan");
 
-           ajaxFn("POST", ajaxUrl, sendSuccess, dataSend, '', '');
-
-         }
-
+          ajaxFn("POST", ajaxUrl, sendSuccess, dataSend, '', '');
+        }
       }
 
       function sendSuccess(data, elements, btn){
@@ -620,8 +620,6 @@ var uvel,
           totalInput.value = data.total;
           barcodeInput.value = "";
         }
-
-        
       }
 
       if(barcodeProcessRepairInput !== null){
@@ -639,8 +637,7 @@ var uvel,
           var ajaxUrl = url + '/' + processRepairBarcode;
 
           ajaxFn("GET",ajaxUrl,sendProcessRepairBarcodeSuccess,'','','');
-        } 
-
+        }
       }
 
       function sendProcessRepairBarcodeSuccess() {
@@ -737,6 +734,12 @@ var uvel,
 
       paymentModalGivenInput.addEventListener('keyup', calculateReturn);
 
+      $(paymentModalCurrencySelector).on('select2:select', currencySelect);
+
+      paymentModalSubmitBtns.forEach(function(btn) {
+        btn.addEventListener('click', paymentSuccess);
+      })
+
       function paymentBtnClick(event) {
         if (event.target.classList.contains('payment-btn')) {
           var price = document.getElementById('total').value;
@@ -750,12 +753,18 @@ var uvel,
         var price = document.getElementById('total').value;
 
         paymentModalGivenInput.setAttributeNode(disable);
+        paymentModalCurrencySelector.setAttribute('disabled', true);
+        $(paymentModalCurrencySelector).val('1');  // set the currency select2 to BGN
+        $(paymentModalCurrencySelector).trigger('change');
+        $(paymentModalCurrencySelector).trigger('select2:select');
+        paymentModalCurrencySelector.getElementsByTagName('option')[0].selected = 'selected';
         paymentModalGivenInput.value = price;
         paymentModalReturnInput.value = 0;
       }
 
       function paymentCashClicked(event) {
         paymentModalGivenInput.removeAttribute('readonly');
+        paymentModalCurrencySelector.removeAttribute('disabled');
         paymentModalGivenInput.value = '';
         paymentModalReturnInput.value = '';
       }
@@ -763,9 +772,24 @@ var uvel,
       function calculateReturn(event) {
         var price = paymentModalPriceInput.value;
         var given = paymentModalGivenInput.value;
-        var returnSum = price - given;
+        var returnSum = Math.round((given - price) * 100) / 100;
 
         paymentModalReturnInput.value = returnSum;
+      }
+
+      function currencySelect(event) {
+        var currentPrice = document.getElementById('total').value;
+        var currencyValue = $(event.target).find('option:selected')[0].value;
+        var newPrice = currentPrice * currencyValue;
+        
+        paymentModalPriceInput.value = newPrice;
+        if (paymentModalGivenInput.value != '') {
+          calculateReturn();
+        }
+      }
+
+      function paymentSuccess(event) {
+        console.log('payment success');
       }
 
       function deleteRowRecord(event) {

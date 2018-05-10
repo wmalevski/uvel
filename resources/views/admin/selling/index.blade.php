@@ -32,7 +32,7 @@ aria-hidden="true">
 </div>
 
 
-<div class="modal fade" id="paymentModal" role="dialog" aria-labelledby="paymentModal"
+<div class="modal fade payment-modal" id="paymentModal" role="dialog" aria-labelledby="paymentModal"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -71,7 +71,7 @@ aria-hidden="true">
                         <div class="form-group col-md-4">
                             <label for="pay-currency">Валута</label>
                             <select id="pay-currency" name="pay-currency" class="form-control">
-                                <option value="">Избери</option>
+                                <option value="1">BGN</option>
                                 @foreach($currencies as $currency)
                                     <option value="{{ $currency->currency }}">{{ $currency->name }}</option>
                                 @endforeach
