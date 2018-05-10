@@ -128,7 +128,7 @@ class RepairsController extends Controller
      */
     public function edit(Repairs $repairs, $repair)
     {
-        $repair = Repairs::find($repair);
+        $repair = Repairs::where('barcode', $repair)->first();
         $repairTypes = Repair_types::all();
         $materials = Materials::all();
 
@@ -138,25 +138,36 @@ class RepairsController extends Controller
 
     public function return(Repairs $repairs, $repair)
     {
-        $repair = Repairs::find($repair);
+        $repair = Repairs::where('barcode', $repair)->first();
         $repairTypes = Repair_types::all();
 
         return \View::make('admin/repairs/return', array('repair' => $repair, 'repairTypes' => $repairTypes));
     }
 
-    public function returnRepair(Repairs $repairs, $repair)
+    public function returnRepair(Request $request, Repairs $repairs, $repair)
     {
-        $repair = Repairs::find($repair);
+        $repair = Repairs::where('barcode', $repair)->first();
         
         if($repair){
             $repair->status = 'returned';
             $repair->date_received = Carbon::parse(Carbon::now())->format('d-m-Y');
+
+            $repair->customer_name = $request->customer_name;
+            $repair->customer_phone = $request->customer_phone;
+            $repair->date_returned = $request->date_returned;
+            $repair->price_after = $request->price_after; 
+            $repair->repair_description = $request->repair_description;
+            $repair->material = $request->material;
+            $repair->weight_after = $request->weight_after;
+            
             $repair->save();
 
             $history = new History;
             $history->action = 'repair';
             $history->user = Auth::user()->id;
             $history->result_id = $repair->id;
+
+            return Response::json(array('table' => View::make('admin/repairs/table',array('repair'=>$repair))->render(), 'ID' => $repair->id));
         }
     }
 
@@ -169,7 +180,7 @@ class RepairsController extends Controller
      */
     public function update(Request $request, Repairs $repairs, $repair)
     {
-        $repair = Repairs::find($repair);
+        $repair = Repairs::where('barcode', $repair)->first();
         
         $repair->customer_name = $request->customer_name;
         $repair->customer_phone = $request->customer_phone;
@@ -191,6 +202,12 @@ class RepairsController extends Controller
 
         if($request->status){
             $repair->status = 'done';
+
+            $history = new History;
+            $history->action = 'repair';
+            $history->user = Auth::user()->id;
+            $history->result_id = $repair->id;
+            $history->save();
         }
 
         $validator = Validator::make( $request->all(), [
@@ -209,7 +226,7 @@ class RepairsController extends Controller
     
         $repair->save();
         
-        return Response::json(array('table' => View::make('admin/repairs/table',array('repair'=>$repair))->render()));
+        return Response::json(array('table' => View::make('admin/repairs/table',array('repair'=>$repair))->render(), 'ID' => $repair->id));
     }
 
     /**

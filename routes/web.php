@@ -210,7 +210,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/repairs', 'RepairsController@store');
 
     Route::get('/repairs/return/{repair}', 'RepairsController@return');
-    Route::post('/repairs/return/{repair}', 'RepairsController@returnRepair');
+    Route::put('/repairs/return/{repair}', 'RepairsController@returnRepair');
 
     Route::get('/repairs/edit/{repair}', 'RepairsController@edit');
     Route::put('/repairs/edit/{repair}', 'RepairsController@update');
