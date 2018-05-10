@@ -1180,15 +1180,11 @@ var uvel,
           }
 
         });
-        /* end alert areas */
-
+        
         if(nameForm === 'sendUser') {
           var content = response.table;
           var currentRow = $self.currentPressedBtn.closest('tr')
           var currentRowIndex = currentRow.rowIndex;
-
-          console.log(currentRowIndex);
-          console.log(response.place);
 
           if(response.place === 'active') {
             var table = document.getElementById('user-substitute-active');
