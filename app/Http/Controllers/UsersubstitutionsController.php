@@ -21,11 +21,11 @@ class UsersubstitutionsController extends Controller
     public function index()
     {
         $activeSubstitutions = Usersubstitutions::where(
-            'date_to', '>', date("Y-m-d")
+            'date_to', '>=', date("Y-m-d")
         )->get();
 
         $inactiveSubstitutions = Usersubstitutions::where(
-            'date_to', '<=', date("Y-m-d")
+            'date_to', '<', date("Y-m-d")
         )->get();
 
         $stores = Stores::all();
@@ -85,6 +85,7 @@ class UsersubstitutionsController extends Controller
 
             if($user->store != $request->store){
                 $status = 1;
+                $place = 'active';
                 $substitution = new Usersubstitutions();
                 $substitution->user_id = $request->user;
                 $substitution->store_id = $request->store;
@@ -93,7 +94,11 @@ class UsersubstitutionsController extends Controller
         
                 $substitution->save();
 
-                return Response::json(array('success' => View::make('admin/substitutions/table',array('substitution'=>$substitution))->render(), 'place' => 'active'));
+                if($substitution->date_to < date("Y-m-d")){
+                    $place = 'inactive';
+                }
+
+                return Response::json(array('success' => View::make('admin/substitutions/table',array('substitution'=>$substitution))->render(), 'place' => $place));
             }else{
                 return Response::json(['errors' => ['same_store' => ['Не може да изпратите потребителя в същият магазин']]], 401);
             }
@@ -139,8 +144,13 @@ class UsersubstitutionsController extends Controller
         $substitution = Usersubstitutions::find($substitution);
         $stores = Stores::all();
         $users = User::all();
+        $place = 'active';
+
+        if($substitution->date_to < date("Y-m-d")){
+            $place = 'inactive';
+        }
         
-        return \View::make('admin/substitutions/edit', array('users' => $users, 'stores' => $stores, 'substitution' => $substitution, 'place' => 'active'));
+        return \View::make('admin/substitutions/edit', array('users' => $users, 'stores' => $stores, 'substitution' => $substitution, 'place' => $place));
     }
 
     /**
@@ -171,7 +181,7 @@ class UsersubstitutionsController extends Controller
             $substitution->date_from = date('Y-m-d', strtotime($request->dateFrom));
             $substitution->date_to = date('Y-m-d', strtotime($request->dateTo));
 
-            if($substitution->date_to <= date("Y-m-d")){
+            if($substitution->date_to < date("Y-m-d")){
                 $place = 'inactive';
             }
 
