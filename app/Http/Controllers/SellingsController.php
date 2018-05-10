@@ -272,4 +272,22 @@ class SellingsController extends Controller
             return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity));  
         }
     }
+
+    public function printInfo(){
+        //$repair = Repairs::find($id);
+
+        $items = [];
+        
+        Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
+        {
+            $items[] = $item;
+        });
+
+        $table = '';
+        foreach($items as $item){
+            $table .= View::make('admin/selling/table',array('item'=>$item))->render();
+        }
+
+        return Response::json(array('success' => 'yes', 'html' => View::make('admin/sellings/certificate',array('table'=>$table))->render()));
+    }
 }

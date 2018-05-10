@@ -168,7 +168,7 @@ aria-hidden="true">
                         </div> --}}
 
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Печат</button>
+                            <a href="sellings/information" class="btn btn-primary print-btn">Печат</a>
                         </div>
 
                         {{-- @foreach(Cart::content() as $row)
