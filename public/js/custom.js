@@ -511,7 +511,11 @@ var uvel,
         var amountValue = amountInput.value;
         var amountCheck = moreProductsInput.checked;
         var ajaxUrl = sellingForm.getAttribute("data-scan");
-        var dataSend = {'catalog_number' : catalogNumber, 'quantity' : Number(amountValue), 'amount_check' : amountCheck};
+        var dataSend = {
+          'catalog_number' : catalogNumber,
+          'quantity' : Number(amountValue),
+          'amount_check' : amountCheck
+        };
 
         ajaxFn('POST', ajaxUrl, sendSuccess, dataSend, '', '');
         catalogNumberInput.value = "";
@@ -614,7 +618,11 @@ var uvel,
 
         if(numberItemValue.length == 13){
         
-          var dataSend = {'barcode' : Number(numberItemValue), 'quantity' : Number(amountValue), 'amount_check' : amountCheck};
+          var dataSend = {
+            'barcode' : Number(numberItemValue),
+            'quantity' : Number(amountValue),
+            'amount_check' : amountCheck
+          };
   
           var currentElement = $(event.target);
           var form = currentElement.closest("form");
@@ -627,7 +635,11 @@ var uvel,
          var amountCheck = moreProductsInput.checked;
 
          if(numberItemValue.length == 13){
-           var dataSend = {'barcode' : Number(numberItemValue), 'quantity' : Number(amountValue), 'amount_check' : amountCheck};
+          var dataSend = {
+            'barcode' : Number(numberItemValue),
+            'quantity' : Number(amountValue),
+            'amount_check' : amountCheck
+          };
            var currentElement = $(event.target);
            var form = currentElement.closest("form");
            var ajaxUrl = form.attr("data-scan");
@@ -809,10 +821,6 @@ var uvel,
         if (paymentModalGivenInput.value != '') {
           calculateReturn();
         }
-      }
-
-      function paymentSuccess(event) {
-        console.log('payment success');
       }
 
 
