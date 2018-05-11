@@ -1210,9 +1210,7 @@ var uvel,
           else if(response.place === 'inactive') {
             var table = document.getElementById('user-substitute-inactive');
             table.deleteRow(currentRowIndex);
-
-            var rows = table.rows.length;
-            var newRow = table.insertRow(rows);
+            var newRow = table.insertRow(currentRowIndex);
             newRow.innerHTML = content;
           }
         }
