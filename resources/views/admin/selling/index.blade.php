@@ -42,7 +42,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/payment" name="paymentModal">
+            <form method="POST" action="/sell/payment" name="paymentModal">
                  
                 <div class="modal-body">    
                     <div class="info-cont">
@@ -62,7 +62,7 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="given-sum">Дадена сума</label>
-                            <input type="number" id="given-sum" class="form-control" name="given_sum" placeholder="Дадена сума от клиента">
+                            <input type="number" id="given-sum" class="form-control" value="0" name="given_sum" placeholder="Дадена сума от клиента">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="return-sum">Ресто</label>

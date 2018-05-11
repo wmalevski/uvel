@@ -15,13 +15,13 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->increments('id');
-            $table->int('currency');
-            $table->enum('method', ['cash', 'card']);
+            $table->integer('currency');
+            $table->enum('method', ['cash', 'post']);
             $table->enum('reciept', ['yes', 'no']);
             $table->enum('ticket', ['yes', 'no']);
             $table->float('price');
             $table->float('given');
-            $table->int('selling');
+            $table->integer('selling');
             $table->timestamps();
         });
     }

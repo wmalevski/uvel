@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Payments;
+use App\Sellings;
 use Illuminate\Http\Request;
 use Faker\Provider\me_ME\Payment;
 
@@ -40,7 +41,7 @@ class PaymentsController extends Controller
 
 
         //Store the payment
-        $payment = new Payment();
+        $payment = new Payments();
         $payment->currency = $request->modal_certificate;
         $payment->method = $request->pay_method;
         $payment->reciept = $request->modal_reciept;
@@ -48,13 +49,13 @@ class PaymentsController extends Controller
         $payment->ticket = $request->modal_ticket;
         $payment->price = $request->wanted_sum;
         $payment->given = $request->given_sum;
-        $payment->save;
-        // $payment->selling =
+        $payment->save();
+        //$payment->selling =
 
         //Add to safe
 
         //Store the notification
-        
+
     }
 
     /**
