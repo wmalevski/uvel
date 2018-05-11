@@ -1221,6 +1221,8 @@ var uvel,
 
             var newRow = table.insertRow(currentRowIndex);
             newRow.innerHTML = content;
+
+            editAction();
           }
         }
         else {
