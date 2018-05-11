@@ -3,8 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Payments;
+use App\Sellings;
+use App\History;
 use Illuminate\Http\Request;
 use Faker\Provider\me_ME\Payment;
+use Illuminate\Support\Facades\Validator;
+use Response;
+use Auth;
+use Cart;
 
 class PaymentsController extends Controller
 {
@@ -36,14 +42,54 @@ class PaymentsController extends Controller
      */
     public function store(Request $request)
     {
-        // $payment = new Payment();
-        // $payment->currency = 
-        // $payment->method = 
-        // $payment->reciept =
-        // $payment->ticket =
-        // $payment->price =
-        // $payment->given =
-        // $payment->selling =
+        //Store the selling
+        
+
+        //Store the payment
+        if($request->given_sum >= $request->wanted_sum){
+            //Check if the given sum is more or equal to the wanted sum
+            $validator = Validator::make( $request->all(), [
+                'wanted_sum' => 'required|numeric|between:0,1000000000',
+                'given_sum'  => 'required|numeric|between:0,10000000',
+            ]);
+    
+            if ($validator->fails()) {
+                return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+            }
+
+            $payment = new Payments();
+            $payment->currency = $request->modal_certificate;
+            $payment->method = $request->pay_method;
+            $payment->reciept = $request->modal_reciept;
+    
+            $payment->ticket = $request->modal_ticket;
+            $payment->price = $request->wanted_sum;
+            $payment->given = $request->given_sum;
+            $payment->save();
+
+            $userId = Auth::user()->getId(); 
+            
+            Cart::clear();
+            Cart::clearCartConditions();
+            Cart::session($userId)->clear();
+            Cart::session($userId)->clearCartConditions();
+
+        }else{
+            return Response::json(['errors' => ['more_money' => ['Магазинера трябва да приеме сума равна или по-голяма от дължимата сума.']]], 401);
+        }
+
+        //Add to safe   
+        //On hold for next sprint
+
+        //Store the notification
+        $history = new History();
+        
+        $history->action = '1';
+        $history->user = Auth::user()->getId();
+        $history->table = 'product_payment';
+        $history->result_id = $payment->id;
+
+        $history->save();
     }
 
     /**
