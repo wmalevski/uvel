@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Payments;
 use Illuminate\Http\Request;
+use Faker\Provider\me_ME\Payment;
 
 class PaymentsController extends Controller
 {
@@ -35,7 +36,14 @@ class PaymentsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $payment = new Payment();
+        // $payment->currency = 
+        // $payment->method = 
+        // $payment->reciept =
+        // $payment->ticket =
+        // $payment->price =
+        // $payment->given =
+        // $payment->selling =
     }
 
     /**
