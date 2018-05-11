@@ -32,6 +32,110 @@ aria-hidden="true">
 </div>
 
 
+<div class="modal fade payment-modal" id="paymentModal" role="dialog" aria-labelledby="paymentModal"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="paymentModalLabel">Плащане</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="/sell/payment" name="paymentModal">
+                 
+                <div class="modal-body">    
+                    <div class="info-cont">
+                    </div>
+
+                    {{ csrf_field() }}  
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="wanted-sum">Дължима сума</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input class="form-control" id="wanted-sum" type="number" name="wanted_sum" readonly>
+                        </div>
+                    </div>
+                                
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="given-sum">Дадена сума</label>
+                            <input type="number" id="given-sum" class="form-control" value="0" name="given_sum" placeholder="Дадена сума от клиента">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="return-sum">Ресто</label>
+                            <input type="number" id="return-sum" class="form-control" name="return_sum" placeholder="Ресто" readonly>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="pay-currency">Валута</label>
+                            <select id="pay-currency" name="pay_currency" class="form-control">
+                                @foreach($currencies as $currency)
+                                    <option value="{{ $currency->id }}" data-currency="{{ $currency->currency }}">{{ $currency->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <div class="radio radio-info">
+                                <input type="radio" name="pay_method" value="cash" id="pay-method-cash" checked>
+                                <label for="pay-method-cash">В брой</label>
+                            </div>
+                            <div class="radio radio-info">
+                                <input type="radio" name="pay_method" value="pos" id="pay-method-pos">
+                                <label for="pay-method-pos">С карта</label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="radio radio-info">
+                                <input type="radio" id="modal-reciept" name="modal_reciept" value="yes" checked>
+                                <label for="modal-reciept">Фискален</label>
+                            </div>
+                            <div class="radio radio-info">
+                                <input type="radio" id="modal-non-reciept" name="modal_reciept" value="no">
+                                <label for="modal-non-reciept">Без фискален</label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="radio radio-info">
+                                <input type="radio" id="modal-ticket" name="modal_ticket" value="yes" checked>
+                                <label for="modal-ticket">С разписка</label>
+                            </div>
+                            <div class="radio radio-info">
+                                <input type="radio" id="modal-non-ticket" name="modal_ticket" value="no">
+                                <label for="modal-non-ticket">Без разписка</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <span>Принтиране на сертификат:</span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="radio radio-info">
+                                <input type="radio" id="modal-certificate" name="modal_certificate" value="yes" checked>
+                                <label for="modal-certificate">С цена</label>
+                            </div>
+                            <div class="radio radio-info">
+                                <input type="radio" id="modal-non-certificate" name="modal_certificate" value="no">
+                                <label for="modal-non-certificate">Без цена</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+                    <button type="submit" class="btn btn-primary">Завърши плащането</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <div class="row">
     <div class="col-md-12">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
@@ -122,22 +226,7 @@ aria-hidden="true">
                         </table>
 
                         <div class="form-group">
-                            <div class="checkbox checkbox-circle checkbox-info peers ai-c">
-                                <input type="checkbox" id="inputCall2" name="inputCheckboxesCall" class="peer">
-                                <label for="inputCall2" class="peers peer-greed js-sb ai-c">
-                                    <span class="peer peer-greed">Фискален</span>
-                                </label>
-                            </div>
-
-                            <div class="checkbox checkbox-circle checkbox-info peers ai-c">
-                                <input type="checkbox" id="inputCall2" name="inputCheckboxesCall" class="peer">
-                                <label for="inputCall2" class="peers peer-greed js-sb ai-c">
-                                    <span class="peer peer-greed">Без</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Плащане</button>
+                            <button type="submit" class="btn btn-primary payment-btn" data-toggle="modal" data-target="#paymentModal">Плащане</button>
                             <button type="submit" class="btn btn-primary">Ръчно пускане на фискален бон</button>
                         </div>
 

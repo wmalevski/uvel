@@ -261,7 +261,11 @@ var uvel,
       var collectionReturnRepairBtns = document.querySelectorAll('.return-repair');
       var printBtns = document.querySelectorAll('.print-btn');
       var deleteBtns = document.querySelectorAll('.delete-btn');
+      var paymentBtns = document.querySelectorAll('.payment-btn');
       var certificateBtns = document.querySelectorAll('.certificate');
+      var paymentModalSubmitBtns = document.querySelectorAll('.payment-modal .btn-primary');
+
+
       var urlTaken = window.location.href.split('/');
       var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
       var token = $('meta[name="csrf-token"]').attr('content');
@@ -275,6 +279,13 @@ var uvel,
       var moreProductsInput = document.getElementById("amount_check");
       var discountInput = document.getElementById("add_discount");
       var discountCardInput = document.getElementById("discount_card");
+      var paymentModalCashRadio = document.getElementById('pay-method-cash');
+      var paymentModalPosRadio = document.getElementById('pay-method-pos');
+      var paymentModalPriceInput = document.getElementById('wanted-sum');
+      var paymentModalGivenInput = document.getElementById('given-sum');
+      var paymentModalReturnInput = document.getElementById('return-sum');
+      var paymentModalCurrencySelector = document.getElementById('pay-currency');
+
       var sellingForm = document.getElementById('selling-form');
       var returnRepairForm = document.getElementById('return-repair-form');
       var returnScanForm = document.getElementById('scan-repair-form');
@@ -500,7 +511,11 @@ var uvel,
         var amountValue = amountInput.value;
         var amountCheck = moreProductsInput.checked;
         var ajaxUrl = sellingForm.getAttribute("data-scan");
-        var dataSend = {'catalog_number' : catalogNumber, 'quantity' : Number(amountValue), 'amount_check' : amountCheck};
+        var dataSend = {
+          'catalog_number' : catalogNumber,
+          'quantity' : Number(amountValue),
+          'amount_check' : amountCheck
+        };
 
         ajaxFn('POST', ajaxUrl, sendSuccess, dataSend, '', '');
         catalogNumberInput.value = "";
@@ -597,12 +612,34 @@ var uvel,
       }
 
       function sendItem(event) {
+        var numberItemValue = this.value;
+        var amountValue = amountInput.value;
+        var amountCheck = moreProductsInput.checked;
+
+        if(numberItemValue.length == 13){
+        
+          var dataSend = {
+            'barcode' : Number(numberItemValue),
+            'quantity' : Number(amountValue),
+            'amount_check' : amountCheck
+          };
+  
+          var currentElement = $(event.target);
+          var form = currentElement.closest("form");
+          var ajaxUrl = form.attr("data-scan");
+
+          ajaxFn("POST", ajaxUrl, sendSuccess, dataSend, '', '');
+        }
          var numberItemValue = this.value;
          var amountValue = amountInput.value;
          var amountCheck = moreProductsInput.checked;
 
          if(numberItemValue.length == 13){
-           var dataSend = {'barcode' : Number(numberItemValue), 'quantity' : Number(amountValue), 'amount_check' : amountCheck};
+          var dataSend = {
+            'barcode' : Number(numberItemValue),
+            'quantity' : Number(amountValue),
+            'amount_check' : amountCheck
+          };
            var currentElement = $(event.target);
            var form = currentElement.closest("form");
            var ajaxUrl = form.attr("data-scan");
@@ -721,6 +758,71 @@ var uvel,
           document.body.classList.remove("print-mode")
         }
       }
+
+      paymentBtns.forEach(function(btn) {
+        btn.addEventListener('click', paymentBtnClick);
+      })
+
+      paymentModalPosRadio.addEventListener('change', paymentPosClicked);
+
+      paymentModalCashRadio.addEventListener('change', paymentCashClicked);
+
+      paymentModalGivenInput.addEventListener('keyup', calculateReturn);
+
+      $(paymentModalCurrencySelector).on('select2:select', currencySelect);
+
+      paymentModalSubmitBtns.forEach(function(btn) {
+        btn.addEventListener('click', getFormData);
+      })
+
+      function paymentBtnClick(event) {
+        if (event.target.classList.contains('payment-btn')) {
+          var price = document.getElementById('total').value;
+
+          paymentModalPriceInput.value = price;
+        }
+      }
+
+      function paymentPosClicked(event) {
+        var disable = document.createAttribute('readonly');
+        var price = document.getElementById('total').value;
+
+        paymentModalGivenInput.setAttributeNode(disable);
+        paymentModalCurrencySelector.setAttribute('disabled', true);
+        $(paymentModalCurrencySelector).val('0');  // set the currency select2 to BGN
+        $(paymentModalCurrencySelector).trigger('change');
+        $(paymentModalCurrencySelector).trigger('select2:select');
+        paymentModalCurrencySelector.getElementsByTagName('option')[0].selected = 'selected';
+        paymentModalGivenInput.value = price;
+        paymentModalReturnInput.value = 0;
+      }
+
+      function paymentCashClicked(event) {
+        paymentModalGivenInput.removeAttribute('readonly');
+        paymentModalCurrencySelector.removeAttribute('disabled');
+        paymentModalGivenInput.value = '';
+        paymentModalReturnInput.value = '';
+      }
+
+      function calculateReturn(event) {
+        var price = paymentModalPriceInput.value;
+        var given = paymentModalGivenInput.value;
+        var returnSum = Math.round((given - price) * 100) / 100;
+
+        paymentModalReturnInput.value = returnSum;
+      }
+
+      function currencySelect(event) {
+        var currentPrice = document.getElementById('total').value;
+        var currencyValue = $(event.target).find('option:selected')[0].getAttribute('data-currency');
+        var newPrice = currentPrice * currencyValue;
+        
+        paymentModalPriceInput.value = newPrice;
+        if (paymentModalGivenInput.value != '') {
+          calculateReturn();
+        }
+      }
+
 
       function deleteRowRecord(event) {    
         if(event.target && event.target.parentElement.classList.contains('delete-btn')) {
@@ -852,7 +954,15 @@ var uvel,
 
                       collectionElements.push(el);
 
-                    } else {
+                    } 
+                    else if (elType === 'radio' && el.checked) {
+                      collectionData[name] = value;
+                      collectionElements.push(el);
+                    }
+                    else if (elType === 'radio' && !el.checked) {
+                      return;
+                    }
+                    else {
 
                       if (name === '_method') {
                         formMethod = value;
