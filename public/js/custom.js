@@ -409,6 +409,7 @@ var uvel,
       }
      
       if(collectionModalAddBtns.length > 0) {
+
         var modelSelect = $('#model_select');
         var typeSelect;
         var collectionFiles = [];
@@ -444,10 +445,13 @@ var uvel,
       if(collectionScanRepairBtns.length > 0) {
 
         collectionScanRepairBtns.forEach(function (btn) {
-
           btn.addEventListener('click', function() {
             var returnRepairWrapper = document.getElementById('scan-repair-wrapper');
             var nextElement = returnRepairWrapper.nextElementSibling;
+
+            if(nextElement != null){
+              nextElement.parentNode.removeChild(nextElement);
+            }
 
             if(nextElement != null){
               nextElement.parentNode.removeChild(nextElement);
@@ -457,7 +461,6 @@ var uvel,
             returnRepairWrapper.querySelector('.info-cont').innerHTML='';
             document.getElementById('barcode_process-repairs').value = '';
           });
-
         });
 
       }
@@ -479,6 +482,18 @@ var uvel,
             document.getElementById('barcode_return-repairs').value = '';
           });
 
+          btn.addEventListener('click', function() {
+            var returnRepairWrapper = document.getElementById('return-repair-wrapper');
+            var nextElement = returnRepairWrapper.nextElementSibling;
+
+            if(nextElement != null){
+              nextElement.parentNode.removeChild(nextElement);
+            }
+
+            returnRepairWrapper.style.display = 'block';
+            returnRepairWrapper.querySelector('.info-cont').innerHTML='';
+            document.getElementById('barcode_return-repairs').value = '';
+          });
         });
       }
 
@@ -1242,6 +1257,7 @@ var uvel,
         
           editAction();     
         }
+
         pendingRequest = false; 
       }
 
@@ -1259,30 +1275,17 @@ var uvel,
       }
   
       function clickEditButton(event) {
-
         event.preventDefault();
 
         var link = event.target.parentElement;
-
         var urlTaken = window.location.href.split('/');
         var url = urlTaken[0] + '//' + urlTaken[2] + '/' + urlTaken[3] + '/';
-
         var linkAjax = url+link.getAttribute('data-url');
 
-        ajaxFn("GET", linkAjax, editBtnSuccess, '', '', this);
-              
+        ajaxFn("GET", linkAjax, editBtnSuccess, '', '', this);        
         $self.currentPressedBtn = this;  
-        
         setTimeout(function() {$self.checkAllForms(currentPressedBtn);}, 500);
-
       }
-
-      var parseHTML = function(str) {
-        var tmp = document.implementation.createHTMLDocument();
-        tmp.body.innerHTML = str;
-        return tmp.body.children;
-      };
-      
 
       function editBtnSuccess(data, elements, btn) {
          var id = btn.getAttribute("data-target");
