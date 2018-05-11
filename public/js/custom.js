@@ -1200,6 +1200,7 @@ var uvel,
           var content = response.table;
           var currentRow = $self.currentPressedBtn.closest('tr')
           var currentRowIndex = currentRow.rowIndex;
+          var currentTableId = currentRow.closest('table').getAttribute('id');
 
           if(response.place === 'active') {
             var table = document.getElementById('user-substitute-active');
@@ -1209,7 +1210,15 @@ var uvel,
           }
           else if(response.place === 'inactive') {
             var table = document.getElementById('user-substitute-inactive');
-            table.deleteRow(currentRowIndex);
+            var activaTable = document.getElementById('user-substitute-active');
+
+            if(currentTableId === 'user-substitute-active'){
+              activaTable.deleteRow(currentRowIndex);
+            }
+            else {
+              table.deleteRow(currentRowIndex);
+            }
+
             var newRow = table.insertRow(currentRowIndex);
             newRow.innerHTML = content;
           }
