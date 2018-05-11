@@ -71,7 +71,6 @@ aria-hidden="true">
                         <div class="form-group col-md-4">
                             <label for="pay-currency">Валута</label>
                             <select id="pay-currency" name="pay_currency" class="form-control">
-                                <option value="0" data-currency="1">BGN</option>
                                 @foreach($currencies as $currency)
                                     <option value="{{ $currency->id }}" data-currency="{{ $currency->currency }}">{{ $currency->name }}</option>
                                 @endforeach
