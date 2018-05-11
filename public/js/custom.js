@@ -1209,8 +1209,7 @@ var uvel,
           }
           else if(response.place === 'inactive') {
             var table = document.getElementById('user-substitute-inactive');
-            var activeTable = document.getElementById('user-substitute-active');
-            activeTable.deleteRow(currentRowIndex);
+            table.deleteRow(currentRowIndex);
 
             var rows = table.rows.length;
             var newRow = table.insertRow(rows);
