@@ -36,14 +36,25 @@ class PaymentsController extends Controller
      */
     public function store(Request $request)
     {
-        // $payment = new Payment();
-        // $payment->currency = 
-        // $payment->method = 
-        // $payment->reciept =
-        // $payment->ticket =
-        // $payment->price =
-        // $payment->given =
+        //Store the selling
+
+
+        //Store the payment
+        $payment = new Payment();
+        $payment->currency = $request->modal_certificate;
+        $payment->method = $request->pay_method;
+        $payment->reciept = $request->modal_reciept;
+
+        $payment->ticket = $request->modal_ticket;
+        $payment->price = $request->wanted_sum;
+        $payment->given = $request->given_sum;
+        $payment->save;
         // $payment->selling =
+
+        //Add to safe
+
+        //Store the notification
+        
     }
 
     /**
