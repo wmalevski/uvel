@@ -608,8 +608,6 @@ var uvel,
       }
 
       function sendItem(event) {
-<<<<<<< HEAD
-
         var numberItemValue = this.value;
         var amountValue = amountInput.value;
         var amountCheck = moreProductsInput.checked;
@@ -749,7 +747,6 @@ var uvel,
         }
       }
 
-<<<<<<< HEAD
       paymentBtns.forEach(function(btn) {
         btn.addEventListener('click', paymentBtnClick);
       })
@@ -763,7 +760,7 @@ var uvel,
       $(paymentModalCurrencySelector).on('select2:select', currencySelect);
 
       paymentModalSubmitBtns.forEach(function(btn) {
-        btn.addEventListener('click', paymentSuccess);
+        btn.addEventListener('click', getFormData);
       })
 
       function paymentBtnClick(event) {
@@ -780,7 +777,7 @@ var uvel,
 
         paymentModalGivenInput.setAttributeNode(disable);
         paymentModalCurrencySelector.setAttribute('disabled', true);
-        $(paymentModalCurrencySelector).val('1');  // set the currency select2 to BGN
+        $(paymentModalCurrencySelector).val('0');  // set the currency select2 to BGN
         $(paymentModalCurrencySelector).trigger('change');
         $(paymentModalCurrencySelector).trigger('select2:select');
         paymentModalCurrencySelector.getElementsByTagName('option')[0].selected = 'selected';
@@ -805,7 +802,7 @@ var uvel,
 
       function currencySelect(event) {
         var currentPrice = document.getElementById('total').value;
-        var currencyValue = $(event.target).find('option:selected')[0].value;
+        var currencyValue = $(event.target).find('option:selected')[0].getAttribute('data-currency');
         var newPrice = currentPrice * currencyValue;
         
         paymentModalPriceInput.value = newPrice;
@@ -949,7 +946,15 @@ var uvel,
 
                       collectionElements.push(el);
 
-                    } else {
+                    } 
+                    else if (elType === 'radio' && el.checked) {
+                      collectionData[name] = value;
+                      collectionElements.push(el);
+                    }
+                    else if (elType === 'radio' && !el.checked) {
+                      return;
+                    }
+                    else {
 
                       if (name === '_method') {
                         formMethod = value;

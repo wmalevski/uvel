@@ -42,7 +42,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="" name="paymentModal">
+            <form method="POST" action="/payment" name="paymentModal">
                  
                 <div class="modal-body">    
                     <div class="info-cont">
@@ -71,9 +71,9 @@ aria-hidden="true">
                         <div class="form-group col-md-4">
                             <label for="pay-currency">Валута</label>
                             <select id="pay-currency" name="pay-currency" class="form-control">
-                                <option value="1">BGN</option>
+                                <option value="0" data-currency="1">BGN</option>
                                 @foreach($currencies as $currency)
-                                    <option value="{{ $currency->currency }}">{{ $currency->name }}</option>
+                                    <option value="{{ $currency->id }}" data-currency="{{ $currency->currency }}">{{ $currency->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -81,31 +81,31 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <div class="radio radio-info">
-                                <input type="radio" name="pay-method" id="pay-method-cash" checked>
+                                <input type="radio" name="pay-method" value="1" id="pay-method-cash" checked>
                                 <label for="pay-method-cash">В брой</label>
                             </div>
                             <div class="radio radio-info">
-                                <input type="radio" name="pay-method" id="pay-method-pos">
+                                <input type="radio" name="pay-method" value="0" id="pay-method-pos">
                                 <label for="pay-method-pos">С карта</label>
                             </div>
                         </div>
                         <div class="form-group col-md-4">
                             <div class="radio radio-info">
-                                <input type="radio" id="modal-reciept" name="modal-reciept" checked>
+                                <input type="radio" id="modal-reciept" name="modal-reciept" value="1" checked>
                                 <label for="modal-reciept">Фискален</label>
                             </div>
                             <div class="radio radio-info">
-                                <input type="radio" id="modal-non-reciept" name="modal-reciept">
+                                <input type="radio" id="modal-non-reciept" name="modal-reciept" value="0">
                                 <label for="modal-non-reciept">Без фискален</label>
                             </div>
                         </div>
                         <div class="form-group col-md-4">
                             <div class="radio radio-info">
-                                <input type="radio" id="modal-ticket" name="modal-ticket" checked>
+                                <input type="radio" id="modal-ticket" name="modal-ticket" value="1" checked>
                                 <label for="modal-ticket">С разписка</label>
                             </div>
                             <div class="radio radio-info">
-                                <input type="radio" id="modal-non-ticket" name="modal-ticket">
+                                <input type="radio" id="modal-non-ticket" name="modal-ticket" value="0">
                                 <label for="modal-non-ticket">Без разписка</label>
                             </div>
                         </div>
@@ -116,11 +116,11 @@ aria-hidden="true">
                         </div>
                         <div class="form-group col-md-6">
                             <div class="radio radio-info">
-                                <input type="radio" id="modal-certificate" name="modal-certificate" checked>
+                                <input type="radio" id="modal-certificate" name="modal-certificate" value="1" checked>
                                 <label for="modal-certificate">С цена</label>
                             </div>
                             <div class="radio radio-info">
-                                <input type="radio" id="modal-non-certificate" name="modal-certificate">
+                                <input type="radio" id="modal-non-certificate" name="modal-certificate" value="0">
                                 <label for="modal-non-certificate">Без цена</label>
                             </div>
                         </div>
