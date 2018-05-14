@@ -1193,6 +1193,7 @@ var uvel,
           }
 
           responseHolder.appendChild(holder);
+          setInterval(function(){ responseHolder.innerHTML=''; }, 3000);
 
         } else {
 
@@ -1201,6 +1202,7 @@ var uvel,
               successContainer.className = 'alert alert-success';
 
             responseHolder.appendChild(successContainer);
+            setInterval(function(){ responseHolder.innerHTML=''; }, 3000);
 
             if (nameForm === 'addPrice') {
 
@@ -1224,7 +1226,6 @@ var uvel,
 
             tableBody.innerHTML += response.success;
           }
-
 
           elements.forEach(function (el) {
 
@@ -1255,7 +1256,8 @@ var uvel,
 
             }
 
-          })
+          });
+
         }
 
         editAction();
@@ -1286,6 +1288,7 @@ var uvel,
             }
   
             responseHolder.appendChild(holder);
+            setInterval(function(){ responseHolder.innerHTML=''; }, 3000);
           } else {
   
               var successContainer = document.createElement('div');
@@ -1294,6 +1297,7 @@ var uvel,
               var content = response.table.replace('<tr>', '').replace('</tr>', '');
 
               responseHolder.appendChild(successContainer);
+              setInterval(function(){ responseHolder.innerHTML=''; }, 3000);
   
               if(response.ID) {
                   var id = response.ID;
