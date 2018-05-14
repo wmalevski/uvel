@@ -730,17 +730,33 @@ var uvel,
       });
   
       function print(event) {
+<<<<<<< HEAD
         if(event.target && event.target.parentElement.classList.contains('print-btn')) {
+=======
+        if(event.currentTarget && event.currentTarget.classList.contains('print-btn')) {
+>>>>>>> d251c1b70bf73e901b797e06e89aa817f392089a
           event.preventDefault();
           event.stopPropagation();
 
-          var urlTaken = event.target.parentElement.href.split('/');
+          var urlTaken = event.currentTarget.href.split('/');
           var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
+<<<<<<< HEAD
           var link = event.target.parentElement;
+=======
+          var link = event.currentTarget;
+>>>>>>> d251c1b70bf73e901b797e06e89aa817f392089a
           var linkPath = link.href.split("admin")[1];
+          if (typeof linkPath == 'undefined') {
+            linkPath = '/sellings/information';
+          }
           var ajaxUrl = url+linkPath;
+<<<<<<< HEAD
     
           ajaxFn("GET",ajaxUrl,printBtnSuccess,'','',link);
+=======
+          
+          ajaxFn("GET",ajaxUrl,printBtnSuccess,'','',link); 
+>>>>>>> d251c1b70bf73e901b797e06e89aa817f392089a
         }
       }
 
