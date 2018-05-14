@@ -72,7 +72,7 @@ aria-hidden="true">
                             <label for="pay-currency">Валута</label>
                             <select id="pay-currency" name="pay_currency" class="form-control">
                                 @foreach($currencies as $currency)
-                                    <option value="{{ $currency->id }}" data-currency="{{ $currency->currency }}">{{ $currency->name }}</option>
+                                    <option value="{{ $currency->id }}" data-default="{{$currency->default }}" data-currency="{{ $currency->currency }}">{{ $currency->name }}</option>
                                 @endforeach
                             </select>
                         </div>
