@@ -767,15 +767,15 @@ var uvel,
         paymentModalPosRadio.addEventListener('change', paymentPosClicked);
       }
 
-      if (paymentModalPosRadio !== null){
+      if (paymentModalCashRadio !== null){
         paymentModalCashRadio.addEventListener('change', paymentCashClicked);
       }
 
-      if (paymentModalPosRadio !== null){
+      if (paymentModalGivenInput !== null){
         paymentModalGivenInput.addEventListener('keyup', calculateReturn);
       }
 
-      if (paymentModalPosRadio !== null){
+      if (paymentModalCurrencySelector !== null){
         $(paymentModalCurrencySelector).on('select2:select', currencySelect);
       }
 
