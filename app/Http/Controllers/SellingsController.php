@@ -111,15 +111,33 @@ class SellingsController extends Controller
             } else if($request->catalog_number){
                 $item = Products::where('code', $request->catalog_number)->first();
             }
+
+            if($item->status == 'selling'){
+                return Response::json(['errors' => array(
+                    'selling' => 'Продукта вмомента принадлежи на друга продажба.'
+                )], 401);
+            }
+
+            $item->status = 'selling';
+            $item->save();
         }else{
             if($request->barcode){
                 $item = Products_others::where('barcode', $request->barcode)->first();
             } else if($request->catalog_number){
                 $item = Products_others::where('code', $request->catalog_number)->first();
             }
+
+            if($item->quantity < $request->quantity){
+                return Response::json(['errors' => array(
+                    'quantity' => 'Системата няма това количество, което желаете да продадете.'
+                )], 401);
+            }
+
+            $item->quantity-$request->quantity;
+            $item->save();
         }
 
-        if($item){            
+        if($item){       
             $userId = Auth::user()->getId(); // or any string represents user identifier
             
             $find = Cart::session($userId)->get($item->barcode);
@@ -127,6 +145,10 @@ class SellingsController extends Controller
             if($find && $request->quantity == 1) {
                 
             }else{
+                if($item->status == 'sold'){
+                    $item->price = 0;
+                }
+
                 Cart::session($userId)->add(array(
                     'id' => $item->barcode,
                     'name' => $item->name,

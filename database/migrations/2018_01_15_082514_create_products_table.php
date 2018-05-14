@@ -27,6 +27,7 @@ class CreateProductsTable extends Migration
             $table->float('price');
             $table->string('code')->nullable();
             $table->string('barcode');
+            $table->enum('status', ['available', 'selling', 'sold'])->default('available');
             $table->timestamps();
         });
     }
