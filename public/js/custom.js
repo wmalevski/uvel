@@ -763,13 +763,21 @@ var uvel,
         btn.addEventListener('click', paymentBtnClick);
       })
 
-      paymentModalPosRadio.addEventListener('change', paymentPosClicked);
+      if (paymentModalPosRadio !== null){
+        paymentModalPosRadio.addEventListener('change', paymentPosClicked);
+      }
 
-      paymentModalCashRadio.addEventListener('change', paymentCashClicked);
+      if (paymentModalPosRadio !== null){
+        paymentModalCashRadio.addEventListener('change', paymentCashClicked);
+      }
 
-      paymentModalGivenInput.addEventListener('keyup', calculateReturn);
+      if (paymentModalPosRadio !== null){
+        paymentModalGivenInput.addEventListener('keyup', calculateReturn);
+      }
 
-      $(paymentModalCurrencySelector).on('select2:select', currencySelect);
+      if (paymentModalPosRadio !== null){
+        $(paymentModalCurrencySelector).on('select2:select', currencySelect);
+      }
 
       paymentModalSubmitBtns.forEach(function(btn) {
         btn.addEventListener('click', getFormData);
