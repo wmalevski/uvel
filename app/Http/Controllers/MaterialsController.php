@@ -46,7 +46,7 @@ class MaterialsController extends Controller
             'name' => 'required',
             'code' => 'required',
             'color' => 'required',
-            'carat' => 'numeric|between:1,100'
+            'carat' => 'nullable|numeric|between:1,100'
          ]);
 
         if ($validator->fails()) {
@@ -100,7 +100,7 @@ class MaterialsController extends Controller
         
         $material->save();
 
-        return Response::json(array('table' => View::make('admin/materials/table',array('material'=>$material))->render()));
+        return Response::json(array('ID' => $material->id,'table' => View::make('admin/materials/table',array('material'=>$material))->render()));
     }
 
     /**
@@ -109,8 +109,13 @@ class MaterialsController extends Controller
      * @param  \App\Materials  $materials
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Materials $materials)
+    public function destroy(Materials $materials, $material)
     {
-        //
+        $material = Materials::find($material);
+        
+        if($material){
+            $material->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

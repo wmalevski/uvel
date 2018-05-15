@@ -17,6 +17,7 @@ use App\Models;
 use App\Discount_codes;
 use App\Products_others;
 use App\Products_others_types;
+use App\Repairs;
 
 class DatabaseSeeder extends Seeder
 {
@@ -32,25 +33,21 @@ class DatabaseSeeder extends Seeder
             'title' => 'Админ',
         ]);
 
-        $admin = Bouncer::role()->create([
+        $merchant = Bouncer::role()->create([
             'name' => 'merchant',
             'title' => 'Магазинер',
         ]);
 
-        $admin = Bouncer::role()->create([
-            'name' => 'Manager',
+        $manager = Bouncer::role()->create([
+            'name' => 'manager',
             'title' => 'Управител',
         ]);
 
-        $admin = Bouncer::role()->create([
+        $customer = Bouncer::role()->create([
             'name' => 'customer',
             'title' => 'Клиент',
         ]);
         
-        $ban = Bouncer::ability()->create([
-            'name' => 'selling-products',
-            'title' => 'Извършване на продажби',
-        ]);
 
         $sellingProducts = Bouncer::ability()->create([
             'name' => 'selling-products',
@@ -62,57 +59,89 @@ class DatabaseSeeder extends Seeder
             'title' => 'Пускане и издаване на поръчки',
         ]);
 
-        $manageOrders = Bouncer::ability()->create([
+        $manageRepairs = Bouncer::ability()->create([
             'name' => 'manage-repairs',
             'title' => 'Пускане и издаване на поръчки',
         ]);
 
-        $manageOrders = Bouncer::ability()->create([
+        $sellingStatus = Bouncer::ability()->create([
             'name' => 'sellings-status',
             'title' => 'Справка за фискални продажби',
         ]);
 
-        $manageOrders = Bouncer::ability()->create([
+        $jewelStatus = Bouncer::ability()->create([
             'name' => 'jewels-status',
             'title' => 'Справка за налични бижута',
         ]);
 
-        $manageOrders = Bouncer::ability()->create([
+        $cashStatus = Bouncer::ability()->create([
             'name' => 'cash-status',
             'title' => 'Справка за налични пари в касата',
         ]);
 
-        $manageOrders = Bouncer::ability()->create([
+        $materialStatus = Bouncer::ability()->create([
             'name' => 'materials-status',
             'title' => 'Справка за наличен материал',
         ]);
 
-        $manageOrders = Bouncer::ability()->create([
+        $transferJewels = Bouncer::ability()->create([
             'name' => 'transfer-jewels',
             'title' => 'Tрансфер на бижута м/у обекти',
         ]);
 
-        $manageOrders = Bouncer::ability()->create([
+        $editProducts = Bouncer::ability()->create([
             'name' => 'edit-products',
             'title' => 'Корекция на готово изделие',
         ]);
 
-        $manageOrders = Bouncer::ability()->create([
+        $storeSale = Bouncer::ability()->create([
             'name' => 'store-sale',
             'title' => 'Сторниране на продажби',
         ]);
 
-        $manageOrders = Bouncer::ability()->create([
+        $addingSafe = Bouncer::ability()->create([
             'name' => 'adding-safe',
             'title' => 'Въвеждане на разходи в касата',
         ]);
 
-        $manageOrders = Bouncer::ability()->create([
+        $deleteProducts = Bouncer::ability()->create([
             'name' => 'delete-products',
             'title' => 'Изтриване на готово изделие',
         ]);
 
-        //Bouncer::allow('admin')->everything();
+        //Admin permissions
+        Bouncer::allow($admin)->to($sellingProducts);
+        Bouncer::allow($admin)->to($manageOrders);
+        Bouncer::allow($admin)->to($manageRepairs);
+        Bouncer::allow($admin)->to($sellingStatus);
+        Bouncer::allow($admin)->to($jewelStatus);
+        Bouncer::allow($admin)->to($cashStatus);
+        Bouncer::allow($admin)->to($materialStatus);
+        Bouncer::allow($admin)->to($transferJewels);
+        Bouncer::allow($admin)->to($editProducts);
+        Bouncer::allow($admin)->to($storeSale);
+        Bouncer::allow($admin)->to($addingSafe);
+        Bouncer::allow($admin)->to($deleteProducts);
+
+        //Manager permissions
+        Bouncer::allow($manager)->to($sellingProducts);
+        Bouncer::allow($manager)->to($manageOrders);
+        Bouncer::allow($manager)->to($manageRepairs);
+        Bouncer::allow($manager)->to($sellingStatus);
+        Bouncer::allow($manager)->to($jewelStatus);
+        Bouncer::allow($manager)->to($cashStatus);
+        Bouncer::allow($manager)->to($materialStatus);
+        Bouncer::allow($manager)->to($transferJewels);
+        Bouncer::allow($manager)->to($editProducts);
+        Bouncer::allow($manager)->to($storeSale);
+        Bouncer::allow($manager)->to($addingSafe);
+
+        //Merchant permissions 
+        Bouncer::allow($merchant)->to($sellingProducts);
+        Bouncer::allow($merchant)->to($manageOrders);
+        Bouncer::allow($merchant)->to($manageRepairs);
+        Bouncer::allow($merchant)->to($sellingStatus);
+        Bouncer::allow($merchant)->to($jewelStatus);
 
         $user = new User();
         $user->name = 'Admin';
@@ -122,7 +151,15 @@ class DatabaseSeeder extends Seeder
         $user->save();
 
         Bouncer::assign('admin')->to($user);
-        Bouncer::allow($user)->to('delete-products');
+
+        $merchant = new User();
+        $merchant->name = 'Merchant';
+        $merchant->email = 'merchant@uvel.com';
+        $merchant->password = bcrypt('merchant');
+        $merchant->store = 2;
+        $merchant->save();
+
+        Bouncer::assign('merchant')->to($merchant);
 
         for($i = 1; $i <= 5; $i++){
             $stone_styles = new Stone_styles();
@@ -225,6 +262,12 @@ class DatabaseSeeder extends Seeder
         $currency->name = 'EUR';
         $currency->currency = '0.51';
         $currency->save();
+
+        $currency = new Currencies();
+        $currency->name = 'BGN';
+        $currency->currency = '1';
+        $currency->default = 'yes';
+        $currency->save();
         
         $model = new Models();
         $model->name = 'Модел 1';
@@ -272,5 +315,52 @@ class DatabaseSeeder extends Seeder
         $products_others->barcode = 3808345766226;
         $products_others->code = 'BWGKIDKA';
         $products_others->save();
+
+
+
+        $repair = new Repairs();
+        $repair->type = 1;
+        $repair->barcode = 3806510024218;
+        $repair->repair_description = 'sadsd';
+        $repair->deposit = 10;
+        $repair->price = 20;
+        $repair->weight = 2.00;
+        $repair->code = 'RGV3IZPN';
+        $repair->status = 'repairing';
+        $repair->date_recieved = '30-04-2018'; 
+        $repair->date_returned = '24-05-2018';
+        $repair->customer_phone = '862589845';
+        $repair->customer_name = 'George Vasilev';
+        $repair->save();
+
+        $repair = new Repairs();
+        $repair->type = 1;
+        $repair->barcode = 3805183846417;
+        $repair->repair_description = 'sadsd';
+        $repair->deposit = 10;
+        $repair->price = 20;
+        $repair->weight = 2.00;
+        $repair->code = 'RBPTA4YZ';
+        $repair->status = 'repairing';
+        $repair->date_recieved = '30-04-2018'; 
+        $repair->date_returned = '24-05-2018';
+        $repair->customer_phone = '862589845';
+        $repair->customer_name = 'George Vasilev';
+        $repair->save();
+
+        $repair = new Repairs();
+        $repair->type = 1;
+        $repair->barcode = 3805926394014;
+        $repair->repair_description = 'sadsd';
+        $repair->deposit = 10;
+        $repair->price = 20;
+        $repair->weight = 2.00;
+        $repair->code = 'R8PAZKXM';
+        $repair->status = 'repairing';
+        $repair->date_recieved = '30-04-2018'; 
+        $repair->date_returned = '24-05-2018';
+        $repair->customer_phone = '862589845';
+        $repair->customer_name = 'George Vasilev';
+        $repair->save();
     }
 }

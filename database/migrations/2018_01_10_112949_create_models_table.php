@@ -24,6 +24,7 @@ class CreateModelsTable extends Migration
             $table->float('workmanship');
             $table->float('price');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

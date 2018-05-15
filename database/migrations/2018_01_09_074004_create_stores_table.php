@@ -19,6 +19,7 @@ class CreateStoresTable extends Migration
             $table->string('location');
             $table->string('phone');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

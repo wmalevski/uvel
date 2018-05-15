@@ -17,8 +17,8 @@ class CreateUsersubstitutionsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->references('id')->on('users');;
             $table->integer('store_id')->references('id')->on('stores');;
-            $table->string('date_from');
-            $table->string('date_to');
+            $table->date('date_from');
+            $table->date('date_to');
             $table->timestamps();
         });
     }

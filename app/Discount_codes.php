@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Discount_codes extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'discount',
         'expires',
@@ -17,6 +20,7 @@ class Discount_codes extends Model
     ];
 
     protected $table = 'discount_codes';
+    protected $dates = ['deleted_at'];
 
     public function check($barcode){
         $discount = Discount_codes::where('barcode', $barcode)->first();

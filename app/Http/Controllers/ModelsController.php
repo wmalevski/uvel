@@ -37,7 +37,7 @@ class ModelsController extends Controller
         foreach($stones as $stone){
             $pass_stones[] = [
                 'value' => $stone->id,
-                'label' => $stone->name.' ('.\App\Stone_contours::find($stone->contour)->name.', '.\App\Stone_sizes::find($stone->size)->name.' )'
+                'label' => $stone->name.' ('.\App\Stone_contours::withTrashed()->find($stone->contour)->name.', '.\App\Stone_sizes::withTrashed()->find($stone->size)->name.' )'
             ];
         }
 
@@ -134,12 +134,14 @@ class ModelsController extends Controller
             $product->save();
 
             foreach($request->stones as $key => $stone){
-                $product_stones = new Product_stones();
-                $product_stones->product = $product->id;
-                $product_stones->model = $model->id;
-                $product_stones->stone = $stone;
-                $product_stones->amount = $request->stone_amount[$key];
-                $product_stones->save();
+                if($stone){
+                    $product_stones = new Product_stones();
+                    $product_stones->product = $product->id;
+                    $product_stones->model = $model->id;
+                    $product_stones->stone = $stone;
+                    $product_stones->amount = $request->stone_amount[$key];
+                    $product_stones->save();
+                }
             }
         }
 
@@ -170,6 +172,12 @@ class ModelsController extends Controller
         $prices = Prices::where('type', 'sell')->get();
         $stones = Stones::all();
         $modelStones = Model_stones::where('model', $model->id)->get();
+        $photos = Gallery::where(
+            [
+                ['table', '=', 'models'],
+                ['row_id', '=', $model->id]
+            ]
+        )->get();
 
         //dd($modelStones);
         
@@ -178,7 +186,7 @@ class ModelsController extends Controller
         //$product = Products_others::find($product);
         //$types = Products_others_types::all();
 
-        return \View::make('admin/models/edit', array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones, 'modelStones' => $modelStones));
+        return \View::make('admin/models/edit', array('photos' => $photos, 'model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones, 'modelStones' => $modelStones));
     }
 
     /**
@@ -204,7 +212,51 @@ class ModelsController extends Controller
         
         $model->save();
 
-        return Response::json(array('success' => View::make('admin/models/table',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render()));
+        $deleteStones = Model_stones::where('model', $model->id)->delete();
+
+        foreach($request->stones as $key => $stone){
+            if($stone){
+                $model_stones = new Model_stones();
+                $model_stones->model = $model->id;
+                $model_stones->stone = $stone;
+                $model_stones->amount = $request->stone_amount[$key];
+                $model_stones->save();
+            }
+        }
+
+        $file_data = $request->input('images'); 
+        
+        foreach($file_data as $img){
+            $file_name = 'modelimage_'.uniqid().time().'.png';
+            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+            file_put_contents(public_path('uploads/models/').$file_name, $data);
+
+            $photo = new Gallery();
+            $photo->photo = $file_name;
+            $photo->row_id = $model->id;
+            $photo->table = 'models';
+
+            $photo->save();
+        }
+
+        $model_photos = Gallery::where(
+            [
+                ['table', '=', 'models'],
+                ['row_id', '=', $model->id]
+            ]
+        )->get();
+
+        $photosHtml = '';
+        
+        foreach($model_photos as $photo){
+            $photosHtml .= '
+                <div class="image-wrapper">
+                <div class="close"><span data-url="gallery/delete/'.$photo->id.'">&#215;</span></div>
+                <img src="'.asset("uploads/models/" . $photo->photo).'" alt="" class="img-responsive" />
+            </div>';
+        }
+
+        return Response::json(array('ID' => $model->id, 'table' => View::make('admin/models/table',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render(), 'photos' => $photosHtml));
     }
 
     /**
@@ -213,8 +265,13 @@ class ModelsController extends Controller
      * @param  \App\Models  $models
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Models $models)
+    public function destroy(Models $models, $model)
     {
-        //
+        $model = Models::find($model);
+        
+        if($model){
+            $model->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('content')
-<div class="modal fade" id="sendMaterial"   role="dialog" aria-labelledby="sendMaterial"
+<div class="modal fade" id="sendMaterial" role="dialog" aria-labelledby="sendMaterial"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -25,7 +25,7 @@ aria-hidden="true">
                         
                                 @foreach($materials as $material)
                                     <option value="{{ $material->id }}">
-                                        {{ App\Materials::find($material->material)->name }} - {{ App\Materials::find($material->material)->color }} - {{ App\Materials::find($material->material)->code }} ({{ $material->quantity }})
+                                        {{ App\Materials::find($material->material)->name }} - {{ App\Materials::find($material->material)->color }} - {{ App\Materials::find($material->material)->code }} ({{ $material->quantity }}) - {{ App\Stores::find($material->store)->name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -33,8 +33,8 @@ aria-hidden="true">
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="2">Количество: </label>
-                            <input type="text" class="form-control" id="2" name="quantity" placeholder="Проба:">
+                            <label for="2">Количество:(гр) </label>
+                            <input type="text" class="form-control" id="2" name="quantity" placeholder="Количество:">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="3">Магазин: </label>
@@ -56,7 +56,7 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" id="add" class="btn btn-primary">Добави</button>
+                    <button type="submit" id="add" class="add-btn-modal btn btn-primary">Добави</button>
                 </div>
             </form>
         </div>
@@ -72,9 +72,8 @@ aria-hidden="true">
               <p>Преглед на пътуващите материали.</p>
               <table class="table table-condensed">
                   <tr>
-                      <th>#</th>
                       <th>Тип</th> 
-                      <th>Количество</th> 
+                      <th>Количество/гр</th> 
                       <th>Стойност</th> 
                       <th>Изпратен на</th>
                       <th>До магазин</th> 

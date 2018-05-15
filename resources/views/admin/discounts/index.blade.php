@@ -30,7 +30,7 @@ aria-hidden="true">
                                     <div class="input-group-addon bgc-white bd bdwR-0">
                                         <i class="ti-calendar"></i>
                                     </div>
-                                    <input type="text" name="date_expires" class="form-control bdc-grey-200 start-date" placeholder="Валидна до: " data-provide="datepicker" data-date-format="dd-mm-yyyy" data-date-start-date="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}">
+                                    <input type="text" name="date_expires" class="form-control bdc-grey-200 start-date" placeholder="Валидна до: " data-date-autoclose="true" data-provide="datepicker" data-date-format="dd-mm-yyyy" data-date-start-date="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}">
                                 </div>
                             </div>
                         </div>
@@ -62,7 +62,7 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" id="add" class="btn btn-primary">Добави</button>
+                    <button type="submit" id="add" class="add-btn-modal btn btn-primary">Добави</button>
                 </div>
             </form>
         </div>
@@ -81,7 +81,7 @@ aria-hidden="true">
 <div class="row">
     <div class="col-md-12">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
-        <h4 class="c-grey-900 mB-20">Отстъпки <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDiscount">Добави</button></h4>
+        <h4 class="c-grey-900 mB-20">Отстъпки <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addDiscount">Добави</button></h4>
         <p>Преглед на създадените отстъпки.</p>
         <table class="table table-condensed">
             <tr>

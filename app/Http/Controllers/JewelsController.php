@@ -102,7 +102,7 @@ class JewelsController extends Controller
         
         $jewel->save();
 
-        return Response::json(array('table' => View::make('admin/jewels/table',array('jewel'=>$jewel, 'materials'=>$materials))->render()));
+        return Response::json(array('ID' => $jewel->id, 'table' => View::make('admin/jewels/table',array('jewel'=>$jewel, 'materials'=>$materials))->render()));
     }
 
     /**
@@ -111,8 +111,13 @@ class JewelsController extends Controller
      * @param  \App\Jewels  $jewels
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Jewels $jewels)
+    public function destroy(Jewels $jewels, $jewel)
     {
-        //
+        $jewel = Jewels::find($jewel);
+        
+        if($jewel){
+            $jewel->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

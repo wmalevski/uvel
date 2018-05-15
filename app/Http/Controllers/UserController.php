@@ -48,26 +48,42 @@ class UserController extends Controller
         
         $user->name = $request->name;
         $user->store = $request->store;
-        $user->retract($user->roles->first()['name']);
-        $user->assign($request->role);
+        //$user->roles()->detach();
+        //$user->assign($request->role);
 
         // $user->detachRoles($user->roles);
         // $user->roles()->attach([$request->role]);
-        
+
+        // $user->retract( $user->roles->first()['title']);
+        // $user->assign($request->role);
+
         $user->save();
 
         // foreach($request->permissions as $permision){
         //     print_r($permision);
         // }
 
-        // foreach($request->permissions as $role){
-        //     //$abillity = Bouncer::ability($role)->first();
-        //     Bouncer::allow($user)->to($role);
-
-        //     print_r($abillity);
+        // foreach($abilities as $ability){
+        //     Bouncer::disallow($user)->to($ability);
         // }
+
+        foreach($request->permissions as $key => $role){
+            //Bouncer::allow($user)->to($role);
+
+            if($role == true){
+                Bouncer::allow($user)->to($key+1);
+            }else{
+                Bouncer::disallow($user)->to($key+1);
+            }
+        }
+
+        foreach($user->roles as $role){
+            Bouncer::retract($role)->from($user);
+        }
+
+        Bouncer::assign($request->role)->to($user);
     
-        //return Response::json(array('table' => View::make('admin/users/table',array('user'=>$user))->render()));
+        return Response::json(array('ID' => $user->id, 'table' => View::make('admin/users/table',array('user'=>$user))->render()));
     }
 
     /**
@@ -104,5 +120,21 @@ class UserController extends Controller
         $user->assign($request->role);
         
         return Response::json(array('success' => View::make('admin/users/table',array('user'=>$user))->render()));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\User  $stores
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(User $users, $user)
+    {
+        $user = User::find($user);
+        
+        if($user){
+            $user->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

@@ -92,7 +92,7 @@ class ProductsOthersTypesController extends Controller
         $type->name = $request->name;
         $type->save();
         
-        return Response::json(array('table' => View::make('admin/products_others_types/table',array('type'=>$type))->render()));
+        return Response::json(array('ID' => $price->id, 'table' => View::make('admin/products_others_types/table',array('type'=>$type))->render()));
     }
 
     /**
@@ -101,8 +101,13 @@ class ProductsOthersTypesController extends Controller
      * @param  \App\Products_others_types  $products_others_types
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Products_others_types $products_others_types)
+    public function destroy(Products_others_types $products_others_types, $type)
     {
-        //
+        $type = Products_others_types::find($type);
+        
+        if($type){
+            $type->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

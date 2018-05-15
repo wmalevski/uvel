@@ -1,4 +1,4 @@
-<div id="editStoreModalWrapper">
+<div class="editModalWrapper">
 
     <div class="modal-header">
         <h5 class="modal-title" id="editStoreLabel">Промяна на магазин</h5>
@@ -32,7 +32,11 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+<<<<<<< HEAD
             <button type="submit" id="edit" class="btn btn-primary" data-dismiss="modal">Промени</button>
+=======
+            <button type="submit" id="add" class="edit-btn-modal btn btn-primary">Промени</button>
+>>>>>>> d3e3ac7d5dc9ddd72f55e16daf5dd11717c21077
         </div>
     </form>
 

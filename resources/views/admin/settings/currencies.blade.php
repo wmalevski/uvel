@@ -26,7 +26,7 @@ aria-hidden="true">
                 
                     <div class="form-group">
                         <label for="2">Курс: </label>
-                        <input type="number" class="form-control" id="2" name="currency" placeholder="Курс на валута:" min="0.1">
+                        <input type="number" class="form-control" id="2" name="currency" placeholder="Курс на валута:" min="0.1" max="99999999999" step="any">
                     </div>
                 </div>
 
@@ -35,6 +35,15 @@ aria-hidden="true">
                     <button type="submit" id="add" class="btn btn-primary">Добави</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editCurrency" tabindex="-1"  role="dialog" aria-labelledby="editCurrency">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            
+
         </div>
     </div>
 </div>
@@ -48,7 +57,6 @@ aria-hidden="true">
             <table class="table">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
                   <th scope="col">Валута</th> 
                   <th scope="col">Курс</th>
                   <th scope="col">Действия</th>

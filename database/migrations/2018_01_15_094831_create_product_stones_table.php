@@ -15,11 +15,12 @@ class CreateProductStonesTable extends Migration
     {
         Schema::create('product_stones', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('product')->references('id')->on('products');
-            $table->integer('model')->references('id')->on('models');
+            $table->uuid('product')->references('id')->on('products');
+            $table->integer('model')->references('id')->on('models')->nullable();
             $table->integer('stone')->references('id')->on('stones');
             $table->integer('amount');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
