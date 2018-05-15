@@ -337,10 +337,7 @@ var uvel,
             ajaxFn('GET' , requestLink , function(response) {
                 var data = response.prices;
                 var models = response.pass_models;
-
-                //if(models.length > 0) {
-
-                  var modelsData = models.map(function(keys) {
+                var modelsData = models.map(function(keys) {
                     return {
                       id: keys.id,
                       text: keys.name,
@@ -350,15 +347,14 @@ var uvel,
                       weight: keys.weight,
                       workmanship: keys.workmanship
                     }
-                  });
+                });
 
-                  _element.parents('form').children().find('.model-filled').empty();
-                  _element.parents('form').children().find('.model-filled').select2({
+                _element.parents('form').children().find('.model-filled').empty();
+                _element.parents('form').children().find('.model-filled').select2({
                     data: modelsData,
                     templateResult: $self.addSelect2CustomAttributes,
                     templateSelection: $self.addSelect2CustomAttributes
-                  }); 
-                //}
+                }); 
   
                 var newData = data.map(function(keys) {
                   return {
