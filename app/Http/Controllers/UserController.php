@@ -53,6 +53,15 @@ class UserController extends Controller
 
         // $user->detachRoles($user->roles);
         // $user->roles()->attach([$request->role]);
+
+        // $user->retract( $user->roles->first()['title']);
+        // $user->assign($request->role);
+
+        foreach($user->roles as $role){
+            Bouncer::retract($role)->from($user);
+        }
+
+        Bouncer::assign($request->role)->to($user);
         
         $user->save();
 
