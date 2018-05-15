@@ -299,14 +299,7 @@ var uvel,
         var typeJeweryData = jeweryPrice;
         var weightData = dataWeight;
         var priceData = priceDev;
-        var element = currentElement;
-
-        console.log('calculating..');
-        console.log(typeJeweryData);
-        console.log(weightData);
-        console.log(priceData);
-        console.log('/calculating..');
-        
+        var element = currentElement;        
         var inputDev = element.children().find('.worksmanship_price'),
           inputPrice = element.children().find('.final_price');
 
@@ -335,7 +328,7 @@ var uvel,
 
         if(_element[0].nodeName == 'SELECT') {
           if(_element[0].id == 'jewel' || _element[0].id == 'jewel_edit') {
-            var materialType = _element.find(':selected').attr('data-material');
+            var materialType = _element.find(':selected').val();
             var requestLink = ajaxUrl + materialType;    
 
             jeweryPrice = _element.find(':selected').attr('data-pricebuy');
