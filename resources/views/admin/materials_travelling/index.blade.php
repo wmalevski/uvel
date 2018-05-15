@@ -42,9 +42,11 @@ aria-hidden="true">
                                 <option value="">Избери магазин</option>
                         
                                 @foreach($stores as $store)
-                                    <option value="{{ $store->id }}">
-                                        {{ $store->name }} - {{ $store->location }}
-                                    </option>
+                                    @if($store->id != Auth::user()->getStore())
+                                        <option value="{{ $store->id }}">
+                                            {{ $store->name }} - {{ $store->location }}
+                                        </option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
