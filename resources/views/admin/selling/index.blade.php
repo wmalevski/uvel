@@ -128,7 +128,8 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" class="btn btn-primary">Завърши плащането</button>
+                    <button type="button" class="btn btn-primary">Печат</button>
+                    <button type="submit" class="btn btn-primary btn-finish-payment">Завърши плащането</button>
                 </div>
             </form>
         </div>
@@ -255,10 +256,6 @@ aria-hidden="true">
                                 <input type="totalQuantity" value="{{ Cart::session(Auth::user()->id)->getTotalQuantity() }}" class="form-control" id="inputEmail3" placeholder="" readonly>
                             </div>
                         </div> --}}
-
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Печат</button>
-                        </div>
 
                         {{-- @foreach(Cart::content() as $row)
                             {{ $row->name }}
