@@ -147,12 +147,12 @@ class PricesController extends Controller
 
         $prices_retail = array();
 
-        $prices_retail[0] = (object)[
-            'id' => '',
-            'material' => '',
-            'slug' => 'Избери цена',
-            'price' => ''
-        ];
+        // $prices_retail[0] = (object)[
+        //     'id' => '',
+        //     'material' => '',
+        //     'slug' => 'Избери цена',
+        //     'price' => ''
+        // ];
         
         foreach($prices as $price){
 
