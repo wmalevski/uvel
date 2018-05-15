@@ -92,7 +92,7 @@ class RepairTypesController extends Controller
 
         $type->save();
         
-        return Response::json(array('table' => View::make('admin/repair_types/table',array('repairType'=>$type))->render()));
+        return Response::json(array('ID' => $type->id, 'table' => View::make('admin/repair_types/table',array('repairType'=>$type))->render()));
     }
 
     /**

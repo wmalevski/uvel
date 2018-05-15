@@ -92,7 +92,7 @@ class ProductsOthersTypesController extends Controller
         $type->name = $request->name;
         $type->save();
         
-        return Response::json(array('table' => View::make('admin/products_others_types/table',array('type'=>$type))->render()));
+        return Response::json(array('ID' => $price->id, 'table' => View::make('admin/products_others_types/table',array('type'=>$type))->render()));
     }
 
     /**

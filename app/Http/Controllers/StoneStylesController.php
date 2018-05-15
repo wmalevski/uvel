@@ -91,7 +91,7 @@ class StoneStylesController extends Controller
         
         $style->save();
         
-        return Response::json(array('table' => View::make('admin/stone_styles/table', array('style' => $style))->render()));
+        return Response::json(array('ID' => $style->id, 'table' => View::make('admin/stone_styles/table', array('style' => $style))->render()));
     }
 
     /**

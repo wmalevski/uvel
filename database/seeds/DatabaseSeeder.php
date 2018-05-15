@@ -266,6 +266,7 @@ class DatabaseSeeder extends Seeder
         $currency = new Currencies();
         $currency->name = 'BGN';
         $currency->currency = '1';
+        $currency->default = 'yes';
         $currency->save();
         
         $model = new Models();

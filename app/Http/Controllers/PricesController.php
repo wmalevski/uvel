@@ -118,7 +118,7 @@ class PricesController extends Controller
         
         $price->save();
         
-        return Response::json(array('table' => View::make('admin/prices/table', array('price' => $price, 'type' => $request->type))->render()));
+        return Response::json(array('ID' => $price->id, 'table' => View::make('admin/prices/table', array('price' => $price, 'type' => $request->type))->render()));
     }
 
     /**
