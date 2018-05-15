@@ -141,7 +141,7 @@ class PricesController extends Controller
     public function getByMaterial($material){
         $prices = Prices::where(
             [
-                ['material', '=', $material],
+                ['material', '=', Jewel::find($material)->material],
                 ['type', '=', 'sell']
             ]
         )->get();
