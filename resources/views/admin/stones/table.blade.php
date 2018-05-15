@@ -1,4 +1,4 @@
-<tr>
+<tr data-id="{{ $stone->id }}">
     <td>{{ $stone->name }}</td> 
     <td> @if($stone->type == 1) Синтатичен  @else Естествен  @endif </td> 
     <td>{{ $stone->weight }}</td> 

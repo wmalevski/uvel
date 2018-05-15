@@ -1,4 +1,4 @@
-<tr>
+<tr data-id="{{ $user->id }}">
     <td>{{ $user->name }}</td> 
     <td>{{ $user->email }}</td> 
     <td>{{ $user->roles->first()['title'] }}</td>
