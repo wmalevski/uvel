@@ -189,10 +189,12 @@ textarea {
   min-height: 120px;
 }
 
+.add_field_button {
+  margin-left: 5px;
+}
 
-@media print{
-  body.print-mode>*:not(:last-child){
+@media print {
+  body.print-mode>*:not(:last-child) {
     display:none;
   }
-  
 }
