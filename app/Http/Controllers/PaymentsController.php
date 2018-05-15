@@ -84,7 +84,7 @@ class PaymentsController extends Controller
         //Store the notification
         $history = new History();
         
-        $history->action = '1';
+        $history->action = 'payment'; 
         $history->user = Auth::user()->getId();
         $history->table = 'product_payment';
         $history->result_id = $payment->id;

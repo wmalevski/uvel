@@ -263,7 +263,7 @@ var uvel,
       var deleteBtns = document.querySelectorAll('.delete-btn');
       var paymentBtns = document.querySelectorAll('.payment-btn');
       var certificateBtns = document.querySelectorAll('.certificate');
-      var paymentModalSubmitBtns = document.querySelectorAll('.payment-modal .btn-primary');
+      var paymentModalSubmitBtns = document.querySelectorAll('.btn-finish-payment');
 
 
       var urlTaken = window.location.href.split('/');
@@ -285,6 +285,7 @@ var uvel,
       var paymentModalGivenInput = document.getElementById('given-sum');
       var paymentModalReturnInput = document.getElementById('return-sum');
       var paymentModalCurrencySelector = document.getElementById('pay-currency');
+      var defaultCurrencyVal = document.querySelector('option[data-default="yes"]').value;
 
       var sellingForm = document.getElementById('selling-form');
       var returnRepairForm = document.getElementById('return-repair-form');
@@ -763,13 +764,21 @@ var uvel,
         btn.addEventListener('click', paymentBtnClick);
       })
 
-      paymentModalPosRadio.addEventListener('change', paymentPosClicked);
+      if (paymentModalPosRadio !== null){
+        paymentModalPosRadio.addEventListener('change', paymentPosClicked);
+      }
 
-      paymentModalCashRadio.addEventListener('change', paymentCashClicked);
+      if (paymentModalCashRadio !== null){
+        paymentModalCashRadio.addEventListener('change', paymentCashClicked);
+      }
 
-      paymentModalGivenInput.addEventListener('keyup', calculateReturn);
+      if (paymentModalGivenInput !== null){
+        paymentModalGivenInput.addEventListener('keyup', calculateReturn);
+      }
 
-      $(paymentModalCurrencySelector).on('select2:select', currencySelect);
+      if (paymentModalCurrencySelector !== null){
+        $(paymentModalCurrencySelector).on('select2:select', currencySelect);
+      }
 
       paymentModalSubmitBtns.forEach(function(btn) {
         btn.addEventListener('click', getFormData);
@@ -780,6 +789,8 @@ var uvel,
           var price = document.getElementById('total').value;
 
           paymentModalPriceInput.value = price;
+          $(paymentModalCurrencySelector).val(defaultCurrencyVal);  // set the currency select2 to BGN
+          $(paymentModalCurrencySelector).trigger('change');
         }
       }
 
@@ -789,7 +800,7 @@ var uvel,
 
         paymentModalGivenInput.setAttributeNode(disable);
         paymentModalCurrencySelector.setAttribute('disabled', true);
-        $(paymentModalCurrencySelector).val('0');  // set the currency select2 to BGN
+        $(paymentModalCurrencySelector).val(defaultCurrencyVal);  // set the currency select2 to BGN
         $(paymentModalCurrencySelector).trigger('change');
         $(paymentModalCurrencySelector).trigger('select2:select');
         paymentModalCurrencySelector.getElementsByTagName('option')[0].selected = 'selected';
