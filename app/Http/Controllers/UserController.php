@@ -74,7 +74,7 @@ class UserController extends Controller
             }
         }
     
-        return Response::json(array('table' => View::make('admin/users/table',array('user'=>$user))->render()));
+        return Response::json(array('ID' => $user->id, 'table' => View::make('admin/users/table',array('user'=>$user))->render()));
     }
 
     /**

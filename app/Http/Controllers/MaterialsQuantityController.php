@@ -122,7 +122,7 @@ class MaterialsQuantityController extends Controller
         
         $material->save();
         
-        return Response::json(array('table' => View::make('admin/materials_quantity/table', array('material' => $material))->render()));
+        return Response::json(array('ID' => $material->id, 'table' => View::make('admin/materials_quantity/table', array('material' => $material))->render()));
     }
 
     /**

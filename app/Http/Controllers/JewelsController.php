@@ -102,7 +102,7 @@ class JewelsController extends Controller
         
         $jewel->save();
 
-        return Response::json(array('table' => View::make('admin/jewels/table',array('jewel'=>$jewel, 'materials'=>$materials))->render()));
+        return Response::json(array('ID' => $jewel->id, 'table' => View::make('admin/jewels/table',array('jewel'=>$jewel, 'materials'=>$materials))->render()));
     }
 
     /**
