@@ -328,7 +328,7 @@ var uvel,
 
         if(_element[0].nodeName == 'SELECT') {
 
-          if(_element[0].id == 'jewel' || _element[0].id == 'jewel_edit') {
+          if(_element[0].id == 'jewels_types' || _element[0].id == 'jewel_edit') {
             var materialType = _element.find(':selected').val();
             var requestLink = ajaxUrl + materialType;    
 
@@ -338,7 +338,7 @@ var uvel,
                 var data = response.prices;
                 var models = response.pass_models;
 
-                if(models.length > 0) {
+                //if(models.length > 0) {
 
                   var modelsData = models.map(function(keys) {
                     return {
@@ -358,7 +358,7 @@ var uvel,
                     templateResult: $self.addSelect2CustomAttributes,
                     templateSelection: $self.addSelect2CustomAttributes
                   }); 
-                }
+                //}
   
                 var newData = data.map(function(keys) {
                   return {
@@ -381,9 +381,11 @@ var uvel,
           }
 
           calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
+          console.log(calculatePrice);
         } else {
           dataWeight = _element[0].value;
           calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
+          console.log(calculatePrice);
         }
       });
 
@@ -1068,9 +1070,6 @@ var uvel,
                 ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
               }        
       }
-      
-
-      /*end getFormData() */
 
       function productsRequest(tempUrl) {
         var xhttp = new XMLHttpRequest();
@@ -1079,11 +1078,11 @@ var uvel,
         xhttp.onreadystatechange = function () {
 
           if (this.readyState == 4 && this.status == 200) {
+
+            console.log('success');
             var data = JSON.parse(this.responseText);
 
             for(var key in data) {
-              
-
               var holder = document.getElementById(key);
 
               if(holder) {
@@ -1109,7 +1108,6 @@ var uvel,
                           option.setAttribute('data-pricebuy' , el.pricebuy || 0);
 
                       if(el.price) {
-                        console.log('TRUE');
                         option.setAttribute('data-price' , el.price || 0);
                       }
 
@@ -1133,6 +1131,8 @@ var uvel,
                 }
               }
             }
+
+            
           }
         };
 

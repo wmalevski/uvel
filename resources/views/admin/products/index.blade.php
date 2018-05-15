@@ -45,7 +45,7 @@ aria-hidden="true">
 
                     <div class="form-group">
                         <label>Вид: </label>
-                        <select id="jewel" name="jewelsTypes" class="form-control calculate">
+                        <select id="jewels_types" name="jewelsTypes" class="form-control calculate">
                             <option value="">Избери</option>
                     
                             @foreach($jewels as $jewel)
@@ -56,7 +56,7 @@ aria-hidden="true">
 
                     <div class="form-group">
                         <label>Цена на дребно: </label>
-                        <select id="retail_price" name="retail_price" class="form-control calculate prices-filled">
+                        <select id="retail_prices" name="retail_price" class="form-control calculate prices-filled">
                             <option value="">Избери</option>
                     
                             @foreach($prices->where('type', 'sell') as $price)
