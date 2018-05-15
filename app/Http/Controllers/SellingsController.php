@@ -112,14 +112,16 @@ class SellingsController extends Controller
                 $item = Products::where('code', $request->catalog_number)->first();
             }
 
-            if($item->status == 'selling'){
-                return Response::json(['errors' => array(
-                    'selling' => 'Продукта вмомента принадлежи на друга продажба.'
-                )], 401);
+            if($item){
+                if($item->status == 'selling'){
+                    return Response::json(['errors' => array(
+                        'selling' => 'Продукта вмомента принадлежи на друга продажба.'
+                    )], 401);
+                }
+    
+                $item->status = 'selling';
+                $item->save();
             }
-
-            $item->status = 'selling';
-            $item->save();
         }else{
             if($request->barcode){
                 $item = Products_others::where('barcode', $request->barcode)->first();
@@ -133,7 +135,7 @@ class SellingsController extends Controller
                 )], 401);
             }
 
-            $item->quantity-$request->quantity;
+            $item->quantity = $item->quantity-$request->quantity;
             $item->save();
         }
 
@@ -230,6 +232,25 @@ class SellingsController extends Controller
 
     public function clearCart(){
         $userId = Auth::user()->getId(); 
+
+        
+        
+        Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
+        {
+            $product = Products::where('barcode', $item->id)->first();
+
+            if($product){
+                $product->status = 'available';
+                $product->save();
+            }else{
+                $product = Products_others::where('barcode', $item->id)->first();
+
+                if($product){
+                    $product->quantity = $product->quantity+$item->quantity;
+                    $product->save();
+                }
+            }
+        });
 
         Cart::clear();
         Cart::clearCartConditions();
