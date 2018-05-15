@@ -327,6 +327,7 @@ var uvel,
         var parentElement = _element.parents('form');
 
         if(_element[0].nodeName == 'SELECT') {
+
           if(_element[0].id == 'jewel' || _element[0].id == 'jewel_edit') {
             var materialType = _element.find(':selected').val();
             var requestLink = ajaxUrl + materialType;    
@@ -335,6 +336,29 @@ var uvel,
 
             ajaxFn('GET' , requestLink , function(response) {
                 var data = response.prices;
+                var models = response.pass_models;
+
+                if(models.length > 0) {
+
+                  var modelsData = models.map(function(keys) {
+                    return {
+                      id: keys.id,
+                      text: keys.name,
+                      jewel: keys.jewel,
+                      retail_price: keys.retail_price,
+                      wholesale_price: keys.wholesale_price,
+                      weight: keys.weight,
+                      workmanship: keys.workmanship
+                    }
+                  });
+
+                  _element.parents('form').children().find('.model-filled').empty();
+                  _element.parents('form').children().find('.model-filled').select2({
+                    data: modelsData,
+                    templateResult: $self.addSelect2CustomAttributes,
+                    templateSelection: $self.addSelect2CustomAttributes
+                  }); 
+                }
   
                 var newData = data.map(function(keys) {
                   return {

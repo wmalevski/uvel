@@ -34,7 +34,7 @@ aria-hidden="true">
                 
                     <div class="form-group">
                         <label>Модел: </label>
-                        <select id="model_select" name="model" class="form-control">
+                        <select id="model_select" name="model" class="form-control model-filled">
                             <option value="">Избери</option>
                     
                             @foreach($models as $model)
