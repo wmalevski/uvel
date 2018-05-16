@@ -376,15 +376,22 @@ var uvel,
                   templateResult: $self.addSelect2CustomAttributes,
                   templateSelection: $self.addSelect2CustomAttributes
                 });     
+
                 
                 $('#retail_prices').trigger('change');
                 $('#retail_price_edit').trigger('change');
-                $('#weight').trigger('change');
-                dataWeight = $('#weight').val();
+                // $('#weight').trigger('blur');
+                // $('#weight').val(asd);
 
               });  
           } else {
             priceDev = _element.select2('data')[0].price;
+          }
+
+          if(_element[0].id == 'jewels_types' ) {
+            dataWeight = _element.parent().siblings('.weight-holder').children('input').val();
+          } else if (_element[0].id == 'jewel_edit') {
+            dataWeight = _element.parent().siblings('.weight-holder-edit').children('input').val();
           }
           calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
         } else {

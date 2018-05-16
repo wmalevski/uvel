@@ -76,7 +76,7 @@ aria-hidden="true">
                         </select>
                     </div>
                     
-                    <div class="form-group">
+                    <div class="form-group weight-holder">
                         <label for="1">Тегло: </label>
                         <input type="text" class="form-control calculate" id="weight" name="weight" placeholder="Тегло:" min="1" max="10000">
                     </div>
