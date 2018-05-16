@@ -1124,7 +1124,9 @@ var uvel,
                       }
                      
                       holder.add(option);
-                      editHolder.add(option);
+                      if(editHolder!==null){
+                        editHolder.add(option);
+                      }
                     });
 
                     break;
