@@ -27,6 +27,27 @@
                     <span class="peer peer-greed">За продажба на едро</span>
                 </label>
             </div>
+<<<<<<< HEAD
+=======
+        
+            <label>Модел: </label>
+            <select id="model_select_edit" name="model" class="form-control model-filled">
+                <option value="">Избери</option>
+        
+                @foreach($models as $model)
+                    <option value="{{ $model->id }}" data-jewel="{{ App\Jewels::find($model->jewel)->id }}" @if($product->model == $model->id) selected @endif>{{ $model->name }}</option>
+                @endforeach
+            </select>
+        
+            <label>Вид: </label>
+            <select id="jewel_edit" name="jewelsTypes" class="form-control calculate">
+                <option value="">Избери</option>
+        
+                @foreach($jewels as $jewel)
+                <option @if($product->jewel_type == $jewel->id) selected @endif value="{{ $jewel->id }}" data-pricebuy="@if(App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" data-material="{{ $jewel->material }}">{{ $jewel->name }}</option>
+                @endforeach
+            </select>
+>>>>>>> 41c9c420e45e95c3908c84ee8c6c092940342ed4
 
             <div class="form-group">
                 <label>Модел: </label>
