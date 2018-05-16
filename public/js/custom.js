@@ -264,8 +264,6 @@ var uvel,
       var paymentBtns = document.querySelectorAll('.payment-btn');
       var certificateBtns = document.querySelectorAll('.certificate');
       var paymentModalSubmitBtns = document.querySelectorAll('.btn-finish-payment');
-
-
       var urlTaken = window.location.href.split('/');
       var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
       var token = $('meta[name="csrf-token"]').attr('content');
@@ -285,7 +283,6 @@ var uvel,
       var paymentModalGivenInput = document.getElementById('given-sum');
       var paymentModalReturnInput = document.getElementById('return-sum');
       var paymentModalCurrencySelector = document.getElementById('pay-currency');
-
       var sellingForm = document.getElementById('selling-form');
       var returnRepairForm = document.getElementById('return-repair-form');
       var returnScanForm = document.getElementById('scan-repair-form');
@@ -302,12 +299,6 @@ var uvel,
         var element = currentElement;        
         var inputDev = element.children().find('.worksmanship_price'),
           inputPrice = element.children().find('.final_price');
-
-
-          console.log(typeJeweryData);
-          console.log(weightData);
-          console.log(priceData);
-
 
         if (typeJeweryData && priceData && weightData) {
           var priceDev = (priceData - typeJeweryData) * weightData;
@@ -333,7 +324,6 @@ var uvel,
         if(_element[0].nodeName == 'SELECT') {
 
           if(_element[0].id == 'jewels_types' || _element[0].id == 'jewel_edit') {
-
             var materialType = _element.find(':selected').val();
             var requestLink = ajaxUrl + materialType;    
             
@@ -377,12 +367,8 @@ var uvel,
                   templateSelection: $self.addSelect2CustomAttributes
                 });     
 
-                
                 $('#retail_prices').trigger('change');
                 $('#retail_price_edit').trigger('change');
-                // $('#weight').trigger('blur');
-                // $('#weight').val(asd);
-
               });  
           } else {
             priceDev = _element.select2('data')[0].price;
@@ -1081,54 +1067,51 @@ var uvel,
         var xhttp = new XMLHttpRequest();
 
         xhttp.open('GET', tempUrl, true);
+
         xhttp.onreadystatechange = function () {
 
-          if (this.readyState == 4 && this.status == 200) {
+        if(this.readyState == 4 && this.status == 200) {
+          var data = JSON.parse(this.responseText);
+          var editHolder =  document.getElementById("jewel_edit");
 
-            console.log('success');
-            var data = JSON.parse(this.responseText);
-            var editHolder =  document.getElementById("jewel_edit");
+          for(var key in data) {
+            var holder = document.getElementById(key);
 
-            for(var key in data) {
+            if(holder) {
+              var tagName = holder.tagName.toLowerCase();
 
-              var holder = document.getElementById(key);
+              switch(tagName) {
+                case 'input':
+                  holder.value = data[key];
+                  break;
 
-              if(holder) {
-                var tagName = holder.tagName.toLowerCase();
+                case 'select':
+                  var collectionData = data[key];
 
-                switch (tagName) {
-                  case 'input':
-                    holder.value = data[key];
-                    break;
-
-                  case 'select':
-                    var collectionData = data[key];
-
-                    for(i = holder.options.length - 1 ; i >= 1 ; i--){
-                      holder.remove(i);
-                    }
+                  for(i = holder.options.length - 1 ; i >= 1 ; i--){
+                    holder.remove(i);
+                  }
                     
-                    collectionData.map(function(el) {
-                      var option = document.createElement('option');
-                          option.text = el.label;
-                          option.value = el.value;
-                          
-                          option.setAttribute('data-pricebuy' , el.pricebuy || 0);
+                  collectionData.map(function(el) {
+                    var option = document.createElement('option');
 
-                      if(el.price) {
-                        option.setAttribute('data-price' , el.price || 0);
-                      }
+                    option.text = el.label;
+                    option.value = el.value;   
+                    option.setAttribute('data-pricebuy' , el.pricebuy || 0);
+
+                    if(el.price) {
+                      option.setAttribute('data-price' , el.price || 0);
+                    }
                       
-                      if(el.hasOwnProperty('selected') && el['selected']) {
-                        option.selected = true;
-                      }
+                    if(el.hasOwnProperty('selected') && el['selected']) {
+                      option.selected = true;
+                    }
                      
-                      holder.add(option);
+                    holder.add(option);
                       if(editHolder!==null){
                         editHolder.add(option);
                       }
                     });
-
                     break;
 
                   case 'span':
