@@ -378,7 +378,7 @@ var uvel,
                 });     
                 
                 $('#retail_prices').trigger('change');
-                $('#retail_price_edit').trigger('change');
+                //$('#retail_price_edit').trigger('change');
               });  
           } else {
             priceDev = _element.select2('data')[0].price;
@@ -413,15 +413,13 @@ var uvel,
             this.dropFunctionality(collectionFiles);   
         }
 
-        console.log(modelSelectEdit);
-
         if(modelSelectEdit) {   
           modelSelectEdit.on('select2:select', function(ev) {     
             if(modelSelectEdit.val()) {
               var value = modelSelectEdit.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
                   xhttp = new XMLHttpRequest(),
-                  typeSelect = $('#jewel_edit');
+                  typeSelect = $('#jewels_types');
 
               typeSelect.on('select2:select', function(ev) {
                 modelSelectEdit.val('0').trigger('change.select2');
@@ -1081,7 +1079,19 @@ var uvel,
             var data = JSON.parse(this.responseText);
 
             for(var key in data) {
+
               var holder = document.getElementById(key);
+              /*
+              var jewels = data.jewels_types;
+
+              for(var jewel of jewels){
+                
+               if(jewel.selected){
+                var selectedJewel = jewel;
+               }
+              }
+              */
+
 
               if(holder) {
                 var tagName = holder.tagName.toLowerCase();
@@ -1108,13 +1118,14 @@ var uvel,
                       if(el.price) {
                         option.setAttribute('data-price' , el.price || 0);
                       }
-
                       
                       if(el.hasOwnProperty('selected') && el['selected']) {
                         option.selected = true;
                       }
-                      
+                     
                       holder.add(option);
+
+                      console.log(holder);
                     });
 
                     break;
@@ -1128,8 +1139,18 @@ var uvel,
                     break;
                 }
               }
+
+             
             }
 
+            /*
+            var jewelEditHolder = document.getElementById('jewel_edit');
+
+            $(jewelEditHolder).val(selectedJewel);
+            console.log(selectedJewel);
+
+            selectedJewel.selected = true;
+            $(jewelEditHolder).trigger("change");*/
             
           }
         };

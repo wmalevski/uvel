@@ -38,16 +38,16 @@
             </select>
         
             <label>Вид: </label>
-            <select id="jewel_edit" nname="jewelsTypes" name="jewelEdit" class="form-control calculate">
+            <select id="jewels_types" name="jewelsTypes" class="form-control calculate">
                 <option value="">Избери</option>
         
                 @foreach($jewels as $jewel)
-                    <option value="{{ $jewel->id }}" data-price="{{ $jewel->material }}" @if($product->jewel_type == $jewel->id) selected @endif>{{ $jewel->name }}</option>
+                <option value="{{ $jewel->id }}" data-pricebuy="@if(App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" data-material="{{ $jewel->material }}">{{ $jewel->name }}</option>
                 @endforeach
             </select>
 
             <label>Цена на дребно: </label>
-            <select id="retail_price_edit" name="retail_price" class="form-control calculate prices-filled" >
+            <select id="retail_price" name="retail_price" class="form-control calculate prices-filled" >
                 <option value="">Избери</option>
         
                 @foreach($prices->where('type', 'sell') as $price)
@@ -56,7 +56,7 @@
             </select>
             
             <label>Цена на едро: </label>
-            <select id="wholesale_price_edit" name="wholesale_prices" class="form-control prices-filled">
+            <select id="wholesale_price" name="wholesale_prices" class="form-control prices-filled">
                 <option value="">Избери</option>
         
                 @foreach($prices->where('type', 'sell') as $price)
