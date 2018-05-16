@@ -77,11 +77,7 @@ class UserController extends Controller
             }
         }
 
-        foreach($user->roles as $role){
-            Bouncer::retract($role)->from($user);
-        }
-
-        Bouncer::assign($request->role)->to($user);
+        Bouncer::sync($user)->roles([$request->role]);
     
         return Response::json(array('ID' => $user->id, 'table' => View::make('admin/users/table',array('user'=>$user))->render()));
     }
