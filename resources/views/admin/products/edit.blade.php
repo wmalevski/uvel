@@ -29,7 +29,7 @@
             </div>
         
             <label>Модел: </label>
-            <select id="model_select" name="model" class="form-control">
+            <select id="model_select" name="model" class="form-control model-filled">
                 <option value="">Избери</option>
         
                 @foreach($models as $model)
@@ -38,7 +38,7 @@
             </select>
         
             <label>Вид: </label>
-            <select id="jewel_edit" name="jewelsTypes" class="form-control">
+            <select id="jewel_edit" name="jewelsTypes" class="form-control calculate">
                 <option value="">Избери</option>
         
                 @foreach($jewels as $jewel)

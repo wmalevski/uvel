@@ -329,6 +329,9 @@ var uvel,
           if(_element[0].id == 'jewels_types' || _element[0].id == 'jewel_edit') {
             var materialType = _element.find(':selected').val();
             var requestLink = ajaxUrl + materialType;    
+
+
+            console.log(_element[0].id);
             
             jeweryPrice = _element.find(':selected').attr('data-pricebuy');
             
