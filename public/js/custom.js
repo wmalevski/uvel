@@ -378,7 +378,7 @@ var uvel,
                 });     
                 
                 $('#retail_prices').trigger('change');
-                //$('#retail_price_edit').trigger('change');
+                $('#retail_price_edit').trigger('change');
               });  
           } else {
             priceDev = _element.select2('data')[0].price;
@@ -1081,17 +1081,6 @@ var uvel,
             for(var key in data) {
 
               var holder = document.getElementById(key);
-              /*
-              var jewels = data.jewels_types;
-
-              for(var jewel of jewels){
-                
-               if(jewel.selected){
-                var selectedJewel = jewel;
-               }
-              }
-              */
-
 
               if(holder) {
                 var tagName = holder.tagName.toLowerCase();
@@ -1124,8 +1113,6 @@ var uvel,
                       }
                      
                       holder.add(option);
-
-                      console.log(holder);
                     });
 
                     break;
@@ -1139,19 +1126,7 @@ var uvel,
                     break;
                 }
               }
-
-             
             }
-
-            /*
-            var jewelEditHolder = document.getElementById('jewel_edit');
-
-            $(jewelEditHolder).val(selectedJewel);
-            console.log(selectedJewel);
-
-            selectedJewel.selected = true;
-            $(jewelEditHolder).trigger("change");*/
-            
           }
         };
 

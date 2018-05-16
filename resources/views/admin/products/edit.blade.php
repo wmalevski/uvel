@@ -38,7 +38,7 @@
             </select>
         
             <label>Вид: </label>
-            <select id="jewels_types" name="jewelsTypes" class="form-control calculate">
+            <select id="jewel_edit" name="jewelsTypes" class="form-control calculate">
                 <option value="">Избери</option>
         
                 @foreach($jewels as $jewel)
@@ -47,7 +47,7 @@
             </select>
 
             <label>Цена на дребно: </label>
-            <select id="retail_price" name="retail_price" class="form-control calculate prices-filled" >
+            <select id="retail_price_edit" name="retail_price" class="form-control calculate prices-filled" >
                 <option value="">Избери</option>
         
                 @foreach($prices->where('type', 'sell') as $price)
@@ -56,7 +56,7 @@
             </select>
             
             <label>Цена на едро: </label>
-            <select id="wholesale_price" name="wholesale_prices" class="form-control prices-filled">
+            <select id="wholesale_price_edit" name="wholesale_prices" class="form-control prices-filled">
                 <option value="">Избери</option>
         
                 @foreach($prices->where('type', 'sell') as $price)
