@@ -309,8 +309,6 @@ var uvel,
 
           inputDev.val(priceDev);
           inputPrice.val(productPrice);
-
-          console.log('isndei');
         } else {
           inputDev.val('0');
           inputPrice.val('0');
@@ -331,9 +329,9 @@ var uvel,
           if(_element[0].id == 'jewels_types' || _element[0].id == 'jewel_edit') {
             var materialType = _element.find(':selected').val();
             var requestLink = ajaxUrl + materialType;    
-
+            
             jeweryPrice = _element.find(':selected').attr('data-pricebuy');
-
+            
             ajaxFn('GET' , requestLink , function(response) {
                 var data = response.prices;
                 var models = response.pass_models;
@@ -370,18 +368,17 @@ var uvel,
                   data: newData,
                   templateResult: $self.addSelect2CustomAttributes,
                   templateSelection: $self.addSelect2CustomAttributes
-                });              
+                });     
+                
+                $('#retail_prices').trigger('change');
               });  
           } else {
             priceDev = _element.select2('data')[0].price;
           }
-
           calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
-          console.log(calculatePrice);
         } else {
           dataWeight = _element[0].value;
           calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
-          console.log(calculatePrice);
         }
       });
 
