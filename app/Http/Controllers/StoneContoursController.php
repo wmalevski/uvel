@@ -91,7 +91,7 @@ class StoneContoursController extends Controller
         
         $contour->save();
         
-        return Response::json(array('table' => View::make('admin/stone_contours/table', array('contour' => $contour))->render()));
+        return Response::json(array('ID' => $contour->id, 'table' => View::make('admin/stone_contours/table', array('contour' => $contour))->render()));
     }
 
     /**

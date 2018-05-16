@@ -26,7 +26,7 @@ aria-hidden="true">
                 
                     <div class="form-group">
                         <label for="2">Курс: </label>
-                        <input type="number" class="form-control" id="2" name="currency" placeholder="Курс на валута:" min="0.1">
+                        <input type="number" class="form-control" id="2" name="currency" placeholder="Курс на валута:" min="0.1" max="99999999999" step="any">
                     </div>
                 </div>
 

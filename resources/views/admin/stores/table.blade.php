@@ -1,4 +1,4 @@
-<tr>
+<tr data-id="{{ $store->id }}">
     <td>{{ $store->name }}</td> 
     <td>{{ $store->location }}</td> 
     <td>{{ $store->phone }}</td> 

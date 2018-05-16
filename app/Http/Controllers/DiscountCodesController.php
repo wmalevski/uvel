@@ -155,7 +155,7 @@ class DiscountCodesController extends Controller
 
         $discount->save();
 
-        return Response::json(array('table' => View::make('admin/discounts/table',array('discount' => $discount, 'users' => $users))->render()));
+        return Response::json(array('ID' => $discount->id, 'table' => View::make('admin/discounts/table',array('discount' => $discount, 'users' => $users))->render()));
     }
 
     /**

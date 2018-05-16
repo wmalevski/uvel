@@ -297,7 +297,7 @@ class ProductsController extends Controller
                 </div>';
             }
 
-            return Response::json(array('table' => View::make('admin/products/table',array('product' => $product))->render(), 'photos' => $photosHtml));
+            return Response::json(array('table' => View::make('admin/products/table',array('product' => $product))->render(), 'photos' => $photosHtml, 'ID' => $product->id));
         }  
     }
 

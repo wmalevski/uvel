@@ -144,13 +144,22 @@ class RepairsController extends Controller
         return \View::make('admin/repairs/return', array('repair' => $repair, 'repairTypes' => $repairTypes));
     }
 
-    public function returnRepair(Repairs $repairs, $repair)
+    public function returnRepair(Request $request, Repairs $repairs, $repair)
     {
         $repair = Repairs::where('barcode', $repair)->first();
         
         if($repair){
             $repair->status = 'returned';
             $repair->date_received = Carbon::parse(Carbon::now())->format('d-m-Y');
+
+            $repair->customer_name = $request->customer_name;
+            $repair->customer_phone = $request->customer_phone;
+            $repair->date_returned = $request->date_returned;
+            $repair->price_after = $request->price_after; 
+            $repair->repair_description = $request->repair_description;
+            $repair->material = $request->material;
+            $repair->weight_after = $request->weight_after;
+            
             $repair->save();
 
             $history = new History;
@@ -217,7 +226,7 @@ class RepairsController extends Controller
     
         $repair->save();
         
-        return Response::json(array('table' => View::make('admin/repairs/table',array('repair'=>$repair))->render(), 'ID' => $repair->id));
+        return Response::json(array('ID' => $repair->id, 'table' => View::make('admin/repairs/table',array('repair'=>$repair))->render(), 'ID' => $repair->id));
     }
 
     /**
