@@ -338,7 +338,7 @@ var uvel,
             var requestLink = ajaxUrl + materialType;    
             
             jeweryPrice = _element.find(':selected').attr('data-pricebuy');
-            
+
             ajaxFn('GET' , requestLink , function(response) {
                 var data = response.prices;
                 var models = response.pass_models;
@@ -379,6 +379,9 @@ var uvel,
                 
                 $('#retail_prices').trigger('change');
                 $('#retail_price_edit').trigger('change');
+                $('#weight').trigger('change');
+                dataWeight = $('#weight').val();
+
               });  
           } else {
             priceDev = _element.select2('data')[0].price;
@@ -1077,6 +1080,7 @@ var uvel,
 
             console.log('success');
             var data = JSON.parse(this.responseText);
+            var editHolder =  document.getElementById("jewel_edit");
 
             for(var key in data) {
 
@@ -1113,6 +1117,7 @@ var uvel,
                       }
                      
                       holder.add(option);
+                      editHolder.add(option);
                     });
 
                     break;
