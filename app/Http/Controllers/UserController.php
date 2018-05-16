@@ -48,8 +48,8 @@ class UserController extends Controller
         
         $user->name = $request->name;
         $user->store = $request->store;
-        //$user->roles()->detach();
-        //$user->assign($request->role);
+        // $user->roles()->detach();
+        // $user->assign($request->role);
 
         // $user->detachRoles($user->roles);
         // $user->roles()->attach([$request->role]);
