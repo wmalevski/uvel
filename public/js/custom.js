@@ -730,33 +730,14 @@ var uvel,
       });
   
       function print(event) {
-<<<<<<< HEAD
 
         if(event.currentTarget && event.currentTarget.classList.contains('print-btn')) {
-
-=======
-<<<<<<< HEAD
-        if(event.target && event.target.parentElement.classList.contains('print-btn')) {
-=======
-        if(event.currentTarget && event.currentTarget.classList.contains('print-btn')) {
->>>>>>> d251c1b70bf73e901b797e06e89aa817f392089a
->>>>>>> 4ef54097b64e578abf80a7538e3ac154930f8861
           event.preventDefault();
           event.stopPropagation();
 
           var urlTaken = event.currentTarget.href.split('/');
           var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
-<<<<<<< HEAD
-
           var link = event.currentTarget;
-
-=======
-<<<<<<< HEAD
-          var link = event.target.parentElement;
-=======
-          var link = event.currentTarget;
->>>>>>> d251c1b70bf73e901b797e06e89aa817f392089a
->>>>>>> 4ef54097b64e578abf80a7538e3ac154930f8861
           var linkPath = link.href.split("admin")[1];
 
           if (typeof linkPath == 'undefined') {
@@ -764,18 +745,8 @@ var uvel,
           }
 
           var ajaxUrl = url+linkPath;
-<<<<<<< HEAD
     
           ajaxFn("GET",ajaxUrl,printBtnSuccess,'','',link);
-=======
-<<<<<<< HEAD
-    
-          ajaxFn("GET",ajaxUrl,printBtnSuccess,'','',link);
-=======
-          
-          ajaxFn("GET",ajaxUrl,printBtnSuccess,'','',link); 
->>>>>>> d251c1b70bf73e901b797e06e89aa817f392089a
->>>>>>> 4ef54097b64e578abf80a7538e3ac154930f8861
         }
       }
 
