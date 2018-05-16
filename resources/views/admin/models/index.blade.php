@@ -24,7 +24,7 @@ aria-hidden="true">
                         </div>
                         <div class="form-group col-md-6">
                             <label>Избери вид бижу: </label>
-                            <select id="jewel" name="jewel" class="form-control calculate">
+                            <select id="jewels_types" name="jewel" class="form-control calculate">
                                 <option value="">Избери</option>
                         
                                 @foreach($jewels as $jewel)
