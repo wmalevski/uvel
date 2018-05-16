@@ -404,7 +404,7 @@ var uvel,
       }
 
       if(collectionModalEditBtns.length > 0) {
-        var modelSelect = $('#model_select_edit');
+        var modelSelectEdit = $('#model_select_edit');
         var typeSelect;
         var collectionFiles = [];
         var dropZone = document.getElementsByClassName("drop-area");
@@ -413,16 +413,18 @@ var uvel,
             this.dropFunctionality(collectionFiles);   
         }
 
-        if(modelSelect) {
-          modelSelect.on('select2:select', function(ev) {
-            if(modelSelect.val()) {
-              var value = modelSelect.find(':selected').val(),
+        console.log(modelSelectEdit);
+
+        if(modelSelectEdit) {   
+          modelSelectEdit.on('select2:select', function(ev) {     
+            if(modelSelectEdit.val()) {
+              var value = modelSelectEdit.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
                   xhttp = new XMLHttpRequest(),
                   typeSelect = $('#jewel_edit');
 
               typeSelect.on('select2:select', function(ev) {
-                modelSelect.val('0').trigger('change.select2');
+                modelSelectEdit.val('0').trigger('change.select2');
               });
 
               productsRequest(tempUrl);
@@ -451,6 +453,7 @@ var uvel,
 
         if(modelSelect) {
           modelSelect.on('select2:select', function(ev) {
+            console.log(modelSelect.val());
             if(modelSelect.val()) {
               var value = modelSelect.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
