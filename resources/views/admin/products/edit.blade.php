@@ -38,7 +38,7 @@
             </select>
         
             <label>Вид: </label>
-            <select id="jewel_edit" name="jewelsTypes" class="form-control calculate">
+            <select id="jewel_edit" nname="jewelsTypes" name="jewelEdit" class="form-control calculate">
                 <option value="">Избери</option>
         
                 @foreach($jewels as $jewel)

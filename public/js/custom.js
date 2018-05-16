@@ -303,6 +303,12 @@ var uvel,
         var inputDev = element.children().find('.worksmanship_price'),
           inputPrice = element.children().find('.final_price');
 
+
+          console.log(typeJeweryData);
+          console.log(weightData);
+          console.log(priceData);
+
+
         if (typeJeweryData && priceData && weightData) {
           var priceDev = (priceData - typeJeweryData) * weightData;
           var productPrice = (priceData * weightData);
@@ -327,11 +333,9 @@ var uvel,
         if(_element[0].nodeName == 'SELECT') {
 
           if(_element[0].id == 'jewels_types' || _element[0].id == 'jewel_edit') {
+
             var materialType = _element.find(':selected').val();
             var requestLink = ajaxUrl + materialType;    
-
-
-            console.log(_element[0].id);
             
             jeweryPrice = _element.find(':selected').attr('data-pricebuy');
             
@@ -424,7 +428,7 @@ var uvel,
                 modelSelect.val('0').trigger('change.select2');
               });
 
-              productsRequest(tempUrl);
+              //productsRequest(tempUrl);
             }
           });
         }
@@ -454,16 +458,13 @@ var uvel,
               var value = modelSelect.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
                   xhttp = new XMLHttpRequest(),
-                  typeSelect = $('#jewel');
+                  typeSelect = $('#jewels_types');
 
-            
-                  
               typeSelect.on('select2:select', function(ev) {
                 modelSelect.val('0').trigger('change.select2');
               });
 
               productsRequest(tempUrl);
-              
             }
           });
         }
