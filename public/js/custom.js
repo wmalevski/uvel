@@ -404,8 +404,7 @@ var uvel,
       }
 
       if(collectionModalEditBtns.length > 0) {
-
-        var modelSelect = $('#model_select');
+        var modelSelect = $('#model_select_edit');
         var typeSelect;
         var collectionFiles = [];
         var dropZone = document.getElementsByClassName("drop-area");
@@ -416,9 +415,7 @@ var uvel,
 
         if(modelSelect) {
           modelSelect.on('select2:select', function(ev) {
-            
             if(modelSelect.val()) {
-              
               var value = modelSelect.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
                   xhttp = new XMLHttpRequest(),
@@ -428,7 +425,7 @@ var uvel,
                 modelSelect.val('0').trigger('change.select2');
               });
 
-              //productsRequest(tempUrl);
+              productsRequest(tempUrl);
             }
           });
         }

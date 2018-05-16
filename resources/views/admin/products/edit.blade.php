@@ -29,7 +29,7 @@
             </div>
         
             <label>Модел: </label>
-            <select id="model_select" name="model" class="form-control model-filled">
+            <select id="model_select_edit" name="model" class="form-control model-filled">
                 <option value="">Избери</option>
         
                 @foreach($models as $model)
