@@ -89,6 +89,10 @@ class ModelsController extends Controller
             }
         }
 
+        $path = public_path('uploads/models/');
+        
+        File::makeDirectory($path, 0775, true, true);
+
         $file_data = $request->input('images'); 
         
         foreach($file_data as $img){
@@ -211,6 +215,10 @@ class ModelsController extends Controller
         $model->weight = $request->weight;
         
         $model->save();
+
+        $path = public_path('uploads/models/');
+        
+        File::makeDirectory($path, 0775, true, true);
 
         $deleteStones = Model_stones::where('model', $model->id)->delete();
 

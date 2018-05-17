@@ -82,6 +82,10 @@ class ProductsController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
+        $path = public_path('uploads/products/');
+        
+        File::makeDirectory($path, 0775, true, true);
+
         $file_data = $request->input('images'); 
         foreach($file_data as $img){
             $file_name = 'productimage_'.uniqid().time().'.png';
@@ -235,6 +239,10 @@ class ProductsController extends Controller
             if ($validator->fails()) {
                 return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
             }
+
+            $path = public_path('uploads/products/');
+            
+            File::makeDirectory($path, 0775, true, true);
     
             $file_data = $request->input('images'); 
             foreach($file_data as $img){

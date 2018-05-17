@@ -12,6 +12,7 @@ use Response;
 use Illuminate\Support\Facades\View;
 use Uuid;
 use App\Gallery;
+use File;
 
 
 class StonesController extends Controller
@@ -66,6 +67,10 @@ class StonesController extends Controller
         }
 
         $stone = Stones::create($request->all());
+
+        $path = public_path('uploads/stones/');
+        
+        File::makeDirectory($path, 0775, true, true);
 
         $file_data = $request->input('images'); 
         foreach($file_data as $img){
@@ -156,6 +161,10 @@ class StonesController extends Controller
         $stone->save();
 
         $file_data = $request->input('images'); 
+
+        $path = public_path('uploads/stones/');
+        
+        File::makeDirectory($path, 0775, true, true);
 
         foreach($file_data as $img){
             $file_name = 'stoneimage_'.uniqid().time().'.png';
