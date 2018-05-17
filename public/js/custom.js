@@ -454,7 +454,6 @@ var uvel,
       }
 
       if(collectionScanRepairBtns.length > 0) {
-
         collectionScanRepairBtns.forEach(function (btn) {
           btn.addEventListener('click', function() {
             var returnRepairWrapper = document.getElementById('scan-repair-wrapper');
@@ -464,19 +463,11 @@ var uvel,
               nextElement.parentNode.removeChild(nextElement);
             }
 
-<<<<<<< HEAD
-=======
-            if(nextElement != null){
-              nextElement.parentNode.removeChild(nextElement);
-            }
-
->>>>>>> 99a6bb6e936dd8cd44b1fa2c701ed067fc126d11
             returnRepairWrapper.style.display = 'block';
             returnRepairWrapper.querySelector('.info-cont').innerHTML='';
             document.getElementById('barcode_process-repairs').value = '';
           });
         });
-
       }
 
       if(collectionReturnRepairBtns.length > 0) {
