@@ -317,4 +317,26 @@ class SellingsController extends Controller
             return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity));  
         }
     }
+
+    public function printInfo(){
+        //$repair = Repairs::find($id);
+
+        $userId = Auth::user()->getId(); 
+        $total = Cart::session($userId)->getTotal();
+        $subtotal = Cart::session($userId)->getSubTotal();
+
+        $items = [];
+        
+        Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
+        {
+            $items[] = $item;
+        });
+
+        $table = '';
+        foreach($items as $item){
+            $table .= View::make('admin/selling/table',array('item'=>$item))->render();
+        }
+
+        return Response::json(array('success' => 'yes', 'html' => View::make('admin/selling/information',array('items'=>$items, 'total' => $subtotal, 'subtotal' => $subtotal))->render()));
+    }
 }
