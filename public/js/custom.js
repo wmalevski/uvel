@@ -285,7 +285,6 @@ var uvel,
       var paymentModalGivenInput = document.getElementById('given-sum');
       var paymentModalReturnInput = document.getElementById('return-sum');
       var paymentModalCurrencySelector = document.getElementById('pay-currency');
-      var defaultCurrencyVal = document.querySelector('option[data-default="yes"]').value;
 
       var sellingForm = document.getElementById('selling-form');
       var returnRepairForm = document.getElementById('return-repair-form');
@@ -783,6 +782,10 @@ var uvel,
       paymentModalSubmitBtns.forEach(function(btn) {
         btn.addEventListener('click', getFormData);
       })
+
+      if (document.querySelector('option[data-default="yes"]')) {
+        var defaultCurrencyVal = document.querySelector('option[data-default="yes"]').value;
+      }
 
       function paymentBtnClick(event) {
         if (event.target.classList.contains('payment-btn')) {
