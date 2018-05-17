@@ -100,7 +100,7 @@
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
         <h4 class="c-grey-900 mB-20">Замествания <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#userSubstitution">Изпрати</button></h4>
         <p>Преглед на текущи замествания.</p>
-        <table class="table">
+        <table id="user-substitute-active" class="table active">
           <thead>
             <tr>
               <th scope="col">Потребител</th> 
@@ -125,7 +125,7 @@
     <div class="col-md-12">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
         <p>История на заместванията</p>
-        <table class="table">
+        <table id="user-substitute-inactive" class="table inactive">
           <thead>
             <tr>
               <th scope="col">Потребител</th> 
