@@ -1312,10 +1312,7 @@ var uvel,
           var content = response.table;
           var currentRow = $self.currentPressedBtn.closest('tr')
           var currentRowIndex = currentRow.rowIndex;
-<<<<<<< HEAD
-=======
           var currentTableId = currentRow.closest('table').getAttribute('id');
->>>>>>> 99a6bb6e936dd8cd44b1fa2c701ed067fc126d11
 
           if(response.place === 'active') {
             var table = document.getElementById('user-substitute-active');
@@ -1380,10 +1377,6 @@ var uvel,
         
           editAction();     
         }
-<<<<<<< HEAD
-=======
-
->>>>>>> 99a6bb6e936dd8cd44b1fa2c701ed067fc126d11
         pendingRequest = false; 
       }
 
