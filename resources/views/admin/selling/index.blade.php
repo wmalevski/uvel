@@ -154,13 +154,13 @@ aria-hidden="true">
                         <div class="form-group form-row">
                             <label for="product_barcode" class="col-sm-9 control-label">Номер на артикула</label>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="product_barcode" id="product_barcode" placeholder="Артикулен номер">
+                                <input type="text" class="form-control" name="product_barcode" id="product_barcode" placeholder="Баркод:">
                             </div>
                         </div>
                         <div class="form-group form-row">
                             <label for="catalog_number" class="col-sm-9 control-label">Каталожен номер</label>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" id="catalog_number" name="catalog_number" placeholder="Номер от каталога">
+                                <input type="text" class="form-control" id="catalog_number" name="catalog_number" placeholder="Номер от каталога:">
                             </div>
                         </div>
                         <div class="form-group form-row">
