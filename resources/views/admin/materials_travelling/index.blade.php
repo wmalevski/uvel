@@ -25,7 +25,7 @@ aria-hidden="true">
                         
                                 @foreach($materials as $material)
                                     <option value="{{ $material->id }}">
-                                        {{ App\Materials::find($material->material)->name }} - {{ App\Materials::find($material->material)->color }} - {{ App\Materials::find($material->material)->code }} ({{ $material->quantity }})
+                                        {{ App\Materials::withTrashed()->find($material->material)->name }} - {{ App\Materials::withTrashed()->find($material->material)->color }} - {{ App\Materials::withTrashed()->find($material->material)->code }} ({{ $material->quantity }}) - {{ App\Stores::withTrashed()->find($material->store)->name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -33,8 +33,8 @@ aria-hidden="true">
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="2">Количество: </label>
-                            <input type="text" class="form-control" id="2" name="quantity" placeholder="Проба:">
+                            <label for="2">Количество:(гр) </label>
+                            <input type="text" class="form-control" id="2" name="quantity" placeholder="Количество:">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="3">Магазин: </label>
@@ -42,9 +42,11 @@ aria-hidden="true">
                                 <option value="">Избери магазин</option>
                         
                                 @foreach($stores as $store)
-                                    <option value="{{ $store->id }}">
-                                        {{ $store->name }} - {{ $store->location }}
-                                    </option>
+                                    @if($store->id != Auth::user()->getStore())
+                                        <option value="{{ $store->id }}">
+                                            {{ $store->name }} - {{ $store->location }}
+                                        </option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
@@ -73,7 +75,7 @@ aria-hidden="true">
               <table class="table table-condensed">
                   <tr>
                       <th>Тип</th> 
-                      <th>Количество</th> 
+                      <th>Количество/гр</th> 
                       <th>Стойност</th> 
                       <th>Изпратен на</th>
                       <th>До магазин</th> 

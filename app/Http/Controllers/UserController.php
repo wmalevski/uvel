@@ -48,12 +48,15 @@ class UserController extends Controller
         
         $user->name = $request->name;
         $user->store = $request->store;
-        //$user->roles()->detach();
-        //$user->assign($request->role);
+        // $user->roles()->detach();
+        // $user->assign($request->role);
 
         // $user->detachRoles($user->roles);
         // $user->roles()->attach([$request->role]);
-        
+
+        // $user->retract( $user->roles->first()['title']);
+        // $user->assign($request->role);
+
         $user->save();
 
         // foreach($request->permissions as $permision){
@@ -73,8 +76,10 @@ class UserController extends Controller
                 Bouncer::disallow($user)->to($key+1);
             }
         }
+
+        Bouncer::sync($user)->roles([$request->role]);
     
-        return Response::json(array('table' => View::make('admin/users/table',array('user'=>$user))->render()));
+        return Response::json(array('ID' => $user->id, 'table' => View::make('admin/users/table',array('user'=>$user))->render()));
     }
 
     /**

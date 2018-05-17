@@ -188,7 +188,7 @@ class UsersubstitutionsController extends Controller
     
             $substitution->save();
     
-            return Response::json(array('table' => View::make('admin/substitutions/table',array('substitution'=>$substitution))->render(), 'place' => $place));
+            return Response::json(array('ID' => $substitution->id, 'table' => View::make('admin/substitutions/table',array('substitution'=>$substitution))->render(), 'place' => $place));
         }
     }
 

@@ -1,4 +1,4 @@
-<tr>
+<tr data-id="{{ $product->id }}">
     <td> {!! DNS1D::getBarcodeSVG($product->barcode, "EAN13",1,33,"black", true) !!} </td> 
     <td> {{ $product->name }} </td>
     <td> {{ $product->price }} </td>
