@@ -464,10 +464,13 @@ var uvel,
               nextElement.parentNode.removeChild(nextElement);
             }
 
+<<<<<<< HEAD
+=======
             if(nextElement != null){
               nextElement.parentNode.removeChild(nextElement);
             }
 
+>>>>>>> 99a6bb6e936dd8cd44b1fa2c701ed067fc126d11
             returnRepairWrapper.style.display = 'block';
             returnRepairWrapper.querySelector('.info-cont').innerHTML='';
             document.getElementById('barcode_process-repairs').value = '';
@@ -618,24 +621,6 @@ var uvel,
       }
 
       function sendItem(event) {
-        var numberItemValue = this.value;
-        var amountValue = amountInput.value;
-        var amountCheck = moreProductsInput.checked;
-
-        if(numberItemValue.length == 13){
-        
-          var dataSend = {
-            'barcode' : Number(numberItemValue),
-            'quantity' : Number(amountValue),
-            'amount_check' : amountCheck
-          };
-  
-          var currentElement = $(event.target);
-          var form = currentElement.closest("form");
-          var ajaxUrl = form.attr("data-scan");
-
-          ajaxFn("POST", ajaxUrl, sendSuccess, dataSend, '', '');
-        }
          var numberItemValue = this.value;
          var amountValue = amountInput.value;
          var amountCheck = moreProductsInput.checked;
@@ -1336,7 +1321,10 @@ var uvel,
           var content = response.table;
           var currentRow = $self.currentPressedBtn.closest('tr')
           var currentRowIndex = currentRow.rowIndex;
+<<<<<<< HEAD
+=======
           var currentTableId = currentRow.closest('table').getAttribute('id');
+>>>>>>> 99a6bb6e936dd8cd44b1fa2c701ed067fc126d11
 
           if(response.place === 'active') {
             var table = document.getElementById('user-substitute-active');
@@ -1401,7 +1389,10 @@ var uvel,
         
           editAction();     
         }
+<<<<<<< HEAD
+=======
 
+>>>>>>> 99a6bb6e936dd8cd44b1fa2c701ed067fc126d11
         pendingRequest = false; 
       }
 
