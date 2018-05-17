@@ -17,6 +17,7 @@ use Uuid;
 use Illuminate\Support\Facades\View;
 use Carbon\Carbon;
 use App\Gallery;
+use File;
 
 class ModelsController extends Controller
 {

@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\JsonResponse;
 use Response;
+use File;
 
 class ProductsController extends Controller
 {
