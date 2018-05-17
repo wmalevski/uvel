@@ -226,7 +226,7 @@ class RepairsController extends Controller
     
         $repair->save();
         
-        return Response::json(array('table' => View::make('admin/repairs/table',array('repair'=>$repair))->render(), 'ID' => $repair->id));
+        return Response::json(array('ID' => $repair->id, 'table' => View::make('admin/repairs/table',array('repair'=>$repair))->render(), 'ID' => $repair->id));
     }
 
     /**

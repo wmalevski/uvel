@@ -187,7 +187,7 @@ class StonesController extends Controller
             </div>';
         }
 
-        return Response::json(array('table' => View::make('admin/stones/table',array('stone'=>$stone))->render(), 'photos' => $photosHtml));
+        return Response::json(array('ID' => $stone->id, 'table' => View::make('admin/stones/table',array('stone'=>$stone))->render(), 'photos' => $photosHtml));
     }
 
     /**

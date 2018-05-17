@@ -139,7 +139,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/repairs/certificate/{id}', 'RepairsController@certificate');
 
-
     Route::get('/repairs/return/{repair}', 'RepairsController@return');
     Route::get('/repairs/edit/{repair}', 'RepairsController@edit');
 });
@@ -194,6 +193,8 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/mquantity', 'MaterialsQuantityController@store');
     Route::post('/mquantity/delete/{material}', 'MaterialsQuantityController@destroy');
 
+    Route::post('/mquantity/deletebymaterial/{material}', 'MaterialsQuantityController@deleteByMaterial');
+
     Route::post('/sendMaterial', 'MaterialsTravellingController@store');
 
     Route::put('/mquantity/{material}', 'MaterialsQuantityController@update');
@@ -246,8 +247,11 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/sell', 'SellingsController@sell')->name('sellScan');
     Route::get('/sell/setDiscount/{barcode}',  'SellingsController@setDiscount')->name('addDiscount');
+    Route::get('/sellings/information', 'SellingsController@printInfo');
 
     Route::post('/sell/removeItem/{item}', 'SellingsController@removeItem');
+
+    Route::post('/sell/payment', 'PaymentsController@store');
 
     Route::post('/settings/currencies', 'CurrenciesController@store');
     Route::post('/settings/currencies/delete/{currency}', 'CurrenciesController@destroy');

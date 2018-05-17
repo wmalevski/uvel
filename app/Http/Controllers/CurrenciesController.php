@@ -90,7 +90,7 @@ class CurrenciesController extends Controller
         if($currency){
             $validator = Validator::make( $request->all(), [
                 'name' => 'required',
-                'currency' => 'numeric|between:0.1,100'
+                'currency' => 'numeric|between:0,100'
             ]);
 
             if ($validator->fails()) {
@@ -102,7 +102,7 @@ class CurrenciesController extends Controller
 
             $currency->save();
 
-            return Response::json(array('table' => View::make('admin/settings/currencytable',array('currency'=>$currency))->render()));
+            return Response::json(array('ID' => $currency->id, 'table' => View::make('admin/settings/currencytable',array('currency'=>$currency))->render()));
         }
     }
 

@@ -9,6 +9,7 @@ use Cart;
 use App\Products;
 use App\Products_others;
 use Auth;
+use App\Currencies;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\JsonResponse;
@@ -26,6 +27,7 @@ class SellingsController extends Controller
     {
         $repairTypes = Repair_types::all();
         $discounts = Discount_codes::all();
+        $currencies = Currencies::all();
         $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
 
         $items = [];
@@ -35,7 +37,7 @@ class SellingsController extends Controller
             $items[] = $item;
         });
         
-        return \View::make('admin/selling/index', array('repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions));
+        return \View::make('admin/selling/index', array('repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies));
     }
 
     /**
@@ -111,15 +113,35 @@ class SellingsController extends Controller
             } else if($request->catalog_number){
                 $item = Products::where('code', $request->catalog_number)->first();
             }
+
+            if($item){
+                if($item->status == 'selling'){
+                    return Response::json(['errors' => array(
+                        'selling' => 'Продукта вмомента принадлежи на друга продажба.'
+                    )], 401);
+                }
+    
+                $item->status = 'selling';
+                $item->save();
+            }
         }else{
             if($request->barcode){
                 $item = Products_others::where('barcode', $request->barcode)->first();
             } else if($request->catalog_number){
                 $item = Products_others::where('code', $request->catalog_number)->first();
             }
+
+            if($item->quantity < $request->quantity){
+                return Response::json(['errors' => array(
+                    'quantity' => 'Системата няма това количество, което желаете да продадете.'
+                )], 401);
+            }
+
+            $item->quantity = $item->quantity-$request->quantity;
+            $item->save();
         }
 
-        if($item){            
+        if($item){       
             $userId = Auth::user()->getId(); // or any string represents user identifier
             
             $find = Cart::session($userId)->get($item->barcode);
@@ -127,6 +149,10 @@ class SellingsController extends Controller
             if($find && $request->amount_check == false) {
                 
             }else{
+                if($item->status == 'sold'){
+                    $item->price = 0;
+                }
+
                 Cart::session($userId)->add(array(
                     'id' => $item->barcode,
                     'name' => $item->name,
@@ -209,6 +235,25 @@ class SellingsController extends Controller
     public function clearCart(){
         $userId = Auth::user()->getId(); 
 
+        
+        
+        Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
+        {
+            $product = Products::where('barcode', $item->id)->first();
+
+            if($product){
+                $product->status = 'available';
+                $product->save();
+            }else{
+                $product = Products_others::where('barcode', $item->id)->first();
+
+                if($product){
+                    $product->quantity = $product->quantity+$item->quantity;
+                    $product->save();
+                }
+            }
+        });
+
         Cart::clear();
         Cart::clearCartConditions();
         Cart::session($userId)->clear();
@@ -244,7 +289,7 @@ class SellingsController extends Controller
             $total = Cart::session($userId)->getTotal();
             $subtotal = Cart::session($userId)->getSubTotal();
 
-            return Response::json(array('total' => $total, 'subtotal' => $subtotal));  
+            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal));  
         } 
     }
 
@@ -271,5 +316,27 @@ class SellingsController extends Controller
         if($remove){
             return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity));  
         }
+    }
+
+    public function printInfo(){
+        //$repair = Repairs::find($id);
+
+        $userId = Auth::user()->getId(); 
+        $total = Cart::session($userId)->getTotal();
+        $subtotal = Cart::session($userId)->getSubTotal();
+
+        $items = [];
+        
+        Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
+        {
+            $items[] = $item;
+        });
+
+        $table = '';
+        foreach($items as $item){
+            $table .= View::make('admin/selling/table',array('item'=>$item))->render();
+        }
+
+        return Response::json(array('success' => 'yes', 'html' => View::make('admin/selling/information',array('items'=>$items, 'total' => $subtotal, 'subtotal' => $subtotal))->render()));
     }
 }

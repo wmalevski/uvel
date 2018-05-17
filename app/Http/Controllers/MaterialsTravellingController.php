@@ -15,6 +15,7 @@ use Faker\Provider\tr_TR\DateTime;
 use Illuminate\Support\Facades\Redirect;
 use Response;
 use Auth;
+use Bouncer;
 
 class MaterialsTravellingController extends Controller
 {
@@ -25,11 +26,17 @@ class MaterialsTravellingController extends Controller
      */
     public function index()
     {
-        $materials = Materials_quantity::where('store', Auth::user()->store)->get();
+        if(Bouncer::is(Auth::user())->an('admin')){
+            $materials = Materials_quantity::all();
+        }else{
+            $materials = Materials_quantity::where('store', Auth::user()->getStore());
+        }
+        
         //$materials = Materials_quantity::all();
-        $stores = Stores::where('id', '!=', Auth::user()->store)->get();
+        //$stores = Stores::where('id', '!=', Auth::user()->store)->get();
+        $stores = Stores::all();
         $materials_types = Materials::all();
-        $travelling = Materials_travelling::where('storeFrom', Auth::user()->getStore())->orWhere('storeTo', Auth::user()->getStore())->get();
+        $travelling = Materials_travelling::all();
   
         return \View::make('admin/materials_travelling/index', array('materials' => $materials, 'types' => $materials_types, 'stores' => $stores, 'travelling' => $travelling));
     }
