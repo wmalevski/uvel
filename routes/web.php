@@ -193,6 +193,8 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/mquantity', 'MaterialsQuantityController@store');
     Route::post('/mquantity/delete/{material}', 'MaterialsQuantityController@destroy');
 
+    Route::post('/mquantity/deletebymaterial/{material}', 'MaterialsQuantityController@deleteByMaterial');
+
     Route::post('/sendMaterial', 'MaterialsTravellingController@store');
 
     Route::put('/mquantity/{material}', 'MaterialsQuantityController@update');

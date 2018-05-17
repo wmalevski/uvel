@@ -140,4 +140,9 @@ class MaterialsQuantityController extends Controller
             return Response::json(array('success' => 'Успешно изтрито!'));
         }
     }
+
+    public function deleteByMaterial($material){
+        Materials_quantity::where('material', $material)->delete();
+        return Response::json(array('success' => 'Успешно изтрито!'));
+    }
 }
