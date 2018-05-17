@@ -92,7 +92,7 @@ class RepairTypesController extends Controller
 
         $type->save();
         
-        return Response::json(array('table' => View::make('admin/repair_types/table',array('repairType'=>$type))->render()));
+        return Response::json(array('ID' => $type->id, 'table' => View::make('admin/repair_types/table',array('repairType'=>$type))->render()));
     }
 
     /**
@@ -101,8 +101,13 @@ class RepairTypesController extends Controller
      * @param  \App\RepairTypes  $repairTypes
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Repair_types $repairTypes)
+    public function destroy(Repair_types $repairTypes, $type)
     {
-        //
+        $type = Repair_types::find($type);
+        
+        if($type){
+            $type->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

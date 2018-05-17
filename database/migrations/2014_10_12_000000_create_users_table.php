@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->integer('discount')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

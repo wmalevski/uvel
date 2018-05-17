@@ -37,7 +37,38 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" class="btn btn-primary">Добави</button>
+                    <button type="submit" class="add-btn-modal btn btn-primary">Добави</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editJewel" role="dialog" aria-labelledby="editJewel"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editJewelLabel">Редактиране на артикул за ремонт</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="/jewels" name="editJewel">
+                 
+                <div class="modal-body">    
+                    <div class="info-cont">
+                    </div>
+
+                    {{ csrf_field() }}  
+                                
+
+                    
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+                    <button type="submit" id="add" class="btn btn-primary">Промени</button>
                 </div>
             </form>
         </div>
@@ -47,12 +78,11 @@ aria-hidden="true">
 <div class="row">
   <div class="col-md-12">
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
-      <h4 class="c-grey-900 mB-20">Вид бижу <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Добави</button></h4>
+      <h4 class="c-grey-900 mB-20">Вид бижу <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#exampleModal">Добави</button></h4>
       <p>Преглед на създадените видове бижута.</p>
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">#</th>
             <th scope="col">Име</th> 
             <th scope="col">Материал</th>
             <th scope="col">Действия</th>

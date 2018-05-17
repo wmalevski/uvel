@@ -13,9 +13,12 @@ use App\Stones;
 use App\Stone_styles;
 use App\Stone_contours;
 use App\Stone_sizes;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Products extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'id',
         'model',
@@ -29,6 +32,8 @@ class Products extends Model
         'code'
     ];
 
+    protected $dates = ['deleted_at'];
+
     protected $table = 'products';
 
     public $incrementing = false;
@@ -41,7 +46,7 @@ class Products extends Model
             $prices = Prices::where('material', $model->jewel)->get();
 
             $retail_prices = Prices::where([
-                'type' => 'buy'
+                'type' => 'sell'
             ])->get();
 
             $wholesale_prices = Prices::where([
@@ -62,6 +67,8 @@ class Products extends Model
                 $pass_jewels[] = (object)[
                     'value' => $jewel->id,
                     'label' => $jewel->name,
+                    'material' => $jewel->material,
+                    'pricebuy' => Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price,
                     'selected' => $selected
                 ];
             }
@@ -78,7 +85,8 @@ class Products extends Model
                 $prices_retail[] = (object)[
                     'value' => $price->id,
                     'label' => $price->slug.' - '.$price->price.'лв',
-                    'selected' => $selected
+                    'selected' => $selected,
+                    'price' => $price->price
                 ];
             }
 
@@ -94,7 +102,8 @@ class Products extends Model
                 $prices_wholesale[] = (object)[
                     'value' => $price->id,
                     'label' => $price->slug.' - '.$price->price.'лв',
-                    'selected' => $selected
+                    'selected' => $selected,
+                    'price' => $price->price
                 ];
             }
 

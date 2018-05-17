@@ -1,3 +1,4 @@
+<div class="editModalWrapper">
 <div class="modal-header">
     <h5 class="modal-title" id="editUserLabel">Промяна на потребител</h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -23,8 +24,8 @@
             <select name="role" class="form-control">
                 <option value="">Избери роля</option>
         
-                @foreach($roles as $role)
-                    <option value="{{ $role->id }}" @if($user->roles->first()['id'] == $role->id) selected @endif>{{ $role->display_name }}</option>
+                @foreach(Bouncer::role()->all() as $role)
+                    <option value="{{ $role->name }}" @if(Bouncer::is($user)->an($role->name)) selected @endif>{{ $role->title }}</option>
                 @endforeach
             </select>
         </div>
@@ -39,20 +40,21 @@
                 @endforeach
             </select>
         </div>
-
         <div class="form-group">
-            @foreach($user->allPermissions() as $permission)
-                <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                    <input type="checkbox" id="inputCall{{ $permission->id }}" name="permissions[]" class="peer" @if($user->can($permission->name)) checked @endif>
-                    <label for="inputCall2" class="peers peer-greed js-sb ai-c">
-                        <span class="peer peer-greed">{{ $permission->display_name }}</span>
-                    </label>
-                </div>
+            @foreach(Bouncer::ability()->get() as $permission)
+            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                <input type="checkbox" id="inputCall{{ $permission->id }}" 
+                @if($user->can($permission->name)) checked @endif name="permissions[]" class="peer">
+                <label for="inputCall2" class="peers peer-greed js-sb ai-c">
+                    <span class="peer peer-greed">{{ $permission->title }}</span>
+                </label>
+            </div>
             @endforeach
         </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-        <button type="submit" id="edit" class="btn btn-primary" data-dismiss="modal">Промени</button>
+        <button type="submit" id="edit" class="edit-btn-modal btn btn-primary">Промени</button>
     </div>
 </form>
+</div>

@@ -22,8 +22,10 @@ class MaterialsQuantityController extends Controller
      */
     public function index()
     {
-        $materials = Materials_quantity::where('store', Auth::user()->store)->get();
-        $stores = Stores::where('id', '!=', Auth::user()->store)->get();
+        //$materials = Materials_quantity::where('store', Auth::user()->store)->get();
+        //$stores = Stores::where('id', '!=', Auth::user()->store)->get();
+        $materials = Materials_quantity::all();
+        $stores = Stores::all();
         $materials_types = Materials::all();
         $travelling = Materials_travelling::where('storeFrom', Auth::user()->store)->orWhere('storeTo', Auth::user()->store)->get();
         
@@ -51,7 +53,7 @@ class MaterialsQuantityController extends Controller
         $validator = Validator::make( $request->all(), [
             'material' => 'required',
             'quantity' => 'required',
-            'carat' => 'required',
+            'store' => 'required'
          ]);
 
         if ($validator->fails()) {
@@ -84,9 +86,13 @@ class MaterialsQuantityController extends Controller
      * @param  \App\Materials_quantity  $materials_quantity
      * @return \Illuminate\Http\Response
      */
-    public function edit(Materials_quantity $materials_quantity)
+    public function edit(Materials_quantity $materials_quantity, $material)
     {
-        //
+        $material = Materials_quantity::find($material);
+        $stores = Stores::all();
+        $materials_types = Materials::withTrashed()->get();
+
+        return \View::make('admin/materials_quantity/edit',array('material'=>$material, 'types' => $materials_types, 'stores' => $stores));
     }
 
     /**
@@ -96,9 +102,27 @@ class MaterialsQuantityController extends Controller
      * @param  \App\Materials_quantity  $materials_quantity
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Materials_quantity $materials_quantity)
+    public function update(Request $request, Materials_quantity $materials_quantity, $material)
     {
-        //
+        $material = Materials_quantity::find($material);
+        
+        $material->material = $request->material;
+        $material->quantity = $request->quantity;
+        $material->store = $request->store;
+
+        $validator = Validator::make( $request->all(), [
+            'material' => 'required',
+            'quantity' => 'required',
+            'store' => 'required'
+         ]);
+
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+        
+        $material->save();
+        
+        return Response::json(array('ID' => $material->id, 'table' => View::make('admin/materials_quantity/table', array('material' => $material))->render()));
     }
 
     /**
@@ -107,8 +131,18 @@ class MaterialsQuantityController extends Controller
      * @param  \App\Materials_quantity  $materials_quantity
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Materials_quantity $materials_quantity)
+    public function destroy(Materials_quantity $materials_quantity, $material)
     {
-        //
+        $material = Materials_quantity::find($material);
+        
+        if($material){
+            $material->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
+    }
+
+    public function deleteByMaterial($material){
+        Materials_quantity::where('material', $material)->delete();
+        return Response::json(array('success' => 'Успешно изтрито!'));
     }
 }

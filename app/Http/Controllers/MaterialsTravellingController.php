@@ -6,6 +6,7 @@ use App\Materials;
 use App\Materials_travelling;
 use App\Materials_quantity;
 use App\History;
+use App\Stores;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
@@ -14,6 +15,7 @@ use Faker\Provider\tr_TR\DateTime;
 use Illuminate\Support\Facades\Redirect;
 use Response;
 use Auth;
+use Bouncer;
 
 class MaterialsTravellingController extends Controller
 {
@@ -24,7 +26,19 @@ class MaterialsTravellingController extends Controller
      */
     public function index()
     {
-        //
+        if(Bouncer::is(Auth::user())->an('admin')){
+            $materials = Materials_quantity::all();
+        }else{
+            $materials = Materials_quantity::where('store', Auth::user()->getStore());
+        }
+        
+        //$materials = Materials_quantity::all();
+        //$stores = Stores::where('id', '!=', Auth::user()->store)->get();
+        $stores = Stores::all();
+        $materials_types = Materials::all();
+        $travelling = Materials_travelling::all();
+  
+        return \View::make('admin/materials_travelling/index', array('materials' => $materials, 'types' => $materials_types, 'stores' => $stores, 'travelling' => $travelling));
     }
 
     /**
@@ -61,11 +75,15 @@ class MaterialsTravellingController extends Controller
             if($request->quantity <= $check->quantity){
                 $price = Materials::find($check->material);
 
+                if($check->store == $request->storeTo){
+                    return Response::json(['errors' => array('quantity' => ['Не може да изпращате материал към същият магазин'])], 401);
+                }
+
                 $material = new Materials_travelling();
                 $material->type = $request->type;
                 $material->quantity = $request->quantity;
                 $material->price = ($request->quantity)*($price->stock_price);
-                $material->storeFrom = 1;
+                $material->storeFrom = Auth::user()->getStore();
                 $material->storeTo  = $request->storeTo;
                 $material->dateSent = new \DateTime();
                 $material->userSent = Auth::user()->getId();
@@ -91,7 +109,7 @@ class MaterialsTravellingController extends Controller
 
                 //dd($material);
 
-                return Response::json(array('table' => View::make('admin/materials_quantity/travelling', array('material' => $material, 'matID' => $check->material))->render()));
+                return Response::json(array('success' => View::make('admin/materials_travelling/table', array('material' => $material, 'matID' => $check->material))->render()));
 
             }else{
                 return Response::json(['errors' => array('quantity' => ['Въведохте невалидно количество!'])], 401);
@@ -101,7 +119,7 @@ class MaterialsTravellingController extends Controller
 
     public function accept(Request $request, $material)
     {
-        $material = Materials_travelling::find($material);
+        $material = Materials_travelling::findOrFail($material);
 
         if($material->status == 0){
             $check = Materials_quantity::where(
@@ -111,7 +129,7 @@ class MaterialsTravellingController extends Controller
                 ]
             )->first();
     
-            if($check->count()){
+            if($check){
                 $check->quantity = $check->quantity + $material->quantity;
                 $check->save();
             } else{

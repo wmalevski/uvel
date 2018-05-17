@@ -1,10 +1,148 @@
 @extends('admin.layout') @section('content')
+
+<div class="modal fade" id="fullEditRepair" role="dialog" aria-labelledby="fullEditRepair"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="fullEditRepairLabel">Редактиране на артикул за ремонт</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="/repairs" name="fullEditRepair">
+                 
+                <div class="modal-body">    
+                    <div class="info-cont">
+                    </div>
+
+                    {{ csrf_field() }}  
+                                
+
+                    
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+                    <button type="submit" id="add" class="btn btn-primary">Завърши ремонта</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade payment-modal" id="paymentModal" role="dialog" aria-labelledby="paymentModal"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="paymentModalLabel">Плащане</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="/sell/payment" name="paymentModal">
+                 
+                <div class="modal-body">    
+                    <div class="info-cont">
+                    </div>
+
+                    {{ csrf_field() }}  
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="wanted-sum">Дължима сума</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input class="form-control" id="wanted-sum" type="number" name="wanted_sum" readonly>
+                        </div>
+                    </div>
+                                
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="given-sum">Дадена сума</label>
+                            <input type="number" id="given-sum" class="form-control" value="0" name="given_sum" placeholder="Дадена сума от клиента">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="return-sum">Ресто</label>
+                            <input type="number" id="return-sum" class="form-control" name="return_sum" placeholder="Ресто" readonly>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="pay-currency">Валута</label>
+                            <select id="pay-currency" name="pay_currency" class="form-control">
+                                @foreach($currencies as $currency)
+                                    <option value="{{ $currency->id }}" data-default="{{$currency->default }}" data-currency="{{ $currency->currency }}">{{ $currency->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <div class="radio radio-info">
+                                <input type="radio" name="pay_method" value="cash" id="pay-method-cash" checked>
+                                <label for="pay-method-cash">В брой</label>
+                            </div>
+                            <div class="radio radio-info">
+                                <input type="radio" name="pay_method" value="pos" id="pay-method-pos">
+                                <label for="pay-method-pos">С карта</label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="radio radio-info">
+                                <input type="radio" id="modal-reciept" name="modal_reciept" value="yes" checked>
+                                <label for="modal-reciept">Фискален</label>
+                            </div>
+                            <div class="radio radio-info">
+                                <input type="radio" id="modal-non-reciept" name="modal_reciept" value="no">
+                                <label for="modal-non-reciept">Без фискален</label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="radio radio-info">
+                                <input type="radio" id="modal-ticket" name="modal_ticket" value="yes" checked>
+                                <label for="modal-ticket">С разписка</label>
+                            </div>
+                            <div class="radio radio-info">
+                                <input type="radio" id="modal-non-ticket" name="modal_ticket" value="no">
+                                <label for="modal-non-ticket">Без разписка</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <span>Принтиране на сертификат:</span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="radio radio-info">
+                                <input type="radio" id="modal-certificate" name="modal_certificate" value="yes" checked>
+                                <label for="modal-certificate">С цена</label>
+                            </div>
+                            <div class="radio radio-info">
+                                <input type="radio" id="modal-non-certificate" name="modal_certificate" value="no">
+                                <label for="modal-non-certificate">Без цена</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+                    <button type="button" class="btn btn-primary">Печат</button>
+                    <button type="submit" class="btn btn-primary btn-finish-payment">Завърши плащането</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <div class="row">
     <div class="col-md-12">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
-            <h4 class="c-grey-900 mB-20">Продажби</h4>
+            <h4 class="c-grey-900 mB-20">Продажби <a href="{{ route('clearCart') }}" class="btn btn-primary">Изчисти продажбата</a></h4>
 
-            <form>
+            <form id="selling-form" data-scan="{{ route('sellScan') }}">
                 <div class="row gap-20 masonry pos-r">
                     <div class="masonry-sizer col-md-6"></div>
                     <div class="col-md-6 masonry-item form-horizontal">
@@ -15,21 +153,21 @@
                             </label>
                         </div>
                         <div class="form-group form-row">
-                            <label for="number_item" class="col-sm-9 control-label">Номер на артикула</label>
+                            <label for="product_barcode" class="col-sm-9 control-label">Номер на артикула</label>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="number_item" id="number_item" placeholder="Артикулне номер">
+                                <input type="text" class="form-control" name="product_barcode" id="product_barcode" placeholder="Баркод:">
                             </div>
                         </div>
                         <div class="form-group form-row">
                             <label for="catalog_number" class="col-sm-9 control-label">Каталожен номер</label>
                             <div class="col-sm-3">
-                                <input type="email" class="form-control" id="catalog_number" name="catalog_number" placeholder="Номер от каталога">
+                                <input type="text" class="form-control" id="catalog_number" name="catalog_number" placeholder="Номер от каталога:">
                             </div>
                         </div>
                         <div class="form-group form-row">
                             <label for="amount" class="col-sm-9 control-label">Брой</label>
                             <div class="col-sm-3">
-                                <input type="number" class="form-control" value="1" id="amount" name="amount" placeholder="1">
+                                <input type="number" class="form-control" value="1" id="amount" name="amount" placeholder="1" readonly>
                             </div>
                         </div>
 
@@ -38,9 +176,18 @@
                             <div class="col-sm-3">
                                 <select id="discount" name="discount" class="form-control">
                                     <option value="">Избери</option>
-    
-                                    <option value="5">5%</option>
+                                    
+                                    @foreach($discounts as $discount)
+                                        <option value="{{ $discount->barcode }}">{{ $discount->discount }}%</option>
+                                    @endforeach
                                 </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-row">
+                            <label for="discount_card" class="col-sm-9 control-label">Сканирай карта за отстъпка</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="discount_card" id="discount_card" placeholder="Баркод" >
                             </div>
                         </div>
 
@@ -50,86 +197,69 @@
                         </div>
 
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Приложи отстъпка</button>
-                            <button type="submit" class="btn btn-primary">Приложи</button>
+                            <button type="submit" class="btn btn-primary">Предложи отстъпка</button>
+                            <button type="submit" id="add_discount" data-url="sell/setDiscount" class="btn btn-primary">Приложи</button>
                         </div>
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <button type="submit" class="btn btn-primary">Обмяна</button>
                             <button type="submit" class="btn btn-primary">Поръчка/Ремонт</button>
                             <button type="submit" class="btn btn-primary">Материали</button>
                             <button type="submit" class="btn btn-primary">Транзакции </button>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="col-md-6 masonry-item form-horizontal">
-                        <table class="table">
+                        <table class="table" id="shopping-table">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th scope="col">Модел</th>
-                                    <th scope="col">Уникален номер</th>
-                                    <th scope="col">Грамаж</th>
+                                    <th scope="col">Артикул</th>
+                                    <th scope="col">Брой</th>
+                                    <th scope="col">Грам</th>
                                     <th scope="col">Цена</th>
+                                    <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Larry</td>
-                                    <td>the Bird</td>
-                                    <td>@twitter</td>
-                                </tr>
+                                @foreach($items as $item)
+                                    @include('admin.selling.table')
+                                @endforeach
                             </tbody>
                         </table>
 
                         <div class="form-group">
-                            <div class="checkbox checkbox-circle checkbox-info peers ai-c">
-                                <input type="checkbox" id="inputCall2" name="inputCheckboxesCall" class="peer">
-                                <label for="inputCall2" class="peers peer-greed js-sb ai-c">
-                                    <span class="peer peer-greed">Фискален</span>
-                                </label>
-                            </div>
-
-                            <div class="checkbox checkbox-circle checkbox-info peers ai-c">
-                                <input type="checkbox" id="inputCall2" name="inputCheckboxesCall" class="peer">
-                                <label for="inputCall2" class="peers peer-greed js-sb ai-c">
-                                    <span class="peer peer-greed">Без</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Плащане</button>
+                            <button type="submit" class="btn btn-primary payment-btn" data-toggle="modal" data-target="#paymentModal">Плащане</button>
                             <button type="submit" class="btn btn-primary">Ръчно пускане на фискален бон</button>
                         </div>
 
+                        @foreach($conditions as $condition)
+                            <div>{{ $condition->getName() }} {{ $condition->getValue() }}</div>
+                        @endforeach
+                        <br/>
+
                         <div class="form-group form-row">
-                            <label for="inputEmail3" class="col-sm-9 control-label">Цена</label>
+                            <label for="subTotal" class="col-sm-9 control-label">Цена</label>
                             <div class="col-sm-3">
-                                <input type="email" class="form-control" id="inputEmail3" placeholder="">
+                                <input type="price" name="subTotal" value="{{ Cart::session(Auth::user()->id)->getSubTotal() }}" class="form-control" id="subTotal" placeholder="" readonly>
                             </div>
                         </div>
 
                         <div class="form-group form-row">
+                            <label for="total" class="col-sm-9 control-label">Крайна цена</label>
+                            <div class="col-sm-3">
+                                <input type="totalPrice" name="total" value="{{ Cart::session(Auth::user()->id)->getTotal() }}" class="form-control" id="total" placeholder="" readonly>
+                            </div>
+                        </div>
+
+                        {{-- <div class="form-group form-row">
                             <label for="inputEmail3" class="col-sm-9 control-label">Количество</label>
                             <div class="col-sm-3">
-                                <input type="email" class="form-control" id="inputEmail3" placeholder="">
+                                <input type="totalQuantity" value="{{ Cart::session(Auth::user()->id)->getTotalQuantity() }}" class="form-control" id="inputEmail3" placeholder="" readonly>
                             </div>
-                        </div>
+                        </div> --}}
 
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Печат</button>
-                        </div>
+                        {{-- @foreach(Cart::content() as $row)
+                            {{ $row->name }}
+                        @endforeach --}}
                     </div>
                 </div>
             </form>

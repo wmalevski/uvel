@@ -57,7 +57,7 @@ class StonesController extends Controller
             'size' => 'required|numeric',
             'style' => 'required',
             'contour' => 'required',
-            'price' => 'required|between:0.1,100000',
+            'price' => 'required|numeric|between:0.1,100000',
             'amount' => 'required|numeric|between:0.01,100000'
          ]);
 
@@ -107,8 +107,14 @@ class StonesController extends Controller
         $stone_sizes = Stone_sizes::all();
         $stone_contours = Stone_contours::all();
         $stone_styles = Stone_styles::all();
+        $stone_photos = Gallery::where(
+            [
+                ['table', '=', 'stones'],
+                ['row_id', '=', $stone->id]
+            ]
+        )->get();
         
-        return \View::make('admin/stones/edit', array('stone' => $stone, 'stone_sizes' => $stone_sizes, 'stone_contours' => $stone_contours, 'stone_styles' => $stone_styles));
+        return \View::make('admin/stones/edit', array('stone' => $stone, 'stone_sizes' => $stone_sizes, 'stone_contours' => $stone_contours, 'stone_styles' => $stone_styles, 'stone_photos' => $stone_photos));
     }
 
     /**
@@ -149,7 +155,39 @@ class StonesController extends Controller
 
         $stone->save();
 
-        return Response::json(array('table' => View::make('admin/stones/table',array('stone'=>$stone))->render()));
+        $file_data = $request->input('images'); 
+
+        foreach($file_data as $img){
+            $file_name = 'stoneimage_'.uniqid().time().'.png';
+            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+            file_put_contents(public_path('uploads/stones/').$file_name, $data);
+
+            $photo = new Gallery();
+            $photo->photo = $file_name;
+            $photo->row_id = $stone->id;
+            $photo->table = 'stones';
+
+            $photo->save();
+        }
+
+        $stone_photos = Gallery::where(
+            [
+                ['table', '=', 'stones'],
+                ['row_id', '=', $stone->id]
+            ]
+        )->get();
+
+        $photosHtml = '';
+
+        foreach($stone_photos as $photo){
+            $photosHtml .= '
+                <div class="image-wrapper">
+                <div class="close"><span data-url="gallery/delete/'.$photo->id.'">&#215;</span></div>
+                <img src="'.asset("uploads/stones/" . $photo->photo).'" alt="" class="img-responsive" />
+            </div>';
+        }
+
+        return Response::json(array('ID' => $stone->id, 'table' => View::make('admin/stones/table',array('stone'=>$stone))->render(), 'photos' => $photosHtml));
     }
 
     /**
@@ -158,8 +196,13 @@ class StonesController extends Controller
      * @param  \App\Stones  $stones
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Stones $stones)
+    public function destroy(Stones $stones, $stone)
     {
-        //
+        $stone = Stones::find($stone);
+        
+        if($stone){
+            $stone->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

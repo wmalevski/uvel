@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Dashboard;
 use App\Usersubstitutions;
+use App\Discount_codes;
+use App\Currencies;
 use Illuminate\Http\Request;
 use Auth;
+use Cart;
 
 class DashboardController extends Controller
 {
@@ -16,16 +19,27 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $substitution = Usersubstitutions::where([
-            ['user_id', '=', Auth::user()->id],
-            ['date_to', '>=', date("dd-mm-yyyy")]
-        ])->first();
+        $discounts = Discount_codes::all();
+        $currencies = Currencies::all();
+        $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
 
-        if($substitution){
-            Auth::user()->store = $substitution->store_id;
-        }
+        // $substitution = Usersubstitutions::where([
+        //     ['user_id', '=', Auth::user()->id],
+        //     ['date_to', '>=', date("Y-m-d")]
+        // ])->first();
 
-        return view('admin.selling.index');
+        // if($substitution){
+        //     Auth::user()->store = $substitution->store_id;
+        // }
+
+        $items = [];
+        
+        Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
+        {
+            $items[] = $item;
+        });
+
+        return \View::make('admin/selling/index', array('items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies));
     }
 
     /**

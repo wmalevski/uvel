@@ -16,7 +16,7 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->uuid('id');
             $table->string('name');
-            $table->integer('model')->references('id')->on('models');
+            $table->integer('model')->references('id')->on('models')->nullable();
             $table->integer('jewel_type')->references('id')->on('jewels');
             $table->integer('type')->default(1);
             $table->float('weight');
@@ -27,7 +27,10 @@ class CreateProductsTable extends Migration
             $table->float('price');
             $table->string('code')->nullable();
             $table->string('barcode');
+            $table->enum('status', ['available', 'selling', 'sold'])->default('available');
+            $table->enum('for_wholesale', ['yes', 'no'])->default('no');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

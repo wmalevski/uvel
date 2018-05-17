@@ -1,3 +1,4 @@
+<div class="editModalWrapper">
 <div class="modal-header">
     <h5 class="modal-title" id="editDiscountLabel">Промяна на отстъпка</h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -23,7 +24,7 @@
                         <div class="input-group-addon bgc-white bd bdwR-0">
                             <i class="ti-calendar"></i>
                         </div>
-                        <input type="text" name="date_expires" value="{{ $discount->expires }}" class="form-control bdc-grey-200 start-date" placeholder="Валидна до: " data-provide="datepicker" data-date-format="dd-mm-yyyy" data-date-start-date="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}">
+                        <input type="text" name="date_expires" value="{{ $discount->expires }}" class="form-control bdc-grey-200 start-date" placeholder="Валидна до: " data-date-autoclose="true" data-provide="datepicker" data-date-format="dd-mm-yyyy" data-date-start-date="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}">
                     </div>
                 </div>
             </div>
@@ -54,7 +55,7 @@
                     <option value="">Избери</option>
 
                     @foreach($users as $user)
-                        <option value="{{ $user->id }}" @if($discount->user) @if($discount->user == $user->id) selected @endif @endif>{{ $user->name }} - {{ $user->roles->first()['display_name'] }}</option>
+                        <option value="{{ $user->id }}" @if($discount->user) @if($discount->user == $user->id) selected @endif @endif>{{ $user->name }} - {{ $user->roles->first()['title'] }}</option>
                     @endforeach
                 </select>
             </div>
@@ -64,6 +65,7 @@
 
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-        <button type="submit" id="edit" class="btn btn-primary" data-dismiss="modal">Промени</button>
+        <button type="submit" id="edit" class="edit-btn-modal btn btn-primary">Промени</button>
     </div>
 </form>
+</div>

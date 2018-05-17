@@ -24,9 +24,19 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" class="btn btn-primary">Добави</button>
+                    <button type="submit" class="btn btn-primary add-btn-modal">Добави</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editStyle" tabindex="-1"  role="dialog" aria-labelledby="editStyle">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            
+
         </div>
     </div>
 </div>
@@ -38,8 +48,8 @@ aria-hidden="true">
             <p>Преглед на създадените стилове.</p>
             <table class="table table-condensed">
                 <tr>
-                    <th>#</th>
                     <th>Име</th> 
+                    <th>Действия</th> 
                 </tr>
                 
                 @foreach($styles as $style)

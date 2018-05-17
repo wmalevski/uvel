@@ -20,6 +20,7 @@ class CreateMaterialsQuantitiesTable extends Migration
             $table->integer('store')->references('id')->on('stores');
             $table->float('carat');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

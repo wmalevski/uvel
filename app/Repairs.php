@@ -19,8 +19,10 @@ class Repairs extends Model
         'code',
         'barcode',
         'weight',
+        'weight_after',
         'deposit',
         'price',
+        'price_after',
         'material'
     ];
 

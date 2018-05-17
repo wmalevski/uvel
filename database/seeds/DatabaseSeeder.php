@@ -9,10 +9,15 @@ use App\Materials;
 use App\Prices;
 use App\Stones;
 use App\Jewels;
-use App\Role;
-use App\Permission;
 use App\User;
 use App\Repair_types;
+use App\Currencies;
+use App\Products;
+use App\Models;
+use App\Discount_codes;
+use App\Products_others;
+use App\Products_others_types;
+use App\Repairs;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,141 +28,120 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        //$this->call(LaratrustSeeder::class);
-        // $owner = new Role();
-        // $owner->name         = 'admin';
-        // $owner->display_name = 'Админ'; // optional
-        // $owner->description  = 'Пълни права в сайта'; // optional
-        // $owner->save();
-        
-        // $admin = new Role();
-        // $admin->name         = 'employee';
-        // $admin->display_name = 'Служител'; // optional
-        // $admin->description  = 'Ограничени права в сайта'; // optional
-        // $admin->save();
-
-        $admin = new Role();
-        $admin->name         = 'admin';
-        $admin->display_name = 'Администратор'; // optional
-        $admin->description  = 'Собственик'; // optional
-        $admin->save();
-        
-        $merchant = new Role();
-        $merchant->name         = 'merchant';
-        $merchant->display_name = 'Магазинер'; // optional
-        $merchant->description  = 'Продажби в магазин.'; // optional
-        $merchant->save();
-
-        $manager = new Role();
-        $manager->name         = 'manager';
-        $manager->display_name = 'Управител'; // optional
-        $manager->description  = 'Управител на магазин'; // optional
-        $manager->save();
-
-        $customer = new Role();
-        $customer->name         = 'customer';
-        $customer->display_name = 'Клиент'; // optional
-        $customer->description  = 'Клиентски профил'; // optional
-        $customer->save();
-
-        $sellingProducts = new Permission();
-        $sellingProducts->name         = 'selling-products';
-        $sellingProducts->display_name = 'Извършване на продажби'; // optional
-        // Allow a user to...
-        $sellingProducts->description  = 'извършване на продажби'; // optional
-        $sellingProducts->save();
-        
-        $manageOrders = new Permission();
-        $manageOrders->name         = 'manage-orders';
-        $manageOrders->display_name = 'Пускане и издаване на поръчки'; // optional
-        // Allow a user to...
-        $manageOrders->description  = 'пускане и издаване на поръчки'; // optional
-        $manageOrders->save();
-
-        $manageRepairs = new Permission();
-        $manageRepairs->name         = 'manage-repairs';
-        $manageRepairs->display_name = 'Пускане и издаване на ремонти'; // optional
-        // Allow a user to...
-        $manageRepairs->description  = 'пускане и издаване на ремонти'; // optional
-        $manageRepairs->save();
-
-        $sellingsStatus = new Permission();
-        $sellingsStatus->name         = 'sellings-status';
-        $sellingsStatus->display_name = 'Справка за фискални продажби'; // optional
-        // Allow a user to...
-        $sellingsStatus->description  = 'справка за фискални продажби'; // optional
-        $sellingsStatus->save();
-
-        $jewelsStatus = new Permission();
-        $jewelsStatus->name         = 'jewels-status';
-        $jewelsStatus->display_name = 'Справка за налични бижута'; // optional
-        // Allow a user to...
-        $jewelsStatus->description  = 'справка за налични бижута'; // optional
-        $jewelsStatus->save();
-
-        $cashStatus = new Permission();
-        $cashStatus->name         = 'cash-status';
-        $cashStatus->display_name = 'Справка за налични пари в касата'; // optional
-        // Allow a user to...
-        $cashStatus->description  = 'справка за налични пари в касата'; // optional
-        $cashStatus->save();
-
-        $materialsStatus = new Permission();
-        $materialsStatus->name         = 'materials-status';
-        $materialsStatus->display_name = 'Справка за наличен материал'; // optional
-        // Allow a user to...
-        $materialsStatus->description  = 'справка за наличен материал'; // optional
-        $materialsStatus->save();
-
-        $transferJewels = new Permission();
-        $transferJewels->name         = 'transfer-jewels';
-        $transferJewels->display_name = 'Tрансфер на бижута м/у обекти'; // optional
-        // Allow a user to...
-        $transferJewels->description  = 'трансфер на бижута м/у обекти'; // optional
-        $transferJewels->save();
-
-        $editProducts = new Permission();
-        $editProducts->name         = 'edit-products';
-        $editProducts->display_name = 'Корекция на готово изделие'; // optional
-        // Allow a user to...
-        $editProducts->description  = 'корекция на готово изделие'; // optional
-        $editProducts->save();
-
-        $storeSale = new Permission();
-        $storeSale->name         = 'store-sale';
-        $storeSale->display_name = 'Сторниране на продажби'; // optional
-        // Allow a user to...
-        $storeSale->description  = 'сторниране на продажби'; // optional
-        $storeSale->save();
-
-        $addingSafe = new Permission();
-        $addingSafe->name         = 'adding-safe';
-        $addingSafe->display_name = 'Въвеждане на разходи в касата'; // optional
-        // Allow a user to...
-        $addingSafe->description  = 'въвеждане на разходи в касата'; // optional
-        $addingSafe->save();
-
-        $deleteProducts = new Permission();
-        $deleteProducts->name         = 'delete-products';
-        $deleteProducts->display_name = 'Изтриване на готово изделие'; // optional
-        // Allow a user to...
-        $deleteProducts->description  = 'Изтриване на готово изделие'; // optional
-        $deleteProducts->save();
-
-        $admin->attachPermissions([
-            $sellingProducts, 
-            $manageOrders,
-            $manageRepairs,
-            $sellingsStatus,
-            $jewelsStatus,
-            $cashStatus,
-            $materialsStatus,
-            $transferJewels,
-            $editProducts,
-            $storeSale,
-            $addingSafe,
-            $deleteProducts
+        $admin = Bouncer::role()->create([
+            'name' => 'admin',
+            'title' => 'Админ',
         ]);
+
+        $merchant = Bouncer::role()->create([
+            'name' => 'merchant',
+            'title' => 'Магазинер',
+        ]);
+
+        $manager = Bouncer::role()->create([
+            'name' => 'manager',
+            'title' => 'Управител',
+        ]);
+
+        $customer = Bouncer::role()->create([
+            'name' => 'customer',
+            'title' => 'Клиент',
+        ]);
+        
+
+        $sellingProducts = Bouncer::ability()->create([
+            'name' => 'selling-products',
+            'title' => 'Извършване на продажби',
+        ]);
+
+        $manageOrders = Bouncer::ability()->create([
+            'name' => 'manage-orders',
+            'title' => 'Пускане и издаване на поръчки',
+        ]);
+
+        $manageRepairs = Bouncer::ability()->create([
+            'name' => 'manage-repairs',
+            'title' => 'Пускане и издаване на поръчки',
+        ]);
+
+        $sellingStatus = Bouncer::ability()->create([
+            'name' => 'sellings-status',
+            'title' => 'Справка за фискални продажби',
+        ]);
+
+        $jewelStatus = Bouncer::ability()->create([
+            'name' => 'jewels-status',
+            'title' => 'Справка за налични бижута',
+        ]);
+
+        $cashStatus = Bouncer::ability()->create([
+            'name' => 'cash-status',
+            'title' => 'Справка за налични пари в касата',
+        ]);
+
+        $materialStatus = Bouncer::ability()->create([
+            'name' => 'materials-status',
+            'title' => 'Справка за наличен материал',
+        ]);
+
+        $transferJewels = Bouncer::ability()->create([
+            'name' => 'transfer-jewels',
+            'title' => 'Tрансфер на бижута м/у обекти',
+        ]);
+
+        $editProducts = Bouncer::ability()->create([
+            'name' => 'edit-products',
+            'title' => 'Корекция на готово изделие',
+        ]);
+
+        $storeSale = Bouncer::ability()->create([
+            'name' => 'store-sale',
+            'title' => 'Сторниране на продажби',
+        ]);
+
+        $addingSafe = Bouncer::ability()->create([
+            'name' => 'adding-safe',
+            'title' => 'Въвеждане на разходи в касата',
+        ]);
+
+        $deleteProducts = Bouncer::ability()->create([
+            'name' => 'delete-products',
+            'title' => 'Изтриване на готово изделие',
+        ]);
+
+        //Admin permissions
+        Bouncer::allow($admin)->to($sellingProducts);
+        Bouncer::allow($admin)->to($manageOrders);
+        Bouncer::allow($admin)->to($manageRepairs);
+        Bouncer::allow($admin)->to($sellingStatus);
+        Bouncer::allow($admin)->to($jewelStatus);
+        Bouncer::allow($admin)->to($cashStatus);
+        Bouncer::allow($admin)->to($materialStatus);
+        Bouncer::allow($admin)->to($transferJewels);
+        Bouncer::allow($admin)->to($editProducts);
+        Bouncer::allow($admin)->to($storeSale);
+        Bouncer::allow($admin)->to($addingSafe);
+        Bouncer::allow($admin)->to($deleteProducts);
+
+        //Manager permissions
+        Bouncer::allow($manager)->to($sellingProducts);
+        Bouncer::allow($manager)->to($manageOrders);
+        Bouncer::allow($manager)->to($manageRepairs);
+        Bouncer::allow($manager)->to($sellingStatus);
+        Bouncer::allow($manager)->to($jewelStatus);
+        Bouncer::allow($manager)->to($cashStatus);
+        Bouncer::allow($manager)->to($materialStatus);
+        Bouncer::allow($manager)->to($transferJewels);
+        Bouncer::allow($manager)->to($editProducts);
+        Bouncer::allow($manager)->to($storeSale);
+        Bouncer::allow($manager)->to($addingSafe);
+
+        //Merchant permissions 
+        Bouncer::allow($merchant)->to($sellingProducts);
+        Bouncer::allow($merchant)->to($manageOrders);
+        Bouncer::allow($merchant)->to($manageRepairs);
+        Bouncer::allow($merchant)->to($sellingStatus);
+        Bouncer::allow($merchant)->to($jewelStatus);
 
         $user = new User();
         $user->name = 'Admin';
@@ -166,7 +150,16 @@ class DatabaseSeeder extends Seeder
         $user->store = 1;
         $user->save();
 
-        $user->attachRole($admin);
+        Bouncer::assign('admin')->to($user);
+
+        $merchant = new User();
+        $merchant->name = 'Merchant';
+        $merchant->email = 'merchant@uvel.com';
+        $merchant->password = bcrypt('merchant');
+        $merchant->store = 2;
+        $merchant->save();
+
+        Bouncer::assign('merchant')->to($merchant);
 
         for($i = 1; $i <= 5; $i++){
             $stone_styles = new Stone_styles();
@@ -254,5 +247,120 @@ class DatabaseSeeder extends Seeder
         $repairType->name = 'Залепяне на камък';
         $repairType->price = '30';
         $repairType->save();
+
+        $currency = new Currencies();
+        $currency->name = 'GBP';
+        $currency->currency = '0.44';
+        $currency->save();
+
+        $currency = new Currencies();
+        $currency->name = 'USD';
+        $currency->currency = '0.63';
+        $currency->save();
+
+        $currency = new Currencies();
+        $currency->name = 'EUR';
+        $currency->currency = '0.51';
+        $currency->save();
+
+        $currency = new Currencies();
+        $currency->name = 'BGN';
+        $currency->currency = '1';
+        $currency->default = 'yes';
+        $currency->save();
+        
+        $model = new Models();
+        $model->name = 'Модел 1';
+        $model->jewel = 1;
+        $model->retail_price = 2;
+        $model->wholesale_price = 4;
+        $model->weight = 56;
+        $model->size = 56;
+        $model->workmanship = 3920;
+        $model->price = 5040;
+        $model->save();
+
+        $product = new Products();
+        $product->id = Uuid::generate()->string;
+        $product->name = 'Продукт 1';
+        $product->model = 1;
+        $product->jewel_type = 1;
+        $product->type = 1;
+        $product->retail_price = 2;
+        $product->wholesale_price = 4;
+        $product->weight = 56;
+        $product->size = 56;
+        $product->workmanship = 120;
+        $product->price = 210;
+        $product->code = 'PE0NM23K';
+        $product->barcode = 3807260069719;
+        $product->save();
+
+        $discount = new Discount_codes();
+        $discount->discount = 20;
+        $discount->lifetime = 'no';
+        $discount->code = '4RFI';
+        $discount->barcode = '3801863488922';
+        $discount->save();
+
+        $products_others_types = new Products_others_types();
+        $products_others_types->name = 'Кутия';
+        $products_others_types->save();
+
+        $products_others = new Products_others();
+        $products_others->name = 'Синя кутия';
+        $products_others->type = 1;
+        $products_others->price = 0.10;
+        $products_others->quantity = 200;
+        $products_others->barcode = 3808345766226;
+        $products_others->code = 'BWGKIDKA';
+        $products_others->save();
+
+
+
+        $repair = new Repairs();
+        $repair->type = 1;
+        $repair->barcode = 3806510024218;
+        $repair->repair_description = 'sadsd';
+        $repair->deposit = 10;
+        $repair->price = 20;
+        $repair->weight = 2.00;
+        $repair->code = 'RGV3IZPN';
+        $repair->status = 'repairing';
+        $repair->date_recieved = '30-04-2018'; 
+        $repair->date_returned = '24-05-2018';
+        $repair->customer_phone = '862589845';
+        $repair->customer_name = 'George Vasilev';
+        $repair->save();
+
+        $repair = new Repairs();
+        $repair->type = 1;
+        $repair->barcode = 3805183846417;
+        $repair->repair_description = 'sadsd';
+        $repair->deposit = 10;
+        $repair->price = 20;
+        $repair->weight = 2.00;
+        $repair->code = 'RBPTA4YZ';
+        $repair->status = 'repairing';
+        $repair->date_recieved = '30-04-2018'; 
+        $repair->date_returned = '24-05-2018';
+        $repair->customer_phone = '862589845';
+        $repair->customer_name = 'George Vasilev';
+        $repair->save();
+
+        $repair = new Repairs();
+        $repair->type = 1;
+        $repair->barcode = 3805926394014;
+        $repair->repair_description = 'sadsd';
+        $repair->deposit = 10;
+        $repair->price = 20;
+        $repair->weight = 2.00;
+        $repair->code = 'R8PAZKXM';
+        $repair->status = 'repairing';
+        $repair->date_recieved = '30-04-2018'; 
+        $repair->date_returned = '24-05-2018';
+        $repair->customer_phone = '862589845';
+        $repair->customer_name = 'George Vasilev';
+        $repair->save();
     }
 }
