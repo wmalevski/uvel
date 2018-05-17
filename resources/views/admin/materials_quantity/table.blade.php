@@ -1,4 +1,4 @@
-<tr>
+<tr data-id="{{ $material->id }}">
     <td>{{ App\Materials::withTrashed()->find($material->material)->name }} - {{ App\Materials::withTrashed()->find($material->material)->code }} - {{ App\Materials::withTrashed()->find($material->material)->color }}</td> 
     <td>{{ $material->quantity }}</td> 
     <td>{{ App\Stores::withTrashed()->find($material->store)->name }}</td>

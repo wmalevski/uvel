@@ -93,7 +93,7 @@ class StoneSizesController extends Controller
         
         $size->save();
         
-        return Response::json(array('table' => View::make('admin/stone_sizes/table', array('size' => $size))->render()));
+        return Response::json(array('ID' => $size->id, 'table' => View::make('admin/stone_sizes/table', array('size' => $size))->render()));
     }
 
     /**

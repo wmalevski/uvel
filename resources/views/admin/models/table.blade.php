@@ -1,4 +1,4 @@
-<tr>
+<tr data-id="{{ $model->id }}">
     <td> {{ $model->name }} </td>
     <td> {{ App\Jewels::withTrashed()->find($model->jewel)->name }} </td> 
     <td> {{ App\Prices::withTrashed()->find($model->retail_price)->price }} </td> 

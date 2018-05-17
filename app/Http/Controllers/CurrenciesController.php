@@ -102,7 +102,7 @@ class CurrenciesController extends Controller
 
             $currency->save();
 
-            return Response::json(array('table' => View::make('admin/settings/currencytable',array('currency'=>$currency))->render()));
+            return Response::json(array('ID' => $currency->id, 'table' => View::make('admin/settings/currencytable',array('currency'=>$currency))->render()));
         }
     }
 

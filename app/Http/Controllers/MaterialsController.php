@@ -100,7 +100,7 @@ class MaterialsController extends Controller
         
         $material->save();
 
-        return Response::json(array('table' => View::make('admin/materials/table',array('material'=>$material))->render()));
+        return Response::json(array('ID' => $material->id,'table' => View::make('admin/materials/table',array('material'=>$material))->render()));
     }
 
     /**

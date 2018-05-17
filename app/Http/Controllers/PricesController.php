@@ -7,6 +7,7 @@ use App\Materials;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
+use App\Models;
 use Response;
 use Illuminate\Support\Facades\View;
 
@@ -118,7 +119,7 @@ class PricesController extends Controller
         
         $price->save();
         
-        return Response::json(array('table' => View::make('admin/prices/table', array('price' => $price, 'type' => $request->type))->render()));
+        return Response::json(array('ID' => $price->id, 'table' => View::make('admin/prices/table', array('price' => $price, 'type' => $request->type))->render()));
     }
 
     /**
@@ -140,19 +141,34 @@ class PricesController extends Controller
     public function getByMaterial($material){
         $prices = Prices::where(
             [
-                ['material', '=', $material],
+                ['material', '=', Jewel::find($material)->material],
                 ['type', '=', 'sell']
             ]
         )->get();
 
         $prices_retail = array();
 
-        $prices_retail[0] = (object)[
-            'id' => '',
-            'material' => '',
-            'slug' => 'Избери цена',
-            'price' => ''
-        ];
+        // $prices_retail[0] = (object)[
+        //     'id' => '',
+        //     'material' => '',
+        //     'slug' => 'Избери цена',
+        //     'price' => ''
+        // ];
+
+        $models = Models::where(
+            [
+                ['jewel', '=', $material],
+            ]
+        )->get();
+
+        $pass_models = array();
+        
+        foreach($pass_models as $model){
+            $pass_models[] = (object)[
+                'value' => $model->id,
+                'label' => $model->name,
+            ];
+        }
         
         foreach($prices as $price){
 
@@ -164,6 +180,6 @@ class PricesController extends Controller
             ];
         }
 
-        return Response::json(array('prices' => $prices_retail));
+        return Response::json(array('prices' => $prices_retail, 'pass_models' => $models));
     }
 }

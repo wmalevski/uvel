@@ -72,7 +72,7 @@ aria-hidden="true">
                             <label for="pay-currency">Валута</label>
                             <select id="pay-currency" name="pay_currency" class="form-control">
                                 @foreach($currencies as $currency)
-                                    <option value="{{ $currency->id }}" data-currency="{{ $currency->currency }}">{{ $currency->name }}</option>
+                                    <option value="{{ $currency->id }}" data-default="{{$currency->default }}" data-currency="{{ $currency->currency }}">{{ $currency->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -128,7 +128,8 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" class="btn btn-primary">Завърши плащането</button>
+                    <button type="button" class="btn btn-primary">Печат</button>
+                    <button type="submit" class="btn btn-primary btn-finish-payment">Завърши плащането</button>
                 </div>
             </form>
         </div>
@@ -255,10 +256,6 @@ aria-hidden="true">
                                 <input type="totalQuantity" value="{{ Cart::session(Auth::user()->id)->getTotalQuantity() }}" class="form-control" id="inputEmail3" placeholder="" readonly>
                             </div>
                         </div> --}}
-
-                        <div class="form-group">
-                            <a href="sellings/information" class="btn btn-primary print-btn">Печат</a>
-                        </div>
 
                         {{-- @foreach(Cart::content() as $row)
                             {{ $row->name }}

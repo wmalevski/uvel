@@ -146,7 +146,7 @@ class ProductsOthersController extends Controller
         
         $product->save();
         
-        return Response::json(array('table' => View::make('admin/products_others/table',array('product'=>$product))->render()));
+        return Response::json(array('table' => View::make('admin/products_others/table',array('product'=>$product))->render(), 'ID' => $product->id));
     }
 
     /**

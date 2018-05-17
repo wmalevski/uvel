@@ -1,4 +1,4 @@
-<tr>
+<tr data-id="{{ $material->id }}">
     <td>{{ App\Materials::find($material->id)->name }}</td> 
     <td>{{ $material->code }}</td> 
     <td>{{ $material->color }}</td> 

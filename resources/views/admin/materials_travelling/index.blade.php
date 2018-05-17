@@ -25,7 +25,7 @@ aria-hidden="true">
                         
                                 @foreach($materials as $material)
                                     <option value="{{ $material->id }}">
-                                        {{ App\Materials::find($material->material)->name }} - {{ App\Materials::find($material->material)->color }} - {{ App\Materials::find($material->material)->code }} ({{ $material->quantity }}) - {{ App\Stores::find($material->store)->name }}
+                                        {{ App\Materials::find($material->material)->name }} - {{ App\Materials::find($material->material)->color }} - {{ App\Materials::find($material->material)->code }} ({{ $material->quantity }}) - {{ App\Stores::withTrashed()->find($material->store)->name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -42,9 +42,11 @@ aria-hidden="true">
                                 <option value="">Избери магазин</option>
                         
                                 @foreach($stores as $store)
-                                    <option value="{{ $store->id }}">
-                                        {{ $store->name }} - {{ $store->location }}
-                                    </option>
+                                    @if($store->id != Auth::user()->getStore())
+                                        <option value="{{ $store->id }}">
+                                            {{ $store->name }} - {{ $store->location }}
+                                        </option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
