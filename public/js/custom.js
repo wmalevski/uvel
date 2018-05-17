@@ -424,13 +424,11 @@ var uvel,
         var modelSelect = $('#model_select');
         var typeSelect;
         var collectionFiles = [];
-   
         var dropZone = document.getElementsByClassName("drop-area");
 
         if(dropZone) {
           this.dropFunctionality(collectionFiles);         
         }
-
 
         if(modelSelect) {
           modelSelect.on('select2:select', function(ev) {
@@ -440,31 +438,24 @@ var uvel,
                   xhttp = new XMLHttpRequest(),
                   typeSelect = $('#jewel');
 
-            
-                  
               typeSelect.on('select2:select', function(ev) {
                 modelSelect.val('0').trigger('change.select2');
               });
 
               productsRequest(tempUrl);
-              
             }
           });
         }
           
         collectionModalAddBtns.forEach(function (btn) {
-
           $(btn).off();
-
           $(btn).on('click', getFormData); 
-
         });
       }
 
       if(collectionScanRepairBtns.length > 0) {
 
         collectionScanRepairBtns.forEach(function (btn) {
-
           btn.addEventListener('click', function() {
             var returnRepairWrapper = document.getElementById('scan-repair-wrapper');
             var nextElement = returnRepairWrapper.nextElementSibling;
@@ -473,11 +464,17 @@ var uvel,
               nextElement.parentNode.removeChild(nextElement);
             }
 
+<<<<<<< HEAD
+=======
+            if(nextElement != null){
+              nextElement.parentNode.removeChild(nextElement);
+            }
+
+>>>>>>> 99a6bb6e936dd8cd44b1fa2c701ed067fc126d11
             returnRepairWrapper.style.display = 'block';
             returnRepairWrapper.querySelector('.info-cont').innerHTML='';
             document.getElementById('barcode_process-repairs').value = '';
           });
-
         });
 
       }
@@ -499,6 +496,18 @@ var uvel,
             document.getElementById('barcode_return-repairs').value = '';
           });
 
+          btn.addEventListener('click', function() {
+            var returnRepairWrapper = document.getElementById('return-repair-wrapper');
+            var nextElement = returnRepairWrapper.nextElementSibling;
+
+            if(nextElement != null){
+              nextElement.parentNode.removeChild(nextElement);
+            }
+
+            returnRepairWrapper.style.display = 'block';
+            returnRepairWrapper.querySelector('.info-cont').innerHTML='';
+            document.getElementById('barcode_return-repairs').value = '';
+          });
         });
       }
 
@@ -1170,106 +1179,109 @@ var uvel,
 
         
       }
-
      
       function handleResponsePost(response, elements, currentPressedBtn) {
-        var responseHolder = document.forms[nameForm].firstElementChild.firstElementChild;
 
-        responseHolder.innerHTML = '';
+        var alertAreas = [].slice.apply(document.getElementsByClassName('info-cont'));
 
-        if (response.hasOwnProperty('errors')) {
-          var holder = document.createDocumentFragment();
-          var errors = response.errors;
+        alertAreas.forEach(function(responseHolder) {
+          responseHolder.innerHTML = "";
 
-          for (var err in errors) {
-            var collectionErr = errors[err];
+          if(response.hasOwnProperty('errors')) {
+            var holder = document.createDocumentFragment();
+            var errors = response.errors;
+  
+            for (var err in errors) {
+              var collectionErr = errors[err];
+  
+              collectionErr.forEach(function (msg) {
+                var errorContainer = document.createElement('div');
+                errorContainer.innerText = msg;
+                errorContainer.className = 'alert alert-danger';
+                holder.appendChild(errorContainer);
+              });
+            }
+  
+            responseHolder.appendChild(holder);
+          } 
+          else {
+              var successContainer = document.createElement('div');
 
-            collectionErr.forEach(function (msg) {
-              var errorContainer = document.createElement('div');
-              errorContainer.innerText = msg;
-              errorContainer.className = 'alert alert-danger';
-              holder.appendChild(errorContainer);
-            });
+              successContainer.innerText = 'Успешно променихте';
+              successContainer.className = 'alert alert-success';
+              responseHolder.appendChild(successContainer);
           }
 
-          responseHolder.appendChild(holder);
-        } else {
-            var successContainer = document.createElement('div');
+        });
 
-            successContainer.innerText = 'Успешно добавихте';
-            successContainer.className = 'alert alert-success';
-            responseHolder.appendChild(successContainer);
+        if (nameForm === 'addPrice') {
+          var select = collectionSelects[0];
+          var tableId = document.querySelector('#' + select.options[select.selectedIndex].value + ' tbody');
 
-            if (nameForm === 'addPrice') {
-              var select = collectionSelects[0];
-              var tableId = document.querySelector('#' + select.options[select.selectedIndex].value + ' tbody');
+          tableId.innerHTML += response.success;
+        } 
+        else if(nameForm === 'sendUser') {
+          if(response.place === 'active') {
+            var table = document.getElementById('user-substitute-active');
+            var tableBody = table.querySelector('tbody');
 
-              tableId.innerHTML += response.success;
-            } 
-            else if(nameForm === 'sendUser') {
-              if(response.place === 'active') {
-                var table = document.getElementById('user-substitute-active');
-                var tableBody = table.querySelector('tbody');
-
-                tableBody.innerHTML += response.success;
-              }
-              else if(response.place === 'inactive') {
-                var table = document.getElementById('user-substitute-inactive');
-                var tableBody = table.querySelector('tbody');
-
-                tableBody.innerHTML += response.success;
-              }
-            }
-            else {
-              if(nameForm === 'addRepair') {
-                var repairId = response.id,
-                certificateButton = document.querySelector('button#certificate');
-
-                certificateButton.dataset.repairId = repairId;
-                certificateButton.disabled = false;
-              }
-
-              var tableBody = document.querySelector('table.table tbody');
-
-              tableBody.innerHTML += response.success;
+            tableBody.innerHTML += response.success;
           }
+          else if(response.place === 'inactive') {
+            var table = document.getElementById('user-substitute-inactive');
+            var tableBody = table.querySelector('tbody');
 
-          elements.forEach(function (el) {
-
-            var elType = el.getAttribute('type');
-
-            if (typeof el != null && elType !== 'hidden' && typeof(el.dataset.clear) == 'undefined') {
-              if(elType == 'checkbox') {
-                el.checked = false;
-              }
-
-              if(el.tagName == 'SELECT') {
-                $(el).val(null).trigger('change');
-              }
-
-              el.value = '';
-
-              if(elType == 'file'){
-
-                $(el).parent().find('drop-area-input').val('');
-
-                $(el).val('');
-
-                var gallery = $(el).parent().children('.drop-area-gallery');
-                gallery.html('');
-                      
-              }     
-              
-
-            }
-
-          })
+            tableBody.innerHTML += response.success;
+          } 
         }
+        else {
+          if(nameForm === 'addRepair') {
+            var repairId = response.id,
+            certificateButton = document.querySelector('button#certificate');
+
+            certificateButton.dataset.repairId = repairId;
+            certificateButton.disabled = false;
+          }
+
+          var tableBody = document.querySelector('table.table tbody');
+
+          tableBody.innerHTML += response.success;
+          
+
+              elements.forEach(function (el) {
+                var elType = el.getAttribute('type');
+
+                if (typeof el != null && elType !== 'hidden' && typeof(el.dataset.clear) == 'undefined') {
+                  if(elType == 'checkbox') {
+                    el.checked = false;
+                  }
+
+                  if(el.tagName == 'SELECT') {
+                    $(el).val(null).trigger('change');
+                  }
+
+                  el.value = '';
+
+                  if(elType == 'file'){
+
+                    $(el).parent().find('drop-area-input').val('');
+
+                    $(el).val('');
+
+                    var gallery = $(el).parent().children('.drop-area-gallery');
+                    gallery.html('');
+                          
+                  }     
+                  
+
+                }
+
+              });
+          }
 
         editAction();
 
         pendingRequest = false;
-
       }
 
       function handleUpdateResponse(response, elements, currentPressedBtn) {
@@ -1304,12 +1316,15 @@ var uvel,
           }
 
         });
-        /* end alert areas */
-
+        
         if(nameForm === 'sendUser') {
           var content = response.table;
           var currentRow = $self.currentPressedBtn.closest('tr')
           var currentRowIndex = currentRow.rowIndex;
+<<<<<<< HEAD
+=======
+          var currentTableId = currentRow.closest('table').getAttribute('id');
+>>>>>>> 99a6bb6e936dd8cd44b1fa2c701ed067fc126d11
 
           if(response.place === 'active') {
             var table = document.getElementById('user-substitute-active');
@@ -1319,12 +1334,19 @@ var uvel,
           }
           else if(response.place === 'inactive') {
             var table = document.getElementById('user-substitute-inactive');
-            var activeTable = document.getElementById('user-substitute-active');
-            activeTable.deleteRow(currentRowIndex);
+            var activaTable = document.getElementById('user-substitute-active');
 
-            var rows = table.rows.length;
-            var newRow = table.insertRow(rows);
+            if(currentTableId === 'user-substitute-active'){
+              activaTable.deleteRow(currentRowIndex);
+            }
+            else {
+              table.deleteRow(currentRowIndex);
+            }
+
+            var newRow = table.insertRow(currentRowIndex);
             newRow.innerHTML = content;
+
+            editAction();
           }
         }
         else {
@@ -1367,6 +1389,10 @@ var uvel,
         
           editAction();     
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 99a6bb6e936dd8cd44b1fa2c701ed067fc126d11
         pendingRequest = false; 
       }
 
@@ -1384,49 +1410,40 @@ var uvel,
       }
   
       function clickEditButton(event) {
-
         event.preventDefault();
 
         var link = event.target.parentElement;
-
         var urlTaken = window.location.href.split('/');
         var url = urlTaken[0] + '//' + urlTaken[2] + '/' + urlTaken[3] + '/';
-
         var linkAjax = url+link.getAttribute('data-url');
 
-        ajaxFn("GET", linkAjax, editBtnSuccess, '', '', this);
-              
+        ajaxFn("GET", linkAjax, editBtnSuccess, '', '', this);        
         $self.currentPressedBtn = this;  
-        
         setTimeout(function() {$self.checkAllForms(currentPressedBtn);}, 500);
-
       }
-      
 
       function editBtnSuccess(data, elements, btn) {
-
          var id = btn.getAttribute("data-target");
          var selector = id + ' '+ '.modal-content';
          var html = $.parseHTML(data);
+         var table = btn.parentElement.closest('table');
+         var tableId = table.getAttribute('id');
 
-         //console.log(data);
+         if(tableId === 'user-substitute-inactive'){
+          var dateToInput = $(html).children().find('input[name=dateTo]');
+          var dateFromInput = $(html).children().find('input[name=dateFrom]');
 
-         var tableClassName = btn.parentElement.closest('table').className;
-         var tableClass = tableClassName.split(' ')[1];
-
-         if((tableClass.length > 0) && (tableClass === 'inactive')){
-
-          console.log('inactive');
-
+          dateToInput.attr('disabled', 'disabled');
+          dateFromInput.attr('disabled', 'disabled');
          }
 
-         $(selector).html(html);      
+         $(selector).html(html);    
          $self.initializeSelect($(selector).children().find('select'));
       }
 
       $self.addAndRemoveFields(); 
- 
     }
+    
   }
 
 $(function () {
