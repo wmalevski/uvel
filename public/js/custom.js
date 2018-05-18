@@ -1397,7 +1397,7 @@ var uvel,
       function clickEditButton(event) {
         event.preventDefault();
 
-        var link = event.target.parentElement;
+        var link = event.currentTarget;
         var urlTaken = window.location.href.split('/');
         var url = urlTaken[0] + '//' + urlTaken[2] + '/' + urlTaken[3] + '/';
         var linkAjax = url+link.getAttribute('data-url');
