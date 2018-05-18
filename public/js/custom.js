@@ -1172,7 +1172,6 @@ var uvel,
       }
      
       function handleResponsePost(response, elements, currentPressedBtn) {
-
         var alertAreas = [].slice.apply(document.getElementsByClassName('info-cont'));
 
         alertAreas.forEach(function(responseHolder) {
@@ -1205,72 +1204,73 @@ var uvel,
 
         });
 
-        if (nameForm === 'addPrice') {
-          var select = collectionSelects[0];
-          var tableId = document.querySelector('#' + select.options[select.selectedIndex].value + ' tbody');
+        if(!(response.hasOwnProperty('errors'))) {
+          if (nameForm === 'addPrice') {
+            var select = collectionSelects[0];
+            var tableId = document.querySelector('#' + select.options[select.selectedIndex].value + ' tbody');
 
-          tableId.innerHTML += response.success;
-        } 
-        else if(nameForm === 'sendUser') {
-          if(response.place === 'active') {
-            var table = document.getElementById('user-substitute-active');
-            var tableBody = table.querySelector('tbody');
-
-            tableBody.innerHTML += response.success;
-          }
-          else if(response.place === 'inactive') {
-            var table = document.getElementById('user-substitute-inactive');
-            var tableBody = table.querySelector('tbody');
-
-            tableBody.innerHTML += response.success;
+            tableId.innerHTML += response.success;
           } 
+          else if(nameForm === 'sendUser') {
+            if(response.place === 'active') {
+              var table = document.getElementById('user-substitute-active');
+              var tableBody = table.querySelector('tbody');
+
+              tableBody.innerHTML += response.success;
+            }
+            else if(response.place === 'inactive') {
+              var table = document.getElementById('user-substitute-inactive');
+              var tableBody = table.querySelector('tbody');
+
+              tableBody.innerHTML += response.success;
+            } 
+          }
+          else {
+            if(nameForm === 'addRepair') {
+              var repairId = response.id,
+              certificateButton = document.querySelector('button#certificate');
+
+              certificateButton.dataset.repairId = repairId;
+              certificateButton.disabled = false;
+            }
+
+            var tableBody = document.querySelector('table.table tbody');
+
+            tableBody.innerHTML += response.success;
+            
+            elements.forEach(function (el) {
+              var elType = el.getAttribute('type');
+
+              if (typeof el != null && elType !== 'hidden' && typeof(el.dataset.clear) == 'undefined') {
+                    if(elType == 'checkbox') {
+                      el.checked = false;
+                    }
+
+                    if(el.tagName == 'SELECT') {
+                      $(el).val(null).trigger('change');
+                    }
+
+                    el.value = '';
+
+                    if(elType == 'file'){
+
+                      $(el).parent().find('drop-area-input').val('');
+
+                      $(el).val('');
+
+                      var gallery = $(el).parent().children('.drop-area-gallery');
+                      gallery.html('');
+                            
+                    }     
+                    
+
+                  }
+
+            });
         }
-        else {
-          if(nameForm === 'addRepair') {
-            var repairId = response.id,
-            certificateButton = document.querySelector('button#certificate');
 
-            certificateButton.dataset.repairId = repairId;
-            certificateButton.disabled = false;
-          }
-
-          var tableBody = document.querySelector('table.table tbody');
-
-          tableBody.innerHTML += response.success;
-          
-
-              elements.forEach(function (el) {
-                var elType = el.getAttribute('type');
-
-                if (typeof el != null && elType !== 'hidden' && typeof(el.dataset.clear) == 'undefined') {
-                  if(elType == 'checkbox') {
-                    el.checked = false;
-                  }
-
-                  if(el.tagName == 'SELECT') {
-                    $(el).val(null).trigger('change');
-                  }
-
-                  el.value = '';
-
-                  if(elType == 'file'){
-
-                    $(el).parent().find('drop-area-input').val('');
-
-                    $(el).val('');
-
-                    var gallery = $(el).parent().children('.drop-area-gallery');
-                    gallery.html('');
-                          
-                  }     
-                  
-
-                }
-
-              });
-          }
-
-        editAction();
+          editAction();
+        }
 
         pendingRequest = false;
       }
@@ -1380,7 +1380,7 @@ var uvel,
             editAction();     
           }
         }
-        
+
         pendingRequest = false; 
       }
 
