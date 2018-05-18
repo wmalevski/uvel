@@ -56,11 +56,9 @@ aria-hidden="true">
                         </div>
 
 
-                        <div class="form-group col-md-6">
-                            <div class="form-group weight-holder">
-                                <label for="1">Тегло: </label>
-                                <input type="number" class="form-control calculate" id="weight" name="weight" placeholder="Тегло:" min="0.1" max="10000">
-                            </div>
+                        <div class="form-group col-md-6 weight-holder">
+                            <label for="1">Тегло: </label>
+                            <input type="number" class="form-control calculate" id="weight" name="weight" placeholder="Тегло:" min="0.1" max="10000">
                         </div>
 
                         <div class="form-group col-md-6">
