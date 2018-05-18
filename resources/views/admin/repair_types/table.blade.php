@@ -1,4 +1,4 @@
-<tr>
+<tr data-id="{{ $repairType->id }}">
     <td>{{ $repairType->name }}</td> 
     <td>{{ $repairType->price }}</td> 
     <td>

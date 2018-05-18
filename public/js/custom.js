@@ -6,7 +6,7 @@ var uvel,
 
     this.init = function () {
       $self.initializeSelect($('select'));
-      $self.checkAllForms();     
+      $self.checkAllForms();    
     };
 
     this.addSelect2CustomAttributes = function(data, container) {
@@ -264,8 +264,6 @@ var uvel,
       var paymentBtns = document.querySelectorAll('.payment-btn');
       var certificateBtns = document.querySelectorAll('.certificate');
       var paymentModalSubmitBtns = document.querySelectorAll('.btn-finish-payment');
-
-
       var urlTaken = window.location.href.split('/');
       var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
       var token = $('meta[name="csrf-token"]').attr('content');
@@ -285,7 +283,6 @@ var uvel,
       var paymentModalGivenInput = document.getElementById('given-sum');
       var paymentModalReturnInput = document.getElementById('return-sum');
       var paymentModalCurrencySelector = document.getElementById('pay-currency');
-
       var sellingForm = document.getElementById('selling-form');
       var returnRepairForm = document.getElementById('return-repair-form');
       var returnScanForm = document.getElementById('scan-repair-form');
@@ -299,14 +296,7 @@ var uvel,
         var typeJeweryData = jeweryPrice;
         var weightData = dataWeight;
         var priceData = priceDev;
-        var element = currentElement;
-
-        console.log('calculating..');
-        console.log(typeJeweryData);
-        console.log(weightData);
-        console.log(priceData);
-        console.log('/calculating..');
-        
+        var element = currentElement;        
         var inputDev = element.children().find('.worksmanship_price'),
           inputPrice = element.children().find('.final_price');
 
@@ -316,8 +306,6 @@ var uvel,
 
           inputDev.val(priceDev);
           inputPrice.val(productPrice);
-
-          console.log('isndei');
         } else {
           inputDev.val('0');
           inputPrice.val('0');
@@ -334,14 +322,34 @@ var uvel,
         var parentElement = _element.parents('form');
 
         if(_element[0].nodeName == 'SELECT') {
-          if(_element[0].id == 'jewel' || _element[0].id == 'jewel_edit') {
-            var materialType = _element.find(':selected').attr('data-material');
-            var requestLink = ajaxUrl + materialType;    
 
+          if(_element[0].id == 'jewels_types' || _element[0].id == 'jewel_edit') {
+            var materialType = _element.find(':selected').val();
+            var requestLink = ajaxUrl + materialType;    
+            
             jeweryPrice = _element.find(':selected').attr('data-pricebuy');
 
             ajaxFn('GET' , requestLink , function(response) {
                 var data = response.prices;
+                var models = response.pass_models;
+                var modelsData = models.map(function(keys) {
+                    return {
+                      id: keys.id,
+                      text: keys.name,
+                      jewel: keys.jewel,
+                      retail_price: keys.retail_price,
+                      wholesale_price: keys.wholesale_price,
+                      weight: keys.weight,
+                      workmanship: keys.workmanship
+                    }
+                });
+
+                _element.parents('form').children().find('.model-filled').empty();
+                _element.parents('form').children().find('.model-filled').select2({
+                    data: modelsData,
+                    templateResult: $self.addSelect2CustomAttributes,
+                    templateSelection: $self.addSelect2CustomAttributes
+                }); 
   
                 var newData = data.map(function(keys) {
                   return {
@@ -357,12 +365,20 @@ var uvel,
                   data: newData,
                   templateResult: $self.addSelect2CustomAttributes,
                   templateSelection: $self.addSelect2CustomAttributes
-                });              
+                });     
+
+                $('#retail_prices').trigger('change');
+                $('#retail_price_edit').trigger('change');
               });  
           } else {
             priceDev = _element.select2('data')[0].price;
           }
 
+          if(_element[0].id == 'jewels_types' ) {
+            dataWeight = _element.parent().siblings('.weight-holder').children('input').val();
+          } else if (_element[0].id == 'jewel_edit') {
+            dataWeight = _element.parent().siblings('.weight-holder-edit').children('input').val();
+          }
           calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
         } else {
           dataWeight = _element[0].value;
@@ -384,8 +400,7 @@ var uvel,
       }
 
       if(collectionModalEditBtns.length > 0) {
-
-        var modelSelect = $('#model_select');
+        var modelSelectEdit = $('#model_select_edit');
         var typeSelect;
         var collectionFiles = [];
         var dropZone = document.getElementsByClassName("drop-area");
@@ -394,18 +409,16 @@ var uvel,
             this.dropFunctionality(collectionFiles);   
         }
 
-        if(modelSelect) {
-          modelSelect.on('select2:select', function(ev) {
-            
-            if(modelSelect.val()) {
-              
-              var value = modelSelect.find(':selected').val(),
+        if(modelSelectEdit) {   
+          modelSelectEdit.on('select2:select', function(ev) {     
+            if(modelSelectEdit.val()) {
+              var value = modelSelectEdit.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
                   xhttp = new XMLHttpRequest(),
-                  typeSelect = $('#jewel_edit');
+                  typeSelect = $('#jewels_types');
 
               typeSelect.on('select2:select', function(ev) {
-                modelSelect.val('0').trigger('change.select2');
+                modelSelectEdit.val('0').trigger('change.select2');
               });
 
               productsRequest(tempUrl);
@@ -420,7 +433,6 @@ var uvel,
       }
      
       if(collectionModalAddBtns.length > 0) {
-
         var modelSelect = $('#model_select');
         var typeSelect;
         var collectionFiles = [];
@@ -432,11 +444,12 @@ var uvel,
 
         if(modelSelect) {
           modelSelect.on('select2:select', function(ev) {
+            console.log(modelSelect.val());
             if(modelSelect.val()) {
               var value = modelSelect.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
                   xhttp = new XMLHttpRequest(),
-                  typeSelect = $('#jewel');
+                  typeSelect = $('#jewels_types');
 
               typeSelect.on('select2:select', function(ev) {
                 modelSelect.val('0').trigger('change.select2');
@@ -1039,59 +1052,56 @@ var uvel,
                 ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
               }        
       }
-      
-
-      /*end getFormData() */
 
       function productsRequest(tempUrl) {
         var xhttp = new XMLHttpRequest();
 
         xhttp.open('GET', tempUrl, true);
+
         xhttp.onreadystatechange = function () {
 
-          if (this.readyState == 4 && this.status == 200) {
-            var data = JSON.parse(this.responseText);
+        if(this.readyState == 4 && this.status == 200) {
+          var data = JSON.parse(this.responseText);
+          var editHolder =  document.getElementById("jewel_edit");
 
-            for(var key in data) {
-              
+          for(var key in data) {
+            var holder = document.getElementById(key);
 
-              var holder = document.getElementById(key);
+            if(holder) {
+              var tagName = holder.tagName.toLowerCase();
 
-              if(holder) {
-                var tagName = holder.tagName.toLowerCase();
+              switch(tagName) {
+                case 'input':
+                  holder.value = data[key];
+                  break;
 
-                switch (tagName) {
-                  case 'input':
-                    holder.value = data[key];
-                    break;
+                case 'select':
+                  var collectionData = data[key];
 
-                  case 'select':
-                    var collectionData = data[key];
-
-                    for(i = holder.options.length - 1 ; i >= 1 ; i--){
-                      holder.remove(i);
-                    }
+                  for(i = holder.options.length - 1 ; i >= 1 ; i--){
+                    holder.remove(i);
+                  }
                     
-                    collectionData.map(function(el) {
-                      var option = document.createElement('option');
-                          option.text = el.label;
-                          option.value = el.value;
-                          
-                          option.setAttribute('data-pricebuy' , el.pricebuy || 0);
+                  collectionData.map(function(el) {
+                    var option = document.createElement('option');
 
-                      if(el.price) {
-                        console.log('TRUE');
-                        option.setAttribute('data-price' , el.price || 0);
-                      }
+                    option.text = el.label;
+                    option.value = el.value;   
+                    option.setAttribute('data-pricebuy' , el.pricebuy || 0);
 
+                    if(el.price) {
+                      option.setAttribute('data-price' , el.price || 0);
+                    }
                       
-                      if(el.hasOwnProperty('selected') && el['selected']) {
-                        option.selected = true;
+                    if(el.hasOwnProperty('selected') && el['selected']) {
+                      option.selected = true;
+                    }
+                     
+                    holder.add(option);
+                      if(editHolder!==null){
+                        editHolder.add(option);
                       }
-                      
-                      holder.add(option);
                     });
-
                     break;
 
                   case 'span':
@@ -1202,6 +1212,8 @@ var uvel,
               responseHolder.appendChild(successContainer);
           }
 
+          responseHolder.appendChild(successContainer);
+          setInterval(function(){ responseHolder.innerHTML=''; }, 3000);
         });
 
         if(!(response.hasOwnProperty('errors'))) {
@@ -1241,31 +1253,25 @@ var uvel,
             elements.forEach(function (el) {
               var elType = el.getAttribute('type');
 
-              if (typeof el != null && elType !== 'hidden' && typeof(el.dataset.clear) == 'undefined') {
-                    if(elType == 'checkbox') {
-                      el.checked = false;
-                    }
+              if(typeof el != null && elType !== 'hidden' && typeof(el.dataset.clear) == 'undefined') {
+                if(elType == 'checkbox') {
+                  el.checked = false;
+                }
 
-                    if(el.tagName == 'SELECT') {
-                      $(el).val(null).trigger('change');
-                    }
+                if(el.tagName == 'SELECT') {
+                  $(el).val(null).trigger('change');
+                }
 
-                    el.value = '';
+                el.value = '';
 
-                    if(elType == 'file'){
+                if(elType == 'file'){
+                  $(el).parent().find('drop-area-input').val('');
+                  $(el).val('');
 
-                      $(el).parent().find('drop-area-input').val('');
-
-                      $(el).val('');
-
-                      var gallery = $(el).parent().children('.drop-area-gallery');
-                      gallery.html('');
-                            
-                    }     
-                    
-
-                  }
-
+                  var gallery = $(el).parent().children('.drop-area-gallery');
+                  gallery.html('');     
+                }     
+              }
             });
         }
 
@@ -1317,69 +1323,37 @@ var uvel,
               successContainer.innerText = 'Успешно променихте';
               successContainer.className = 'alert alert-success';
               responseHolder.appendChild(successContainer);
+              setInterval(function(){ responseHolder.innerHTML=''; }, 3000);
           }
+
         });
-        
+
         if(!(response.hasOwnProperty('errors'))) {
-          if(nameForm === 'sendUser') {
-            var content = response.table;
-            var currentRow = $self.currentPressedBtn.closest('tr')
-            var currentRowIndex = currentRow.rowIndex;
-            var currentTableId = currentRow.closest('table').getAttribute('id');
+  
+          if(response.ID) {
+            var id = response.ID;
+            var tableRow = $('table tr');
 
-            if(response.place === 'active') {
-              var table = document.getElementById('user-substitute-active');
-              table.deleteRow(currentRowIndex);
-              var row = table.insertRow(currentRowIndex);
-              row.innerHTML = content;
-            }
-            else if(response.place === 'inactive') {
-              var table = document.getElementById('user-substitute-inactive');
-              var activaTable = document.getElementById('user-substitute-active');
-
-              if(currentTableId === 'user-substitute-active'){
-                activaTable.deleteRow(currentRowIndex);
+            for(var row of tableRow) {
+              var dataID = $(row).attr('data-id');
+                    
+              if(Number(dataID) == Number(id)){
+                var tableRow = row;
               }
-              else {
-                table.deleteRow(currentRowIndex);
-              }
-
-              var newRow = table.insertRow(currentRowIndex);
-              newRow.innerHTML = content;
-
-              editAction();
             }
           }
           else {
-            var content = response.table.replace('<tr>', '').replace('</tr>', '');
-      
-            if(response.ID) {
-              var id = response.ID;
-              var tableRow = $('table tr');
-
-              for(var row of tableRow) {
-                var dataID = $(row).attr('data-id');
-                      
-                if(Number(dataID) == Number(id)){
-                  var tableRow = row;
-                }
-              }
-            }
-            else {
-              var tableRow = $self.currentPressedBtn.parentElement.parentElement;
-
-              $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
-            }
-                
-            if(tableRow !== null){
-              tableRow.innerHTML = content;
-            }
-                    
-            
-          
-            editAction();     
+            var tableRow = $self.currentPressedBtn.parentElement.parentElement;
+            $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
           }
+              
+          if(tableRow !== null){
+            tableRow.innerHTML = content;
+          }               
+            
         }
+
+        editAction();
 
         pendingRequest = false; 
       }

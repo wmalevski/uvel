@@ -24,7 +24,7 @@ aria-hidden="true">
                         </div>
                         <div class="form-group col-md-6">
                             <label>Избери вид бижу: </label>
-                            <select id="jewel" name="jewel" class="form-control calculate">
+                            <select id="jewels_types" name="jewel" class="form-control calculate">
                                 <option value="">Избери</option>
                         
                                 @foreach($jewels as $jewel)
@@ -57,7 +57,7 @@ aria-hidden="true">
 
 
                         <div class="form-group col-md-6">
-                            <div class="form-group">
+                            <div class="form-group weight-holder">
                                 <label for="1">Тегло: </label>
                                 <input type="number" class="form-control calculate" id="weight" name="weight" placeholder="Тегло:" min="0.1" max="10000">
                             </div>

@@ -164,7 +164,7 @@ class PricesController extends Controller
 
         $pass_models = array();
         
-        foreach($pass_models as $model){
+        foreach($models as $model){
             $pass_models[] = (object)[
                 'value' => $model->id,
                 'label' => $model->name,

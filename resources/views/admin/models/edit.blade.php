@@ -52,7 +52,7 @@
             </select>
         </div>
         
-        <div class="form-group">
+        <div class="form-group weight-holder-edit">
             <label for="1">Тегло: </label>
             <input type="number" class="form-control calculate" id="weight" value="{{ $model->weight }}" name="weight" placeholder="Тегло:" min="0.1" max="10000">
         </div>
