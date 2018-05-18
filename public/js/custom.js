@@ -321,6 +321,8 @@ var uvel,
         var ajaxUrl = window.location.origin + '/ajax/getPrices/';
         var parentElement = _element.parents('form');
 
+        console.log('fix');
+
         if(_element[0].nodeName == 'SELECT') {
 
           if(_element[0].id == 'jewels_types' || _element[0].id == 'jewel_edit') {
@@ -369,6 +371,8 @@ var uvel,
 
                 $('#retail_prices').trigger('change');
                 $('#retail_price_edit').trigger('change');
+
+                priceDev = response.prices[0].price;
               });  
           } else {
             priceDev = _element.select2('data')[0].price;
