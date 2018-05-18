@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use App\Models;
-use App\Jewels;
 use Response;
 use Illuminate\Support\Facades\View;
 use App\Jewels;
