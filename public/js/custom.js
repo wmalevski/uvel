@@ -1279,7 +1279,20 @@ var uvel,
         var alertAreas = [].slice.apply(document.getElementsByClassName('info-cont'));
 
         alertAreas.forEach(function(responseHolder) {
-          responseHolder.innerHTML = "";
+          var dropAreaGallery = responseHolder.parentElement.querySelector('.drop-area-gallery');
+          var uploadedArea = responseHolder.parentElement.querySelector('.uploaded-images-area');
+          var photos = response.photos;
+
+          responseHolder.innerHTML = "";          
+    
+          if(dropAreaGallery!==null){
+            dropAreaGallery.innerHTML = '';
+          }
+    
+          if((!photos) && (photos !== undefined) && (photos.length > 0)){
+            uploadedArea.innerHTML = response.photos;
+            $self.dropFunctionality();
+          }
 
           if(response.hasOwnProperty('errors')) {
             var holder = document.createDocumentFragment();
@@ -1305,7 +1318,6 @@ var uvel,
               successContainer.className = 'alert alert-success';
               responseHolder.appendChild(successContainer);
           }
-
         });
         
         if(nameForm === 'sendUser') {
@@ -1362,18 +1374,7 @@ var uvel,
             tableRow.innerHTML = content;
           }
                   
-          var dropAreaGallery = responseHolder.parentElement.querySelector('.drop-area-gallery');
-          var uploadedArea = responseHolder.parentElement.querySelector('.uploaded-images-area');
-          var photos = response.photos;
-    
-          if(dropAreaGallery!==null){
-            dropAreaGallery.innerHTML = '';
-          }
-    
-          if((!photos) && (photos !== undefined) && (photos.length > 0)){
-            uploadedArea.innerHTML = response.photos;
-            $self.dropFunctionality();
-          }
+          
         
           editAction();     
         }
