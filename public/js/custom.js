@@ -381,7 +381,6 @@ var uvel,
           }
           calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
         } else {
-
           dataWeight = _element[0].value;
           calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
         }
@@ -434,11 +433,9 @@ var uvel,
       }
      
       if(collectionModalAddBtns.length > 0) {
-
         var modelSelect = $('#model_select');
         var typeSelect;
         var collectionFiles = [];
-   
         var dropZone = document.getElementsByClassName("drop-area");
 
         if(dropZone) {
