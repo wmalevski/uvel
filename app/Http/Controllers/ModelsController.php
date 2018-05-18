@@ -17,6 +17,7 @@ use Uuid;
 use Illuminate\Support\Facades\View;
 use Carbon\Carbon;
 use App\Gallery;
+use File;
 
 class ModelsController extends Controller
 {
@@ -88,6 +89,10 @@ class ModelsController extends Controller
                 $model_stones->save();
             }
         }
+
+        $path = public_path('uploads/models/');
+        
+        File::makeDirectory($path, 0775, true, true);
 
         $file_data = $request->input('images'); 
         
@@ -211,6 +216,10 @@ class ModelsController extends Controller
         $model->weight = $request->weight;
         
         $model->save();
+
+        $path = public_path('uploads/models/');
+        
+        File::makeDirectory($path, 0775, true, true);
 
         $deleteStones = Model_stones::where('model', $model->id)->delete();
 

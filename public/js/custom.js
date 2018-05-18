@@ -442,7 +442,6 @@ var uvel,
           this.dropFunctionality(collectionFiles);         
         }
 
-
         if(modelSelect) {
           modelSelect.on('select2:select', function(ev) {
             console.log(modelSelect.val());
@@ -462,18 +461,13 @@ var uvel,
         }
           
         collectionModalAddBtns.forEach(function (btn) {
-
           $(btn).off();
-
           $(btn).on('click', getFormData); 
-
         });
       }
 
       if(collectionScanRepairBtns.length > 0) {
-
         collectionScanRepairBtns.forEach(function (btn) {
-
           btn.addEventListener('click', function() {
             var returnRepairWrapper = document.getElementById('scan-repair-wrapper');
             var nextElement = returnRepairWrapper.nextElementSibling;
@@ -486,9 +480,7 @@ var uvel,
             returnRepairWrapper.querySelector('.info-cont').innerHTML='';
             document.getElementById('barcode_process-repairs').value = '';
           });
-
         });
-
       }
 
       if(collectionReturnRepairBtns.length > 0) {
@@ -508,6 +500,18 @@ var uvel,
             document.getElementById('barcode_return-repairs').value = '';
           });
 
+          btn.addEventListener('click', function() {
+            var returnRepairWrapper = document.getElementById('return-repair-wrapper');
+            var nextElement = returnRepairWrapper.nextElementSibling;
+
+            if(nextElement != null){
+              nextElement.parentNode.removeChild(nextElement);
+            }
+
+            returnRepairWrapper.style.display = 'block';
+            returnRepairWrapper.querySelector('.info-cont').innerHTML='';
+            document.getElementById('barcode_return-repairs').value = '';
+          });
         });
       }
 
@@ -621,24 +625,6 @@ var uvel,
       }
 
       function sendItem(event) {
-        var numberItemValue = this.value;
-        var amountValue = amountInput.value;
-        var amountCheck = moreProductsInput.checked;
-
-        if(numberItemValue.length == 13){
-        
-          var dataSend = {
-            'barcode' : Number(numberItemValue),
-            'quantity' : Number(amountValue),
-            'amount_check' : amountCheck
-          };
-  
-          var currentElement = $(event.target);
-          var form = currentElement.closest("form");
-          var ajaxUrl = form.attr("data-scan");
-
-          ajaxFn("POST", ajaxUrl, sendSuccess, dataSend, '', '');
-        }
          var numberItemValue = this.value;
          var amountValue = amountInput.value;
          var amountCheck = moreProductsInput.checked;
@@ -739,14 +725,20 @@ var uvel,
       });
   
       function print(event) {
-        if(event.target && event.target.parentElement.classList.contains('print-btn')) {
+
+        if(event.currentTarget && event.currentTarget.classList.contains('print-btn')) {
           event.preventDefault();
           event.stopPropagation();
 
-          var urlTaken = event.target.parentElement.href.split('/');
+          var urlTaken = event.currentTarget.href.split('/');
           var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
-          var link = event.target.parentElement;
+          var link = event.currentTarget;
           var linkPath = link.href.split("admin")[1];
+
+          if (typeof linkPath == 'undefined') {
+            linkPath = '/sellings/information';
+          }
+
           var ajaxUrl = url+linkPath;
     
           ajaxFn("GET",ajaxUrl,printBtnSuccess,'','',link);
@@ -1188,108 +1180,11 @@ var uvel,
 
         
       }
-
      
       function handleResponsePost(response, elements, currentPressedBtn) {
-
-        var responseHolder = document.forms[nameForm].firstElementChild.firstElementChild;
-
-        responseHolder.innerHTML = '';
-
-        if (response.hasOwnProperty('errors')) {
-
-          var holder = document.createDocumentFragment();
-          var errors = response.errors;
-
-          for (var err in errors) {
-            var collectionErr = errors[err];
-
-            collectionErr.forEach(function (msg) {
-              var errorContainer = document.createElement('div');
-              errorContainer.innerText = msg;
-              errorContainer.className = 'alert alert-danger';
-              holder.appendChild(errorContainer);
-            });
-          }
-
-          responseHolder.appendChild(holder);
-          setInterval(function(){ responseHolder.innerHTML=''; }, 3000);
-
-        } else {
-
-            var successContainer = document.createElement('div');
-              successContainer.innerText = 'Успешно добавихте';
-              successContainer.className = 'alert alert-success';
-
-            responseHolder.appendChild(successContainer);
-            setInterval(function(){ responseHolder.innerHTML=''; }, 3000);
-
-            if (nameForm === 'addPrice') {
-
-              var select = collectionSelects[0];
-              var tableId = document.querySelector('#' + select.options[select.selectedIndex].value + ' tbody');
-
-              tableId.innerHTML += response.success;
-
-            } else {
-
-              if(nameForm === 'addRepair') {
-              var repairId = response.id,
-                  certificateButton = document.querySelector('button#certificate');
-
-              certificateButton.dataset.repairId = repairId;
-              certificateButton.disabled = false;
-
-            }
-
-            var tableBody = document.querySelector('table.table tbody');
-
-            tableBody.innerHTML += response.success;
-          }
-
-          elements.forEach(function (el) {
-
-            var elType = el.getAttribute('type');
-
-            if (typeof el != null && elType !== 'hidden' && typeof(el.dataset.clear) == 'undefined') {
-              if(elType == 'checkbox') {
-                el.checked = false;
-              }
-
-              if(el.tagName == 'SELECT') {
-                $(el).val(null).trigger('change');
-              }
-
-              el.value = '';
-
-              if(elType == 'file'){
-
-                $(el).parent().find('drop-area-input').val('');
-
-                $(el).val('');
-
-                var gallery = $(el).parent().children('.drop-area-gallery');
-                gallery.html('');
-                      
-              }     
-              
-
-            }
-
-          });
-
-        }
-
-        editAction();
-
-        pendingRequest = false;
-
-      }
-
-      function handleUpdateResponse(response, elements, currentPressedBtn) {
         var alertAreas = [].slice.apply(document.getElementsByClassName('info-cont'));
 
-        Array.from(alertAreas).forEach(function(responseHolder) {
+        alertAreas.forEach(function(responseHolder) {
           responseHolder.innerHTML = "";
 
           if(response.hasOwnProperty('errors')) {
@@ -1308,54 +1203,157 @@ var uvel,
             }
   
             responseHolder.appendChild(holder);
-            setInterval(function(){ responseHolder.innerHTML=''; }, 3000);
-          } else {
-  
+          } 
+          else {
               var successContainer = document.createElement('div');
-                  successContainer.innerText = 'Успешно променихте';
-                  successContainer.className = 'alert alert-success';
-              var content = response.table.replace('<tr>', '').replace('</tr>', '');
 
+              successContainer.innerText = 'Успешно променихте';
+              successContainer.className = 'alert alert-success';
+              responseHolder.appendChild(successContainer);
+          }
+
+          responseHolder.appendChild(successContainer);
+          setInterval(function(){ responseHolder.innerHTML=''; }, 3000);
+        });
+
+        if(!(response.hasOwnProperty('errors'))) {
+          if (nameForm === 'addPrice') {
+            var select = collectionSelects[0];
+            var tableId = document.querySelector('#' + select.options[select.selectedIndex].value + ' tbody');
+
+            tableId.innerHTML += response.success;
+          } 
+          else if(nameForm === 'sendUser') {
+            if(response.place === 'active') {
+              var table = document.getElementById('user-substitute-active');
+              var tableBody = table.querySelector('tbody');
+
+              tableBody.innerHTML += response.success;
+            }
+            else if(response.place === 'inactive') {
+              var table = document.getElementById('user-substitute-inactive');
+              var tableBody = table.querySelector('tbody');
+
+              tableBody.innerHTML += response.success;
+            } 
+          }
+          else {
+            if(nameForm === 'addRepair') {
+              var repairId = response.id,
+              certificateButton = document.querySelector('button#certificate');
+
+              certificateButton.dataset.repairId = repairId;
+              certificateButton.disabled = false;
+            }
+
+            var tableBody = document.querySelector('table.table tbody');
+
+            tableBody.innerHTML += response.success;
+            
+            elements.forEach(function (el) {
+              var elType = el.getAttribute('type');
+
+              if(typeof el != null && elType !== 'hidden' && typeof(el.dataset.clear) == 'undefined') {
+                if(elType == 'checkbox') {
+                  el.checked = false;
+                }
+
+                if(el.tagName == 'SELECT') {
+                  $(el).val(null).trigger('change');
+                }
+
+                el.value = '';
+
+                if(elType == 'file'){
+                  $(el).parent().find('drop-area-input').val('');
+                  $(el).val('');
+
+                  var gallery = $(el).parent().children('.drop-area-gallery');
+                  gallery.html('');     
+                }     
+              }
+            });
+        }
+
+          editAction();
+        }
+
+        pendingRequest = false;
+      }
+
+      function handleUpdateResponse(response, elements, currentPressedBtn) {
+        var alertAreas = [].slice.apply(document.getElementsByClassName('info-cont'));
+
+        alertAreas.forEach(function(responseHolder) {
+          var dropAreaGallery = responseHolder.parentElement.querySelector('.drop-area-gallery');
+          var uploadedArea = responseHolder.parentElement.querySelector('.uploaded-images-area');
+          var photos = response.photos;
+
+          responseHolder.innerHTML = "";          
+    
+          if(dropAreaGallery!==null){
+            dropAreaGallery.innerHTML = '';
+          }
+    
+          if((!photos) && (photos !== undefined) && (photos.length > 0)){
+            uploadedArea.innerHTML = response.photos;
+            $self.dropFunctionality();
+          }
+
+          if(response.hasOwnProperty('errors')) {
+            var holder = document.createDocumentFragment();
+            var errors = response.errors;
+  
+            for (var err in errors) {
+              var collectionErr = errors[err];
+  
+              collectionErr.forEach(function (msg) {
+                var errorContainer = document.createElement('div');
+                errorContainer.innerText = msg;
+                errorContainer.className = 'alert alert-danger';
+                holder.appendChild(errorContainer);
+              });
+            }
+  
+            responseHolder.appendChild(holder);
+          } 
+          else {
+              var successContainer = document.createElement('div');
+
+              successContainer.innerText = 'Успешно променихте';
+              successContainer.className = 'alert alert-success';
               responseHolder.appendChild(successContainer);
               setInterval(function(){ responseHolder.innerHTML=''; }, 3000);
-  
-              if(response.ID) {
-                  var id = response.ID;
-                  var tableRow = $('table tr');
-
-                  for(var row of tableRow) {
-                    var dataID = $(row).attr('data-id');
-                   
-                    if(Number(dataID) == Number(id)){
-                      var tableRow = row;
-                    }
-                  }
-                }
-                else {
-                  var tableRow = $self.currentPressedBtn.parentElement.parentElement;
-                  $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
-                }
-             
-                if(tableRow !== null){
-                  tableRow.innerHTML = content;
-                }
-                
-                var dropAreaGallery = responseHolder.parentElement.querySelector('.drop-area-gallery');
-                var uploadedArea = responseHolder.parentElement.querySelector('.uploaded-images-area');
-                var photos = response.photos;
-  
-                if(dropAreaGallery!==null){
-                  dropAreaGallery.innerHTML = '';
-                }
-  
-                if((!photos) && (photos !== undefined) && (photos.length > 0)){
-                  uploadedArea.innerHTML = response.photos;
-                  $self.dropFunctionality();
-                }
-                
-                editAction();
           }
+
         });
+
+        if(!(response.hasOwnProperty('errors'))) {
+  
+          if(response.ID) {
+            var id = response.ID;
+            var tableRow = $('table tr');
+
+            for(var row of tableRow) {
+              var dataID = $(row).attr('data-id');
+                    
+              if(Number(dataID) == Number(id)){
+                var tableRow = row;
+              }
+            }
+          }
+          else {
+            var tableRow = $self.currentPressedBtn.parentElement.parentElement;
+            $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
+          }
+              
+          if(tableRow !== null){
+            tableRow.innerHTML = content;
+          }               
+            
+        }
+
+        editAction();
 
         pendingRequest = false; 
       }
@@ -1374,38 +1372,40 @@ var uvel,
       }
   
       function clickEditButton(event) {
-
         event.preventDefault();
 
-        var link = event.target.parentElement;
-
+        var link = event.currentTarget;
         var urlTaken = window.location.href.split('/');
         var url = urlTaken[0] + '//' + urlTaken[2] + '/' + urlTaken[3] + '/';
-
         var linkAjax = url+link.getAttribute('data-url');
 
-        ajaxFn("GET", linkAjax, editBtnSuccess, '', '', this);
-              
+        ajaxFn("GET", linkAjax, editBtnSuccess, '', '', this);        
         $self.currentPressedBtn = this;  
-        
         setTimeout(function() {$self.checkAllForms(currentPressedBtn);}, 500);
-
       }
-      
 
-      function editBtnSuccess(data,elements,btn) {
-
+      function editBtnSuccess(data, elements, btn) {
          var id = btn.getAttribute("data-target");
          var selector = id + ' '+ '.modal-content';
          var html = $.parseHTML(data);
+         var table = btn.parentElement.closest('table');
+         var tableId = table.getAttribute('id');
 
-         $(selector).html(html);      
+         if(tableId === 'user-substitute-inactive'){
+          var dateToInput = $(html).children().find('input[name=dateTo]');
+          var dateFromInput = $(html).children().find('input[name=dateFrom]');
+
+          dateToInput.attr('disabled', 'disabled');
+          dateFromInput.attr('disabled', 'disabled');
+         }
+
+         $(selector).html(html);    
          $self.initializeSelect($(selector).children().find('select'));
       }
 
       $self.addAndRemoveFields(); 
- 
     }
+    
   }
 
 $(function () {

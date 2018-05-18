@@ -23,7 +23,8 @@ class Repairs extends Model
         'deposit',
         'price',
         'price_after',
-        'material'
+        'material',
+        'status'
     ];
 
     protected $dates = ['deleted_at'];

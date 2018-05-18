@@ -25,7 +25,7 @@ class UsersubstitutionsController extends Controller
         )->get();
 
         $inactiveSubstitutions = Usersubstitutions::where(
-            'date_to', '<=', date("Y-m-d")
+            'date_to', '<', date("Y-m-d")
         )->get();
 
         $stores = Stores::all();
@@ -70,30 +70,35 @@ class UsersubstitutionsController extends Controller
             return Response::json(['errors' => ['already_sub' => ['Този потребител вмомента замества в друг магазин']]], 401);
 
         } else{
+            $validator = Validator::make( $request->all(), [
+                'user' => 'required',
+                'store' => 'required',
+                'dateFrom' => 'required',
+                'dateTo' => 'required',
+             ]);
+            
+            if ($validator->fails()) {
+                return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+            }
+            
             $user = User::find($request->user);
 
             if($user->store != $request->store){
                 $status = 1;
+                $place = 'active';
                 $substitution = new Usersubstitutions();
                 $substitution->user_id = $request->user;
                 $substitution->store_id = $request->store;
                 $substitution->date_from = date('Y-m-d', strtotime($request->dateFrom));
                 $substitution->date_to = date('Y-m-d', strtotime($request->dateTo));
-
-                $validator = Validator::make( $request->all(), [
-                    'user' => 'required',
-                    'store' => 'required',
-                    'dateFrom' => 'required',
-                    'dateTo' => 'required',
-                 ]);
-                
-                if ($validator->fails()) {
-                    return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
-                }
         
                 $substitution->save();
 
-                return Response::json(array('table' => View::make('admin/substitutions/table',array('substitution'=>$substitution))->render()));
+                if($substitution->date_to < date("Y-m-d")){
+                    $place = 'inactive';
+                }
+
+                return Response::json(array('success' => View::make('admin/substitutions/table',array('substitution'=>$substitution))->render(), 'place' => $place));
             }else{
                 return Response::json(['errors' => ['same_store' => ['Не може да изпратите потребителя в същият магазин']]], 401);
             }
@@ -139,8 +144,13 @@ class UsersubstitutionsController extends Controller
         $substitution = Usersubstitutions::find($substitution);
         $stores = Stores::all();
         $users = User::all();
+        $place = 'active';
+
+        if($substitution->date_to < date("Y-m-d")){
+            $place = 'inactive';
+        }
         
-        return \View::make('admin/substitutions/edit', array('users' => $users, 'stores' => $stores, 'substitution' => $substitution, 'place' => 'active'));
+        return \View::make('admin/substitutions/edit', array('users' => $users, 'stores' => $stores, 'substitution' => $substitution, 'place' => $place));
     }
 
     /**
@@ -154,16 +164,6 @@ class UsersubstitutionsController extends Controller
     {
         $substitution = Usersubstitutions::find($substitution);
         if($substitution){
-            $place = 'active';
-            $substitution->user_id = $request->user;
-            $substitution->store_id = $request->store;
-            $substitution->date_from = date('Y-m-d', strtotime($request->dateFrom));
-            $substitution->date_to = date('Y-m-d', strtotime($request->dateTo));
-
-            if($substitution->date_to <= date("Y-m-d")){
-                $place = 'inactive';
-            }
-    
             $validator = Validator::make( $request->all(), [
                 'user' => 'required',
                 'store' => 'required',
@@ -174,6 +174,17 @@ class UsersubstitutionsController extends Controller
             if ($validator->fails()) {
                 return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
             }
+
+            $place = 'active';
+            $substitution->user_id = $request->user;
+            $substitution->store_id = $request->store;
+            $substitution->date_from = date('Y-m-d', strtotime($request->dateFrom));
+            $substitution->date_to = date('Y-m-d', strtotime($request->dateTo));
+
+            if($substitution->date_to < date("Y-m-d")){
+                $place = 'inactive';
+            }
+
     
             $substitution->save();
     

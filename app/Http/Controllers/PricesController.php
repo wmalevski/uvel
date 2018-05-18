@@ -11,6 +11,7 @@ use App\Models;
 use App\Jewels;
 use Response;
 use Illuminate\Support\Facades\View;
+use App\Jewels;
 
 class PricesController extends Controller
 {

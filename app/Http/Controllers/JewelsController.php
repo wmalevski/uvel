@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Response;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
+use File;
 
 class JewelsController extends Controller
 {

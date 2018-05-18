@@ -15,6 +15,7 @@ use Faker\Provider\tr_TR\DateTime;
 use Illuminate\Support\Facades\Redirect;
 use Response;
 use Auth;
+use Bouncer;
 
 class MaterialsTravellingController extends Controller
 {
@@ -25,7 +26,12 @@ class MaterialsTravellingController extends Controller
      */
     public function index()
     {
-        $materials = Materials_quantity::all();
+        if(Bouncer::is(Auth::user())->an('admin')){
+            $materials = Materials_quantity::all();
+        }else{
+            $materials = Materials_quantity::where('store', Auth::user()->getStore());
+        }
+        
         //$materials = Materials_quantity::all();
         //$stores = Stores::where('id', '!=', Auth::user()->store)->get();
         $stores = Stores::all();
@@ -68,6 +74,10 @@ class MaterialsTravellingController extends Controller
         if($check){
             if($request->quantity <= $check->quantity){
                 $price = Materials::find($check->material);
+
+                if($check->store == $request->storeTo){
+                    return Response::json(['errors' => array('quantity' => ['Не може да изпращате материал към същият магазин'])], 401);
+                }
 
                 $material = new Materials_travelling();
                 $material->type = $request->type;

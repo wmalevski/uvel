@@ -56,7 +56,7 @@ class RepairsController extends Controller
             'date_returned' => 'required',
             'weight' => 'required|numeric',
             'price' => 'required|numeric|between:0.1,5000',
-            'deposit' => 'required|numeric|between:0.1,5000'
+            'deposit' => 'required|numeric|between:0,5000'
          ]);
         
         if ($validator->fails()) {
@@ -74,7 +74,8 @@ class RepairsController extends Controller
             'price' => $request->price,
             'deposit' => $request->deposit,
             'repair_description' => $request->repair_description,
-            'material' => $request->material
+            'material' => $request->material,
+            'status' => 'repairing'
         ]);
         
         $bar = '380'.unique_number('repairs', 'barcode', 7).'1'; 
