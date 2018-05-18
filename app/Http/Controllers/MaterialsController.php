@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Response;
 use Illuminate\Support\Facades\View;
+use App\Jewels;
 
 class MaterialsController extends Controller
 {
@@ -114,8 +115,14 @@ class MaterialsController extends Controller
         $material = Materials::find($material);
         
         if($material){
-            $material->delete();
-            return Response::json(array('success' => 'Успешно изтрито!'));
+            $using = Jewels::where('material', $material->id)->count();
+            
+            if($using){
+                return Response::json(['errors' => ['using' => ['Не може да изтриете елемент, който се използва от други неща в системата.']]], 401);
+            }else{
+                $material->delete();
+                return Response::json(array('success' => 'Успешно изтрито!'));
+            }
         }
     }
 }
