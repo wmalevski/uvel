@@ -9,6 +9,7 @@ use App\Repair_types;
 use App\Materials;
 use App\History;
 use Auth;
+use Cart;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -55,8 +56,7 @@ class RepairsController extends Controller
             'type' => 'required',
             'date_returned' => 'required',
             'weight' => 'required|numeric',
-            'price' => 'required|numeric|between:0.1,5000',
-            'deposit' => 'required|numeric|between:0,5000'
+            'price' => 'required|numeric|between:0.1,5000'
          ]);
         
         if ($validator->fails()) {
@@ -72,7 +72,6 @@ class RepairsController extends Controller
             'code' =>  'R'.unique_random('products', 'code', 7),
             'weight' => $request->weight,
             'price' => $request->price,
-            'deposit' => $request->deposit,
             'repair_description' => $request->repair_description,
             'material' => $request->material,
             'status' => 'repairing'
@@ -142,7 +141,57 @@ class RepairsController extends Controller
         $repair = Repairs::where('barcode', $repair)->first();
         $repairTypes = Repair_types::all();
 
-        return \View::make('admin/repairs/return', array('repair' => $repair, 'repairTypes' => $repairTypes));
+        if($repair->status == 'done'){
+            $userId = Auth::user()->getId(); 
+            
+            Cart::clear();
+            Cart::clearCartConditions();
+            Cart::session($userId)->clear();
+            Cart::session($userId)->clearCartConditions();
+    
+            $price = $repair->price;
+            $weight = $repair->weight;
+    
+            if($repair->price_after != ''){
+                $price = $repair->price_after;
+            }
+    
+            if($repair->weight_after != ''){
+                $weight = $repair->weight_after;
+            }
+    
+            Cart::session($userId)->add(array(
+                'id' => $repair->barcode,
+                'name' => 'Връщане на ремонт - '.$repair->customer_name,
+                'price' => $price,
+                'quantity' => 1,
+                'attributes' => array(
+                    'weight' => $weight
+                )
+            ));
+    
+            $tax = new \Darryldecode\Cart\CartCondition(array(
+                'name' => 'ДДС',
+                'type' => 'tax',
+                'target' => 'subtotal',
+                'value' => '+20%',
+                'attributes' => array(
+                    'description' => 'Value added tax',
+                    'more_data' => 'more data here'
+                )
+            ));
+    
+            Cart::condition($tax);
+            Cart::session($userId)->condition($tax);
+    
+            return redirect()->route('admin');
+        }else{
+            return Response::json(['errors' => ['not_done' => ['Ремонта не е отбелязан като завършен и готов за връщане.']]], 401);
+        }
+
+        //return \View::make('admin/repairs/return', array('repair' => $repair, 'repairTypes' => $repairTypes));
+
+        
     }
 
     public function returnRepair(Request $request, Repairs $repairs, $repair)
@@ -217,8 +266,7 @@ class RepairsController extends Controller
             'type' => 'required',
             'date_returned' => 'required',
             'weight' => 'required|numeric',
-            'price' => 'required|numeric|between:0.1,5000',
-            'deposit' => 'required|numeric|between:0.1,5000'
+            'price' => 'required|numeric|between:0.1,5000'
          ]);
         
         if ($validator->fails()) {

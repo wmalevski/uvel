@@ -22,6 +22,7 @@ class CreatePaymentsTable extends Migration
             $table->float('price');
             $table->float('given');
             $table->integer('selling');
+            $table->enum('type', ['sell', 'repair', 'order']);
             $table->timestamps();
         });
     }
