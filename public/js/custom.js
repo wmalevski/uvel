@@ -321,8 +321,6 @@ var uvel,
         var ajaxUrl = window.location.origin + '/ajax/getPrices/';
         var parentElement = _element.parents('form');
 
-        console.log('fix');
-
         if(_element[0].nodeName == 'SELECT') {
 
           if(_element[0].id == 'jewels_types' || _element[0].id == 'jewel_edit') {
