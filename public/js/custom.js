@@ -6,7 +6,7 @@ var uvel,
 
     this.init = function () {
       $self.initializeSelect($('select'));
-      $self.checkAllForms();     
+      $self.checkAllForms();    
     };
 
     this.addSelect2CustomAttributes = function(data, container) {
@@ -381,6 +381,7 @@ var uvel,
           }
           calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
         } else {
+
           dataWeight = _element[0].value;
           calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
         }
