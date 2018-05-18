@@ -1320,64 +1320,67 @@ var uvel,
           }
         });
         
-        if(nameForm === 'sendUser') {
-          var content = response.table;
-          var currentRow = $self.currentPressedBtn.closest('tr')
-          var currentRowIndex = currentRow.rowIndex;
-          var currentTableId = currentRow.closest('table').getAttribute('id');
+        if(!(response.hasOwnProperty('errors'))) {
+          if(nameForm === 'sendUser') {
+            var content = response.table;
+            var currentRow = $self.currentPressedBtn.closest('tr')
+            var currentRowIndex = currentRow.rowIndex;
+            var currentTableId = currentRow.closest('table').getAttribute('id');
 
-          if(response.place === 'active') {
-            var table = document.getElementById('user-substitute-active');
-            table.deleteRow(currentRowIndex);
-            var row = table.insertRow(currentRowIndex);
-            row.innerHTML = content;
-          }
-          else if(response.place === 'inactive') {
-            var table = document.getElementById('user-substitute-inactive');
-            var activaTable = document.getElementById('user-substitute-active');
-
-            if(currentTableId === 'user-substitute-active'){
-              activaTable.deleteRow(currentRowIndex);
-            }
-            else {
+            if(response.place === 'active') {
+              var table = document.getElementById('user-substitute-active');
               table.deleteRow(currentRowIndex);
+              var row = table.insertRow(currentRowIndex);
+              row.innerHTML = content;
             }
+            else if(response.place === 'inactive') {
+              var table = document.getElementById('user-substitute-inactive');
+              var activaTable = document.getElementById('user-substitute-active');
 
-            var newRow = table.insertRow(currentRowIndex);
-            newRow.innerHTML = content;
-
-            editAction();
-          }
-        }
-        else {
-          var content = response.table.replace('<tr>', '').replace('</tr>', '');
-    
-          if(response.ID) {
-            var id = response.ID;
-            var tableRow = $('table tr');
-
-            for(var row of tableRow) {
-              var dataID = $(row).attr('data-id');
-                    
-              if(Number(dataID) == Number(id)){
-                var tableRow = row;
+              if(currentTableId === 'user-substitute-active'){
+                activaTable.deleteRow(currentRowIndex);
               }
+              else {
+                table.deleteRow(currentRowIndex);
+              }
+
+              var newRow = table.insertRow(currentRowIndex);
+              newRow.innerHTML = content;
+
+              editAction();
             }
           }
           else {
-            var tableRow = $self.currentPressedBtn.parentElement.parentElement;
+            var content = response.table.replace('<tr>', '').replace('</tr>', '');
+      
+            if(response.ID) {
+              var id = response.ID;
+              var tableRow = $('table tr');
 
-            $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
-          }
-              
-          if(tableRow !== null){
-            tableRow.innerHTML = content;
-          }
-                  
+              for(var row of tableRow) {
+                var dataID = $(row).attr('data-id');
+                      
+                if(Number(dataID) == Number(id)){
+                  var tableRow = row;
+                }
+              }
+            }
+            else {
+              var tableRow = $self.currentPressedBtn.parentElement.parentElement;
+
+              $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
+            }
+                
+            if(tableRow !== null){
+              tableRow.innerHTML = content;
+            }
+                    
+            
           
-        
-          editAction();     
+            editAction();     
+          }
         }
+        
         pendingRequest = false; 
       }
 
