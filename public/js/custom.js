@@ -369,8 +369,6 @@ var uvel,
 
                 $('#retail_prices').trigger('change');
                 $('#retail_price_edit').trigger('change');
-
-                priceDev = response.prices[0].price;
               });  
           } else {
             priceDev = _element.select2('data')[0].price;
