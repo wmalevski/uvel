@@ -316,14 +316,15 @@ var uvel,
       var dataWeight = 0;
       var priceDev = 0;
 
-      $(document).on('change' , '.calculate' , function(e) {
+      //$(document).on('change' , '.calculate' , function(e) {
+        $('.calculate').on('change' , function(e) {
         var _element = $(e.currentTarget);
         var ajaxUrl = window.location.origin + '/ajax/getPrices/';
         var parentElement = _element.parents('form');
 
         if(_element[0].nodeName == 'SELECT') {
 
-          if(_element[0].id == 'jewels_types' || _element[0].id == 'jewel_edit') {
+          if(_element[0].id == 'jewels_types' || _element[0].id == 'jewel_edit' || _element[0].id == 'jewel_edit_model') {
             var materialType = _element.find(':selected').val();
             var requestLink = ajaxUrl + materialType;    
             
