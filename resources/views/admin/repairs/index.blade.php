@@ -98,7 +98,7 @@ aria-hidden="true">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputPassword4">Капаро</label>
-                                <input type="number" class="form-control" name="deposit" placeholder="Оставено капаро">
+                                <input type="number" class="form-control" name="deposit" placeholder="Оставено капаро" value="0">
                             </div>
                         </div>
 

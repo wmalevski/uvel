@@ -1172,7 +1172,6 @@ var uvel,
       }
      
       function handleResponsePost(response, elements, currentPressedBtn) {
-
         var alertAreas = [].slice.apply(document.getElementsByClassName('info-cont'));
 
         alertAreas.forEach(function(responseHolder) {
@@ -1205,72 +1204,73 @@ var uvel,
 
         });
 
-        if (nameForm === 'addPrice') {
-          var select = collectionSelects[0];
-          var tableId = document.querySelector('#' + select.options[select.selectedIndex].value + ' tbody');
+        if(!(response.hasOwnProperty('errors'))) {
+          if (nameForm === 'addPrice') {
+            var select = collectionSelects[0];
+            var tableId = document.querySelector('#' + select.options[select.selectedIndex].value + ' tbody');
 
-          tableId.innerHTML += response.success;
-        } 
-        else if(nameForm === 'sendUser') {
-          if(response.place === 'active') {
-            var table = document.getElementById('user-substitute-active');
-            var tableBody = table.querySelector('tbody');
-
-            tableBody.innerHTML += response.success;
-          }
-          else if(response.place === 'inactive') {
-            var table = document.getElementById('user-substitute-inactive');
-            var tableBody = table.querySelector('tbody');
-
-            tableBody.innerHTML += response.success;
+            tableId.innerHTML += response.success;
           } 
+          else if(nameForm === 'sendUser') {
+            if(response.place === 'active') {
+              var table = document.getElementById('user-substitute-active');
+              var tableBody = table.querySelector('tbody');
+
+              tableBody.innerHTML += response.success;
+            }
+            else if(response.place === 'inactive') {
+              var table = document.getElementById('user-substitute-inactive');
+              var tableBody = table.querySelector('tbody');
+
+              tableBody.innerHTML += response.success;
+            } 
+          }
+          else {
+            if(nameForm === 'addRepair') {
+              var repairId = response.id,
+              certificateButton = document.querySelector('button#certificate');
+
+              certificateButton.dataset.repairId = repairId;
+              certificateButton.disabled = false;
+            }
+
+            var tableBody = document.querySelector('table.table tbody');
+
+            tableBody.innerHTML += response.success;
+            
+            elements.forEach(function (el) {
+              var elType = el.getAttribute('type');
+
+              if (typeof el != null && elType !== 'hidden' && typeof(el.dataset.clear) == 'undefined') {
+                    if(elType == 'checkbox') {
+                      el.checked = false;
+                    }
+
+                    if(el.tagName == 'SELECT') {
+                      $(el).val(null).trigger('change');
+                    }
+
+                    el.value = '';
+
+                    if(elType == 'file'){
+
+                      $(el).parent().find('drop-area-input').val('');
+
+                      $(el).val('');
+
+                      var gallery = $(el).parent().children('.drop-area-gallery');
+                      gallery.html('');
+                            
+                    }     
+                    
+
+                  }
+
+            });
         }
-        else {
-          if(nameForm === 'addRepair') {
-            var repairId = response.id,
-            certificateButton = document.querySelector('button#certificate');
 
-            certificateButton.dataset.repairId = repairId;
-            certificateButton.disabled = false;
-          }
-
-          var tableBody = document.querySelector('table.table tbody');
-
-          tableBody.innerHTML += response.success;
-          
-
-              elements.forEach(function (el) {
-                var elType = el.getAttribute('type');
-
-                if (typeof el != null && elType !== 'hidden' && typeof(el.dataset.clear) == 'undefined') {
-                  if(elType == 'checkbox') {
-                    el.checked = false;
-                  }
-
-                  if(el.tagName == 'SELECT') {
-                    $(el).val(null).trigger('change');
-                  }
-
-                  el.value = '';
-
-                  if(elType == 'file'){
-
-                    $(el).parent().find('drop-area-input').val('');
-
-                    $(el).val('');
-
-                    var gallery = $(el).parent().children('.drop-area-gallery');
-                    gallery.html('');
-                          
-                  }     
-                  
-
-                }
-
-              });
-          }
-
-        editAction();
+          editAction();
+        }
 
         pendingRequest = false;
       }
@@ -1279,92 +1279,11 @@ var uvel,
         var alertAreas = [].slice.apply(document.getElementsByClassName('info-cont'));
 
         alertAreas.forEach(function(responseHolder) {
-          responseHolder.innerHTML = "";
-
-          if(response.hasOwnProperty('errors')) {
-            var holder = document.createDocumentFragment();
-            var errors = response.errors;
-  
-            for (var err in errors) {
-              var collectionErr = errors[err];
-  
-              collectionErr.forEach(function (msg) {
-                var errorContainer = document.createElement('div');
-                errorContainer.innerText = msg;
-                errorContainer.className = 'alert alert-danger';
-                holder.appendChild(errorContainer);
-              });
-            }
-  
-            responseHolder.appendChild(holder);
-          } 
-          else {
-              var successContainer = document.createElement('div');
-
-              successContainer.innerText = 'Успешно променихте';
-              successContainer.className = 'alert alert-success';
-              responseHolder.appendChild(successContainer);
-          }
-
-        });
-        
-        if(nameForm === 'sendUser') {
-          var content = response.table;
-          var currentRow = $self.currentPressedBtn.closest('tr')
-          var currentRowIndex = currentRow.rowIndex;
-          var currentTableId = currentRow.closest('table').getAttribute('id');
-
-          if(response.place === 'active') {
-            var table = document.getElementById('user-substitute-active');
-            table.deleteRow(currentRowIndex);
-            var row = table.insertRow(currentRowIndex);
-            row.innerHTML = content;
-          }
-          else if(response.place === 'inactive') {
-            var table = document.getElementById('user-substitute-inactive');
-            var activaTable = document.getElementById('user-substitute-active');
-
-            if(currentTableId === 'user-substitute-active'){
-              activaTable.deleteRow(currentRowIndex);
-            }
-            else {
-              table.deleteRow(currentRowIndex);
-            }
-
-            var newRow = table.insertRow(currentRowIndex);
-            newRow.innerHTML = content;
-
-            editAction();
-          }
-        }
-        else {
-          var content = response.table.replace('<tr>', '').replace('</tr>', '');
-    
-          if(response.ID) {
-            var id = response.ID;
-            var tableRow = $('table tr');
-
-            for(var row of tableRow) {
-              var dataID = $(row).attr('data-id');
-                    
-              if(Number(dataID) == Number(id)){
-                var tableRow = row;
-              }
-            }
-          }
-          else {
-            var tableRow = $self.currentPressedBtn.parentElement.parentElement;
-
-            $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
-          }
-              
-          if(tableRow !== null){
-            tableRow.innerHTML = content;
-          }
-                  
           var dropAreaGallery = responseHolder.parentElement.querySelector('.drop-area-gallery');
           var uploadedArea = responseHolder.parentElement.querySelector('.uploaded-images-area');
           var photos = response.photos;
+
+          responseHolder.innerHTML = "";          
     
           if(dropAreaGallery!==null){
             dropAreaGallery.innerHTML = '';
@@ -1374,9 +1293,94 @@ var uvel,
             uploadedArea.innerHTML = response.photos;
             $self.dropFunctionality();
           }
+
+          if(response.hasOwnProperty('errors')) {
+            var holder = document.createDocumentFragment();
+            var errors = response.errors;
+  
+            for (var err in errors) {
+              var collectionErr = errors[err];
+  
+              collectionErr.forEach(function (msg) {
+                var errorContainer = document.createElement('div');
+                errorContainer.innerText = msg;
+                errorContainer.className = 'alert alert-danger';
+                holder.appendChild(errorContainer);
+              });
+            }
+  
+            responseHolder.appendChild(holder);
+          } 
+          else {
+              var successContainer = document.createElement('div');
+
+              successContainer.innerText = 'Успешно променихте';
+              successContainer.className = 'alert alert-success';
+              responseHolder.appendChild(successContainer);
+          }
+        });
         
-          editAction();     
+        if(!(response.hasOwnProperty('errors'))) {
+          if(nameForm === 'sendUser') {
+            var content = response.table;
+            var currentRow = $self.currentPressedBtn.closest('tr')
+            var currentRowIndex = currentRow.rowIndex;
+            var currentTableId = currentRow.closest('table').getAttribute('id');
+
+            if(response.place === 'active') {
+              var table = document.getElementById('user-substitute-active');
+              table.deleteRow(currentRowIndex);
+              var row = table.insertRow(currentRowIndex);
+              row.innerHTML = content;
+            }
+            else if(response.place === 'inactive') {
+              var table = document.getElementById('user-substitute-inactive');
+              var activaTable = document.getElementById('user-substitute-active');
+
+              if(currentTableId === 'user-substitute-active'){
+                activaTable.deleteRow(currentRowIndex);
+              }
+              else {
+                table.deleteRow(currentRowIndex);
+              }
+
+              var newRow = table.insertRow(currentRowIndex);
+              newRow.innerHTML = content;
+
+              editAction();
+            }
+          }
+          else {
+            var content = response.table.replace('<tr>', '').replace('</tr>', '');
+      
+            if(response.ID) {
+              var id = response.ID;
+              var tableRow = $('table tr');
+
+              for(var row of tableRow) {
+                var dataID = $(row).attr('data-id');
+                      
+                if(Number(dataID) == Number(id)){
+                  var tableRow = row;
+                }
+              }
+            }
+            else {
+              var tableRow = $self.currentPressedBtn.parentElement.parentElement;
+
+              $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
+            }
+                
+            if(tableRow !== null){
+              tableRow.innerHTML = content;
+            }
+                    
+            
+          
+            editAction();     
+          }
         }
+
         pendingRequest = false; 
       }
 
@@ -1396,7 +1400,7 @@ var uvel,
       function clickEditButton(event) {
         event.preventDefault();
 
-        var link = event.target.parentElement;
+        var link = event.currentTarget;
         var urlTaken = window.location.href.split('/');
         var url = urlTaken[0] + '//' + urlTaken[2] + '/' + urlTaken[3] + '/';
         var linkAjax = url+link.getAttribute('data-url');

@@ -68,9 +68,9 @@
 
                             @foreach($stones as $stone)
                                 <option value="{{ $stone->id }}" @if($modelStone->stone == $stone->id) selected @endif>
-                                    {{ App\Stones::find($stone->id)->name }} 
+                                    {{ App\Stones::withTrashed()->find($stone->id)->name }} 
 
-                                    ({{ App\Stone_contours::find($stone->contour)->name }}, {{ App\Stone_sizes::find($stone->size)->name }})
+                                    ({{ App\Stone_contours::withTrashed()->find($stone->contour)->name }}, {{ App\Stone_sizes::withTrashed()->find($stone->size)->name }})
                                 </option>
                             @endforeach
                         </select>
@@ -97,7 +97,7 @@
 
                         @foreach($stones as $stone)
                             <option value="{{ $stone->id }}">
-                                {{ $stone->name }} ({{ App\Stone_contours::find($stone->contour)->name }}, {{ App\Stone_sizes::find($stone->size)->name }})
+                                {{ $stone->name }} ({{ App\Stone_contours::withTrashed()->find($stone->contour)->name }}, {{ App\Stone_sizes::withTrashed()->find($stone->size)->name }})
                             </option>
                         @endforeach
                     </select>
