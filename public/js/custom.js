@@ -1210,10 +1210,9 @@ var uvel,
               successContainer.innerText = 'Успешно променихте';
               successContainer.className = 'alert alert-success';
               responseHolder.appendChild(successContainer);
-          }
-
-          responseHolder.appendChild(successContainer);
-          setInterval(function(){ responseHolder.innerHTML=''; }, 3000);
+              responseHolder.appendChild(successContainer);
+              setInterval(function(){ responseHolder.innerHTML=''; }, 3000);
+          }          
         });
 
         if(!(response.hasOwnProperty('errors'))) {
