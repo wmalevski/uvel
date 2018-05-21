@@ -1262,19 +1262,8 @@ var uvel,
                 }
 
                 if(el.tagName == 'SELECT') {
-                  if($(el).attr('id') == 'jewels_types'){
-                    //$(el).val(null).trigger('change');
-                    $(el).prop("selectedIndex", 0);
-                    $(el)[0].selectedIndex = 0;
-                    $(el).val(1);
-                    $(el).val(1).select2();
                     $(el).val(null).trigger('change');
-                  }
-                  else {
-                    $(el).val(null).trigger('change');
-                  }
                 }
-
 
                 el.value = '';
 
