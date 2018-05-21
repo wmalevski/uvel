@@ -845,18 +845,17 @@ var uvel,
 
 
       function deleteRowRecord(event) {    
-        if(event.target && event.target.parentElement.classList.contains('delete-btn')) {
+        if(event.currentTarget && event.currentTarget.classList.contains('delete-btn')) {
           event.preventDefault();
           event.stopPropagation();
 
           if (confirm("Сигурен ли си, че искаш да изтриеш записа?")) {
-            var urlTaken = event.target.parentElement.href.split('/');
-            var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
-            var link = event.target.parentElement;
+            var url = window.location.origin + '/ajax';
+            var link = event.currentTarget;
             var linkPath = link.href.split("admin")[1];
             var ajaxUrl = url+linkPath;
 
-            ajaxFn("POST",ajaxUrl,deleteBtnSuccess,'','',link);
+            ajaxFn("POST", ajaxUrl, deleteBtnSuccess, '', '', link);
           }       
         }
       }
