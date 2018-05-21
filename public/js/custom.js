@@ -370,6 +370,7 @@ var uvel,
           } else if (_element[0].id == 'jewel_edit') {
             dataWeight = _element.parent().siblings('.weight-holder-edit').children('input').val();
           }
+
           calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
         } else {
           dataWeight = _element[0].value;
@@ -1245,12 +1246,15 @@ var uvel,
                   el.checked = false;
                 }
 
-                if(el.tagName == 'SELECT') {
-                    $(el).val(null).trigger('change');
-                }
-
                 el.value = '';
 
+
+                if(el.tagName == 'SELECT') {
+                  $(el).val(null).trigger('change');
+                }
+
+               
+                setTimeout(function(){  el.value = ''; }, 100);
                 if(elType == 'file'){
                   $(el).parent().find('drop-area-input').val('');
                   $(el).val('');
