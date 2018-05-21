@@ -1329,6 +1329,7 @@ var uvel,
         });
 
         if(!(response.hasOwnProperty('errors'))) {
+          var content = response.table.replace('<tr>', '').replace('</tr>', '');
   
           if(response.ID) {
             var id = response.ID;
@@ -1350,7 +1351,6 @@ var uvel,
           if(tableRow !== null){
             tableRow.innerHTML = content;
           }               
-            
         }
 
         editAction();
