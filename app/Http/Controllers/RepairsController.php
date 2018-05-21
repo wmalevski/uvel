@@ -141,52 +141,56 @@ class RepairsController extends Controller
         $repair = Repairs::where('barcode', $repair)->first();
         $repairTypes = Repair_types::all();
 
-        if($repair->status == 'done'){
-            $userId = Auth::user()->getId(); 
-            
-            Cart::clear();
-            Cart::clearCartConditions();
-            Cart::session($userId)->clear();
-            Cart::session($userId)->clearCartConditions();
-    
-            $price = $repair->price;
-            $weight = $repair->weight;
-    
-            if($repair->price_after != ''){
-                $price = $repair->price_after;
+        if($repair){
+            if($repair->status == 'done'){
+                $userId = Auth::user()->getId(); 
+                
+                Cart::clear();
+                Cart::clearCartConditions();
+                Cart::session($userId)->clear();
+                Cart::session($userId)->clearCartConditions();
+        
+                $price = $repair->price;
+                $weight = $repair->weight;
+        
+                if($repair->price_after != ''){
+                    $price = $repair->price_after;
+                }
+        
+                if($repair->weight_after != ''){
+                    $weight = $repair->weight_after;
+                }
+        
+                Cart::session($userId)->add(array(
+                    'id' => $repair->barcode,
+                    'name' => 'Връщане на ремонт - '.$repair->customer_name,
+                    'price' => $price,
+                    'quantity' => 1,
+                    'attributes' => array(
+                        'weight' => $weight,
+                        'type' => 'repair'
+                    )
+                ));
+        
+                $tax = new \Darryldecode\Cart\CartCondition(array(
+                    'name' => 'ДДС',
+                    'type' => 'tax',
+                    'target' => 'subtotal',
+                    'value' => '+20%',
+                    'attributes' => array(
+                        'description' => 'Value added tax',
+                        'more_data' => 'more data here'
+                    )
+                ));
+        
+                Cart::condition($tax);
+                Cart::session($userId)->condition($tax);
+        
+                //return redirect()->route('admin');
+                return Response::json(array('success' => '', 'redirect' => route('admin')));
+            }else{
+                return Response::json(['errors' => ['not_done' => ['Ремонта не е отбелязан като завършен и готов за връщане.']]], 401);
             }
-    
-            if($repair->weight_after != ''){
-                $weight = $repair->weight_after;
-            }
-    
-            Cart::session($userId)->add(array(
-                'id' => $repair->barcode,
-                'name' => 'Връщане на ремонт - '.$repair->customer_name,
-                'price' => $price,
-                'quantity' => 1,
-                'attributes' => array(
-                    'weight' => $weight
-                )
-            ));
-    
-            $tax = new \Darryldecode\Cart\CartCondition(array(
-                'name' => 'ДДС',
-                'type' => 'tax',
-                'target' => 'subtotal',
-                'value' => '+20%',
-                'attributes' => array(
-                    'description' => 'Value added tax',
-                    'more_data' => 'more data here'
-                )
-            ));
-    
-            Cart::condition($tax);
-            Cart::session($userId)->condition($tax);
-    
-            return redirect()->route('admin');
-        }else{
-            return Response::json(['errors' => ['not_done' => ['Ремонта не е отбелязан като завършен и готов за връщане.']]], 401);
         }
 
         //return \View::make('admin/repairs/return', array('repair' => $repair, 'repairTypes' => $repairTypes));
