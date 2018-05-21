@@ -316,15 +316,14 @@ var uvel,
       var dataWeight = 0;
       var priceDev = 0;
 
-      //$(document).on('change' , '.calculate' , function(e) {
-        $('.calculate').on('change' , function(e) {
+      $(document).on('change' , '.calculate' , function(e) {
         var _element = $(e.currentTarget);
         var ajaxUrl = window.location.origin + '/ajax/getPrices/';
         var parentElement = _element.parents('form');
 
         if(_element[0].nodeName == 'SELECT') {
 
-          if(_element[0].id == 'jewels_types' || _element[0].id == 'jewel_edit' || _element[0].id == 'jewel_edit_model') {
+          if(_element[0].id == 'jewels_types' || _element[0].id == 'jewel_edit') {
             var materialType = _element.find(':selected').val();
             var requestLink = ajaxUrl + materialType;    
             
@@ -372,6 +371,8 @@ var uvel,
                 $('#retail_price_edit').trigger('change');
               });  
           } else {
+            console.log(_element);
+            console.log(_element.select2('data'));
             priceDev = _element.select2('data')[0].price;
           }
 

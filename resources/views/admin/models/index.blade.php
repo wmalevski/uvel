@@ -35,7 +35,7 @@ aria-hidden="true">
 
                         <div class="form-group col-md-6">
                             <label>Цена на дребно: </label>
-                            <select id="retail_price" name="retail_price" class="form-control disabled-first calculate prices-filled" disabled>
+                            <select id="retail_prices" name="retail_price" class="form-control disabled-first calculate prices-filled" disabled>
                                 <option value="">Избери</option>
                         
                                 @foreach($prices->where('type', 'sell') as $price)
