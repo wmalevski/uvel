@@ -1248,13 +1248,12 @@ var uvel,
 
                 el.value = '';
 
-
                 if(el.tagName == 'SELECT') {
                   $(el).val(null).trigger('change');
                 }
-
                
                 setTimeout(function(){  el.value = ''; }, 100);
+                
                 if(elType == 'file'){
                   $(el).parent().find('drop-area-input').val('');
                   $(el).val('');
