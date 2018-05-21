@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Validator;
 use Response;
 use Auth;
 use Cart;
+use App\Repairs;
+use App\Products;
 
 class PaymentsController extends Controller
 {
@@ -68,11 +70,34 @@ class PaymentsController extends Controller
             $payment->save();
 
             $userId = Auth::user()->getId(); 
+
             
-            Cart::clear();
-            Cart::clearCartConditions();
-            Cart::session($userId)->clear();
-            Cart::session($userId)->clearCartConditions();
+            Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
+            {
+                if($item['attributes']->type == 'repair'){
+                    $repair = Repairs::where('barcode', $item->id)->first();
+
+                    if($repair){
+                        $repair->status = 'returned';
+                        $repair->save();
+                    }
+                } else if($item['attributes']->type == 'product'){
+                    $product = Products::where('barcode', $item->id)->first();
+                    if($product){
+                        $product->status = 'sold';
+                        $product->save();
+                    }
+                } else if($item['attributes']->type == 'box'){
+                    
+                }
+            });
+
+
+            
+            //Cart::clear();
+            //Cart::clearCartConditions();
+            //Cart::session($userId)->clear();
+            //Cart::session($userId)->clearCartConditions();
 
         }else{
             return Response::json(['errors' => ['more_money' => ['Магазинера трябва да приеме сума равна или по-голяма от дължимата сума.']]], 401);
