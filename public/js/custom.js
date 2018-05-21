@@ -88,7 +88,6 @@ var uvel,
 
     
     this.dropFunctionality = function(instanceFiles) {
-      
       var dropArea = $('.drop-area'),
           preventEvents = ['dragenter', 'dragover', 'dragleave', 'drop'],
           highlightEvents = ['dragenter', 'dragover'],
@@ -156,22 +155,14 @@ var uvel,
           files.forEach(previewFile);
         }
   
-        function previewFile(file) {
-
-          
+        function previewFile(file) {          
           var reader = new FileReader();
           reader.readAsDataURL(file);
   
           reader.onloadend = function() {
-  
             var imageWrapper = document.createElement('div');
-            imageWrapper.setAttribute("class", "image-wrapper");
             var closeBtn = document.createElement('div');
-            closeBtn.setAttribute("class", "close");
-            closeBtn.innerHTML = '&#215;';
             var img = document.createElement('img');
-    
-            img.src = reader.result;
 
             toDataURL(
               reader.result,
@@ -180,34 +171,32 @@ var uvel,
                 instanceFiles.push(data);          
               }
             )   
-            
-            closeBtn.addEventListener('click', deleteUploadedImage);
 
-            $(closeBtn).appendTo(imageWrapper);
+            imageWrapper.setAttribute("class", "image-wrapper");
+            closeBtn.setAttribute("class", "close");
+            closeBtn.innerHTML = '&#215;';            
+            closeBtn.addEventListener('click', function(event){
+              event.currentTarget.parentElement.remove();
+            });
 
-            $(img).appendTo(imageWrapper);
-
-            $(imageWrapper).appendTo(dropAreaGallery);
-
+            img.src = reader.result;
+            imageWrapper.append(closeBtn);
+            imageWrapper.append(img);
+            dropAreaGallery.append(imageWrapper);
           }
-        }
-
-  
+        }  
       });
 
       var imageDeleteBtn = $('.image-wrapper .close');
       
       imageDeleteBtn.each(function() {
-
         var imageDeleteBtn = $(this);
 
         imageDeleteBtn.off();
         imageDeleteBtn.on('click', deleteUploadedImage);
-
       });
 
       function deleteUploadedImage(e) {
-           
         var deleteUrl = $(this).find('span').attr('data-url');
         var urlTaken = window.location.href.split('/');
         var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
@@ -220,15 +209,11 @@ var uvel,
             method: "POST",
             success: deleteUploadedImageSuccess(e)
           });
-
         }
-        
       }
 
       function deleteUploadedImageSuccess(e) {
-
         $(e.target).parents('.image-wrapper').remove();
-
       }
 
       function toDataURL(src, callback, outputFormat) {
