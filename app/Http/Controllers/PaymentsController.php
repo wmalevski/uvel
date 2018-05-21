@@ -88,16 +88,14 @@ class PaymentsController extends Controller
                         $product->save();
                     }
                 } else if($item['attributes']->type == 'box'){
-                    
+
                 }
             });
-
-
             
-            //Cart::clear();
-            //Cart::clearCartConditions();
-            //Cart::session($userId)->clear();
-            //Cart::session($userId)->clearCartConditions();
+            Cart::clear();
+            Cart::clearCartConditions();
+            Cart::session($userId)->clear();
+            Cart::session($userId)->clearCartConditions();
 
         }else{
             return Response::json(['errors' => ['more_money' => ['Магазинера трябва да приеме сума равна или по-голяма от дължимата сума.']]], 401);
