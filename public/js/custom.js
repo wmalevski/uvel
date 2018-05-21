@@ -322,56 +322,62 @@ var uvel,
         var parentElement = _element.parents('form');
 
         if(_element[0].nodeName == 'SELECT') {
-
           if(_element[0].id == 'jewels_types' || _element[0].id == 'jewel_edit') {
             var materialType = _element.find(':selected').val();
             var requestLink = ajaxUrl + materialType;    
+
+            if(materialType.length === 0) {
+              return;
+            }
             
             jeweryPrice = _element.find(':selected').attr('data-pricebuy');
 
             ajaxFn('GET' , requestLink , function(response) {
-                var data = response.prices;
-                var models = response.pass_models;
-                var modelsData = models.map(function(keys) {
-                    return {
-                      id: keys.id,
-                      text: keys.name,
-                      jewel: keys.jewel,
-                      retail_price: keys.retail_price,
-                      wholesale_price: keys.wholesale_price,
-                      weight: keys.weight,
-                      workmanship: keys.workmanship
-                    }
-                });
+              var data = response.prices;
+              var models = response.pass_models;
+              var modelsData = models.map(function(keys) {
+                return {
+                  id: keys.id,
+                  text: keys.name,
+                  jewel: keys.jewel,
+                  retail_price: keys.retail_price,
+                  wholesale_price: keys.wholesale_price,
+                  weight: keys.weight,
+                  workmanship: keys.workmanship
+                }
+              });
 
-                _element.parents('form').children().find('.model-filled').empty();
-                _element.parents('form').children().find('.model-filled').select2({
-                    data: modelsData,
-                    templateResult: $self.addSelect2CustomAttributes,
-                    templateSelection: $self.addSelect2CustomAttributes
-                }); 
-  
-                var newData = data.map(function(keys) {
-                  return {
-                    id: keys.id,
-                    text: keys.slug + ' - ' + keys.price,
-                    price: keys.price,
-                    material: keys.material
-                  }
-                });
-                
-                _element.parents('form').children().find('.prices-filled').empty();
-                _element.parents('form').children().find('.prices-filled').select2({
-                  data: newData,
-                  templateResult: $self.addSelect2CustomAttributes,
-                  templateSelection: $self.addSelect2CustomAttributes
-                });     
+              _element.parents('form').children().find('.model-filled').empty();
+              _element.parents('form').children().find('.model-filled').select2({
+                data: modelsData,
+                templateResult: $self.addSelect2CustomAttributes,
+                templateSelection: $self.addSelect2CustomAttributes
+              }); 
+        
+              var newData = data.map(function(keys) {
+                return {
+                  id: keys.id,
+                  text: keys.slug + ' - ' + keys.price,
+                  price: keys.price,
+                  material: keys.material
+                }
+              });
+                      
+              _element.parents('form').children().find('.prices-filled').empty();
+              _element.parents('form').children().find('.prices-filled').select2({
+                data: newData,
+                templateResult: $self.addSelect2CustomAttributes,
+                templateSelection: $self.addSelect2CustomAttributes
+              });     
 
-                $('#retail_prices').trigger('change');
-                $('#retail_price_edit').trigger('change');
-              });  
+              $('#retail_prices').trigger('change');
+              $('#retail_price_edit').trigger('change');
+            });  
+
           } else {
-            priceDev = _element.select2('data')[0].price;
+            if( _element.select2('data')[0] !== undefined){
+              priceDev = _element.select2('data')[0].price;
+            }
           }
 
           if(_element[0].id == 'jewels_types' ) {
@@ -444,7 +450,6 @@ var uvel,
 
         if(modelSelect) {
           modelSelect.on('select2:select', function(ev) {
-            console.log(modelSelect.val());
             if(modelSelect.val()) {
               var value = modelSelect.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
@@ -1210,10 +1215,8 @@ var uvel,
               successContainer.innerText = 'Успешно променихте';
               successContainer.className = 'alert alert-success';
               responseHolder.appendChild(successContainer);
-          }
-
-          responseHolder.appendChild(successContainer);
-          setInterval(function(){ responseHolder.innerHTML=''; }, 3000);
+              setInterval(function(){ responseHolder.innerHTML=''; }, 3000);
+          }          
         });
 
         if(!(response.hasOwnProperty('errors'))) {
@@ -1259,7 +1262,7 @@ var uvel,
                 }
 
                 if(el.tagName == 'SELECT') {
-                  $(el).val(null).trigger('change');
+                    $(el).val(null).trigger('change');
                 }
 
                 el.value = '';
@@ -1329,6 +1332,8 @@ var uvel,
         });
 
         if(!(response.hasOwnProperty('errors'))) {
+
+          var content = response.table.replace('<tr>', '').replace('</tr>', '');
   
           if(response.ID) {
             var id = response.ID;
