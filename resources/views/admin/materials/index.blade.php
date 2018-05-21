@@ -88,12 +88,12 @@ aria-hidden="true">
         <p>Преглед на създадените материали.</p>
         <table class="table">
             <tr>
-                <th width="32%">Име</th> 
-                <th width="14%">Проба</th> 
-                <th width="14%">Цвят</th> 
-                <th width="14%">Карат</th>
-                <th width="14%">Борсова Цена</th>
-                <th width="12%">Действия</th> 
+                <th style="width: 32%;">Име</th> 
+                <th style="width: 14%">Проба</th> 
+                <th style="width: 14%">Цвят</th> 
+                <th style="width: 14%">Карат</th>
+                <th style="width: 14%">Борсова Цена</th>
+                <th style="width: 12%">Действия</th> 
             </tr>
             
             @foreach($materials as $material)
