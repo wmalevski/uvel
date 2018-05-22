@@ -10,11 +10,8 @@ use Illuminate\Http\JsonResponse;
 use App\Models;
 use Response;
 use Illuminate\Support\Facades\View;
-<<<<<<< HEAD
 use App\Products;
-=======
 use App\Jewels;
->>>>>>> 7c0af6ab8bc2dca77c086685cb4d07060eaee539
 
 class PricesController extends Controller
 {
