@@ -845,12 +845,7 @@ var uvel,
           event.stopPropagation();
           
           if (confirm("Сигурен ли си, че искаш да изтриеш записа?")) {
-<<<<<<< HEAD
-            var urlTaken = event.currentTarget.href.split('/');
-            var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
-=======
             var url = window.location.origin + '/ajax';
->>>>>>> 7c0af6ab8bc2dca77c086685cb4d07060eaee539
             var link = event.currentTarget;
             var linkPath = link.href.split("admin")[1];
             var ajaxUrl = url+linkPath;
@@ -860,15 +855,8 @@ var uvel,
         }
       }
 
-<<<<<<< HEAD
       function createErrorMessage(table, text) {
          var messageWrapper = document.createElement('div');
-=======
-      function deleteBtnSuccess(data, elements, btn) {
-        let td = btn.parentElement;
-        let tr = td.parentElement;
-        let table = tr.parentElement;
->>>>>>> 7c0af6ab8bc2dca77c086685cb4d07060eaee539
 
          messageWrapper.className  = 'alert alert-danger';
          messageWrapper.innerText = text;
@@ -876,7 +864,6 @@ var uvel,
          setTimeout(function(){ messageWrapper.remove(); }, 3000);
       }
 
-<<<<<<< HEAD
       function deleteBtnSuccess(data, elements, btn) {     
         if(data.hasOwnProperty('errors')){
           var table = document.querySelector('table');
@@ -899,16 +886,6 @@ var uvel,
               subTotalInput.value = data.subtotal;
               totalInput.value = data.total;
             }
-=======
-        if($(btn).hasClass("cart")){
-          var success = data.success;
-          var subTotalInput = document.getElementById("subTotal");
-          var totalInput = document.getElementById("total");
-
-          if(success) {
-            subTotalInput.value = data.subtotal;
-            totalInput.value = data.total;
->>>>>>> 7c0af6ab8bc2dca77c086685cb4d07060eaee539
           }
         }
       }
