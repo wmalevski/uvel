@@ -827,45 +827,56 @@ var uvel,
 
 
       function deleteRowRecord(event) {    
-        if(event.target && event.target.parentElement.classList.contains('delete-btn')) {
+        if(event.currentTarget && event.currentTarget.classList.contains('delete-btn')) {
           event.preventDefault();
           event.stopPropagation();
-
+          
           if (confirm("Сигурен ли си, че искаш да изтриеш записа?")) {
-            var urlTaken = event.target.parentElement.href.split('/');
+            var urlTaken = event.currentTarget.href.split('/');
             var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
-            var link = event.target.parentElement;
+            var link = event.currentTarget;
             var linkPath = link.href.split("admin")[1];
             var ajaxUrl = url+linkPath;
 
-            ajaxFn("POST",ajaxUrl,deleteBtnSuccess,'','',link);
+            ajaxFn("POST", ajaxUrl, deleteBtnSuccess, '', '', link);
           }       
         }
       }
 
-      function deleteBtnSuccess(data, elements, btn) {
-      
-        let td = btn.parentElement;
-        let tr = td.parentElement;
-        let table = tr.parentElement;
+      function createErrorMessage(table, text) {
+         var messageWrapper = document.createElement('div');
 
-        table.removeChild(tr);  
-
-        if($(btn).hasClass("cart")){
-
-          var success = data.success;
-          var subTotalInput = document.getElementById("subTotal");
-          var totalInput = document.getElementById("total");
-
-          if(success) {
-            subTotalInput.value = data.subtotal;
-            totalInput.value = data.total;
-          }
-
-        }
-
+         messageWrapper.className  = 'alert alert-danger';
+         messageWrapper.innerText = text;
+         table.before(messageWrapper);
+         setTimeout(function(){ messageWrapper.remove(); }, 5000);
       }
 
+      function deleteBtnSuccess(data, elements, btn) {     
+        if(data.hasOwnProperty('errors')){
+          var table = document.querySelector('table');
+          var text = data.errors.using;
+          createErrorMessage(table,text);         
+        }
+        else {
+          var td = btn.parentElement;
+          var tr = td.parentElement;
+          var table = tr.parentElement;
+
+          table.removeChild(tr);  
+
+          if($(btn).hasClass("cart")){
+            var success = data.success;
+            var subTotalInput = document.getElementById("subTotal");
+            var totalInput = document.getElementById("total");
+
+            if(success) {
+              subTotalInput.value = data.subtotal;
+              totalInput.value = data.total;
+            }
+          }
+        }
+      }
 
       function printCertificate(e) {
 
