@@ -251,6 +251,7 @@ var uvel,
       var barcodeReturnRepairInput = document.getElementById("barcode_return-repairs");
       var catalogNumberInput = document.getElementById("catalog_number");
       var amountInput =  document.getElementById("amount");
+      var typeRepairInput = document.getElementById("type_repair");
       var moreProductsInput = document.getElementById("amount_check");
       var discountInput = document.getElementById("add_discount");
       var discountCardInput = document.getElementById("discount_card");
@@ -590,19 +591,21 @@ var uvel,
       }  
 
       if(numberItemInput !== null) {
-        numberItemInput.addEventListener('change',sendItem);
+        numberItemInput.addEventListener('change', sendItem);
       }
 
       function sendItem(event) {
          var numberItemValue = this.value;
          var amountValue = amountInput.value;
          var amountCheck = moreProductsInput.checked;
+         var typeRepair = typeRepairInput.checked;
 
          if(numberItemValue.length == 13){
           var dataSend = {
             'barcode' : Number(numberItemValue),
             'quantity' : Number(amountValue),
-            'amount_check' : amountCheck
+            'amount_check' : amountCheck,
+            'type_repair' : typeRepair
           };
            var currentElement = $(event.target);
            var form = currentElement.closest("form");
