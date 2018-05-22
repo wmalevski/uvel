@@ -108,14 +108,17 @@ class SellingsController extends Controller
     }
 
     public function sell(Request $request){
+        $type = "product";
+
         if($request->amount_check == false){
-            if($request->type_repair){
-                $item = Products::where(
+            if($request->type_repair == true){
+                $item = Repairs::where(
                     [
                         ['barcode', '=', $request->barcode],
                         ['status', '=', 'done']
                     ]
                 )->first();
+                $type = "repair";
             }else{
                 if($request->barcode){
                     $item = Products::where('barcode', $request->barcode)->first();
@@ -131,8 +134,10 @@ class SellingsController extends Controller
                     )], 401);
                 }
     
-                $item->status = 'selling';
-                $item->save();
+                if($type == "product"){
+                    $item->status = 'selling';
+                    $item->save();
+                }
             }
         }else{
             if($request->barcode){
@@ -163,15 +168,29 @@ class SellingsController extends Controller
                     $item->price = 0;
                 }
 
-                Cart::session($userId)->add(array(
-                    'id' => $item->barcode,
-                    'name' => $item->name,
-                    'price' => $item->price,
-                    'quantity' => $request->quantity,
-                    'attributes' => array(
-                        'weight' => $item->weight
-                    )
-                ));
+                if($type == "repair"){
+                    Cart::session($userId)->add(array(
+                        'id' => $item->barcode,
+                        'name' => 'Връщане на ремонт - '.$item->customer_name,
+                        'price' => $item->price,
+                        'quantity' => 1,
+                        'attributes' => array(
+                            'weight' => $item->weight,
+                            'type' => 'repair'
+                        )
+                    ));
+            
+                }else{
+                    Cart::session($userId)->add(array(
+                        'id' => $item->barcode,
+                        'name' => $item->name,
+                        'price' => $item->price,
+                        'quantity' => $request->quantity,
+                        'attributes' => array(
+                            'weight' => $item->weight
+                        )
+                    ));
+                }
             }
             
             // $row = Cart::add(['id' => $request->barcode, 'name' => $item->name, 'qty' => $request->quantity, 'price' => 9.99, 'options' => ['weight' => $item->weight]]);
