@@ -8,6 +8,7 @@ use App\Repair_types;
 use Cart;
 use App\Products;
 use App\Products_others;
+use App\Repairs;
 use Auth;
 use App\Currencies;
 use Illuminate\Support\Facades\Validator;
@@ -108,10 +109,19 @@ class SellingsController extends Controller
 
     public function sell(Request $request){
         if($request->amount_check == false){
-            if($request->barcode){
-                $item = Products::where('barcode', $request->barcode)->first();
-            } else if($request->catalog_number){
-                $item = Products::where('code', $request->catalog_number)->first();
+            if($request->type_repair){
+                $item = Products::where(
+                    [
+                        ['barcode', '=', $request->barcode],
+                        ['status', '=', 'done']
+                    ]
+                )->first();
+            }else{
+                if($request->barcode){
+                    $item = Products::where('barcode', $request->barcode)->first();
+                } else if($request->catalog_number){
+                    $item = Products::where('code', $request->catalog_number)->first();
+                }
             }
 
             if($item){

@@ -152,6 +152,12 @@ aria-hidden="true">
                                 <span class="peer peer-greed">Повече от един продукт</span>
                             </label>
                         </div>
+                        <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                            <input type="checkbox" id="type_repair" name="type_repair" class="peer">
+                            <label for="type_repair" class="peers peer-greed js-sb ai-c">
+                                <span class="peer peer-greed">Ремонт</span>
+                            </label>
+                        </div>
                         <div class="form-group form-row">
                             <label for="product_barcode" class="col-sm-9 control-label">Номер на артикула</label>
                             <div class="col-sm-3">
