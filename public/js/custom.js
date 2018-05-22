@@ -678,13 +678,35 @@ var uvel,
           var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs/return';
           var ajaxUrl = url + '/' + processReturnBarcode;
 
-          ajaxFn("GET",ajaxUrl,sendReturnRepairBarcodeSuccess,'','',processReturnBarcodeInput);
+          ajaxFn("GET", ajaxUrl,sendReturnRepairBarcodeSuccess, '', '', processReturnBarcodeInput);
         } 
       }
 
-      function sendReturnRepairBarcodeSuccess(data) {
-        if(data.success){
-          window.location.href = "http://stackoverflow.com";        
+      
+      function sendReturnRepairBarcodeSuccess(data, elements, btn) {
+        if(data.hasOwnProperty('success')){
+          window.location.replace(data.redirect);
+        }
+        else if(data.hasOwnProperty('errors')) {
+          var alertAreas = [].slice.apply(document.getElementsByClassName('info-cont'));
+
+          alertAreas.forEach(function(responseHolder) {
+            var holder = document.createDocumentFragment();
+            var errors = data.errors;
+
+            for (var err in errors) {
+              var collectionErr = errors[err];
+
+              collectionErr.forEach(function (msg) {
+                var errorContainer = document.createElement('div');
+                errorContainer.innerText = msg;
+                errorContainer.className = 'alert alert-danger';
+                holder.appendChild(errorContainer);
+              });
+            }
+
+            responseHolder.appendChild(holder);
+          });
         }
       }
 
