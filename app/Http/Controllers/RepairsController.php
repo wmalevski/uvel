@@ -191,6 +191,8 @@ class RepairsController extends Controller
             }else{
                 return Response::json(['errors' => ['not_done' => ['Ремонта не е отбелязан като завършен и готов за връщане.']]], 401);
             }
+        }else{
+            return Response::json(['errors' => ['not_exist' => ['Не съществува такъв ремонт.']]], 401);
         }
 
         //return \View::make('admin/repairs/return', array('repair' => $repair, 'repairTypes' => $repairTypes));
