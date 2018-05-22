@@ -60,7 +60,7 @@ aria-hidden="true">
                         </div>
 
                         <div class="form-row">
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-6">
                                 <label>Тип ремонт</label>
                                 <select name="type" class="form-control fill-field" data-fieldToFill="input[name='price']">
                                     <option value="">Избери</option>
@@ -69,13 +69,6 @@ aria-hidden="true">
                                         <option value="{{ $repairType->id }}" data-price="{{ $repairType->price }}">{{ $repairType->name }} - {{ $repairType->price }}</option>
                                     @endforeach
                                 </select>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="inputPassword4">Тегло</label>
-                                <input type="number" class="form-control" name="weight" placeholder="Тегло на артикула">
                             </div>
 
                             <div class="form-group col-md-6">
@@ -88,38 +81,19 @@ aria-hidden="true">
                                     @endforeach
                                 </select>
                             </div>
-
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
+                                <label for="inputPassword4">Тегло</label>
+                                <input type="number" class="form-control" name="weight" placeholder="Тегло на артикула">
+                            </div>
+
+ 
+                            <div class="form-group col-md-6">
                                 <label for="inputEmail4">Цена</label>
                                 <input type="number" class="form-control" name="price" placeholder="Цена на ремонта">
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="inputPassword4">Капаро</label>
-                                <input type="number" class="form-control" name="deposit" placeholder="Оставено капаро" value="0">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="checkbox checkbox-circle checkbox-info peers ai-c">
-                                <input type="checkbox" id="inputCall2" name="inputCheckboxesCall" class="peer">
-                                <label for="inputCall2" class="peers peer-greed js-sb ai-c">
-                                    <span class="peer peer-greed">Фискален</span>
-                                </label>
-                            </div>
-
-                            <div class="checkbox checkbox-circle checkbox-info peers ai-c">
-                                <input type="checkbox" id="inputCall2" name="inputCheckboxesCall" class="peer">
-                                <label for="inputCall2" class="peers peer-greed js-sb ai-c">
-                                    <span class="peer peer-greed">Без</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Плащане</button>
-                            <button type="submit" class="btn btn-primary">Ръчно пускане на фискален бон</button>
                         </div>
                 </div>
 
