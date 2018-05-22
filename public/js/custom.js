@@ -235,6 +235,7 @@ var uvel,
       var collectionModalAddBtns = document.querySelectorAll('.modal-dialog .modal-footer .add-btn-modal');
       var collectionScanRepairBtns = document.querySelectorAll('.scan-repair');
       var collectionReturnRepairBtns = document.querySelectorAll('.return-repair');
+      var collectionReturnRepairActionBtns = document.querySelectorAll('.return-repair-action');
       var printBtns = document.querySelectorAll('.print-btn');
       var deleteBtns = document.querySelectorAll('.delete-btn');
       var paymentBtns = document.querySelectorAll('.payment-btn');
@@ -479,18 +480,15 @@ var uvel,
             returnRepairWrapper.querySelector('.info-cont').innerHTML='';
             document.getElementById('barcode_return-repairs').value = '';
           });
+        });
+      }
 
+      if(collectionReturnRepairActionBtns.length > 0) {
+        collectionReturnRepairActionBtns.forEach(function (btn) {
           btn.addEventListener('click', function() {
-            var returnRepairWrapper = document.getElementById('return-repair-wrapper');
-            var nextElement = returnRepairWrapper.nextElementSibling;
-
-            if(nextElement != null){
-              nextElement.parentNode.removeChild(nextElement);
-            }
-
-            returnRepairWrapper.style.display = 'block';
-            returnRepairWrapper.querySelector('.info-cont').innerHTML='';
-            document.getElementById('barcode_return-repairs').value = '';
+            var url = this.getAttribute('data-url');
+            var ajaxUrl = window.location.origin + '/ajax/' + url;
+            ajaxFn("GET", ajaxUrl, sendReturnRepairBarcodeSuccess, '', '', '');
           });
         });
       }
@@ -678,13 +676,35 @@ var uvel,
           var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs/return';
           var ajaxUrl = url + '/' + processReturnBarcode;
 
-          ajaxFn("GET",ajaxUrl,sendReturnRepairBarcodeSuccess,'','',processReturnBarcodeInput);
+          ajaxFn("GET", ajaxUrl, sendReturnRepairBarcodeSuccess, '', '', processReturnBarcodeInput);
         } 
       }
 
-      function sendReturnRepairBarcodeSuccess(data) {
-        if(data.success){
-          window.location.href = "http://stackoverflow.com";        
+      
+      function sendReturnRepairBarcodeSuccess(data, elements, btn) {
+        if(data.hasOwnProperty('success')){
+          window.location.replace(data.redirect);
+        }
+        else if(data.hasOwnProperty('errors')) {
+          var alertAreas = [].slice.apply(document.getElementsByClassName('info-cont'));
+
+          alertAreas.forEach(function(responseHolder) {
+            var holder = document.createDocumentFragment();
+            var errors = data.errors;
+
+            for (var err in errors) {
+              var collectionErr = errors[err];
+
+              collectionErr.forEach(function (msg) {
+                var errorContainer = document.createElement('div');
+                errorContainer.innerText = msg;
+                errorContainer.className = 'alert alert-danger';
+                holder.appendChild(errorContainer);
+              });
+            }
+
+            responseHolder.appendChild(holder);
+          });
         }
       }
 
