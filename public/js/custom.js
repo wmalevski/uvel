@@ -691,6 +691,7 @@ var uvel,
           alertAreas.forEach(function(responseHolder) {
             var holder = document.createDocumentFragment();
             var errors = data.errors;
+            responseHolder.innerHTML = "";
 
             for (var err in errors) {
               var collectionErr = errors[err];
