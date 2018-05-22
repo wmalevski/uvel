@@ -678,8 +678,14 @@ var uvel,
           var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs/return';
           var ajaxUrl = url + '/' + processReturnBarcode;
 
-          ajaxFn("GET",ajaxUrl,sendProcessRepairBarcodeSuccess,'','',processReturnBarcodeInput);
+          ajaxFn("GET",ajaxUrl,sendReturnRepairBarcodeSuccess,'','',processReturnBarcodeInput);
         } 
+      }
+
+      function sendReturnRepairBarcodeSuccess(data) {
+        if(data.success){
+          window.location.href = "http://stackoverflow.com";        
+        }
       }
 
       printBtns.forEach(function(btn){

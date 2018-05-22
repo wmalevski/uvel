@@ -7,7 +7,7 @@
     <td>@if($repair->status == 'repairing') Приет @elseif($repair->status == 'done') Готов @else Върнат  @endif</td> 
 
     <td> @if($repair->status == 'repairing') 
-        <span data-url="repairs/{{$repair->barcode}}" class="edit-btn" data-toggle="modal" data-target="#fullEditRepair"><i class="c-brown-500 ti-pencil"></i></span> @endif @if($repair->status == 'done') <span href="repairs/return/{{$repair->barcode}}" class="edit-btn" data-toggle="modal" data-target="#returnRepair"><i class="c-brown-500 ti-reload"></i></span> @endif
+        <span data-url="repairs/{{$repair->barcode}}" class="edit-btn" data-toggle="modal" data-target="#fullEditRepair"><i class="c-brown-500 ti-pencil"></i></span> @endif @if($repair->status == 'done') <span href="repairs/return/{{$repair->barcode}}" data-toggle="modal" data-target="#returnRepair"><i class="c-brown-500 ti-reload"></i></span> @endif
         <a href="repairs/certificate/{{$repair->id}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a> 
         <a href="repairs/delete/{{$repair->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></a>
     </td>
