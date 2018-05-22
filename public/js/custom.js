@@ -849,7 +849,7 @@ var uvel,
          messageWrapper.className  = 'alert alert-danger';
          messageWrapper.innerText = text;
          table.before(messageWrapper);
-         setTimeout(function(){ messageWrapper.remove(); }, 3000);
+         setTimeout(function(){ messageWrapper.remove(); }, 2000);
       }
 
       function deleteBtnSuccess(data, elements, btn) {     
