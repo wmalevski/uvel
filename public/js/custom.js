@@ -479,19 +479,6 @@ var uvel,
             returnRepairWrapper.querySelector('.info-cont').innerHTML='';
             document.getElementById('barcode_return-repairs').value = '';
           });
-
-          btn.addEventListener('click', function() {
-            var returnRepairWrapper = document.getElementById('return-repair-wrapper');
-            var nextElement = returnRepairWrapper.nextElementSibling;
-
-            if(nextElement != null){
-              nextElement.parentNode.removeChild(nextElement);
-            }
-
-            returnRepairWrapper.style.display = 'block';
-            returnRepairWrapper.querySelector('.info-cont').innerHTML='';
-            document.getElementById('barcode_return-repairs').value = '';
-          });
         });
       }
 
