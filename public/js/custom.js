@@ -235,6 +235,7 @@ var uvel,
       var collectionModalAddBtns = document.querySelectorAll('.modal-dialog .modal-footer .add-btn-modal');
       var collectionScanRepairBtns = document.querySelectorAll('.scan-repair');
       var collectionReturnRepairBtns = document.querySelectorAll('.return-repair');
+      var collectionReturnRepairActionBtns = document.querySelectorAll('.return-repair-action');
       var printBtns = document.querySelectorAll('.print-btn');
       var deleteBtns = document.querySelectorAll('.delete-btn');
       var paymentBtns = document.querySelectorAll('.payment-btn');
@@ -482,6 +483,16 @@ var uvel,
         });
       }
 
+      if(collectionReturnRepairActionBtns.length > 0) {
+        collectionReturnRepairActionBtns.forEach(function (btn) {
+          btn.addEventListener('click', function() {
+            var url = this.getAttribute('data-url');
+            var ajaxUrl = window.location.origin + '/ajax/' + url;
+            ajaxFn("GET", ajaxUrl, sendReturnRepairBarcodeSuccess, '', '', '');
+          });
+        });
+      }
+
       if(catalogNumberInput !== null) {
         catalogNumberInput.addEventListener('change', addCatalogNumber);
       }
@@ -665,7 +676,7 @@ var uvel,
           var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs/return';
           var ajaxUrl = url + '/' + processReturnBarcode;
 
-          ajaxFn("GET", ajaxUrl,sendReturnRepairBarcodeSuccess, '', '', processReturnBarcodeInput);
+          ajaxFn("GET", ajaxUrl, sendReturnRepairBarcodeSuccess, '', '', processReturnBarcodeInput);
         } 
       }
 
