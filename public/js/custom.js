@@ -848,7 +848,7 @@ var uvel,
             var url = window.location.origin + '/ajax';
             var link = event.currentTarget;
             var linkPath = link.getAttribute('data-url');
-            var ajaxUrl = url+linkPath;
+            var ajaxUrl = url + '/'+ linkPath;
 
             ajaxFn("POST", ajaxUrl, deleteBtnSuccess, '', '', link);
           }       

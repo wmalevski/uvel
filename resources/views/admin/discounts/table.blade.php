@@ -7,6 +7,6 @@
     <td>
         <span data-url="discounts/{{$discount->id}}" class="edit-btn" data-toggle="modal" data-target="#editDiscount"><i class="c-brown-500 ti-pencil"></i></span>
         <a href="discounts/print/{{$discount->id}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a> 
-        <a href="discounts/delete/{{$discount->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></a>
+        <span data-url="discounts/delete/{{$discount->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></span>
     </td>
 </tr>
