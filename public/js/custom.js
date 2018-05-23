@@ -1309,9 +1309,18 @@ var uvel,
           else {
             var tableRow = $self.currentPressedBtn.parentElement.parentElement;
             $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
+
           }
-              
-          if(tableRow !== null){
+
+          if((nameForm === 'sendUser') && (response.place === 'inactive')){
+            //delete row from active table
+
+            var table = document.getElementById('user-substitute-inactive');
+            var tableBody = table.querySelector('tbody');
+
+            tableBody.innerHTML += response.table;
+          }
+          else if(tableRow !== null){
             tableRow.innerHTML = content;
           }               
         }
