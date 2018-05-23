@@ -1314,6 +1314,14 @@ var uvel,
 
           if((nameForm === 'sendUser') && (response.place === 'inactive')){
             //delete row from active table
+            var container = document.createElement('table');
+            container.innerHTML = response.table;
+            var responseDataID = container.rows[0].getAttribute('data-id');
+
+            var activeTable = document.getElementById('user-substitute-active');
+            var activeTableRows = activeTable.rows;
+
+            //console.log(response.table.getAttribute('data-id'));
 
             var table = document.getElementById('user-substitute-inactive');
             var tableBody = table.querySelector('tbody');
