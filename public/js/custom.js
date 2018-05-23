@@ -847,7 +847,7 @@ var uvel,
           if (confirm("Сигурен ли си, че искаш да изтриеш записа?")) {
             var url = window.location.origin + '/ajax';
             var link = event.currentTarget;
-            var linkPath = link.href.split("admin")[1];
+            var linkPath = link.getAttribute('data-url');
             var ajaxUrl = url+linkPath;
 
             ajaxFn("POST", ajaxUrl, deleteBtnSuccess, '', '', link);

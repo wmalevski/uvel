@@ -5,6 +5,6 @@
     <td>@if($user->store != '') {{ App\Stores::withTrashed()->find($user->store)->name }} @endif</td> 
     <td>
         <span data-url="users/{{$user->id}}" class="edit-btn" data-toggle="modal" data-target="#editUser"><i class="c-brown-500 ti-pencil"></i></span>
-        @if($user->id != 1)<a href="users/delete/{{$user->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></a>@endif
+        @if($user->id != 1)<span data-url="users/delete/{{$user->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></span>@endif
     </td>
 </tr>
