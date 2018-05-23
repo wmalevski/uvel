@@ -1025,7 +1025,7 @@ var uvel,
                 ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements, currentPressedBtn);
               } else if (formMethod == 'PUT') { 
                 ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
-              }        
+              }                 
       }
 
       function productsRequest(tempUrl) {
@@ -1239,6 +1239,7 @@ var uvel,
             });
         }
 
+          $self.checkAllForms();
           editAction();
         }
 
