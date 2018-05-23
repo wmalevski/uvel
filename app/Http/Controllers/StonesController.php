@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\View;
 use Uuid;
 use App\Gallery;
 use File;
+use App\Model_stones;
+use App\Product_stones;
 
 
 class StonesController extends Controller
@@ -210,8 +212,15 @@ class StonesController extends Controller
         $stone = Stones::find($stone);
         
         if($stone){
-            $stone->delete();
-            return Response::json(array('success' => 'Успешно изтрито!'));
+            $usingModel = Model_stones::where('stone', $stone->id)->count();
+            $usingProduct = Product_stones::where('stone', $stone->id)->count();
+
+            if($usingModel || $usingProduct){
+                return Response::json(['errors' => ['using' => ['Не може да изтриете елемент, който се използва от други неща в системата.']]], 401);
+            }else{
+                $stone->delete();
+                return Response::json(array('success' => 'Успешно изтрито!'));
+            }
         }
     }
 }

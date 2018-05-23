@@ -11,6 +11,8 @@ use Response;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
 use File;
+use App\Models;
+use App\Products;
 
 class JewelsController extends Controller
 {
@@ -117,8 +119,15 @@ class JewelsController extends Controller
         $jewel = Jewels::find($jewel);
         
         if($jewel){
-            $jewel->delete();
-            return Response::json(array('success' => 'Успешно изтрито!'));
+            $usingModel = Products::where('jewel_type', $jewel->id)->count();
+            $usingProduct = Models::where('jewel', $jewel->id)->count();
+
+            if($usingModel || $usingProduct){
+                return Response::json(['errors' => ['using' => ['Не може да изтриете елемент, който се използва от други неща в системата.']]], 401);
+            }else{
+                $jewel->delete();
+                return Response::json(array('success' => 'Успешно изтрито!'));
+            }
         }
     }
 }

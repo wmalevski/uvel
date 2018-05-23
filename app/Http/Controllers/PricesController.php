@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use App\Models;
 use Response;
 use Illuminate\Support\Facades\View;
+use App\Products;
 use App\Jewels;
 
 class PricesController extends Controller
@@ -134,8 +135,19 @@ class PricesController extends Controller
         $price = Prices::find($price);
         
         if($price){
-            $price->delete();
-            return Response::json(array('success' => 'Успешно изтрито!'));
+            $usingWProduct = Products::where('wholesale_price', $price->id)->count();
+            $usingRProduct = Products::where('retail_price', $price->id)->count();
+
+            $usingWModel = Models::where('wholesale_price', $price->id)->count();
+            $usingRModel = Models::where('retail_price', $price->id)->count();
+
+            if($usingWProduct || $usingRProduct || $usingWModel || $usingRModel){
+                return Response::json(['errors' => ['using' => ['Не може да изтриете елемент, който се използва от други неща в системата.']]], 401);
+            }else{
+
+                $price->delete();
+                return Response::json(array('success' => 'Успешно изтрито!'));
+            }
         }
     }
 

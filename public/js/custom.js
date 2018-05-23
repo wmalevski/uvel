@@ -843,7 +843,7 @@ var uvel,
         if(event.currentTarget && event.currentTarget.classList.contains('delete-btn')) {
           event.preventDefault();
           event.stopPropagation();
-
+          
           if (confirm("Сигурен ли си, че искаш да изтриеш записа?")) {
             var url = window.location.origin + '/ajax';
             var link = event.currentTarget;
@@ -855,21 +855,37 @@ var uvel,
         }
       }
 
-      function deleteBtnSuccess(data, elements, btn) {
-        let td = btn.parentElement;
-        let tr = td.parentElement;
-        let table = tr.parentElement;
+      function createErrorMessage(table, text) {
+         var messageWrapper = document.createElement('div');
 
-        table.removeChild(tr);  
+         messageWrapper.className  = 'alert alert-danger';
+         messageWrapper.innerText = text;
+         table.before(messageWrapper);
+         setTimeout(function(){ messageWrapper.remove(); }, 3000);
+      }
 
-        if($(btn).hasClass("cart")){
-          var success = data.success;
-          var subTotalInput = document.getElementById("subTotal");
-          var totalInput = document.getElementById("total");
+      function deleteBtnSuccess(data, elements, btn) {     
+        if(data.hasOwnProperty('errors')){
+          var table = document.querySelector('table');
+          var text = data.errors.using;
+          createErrorMessage(table,text);         
+        }
+        else {
+          var td = btn.parentElement;
+          var tr = td.parentElement;
+          var table = tr.parentElement;
 
-          if(success) {
-            subTotalInput.value = data.subtotal;
-            totalInput.value = data.total;
+          table.removeChild(tr);  
+
+          if($(btn).hasClass("cart")){
+            var success = data.success;
+            var subTotalInput = document.getElementById("subTotal");
+            var totalInput = document.getElementById("total");
+
+            if(success) {
+              subTotalInput.value = data.subtotal;
+              totalInput.value = data.total;
+            }
           }
         }
       }
