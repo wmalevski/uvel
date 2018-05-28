@@ -694,7 +694,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle no-after peers fxw-nw ai-c lh-1">
                 <div class="peer">
-                  <span class="fsz-sm c-grey-900">{{ App\Stores::find(Auth::user()->store)->name }} </span>
+                  <span class="fsz-sm c-grey-900">{{ App\Stores::withTrashed()->find(Auth::user()->store)->name }} </span>
                 </div>
               </a>
             </li>
