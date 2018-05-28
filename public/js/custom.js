@@ -1336,6 +1336,7 @@ var uvel,
           }               
         }
 
+        $self.checkAllForms();
         editAction();
         pendingRequest = false; 
       }
