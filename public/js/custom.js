@@ -1313,15 +1313,17 @@ var uvel,
           }
 
           if((nameForm === 'sendUser') && (response.place === 'inactive')){
-            //delete row from active table
             var container = document.createElement('table');
             container.innerHTML = response.table;
             var responseDataID = container.rows[0].getAttribute('data-id');
-
             var activeTable = document.getElementById('user-substitute-active');
             var activeTableRows = activeTable.rows;
 
-            //console.log(response.table.getAttribute('data-id'));
+            for(var row of activeTableRows){
+              if(responseDataID === row.getAttribute('data-id')){
+                activeTable.deleteRow(row.rowIndex);
+              }
+            }
 
             var table = document.getElementById('user-substitute-inactive');
             var tableBody = table.querySelector('tbody');
