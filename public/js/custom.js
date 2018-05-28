@@ -847,8 +847,8 @@ var uvel,
           if (confirm("Сигурен ли си, че искаш да изтриеш записа?")) {
             var url = window.location.origin + '/ajax';
             var link = event.currentTarget;
-            var linkPath = link.href.split("admin")[1];
-            var ajaxUrl = url+linkPath;
+            var linkPath = link.getAttribute('data-url');
+            var ajaxUrl = url + '/'+ linkPath;
 
             ajaxFn("POST", ajaxUrl, deleteBtnSuccess, '', '', link);
           }       
@@ -1025,7 +1025,7 @@ var uvel,
                 ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements, currentPressedBtn);
               } else if (formMethod == 'PUT') { 
                 ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
-              }        
+              }                 
       }
 
       function productsRequest(tempUrl) {
@@ -1239,6 +1239,7 @@ var uvel,
             });
         }
 
+          $self.checkAllForms();
           editAction();
         }
 
