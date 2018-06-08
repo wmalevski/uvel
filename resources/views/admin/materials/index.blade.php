@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="addMaterial" action="/materials">
+            <form method="POST" name="addMaterial" action="/materials" autocomplete="off">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>
@@ -86,14 +86,14 @@ aria-hidden="true">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
         <h4 class="c-grey-900 mB-20">Материали <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addMaterial">Добави</button></h4>
         <p>Преглед на създадените материали.</p>
-        <table class="table table-condensed">
+        <table class="table">
             <tr>
-                <th>Име</th> 
-                <th>Проба</th> 
-                <th>Цвят</th> 
-                <th>Карат</th>
-                <th>Борсова Цена</th>
-                <th>Действия</th> 
+                <th style="width: 32%;">Име</th> 
+                <th style="width: 14%">Проба</th> 
+                <th style="width: 14%">Цвят</th> 
+                <th style="width: 14%">Карат</th>
+                <th style="width: 14%">Борсова Цена</th>
+                <th style="width: 12%">Действия</th> 
             </tr>
             
             @foreach($materials as $material)

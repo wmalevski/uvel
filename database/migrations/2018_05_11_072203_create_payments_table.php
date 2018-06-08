@@ -20,8 +20,9 @@ class CreatePaymentsTable extends Migration
             $table->enum('reciept', ['yes', 'no']);
             $table->enum('ticket', ['yes', 'no']);
             $table->float('price');
-            $table->float('given');
+            $table->float('given')->nullable();
             $table->integer('selling');
+            $table->enum('type', ['sell', 'repair', 'order']);
             $table->timestamps();
         });
     }
