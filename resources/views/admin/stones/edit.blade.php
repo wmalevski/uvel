@@ -16,8 +16,8 @@
 
             <div class="form-group">
                 <select name="type" id="stone_type" class="form-control">
-                    <option value="1">Синтатичен</option>
-                    <option value="2">Естествен</option>
+                    <option value="1" @if($stone->type == 1) selected @endif>Синтетичен</option>
+                    <option value="2" @if($stone->type == 2) selected @endif>Естествен</option>
                 </select>
             </div>
 

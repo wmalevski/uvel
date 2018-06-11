@@ -312,6 +312,7 @@ aria-hidden="true">
                         <th scope="col">Телефон</th>
                         <th scope="col">Тип ремонт</th>
                         <th scope="col">Статус</th>
+                        <th scope="col">Дата</th>
                         <th scope="col">Действия</th>
                     </tr>
                 </thead>

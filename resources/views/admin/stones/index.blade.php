@@ -19,7 +19,7 @@ aria-hidden="true">
                     </div>
                     {{ csrf_field() }}
                     <select name="type" id="stone_type" class="form-control">
-                        <option value="1">Синтатичен</option>
+                        <option value="1">Синтетичен</option>
                         <option value="2">Естествен</option>
                     </select>
                     

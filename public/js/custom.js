@@ -847,8 +847,8 @@ var uvel,
           if (confirm("Сигурен ли си, че искаш да изтриеш записа?")) {
             var url = window.location.origin + '/ajax';
             var link = event.currentTarget;
-            var linkPath = link.href.split("admin")[1];
-            var ajaxUrl = url+linkPath;
+            var linkPath = link.getAttribute('data-url');
+            var ajaxUrl = url + '/'+ linkPath;
 
             ajaxFn("POST", ajaxUrl, deleteBtnSuccess, '', '', link);
           }       
@@ -1025,7 +1025,7 @@ var uvel,
                 ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements, currentPressedBtn);
               } else if (formMethod == 'PUT') { 
                 ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
-              }        
+              }                 
       }
 
       function productsRequest(tempUrl) {
@@ -1239,6 +1239,7 @@ var uvel,
             });
         }
 
+          $self.checkAllForms();
           editAction();
         }
 
@@ -1309,13 +1310,33 @@ var uvel,
           else {
             var tableRow = $self.currentPressedBtn.parentElement.parentElement;
             $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
+
           }
-              
-          if(tableRow !== null){
+
+          if((nameForm === 'sendUser') && (response.place === 'inactive')){
+            var container = document.createElement('table');
+            container.innerHTML = response.table;
+            var responseDataID = container.rows[0].getAttribute('data-id');
+            var activeTable = document.getElementById('user-substitute-active');
+            var activeTableRows = activeTable.rows;
+
+            for(var row of activeTableRows){
+              if(responseDataID === row.getAttribute('data-id')){
+                activeTable.deleteRow(row.rowIndex);
+              }
+            }
+
+            var table = document.getElementById('user-substitute-inactive');
+            var tableBody = table.querySelector('tbody');
+
+            tableBody.innerHTML += response.table;
+          }
+          else if(tableRow !== null){
             tableRow.innerHTML = content;
           }               
         }
 
+        $self.checkAllForms();
         editAction();
         pendingRequest = false; 
       }

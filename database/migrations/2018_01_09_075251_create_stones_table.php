@@ -23,7 +23,7 @@ class CreateStonesTable extends Migration
             $table->integer('style')->references('id')->on('stone_styles');
             $table->integer('contour')->references('id')->on('stone_contours');
             $table->integer('amount');
-            $table->float('price');
+            $table->double('price', 12, 3);
             $table->timestamps();
             $table->softDeletes();
         });
