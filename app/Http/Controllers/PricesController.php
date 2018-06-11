@@ -142,7 +142,7 @@ class PricesController extends Controller
             $usingRModel = Models::where('retail_price', $price->id)->count();
 
             if($usingWProduct || $usingRProduct || $usingWModel || $usingRModel){
-                return Response::json(['errors' => ['using' => ['Не може да изтриете елемент, който се използва от други неща в системата.']]], 401);
+                return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
             }else{
 
                 $price->delete();
