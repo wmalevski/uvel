@@ -216,7 +216,7 @@ class StonesController extends Controller
             $usingProduct = Product_stones::where('stone', $stone->id)->count();
 
             if($usingModel || $usingProduct){
-                return Response::json(['errors' => ['using' => ['Не може да изтриете елемент, който се използва от други неща в системата.']]], 401);
+                return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
             }else{
                 $stone->delete();
                 return Response::json(array('success' => 'Успешно изтрито!'));
