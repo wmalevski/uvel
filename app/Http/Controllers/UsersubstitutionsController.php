@@ -142,8 +142,8 @@ class UsersubstitutionsController extends Controller
     public function edit(Usersubstitutions $usersubstitutions, $substitution)
     {
         $substitution = Usersubstitutions::find($substitution);
-        $stores = Stores::all();
-        $users = User::all();
+        $stores = Stores::withTrashed()->get();
+        $users = User::withTrashed()->get();
         $place = 'active';
 
         if($substitution->date_to < date("Y-m-d")){
