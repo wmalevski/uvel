@@ -98,6 +98,7 @@ class MaterialsController extends Controller
         $material->name = $request->name;
         $material->code = $request->code;
         $material->color = $request->color;
+        $material->carat = $request->carat;
         
         $material->save();
 
