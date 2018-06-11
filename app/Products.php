@@ -111,8 +111,8 @@ class Products extends Model
             
             foreach($model_stones as $stone){
                 $pass_stones[] = [
-                    'value' => Stones::find($stone->stone)->id,
-                    'label' => Stones::find($stone->stone)->name.' ('.Stone_contours::find(Stones::find($stone->stone)->contour)->name. ', ' .Stone_sizes::find(Stones::find($stone->stone)->size)->name. ' )'
+                    'value' => Stones::withTrashed()->find($stone->stone)->id,
+                    'label' => Stones::withTrashed()->find($stone->stone)->name.' ('.Stone_contours::withTrashed()->find(Stones::withTrashed()->find($stone->stone)->contour)->name. ', ' .Stone_sizes::withTrashed()->find(Stones::withTrashed()->find($stone->stone)->size)->name. ' )'
                 ];
             }
     

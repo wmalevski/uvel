@@ -11,6 +11,7 @@ use App\Models;
 use Response;
 use Illuminate\Support\Facades\View;
 use App\Products;
+use App\Jewels;
 
 class PricesController extends Controller
 {
@@ -153,7 +154,7 @@ class PricesController extends Controller
     public function getByMaterial($material){
         $prices = Prices::where(
             [
-                ['material', '=', Jewel::find($material)->material],
+                ['material', '=', Jewels::find($material)->material],
                 ['type', '=', 'sell']
             ]
         )->get();
@@ -175,7 +176,7 @@ class PricesController extends Controller
 
         $pass_models = array();
         
-        foreach($pass_models as $model){
+        foreach($models as $model){
             $pass_models[] = (object)[
                 'value' => $model->id,
                 'label' => $model->name,

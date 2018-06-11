@@ -20,10 +20,10 @@ class Repairs extends Model
         'barcode',
         'weight',
         'weight_after',
-        'deposit',
         'price',
         'price_after',
-        'material'
+        'material',
+        'status'
     ];
 
     protected $dates = ['deleted_at'];
