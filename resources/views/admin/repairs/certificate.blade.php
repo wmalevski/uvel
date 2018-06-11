@@ -7,6 +7,8 @@
     <h1 style="text-align: center;"><strong>РЕМОНТ №: {{ $repair->id }}</strong></h1>
     <h2 style="text-align: center;">бижутерско изделие</h2>
 
+    {!! DNS1D::getBarcodeSVG($repair->barcode, "EAN13",1,33,"black", true) !!}
+
     <div>
         <strong>Клиент: </strong> {{ $repair->customer_name }}
     </div>
@@ -19,6 +21,11 @@
 
     <div>
         <strong>Опис: </strong> {{ $repair->repair_description }}
+    </div>
+    <hr/>
+
+    <div>
+        <strong>Дата на приемане: </strong> {{ $repair->created_at }}
     </div>
     <hr/>
 
