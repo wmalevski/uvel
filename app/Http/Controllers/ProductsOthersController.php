@@ -134,7 +134,7 @@ class ProductsOthersController extends Controller
         }
 
         $validator = Validator::make( $request->all(), [
-            'name' => 'required|unique:products_others,name',
+            'name' => 'required|unique:products_others,name,'.$product->id,
             'type' => 'required',
             'price' => 'required|numeric|between:0.1,10000',
             'quantity' => 'required|numeric|between:1,10000'
