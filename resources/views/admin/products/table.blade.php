@@ -20,7 +20,7 @@
         @endcan
         <a href="products/print/{{$product->id}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a> 
         @can('delete-products')
-            <a href="products/delete/{{$product->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></a> 
+            <span data-url="products/delete/{{$product->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></span> 
         @endcan
     </td>
 </tr>

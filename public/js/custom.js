@@ -6,7 +6,7 @@ var uvel,
 
     this.init = function () {
       $self.initializeSelect($('select'));
-      $self.checkAllForms();     
+      $self.checkAllForms();    
     };
 
     this.addSelect2CustomAttributes = function(data, container) {
@@ -29,16 +29,13 @@ var uvel,
     }
 
     this.addAndRemoveFields = function () {
-
       var collectionAddFieldBtn = $('.add_field_button');
 
       collectionAddFieldBtn.each(function() {
-
         var thisBtn = $(this);
         var fieldsWrapper = $(this).parents().find('.model_stones');
 
         thisBtn.on('click', function(e) {
-
           var fields = fieldsWrapper.find('.fields');
           var stonesData = $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null;
           var maxFields = 10;
@@ -69,10 +66,8 @@ var uvel,
 
             fieldsHolder.innerHTML = newFields;
             fieldsWrapper.append(fieldsHolder);
-
             $self.initializeSelect(fieldsWrapper.find('select'));
           }
-          
         });
 
         $(fieldsWrapper).on('click', '.remove_field', function(event) {
@@ -80,15 +75,10 @@ var uvel,
           var parents = $(this).parentsUntil(".form-row .fields");
           parents[1].remove();
         });
-        
-
       });
-      
     }
-
     
     this.dropFunctionality = function(instanceFiles) {
-      
       var dropArea = $('.drop-area'),
           preventEvents = ['dragenter', 'dragover', 'dragleave', 'drop'],
           highlightEvents = ['dragenter', 'dragover'],
@@ -156,22 +146,14 @@ var uvel,
           files.forEach(previewFile);
         }
   
-        function previewFile(file) {
-
-          
+        function previewFile(file) {          
           var reader = new FileReader();
           reader.readAsDataURL(file);
   
           reader.onloadend = function() {
-  
             var imageWrapper = document.createElement('div');
-            imageWrapper.setAttribute("class", "image-wrapper");
             var closeBtn = document.createElement('div');
-            closeBtn.setAttribute("class", "close");
-            closeBtn.innerHTML = '&#215;';
             var img = document.createElement('img');
-    
-            img.src = reader.result;
 
             toDataURL(
               reader.result,
@@ -180,34 +162,32 @@ var uvel,
                 instanceFiles.push(data);          
               }
             )   
-            
-            closeBtn.addEventListener('click', deleteUploadedImage);
 
-            $(closeBtn).appendTo(imageWrapper);
+            imageWrapper.setAttribute("class", "image-wrapper");
+            closeBtn.setAttribute("class", "close");
+            closeBtn.innerHTML = '&#215;';            
+            closeBtn.addEventListener('click', function(event){
+              event.currentTarget.parentElement.remove();
+            });
 
-            $(img).appendTo(imageWrapper);
-
-            $(imageWrapper).appendTo(dropAreaGallery);
-
+            img.src = reader.result;
+            imageWrapper.append(closeBtn);
+            imageWrapper.append(img);
+            dropAreaGallery.append(imageWrapper);
           }
-        }
-
-  
+        }  
       });
 
       var imageDeleteBtn = $('.image-wrapper .close');
       
       imageDeleteBtn.each(function() {
-
         var imageDeleteBtn = $(this);
 
         imageDeleteBtn.off();
         imageDeleteBtn.on('click', deleteUploadedImage);
-
       });
 
       function deleteUploadedImage(e) {
-           
         var deleteUrl = $(this).find('span').attr('data-url');
         var urlTaken = window.location.href.split('/');
         var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
@@ -220,15 +200,11 @@ var uvel,
             method: "POST",
             success: deleteUploadedImageSuccess(e)
           });
-
         }
-        
       }
 
       function deleteUploadedImageSuccess(e) {
-
         $(e.target).parents('.image-wrapper').remove();
-
       }
 
       function toDataURL(src, callback, outputFormat) {
@@ -259,13 +235,12 @@ var uvel,
       var collectionModalAddBtns = document.querySelectorAll('.modal-dialog .modal-footer .add-btn-modal');
       var collectionScanRepairBtns = document.querySelectorAll('.scan-repair');
       var collectionReturnRepairBtns = document.querySelectorAll('.return-repair');
+      var collectionReturnRepairActionBtns = document.querySelectorAll('.return-repair-action');
       var printBtns = document.querySelectorAll('.print-btn');
       var deleteBtns = document.querySelectorAll('.delete-btn');
       var paymentBtns = document.querySelectorAll('.payment-btn');
       var certificateBtns = document.querySelectorAll('.certificate');
       var paymentModalSubmitBtns = document.querySelectorAll('.btn-finish-payment');
-
-
       var urlTaken = window.location.href.split('/');
       var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
       var token = $('meta[name="csrf-token"]').attr('content');
@@ -276,6 +251,7 @@ var uvel,
       var barcodeReturnRepairInput = document.getElementById("barcode_return-repairs");
       var catalogNumberInput = document.getElementById("catalog_number");
       var amountInput =  document.getElementById("amount");
+      var typeRepairInput = document.getElementById("type_repair");
       var moreProductsInput = document.getElementById("amount_check");
       var discountInput = document.getElementById("add_discount");
       var discountCardInput = document.getElementById("discount_card");
@@ -285,7 +261,6 @@ var uvel,
       var paymentModalGivenInput = document.getElementById('given-sum');
       var paymentModalReturnInput = document.getElementById('return-sum');
       var paymentModalCurrencySelector = document.getElementById('pay-currency');
-
       var sellingForm = document.getElementById('selling-form');
       var returnRepairForm = document.getElementById('return-repair-form');
       var returnScanForm = document.getElementById('scan-repair-form');
@@ -299,14 +274,7 @@ var uvel,
         var typeJeweryData = jeweryPrice;
         var weightData = dataWeight;
         var priceData = priceDev;
-        var element = currentElement;
-
-        console.log('calculating..');
-        console.log(typeJeweryData);
-        console.log(weightData);
-        console.log(priceData);
-        console.log('/calculating..');
-        
+        var element = currentElement;        
         var inputDev = element.children().find('.worksmanship_price'),
           inputPrice = element.children().find('.final_price');
 
@@ -316,8 +284,6 @@ var uvel,
 
           inputDev.val(priceDev);
           inputPrice.val(productPrice);
-
-          console.log('isndei');
         } else {
           inputDev.val('0');
           inputPrice.val('0');
@@ -334,33 +300,68 @@ var uvel,
         var parentElement = _element.parents('form');
 
         if(_element[0].nodeName == 'SELECT') {
-          if(_element[0].id == 'jewel' || _element[0].id == 'jewel_edit') {
-            var materialType = _element.find(':selected').attr('data-material');
+          if(_element[0].id == 'jewels_types' || _element[0].id == 'jewel_edit') {
+            var materialType = _element.find(':selected').val();
             var requestLink = ajaxUrl + materialType;    
 
+            if(materialType.length === 0) {
+              return;
+            }
+            
             jeweryPrice = _element.find(':selected').attr('data-pricebuy');
 
             ajaxFn('GET' , requestLink , function(response) {
-                var data = response.prices;
-  
-                var newData = data.map(function(keys) {
-                  return {
-                    id: keys.id,
-                    text: keys.slug + ' - ' + keys.price,
-                    price: keys.price,
-                    material: keys.material
-                  }
-                });
-                
-                _element.parents('form').children().find('.prices-filled').empty();
-                _element.parents('form').children().find('.prices-filled').select2({
-                  data: newData,
-                  templateResult: $self.addSelect2CustomAttributes,
-                  templateSelection: $self.addSelect2CustomAttributes
-                });              
-              });  
+              var data = response.prices;
+              var models = response.pass_models;
+              var modelsData = models.map(function(keys) {
+                return {
+                  id: keys.id,
+                  text: keys.name,
+                  jewel: keys.jewel,
+                  retail_price: keys.retail_price,
+                  wholesale_price: keys.wholesale_price,
+                  weight: keys.weight,
+                  workmanship: keys.workmanship
+                }
+              });
+
+              _element.parents('form').children().find('.model-filled').empty();
+              _element.parents('form').children().find('.model-filled').select2({
+                data: modelsData,
+                templateResult: $self.addSelect2CustomAttributes,
+                templateSelection: $self.addSelect2CustomAttributes
+              }); 
+        
+              var newData = data.map(function(keys) {
+                return {
+                  id: keys.id,
+                  text: keys.slug + ' - ' + keys.price,
+                  price: keys.price,
+                  material: keys.material
+                }
+              });
+                      
+              _element.parents('form').children().find('.prices-filled').empty();
+              _element.parents('form').children().find('.prices-filled').select2({
+                data: newData,
+                templateResult: $self.addSelect2CustomAttributes,
+                templateSelection: $self.addSelect2CustomAttributes
+              });     
+
+              $('#retail_prices').trigger('change');
+              $('#retail_price_edit').trigger('change');
+            });  
+
           } else {
-            priceDev = _element.select2('data')[0].price;
+            if( _element.select2('data')[0] !== undefined){
+              priceDev = _element.select2('data')[0].price;
+            }
+          }
+
+          if(_element[0].id == 'jewels_types' ) {
+            dataWeight = _element.parent().siblings('.weight-holder').children('input').val();
+          } else if (_element[0].id == 'jewel_edit') {
+            dataWeight = _element.parent().siblings('.weight-holder-edit').children('input').val();
           }
 
           calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
@@ -384,8 +385,7 @@ var uvel,
       }
 
       if(collectionModalEditBtns.length > 0) {
-
-        var modelSelect = $('#model_select');
+        var modelSelectEdit = $('#model_select_edit');
         var typeSelect;
         var collectionFiles = [];
         var dropZone = document.getElementsByClassName("drop-area");
@@ -394,18 +394,16 @@ var uvel,
             this.dropFunctionality(collectionFiles);   
         }
 
-        if(modelSelect) {
-          modelSelect.on('select2:select', function(ev) {
-            
-            if(modelSelect.val()) {
-              
-              var value = modelSelect.find(':selected').val(),
+        if(modelSelectEdit) {   
+          modelSelectEdit.on('select2:select', function(ev) {     
+            if(modelSelectEdit.val()) {
+              var value = modelSelectEdit.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
                   xhttp = new XMLHttpRequest(),
-                  typeSelect = $('#jewel_edit');
+                  typeSelect = $('#jewels_types');
 
               typeSelect.on('select2:select', function(ev) {
-                modelSelect.val('0').trigger('change.select2');
+                modelSelectEdit.val('0').trigger('change.select2');
               });
 
               productsRequest(tempUrl);
@@ -420,7 +418,6 @@ var uvel,
       }
      
       if(collectionModalAddBtns.length > 0) {
-
         var modelSelect = $('#model_select');
         var typeSelect;
         var collectionFiles = [];
@@ -436,7 +433,7 @@ var uvel,
               var value = modelSelect.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
                   xhttp = new XMLHttpRequest(),
-                  typeSelect = $('#jewel');
+                  typeSelect = $('#jewels_types');
 
               typeSelect.on('select2:select', function(ev) {
                 modelSelect.val('0').trigger('change.select2');
@@ -471,9 +468,7 @@ var uvel,
       }
 
       if(collectionReturnRepairBtns.length > 0) {
-
         collectionReturnRepairBtns.forEach(function (btn) {
-
           btn.addEventListener('click', function() {
             var returnRepairWrapper = document.getElementById('return-repair-wrapper');
             var nextElement = returnRepairWrapper.nextElementSibling;
@@ -486,18 +481,15 @@ var uvel,
             returnRepairWrapper.querySelector('.info-cont').innerHTML='';
             document.getElementById('barcode_return-repairs').value = '';
           });
+        });
+      }
 
+      if(collectionReturnRepairActionBtns.length > 0) {
+        collectionReturnRepairActionBtns.forEach(function (btn) {
           btn.addEventListener('click', function() {
-            var returnRepairWrapper = document.getElementById('return-repair-wrapper');
-            var nextElement = returnRepairWrapper.nextElementSibling;
-
-            if(nextElement != null){
-              nextElement.parentNode.removeChild(nextElement);
-            }
-
-            returnRepairWrapper.style.display = 'block';
-            returnRepairWrapper.querySelector('.info-cont').innerHTML='';
-            document.getElementById('barcode_return-repairs').value = '';
+            var url = this.getAttribute('data-url');
+            var ajaxUrl = window.location.origin + '/ajax/' + url;
+            ajaxFn("GET", ajaxUrl, sendReturnRepairBarcodeSuccess, '', '', '');
           });
         });
       }
@@ -530,7 +522,6 @@ var uvel,
       }
 
       function addCardDiscount() {
-
         var discountCardBarcode = this.value;
         var urlTaken = window.location.href.split('/');
         var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/';
@@ -542,7 +533,6 @@ var uvel,
           ajaxFn("GET", ajaxUrl, discountSuccess, '', '', '');
           discountCardInput.value="";
         }
-        
       }
 
       function addDiscount() {
@@ -561,7 +551,6 @@ var uvel,
 
 
       function discountSuccess(data) {
-
         var success = data.success;
         var subTotalInput = document.getElementById("subTotal");
         var totalInput = document.getElementById("total");
@@ -570,30 +559,24 @@ var uvel,
           subTotalInput.value = data.subtotal;
           totalInput.value = data.total;
         }
-
       }
 
       if(moreProductsInput!==null){
-
-        moreProductsInput.addEventListener('click', moreProductsSelected)
+        moreProductsInput.addEventListener('click', moreProductsSelected);
 
         function moreProductsSelected(){
-          
           if(this.checked ) {
             amountInput.readOnly = false;
           } 
           else {
             amountInput.readOnly = true;
           }
-
         };
+      }
 
-     }
-
-
-     function formPreventDefault(form) {
+      function formPreventDefault(form) {
         form.addEventListener('submit', function(event) { event.preventDefault(); });
-     }
+      }
       
       if(sellingForm !== null) {
         formPreventDefault(sellingForm);
@@ -608,19 +591,21 @@ var uvel,
       }  
 
       if(numberItemInput !== null) {
-        numberItemInput.addEventListener('change',sendItem);
+        numberItemInput.addEventListener('change', sendItem);
       }
 
       function sendItem(event) {
          var numberItemValue = this.value;
          var amountValue = amountInput.value;
          var amountCheck = moreProductsInput.checked;
+         var typeRepair = typeRepairInput.checked;
 
          if(numberItemValue.length == 13){
           var dataSend = {
             'barcode' : Number(numberItemValue),
             'quantity' : Number(amountValue),
-            'amount_check' : amountCheck
+            'amount_check' : amountCheck,
+            'type_repair' : typeRepair
           };
            var currentElement = $(event.target);
            var form = currentElement.closest("form");
@@ -694,8 +679,37 @@ var uvel,
           var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs/return';
           var ajaxUrl = url + '/' + processReturnBarcode;
 
-          ajaxFn("GET",ajaxUrl,sendProcessRepairBarcodeSuccess,'','',processReturnBarcodeInput);
+          ajaxFn("GET", ajaxUrl, sendReturnRepairBarcodeSuccess, '', '', processReturnBarcodeInput);
         } 
+      }
+
+      
+      function sendReturnRepairBarcodeSuccess(data, elements, btn) {
+        if(data.hasOwnProperty('success')){
+          window.location.replace(data.redirect);
+        }
+        else if(data.hasOwnProperty('errors')) {
+          var alertAreas = [].slice.apply(document.getElementsByClassName('info-cont'));
+
+          alertAreas.forEach(function(responseHolder) {
+            var holder = document.createDocumentFragment();
+            var errors = data.errors;
+            responseHolder.innerHTML = "";
+
+            for (var err in errors) {
+              var collectionErr = errors[err];
+
+              collectionErr.forEach(function (msg) {
+                var errorContainer = document.createElement('div');
+                errorContainer.innerText = msg;
+                errorContainer.className = 'alert alert-danger';
+                holder.appendChild(errorContainer);
+              });
+            }
+
+            responseHolder.appendChild(holder);
+          });
+        }
       }
 
       printBtns.forEach(function(btn){
@@ -712,7 +726,6 @@ var uvel,
       });
   
       function print(event) {
-
         if(event.currentTarget && event.currentTarget.classList.contains('print-btn')) {
           event.preventDefault();
           event.stopPropagation();
@@ -827,123 +840,111 @@ var uvel,
 
 
       function deleteRowRecord(event) {    
-        if(event.target && event.target.parentElement.classList.contains('delete-btn')) {
+        if(event.currentTarget && event.currentTarget.classList.contains('delete-btn')) {
           event.preventDefault();
           event.stopPropagation();
-
+          
           if (confirm("Сигурен ли си, че искаш да изтриеш записа?")) {
-            var urlTaken = event.target.parentElement.href.split('/');
-            var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax';
-            var link = event.target.parentElement;
-            var linkPath = link.href.split("admin")[1];
-            var ajaxUrl = url+linkPath;
+            var url = window.location.origin + '/ajax';
+            var link = event.currentTarget;
+            var linkPath = link.getAttribute('data-url');
+            var ajaxUrl = url + '/'+ linkPath;
 
-            ajaxFn("POST",ajaxUrl,deleteBtnSuccess,'','',link);
+            ajaxFn("POST", ajaxUrl, deleteBtnSuccess, '', '', link);
           }       
         }
       }
 
-      function deleteBtnSuccess(data, elements, btn) {
-      
-        let td = btn.parentElement;
-        let tr = td.parentElement;
-        let table = tr.parentElement;
+      function createErrorMessage(table, text) {
+         var messageWrapper = document.createElement('div');
 
-        table.removeChild(tr);  
-
-        if($(btn).hasClass("cart")){
-
-          var success = data.success;
-          var subTotalInput = document.getElementById("subTotal");
-          var totalInput = document.getElementById("total");
-
-          if(success) {
-            subTotalInput.value = data.subtotal;
-            totalInput.value = data.total;
-          }
-
-        }
-
+         messageWrapper.className  = 'alert alert-danger';
+         messageWrapper.innerText = text;
+         table.before(messageWrapper);
+         setTimeout(function(){ messageWrapper.remove(); }, 3000);
       }
 
+      function deleteBtnSuccess(data, elements, btn) {     
+        if(data.hasOwnProperty('errors')){
+          var table = document.querySelector('table');
+          var text = data.errors.using;
+          createErrorMessage(table,text);         
+        }
+        else {
+          var td = btn.parentElement;
+          var tr = td.parentElement;
+          var table = tr.parentElement;
+
+          table.removeChild(tr);  
+
+          if($(btn).hasClass("cart")){
+            var success = data.success;
+            var subTotalInput = document.getElementById("subTotal");
+            var totalInput = document.getElementById("total");
+
+            if(success) {
+              subTotalInput.value = data.subtotal;
+              totalInput.value = data.total;
+            }
+          }
+        }
+      }
 
       function printCertificate(e) {
-
         var urlTaken = window.location.href.split('/');
         var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs';
         var certificateId = e.target.getAttribute('data-repair-id');
-
         var ajaxUrl = url + '/certificate/' + certificateId;
 
         ajaxFn("GET",ajaxUrl,printBtnSuccess,'','','');
-
       } 
 
-
       function getFormData(event) {
-
         var evt = event || window.event;
 
         evt.preventDefault();
-   
+
         if(pendingRequest) return;
         pendingRequest = true;
 
         form = evt.target.parentElement.parentElement;
-      
         nameForm = form.getAttribute('name');
 
         var urlAction = form.getAttribute('action'),
-            formMethod = 'POST',
-            ajaxUrl = url + urlAction;
-            //collectionInputs = [].slice.apply(document.forms[nameForm].getElementsByTagName('input'));
-            collectionInputs = [].slice.apply(form.getElementsByTagName('input'));
-            collectionTextareas = [].slice.apply(document.forms[nameForm].getElementsByTagName('textarea'));              
-            //collectionSelects = [].slice.apply(document.forms[nameForm].getElementsByTagName('select'));
-            collectionSelects = [].slice.apply(form.getElementsByTagName('select'));
-            collectionElements = [];
+          formMethod = 'POST',
+          ajaxUrl = url + urlAction;
+          collectionInputs = [].slice.apply(form.getElementsByTagName('input'));
+          collectionTextareas = [].slice.apply(document.forms[nameForm].getElementsByTagName('textarea'));              
+          collectionSelects = [].slice.apply(form.getElementsByTagName('select'));
+          collectionElements = [];
       
-            var collectionData = {_token: token};   
-
-              // Check the inputs
+          var collectionData = {_token: token};   
 
               if (collectionInputs.length != 0) {
-
                 collectionInputs.map(function (el) {
-
                   if (el != 'undefined') {
-
                     var name = el.getAttribute('name');
                     var elType = el.getAttribute('type'); 
-
                     var value = elType === 'checkbox' ? el.checked : el.value;
 
-                    if(name === 'images') {
-        
-                      //collectionData[name] = [].slice.apply(collectionFiles);
-                      
+                    if (name === 'images') {
                       var images = [];
                       var uploadedImages = $(el).parent().find('.drop-area-gallery').children();
 
-                      for(var i=0; i<uploadedImages.length; i++){
-
+                      for (var i=0; i<uploadedImages.length; i++){
                         var image = $(uploadedImages[i]).find('img');
                         var imageSrc = $(image).attr('src');
                         var imagePath = imageSrc.split(',')[1];
 
                         images.push(imagePath);
-
                       }
 
                       collectionData[name] = images;
-
                       collectionElements.push(el);
-
                       return true;
                     } 
 
                     else if (name.includes('[]')) {
-
                       name = name.replace('[]', '');
 
                       if (collectionData.hasOwnProperty(name)) {
@@ -955,7 +956,6 @@ var uvel,
                       }
 
                       collectionElements.push(el);
-
                     } 
                     else if (elType === 'radio' && el.checked) {
                       collectionData[name] = value;
@@ -965,23 +965,16 @@ var uvel,
                       return;
                     }
                     else {
-
                       if (name === '_method') {
                         formMethod = value;
                       }
                       
                       collectionData[name] = value;
                       collectionElements.push(el);
-
                     }
-
                   }
-
                 });
-
               }
-
-              // Check the textareas
 
               if(collectionTextareas.length) {
                 collectionTextareas.map(function(el) {
@@ -994,8 +987,6 @@ var uvel,
                     }
                 })
               }
-
-              // Check the selects
 
               if (collectionSelects.length != 0) {
                 for (var i = 0; i <= collectionSelects.length; i += 1) {
@@ -1031,17 +1022,11 @@ var uvel,
               }
 
               if (formMethod == 'POST') { 
-
                 ajaxFn(formMethod, ajaxUrl, handleResponsePost, collectionData, collectionElements, currentPressedBtn);
-
               } else if (formMethod == 'PUT') { 
-                
                 ajaxFn(formMethod, ajaxUrl, handleUpdateResponse, collectionData, collectionElements, currentPressedBtn);
-              }        
+              }                 
       }
-      
-
-      /*end getFormData() */
 
       function productsRequest(tempUrl) {
         var xhttp = new XMLHttpRequest();
@@ -1049,49 +1034,48 @@ var uvel,
         xhttp.open('GET', tempUrl, true);
         xhttp.onreadystatechange = function () {
 
-          if (this.readyState == 4 && this.status == 200) {
-            var data = JSON.parse(this.responseText);
+        if(this.readyState == 4 && this.status == 200) {
+          var data = JSON.parse(this.responseText);
+          var editHolder =  document.getElementById("jewel_edit");
 
-            for(var key in data) {
-              
+          for(var key in data) {
+            var holder = document.getElementById(key);
 
-              var holder = document.getElementById(key);
+            if(holder) {
+              var tagName = holder.tagName.toLowerCase();
 
-              if(holder) {
-                var tagName = holder.tagName.toLowerCase();
+              switch(tagName) {
+                case 'input':
+                  holder.value = data[key];
+                  break;
 
-                switch (tagName) {
-                  case 'input':
-                    holder.value = data[key];
-                    break;
+                case 'select':
+                  var collectionData = data[key];
 
-                  case 'select':
-                    var collectionData = data[key];
-
-                    for(i = holder.options.length - 1 ; i >= 1 ; i--){
-                      holder.remove(i);
-                    }
+                  for(i = holder.options.length - 1 ; i >= 1 ; i--){
+                    holder.remove(i);
+                  }
                     
-                    collectionData.map(function(el) {
-                      var option = document.createElement('option');
-                          option.text = el.label;
-                          option.value = el.value;
-                          
-                          option.setAttribute('data-pricebuy' , el.pricebuy || 0);
+                  collectionData.map(function(el) {
+                    var option = document.createElement('option');
 
-                      if(el.price) {
-                        console.log('TRUE');
-                        option.setAttribute('data-price' , el.price || 0);
-                      }
+                    option.text = el.label;
+                    option.value = el.value;   
+                    option.setAttribute('data-pricebuy' , el.pricebuy || 0);
 
+                    if(el.price) {
+                      option.setAttribute('data-price' , el.price || 0);
+                    }
                       
-                      if(el.hasOwnProperty('selected') && el['selected']) {
-                        option.selected = true;
+                    if(el.hasOwnProperty('selected') && el['selected']) {
+                      option.selected = true;
+                    }
+                     
+                    holder.add(option);
+                      if(editHolder!==null){
+                        editHolder.add(option);
                       }
-                      
-                      holder.add(option);
                     });
-
                     break;
 
                   case 'span':
@@ -1130,17 +1114,12 @@ var uvel,
       }
 
       function ajaxFn(method, url, callback, dataSend, elements, currentPressedBtn) {
-
         var xhttp = new XMLHttpRequest();
 
         xhttp.open(method, url, true);
 
         xhttp.onreadystatechange = function () {
-
           if(this.readyState == 4 && this.status == 200) {
-
-            //var data = JSON.parse(this.responseText);
-            
             if(IsJsonString(this.responseText)){
               var data = JSON.parse(this.responseText);
             }
@@ -1149,14 +1128,11 @@ var uvel,
             }
             
             callback(data, elements, currentPressedBtn);
-
           } else if (this.readyState == 4 && this.status == 401) {
             var data = JSON.parse(this.responseText);
             callback(data);
           }
-
         };
-
 
         xhttp.setRequestHeader('Content-Type', 'application/json');
         xhttp.setRequestHeader('X-CSRF-TOKEN', token);
@@ -1167,8 +1143,6 @@ var uvel,
         else {
           xhttp.send(JSON.stringify(dataSend));
         }
-
-        
       }
      
       function handleResponsePost(response, elements, currentPressedBtn) {
@@ -1200,8 +1174,8 @@ var uvel,
               successContainer.innerText = 'Успешно променихте';
               successContainer.className = 'alert alert-success';
               responseHolder.appendChild(successContainer);
-          }
-
+              setInterval(function(){ responseHolder.innerHTML=''; }, 3000);
+          }          
         });
 
         if(!(response.hasOwnProperty('errors'))) {
@@ -1241,34 +1215,31 @@ var uvel,
             elements.forEach(function (el) {
               var elType = el.getAttribute('type');
 
-              if (typeof el != null && elType !== 'hidden' && typeof(el.dataset.clear) == 'undefined') {
-                    if(elType == 'checkbox') {
-                      el.checked = false;
-                    }
+              if(typeof el != null && elType !== 'hidden' && typeof(el.dataset.clear) == 'undefined') {
+                if(elType == 'checkbox') {
+                  el.checked = false;
+                }
 
-                    if(el.tagName == 'SELECT') {
-                      $(el).val(null).trigger('change');
-                    }
+                el.value = '';
 
-                    el.value = '';
+                if(el.tagName == 'SELECT') {
+                  $(el).val(null).trigger('change');
+                }
+               
+                setTimeout(function(){  el.value = ''; }, 100);
+                
+                if(elType == 'file'){
+                  $(el).parent().find('drop-area-input').val('');
+                  $(el).val('');
 
-                    if(elType == 'file'){
-
-                      $(el).parent().find('drop-area-input').val('');
-
-                      $(el).val('');
-
-                      var gallery = $(el).parent().children('.drop-area-gallery');
-                      gallery.html('');
-                            
-                    }     
-                    
-
-                  }
-
+                  var gallery = $(el).parent().children('.drop-area-gallery');
+                  gallery.html('');     
+                }     
+              }
             });
         }
 
+          $self.checkAllForms();
           editAction();
         }
 
@@ -1317,70 +1288,56 @@ var uvel,
               successContainer.innerText = 'Успешно променихте';
               successContainer.className = 'alert alert-success';
               responseHolder.appendChild(successContainer);
+              setInterval(function(){ responseHolder.innerHTML=''; }, 3000);
           }
         });
-        
+
         if(!(response.hasOwnProperty('errors'))) {
-          if(nameForm === 'sendUser') {
-            var content = response.table;
-            var currentRow = $self.currentPressedBtn.closest('tr')
-            var currentRowIndex = currentRow.rowIndex;
-            var currentTableId = currentRow.closest('table').getAttribute('id');
+          var content = response.table.replace('<tr>', '').replace('</tr>', '');
+  
+          if(response.ID) {
+            var id = response.ID;
+            var tableRow = $('table tr');
 
-            if(response.place === 'active') {
-              var table = document.getElementById('user-substitute-active');
-              table.deleteRow(currentRowIndex);
-              var row = table.insertRow(currentRowIndex);
-              row.innerHTML = content;
-            }
-            else if(response.place === 'inactive') {
-              var table = document.getElementById('user-substitute-inactive');
-              var activaTable = document.getElementById('user-substitute-active');
-
-              if(currentTableId === 'user-substitute-active'){
-                activaTable.deleteRow(currentRowIndex);
+            for(var row of tableRow) {
+              var dataID = $(row).attr('data-id');
+                    
+              if(Number(dataID) == Number(id)){
+                var tableRow = row;
               }
-              else {
-                table.deleteRow(currentRowIndex);
-              }
-
-              var newRow = table.insertRow(currentRowIndex);
-              newRow.innerHTML = content;
-
-              editAction();
             }
           }
           else {
-            var content = response.table.replace('<tr>', '').replace('</tr>', '');
-      
-            if(response.ID) {
-              var id = response.ID;
-              var tableRow = $('table tr');
+            var tableRow = $self.currentPressedBtn.parentElement.parentElement;
+            $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
 
-              for(var row of tableRow) {
-                var dataID = $(row).attr('data-id');
-                      
-                if(Number(dataID) == Number(id)){
-                  var tableRow = row;
-                }
+          }
+
+          if((nameForm === 'sendUser') && (response.place === 'inactive')){
+            var container = document.createElement('table');
+            container.innerHTML = response.table;
+            var responseDataID = container.rows[0].getAttribute('data-id');
+            var activeTable = document.getElementById('user-substitute-active');
+            var activeTableRows = activeTable.rows;
+
+            for(var row of activeTableRows){
+              if(responseDataID === row.getAttribute('data-id')){
+                activeTable.deleteRow(row.rowIndex);
               }
             }
-            else {
-              var tableRow = $self.currentPressedBtn.parentElement.parentElement;
 
-              $self.currentPressedBtn.removeEventListener('click', $self.clickEditButton);
-            }
-                
-            if(tableRow !== null){
-              tableRow.innerHTML = content;
-            }
-                    
-            
-          
-            editAction();     
+            var table = document.getElementById('user-substitute-inactive');
+            var tableBody = table.querySelector('tbody');
+
+            tableBody.innerHTML += response.table;
           }
+          else if(tableRow !== null){
+            tableRow.innerHTML = content;
+          }               
         }
 
+        $self.checkAllForms();
+        editAction();
         pendingRequest = false; 
       }
 

@@ -279,8 +279,14 @@ class ModelsController extends Controller
         $model = Models::find($model);
         
         if($model){
-            $model->delete();
-            return Response::json(array('success' => 'Успешно изтрито!'));
+            $using = Products::where('model', $model->id)->count();
+            
+            if($using){
+                return Response::json(['errors' => ['using' => ['Не може да изтриете елемент, който се използва от други неща в системата.']]], 401);
+            }else{
+                $model->delete();
+                return Response::json(array('success' => 'Успешно изтрито!'));
+            }
         }
     }
 }

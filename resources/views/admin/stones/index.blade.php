@@ -13,13 +13,13 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" id="add-stones-form" action="/stones" name="addStones">
+            <form method="POST" id="add-stones-form" action="/stones" name="addStones" autocomplete="off">
                 <div class="modal-body">    
                     <div class="info-cont">
                     </div>
                     {{ csrf_field() }}
                     <select name="type" id="stone_type" class="form-control">
-                        <option value="1">Синтатичен</option>
+                        <option value="1">Синтетичен</option>
                         <option value="2">Естествен</option>
                     </select>
                     

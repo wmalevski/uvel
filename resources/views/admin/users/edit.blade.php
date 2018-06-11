@@ -45,7 +45,7 @@
             <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
                 <input type="checkbox" id="inputCall{{ $permission->id }}" 
                 @if($user->can($permission->name)) checked @endif name="permissions[]" class="peer">
-                <label for="inputCall2" class="peers peer-greed js-sb ai-c">
+                <label for="inputCall{{ $permission->id }}" class="peers peer-greed js-sb ai-c">
                     <span class="peer peer-greed">{{ $permission->title }}</span>
                 </label>
             </div>

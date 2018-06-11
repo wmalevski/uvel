@@ -12,7 +12,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/models" name="addModel">
+            <form method="POST" action="/models" name="addModel" autocomplete="off">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>
@@ -24,7 +24,7 @@ aria-hidden="true">
                         </div>
                         <div class="form-group col-md-6">
                             <label>Избери вид бижу: </label>
-                            <select id="jewel" name="jewel" class="form-control calculate">
+                            <select id="jewels_types" name="jewel" class="form-control calculate">
                                 <option value="">Избери</option>
                         
                                 @foreach($jewels as $jewel)
@@ -35,7 +35,7 @@ aria-hidden="true">
 
                         <div class="form-group col-md-6">
                             <label>Цена на дребно: </label>
-                            <select id="retail_price" name="retail_price" class="form-control disabled-first calculate prices-filled" disabled>
+                            <select id="retail_prices" name="retail_price" class="form-control disabled-first calculate prices-filled" disabled>
                                 <option value="">Избери</option>
                         
                                 @foreach($prices->where('type', 'sell') as $price)
@@ -56,11 +56,9 @@ aria-hidden="true">
                         </div>
 
 
-                        <div class="form-group col-md-6">
-                            <div class="form-group">
-                                <label for="1">Тегло: </label>
-                                <input type="number" class="form-control calculate" id="weight" name="weight" placeholder="Тегло:" min="0.1" max="10000">
-                            </div>
+                        <div class="form-group col-md-6 weight-holder">
+                            <label for="1">Тегло: </label>
+                            <input type="number" class="form-control calculate" id="weight" name="weight" placeholder="Тегло:" min="0.1" max="10000">
                         </div>
 
                         <div class="form-group col-md-6">
