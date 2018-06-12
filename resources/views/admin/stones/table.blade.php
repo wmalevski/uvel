@@ -1,6 +1,6 @@
 <tr data-id="{{ $stone->id }}">
     <td>{{ $stone->name }}</td> 
-    <td> @if($stone->type == 1) Синтатичен  @else Естествен  @endif </td> 
+    <td> @if($stone->type == 1) Синтетичен  @else Естествен  @endif </td> 
     <td>{{ $stone->weight }}</td> 
     <td>{{ $stone->carat }}</td> 
     <td>{{ App\Stone_sizes::withTrashed()->find($stone->size)->name }}</td> 

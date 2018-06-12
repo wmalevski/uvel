@@ -37,7 +37,7 @@
 
             <div class="form-group">
                 <label for="1">Количество: </label>
-                <input type="number" min="0" class="form-control" id="quantity" value="{{ $product->quantity }}" name="quantity" placeholder="Налично количество:">
+                <input type="number" min="0" class="form-control" id="quantity" value="{{ $product->quantity }}" name="quantity" placeholder="Налично количество:" readonly>
             </div>
 
             <div class="form-group">
