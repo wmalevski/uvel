@@ -52,7 +52,7 @@ class PricesController extends Controller
     {
         $validator = Validator::make( $request->all(), [
             'slug' => 'required',
-            'price' => 'required|numeric',
+            'price' => 'required|regex:/^\d*(\.\d{1,3})?$/',
             'type' => 'required',
         ]);
 
@@ -111,7 +111,7 @@ class PricesController extends Controller
 
         $validator = Validator::make( $request->all(), [
             'slug' => 'required',
-            'price' => 'required|numeric',
+            'price' => 'required|regex:/^\d*(\.\d{1,3})?$/',
             'type' => 'required',
         ]);
 
