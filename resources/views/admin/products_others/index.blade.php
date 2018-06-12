@@ -88,18 +88,21 @@ aria-hidden="true">
 
 <h3>Добави друг продукт <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
 
-<table class="table table-condensed">
-    <tr>
-        <th>Баркод</th> 
-        <th>Модел</th>
-        <th>Цена/бр</th>
-        <th>Количество</th>
-        <th>Опции</th>
-    </tr>
-    
-    @foreach($products_others as $product)
-        @include('admin.products_others.table')
-    @endforeach
+<table class="table table-condensed tablesort">
+    <thead>
+        <tr>
+            <th class="sort-false">Баркод</th> 
+            <th>Модел</th>
+            <th>Цена/бр</th>
+            <th>Количество</th>
+            <th class="sort-false">Опции</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($products_others as $product)
+            @include('admin.products_others.table')
+        @endforeach
+    </tbody>
 </table>
 
 @endsection
