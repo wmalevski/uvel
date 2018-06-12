@@ -54,7 +54,7 @@ aria-hidden="true">
             <table class="table table-condensed tablesort">
                 <thead>
                     <tr>
-                        <th>Име</th> 
+                        <th>Име</th>
                         <th class="sort-false">Цена</th>
                         <th class="sort-false">Опции</th>
                     </tr>

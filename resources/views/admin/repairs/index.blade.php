@@ -303,17 +303,17 @@ aria-hidden="true">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
             <h4 class="c-grey-900 mB-20">Ремонти <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addRepair">Добави</button> <button type="button" class="return-repair btn btn-primary" data-toggle="modal" data-target="#returnRepair">Върни</button> <button type="button" class="scan-repair btn btn-primary" data-toggle="modal" data-target="#scanRepair">Обработи</button></h4>
             <p>Артикули за ремонт</p>
-            <table class="table repair-records-table">
+            <table class="table repair-records-table tablesort">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">Баркод</th>
+                        <th class="sort-false" scope="col">Баркод</th>
                         {{--  <th scope="col">Уникален номер</th>  --}}
                         <th scope="col">Име</th>
-                        <th scope="col">Телефон</th>
+                        <th class="sort-false" scope="col">Телефон</th>
                         <th scope="col">Тип ремонт</th>
                         <th scope="col">Статус</th>
-                        <th scope="col">Дата</th>
-                        <th scope="col">Действия</th>
+                        <th class="sort-false" scope="col">Дата</th>
+                        <th class="sort-false" scope="col">Действия</th>
                     </tr>
                 </thead>
                 <tbody>
