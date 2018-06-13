@@ -60,7 +60,7 @@ class StonesController extends Controller
             'size' => 'required|numeric',
             'style' => 'required',
             'contour' => 'required',
-            'price' => 'required|numeric|between:0.1,100000',
+            'price' => 'required|numeric|regex:/^\d*(\.\d{1,3})?$/',
             'amount' => 'required|numeric|between:0.01,100000'
          ]);
 
@@ -143,7 +143,7 @@ class StonesController extends Controller
             'size' => 'required|numeric',
             'style' => 'required',
             'contour' => 'required',
-            'price' => 'required|numeric|regex:/^\d*(\.\d{1,2})?$/',
+            'price' => 'required|numeric|regex:/^\d*(\.\d{1,3})?$/',
             'amount' => 'required|numeric|between:0.01,100000'
          ]);
 
