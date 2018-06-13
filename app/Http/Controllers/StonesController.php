@@ -145,7 +145,7 @@ class StonesController extends Controller
             'contour' => 'required',
             'price' => 'required|numeric|regex:/^\d*(\.\d{1,3})?$/',
             'amount' => 'required|numeric|between:0.01,100000'
-         ]);
+        ]);
 
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
