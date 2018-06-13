@@ -38,6 +38,16 @@
                 <input type="number" class="form-control" id="4" value="{{ $material->carat }}" name="carat" placeholder="Карати:">
             </div>
         </div>
+        <div class="form-row">
+            <label>Наследява: </label>
+            <select name="parent" class="form-control">
+                <option value="">Избери материал: </option>
+        
+                @foreach($parents as $parent)
+                    <option value="{{ $parent->id }}" @if($parent->id == $material->id) selected @endif>{{ $parent->name }}</option>
+                @endforeach
+            </select>
+        </div>
     </div>
 
     <div class="modal-footer">

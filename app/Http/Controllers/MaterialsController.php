@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Response;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\DB;
 use App\Jewels;
+use App\Materials_type;
 
 class MaterialsController extends Controller
 {
@@ -21,8 +23,20 @@ class MaterialsController extends Controller
     {
         
         $materials = Materials::all();
+        $parents = Materials_type::all();
+
+
+        // $sorted = DB::select('SELECT * FROM materials group by 
+        //                         CASE 
+        //                             when `parent` IS NOT NULL then `parent` 
+        //                             ELSE `id`
+        //                         END'
+        // );
         
-        return \View::make('admin/materials/index', array('materials' => $materials));
+
+        //dd($sorted);
+        
+        return \View::make('admin/materials/index', array('materials' => $materials, 'parents' => $parents));
     }
 
     /**
@@ -47,7 +61,8 @@ class MaterialsController extends Controller
             'name' => 'required',
             'code' => 'required',
             'color' => 'required',
-            'carat' => 'nullable|numeric|between:1,100'
+            'carat' => 'nullable|numeric|between:1,100',
+            'parent' => 'nullable|numeric'
          ]);
 
         if ($validator->fails()) {
@@ -79,9 +94,10 @@ class MaterialsController extends Controller
     public function edit(Materials $materials, $material)
     {
         $material = Materials::find($material);
+        $parents = Materials_type::all();
 
         //return Response::json(array('success' => View::make('admin/materials/edit',array('material'=>$material))->render()));
-        return \View::make('admin/materials/edit',array('material'=>$material));
+        return \View::make('admin/materials/edit',array('material'=>$material, 'parents' => $parents));
     }
 
     /**
@@ -99,6 +115,7 @@ class MaterialsController extends Controller
         $material->code = $request->code;
         $material->color = $request->color;
         $material->carat = $request->carat;
+        $material->parent = $request->parent;
         
         $material->save();
 
