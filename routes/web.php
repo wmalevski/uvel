@@ -70,6 +70,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/materialstypes', 'MaterialsTypeController@index')->name('materialstypes');
     Route::post('/materialstypes', 'MaterialsTypeController@store');
 
+    Route::get('/materialstypes/{material}', 'MaterialsTypeController@edit');
+
     Route::get('/materials/{material}', 'MaterialsController@edit');
     Route::put('/materials/{material}', 'MaterialsController@update');
 
@@ -207,7 +209,7 @@ Route::group(['prefix' => 'ajax'], function() {
     
     Route::put('/materials/{material}', 'MaterialsController@update');
 
-    Route::put('/materialstypes/{material}', 'MaterialsController@update');
+    Route::put('/materialstypes/{material}', 'MaterialsTypeController@update');
 
     Route::put('/users/{user}', 'UserController@update');
 

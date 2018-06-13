@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\DB;
 use Response;
+use App\Materials;
 
 class MaterialsTypeController extends Controller
 {
@@ -73,9 +74,11 @@ class MaterialsTypeController extends Controller
      * @param  \App\Materials_type  $materials_type
      * @return \Illuminate\Http\Response
      */
-    public function edit(Materials_type $materials_type)
+    public function edit(Materials_type $materials_type, $material)
     {
-        //
+        $material = Materials_type::find($material);
+
+        return \View::make('admin/materials_types/edit',array('material'=>$material));
     }
 
     /**
@@ -85,9 +88,15 @@ class MaterialsTypeController extends Controller
      * @param  \App\Materials_type  $materials_type
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Materials_type $materials_type)
+    public function update(Request $request, Materials_type $materials_type, $material)
     {
-        //
+        $material = Materials_type::find($material);
+        
+        $material->name = $request->name;
+        
+        $material->save();
+
+        return Response::json(array('ID' => $material->id,'table' => View::make('admin/materials_types/table',array('material'=>$material))->render()));
     }
 
     /**
@@ -96,8 +105,19 @@ class MaterialsTypeController extends Controller
      * @param  \App\Materials_type  $materials_type
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Materials_type $materials_type)
+    public function destroy(Materials_type $materials_type, $material)
     {
-        //
+        $material = Materials_type::find($material);
+        
+        if($material){
+            $using = Materials::where('parent', $material->id)->count();
+            
+            if($using){
+                return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
+            }else{
+                $material->delete();
+                return Response::json(array('success' => 'Успешно изтрито!'));
+            }
+        }
     }
 }
