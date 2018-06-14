@@ -328,7 +328,7 @@ var uvel,
                 }
               });
 
-              _element.parents('form').children().find('.model-filled').empty();
+              //_element.parents('form').children().find('.model-filled').empty();
               _element.parents('form').children().find('.model-filled').select2({
                 data: modelsData,
                 templateResult: $self.addSelect2CustomAttributes,

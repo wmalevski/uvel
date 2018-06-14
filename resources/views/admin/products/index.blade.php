@@ -57,7 +57,7 @@ aria-hidden="true">
                     <div class="form-group">
                         <label>Цена на дребно: </label>
                         <select id="retail_prices" name="retail_price" class="form-control calculate prices-filled">
-                            <option value="">Избери</option>
+                            <option value="0">Избери</option>
                     
                             @foreach($prices->where('type', 'sell') as $price)
                                 <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
@@ -68,7 +68,7 @@ aria-hidden="true">
                     <div class="form-group">
                         <label>Цена на едро: </label>
                         <select id="wholesale_prices" name="wholesale_prices" class="form-control prices-filled">
-                            <option value="">Избери</option>
+                            <option value="0">Избери</option>
                     
                             @foreach($prices->where('type', 'sell') as $price)
                                 <option value="{{ $price->id }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
