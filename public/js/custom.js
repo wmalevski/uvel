@@ -302,9 +302,14 @@ var uvel,
         if(_element[0].nodeName == 'SELECT') {
           if(_element[0].id == 'jewels_types' || _element[0].id == 'jewel_edit') {
             var materialType = _element.find(':selected').val();
-            var requestLink = ajaxUrl + materialType;    
+            var requestLink = ajaxUrl + materialType;
 
-            if(materialType.length === 0) {
+            console.log(materialType);
+
+            if(materialType == 0) {
+              $('.prices-filled').val('0');
+              $('.prices-filled').trigger('change');
+              $('.prices-filled').attr('disabled', true);
               return;
             }
             
@@ -350,6 +355,7 @@ var uvel,
 
               $('#retail_prices').trigger('change');
               $('#retail_price_edit').trigger('change');
+              $('.prices-filled').attr('disabled', false);
             });  
 
           } else {
@@ -1408,7 +1414,7 @@ $(document).ready(function () {
   var select_input = $('#jewel');
   var disabled_input = $('.disabled-first');
 
-  if ($(this).find(':checked').val() != '') {
+  if ($(this).find(':checked').val() !== '') {
     disabled_input.removeAttr('disabled');
   } else {
 
@@ -1417,7 +1423,7 @@ $(document).ready(function () {
   }
 
   select_input.on('change', function () {
-    if ($(this).find(':checked').val() != '') {
+    if ($(this).find(':checked').val() !== '') {
       disabled_input.removeAttr('disabled');
     } else {
       disabled_input.prop('disabled', true);

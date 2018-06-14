@@ -22,7 +22,7 @@
         <div class="form-group">
             <label>Избери вид бижу: </label>
             <select id="jewel_edit" name="jewel" class="form-control calculate">
-                <option value="">Избери</option>
+                <option value="0">Избери</option>
 
                 @foreach($jewels as $jewel)
                     <option value="{{ $jewel->id }}" data-material="{{ $jewel->material }}" data-pricebuy="@if(App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" @if($model->jewel == $jewel->id) selected @endif>{{ $jewel->name }}</option>
@@ -33,7 +33,7 @@
         <div class="form-group">
             <label>Цена на дребно: </label>
             <select id="retail_price_edit" name="retail_price" class="form-control calculate prices-filled">
-                <option value="">Избери</option>
+                <option value="0">Избери</option>
 
                 @foreach($prices->where('type', 'sell') as $price)
                     <option value="{{ $price->id }}" data-material="{{ $price->material }}" @if($model->retail_price == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
@@ -44,7 +44,7 @@
         <div class="form-group">
             <label>Цена на едро: </label>
             <select id="wholesale_price_edit" name="wholesale_price" class="form-control prices-filled">
-                <option value="">Избери</option>
+                <option value="0">Избери</option>
 
                 @foreach($prices->where('type', 'sell') as $price)
                     <option value="{{ $price->id }}" data-material="{{ $price->material }}" @if($model->wholesale_price == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>

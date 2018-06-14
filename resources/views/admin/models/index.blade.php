@@ -25,7 +25,7 @@ aria-hidden="true">
                         <div class="form-group col-md-6">
                             <label>Избери вид бижу: </label>
                             <select id="jewels_types" name="jewel" class="form-control calculate">
-                                <option value="">Избери</option>
+                                <option value="0">Избери</option>
                         
                                 @foreach($jewels as $jewel)
                                     <option value="{{ $jewel->id }}" data-pricebuy="@if(App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" data-material="{{$jewel->material}}">{{ $jewel->name }} - {{ App\Materials::withTrashed()->find($jewel->material)->name }}, {{ App\Materials::withTrashed()->find($jewel->material)->code }}, {{ App\Materials::withTrashed()->find($jewel->material)->color }}</option>
@@ -35,8 +35,8 @@ aria-hidden="true">
 
                         <div class="form-group col-md-6">
                             <label>Цена на дребно: </label>
-                            <select id="retail_prices" name="retail_price" class="form-control disabled-first calculate prices-filled" disabled>
-                                <option value="">Избери</option>
+                            <select id="retail_prices" name="retail_price" class="form-control calculate prices-filled" disabled>
+                                <option value="0">Избери</option>
                         
                                 @foreach($prices->where('type', 'sell') as $price)
                                     <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
@@ -46,8 +46,8 @@ aria-hidden="true">
 
                         <div class="form-group col-md-6">
                             <label>Цена на едро: </label>
-                            <select id="wholesale_price" name="wholesale_price" class="form-control disabled-first prices-filled" disabled>
-                                <option value="">Избери</option>
+                            <select id="wholesale_price" name="wholesale_price" class="form-control prices-filled" disabled>
+                                <option value="0">Избери</option>
                         
                                 @foreach($prices->where('type', 'sell') as $price)
                                     <option value="{{ $price->id }}" data-pricebuy="{{ $price->price }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
