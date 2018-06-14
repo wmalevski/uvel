@@ -24,17 +24,6 @@ class MaterialsController extends Controller
         
         $materials = Materials::all();
         $parents = Materials_type::all();
-
-
-        // $sorted = DB::select('SELECT * FROM materials group by 
-        //                         CASE 
-        //                             when `parent` IS NOT NULL then `parent` 
-        //                             ELSE `id`
-        //                         END'
-        // );
-        
-
-        //dd($sorted);
         
         return \View::make('admin/materials/index', array('materials' => $materials, 'parents' => $parents));
     }
@@ -58,7 +47,6 @@ class MaterialsController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make( $request->all(), [
-            'name' => 'required',
             'code' => 'required',
             'color' => 'required',
             'carat' => 'nullable|numeric|between:1,100',
@@ -111,7 +99,6 @@ class MaterialsController extends Controller
     {
         $material = Materials::find($material);
         
-        $material->name = $request->name;
         $material->code = $request->code;
         $material->color = $request->color;
         $material->carat = $request->carat;

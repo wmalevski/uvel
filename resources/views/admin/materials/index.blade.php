@@ -18,10 +18,14 @@ aria-hidden="true">
                     {{ csrf_field() }}
                     <div id="success-container"></div>
                     <div class="form-row">
-                        <div class="form-group col-md-12">
-                            <label for="1">Име: </label>
-                            <input type="text" class="form-control" id="1" name="name" placeholder="Вид/Име:">
-                        </div>
+                        <label>Наследява: </label>
+                        <select name="parent" class="form-control">
+                            <option value="">Избери материал: </option>
+                    
+                            @foreach($parents as $parent)
+                                <option value="{{ $parent->id }}">{{ $parent->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-12">
@@ -40,16 +44,6 @@ aria-hidden="true">
                             <label for="3">Карат: </label>
                             <input type="number" class="form-control" id="4" name="carat" placeholder="Карати:">
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <label>Наследява: </label>
-                        <select name="parent" class="form-control">
-                            <option value="">Избери материал: </option>
-                    
-                            @foreach($parents as $parent)
-                                <option value="{{ $parent->id }}">{{ $parent->name }}</option>
-                            @endforeach
-                        </select>
                     </div>
                     <div id="errors-container"></div>
                 </div>
@@ -98,7 +92,6 @@ aria-hidden="true">
         <p>Преглед на създадените материали.</p>
         <table class="table">
             <tr>
-                <th style="width: 16%">Име</th> 
                 <th style="width: 16%">Тип</th>
                 <th style="width: 14%">Проба</th> 
                 <th style="width: 14%">Цвят</th> 

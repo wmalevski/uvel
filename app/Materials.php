@@ -10,7 +10,6 @@ class Materials extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name',
         'code',
         'color',
         'carat',

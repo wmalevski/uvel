@@ -42,15 +42,18 @@ class Products extends Model
         $model = Models::find($model);
         if($model){
             $model_material = Jewels::find($model->material);
-            $jewels = Jewels::all();
+            $jewels = Jewels::where('id', $model->jewel)->get()
+             ;
             $prices = Prices::where('material', $model->jewel)->get();
 
             $retail_prices = Prices::where([
-                'type' => 'sell'
+                'type' => 'sell',
+                'material' => $model->jewel
             ])->get();
 
             $wholesale_prices = Prices::where([
-                'type' => 'sell'
+                'type' => 'sell',
+                'material' => $model->jewel
             ])->get();
 
             $model_stones = Model_stones::where('model', $model->id)->get();

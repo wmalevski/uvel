@@ -20,7 +20,7 @@
                         <option value="">Избер материал</option>
                 
                         @foreach($types as $type)
-                            <option value="{{ $type->id }}" @if($type->id == $material->material) selected @endif>{{ $type->name }} - {{ $type->color }} - {{ $type->code }}</option>
+                            <option value="{{ $type->id }}" @if($type->id == $material->material) selected @endif>{{ App\Materials_type::withTrashed()->find($type->parent)->name }} - {{ $type->color }} - {{ $type->code }}</option>
                         @endforeach
                     </select>
                 </div>

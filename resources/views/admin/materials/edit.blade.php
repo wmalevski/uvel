@@ -15,10 +15,14 @@
         {{ csrf_field() }}
 
         <div class="form-row">
-            <div class="form-group col-md-12">
-                <label for="1">Име: </label>
-                <input type="text" class="form-control" value="{{ $material->name }}" id="1" name="name" placeholder="Вид/Име:">
-            </div>
+            <label>Наследява: </label>
+            <select name="parent" class="form-control">
+                <option value="">Избери материал: </option>
+        
+                @foreach($parents as $parent)
+                    <option value="{{ $parent->id }}" @if($parent->id == $material->id) selected @endif>{{ $parent->name }}</option>
+                @endforeach
+            </select>
         </div>
         <div class="form-row">
             <div class="form-group col-md-12">
@@ -37,16 +41,6 @@
                 <label for="3">Карат: </label>
                 <input type="number" class="form-control" id="4" value="{{ $material->carat }}" name="carat" placeholder="Карати:">
             </div>
-        </div>
-        <div class="form-row">
-            <label>Наследява: </label>
-            <select name="parent" class="form-control">
-                <option value="">Избери материал: </option>
-        
-                @foreach($parents as $parent)
-                    <option value="{{ $parent->id }}" @if($parent->id == $material->id) selected @endif>{{ $parent->name }}</option>
-                @endforeach
-            </select>
         </div>
     </div>
 

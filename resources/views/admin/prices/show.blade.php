@@ -78,7 +78,7 @@ aria-hidden="true">
 </div>
 
 
-<h4 class="c-grey-900 mT-10 mB-30">Цени за {{ $material->name }}
+<h4 class="c-grey-900 mT-10 mB-30">Цени за {{ App\Materials_type::withTrashed()->find($material->parent)->name }}
     <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-toggle="modal" data-target="#addPrice">Добави</button>
 </h4>
 <div class="row">
