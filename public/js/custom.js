@@ -304,8 +304,6 @@ var uvel,
             var materialType = _element.find(':selected').val();
             var requestLink = ajaxUrl + materialType;
 
-            console.log(materialType);
-
             if(materialType == 0) {
               $('.prices-filled').val('0');
               $('.prices-filled').trigger('change');
@@ -346,15 +344,23 @@ var uvel,
                 }
               });
                       
-              _element.parents('form').children().find('.prices-filled').empty();
+              //_element.parents('form').children().find('.prices-filled').empty();
               _element.parents('form').children().find('.prices-filled').select2({
                 data: newData,
                 templateResult: $self.addSelect2CustomAttributes,
                 templateSelection: $self.addSelect2CustomAttributes
               });     
 
-              $('#retail_prices').trigger('change');
-              $('#retail_price_edit').trigger('change');
+              for (i=0; i<$('.prices-filled').length; i++) {
+                var select = $($('.prices-filled')[i]).find('option:nth-of-type(2)');
+                var selectValue = select.val();
+
+                 $($('.prices-filled')[i]).val(selectValue);
+              }
+
+              //$('#retail_prices').trigger('change');
+              //$('#retail_price_edit').trigger('change');
+              $('.prices-filled').trigger('change');
               $('.prices-filled').attr('disabled', false);
             });  
 
