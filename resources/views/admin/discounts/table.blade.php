@@ -1,5 +1,5 @@
 <tr data-id="{{ $discount->id }}">
-    <td>{!! DNS1D::getBarcodeSVG($discount->barcode, "EAN13",1,33,"black", true) !!}</td>
+    <td>{!! DNS1D::getBarcodeSVG($discount->barcode, "EAN13",1,33,"black", true) !!} <br/> {{ $discount->barcode }}</td>
     <td>{{ $discount->discount }}%</td> 
     <td>@if($discount->lifetime == 'yes') Безсрочна @else {{ $discount->expires }} @endif</td> 
     <td>@if($discount->active == 'yes') Валидна @else Невалидна @endif</td> 

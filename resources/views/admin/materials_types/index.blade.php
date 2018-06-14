@@ -66,7 +66,7 @@ aria-hidden="true">
 <div class="row">
     <div class="col-md-12">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
-        <h4 class="c-grey-900 mB-20">Тъп Материал <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addMaterial">Добави</button></h4>
+        <h4 class="c-grey-900 mB-20">Тип Материал <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addMaterial">Добави</button></h4>
         <p>Преглед на създадените типове материали.</p>
         <table class="table">
             <tr>
