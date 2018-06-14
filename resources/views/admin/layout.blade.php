@@ -245,6 +245,10 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li>
+                    <a class="sidebar-link" href="{{ route('materialstypes') }}">Типове</a>
+                  </li>
+
+                  <li>
                     <a class="sidebar-link" href="{{ route('materials') }}">Видове</a>
                   </li>
 
