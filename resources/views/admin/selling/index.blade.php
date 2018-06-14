@@ -180,20 +180,14 @@ aria-hidden="true">
                         <div class="form-group form-row">
                             <label for="discount" class="col-sm-9 control-label">Отстъпка</label>
                             <div class="col-sm-3">
-                                <select id="discount" name="discount" class="form-control">
-                                    <option value="">Избери</option>
-                                    
-                                    @foreach($discounts as $discount)
-                                        <option value="{{ $discount->barcode }}">{{ $discount->discount }}%</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" name="discount" id="discount" placeholder="Проценти" >
                             </div>
                         </div>
 
                         <div class="form-group form-row">
                             <label for="discount_card" class="col-sm-9 control-label">Сканирай карта за отстъпка</label>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="discount_card" id="discount_card" placeholder="Баркод" >
+                                <input type="number" class="form-control" name="discount_card" id="discount_card" placeholder="Баркод" min="1" max="100">
                             </div>
                         </div>
 
