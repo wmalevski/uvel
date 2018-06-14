@@ -48,12 +48,12 @@ class Products extends Model
 
             $retail_prices = Prices::where([
                 'type' => 'sell',
-                'material' => $model->jewel
+                'material' => Jewels::withTrashed()->find($model->jewel)->material
             ])->get();
 
             $wholesale_prices = Prices::where([
                 'type' => 'sell',
-                'material' => $model->jewel
+                'material' => Jewels::withTrashed()->find($model->jewel)->material
             ])->get();
 
             $model_stones = Model_stones::where('model', $model->id)->get();
@@ -61,7 +61,7 @@ class Products extends Model
             $pass_jewels = array();
             
             foreach($jewels as $jewel){
-                if($jewel->id == $model->id){
+                if($jewel->id == $model->jewel){
                     $selected = true;
                 }else{
                     $selected = false;
@@ -79,7 +79,7 @@ class Products extends Model
             $prices_retail = array();
             
             foreach($retail_prices as $price){
-                if($price->material == $model->jewel){
+                if($price->material == Jewels::withTrashed()->find($model->jewel)->material){
                     $selected = true;
                 }else{
                     $selected = false;
@@ -96,7 +96,7 @@ class Products extends Model
             $prices_wholesale = array();
             
             foreach($wholesale_prices as $price){
-                if($price->material == $model->jewel){
+                if($price->material == Jewels::withTrashed()->find($model->jewel)->material){
                     $selected = true;
                 }else{
                     $selected = false;
