@@ -246,16 +246,16 @@ class RepairsController extends Controller
         $repair->material = $request->material;
         $repair->weight_after = $request->weight_after;
 
-        if($repair->weight < $request->weight_after){
-            // $repair->price_after = $repair->price + ($repair->weight*Prices::withTrashed()->where(
-            //     [
-            //         ['material', '=', $repair->material],
-            //         ['type', '=', 'sell']
-            //     ])->first()->price);
-            $repair->price_after = $repair ->price;
-        }else{
-            $repair->price_after = $repair->price;
-        }
+        // if($repair->weight < $request->weight_after){
+        //     // $repair->price_after = $repair->price + ($repair->weight*Prices::withTrashed()->where(
+        //     //     [
+        //     //         ['material', '=', $repair->material],
+        //     //         ['type', '=', 'sell']
+        //     //     ])->first()->price);
+        //     $repair->price_after = $repair ->price;
+        // }else{
+        //     $repair->price_after = $repair->price;
+        // }
 
         if($request->status){
             $repair->status = 'done';
