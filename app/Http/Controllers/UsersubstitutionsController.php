@@ -29,7 +29,7 @@ class UsersubstitutionsController extends Controller
         )->get();
 
         $stores = Stores::all();
-        $users = User::all();
+        $users = User::whereIsNot('customer')->get();
         
         return \View::make('admin/substitutions/index', array('activeSubstitutions' => $activeSubstitutions, 'inactiveSubstitutions' => $inactiveSubstitutions, 'stores' => $stores, 'users' => $users));
     }

@@ -295,17 +295,26 @@ class SellingsController extends Controller
         
         $userId = Auth::user()->getId(); 
 
-        $discount = new Discount_codes;
-        $result = json_encode($discount->check($barcode));
+        if(strlen($barcode) == 13){
+            $discount = new Discount_codes;
+            $result = json_encode($discount->check($barcode));
 
-        if($result == 'true'){
-            $card = Discount_codes::where('barcode', $barcode)->first();
+            if($result == 'true'){
+                $card = Discount_codes::where('barcode', $barcode)->first();
+                $setDiscount = $card->discount;
+            }
+        }else{
+            $result = false;
+            $setDiscount = $barcode;
+        }
+        
 
+        if(isset($setDiscount)){
             $condition = new \Darryldecode\Cart\CartCondition(array(
                 'name' => 'Отстъпка',
                 'type' => 'discount',
                 'target' => 'subtotal',
-                'value' => '-'.$card->discount.'%',
+                'value' => '-'.$setDiscount.'%',
                 'attributes' => array(
                     'description' => 'Value added tax',
                     'more_data' => 'more data here'
