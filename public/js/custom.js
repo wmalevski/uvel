@@ -451,6 +451,8 @@ var uvel,
                 modelSelect.val('0').trigger('change.select2');
               });
 
+              $('.prices-filled').attr('disabled', false);
+
               productsRequest(tempUrl);
             }
           });
