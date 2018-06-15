@@ -22,7 +22,7 @@
                 
                 <button type="submit" class="btn btn-primary">Промени цена</button>
             </form>
-        </
+        </div>
     </div>
 </div>
 
