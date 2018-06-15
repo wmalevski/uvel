@@ -116,7 +116,7 @@ class SellingsController extends Controller
                     [
                         ['barcode', '=', $request->barcode],
                         ['status', '=', 'done']
-                    ]
+                    ]       
                 )->first();
                 $type = "repair";
             }else{

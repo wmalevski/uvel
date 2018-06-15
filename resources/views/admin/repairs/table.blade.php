@@ -1,6 +1,6 @@
 <tr data-id="{{$repair->id}}">
      <td>{!! DNS1D::getBarcodeSVG($repair->barcode, "EAN13",1,33,"black", true) !!}</td>  
-    {{--  <td>{{ $repair->code }}</td>   --}}
+    <td>{{ $repair->code }}</td>
     <td>{{ $repair->customer_name }}</td> 
     <td>{{ $repair->customer_phone }}</td> 
     <td>{{ App\Repair_types::withTrashed()->find($repair->type)->name }}</td> 

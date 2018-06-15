@@ -21,7 +21,7 @@ class CreateRepairsTable extends Migration
             $table->string('date_recieved');
             $table->string('date_returned');
             $table->string('date_received');
-            $table->enum('status', ['repairing', 'done', 'returned'])->default('repairing');
+            $table->enum('status', ['repairing', 'done', 'returning', 'returned'])->default('repairing');
             $table->string('code');
             $table->float('weight');
             $table->float('weight_after')->nullable();
