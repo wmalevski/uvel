@@ -50,7 +50,7 @@ class DiscountCodesController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make( $request->all(), [
-            'discount' => 'required|integer|between:1,100'
+            'discount' => 'required|integer|between:0,100'
          ]);
         
         if ($validator->fails()) {
@@ -127,7 +127,7 @@ class DiscountCodesController extends Controller
     public function update(Request $request, Discount_codes $discount_codes, $discount)
     {
         $validator = Validator::make( $request->all(), [
-            'discount' => 'required|integer|between:1,100'
+            'discount' => 'required|integer|between:0,100'
          ]);
         
         if ($validator->fails()) {

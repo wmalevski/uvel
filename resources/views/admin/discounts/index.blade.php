@@ -20,7 +20,7 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="1">Отстъпка: </label>
-                            <input type="number" class="form-control" id="1" name="discount" placeholder="Процент отстъпка: " min="1" max="100">
+                            <input type="number" class="form-control" id="1" name="discount" placeholder="Процент отстъпка: " min="0" max="100">
                         </div>
 
                         <div class="form-group col-md-6">
