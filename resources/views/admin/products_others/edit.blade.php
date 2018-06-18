@@ -52,6 +52,17 @@
                 <label for="1">Количество: </label>
                 <input type="number" min="0" class="form-control" id="quantity_after" name="quantity_after" placeholder="Допълнително количество:">
             </div>
+
+            div class="form-group">
+            <label>Магазин: </label>
+                <select id="store " name="store" class="form-control">
+                    <option value="">Избери</option>
+            
+                    @foreach($stores as $store)
+                        <option value="{{ $store->id }}" @if($product->store == $store->id) selected @endif>{{ $store->name }}</option>
+                    @endforeach
+                </select>
+            </div>
         </div>
 
         <div class="modal-footer">

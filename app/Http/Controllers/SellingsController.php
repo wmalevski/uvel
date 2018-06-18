@@ -29,16 +29,24 @@ class SellingsController extends Controller
         $repairTypes = Repair_types::all();
         $discounts = Discount_codes::all();
         $currencies = Currencies::all();
+        $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();
         $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
-
+        $condition = Cart::getCondition('Discount');
+        if($condition){
+            $priceCon = $condition->getCalculatedValue($subTotal);
+        } else{
+            $priceCon = 0;
+        }
         $items = [];
+
+        //dd($subTotal);
         
         Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
         {
             $items[] = $item;
         });
         
-        return \View::make('admin/selling/index', array('repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies));
+        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies));
     }
 
     /**
@@ -109,6 +117,21 @@ class SellingsController extends Controller
 
     public function sell(Request $request){
         $type = "product";
+
+        $tax = new \Darryldecode\Cart\CartCondition(array(
+            'name' => 'ДДС',
+            'type' => 'tax',
+            'target' => 'subtotal',
+            'value' => '+20%',
+            'attributes' => array(
+                'description' => 'Value added tax',
+                'more_data' => 'more data here'
+            ),
+            'order' => 2
+        ));
+
+        Cart::condition($tax);
+        Cart::session(Auth::user()->getId())->condition($tax);
 
         if($request->amount_check == false){
             if($request->type_repair == true){
@@ -193,19 +216,7 @@ class SellingsController extends Controller
                 }
             }
 
-            $tax = new \Darryldecode\Cart\CartCondition(array(
-                'name' => 'ДДС',
-                'type' => 'tax',
-                'target' => 'subtotal',
-                'value' => '+20%',
-                'attributes' => array(
-                    'description' => 'Value added tax',
-                    'more_data' => 'more data here'
-                )
-            ));
-
-            Cart::condition($tax);
-            Cart::session($userId)->condition($tax);
+        
 
             $total = Cart::session($userId)->getTotal();
             $subtotal = Cart::session($userId)->getSubTotal();
@@ -302,14 +313,15 @@ class SellingsController extends Controller
 
         if(isset($setDiscount)){
             $condition = new \Darryldecode\Cart\CartCondition(array(
-                'name' => 'Отстъпка',
+                'name' => 'Discount',
                 'type' => 'discount',
                 'target' => 'subtotal',
                 'value' => '-'.$setDiscount.'%',
                 'attributes' => array(
                     'description' => 'Value added tax',
                     'more_data' => 'more data here'
-                )
+                ),
+                'order' => 1
             ));
 
             Cart::condition($condition);

@@ -312,6 +312,7 @@ class DatabaseSeeder extends Seeder
         $products_others->type = 1;
         $products_others->price = 0.10;
         $products_others->quantity = 200;
+        $products_others->store = 1;
         $products_others->barcode = 3808345766226;
         $products_others->code = 'BWGKIDKA';
         $products_others->save();

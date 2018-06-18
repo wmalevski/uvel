@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Stores;
 use App\Products_others;
 use App\Products_others_types;
 use Illuminate\Http\Request;
@@ -21,8 +22,9 @@ class ProductsOthersController extends Controller
     {
         $products_others = Products_others::all();
         $types = Products_others_types::all();
+        $stores = Stores::all();
 
-        return \View::make('admin/products_others/index', array('products_others' => $products_others, 'types' => $types));
+        return \View::make('admin/products_others/index', array('products_others' => $products_others, 'types' => $types, 'stores' => $stores));
     }
 
     /**
@@ -47,7 +49,8 @@ class ProductsOthersController extends Controller
             'name' => 'required|unique:products_others,name',
             'type' => 'required',
             'price' => 'required|numeric|between:0.1,10000',
-            'quantity' => 'required|numeric|between:1,10000'
+            'quantity' => 'required|numeric|between:1,10000',
+            'store' => 'required'
         ]); 
 
         if ($validator->fails()) {
@@ -61,6 +64,7 @@ class ProductsOthersController extends Controller
             'type' => $request->type,
             'price' => $request->price,
             'quantity' => $request->quantity,
+            'store' => $request->store
         ]);
 
         $product->code = 'B'.unique_random('products_others', 'code', 7);
@@ -106,8 +110,10 @@ class ProductsOthersController extends Controller
     {
         $product = Products_others::find($product);
         $types = Products_others_types::all();
+        $stores = Stores::all();
 
-        return \View::make('admin/products_others/edit', array('product' => $product, 'types' => $types));
+
+        return \View::make('admin/products_others/edit', array('product' => $product, 'types' => $types, 'stores' => $stores));
     }
 
     /**
@@ -124,6 +130,7 @@ class ProductsOthersController extends Controller
         $product->name = $request->name;
         $product->type = $request->type;
         $product->price = $request->price;
+        $product->store = $request->store;
 
         //$product->quantity = $request->quantity;
 
@@ -137,7 +144,8 @@ class ProductsOthersController extends Controller
             'name' => 'required|unique:products_others,name,'.$product->id,
             'type' => 'required',
             'price' => 'required|numeric|between:0.1,10000',
-            'quantity' => 'required|numeric|between:1,10000'
+            'quantity' => 'required|numeric|between:1,10000',
+            'store' => 'required'
         ]); 
 
         if ($validator->fails()) {

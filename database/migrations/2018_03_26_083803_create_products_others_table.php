@@ -20,6 +20,7 @@ class CreateProductsOthersTable extends Migration
             $table->float('price');
             $table->integer('quantity');
             $table->string('barcode');
+            $table->integer('store')->references('id')->on('stores');
             $table->string('code')->nullable();
             $table->timestamps();
         });

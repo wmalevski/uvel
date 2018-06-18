@@ -11,7 +11,8 @@ class Products_others extends Model
         'type',
         'price',
         'quantity',
-        'barcode'
+        'barcode',
+        'store'
     ];
 
     protected $table = 'products_others';
