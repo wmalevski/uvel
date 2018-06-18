@@ -192,15 +192,6 @@ class SellingsController extends Controller
                     ));
                 }
             }
-            
-            // $row = Cart::add(['id' => $request->barcode, 'name' => $item->name, 'qty' => $request->quantity, 'price' => 9.99, 'options' => ['weight' => $item->weight]]);
-
-            // $cart = Cart::restore(Auth::user()->getId());
-
-
-            // if(!$cart){
-            //     Cart::store(Auth::user()->getId());
-            // }
 
             $tax = new \Darryldecode\Cart\CartCondition(array(
                 'name' => 'ДДС',
