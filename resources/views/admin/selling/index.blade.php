@@ -231,10 +231,6 @@ aria-hidden="true">
                             <button type="submit" class="btn btn-primary">Ръчно пускане на фискален бон</button>
                         </div>
 
-                        @foreach($conditions as $condition)
-                            <div>{{ $condition->getName() }} {{ $condition->getValue() }}</div>
-                        @endforeach
-                        <br/>
 
                         <div class="form-group form-row">
                             <label for="subTotal" class="col-sm-9 control-label">Цена</label>
@@ -244,7 +240,18 @@ aria-hidden="true">
                         </div>
 
                         <div class="form-group form-row">
-                            <label for="total" class="col-sm-9 control-label">Крайна цена</label>
+                            <label for="subTotal" class="col-sm-9 control-label">Отстъпки(
+                                @foreach($conditions as $condition)
+                                    @if($condition->getName() != 'ДДС'){{ $condition->getValue() }}@endif
+                                @endforeach
+                            )</label>
+                            <div class="col-sm-3">
+                                <input type="price" name="subTotal" value="{{ $priceCon }}" class="form-control" id="subTotal" placeholder="" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-row">
+                            <label for="total" class="col-sm-9 control-label">Крайна цена(с ДДС +20%)</label>
                             <div class="col-sm-3">
                                 <input type="totalPrice" name="total" value="{{ Cart::session(Auth::user()->id)->getTotal() }}" class="form-control" id="total" placeholder="" readonly>
                             </div>
