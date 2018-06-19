@@ -254,9 +254,6 @@ aria-hidden="true">
                             <label for="total" class="col-sm-9 control-label">Крайна цена(с ДДС +20%)</label>
                             <div class="col-sm-3">
                                 <input type="totalPrice" name="total" value="{{ Cart::session(Auth::user()->id)->getTotal() }}" class="form-control" id="total" placeholder="" readonly>
-                                <div class="input-group-append">
-                                    <span class="input-group-text" id="basic-addon2">@example.com</span>
-                                  </div>
                             </div>
                         </div>
 
