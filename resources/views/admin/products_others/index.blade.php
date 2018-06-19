@@ -45,6 +45,17 @@ aria-hidden="true">
                         <label for="1">Количество: </label>
                         <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Налично количество:">
                     </div>
+
+                    <div class="form-group">
+                        <label>Магазин: </label>
+                        <select id="store " name="store" class="form-control">
+                            <option value="">Избери</option>
+                    
+                            @foreach($stores as $store)
+                                <option value="{{ $store->id }}">{{ $store->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
 
                 <div class="modal-footer">
@@ -94,6 +105,7 @@ aria-hidden="true">
         <th>Модел</th>
         <th>Цена/бр</th>
         <th>Количество</th>
+        <th>Магазин</th>
         <th>Уникален номер</th>
         <th>Опции</th>
     </tr>

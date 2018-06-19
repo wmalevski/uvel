@@ -18,6 +18,7 @@ use App\Discount_codes;
 use App\Products_others;
 use App\Products_others_types;
 use App\Repairs;
+use App\Materials_type;
 
 class DatabaseSeeder extends Seeder
 {
@@ -199,11 +200,16 @@ class DatabaseSeeder extends Seeder
             $jewel->save();
         }
 
+        $material_type = new Materials_type();
+        $material_type->name = 'Злато';
+        $material_type->save();
+
         $material = new Materials();
         $material->name = 'Злато';
         $material->code = '525';
         $material->color = 'Жълто';
         $material->carat = '14';
+        $material->parent = 1;
         $material->stock_price = '24';
         $material->save();
 
@@ -226,6 +232,7 @@ class DatabaseSeeder extends Seeder
         $material->code = '925';
         $material->color = 'Сив';
         $material->carat = '14';
+        $material->parent = 1;
         $material->stock_price = '24';
         $material->save();
 
@@ -312,6 +319,7 @@ class DatabaseSeeder extends Seeder
         $products_others->type = 1;
         $products_others->price = 0.10;
         $products_others->quantity = 200;
+        $products_others->store = 1;
         $products_others->barcode = 3808345766226;
         $products_others->code = 'BWGKIDKA';
         $products_others->save();

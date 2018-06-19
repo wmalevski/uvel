@@ -22,6 +22,14 @@ class DashboardController extends Controller
         $discounts = Discount_codes::all();
         $currencies = Currencies::all();
         $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
+        $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();
+        $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
+        $condition = Cart::getCondition('Discount');
+        if($condition){
+            $priceCon = $condition->getCalculatedValue($subTotal);
+        } else{
+            $priceCon = 0;
+        }
 
         // $substitution = Usersubstitutions::where([
         //     ['user_id', '=', Auth::user()->id],
@@ -39,7 +47,7 @@ class DashboardController extends Controller
             $items[] = $item;
         });
 
-        return \View::make('admin/selling/index', array('items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies));
+        return \View::make('admin/selling/index', array('items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'priceCon' => $priceCon));
     }
 
     /**

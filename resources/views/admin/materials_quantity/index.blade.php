@@ -21,10 +21,10 @@ aria-hidden="true">
                         <div class="form-group col-md-12">
                             <label>Тип: </label>
                             <select name="material" class="form-control">
-                                <option value="">Избер материал</option>
+                                <option value="">Избери материал</option>
                         
                                 @foreach($types as $type)
-                                    <option value="{{ $type->id }}">{{ App\Materials_type::withTrashed()->find($type->parent)->name }} - {{ $type->color }} - {{ $type->code }}</option>
+                                    <option value="{{ $type->id }}">@if($type->parent) {{ App\Materials_type::withTrashed()->find($type->parent)->name }} - {{ $type->color }} - {{ $type->code }} @endif</option>
                                 @endforeach
                             </select>
                         </div>
