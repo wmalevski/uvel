@@ -272,6 +272,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/users/substitutions', 'UsersubstitutionsController@store');
 
     Route::put('/users/substitutions/{substitution}', 'UsersubstitutionsController@update');
+    Route::post('/users/substitutions/delete/{substitution}', 'UsersubstitutionsController@destroy');
 
     Route::post('/gallery/delete/{photo}', 'GalleryController@destroy');
 });
