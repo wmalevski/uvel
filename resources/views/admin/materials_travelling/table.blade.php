@@ -3,6 +3,7 @@
     <td>{{ $material->quantity }}</td> 
     <td>{{ $material->price }}</td> 
     <td>{{ $material->created_at }} </td> 
+    <td>{{ App\Stores::withTrashed()->find($material->storeFrom)->name }}</td>
     <td>{{ App\Stores::withTrashed()->find($material->storeTo)->name }}</td>
     <td>@if($material->status == 0) На път @else Приет @endif</td>
 
