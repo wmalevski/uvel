@@ -107,7 +107,7 @@ aria-hidden="true">
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
       <h4 class="c-grey-900 mB-20">Камъни <button class="add-btn btn btn-primary" type="button" id="dropdownMenuButton" data-toggle="modal" data-target="#addStone">Добави</button></h4>
       <p>Преглед на камъни</p>
-      <table class="table">
+      <table class="table tablesort">
         <thead>
           <tr>
             <th scope="col">Име</th> 
@@ -119,7 +119,7 @@ aria-hidden="true">
             <th scope="col">Контур</th> 
             <th scope="col">Количество</th> 
             <th scope="col">Цена</th> 
-            <th scope="col">Действия</th>
+            <th class="sort-false" scope="col">Действия</th>
           </tr>
         </thead>
         <tbody>

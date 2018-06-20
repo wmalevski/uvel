@@ -159,21 +159,24 @@ aria-hidden="true">
 
 <h3>Добави готово изделие <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
 
-<table class="table table-condensed">
-    <tr>
-        <th>Име</th> 
-        <th>Виж бижу</th>
-        <th>Цена на дребно</th>
-        <th>Тегло</th>
-        <th>Цена</th>
-        <th>Баркод</th>
-        <th>Уникален номер</th>
-        <th>Действия</th>
-    </tr>
-    
-    @foreach($products as $product)
-        @include('admin.products.table')
-    @endforeach
+<table class="table table-condensed tablesort">
+    <thead>
+        <tr>
+            <th class="sort-false">Име</th> 
+            <th>Вид бижу</th>
+            <th class="sort-false">Цена на дребно</th>
+            <th class="sort-false">Тегло</th>
+            <th>Цена</th>
+            <th class="sort-false">Баркод</th>
+            <th class="sort-false">Уникален номер</th>
+            <th class="sort-false">Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($products as $product)
+            @include('admin.products.table')
+        @endforeach
+    </tbody>
 </table>
 
 <form method="POST" action="">

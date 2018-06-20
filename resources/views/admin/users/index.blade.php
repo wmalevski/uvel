@@ -93,14 +93,14 @@ aria-hidden="true">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
         <h4 class="c-grey-900 mB-20">Потребители <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addUser">Добави</button></h4>
         <p>Преглед на потребителите.</p>
-        <table class="table">
+        <table class="table tablesort">
           <thead>
             <tr>
               <th scope="col">Име</th> 
-              <th scope="col">Email</th>
+              <th class="sort-false" scope="col">Email</th>
               <th scope="col">Вид</th>
               <th scope="col">Магазин</th>
-              <th scope="col">Действия</th>
+              <th class="sort-false" scope="col">Действия</th>
             </tr>
           </thead>
           <tbody>
