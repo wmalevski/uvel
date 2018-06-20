@@ -163,6 +163,7 @@ aria-hidden="true">
     <thead>
         <tr>
             <th class="sort-false">Име</th> 
+            <th>Модел</th>
             <th>Вид бижу</th>
             <th class="sort-false">Цена на дребно</th>
             <th class="sort-false">Тегло</th>
@@ -205,54 +206,6 @@ aria-hidden="true">
 
     {{--  <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>  --}}
 </form>
-
-{{--  <h3>Видове модели</h3>
-
-<table class="table table-condensed">
-    <tr>
-        <th>#</th>
-        <th>Име</th> 
-        <th>Виж бижу</th>
-        <th>Цена на дребно</th>
-        <th>Цена на едро</th>
-        <th>Тегло</th>
-        <th>Цена</th>
-        <th>Действия</th>
-    </tr>
-    
-    @foreach($models as $model)
-        <tr>
-            <td></td>
-            <td> {{ $model->name }} </td>
-            <td> {{ App\Jewels::find($model->jewel)->name }} </td> 
-            <td> {{ App\Prices::find($model->retail_price)->price }} </td> 
-            <td> {{ App\Prices::find($model->wholesale_price)->price }} </td>
-            <td> {{ $model->weight }} </td>
-            <td> {{ (App\Prices::find($model->retail_price)->price)*$model->weight }} </td>
-            <td><a href="models/{{ $model->id }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
-        </tr>
-
-        <tr>
-            <th>камъни</th>
-            <td>
-                <table class="table table-condensed">
-                    <tr>
-                        <th>тип</th>
-                        <th>Брой</th>
-                    </tr>
-
-                    @foreach(App\Model_stones::where('model', $model->id)->get() as $stone)
-                        <tr>
-                            <td>{{ App\Stones::find($stone->stone)->name }}</td>
-                            <td>{{ $stone->amount }}</td>
-                        </tr>
-                    @endforeach
-                </table>
-                
-            </td>
-        </tr>
-    @endforeach
-</table>  --}}
 @endsection
 
 @section('footer-scripts')
