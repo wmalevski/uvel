@@ -209,8 +209,13 @@ class UsersubstitutionsController extends Controller
      * @param  \App\Usersubstitutions  $usersubstitutions
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Usersubstitutions $usersubstitutions)
+    public function destroy(Usersubstitutions $usersubstitutions, $substitution)
     {
-        //
+        $substitution = Usersubstitutions::find($substitution);
+        
+        if($substitution){
+            $substitution->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

@@ -72,7 +72,7 @@ class MaterialsTravellingController extends Controller
         $check = Materials_quantity::find($request->type);
 
         if($check){
-            if($request->quantity <= $check->quantity){
+            if($request->quantity <= $check->quantity && $check->quantity != 0){
                 $price = Materials::find($check->material);
 
                 if($check->store == $request->storeTo){
@@ -105,9 +105,6 @@ class MaterialsTravellingController extends Controller
                 $history->result_id = $material->id;
 
                 $history->save();
-                
-
-                //dd($material);
 
                 return Response::json(array('success' => View::make('admin/materials_travelling/table', array('material' => $material, 'matID' => $check->material))->render()));
 
