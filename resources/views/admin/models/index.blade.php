@@ -162,20 +162,23 @@ aria-hidden="true">
 
 <h3>Модели <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addModel">Добави</button></h3>
 
-<table class="table table-condensed">
-    <tr>
-        <th>Име</th> 
-        <th>Виж бижу</th>
-        <th>Цена на дребно</th>
-        <th>Цена на едро</th>
-        <th>Тегло</th>
-        <th>Цена</th>
-        <th>Действия</th>
-    </tr>
-    
-    @foreach($models as $model)
-        @include('admin.models.table')
-    @endforeach
+<table class="table table-condensed tablesort">
+    <thead>
+        <tr>
+            <th>Име</th> 
+            <th>Вид бижу</th>
+            <th class="sort-false">Цена на дребно</th>
+            <th class="sort-false">Цена на едро</th>
+            <th>Тегло</th>
+            <th>Цена</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($models as $model)
+            @include('admin.models.table')
+        @endforeach
+    </tbody>
 </table>
 @endsection
 
