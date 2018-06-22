@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\View;
 use Carbon\Carbon;
 use App\Gallery;
 use File;
+use Auth;
+use App\Materials_quantity;
 
 class ModelsController extends Controller
 {
@@ -32,6 +34,7 @@ class ModelsController extends Controller
         $jewels = Jewels::all();
         $prices = Prices::all();
         $stones = Stones::all();
+        $materials = Materials_quantity::where('store', Auth::user()->getStore())->get();
 
         $pass_stones = array();
         
@@ -42,7 +45,7 @@ class ModelsController extends Controller
             ];
         }
 
-        return \View::make('admin/models/index', array('jsStones' =>  json_encode($pass_stones), 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones));
+        return \View::make('admin/models/index', array('jsStones' =>  json_encode($pass_stones), 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials));
     }
 
     /**

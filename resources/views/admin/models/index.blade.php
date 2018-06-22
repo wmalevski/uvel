@@ -28,7 +28,22 @@ aria-hidden="true">
                                 <option value="0">Избери</option>
                         
                                 @foreach($jewels as $jewel)
-                                    <option value="{{ $jewel->id }}" data-pricebuy="@if(App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" data-material="{{$jewel->material}}">{{ $jewel->name }} - {{ App\Materials::withTrashed()->find($jewel->material)->name }}, {{ App\Materials::withTrashed()->find($jewel->material)->code }}, {{ App\Materials::withTrashed()->find($jewel->material)->color }}</option>
+                                    <option value="{{ $jewel->id }}">{{ $jewel->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <hr>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label>Избери материал: </label>
+                            <select id="material_type" name="jewel" class="form-control calculate">
+                                <option value="0">Избери</option>
+                        
+                                @foreach($materials as $material)
+                                    <option value="{{ $material->id }}">{{ $material->material }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -53,6 +68,14 @@ aria-hidden="true">
                                     <option value="{{ $price->id }}" data-pricebuy="{{ $price->price }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
                                 @endforeach
                             </select>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <button type="button" class="btn btn-primary add_field_variation">Добави нова комбинация</button>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <hr>
                         </div>
 
 
