@@ -1,5 +1,6 @@
 <tr data-id="{{ $product->id }}">
     <td>{{ $product->code }}</td>
+    <td> @if($product->model) {{ App\Models::withTrashed()->find($product->model)->name }} @endif </td>
     <td> @if($product->model) @if(App\Jewels::withTrashed()->find(App\Models::withTrashed()->find($product->model)->jewel)) {{ App\Jewels::find(App\Models::withTrashed()->find($product->model)->jewel)->name }} @endif @endif </td> 
     <td> {{ App\Prices::withTrashed()->find($product->retail_price)->price }} </td> 
     <td> {{ $product->weight }} </td>
