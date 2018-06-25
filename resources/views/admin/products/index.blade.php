@@ -161,13 +161,12 @@ aria-hidden="true">
 
 <table class="table table-condensed">
     <tr>
-        <th>Име</th> 
+        <th>Уникален номер</th>
         <th>Виж бижу</th>
         <th>Цена на дребно</th>
         <th>Тегло</th>
         <th>Цена</th>
         <th>Баркод</th>
-        <th>Уникален номер</th>
         <th>Действия</th>
     </tr>
     
