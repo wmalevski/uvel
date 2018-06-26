@@ -78,8 +78,13 @@ class ModelOptionsController extends Controller
      * @param  \App\ModelOptions  $modelOptions
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ModelOptions $modelOptions)
+    public function destroy(ModelOptions $modelOptions, $option)
     {
-        //
+        $option = ModelOptions::find($option);
+        
+        if($option){
+            $option->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

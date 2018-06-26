@@ -154,14 +154,14 @@ class ModelsController extends Controller
             }
 
             //To be un-commented when FE is ready!!!
-            foreach($request->options as $key => $option){
-                $option = new Model_stones();
-                $option->model = $model->id;
-                $option->material = $request->material[$key];
-                $option->retail_price = $request->retail_price[$key];
-                $option->wholesale_price = $request->wholesale_price[$key];
-                $model_stones->save();
-            }
+            // foreach($request->options as $key => $option){
+            //     $option = new Model_stones();
+            //     $option->model = $model->id;
+            //     $option->material = $request->material[$key];
+            //     $option->retail_price = $request->retail_price[$key];
+            //     $option->wholesale_price = $request->wholesale_price[$key];
+            //     $model_stones->save();
+            // }
         }
 
         return Response::json(array('success' => View::make('admin/models/table',array('model'=>$model))->render()));
