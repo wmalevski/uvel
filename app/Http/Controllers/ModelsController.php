@@ -20,6 +20,7 @@ use App\Gallery;
 use File;
 use Auth;
 use App\Materials_quantity;
+use App\ModelOptions;
 
 class ModelsController extends Controller
 {
@@ -150,6 +151,16 @@ class ModelsController extends Controller
                     $product_stones->amount = $request->stone_amount[$key];
                     $product_stones->save();
                 }
+            }
+
+            //To be un-commented when FE is ready!!!
+            foreach($request->options as $key => $option){
+                $option = new Model_stones();
+                $option->model = $model->id;
+                $option->material = $request->material[$key];
+                $option->retail_price = $request->retail_price[$key];
+                $option->wholesale_price = $request->wholesale_price[$key];
+                $model_stones->save();
             }
         }
 
