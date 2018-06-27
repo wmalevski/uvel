@@ -13,6 +13,7 @@ use App\Stones;
 use App\Stone_styles;
 use App\Stone_contours;
 use App\Stone_sizes;
+use App\Gallery;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Products extends Model
@@ -57,6 +58,8 @@ class Products extends Model
             ])->get();
 
             $model_stones = Model_stones::where('model', $model->id)->get();
+
+            $model_photos = Gallery::where('table', 'models')->get();
     
             $pass_jewels = array();
             
@@ -118,6 +121,13 @@ class Products extends Model
                     'label' => Stones::withTrashed()->find($stone->stone)->name.' ('.Stone_contours::withTrashed()->find(Stones::withTrashed()->find($stone->stone)->contour)->name. ', ' .Stone_sizes::withTrashed()->find(Stones::withTrashed()->find($stone->stone)->size)->name. ' )'
                 ];
             }
+
+            foreach($model_photos as $photo){
+                $pass_photos[] = [
+                    'id' => $photo->id,
+                    'url' => 'uploads/models/'.$photo->photo
+                ];
+            }
     
             return array(
                 'retail_prices' => $prices_retail, 
@@ -127,7 +137,8 @@ class Products extends Model
                 'weight' => $model->weight,
                 'size'   => $model->size,
                 'workmanship' => $model->workmanship,
-                'price' => $model->price
+                'price' => $model->price,
+                'photos' => $pass_photos
             );
         }
     }
