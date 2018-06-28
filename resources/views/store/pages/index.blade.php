@@ -154,329 +154,57 @@
                                         <h6 class="general-title">New Products</h6>
                                         <div class="home_products_wrapper">
                                             <div id="home_products">
-                                                <div class="element no_full_width col-md-8 col-sm-8 not-animated" data-animate="fadeInUp" data-delay="0">
-                                                    <ul class="row-container list-unstyled clearfix">
-                                                        <li class="row-left">
-                                                        <a href="./product.html" class="container_item">
-                                                        <img src="{{ asset('store/images/demo_375x375.png') }}" class="img-responsive" alt="Curabitur cursus dignis">
-                                                        <span class="sale_banner">
-                                                        <span class="sale_text">Sale</span>
-                                                        </span>
-                                                        </a>
-                                                        <div class="hbw">
-                                                            <span class="hoverBorderWrapper"></span>
-                                                        </div>
-                                                        </li>
-                                                        <li class="row-right parent-fly animMix">
-                                                        <div class="product-content-left">
-                                                            <a class="title-5" href="./product.html">Curabitur cursus dignis</a>
-                                                            <span class="spr-badge" id="spr_badge_12932382113" data-rating="0.0">
-                                                            <span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
-                                                            <span class="spr-badge-caption">
-                                                            No reviews </span>
-                                                            </span>
-                                                        </div>
-                                                        <div class="product-content-right">
-                                                            <div class="product-price">
-                                                                <span class="price_sale">$259.00</span>
-                                                                <del class="price_compare"> $300.00</del>
+                                                @foreach ( $products as $key => $product ) 
+                                                    <div class="element no_full_width col-md-8 col-sm-8 not-animated" data-animate="fadeInUp" data-delay="{{ $key }}">
+                                                        <ul class="row-container list-unstyled clearfix">
+                                                            <li class="row-left">
+                                                            <a href="./product.html" class="container_item">
+                                                            <img src="{{ asset('store/images/demo_375x375.png') }}" class="img-responsive" alt="Curabitur cursus dignis">
+                                                            </a>
+                                                            <div class="hbw">
+                                                                <span class="hoverBorderWrapper"></span>
                                                             </div>
-                                                        </div>
-                                                        <div class="list-mode-description">
-                                                                Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis amet voluptas assumenda est, omnis dolor repellendus quis nostrum. Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed...
-                                                        </div>
-                                                        <div class="hover-appear">
-                                                            <form action="./product.html" method="post">
-                                                                <div class="effect-ajax-cart">
-                                                                    <input type="hidden" name="quantity" value="1">
-                                                                    <button class="select-option" type="button" onclick="window.location.href='product.html'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
-                                                                </div>
-                                                            </form>
-                                                            <div class="product-ajax-qs hidden-xs hidden-sm">
-                                                                <div data-href="./ajax/_product-qs.html" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
-                                                                    <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																		
+                                                            </li>
+                                                            <li class="row-right parent-fly animMix">
+                                                            <div class="product-content-left">
+                                                                <a class="title-5" href="./product.html">{{ $product['name'] }}</a>
+                                                                <span class="spr-badge" id="spr_badge_12932396193" data-rating="0.0">
+                                                                <span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
+                                                                <span class="spr-badge-caption">
+                                                                No reviews </span>
+                                                                </span>
+                                                            </div>
+                                                            <div class="product-content-right">
+                                                                <div class="product-price">
+                                                                    <span class="price">{{ $product['price'] }} лв</span>
                                                                 </div>
                                                             </div>
-                                                            <a class="wish-list" href="./account.html" title="wish list"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>
-                                                        </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>                
-                                                <div class="element no_full_width col-md-8 col-sm-8 not-animated" data-animate="fadeInUp" data-delay="1">
-                                                    <ul class="row-container list-unstyled clearfix">
-                                                        <li class="row-left">
-                                                        <a href="./product.html" class="container_item">
-                                                        <img src="{{ asset('store/images/demo_375x375.png') }}" class="img-responsive" alt="Curabitur cursus dignis">
-                                                        </a>
-                                                        <div class="hbw">
-                                                            <span class="hoverBorderWrapper"></span>
-                                                        </div>
-                                                        </li>
-                                                        <li class="row-right parent-fly animMix">
-                                                        <div class="product-content-left">
-                                                            <a class="title-5" href="./product.html">Curabitur cursus dignis</a>
-                                                            <span class="spr-badge" id="spr_badge_12932396193" data-rating="0.0">
-                                                            <span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
-                                                            <span class="spr-badge-caption">
-                                                            No reviews </span>
-                                                            </span>
-                                                        </div>
-                                                        <div class="product-content-right">
-                                                            <div class="product-price">
-                                                                <span class="price">
-                                                                $200.00 </span>
+                                                            <div class="list-mode-description">
+                                                                    Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis amet voluptas assumenda est, omnis dolor repellendus quis nostrum. Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed...
                                                             </div>
-                                                        </div>
-                                                        <div class="list-mode-description">
-                                                                Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis amet voluptas assumenda est, omnis dolor repellendus quis nostrum. Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed...
-                                                        </div>
-                                                        <div class="hover-appear">
-                                                            <form action="./product.html" method="post">
-                                                                <div class="hide clearfix">
-                                                                    <select name="id">
-                                                                        <option selected="selected" value="5141875779">Default Title</option>
-                                                                    </select>
+                                                            <div class="hover-appear">
+                                                                <form action="./product.html" method="post">
+                                                                    <div class="hide clearfix">
+                                                                        <select name="id">
+                                                                            <option selected="selected" value="5141875779">Default Title</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="effect-ajax-cart">
+                                                                        <input type="hidden" name="quantity" value="1">
+                                                                        <button class="add-to-cart" type="submit" name="add"><i class="fa fa-shopping-cart"></i><span class="list-mode">Add to Cart</span></button>
+                                                                    </div>
+                                                                </form>
+                                                                <div class="product-ajax-qs hidden-xs hidden-sm">
+                                                                    <div data-href="./ajax/_product-qs.html" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
+                                                                        <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																		
+                                                                    </div>
                                                                 </div>
-                                                                <div class="effect-ajax-cart">
-                                                                    <input type="hidden" name="quantity" value="1">
-                                                                    <button class="add-to-cart" type="submit" name="add"><i class="fa fa-shopping-cart"></i><span class="list-mode">Add to Cart</span></button>
-                                                                </div>
-                                                            </form>
-                                                            <div class="product-ajax-qs hidden-xs hidden-sm">
-                                                                <div data-href="./ajax/_product-qs.html" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
-                                                                    <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																		
-                                                                </div>
+                                                                <a class="wish-list" href="./account.html" title="wish list"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>
                                                             </div>
-                                                            <a class="wish-list" href="./account.html" title="wish list"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>
-                                                        </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="element no_full_width col-md-8 col-sm-8 not-animated" data-animate="fadeInUp" data-delay="2">
-                                                    <ul class="row-container list-unstyled clearfix">
-                                                        <li class="row-left">
-                                                        <a href="./product.html" class="container_item">
-                                                        <img src="{{ asset('store/images/demo_375x375.png') }}" class="img-responsive" alt="Donec aliquam ante non">
-                                                        <span class="sale_banner">
-                                                        <span class="sale_text">Sale</span>
-                                                        </span>
-                                                        </a>
-                                                        <div class="hbw">
-                                                            <span class="hoverBorderWrapper"></span>
-                                                        </div>
-                                                        </li>
-                                                        <li class="row-right parent-fly animMix">
-                                                        <div class="product-content-left">
-                                                            <a class="title-5" href="./product.html">Donec aliquam ante non</a>
-                                                            <span class="spr-badge" id="spr_badge_12932369312" data-rating="4.0">
-                                                            <span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
-                                                            <span class="spr-badge-caption">
-                                                            1 review </span>
-                                                            </span>
-                                                        </div>
-                                                        <div class="product-content-right">
-                                                            <div class="product-price">
-                                                                <span class="price_sale">$250.00</span>
-                                                                <del class="price_compare"> $300.00</del>
-                                                            </div>
-                                                        </div>
-                                                        <div class="list-mode-description">
-                                                                Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis amet voluptas assumenda est, omnis dolor repellendus quis nostrum. Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed...
-                                                        </div>
-                                                        <div class="hover-appear">
-                                                            <form action="./product.html" method="post">
-                                                                <div class="hide clearfix">
-                                                                    <select name="id">
-                                                                        <option value="3947648771">black / small</option>
-                                                                        <option selected="selected" value="3947648835">white / small</option>
-                                                                        <option value="3947648899">black / medium</option>
-                                                                        <option value="3947648963">white / medium</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="effect-ajax-cart">
-                                                                    <input type="hidden" name="quantity" value="1">
-                                                                    <button class="select-option" type="button" onclick="window.location.href='product.html'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
-                                                                </div>
-                                                            </form>
-                                                            <div class="product-ajax-qs hidden-xs hidden-sm">
-                                                                <div data-href="./ajax/_product-qs.html" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
-                                                                    <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																		
-                                                                </div>
-                                                            </div>
-                                                            <a class="wish-list" href="./account.html" title="wish list"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>
-                                                        </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="element no_full_width col-md-8 col-sm-8 not-animated" data-animate="fadeInUp" data-delay="3">
-                                                    <ul class="row-container list-unstyled clearfix">
-                                                        <li class="row-left">
-                                                        <a href="./product.html" class="container_item">
-                                                        <img src="{{ asset('store/images/demo_375x375.png') }}" class="img-responsive" alt="Donec condime fermentum">
-                                                        </a>
-                                                        <div class="hbw">
-                                                            <span class="hoverBorderWrapper"></span>
-                                                        </div>
-                                                        </li>
-                                                        <li class="row-right parent-fly animMix">
-                                                        <div class="product-content-left">
-                                                            <a class="title-5" href="./product.html">Donec condime fermentum</a>
-                                                            <span class="spr-badge" id="spr_badge_12932358434" data-rating="0.0">
-                                                            <span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
-                                                            <span class="spr-badge-caption">
-                                                            No reviews </span>
-                                                            </span>
-                                                        </div>
-                                                        <div class="product-content-right">
-                                                            <div class="product-price">
-                                                                <span class="price">
-                                                                $200.00 </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="list-mode-description">
-                                                                Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis amet voluptas assumenda est, omnis dolor repellendus quis nostrum. Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed...
-                                                        </div>
-                                                        <div class="hover-appear">
-                                                            <form action="./product.html" method="post">
-                                                                <div class="hide clearfix">
-                                                                    <select name="id">
-                                                                        <option selected="selected" value="3947646083">black / small</option>
-                                                                        <option value="3947646147">red / small</option>
-                                                                        <option value="3947646211">white / small</option>
-                                                                        <option value="3947646275">blue / small</option>
-                                                                        <option value="3947646339">black / medium</option>
-                                                                        <option value="3947646403">red / medium</option>
-                                                                        <option value="3947646467">blue / medium</option>
-                                                                        <option value="3947646531">white / medium</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="effect-ajax-cart">
-                                                                    <input type="hidden" name="quantity" value="1">
-                                                                    <button class="select-option" type="button" onclick="window.location.href='product.html'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
-                                                                </div>
-                                                            </form>
-                                                            <div class="product-ajax-qs hidden-xs hidden-sm">
-                                                                <div data-href="./ajax/_product-qs.html" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
-                                                                    <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																		
-                                                                </div>
-                                                            </div>
-                                                            <a class="wish-list" href="./account.html" title="wish list"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>
-                                                        </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>               
-                                                <div class="element no_full_width col-md-8 col-sm-8 not-animated" data-animate="fadeInUp" data-delay="4">
-                                                    <ul class="row-container list-unstyled clearfix">
-                                                        <li class="row-left">
-                                                        <a href="./product.html" class="container_item">
-                                                        <img src="{{ asset('store/images/demo_375x375.png') }}" class="img-responsive" alt="Maximus quam posuere">
-                                                        <span class="sale_banner">
-                                                        <span class="sale_text">Sale</span>
-                                                        </span>
-                                                        </a>
-                                                        <div class="hbw">
-                                                            <span class="hoverBorderWrapper"></span>
-                                                        </div>
-                                                        </li>
-                                                        <li class="row-right parent-fly animMix">
-                                                        <div class="product-content-left">
-                                                            <a class="title-5" href="./product.html">Maximus quam posuere</a>
-                                                            <span class="spr-badge" id="spr_badge_1293227907" data-rating="3.0">
-                                                            <span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
-                                                            <span class="spr-badge-caption">
-                                                            1 review </span>
-                                                            </span>
-                                                        </div>
-                                                        <div class="product-content-right">
-                                                            <div class="product-price">
-                                                                <span class="price_sale">$200.00</span>
-                                                                <del class="price_compare"> $300.00</del>
-                                                            </div>
-                                                        </div>
-                                                        <div class="list-mode-description">
-                                                                Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis amet voluptas assumenda est, omnis dolor repellendus quis nostrum. Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed...
-                                                        </div>
-                                                        <div class="hover-appear">
-                                                            <form action="./product.html" method="post">
-                                                                <div class="hide clearfix">
-                                                                    <select name="id">
-                                                                        <option selected="selected" value="3947629763">black / small</option>
-                                                                        <option value="3947629827">white / small</option>
-                                                                        <option value="3947629891">black / medium</option>
-                                                                        <option value="3947629955">white / medium</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="effect-ajax-cart">
-                                                                    <input type="hidden" name="quantity" value="1">
-                                                                    <button class="select-option" type="button" onclick="window.location.href='product.html'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
-                                                                </div>
-                                                            </form>
-                                                            <div class="product-ajax-qs hidden-xs hidden-sm">
-                                                                <div data-href="./ajax/_product-qs.html" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
-                                                                    <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																		
-                                                                </div>
-                                                            </div>
-                                                            <a class="wish-list" href="./account.html" title="wish list"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>
-                                                        </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>                
-                                                <div class="element no_full_width col-md-8 col-sm-8 not-animated" data-animate="fadeInUp" data-delay="5">
-                                                    <ul class="row-container list-unstyled clearfix">
-                                                        <li class="row-left">
-                                                        <a href="./product.html" class="container_item">
-                                                        <img src="{{ asset('store/images/demo_375x375.png') }}" class="img-responsive" alt="Product full width">
-                                                        <span class="sale_banner">
-                                                        <span class="sale_text">Sale</span>
-                                                        </span>
-                                                        </a>
-                                                        <div class="hbw">
-                                                            <span class="hoverBorderWrapper"></span>
-                                                        </div>
-                                                        </li>
-                                                        <li class="row-right parent-fly animMix">
-                                                        <div class="product-content-left">
-                                                            <a class="title-5" href="./product.html">Product full width</a>
-                                                            <span class="spr-badge" id="spr_badge_1293240771" data-rating="0.0">
-                                                            <span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
-                                                            <span class="spr-badge-caption">
-                                                            No reviews </span>
-                                                            </span>
-                                                        </div>
-                                                        <div class="product-content-right">
-                                                            <div class="product-price">
-                                                                <span class="price_sale">$200.00</span>
-                                                                <del class="price_compare"> $300.00</del>
-                                                            </div>
-                                                        </div>
-                                                        <div class="list-mode-description">
-                                                                Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis amet voluptas assumenda est, omnis dolor repellendus quis nostrum. Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed...
-                                                        </div>
-                                                        <div class="hover-appear">
-                                                            <form action="./product.html" method="post">
-                                                                <div class="hide clearfix">
-                                                                    <select name="id">
-                                                                        <option selected="selected" value="3947656579">black / small</option>
-                                                                        <option value="3947656643">white / small</option>
-                                                                        <option value="3947656707">black / medium</option>
-                                                                        <option value="3947656771">white / medium</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="effect-ajax-cart">
-                                                                    <input type="hidden" name="quantity" value="1">
-                                                                    <button class="select-option" type="button" onclick="window.location.href='product.html'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
-                                                                </div>
-                                                            </form>
-                                                            <div class="product-ajax-qs hidden-xs hidden-sm">
-                                                                <div data-href="./ajax/_product-qs.html" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
-                                                                    <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																		
-                                                                </div>
-                                                            </div>
-                                                            <a class="wish-list" href="./account.html" title="wish list"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>
-                                                        </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>                
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                @endforeach               
                                             </div>
                                         </div>
                                     </div>
