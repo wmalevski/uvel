@@ -10,7 +10,12 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-// For testing purpose
+
+/**
+ * This route '/online/store' has been
+ * created for testing 
+ * purposes
+ */
 Route::get('/online/store', function () {
     return view('store.pages.index');
 });

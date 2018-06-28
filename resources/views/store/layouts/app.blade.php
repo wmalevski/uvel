@@ -50,12 +50,14 @@
 
 <body class="templateIndex notouch">
     <!-- Header -->
+    @include('store.parts._header')
 
     <!-- Main Content -->
     @yield('content')
 
     <!-- Footer -->
-
+    @include('store.parts._footer')
+    
 <script src="{{ asset('store/javascripts/cs.global.js') }}" type="text/javascript"></script>
 </body>
 </html>
