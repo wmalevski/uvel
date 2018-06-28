@@ -16,11 +16,12 @@
  * created for testing 
  * purposes
  */
-Route::prefix('online')->group(function () {
 
-    Route::get('store', function () {
-        return view('store.pages.index');
-    });
+Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
+    Route::get('store', 'StoreController@index');
+});
+
+Route::prefix('online')->group(function () {
 
     Route::get('contact', function () {
         return view('store.pages.contact');
