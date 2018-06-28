@@ -26,6 +26,9 @@ Route::prefix('online')->group(function () {
         return view('store.pages.contact');
     });
 
+    Route::get('product', function () {
+        return view('store.pages.products.index');
+    });
 });
 
 
