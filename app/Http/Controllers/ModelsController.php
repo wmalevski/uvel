@@ -198,14 +198,15 @@ class ModelsController extends Controller
             ]
         )->get();
 
-        //dd($modelStones);
+        $options = ModelOptions::where('model', $model->id)->get();
+        $materials = Materials_quantity::where('store', Auth::user()->getStore())->get();
         
         //return Response::json(array('success' => View::make('admin/models/edit',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render()));
 
         //$product = Products_others::find($product);
         //$types = Products_others_types::all();
 
-        return \View::make('admin/models/edit', array('photos' => $photos, 'model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones, 'modelStones' => $modelStones));
+        return \View::make('admin/models/edit', array('photos' => $photos, 'model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones, 'modelStones' => $modelStones, 'options' => $options, 'materials' => $materials));
     }
 
     /**
