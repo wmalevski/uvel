@@ -16,9 +16,18 @@
  * created for testing 
  * purposes
  */
-Route::get('/online/store', function () {
-    return view('store.pages.index');
+Route::prefix('online')->group(function () {
+
+    Route::get('store', function () {
+        return view('store.pages.index');
+    });
+
+    Route::get('contact', function () {
+        return view('store.pages.contact');
+    });
+
 });
+
 
 Route::get('/', function () {
     return view('welcome');

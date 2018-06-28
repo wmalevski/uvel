@@ -48,7 +48,8 @@
 	<script src="{{ asset('store/javascripts/cs.script.js') }}" type="text/javascript"></script>
 </head>
 
-<body class="templateIndex notouch">
+<body {{ !Request::is('online/store') ? 'itemscope="" itemtype="http://schema.org/WebPage"' : '' }} class="{{ $bodyClass }} notouch">
+
     <!-- Header -->
     @include('store.parts._header')
 

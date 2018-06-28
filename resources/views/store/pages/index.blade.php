@@ -1,4 +1,4 @@
-@extends('store.layouts.app')
+@extends('store.layouts.app', ['bodyClass' => 'templateIndex'])
 
 @section('content')
 <div id="content-wrapper-parent">
