@@ -11,28 +11,6 @@
 |
 */
 
-/**
- * This route '/online/store' has been
- * created for testing 
- * purposes
- */
-
-Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
-    Route::get('store', 'StoreController@index');
-});
-
-Route::prefix('online')->group(function () {
-
-    Route::get('contact', function () {
-        return view('store.pages.contact');
-    });
-
-    Route::get('product', function () {
-        return view('store.pages.products.index');
-    });
-});
-
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -297,4 +275,22 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/users/substitutions/delete/{substitution}', 'UsersubstitutionsController@destroy');
 
     Route::post('/gallery/delete/{photo}', 'GalleryController@destroy');
+});
+
+/**
+ * Online Store Routes
+ */
+Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
+    Route::get('store', 'StoreController@index');
+});
+
+Route::prefix('online')->group(function () {
+
+    Route::get('contact', function () {
+        return view('store.pages.contact');
+    });
+
+    Route::get('product', function () {
+        return view('store.pages.products.index');
+    });
 });
