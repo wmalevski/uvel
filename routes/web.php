@@ -10,6 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+// For testing purpose
+Route::get('/online/store', function () {
+    return view('store.pages.index');
+});
 
 Route::get('/', function () {
     return view('welcome');
