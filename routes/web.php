@@ -284,6 +284,9 @@ Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
     Route::get('store', 'StoreController@index')->name('store');
 });
 
+/**
+ * !Note: Store routes for testing
+ */
 Route::prefix('online')->group(function () {
 
     Route::get('contact', function () {
