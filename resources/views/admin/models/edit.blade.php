@@ -30,26 +30,53 @@
             </select>
         </div>
 
-        <div class="form-group">
-            <label>Цена на дребно: </label>
-            <select id="retail_price_edit" name="retail_price" class="form-control calculate prices-filled">
-                <option value="0">Избери</option>
-
-                @foreach($prices->where('type', 'sell') as $price)
-                    <option value="{{ $price->id }}" data-material="{{ $price->material }}" @if($model->retail_price == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
-                @endforeach
-            </select>
+        <div class="form-group col-md-12">
+            <hr>
         </div>
 
-        <div class="form-group">
-            <label>Цена на едро: </label>
-            <select id="wholesale_price_edit" name="wholesale_price" class="form-control prices-filled">
-                <option value="0">Избери</option>
+        @if($options)
+            @foreach($options as $option)
+                <div class="form-group col-md-12">
+                    <label>Избери материал: </label>
+                    <select id="material_type" name="jewel" class="form-control calculate">
+                        <option value="0">Избери</option>
+                
+                        @foreach($materials as $material)
+                            <option value="{{ $material->id }}" @if($option->material == $material->id) selected @endif>{{ App\Materials::withTrashed()->find($material->material)->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
 
-                @foreach($prices->where('type', 'sell') as $price)
-                    <option value="{{ $price->id }}" data-material="{{ $price->material }}" @if($model->wholesale_price == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
-                @endforeach
-            </select>
+                <div class="form-group col-md-12">
+                    <label>Цена на дребно: </label>
+                    <select id="retail_price_edit" name="retail_price" class="form-control calculate prices-filled">
+                        <option value="0">Избери</option>
+
+                        @foreach($prices->where('type', 'sell') as $price)
+                            <option value="{{ $price->id }}" data-material="{{ $price->material }}" @if($option->retail_price == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label>Цена на едро: </label>
+                    <select id="wholesale_price_edit" name="wholesale_price" class="form-control prices-filled">
+                        <option value="0">Избери</option>
+
+                        @foreach($prices->where('type', 'sell') as $price)
+                            <option value="{{ $price->id }}" data-material="{{ $price->material }}" @if($option->wholesale_price == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            @endforeach
+        @endif
+
+        <div class="form-group col-md-12">
+            <button type="button" class="btn btn-primary add_field_variation">Добави нова комбинация</button>
+        </div>
+
+        <div class="form-group col-md-12">
+            <hr>
         </div>
         
         <div class="form-group weight-holder-edit">

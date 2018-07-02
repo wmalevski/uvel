@@ -21,6 +21,7 @@ class CreateModelOptionsTable extends Migration
             $table->integer('wholesale_price')->references('id')->on('prices');
             $table->enum('default', ['yes', 'no'])->default('no');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
