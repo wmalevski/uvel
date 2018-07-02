@@ -45,6 +45,17 @@ aria-hidden="true">
 
                     <div class="form-group">
                         <label>Вид: </label>
+                        <select id="jewels_types" name="jewelsTypes" class="form-control calculate" disabled>
+                            <option value="">Избери</option>
+                    
+                            @foreach($jewels as $jewel)
+                                <option value="{{ $jewel->id }}" data-pricebuy="@if(App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" data-material="{{ $jewel->material }}">{{ $jewel->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Материал: </label>
                         <select id="jewels_types" name="jewelsTypes" class="form-control calculate">
                             <option value="">Избери</option>
                     

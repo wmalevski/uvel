@@ -9,6 +9,7 @@ use App\Prices;
 use App\Stones;
 use App\Model_stones;
 use App\Product_stones;
+use App\ModelOptions;
 use Illuminate\Http\Request;
 use Uuid;
 use App\Gallery;
@@ -136,6 +137,18 @@ class ProductsController extends Controller
         $product->barcode = $digits . $check_digit;
 
         $product->save();
+
+        $findModel = ModelOptions::where('material', $request->material)->get();
+
+        if(!$findModel){
+            $option = new ModelOptions();
+            $option->material = $request->material;
+            $option->model = $request->model;
+            $option->retail_price = $request->retail_price;
+            $option->wholesale_price = $request->wholesale_price;
+
+            $option->save;
+        }
 
         foreach($request->stones as $key => $stone){
             if($stone) {
