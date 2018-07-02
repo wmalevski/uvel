@@ -36,49 +36,45 @@ aria-hidden="true">
                         <div class="form-group col-md-12">
                             <hr>
                         </div>
+                    </div>
+                    <div class="form-row model_materials">
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label>Избери материал: </label>
+                                <select id="material_type" name="jewel" class="material_type form-control calculate">
+                                    <option value="0">Избери</option>
+                            
+                                    @foreach($materials as $material)
+                                        <option value="{{ $material->id }}">{{ $material->material }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                        <div class="form-group col-md-12">
-                            <label>Избери материал: </label>
-                            <select id="material_type" name="jewel" class="form-control calculate">
-                                <option value="0">Избери</option>
-                        
-                                @foreach($materials as $material)
-                                    <option value="{{ $material->id }}">{{ $material->material }}</option>
-                                @endforeach
-                            </select>
+                            <div class="form-group col-md-6">
+                                <label>Цена на дребно: </label>
+                                <select id="retail_prices" name="retail_price" class="form-control calculate prices-filled" disabled>
+                                    <option value="0">Избери</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>Цена на едро: </label>
+                                <select id="wholesale_price" name="wholesale_price" class="form-control prices-filled" disabled>
+                                    <option value="0">Избери</option>
+                                </select>
+                            </div>
                         </div>
+                    </div>
 
-                        <div class="form-group col-md-6">
-                            <label>Цена на дребно: </label>
-                            <select id="retail_prices" name="retail_price" class="form-control calculate prices-filled" disabled>
-                                <option value="0">Избери</option>
-                        
-                                @foreach($prices->where('type', 'sell') as $price)
-                                    <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                    <div class="form-row">
+                        <button type="button" class="btn btn-primary add_field_variation">Добави нова комбинация</button>
+                    </div>
 
-                        <div class="form-group col-md-6">
-                            <label>Цена на едро: </label>
-                            <select id="wholesale_price" name="wholesale_price" class="form-control prices-filled" disabled>
-                                <option value="0">Избери</option>
-                        
-                                @foreach($prices->where('type', 'sell') as $price)
-                                    <option value="{{ $price->id }}" data-pricebuy="{{ $price->price }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                    <div class="form-group col-md-12">
+                        <hr>
+                    </div>
 
-                        <div class="form-group col-md-12">
-                            <button type="button" class="btn btn-primary add_field_variation">Добави нова комбинация</button>
-                        </div>
-
-                        <div class="form-group col-md-12">
-                            <hr>
-                        </div>
-
-
+                    <div class="form-row">
                         <div class="form-group col-md-6 weight-holder">
                             <label for="1">Тегло: </label>
                             <input type="number" class="form-control calculate" id="weight" name="weight" placeholder="Тегло:" min="0.1" max="10000">
@@ -92,7 +88,7 @@ aria-hidden="true">
                         </div>
                     </div>
 
-                    <div class="model_stones">
+                    <div class="from-row model_stones">
                         <div class="form-row fields">
                             <div class="form-group col-md-6">
                                 <label>Камък: </label>
@@ -205,5 +201,9 @@ aria-hidden="true">
 @section('footer-scripts')
 <script id="stones_data" type="application/json">
  {!! $jsStones !!}
+</script>
+
+<script id="materials_data" type="application/json">
+    {!! $jsMaterials !!}
 </script>
 @endsection

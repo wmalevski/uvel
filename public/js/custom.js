@@ -28,7 +28,55 @@ var uvel,
       });
     }
 
-    this.addAndRemoveFields = function () {
+    this.addAndRemoveFieldsMaterials = function () {
+      var collectionAddFieldBtn = document.querySelectorAll('.add_field_variation');
+      var materialsWrapper = document.getElementsByClassName('model_materials')[0];
+
+      collectionAddFieldBtn.forEach(function (btn) {
+        btn.addEventListener('click', function(e) {
+          console.log(materialsWrapper);
+          var materialsData = $('#materials_data').length > 0 ? JSON.parse($('#materials_data').html()) : null;
+          var newRow = document.createElement('div');
+
+          newRow.classList.add('form-row');
+
+          var newFields = 
+            '<div class="col-6">' +
+            '<hr>' +
+            '</div>' +
+            '<div class="form-group col-md-12">' +
+            '<label>Избери материал: </label>' +
+            '<select id="material_type" name="jewel" class="material_type form-control calculate">' +
+            '<option value="0">Избери</option>'
+
+          materialsData.forEach(function (option) {
+            newFields += `<option value=${option.value}>${option.label}</option>`;
+          })
+
+          newFields +=
+            '</select>' +
+            '</div>' +
+            '<div class="form-group col-md-6">' +
+            '<label>Цена на дребно: </label>' +
+            '<select id="retail_prices" name="retail_price" class="form-control calculate prices-filled" disabled>' +
+            '<option value="0">Избери</option>' +
+            '</select>' +
+            '</div>' +
+            '<div class="form-group col-md-6">' +
+            '<label>Цена на едро: </label>' +
+            '<select id="wholesale_price" name="wholesale_price" class="form-control prices-filled" disabled>' +
+            '<option value="0">Избери</option>' +
+            '</select>' +
+            '</div>'
+
+          newRow.innerHTML = newFields;
+          materialsWrapper.appendChild(newRow);
+          $self.initializeSelect($(newRow).find('select'));
+        })
+      })
+    }
+
+    this.addAndRemoveFieldsStones = function () {
       var collectionAddFieldBtn = $('.add_field_button');
 
       collectionAddFieldBtn.each(function() {
@@ -299,15 +347,18 @@ var uvel,
         var ajaxUrl = window.location.origin + '/ajax/getPrices/';
         var parentElement = _element.parents('form');
 
+        console.log(_element);
+
         if(_element[0].nodeName == 'SELECT') {
-          if(_element[0].id == 'jewels_types' || _element[0].id == 'jewel_edit') {
+          if(_element[0].classList.contains('material_type') || _element[0].id == 'jewel_edit') {
             var materialType = _element.find(':selected').val();
+            var pricesFilled = _element.closest('.form-row').children().find('.prices-filled');
             var requestLink = ajaxUrl + materialType;
 
             if(materialType == 0) {
-              $('.prices-filled').val('0');
-              $('.prices-filled').trigger('change');
-              $('.prices-filled').attr('disabled', true);
+              pricesFilled.val('0');
+              pricesFilled.trigger('change');
+              pricesFilled.attr('disabled', true);
               return;
             }
             
@@ -343,25 +394,25 @@ var uvel,
                   material: keys.material
                 }
               });
-                      
+
               //_element.parents('form').children().find('.prices-filled').empty();
-              _element.parents('form').children().find('.prices-filled').select2({
+              pricesFilled.select2({
                 data: newData,
                 templateResult: $self.addSelect2CustomAttributes,
                 templateSelection: $self.addSelect2CustomAttributes
               });     
 
-              for (i=0; i<$('.prices-filled').length; i++) {
-                var select = $($('.prices-filled')[i]).find('option:nth-of-type(2)');
+              for (i=0; i<pricesFilled.length; i++) {
+                var select = $(pricesFilled[i]).find('option:nth-of-type(2)');
                 var selectValue = select.val();
 
-                 $($('.prices-filled')[i]).val(selectValue);
+                 $(pricesFilled[i]).val(selectValue);
               }
 
               //$('#retail_prices').trigger('change');
               //$('#retail_price_edit').trigger('change');
-              $('.prices-filled').trigger('change');
-              $('.prices-filled').attr('disabled', false);
+              pricesFilled.trigger('change');
+              pricesFilled.attr('disabled', false);
             });  
 
           } else {
@@ -370,7 +421,7 @@ var uvel,
             }
           }
 
-          if(_element[0].id == 'jewels_types' ) {
+          if(_element[0].id == 'material_type' ) {
             dataWeight = _element.parent().siblings('.weight-holder').children('input').val();
           } else if (_element[0].id == 'jewel_edit') {
             dataWeight = _element.parent().siblings('.weight-holder-edit').children('input').val();
@@ -412,7 +463,7 @@ var uvel,
               var value = modelSelectEdit.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
                   xhttp = new XMLHttpRequest(),
-                  typeSelect = $('#jewels_types');
+                  typeSelect = $('#material_type');
 
               typeSelect.on('select2:select', function(ev) {
                 modelSelectEdit.val('0').trigger('change.select2');
@@ -445,7 +496,7 @@ var uvel,
               var value = modelSelect.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
                   xhttp = new XMLHttpRequest(),
-                  typeSelect = $('#jewels_types');
+                  typeSelect = $('#material_type');
 
               typeSelect.on('select2:select', function(ev) {
                 modelSelect.val('0').trigger('change.select2');
@@ -1400,7 +1451,8 @@ var uvel,
          $self.initializeSelect($(selector).children().find('select'));
       }
 
-      $self.addAndRemoveFields(); 
+      $self.addAndRemoveFieldsStones(); 
+      $self.addAndRemoveFieldsMaterials();
     }
     
   }

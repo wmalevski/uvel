@@ -46,7 +46,16 @@ class ModelsController extends Controller
             ];
         }
 
-        return \View::make('admin/models/index', array('jsStones' =>  json_encode($pass_stones), 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials));
+        $pass_materials = array();
+        
+        foreach($materials as $material){
+            $pass_materials[] = [
+                'value' => $material->id,
+                'label' => $material->material
+            ];
+        }
+
+        return \View::make('admin/models/index', array('jsMaterials' =>  json_encode($pass_materials), 'jsStones' =>  json_encode($pass_stones), 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials));
     }
 
     /**
