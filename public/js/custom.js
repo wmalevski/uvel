@@ -31,10 +31,10 @@ var uvel,
     this.addAndRemoveFieldsMaterials = function () {
       var collectionAddFieldBtn = document.querySelectorAll('.add_field_variation');
       var materialsWrapper = document.getElementsByClassName('model_materials')[0];
+      var rowNum = 2;
 
       collectionAddFieldBtn.forEach(function (btn) {
         btn.addEventListener('click', function(e) {
-          console.log(materialsWrapper);
           var materialsData = $('#materials_data').length > 0 ? JSON.parse($('#materials_data').html()) : null;
           var newRow = document.createElement('div');
 
@@ -56,23 +56,44 @@ var uvel,
           newFields +=
             '</select>' +
             '</div>' +
-            '<div class="form-group col-md-6">' +
+            '<div class="form-group col-md-5">' +
             '<label>Цена на дребно: </label>' +
-            '<select id="retail_prices" name="retail_price" class="form-control calculate prices-filled" disabled>' +
+            '<select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled" disabled>' +
             '<option value="0">Избери</option>' +
             '</select>' +
             '</div>' +
-            '<div class="form-group col-md-6">' +
+            '<div class="form-group col-md-5">' +
             '<label>Цена на едро: </label>' +
-            '<select id="wholesale_price" name="wholesale_price" class="form-control prices-filled" disabled>' +
+            '<select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled" disabled>' +
             '<option value="0">Избери</option>' +
             '</select>' +
-            '</div>'
+            '</div>' +
+            '<div class="form-group col-md-2">' +
+            '<span class="delete-material remove_field"><i class="c-brown-500 ti-trash"></i></span>' +
+            '</div>';
+
+          var defaultBtnId = 'material_' + rowNum;
+
+          newFields += 
+            '<div class="form-group col-md-12">' +
+            '<div class="radio radio-info">' +
+            `<input type="radio" id=${defaultBtnId} name="default_material[]">` +
+            `<label for=${defaultBtnId}>Материал по подразбиране</label>` +
+            '</div>' +
+            '</div>';
+
+          rowNum += 1;
 
           newRow.innerHTML = newFields;
           materialsWrapper.appendChild(newRow);
           $self.initializeSelect($(newRow).find('select'));
-        })
+        });
+
+        $(materialsWrapper).on('click', '.remove_field', function(event) {
+          event.preventDefault();
+          var parents = $(this).parentsUntil(".form-row .fields");
+          parents[1].remove();
+        });
       })
     }
 
@@ -347,8 +368,6 @@ var uvel,
         var ajaxUrl = window.location.origin + '/ajax/getPrices/';
         var parentElement = _element.parents('form');
 
-        console.log(_element);
-
         if(_element[0].nodeName == 'SELECT') {
           if(_element[0].classList.contains('material_type') || _element[0].id == 'jewel_edit') {
             var materialType = _element.find(':selected').val();
@@ -421,7 +440,7 @@ var uvel,
             }
           }
 
-          if(_element[0].id == 'material_type' ) {
+          if(_element[0].classList.contains('material_type')) {
             dataWeight = _element.parent().siblings('.weight-holder').children('input').val();
           } else if (_element[0].id == 'jewel_edit') {
             dataWeight = _element.parent().siblings('.weight-holder-edit').children('input').val();
@@ -1011,6 +1030,10 @@ var uvel,
 
                     else if (name.includes('[]')) {
                       name = name.replace('[]', '');
+
+                      if (elType === 'radio') {
+                        value = el.checked;
+                      }
 
                       if (collectionData.hasOwnProperty(name)) {
                         collectionData[name].push(value);
