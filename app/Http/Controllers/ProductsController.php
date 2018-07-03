@@ -157,6 +157,7 @@ class ProductsController extends Controller
                 $product_stones->model = $request->model;
                 $product_stones->stone = $stone;
                 $product_stones->amount = $request->stone_amount[$key];
+                $product_stones->weight = $request->stone_weight[$key];
                 $product_stones->save();
             }
         }
