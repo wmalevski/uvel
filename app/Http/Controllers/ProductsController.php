@@ -73,6 +73,7 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
+        $material = Materials_quantity::withTrashed()->find($request->material);
 
         $validator = Validator::make( $request->all(), [
             'jewelsTypes' => 'required',
@@ -83,6 +84,10 @@ class ProductsController extends Controller
             'workmanship' => 'required|numeric|between:0.1,500000',
             'price' => 'required|numeric|between:0.1,500000'
         ]); 
+
+        if($material->quantity < $request->weight){
+            return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
+        }
 
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
@@ -119,6 +124,9 @@ class ProductsController extends Controller
         $product->price = $request->price;
         $product->code = 'P'.unique_random('products', 'code', 7);
         $bar = '380'.unique_number('products', 'barcode', 7).'1'; 
+
+        $material->quantity = $material->quantity - $request->weight;
+        $material->save();
 
         if($request->for_wholesale == false){
             $product->for_wholesale = 'no';
