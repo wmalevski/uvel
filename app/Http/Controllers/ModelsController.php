@@ -51,7 +51,8 @@ class ModelsController extends Controller
         foreach($materials as $material){
             $pass_materials[] = [
                 'value' => $material->id,
-                'label' => $material->material
+                'label' => $material->material,
+                'pricebuy' => Prices::withTrashed()->where('material', $material->id)->where('type', 'buy')->first()->price
             ];
         }
 
