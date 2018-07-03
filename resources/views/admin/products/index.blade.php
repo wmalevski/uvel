@@ -45,11 +45,22 @@ aria-hidden="true">
 
                     <div class="form-group">
                         <label>Вид: </label>
-                        <select id="jewels_types" name="jewelsTypes" class="form-control calculate">
+                        <select id="jewels_types" name="jewelsTypes" class="form-control calculate" disabled>
                             <option value="">Избери</option>
                     
                             @foreach($jewels as $jewel)
                                 <option value="{{ $jewel->id }}" data-pricebuy="@if(App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" data-material="{{ $jewel->material }}">{{ $jewel->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Материал: </label>
+                        <select id="material" name="material" class="form-control calculate">
+                            <option value="">Избери</option>
+                    
+                            @foreach($materials as $material)
+                                <option value="{{ $material->id }}">{{ App\Materials::withTrashed()->find($material->material)->name }} - {{ App\Materials::withTrashed()->find($material->material)->color }} - {{ App\Materials::withTrashed()->find($material->material)->carat }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -100,12 +111,22 @@ aria-hidden="true">
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-2">
                                 <label for="1">Брой: </label>
                                 <input type="number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="50">
                             </div>
                             <div class="form-group col-md-2">
+                                <label for="1">Тегло: </label>
+                                <input type="number" class="form-control" name="stone_weight[]" placeholder="Тегло" min="1" max="50">
+                            </div>
+                            <div class="form-group col-md-2">
                                 <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
+                            </div>
+                            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                                <input type="checkbox" id="stone_flow" name="stone_flow[]" class="peer">
+                                <label for="inputCall1" class="peers peer-greed js-sb ai-c">
+                                    <span class="peer peer-greed">За леене</span>
+                                </label>
                             </div>
                         </div>
                     </div>

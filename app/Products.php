@@ -40,6 +40,12 @@ class Products extends Model
 
     public function chainedSelects($model){
         $model = Models::find($model);
+        $materials = Materials::all();
+        $default = ModelOptions::where([
+            ['model', '=', $model->id],
+            ['default', '=', 'yes']
+        ])->first();
+
         if($model){
             $model_material = Jewels::find($model->material);
             $jewels = Jewels::where('id', $model->jewel)->get()
@@ -48,12 +54,12 @@ class Products extends Model
 
             $retail_prices = Prices::where([
                 'type' => 'sell',
-                'material' => Jewels::withTrashed()->find($model->jewel)->material
+                'material' => $default->material
             ])->get();
 
             $wholesale_prices = Prices::where([
                 'type' => 'sell',
-                'material' => Jewels::withTrashed()->find($model->jewel)->material
+                'material' => $default->material
             ])->get();
 
             $model_stones = Model_stones::where('model', $model->id)->get();
@@ -79,7 +85,7 @@ class Products extends Model
             $prices_retail = array();
             
             foreach($retail_prices as $price){
-                if($price->material == Jewels::withTrashed()->find($model->jewel)->material){
+                if($price->id == $default->retail_price){
                     $selected = true;
                 }else{
                     $selected = false;
@@ -96,7 +102,7 @@ class Products extends Model
             $prices_wholesale = array();
             
             foreach($wholesale_prices as $price){
-                if($price->material == Jewels::withTrashed()->find($model->jewel)->material){
+                if($price->id == $default->wholesale_price){
                     $selected = true;
                 }else{
                     $selected = false;
@@ -118,6 +124,22 @@ class Products extends Model
                     'label' => Stones::withTrashed()->find($stone->stone)->name.' ('.Stone_contours::withTrashed()->find(Stones::withTrashed()->find($stone->stone)->contour)->name. ', ' .Stone_sizes::withTrashed()->find(Stones::withTrashed()->find($stone->stone)->size)->name. ' )'
                 ];
             }
+
+            $pass_materials = array();
+            
+            foreach($materials as $material){
+                if($material->id == $default->material){
+                    $selected = true;
+                }else{
+                    $selected = false;
+                }
+
+                $pass_materials[] = (object)[
+                    'value' => $material->id,
+                    'label' => $material->name.' - '.$material->code.' - '.$material->carat,
+                    'selected' => $selected,
+                ];
+            }
     
             return array(
                 'retail_prices' => $prices_retail, 
@@ -127,7 +149,8 @@ class Products extends Model
                 'weight' => $model->weight,
                 'size'   => $model->size,
                 'workmanship' => $model->workmanship,
-                'price' => $model->price
+                'price' => $model->price,
+                'materials' => $pass_materials
             );
         }
     }

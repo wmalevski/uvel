@@ -208,7 +208,8 @@ class ModelsController extends Controller
         )->get();
 
         $options = ModelOptions::where('model', $model->id)->get();
-        $materials = Materials_quantity::where('store', Auth::user()->getStore())->get();
+        //$materials = Materials_quantity::where('store', Auth::user()->getStore())->get();
+        $materials = Materials_quantity::all();
         
         //return Response::json(array('success' => View::make('admin/models/edit',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render()));
 
