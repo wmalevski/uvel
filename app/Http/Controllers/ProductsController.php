@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Http\JsonResponse;
 use Response;
 use File;
+use App\Materials;
 
 class ProductsController extends Controller
 {
@@ -33,6 +34,7 @@ class ProductsController extends Controller
         $jewels = Jewels::all();
         $prices = Prices::where('type', 'sell')->get();
         $stones = Stones::all();
+        $materials = Materials::all();
 
         $pass_stones = array();
 
@@ -43,7 +45,7 @@ class ProductsController extends Controller
             ];
         }
 
-        return \View::make('admin/products/index', array('products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
+        return \View::make('admin/products/index', array('products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials, 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
     }
 
     /**
