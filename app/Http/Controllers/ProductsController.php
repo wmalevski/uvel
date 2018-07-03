@@ -19,6 +19,7 @@ use Illuminate\Http\JsonResponse;
 use Response;
 use File;
 use App\Materials;
+use App\Materials_quantity;
 
 class ProductsController extends Controller
 {
@@ -34,7 +35,8 @@ class ProductsController extends Controller
         $jewels = Jewels::all();
         $prices = Prices::where('type', 'sell')->get();
         $stones = Stones::all();
-        $materials = Materials::all();
+        //$materials = Materials_quantity::where('store', Auth::user()->getStore())->get();
+        $materials = Materials_quantity::all();
 
         $pass_stones = array();
 

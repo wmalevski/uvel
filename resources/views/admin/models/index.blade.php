@@ -45,7 +45,7 @@ aria-hidden="true">
                                     <option value="0">Избери</option>
                             
                                     @foreach($materials as $material)
-                                        <option value="{{ $material->id }}">{{ $material->name }} - {{ $material->color }} - {{ $material->carat }}</option>
+                                        <option value="{{ $material->id }}">{{ App\Materials::withTrashed()->find($material->material)->name }} - {{ App\Materials::withTrashed()->find($material->material)->color }} - {{ App\Materials::withTrashed()->find($material->material)->carat }}</option>
                                     @endforeach
                                 </select>
                             </div>
