@@ -50,7 +50,7 @@ var uvel,
             '<option value="0">Избери</option>'
 
           materialsData.forEach(function (option) {
-            newFields += `<option value=${option.value}>${option.label}</option>`;
+            newFields += `<option value=${option.value} data-pricebuy=${option.pricebuy}>${option.label}</option>`;
           })
 
           newFields +=
