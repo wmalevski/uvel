@@ -9,18 +9,18 @@ use App\Stones;
 use App\Model_stones;
 use App\Products;
 use App\Product_stones;
+use App\Materials_quantity;
+use App\ModelOptions;
+use App\Gallery;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
-use Response;
-use Uuid;
 use Illuminate\Support\Facades\View;
-use Carbon\Carbon;
-use App\Gallery;
 use File;
 use Auth;
-use App\Materials_quantity;
-use App\ModelOptions;
+use Response;
+use Uuid;
 
 class ModelsController extends Controller
 {
