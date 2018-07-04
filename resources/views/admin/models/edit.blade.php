@@ -42,7 +42,7 @@
                         <option value="0">Избери</option>
                 
                         @foreach($materials as $material)
-                            <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ App\Prices::where([['material', '=', $material->material], ['type', '=', 'buy']])->first()->price}}">{{ App\Materials::withTrashed()->find($material->material)->name }} - {{ App\Materials::withTrashed()->find($material->material)->color }} - {{ App\Materials::withTrashed()->find($material->material)->carat }}</option>
+                        <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ App\Prices::where([['material', '=', $material->material], ['type', '=', 'buy']])->first()->price}}">{{ App\Materials::withTrashed()->find($material->material)->name }} - {{ App\Materials::withTrashed()->find($material->material)->color }} - {{ App\Materials::withTrashed()->find($material->material)->carat }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -78,7 +78,7 @@
                         <option value="0">Избери</option>
                 
                         @foreach($materials as $material)
-                            <option value="{{ $material->id }}" @if($option->material == $material->id) selected @endif>{{ App\Materials::withTrashed()->find($material->material)->name }}</option>
+                        <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ App\Prices::where([['material', '=', $material->material], ['type', '=', 'buy']])->first()->price}}">{{ App\Materials::withTrashed()->find($material->material)->name }} - {{ App\Materials::withTrashed()->find($material->material)->color }} - {{ App\Materials::withTrashed()->find($material->material)->carat }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -149,6 +149,18 @@
                     <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
                 </div>
             </div>
+            <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <div class="form-group">
+                            <label for="1">Тегло: </label>
+                            <input type="number" value="{{  $modelStone->weight  }}" class="form-control" id="1" name="stone_weight[]" placeholder="Тегло:" min="0.1" max="100">
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15"><input type="checkbox" id="inputCall1" name="stone_flow[]" class="peer" @if($modelStone->flow == 'yes') checked @endif><label for="inputCall1" class="peers peer-greed js-sb ai-c"><span class="peer peer-greed">За леене</span></label></div>
+                    </div>
+                </div>
             @endforeach
             
 

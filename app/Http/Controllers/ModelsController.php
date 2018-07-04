@@ -82,8 +82,8 @@ class ModelsController extends Controller
         $validator = Validator::make( $request->all(), [
             'name' => 'required|unique:models,name',
             'jewel' => 'required',
-            'retail_price' => 'required',
             'stone_amount.*' => 'nullable|numeric|between:1,100',
+            'stone_weight.*' => 'nullable|numeric|between:1,100',
             'weight' => 'required|numeric|between:0.1,10000',
             'size'  => 'required|numeric|between:0.1,10000',
             'workmanship' => 'required|numeric|between:0.1,500000',
@@ -94,7 +94,14 @@ class ModelsController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $model = Models::create($request->all());
+        $model = new Models();
+        $model->name = $request->name;
+        $model->jewel = $request->jewel;
+        $model->weight = $request->weight;
+        $model->size = $request->size;
+        $model->workmanship = $request->workmanship;
+        $model->price = $request->price;
+        $model->save();
 
         foreach($request->stones as $key => $stone){
             if($stone){
@@ -102,6 +109,8 @@ class ModelsController extends Controller
                 $model_stones->model = $model->id;
                 $model_stones->stone = $stone;
                 $model_stones->amount = $request->stone_amount[$key];
+                $model_stones->weight = $request->stone_weight[$key];
+                $model_stones->flow = $request->stone_flow[$key];
                 $model_stones->save();
             }
         }
@@ -180,6 +189,12 @@ class ModelsController extends Controller
                     $product_stones->model = $model->id;
                     $product_stones->stone = $stone;
                     $product_stones->amount = $request->stone_amount[$key];
+                    $product_stones->weight = $request->stone_weight[$key];
+                    if($request->stone_flow[$key] == true){
+                        $model_stones->flow = 'yes';
+                    }else{
+                        $model_stones->flow = 'no';
+                    }
                     $product_stones->save();
                 }
             }
@@ -292,7 +307,34 @@ class ModelsController extends Controller
                 $model_stones->model = $model->id;
                 $model_stones->stone = $stone;
                 $model_stones->amount = $request->stone_amount[$key];
+                $model_stones->weight = $request->stone_weight[$key];
+                if($request->stone_flow[$key] == true){
+                    $model_stones->flow = 'yes';
+                }else{
+                    $model_stones->flow = 'no';
+                }
                 $model_stones->save();
+            }
+        }
+
+        $deleteOptions = ModelOptions::where('model', $model->id)->delete();
+
+        foreach($request->material as $key => $material){
+            if($material){
+                $model_option = new ModelOptions();
+                $model_option->model = $model->id;
+                $model_option->material = $material;
+                $model_option->retail_price = $request->retail_price[$key];
+                $model_option->wholesale_price = $request->wholesale_price[$key];
+                $model_option->default = $request->default_material[$key];
+
+                if($request->default_material[$key] == true){
+                    $model_option->default = "yes";
+                }else{
+                    $model_option->default = "no";
+                }
+
+                $model_option->save();
             }
         }
 

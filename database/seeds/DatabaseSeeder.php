@@ -279,8 +279,6 @@ class DatabaseSeeder extends Seeder
         $model = new Models();
         $model->name = 'Модел 1';
         $model->jewel = 1;
-        $model->retail_price = 2;
-        $model->wholesale_price = 4;
         $model->weight = 56;
         $model->size = 56;
         $model->workmanship = 3920;
