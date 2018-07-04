@@ -34,6 +34,42 @@
             <hr>
         </div>
 
+        <div class="form-row model_materials">
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label>Избери материал: </label>
+                    <select id="material_type" name="material[]" class="material_type form-control calculate">
+                        <option value="0">Избери</option>
+                
+                        @foreach($materials as $material)
+                            <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ App\Prices::where([['material', '=', $material->material], ['type', '=', 'buy']])->first()->price}}">{{ App\Materials::withTrashed()->find($material->material)->name }} - {{ App\Materials::withTrashed()->find($material->material)->color }} - {{ App\Materials::withTrashed()->find($material->material)->carat }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label>Цена на дребно: </label>
+                    <select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled" disabled>
+                        <option value="0">Избери</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label>Цена на едро: </label>
+                    <select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled" disabled>
+                        <option value="0">Избери</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <div class="radio radio-info">
+                        <input type="radio" id="material_1" name="default_material[]" checked>
+                        <label for="material_1">Материал по подразбиране</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         @if($options)
             @foreach($options as $option)
                 <div class="form-group col-md-12">
