@@ -246,3 +246,13 @@
     
 </form>
 </div>
+
+@section('footer-scripts')
+<script id="stones_data" type="application/json">
+ {!! $jsStones !!}
+</script>
+
+<script id="materials_data" type="application/json">
+    {!! $jsMaterials !!}
+</script>
+@endsection

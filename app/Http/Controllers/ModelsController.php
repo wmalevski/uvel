@@ -231,15 +231,30 @@ class ModelsController extends Controller
         )->get();
 
         $options = ModelOptions::where('model', $model->id)->get();
-        //$materials = Materials_quantity::where('store', Auth::user()->getStore())->get();
-        $materials = Materials_quantity::all();
+
+        $materials = Materials_quantity::where('store', Auth::user()->getStore())->get();
         
-        //return Response::json(array('success' => View::make('admin/models/edit',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render()));
+        $pass_stones = array();
+        
+        foreach($stones as $stone){
+            $pass_stones[] = [
+                'value' => $stone->id,
+                'label' => $stone->name.' ('.\App\Stone_contours::withTrashed()->find($stone->contour)->name.', '.\App\Stone_sizes::withTrashed()->find($stone->size)->name.' )'
+            ];
+        }
 
-        //$product = Products_others::find($product);
-        //$types = Products_others_types::all();
+        $pass_materials = array();
+        
+        foreach($materials as $material){
+            $pass_materials[] = [
+                'value' => $material->id,
+                'label' => Materials::withTrashed()->find($material->material)->name.' - '. Materials::withTrashed()->find($material->material)->color.  ' - '  .Materials::withTrashed()->find($material->material)->carat,
+                'pricebuy' => Prices::withTrashed()->where('material', $material->material)->where('type', 'buy')->first()->price,
+                'material' => $material->material
+            ];
+        }
 
-        return \View::make('admin/models/edit', array('photos' => $photos, 'model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones, 'modelStones' => $modelStones, 'options' => $options, 'materials' => $materials));
+        return \View::make('admin/models/edit', array('photos' => $photos, 'model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones, 'modelStones' => $modelStones, 'options' => $options, 'stones' => $stones, 'materials' => $materials, 'jsMaterials' =>  json_encode($pass_materials), 'jsStones' =>  json_encode($pass_stones)));
     }
 
     /**
