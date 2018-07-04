@@ -52,7 +52,7 @@ class ModelsController extends Controller
             $pass_materials[] = [
                 'value' => $material->id,
                 'label' => $material->material,
-                'pricebuy' => Prices::withTrashed()->where('material', $material->id)->where('type', 'buy')->first()->price
+                'pricebuy' => Prices::withTrashed()->where('material', $material->material)->where('type', 'buy')->first()->price
             ];
         }
 
