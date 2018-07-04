@@ -441,12 +441,14 @@ var uvel,
           }
 
           if(_element[0].classList.contains('material_type')) {
-            dataWeight = _element.parent().siblings('.weight-holder').children('input').val();
+            dataWeight = _element.closest('form').find('.weight-holder').children('input').val();
           } else if (_element[0].id == 'jewel_edit') {
             dataWeight = _element.parent().siblings('.weight-holder-edit').children('input').val();
           }
 
-          calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
+          if (_element.closest('.form-row').find('[name="default_material[]"]:checked').length > 0) {
+            calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
+          }
         } else {
           dataWeight = _element[0].value;
           calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
