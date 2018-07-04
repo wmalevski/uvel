@@ -371,8 +371,9 @@ var uvel,
         if(_element[0].nodeName == 'SELECT') {
           if(_element[0].classList.contains('material_type') || _element[0].id == 'jewel_edit') {
             var materialType = _element.find(':selected').val();
+            var materialAttribute = _element.find(':selected').attr('data-material');
             var pricesFilled = _element.closest('.form-row').children().find('.prices-filled');
-            var requestLink = ajaxUrl + materialType;
+            var requestLink = ajaxUrl + materialAttribute;
 
             if(materialType == 0) {
               pricesFilled.val('0');
@@ -446,9 +447,7 @@ var uvel,
             dataWeight = _element.parent().siblings('.weight-holder-edit').children('input').val();
           }
 
-          if (_element.closest('.form-row').find('[name="default_material[]"]:checked').length > 0) {
-            calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
-          }
+          calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
         } else {
           dataWeight = _element[0].value;
           calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
