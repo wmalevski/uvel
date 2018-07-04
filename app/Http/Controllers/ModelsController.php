@@ -9,6 +9,7 @@ use App\Stones;
 use App\Model_stones;
 use App\Products;
 use App\Product_stones;
+use App\Materials;
 use App\Materials_quantity;
 use App\ModelOptions;
 use App\Gallery;
@@ -51,8 +52,9 @@ class ModelsController extends Controller
         foreach($materials as $material){
             $pass_materials[] = [
                 'value' => $material->id,
-                'label' => $material->material,
-                'pricebuy' => Prices::withTrashed()->where('material', $material->material)->where('type', 'buy')->first()->price
+                'label' => Materials::withTrashed()->find($material->material)->name.' - '. Materials::withTrashed()->find($material->material)->color.  ' - '  .Materials::withTrashed()->find($material->material)->carat,
+                'pricebuy' => Prices::withTrashed()->where('material', $material->material)->where('type', 'buy')->first()->price,
+                'material' => $material->material
             ];
         }
 
@@ -131,7 +133,7 @@ class ModelsController extends Controller
                 $model_option->retail_price = $request->retail_price[$key];
                 $model_option->wholesale_price = $request->wholesale_price[$key];
                 $model_option->default = $request->default_material[$key];
-                
+
                 if($request->default_material[$key] == true){
                     $model_option->default = "yes";
                 }else{
