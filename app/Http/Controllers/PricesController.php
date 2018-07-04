@@ -163,7 +163,7 @@ class PricesController extends Controller
 
         $priceBuy = Prices::where(
             [
-                ['material', '=', $material],
+                ['material', '=', $material->material],
                 ['type', '=', 'buy']
             ]
         )->first();

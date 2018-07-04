@@ -9,18 +9,18 @@ use App\Stones;
 use App\Model_stones;
 use App\Products;
 use App\Product_stones;
+use App\Materials_quantity;
+use App\ModelOptions;
+use App\Gallery;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
-use Response;
-use Uuid;
 use Illuminate\Support\Facades\View;
-use Carbon\Carbon;
-use App\Gallery;
 use File;
 use Auth;
-use App\Materials_quantity;
-use App\ModelOptions;
+use Response;
+use Uuid;
 
 class ModelsController extends Controller
 {
@@ -52,7 +52,7 @@ class ModelsController extends Controller
             $pass_materials[] = [
                 'value' => $material->id,
                 'label' => $material->material,
-                'pricebuy' => Prices::withTrashed()->where('material', $material->id)->where('type', 'buy')->first()->price
+                'pricebuy' => Prices::withTrashed()->where('material', $material->material)->where('type', 'buy')->first()->price
             ];
         }
 
@@ -123,6 +123,24 @@ class ModelsController extends Controller
             $photo->save();
         }
 
+        foreach($request->material as $key => $material){
+            if($material){
+                $model_option = new ModelOptions();
+                $model_option->model = $model->id;
+                $model_option->material = $material;
+                $model_option->retail_price = $request->retail_price[$key];
+                $model_option->wholesale_price = $request->wholesale_price[$key];
+                $model_option->default = $request->default_material[$key];
+                if($request->default_material[$key] == true){
+                    $model_option->default = "yes";
+                }else{
+                    $model_option->default = "no";
+                }
+                
+                $model_option->save();
+            }
+        }
+
         if ($request->release_product == true) {
             $product = new Products();
             $product->id = Uuid::generate()->string;
@@ -162,6 +180,7 @@ class ModelsController extends Controller
                     $product_stones->save();
                 }
             }
+
 
             //To be un-commented when FE is ready!!!
             // foreach($request->options as $key => $option){
