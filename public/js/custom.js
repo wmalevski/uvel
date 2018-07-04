@@ -451,9 +451,9 @@ var uvel,
               pricesFilled.trigger('change');
               pricesFilled.attr('disabled', false);
             });  
-
-          } else {
-            if( _element.select2('data')[0] !== undefined){
+          }
+          else {
+            if( _element.select2('data')[0] !== undefined && _element.closest('.form-row').find('[name="default_material[]"]:checked').length > 0){
               priceDev = _element.select2('data')[0].price;
             }
           }
@@ -464,8 +464,12 @@ var uvel,
             dataWeight = _element.parent().siblings('.weight-holder-edit').children('input').val();
           }
 
-          calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
-        } else {
+          if (_element.closest('.form-row').find('[name="default_material[]"]:checked').length > 0) {
+            calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
+          }
+          
+        }
+        else {
           dataWeight = _element[0].value;
           calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
         }
@@ -495,7 +499,7 @@ var uvel,
         }
 
         if(modelSelectEdit) {   
-          modelSelectEdit.on('select2:select', function(ev) {     
+          modelSelectEdit.on('select2:select', function(ev) {
             if(modelSelectEdit.val()) {
               var value = modelSelectEdit.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
