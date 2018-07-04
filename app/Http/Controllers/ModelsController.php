@@ -302,6 +302,27 @@ class ModelsController extends Controller
             }
         }
 
+        $deleteOptions = ModelOptions::where('model', $model->id)->delete();
+
+        foreach($request->material as $key => $material){
+            if($material){
+                $model_option = new ModelOptions();
+                $model_option->model = $model->id;
+                $model_option->material = $material;
+                $model_option->retail_price = $request->retail_price[$key];
+                $model_option->wholesale_price = $request->wholesale_price[$key];
+                $model_option->default = $request->default_material[$key];
+
+                if($request->default_material[$key] == true){
+                    $model_option->default = "yes";
+                }else{
+                    $model_option->default = "no";
+                }
+
+                $model_option->save();
+            }
+        }
+
         $file_data = $request->input('images'); 
         
         foreach($file_data as $img){
