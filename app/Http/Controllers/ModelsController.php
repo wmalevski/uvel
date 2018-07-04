@@ -123,6 +123,24 @@ class ModelsController extends Controller
             $photo->save();
         }
 
+        foreach($request->material as $key => $material){
+            if($material){
+                $model_option = new ModelOptions();
+                $model_option->model = $model->id;
+                $model_option->material = $material;
+                $model_option->retail_price = $request->retail_price[$key];
+                $model_option->wholesale_price = $request->wholesale_price[$key];
+                $model_option->default = $request->default_material[$key];
+                if($request->default_material[$key] == true){
+                    $model_option->default = "yes";
+                }else{
+                    $model_option->default = "no";
+                }
+                
+                $model_option->save();
+            }
+        }
+
         if ($request->release_product == true) {
             $product = new Products();
             $product->id = Uuid::generate()->string;
@@ -162,6 +180,7 @@ class ModelsController extends Controller
                     $product_stones->save();
                 }
             }
+
 
             //To be un-commented when FE is ready!!!
             // foreach($request->options as $key => $option){
