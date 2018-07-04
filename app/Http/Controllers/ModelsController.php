@@ -82,7 +82,6 @@ class ModelsController extends Controller
         $validator = Validator::make( $request->all(), [
             'name' => 'required|unique:models,name',
             'jewel' => 'required',
-            'retail_price' => 'required',
             'stone_amount.*' => 'nullable|numeric|between:1,100',
             'weight' => 'required|numeric|between:0.1,10000',
             'size'  => 'required|numeric|between:0.1,10000',
@@ -94,7 +93,14 @@ class ModelsController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $model = Models::create($request->all());
+        $model = new Models();
+        $model->name = $request->name;
+        $model->jewel = $request->jewel;
+        $model->weight = $request->weight;
+        $model->size = $request->size;
+        $model->workmanship = $request->workmanship;
+        $model->price = $request->price;
+        $model->save();
 
         foreach($request->stones as $key => $stone){
             if($stone){
