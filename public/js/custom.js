@@ -415,7 +415,24 @@ var uvel,
                 }
               });
 
-              //_element.parents('form').children().find('.prices-filled').empty();
+              pricesFilled.empty();
+
+              for (i=0; i<pricesFilled.length; i++) {
+                var chooseOpt = document.createElement('option');
+                chooseOpt.innerHTML = 'Избери';
+                chooseOpt.setAttribute('value', '0');
+                
+                if (i > 0) {
+                  var chooseArray = [];
+
+                  chooseArray[i] = chooseOpt.cloneNode(true);
+                  pricesFilled[i].appendChild(chooseArray[i]);
+                }
+                else {
+                  pricesFilled[i].appendChild(chooseOpt);
+                }
+              }
+
               pricesFilled.select2({
                 data: newData,
                 templateResult: $self.addSelect2CustomAttributes,
