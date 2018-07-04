@@ -131,12 +131,13 @@ class ModelsController extends Controller
                 $model_option->retail_price = $request->retail_price[$key];
                 $model_option->wholesale_price = $request->wholesale_price[$key];
                 $model_option->default = $request->default_material[$key];
+                
                 if($request->default_material[$key] == true){
                     $model_option->default = "yes";
                 }else{
                     $model_option->default = "no";
                 }
-                
+
                 $model_option->save();
             }
         }
