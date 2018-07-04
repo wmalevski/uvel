@@ -83,6 +83,7 @@ class ModelsController extends Controller
             'name' => 'required|unique:models,name',
             'jewel' => 'required',
             'stone_amount.*' => 'nullable|numeric|between:1,100',
+            'stone_weight.*' => 'nullable|numeric|between:1,100',
             'weight' => 'required|numeric|between:0.1,10000',
             'size'  => 'required|numeric|between:0.1,10000',
             'workmanship' => 'required|numeric|between:0.1,500000',
@@ -108,6 +109,8 @@ class ModelsController extends Controller
                 $model_stones->model = $model->id;
                 $model_stones->stone = $stone;
                 $model_stones->amount = $request->stone_amount[$key];
+                $model_stones->weight = $request->stone_weight[$key];
+                $model_stones->flow = $request->stone_flow[$key];
                 $model_stones->save();
             }
         }
@@ -186,6 +189,12 @@ class ModelsController extends Controller
                     $product_stones->model = $model->id;
                     $product_stones->stone = $stone;
                     $product_stones->amount = $request->stone_amount[$key];
+                    $product_stones->weight = $request->stone_weight[$key];
+                    if($request->stone_flow[$key] == true){
+                        $model_stones->flow = 'yes';
+                    }else{
+                        $model_stones->flow = 'no';
+                    }
                     $product_stones->save();
                 }
             }
@@ -298,6 +307,12 @@ class ModelsController extends Controller
                 $model_stones->model = $model->id;
                 $model_stones->stone = $stone;
                 $model_stones->amount = $request->stone_amount[$key];
+                $model_stones->weight = $request->stone_weight[$key];
+                if($request->stone_flow[$key] == true){
+                    $model_stones->flow = 'yes';
+                }else{
+                    $model_stones->flow = 'no';
+                }
                 $model_stones->save();
             }
         }

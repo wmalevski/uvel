@@ -18,6 +18,8 @@ class CreateModelStonesTable extends Migration
             $table->integer('model')->references('id')->on('models');
             $table->integer('stone')->references('id')->on('stones');
             $table->integer('amount');
+            $table->integer('weight');
+            $table->enum('flow', ['yes', 'no'])->default('no');
             $table->timestamps();
         });
     }
