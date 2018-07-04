@@ -66,7 +66,7 @@ aria-hidden="true">
 
                             <div class="form-group col-md-12">
                                 <div class="radio radio-info">
-                                    <input type="radio" id="material_1" name="default_material[]" checked>
+                                    <input type="radio" class="default_material" id="material_1" name="default_material[]" checked>
                                     <label for="material_1">Материал по подразбиране</label>
                                 </div>
                             </div>

@@ -6,6 +6,7 @@ var uvel,
 
     this.init = function () {
       $self.initializeSelect($('select'));
+      $self.defaultMaterialSelect($('.default_material'));
       $self.checkAllForms();    
     };
 
@@ -26,6 +27,14 @@ var uvel,
         templateResult: $self.addSelect2CustomAttributes,
         templateSelection: $self.addSelect2CustomAttributes
       });
+    }
+
+    this.defaultMaterialSelect = function (defaultBtn) {
+      var material = defaultBtn.closest('.form-row').find('.material_type');
+
+      defaultBtn.on('click', function() {
+        material.trigger('change');
+      })
     }
 
     this.addAndRemoveFieldsMaterials = function () {
@@ -77,7 +86,7 @@ var uvel,
           newFields += 
             '<div class="form-group col-md-12">' +
             '<div class="radio radio-info">' +
-            `<input type="radio" id=${defaultBtnId} name="default_material[]">` +
+            `<input type="radio" id=${defaultBtnId} class="default_material" name="default_material[]">` +
             `<label for=${defaultBtnId}>Материал по подразбиране</label>` +
             '</div>' +
             '</div>';
@@ -87,6 +96,7 @@ var uvel,
           newRow.innerHTML = newFields;
           materialsWrapper.appendChild(newRow);
           $self.initializeSelect($(newRow).find('select'));
+          $self.defaultMaterialSelect($(newRow).find('.default_material'));
         });
 
         $(materialsWrapper).on('click', '.remove_field', function(event) {
