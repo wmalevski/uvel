@@ -289,8 +289,8 @@ class ModelsController extends Controller
         
         $model->name = $request->name;
         $model->jewel = $request->jewel;
-        $model->retail_price = $request->retail_price;
-        $model->wholesale_price = $request->wholesale_price;
+        $model->price = $request->retail_price;
+        $model->wholesale = $request->wholesale_price;
         $model->weight = $request->weight;
         
         $model->save();

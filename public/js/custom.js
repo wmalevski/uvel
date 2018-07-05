@@ -56,7 +56,7 @@ var uvel,
             '</div>' +
             '<div class="form-group col-md-12">' +
             '<label>Избери материал: </label>' +
-            '<select id="material_type" name="jewel" class="material_type form-control calculate">' +
+            '<select id="material_type" name="material[]" class="material_type form-control calculate">' +
             '<option value="0">Избери</option>'
 
           materialsData.forEach(function (option) {
@@ -107,6 +107,7 @@ var uvel,
         for (i=0; i<defaultBtnsCollection.length; i++) {
           var defaultBtnId = 'material_' + String(i+1);
 
+          $self.defaultMaterialSelect($(defaultBtnsCollection[i]));
           defaultBtnsCollection[i].setAttribute('id', defaultBtnId);
           defaultBtnsCollection[i].nextElementSibling.setAttribute('for', defaultBtnId);
         }
