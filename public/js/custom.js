@@ -39,10 +39,11 @@ var uvel,
 
     this.addAndRemoveFieldsMaterials = function () {
       var collectionAddFieldBtn = document.querySelectorAll('.add_field_variation');
-      var materialsWrapper = document.getElementsByClassName('model_materials')[0];
-      var rowNum = 2;
 
       collectionAddFieldBtn.forEach(function (btn) {
+        var materialsWrapper = $(btn).closest('form').find('.model_materials');
+        var defaultBtnsCollection = document.querySelectorAll('.default_material');
+
         btn.addEventListener('click', function(e) {
           var materialsData = $('#materials_data').length > 0 ? JSON.parse($('#materials_data').html()) : null;
           var newRow = document.createElement('div');
@@ -79,25 +80,36 @@ var uvel,
             '</div>' +
             '<div class="form-group col-md-2">' +
             '<span class="delete-material remove_field"><i class="c-brown-500 ti-trash"></i></span>' +
-            '</div>';
-
-          var defaultBtnId = 'material_' + rowNum;
-
-          newFields += 
+            '</div>' +
             '<div class="form-group col-md-12">' +
             '<div class="radio radio-info">' +
-            `<input type="radio" id=${defaultBtnId} class="default_material" name="default_material[]">` +
-            `<label for=${defaultBtnId}>Материал по подразбиране</label>` +
+            '<input type="radio" id="" class="default_material" name="default_material[]">' +
+            '<label for="">Материал по подразбиране</label>' +
             '</div>' +
             '</div>';
 
-          rowNum += 1;
-
           newRow.innerHTML = newFields;
-          materialsWrapper.appendChild(newRow);
+          materialsWrapper[0].appendChild(newRow);
+
+          defaultBtnsCollection = document.querySelectorAll('.default_material');
+          for (i=0; i<defaultBtnsCollection.length; i++) {
+            var defaultBtnId = 'material_' + String(i+1);
+
+            defaultBtnsCollection[i].setAttribute('id', defaultBtnId);
+            defaultBtnsCollection[i].nextElementSibling.setAttribute('for', defaultBtnId);
+          }
+          
+
           $self.initializeSelect($(newRow).find('select'));
           $self.defaultMaterialSelect($(newRow).find('.default_material'));
         });
+
+        for (i=0; i<defaultBtnsCollection.length; i++) {
+          var defaultBtnId = 'material_' + String(i+1);
+
+          defaultBtnsCollection[i].setAttribute('id', defaultBtnId);
+          defaultBtnsCollection[i].nextElementSibling.setAttribute('for', defaultBtnId);
+        }
 
         $(materialsWrapper).on('click', '.remove_field', function(event) {
           event.preventDefault();
@@ -1504,6 +1516,9 @@ var uvel,
 
          $(selector).html(html);    
          $self.initializeSelect($(selector).children().find('select'));
+
+         $self.addAndRemoveFieldsMaterials();
+         $self.addAndRemoveFieldsStones();
       }
 
       $self.addAndRemoveFieldsStones(); 

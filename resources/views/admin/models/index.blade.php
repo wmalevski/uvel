@@ -66,8 +66,8 @@ aria-hidden="true">
 
                             <div class="form-group col-md-12">
                                 <div class="radio radio-info">
-                                    <input type="radio" class="default_material" id="material_1" name="default_material[]" checked>
-                                    <label for="material_1">Материал по подразбиране</label>
+                                    <input type="radio" class="default_material" id="" name="default_material[]" checked>
+                                    <label for="">Материал по подразбиране</label>
                                 </div>
                             </div>
                         </div>
@@ -201,7 +201,7 @@ aria-hidden="true">
 
 <h3>Модели <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addModel">Добави</button></h3>
 
-<table class="table table-condensed">
+<table class="table table-condensed models-table">
     <tr>
         <th>Име</th> 
         <th>Виж бижу</th>

@@ -13,29 +13,37 @@
         <div class="info-cont">
         </div>
         {{ csrf_field() }}
+        
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="1">Име: </label>
+                <input type="text" class="form-control" value="{{ $model->name }}" id="1" name="name" placeholder="Име:">
+            </div>
 
-        <div class="form-group">
-            <label for="1">Име: </label>
-            <input type="text" class="form-control" value="{{ $model->name }}" id="1" name="name" placeholder="Име:">
+            <div class="form-group col-md-6">
+                <label>Избери вид бижу: </label>
+                <select id="jewel_edit" name="jewel" class="form-control calculate">
+                    <option value="0">Избери</option>
+
+                    @foreach($jewels as $jewel)
+                        <option value="{{ $jewel->id }}" data-material="{{ $jewel->material }}" data-pricebuy="@if(App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" @if($model->jewel == $jewel->id) selected @endif>{{ $jewel->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group col-md-12">
+                <hr>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label>Избери вид бижу: </label>
-            <select id="jewel_edit" name="jewel" class="form-control calculate">
-                <option value="0">Избери</option>
+        <div class="form-row model_materials">        
 
-                @foreach($jewels as $jewel)
-                    <option value="{{ $jewel->id }}" data-material="{{ $jewel->material }}" data-pricebuy="@if(App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" @if($model->jewel == $jewel->id) selected @endif>{{ $jewel->name }}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="form-group col-md-12">
-            <hr>
-        </div>
-
-        <div class="form-row model_materials">
+        @if($options)
+            @foreach($options as $option)
             <div class="form-row">
+                <div class="col-6">
+                    <hr>
+                </div>
                 <div class="form-group col-md-12">
                     <label>Избери материал: </label>
                     <select id="material_type" name="material[]" class="material_type form-control calculate">
@@ -49,43 +57,7 @@
 
                 <div class="form-group col-md-6">
                     <label>Цена на дребно: </label>
-                    <select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled" disabled>
-                        <option value="0">Избери</option>
-                    </select>
-                </div>
-
-                <div class="form-group col-md-6">
-                    <label>Цена на едро: </label>
-                    <select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled" disabled>
-                        <option value="0">Избери</option>
-                    </select>
-                </div>
-
-                <div class="form-group col-md-12">
-                    <div class="radio radio-info">
-                        <input type="radio" id="material_1" name="default_material[]" checked>
-                        <label for="material_1">Материал по подразбиране</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        @if($options)
-            @foreach($options as $option)
-                <div class="form-group col-md-12">
-                    <label>Избери материал: </label>
-                    <select id="material_type" name="jewel" class="form-control calculate">
-                        <option value="0">Избери</option>
-                
-                        @foreach($materials as $material)
-                        <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ App\Prices::where([['material', '=', $material->material], ['type', '=', 'buy']])->first()->price}}">{{ App\Materials::withTrashed()->find($material->material)->name }} - {{ App\Materials::withTrashed()->find($material->material)->color }} - {{ App\Materials::withTrashed()->find($material->material)->carat }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="form-group col-md-12">
-                    <label>Цена на дребно: </label>
-                    <select id="retail_price_edit" name="retail_price" class="form-control calculate prices-filled">
+                    <select id="retail_price_edit" name="retail_price[]" class="form-control calculate prices-filled">
                         <option value="0">Избери</option>
 
                         @foreach($prices->where('type', 'sell') as $price)
@@ -94,9 +66,9 @@
                     </select>
                 </div>
 
-                <div class="form-group col-md-12">
+                <div class="form-group col-md-6">
                     <label>Цена на едро: </label>
-                    <select id="wholesale_price_edit" name="wholesale_price" class="form-control prices-filled">
+                    <select id="wholesale_price_edit" name="wholesale_price[]" class="form-control prices-filled">
                         <option value="0">Избери</option>
 
                         @foreach($prices->where('type', 'sell') as $price)
@@ -104,10 +76,19 @@
                         @endforeach
                     </select>
                 </div>
+
+                <div class="form-group col-md-12">
+                    <div class="radio radio-info">
+                        <input type="radio" class="default_material" id="" name="default_material[]">
+                        <label for="">Материал по подразбиране</label>
+                    </div>
+                </div>
+            </div>
             @endforeach
         @endif
+        </div>
 
-        <div class="form-group col-md-12">
+        <div class="form-row">
             <button type="button" class="btn btn-primary add_field_variation">Добави нова комбинация</button>
         </div>
 
@@ -115,18 +96,27 @@
             <hr>
         </div>
         
-        <div class="form-group weight-holder-edit">
-            <label for="1">Тегло: </label>
-            <input type="number" class="form-control calculate" id="weight" value="{{ $model->weight }}" name="weight" placeholder="Тегло:" min="0.1" max="10000">
+        <div class="form-row">
+            <div class="form-group col-md-6 weight-holder">
+                <label for="1">Тегло: </label>
+                <input type="number" class="form-control calculate" id="weight" value="{{ $model->weight }}" name="weight" placeholder="Тегло:" min="0.1" max="10000">
+            </div>
+
+            <div class="form-group col-md-6">
+                <div class="form-group">
+                    <label for="1">Размер: </label>
+                    <input type="number" value="{{ $model->size }}" class="form-control" id="1" name="size" placeholder="Размер:" min="0.1" max="100">
+                </div>
+            </div>
         </div>
 
-        <div class="model_stones">
+        <div class="form-row model_stones">
             @foreach($modelStones as $modelStone)
             <div class="form-row fields">
                 <div class="form-group col-md-6">
                     <label>Камъни: </label>
                     
-                        <select name="stones[]" class="form-control">
+                        <select id="model-stone" name="stones[]" class="form-control">
                             <option value="">Избери</option>
 
                             @foreach($stones as $stone)
@@ -167,7 +157,7 @@
             <div class="form-row fields">
                 <div class="form-group col-md-6">
                     <label>Камък: </label>
-                    <select name="stones[]" class="form-control">
+                    <select id="model-stone" name="stones[]" class="form-control">
                         <option value="">Избери</option>
 
                         @foreach($stones as $stone)
@@ -200,11 +190,11 @@
             </div>
         </div>
 
-        <div class="form-row form-group">
+        <div class="form-row">
             <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>
         </div>
 
-        {{-- <div class="model_stones">
+        {{-- <div class="form-row model_stones">
             <div class="form-row fields">
                 <div class="form-group col-md-6">
                     <label>Камък: </label>
