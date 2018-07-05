@@ -2,7 +2,8 @@
     <td> {{ $model->name }} </td>
     <td> {{ App\Jewels::withTrashed()->find($model->jewel)->name }} </td> 
     <td> {{ $model->weight }} </td>
-    <td>{{ $model->price }}</td>
+    <td> {{ $model->workmanship }}лв. </td>
+    <td> {{ $model->price }}лв. </td>
     <td>
         <span data-url="models/{{$model->id}}" class="edit-btn" data-toggle="modal" data-target="#editModel"><i class="c-brown-500 ti-pencil"></i></span>
         <span data-url="models/delete/{{$model->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></span> 

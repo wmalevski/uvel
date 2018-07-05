@@ -206,6 +206,7 @@ aria-hidden="true">
         <th>Име</th> 
         <th>Виж бижу</th>
         <th>Тегло</th>
+        <th>Изработка</th>
         <th>Цена</th>
         <th>Действия</th>
     </tr>
