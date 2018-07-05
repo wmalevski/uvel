@@ -167,6 +167,14 @@ class ProductsController extends Controller
 
         foreach($request->stones as $key => $stone){
             if($stone) {
+                $checkStone = Stones::find($stone);
+                if($request->stone_amount[$key] < $checkStone->amount){
+                    return Response::json(['errors' => ['stone_weight' => ['Няма достатъчна наличност от този камък.']]], 401);
+                }
+        
+                $checkStone->amount = $checkStone->amount - $request->stone_amount[$key];
+                $checkStone->save();
+
                 $product_stones = new Product_stones();
                 $product_stones->product = $product->id;
                 $product_stones->model = $request->model;
