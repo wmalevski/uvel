@@ -124,9 +124,11 @@
         <div class="form-row">
             <button type="button" class="btn btn-primary add_field_variation">Добави нова комбинация</button>
         </div>
-
-        <div class="form-group col-md-12">
-            <hr>
+        
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <hr>
+            </div>
         </div>
         
         <div class="form-row">
@@ -140,6 +142,10 @@
                     <label for="1">Размер: </label>
                     <input type="number" value="{{ $model->size }}" class="form-control" id="1" name="size" placeholder="Размер:" min="0.1" max="100">
                 </div>
+            </div>
+
+            <div class="col-12">
+                <hr>
             </div>
         </div>
 
@@ -225,6 +231,10 @@
 
         <div class="form-row">
             <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>
+
+            <div class="col-12">
+                <hr>
+            </div>
         </div>
 
         {{-- <div class="form-row model_stones">
@@ -256,16 +266,18 @@
 
         <div class="form-row">
             <div class="form-group col-md-6">
-                <div class="form-group">
-                    <label>Избработка:</label>
+                <label>Избработка:</label>
+                <div class="input-group">
                     <input type="number" class="form-control worksmanship_price" value="{{ $model->workmanship }}" name="workmanship">
+                    <span class="input-group-addon">лв</span>
                 </div>
             </div>
             
              <div class="form-group col-md-6">
-                <div class="form-group">
-                    <label>Цена:</label>
+                <label>Цена:</label>
+                <div class="input-group">
                     <input type="number" class="form-control final_price" value="{{ $model->price }}" value="0" name="price">
+                    <span class="input-group-addon">лв</span>
                 </div>
             </div>
         </div>
