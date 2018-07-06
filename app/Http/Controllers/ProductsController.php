@@ -73,11 +73,11 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        $material = Materials_quantity::withTrashed()->find($request->material);
 
         $validator = Validator::make( $request->all(), [
             'jewelsTypes' => 'required',
             'retail_price' => 'required',
+            'material' => 'required',
             'wholesale_prices' => 'required',
             'weight' => 'required|numeric|between:0.1,10000',
             'size' => 'required|numeric|between:0.1,10000',
@@ -85,13 +85,18 @@ class ProductsController extends Controller
             'price' => 'required|numeric|between:0.1,500000'
         ]); 
 
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
+        $material = Materials_quantity::withTrashed()->find($request->material);
+
         if($material->quantity < $request->weight){
             return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
         }
 
-        if ($validator->fails()) {
-            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
-        }
+        $material->quantity - $request->weight;
+        $material->save();
 
         $path = public_path('uploads/products/');
         
@@ -164,6 +169,14 @@ class ProductsController extends Controller
 
         foreach($request->stones as $key => $stone){
             if($stone) {
+                $checkStone = Stones::find($stone);
+                if($request->stone_amount[$key] < $checkStone->amount){
+                    return Response::json(['errors' => ['stone_weight' => ['Няма достатъчна наличност от този камък.']]], 401);
+                }
+        
+                $checkStone->amount = $checkStone->amount - $request->stone_amount[$key];
+                $checkStone->save();
+
                 $product_stones = new Product_stones();
                 $product_stones->product = $product->id;
                 $product_stones->model = $request->model;
