@@ -1497,7 +1497,10 @@ var uvel,
 
         ajaxFn("GET", linkAjax, editBtnSuccess, '', '', this);        
         $self.currentPressedBtn = this;  
-        setTimeout(function() {$self.checkAllForms(currentPressedBtn);}, 500);
+        setTimeout(function() {
+          $self.checkAllForms(currentPressedBtn);
+          $('#editModel [name="default_material[]"]:checked').closest('.form-row').find('.material_type').trigger('change');
+        }, 500);
       }
 
       function editBtnSuccess(data, elements, btn) {
@@ -1515,7 +1518,7 @@ var uvel,
           dateFromInput.attr('disabled', 'disabled');
          }
 
-         $(selector).html(html);    
+         $(selector).html(html);
          $self.initializeSelect($(selector).children().find('select'));
 
          $self.addAndRemoveFieldsMaterials();
