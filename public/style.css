@@ -174,12 +174,12 @@ p {
   display: none;
 }
 
-.remove_field {
+.remove_field, .stone-flow-holder {
   position: absolute;
   bottom: 8px;
 }
 
-.remove_field:hover {
+.remove_field:hover, .stone-flow-holder:hover {
   cursor: pointer;
 }
 
