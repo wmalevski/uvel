@@ -95,7 +95,7 @@ class ProductsController extends Controller
             return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
         }
 
-        $material->quantity = $material->quantity - $request->weight;
+        $material->quantity - $request->weight;
         $material->save();
 
         $path = public_path('uploads/products/');
