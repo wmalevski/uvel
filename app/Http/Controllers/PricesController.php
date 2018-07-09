@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use App\Models;
+use App\ModelOptions;
 use Response;
 use Illuminate\Support\Facades\View;
 use App\Products;
@@ -151,7 +152,12 @@ class PricesController extends Controller
         }
     }
 
-    public function getByMaterial($material){
+    public function getByMaterial($material, $model){
+        $checkExisting = ModelOptions::where([
+            ['model', '=', $model],
+            ['material', '=', $material]
+        ])->get();
+
         $prices = Prices::where(
             [
                 ['material', '=', $material],
@@ -167,13 +173,6 @@ class PricesController extends Controller
                 ['type', '=', 'buy']
             ]
         )->first();
-
-        // $prices_retail[0] = (object)[
-        //     'id' => '',
-        //     'material' => '',
-        //     'slug' => 'Избери цена',
-        //     'price' => ''
-        // ];
 
         $models = Models::where(
             [
