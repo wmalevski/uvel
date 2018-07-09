@@ -200,6 +200,6 @@ class PricesController extends Controller
             ];
         }
 
-        return Response::json(array('prices' => $prices_retail, 'pass_models' => $models, 'priceBuy' => $priceBuy->price));
+        return Response::json(array('prices' => $prices_retail, 'pass_models' => $models, 'pricebuy' => $priceBuy->price));
     }
 }

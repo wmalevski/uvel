@@ -82,7 +82,6 @@ class Products extends Model
                     'value' => $jewel->id,
                     'label' => $jewel->name,
                     'material' => $jewel->material,
-                    'pricebuy' => Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price,
                     'selected' => $selected
                 ];
             }
@@ -169,7 +168,8 @@ class Products extends Model
                 'workmanship' => $model->workmanship,
                 'price' => $model->price,
                 'materials' => $pass_materials,
-                'photos' => $pass_photos
+                'photos' => $pass_photos,
+                'pricebuy' => Prices::withTrashed()->where('material', $default->material)->where('type', 'buy')->first()->price,
             );
         }
     }
