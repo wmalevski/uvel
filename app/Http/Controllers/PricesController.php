@@ -158,7 +158,14 @@ class PricesController extends Controller
             ['material', '=', $material]
         ])->get();
 
-        $prices = Prices::where(
+        $retail_prices = Prices::where(
+            [
+                ['material', '=', $material],
+                ['type', '=', 'sell']
+            ]
+        )->get();
+
+        $wholesale_prices = Prices::where(
             [
                 ['material', '=', $material],
                 ['type', '=', 'sell']
@@ -166,6 +173,7 @@ class PricesController extends Controller
         )->get();
 
         $prices_retail = array();
+        $prices_wholesale = array();
 
         $priceBuy = Prices::where(
             [
@@ -189,16 +197,48 @@ class PricesController extends Controller
             ];
         }
         
-        foreach($prices as $price){
+        foreach($retail_prices as $price){
+
+            if($checkExisting){
+                if($price->id == $checkExisting->retail_price){
+                    $selected = true;
+                }else{
+                    $selected = false;
+                }
+            }
 
             $prices_retail[] = (object)[
                 'id' => $price->id,
                 'material' => $price->material,
                 'slug' => $price->slug.' - '.$price->price.'лв',
-                'price' => $price->price
+                'price' => $price->price,
+                'selected' => $selected
             ];
         }
 
-        return Response::json(array('prices' => $prices_retail, 'pass_models' => $models, 'pricebuy' => $priceBuy->price));
+        foreach($wholesale_prices as $price){
+            
+            if($checkExisting){
+                if($price->id == $checkExisting->wholesale_price){
+                    $selected = true;
+                }else{
+                    $selected = false;
+                }
+            }
+
+            $prices_wholesale[] = (object)[
+                'id' => $price->id,
+                'material' => $price->material,
+                'slug' => $price->slug.' - '.$price->price.'лв',
+                'price' => $price->price,
+                'selected' => $selected
+            ];
+        }
+
+        return Response::json(array(
+            'retail_prices' => $prices_retail, 
+            'wholesale_prices' => $prices_wholesale, 
+            'pass_models' => $models, 
+            'pricebuy' => $priceBuy->price));
     }
 }
