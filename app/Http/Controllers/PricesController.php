@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use App\Models;
+use App\ModelOptions;
 use Response;
 use Illuminate\Support\Facades\View;
 use App\Products;
@@ -151,8 +152,20 @@ class PricesController extends Controller
         }
     }
 
-    public function getByMaterial($material){
-        $prices = Prices::where(
+    public function getByMaterial($material, $model){
+        $checkExisting = ModelOptions::where([
+            ['model', '=', $model],
+            ['material', '=', $material]
+        ])->get();
+
+        $retail_prices = Prices::where(
+            [
+                ['material', '=', $material],
+                ['type', '=', 'sell']
+            ]
+        )->get();
+
+        $wholesale_prices = Prices::where(
             [
                 ['material', '=', $material],
                 ['type', '=', 'sell']
@@ -160,6 +173,7 @@ class PricesController extends Controller
         )->get();
 
         $prices_retail = array();
+        $prices_wholesale = array();
 
         $priceBuy = Prices::where(
             [
@@ -167,13 +181,6 @@ class PricesController extends Controller
                 ['type', '=', 'buy']
             ]
         )->first();
-
-        // $prices_retail[0] = (object)[
-        //     'id' => '',
-        //     'material' => '',
-        //     'slug' => 'Избери цена',
-        //     'price' => ''
-        // ];
 
         $models = Models::where(
             [
@@ -190,16 +197,48 @@ class PricesController extends Controller
             ];
         }
         
-        foreach($prices as $price){
+        foreach($retail_prices as $price){
+
+            if($checkExisting){
+                if($price->id == $checkExisting->retail_price){
+                    $selected = true;
+                }else{
+                    $selected = false;
+                }
+            }
 
             $prices_retail[] = (object)[
                 'id' => $price->id,
                 'material' => $price->material,
                 'slug' => $price->slug.' - '.$price->price.'лв',
-                'price' => $price->price
+                'price' => $price->price,
+                'selected' => $selected
             ];
         }
 
-        return Response::json(array('prices' => $prices_retail, 'pass_models' => $models, 'pricebuy' => $priceBuy->price));
+        foreach($wholesale_prices as $price){
+            
+            if($checkExisting){
+                if($price->id == $checkExisting->wholesale_price){
+                    $selected = true;
+                }else{
+                    $selected = false;
+                }
+            }
+
+            $prices_wholesale[] = (object)[
+                'id' => $price->id,
+                'material' => $price->material,
+                'slug' => $price->slug.' - '.$price->price.'лв',
+                'price' => $price->price,
+                'selected' => $selected
+            ];
+        }
+
+        return Response::json(array(
+            'retail_prices' => $prices_retail, 
+            'wholesale_prices' => $prices_wholesale, 
+            'pass_models' => $models, 
+            'pricebuy' => $priceBuy->price));
     }
 }
