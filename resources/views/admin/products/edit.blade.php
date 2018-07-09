@@ -49,6 +49,18 @@
                     @endforeach
                 </select>
             </div>
+
+            <div class="form-group">
+                <label>Материал: </label>
+                <select id="material" name="material" class="form-control calculate">
+                    <option value="">Избери</option>
+            
+                    @foreach($materials as $material)
+                        <option value="{{ $material->id }}" @if($material->id == $product->material) selected @endif>{{ App\Materials::withTrashed()->find($material->material)->name }} - {{ App\Materials::withTrashed()->find($material->material)->color }} - {{ App\Materials::withTrashed()->find($material->material)->carat }}</option>
+                    @endforeach
+                </select>
+            </div>
+
             <div class="form-group">
                 <label>Цена на дребно: </label>
                 <select id="retail_price_edit" name="retail_price" class="form-control calculate prices-filled" >

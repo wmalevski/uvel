@@ -95,8 +95,8 @@ class ProductsController extends Controller
             return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
         }
 
-        $material->quantity - $request->weight;
-        $material->save();
+        // $material->quantity - $request->weight;
+        // $material->save();
 
         $path = public_path('uploads/products/');
         
@@ -121,6 +121,7 @@ class ProductsController extends Controller
         $product->name = 'Test name';
         $product->model = $request->model;
         $product->jewel_type = $request->jewelsTypes;
+        $product->material = $request->material;
         $product->weight = $request->weight;
         $product->retail_price = $request->retail_price;
         $product->wholesale_price  = $request->wholesale_prices;
@@ -230,6 +231,7 @@ class ProductsController extends Controller
         $jewels = Jewels::all();
         $prices = Prices::where('type', 'sell')->get();
         $stones = Stones::all();
+        $materials = Materials_quantity::all();
 
         $photos = Gallery::where(
             [
@@ -238,7 +240,7 @@ class ProductsController extends Controller
             ]
         )->get();
 
-        return \View::make('admin/products/edit', array('photos' => $photos, 'product_stones' => $product_stones, 'product' => $product, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones));
+        return \View::make('admin/products/edit', array('photos' => $photos, 'product_stones' => $product_stones, 'product' => $product, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials));
     }
 
     /**
@@ -279,6 +281,33 @@ class ProductsController extends Controller
             if ($validator->fails()) {
                 return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
             }
+
+            $currentMaterial = Materials_quantity::withTrashed()->find($product->material);
+
+            if($request->material != $product->material){
+                $newMaterial = Materials_quantity::withTrashed()->find($request->material);
+
+                if($newMaterial->quantity < $request->weight){
+                    return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
+                }
+
+                $currentMaterial->quantity = $currentMaterial->quantity + $product->weight;
+                $currentMaterial->save();
+
+                $newMaterial->quantity = $newMaterial->quantity - $request->weight;
+                $newMaterial->save();
+
+            }else if($request->weight != $product->weight){
+                if($currentMaterial->quantity < $request->weight){
+                    return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
+                }
+
+                $newQuantity = $product->weight - $request->weight;
+                $currentMaterial->quantity = $currentMaterial->quantity + $newQuantity;
+                $currentMaterial->save();
+
+            }
+
 
             $path = public_path('uploads/products/');
             
