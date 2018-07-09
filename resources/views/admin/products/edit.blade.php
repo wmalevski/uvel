@@ -37,7 +37,7 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label>Модел: </label>
-                    <select id="model_select_edit" name="model" class="form-control model-filled">
+                    <select id="model_select_edit" name="model" class="model-select form-control model-filled">
                         <option value="">Избери</option>
                 
                         @foreach($models as $model)
@@ -69,7 +69,7 @@
             <div class="form-row model_materials">
                 <div class="form-group col-md-12">
                     <label>Материал: </label>
-                    <select id="material" name="material" class="form-control calculate">
+                    <select id="material_edit" name="material" class="material_type form-control calculate">
                         <option value="">Избери</option>
                 
                         @foreach($materials as $material)
@@ -100,39 +100,50 @@
                 </div>
             </div>
 
-            <div class="form-group weight-holder-edit">
-                <label for="1">Тегло: </label>
-                <input type="text" class="form-control calculate" id="weight" value="{{ $product->weight }}" name="weight" placeholder="Тегло:" min="1" max="10000">
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <hr>
+                </div>
             </div>
-        
-            <div class="form-group">
-                <label for="1">Размер: </label>
-                <input type="text" class="form-control" id="size" value="{{ $product->size }}" name="size" placeholder="Размер:" min="1" max="10000">
+            
+            <div class="form-row">
+                <div class="form-group col-md-6 weight-holder-edit">
+                    <label for="1">Тегло: </label>
+                    <input type="text" class="form-control calculate" id="weight" value="{{ $product->weight }}" name="weight" placeholder="Тегло:" min="1" max="10000">
+                </div>
+            
+                <div class="form-group col-md-6">
+                    <label for="1">Размер: </label>
+                    <input type="text" class="form-control" id="size" value="{{ $product->size }}" name="size" placeholder="Размер:" min="1" max="10000">
+                </div>
+
+                <div class="col-12">
+                    <hr>
+                </div>
             </div>
 
-            <div class="model_stones">
+            <div class="form-row model_stones">
                 @foreach($product_stones as $modelStone)
                 <div class="form-row fields">
                     <div class="form-group col-md-6">
                         <label>Камъни: </label>
                         
-                            <select name="stones[]" class="form-control">
-                                <option value="">Избери</option>
-    
-                                @foreach($stones as $stone)
-                                    <option value="{{ $stone->id }}" @if($modelStone->stone == $stone->id) selected @endif>
-                                        {{ App\Stones::find($stone->id)->name }} 
-    
-                                        ({{ App\Stone_contours::find($stone->contour)->name }}, {{ App\Stone_sizes::find($stone->size)->name }})
-                                    </option>
-                                @endforeach
-                            </select>
-                        
+                        <select name="stones[]" class="form-control">
+                            <option value="">Избери</option>
+
+                            @foreach($stones as $stone)
+                                <option value="{{ $stone->id }}" @if($modelStone->stone == $stone->id) selected @endif>
+                                    {{ App\Stones::find($stone->id)->name }} 
+
+                                    ({{ App\Stone_contours::find($stone->contour)->name }}, {{ App\Stone_sizes::find($stone->size)->name }})
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
     
                     <div class="form-group col-md-4">
                         <label for="1">Брой: </label>
-                        <input type="number" id="model-stone-number" class="form-control" name="stone_amount[]" placeholder="Брой" value="{{  $modelStone->amount  }}" min="1" max="50">
+                        <input type="number" class="form-control" name="stone_amount[]" placeholder="Брой" value="{{  $modelStone->amount  }}" min="1" max="50">
                     </div>
     
                     <div class="form-group col-md-2">
@@ -157,7 +168,7 @@
                     </div>
                     <div class="form-group col-md-4">
                         <label for="1">Брой: </label>
-                        <input type="number" id="model-stone-number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="50">
+                        <input type="number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="50">
                     </div>
                     <div class="form-group col-md-2">
                         <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
@@ -167,23 +178,27 @@
 
             <div class="form-row">
                 <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>
-            </div>
 
-            <br/>
-        
-            <div class="form-group">
-                <label for="workmanship">Изработка: </label>
-                <div class="input-group"> 
-                    <input type="number" class="form-control worksmanship_price" value="{{ $product->workmanship }}" name="workmanship" id="workmanship" value="0">
-                    <span class="input-group-addon">лв</span>
+                <div class="col-12">
+                    <hr>
                 </div>
             </div>
+            
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="workmanship">Изработка: </label>
+                    <div class="input-group"> 
+                        <input type="number" class="form-control worksmanship_price" value="{{ $product->workmanship }}" name="workmanship" id="workmanship" value="0">
+                        <span class="input-group-addon">лв</span>
+                    </div>
+                </div>
 
-            <div class="form-group">
-                <label for="price">Цена: </label>
-                <div class="input-group"> 
-                    <input type="number" class="form-control final_price" value="{{ $product->price }}" name="price" id="price" value="0">
-                    <span class="input-group-addon">лв</span>
+                <div class="form-group col-md-6">
+                    <label for="price">Цена: </label>
+                    <div class="input-group"> 
+                        <input type="number" class="form-control final_price" value="{{ $product->price }}" name="price" id="price" value="0">
+                        <span class="input-group-addon">лв</span>
+                    </div>
                 </div>
             </div>
 

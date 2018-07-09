@@ -438,6 +438,11 @@ var uvel,
             
             jeweryPrice = _element.find(':selected').attr('data-pricebuy');
 
+            if (_element.closest('#addProduct').length > 0 || _element.closest('#editProduct').length > 0) {
+              var modelId = _element.closest('form').find('.model-select option:selected').val();
+              requestLink += '/' + modelId;
+            }
+
             ajaxFn('GET' , requestLink , function(response) {
               var data = response.prices;
               var models = response.pass_models;
@@ -515,7 +520,7 @@ var uvel,
           if(_element[0].classList.contains('material_type')) {
             dataWeight = _element.closest('form').find('.weight-holder').children('input').val();
           } else if (_element[0].id == 'jewel_edit') {
-            dataWeight = _element.parent().siblings('.weight-holder-edit').children('input').val();
+            dataWeight = _element.closest('form').find('.weight-holder-edit').children('input').val();
           }
 
           if (_element.closest('.form-row').find('[name="default_material[]"]:checked').length > 0) {
