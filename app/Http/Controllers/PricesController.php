@@ -155,8 +155,11 @@ class PricesController extends Controller
     public function getByMaterial($material, $model){
         $checkExisting = ModelOptions::where([
             ['model', '=', $model],
-            ['material', '=', $material]
-        ])->get();
+            ['material', '=', $material],
+            ['default', '=', 'yes']
+        ])->first();
+
+        
 
         $retail_prices = Prices::where(
             [
@@ -205,6 +208,8 @@ class PricesController extends Controller
                 }else{
                     $selected = false;
                 }
+            }else{
+                $selected = false;
             }
 
             $prices_retail[] = (object)[
@@ -224,6 +229,8 @@ class PricesController extends Controller
                 }else{
                     $selected = false;
                 }
+            }else{
+                $selected = false;
             }
 
             $prices_wholesale[] = (object)[
