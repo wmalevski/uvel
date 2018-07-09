@@ -70,39 +70,37 @@
                     </div>
                     
                     <div class="form-row model_materials">
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <label>Материал: </label>
-                                <select id="material" name="material" class="form-control calculate">
-                                    <option value="">Избери</option>
-                            
-                                    @foreach($materials as $material)
-                                        <option value="{{ $material->id }}">{{ App\Materials::withTrashed()->find($material->material)->name }} - {{ App\Materials::withTrashed()->find($material->material)->color }} - {{ App\Materials::withTrashed()->find($material->material)->carat }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                        <div class="form-group col-md-12">
+                            <label>Материал: </label>
+                            <select id="material" name="material" class="form-control calculate">
+                                <option value="">Избери</option>
+                        
+                                @foreach($materials as $material)
+                                    <option value="{{ $material->id }}">{{ App\Materials::withTrashed()->find($material->material)->name }} - {{ App\Materials::withTrashed()->find($material->material)->color }} - {{ App\Materials::withTrashed()->find($material->material)->carat }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
-                            <div class="form-group col-md-6">
-                                <label>Цена на дребно: </label>
-                                <select id="retail_prices" name="retail_price" class="form-control calculate prices-filled">
-                                    <option value="0">Избери</option>
-                            
-                                    @foreach($prices->where('type', 'sell') as $price)
-                                        <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                        <div class="form-group col-md-6">
+                            <label>Цена на дребно: </label>
+                            <select id="retail_prices" name="retail_price" class="form-control calculate prices-filled">
+                                <option value="0">Избери</option>
+                        
+                                @foreach($prices->where('type', 'sell') as $price)
+                                    <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
-                            <div class="form-group col-md-6">
-                                <label>Цена на едро: </label>
-                                <select id="wholesale_prices" name="wholesale_prices" class="form-control prices-filled">
-                                    <option value="0">Избери</option>
-                            
-                                    @foreach($prices->where('type', 'sell') as $price)
-                                        <option value="{{ $price->id }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                        <div class="form-group col-md-6">
+                            <label>Цена на едро: </label>
+                            <select id="wholesale_prices" name="wholesale_prices" class="form-control prices-filled">
+                                <option value="0">Избери</option>
+                        
+                                @foreach($prices->where('type', 'sell') as $price)
+                                    <option value="{{ $price->id }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     
