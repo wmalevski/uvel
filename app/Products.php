@@ -13,6 +13,7 @@ use App\Stones;
 use App\Stone_styles;
 use App\Stone_contours;
 use App\Stone_sizes;
+use App\Gallery;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Products extends Model
@@ -63,6 +64,10 @@ class Products extends Model
             ])->get();
 
             $model_stones = Model_stones::where('model', $model->id)->get();
+            $model_photos = Gallery::where([
+                ['table', '=', 'models'],
+                ['row_id', '=', $model->id]
+            ])->get();
     
             $pass_jewels = array();
             
@@ -121,7 +126,10 @@ class Products extends Model
             foreach($model_stones as $stone){
                 $pass_stones[] = [
                     'value' => Stones::withTrashed()->find($stone->stone)->id,
-                    'label' => Stones::withTrashed()->find($stone->stone)->name.' ('.Stone_contours::withTrashed()->find(Stones::withTrashed()->find($stone->stone)->contour)->name. ', ' .Stone_sizes::withTrashed()->find(Stones::withTrashed()->find($stone->stone)->size)->name. ' )'
+                    'label' => Stones::withTrashed()->find($stone->stone)->name.' ('.Stone_contours::withTrashed()->find(Stones::withTrashed()->find($stone->stone)->contour)->name. ', ' .Stone_sizes::withTrashed()->find(Stones::withTrashed()->find($stone->stone)->size)->name. ' )',
+                    'amount' => $stone->amount,
+                    'weight' => $stone->weight,
+                    'flow' => $stone->flow
                 ];
             }
 
@@ -140,6 +148,16 @@ class Products extends Model
                     'selected' => $selected,
                 ];
             }
+
+            $pass_photos = array();
+
+            foreach($model_photos as $photo){
+               
+                $pass_photos[] = (object)[
+                    'id' => $photo->id,
+                    'photo' => $photo->photo
+                ];
+            }
     
             return array(
                 'retail_prices' => $prices_retail, 
@@ -150,7 +168,8 @@ class Products extends Model
                 'size'   => $model->size,
                 'workmanship' => $model->workmanship,
                 'price' => $model->price,
-                'materials' => $pass_materials
+                'materials' => $pass_materials,
+                'photos' => $pass_photos
             );
         }
     }
