@@ -116,9 +116,11 @@ class ProductsController extends Controller
             $photo->save();
         }
 
+        $model = Models::find($request->model);
+
         $product = new Products();
         $product->id = Uuid::generate()->string;
-        $product->name = 'Test name';
+        $product->name = $model->name;
         $product->model = $request->model;
         $product->jewel_type = $request->jewelsTypes;
         $product->material = $request->material;
