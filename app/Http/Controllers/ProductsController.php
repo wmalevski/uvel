@@ -158,7 +158,10 @@ class ProductsController extends Controller
 
         $product->save();
 
-        $findModel = ModelOptions::where('material', $request->material)->get();
+        $findModel = ModelOptions::where([
+            ['material', '=', $request->material],
+            ['model', '=', $request->model]
+        ])->get();
 
         if(!$findModel){
             $option = new ModelOptions();
