@@ -1228,6 +1228,14 @@ var uvel,
           var data = JSON.parse(this.responseText);
           var editHolder =  document.getElementById("jewel_edit");
 
+          for (i=0; i<data.materials.length; i++) {
+            var material = data.materials[i];
+
+            if (material.selected) {
+              var selectedMaterial = material.value;
+            }
+          }
+
           for(var key in data) {
             var holder = document.getElementById(key);
 
@@ -1278,6 +1286,11 @@ var uvel,
                 }
               }
             }
+
+            var materialSelect = $('#material');
+            materialSelect.val(selectedMaterial);
+            materialSelect.trigger('change');
+            materialSelect.trigger('select2:select');
           }
         };
 
