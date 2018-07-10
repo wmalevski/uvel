@@ -68,13 +68,13 @@ var uvel,
             '</div>' +
             '<div class="form-group col-md-5">' +
             '<label>Цена на дребно: </label>' +
-            '<select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled" disabled>' +
+            '<select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled retail-price" disabled>' +
             '<option value="0">Избери</option>' +
             '</select>' +
             '</div>' +
             '<div class="form-group col-md-5">' +
             '<label>Цена на едро: </label>' +
-            '<select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled" disabled>' +
+            '<select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled wholesale-price" disabled>' +
             '<option value="0">Избери</option>' +
             '</select>' +
             '</div>' +
@@ -427,6 +427,8 @@ var uvel,
             var materialType = _element.find(':selected').val();
             var materialAttribute = _element.find(':selected').attr('data-material');
             var pricesFilled = _element.closest('.form-row').children().find('.prices-filled');
+            var retaiPriceFilled = _element.closest('.form-row').find('.retail-price');
+            var wholesalePriceFilled = _element.closest('.form-row').find('.wholesale-price');
             var requestLink = ajaxUrl + materialAttribute;
 
             if(materialType == 0) {
@@ -442,9 +444,13 @@ var uvel,
               var modelId = _element.closest('form').find('.model-select option:selected').val();
               requestLink += '/' + modelId;
             }
+            else {
+              requestLink += '/0';
+            }
 
             ajaxFn('GET' , requestLink , function(response) {
-              var data = response.prices;
+              var retailData = response.retail_prices;
+              var wholesaleData = response.wholesale_prices;
               var models = response.pass_models;
               var modelsData = models.map(function(keys) {
                 return {
@@ -465,7 +471,16 @@ var uvel,
                 templateSelection: $self.addSelect2CustomAttributes
               }); 
         
-              var newData = data.map(function(keys) {
+              var newRetailData = retailData.map(function(keys) {
+                return {
+                  id: keys.id,
+                  text: keys.slug + ' - ' + keys.price,
+                  price: keys.price,
+                  material: keys.material
+                }
+              });
+
+              var newWholesaleData = wholesaleData.map(function(keys) {
                 return {
                   id: keys.id,
                   text: keys.slug + ' - ' + keys.price,
@@ -492,8 +507,14 @@ var uvel,
                 }
               }
 
-              pricesFilled.select2({
-                data: newData,
+              retaiPriceFilled.select2({
+                data: newRetailData,
+                templateResult: $self.addSelect2CustomAttributes,
+                templateSelection: $self.addSelect2CustomAttributes
+              });
+
+              wholesalePriceFilled.select2({
+                data: newWholesaleData,
                 templateResult: $self.addSelect2CustomAttributes,
                 templateSelection: $self.addSelect2CustomAttributes
               });     
@@ -512,7 +533,7 @@ var uvel,
             });  
           }
           else {
-            if( _element.select2('data')[0] !== undefined && _element.closest('.form-row').find('[name="default_material[]"]:checked').length > 0){
+            if( _element.select2('data')[0] !== undefined && (_element.closest('.form-row').find('[name="default_material[]"]:checked').length > 0 || _element.closest('#addProduct').length > 0 || _element.closest('#editProduct').length > 0)){
               priceDev = _element.select2('data')[0].price;
             }
           }
@@ -523,7 +544,7 @@ var uvel,
             dataWeight = _element.closest('form').find('.weight-holder-edit').children('input').val();
           }
 
-          if (_element.closest('.form-row').find('[name="default_material[]"]:checked').length > 0) {
+          if (_element.closest('.form-row').find('[name="default_material[]"]:checked').length > 0  || _element.closest('#addProduct').length > 0 || _element.closest('#editProduct').length > 0) {
             calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
           }
           

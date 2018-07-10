@@ -83,7 +83,7 @@
 
                         <div class="form-group col-md-6">
                             <label>Цена на дребно: </label>
-                            <select id="retail_prices" name="retail_price" class="form-control calculate prices-filled">
+                            <select id="retail_prices" name="retail_price" class="form-control calculate prices-filled retail-price">
                                 <option value="0">Избери</option>
                         
                                 @foreach($prices->where('type', 'sell') as $price)
@@ -94,7 +94,7 @@
 
                         <div class="form-group col-md-6">
                             <label>Цена на едро: </label>
-                            <select id="wholesale_prices" name="wholesale_prices" class="form-control prices-filled">
+                            <select id="wholesale_prices" name="wholesale_prices" class="form-control prices-filled wholesale-price">
                                 <option value="0">Избери</option>
                         
                                 @foreach($prices->where('type', 'sell') as $price)

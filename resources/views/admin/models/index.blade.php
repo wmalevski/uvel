@@ -52,14 +52,14 @@ aria-hidden="true">
 
                             <div class="form-group col-md-6">
                                 <label>Цена на дребно: </label>
-                                <select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled" disabled>
+                                <select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled retail-price" disabled>
                                     <option value="0">Избери</option>
                                 </select>
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label>Цена на едро: </label>
-                                <select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled" disabled>
+                                <select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled wholesale-price" disabled>
                                     <option value="0">Избери</option>
                                 </select>
                             </div>
