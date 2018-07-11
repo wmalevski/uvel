@@ -37,7 +37,10 @@ class Products extends Model
 
     protected $table = 'products';
 
-    public $incrementing = false;
+    public function images()
+    {
+        return $this->hasMany('App\Gallery');
+    }
 
     public function chainedSelects($model){
         $model = Models::find($model);
@@ -66,7 +69,7 @@ class Products extends Model
             $model_stones = Model_stones::where('model', $model->id)->get();
             $model_photos = Gallery::where([
                 ['table', '=', 'models'],
-                ['row_id', '=', $model->id]
+                ['model_id', '=', $model->id]
             ])->get();
     
             $pass_jewels = array();
