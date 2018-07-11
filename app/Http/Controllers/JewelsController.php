@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
 use File;
 use App\Models;
-use App\Products;
+use App\Product;
 
 class JewelsController extends Controller
 {
@@ -119,7 +119,7 @@ class JewelsController extends Controller
         $jewel = Jewels::find($jewel);
         
         if($jewel){
-            $usingModel = Products::where('jewel_type', $jewel->id)->count();
+            $usingModel = Product::where('jewel_type', $jewel->id)->count();
             $usingProduct = Models::where('jewel', $jewel->id)->count();
 
             if($usingModel || $usingProduct){
