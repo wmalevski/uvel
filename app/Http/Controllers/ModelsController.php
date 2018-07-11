@@ -208,6 +208,19 @@ class ModelsController extends Controller
                     }
                 }
             }
+
+            foreach($file_data as $img){
+                $file_name = 'productimage_'.uniqid().time().'.png';
+                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                file_put_contents(public_path('uploads/products/').$file_name, $data);
+    
+                $photo = new Gallery();
+                $photo->photo = $file_name;
+                $photo->row_id = $product->id;
+                $photo->table = 'products';
+    
+                $photo->save();
+            }
         }
 
         return Response::json(array('success' => View::make('admin/models/table',array('model'=>$model))->render()));
