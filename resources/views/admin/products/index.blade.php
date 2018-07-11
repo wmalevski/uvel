@@ -324,4 +324,5 @@ aria-hidden="true">
 <script id="stones_data" type="application/json">
     {!!  $jsStones !!}
 </script>
+
 @endsection

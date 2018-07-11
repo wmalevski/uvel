@@ -73,7 +73,7 @@
                         <option value="">Избери</option>
                 
                         @foreach($materials as $material)
-                            <option value="{{ $material->id }}" @if($material->id == $product->material) selected @endif>{{ App\Materials::withTrashed()->find($material->material)->name }} - {{ App\Materials::withTrashed()->find($material->material)->color }} - {{ App\Materials::withTrashed()->find($material->material)->carat }}</option>
+                            <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ App\Prices::where([['material', '=', $material->material], ['type', '=', 'buy']])->first()->price}}" @if($material->id == $product->material) selected @endif>{{ App\Materials::withTrashed()->find($material->material)->name }} - {{ App\Materials::withTrashed()->find($material->material)->color }} - {{ App\Materials::withTrashed()->find($material->material)->carat }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -107,7 +107,7 @@
             </div>
             
             <div class="form-row">
-                <div class="form-group col-md-6 weight-holder-edit">
+                <div class="form-group col-md-6 weight-holder weight-holder-edit">
                     <label for="1">Тегло: </label>
                     <input type="text" class="form-control calculate" id="weight" value="{{ $product->weight }}" name="weight" placeholder="Тегло:" min="1" max="10000">
                 </div>
