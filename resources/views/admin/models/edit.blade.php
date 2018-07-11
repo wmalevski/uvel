@@ -153,7 +153,7 @@
             @foreach($modelStones as $modelStone)
             <div class="form-row fields">
                 <div class="form-group col-md-6">
-                    <label>Камъни: </label>
+                    <label>Камък: </label>
                     
                         <select id="model-stone" name="stones[]" class="form-control">
                             <option value="">Избери</option>
@@ -177,8 +177,6 @@
                 <div class="form-group col-md-2">
                     <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
                 </div>
-            </div>
-            <div class="form-row">
                 <div class="form-group col-md-6">
                     <div class="form-group">
                         <label for="1">Тегло: </label>
@@ -187,7 +185,7 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15"><input type="checkbox" id="inputCall1" name="stone_flow[]" class="peer" @if($modelStone->flow == 'yes') checked @endif><label for="inputCall1" class="peers peer-greed js-sb ai-c"><span class="peer peer-greed">За леене</span></label></div>
+                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder"><input type="checkbox" id="inputCall1" name="stone_flow[]" class="peer stone-flow" @if($modelStone->flow == 'yes') checked @endif><label for="inputCall1" class="peers peer-greed js-sb ai-c"><span class="peer peer-greed">За леене</span></label></div>
                 </div>
             </div>
             @endforeach
@@ -213,9 +211,6 @@
                 <div class="form-group col-md-2">
                     <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
                 </div>
-            </div>
-
-            <div class="form-row">
                 <div class="form-group col-md-6">
                     <div class="form-group">
                         <label for="1">Тегло: </label>
@@ -224,7 +219,7 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15"><input type="checkbox" id="inputCall1" name="stone_flow[]" class="peer"><label for="inputCall1" class="peers peer-greed js-sb ai-c"><span class="peer peer-greed">За леене</span></label></div>
+                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder"><input type="checkbox" id="inputCall1" name="stone_flow[]" class="peer stone-flow"><label for="inputCall1" class="peers peer-greed js-sb ai-c"><span class="peer peer-greed">За леене</span></label></div>
                 </div>
             </div>
         </div>

@@ -195,8 +195,8 @@ var uvel,
 
         $(fieldsWrapper).on('click', '.remove_field', function(event) {
           event.preventDefault();
-          var parents = $(this).parentsUntil(".form-row .fields");
-          parents[1].remove();
+          var parents = $(this).closest(".form-row");
+          parents.remove();
         });
       });
     }
@@ -448,89 +448,91 @@ var uvel,
               requestLink += '/0';
             }
 
-            ajaxFn('GET' , requestLink , function(response) {
-              var retailData = response.retail_prices;
-              var wholesaleData = response.wholesale_prices;
-              var models = response.pass_models;
-              var modelsData = models.map(function(keys) {
-                return {
-                  id: keys.id,
-                  text: keys.name,
-                  jewel: keys.jewel,
-                  retail_price: keys.retail_price,
-                  wholesale_price: keys.wholesale_price,
-                  weight: keys.weight,
-                  workmanship: keys.workmanship
+            if (materialAttribute !== undefined) {
+              ajaxFn('GET' , requestLink , function(response) {
+                var retailData = response.retail_prices;
+                var wholesaleData = response.wholesale_prices;
+                var models = response.pass_models;
+                var modelsData = models.map(function(keys) {
+                  return {
+                    id: keys.id,
+                    text: keys.name,
+                    jewel: keys.jewel,
+                    retail_price: keys.retail_price,
+                    wholesale_price: keys.wholesale_price,
+                    weight: keys.weight,
+                    workmanship: keys.workmanship
+                  }
+                });
+
+                //_element.parents('form').children().find('.model-filled').empty();
+                _element.parents('form').children().find('.model-filled').select2({
+                  data: modelsData,
+                  templateResult: $self.addSelect2CustomAttributes,
+                  templateSelection: $self.addSelect2CustomAttributes
+                }); 
+          
+                var newRetailData = retailData.map(function(keys) {
+                  return {
+                    id: keys.id,
+                    text: keys.slug + ' - ' + keys.price,
+                    price: keys.price,
+                    material: keys.material
+                  }
+                });
+
+                var newWholesaleData = wholesaleData.map(function(keys) {
+                  return {
+                    id: keys.id,
+                    text: keys.slug + ' - ' + keys.price,
+                    price: keys.price,
+                    material: keys.material
+                  }
+                });
+
+                pricesFilled.empty();
+
+                for (i=0; i<pricesFilled.length; i++) {
+                  var chooseOpt = document.createElement('option');
+                  chooseOpt.innerHTML = 'Избери';
+                  chooseOpt.setAttribute('value', '0');
+
+                  if (i > 0) {
+                    var chooseArray = [];
+
+                    chooseArray[i] = chooseOpt.cloneNode(true);
+                    pricesFilled[i].appendChild(chooseArray[i]);
+                  }
+                  else {
+                    pricesFilled[i].appendChild(chooseOpt);
+                  }
                 }
+
+                retaiPriceFilled.select2({
+                  data: newRetailData,
+                  templateResult: $self.addSelect2CustomAttributes,
+                  templateSelection: $self.addSelect2CustomAttributes
+                });
+
+                wholesalePriceFilled.select2({
+                  data: newWholesaleData,
+                  templateResult: $self.addSelect2CustomAttributes,
+                  templateSelection: $self.addSelect2CustomAttributes
+                });     
+
+                for (i=0; i<pricesFilled.length; i++) {
+                  var select = $(pricesFilled[i]).find('option:nth-of-type(2)');
+                  var selectValue = select.val();
+
+                   $(pricesFilled[i]).val(selectValue);
+                }
+
+                //$('#retail_prices').trigger('change');
+                //$('#retail_price_edit').trigger('change');
+                pricesFilled.trigger('change');
+                pricesFilled.attr('disabled', false);
               });
-
-              //_element.parents('form').children().find('.model-filled').empty();
-              _element.parents('form').children().find('.model-filled').select2({
-                data: modelsData,
-                templateResult: $self.addSelect2CustomAttributes,
-                templateSelection: $self.addSelect2CustomAttributes
-              }); 
-        
-              var newRetailData = retailData.map(function(keys) {
-                return {
-                  id: keys.id,
-                  text: keys.slug + ' - ' + keys.price,
-                  price: keys.price,
-                  material: keys.material
-                }
-              });
-
-              var newWholesaleData = wholesaleData.map(function(keys) {
-                return {
-                  id: keys.id,
-                  text: keys.slug + ' - ' + keys.price,
-                  price: keys.price,
-                  material: keys.material
-                }
-              });
-
-              pricesFilled.empty();
-
-              for (i=0; i<pricesFilled.length; i++) {
-                var chooseOpt = document.createElement('option');
-                chooseOpt.innerHTML = 'Избери';
-                chooseOpt.setAttribute('value', '0');
-
-                if (i > 0) {
-                  var chooseArray = [];
-
-                  chooseArray[i] = chooseOpt.cloneNode(true);
-                  pricesFilled[i].appendChild(chooseArray[i]);
-                }
-                else {
-                  pricesFilled[i].appendChild(chooseOpt);
-                }
-              }
-
-              retaiPriceFilled.select2({
-                data: newRetailData,
-                templateResult: $self.addSelect2CustomAttributes,
-                templateSelection: $self.addSelect2CustomAttributes
-              });
-
-              wholesalePriceFilled.select2({
-                data: newWholesaleData,
-                templateResult: $self.addSelect2CustomAttributes,
-                templateSelection: $self.addSelect2CustomAttributes
-              });     
-
-              for (i=0; i<pricesFilled.length; i++) {
-                var select = $(pricesFilled[i]).find('option:nth-of-type(2)');
-                var selectValue = select.val();
-
-                 $(pricesFilled[i]).val(selectValue);
-              }
-
-              //$('#retail_prices').trigger('change');
-              //$('#retail_price_edit').trigger('change');
-              pricesFilled.trigger('change');
-              pricesFilled.attr('disabled', false);
-            });  
+            }
           }
           else {
             if( _element.select2('data')[0] !== undefined && (_element.closest('.form-row').find('[name="default_material[]"]:checked').length > 0 || _element.closest('#addProduct').length > 0 || _element.closest('#editProduct').length > 0)){
@@ -1228,6 +1230,14 @@ var uvel,
           var data = JSON.parse(this.responseText);
           var editHolder =  document.getElementById("jewel_edit");
 
+          for (i=0; i<data.materials.length; i++) {
+            var material = data.materials[i];
+
+            if (material.selected) {
+              var selectedMaterial = material.value;
+            }
+          }
+
           for(var key in data) {
             var holder = document.getElementById(key);
 
@@ -1278,6 +1288,11 @@ var uvel,
                 }
               }
             }
+
+            var materialSelect = $('#material');
+            materialSelect.val(selectedMaterial);
+            materialSelect.trigger('change');
+            materialSelect.trigger('select2:select');
           }
         };
 

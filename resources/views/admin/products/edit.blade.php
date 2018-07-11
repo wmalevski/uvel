@@ -53,7 +53,7 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label>Вид: </label>
-                    <select id="jewel_edit" name="jewelsTypes" class="form-control calculate">
+                    <select id="jewel_edit" name="jewelsTypes" class="form-control calculate" disabled>
                         <option value="">Избери</option>
                 
                         @foreach($jewels as $jewel)
