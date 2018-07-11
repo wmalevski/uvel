@@ -11,7 +11,7 @@ use App\Models;
 use App\ModelOptions;
 use Response;
 use Illuminate\Support\Facades\View;
-use App\Products;
+use App\Product;
 use App\Jewels;
 
 class PricesController extends Controller
@@ -136,8 +136,8 @@ class PricesController extends Controller
         $price = Prices::find($price);
         
         if($price){
-            $usingWProduct = Products::where('wholesale_price', $price->id)->count();
-            $usingRProduct = Products::where('retail_price', $price->id)->count();
+            $usingWProduct = Product::where('wholesale_price', $price->id)->count();
+            $usingRProduct = Product::where('retail_price', $price->id)->count();
 
             $usingWModel = Models::where('wholesale_price', $price->id)->count();
             $usingRModel = Models::where('retail_price', $price->id)->count();

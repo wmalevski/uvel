@@ -16,7 +16,7 @@ use App\Stone_sizes;
 use App\Gallery;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Products extends Model
+class Product extends Model
 {
     use SoftDeletes;
 

@@ -7,7 +7,7 @@ use App\Jewels;
 use App\Prices;
 use App\Stones;
 use App\Model_stones;
-use App\Products;
+use App\Product;
 use App\Product_stones;
 use App\Materials;
 use App\Materials_quantity;
@@ -161,7 +161,7 @@ class ModelsController extends Controller
                 ['default', '=', 'yes']
             ])->first();
 
-            $product = new Products();
+            $product = new Product();
             $product->name = $request->name;
             $product->model = $model->id;
             $product->jewel_type = $request->jewel;
@@ -409,7 +409,7 @@ class ModelsController extends Controller
         $model = Models::find($model);
         
         if($model){
-            $using = Products::where('model', $model->id)->count();
+            $using = Product::where('model', $model->id)->count();
             
             if($using){
                 return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);

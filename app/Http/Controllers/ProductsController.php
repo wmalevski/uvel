@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Products;
+use App\Product;
 use App\Models;
 use App\Jewels;
 use App\Prices;
@@ -30,7 +30,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Products::all();
+        $products = Product::all();
         $models = Models::all();
         $jewels = Jewels::all();
         $prices = Prices::where('type', 'sell')->get();
@@ -61,7 +61,7 @@ class ProductsController extends Controller
     }
 
     public function chainedSelects(Request $request, $model){
-        $product = new Products;
+        $product = new Product;
         return $product->chainedSelects($model);
     }
 
@@ -100,7 +100,7 @@ class ProductsController extends Controller
 
         $model = Models::find($request->model);
 
-        $product = new Products();
+        $product = new Product();
         $product->name = $model->name;
         $product->model = $request->model;
         $product->jewel_type = $request->jewelsTypes;
@@ -231,7 +231,7 @@ class ProductsController extends Controller
      */
     public function edit(Products $products, $product)
     {
-        $product = Products::find($product);
+        $product = Product::find($product);
         $product_stones = Product_stones::where('product', $product)->get();
         $models = Models::all();
         $jewels = Jewels::all();
@@ -258,7 +258,7 @@ class ProductsController extends Controller
      */
     public function update(Request $request, Products $products, $product)
     {
-        $product = Products::find($product);
+        $product = Product::find($product);
         
         if($product){
             $product_stones = Product_stones::where('product', $product)->get();
@@ -393,7 +393,7 @@ class ProductsController extends Controller
      */
     public function destroy(Products $products, $product)
     {
-        $product = Products::find($product);
+        $product = Product::find($product);
         
         if($product){
             $product->delete();
