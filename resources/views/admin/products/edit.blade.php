@@ -143,7 +143,18 @@
     
                     <div class="form-group col-md-4">
                         <label for="1">Брой: </label>
-                        <input type="number" class="form-control" name="stone_amount[]" placeholder="Брой" value="{{  $modelStone->amount  }}" min="1" max="50">
+                        <input type="number" class="form-control calculate-stones" name="stone_amount[]" placeholder="Брой" value="{{  $modelStone->amount  }}" min="1" max="50">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <div class="form-group">
+                            <label for="1">Тегло: </label>
+                            <input type="number" value="{{  $modelStone->weight  }}" class="form-control calculate-stones" id="1" name="stone_weight[]" placeholder="Тегло:" min="0.1" max="100">
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder"><input type="checkbox" id="inputCall1" name="stone_flow[]" class="peer stone-flow calculate-stones" @if($modelStone->flow == 'yes') checked @endif><label for="inputCall1" class="peers peer-greed js-sb ai-c"><span class="peer peer-greed">За леене</span></label></div>
                     </div>
     
                     <div class="form-group col-md-2">
@@ -177,7 +188,17 @@
             </div>
 
             <div class="form-row">
-                <button type="button" class="btn btn-primary add_field_button">Добави камък</button>
+                <div class="form-group col-md-5">
+                    <button type="button" class="btn btn-primary add_field_button">Добави камък</button>
+                </div>
+                
+                <div class="form-group col-md-3">
+                    <label for="totalStones">Общо за леене:</label>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <input type="number" class="form-control" id="totalStones" name="totalStones" disabled>
+                </div>
 
                 <div class="col-12">
                     <hr>
