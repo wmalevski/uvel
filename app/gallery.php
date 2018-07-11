@@ -9,7 +9,9 @@ class Gallery extends Model
     protected $fillable = [
         'photo',
         'table',
-        'row_id'
+        'product_id',
+        'model_id',
+        'stone_id'
     ];
 
     protected $table = 'galleries';

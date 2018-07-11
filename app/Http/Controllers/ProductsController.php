@@ -98,28 +98,9 @@ class ProductsController extends Controller
         // $material->quantity - $request->weight;
         // $material->save();
 
-        $path = public_path('uploads/products/');
-        
-        File::makeDirectory($path, 0775, true, true);
-
-        $file_data = $request->input('images'); 
-        foreach($file_data as $img){
-            $file_name = 'productimage_'.uniqid().time().'.png';
-            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-            file_put_contents(public_path('uploads/products/').$file_name, $data);
-
-            $photo = new Gallery();
-            $photo->photo = $file_name;
-            $photo->row_id = 1;
-            $photo->table = 'products';
-
-            $photo->save();
-        }
-
         $model = Models::find($request->model);
 
         $product = new Products();
-        $product->id = Uuid::generate()->string;
         $product->name = $model->name;
         $product->model = $request->model;
         $product->jewel_type = $request->jewelsTypes;
@@ -158,6 +139,24 @@ class ProductsController extends Controller
 
         $product->save();
 
+        $path = public_path('uploads/products/');
+        
+        File::makeDirectory($path, 0775, true, true);
+
+        $file_data = $request->input('images'); 
+        foreach($file_data as $img){
+            $file_name = 'productimage_'.uniqid().time().'.png';
+            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+            file_put_contents(public_path('uploads/products/').$file_name, $data);
+
+            $photo = new Gallery();
+            $photo->photo = $file_name;
+            $photo->product_id = 1;
+            $photo->table = 'products';
+
+            $photo->save();
+        }
+
         $findModel = ModelOptions::where([
             ['material', '=', $request->material],
             ['model', '=', $request->model]
@@ -173,23 +172,25 @@ class ProductsController extends Controller
             $option->save;
         }
 
-        foreach($request->stones as $key => $stone){
-            if($stone) {
-                $checkStone = Stones::find($stone);
-                if($request->stone_amount[$key] < $checkStone->amount){
-                    return Response::json(['errors' => ['stone_weight' => ['Няма достатъчна наличност от този камък.']]], 401);
+        if($request->stones){
+            foreach($request->stones as $key => $stone){
+                if($stone) {
+                    $checkStone = Stones::find($stone);
+                    if($request->stone_amount[$key] < $checkStone->amount){
+                        return Response::json(['errors' => ['stone_weight' => ['Няма достатъчна наличност от този камък.']]], 401);
+                    }
+            
+                    $checkStone->amount = $checkStone->amount - $request->stone_amount[$key];
+                    $checkStone->save();
+    
+                    $product_stones = new Product_stones();
+                    $product_stones->product = $product->id;
+                    $product_stones->model = $request->model;
+                    $product_stones->stone = $stone;
+                    $product_stones->amount = $request->stone_amount[$key];
+                    $product_stones->weight = $request->stone_weight[$key];
+                    $product_stones->save();
                 }
-        
-                $checkStone->amount = $checkStone->amount - $request->stone_amount[$key];
-                $checkStone->save();
-
-                $product_stones = new Product_stones();
-                $product_stones->product = $product->id;
-                $product_stones->model = $request->model;
-                $product_stones->stone = $stone;
-                $product_stones->amount = $request->stone_amount[$key];
-                $product_stones->weight = $request->stone_weight[$key];
-                $product_stones->save();
             }
         }
 
@@ -202,7 +203,7 @@ class ProductsController extends Controller
 
             $photo = new Gallery();
             $photo->photo = $file_name;
-            $photo->row_id = $product->id;
+            $photo->product_id = $product->id;
             $photo->table = 'products';
 
             $photo->save();
@@ -241,7 +242,7 @@ class ProductsController extends Controller
         $photos = Gallery::where(
             [
                 ['table', '=', 'products'],
-                ['row_id', '=', $product->id]
+                ['product_id', '=', $product->id]
             ]
         )->get();
 
@@ -269,7 +270,7 @@ class ProductsController extends Controller
             $photos = Gallery::where(
                 [
                     ['table', '=', 'products'],
-                    ['row_id', '=', $product->id]
+                    ['product_id', '=', $product->id]
                 ]
             )->get();
 
@@ -312,25 +313,6 @@ class ProductsController extends Controller
                 $currentMaterial->save();
 
             }
-
-
-            $path = public_path('uploads/products/');
-            
-            File::makeDirectory($path, 0775, true, true);
-    
-            $file_data = $request->input('images'); 
-            foreach($file_data as $img){
-                $file_name = 'productimage_'.uniqid().time().'.png';
-                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                file_put_contents(public_path('uploads/products/').$file_name, $data);
-    
-                $photo = new Gallery();
-                $photo->photo = $file_name;
-                $photo->row_id = $product->id;
-                $photo->table = 'products';
-    
-                $photo->save();
-            }
     
             $product->model = $request->model;
             $product->jewel_type = $request->jewelsTypes;
@@ -349,23 +331,43 @@ class ProductsController extends Controller
     
             $product->save();
 
+            $path = public_path('uploads/products/');
+            
+            File::makeDirectory($path, 0775, true, true);
+    
+            $file_data = $request->input('images'); 
+            foreach($file_data as $img){
+                $file_name = 'productimage_'.uniqid().time().'.png';
+                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                file_put_contents(public_path('uploads/products/').$file_name, $data);
+    
+                $photo = new Gallery();
+                $photo->photo = $file_name;
+                $photo->product_id = $product->id;
+                $photo->table = 'products';
+    
+                $photo->save();
+            }
+
             $deleteStones = Product_stones::where('product', $product->id)->delete();
     
-            foreach($request->stones as $key => $stone){
-                if($stone) {
-                    $product_stones = new Product_stones();
-                    $product_stones->product = $product->id;
-                    $product_stones->model = $request->model;
-                    $product_stones->stone = $stone;
-                    $product_stones->amount = $request->stone_amount[$key];
-                    $product_stones->save();
+            if($request->stones){
+                foreach($request->stones as $key => $stone){
+                    if($stone) {
+                        $product_stones = new Product_stones();
+                        $product_stones->product = $product->id;
+                        $product_stones->model = $request->model;
+                        $product_stones->stone = $stone;
+                        $product_stones->amount = $request->stone_amount[$key];
+                        $product_stones->save();
+                    }
                 }
             }
 
             $product_photos = Gallery::where(
                 [
                     ['table', '=', 'products'],
-                    ['row_id', '=', $product->id]
+                    ['product_id', '=', $product->id]
                 ]
             )->get();
     

@@ -130,7 +130,7 @@ class ModelsController extends Controller
 
             $photo = new Gallery();
             $photo->photo = $file_name;
-            $photo->row_id = $model->id;
+            $photo->model_id = $model->id;
             $photo->table = 'models';
 
             $photo->save();
@@ -162,7 +162,6 @@ class ModelsController extends Controller
             ])->first();
 
             $product = new Products();
-            $product->id = Uuid::generate()->string;
             $product->name = $request->name;
             $product->model = $model->id;
             $product->jewel_type = $request->jewel;
@@ -216,7 +215,7 @@ class ModelsController extends Controller
     
                 $photo = new Gallery();
                 $photo->photo = $file_name;
-                $photo->row_id = $product->id;
+                $photo->model_id = $product->id;
                 $photo->table = 'products';
     
                 $photo->save();
@@ -253,7 +252,7 @@ class ModelsController extends Controller
         $photos = Gallery::where(
             [
                 ['table', '=', 'models'],
-                ['row_id', '=', $model->id]
+                ['model_id', '=', $model->id]
             ]
         )->get();
 
@@ -373,7 +372,7 @@ class ModelsController extends Controller
 
             $photo = new Gallery();
             $photo->photo = $file_name;
-            $photo->row_id = $model->id;
+            $photo->model_id = $model->id;
             $photo->table = 'models';
 
             $photo->save();
@@ -382,7 +381,7 @@ class ModelsController extends Controller
         $model_photos = Gallery::where(
             [
                 ['table', '=', 'models'],
-                ['row_id', '=', $model->id]
+                ['model_id', '=', $model->id]
             ]
         )->get();
 
