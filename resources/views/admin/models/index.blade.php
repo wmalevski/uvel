@@ -102,7 +102,7 @@ aria-hidden="true">
                     </div>
 
                     <div class="from-row model_stones">
-                        <div class="form-row fields">
+                        <!-- <div class="form-row fields">
                             <div class="form-group col-md-6">
                                 <label>Камък: </label>
                                 <select id="model-stone" name="stones[]" class="form-control">
@@ -137,11 +137,21 @@ aria-hidden="true">
                                     </label>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="form-row">
-                        <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>
+                        <div class="form-group col-md-5">
+                            <button type="button" class="btn btn-primary add_field_button">Добави камък</button>
+                        </div>
+                        
+                        <div class="form-group col-md-3">
+                            <label for="totalStones">Общо за леене:</label>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <input type="text" class="form-control" id="totalStones" name="totalStones" disabled>
+                        </div>
 
                         <div class="col-12">
                             <hr>

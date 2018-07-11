@@ -153,7 +153,7 @@
                 @endforeach
                 
     
-                <div class="form-row fields">
+                <!-- <div class="form-row fields">
                     <div class="form-group col-md-6">
                         <label>Камък: </label>
                         <select name="stones[]" class="form-control">
@@ -173,11 +173,11 @@
                     <div class="form-group col-md-2">
                         <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <div class="form-row">
-                <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>
+                <button type="button" class="btn btn-primary add_field_button">Добави камък</button>
 
                 <div class="col-12">
                     <hr>

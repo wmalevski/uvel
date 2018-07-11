@@ -413,6 +413,10 @@ var uvel,
         }
       }
 
+      function calculateStones(row) {
+        var count = ;
+      }
+
       var jeweryPrice = 0;
       var dataWeight = 0;
       var priceDev = 0;
@@ -556,6 +560,8 @@ var uvel,
           calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
         }
       });
+
+      
 
       if(collectionFillFields.length) {
         collectionFillFields.map(function(el) {

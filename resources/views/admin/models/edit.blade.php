@@ -191,7 +191,7 @@
             @endforeach
             
 
-            <div class="form-row fields">
+            <!-- <div class="form-row fields">
                 <div class="form-group col-md-6">
                     <label>Камък: </label>
                     <select id="model-stone" name="stones[]" class="form-control">
@@ -221,11 +221,11 @@
                 <div class="form-group col-md-6">
                     <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder"><input type="checkbox" id="inputCall1" name="stone_flow[]" class="peer stone-flow"><label for="inputCall1" class="peers peer-greed js-sb ai-c"><span class="peer peer-greed">За леене</span></label></div>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <div class="form-row">
-            <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>
+            <button type="button" class="btn btn-primary add_field_button">Добави камък</button>
 
             <div class="col-12">
                 <hr>
