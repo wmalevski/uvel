@@ -414,7 +414,7 @@ var uvel,
       }
 
       function calculateStones(row) {
-        var count = ;
+        var count;
       }
 
       var jeweryPrice = 0;
