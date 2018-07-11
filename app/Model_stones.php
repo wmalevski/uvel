@@ -10,6 +10,8 @@ class Model_stones extends Model
         'model',
         'stone',
         'amount',
+        'weight',
+        'flow'
     ];
 
     protected $table = 'model_stones';

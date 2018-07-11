@@ -21,7 +21,7 @@ use File;
 use App\Materials;
 use App\Materials_quantity;
 
-class ProductsController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -215,10 +215,10 @@ class ProductsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Products  $products
+     * @param  \App\Product  $products
      * @return \Illuminate\Http\Response
      */
-    public function show(Products $products)
+    public function show(Product $products)
     {
         //
     }
@@ -226,10 +226,10 @@ class ProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Products  $products
+     * @param  \App\Product  $products
      * @return \Illuminate\Http\Response
      */
-    public function edit(Products $products, $product)
+    public function edit(Product $products, $product)
     {
         $product = Product::find($product);
         $product_stones = Product_stones::where('product', $product)->get();
@@ -256,7 +256,7 @@ class ProductsController extends Controller
      * @param  \App\Products  $products
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Products $products, $product)
+    public function update(Request $request, Product $products, $product)
     {
         $product = Product::find($product);
         
@@ -388,10 +388,10 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Products  $products
+     * @param  \App\Product  $products
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Products $products, $product)
+    public function destroy(Product $products, $product)
     {
         $product = Product::find($product);
         
