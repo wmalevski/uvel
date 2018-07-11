@@ -86,13 +86,13 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-6 weight-holder">
                             <label for="1">Тегло: </label>
-                            <input type="number" class="form-control calculate" id="weight" name="weight" placeholder="Тегло:" min="0.1" max="10000">
+                            <input type="number" class="form-control calculate" id="weight" name="weight" placeholder="Тегло:">
                         </div>
 
                         <div class="form-group col-md-6">
                             <div class="form-group">
                                 <label for="1">Размер: </label>
-                                <input type="number" class="form-control" id="1" name="size" placeholder="Размер:" min="0.1" max="100">
+                                <input type="number" class="form-control" id="1" name="size" placeholder="Размер:">
                             </div>
                         </div>
 
