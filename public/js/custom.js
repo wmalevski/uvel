@@ -151,7 +151,7 @@ var uvel,
               '</div>' +
               '<div class="form-group col-md-4">' +
               '<label>Брой:</label>' +
-              '<input type="text" class="form-control" name="stone_amount[]" placeholder="Брой">' +
+              '<input type="text" class="form-control calculate-stones" name="stone_amount[]" placeholder="Брой">' +
               '</div>' +
               '<div class="form-group col-md-2">' +
               '<span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>'+
@@ -159,12 +159,12 @@ var uvel,
               '<div class="form-group col-md-6">' +
               '<div class="form-group">' +
               '<label>Тегло: </label>' +
-              '<input type="number" class="form-control" name="stone_weight[]" placeholder="Тегло:" min="0.1" max="100">' +
+              '<input type="number" class="form-control calculate-stones" name="stone_weight[]" placeholder="Тегло:" min="0.1" max="100">' +
               '</div>' +
               '</div>' +
               '<div class="form-group col-md-6">' +
               '<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder">' +
-              '<input type="checkbox" id="" class="stone-flow" name="stone_flow[]" class="peer">' +
+              '<input type="checkbox" id="" class="stone-flow calculate-stones" name="stone_flow[]" class="peer">' +
               '<label for="" class="peers peer-greed js-sb ai-c">' +
               '<span class="peer peer-greed">За леене</span>' +
               '</label>' +
@@ -413,8 +413,36 @@ var uvel,
         }
       }
 
-      function calculateStones(row) {
-        var count;
+      function calculateStones(row, add) {
+        var amount = row.querySelector('input[name="stone_amount[]"]').value;
+        var weight = row.querySelector('input[name="stone_weight[]"]').value;
+        var total;
+        var totalNode = row.parentNode.parentNode.querySelector('#totalStones');
+        var currentTotal = 0;
+        var newTotal;
+        var siblingsArray = Array.prototype.filter.call(row.parentNode.children, function(child){
+          return child !== row;
+        });
+
+        total = amount * weight;
+
+        siblingsArray.forEach(function(el) {
+          var a = el.querySelector('input[name="stone_amount[]"]').value;
+          var w = el.querySelector('input[name="stone_weight[]"]').value;
+
+          if (el.querySelector('.stone-flow').checked) {
+            currentTotal += a*w
+          }
+        })
+
+        if (add) {
+          newTotal = currentTotal*1 + total;
+        }
+        else {
+          newTotal = currentTotal;
+        }
+
+        totalNode.value = newTotal;
       }
 
       var jeweryPrice = 0;
@@ -561,7 +589,19 @@ var uvel,
         }
       });
 
-      
+      $(document).on('change', '.calculate-stones', function(e) {
+        var _element = $(e.currentTarget);
+        var row = _element.closest('.form-row');
+        var add = true;
+
+        if (_element[0].classList.contains('stone-flow')) {
+          add = _element[0].checked;
+          calculateStones(row[0], add);
+        }
+        else if (row[0].querySelector('.stone-flow').checked) {
+          calculateStones(row[0], add);
+        }
+      })
 
       if(collectionFillFields.length) {
         collectionFillFields.map(function(el) {
