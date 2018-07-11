@@ -82,8 +82,8 @@ class ModelsController extends Controller
         $validator = Validator::make( $request->all(), [
             'name' => 'required|unique:models,name',
             'jewel' => 'required',
-            'stone_amount.*' => 'nullable|numeric|between:1,100',
-            'stone_weight.*' => 'nullable|numeric|between:1,100',
+            'stone_amount.*' => 'numeric|between:1,100',
+            'stone_weight.*' => 'numeric|between:1,100',
             'weight' => 'required|numeric|between:0.1,10000',
             'size'  => 'required|numeric|between:0.1,10000',
             'workmanship' => 'required|numeric|between:0.1,500000',
@@ -103,15 +103,17 @@ class ModelsController extends Controller
         $model->price = $request->price;
         $model->save();
 
-        foreach($request->stones as $key => $stone){
-            if($stone){
-                $model_stones = new Model_stones();
-                $model_stones->model = $model->id;
-                $model_stones->stone = $stone;
-                $model_stones->amount = $request->stone_amount[$key];
-                $model_stones->weight = $request->stone_weight[$key];
-                $model_stones->flow = $request->stone_flow[$key];
-                $model_stones->save();
+        if($request->stones){
+            foreach($request->stones as $key => $stone){
+                if($stone){
+                    $model_stones = new Model_stones();
+                    $model_stones->model = $model->id;
+                    $model_stones->stone = $stone;
+                    $model_stones->amount = $request->stone_amount[$key];
+                    $model_stones->weight = $request->stone_weight[$key];
+                    $model_stones->flow = $request->stone_flow[$key];
+                    $model_stones->save();
+                }
             }
         }
 
@@ -154,14 +156,20 @@ class ModelsController extends Controller
         }
 
         if ($request->release_product == true) {
+            $default = ModelOptions::where([
+                ['model', '=', $model->id],
+                ['default', '=', 'yes']
+            ])->first();
+
             $product = new Products();
             $product->id = Uuid::generate()->string;
             $product->name = $request->name;
             $product->model = $model->id;
             $product->jewel_type = $request->jewel;
             $product->weight = $request->weight;
-            $product->retail_price = $request->retail_price;
-            $product->wholesale_price  = $request->wholesale_price;
+            $product->material = $default->material;
+            $product->retail_price = $default->retail_price;
+            $product->wholesale_price  = $default->wholesale_price;
             $product->size = $request->size;
             $product->workmanship = $request->workmanship;
             $product->price = $request->price;
@@ -182,33 +190,37 @@ class ModelsController extends Controller
             
             $product->save();
 
-            foreach($request->stones as $key => $stone){
-                if($stone){
-                    $product_stones = new Product_stones();
-                    $product_stones->product = $product->id;
-                    $product_stones->model = $model->id;
-                    $product_stones->stone = $stone;
-                    $product_stones->amount = $request->stone_amount[$key];
-                    $product_stones->weight = $request->stone_weight[$key];
-                    if($request->stone_flow[$key] == true){
-                        $model_stones->flow = 'yes';
-                    }else{
-                        $model_stones->flow = 'no';
+            if($request->stones){
+                foreach($request->stones as $key => $stone){
+                    if($stone){
+                        $product_stones = new Product_stones();
+                        $product_stones->product = $product->id;
+                        $product_stones->model = $model->id;
+                        $product_stones->stone = $stone;
+                        $product_stones->amount = $request->stone_amount[$key];
+                        $product_stones->weight = $request->stone_weight[$key];
+                        if($request->stone_flow[$key] == true){
+                            $model_stones->flow = 'yes';
+                        }else{
+                            $model_stones->flow = 'no';
+                        }
+                        $product_stones->save();
                     }
-                    $product_stones->save();
                 }
             }
 
-
-            //To be un-commented when FE is ready!!!
-            // foreach($request->options as $key => $option){
-            //     $option = new Model_stones();
-            //     $option->model = $model->id;
-            //     $option->material = $request->material[$key];
-            //     $option->retail_price = $request->retail_price[$key];
-            //     $option->wholesale_price = $request->wholesale_price[$key];
-            //     $model_stones->save();
-            // }
+            foreach($file_data as $img){
+                $file_name = 'productimage_'.uniqid().time().'.png';
+                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                file_put_contents(public_path('uploads/products/').$file_name, $data);
+    
+                $photo = new Gallery();
+                $photo->photo = $file_name;
+                $photo->row_id = $product->id;
+                $photo->table = 'products';
+    
+                $photo->save();
+            }
         }
 
         return Response::json(array('success' => View::make('admin/models/table',array('model'=>$model))->render()));
@@ -286,6 +298,20 @@ class ModelsController extends Controller
         $jewels = Jewels::all();
         $prices = Prices::where('type', 'sell')->get();
         $stones = Stones::all();
+
+        $validator = Validator::make( $request->all(), [
+            'jewel' => 'required',
+            'stone_amount.*' => 'numeric|between:1,100',
+            'stone_weight.*' => 'numeric|between:1,100',
+            'weight' => 'required|numeric|between:0.1,10000',
+            'size'  => 'required|numeric|between:0.1,10000',
+            'workmanship' => 'required|numeric|between:0.1,500000',
+            'price' => 'required|numeric|between:0.1,500000'
+        ]);
+
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
         
         $model->name = $request->name;
         $model->jewel = $request->jewel;
