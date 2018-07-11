@@ -37,7 +37,10 @@ class Products extends Model
 
     protected $table = 'products';
 
-    public $incrementing = false;
+    public function images()
+    {
+        return $this->hasMany('App\Gallery');
+    }
 
     public function chainedSelects($model){
         $model = Models::find($model);

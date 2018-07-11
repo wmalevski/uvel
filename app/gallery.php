@@ -15,4 +15,19 @@ class Gallery extends Model
     ];
 
     protected $table = 'galleries';
+
+    public function product()
+    {
+        return $this->hasOne('App\Product', 'product_id', 'product_id');
+    }
+
+    public function model()
+    {
+        return $this->hasOne('App\Models', 'model_id');
+    }
+
+    public function stone()
+    {
+        return $this->hasOne('App\Stones', 'stone_id');
+    }
 }
