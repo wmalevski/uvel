@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Repair_types;
+use App\Repair_type;
 use Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -17,7 +17,7 @@ class RepairTypesController extends Controller
      */
     public function index()
     {
-        $repairTypes = Repair_types::all();
+        $repairTypes = Repair_type::all();
         
         return \View::make('admin/repair_types/index', array('repairTypes' => $repairTypes));
     }
@@ -49,17 +49,17 @@ class RepairTypesController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $repairType = Repair_types::create($request->all());
+        $repairType = RepairType::create($request->all());
         return Response::json(array('success' => View::make('admin/repair_types/table',array('repairType'=>$repairType))->render()));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Repair_types  $repairTypes
+     * @param  \App\Repair_type  $repairTypes
      * @return \Illuminate\Http\Response
      */
-    public function show(Repair_types $repairTypes)
+    public function show(RepairType $repairTypes)
     {
         //
     }
@@ -67,12 +67,12 @@ class RepairTypesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Repair_types  $repairTypes
+     * @param  \App\Repair_type  $repairTypes
      * @return \Illuminate\Http\Response
      */
-    public function edit(Repair_types $repairTypes, $type)
+    public function edit(RepairType $repairType)
     {
-        $type = Repair_types::find($type);
+        $type = Repair_type::find($repairType);
 
         return \View::make('admin/repair_types/edit', array('repair' => $type));
     }
@@ -81,12 +81,12 @@ class RepairTypesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Repair_types  $repairTypes
+     * @param  \App\RepairType  $repairTypes
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Repair_types $repairTypes, $type)
+    public function update(Request $request, RepairType $repairType)
     {
-        $type = Repair_types::find($type);
+        $type = RepairType::find($repairType);
         $type->name = $request->name;
         $type->price = $request->price;
 
@@ -101,9 +101,9 @@ class RepairTypesController extends Controller
      * @param  \App\RepairTypes  $repairTypes
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Repair_types $repairTypes, $type)
+    public function destroy(RepairType $repairType)
     {
-        $type = Repair_types::find($type);
+        $type = Repair_type::find($repairType);
         
         if($type){
             $type->delete();

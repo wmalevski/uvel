@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Response;
 use Auth;
 use Cart;
-use App\Repairs;
+use App\Repair;
 use App\Products;
 
 class PaymentsController extends Controller
@@ -75,7 +75,7 @@ class PaymentsController extends Controller
             Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
             {
                 if($item['attributes']->type == 'repair'){
-                    $repair = Repairs::where('barcode', $item->id)->first();
+                    $repair = Repair::where('barcode', $item->id)->first();
 
                     if($repair){
                         $repair->status = 'returned';

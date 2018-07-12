@@ -3,7 +3,7 @@
     <td>{{ $repair->code }}</td>
     <td>{{ $repair->customer_name }}</td> 
     <td>{{ $repair->customer_phone }}</td> 
-    <td>{{ App\Repair_types::withTrashed()->find($repair->type)->name }}</td> 
+    <td>{{ App\RepairType::withTrashed()->find($repair->type)->name }}</td> 
     <td>{{ $repair->created_at }}</td>
     <td>@if($repair->status == 'repairing') <span class="badge bgc-deep-purple-50 c-deep-purple-700 p-10 lh-0 tt-c badge-pill">Приет</span> @elseif($repair->status == 'done') <span class="badge bgc-orange-50 c-orange-700 p-10 lh-0 tt-c badge-pill">Готов</span> @else <span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">Върнат</span>  @endif</td> 
 

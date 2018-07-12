@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Sellings;
 use Illuminate\Http\Request;
-use App\Repair_types;
+use App\RepairType;
 use Cart;
 use App\Products;
 use App\Products_others;
-use App\Repairs;
+use App\Repair;
 use Auth;
 use App\Currency;
 use Illuminate\Support\Facades\Validator;
@@ -26,7 +26,7 @@ class SellingsController extends Controller
      */
     public function index()
     {
-        $repairTypes = Repair_types::all();
+        $repairTypes = RepairType::all();
         $discounts = Discount_codes::all();
         $currencies = Currency::all();
         $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();
@@ -135,7 +135,7 @@ class SellingsController extends Controller
 
         if($request->amount_check == false){
             if($request->type_repair == true){
-                $item = Repairs::where(
+                $item = Repair::where(
                     [
                         ['barcode', '=', $request->barcode],
                         ['status', '=', 'done']
