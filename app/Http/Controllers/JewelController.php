@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jewels;
 use App\Stones;
-use App\Materials;
+use App\Material;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Response;
@@ -14,7 +14,7 @@ use File;
 use App\Models;
 use App\Products;
 
-class JewelsController extends Controller
+class JewelController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,8 +23,8 @@ class JewelsController extends Controller
      */
     public function index()
     {
-        $jewels = Jewels::all();
-        $materials = Materials::all();
+        $jewels = Jewel::all();
+        $materials = Material::all();
 
         return view('admin.jewels.index', compact('jewels', 'materials'));
     }
@@ -56,8 +56,8 @@ class JewelsController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $jewel = Jewels::create($request->all());
-        $material = Materials::find($jewel->material);
+        $jewel = Jewel::create($request->all());
+        $material = Material::find($jewel->material);
 
         return Response::json(array('success' => View::make('admin/jewels/table',array('jewel'=>$jewel, 'material'=>$material))->render()));
     }
@@ -65,10 +65,10 @@ class JewelsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Jewels  $jewels
+     * @param  \App\Jewel  $jewels
      * @return \Illuminate\Http\Response
      */
-    public function show(Jewels $jewels)
+    public function show(Jewel $jewels)
     {
         //
     }
@@ -76,13 +76,13 @@ class JewelsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Jewels  $jewels
+     * @param  \App\Jewel  $jewels
      * @return \Illuminate\Http\Response
      */
-    public function edit(Jewels $jewels, $jewel)
+    public function edit(Jewel $jewels, $jewel)
     {
-        $jewel = Jewels::find($jewel);
-        $materials = Materials::all();
+        $jewel = Jewel::find($jewel);
+        $materials = Material::all();
         
         //return Response::json(array('success' => View::make('admin/jewels/edit',array('jewel'=>$jewel, 'materials'=>$materials))->render()));
         return \View::make('admin/jewels/edit',array('jewel'=>$jewel, 'materials'=>$materials));
@@ -92,13 +92,13 @@ class JewelsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Jewels  $jewels
+     * @param  \App\Jewel  $jewels
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Jewels $jewels, $jewel)
+    public function update(Request $request, Jewel $jewels, $jewel)
     {
-        $jewel = Jewels::find($jewel);
-        $materials = Materials::all();
+        $jewel = Jewel::find($jewel);
+        $materials = Material::all();
         
         $jewel->name = $request->name;
         $jewel->material = $request->material;
@@ -111,12 +111,12 @@ class JewelsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Jewels  $jewels
+     * @param  \App\Jewel  $jewels
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Jewels $jewels, $jewel)
+    public function destroy(Jewel $jewels, $jewel)
     {
-        $jewel = Jewels::find($jewel);
+        $jewel = Jewel::find($jewel);
         
         if($jewel){
             $usingModel = Products::where('jewel_type', $jewel->id)->count();

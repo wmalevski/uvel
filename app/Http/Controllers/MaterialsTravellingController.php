@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Materials;
+use App\Material;
 use App\Materials_travelling;
 use App\Materials_quantity;
 use App\History;
@@ -35,7 +35,7 @@ class MaterialsTravellingController extends Controller
         //$materials = Materials_quantity::all();
         //$stores = Stores::where('id', '!=', Auth::user()->store)->get();
         $stores = Stores::all();
-        $materials_types = Materials::all();
+        $materials_types = Material::all();
         $travelling = Materials_travelling::all();
   
         return \View::make('admin/materials_travelling/index', array('materials' => $materials, 'types' => $materials_types, 'stores' => $stores, 'travelling' => $travelling));
@@ -73,7 +73,7 @@ class MaterialsTravellingController extends Controller
 
         if($check){
             if($request->quantity <= $check->quantity && $check->quantity != 0){
-                $price = Materials::find($check->material);
+                $price = Material::find($check->material);
 
                 if($check->store == $request->storeTo){
                     return Response::json(['errors' => array('quantity' => ['Не може да изпращате материал към същият магазин'])], 401);

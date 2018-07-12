@@ -28,7 +28,7 @@ aria-hidden="true">
                                 <option value="0">Избери</option>
                         
                                 @foreach($jewels as $jewel)
-                                    <option value="{{ $jewel->id }}" data-pricebuy="@if(App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" data-material="{{$jewel->material}}">{{ $jewel->name }} - {{ App\Materials::withTrashed()->find($jewel->material)->name }}, {{ App\Materials::withTrashed()->find($jewel->material)->code }}, {{ App\Materials::withTrashed()->find($jewel->material)->color }}</option>
+                                    <option value="{{ $jewel->id }}" data-pricebuy="@if(App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" data-material="{{$jewel->material}}">{{ $jewel->name }} - {{ App\Material::withTrashed()->find($jewel->material)->name }}, {{ App\Material::withTrashed()->find($jewel->material)->code }}, {{ App\Material::withTrashed()->find($jewel->material)->color }}</option>
                                 @endforeach
                             </select>
                         </div>

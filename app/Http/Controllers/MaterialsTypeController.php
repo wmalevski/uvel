@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Materials_type;
-use App\Jewels;
+use App\Jewel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;

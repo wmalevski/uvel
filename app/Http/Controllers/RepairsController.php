@@ -6,7 +6,7 @@ use Response;
 use App\Prices;
 use App\Repairs;
 use App\Repair_types;
-use App\Materials;
+use App\Material;
 use App\History;
 use Auth;
 use Cart;
@@ -27,7 +27,7 @@ class RepairsController extends Controller
     {
         $repairTypes = Repair_types::all();
         $repairs = Repairs::all();
-        $materials = Materials::all();
+        $materials = Material::all();
         
         return \View::make('admin/repairs/index', array('repairTypes' => $repairTypes, 'repairs' => $repairs, 'materials' => $materials));
     }
@@ -130,7 +130,7 @@ class RepairsController extends Controller
     {
         $repair = Repairs::where('barcode', $repair)->first();
         $repairTypes = Repair_types::all();
-        $materials = Materials::all();
+        $materials = Material::all();
 
         return \View::make('admin/repairs/edit', array('repair' => $repair, 'repairTypes' => $repairTypes, 'materials' => $materials));
     }
