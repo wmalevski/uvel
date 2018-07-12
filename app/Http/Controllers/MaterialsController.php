@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Materials;
+use App\Material;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use App\Jewel;
 use App\Materials_type;
 
-class MaterialsController extends Controller
+class MaterialController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,7 +22,7 @@ class MaterialsController extends Controller
     public function index()
     {
         
-        $materials = Materials::all();
+        $materials = Material::all();
         $parents = Materials_type::all();
         
         return \View::make('admin/materials/index', array('materials' => $materials, 'parents' => $parents));
@@ -57,7 +57,7 @@ class MaterialsController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $material = Materials::create($request->all());
+        $material = Material::create($request->all());
 
         return Response::json(array('success' => View::make('admin/materials/table',array('material'=>$material))->render()));
     }
@@ -65,10 +65,10 @@ class MaterialsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Materials  $materials
+     * @param  \App\Material  $materials
      * @return \Illuminate\Http\Response
      */
-    public function show(Materials $materials)
+    public function show(Material $materials)
     {
         //
     }
@@ -76,12 +76,12 @@ class MaterialsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Materials  $materials
+     * @param  \App\Material  $materials
      * @return \Illuminate\Http\Response
      */
-    public function edit(Materials $materials, $material)
+    public function edit(Material $materials, $material)
     {
-        $material = Materials::find($material);
+        $material = Material::find($material);
         $parents = Materials_type::all();
 
         //return Response::json(array('success' => View::make('admin/materials/edit',array('material'=>$material))->render()));
@@ -92,12 +92,12 @@ class MaterialsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Materials  $materials
+     * @param  \App\Material  $materials
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Materials $materials, $material)
+    public function update(Request $request, Material $material)
     {
-        $material = Materials::find($material);
+        $material = Material::find($material);
         
         $material->code = $request->code;
         $material->color = $request->color;
@@ -112,12 +112,12 @@ class MaterialsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Materials  $materials
+     * @param  \App\Material  $materials
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Materials $materials, $material)
+    public function destroy(Material $materials, $material)
     {
-        $material = Materials::find($material);
+        $material = Material::find($material);
         
         if($material){
             $using = Jewel::where('material', $material->id)->count();
