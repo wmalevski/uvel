@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Payments;
+use App\Payment;
 use App\Sellings;
 use App\History;
 use Illuminate\Http\Request;
-use Faker\Provider\me_ME\Payment;
 use Illuminate\Support\Facades\Validator;
 use Response;
 use Auth;
@@ -14,7 +13,7 @@ use Cart;
 use App\Repair;
 use App\Products;
 
-class PaymentsController extends Controller
+class PaymentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -59,7 +58,7 @@ class PaymentsController extends Controller
                 return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
             }
 
-            $payment = new Payments();
+            $payment = new Payment();
             $payment->currency = $request->modal_certificate;
             $payment->method = $request->pay_method;
             $payment->reciept = $request->modal_reciept;
@@ -118,10 +117,10 @@ class PaymentsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Payments  $payments
+     * @param  \App\Payment  $payments
      * @return \Illuminate\Http\Response
      */
-    public function show(Payments $payments)
+    public function show(Payments $payment)
     {
         //
     }
@@ -129,10 +128,10 @@ class PaymentsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Payments  $payments
+     * @param  \App\Payment  $payments
      * @return \Illuminate\Http\Response
      */
-    public function edit(Payments $payments)
+    public function edit(Payment $payment)
     {
         //
     }
@@ -141,10 +140,10 @@ class PaymentsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Payments  $payments
+     * @param  \App\Payment  $payments
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Payments $payments)
+    public function update(Request $request, Payment $payment)
     {
         //
     }
@@ -152,10 +151,10 @@ class PaymentsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Payments  $payments
+     * @param  \App\Payment  $payments
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Payments $payments)
+    public function destroy(Payment $payment)
     {
         //
     }

@@ -71,7 +71,7 @@ class MaterialTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Materials_type  $materials_type
+     * @param  \App\MaterialType  $materials_type
      * @return \Illuminate\Http\Response
      */
     public function edit(MaterialType $materialType)
