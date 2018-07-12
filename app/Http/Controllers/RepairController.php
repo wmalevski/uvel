@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Response;
 use App\Price;
 use App\Repair;
-use App\Repair_types;
+use App\RepairType;
 use App\Material;
 use App\History;
 use Auth;
@@ -25,7 +25,7 @@ class RepairController extends Controller
      */
     public function index()
     {
-        $repairTypes = Repair_types::all();
+        $repairTypes = RepairType::all();
         $repairs = Repair::all();
         $materials = Material::all();
         
@@ -129,7 +129,7 @@ class RepairController extends Controller
     public function edit(Repair $repair)
     {
         $repair = Repair::where('barcode', $repair)->first();
-        $repairTypes = Repair_types::all();
+        $repairTypes = RepairType::all();
         $materials = Material::all();
 
         return \View::make('admin/repairs/edit', array('repair' => $repair, 'repairTypes' => $repairTypes, 'materials' => $materials));
@@ -139,7 +139,7 @@ class RepairController extends Controller
     public function return(Repair $repair)
     {
         $repair = Repair::where('barcode', $repair)->first();
-        $repairTypes = Repair_types::all();
+        $repairTypes = RepairType::all();
 
         if($repair){
             if($repair->status == 'done'){

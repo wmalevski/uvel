@@ -22,9 +22,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function() {
     Route::get('/', 'DashboardController@index')->name('admin');
 
-    Route::get('/repairtypes', 'RepairTypesController@index')->name('repairtypes');
-    Route::post('/repairtypes', 'RepairTypesController@store');
-    Route::get('/repairtypes/{type}', 'RepairTypesController@edit');
+    Route::get('/repairtypes', 'RepairTypeController@index')->name('repairtypes');
+    Route::post('/repairtypes', 'RepairTypeController@store');
+    Route::get('/repairtypes/{type}', 'RepairTypeController@edit');
 
     Route::get('/repairs', 'RepairController@index')->name('repairs');
     Route::post('/repairs', 'RepairController@store');
@@ -161,7 +161,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/materialstypes', 'MaterialsTypeController@store');
     Route::post('/materialstypes/delete/{material}', 'MaterialsTypeController@destroy');
 
-    Route::post('/repairtypes', 'RepairTypesController@store');
+    Route::post('/repairtypes', 'RepairTypeController@store');
 
     Route::post('/stones', 'StonesController@store');
     Route::post('/stones/delete/{stone}', 'StonesController@destroy');
@@ -230,8 +230,8 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::get('/repairs/certificate/{id}', 'RepairController@certificate');
     Route::post('/repairs/delete/{repair}', 'RepairController@destroy');
 
-    Route::put('/repairtypes/{type}', 'RepairTypesController@update');
-    Route::post('/repairtypes/delete/{type}', 'RepairTypesController@destroy');
+    Route::put('/repairtypes/{type}', 'RepairTypeController@update');
+    Route::post('/repairtypes/delete/{type}', 'RepairTypeController@destroy');
 
     Route::put('/repairs/{repair}', 'RepairController@update');
 
