@@ -176,7 +176,7 @@ class ProductController extends Controller
             foreach($request->stones as $key => $stone){
                 if($stone) {
                     $checkStone = Stones::find($stone);
-                    if($request->stone_amount[$key] < $checkStone->amount){
+                    if($checkStone->amount < $request->stone_amount[$key]){
                         return Response::json(['errors' => ['stone_weight' => ['Няма достатъчна наличност от този камък.']]], 401);
                     }
             
