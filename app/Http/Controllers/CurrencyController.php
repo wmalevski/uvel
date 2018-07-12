@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Currencies;
+use App\Currency;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
 use Response;
 
-class CurrenciesController extends Controller
+class CurrencyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -47,7 +47,7 @@ class CurrenciesController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $currency = Currencies::create($request->all());
+        $currency = Currency::create($request->all());
 
         return Response::json(array('success' => View::make('admin/settings/currencytable',array('currency'=>$currency))->render()));
     }
@@ -55,10 +55,10 @@ class CurrenciesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Currencies  $currencies
+     * @param  \App\Currency  $currencies
      * @return \Illuminate\Http\Response
      */
-    public function show(Currencies $currencies)
+    public function show(Currency $currency)
     {
         //
     }
@@ -66,12 +66,12 @@ class CurrenciesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Currencies  $currencies
+     * @param  \App\Currency  $currencies
      * @return \Illuminate\Http\Response
      */
-    public function edit(Currencies $currencies, $currency)
+    public function edit(Currency $currency)
     {
-        $currency = Currencies::find($currency);
+        $currency = Currency::find($currency);
 
         return \View::make('admin/settings/editCurrency', array('currency' => $currency));
     }
@@ -80,12 +80,12 @@ class CurrenciesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Currencies  $currencies
+     * @param  \App\Currency  $currencies
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Currencies $currencies, $currency)
+    public function update(Request $request, Currency $currency)
     {
-        $currency = Currencies::find($currency);
+        $currency = Currency::find($currency);
         
         if($currency){
             $validator = Validator::make( $request->all(), [
@@ -109,12 +109,12 @@ class CurrenciesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Currencies  $currencies
+     * @param  \App\Currency  $currencies
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Currencies $currencies, $currency)
+    public function destroy(Currency $currency)
     {
-        $currency = Currencies::find($currency);
+        $currency = Currency::find($currency);
         
         if($currency){
             $currency->delete();
