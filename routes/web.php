@@ -26,9 +26,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::post('/repairtypes', 'RepairTypesController@store');
     Route::get('/repairtypes/{type}', 'RepairTypesController@edit');
 
-    Route::get('/repairs', 'RepairsController@index')->name('repairs');
-    Route::post('/repairs', 'RepairsController@store');
-    Route::get('/repairs/{repair}', 'RepairsController@edit');
+    Route::get('/repairs', 'RepairController@index')->name('repairs');
+    Route::post('/repairs', 'RepairController@store');
+    Route::get('/repairs/{repair}', 'RepairController@edit');
 
     Route::get('/selling', 'SellingsController@index')->name('selling');
     Route::post('/selling', 'SellingsController@store');
@@ -142,10 +142,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/stones/contours/{contour}', 'StoneContoursController@edit');
 
-    Route::get('/repairs/certificate/{id}', 'RepairsController@certificate');
+    Route::get('/repairs/certificate/{id}', 'RepairController@certificate');
 
-    Route::get('/repairs/return/{repair}', 'RepairsController@return');
-    Route::get('/repairs/edit/{repair}', 'RepairsController@edit');
+    Route::get('/repairs/return/{repair}', 'RepairController@return');
+    Route::get('/repairs/edit/{repair}', 'RepairController@edit');
 });
 
 Route::group(['prefix' => 'ajax'], function() {
@@ -218,22 +218,22 @@ Route::group(['prefix' => 'ajax'], function() {
 
     //Route::put('/users/substitutions/{user}', 'UsersubstitutionsController@store');
 
-    Route::post('/repairs', 'RepairsController@store');
+    Route::post('/repairs', 'RepairController@store');
 
-    Route::get('/repairs/return/{repair}', 'RepairsController@return');
-    Route::put('/repairs/return/{repair}', 'RepairsController@returnRepair');
+    Route::get('/repairs/return/{repair}', 'RepairController@return');
+    Route::put('/repairs/return/{repair}', 'RepairController@returnRepair');
 
-    Route::get('/repairs/edit/{repair}', 'RepairsController@edit');
-    Route::put('/repairs/edit/{repair}', 'RepairsController@update');
+    Route::get('/repairs/edit/{repair}', 'RepairController@edit');
+    Route::put('/repairs/edit/{repair}', 'RepairController@update');
 
-    Route::get('/repairs/{barcode}', 'RepairsController@scan');
-    Route::get('/repairs/certificate/{id}', 'RepairsController@certificate');
-    Route::post('/repairs/delete/{repair}', 'RepairsController@destroy');
+    Route::get('/repairs/{barcode}', 'RepairController@scan');
+    Route::get('/repairs/certificate/{id}', 'RepairController@certificate');
+    Route::post('/repairs/delete/{repair}', 'RepairController@destroy');
 
     Route::put('/repairtypes/{type}', 'RepairTypesController@update');
     Route::post('/repairtypes/delete/{type}', 'RepairTypesController@destroy');
 
-    Route::put('/repairs/{repair}', 'RepairsController@update');
+    Route::put('/repairs/{repair}', 'RepairController@update');
 
     Route::post('/discounts', 'DiscountCodesController@store');
     Route::put('/discounts/{discount}', 'DiscountCodesController@update');

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Response;
 use App\Prices;
-use App\Repairs;
+use App\Repair;
 use App\Repair_types;
 use App\Material;
 use App\History;
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
 
-class RepairsController extends Controller
+class RepairController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +26,7 @@ class RepairsController extends Controller
     public function index()
     {
         $repairTypes = Repair_types::all();
-        $repairs = Repairs::all();
+        $repairs = Repair::all();
         $materials = Material::all();
         
         return \View::make('admin/repairs/index', array('repairTypes' => $repairTypes, 'repairs' => $repairs, 'materials' => $materials));
@@ -63,7 +63,7 @@ class RepairsController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $repair = Repairs::create([
+        $repair = Repair::create([
             'customer_name' => $request->customer_name,
             'customer_phone' => $request->customer_phone,
             'type' => $request->type,
@@ -99,23 +99,23 @@ class RepairsController extends Controller
     }
 
     public function scan($barcode){
-        $repair = Repairs::where('barcode', $barcode)->get();
+        $repair = Repair::where('barcode', $barcode)->get();
 
         return Response::json(array('repair' => $repair));
     }
 
     public function certificate($id){
-        $repair = Repairs::find($id);
+        $repair = Repair::find($id);
         return Response::json(array('success' => 'yes', 'html' => View::make('admin/repairs/certificate',array('repair'=>$repair))->render()));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Repairs  $repairs
+     * @param  \App\Repair  $repairs
      * @return \Illuminate\Http\Response
      */
-    public function show(Repairs $repairs)
+    public function show(Repair $repair)
     {
         //
     }
@@ -123,12 +123,12 @@ class RepairsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Repairs  $repairs
+     * @param  \App\Repair  $repairs
      * @return \Illuminate\Http\Response
      */
-    public function edit(Repairs $repairs, $repair)
+    public function edit(Repair $repair)
     {
-        $repair = Repairs::where('barcode', $repair)->first();
+        $repair = Repair::where('barcode', $repair)->first();
         $repairTypes = Repair_types::all();
         $materials = Material::all();
 
@@ -136,9 +136,9 @@ class RepairsController extends Controller
     }
 
 
-    public function return(Repairs $repairs, $repair)
+    public function return(Repair $repair)
     {
-        $repair = Repairs::where('barcode', $repair)->first();
+        $repair = Repair::where('barcode', $repair)->first();
         $repairTypes = Repair_types::all();
 
         if($repair){
@@ -200,9 +200,9 @@ class RepairsController extends Controller
         
     }
 
-    public function returnRepair(Request $request, Repairs $repairs, $repair)
+    public function returnRepair(Request $request, Repair $repair)
     {
-        $repair = Repairs::where('barcode', $repair)->first();
+        $repair = Repair::where('barcode', $repair)->first();
         
         if($repair){
             $repair->status = 'returned';
@@ -231,12 +231,12 @@ class RepairsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Repairs  $repairs
+     * @param  \App\Repair  $repairs
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Repairs $repairs, $repair)
+    public function update(Request $request, Repair $repair)
     {
-        $repair = Repairs::where('barcode', $repair)->first();
+        $repair = Repair::where('barcode', $repair)->first();
         
         $repair->customer_name = $request->customer_name;
         $repair->customer_phone = $request->customer_phone;
@@ -288,12 +288,12 @@ class RepairsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Repairs  $repairs
+     * @param  \App\Repair  $repairs
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Repairs $repairs, $repair)
+    public function destroy(Repair $repair)
     {
-        $repair = Repairs::find($repair);
+        $repair = Repair::find($repair);
 
         if($repair){
             $repair->delete();
