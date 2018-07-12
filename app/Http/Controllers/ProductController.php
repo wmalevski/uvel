@@ -189,6 +189,11 @@ class ProductController extends Controller
                     $product_stones->stone = $stone;
                     $product_stones->amount = $request->stone_amount[$key];
                     $product_stones->weight = $request->stone_weight[$key];
+                    if($request->stone_flow[$key] == true){
+                        $product_stones->flow = 'yes';
+                    }else{
+                        $product_stones->flow = 'no';
+                    }
                     $product_stones->save();
                 }
             }
@@ -359,6 +364,12 @@ class ProductController extends Controller
                         $product_stones->model = $request->model;
                         $product_stones->stone = $stone;
                         $product_stones->amount = $request->stone_amount[$key];
+                        $product_stones->weight = $request->stone_weight[$key];
+                        if($request->stone_flow[$key] == true){
+                            $product_stones->flow = 'yes';
+                        }else{
+                            $product_stones->flow = 'no';
+                        }
                         $product_stones->save();
                     }
                 }
