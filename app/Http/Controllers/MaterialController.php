@@ -68,7 +68,7 @@ class MaterialController extends Controller
      * @param  \App\Material  $materials
      * @return \Illuminate\Http\Response
      */
-    public function show(Material $materials)
+    public function show(Material $material)
     {
         //
     }
@@ -79,7 +79,7 @@ class MaterialController extends Controller
      * @param  \App\Material  $materials
      * @return \Illuminate\Http\Response
      */
-    public function edit(Material $materials, $material)
+    public function edit(Material $material)
     {
         $material = Material::find($material);
         $parents = Materials_type::all();
@@ -115,7 +115,7 @@ class MaterialController extends Controller
      * @param  \App\Material  $materials
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Material $materials, $material)
+    public function destroy(Material $material)
     {
         $material = Material::find($material);
         
