@@ -122,9 +122,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::post('/settings/stock', 'SettingsController@updatePrices');
 
     Route::get('/settings/currencies', 'SettingsController@currencies')->name('currencies');
-    Route::post('/settings/currencies', 'CurrenciesController@store');
+    Route::post('/settings/currencies', 'CurrencyController@store');
 
-    Route::get('/settings/currencies/{currency}', 'CurrenciesController@edit');
+    Route::get('/settings/currencies/{currency}', 'CurrencyController@edit');
 
     Route::get('/discounts', 'DiscountCodesController@index')->name('discounts');
 
@@ -263,9 +263,9 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/sell/payment', 'PaymentsController@store');
 
-    Route::post('/settings/currencies', 'CurrenciesController@store');
-    Route::post('/settings/currencies/delete/{currency}', 'CurrenciesController@destroy');
-    Route::put('/settings/currencies/{currency}', 'CurrenciesController@update');
+    Route::post('/settings/currencies', 'CurrencyController@store');
+    Route::post('/settings/currencies/delete/{currency}', 'CurrencyController@destroy');
+    Route::put('/settings/currencies/{currency}', 'CurrencyController@update');
 
     Route::get('/getPrices/{material}', 'PricesController@getByMaterial');
 

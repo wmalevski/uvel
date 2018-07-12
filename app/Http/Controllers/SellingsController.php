@@ -10,7 +10,7 @@ use App\Products;
 use App\Products_others;
 use App\Repairs;
 use Auth;
-use App\Currencies;
+use App\Currency;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\JsonResponse;
@@ -28,7 +28,7 @@ class SellingsController extends Controller
     {
         $repairTypes = Repair_types::all();
         $discounts = Discount_codes::all();
-        $currencies = Currencies::all();
+        $currencies = Currency::all();
         $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();
         $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
         $condition = Cart::getCondition('Discount');

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use App\Materials;
-use App\Currencies;
+use App\Currency;
 use DB;
 
 class SettingsController extends Controller
@@ -49,7 +49,7 @@ class SettingsController extends Controller
 
     public function currencies()
     {
-        $currencies = Currencies::all();
+        $currencies = Currency::all();
         return \View::make('admin/settings/currencies', array('currencies' => $currencies));
     }
 }
