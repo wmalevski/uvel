@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Material;
-use App\Materials_travelling;
+use App\MaterialTravelling;
 use App\MaterialQuantity;
 use App\History;
 use App\Stores;
@@ -17,7 +17,7 @@ use Response;
 use Auth;
 use Bouncer;
 
-class MaterialsTravellingController extends Controller
+class MaterialTravellingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -36,7 +36,7 @@ class MaterialsTravellingController extends Controller
         //$stores = Stores::where('id', '!=', Auth::user()->store)->get();
         $stores = Stores::all();
         $materials_types = Material::all();
-        $travelling = Materials_travelling::all();
+        $travelling = MaterialTravelling::all();
   
         return \View::make('admin/materials_travelling/index', array('materials' => $materials, 'types' => $materials_types, 'stores' => $stores, 'travelling' => $travelling));
     }
@@ -79,7 +79,7 @@ class MaterialsTravellingController extends Controller
                     return Response::json(['errors' => array('quantity' => ['Не може да изпращате материал към същият магазин'])], 401);
                 }
 
-                $material = new Materials_travelling();
+                $material = new MaterialTravelling();
                 $material->type = $request->type;
                 $material->quantity = $request->quantity;
                 $material->price = ($request->quantity)*($price->stock_price);
@@ -116,7 +116,7 @@ class MaterialsTravellingController extends Controller
 
     public function accept(Request $request, $material)
     {
-        $material = Materials_travelling::findOrFail($material);
+        $material = MaterialTravelling::findOrFail($material);
 
         if($material->status == 0){
             $check = MaterialQuantity::where(
@@ -150,10 +150,10 @@ class MaterialsTravellingController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Materials_travelling  $materials_travelling
+     * @param  \App\MaterialTravelling  $materialTravelling
      * @return \Illuminate\Http\Response
      */
-    public function show(Materials_travelling $materials_travelling)
+    public function show(MaterialTravelling $materialTravelling)
     {
         //
     }
@@ -161,10 +161,10 @@ class MaterialsTravellingController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Materials_travelling  $materials_travelling
+     * @param  \App\MaterialTravelling  $materialTravelling
      * @return \Illuminate\Http\Response
      */
-    public function edit(Materials_travelling $materials_travelling)
+    public function edit(MaterialTravelling $materialTravelling)
     {
         //
     }
@@ -173,10 +173,10 @@ class MaterialsTravellingController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Materials_travelling  $materials_travelling
+     * @param  \App\MaterialTravelling  $materialTravelling
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Materials_travelling $materials_travelling)
+    public function update(Request $request, MaterialTravelling $materialTravelling)
     {
         //
     }
@@ -184,10 +184,10 @@ class MaterialsTravellingController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Materials_travelling  $materials_travelling
+     * @param  \App\MaterialTravelling  $materialTravelling
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Materials_travelling $materials_travelling)
+    public function destroy(MaterialTravelling $materialTravelling)
     {
         //
     }

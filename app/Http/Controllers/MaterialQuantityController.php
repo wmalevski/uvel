@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Response;
 use Illuminate\Support\Facades\View;
-use App\Materials_travelling;
+use App\MaterialTravelling;
 
 class MaterialQuantityController extends Controller
 {
@@ -27,7 +27,7 @@ class MaterialQuantityController extends Controller
         $materials = MaterialQuantity::all();
         $stores = Stores::all();
         $materials_types = Material::all();
-        $travelling = Materials_travelling::where('storeFrom', Auth::user()->store)->orWhere('storeTo', Auth::user()->store)->get();
+        $travelling = MaterialTravelling::where('storeFrom', Auth::user()->store)->orWhere('storeTo', Auth::user()->store)->get();
         
         return \View::make('admin/materials_quantity/index', array('materials' => $materials, 'types' => $materials_types, 'stores' => $stores, 'travelling' => $travelling));
     }

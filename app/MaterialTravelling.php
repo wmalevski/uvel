@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Materials_travelling extends Model
+class MaterialTravelling extends Model
 {
     protected $fillable = [
         'type',
