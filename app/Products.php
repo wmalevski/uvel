@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Jewels;
+use App\Jewel;
 use App\Prices;
 use App\Models;
 use Illuminate\Database\Eloquent\Model;
@@ -41,19 +41,19 @@ class Products extends Model
     public function chainedSelects($model){
         $model = Models::find($model);
         if($model){
-            $model_material = Jewels::find($model->material);
-            $jewels = Jewels::where('id', $model->jewel)->get()
+            $model_material = Jewel::find($model->material);
+            $jewels = Jewel::where('id', $model->jewel)->get()
              ;
             $prices = Prices::where('material', $model->jewel)->get();
 
             $retail_prices = Prices::where([
                 'type' => 'sell',
-                'material' => Jewels::withTrashed()->find($model->jewel)->material
+                'material' => Jewel::withTrashed()->find($model->jewel)->material
             ])->get();
 
             $wholesale_prices = Prices::where([
                 'type' => 'sell',
-                'material' => Jewels::withTrashed()->find($model->jewel)->material
+                'material' => Jewel::withTrashed()->find($model->jewel)->material
             ])->get();
 
             $model_stones = Model_stones::where('model', $model->id)->get();
@@ -79,7 +79,7 @@ class Products extends Model
             $prices_retail = array();
             
             foreach($retail_prices as $price){
-                if($price->material == Jewels::withTrashed()->find($model->jewel)->material){
+                if($price->material == Jewel::withTrashed()->find($model->jewel)->material){
                     $selected = true;
                 }else{
                     $selected = false;
@@ -96,7 +96,7 @@ class Products extends Model
             $prices_wholesale = array();
             
             foreach($wholesale_prices as $price){
-                if($price->material == Jewels::withTrashed()->find($model->jewel)->material){
+                if($price->material == Jewel::withTrashed()->find($model->jewel)->material){
                     $selected = true;
                 }else{
                     $selected = false;

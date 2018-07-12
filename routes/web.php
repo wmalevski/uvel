@@ -190,9 +190,9 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/prices/delete/{price}', 'PricesController@destroy');
     Route::put('/prices/{price}', 'PricesController@update');
 
-    Route::post('/jewels', 'JewelsController@store');
-    Route::put('/jewels/{jewel}', 'JewelsController@update');
-    Route::post('/jewels/delete/{jewel}', 'JewelsController@destroy');
+    Route::post('/jewels', 'JewelController@store');
+    Route::put('/jewels/{jewel}', 'JewelController@update');
+    Route::post('/jewels/delete/{jewel}', 'JewelController@destroy');
 
     Route::post('/models', 'ModelsController@store');
     Route::put('/models/{model}', 'ModelsController@update');
