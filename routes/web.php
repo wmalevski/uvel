@@ -85,13 +85,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/mquantity/{material}', 'MaterialsQuantityController@edit');
 
-    Route::get('/prices', 'PricesController@index')->name('prices');
-    Route::post('/prices', 'PricesController@index');
+    Route::get('/prices', 'PriceController@index')->name('prices');
+    Route::post('/prices', 'PriceController@index');
 
-    Route::get('/prices/{material}', 'PricesController@show')->name('view-price');
-    Route::post('/prices/{material}', 'PricesController@store');
+    Route::get('/prices/{material}', 'PriceController@show')->name('view-price');
+    Route::post('/prices/{material}', 'PriceController@store');
 
-    Route::get('/prices/edit/{price}', 'PricesController@edit');
+    Route::get('/prices/edit/{price}', 'PriceController@edit');
 
     Route::get('/jewels', 'JewelController@index')->name('jewels');
     Route::post('/jewels', 'JewelController@store');
@@ -186,9 +186,9 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::put('/stones/styles/{style}', 'StoneStylesController@update');
     Route::put('/stones/contours/{contour}', 'StoneContoursController@update');
 
-    Route::post('/prices/{material}', 'PricesController@store');
-    Route::post('/prices/delete/{price}', 'PricesController@destroy');
-    Route::put('/prices/{price}', 'PricesController@update');
+    Route::post('/prices/{material}', 'PriceController@store');
+    Route::post('/prices/delete/{price}', 'PriceController@destroy');
+    Route::put('/prices/{price}', 'PriceController@update');
 
     Route::post('/jewels', 'JewelController@store');
     Route::put('/jewels/{jewel}', 'JewelController@update');
@@ -267,7 +267,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/settings/currencies/delete/{currency}', 'CurrencyController@destroy');
     Route::put('/settings/currencies/{currency}', 'CurrencyController@update');
 
-    Route::get('/getPrices/{material}', 'PricesController@getByMaterial');
+    Route::get('/getPrices/{material}', 'PriceController@getByMaterial');
 
     Route::post('/users/substitutions', 'UsersubstitutionsController@store');
 
