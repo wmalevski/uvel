@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Jewels;
+use App\Jewel;
 use App\Stones;
 use App\Material;
 use Illuminate\Http\Request;

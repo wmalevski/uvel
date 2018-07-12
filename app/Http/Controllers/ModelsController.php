@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models;
-use App\Jewels;
+use App\Jewel;
 use App\Prices;
 use App\Stones;
 use App\Model_stones;
@@ -29,7 +29,7 @@ class ModelsController extends Controller
     public function index()
     {
         $models = Models::all();
-        $jewels = Jewels::all();
+        $jewels = Jewel::all();
         $prices = Prices::all();
         $stones = Stones::all();
 
@@ -173,7 +173,7 @@ class ModelsController extends Controller
     public function edit(Models $models, $model)
     {
         $model = Models::find($model);
-        $jewels = Jewels::all();
+        $jewels = Jewel::all();
         $prices = Prices::where('type', 'sell')->get();
         $stones = Stones::all();
         $modelStones = Model_stones::where('model', $model->id)->get();
@@ -205,7 +205,7 @@ class ModelsController extends Controller
     {
         $model = Models::find($model);
 
-        $jewels = Jewels::all();
+        $jewels = Jewel::all();
         $prices = Prices::where('type', 'sell')->get();
         $stones = Stones::all();
         
