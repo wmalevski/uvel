@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Material;
 use App\Materials_travelling;
-use App\Materials_quantity;
+use App\MaterialQuantity;
 use App\History;
 use App\Stores;
 use Illuminate\Http\Request;
@@ -27,9 +27,9 @@ class MaterialsTravellingController extends Controller
     public function index()
     {
         if(Bouncer::is(Auth::user())->an('admin')){
-            $materials = Materials_quantity::all();
+            $materials = MaterialQuantity::all();
         }else{
-            $materials = Materials_quantity::where('store', Auth::user()->getStore());
+            $materials = MaterialQuantity::where('store', Auth::user()->getStore());
         }
         
         //$materials = Materials_quantity::all();
@@ -69,7 +69,7 @@ class MaterialsTravellingController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $check = Materials_quantity::find($request->type);
+        $check = MaterialQuantity::find($request->type);
 
         if($check){
             if($request->quantity <= $check->quantity && $check->quantity != 0){
@@ -90,7 +90,7 @@ class MaterialsTravellingController extends Controller
 
                 $material->save();
 
-                $quantity = Materials_quantity::find($request->type);
+                $quantity = MaterialQuantity::find($request->type);
 
                 if($quantity){
                     $quantity->quantity = $quantity->quantity - $request->quantity;
@@ -119,7 +119,7 @@ class MaterialsTravellingController extends Controller
         $material = Materials_travelling::findOrFail($material);
 
         if($material->status == 0){
-            $check = Materials_quantity::where(
+            $check = MaterialQuantity::where(
                 [
                     ['material', '=', $material->type],
                     ['store', '=', $material->storeTo]
@@ -130,7 +130,7 @@ class MaterialsTravellingController extends Controller
                 $check->quantity = $check->quantity + $material->quantity;
                 $check->save();
             } else{
-                $quantity = new Materials_quantity();
+                $quantity = new MaterialQuantity();
                 $quantity->material = $material->type;
                 $quantity->quantity = $material->quantity;
                 $quantity->store = $material->storeTo;

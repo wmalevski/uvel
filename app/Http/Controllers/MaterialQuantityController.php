@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use App\Materials_quantity;
+use App\MaterialQuantity;
 use App\Material;
 use App\Stores;
 use Illuminate\Http\Request;
@@ -13,7 +13,7 @@ use Response;
 use Illuminate\Support\Facades\View;
 use App\Materials_travelling;
 
-class MaterialsQuantityController extends Controller
+class MaterialQuantityController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,7 +24,7 @@ class MaterialsQuantityController extends Controller
     {
         //$materials = Materials_quantity::where('store', Auth::user()->store)->get();
         //$stores = Stores::where('id', '!=', Auth::user()->store)->get();
-        $materials = Materials_quantity::all();
+        $materials = MaterialQuantity::all();
         $stores = Stores::all();
         $materials_types = Material::all();
         $travelling = Materials_travelling::where('storeFrom', Auth::user()->store)->orWhere('storeTo', Auth::user()->store)->get();
@@ -60,7 +60,7 @@ class MaterialsQuantityController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $material = Materials_quantity::create($request->all());
+        $material = MaterialQuantity::create($request->all());
 
         return Response::json(array('success' => View::make('admin/materials_quantity/table',array('material'=>$material))->render()));
     }
@@ -72,10 +72,10 @@ class MaterialsQuantityController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Materials_quantity  $materials_quantity
+     * @param  \App\MaterialQuantity  $materials_quantity
      * @return \Illuminate\Http\Response
      */
-    public function show(Materials_quantity $materials_quantity)
+    public function show(MaterialQuantity $materialQuantity)
     {
         //
     }
@@ -83,14 +83,14 @@ class MaterialsQuantityController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Materials_quantity  $materials_quantity
+     * @param  \App\MaterialQuantity  $materials_quantity
      * @return \Illuminate\Http\Response
      */
-    public function edit(Materials_quantity $materials_quantity, $material)
+    public function edit(MaterialQuantity $materialQuantity)
     {
-        $material = Materials_quantity::find($material);
+        $material = MaterialQuantity::find($material);
         $stores = Stores::all();
-        $materials_types = Materials::withTrashed()->get();
+        $materials_types = Material::withTrashed()->get();
 
         return \View::make('admin/materials_quantity/edit',array('material'=>$material, 'types' => $materials_types, 'stores' => $stores));
     }
@@ -99,12 +99,12 @@ class MaterialsQuantityController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Materials_quantity  $materials_quantity
+     * @param  \App\MaterialQuantity  $materials_quantity
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Materials_quantity $materials_quantity, $material)
+    public function update(Request $request, MaterialQuantity $materialQuantity)
     {
-        $material = Materials_quantity::find($material);
+        $material = MaterialQuantity::find($material);
         
         $material->material = $request->material;
         $material->quantity = $request->quantity;
@@ -128,12 +128,12 @@ class MaterialsQuantityController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Materials_quantity  $materials_quantity
+     * @param  \App\MaterialQuantity  $materials_quantity
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Materials_quantity $materials_quantity, $material)
+    public function destroy(MaterialQuantity $materialQuantity)
     {
-        $material = Materials_quantity::find($material);
+        $material = MaterialQuantity::find($material);
         
         if($material){
             $material->delete();
@@ -142,7 +142,7 @@ class MaterialsQuantityController extends Controller
     }
 
     public function deleteByMaterial($material){
-        Materials_quantity::where('material', $material)->delete();
+        MaterialQuantity::where('material', $material)->delete();
         return Response::json(array('success' => 'Успешно изтрито!'));
     }
 }

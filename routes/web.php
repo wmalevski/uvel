@@ -77,13 +77,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/materials/accept/{material}', 'MaterialsTravellingController@accept');
 
-    Route::get('/mquantity', 'MaterialsQuantityController@index')->name('materials_quantity');
-    Route::post('/mquantity', 'MaterialsQuantityController@store');
+    Route::get('/mquantity', 'MaterialQuantityController@index')->name('materials_quantity');
+    Route::post('/mquantity', 'MaterialQuantityController@store');
 
     Route::get('/mtravelling', 'MaterialsTravellingController@index')->name('materials_travelling');
     Route::post('/mtravelling', 'MaterialsTravellingController@store');
 
-    Route::get('/mquantity/{material}', 'MaterialsQuantityController@edit');
+    Route::get('/mquantity/{material}', 'MaterialQuantityController@edit');
 
     Route::get('/prices', 'PriceController@index')->name('prices');
     Route::post('/prices', 'PriceController@index');
@@ -198,14 +198,14 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::put('/models/{model}', 'ModelsController@update');
     Route::post('/models/delete/{model}', 'ModelsController@destroy');
 
-    Route::post('/mquantity', 'MaterialsQuantityController@store');
-    Route::post('/mquantity/delete/{material}', 'MaterialsQuantityController@destroy');
+    Route::post('/mquantity', 'MaterialQuantityController@store');
+    Route::post('/mquantity/delete/{material}', 'MaterialQuantityController@destroy');
 
-    Route::post('/mquantity/deletebymaterial/{material}', 'MaterialsQuantityController@deleteByMaterial');
+    Route::post('/mquantity/deletebymaterial/{material}', 'MaterialQuantityController@deleteByMaterial');
 
     Route::post('/sendMaterial', 'MaterialsTravellingController@store');
 
-    Route::put('/mquantity/{material}', 'MaterialsQuantityController@update');
+    Route::put('/mquantity/{material}', 'MaterialQuantityController@update');
     
     Route::put('/materials/{material}', 'MaterialController@update');
 
