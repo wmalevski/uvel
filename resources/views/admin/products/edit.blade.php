@@ -146,6 +146,10 @@
                         <input type="number" class="form-control calculate-stones" name="stone_amount[]" placeholder="Брой" value="{{  $modelStone->amount  }}" min="1" max="50">
                     </div>
 
+                    <div class="form-group col-md-2">
+                        <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
+                    </div>
+
                     <div class="form-group col-md-6">
                         <div class="form-group">
                             <label for="1">Тегло: </label>
@@ -155,10 +159,6 @@
 
                     <div class="form-group col-md-6">
                         <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder"><input type="checkbox" id="inputCall1" name="stone_flow[]" class="peer stone-flow calculate-stones" @if($modelStone->flow == 'yes') checked @endif><label for="inputCall1" class="peers peer-greed js-sb ai-c"><span class="peer peer-greed">За леене</span></label></div>
-                    </div>
-    
-                    <div class="form-group col-md-2">
-                        <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
                     </div>
                 </div>
                 @endforeach
