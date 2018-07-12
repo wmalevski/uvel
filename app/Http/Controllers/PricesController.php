@@ -11,7 +11,7 @@ use App\Models;
 use Response;
 use Illuminate\Support\Facades\View;
 use App\Products;
-use App\Jewels;
+use App\Jewel;
 
 class PricesController extends Controller
 {
@@ -154,7 +154,7 @@ class PricesController extends Controller
     public function getByMaterial($material){
         $prices = Prices::where(
             [
-                ['material', '=', Jewels::find($material)->material],
+                ['material', '=', Jewel::find($material)->material],
                 ['type', '=', 'sell']
             ]
         )->get();

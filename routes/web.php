@@ -93,10 +93,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/prices/edit/{price}', 'PricesController@edit');
 
-    Route::get('/jewels', 'JewelsController@index')->name('jewels');
-    Route::post('/jewels', 'JewelsController@store');
+    Route::get('/jewels', 'JewelController@index')->name('jewels');
+    Route::post('/jewels', 'JewelController@store');
 
-    Route::get('/jewels/{jewel}', 'JewelsController@edit');
+    Route::get('/jewels/{jewel}', 'JewelController@edit');
 
     Route::get('/models', 'ModelsController@index')->name('models');
     Route::post('/models', 'ModelsController@store');

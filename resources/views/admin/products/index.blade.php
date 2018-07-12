@@ -38,7 +38,7 @@ aria-hidden="true">
                             <option value="">Избери</option>
                     
                             @foreach($models as $model)
-                                <option value="{{ $model->id }}" data-jewel="{{ App\Jewels::withTrashed()->find($model->jewel)->id }}">{{ $model->name }}</option>
+                                <option value="{{ $model->id }}" data-jewel="{{ App\::withTrashed()->find($model->jewel)->id }}">{{ $model->name }}</option>
                             @endforeach
                         </select>
                     </div>
