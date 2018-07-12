@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
-use App\Materials;
+use App\Material;
 use App\Currencies;
 use DB;
 
@@ -18,13 +18,13 @@ class SettingsController extends Controller
      */
     public function index()
     {
-        $materials = Materials::groupBy('name')->get();
+        $materials = Material::groupBy('name')->get();
         return \View::make('admin/settings/index', array('materials' => $materials));
     }
 
     public function stockPrices()
     {
-        $materials = Materials::groupBy('name')->get();
+        $materials = Material::groupBy('name')->get();
         return \View::make('admin/settings/stock', array('materials' => $materials));
     }
 
@@ -39,7 +39,7 @@ class SettingsController extends Controller
                 return Redirect::back();
             }
 
-            $material = Materials::find($key);
+            $material = Material::find($key);
             $material->stock_price = $request->stock_price[$mat];
             $material->save();
         }

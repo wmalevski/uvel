@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Prices;
-use App\Materials;
+use App\Material;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
@@ -23,7 +23,7 @@ class PricesController extends Controller
     public function index(Request $request)
     {
 
-        $materials = Materials::all();
+        $materials = Material::all();
         
         if ($request->isMethod('post')){
             return redirect()->route('view-price', ['material' => $request->material]);
@@ -72,7 +72,7 @@ class PricesController extends Controller
      */
     public function show(Prices $prices, $material)
     {
-        $material = Materials::find($material);
+        $material = Material::find($material);
 
         if($material){
             $prices = Prices::where('material', $material->id)->get();

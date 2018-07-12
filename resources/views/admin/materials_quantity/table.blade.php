@@ -1,5 +1,5 @@
 <tr data-id="{{ $material->id }}">
-    <td>{{ App\Materials_type::withTrashed()->find(App\Materials::withTrashed()->find($material->material)->parent)->name }} - {{ App\Materials::withTrashed()->find($material->material)->code }} - {{ App\Materials::withTrashed()->find($material->material)->color }}</td> 
+    <td>{{ App\Materials_type::withTrashed()->find(App\Material::withTrashed()->find($material->material)->parent)->name }} - {{ App\Material::withTrashed()->find($material->material)->code }} - {{ App\Material::withTrashed()->find($material->material)->color }}</td> 
     <td>{{ $material->quantity }}</td> 
     <td>{{ App\Stores::withTrashed()->find($material->store)->name }}</td>
     <td>

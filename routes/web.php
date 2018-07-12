@@ -64,16 +64,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/nomenclatures', 'NomenclaturesController@index')->name('nomenclatures');
     Route::post('/nomenclatures', 'NomenclaturesController@store');
 
-    Route::get('/materials', 'MaterialsController@index')->name('materials');
-    Route::post('/materials', 'MaterialsController@store');
+    Route::get('/materials', 'MaterialController@index')->name('materials');
+    Route::post('/materials', 'MaterialController@store');
 
     Route::get('/materialstypes', 'MaterialsTypeController@index')->name('materialstypes');
     Route::post('/materialstypes', 'MaterialsTypeController@store');
 
     Route::get('/materialstypes/{material}', 'MaterialsTypeController@edit');
 
-    Route::get('/materials/{material}', 'MaterialsController@edit');
-    Route::put('/materials/{material}', 'MaterialsController@update');
+    Route::get('/materials/{material}', 'MaterialController@edit');
+    Route::put('/materials/{material}', 'MaterialController@update');
 
     Route::get('/materials/accept/{material}', 'MaterialsTravellingController@accept');
 
@@ -155,8 +155,8 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::get('/stores/{store}', 'StoresController@edit');
     Route::post('/stores/delete/{store}', 'StoresController@destroy');
 
-    Route::post('/materials', 'MaterialsController@store');
-    Route::post('/materials/delete/{material}', 'MaterialsController@destroy');
+    Route::post('/materials', 'MaterialController@store');
+    Route::post('/materials/delete/{material}', 'MaterialController@destroy');
 
     Route::post('/materialstypes', 'MaterialsTypeController@store');
     Route::post('/materialstypes/delete/{material}', 'MaterialsTypeController@destroy');
@@ -207,7 +207,7 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::put('/mquantity/{material}', 'MaterialsQuantityController@update');
     
-    Route::put('/materials/{material}', 'MaterialsController@update');
+    Route::put('/materials/{material}', 'MaterialController@update');
 
     Route::put('/materialstypes/{material}', 'MaterialsTypeController@update');
 

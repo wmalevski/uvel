@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Materials_quantity;
-use App\Materials;
+use App\Material;
 use App\Stores;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -26,7 +26,7 @@ class MaterialsQuantityController extends Controller
         //$stores = Stores::where('id', '!=', Auth::user()->store)->get();
         $materials = Materials_quantity::all();
         $stores = Stores::all();
-        $materials_types = Materials::all();
+        $materials_types = Material::all();
         $travelling = Materials_travelling::where('storeFrom', Auth::user()->store)->orWhere('storeTo', Auth::user()->store)->get();
         
         return \View::make('admin/materials_quantity/index', array('materials' => $materials, 'types' => $materials_types, 'stores' => $stores, 'travelling' => $travelling));

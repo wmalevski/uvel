@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jewels;
 use App\Stones;
-use App\Materials;
+use App\Material;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Response;
@@ -24,7 +24,7 @@ class JewelController extends Controller
     public function index()
     {
         $jewels = Jewel::all();
-        $materials = Materials::all();
+        $materials = Material::all();
 
         return view('admin.jewels.index', compact('jewels', 'materials'));
     }
@@ -57,7 +57,7 @@ class JewelController extends Controller
         }
 
         $jewel = Jewel::create($request->all());
-        $material = Materials::find($jewel->material);
+        $material = Material::find($jewel->material);
 
         return Response::json(array('success' => View::make('admin/jewels/table',array('jewel'=>$jewel, 'material'=>$material))->render()));
     }
@@ -82,7 +82,7 @@ class JewelController extends Controller
     public function edit(Jewel $jewels, $jewel)
     {
         $jewel = Jewel::find($jewel);
-        $materials = Materials::all();
+        $materials = Material::all();
         
         //return Response::json(array('success' => View::make('admin/jewels/edit',array('jewel'=>$jewel, 'materials'=>$materials))->render()));
         return \View::make('admin/jewels/edit',array('jewel'=>$jewel, 'materials'=>$materials));
@@ -98,7 +98,7 @@ class JewelController extends Controller
     public function update(Request $request, Jewel $jewels, $jewel)
     {
         $jewel = Jewel::find($jewel);
-        $materials = Materials::all();
+        $materials = Material::all();
         
         $jewel->name = $request->name;
         $jewel->material = $request->material;
