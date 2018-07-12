@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Material_type;
+use App\MaterialType;
 use App\Jewel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -76,7 +76,7 @@ class MaterialTypeController extends Controller
      */
     public function edit(MaterialType $materialType)
     {
-        $material = Materials_type::find($materialType);
+        $material = MaterialType::find($materialType);
 
         return \View::make('admin/materials_types/edit',array('material'=>$material));
     }
