@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Materials_type extends Model
+class MaterialType extends Model
 {
     use SoftDeletes;
     

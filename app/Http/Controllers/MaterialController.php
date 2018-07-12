@@ -10,7 +10,7 @@ use Response;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\DB;
 use App\Jewel;
-use App\Materials_type;
+use App\MaterialType;
 
 class MaterialController extends Controller
 {
@@ -23,7 +23,7 @@ class MaterialController extends Controller
     {
         
         $materials = Material::all();
-        $parents = Materials_type::all();
+        $parents = MaterialType::all();
         
         return \View::make('admin/materials/index', array('materials' => $materials, 'parents' => $parents));
     }
@@ -82,7 +82,7 @@ class MaterialController extends Controller
     public function edit(Material $material)
     {
         $material = Material::find($material);
-        $parents = Materials_type::all();
+        $parents = MaterialType::all();
 
         //return Response::json(array('success' => View::make('admin/materials/edit',array('material'=>$material))->render()));
         return \View::make('admin/materials/edit',array('material'=>$material, 'parents' => $parents));
