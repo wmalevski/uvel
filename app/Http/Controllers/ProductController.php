@@ -232,7 +232,7 @@ class ProductController extends Controller
     public function edit(Product $products, $product)
     {
         $product = Product::find($product);
-        $product_stones = Product_stones::where('product', $product)->get();
+        $product_stones = Product_stones::where('product', $product->id)->get();
         $models = Models::all();
         $jewels = Jewels::all();
         $prices = Prices::where('type', 'sell')->get();
