@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Repair_type;
+use App\RepairType;
 use Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 
-class RepairTypesController extends Controller
+class RepairTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +17,7 @@ class RepairTypesController extends Controller
      */
     public function index()
     {
-        $repairTypes = Repair_type::all();
+        $repairTypes = RepairType::all();
         
         return \View::make('admin/repair_types/index', array('repairTypes' => $repairTypes));
     }
@@ -56,10 +56,10 @@ class RepairTypesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Repair_type  $repairTypes
+     * @param  \App\RepairType  $repairTypes
      * @return \Illuminate\Http\Response
      */
-    public function show(RepairType $repairTypes)
+    public function show(RepairType $repairType)
     {
         //
     }
@@ -67,12 +67,12 @@ class RepairTypesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Repair_type  $repairTypes
+     * @param  \App\RepairType  $repairTypes
      * @return \Illuminate\Http\Response
      */
     public function edit(RepairType $repairType)
     {
-        $type = Repair_type::find($repairType);
+        $type = RepairType::find($repairType);
 
         return \View::make('admin/repair_types/edit', array('repair' => $type));
     }
@@ -98,12 +98,12 @@ class RepairTypesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\RepairTypes  $repairTypes
+     * @param  \App\RepairType  $repairTypes
      * @return \Illuminate\Http\Response
      */
     public function destroy(RepairType $repairType)
     {
-        $type = Repair_type::find($repairType);
+        $type = RepairType::find($repairType);
         
         if($type){
             $type->delete();
