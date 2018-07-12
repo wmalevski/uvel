@@ -67,10 +67,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/materials', 'MaterialController@index')->name('materials');
     Route::post('/materials', 'MaterialController@store');
 
-    Route::get('/materialstypes', 'MaterialsTypeController@index')->name('materialstypes');
-    Route::post('/materialstypes', 'MaterialsTypeController@store');
+    Route::get('/materialstypes', 'MaterialTypeController@index')->name('materialstypes');
+    Route::post('/materialstypes', 'MaterialTypeController@store');
 
-    Route::get('/materialstypes/{material}', 'MaterialsTypeController@edit');
+    Route::get('/materialstypes/{material}', 'MaterialTypeController@edit');
 
     Route::get('/materials/{material}', 'MaterialController@edit');
     Route::put('/materials/{material}', 'MaterialController@update');
@@ -158,8 +158,8 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/materials', 'MaterialController@store');
     Route::post('/materials/delete/{material}', 'MaterialController@destroy');
 
-    Route::post('/materialstypes', 'MaterialsTypeController@store');
-    Route::post('/materialstypes/delete/{material}', 'MaterialsTypeController@destroy');
+    Route::post('/materialstypes', 'MaterialTypeController@store');
+    Route::post('/materialstypes/delete/{material}', 'MaterialTypeController@destroy');
 
     Route::post('/repairtypes', 'RepairTypeController@store');
 
@@ -209,7 +209,7 @@ Route::group(['prefix' => 'ajax'], function() {
     
     Route::put('/materials/{material}', 'MaterialController@update');
 
-    Route::put('/materialstypes/{material}', 'MaterialsTypeController@update');
+    Route::put('/materialstypes/{material}', 'MaterialTypeController@update');
 
     Route::put('/users/{user}', 'UserController@update');
 

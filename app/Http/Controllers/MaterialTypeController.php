@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Materials_type;
+use App\Material_type;
 use App\Jewel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Response;
 use App\Materials;
 
-class MaterialsTypeController extends Controller
+class MaterialTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +21,7 @@ class MaterialsTypeController extends Controller
      */
     public function index()
     {
-        $materials = Materials_type::all();
+        $materials = MaterialType::all();
 
         return \View::make('admin/materials_types/index', array('materials' => $materials));
     }
@@ -52,7 +52,7 @@ class MaterialsTypeController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $material = Materials_type::create($request->all());
+        $material = MaterialType::create($request->all());
 
         return Response::json(array('success' => View::make('admin/materials_types/table',array('material'=>$material))->render()));
     }
@@ -60,10 +60,10 @@ class MaterialsTypeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Materials_type  $materials_type
+     * @param  \App\MaterialType  $materials_type
      * @return \Illuminate\Http\Response
      */
-    public function show(Materials_type $materials_type)
+    public function show(MaterialType $materialType)
     {
         //
     }
@@ -74,9 +74,9 @@ class MaterialsTypeController extends Controller
      * @param  \App\Materials_type  $materials_type
      * @return \Illuminate\Http\Response
      */
-    public function edit(Materials_type $materials_type, $material)
+    public function edit(MaterialType $materialType)
     {
-        $material = Materials_type::find($material);
+        $material = Materials_type::find($materialType);
 
         return \View::make('admin/materials_types/edit',array('material'=>$material));
     }
@@ -85,12 +85,12 @@ class MaterialsTypeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Materials_type  $materials_type
+     * @param  \App\MaterialType  $materials_type
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Materials_type $materials_type, $material)
+    public function update(Request $request, MaterialType $materialType)
     {
-        $material = Materials_type::find($material);
+        $material = MaterialType::find($materialType);
         
         $material->name = $request->name;
         
@@ -102,12 +102,12 @@ class MaterialsTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Materials_type  $materials_type
+     * @param  \App\MaterialType  $materials_type
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Materials_type $materials_type, $material)
+    public function destroy(MaterialType $materialType)
     {
-        $material = Materials_type::find($material);
+        $material = MaterialType::find($material);
         
         if($material){
             $using = Materials::where('parent', $material->id)->count();

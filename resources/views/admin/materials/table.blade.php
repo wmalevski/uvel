@@ -1,5 +1,5 @@
 <tr data-id="{{ $material->id }}">
-    <td style="width: 16%;">@if($material->parent){{ App\Materials_type::withTrashed()->find($material->parent)->name }}@endif</td> 
+    <td style="width: 16%;">@if($material->parent){{ App\MaterialType::withTrashed()->find($material->parent)->name }}@endif</td> 
     <td style="width: 14%;">{{ $material->code }}</td> 
     <td style="width: 14%;">{{ $material->color }}</td> 
     <td style="width: 14%;">{{ $material->carat }}@if($material->carat)к@endif</td> 
