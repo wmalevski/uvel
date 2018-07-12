@@ -3,7 +3,7 @@
 namespace App;
 
 use App\Jewel;
-use App\Prices;
+use App\Price;
 use App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -44,14 +44,14 @@ class Products extends Model
             $model_material = Jewel::find($model->material);
             $jewels = Jewel::where('id', $model->jewel)->get()
              ;
-            $prices = Prices::where('material', $model->jewel)->get();
+            $prices = Price::where('material', $model->jewel)->get();
 
-            $retail_prices = Prices::where([
+            $retail_prices = Price::where([
                 'type' => 'sell',
                 'material' => Jewel::withTrashed()->find($model->jewel)->material
             ])->get();
 
-            $wholesale_prices = Prices::where([
+            $wholesale_prices = Price::where([
                 'type' => 'sell',
                 'material' => Jewel::withTrashed()->find($model->jewel)->material
             ])->get();
@@ -71,7 +71,7 @@ class Products extends Model
                     'value' => $jewel->id,
                     'label' => $jewel->name,
                     'material' => $jewel->material,
-                    'pricebuy' => Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price,
+                    'pricebuy' => Price::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price,
                     'selected' => $selected
                 ];
             }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Response;
-use App\Prices;
+use App\Price;
 use App\Repairs;
 use App\Repair_types;
 use App\Material;

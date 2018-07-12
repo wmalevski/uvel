@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Products;
 use App\Models;
 use App\Jewel;
-use App\Prices;
+use App\Price;
 use App\Stones;
 use App\Model_stones;
 use App\Product_stones;
@@ -30,7 +30,7 @@ class ProductsController extends Controller
         $products = Products::all();
         $models = Models::all();
         $jewels = Jewel::all();
-        $prices = Prices::where('type', 'sell')->get();
+        $prices = Price::where('type', 'sell')->get();
         $stones = Stones::all();
 
         $pass_stones = array();
@@ -189,7 +189,7 @@ class ProductsController extends Controller
         $product_stones = Product_stones::where('product', $product)->get();
         $models = Models::all();
         $jewels = Jewel::all();
-        $prices = Prices::where('type', 'sell')->get();
+        $prices = Price::where('type', 'sell')->get();
         $stones = Stones::all();
 
         $photos = Gallery::where(
@@ -217,7 +217,7 @@ class ProductsController extends Controller
             $product_stones = Product_stones::where('product', $product)->get();
             $models = Models::all();
             $jewels = Jewel::all();
-            $prices = Prices::where('type', 'sell')->get();
+            $prices = Price::where('type', 'sell')->get();
             $stones = Stones::all();
     
             $photos = Gallery::where(

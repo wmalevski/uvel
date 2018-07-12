@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Prices;
+use App\Price;
 use App\Material;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\View;
 use App\Products;
 use App\Jewel;
 
-class PricesController extends Controller
+class PriceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -60,7 +60,7 @@ class PricesController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $price = Prices::create($request->all());
+        $price = Price::create($request->all());
         return Response::json(array('success' => View::make('admin/prices/table',array('price'=>$price, 'type' => $request->type))->render()));
     }
 
@@ -70,12 +70,12 @@ class PricesController extends Controller
      * @param  \App\Prices  $prices
      * @return \Illuminate\Http\Response
      */
-    public function show(Prices $prices, $material)
+    public function show(Price $price, $material)
     {
         $material = Material::find($material);
 
         if($material){
-            $prices = Prices::where('material', $material->id)->get();
+            $prices = Price::where('material', $material->id)->get();
 
             return view('admin/prices/show', compact('prices', 'material'));
         }
@@ -87,9 +87,9 @@ class PricesController extends Controller
      * @param  \App\Prices  $prices
      * @return \Illuminate\Http\Response
      */
-    public function edit(Prices $prices, $price)
+    public function edit(Price $price)
     {
-        $price = Prices::find($price);
+        $price = Price::find($price);
         
         return \View::make('admin/prices/edit', array('price' => $price));
     }
@@ -101,9 +101,9 @@ class PricesController extends Controller
      * @param  \App\Prices  $prices
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Prices $prices, $price)
+    public function update(Request $request, Price $price)
     {
-        $price = Prices::find($price);
+        $price = Price::find($price);
         
         $price->slug = $request->slug;
         $price->price = $request->price;
@@ -130,9 +130,9 @@ class PricesController extends Controller
      * @param  \App\Prices  $prices
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Prices $prices, $price)
+    public function destroy(Price $price)
     {
-        $price = Prices::find($price);
+        $price = Price::find($price);
         
         if($price){
             $usingWProduct = Products::where('wholesale_price', $price->id)->count();
@@ -152,7 +152,7 @@ class PricesController extends Controller
     }
 
     public function getByMaterial($material){
-        $prices = Prices::where(
+        $prices = Price::where(
             [
                 ['material', '=', Jewel::find($material)->material],
                 ['type', '=', 'sell']
