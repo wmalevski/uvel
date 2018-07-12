@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Stone_contours;
+use App\StoneContour;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
 use Illuminate\Support\Facades\View;
 
-class StoneContoursController extends Controller
+class StoneContourController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +17,7 @@ class StoneContoursController extends Controller
      */
     public function index()
     {
-        $contours = Stone_contours::all();
+        $contours = StoneContour::all();
 
         return \View::make('admin/stone_contours/index', array('contours' => $contours));
     }
@@ -48,7 +48,7 @@ class StoneContoursController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $contour = Stone_contours::create($request->all());
+        $contour = StoneContour::create($request->all());
         return Response::json(array('success' => View::make('admin/stone_contours/table',array('contour'=>$contour))->render()));
     }
 
@@ -58,7 +58,7 @@ class StoneContoursController extends Controller
      * @param  \App\Stone_contours  $stone_contours
      * @return \Illuminate\Http\Response
      */
-    public function show(Stone_contours $stone_contours)
+    public function show(StoneContour $stoneContour)
     {
         //
     }
@@ -69,9 +69,9 @@ class StoneContoursController extends Controller
      * @param  \App\Stone_contours  $stone_contours
      * @return \Illuminate\Http\Response
      */
-    public function edit(Stone_contours $stone_contours, $contour)
+    public function edit(StoneContours $stoneContour)
     {
-        $contour = Stone_contours::find($contour);
+        $contour = Stone_contours::find($stoneContour);
         
         return \View::make('admin/stone_contours/edit', array('contour' => $contour));
     }
@@ -83,9 +83,9 @@ class StoneContoursController extends Controller
      * @param  \App\Stone_contours  $stone_contours
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Stone_contours $stone_contours, $contour)
+    public function update(Request $request, StoneContour $stoneContour)
     {
-        $contour = Stone_contours::find($contour);
+        $contour = Stone_contours::find($stoneContour);
         
         $contour->name = $request->name;
         
@@ -100,9 +100,9 @@ class StoneContoursController extends Controller
      * @param  \App\Stone_contours  $stone_contours
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Stone_contours $stone_contours, $contour)
+    public function destroy(StoneContour $stoneContour)
     {
-        $contour = Stone_contours::find($contour);
+        $contour = Stone_contours::find($stoneContour);
         
         if($contour){
             $contour->delete();

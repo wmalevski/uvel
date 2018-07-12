@@ -10,9 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Response;
 use App\Stones;
-use App\Stone_styles;
-use App\Stone_contours;
-use App\Stone_sizes;
+use App\StoneStyles;
+use App\StoneContour;
+use App\StoneSizes;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Products extends Model
@@ -115,7 +115,7 @@ class Products extends Model
             foreach($model_stones as $stone){
                 $pass_stones[] = [
                     'value' => Stones::withTrashed()->find($stone->stone)->id,
-                    'label' => Stones::withTrashed()->find($stone->stone)->name.' ('.Stone_contours::withTrashed()->find(Stones::withTrashed()->find($stone->stone)->contour)->name. ', ' .Stone_sizes::withTrashed()->find(Stones::withTrashed()->find($stone->stone)->size)->name. ' )'
+                    'label' => Stones::withTrashed()->find($stone->stone)->name.' ('.StoneContour::withTrashed()->find(Stones::withTrashed()->find($stone->stone)->contour)->name. ', ' .StoneSizes::withTrashed()->find(Stones::withTrashed()->find($stone->stone)->size)->name. ' )'
                 ];
             }
     
