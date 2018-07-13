@@ -115,13 +115,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/productsotherstypes', 'ProductsOthersTypesController@index')->name('productsotherstypes');
     Route::get('/productsotherstypes/{type}', 'ProductsOthersTypesController@edit');
 
-    Route::get('/settings', 'SettingsController@index')->name('settings');
-    Route::post('/settings', 'SettingsController@store');
+    Route::get('/settings', 'SettingController@index')->name('settings');
+    Route::post('/settings', 'SettingController@store');
 
-    Route::get('/settings/stock', 'SettingsController@stockPrices')->name('stockPrices');
-    Route::post('/settings/stock', 'SettingsController@updatePrices');
+    Route::get('/settings/stock', 'SettingController@stockPrices')->name('stockPrices');
+    Route::post('/settings/stock', 'SettingController@updatePrices');
 
-    Route::get('/settings/currencies', 'SettingsController@currencies')->name('currencies');
+    Route::get('/settings/currencies', 'SettingController@currencies')->name('currencies');
     Route::post('/settings/currencies', 'CurrencyController@store');
 
     Route::get('/settings/currencies/{currency}', 'CurrencyController@edit');

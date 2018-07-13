@@ -9,7 +9,7 @@ use App\Material;
 use App\Currency;
 use DB;
 
-class SettingsController extends Controller
+class SettingController extends Controller
 {
     /**
      * Display a listing of the resource.
