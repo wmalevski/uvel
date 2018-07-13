@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Response;
 
-class Stone_sizes extends Model
+class StoneSize extends Model
 {
     use SoftDeletes;
     
@@ -30,7 +30,7 @@ class Stone_sizes extends Model
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $size = new Stone_sizes($request);
+        $size = new StoneSize($request);
         $size->save();
 
         return $size;

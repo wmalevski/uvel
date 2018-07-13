@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models;
 use App\Jewel;
 use App\Price;
-use App\Stones;
+use App\Stone;
 use App\Model_stones;
 use App\Products;
 use App\Product_stones;
@@ -31,14 +31,14 @@ class ModelsController extends Controller
         $models = Models::all();
         $jewels = Jewel::all();
         $prices = Price::all();
-        $stones = Stones::all();
+        $stones = Stone::all();
 
         $pass_stones = array();
         
         foreach($stones as $stone){
             $pass_stones[] = [
                 'value' => $stone->id,
-                'label' => $stone->name.' ('.\App\StoneContour::withTrashed()->find($stone->contour)->name.', '.\App\StoneSizes::withTrashed()->find($stone->size)->name.' )'
+                'label' => $stone->name.' ('.\App\StoneContour::withTrashed()->find($stone->contour)->name.', '.\App\StoneSize::withTrashed()->find($stone->size)->name.' )'
             ];
         }
 
@@ -175,7 +175,7 @@ class ModelsController extends Controller
         $model = Models::find($model);
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
-        $stones = Stones::all();
+        $stones = Stone::all();
         $modelStones = Model_stones::where('model', $model->id)->get();
         $photos = Gallery::where(
             [
@@ -207,7 +207,7 @@ class ModelsController extends Controller
 
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
-        $stones = Stones::all();
+        $stones = Stone::all();
         
         $model->name = $request->name;
         $model->jewel = $request->jewel;

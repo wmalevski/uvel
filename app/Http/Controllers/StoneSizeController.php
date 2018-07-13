@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Stone_styles;
+use App\StoneSize;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
 use Illuminate\Support\Facades\View;
 
-class StoneStylesController extends Controller
+class StoneSizeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +17,9 @@ class StoneStylesController extends Controller
      */
     public function index()
     {
-        $styles = Stone_styles::all();
+        $sizes = StoneSize::all();
 
-        return \View::make('admin/stone_styles/index', array('styles' => $styles));
+        return \View::make('admin/stone_sizes/index', array('sizes' => $sizes));
     }
 
     /**
@@ -41,24 +41,26 @@ class StoneStylesController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make( $request->all(), [
-            'name' => 'required|unique:stone_styles',
+            'name' => 'required|unique:stone_sizes',
         ]);
-
+        
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $style = Stone_styles::create($request->all());
-        return Response::json(array('success' => View::make('admin/stone_styles/table',array('style'=>$style))->render()));
+        $size = new StoneSize();
+        $response = $size->create($request->all());
+
+        return Response::json(array('success' => View::make('admin/stone_sizes/table',array('size'=>$response))->render()));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Stone_styles  $stone_styles
+     * @param  \App\StoneSize  $stoneSize
      * @return \Illuminate\Http\Response
      */
-    public function show(Stone_styles $stone_styles)
+    public function show(StoneSize $stoneSize)
     {
         //
     }
@@ -66,46 +68,46 @@ class StoneStylesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Stone_styles  $stone_styles
+     * @param  \App\StoneSize  $stoneSize
      * @return \Illuminate\Http\Response
      */
-    public function edit(Stone_styles $stone_styles, $style)
+    public function edit(StoneSize $stoneSize)
     {
-        $style = Stone_styles::find($style);
-
-        return \View::make('admin/stone_styles/edit', array('style' => $style));
+        $size = StoneSize::find($stoneSize);
+        
+        return \View::make('admin/stone_sizes/edit', array('size' => $size));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Stone_styles  $stone_styles
+     * @param  \App\StoneSize  $stoneSize
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Stone_styles $stone_styles, $style)
+    public function update(Request $request, StoneSize $stoneSize)
     {
-        $style = Stone_styles::find($style);
+        $size = StoneSize::find($stoneSize);
         
-        $style->name = $request->name;
+        $size->name = $request->name;
         
-        $style->save();
+        $size->save();
         
-        return Response::json(array('ID' => $style->id, 'table' => View::make('admin/stone_styles/table', array('style' => $style))->render()));
+        return Response::json(array('ID' => $size->id, 'table' => View::make('admin/stone_sizes/table', array('size' => $size))->render()));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Stone_styles  $stone_styles
+     * @param  \App\StoneSize  $stoneSize
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Stone_styles $stone_styles, $style)
+    public function destroy(StoneSize $stoneSize)
     {
-        $style = Stone_styles::find($style);
+        $size = StoneSize::find($stoneSize);
         
-        if($style){
-            $style->delete();
+        if($size){
+            $size->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
         }
     }

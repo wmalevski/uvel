@@ -6,7 +6,7 @@ use App\Products;
 use App\Models;
 use App\Jewel;
 use App\Price;
-use App\Stones;
+use App\Stone;
 use App\Model_stones;
 use App\Product_stones;
 use Illuminate\Http\Request;
@@ -31,7 +31,7 @@ class ProductsController extends Controller
         $models = Models::all();
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
-        $stones = Stones::all();
+        $stones = Stone::all();
 
         $pass_stones = array();
 
@@ -190,7 +190,7 @@ class ProductsController extends Controller
         $models = Models::all();
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
-        $stones = Stones::all();
+        $stones = Stone::all();
 
         $photos = Gallery::where(
             [
@@ -218,7 +218,7 @@ class ProductsController extends Controller
             $models = Models::all();
             $jewels = Jewel::all();
             $prices = Price::where('type', 'sell')->get();
-            $stones = Stones::all();
+            $stones = Stone::all();
     
             $photos = Gallery::where(
                 [

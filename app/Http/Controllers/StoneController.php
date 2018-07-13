@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Stones;
-use App\StoneStyles;
+use App\Stone;
+use App\StoneStyle;
 use App\StoneContour;
-use App\StoneSizes;
+use App\StoneSize;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
@@ -17,7 +17,7 @@ use App\Model_stones;
 use App\Product_stones;
 
 
-class StonesController extends Controller
+class StoneController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,10 +26,10 @@ class StonesController extends Controller
      */
     public function index()
     {
-        $stones = Stones::all();
-        $stone_sizes = Stone_sizes::all();
+        $stones = Stone::all();
+        $stone_sizes = StoneSize::all();
         $stone_contours = StoneContour::all();
-        $stone_styles = StoneStyles::all();
+        $stone_styles = StoneStyle::all();
         
         return view('admin.stones.index', compact('stones', 'stone_sizes', 'stone_contours', 'stone_styles'));
     }
@@ -68,7 +68,7 @@ class StonesController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $stone = Stones::create($request->all());
+        $stone = Stone::create($request->all());
 
         $path = public_path('uploads/stones/');
         
@@ -94,10 +94,10 @@ class StonesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Stones  $stones
+     * @param  \App\Stone  $stone
      * @return \Illuminate\Http\Response
      */
-    public function show(Stones $stones)
+    public function show(Stone $stone)
     {
         //
     }
@@ -105,13 +105,13 @@ class StonesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Stones  $stones
+     * @param  \App\Stone  $stone
      * @return \Illuminate\Http\Response
      */
-    public function edit(Stones $stones, $stone)
+    public function edit(Stone $stone)
     {
-        $stone = Stones::find($stone);
-        $stone_sizes = Stone_sizes::all();
+        $stone = Stone::find($stone);
+        $stone_sizes = StoneSize::all();
         $stone_contours = StoneContour::all();
         $stone_styles = Stone_styles::all();
         $stone_photos = Gallery::where(
@@ -128,12 +128,12 @@ class StonesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Stones  $stones
+     * @param  \App\Stone  $stone
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Stones $stones, $stone)
+    public function update(Request $request, Stone $stone)
     {
-        $stone = Stones::find($stone);
+        $stone = Stone::find($stone);
 
         $validator = Validator::make( $request->all(), [
             'name' => 'required',
@@ -204,12 +204,12 @@ class StonesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Stones  $stones
+     * @param  \App\Stone  $stone
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Stones $stones, $stone)
+    public function destroy(Stone $stone)
     {
-        $stone = Stones::find($stone);
+        $stone = Stone::find($stone);
         
         if($stone){
             $usingModel = Model_stones::where('stone', $stone->id)->count();

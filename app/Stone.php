@@ -5,14 +5,22 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Stone_styles extends Model
+class Stone extends Model
 {
     use SoftDeletes;
     
     protected $fillable = [
         'name',
+        'type',
+        'weight',
+        'carat',
+        'size',
+        'style',
+        'contour',
+        'amount',
+        'price'
     ];
 
-    protected $table = 'stone_styles';
+    protected $table = 'stones';
     protected $dates = ['deleted_at'];
 }

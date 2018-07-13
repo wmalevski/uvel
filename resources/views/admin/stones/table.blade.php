@@ -3,8 +3,8 @@
     <td> @if($stone->type == 1) Синтетичен  @else Естествен  @endif </td> 
     <td>{{ $stone->weight }}</td> 
     <td>{{ $stone->carat }}</td> 
-    <td>{{ App\StoneSizes::withTrashed()->find($stone->size)->name }}</td> 
-    <td>{{ App\StoneStyles::withTrashed()->find($stone->style)->name }}</td> 
+    <td>{{ App\StoneSize::withTrashed()->find($stone->size)->name }}</td> 
+    <td>{{ App\StoneStyle::withTrashed()->find($stone->style)->name }}</td> 
     <td>{{ App\StoneContour::withTrashed()->find($stone->contour)->name }}</td> 
     <td>{{ $stone->amount }}</td> 
     <td>{{ $stone->price }}</td>

@@ -33,11 +33,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/selling', 'SellingsController@index')->name('selling');
     Route::post('/selling', 'SellingsController@store');
 
-    Route::get('/stones/sizes', 'StoneSizesController@index')->name('sizes');
-    Route::post('/stones/sizes', 'StoneSizesController@store');
+    Route::get('/stones/sizes', 'StoneSizeController@index')->name('sizes');
+    Route::post('/stones/sizes', 'StoneSizeController@store');
 
-    Route::get('/stones/styles', 'StoneStylesController@index')->name('styles');
-    Route::post('/stones/styles', 'StoneStylesController@store');
+    Route::get('/stones/styles', 'StoneStyleController@index')->name('styles');
+    Route::post('/stones/styles', 'StoneStyleController@store');
 
     Route::get('/stones/contours', 'StoneContourController@index')->name('contours');
     Route::post('/stones/contours', 'StoneContourController@store');
@@ -50,10 +50,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/users', 'UserController@index')->name('users');
     Route::get('/users/{user}', 'UserController@edit');
 
-    Route::get('/stones', 'StonesController@index')->name('stones');
-    Route::post('/stones', 'StonesController@store');
+    Route::get('/stones', 'StoneController@index')->name('stones');
+    Route::post('/stones', 'StoneController@store');
 
-    Route::get('/stones/{stone}', 'StonesController@edit');
+    Route::get('/stones/{stone}', 'StoneController@edit');
 
     Route::get('/stores', 'StoresController@index')->name('stores');
     Route::post('/stores', 'StoresController@store');
@@ -134,11 +134,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/sell/clearCart', 'SellingsController@clearCart')->name('clearCart');
 
-    Route::get('/stones/sizes/{size}', 'StoneSizesController@edit');
+    Route::get('/stones/sizes/{size}', 'StoneSizeController@edit');
 
-    Route::get('/stones/styles/{style}', 'StoneStylesController@edit');
+    Route::get('/stones/styles/{style}', 'StoneStyleController@edit');
 
-    Route::get('/stones/{stone}', 'StonesController@edit');
+    Route::get('/stones/{stone}', 'StoneController@edit');
 
     Route::get('/stones/contours/{contour}', 'StoneContourController@edit');
 
@@ -163,27 +163,27 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/repairtypes', 'RepairTypeController@store');
 
-    Route::post('/stones', 'StonesController@store');
-    Route::post('/stones/delete/{stone}', 'StonesController@destroy');
+    Route::post('/stones', 'StoneController@store');
+    Route::post('/stones/delete/{stone}', 'StoneController@destroy');
 
-    Route::post('/stones/sizes', 'StoneSizesController@store');
-    Route::get('/stones/sizes/{size}', 'StoneSizesController@edit');
+    Route::post('/stones/sizes', 'StoneSizeController@store');
+    Route::get('/stones/sizes/{size}', 'StoneSizeController@edit');
 
-    Route::post('/stones/styles', 'StoneStylesController@store');
-    Route::get('/stones/styles/{style}', 'StoneStylesController@edit');
+    Route::post('/stones/styles', 'StoneStyleController@store');
+    Route::get('/stones/styles/{style}', 'StoneStyleController@edit');
 
-    Route::put('/stones/{stone}', 'StonesController@update');
-    Route::get('/stones/{stone}', 'StonesController@edit');
+    Route::put('/stones/{stone}', 'StoneController@update');
+    Route::get('/stones/{stone}', 'StoneController@edit');
 
     Route::post('/stones/contours', 'StoneContourController@store');
     Route::get('/stones/contours/{contour}', 'StoneContourController@edit');
 
-    Route::post('/stones/sizes/delete/{size}', 'StoneSizesController@destroy');
-    Route::post('/stones/styles/delete/{style}', 'StoneStylesController@destroy');
+    Route::post('/stones/sizes/delete/{size}', 'StoneSizeController@destroy');
+    Route::post('/stones/styles/delete/{style}', 'StoneStyleController@destroy');
     Route::post('/stones/contours/delete/{contour}', 'StoneContourController@destroy');
 
-    Route::put('/stones/sizes/{size}', 'StoneSizesController@update');
-    Route::put('/stones/styles/{style}', 'StoneStylesController@update');
+    Route::put('/stones/sizes/{size}', 'StoneSizeController@update');
+    Route::put('/stones/styles/{style}', 'StoneStyleController@update');
     Route::put('/stones/contours/{contour}', 'StoneContourController@update');
 
     Route::post('/prices/{material}', 'PriceController@store');
