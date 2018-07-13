@@ -23,7 +23,7 @@ class DiscountCode extends Model
     protected $dates = ['deleted_at'];
 
     public function check($barcode){
-        $discount = DiscountCodes::where('barcode', $barcode)->first();
+        $discount = DiscountCode::where('barcode', $barcode)->first();
         
         if($discount){
             if($discount->expires != ''){

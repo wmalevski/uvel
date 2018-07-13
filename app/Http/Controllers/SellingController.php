@@ -14,7 +14,7 @@ use App\Currency;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\JsonResponse;
-use App\Discount_codes;
+use App\DiscountCode;
 use Response;
 
 class SellingController extends Controller
@@ -27,7 +27,7 @@ class SellingController extends Controller
     public function index()
     {
         $repairTypes = RepairType::all();
-        $discounts = Discount_codes::all();
+        $discounts = DiscountCode::all();
         $currencies = Currency::all();
         $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();
         $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
@@ -298,11 +298,11 @@ class SellingController extends Controller
         $userId = Auth::user()->getId(); 
 
         if(strlen($barcode) == 13){
-            $discount = new Discount_codes;
+            $discount = new DiscountCode;
             $result = json_encode($discount->check($barcode));
 
             if($result == 'true'){
-                $card = Discount_codes::where('barcode', $barcode)->first();
+                $card = DiscountCode::where('barcode', $barcode)->first();
                 $setDiscount = $card->discount;
             }
         }else{

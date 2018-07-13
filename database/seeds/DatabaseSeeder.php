@@ -14,7 +14,7 @@ use App\Repair_types;
 use App\Currencies;
 use App\Products;
 use App\Models;
-use App\DiscountCodes;
+use App\DiscountCode;
 use App\Products_others;
 use App\Products_others_types;
 use App\Repairs;
@@ -303,7 +303,7 @@ class DatabaseSeeder extends Seeder
         $product->barcode = 3807260069719;
         $product->save();
 
-        $discount = new DiscountCodes();
+        $discount = new DiscountCode();
         $discount->discount = 20;
         $discount->lifetime = 'no';
         $discount->code = '4RFI';
