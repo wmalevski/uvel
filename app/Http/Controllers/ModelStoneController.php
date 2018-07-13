@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Model_stones;
+use App\ModelStone;
 use Illuminate\Http\Request;
 
 class ModelStonesController extends Controller
@@ -41,10 +41,10 @@ class ModelStonesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Model_stones  $model_stones
+     * @param  \App\ModelStone  $model_stones
      * @return \Illuminate\Http\Response
      */
-    public function show(Model_stones $model_stones)
+    public function show(ModelStone $modelStone)
     {
         //
     }
@@ -52,10 +52,10 @@ class ModelStonesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Model_stones  $model_stones
+     * @param  \App\ModelStone  $model_stones
      * @return \Illuminate\Http\Response
      */
-    public function edit(Model_stones $model_stones)
+    public function edit(ModelStone $modelStone)
     {
         //
     }
@@ -67,7 +67,7 @@ class ModelStonesController extends Controller
      * @param  \App\Model_stones  $model_stones
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Model_stones $model_stones)
+    public function update(Request $request, ModelStone $modelStone)
     {
         //
     }
@@ -78,7 +78,7 @@ class ModelStonesController extends Controller
      * @param  \App\Model_stones  $model_stones
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Model_stones $model_stones)
+    public function destroy(ModelStone $modelStone)
     {
         //
     }
