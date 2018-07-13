@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Usersubstitutions;
+use App\UserSubstitution;
 use Illuminate\Http\Request;
 use App\Stores;
 use App\User;
@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
 
-class UsersubstitutionsController extends Controller
+class UsersubstitutionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,11 +20,11 @@ class UsersubstitutionsController extends Controller
      */
     public function index()
     {
-        $activeSubstitutions = Usersubstitutions::where(
+        $activeSubstitutions = UserSubstitution::where(
             'date_to', '>=', date("Y-m-d")
         )->get();
 
-        $inactiveSubstitutions = Usersubstitutions::where(
+        $inactiveSubstitutions = UserSubstitution::where(
             'date_to', '<', date("Y-m-d")
         )->get();
 
@@ -54,7 +54,7 @@ class UsersubstitutionsController extends Controller
     {
         $status = 0;
         
-        $substitution = Usersubstitutions::where([
+        $substitution = UserSubstitution::where([
             ['user_id', '=', $request->user],
             ['date_to', '>=', date("Y-m-d")]
         ])->first();
@@ -86,7 +86,7 @@ class UsersubstitutionsController extends Controller
             if($user->store != $request->store){
                 $status = 1;
                 $place = 'active';
-                $substitution = new Usersubstitutions();
+                $substitution = new UserSubstitution();
                 $substitution->user_id = $request->user;
                 $substitution->store_id = $request->store;
                 $substitution->date_from = date('Y-m-d', strtotime($request->dateFrom));
@@ -111,7 +111,7 @@ class UsersubstitutionsController extends Controller
      * @param  \App\Usersubstitutions  $usersubstitutions
      * @return \Illuminate\Http\Response
      */
-    public function show(Usersubstitutions $usersubstitutions, $user)
+    public function show(UserSubstitution $usersubstitutions, $user)
     {
         // $stores = Stores::all();
 
@@ -139,9 +139,9 @@ class UsersubstitutionsController extends Controller
      * @param  \App\Usersubstitutions  $usersubstitutions
      * @return \Illuminate\Http\Response
      */
-    public function edit(Usersubstitutions $usersubstitutions, $substitution)
+    public function edit(UserSubstitution $userSubstitution)
     {
-        $substitution = Usersubstitutions::find($substitution);
+        $substitution = UserSubstitution::find($userSubstitution);
         $stores = Stores::withTrashed()->get();
         $users = User::withTrashed()->get();
         $place = 'active';
@@ -157,12 +157,12 @@ class UsersubstitutionsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Usersubstitutions  $usersubstitutions
+     * @param  \App\UserSubstitution  $usersubstitutions
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Usersubstitutions $usersubstitutions, $substitution)
+    public function update(Request $request, UserSubstitution $userSubstitution)
     {
-        $substitution = Usersubstitutions::find($substitution);
+        $substitution = UserSubstitution::find($userSubstitution);
         if($substitution){
             $validator = Validator::make( $request->all(), [
                 'user' => 'required',
@@ -193,7 +193,7 @@ class UsersubstitutionsController extends Controller
     }
 
     public function setStore(){
-        $substitution = Usersubstitutions::where([
+        $substitution = UserSubstitution::where([
             ['user_id', '=', Auth::user()->id],
             ['date_to', '>=', date("Y-m-d")]
         ])->first();
@@ -206,12 +206,12 @@ class UsersubstitutionsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Usersubstitutions  $usersubstitutions
+     * @param  \App\UserSubstitution  $usersubstitutions
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Usersubstitutions $usersubstitutions, $substitution)
+    public function destroy(UserSubstitution $userSubstitution)
     {
-        $substitution = Usersubstitutions::find($substitution);
+        $substitution = UserSubstitution::find($userSubstitution);
         
         if($substitution){
             $substitution->delete();
