@@ -69,7 +69,7 @@ class StoneContourController extends Controller
      * @param  \App\Stone_contours  $stone_contours
      * @return \Illuminate\Http\Response
      */
-    public function edit(StoneContours $stoneContour)
+    public function edit(StoneContour $stoneContour)
     {
         $contour = Stone_contours::find($stoneContour);
         

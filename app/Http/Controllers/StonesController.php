@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Stones;
 use App\StoneStyles;
-use App\StoneContours;
+use App\StoneContour;
 use App\StoneSizes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -28,7 +28,7 @@ class StonesController extends Controller
     {
         $stones = Stones::all();
         $stone_sizes = Stone_sizes::all();
-        $stone_contours = StoneContours::all();
+        $stone_contours = StoneContour::all();
         $stone_styles = StoneStyles::all();
         
         return view('admin.stones.index', compact('stones', 'stone_sizes', 'stone_contours', 'stone_styles'));
@@ -112,7 +112,7 @@ class StonesController extends Controller
     {
         $stone = Stones::find($stone);
         $stone_sizes = Stone_sizes::all();
-        $stone_contours = StoneContours::all();
+        $stone_contours = StoneContour::all();
         $stone_styles = Stone_styles::all();
         $stone_photos = Gallery::where(
             [

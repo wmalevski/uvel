@@ -38,7 +38,7 @@ class ModelsController extends Controller
         foreach($stones as $stone){
             $pass_stones[] = [
                 'value' => $stone->id,
-                'label' => $stone->name.' ('.\App\StoneContours::withTrashed()->find($stone->contour)->name.', '.\App\Stone_sizes::withTrashed()->find($stone->size)->name.' )'
+                'label' => $stone->name.' ('.\App\StoneContour::withTrashed()->find($stone->contour)->name.', '.\App\StoneSizes::withTrashed()->find($stone->size)->name.' )'
             ];
         }
 
