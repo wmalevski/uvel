@@ -112,7 +112,7 @@ class DiscountCodeController extends Controller
     public function edit(DiscountCode $discountCode)
     {
         $users = User::all();
-        $discount = DiscountCode::find($discountCode);
+        $discount = DiscountCode::find($discountCode)->first();
         
         return \View::make('admin/discounts/edit', array('users' => $users, 'discount' => $discount));
     }
@@ -135,7 +135,7 @@ class DiscountCodeController extends Controller
         }
 
         $users = User::all();
-        $discount = DiscountCode::find($discountCode);
+        $discount = DiscountCode::find($discountCode)->first();
 
         $discount->discount = $request->discount;
         $discount->expires = $request->date_expires;
@@ -166,7 +166,7 @@ class DiscountCodeController extends Controller
      */
     public function destroy(DiscountCode $discountCode)
     {
-        $discount = DiscountCode::find($discountCode);
+        $discount = DiscountCode::find($discountCode)->first();
         
         if($discount){
             $discount->delete();
