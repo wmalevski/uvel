@@ -19,7 +19,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $discounts = Discount_codes::all();
+        $discounts = DiscountCodes::all();
         $currencies = Currency::all();
         $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
         $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();

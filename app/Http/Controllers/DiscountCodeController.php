@@ -112,7 +112,7 @@ class DiscountCodeController extends Controller
     public function edit(DiscountCodes $discountCode)
     {
         $users = User::all();
-        $discount = Discount_codes::find($discountCode);
+        $discount = DiscountCodes::find($discountCode);
         
         return \View::make('admin/discounts/edit', array('users' => $users, 'discount' => $discount));
     }
