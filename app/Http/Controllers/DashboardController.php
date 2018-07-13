@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Dashboard;
 use App\Usersubstitutions;
-use App\DiscountCodes;
+use App\DiscountCode;
 use App\Currency;
 use Illuminate\Http\Request;
 use Auth;
@@ -19,7 +19,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $discounts = Discount_codes::all();
+        $discounts = DiscountCode::all();
         $currencies = Currency::all();
         $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
         $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();
