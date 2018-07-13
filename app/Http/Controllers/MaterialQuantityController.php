@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\MaterialQuantity;
 use App\Material;
-use App\Stores;
+use App\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
@@ -23,9 +23,9 @@ class MaterialQuantityController extends Controller
     public function index()
     {
         //$materials = Materials_quantity::where('store', Auth::user()->store)->get();
-        //$stores = Stores::where('id', '!=', Auth::user()->store)->get();
+        //$stores = Store::where('id', '!=', Auth::user()->store)->get();
         $materials = MaterialQuantity::all();
-        $stores = Stores::all();
+        $stores = Store::all();
         $materials_types = Material::all();
         $travelling = MaterialTravelling::where('storeFrom', Auth::user()->store)->orWhere('storeTo', Auth::user()->store)->get();
         
@@ -89,7 +89,7 @@ class MaterialQuantityController extends Controller
     public function edit(MaterialQuantity $materialQuantity)
     {
         $material = MaterialQuantity::find($material);
-        $stores = Stores::all();
+        $stores = Store::all();
         $materials_types = Material::withTrashed()->get();
 
         return \View::make('admin/materials_quantity/edit',array('material'=>$material, 'types' => $materials_types, 'stores' => $stores));

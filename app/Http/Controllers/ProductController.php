@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Products;
-use App\Models;
+use App\Product;
+use App\Model;
 use App\Jewel;
 use App\Price;
 use App\Stone;
 use App\ModelStone;
-use App\Product_stones;
+use App\ProductStone;
 use Illuminate\Http\Request;
-use Uuid;
 use App\Gallery;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
@@ -18,7 +17,7 @@ use Illuminate\Http\JsonResponse;
 use Response;
 use File;
 
-class ProductsController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,8 +26,8 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Products::all();
-        $models = Models::all();
+        $products = Product::all();
+        $models = Model::all();
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::all();
@@ -101,8 +100,8 @@ class ProductsController extends Controller
             $photo->save();
         }
 
-        $product = new Products();
-        $product->id = Uuid::generate()->string;
+        $product = new Product();
+        $product->id = $request->id;
         $product->name = 'Test name';
         $product->model = $request->model;
         $product->jewel_type = $request->jewelsTypes;
@@ -139,7 +138,7 @@ class ProductsController extends Controller
 
         foreach($request->stones as $key => $stone){
             if($stone) {
-                $product_stones = new Product_stones();
+                $product_stones = new ProductStone();
                 $product_stones->product = $product->id;
                 $product_stones->model = $request->model;
                 $product_stones->stone = $stone;
@@ -185,9 +184,9 @@ class ProductsController extends Controller
      */
     public function edit(Products $products, $product)
     {
-        $product = Products::find($product);
-        $product_stones = Product_stones::where('product', $product)->get();
-        $models = Models::all();
+        $product = Product::find($product);
+        $product_stones = ProductStone::where('product', $product)->get();
+        $models = Model::all();
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::all();
@@ -206,16 +205,16 @@ class ProductsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Products  $products
+     * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Products $products, $product)
+    public function update(Request $request, Product $product)
     {
-        $product = Products::find($product);
+        $product = Product::find($product);
         
         if($product){
-            $product_stones = Product_stones::where('product', $product)->get();
-            $models = Models::all();
+            $product_stones = ProductStone::where('product', $product)->get();
+            $models = Model::all();
             $jewels = Jewel::all();
             $prices = Price::where('type', 'sell')->get();
             $stones = Stone::all();
@@ -276,11 +275,11 @@ class ProductsController extends Controller
     
             $product->save();
 
-            $deleteStones = Product_stones::where('product', $product->id)->delete();
+            $deleteStones = ProductStone::where('product', $product->id)->delete();
     
             foreach($request->stones as $key => $stone){
                 if($stone) {
-                    $product_stones = new Product_stones();
+                    $product_stones = new ProductStone();
                     $product_stones->product = $product->id;
                     $product_stones->model = $request->model;
                     $product_stones->stone = $stone;
@@ -313,12 +312,12 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Products  $products
+     * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Products $products, $product)
+    public function destroy(Product $product)
     {
-        $product = Products::find($product);
+        $product = Product::find($product);
         
         if($product){
             $product->delete();

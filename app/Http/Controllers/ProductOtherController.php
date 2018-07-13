@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Stores;
-use App\Products_others;
-use App\Products_others_types;
+use App\Store;
+use App\ProductOther;
+use App\ProductOtherType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Response;
 
-class ProductsOthersController extends Controller
+class ProductOtherController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,9 +20,9 @@ class ProductsOthersController extends Controller
      */
     public function index()
     {
-        $products_others = Products_others::all();
-        $types = Products_others_types::all();
-        $stores = Stores::all();
+        $products_others = ProductOther::all();
+        $types = ProductOtherType::all();
+        $stores = Store::all();
 
         return \View::make('admin/products_others/index', array('products_others' => $products_others, 'types' => $types, 'stores' => $stores));
     }
@@ -59,7 +59,7 @@ class ProductsOthersController extends Controller
 
         //$product = Products_others::create($request->all());
 
-        $product = Products_others::create([
+        $product = ProductOther::create([
             'name' => $request->name,
             'type' => $request->type,
             'price' => $request->price,
@@ -92,10 +92,10 @@ class ProductsOthersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Products_others  $products_others
+     * @param  \App\ProductOther  $productOther
      * @return \Illuminate\Http\Response
      */
-    public function show(Products_others $products_others)
+    public function show(ProductOther $productOther)
     {
         //
     }
@@ -103,14 +103,14 @@ class ProductsOthersController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Products_others  $products_others
+     * @param  \App\ProductOther  $productOther
      * @return \Illuminate\Http\Response
      */
-    public function edit(Products_others $products_others, $product)
+    public function edit(ProductOther $productOther)
     {
-        $product = Products_others::find($product);
-        $types = Products_others_types::all();
-        $stores = Stores::all();
+        $product = ProductOther::find($productOther);
+        $types = ProductOtherType::all();
+        $stores = Store::all();
 
 
         return \View::make('admin/products_others/edit', array('product' => $product, 'types' => $types, 'stores' => $stores));
@@ -120,12 +120,12 @@ class ProductsOthersController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Products_others  $products_others
+     * @param  \App\ProductOther  $productOther
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Products_others $products_others, $product)
+    public function update(Request $request, ProductOther $productOther)
     {
-        $product = Products_others::find($product);
+        $product = ProductOther::find($productOther);
         
         $product->name = $request->name;
         $product->type = $request->type;
@@ -160,12 +160,12 @@ class ProductsOthersController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Products_others  $products_others
+     * @param  \App\ProductOther  $productOther
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Products_others $products_others, $product)
+    public function destroy(ProductOther $productOther)
     {
-        $product = Products_others::find($product);
+        $product = ProductOther::find($productOther);
         
         if($product){
             $product->delete();

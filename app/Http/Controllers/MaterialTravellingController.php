@@ -6,7 +6,7 @@ use App\Material;
 use App\MaterialTravelling;
 use App\MaterialQuantity;
 use App\History;
-use App\Stores;
+use App\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
@@ -33,8 +33,8 @@ class MaterialTravellingController extends Controller
         }
         
         //$materials = Materials_quantity::all();
-        //$stores = Stores::where('id', '!=', Auth::user()->store)->get();
-        $stores = Stores::all();
+        //$stores = Store::where('id', '!=', Auth::user()->store)->get();
+        $stores = Store::all();
         $materials_types = Material::all();
         $travelling = MaterialTravelling::all();
   

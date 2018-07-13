@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use App\Stores;
+use App\Store;
 use App\Permission;
 use Response;
 use Bouncer;
@@ -23,7 +23,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        $stores = Stores::all();
+        $stores = Store::all();
         
         return \View::make('admin/users/index', array('users' => $users, 'stores' => $stores));
     }
@@ -37,7 +37,7 @@ class UserController extends Controller
     public function edit(User $users, $user)
     {
         $user = User::find($user);
-        $stores = Stores::all();
+        $stores = Store::all();
         
         return \View::make('admin/users/edit', array('user' => $user, 'stores' => $stores));
     }

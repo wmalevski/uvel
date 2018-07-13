@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Stores;
+use App\Store;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
 use Response;
 
-class StoresController extends Controller
+class StoreController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,7 @@ class StoresController extends Controller
      */
     public function index()
     {
-        $stores = Stores::all();
+        $stores = Store::all();
 
         return \View::make('admin/stores/index', array('stores' => $stores));
     }
@@ -60,10 +60,10 @@ class StoresController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Stores  $stores
+     * @param  \App\Store  $store
      * @return \Illuminate\Http\Response
      */
-    public function show(Stores $stores)
+    public function show(Store $store)
     {
         //
     }
@@ -71,12 +71,12 @@ class StoresController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Stores  $stores
+     * @param  \App\Store  $stores
      * @return \Illuminate\Http\Response
      */
-    public function edit(Stores $stores, $store)
+    public function edit(Store $store)
     {
-        $store = Stores::find($store);
+        $store = Store::find($store);
         
         //return Response::json(array('success' => View::make('admin/stores/edit', array('store' => $store))->render()));
         return \View::make('admin/stores/edit', array('store' => $store));
@@ -86,12 +86,12 @@ class StoresController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Stores  $stores
+     * @param  \App\Store  $store
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Stores $stores, $store)
+    public function update(Request $request, Store $store)
     {
-        $store = Stores::find($store);
+        $store = Store::find($store);
         
         $store->name = $request->name;
         $store->location = $request->location;
@@ -105,12 +105,12 @@ class StoresController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Stores  $stores
+     * @param  \App\Store  $store
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Stores $stores, $store)
+    public function destroy(Store $store)
     {
-        $store = Stores::find($store);
+        $store = Store::find($store);
         
         if($store){
             $store->delete();

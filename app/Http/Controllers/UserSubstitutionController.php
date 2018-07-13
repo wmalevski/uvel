@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\UserSubstitution;
 use Illuminate\Http\Request;
-use App\Stores;
+use App\Store;
 use App\User;
 use Response;
 use Illuminate\Http\JsonResponse;
@@ -28,7 +28,7 @@ class UsersubstitutionController extends Controller
             'date_to', '<', date("Y-m-d")
         )->get();
 
-        $stores = Stores::all();
+        $stores = Store::all();
         $users = User::whereIsNot('customer')->get();
         
         return \View::make('admin/substitutions/index', array('activeSubstitutions' => $activeSubstitutions, 'inactiveSubstitutions' => $inactiveSubstitutions, 'stores' => $stores, 'users' => $users));
@@ -113,7 +113,7 @@ class UsersubstitutionController extends Controller
      */
     public function show(UserSubstitution $usersubstitution, $user)
     {
-        // $stores = Stores::all();
+        // $stores = Store::all();
 
         // $status = 0;
 
@@ -142,7 +142,7 @@ class UsersubstitutionController extends Controller
     public function edit(UserSubstitution $userSubstitution)
     {
         $substitution = UserSubstitution::find($userSubstitution);
-        $stores = Stores::withTrashed()->get();
+        $stores = Store::withTrashed()->get();
         $users = User::withTrashed()->get();
         $place = 'active';
 

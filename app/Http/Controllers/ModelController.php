@@ -2,24 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models;
+use App\Model;
 use App\Jewel;
 use App\Price;
 use App\Stone;
-use App\Model_stones;
-use App\Products;
-use App\Product_stones;
+use App\ModelStone;
+use App\Product;
+use App\ProductStone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Response;
-use Uuid;
 use Illuminate\Support\Facades\View;
 use Carbon\Carbon;
 use App\Gallery;
 use File;
 
-class ModelsController extends Controller
+class ModelController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,7 +27,7 @@ class ModelsController extends Controller
      */
     public function index()
     {
-        $models = Models::all();
+        $models = Model::all();
         $jewels = Jewel::all();
         $prices = Price::all();
         $stones = Stone::all();
@@ -82,7 +81,7 @@ class ModelsController extends Controller
 
         foreach($request->stones as $key => $stone){
             if($stone){
-                $model_stones = new Model_stones();
+                $model_stones = new ModelStone();
                 $model_stones->model = $model->id;
                 $model_stones->stone = $stone;
                 $model_stones->amount = $request->stone_amount[$key];
@@ -110,8 +109,8 @@ class ModelsController extends Controller
         }
 
         if ($request->release_product == true) {
-            $product = new Products();
-            $product->id = Uuid::generate()->string;
+            $product = new Product();
+            $product->id = $request->id;
             $product->name = $request->name;
             $product->model = $model->id;
             $product->jewel_type = $request->jewel;
@@ -140,7 +139,7 @@ class ModelsController extends Controller
 
             foreach($request->stones as $key => $stone){
                 if($stone){
-                    $product_stones = new Product_stones();
+                    $product_stones = new ProductStone();
                     $product_stones->product = $product->id;
                     $product_stones->model = $model->id;
                     $product_stones->stone = $stone;
@@ -167,16 +166,16 @@ class ModelsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models  $models
+     * @param  \App\Model  $model
      * @return \Illuminate\Http\Response
      */
-    public function edit(Models $models, $model)
+    public function edit(Model $model)
     {
-        $model = Models::find($model);
+        $model = Model::find($model);
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::all();
-        $modelStones = Model_stones::where('model', $model->id)->get();
+        $modelStones = ModelStone::where('model', $model->id)->get();
         $photos = Gallery::where(
             [
                 ['table', '=', 'models'],
@@ -198,12 +197,12 @@ class ModelsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models  $models
+     * @param  \App\Model  $model
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Models $models, $model)
+    public function update(Request $request, Model $model)
     {
-        $model = Models::find($model);
+        $model = Model::find($model);
 
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
@@ -221,11 +220,11 @@ class ModelsController extends Controller
         
         File::makeDirectory($path, 0775, true, true);
 
-        $deleteStones = Model_stones::where('model', $model->id)->delete();
+        $deleteStones = ModelStone::where('model', $model->id)->delete();
 
         foreach($request->stones as $key => $stone){
             if($stone){
-                $model_stones = new Model_stones();
+                $model_stones = new ModelStone();
                 $model_stones->model = $model->id;
                 $model_stones->stone = $stone;
                 $model_stones->amount = $request->stone_amount[$key];
@@ -271,15 +270,15 @@ class ModelsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models  $models
+     * @param  \App\Model  $model
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Models $models, $model)
+    public function destroy(Models $model)
     {
-        $model = Models::find($model);
+        $model = Model::find($model);
         
         if($model){
-            $using = Products::where('model', $model->id)->count();
+            $using = Product::where('model', $model->id)->count();
             
             if($using){
                 return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);

@@ -55,11 +55,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/stones/{stone}', 'StoneController@edit');
 
-    Route::get('/stores', 'StoresController@index')->name('stores');
-    Route::post('/stores', 'StoresController@store');
+    Route::get('/stores', 'StoreController@index')->name('stores');
+    Route::post('/stores', 'StoreController@store');
 
-    Route::get('/stores/{store}', 'StoresController@edit');
-    //Route::put('/stores/{store}', 'StoresController@update');
+    Route::get('/stores/{store}', 'StoreController@edit');
+    //Route::put('/stores/{store}', 'StoreController@update');
 
     Route::get('/nomenclatures', 'NomenclaturesController@index')->name('nomenclatures');
     Route::post('/nomenclatures', 'NomenclaturesController@store');
@@ -98,22 +98,22 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/jewels/{jewel}', 'JewelController@edit');
 
-    Route::get('/models', 'ModelsController@index')->name('models');
-    Route::post('/models', 'ModelsController@store');
+    Route::get('/models', 'ModelController@index')->name('models');
+    Route::post('/models', 'ModelController@store');
 
-    Route::get('/models/{model}', 'ModelsController@edit');
-    Route::put('/models/{model}', 'ModelsController@update');
+    Route::get('/models/{model}', 'ModelController@edit');
+    Route::put('/models/{model}', 'ModelController@update');
 
-    Route::get('/products/{id}', 'ProductsController@edit');
-    Route::get('/products', 'ProductsController@index')->name('products');
-    Route::post('/products', 'ProductsController@store');
+    Route::get('/products/{id}', 'ProductController@edit');
+    Route::get('/products', 'ProductController@index')->name('products');
+    Route::post('/products', 'ProductController@store');
 
-    Route::get('/productsothers', 'ProductsOthersController@index')->name('productsothers');
-    Route::get('/productsothers/{product}', 'ProductsOthersController@edit');
-    //Route::put('/productsothers/{product}', 'ProductsOthersController@update');
+    Route::get('/productsothers', 'ProductOtherController@index')->name('productsothers');
+    Route::get('/productsothers/{product}', 'ProductOtherController@edit');
+    //Route::put('/productsothers/{product}', 'ProductOtherController@update');
 
-    Route::get('/productsotherstypes', 'ProductsOthersTypesController@index')->name('productsotherstypes');
-    Route::get('/productsotherstypes/{type}', 'ProductsOthersTypesController@edit');
+    Route::get('/productsotherstypes', 'ProductOtherTypeController@index')->name('productsotherstypes');
+    Route::get('/productsotherstypes/{type}', 'ProductOtherTypeController@edit');
 
     Route::get('/settings', 'SettingController@index')->name('settings');
     Route::post('/settings', 'SettingController@store');
@@ -150,10 +150,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
 Route::group(['prefix' => 'ajax'], function() {
 
-    Route::post('/stores', 'StoresController@store');
-    Route::put('/stores/{store}', 'StoresController@update');
-    Route::get('/stores/{store}', 'StoresController@edit');
-    Route::post('/stores/delete/{store}', 'StoresController@destroy');
+    Route::post('/stores', 'StoreController@store');
+    Route::put('/stores/{store}', 'StoreController@update');
+    Route::get('/stores/{store}', 'StoreController@edit');
+    Route::post('/stores/delete/{store}', 'StoreController@destroy');
 
     Route::post('/materials', 'MaterialController@store');
     Route::post('/materials/delete/{material}', 'MaterialController@destroy');
@@ -194,9 +194,9 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::put('/jewels/{jewel}', 'JewelController@update');
     Route::post('/jewels/delete/{jewel}', 'JewelController@destroy');
 
-    Route::post('/models', 'ModelsController@store');
-    Route::put('/models/{model}', 'ModelsController@update');
-    Route::post('/models/delete/{model}', 'ModelsController@destroy');
+    Route::post('/models', 'ModelController@store');
+    Route::put('/models/{model}', 'ModelController@update');
+    Route::post('/models/delete/{model}', 'ModelController@destroy');
 
     Route::post('/mquantity', 'MaterialQuantityController@store');
     Route::post('/mquantity/delete/{material}', 'MaterialQuantityController@destroy');
@@ -238,19 +238,19 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/discounts', 'DiscountCodeController@store');
     Route::put('/discounts/{discount}', 'DiscountCodeController@update');
 
-    Route::get('/products/{model}', 'ProductsController@chainedSelects');
+    Route::get('/products/{model}', 'ProductController@chainedSelects');
 
-    Route::post('/products', 'ProductsController@store');
-    Route::post('/products/delete/{product}', 'ProductsController@destroy');
-    Route::put('/products/{id}', 'ProductsController@update');
+    Route::post('/products', 'ProductController@store');
+    Route::post('/products/delete/{product}', 'ProductController@destroy');
+    Route::put('/products/{id}', 'ProductController@update');
 
-    Route::post('/productsotherstypes', 'ProductsOthersTypesController@store');
-    Route::put('/productsotherstypes/{type}', 'ProductsOthersTypesController@update');
-    Route::post('/productsotherstypes/delete/{type}', 'ProductsOthersTypesController@destroy');
+    Route::post('/productsotherstypes', 'ProductOtherTypeController@store');
+    Route::put('/productsotherstypes/{type}', 'ProductOtherTypeController@update');
+    Route::post('/productsotherstypes/delete/{type}', 'ProductOtherTypeController@destroy');
 
-    Route::post('/productsothers', 'ProductsOthersController@store');
-    Route::put('/productsothers/{product}', 'ProductsOthersController@update');
-    Route::post('/productsothers/delete/{product}', 'ProductsOthersController@destroy');
+    Route::post('/productsothers', 'ProductOtherController@store');
+    Route::put('/productsothers/{product}', 'ProductOtherController@update');
+    Route::post('/productsothers/delete/{product}', 'ProductOtherController@destroy');
 
     Route::get('discounts/check/{barcode}', 'DiscountCodeController@check');
     Route::post('discounts/delete/{discount}', 'DiscountCodeController@destroy');

@@ -4,18 +4,17 @@ namespace App;
 
 use App\Jewel;
 use App\Price;
-use App\Models;
-use Illuminate\Database\Eloquent\Model;
+use App\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Response;
-use App\Stones;
-use App\StoneStyles;
+use App\Stone;
+use App\StoneStyle;
 use App\StoneContour;
-use App\StoneSizes;
+use App\StoneSize;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Products extends Model
+class Product extends Model
 {
     use SoftDeletes;
 
@@ -114,8 +113,8 @@ class Products extends Model
             
             foreach($model_stones as $stone){
                 $pass_stones[] = [
-                    'value' => Stones::withTrashed()->find($stone->stone)->id,
-                    'label' => Stones::withTrashed()->find($stone->stone)->name.' ('.StoneContour::withTrashed()->find(Stones::withTrashed()->find($stone->stone)->contour)->name. ', ' .StoneSizes::withTrashed()->find(Stones::withTrashed()->find($stone->stone)->size)->name. ' )'
+                    'value' => Stone::withTrashed()->find($stone->stone)->id,
+                    'label' => Stone::withTrashed()->find($stone->stone)->name.' ('.StoneContour::withTrashed()->find(Stone::withTrashed()->find($stone->stone)->contour)->name. ', ' .StoneSize::withTrashed()->find(Stone::withTrashed()->find($stone->stone)->size)->name. ' )'
                 ];
             }
     

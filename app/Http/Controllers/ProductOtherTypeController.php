@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Products_others_types;
+use App\ProductOtherType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Response;
 
-class ProductsOthersTypesController extends Controller
+class ProductOtherTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,7 @@ class ProductsOthersTypesController extends Controller
      */
     public function index()
     {
-        $products_others_types = Products_others_types::all();
+        $products_others_types = ProductOtherType::all();
         
         return \View::make('admin/products_others_types/index', array('products_others_types' => $products_others_types));
     }
@@ -49,7 +49,7 @@ class ProductsOthersTypesController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $type = Products_others_types::create($request->all());
+        $type = ProductOtherType::create($request->all());
 
         return Response::json(array('success' => View::make('admin/products_others_types/table',array('type'=>$type))->render()));
     }
@@ -57,10 +57,10 @@ class ProductsOthersTypesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Products_others_types  $products_others_types
+     * @param  \App\ProductOtherType  $roductOtherType
      * @return \Illuminate\Http\Response
      */
-    public function show(Products_others_types $products_others_types)
+    public function show(ProductOtherType $roductOtherType)
     {
         //
     }
@@ -68,12 +68,12 @@ class ProductsOthersTypesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Products_others_types  $products_others_types
+     * @param  \App\ProductOtherType  $roductOtherType
      * @return \Illuminate\Http\Response
      */
-    public function edit(Products_others_types $products_others_types, $type)
+    public function edit(ProductOtherType $roductOtherType)
     {
-        $type = Products_others_types::find($type);
+        $type = ProductOtherType::find($roductOtherType);
 
         return \View::make('admin/products_others_types/edit', array('type' => $type));
     }
@@ -82,12 +82,12 @@ class ProductsOthersTypesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Products_others_types  $products_others_types
+     * @param  \App\ProductOtherType  $roductOtherType
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Products_others_types $products_others_types, $type)
+    public function update(Request $request, ProductOtherType $roductOtherType)
     {
-        $type = Products_others_types::find($type);
+        $type = ProductOtherType::find($roductOtherType);
         
         $type->name = $request->name;
         $type->save();
@@ -98,12 +98,12 @@ class ProductsOthersTypesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Products_others_types  $products_others_types
+     * @param  \App\ProductOtherType  $roductOtherType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Products_others_types $products_others_types, $type)
+    public function destroy(ProductOtherType $roductOtherType)
     {
-        $type = Products_others_types::find($type);
+        $type = ProductOtherType::find($roductOtherType);
         
         if($type){
             $type->delete();

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Product_stones;
+use App\ProductStone;
 use Illuminate\Http\Request;
 
-class ProductStonesController extends Controller
+class ProductStoneController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class ProductStonesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Product_stones  $product_stones
+     * @param  \App\ProductStone  $product_stones
      * @return \Illuminate\Http\Response
      */
-    public function show(Product_stones $product_stones)
+    public function show(ProductStone $productStone)
     {
         //
     }
@@ -52,10 +52,10 @@ class ProductStonesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Product_stones  $product_stones
+     * @param  \App\ProductStone  $productStone
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product_stones $product_stones)
+    public function edit(ProductStone $productStone)
     {
         //
     }
@@ -64,10 +64,10 @@ class ProductStonesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Product_stones  $product_stones
+     * @param  \App\ProductStone  $productStone
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product_stones $product_stones)
+    public function update(Request $request, ProductStone $productStone)
     {
         //
     }
@@ -75,10 +75,10 @@ class ProductStonesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Product_stones  $product_stones
+     * @param  \App\ProductStone  $productStone
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product_stones $product_stones)
+    public function destroy(ProductStone $productStone)
     {
         //
     }

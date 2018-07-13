@@ -1,7 +1,7 @@
 <tr data-id="{{ $product->id }}">
     <td>{{ $product->code }}</td>
-    <td> @if($product->model) {{ App\Models::withTrashed()->find($product->model)->name }} @endif </td>
-    <td> @if($product->model) @if(App\Jewel::withTrashed()->find(App\Models::withTrashed()->find($product->model)->jewel)) {{ App\Jewel::find(App\Models::withTrashed()->find($product->model)->jewel)->name }} @endif @endif </td> 
+    <td> @if($product->model) {{ App\Model::withTrashed()->find($product->model)->name }} @endif </td>
+    <td> @if($product->model) @if(App\Jewel::withTrashed()->find(App\Model::withTrashed()->find($product->model)->jewel)) {{ App\Jewel::find(App\Model::withTrashed()->find($product->model)->jewel)->name }} @endif @endif </td> 
     <td> {{ App\Price::withTrashed()->find($product->retail_price)->price }} </td> 
     <td> {{ $product->weight }} </td>
     <td> {{ (App\Price::withTrashed()->find($product->retail_price)->price)*$product->weight }} </td>
