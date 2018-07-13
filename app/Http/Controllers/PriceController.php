@@ -89,7 +89,7 @@ class PriceController extends Controller
      */
     public function edit(Price $price)
     {
-        $price = Price::find($price);
+        $price = Price::find($price)->first();
         
         return \View::make('admin/prices/edit', array('price' => $price));
     }
@@ -103,7 +103,7 @@ class PriceController extends Controller
      */
     public function update(Request $request, Price $price)
     {
-        $price = Price::find($price);
+        $price = Price::find($price)->first();
         
         $price->slug = $request->slug;
         $price->price = $request->price;
@@ -132,7 +132,7 @@ class PriceController extends Controller
      */
     public function destroy(Price $price)
     {
-        $price = Price::find($price);
+        $price = Price::find($price)->first();
         
         if($price){
             $usingWProduct = Products::where('wholesale_price', $price->id)->count();

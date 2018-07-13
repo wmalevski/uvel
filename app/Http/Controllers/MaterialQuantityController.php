@@ -88,7 +88,7 @@ class MaterialQuantityController extends Controller
      */
     public function edit(MaterialQuantity $materialQuantity)
     {
-        $material = MaterialQuantity::find($material);
+        $material = MaterialQuantity::find($materialQuantity)->first();
         $stores = Store::all();
         $materials_types = Material::withTrashed()->get();
 
@@ -104,7 +104,7 @@ class MaterialQuantityController extends Controller
      */
     public function update(Request $request, MaterialQuantity $materialQuantity)
     {
-        $material = MaterialQuantity::find($material);
+        $material = MaterialQuantity::find($materialQuantity)->first();
         
         $material->material = $request->material;
         $material->quantity = $request->quantity;
@@ -133,7 +133,7 @@ class MaterialQuantityController extends Controller
      */
     public function destroy(MaterialQuantity $materialQuantity)
     {
-        $material = MaterialQuantity::find($material);
+        $material = MaterialQuantity::find($materialQuantity)->first();
         
         if($material){
             $material->delete();

@@ -76,7 +76,7 @@ class StoreController extends Controller
      */
     public function edit(Store $store)
     {
-        $store = Store::find($store);
+        $store = Store::find($store)->first();
         
         //return Response::json(array('success' => View::make('admin/stores/edit', array('store' => $store))->render()));
         return \View::make('admin/stores/edit', array('store' => $store));
@@ -91,7 +91,7 @@ class StoreController extends Controller
      */
     public function update(Request $request, Store $store)
     {
-        $store = Store::find($store);
+        $store = Store::find($store)->first();
         
         $store->name = $request->name;
         $store->location = $request->location;
@@ -110,7 +110,7 @@ class StoreController extends Controller
      */
     public function destroy(Store $store)
     {
-        $store = Store::find($store);
+        $store = Store::find($store)->first();
         
         if($store){
             $store->delete();

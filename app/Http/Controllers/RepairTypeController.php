@@ -72,7 +72,7 @@ class RepairTypeController extends Controller
      */
     public function edit(RepairType $repairType)
     {
-        $type = RepairType::find($repairType);
+        $type = RepairType::find($repairType)->first();
 
         return \View::make('admin/repair_types/edit', array('repair' => $type));
     }
@@ -86,7 +86,7 @@ class RepairTypeController extends Controller
      */
     public function update(Request $request, RepairType $repairType)
     {
-        $type = RepairType::find($repairType);
+        $type = RepairType::find($repairType)->first();
         $type->name = $request->name;
         $type->price = $request->price;
 
@@ -103,7 +103,7 @@ class RepairTypeController extends Controller
      */
     public function destroy(RepairType $repairType)
     {
-        $type = RepairType::find($repairType);
+        $type = RepairType::find($repairType)->first();
         
         if($type){
             $type->delete();

@@ -10,7 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\DB;
 use Response;
-use App\Materials;
+use App\Material;
 
 class MaterialTypeController extends Controller
 {
@@ -76,7 +76,7 @@ class MaterialTypeController extends Controller
      */
     public function edit(MaterialType $materialType)
     {
-        $material = MaterialType::find($materialType);
+        $material = MaterialType::find($materialType)->first();
 
         return \View::make('admin/materials_types/edit',array('material'=>$material));
     }
@@ -90,7 +90,7 @@ class MaterialTypeController extends Controller
      */
     public function update(Request $request, MaterialType $materialType)
     {
-        $material = MaterialType::find($materialType);
+        $material = MaterialType::find($materialType)->first();
         
         $material->name = $request->name;
         
@@ -107,10 +107,10 @@ class MaterialTypeController extends Controller
      */
     public function destroy(MaterialType $materialType)
     {
-        $material = MaterialType::find($material);
+        $material = MaterialType::find($materialType)->first();
         
         if($material){
-            $using = Materials::where('parent', $material->id)->count();
+            $using = Material::where('parent', $material->id)->count();
             
             if($using){
                 return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);

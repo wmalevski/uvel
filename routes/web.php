@@ -24,7 +24,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/repairtypes', 'RepairTypeController@index')->name('repairtypes');
     Route::post('/repairtypes', 'RepairTypeController@store');
-    Route::get('/repairtypes/{type}', 'RepairTypeController@edit');
+    Route::get('/repairtypes/{repairType}', 'RepairTypeController@edit');
 
     Route::get('/repairs', 'RepairController@index')->name('repairs');
     Route::post('/repairs', 'RepairController@store');
@@ -70,7 +70,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/materialstypes', 'MaterialTypeController@index')->name('materialstypes');
     Route::post('/materialstypes', 'MaterialTypeController@store');
 
-    Route::get('/materialstypes/{material}', 'MaterialTypeController@edit');
+    Route::get('/materialstypes/{materialType}', 'MaterialTypeController@edit');
 
     Route::get('/materials/{material}', 'MaterialController@edit');
     Route::put('/materials/{material}', 'MaterialController@update');
@@ -83,7 +83,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/mtravelling', 'MaterialTravellingController@index')->name('materials_travelling');
     Route::post('/mtravelling', 'MaterialTravellingController@store');
 
-    Route::get('/mquantity/{material}', 'MaterialQuantityController@edit');
+    Route::get('/mquantity/{materialQuantity}', 'MaterialQuantityController@edit');
 
     Route::get('/prices', 'PriceController@index')->name('prices');
     Route::post('/prices', 'PriceController@index');
@@ -159,7 +159,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/materials/delete/{material}', 'MaterialController@destroy');
 
     Route::post('/materialstypes', 'MaterialTypeController@store');
-    Route::post('/materialstypes/delete/{material}', 'MaterialTypeController@destroy');
+    Route::post('/materialstypes/delete/{materialType}', 'MaterialTypeController@destroy');
 
     Route::post('/repairtypes', 'RepairTypeController@store');
 
@@ -199,17 +199,17 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/models/delete/{model}', 'ModelController@destroy');
 
     Route::post('/mquantity', 'MaterialQuantityController@store');
-    Route::post('/mquantity/delete/{material}', 'MaterialQuantityController@destroy');
+    Route::post('/mquantity/delete/{materialQuantity}', 'MaterialQuantityController@destroy');
 
     Route::post('/mquantity/deletebymaterial/{material}', 'MaterialQuantityController@deleteByMaterial');
 
     Route::post('/sendMaterial', 'MaterialTravellingController@store');
 
-    Route::put('/mquantity/{material}', 'MaterialQuantityController@update');
+    Route::put('/mquantity/{materialQuantity}', 'MaterialQuantityController@update');
     
     Route::put('/materials/{material}', 'MaterialController@update');
 
-    Route::put('/materialstypes/{material}', 'MaterialTypeController@update');
+    Route::put('/materialstypes/{materialType}', 'MaterialTypeController@update');
 
     Route::put('/users/{user}', 'UserController@update');
 
@@ -230,10 +230,10 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::get('/repairs/certificate/{id}', 'RepairController@certificate');
     Route::post('/repairs/delete/{repair}', 'RepairController@destroy');
 
-    Route::put('/repairtypes/{type}', 'RepairTypeController@update');
-    Route::post('/repairtypes/delete/{type}', 'RepairTypeController@destroy');
+    Route::put('/repairtypes/{repairType}', 'RepairTypeController@update');
+    Route::post('/repairtypes/delete/{repairType}', 'RepairTypeController@destroy');
 
-    Route::put('/repairs/{repair}', 'RepairController@update');
+    Route::put('/repairs/{repairType}', 'RepairController@update');
 
     Route::post('/discounts', 'DiscountCodeController@store');
     Route::put('/discounts/{discountCode}', 'DiscountCodeController@update');
