@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dashboard;
-use App\Usersubstitutions;
+use App\UserSubstitution;
 use App\DiscountCode;
 use App\Currency;
 use Illuminate\Http\Request;
@@ -31,7 +31,7 @@ class DashboardController extends Controller
             $priceCon = 0;
         }
 
-        // $substitution = Usersubstitutions::where([
+        // $substitution = UserSubstitution::where([
         //     ['user_id', '=', Auth::user()->id],
         //     ['date_to', '>=', date("Y-m-d")]
         // ])->first();

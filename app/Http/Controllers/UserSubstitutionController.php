@@ -108,16 +108,16 @@ class UsersubstitutionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Usersubstitutions  $usersubstitutions
+     * @param  \App\UserSubstitution  $usersubstitutions
      * @return \Illuminate\Http\Response
      */
-    public function show(UserSubstitution $usersubstitutions, $user)
+    public function show(UserSubstitution $usersubstitution, $user)
     {
         // $stores = Stores::all();
 
         // $status = 0;
 
-        // $substitution = Usersubstitutions::where([
+        // $substitution = UserSubstitution::where([
         //     ['user_id', '=', $user],
         //     ['date_to', '>=', date("dd-mm-yyyy")]
         // ])->first();

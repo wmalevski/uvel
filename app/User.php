@@ -40,7 +40,7 @@ class User extends Authenticatable
 
     public function getStore()
     {
-        $substitution = Usersubstitutions::where([
+        $substitution = UserSubstitution::where([
             ['user_id', '=', $this->id],
             ['date_to', '>=', date("Y-m-d")]
         ])->first();

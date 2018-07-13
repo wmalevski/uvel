@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Usersubstitutions;
+use App\UserSubstitution;
 use Illuminate\Support\Facades\Auth;
 
 class CheckStore
@@ -18,7 +18,7 @@ class CheckStore
     public function handle($request, Closure $next)
     {
         if(Auth::user()){
-            $substitution = Usersubstitutions::where([
+            $substitution = UserSubstitution::where([
                 ['user_id', '=', Auth::user()->id],
                 ['date_to', '>=', date("Y-m-d")]
             ])->first();
