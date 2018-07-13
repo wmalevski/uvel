@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Sellings;
+use App\Selling;
 use Illuminate\Http\Request;
 use App\RepairType;
 use Cart;
@@ -17,7 +17,7 @@ use Illuminate\Http\JsonResponse;
 use App\DiscountCodes;
 use Response;
 
-class SellingsController extends Controller
+class SellingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -73,10 +73,10 @@ class SellingsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Sellings  $sellings
+     * @param  \App\Selling  $selling
      * @return \Illuminate\Http\Response
      */
-    public function show(Sellings $sellings)
+    public function show(Selling $selling)
     {
         //
     }
@@ -84,10 +84,10 @@ class SellingsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Sellings  $sellings
+     * @param  \App\Selling  $selling
      * @return \Illuminate\Http\Response
      */
-    public function edit(Sellings $sellings)
+    public function edit(Selling $selling)
     {
         //
     }
@@ -96,10 +96,10 @@ class SellingsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Sellings  $sellings
+     * @param  \App\Selling  $selling
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Sellings $sellings)
+    public function update(Request $request, Selling $selling)
     {
         //
     }
@@ -107,10 +107,10 @@ class SellingsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Sellings  $sellings
+     * @param  \App\Selling  $selling
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Sellings $sellings)
+    public function destroy(Selling $selling)
     {
         //
     }

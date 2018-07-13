@@ -30,8 +30,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::post('/repairs', 'RepairController@store');
     Route::get('/repairs/{repair}', 'RepairController@edit');
 
-    Route::get('/selling', 'SellingsController@index')->name('selling');
-    Route::post('/selling', 'SellingsController@store');
+    Route::get('/selling', 'SellingController@index')->name('selling');
+    Route::post('/selling', 'SellingController@store');
 
     Route::get('/stones/sizes', 'StoneSizeController@index')->name('sizes');
     Route::post('/stones/sizes', 'StoneSizeController@store');
@@ -130,9 +130,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/discounts/{discount}', 'DiscountCodeController@edit');
 
-    Route::get('/setDiscount/{barcode}',  'SellingsController@setDiscount');
+    Route::get('/setDiscount/{barcode}',  'SellingController@setDiscount');
 
-    Route::get('/sell/clearCart', 'SellingsController@clearCart')->name('clearCart');
+    Route::get('/sell/clearCart', 'SellingController@clearCart')->name('clearCart');
 
     Route::get('/stones/sizes/{size}', 'StoneSizeController@edit');
 
@@ -255,11 +255,11 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::get('discounts/check/{barcode}', 'DiscountCodeController@check');
     Route::post('discounts/delete/{discount}', 'DiscountCodeController@destroy');
 
-    Route::post('/sell', 'SellingsController@sell')->name('sellScan');
-    Route::get('/sell/setDiscount/{barcode}',  'SellingsController@setDiscount')->name('addDiscount');
-    Route::get('/sellings/information', 'SellingsController@printInfo');
+    Route::post('/sell', 'SellingController@sell')->name('sellScan');
+    Route::get('/sell/setDiscount/{barcode}',  'SellingController@setDiscount')->name('addDiscount');
+    Route::get('/sellings/information', 'SellingController@printInfo');
 
-    Route::post('/sell/removeItem/{item}', 'SellingsController@removeItem');
+    Route::post('/sell/removeItem/{item}', 'SellingController@removeItem');
 
     Route::post('/sell/payment', 'PaymentController@store');
 
