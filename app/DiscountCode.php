@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Discount_codes extends Model
+class DiscountCode extends Model
 {
     use SoftDeletes;
 
@@ -23,7 +23,7 @@ class Discount_codes extends Model
     protected $dates = ['deleted_at'];
 
     public function check($barcode){
-        $discount = Discount_codes::where('barcode', $barcode)->first();
+        $discount = DiscountCodes::where('barcode', $barcode)->first();
         
         if($discount){
             if($discount->expires != ''){
