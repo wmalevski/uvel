@@ -7,7 +7,7 @@ use App\Models;
 use App\Jewel;
 use App\Price;
 use App\Stone;
-use App\Model_stones;
+use App\ModelStone;
 use App\Product_stones;
 use Illuminate\Http\Request;
 use Uuid;

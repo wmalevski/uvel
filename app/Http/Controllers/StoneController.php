@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\View;
 use Uuid;
 use App\Gallery;
 use File;
-use App\Model_stones;
+use App\ModelStone;
 use App\Product_stones;
 
 
@@ -212,7 +212,7 @@ class StoneController extends Controller
         $stone = Stone::find($stone);
         
         if($stone){
-            $usingModel = Model_stones::where('stone', $stone->id)->count();
+            $usingModel = ModelStone::where('stone', $stone->id)->count();
             $usingProduct = Product_stones::where('stone', $stone->id)->count();
 
             if($usingModel || $usingProduct){

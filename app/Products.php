@@ -56,7 +56,7 @@ class Products extends Model
                 'material' => Jewel::withTrashed()->find($model->jewel)->material
             ])->get();
 
-            $model_stones = Model_stones::where('model', $model->id)->get();
+            $model_stones = ModelStone::where('model', $model->id)->get();
     
             $pass_jewels = array();
             
