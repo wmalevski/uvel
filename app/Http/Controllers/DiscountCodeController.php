@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Discount_codes;
+use App\DiscountCodes;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -10,7 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Response;
 use Illuminate\Support\Facades\View;
 
-class DiscountCodesController extends Controller
+class DiscountCodeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +19,7 @@ class DiscountCodesController extends Controller
      */
     public function index()
     {
-        $discounts = Discount_codes::all();
+        $discounts = DiscountCodes::all();
         $users = User::all();
         
         return \View::make('admin/discounts/index', array('discounts' => $discounts, 'users' => $users));
@@ -36,7 +36,7 @@ class DiscountCodesController extends Controller
     }
 
     public function check($barcode){
-        $discount = new Discount_codes;
+        $discount = new DiscountCodes;
         return json_encode($discount->check($barcode));
     }
 
@@ -58,7 +58,7 @@ class DiscountCodesController extends Controller
         }
 
 
-        $discount = Discount_codes::create([
+        $discount = DiscountCodes::create([
             'discount' => $request->discount,
             'expires' => $request->date_expires,
             'user' => $request->user,
@@ -95,10 +95,10 @@ class DiscountCodesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Discount_codes  $discount_codes
+     * @param  \App\DiscountCodes  $discount_codes
      * @return \Illuminate\Http\Response
      */
-    public function show(Discount_codes $discount_codes)
+    public function show(DiscountCodes $discountCode)
     {
         //
     }
@@ -106,13 +106,13 @@ class DiscountCodesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Discount_codes  $discount_codes
+     * @param  \App\DiscountCodes  $discount_codes
      * @return \Illuminate\Http\Response
      */
-    public function edit(Discount_codes $discount_codes, $discount)
+    public function edit(DiscountCodes $discountCode)
     {
         $users = User::all();
-        $discount = Discount_codes::find($discount);
+        $discount = Discount_codes::find($discountCode);
         
         return \View::make('admin/discounts/edit', array('users' => $users, 'discount' => $discount));
     }
@@ -121,10 +121,10 @@ class DiscountCodesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Discount_codes  $discount_codes
+     * @param  \App\DiscountCodes  $discount_codes
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Discount_codes $discount_codes, $discount)
+    public function update(Request $request, DiscountCodes $discountCode)
     {
         $validator = Validator::make( $request->all(), [
             'discount' => 'required|integer|between:0,100'
@@ -135,7 +135,7 @@ class DiscountCodesController extends Controller
         }
 
         $users = User::all();
-        $discount = Discount_codes::find($discount);
+        $discount = DiscountCodes::find($discountCode);
 
         $discount->discount = $request->discount;
         $discount->expires = $request->date_expires;
@@ -161,12 +161,12 @@ class DiscountCodesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Discount_codes  $discount_codes
+     * @param  \App\DiscountCodes  $discount_codes
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Discount_codes $discount_codes, $discount)
+    public function destroy(DiscountCodes $discount_codes)
     {
-        $discount = Discount_codes::find($discount);
+        $discount = DiscountCodes::find($discountCode);
         
         if($discount){
             $discount->delete();

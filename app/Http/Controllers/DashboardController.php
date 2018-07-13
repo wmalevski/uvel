@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Dashboard;
 use App\Usersubstitutions;
-use App\Discount_codes;
+use App\DiscountCodes;
 use App\Currency;
 use Illuminate\Http\Request;
 use Auth;
