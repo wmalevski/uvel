@@ -293,7 +293,7 @@ class RepairController extends Controller
      */
     public function destroy(Repair $repair)
     {
-        $repair = Repair::find($repair);
+        $repair = Repair::find($repair)->first();
 
         if($repair){
             $repair->delete();
