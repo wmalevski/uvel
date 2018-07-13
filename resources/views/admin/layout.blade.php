@@ -225,10 +225,10 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a class="sidebar-link" href="{{ route('productsothers') }}">Наличности</a>
+                    <a class="sidebar-link" href="{{ route('products_others') }}">Наличности</a>
                   </li>
                   <li>
-                    <a class="sidebar-link" href="{{ route('productsotherstypes') }}">Типове</a>
+                    <a class="sidebar-link" href="{{ route('products_others_types') }}">Типове</a>
                   </li>
                 </ul>
               </li>
@@ -245,7 +245,7 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a class="sidebar-link" href="{{ route('materialstypes') }}">Типове</a>
+                    <a class="sidebar-link" href="{{ route('materials_types') }}">Типове</a>
                   </li>
 
                   <li>
@@ -301,7 +301,7 @@
             </a>
             <ul class="dropdown-menu">
               <li>
-                <a class="sidebar-link" href="{{ route('repairtypes') }}">Видове</a>
+                <a class="sidebar-link" href="{{ route('repair_types') }}">Видове</a>
               </li>
               <li>
                 <a class="sidebar-link" href="{{ route('repairs') }}">Ремонти</a>
@@ -321,7 +321,7 @@
             </a>
             <ul class="dropdown-menu">
               <li>
-                <a class="sidebar-link" href="{{ route('stockPrices') }}">Борсови цени</a>
+                <a class="sidebar-link" href="{{ route('stock_prices') }}">Борсови цени</a>
               </li>
               <li>
                 <a class="sidebar-link" href="{{ route('currencies') }}">Валути и курсове</a>
