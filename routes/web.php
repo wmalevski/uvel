@@ -42,10 +42,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/stones/contours', 'StoneContourController@index')->name('contours');
     Route::post('/stones/contours', 'StoneContourController@store');
 
-    //Route::get('/users/substitution/{user}', 'UsersubstitutionsController@show');
+    //Route::get('/users/substitution/{user}', 'UserSubstitutionController@show');
 
-    Route::get('/users/substitutions', 'UsersubstitutionsController@index')->name('substitutions');
-    Route::get('/users/substitutions/{substitution}', 'UsersubstitutionsController@edit');
+    Route::get('/users/substitutions', 'UserSubstitutionController@index')->name('substitutions');
+    Route::get('/users/substitutions/{substitution}', 'UserSubstitutionController@edit');
 
     Route::get('/users', 'UserController@index')->name('users');
     Route::get('/users/{user}', 'UserController@edit');
@@ -216,7 +216,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/users', 'UserController@store');
     Route::post('/users/delete/{user}', 'UserController@destroy');
 
-    //Route::put('/users/substitutions/{user}', 'UsersubstitutionsController@store');
+    //Route::put('/users/substitutions/{user}', 'UserSubstitutionController@store');
 
     Route::post('/repairs', 'RepairController@store');
 
@@ -269,10 +269,10 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::get('/getPrices/{material}', 'PriceController@getByMaterial');
 
-    Route::post('/users/substitutions', 'UsersubstitutionsController@store');
+    Route::post('/users/substitutions', 'UserSubstitutionController@store');
 
-    Route::put('/users/substitutions/{substitution}', 'UsersubstitutionsController@update');
-    Route::post('/users/substitutions/delete/{substitution}', 'UsersubstitutionsController@destroy');
+    Route::put('/users/substitutions/{substitution}', 'UserSubstitutionController@update');
+    Route::post('/users/substitutions/delete/{substitution}', 'UserSubstitutionController@destroy');
 
     Route::post('/gallery/delete/{photo}', 'GalleryController@destroy');
 });
