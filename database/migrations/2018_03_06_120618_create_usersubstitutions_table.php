@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersubstitutionsTable extends Migration
+class CreateUserSubstitutionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateUsersubstitutionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('usersubstitutions', function (Blueprint $table) {
+        Schema::create('user_substitutions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->references('id')->on('users');;
             $table->integer('store_id')->references('id')->on('stores');;
@@ -31,6 +31,6 @@ class CreateUsersubstitutionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('usersubstitutions');
+        Schema::dropIfExists('user_substitutions');
     }
 }
