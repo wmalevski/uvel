@@ -164,7 +164,7 @@ class DiscountCodeController extends Controller
      * @param  \App\DiscountCode  $discount_codes
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DiscountCode $discount_codes)
+    public function destroy(DiscountCode $discountCode)
     {
         $discount = DiscountCode::find($discountCode);
         

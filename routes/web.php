@@ -128,7 +128,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/discounts', 'DiscountCodeController@index')->name('discounts');
 
-    Route::get('/discounts/{discount}', 'DiscountCodeController@edit');
+    Route::get('/discounts/{discountCode}', 'DiscountCodeController@edit');
 
     Route::get('/setDiscount/{barcode}',  'SellingController@setDiscount');
 
@@ -236,7 +236,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::put('/repairs/{repair}', 'RepairController@update');
 
     Route::post('/discounts', 'DiscountCodeController@store');
-    Route::put('/discounts/{discount}', 'DiscountCodeController@update');
+    Route::put('/discounts/{discountCode}', 'DiscountCodeController@update');
 
     Route::get('/products/{model}', 'ProductController@chainedSelects');
 
@@ -253,7 +253,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/productsothers/delete/{product}', 'ProductOtherController@destroy');
 
     Route::get('discounts/check/{barcode}', 'DiscountCodeController@check');
-    Route::post('discounts/delete/{discount}', 'DiscountCodeController@destroy');
+    Route::post('discounts/delete/{discountCode}', 'DiscountCodeController@destroy');
 
     Route::post('/sell', 'SellingController@sell')->name('sellScan');
     Route::get('/sell/setDiscount/{barcode}',  'SellingController@setDiscount')->name('addDiscount');
