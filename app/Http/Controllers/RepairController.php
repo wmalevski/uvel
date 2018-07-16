@@ -128,7 +128,7 @@ class RepairController extends Controller
      */
     public function edit(Repair $repair)
     {
-        $repair = Repair::where('barcode', $repair)->first();
+        $repair = Repair::where('barcode', $repair)->get();
         $repairTypes = RepairType::all();
         $materials = Material::all();
 

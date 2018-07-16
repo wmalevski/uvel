@@ -223,7 +223,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::get('/repairs/return/{repair}', 'RepairController@return');
     Route::put('/repairs/return/{repair}', 'RepairController@returnRepair');
 
-    Route::get('/repairs/edit/{repair}', 'RepairController@edit');
+    //Route::get('/repairs/edit/{repair}', 'RepairController@edit');
     Route::put('/repairs/edit/{repair}', 'RepairController@update');
 
     Route::get('/repairs/{barcode}', 'RepairController@scan');
