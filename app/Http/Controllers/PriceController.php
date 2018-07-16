@@ -90,8 +90,6 @@ class PriceController extends Controller
      */
     public function edit(Price $price)
     {
-        $price = Price::find($price)->first();
-        
         return \View::make('admin/prices/edit', array('price' => $price));
     }
 
@@ -103,9 +101,7 @@ class PriceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Price $price)
-    {
-        $price = Price::find($price)->first();
-        
+    {       
         $price->slug = $request->slug;
         $price->price = $request->price;
         $price->type = $request->type;
@@ -132,9 +128,7 @@ class PriceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Price $price)
-    {
-        $price = Price::find($price)->first();
-        
+    { 
         if($price){
             $usingWProduct = Product::where('wholesale_price', $price->id)->count();
             $usingRProduct = Product::where('retail_price', $price->id)->count();
