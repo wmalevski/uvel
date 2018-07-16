@@ -58,7 +58,7 @@ class ProductController extends Controller
         
     }
 
-    public function chainedSelects(Request $request, $model){
+    public function chainedSelects(Request $request, Model $model){
         $product = new Product;
         return $product->chainedSelects($model);
     }
@@ -87,7 +87,7 @@ class ProductController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $material = Materials_quantity::withTrashed()->find($request->material);
+        $material = MaterialQuantity::withTrashed()->find($request->material);
 
         if($material->quantity < $request->weight){
             return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
@@ -232,9 +232,8 @@ class ProductController extends Controller
      * @param  \App\Product  $products
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $products, $product)
+    public function edit(Product $product)
     {
-        $product = Product::find($product);
         $product_stones = ProductStone::where('product', $product)->get();
         $models = Model::all();
         $jewels = Jewel::all();
@@ -261,8 +260,6 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $product = Product::find($product);
-        
         if($product){
             $product_stones = ProductStone::where('product', $product)->get();
             $models = Model::all();
@@ -402,8 +399,6 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        $product = Product::find($product);
-        
         if($product){
             $product->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));

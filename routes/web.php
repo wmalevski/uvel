@@ -104,7 +104,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/models/{model}', 'ModelController@edit');
     Route::put('/models/{model}', 'ModelController@update');
 
-    Route::get('/products/{id}', 'ProductController@edit');
+    Route::get('/products/{product}', 'ProductController@edit');
     Route::get('/products', 'ProductController@index')->name('products');
     Route::post('/products', 'ProductController@store');
 
@@ -242,7 +242,7 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/products', 'ProductController@store');
     Route::post('/products/delete/{product}', 'ProductController@destroy');
-    Route::put('/products/{id}', 'ProductController@update');
+    Route::put('/products/{product}', 'ProductController@update');
 
     Route::post('/productsotherstypes', 'ProductOtherTypeController@store');
     Route::put('/productsotherstypes/{productOtherType}', 'ProductOtherTypeController@update');

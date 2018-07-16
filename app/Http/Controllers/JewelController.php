@@ -24,9 +24,8 @@ class JewelController extends Controller
     public function index()
     {
         $jewels = Jewel::all();
-        $materials = Material::all();
 
-        return view('admin.jewels.index', compact('jewels', 'materials'));
+        return view('admin.jewels.index', compact('jewels'));
     }
 
     /**
@@ -48,8 +47,7 @@ class JewelController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make( $request->all(), [
-            'name' => 'required',
-            'material' => 'required',
+            'name' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -57,9 +55,8 @@ class JewelController extends Controller
         }
 
         $jewel = Jewel::create($request->all());
-        $material = Material::find($jewel->material);
 
-        return Response::json(array('success' => View::make('admin/jewels/table',array('jewel'=>$jewel, 'material'=>$material))->render()));
+        return Response::json(array('success' => View::make('admin/jewels/table',array('jewel'=>$jewel))->render()));
     }
 
     /**
@@ -82,10 +79,9 @@ class JewelController extends Controller
     public function edit(Jewel $jewel)
     {
         $jewel = Jewel::find($jewel)->first();
-        $materials = Material::all();
         
         //return Response::json(array('success' => View::make('admin/jewels/edit',array('jewel'=>$jewel, 'materials'=>$materials))->render()));
-        return \View::make('admin/jewels/edit',array('jewel'=>$jewel, 'materials'=>$materials));
+        return \View::make('admin/jewels/edit',array('jewel'=>$jewel));
     }
 
     /**
@@ -98,14 +94,12 @@ class JewelController extends Controller
     public function update(Request $request, Jewel $jewel)
     {
         $jewel = Jewel::find($jewel)->first();
-        $materials = Material::all();
         
         $jewel->name = $request->name;
-        $jewel->material = $request->material;
         
         $jewel->save();
 
-        return Response::json(array('ID' => $jewel->id, 'table' => View::make('admin/jewels/table',array('jewel'=>$jewel, 'materials'=>$materials))->render()));
+        return Response::json(array('ID' => $jewel->id, 'table' => View::make('admin/jewels/table',array('jewel'=>$jewel))->render()));
     }
 
     /**

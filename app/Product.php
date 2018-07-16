@@ -13,6 +13,7 @@ use App\StoneStyle;
 use App\StoneContour;
 use App\StoneSize;
 use App\Gallery;
+use App\ModelOption;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
@@ -41,10 +42,9 @@ class Product extends Model
         return $this->hasMany('App\Gallery');
     }
 
-    public function chainedSelects($model){
-        $model = Models::find($model);
-        $materials = Materials::all();
-        $default = ModelOptions::where([
+    public function chainedSelects(Model $model){
+        $materials = Material::all();
+        $default = ModelOption::where([
             ['model', '=', $model->id],
             ['default', '=', 'yes']
         ])->first();
@@ -171,7 +171,7 @@ class Product extends Model
                 'price' => $model->price,
                 'materials' => $pass_materials,
                 'photos' => $pass_photos,
-                'pricebuy' => Prices::withTrashed()->where('material', $default->material)->where('type', 'buy')->first()->price,
+                'pricebuy' => Price::withTrashed()->where('material', $default->material)->where('type', 'buy')->first()->price,
             );
         }
     }

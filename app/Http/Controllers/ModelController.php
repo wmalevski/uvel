@@ -273,7 +273,7 @@ class ModelController extends Controller
         foreach($materials as $material){
             $pass_materials[] = [
                 'value' => $material->id,
-                'label' => Materials::withTrashed()->find($material->material)->name.' - '. Materials::withTrashed()->find($material->material)->color.  ' - '  .Materials::withTrashed()->find($material->material)->carat,
+                'label' => Material::withTrashed()->find($material->material)->name.' - '. Material::withTrashed()->find($material->material)->color.  ' - '  .Material::withTrashed()->find($material->material)->carat,
                 'pricebuy' => Price::withTrashed()->where('material', $material->material)->where('type', 'buy')->first()->price,
                 'material' => $material->material
             ];
@@ -405,8 +405,6 @@ class ModelController extends Controller
      */
     public function destroy(Model $model)
     {
-        $model = Model::find($model);
-        
         if($model){
             $using = Product::where('model', $model->id)->count();
             
