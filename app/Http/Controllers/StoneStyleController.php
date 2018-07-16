@@ -71,7 +71,7 @@ class StoneStyleController extends Controller
      */
     public function edit(StoneStyle $stoneStyle)
     {
-        $style = StoneStyle::find($stoneStyle);
+        $style = StoneStyle::find($stoneStyle)->first();
 
         return \View::make('admin/stone_styles/edit', array('style' => $style));
     }
@@ -85,7 +85,7 @@ class StoneStyleController extends Controller
      */
     public function update(Request $request, StoneStyle $stoneStyle)
     {
-        $style = StoneStyle::find($stoneStyle);
+        $style = StoneStyle::find($stoneStyle)->first();
         
         $style->name = $request->name;
         
@@ -102,7 +102,7 @@ class StoneStyleController extends Controller
      */
     public function destroy(StoneStyle $stoneStyle)
     {
-        $style = StoneStyle::find($stoneStyle);
+        $style = StoneStyle::find($stoneStyle)->first();
         
         if($style){
             $style->delete();
