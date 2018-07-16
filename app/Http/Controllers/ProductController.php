@@ -9,6 +9,7 @@ use App\Price;
 use App\Stone;
 use App\ModelStone;
 use App\ProductStone;
+use App\ModelOption;
 use Illuminate\Http\Request;
 use App\Gallery;
 use Illuminate\Support\Facades\Validator;
@@ -58,7 +59,7 @@ class ProductController extends Controller
     }
 
     public function chainedSelects(Request $request, $model){
-        $product = new Products;
+        $product = new Product;
         return $product->chainedSelects($model);
     }
 
@@ -92,32 +93,16 @@ class ProductController extends Controller
             return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
         }
 
-        $material->quantity - $request->weight;
-        $material->save();
+        // $material->quantity - $request->weight;
+        // $material->save();
 
-        $path = public_path('uploads/products/');
-        
-        File::makeDirectory($path, 0775, true, true);
-
-        $file_data = $request->input('images'); 
-        foreach($file_data as $img){
-            $file_name = 'productimage_'.uniqid().time().'.png';
-            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-            file_put_contents(public_path('uploads/products/').$file_name, $data);
-
-            $photo = new Gallery();
-            $photo->photo = $file_name;
-            $photo->row_id = 1;
-            $photo->table = 'products';
-
-            $photo->save();
-        }
+        $model = Model::find($request->model);
 
         $product = new Product();
-        $product->id = $request->id;
-        $product->name = 'Test name';
+        $product->name = $model->name;
         $product->model = $request->model;
         $product->jewel_type = $request->jewelsTypes;
+        $product->material = $request->material;
         $product->weight = $request->weight;
         $product->retail_price = $request->retail_price;
         $product->wholesale_price  = $request->wholesale_prices;
@@ -152,7 +137,28 @@ class ProductController extends Controller
 
         $product->save();
 
-        $findModel = ModelOptions::where('material', $request->material)->get();
+        $path = public_path('uploads/products/');
+        
+        File::makeDirectory($path, 0775, true, true);
+
+        $file_data = $request->input('images'); 
+        foreach($file_data as $img){
+            $file_name = 'productimage_'.uniqid().time().'.png';
+            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+            file_put_contents(public_path('uploads/products/').$file_name, $data);
+
+            $photo = new Gallery();
+            $photo->photo = $file_name;
+            $photo->product_id = 1;
+            $photo->table = 'products';
+
+            $photo->save();
+        }
+
+        $findModel = ModelOptions::where([
+            ['material', '=', $request->material],
+            ['model', '=', $request->model]
+        ])->get();
 
         if(!$findModel){
             $option = new ModelOptions();
@@ -164,23 +170,30 @@ class ProductController extends Controller
             $option->save;
         }
 
-        foreach($request->stones as $key => $stone){
-            if($stone) {
-                $checkStone = Stone::find($stone);
-                if($request->stone_amount[$key] < $checkStone->amount){
-                    return Response::json(['errors' => ['stone_weight' => ['Няма достатъчна наличност от този камък.']]], 401);
+        if($request->stones){
+            foreach($request->stones as $key => $stone){
+                if($stone) {
+                    $checkStone = Stone::find($stone);
+                    if($checkStone->amount < $request->stone_amount[$key]){
+                        return Response::json(['errors' => ['stone_weight' => ['Няма достатъчна наличност от този камък.']]], 401);
+                    }
+            
+                    $checkStone->amount = $checkStone->amount - $request->stone_amount[$key];
+                    $checkStone->save();
+    
+                    $product_stones = new ProductStone();
+                    $product_stones->product = $product->id;
+                    $product_stones->model = $request->model;
+                    $product_stones->stone = $stone;
+                    $product_stones->amount = $request->stone_amount[$key];
+                    $product_stones->weight = $request->stone_weight[$key];
+                    if($request->stone_flow[$key] == true){
+                        $product_stones->flow = 'yes';
+                    }else{
+                        $product_stones->flow = 'no';
+                    }
+                    $product_stones->save();
                 }
-        
-                $checkStone->amount = $checkStone->amount - $request->stone_amount[$key];
-                $checkStone->save();
-
-                $product_stones = new Product_stones();
-                $product_stones->product = $product->id;
-                $product_stones->model = $request->model;
-                $product_stones->stone = $stone;
-                $product_stones->amount = $request->stone_amount[$key];
-                $product_stones->weight = $request->stone_weight[$key];
-                $product_stones->save();
             }
         }
 
@@ -193,7 +206,7 @@ class ProductController extends Controller
 
             $photo = new Gallery();
             $photo->photo = $file_name;
-            $photo->row_id = $product->id;
+            $photo->product_id = $product->id;
             $photo->table = 'products';
 
             $photo->save();
@@ -205,10 +218,10 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Products  $products
+     * @param  \App\Product  $products
      * @return \Illuminate\Http\Response
      */
-    public function show(Products $products)
+    public function show(Product $products)
     {
         //
     }
@@ -216,10 +229,10 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Products  $products
+     * @param  \App\Product  $products
      * @return \Illuminate\Http\Response
      */
-    public function edit(Products $products, $product)
+    public function edit(Product $products, $product)
     {
         $product = Product::find($product);
         $product_stones = ProductStone::where('product', $product)->get();
@@ -227,15 +240,16 @@ class ProductController extends Controller
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::all();
+        $materials = MaterialQuantity::all();
 
         $photos = Gallery::where(
             [
                 ['table', '=', 'products'],
-                ['row_id', '=', $product->id]
+                ['product_id', '=', $product->id]
             ]
         )->get();
 
-        return \View::make('admin/products/edit', array('photos' => $photos, 'product_stones' => $product_stones, 'product' => $product, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones));
+        return \View::make('admin/products/edit', array('photos' => $photos, 'product_stones' => $product_stones, 'product' => $product, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials));
     }
 
     /**
@@ -259,7 +273,7 @@ class ProductController extends Controller
             $photos = Gallery::where(
                 [
                     ['table', '=', 'products'],
-                    ['row_id', '=', $product->id]
+                    ['product_id', '=', $product->id]
                 ]
             )->get();
 
@@ -277,22 +291,30 @@ class ProductController extends Controller
                 return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
             }
 
-            $path = public_path('uploads/products/');
-            
-            File::makeDirectory($path, 0775, true, true);
-    
-            $file_data = $request->input('images'); 
-            foreach($file_data as $img){
-                $file_name = 'productimage_'.uniqid().time().'.png';
-                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                file_put_contents(public_path('uploads/products/').$file_name, $data);
-    
-                $photo = new Gallery();
-                $photo->photo = $file_name;
-                $photo->row_id = $product->id;
-                $photo->table = 'products';
-    
-                $photo->save();
+            $currentMaterial = MaterialQuantity::withTrashed()->find($product->material);
+
+            if($request->material != $product->material){
+                $newMaterial = MaterialQuantity::withTrashed()->find($request->material);
+
+                if($newMaterial->quantity < $request->weight){
+                    return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
+                }
+
+                $currentMaterial->quantity = $currentMaterial->quantity + $product->weight;
+                $currentMaterial->save();
+
+                $newMaterial->quantity = $newMaterial->quantity - $request->weight;
+                $newMaterial->save();
+
+            }else if($request->weight != $product->weight){
+                if($currentMaterial->quantity < $request->weight){
+                    return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
+                }
+
+                $newQuantity = $product->weight - $request->weight;
+                $currentMaterial->quantity = $currentMaterial->quantity + $newQuantity;
+                $currentMaterial->save();
+
             }
     
             $product->model = $request->model;
@@ -312,23 +334,49 @@ class ProductController extends Controller
     
             $product->save();
 
+            $path = public_path('uploads/products/');
+            
+            File::makeDirectory($path, 0775, true, true);
+    
+            $file_data = $request->input('images'); 
+            foreach($file_data as $img){
+                $file_name = 'productimage_'.uniqid().time().'.png';
+                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                file_put_contents(public_path('uploads/products/').$file_name, $data);
+    
+                $photo = new Gallery();
+                $photo->photo = $file_name;
+                $photo->product_id = $product->id;
+                $photo->table = 'products';
+    
+                $photo->save();
+            }
+
             $deleteStones = ProductStone::where('product', $product->id)->delete();
     
-            foreach($request->stones as $key => $stone){
-                if($stone) {
-                    $product_stones = new ProductStone();
-                    $product_stones->product = $product->id;
-                    $product_stones->model = $request->model;
-                    $product_stones->stone = $stone;
-                    $product_stones->amount = $request->stone_amount[$key];
-                    $product_stones->save();
+            if($request->stones){
+                foreach($request->stones as $key => $stone){
+                    if($stone) {
+                        $product_stones = new ProductStone();
+                        $product_stones->product = $product->id;
+                        $product_stones->model = $request->model;
+                        $product_stones->stone = $stone;
+                        $product_stones->amount = $request->stone_amount[$key];
+                        $product_stones->weight = $request->stone_weight[$key];
+                        if($request->stone_flow[$key] == true){
+                            $product_stones->flow = 'yes';
+                        }else{
+                            $product_stones->flow = 'no';
+                        }
+                        $product_stones->save();
+                    }
                 }
             }
 
             $product_photos = Gallery::where(
                 [
                     ['table', '=', 'products'],
-                    ['row_id', '=', $product->id]
+                    ['product_id', '=', $product->id]
                 ]
             )->get();
     

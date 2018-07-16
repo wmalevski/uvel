@@ -267,7 +267,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/settings/currencies/delete/{currency}', 'CurrencyController@destroy');
     Route::put('/settings/currencies/{currency}', 'CurrencyController@update');
 
-    Route::get('/getPrices/{material}', 'PriceController@getByMaterial');
+    Route::get('/getPrices/{material}/{model}', 'PricesController@getByMaterial');
 
     Route::post('/users/substitutions', 'UserSubstitutionController@store');
 

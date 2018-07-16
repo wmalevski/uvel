@@ -20,6 +20,7 @@ class CreateProductStonesTable extends Migration
             $table->integer('stone')->references('id')->on('stones');
             $table->integer('amount');
             $table->integer('weight');
+            $table->enum('flow', ['yes', 'no'])->default('no');
             $table->timestamps();
             $table->softDeletes();
         });

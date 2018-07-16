@@ -40,7 +40,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label>Модел: </label>
-                            <select id="model_select" name="model" class="form-control model-filled">
+                            <select id="model_select" name="model" class="model-select form-control model-filled">
                                 <option value="">Избери</option>
                         
                                 @foreach($models as $model)
@@ -72,18 +72,18 @@
                     <div class="form-row model_materials">
                         <div class="form-group col-md-12">
                             <label>Материал: </label>
-                            <select id="material" name="material" class="form-control calculate">
+                            <select id="material" name="material" class="material_type form-control calculate">
                                 <option value="">Избери</option>
                         
                                 @foreach($materials as $material)
-                                    <option value="{{ $material->id }}">{{ App\Materials::withTrashed()->find($material->material)->name }} - {{ App\Materials::withTrashed()->find($material->material)->color }} - {{ App\Materials::withTrashed()->find($material->material)->carat }}</option>
+                                    <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ App\Prices::where([['material', '=', $material->material], ['type', '=', 'buy']])->first()->price}}">{{ App\Materials::withTrashed()->find($material->material)->name }} - {{ App\Materials::withTrashed()->find($material->material)->color }} - {{ App\Materials::withTrashed()->find($material->material)->carat }}</option>
                                 @endforeach
                             </select>
                         </div>
 
                         <div class="form-group col-md-6">
                             <label>Цена на дребно: </label>
-                            <select id="retail_prices" name="retail_price" class="form-control calculate prices-filled">
+                            <select id="retail_prices" name="retail_price" class="form-control calculate prices-filled retail-price">
                                 <option value="0">Избери</option>
                         
                                 @foreach($prices->where('type', 'sell') as $price)
@@ -94,7 +94,7 @@
 
                         <div class="form-group col-md-6">
                             <label>Цена на едро: </label>
-                            <select id="wholesale_prices" name="wholesale_prices" class="form-control prices-filled">
+                            <select id="wholesale_prices" name="wholesale_prices" class="form-control prices-filled wholesale-price">
                                 <option value="0">Избери</option>
                         
                                 @foreach($prices->where('type', 'sell') as $price)
@@ -127,7 +127,7 @@
                     </div>
 
                     <div class="form-row model_stones">
-                        <div class="form-row fields">
+                        <!-- <div class="form-row fields">
                             <div class="form-group col-md-6">
                                 <label>Камък: </label>
                                 <select name="stones[]" class="form-control">
@@ -159,11 +159,21 @@
                                     </label>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="form-row">
-                        <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>
+                        <div class="form-group col-md-5">
+                            <button type="button" class="btn btn-primary add_field_button">Добави камък</button>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="totalStones">Общо за леене:</label>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <input type="text" class="form-control" id="totalStones" name="totalStones" disabled>
+                        </div>
 
                         <div class="col-12">
                             <hr>
@@ -269,4 +279,5 @@ aria-hidden="true">
 <script id="stones_data" type="application/json">
     {!!  $jsStones !!}
 </script>
+
 @endsection

@@ -8,9 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use App\Models;
+use App\ModelOptions;
 use Response;
 use Illuminate\Support\Facades\View;
-use App\Products;
+use App\Product;
 use App\Jewel;
 
 class PriceController extends Controller
@@ -135,8 +136,8 @@ class PriceController extends Controller
         $price = Price::find($price)->first();
         
         if($price){
-            $usingWProduct = Products::where('wholesale_price', $price->id)->count();
-            $usingRProduct = Products::where('retail_price', $price->id)->count();
+            $usingWProduct = Product::where('wholesale_price', $price->id)->count();
+            $usingRProduct = Product::where('retail_price', $price->id)->count();
 
             $usingWModel = Models::where('wholesale_price', $price->id)->count();
             $usingRModel = Models::where('retail_price', $price->id)->count();
@@ -151,8 +152,23 @@ class PriceController extends Controller
         }
     }
 
-    public function getByMaterial($material){
-        $prices = Price::where(
+    public function getByMaterial($material, $model){
+        $checkExisting = ModelOption::where([
+            ['model', '=', $model],
+            ['material', '=', $material],
+            ['default', '=', 'yes']
+        ])->first();
+
+        
+
+        $retail_prices = Prices::where(
+            [
+                ['material', '=', $material],
+                ['type', '=', 'sell']
+            ]
+        )->get();
+
+        $wholesale_prices = Prices::where(
             [
                 ['material', '=', $material],
                 ['type', '=', 'sell']
@@ -160,6 +176,7 @@ class PriceController extends Controller
         )->get();
 
         $prices_retail = array();
+        $prices_wholesale = array();
 
         $priceBuy = Prices::where(
             [
@@ -167,13 +184,6 @@ class PriceController extends Controller
                 ['type', '=', 'buy']
             ]
         )->first();
-
-        // $prices_retail[0] = (object)[
-        //     'id' => '',
-        //     'material' => '',
-        //     'slug' => 'Избери цена',
-        //     'price' => ''
-        // ];
 
         $models = Models::where(
             [
@@ -190,16 +200,52 @@ class PriceController extends Controller
             ];
         }
         
-        foreach($prices as $price){
+        foreach($retail_prices as $price){
+
+            if($checkExisting){
+                if($price->id == $checkExisting->retail_price){
+                    $selected = true;
+                }else{
+                    $selected = false;
+                }
+            }else{
+                $selected = false;
+            }
 
             $prices_retail[] = (object)[
                 'id' => $price->id,
                 'material' => $price->material,
                 'slug' => $price->slug.' - '.$price->price.'лв',
-                'price' => $price->price
+                'price' => $price->price,
+                'selected' => $selected
             ];
         }
 
-        return Response::json(array('prices' => $prices_retail, 'pass_models' => $models, 'priceBuy' => $priceBuy->price));
+        foreach($wholesale_prices as $price){
+            
+            if($checkExisting){
+                if($price->id == $checkExisting->wholesale_price){
+                    $selected = true;
+                }else{
+                    $selected = false;
+                }
+            }else{
+                $selected = false;
+            }
+
+            $prices_wholesale[] = (object)[
+                'id' => $price->id,
+                'material' => $price->material,
+                'slug' => $price->slug.' - '.$price->price.'лв',
+                'price' => $price->price,
+                'selected' => $selected
+            ];
+        }
+
+        return Response::json(array(
+            'retail_prices' => $prices_retail, 
+            'wholesale_prices' => $prices_wholesale, 
+            'pass_models' => $models, 
+            'pricebuy' => $priceBuy->price));
     }
 }
