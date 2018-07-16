@@ -21,9 +21,6 @@ use Response;
 use Illuminate\Support\Facades\View;
 use File;
 use Auth;
-use Response;
-use Uuid;
-use App\MaterialQuantity;
 
 class ModelController extends Controller
 {
@@ -194,7 +191,7 @@ class ModelController extends Controller
             if($request->stones){
                 foreach($request->stones as $key => $stone){
                     if($stone){
-                        $product_stones = new ProductStone()();
+                        $product_stones = new ProductStone();
                         $product_stones->product = $product->id;
                         $product_stones->model = $model->id;
                         $product_stones->stone = $stone;
