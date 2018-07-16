@@ -126,9 +126,9 @@ class RepairController extends Controller
      * @param  \App\Repair  $repairs
      * @return \Illuminate\Http\Response
      */
-    public function edit(Repair $repair)
+    public function edit(Repair $repair, $barcode)
     {
-        $repair = Repair::where('barcode', $repair)->get();
+        $repair = Repair::where('barcode', $barcode)->first();
         $repairTypes = RepairType::all();
         $materials = Material::all();
 
@@ -136,9 +136,9 @@ class RepairController extends Controller
     }
 
 
-    public function return(Repair $repair)
+    public function return(Repair $repair, $barcode)
     {
-        $repair = Repair::where('barcode', $repair)->first();
+        $repair = Repair::where('barcode', $barcode)->first();
         $repairTypes = RepairType::all();
 
         if($repair){
@@ -234,9 +234,9 @@ class RepairController extends Controller
      * @param  \App\Repair  $repairs
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Repair $repair)
+    public function update(Request $request, $barcode)
     {
-        $repair = Repair::where('barcode', $repair)->first();
+        $repair = Repair::where('barcode', $barcode)->first();
         
         $repair->customer_name = $request->customer_name;
         $repair->customer_phone = $request->customer_phone;
@@ -260,11 +260,11 @@ class RepairController extends Controller
         if($request->status){
             $repair->status = 'done';
 
-            $history = new History;
-            $history->action = 'repair';
-            $history->user = Auth::user()->id;
-            $history->result_id = $repair->id;
-            $history->save();
+            // $history = new History;
+            // $history->action = 'repair';
+            // $history->user = Auth::user()->id;
+            // $history->result_id = $repair->id;
+            // $history->save();
         }
 
         $validator = Validator::make( $request->all(), [
