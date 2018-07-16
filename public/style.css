@@ -174,9 +174,13 @@ p {
   display: none;
 }
 
-.delete-stone.remove_field {
+.remove_field, .stone-flow-holder {
   position: absolute;
   bottom: 8px;
+}
+
+.remove_field:hover, .stone-flow-holder:hover {
+  cursor: pointer;
 }
 
 .select2-container--default .select2-selection--single{

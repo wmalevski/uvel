@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Http\JsonResponse;
 use Response;
 use File;
+use App\Material;
+use App\MaterialQuantity;
 
 class ProductController extends Controller
 {
@@ -31,6 +33,7 @@ class ProductController extends Controller
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::all();
+        $materials = MaterialQuantity::all();
 
         $pass_stones = array();
 
@@ -41,7 +44,7 @@ class ProductController extends Controller
             ];
         }
 
-        return \View::make('admin/products/index', array('products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
+        return \View::make('admin/products/index', array('products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials, 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
     }
 
     /**
@@ -71,6 +74,7 @@ class ProductController extends Controller
         $validator = Validator::make( $request->all(), [
             'jewelsTypes' => 'required',
             'retail_price' => 'required',
+            'material' => 'required',
             'wholesale_prices' => 'required',
             'weight' => 'required|numeric|between:0.1,10000',
             'size' => 'required|numeric|between:0.1,10000',
@@ -81,6 +85,15 @@ class ProductController extends Controller
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
+
+        $material = Materials_quantity::withTrashed()->find($request->material);
+
+        if($material->quantity < $request->weight){
+            return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
+        }
+
+        $material->quantity - $request->weight;
+        $material->save();
 
         $path = public_path('uploads/products/');
         
@@ -114,6 +127,9 @@ class ProductController extends Controller
         $product->code = 'P'.unique_random('products', 'code', 7);
         $bar = '380'.unique_number('products', 'barcode', 7).'1'; 
 
+        $material->quantity = $material->quantity - $request->weight;
+        $material->save();
+
         if($request->for_wholesale == false){
             $product->for_wholesale = 'no';
         } else{
@@ -136,13 +152,34 @@ class ProductController extends Controller
 
         $product->save();
 
+        $findModel = ModelOptions::where('material', $request->material)->get();
+
+        if(!$findModel){
+            $option = new ModelOptions();
+            $option->material = $request->material;
+            $option->model = $request->model;
+            $option->retail_price = $request->retail_price;
+            $option->wholesale_price = $request->wholesale_price;
+
+            $option->save;
+        }
+
         foreach($request->stones as $key => $stone){
             if($stone) {
-                $product_stones = new ProductStone();
+                $checkStone = Stone::find($stone);
+                if($request->stone_amount[$key] < $checkStone->amount){
+                    return Response::json(['errors' => ['stone_weight' => ['Няма достатъчна наличност от този камък.']]], 401);
+                }
+        
+                $checkStone->amount = $checkStone->amount - $request->stone_amount[$key];
+                $checkStone->save();
+
+                $product_stones = new Product_stones();
                 $product_stones->product = $product->id;
                 $product_stones->model = $request->model;
                 $product_stones->stone = $stone;
                 $product_stones->amount = $request->stone_amount[$key];
+                $product_stones->weight = $request->stone_weight[$key];
                 $product_stones->save();
             }
         }

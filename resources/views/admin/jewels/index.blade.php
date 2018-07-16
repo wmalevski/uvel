@@ -22,7 +22,7 @@ aria-hidden="true">
                             <input type="text" class="form-control" id="1" name="name" placeholder="Име:">
                         </div>
 
-                        <div class="form-group col-md-6">
+                        {{-- <div class="form-group col-md-6">
                             <label>Материал: </label>
                             <select name="material" class="form-control">
                                 <option value="">Избер материал</option>
@@ -31,7 +31,7 @@ aria-hidden="true">
                                     <option value="{{ $material->id }}">@if($material->parent) {{ App\MaterialType::withTrashed()->find($material->parent)->name }} - {{ $material->color }} - {{ $material->code }} @endif</option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
 
@@ -84,7 +84,7 @@ aria-hidden="true">
         <thead>
           <tr>
             <th scope="col">Име</th> 
-            <th scope="col">Материал</th>
+            {{-- <th scope="col">Материал</th> --}}
             <th scope="col">Действия</th>
           </tr>
         </thead>

@@ -6,6 +6,7 @@ var uvel,
 
     this.init = function () {
       $self.initializeSelect($('select'));
+      $self.defaultMaterialSelect($('.default_material'));
       $self.checkAllForms();    
     };
 
@@ -28,12 +29,104 @@ var uvel,
       });
     }
 
-    this.addAndRemoveFields = function () {
+    this.defaultMaterialSelect = function (defaultBtn) {
+      var material = defaultBtn.closest('.form-row').find('.material_type');
+
+      defaultBtn.on('click', function() {
+        material.trigger('change');
+      })
+    }
+
+    this.addAndRemoveFieldsMaterials = function () {
+      var collectionAddFieldBtn = document.querySelectorAll('.add_field_variation');
+
+      collectionAddFieldBtn.forEach(function (btn) {
+        var materialsWrapper = $(btn).closest('form').find('.model_materials');
+        var defaultBtnsCollection = document.querySelectorAll('.default_material');
+
+        btn.addEventListener('click', function(e) {
+          var materialsData = $('#materials_data').length > 0 ? JSON.parse($('#materials_data').html()) : null;
+          var newRow = document.createElement('div');
+
+          newRow.classList.add('form-row');
+
+          var newFields = 
+            '<div class="col-6">' +
+            '<hr>' +
+            '</div>' +
+            '<div class="form-group col-md-12">' +
+            '<label>Избери материал: </label>' +
+            '<select id="material_type" name="material[]" class="material_type form-control calculate">' +
+            '<option value="0">Избери</option>'
+
+          materialsData.forEach(function (option) {
+            newFields += `<option value=${option.value} data-pricebuy=${option.pricebuy} data-material=${option.material}>${option.label}</option>`;
+          })
+
+          newFields +=
+            '</select>' +
+            '</div>' +
+            '<div class="form-group col-md-5">' +
+            '<label>Цена на дребно: </label>' +
+            '<select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled" disabled>' +
+            '<option value="0">Избери</option>' +
+            '</select>' +
+            '</div>' +
+            '<div class="form-group col-md-5">' +
+            '<label>Цена на едро: </label>' +
+            '<select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled" disabled>' +
+            '<option value="0">Избери</option>' +
+            '</select>' +
+            '</div>' +
+            '<div class="form-group col-md-2">' +
+            '<span class="delete-material remove_field"><i class="c-brown-500 ti-trash"></i></span>' +
+            '</div>' +
+            '<div class="form-group col-md-12">' +
+            '<div class="radio radio-info">' +
+            '<input type="radio" id="" class="default_material" name="default_material[]">' +
+            '<label for="">Материал по подразбиране</label>' +
+            '</div>' +
+            '</div>';
+
+          newRow.innerHTML = newFields;
+          materialsWrapper[0].appendChild(newRow);
+
+          defaultBtnsCollection = document.querySelectorAll('.default_material');
+          for (i=0; i<defaultBtnsCollection.length; i++) {
+            var defaultBtnId = 'material_' + String(i+1);
+
+            defaultBtnsCollection[i].setAttribute('id', defaultBtnId);
+            defaultBtnsCollection[i].nextElementSibling.setAttribute('for', defaultBtnId);
+          }
+          
+
+          $self.initializeSelect($(newRow).find('select'));
+          $self.defaultMaterialSelect($(newRow).find('.default_material'));
+        });
+
+        for (i=0; i<defaultBtnsCollection.length; i++) {
+          var defaultBtnId = 'material_' + String(i+1);
+
+          $self.defaultMaterialSelect($(defaultBtnsCollection[i]));
+          defaultBtnsCollection[i].setAttribute('id', defaultBtnId);
+          defaultBtnsCollection[i].nextElementSibling.setAttribute('for', defaultBtnId);
+        }
+
+        $(materialsWrapper).on('click', '.remove_field', function(event) {
+          event.preventDefault();
+          var parents = $(this).parentsUntil(".form-row .fields");
+          parents[1].remove();
+        });
+      })
+    }
+
+    this.addAndRemoveFieldsStones = function () {
       var collectionAddFieldBtn = $('.add_field_button');
 
       collectionAddFieldBtn.each(function() {
         var thisBtn = $(this);
         var fieldsWrapper = $(this).parents().find('.model_stones');
+        var stoneFlowBtnsCollection = document.querySelectorAll('.stone-flow');
 
         thisBtn.on('click', function(e) {
           var fields = fieldsWrapper.find('.fields');
@@ -62,13 +155,43 @@ var uvel,
               '</div>' +
               '<div class="form-group col-md-2">' +
               '<span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>'+
-          '</div>';
+              '</div>' +
+              '<div class="form-group col-md-6">' +
+              '<div class="form-group">' +
+              '<label>Тегло: </label>' +
+              '<input type="number" class="form-control" name="stone_weight[]" placeholder="Тегло:" min="0.1" max="100">' +
+              '</div>' +
+              '</div>' +
+              '<div class="form-group col-md-6">' +
+              '<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder">' +
+              '<input type="checkbox" id="" class="stone-flow" name="stone_flow[]" class="peer">' +
+              '<label for="" class="peers peer-greed js-sb ai-c">' +
+              '<span class="peer peer-greed">За леене</span>' +
+              '</label>' +
+              '</div>' +
+              '</div>';
 
             fieldsHolder.innerHTML = newFields;
             fieldsWrapper.append(fieldsHolder);
+
+            stoneFlowBtnsCollection = document.querySelectorAll('.stone-flow');
+            for (i=0; i<stoneFlowBtnsCollection.length; i++) {
+              var stoneFlowBtnId = 'stoneFlow_' + String(i+1);
+
+              stoneFlowBtnsCollection[i].setAttribute('id', stoneFlowBtnId);
+              stoneFlowBtnsCollection[i].nextElementSibling.setAttribute('for', stoneFlowBtnId);
+            }
+
             $self.initializeSelect(fieldsWrapper.find('select'));
           }
         });
+
+        for (i=0; i<stoneFlowBtnsCollection.length; i++) {
+          var stoneFlowBtnId = 'stoneFlow_' + String(i+1);
+
+          stoneFlowBtnsCollection[i].setAttribute('id', stoneFlowBtnId);
+          stoneFlowBtnsCollection[i].nextElementSibling.setAttribute('for', stoneFlowBtnId);
+        }
 
         $(fieldsWrapper).on('click', '.remove_field', function(event) {
           event.preventDefault();
@@ -300,14 +423,16 @@ var uvel,
         var parentElement = _element.parents('form');
 
         if(_element[0].nodeName == 'SELECT') {
-          if(_element[0].id == 'jewels_types' || _element[0].id == 'jewel_edit') {
+          if(_element[0].classList.contains('material_type') || _element[0].id == 'jewel_edit') {
             var materialType = _element.find(':selected').val();
-            var requestLink = ajaxUrl + materialType;
+            var materialAttribute = _element.find(':selected').attr('data-material');
+            var pricesFilled = _element.closest('.form-row').children().find('.prices-filled');
+            var requestLink = ajaxUrl + materialAttribute;
 
             if(materialType == 0) {
-              $('.prices-filled').val('0');
-              $('.prices-filled').trigger('change');
-              $('.prices-filled').attr('disabled', true);
+              pricesFilled.val('0');
+              pricesFilled.trigger('change');
+              pricesFilled.attr('disabled', true);
               return;
             }
             
@@ -343,41 +468,62 @@ var uvel,
                   material: keys.material
                 }
               });
-                      
-              //_element.parents('form').children().find('.prices-filled').empty();
-              _element.parents('form').children().find('.prices-filled').select2({
+
+              pricesFilled.empty();
+
+              for (i=0; i<pricesFilled.length; i++) {
+                var chooseOpt = document.createElement('option');
+                chooseOpt.innerHTML = 'Избери';
+                chooseOpt.setAttribute('value', '0');
+
+                if (i > 0) {
+                  var chooseArray = [];
+
+                  chooseArray[i] = chooseOpt.cloneNode(true);
+                  pricesFilled[i].appendChild(chooseArray[i]);
+                }
+                else {
+                  pricesFilled[i].appendChild(chooseOpt);
+                }
+              }
+
+              pricesFilled.select2({
                 data: newData,
                 templateResult: $self.addSelect2CustomAttributes,
                 templateSelection: $self.addSelect2CustomAttributes
               });     
 
-              for (i=0; i<$('.prices-filled').length; i++) {
-                var select = $($('.prices-filled')[i]).find('option:nth-of-type(2)');
+              for (i=0; i<pricesFilled.length; i++) {
+                var select = $(pricesFilled[i]).find('option:nth-of-type(2)');
                 var selectValue = select.val();
 
-                 $($('.prices-filled')[i]).val(selectValue);
+                 $(pricesFilled[i]).val(selectValue);
               }
 
               //$('#retail_prices').trigger('change');
               //$('#retail_price_edit').trigger('change');
-              $('.prices-filled').trigger('change');
-              $('.prices-filled').attr('disabled', false);
+              pricesFilled.trigger('change');
+              pricesFilled.attr('disabled', false);
             });  
-
-          } else {
-            if( _element.select2('data')[0] !== undefined){
+          }
+          else {
+            if( _element.select2('data')[0] !== undefined && _element.closest('.form-row').find('[name="default_material[]"]:checked').length > 0){
               priceDev = _element.select2('data')[0].price;
             }
           }
 
-          if(_element[0].id == 'jewels_types' ) {
-            dataWeight = _element.parent().siblings('.weight-holder').children('input').val();
+          if(_element[0].classList.contains('material_type')) {
+            dataWeight = _element.closest('form').find('.weight-holder').children('input').val();
           } else if (_element[0].id == 'jewel_edit') {
             dataWeight = _element.parent().siblings('.weight-holder-edit').children('input').val();
           }
 
-          calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
-        } else {
+          if (_element.closest('.form-row').find('[name="default_material[]"]:checked').length > 0) {
+            calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
+          }
+          
+        }
+        else {
           dataWeight = _element[0].value;
           calculatePrice(jeweryPrice , dataWeight , priceDev , parentElement);
         }
@@ -407,12 +553,12 @@ var uvel,
         }
 
         if(modelSelectEdit) {   
-          modelSelectEdit.on('select2:select', function(ev) {     
+          modelSelectEdit.on('select2:select', function(ev) {
             if(modelSelectEdit.val()) {
               var value = modelSelectEdit.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
                   xhttp = new XMLHttpRequest(),
-                  typeSelect = $('#jewels_types');
+                  typeSelect = $('#material_type');
 
               typeSelect.on('select2:select', function(ev) {
                 modelSelectEdit.val('0').trigger('change.select2');
@@ -445,7 +591,7 @@ var uvel,
               var value = modelSelect.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
                   xhttp = new XMLHttpRequest(),
-                  typeSelect = $('#jewels_types');
+                  typeSelect = $('#material_type');
 
               typeSelect.on('select2:select', function(ev) {
                 modelSelect.val('0').trigger('change.select2');
@@ -961,6 +1107,10 @@ var uvel,
                     else if (name.includes('[]')) {
                       name = name.replace('[]', '');
 
+                      if (elType === 'radio') {
+                        value = el.checked;
+                      }
+
                       if (collectionData.hasOwnProperty(name)) {
                         collectionData[name].push(value);
 
@@ -1378,7 +1528,10 @@ var uvel,
 
         ajaxFn("GET", linkAjax, editBtnSuccess, '', '', this);        
         $self.currentPressedBtn = this;  
-        setTimeout(function() {$self.checkAllForms(currentPressedBtn);}, 500);
+        setTimeout(function() {
+          $self.checkAllForms(currentPressedBtn);
+          $('#editModel [name="default_material[]"]:checked').closest('.form-row').find('.material_type').trigger('change');
+        }, 500);
       }
 
       function editBtnSuccess(data, elements, btn) {
@@ -1396,11 +1549,15 @@ var uvel,
           dateFromInput.attr('disabled', 'disabled');
          }
 
-         $(selector).html(html);    
+         $(selector).html(html);
          $self.initializeSelect($(selector).children().find('select'));
+
+         $self.addAndRemoveFieldsMaterials();
+         $self.addAndRemoveFieldsStones();
       }
 
-      $self.addAndRemoveFields(); 
+      $self.addAndRemoveFieldsStones(); 
+      $self.addAndRemoveFieldsMaterials();
     }
     
   }

@@ -17,14 +17,14 @@
             <input type="text" class="form-control" value="{{ $jewel->name }}" id="1" name="name" placeholder="Име:">
         </div>
 
-        <label>Материал: </label>
+        {{-- <label>Материал: </label>
         <select name="material" class="form-control">
             <option value="">Избер материал</option>
 
             @foreach($materials as $material)
                 <option value="{{ $material->id }}" @if($jewel->material == $material->id) selected @endif>{{ App\MaterialType::withTrashed()->find($material->parent)->name }} - {{ $material->color }} - {{ $material->code }}</option>
             @endforeach
-        </select>
+        </select> --}}
         
     </div>
 

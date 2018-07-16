@@ -10,8 +10,7 @@ class Jewel extends Model
     use SoftDeletes;
     
     protected $fillable = [
-        'name',
-        'material',
+        'name'
     ];
 
     protected $table = 'jewels';
