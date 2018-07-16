@@ -34,17 +34,15 @@ class UserController extends Controller
      * @param  \App\User  $users
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $users, $user)
+    public function edit(User $user)
     {
-        $user = User::find($user);
         $stores = Store::all();
         
         return \View::make('admin/users/edit', array('user' => $user, 'stores' => $stores));
     }
 
-    public function update(Request $request, User $users, $user)
+    public function update(Request $request, User $user)
     {
-        $user = User::find($user);
         
         $user->name = $request->name;
         $user->store = $request->store;
@@ -124,10 +122,8 @@ class UserController extends Controller
      * @param  \App\User  $stores
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $users, $user)
+    public function destroy(User $user)
     {
-        $user = User::find($user);
-        
         if($user){
             $user->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
