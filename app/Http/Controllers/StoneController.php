@@ -82,7 +82,7 @@ class StoneController extends Controller
 
             $photo = new Gallery();
             $photo->photo = $file_name;
-            $photo->row_id = $stone->id;
+            $photo->stone_id = $stone->id;
             $photo->table = 'stones';
 
             $photo->save();
@@ -117,7 +117,7 @@ class StoneController extends Controller
         $stone_photos = Gallery::where(
             [
                 ['table', '=', 'stones'],
-                ['row_id', '=', $stone->id]
+                ['stone_id', '=', $stone->id]
             ]
         )->get();
         
@@ -175,7 +175,7 @@ class StoneController extends Controller
 
             $photo = new Gallery();
             $photo->photo = $file_name;
-            $photo->row_id = $stone->id;
+            $photo->stone_id = $stone->id;
             $photo->table = 'stones';
 
             $photo->save();
@@ -184,7 +184,7 @@ class StoneController extends Controller
         $stone_photos = Gallery::where(
             [
                 ['table', '=', 'stones'],
-                ['row_id', '=', $stone->id]
+                ['stone_id', '=', $stone->id]
             ]
         )->get();
 

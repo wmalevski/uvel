@@ -11,7 +11,7 @@ use Response;
 use Auth;
 use Cart;
 use App\Repair;
-use App\Products;
+use App\Product;
 
 class PaymentController extends Controller
 {
@@ -81,7 +81,7 @@ class PaymentController extends Controller
                         $repair->save();
                     }
                 } else if($item['attributes']->type == 'product'){
-                    $product = Products::where('barcode', $item->id)->first();
+                    $product = Product::where('barcode', $item->id)->first();
                     if($product){
                         $product->status = 'sold';
                         $product->save();

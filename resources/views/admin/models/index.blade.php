@@ -52,14 +52,14 @@ aria-hidden="true">
 
                             <div class="form-group col-md-6">
                                 <label>Цена на дребно: </label>
-                                <select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled" disabled>
+                                <select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled retail-price" disabled>
                                     <option value="0">Избери</option>
                                 </select>
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label>Цена на едро: </label>
-                                <select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled" disabled>
+                                <select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled wholesale-price" disabled>
                                     <option value="0">Избери</option>
                                 </select>
                             </div>
@@ -86,13 +86,13 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-6 weight-holder">
                             <label for="1">Тегло: </label>
-                            <input type="number" class="form-control calculate" id="weight" name="weight" placeholder="Тегло:" min="0.1" max="10000">
+                            <input type="number" class="form-control calculate" id="weight" name="weight" placeholder="Тегло:">
                         </div>
 
                         <div class="form-group col-md-6">
                             <div class="form-group">
                                 <label for="1">Размер: </label>
-                                <input type="number" class="form-control" id="1" name="size" placeholder="Размер:" min="0.1" max="100">
+                                <input type="number" class="form-control" id="1" name="size" placeholder="Размер:">
                             </div>
                         </div>
 
@@ -102,7 +102,7 @@ aria-hidden="true">
                     </div>
 
                     <div class="from-row model_stones">
-                        <div class="form-row fields">
+                        <!-- <div class="form-row fields">
                             <div class="form-group col-md-6">
                                 <label>Камък: </label>
                                 <select id="model-stone" name="stones[]" class="form-control">
@@ -117,7 +117,7 @@ aria-hidden="true">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="1">Брой: </label>
-                                <input type="number" id="model-stone-number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="50">
+                                <input type="number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="50">
                             </div>
                             <div class="form-group col-md-2">
                                 <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
@@ -137,11 +137,21 @@ aria-hidden="true">
                                     </label>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="form-row">
-                        <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>
+                        <div class="form-group col-md-5">
+                            <button type="button" class="btn btn-primary add_field_button">Добави камък</button>
+                        </div>
+                        
+                        <div class="form-group col-md-3">
+                            <label for="totalStones">Общо за леене:</label>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <input type="number" class="form-control" id="totalStones" name="totalStones" disabled>
+                        </div>
 
                         <div class="col-12">
                             <hr>

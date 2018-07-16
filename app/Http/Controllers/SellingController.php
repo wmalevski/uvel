@@ -6,7 +6,7 @@ use App\Selling;
 use Illuminate\Http\Request;
 use App\RepairType;
 use Cart;
-use App\Products;
+use App\Product;
 use App\Products_others;
 use App\Repair;
 use Auth;
@@ -144,9 +144,9 @@ class SellingController extends Controller
                 $type = "repair";
             }else{
                 if($request->barcode){
-                    $item = Products::where('barcode', $request->barcode)->first();
+                    $item = Product::where('barcode', $request->barcode)->first();
                 } else if($request->catalog_number){
-                    $item = Products::where('code', $request->catalog_number)->first();
+                    $item = Product::where('code', $request->catalog_number)->first();
                 }
             }
 
@@ -270,7 +270,7 @@ class SellingController extends Controller
         
         Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
         {
-            $product = Products::where('barcode', $item->id)->first();
+            $product = Product::where('barcode', $item->id)->first();
 
             if($product){
                 $product->status = 'available';

@@ -14,9 +14,10 @@ class CreateProductsTable extends Migration
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->increments('id');
             $table->string('name');
             $table->integer('model')->references('id')->on('models')->nullable();
+            $table->integer('material')->references('id')->on('materials_quantities')->nullable();
             $table->integer('jewel_type')->references('id')->on('jewels');
             $table->integer('type')->default(1);
             $table->float('weight');
