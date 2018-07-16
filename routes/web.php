@@ -140,7 +140,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/stones/{stone}', 'StoneController@edit');
 
-    Route::get('/stones/contours/{contour}', 'StoneContourController@edit');
+    Route::get('/stones/contours/{stoneContour}', 'StoneContourController@edit');
 
     Route::get('/repairs/certificate/{id}', 'RepairController@certificate');
 
@@ -176,15 +176,15 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::get('/stones/{stone}', 'StoneController@edit');
 
     Route::post('/stones/contours', 'StoneContourController@store');
-    Route::get('/stones/contours/{contour}', 'StoneContourController@edit');
+    Route::get('/stones/contours/{stoneContour}', 'StoneContourController@edit');
 
     Route::post('/stones/sizes/delete/{stoneSize}', 'StoneSizeController@destroy');
     Route::post('/stones/styles/delete/{style}', 'StoneStyleController@destroy');
-    Route::post('/stones/contours/delete/{contour}', 'StoneContourController@destroy');
+    Route::post('/stones/contours/delete/{stoneContour}', 'StoneContourController@destroy');
 
     Route::put('/stones/sizes/{stoneSize}', 'StoneSizeController@update');
     Route::put('/stones/styles/{style}', 'StoneStyleController@update');
-    Route::put('/stones/contours/{contour}', 'StoneContourController@update');
+    Route::put('/stones/contours/{stoneContour}', 'StoneContourController@update');
 
     Route::post('/prices/{material}', 'PriceController@store');
     Route::post('/prices/delete/{price}', 'PriceController@destroy');

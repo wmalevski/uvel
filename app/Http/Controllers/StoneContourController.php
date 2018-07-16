@@ -71,7 +71,7 @@ class StoneContourController extends Controller
      */
     public function edit(StoneContour $stoneContour)
     {
-        $contour = Stone_contours::find($stoneContour);
+        $contour = StoneContour::find($stoneContour)->first();
         
         return \View::make('admin/stone_contours/edit', array('contour' => $contour));
     }
@@ -85,7 +85,7 @@ class StoneContourController extends Controller
      */
     public function update(Request $request, StoneContour $stoneContour)
     {
-        $contour = Stone_contours::find($stoneContour);
+        $contour = StoneContour::find($stoneContour)->first();
         
         $contour->name = $request->name;
         
@@ -102,7 +102,7 @@ class StoneContourController extends Controller
      */
     public function destroy(StoneContour $stoneContour)
     {
-        $contour = Stone_contours::find($stoneContour);
+        $contour = StoneContour::find($stoneContour)->first();
         
         if($contour){
             $contour->delete();
