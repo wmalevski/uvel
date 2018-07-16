@@ -108,7 +108,7 @@ class ProductOtherController extends Controller
      */
     public function edit(ProductOther $productOther)
     {
-        $product = ProductOther::find($productOther);
+        $product = ProductOther::find($productOther)->first();
         $types = ProductOtherType::all();
         $stores = Store::all();
 
@@ -125,7 +125,7 @@ class ProductOtherController extends Controller
      */
     public function update(Request $request, ProductOther $productOther)
     {
-        $product = ProductOther::find($productOther);
+        $product = ProductOther::find($productOther)->first();
         
         $product->name = $request->name;
         $product->type = $request->type;
@@ -165,7 +165,7 @@ class ProductOtherController extends Controller
      */
     public function destroy(ProductOther $productOther)
     {
-        $product = ProductOther::find($productOther);
+        $product = ProductOther::find($productOther)->first();
         
         if($product){
             $product->delete();

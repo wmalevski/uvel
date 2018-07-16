@@ -109,11 +109,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::post('/products', 'ProductController@store');
 
     Route::get('/productsothers', 'ProductOtherController@index')->name('products_others');
-    Route::get('/productsothers/{product}', 'ProductOtherController@edit');
+    Route::get('/productsothers/{productOther}', 'ProductOtherController@edit');
     //Route::put('/productsothers/{product}', 'ProductOtherController@update');
 
     Route::get('/productsotherstypes', 'ProductOtherTypeController@index')->name('products_others_types');
-    Route::get('/productsotherstypes/{type}', 'ProductOtherTypeController@edit');
+    Route::get('/productsotherstypes/{productOtherType}', 'ProductOtherTypeController@edit');
 
     Route::get('/settings', 'SettingController@index')->name('settings');
     Route::post('/settings', 'SettingController@store');
@@ -245,12 +245,12 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::put('/products/{id}', 'ProductController@update');
 
     Route::post('/productsotherstypes', 'ProductOtherTypeController@store');
-    Route::put('/productsotherstypes/{type}', 'ProductOtherTypeController@update');
-    Route::post('/productsotherstypes/delete/{type}', 'ProductOtherTypeController@destroy');
+    Route::put('/productsotherstypes/{productOtherType}', 'ProductOtherTypeController@update');
+    Route::post('/productsotherstypes/delete/{productOtherType}', 'ProductOtherTypeController@destroy');
 
     Route::post('/productsothers', 'ProductOtherController@store');
-    Route::put('/productsothers/{product}', 'ProductOtherController@update');
-    Route::post('/productsothers/delete/{product}', 'ProductOtherController@destroy');
+    Route::put('/productsothers/{productOther}', 'ProductOtherController@update');
+    Route::post('/productsothers/delete/{productOther}', 'ProductOtherController@destroy');
 
     Route::get('discounts/check/{barcode}', 'DiscountCodeController@check');
     Route::post('discounts/delete/{discountCode}', 'DiscountCodeController@destroy');

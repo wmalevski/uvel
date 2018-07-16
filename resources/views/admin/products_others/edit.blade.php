@@ -53,7 +53,7 @@
                 <input type="number" min="0" class="form-control" id="quantity_after" name="quantity_after" placeholder="Допълнително количество:">
             </div>
 
-            div class="form-group">
+            <div class="form-group">
             <label>Магазин: </label>
                 <select id="store " name="store" class="form-control">
                     <option value="">Избери</option>
