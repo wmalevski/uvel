@@ -22,7 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function() {
     Route::get('/', 'DashboardController@index')->name('admin');
 
-    Route::get('/repairtypes', 'RepairTypeController@index')->name('repairtypes');
+    Route::get('/repairtypes', 'RepairTypeController@index')->name('repair_types');
     Route::post('/repairtypes', 'RepairTypeController@store');
     Route::get('/repairtypes/{repairType}', 'RepairTypeController@edit');
 
@@ -67,7 +67,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/materials', 'MaterialController@index')->name('materials');
     Route::post('/materials', 'MaterialController@store');
 
-    Route::get('/materialstypes', 'MaterialTypeController@index')->name('materialstypes');
+    Route::get('/materialstypes', 'MaterialTypeController@index')->name('materials_types');
     Route::post('/materialstypes', 'MaterialTypeController@store');
 
     Route::get('/materialstypes/{materialType}', 'MaterialTypeController@edit');
@@ -88,7 +88,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/prices', 'PriceController@index')->name('prices');
     Route::post('/prices', 'PriceController@index');
 
-    Route::get('/prices/{material}', 'PriceController@show')->name('view-price');
+    Route::get('/prices/{material}', 'PriceController@show')->name('view_price');
     Route::post('/prices/{material}', 'PriceController@store');
 
     Route::get('/prices/edit/{price}', 'PriceController@edit');
@@ -108,17 +108,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/products', 'ProductController@index')->name('products');
     Route::post('/products', 'ProductController@store');
 
-    Route::get('/productsothers', 'ProductOtherController@index')->name('productsothers');
+    Route::get('/productsothers', 'ProductOtherController@index')->name('products_others');
     Route::get('/productsothers/{product}', 'ProductOtherController@edit');
     //Route::put('/productsothers/{product}', 'ProductOtherController@update');
 
-    Route::get('/productsotherstypes', 'ProductOtherTypeController@index')->name('productsotherstypes');
+    Route::get('/productsotherstypes', 'ProductOtherTypeController@index')->name('products_others_types');
     Route::get('/productsotherstypes/{type}', 'ProductOtherTypeController@edit');
 
     Route::get('/settings', 'SettingController@index')->name('settings');
     Route::post('/settings', 'SettingController@store');
 
-    Route::get('/settings/stock', 'SettingController@stockPrices')->name('stockPrices');
+    Route::get('/settings/stock', 'SettingController@stockPrices')->name('stock_prices');
     Route::post('/settings/stock', 'SettingController@updatePrices');
 
     Route::get('/settings/currencies', 'SettingController@currencies')->name('currencies');
@@ -132,7 +132,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/setDiscount/{barcode}',  'SellingController@setDiscount');
 
-    Route::get('/sell/clearCart', 'SellingController@clearCart')->name('clearCart');
+    Route::get('/sell/clearCart', 'SellingController@clearCart')->name('clear_cart');
 
     Route::get('/stones/sizes/{size}', 'StoneSizeController@edit');
 
@@ -256,7 +256,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('discounts/delete/{discountCode}', 'DiscountCodeController@destroy');
 
     Route::post('/sell', 'SellingController@sell')->name('sellScan');
-    Route::get('/sell/setDiscount/{barcode}',  'SellingController@setDiscount')->name('addDiscount');
+    Route::get('/sell/setDiscount/{barcode}',  'SellingController@setDiscount')->name('add_discount');
     Route::get('/sellings/information', 'SellingController@printInfo');
 
     Route::post('/sell/removeItem/{item}', 'SellingController@removeItem');
