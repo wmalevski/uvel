@@ -155,13 +155,13 @@ class ProductController extends Controller
             $photo->save();
         }
 
-        $findModel = ModelOptions::where([
+        $findModel = ModelOption::where([
             ['material', '=', $request->material],
             ['model', '=', $request->model]
         ])->get();
 
         if(!$findModel){
-            $option = new ModelOptions();
+            $option = new ModelOption();
             $option->material = $request->material;
             $option->model = $request->model;
             $option->retail_price = $request->retail_price;

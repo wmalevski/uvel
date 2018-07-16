@@ -51,8 +51,8 @@ class ModelController extends Controller
         foreach($materials as $material){
             $pass_materials[] = [
                 'value' => $material->id,
-                'label' => Materials::withTrashed()->find($material->material)->name.' - '. Materials::withTrashed()->find($material->material)->color.  ' - '  .Materials::withTrashed()->find($material->material)->carat,
-                'pricebuy' => Prices::withTrashed()->where('material', $material->material)->where('type', 'buy')->first()->price,
+                'label' => Material::withTrashed()->find($material->material)->name.' - '. Material::withTrashed()->find($material->material)->color.  ' - '  .Material::withTrashed()->find($material->material)->carat,
+                'pricebuy' => Price::withTrashed()->where('material', $material->material)->where('type', 'buy')->first()->price,
                 'material' => $material->material
             ];
         }
@@ -137,7 +137,7 @@ class ModelController extends Controller
 
         foreach($request->material as $key => $material){
             if($material){
-                $model_option = new ModelOptions();
+                $model_option = new ModelOption();
                 $model_option->model = $model->id;
                 $model_option->material = $material;
                 $model_option->retail_price = $request->retail_price[$key];
@@ -155,7 +155,7 @@ class ModelController extends Controller
         }
 
         if ($request->release_product == true) {
-            $default = ModelOptions::where([
+            $default = ModelOption::where([
                 ['model', '=', $model->id],
                 ['default', '=', 'yes']
             ])->first();
@@ -255,16 +255,16 @@ class ModelController extends Controller
             ]
         )->get();
 
-        $options = ModelOptions::where('model', $model->id)->get();
+        $options = ModelOption::where('model', $model->id)->get();
 
-        $materials = Materials_quantity::where('store', Auth::user()->getStore())->get();
+        $materials = MaterialQuantity::where('store', Auth::user()->getStore())->get();
         
         $pass_stones = array();
         
         foreach($stones as $stone){
             $pass_stones[] = [
                 'value' => $stone->id,
-                'label' => $stone->name.' ('.\App\Stone_contours::withTrashed()->find($stone->contour)->name.', '.\App\Stone_sizes::withTrashed()->find($stone->size)->name.' )'
+                'label' => $stone->name.' ('.\App\StoneContour::withTrashed()->find($stone->contour)->name.', '.\App\StoneSize::withTrashed()->find($stone->size)->name.' )'
             ];
         }
 
@@ -274,7 +274,7 @@ class ModelController extends Controller
             $pass_materials[] = [
                 'value' => $material->id,
                 'label' => Materials::withTrashed()->find($material->material)->name.' - '. Materials::withTrashed()->find($material->material)->color.  ' - '  .Materials::withTrashed()->find($material->material)->carat,
-                'pricebuy' => Prices::withTrashed()->where('material', $material->material)->where('type', 'buy')->first()->price,
+                'pricebuy' => Price::withTrashed()->where('material', $material->material)->where('type', 'buy')->first()->price,
                 'material' => $material->material
             ];
         }
@@ -341,11 +341,11 @@ class ModelController extends Controller
             }
         }
 
-        $deleteOptions = ModelOptions::where('model', $model->id)->delete();
+        $deleteOptions = ModelOption::where('model', $model->id)->delete();
 
         foreach($request->material as $key => $material){
             if($material){
-                $model_option = new ModelOptions();
+                $model_option = new ModelOption();
                 $model_option->model = $model->id;
                 $model_option->material = $material;
                 $model_option->retail_price = $request->retail_price[$key];

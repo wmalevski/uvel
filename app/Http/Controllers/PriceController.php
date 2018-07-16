@@ -7,8 +7,8 @@ use App\Material;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
-use App\Models;
-use App\ModelOptions;
+use App\Model;
+use App\ModelOption;
 use Response;
 use Illuminate\Support\Facades\View;
 use App\Product;
@@ -68,7 +68,7 @@ class PriceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Prices  $prices
+     * @param  \App\Price  $prices
      * @return \Illuminate\Http\Response
      */
     public function show(Price $price, $material)
@@ -99,7 +99,7 @@ class PriceController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Prices  $prices
+     * @param  \App\Price  $prices
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Price $price)
@@ -128,7 +128,7 @@ class PriceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Prices  $prices
+     * @param  \App\Price  $prices
      * @return \Illuminate\Http\Response
      */
     public function destroy(Price $price)
@@ -161,14 +161,14 @@ class PriceController extends Controller
 
         
 
-        $retail_prices = Prices::where(
+        $retail_prices = Price::where(
             [
                 ['material', '=', $material],
                 ['type', '=', 'sell']
             ]
         )->get();
 
-        $wholesale_prices = Prices::where(
+        $wholesale_prices = Price::where(
             [
                 ['material', '=', $material],
                 ['type', '=', 'sell']
@@ -178,14 +178,14 @@ class PriceController extends Controller
         $prices_retail = array();
         $prices_wholesale = array();
 
-        $priceBuy = Prices::where(
+        $priceBuy = Price::where(
             [
                 ['material', '=', $material],
                 ['type', '=', 'buy']
             ]
         )->first();
 
-        $models = Models::where(
+        $models = Model::where(
             [
                 ['jewel', '=', $material],
             ]

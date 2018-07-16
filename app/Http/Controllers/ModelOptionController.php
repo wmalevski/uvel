@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\ModelOptions;
+use App\ModelOption;
 use Illuminate\Http\Request;
 
 class ModelOptionsController extends Controller
@@ -44,7 +44,7 @@ class ModelOptionsController extends Controller
      * @param  \App\ModelOptions  $modelOptions
      * @return \Illuminate\Http\Response
      */
-    public function show(ModelOptions $modelOptions)
+    public function show(ModelOption $modelOption)
     {
         //
     }
@@ -55,7 +55,7 @@ class ModelOptionsController extends Controller
      * @param  \App\ModelOptions  $modelOptions
      * @return \Illuminate\Http\Response
      */
-    public function edit(ModelOptions $modelOptions)
+    public function edit(ModelOption $modelOption)
     {
         //
     }
@@ -67,7 +67,7 @@ class ModelOptionsController extends Controller
      * @param  \App\ModelOptions  $modelOptions
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ModelOptions $modelOptions)
+    public function update(Request $request, ModelOption $modelOption)
     {
         //
     }
@@ -78,9 +78,9 @@ class ModelOptionsController extends Controller
      * @param  \App\ModelOptions  $modelOptions
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ModelOptions $modelOptions, $option)
+    public function destroy(ModelOption $modelOption)
     {
-        $option = ModelOptions::find($option);
+        $option = ModelOption::find($modelOption);
         
         if($option){
             $option->delete();
