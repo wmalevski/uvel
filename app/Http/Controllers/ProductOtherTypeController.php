@@ -60,7 +60,7 @@ class ProductOtherTypeController extends Controller
      * @param  \App\ProductOtherType  $roductOtherType
      * @return \Illuminate\Http\Response
      */
-    public function show(ProductOtherType $roductOtherType)
+    public function show(ProductOtherType $productOtherType)
     {
         //
     }
@@ -71,9 +71,9 @@ class ProductOtherTypeController extends Controller
      * @param  \App\ProductOtherType  $roductOtherType
      * @return \Illuminate\Http\Response
      */
-    public function edit(ProductOtherType $roductOtherType)
+    public function edit(ProductOtherType $productOtherType)
     {
-        $type = ProductOtherType::find($roductOtherType);
+        $type = ProductOtherType::find($productOtherType)->first();
 
         return \View::make('admin/products_others_types/edit', array('type' => $type));
     }
@@ -85,25 +85,25 @@ class ProductOtherTypeController extends Controller
      * @param  \App\ProductOtherType  $roductOtherType
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProductOtherType $roductOtherType)
+    public function update(Request $request, ProductOtherType $productOtherType)
     {
-        $type = ProductOtherType::find($roductOtherType);
+        $type = ProductOtherType::find($productOtherType)->first();
         
         $type->name = $request->name;
         $type->save();
         
-        return Response::json(array('ID' => $price->id, 'table' => View::make('admin/products_others_types/table',array('type'=>$type))->render()));
+        return Response::json(array('ID' => $type->id, 'table' => View::make('admin/products_others_types/table',array('type'=>$type))->render()));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ProductOtherType  $roductOtherType
+     * @param  \App\ProductOtherType  $productOtherType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProductOtherType $roductOtherType)
+    public function destroy(ProductOtherType $productOtherType)
     {
-        $type = ProductOtherType::find($roductOtherType);
+        $type = ProductOtherType::find($productOtherType)->first();
         
         if($type){
             $type->delete();
