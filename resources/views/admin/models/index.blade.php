@@ -28,49 +28,81 @@ aria-hidden="true">
                                 <option value="0">Избери</option>
                         
                                 @foreach($jewels as $jewel)
-                                    <option value="{{ $jewel->id }}" data-pricebuy="@if(App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" data-material="{{$jewel->material}}">{{ $jewel->name }} - {{ App\Materials::withTrashed()->find($jewel->material)->name }}, {{ App\Materials::withTrashed()->find($jewel->material)->code }}, {{ App\Materials::withTrashed()->find($jewel->material)->color }}</option>
+                                    <option value="{{ $jewel->id }}">{{ $jewel->name }}</option>
                                 @endforeach
                             </select>
                         </div>
 
-                        <div class="form-group col-md-6">
-                            <label>Цена на дребно: </label>
-                            <select id="retail_prices" name="retail_price" class="form-control calculate prices-filled" disabled>
-                                <option value="0">Избери</option>
-                        
-                                @foreach($prices->where('type', 'sell') as $price)
-                                    <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
-                                @endforeach
-                            </select>
+                        <div class="form-group col-md-12">
+                            <hr>
                         </div>
+                    </div>
+                    <div class="form-row model_materials">
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label>Избери материал: </label>
+                                <select id="material_type" name="material[]" class="material_type form-control calculate">
+                                    <option value="0">Избери</option>
+                            
+                                    @foreach($materials as $material)
+                                        <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ App\Prices::where([['material', '=', $material->material], ['type', '=', 'buy']])->first()->price}}">{{ App\Materials::withTrashed()->find($material->material)->name }} - {{ App\Materials::withTrashed()->find($material->material)->color }} - {{ App\Materials::withTrashed()->find($material->material)->carat }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                        <div class="form-group col-md-6">
-                            <label>Цена на едро: </label>
-                            <select id="wholesale_price" name="wholesale_price" class="form-control prices-filled" disabled>
-                                <option value="0">Избери</option>
-                        
-                                @foreach($prices->where('type', 'sell') as $price)
-                                    <option value="{{ $price->id }}" data-pricebuy="{{ $price->price }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
-                                @endforeach
-                            </select>
+                            <div class="form-group col-md-6">
+                                <label>Цена на дребно: </label>
+                                <select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled retail-price" disabled>
+                                    <option value="0">Избери</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>Цена на едро: </label>
+                                <select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled wholesale-price" disabled>
+                                    <option value="0">Избери</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                <div class="radio radio-info">
+                                    <input type="radio" class="default_material" id="" name="default_material[]" checked>
+                                    <label for="">Материал по подразбиране</label>
+                                </div>
+                            </div>
                         </div>
+                    </div>
 
+                    <div class="form-row">
+                        <button type="button" class="btn btn-primary add_field_variation">Добави нова комбинация</button>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <hr>
+                        </div>
+                    </div>
 
+                    <div class="form-row">
                         <div class="form-group col-md-6 weight-holder">
                             <label for="1">Тегло: </label>
-                            <input type="number" class="form-control calculate" id="weight" name="weight" placeholder="Тегло:" min="0.1" max="10000">
+                            <input type="number" class="form-control calculate" id="weight" name="weight" placeholder="Тегло:">
                         </div>
 
                         <div class="form-group col-md-6">
                             <div class="form-group">
                                 <label for="1">Размер: </label>
-                                <input type="number" class="form-control" id="1" name="size" placeholder="Размер:" min="0.1" max="100">
+                                <input type="number" class="form-control" id="1" name="size" placeholder="Размер:">
                             </div>
+                        </div>
+
+                        <div class="col-12">
+                            <hr>
                         </div>
                     </div>
 
-                    <div class="model_stones">
-                        <div class="form-row fields">
+                    <div class="from-row model_stones">
+                        <!-- <div class="form-row fields">
                             <div class="form-group col-md-6">
                                 <label>Камък: </label>
                                 <select id="model-stone" name="stones[]" class="form-control">
@@ -85,32 +117,63 @@ aria-hidden="true">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="1">Брой: </label>
-                                <input type="number" id="model-stone-number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="50">
+                                <input type="number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="50">
                             </div>
                             <div class="form-group col-md-2">
                                 <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
                             </div>
-                        </div>
+                            <div class="form-group col-md-6">
+                                <div class="form-group">
+                                    <label>Тегло: </label>
+                                    <input type="number" class="form-control" name="stone_weight[]" placeholder="Тегло:" min="0.1" max="100">
+                                </div>
+                            </div>
+    
+                            <div class="form-group col-md-6">
+                                <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder">
+                                    <input type="checkbox" id="" class="stone-flow" name="stone_flow[]" class="peer">
+                                    <label for="" class="peers peer-greed js-sb ai-c">
+                                        <span class="peer peer-greed">За леене</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div> -->
                     </div>
 
                     <div class="form-row">
-                        <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>
+                        <div class="form-group col-md-5">
+                            <button type="button" class="btn btn-primary add_field_button">Добави камък</button>
+                        </div>
+                        
+                        <div class="form-group col-md-3">
+                            <label for="totalStones">Общо за леене:</label>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <input type="number" class="form-control" id="totalStones" name="totalStones" disabled>
+                        </div>
+
+                        <div class="col-12">
+                            <hr>
+                        </div>
                     </div>
 
                     <br/>
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <div class="form-group">
-                                <label>Избработка:</label>
+                            <label>Избработка:</label>
+                            <div class="input-group">
                                 <input id="workmanship" type="number" class="form-control worksmanship_price" value="0" name="workmanship">
+                                <span class="input-group-addon">лв</span>
                             </div>
                         </div>
                         
                          <div class="form-group col-md-6">
-                            <div class="form-group">
-                                <label>Цена:</label>
+                            <label>Цена:</label>
+                            <div class="input-group">
                                 <input id="price" type="number" class="form-control final_price" value="0" name="price">
+                                <span class="input-group-addon">лв</span>
                             </div>
                         </div>
                     </div>
@@ -185,5 +248,9 @@ aria-hidden="true">
 @section('footer-scripts')
 <script id="stones_data" type="application/json">
  {!! $jsStones !!}
+</script>
+
+<script id="materials_data" type="application/json">
+    {!! $jsMaterials !!}
 </script>
 @endsection
