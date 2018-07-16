@@ -93,7 +93,7 @@ class ModelController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $model = new Models();
+        $model = new Model();
         $model->name = $request->name;
         $model->jewel = $request->jewel;
         $model->weight = $request->weight;
@@ -243,7 +243,7 @@ class ModelController extends Controller
      */
     public function edit(Model $model)
     {
-        $model = Model::find($model);
+        $model = Model::find($model)->first();
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::all();
@@ -403,7 +403,7 @@ class ModelController extends Controller
      * @param  \App\Model  $model
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Models $model)
+    public function destroy(Model $model)
     {
         $model = Model::find($model);
         
