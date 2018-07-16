@@ -110,7 +110,7 @@ class JewelController extends Controller
      */
     public function destroy(Jewel $jewel)
     {
-        $jewel = Jewel::find($jewel)->first();
+        // $jewel = Jewel::find($jewel)->first();
         
         if($jewel){
             $usingModel = Product::where('jewel_type', $jewel->id)->count();
