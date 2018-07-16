@@ -1,5 +1,6 @@
 <tr data-id="{{ $product->id }}">
-    <td> {{ $product->name }} </td>
+    <td>{{ $product->code }}</td>
+    <td> @if($product->model) {{ App\Models::withTrashed()->find($product->model)->name }} @endif </td>
     <td> @if($product->model) @if(App\Jewels::withTrashed()->find(App\Models::withTrashed()->find($product->model)->jewel)) {{ App\Jewels::find(App\Models::withTrashed()->find($product->model)->jewel)->name }} @endif @endif </td> 
     <td> {{ App\Prices::withTrashed()->find($product->retail_price)->price }} </td> 
     <td> {{ $product->weight }} </td>
@@ -13,7 +14,6 @@
         {{--  {{ $product->barcode }}  --}}
     </td>
  
-    <td>{{ $product->code }}</td>
     <td>
         @can('edit-products')
             <span data-url="products/{{$product->id}}" class="edit-btn" data-toggle="modal" data-target="#editProduct"><i class="c-brown-500 ti-pencil"></i></span> 

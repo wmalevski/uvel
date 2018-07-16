@@ -51,16 +51,19 @@ aria-hidden="true">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
             <h4 class="c-grey-900 mB-20">Ремонтни дейности <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addRepairType">Добави</button></h4>
             <p>Преглед на създадените ремонтни дейности.</p>
-            <table class="table table-condensed">
-                <tr>
-                    <th>Име</th> 
-                    <th>Цена</th>
-                    <th>Опции</th>
-                </tr>
-                
-                @foreach($repairTypes as $repairType)
-                    @include('admin.repair_types.table')
-                @endforeach
+            <table class="table table-condensed tablesort">
+                <thead>
+                    <tr>
+                        <th>Име</th>
+                        <th class="sort-false">Цена</th>
+                        <th class="sort-false">Опции</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($repairTypes as $repairType)
+                        @include('admin.repair_types.table')
+                    @endforeach
+                </tbody>
             </table>
         </div>
     </div>
