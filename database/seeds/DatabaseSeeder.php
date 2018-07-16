@@ -4,20 +4,20 @@ use Illuminate\Database\Seeder;
 use App\StoneSize;
 use App\StoneStyle;
 use App\StoneContour;
-use App\Stores;
+use App\Store;
 use App\Material;
 use App\Prices;
 use App\Stone;
 use App\Jewel;
 use App\User;
-use App\Repair_types;
-use App\Currencies;
-use App\Products;
-use App\Models;
+use App\RepairType;
+use App\Currency;
+use App\Product;
+use App\Model;
 use App\DiscountCode;
-use App\Products_others;
-use App\Products_others_types;
-use App\Repairs;
+use App\ProductOther;
+use App\ProductOtherType;
+use App\Repair;
 //use App\MaterialType;
 
 class DatabaseSeeder extends Seeder
@@ -175,29 +175,29 @@ class DatabaseSeeder extends Seeder
             $stone_contour->name = 'Контур '.$i;
             $stone_contour->save();
 
-            $stores = new Stores();
+            $stores = new Store();
             $stores->name = 'Магазин '.$i;
             $stores->location = 'София'; 
             $stores->phone = '0541587414178';
             $stores->save();
 
 
-            $stone = new Stone();
-            $stone->name = 'Камък '.$i;
-            $stone->type = rand(1,2);
-            $stone->weight = rand(1,5);
-            $stone->carat = rand(1,5);
-            $stone->size = rand(1,5);
-            $stone->style = rand(1,5);
-            $stone->contour = rand(1,5);
-            $stone->amount = rand(1,20);
-            $stone->price = rand(20,45);
-            $stone->save();
+            // $stone = new Stone();
+            // $stone->name = 'Камък '.$i;
+            // $stone->type = rand(1,2);
+            // $stone->weight = rand(1,5);
+            // $stone->carat = rand(1,5);
+            // $stone->size = rand(1,5);
+            // $stone->style = rand(1,5);
+            // $stone->contour = rand(1,5);
+            // $stone->amount = rand(1,20);
+            // $stone->price = rand(20,45);
+            // $stone->save();
 
-            $jewel = new Jewel();
-            $jewel->name = 'Бижу '.$i;
-            $jewel->material = rand(1,2);
-            $jewel->save();
+            // $jewel = new Jewel();
+            // $jewel->name = 'Бижу '.$i;
+            // $jewel->material = rand(1,2);
+            // $jewel->save();
         }
 
         // $material_type = new MaterialType();
@@ -279,8 +279,6 @@ class DatabaseSeeder extends Seeder
         // $model = new Models();
         // $model->name = 'Модел 1';
         // $model->jewel = 1;
-        // $model->retail_price = 2;
-        // $model->wholesale_price = 4;
         // $model->weight = 56;
         // $model->size = 56;
         // $model->workmanship = 3920;
@@ -310,11 +308,11 @@ class DatabaseSeeder extends Seeder
         // $discount->barcode = '3801863488922';
         // $discount->save();
 
-        // $products_others_types = new Products_others_types();
+        // $products_others_types = new ProductOtherType();
         // $products_others_types->name = 'Кутия';
         // $products_others_types->save();
 
-        // $products_others = new Products_others();
+        // $products_others = new ProductOther();
         // $products_others->name = 'Синя кутия';
         // $products_others->type = 1;
         // $products_others->price = 0.10;
@@ -326,7 +324,7 @@ class DatabaseSeeder extends Seeder
 
 
 
-        // $repair = new Repairs();
+        // $repair = new Repair();
         // $repair->type = 1;
         // $repair->barcode = 3806510024218;
         // $repair->repair_description = 'sadsd';
@@ -341,7 +339,7 @@ class DatabaseSeeder extends Seeder
         // $repair->customer_name = 'George Vasilev';
         // $repair->save();
 
-        // $repair = new Repairs();
+        // $repair = new Repair();
         // $repair->type = 1;
         // $repair->barcode = 3805183846417;
         // $repair->repair_description = 'sadsd';
@@ -356,7 +354,7 @@ class DatabaseSeeder extends Seeder
         // $repair->customer_name = 'George Vasilev';
         // $repair->save();
 
-        // $repair = new Repairs();
+        // $repair = new Repair();
         // $repair->type = 1;
         // $repair->barcode = 3805926394014;
         // $repair->repair_description = 'sadsd';

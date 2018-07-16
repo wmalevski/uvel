@@ -60,7 +60,7 @@
                                 <option value="">Избери</option>
                         
                                 @foreach($jewels as $jewel)
-                                    <option value="{{ $jewel->id }}" data-pricebuy="@if(App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" data-material="{{ $jewel->material }}">{{ $jewel->name }}</option>
+                                    <option value="{{ $jewel->id }}" data-pricebuy="@if(App\Price::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()){{App\Price::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" data-material="{{ $jewel->material }}">{{ $jewel->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -76,7 +76,7 @@
                                 <option value="">Избери</option>
                         
                                 @foreach($materials as $material)
-                                    <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ App\Prices::where([['material', '=', $material->material], ['type', '=', 'buy']])->first()->price}}">{{ App\Materials::withTrashed()->find($material->material)->name }} - {{ App\Materials::withTrashed()->find($material->material)->color }} - {{ App\Materials::withTrashed()->find($material->material)->carat }}</option>
+                                    <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ App\Price::where([['material', '=', $material->material], ['type', '=', 'buy']])->first()->price}}">{{ App\Materials::withTrashed()->find($material->material)->name }} - {{ App\Materials::withTrashed()->find($material->material)->color }} - {{ App\Materials::withTrashed()->find($material->material)->carat }}</option>
                                 @endforeach
                             </select>
                         </div>
