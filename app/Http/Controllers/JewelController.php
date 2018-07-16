@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jewel;
-use App\Stones;
+use App\Stone;
 use App\Material;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -11,8 +11,8 @@ use Response;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
 use File;
-use App\Models;
-use App\Products;
+use App\Model;
+use App\Product;
 
 class JewelController extends Controller
 {
@@ -68,7 +68,7 @@ class JewelController extends Controller
      * @param  \App\Jewel  $jewels
      * @return \Illuminate\Http\Response
      */
-    public function show(Jewel $jewels)
+    public function show(Jewel $jewel)
     {
         //
     }
@@ -79,9 +79,9 @@ class JewelController extends Controller
      * @param  \App\Jewel  $jewels
      * @return \Illuminate\Http\Response
      */
-    public function edit(Jewel $jewels, $jewel)
+    public function edit(Jewel $jewel)
     {
-        $jewel = Jewel::find($jewel);
+        $jewel = Jewel::find($jewel)->first();
         $materials = Material::all();
         
         //return Response::json(array('success' => View::make('admin/jewels/edit',array('jewel'=>$jewel, 'materials'=>$materials))->render()));
@@ -95,9 +95,9 @@ class JewelController extends Controller
      * @param  \App\Jewel  $jewels
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Jewel $jewels, $jewel)
+    public function update(Request $request, Jewel $jewel)
     {
-        $jewel = Jewel::find($jewel);
+        $jewel = Jewel::find($jewel)->first();
         $materials = Material::all();
         
         $jewel->name = $request->name;
@@ -114,13 +114,13 @@ class JewelController extends Controller
      * @param  \App\Jewel  $jewels
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Jewel $jewels, $jewel)
+    public function destroy(Jewel $jewel)
     {
-        $jewel = Jewel::find($jewel);
+        $jewel = Jewel::find($jewel)->first();
         
         if($jewel){
-            $usingModel = Products::where('jewel_type', $jewel->id)->count();
-            $usingProduct = Models::where('jewel', $jewel->id)->count();
+            $usingModel = Product::where('jewel_type', $jewel->id)->count();
+            $usingProduct = Model::where('jewel', $jewel->id)->count();
 
             if($usingModel || $usingProduct){
                 return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
