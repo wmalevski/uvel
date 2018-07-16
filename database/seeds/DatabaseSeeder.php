@@ -279,11 +279,8 @@ class DatabaseSeeder extends Seeder
         // $model = new Models();
         // $model->name = 'Модел 1';
         // $model->jewel = 1;
-<<<<<<< HEAD
         // $model->retail_price = 2;
         // $model->wholesale_price = 4;
-=======
->>>>>>> 0518ad667728a54d4c5ad68ed14f00e290158142
         // $model->weight = 56;
         // $model->size = 56;
         // $model->workmanship = 3920;
@@ -306,7 +303,6 @@ class DatabaseSeeder extends Seeder
         // $product->barcode = 3807260069719;
         // $product->save();
 
-<<<<<<< HEAD
         // $discount = new DiscountCode();
         // $discount->discount = 20;
         // $discount->lifetime = 'no';
@@ -374,74 +370,5 @@ class DatabaseSeeder extends Seeder
         // $repair->customer_phone = '862589845';
         // $repair->customer_name = 'George Vasilev';
         // $repair->save();
-=======
-        $discount = new Discount_codes();
-        $discount->discount = 20;
-        $discount->lifetime = 'no';
-        $discount->code = '4RFI';
-        $discount->barcode = '3801863488922';
-        $discount->save();
-
-        $products_others_types = new Products_others_types();
-        $products_others_types->name = 'Кутия';
-        $products_others_types->save();
-
-        $products_others = new Products_others();
-        $products_others->name = 'Синя кутия';
-        $products_others->type = 1;
-        $products_others->price = 0.10;
-        $products_others->quantity = 200;
-        $products_others->store = 1;
-        $products_others->barcode = 3808345766226;
-        $products_others->code = 'BWGKIDKA';
-        $products_others->save();
-
-
-
-        $repair = new Repairs();
-        $repair->type = 1;
-        $repair->barcode = 3806510024218;
-        $repair->repair_description = 'sadsd';
-        $repair->deposit = 10;
-        $repair->price = 20;
-        $repair->weight = 2.00;
-        $repair->code = 'RGV3IZPN';
-        $repair->status = 'repairing';
-        $repair->date_recieved = '30-04-2018'; 
-        $repair->date_returned = '24-05-2018';
-        $repair->customer_phone = '862589845';
-        $repair->customer_name = 'George Vasilev';
-        $repair->save();
-
-        $repair = new Repairs();
-        $repair->type = 1;
-        $repair->barcode = 3805183846417;
-        $repair->repair_description = 'sadsd';
-        $repair->deposit = 10;
-        $repair->price = 20;
-        $repair->weight = 2.00;
-        $repair->code = 'RBPTA4YZ';
-        $repair->status = 'repairing';
-        $repair->date_recieved = '30-04-2018'; 
-        $repair->date_returned = '24-05-2018';
-        $repair->customer_phone = '862589845';
-        $repair->customer_name = 'George Vasilev';
-        $repair->save();
-
-        $repair = new Repairs();
-        $repair->type = 1;
-        $repair->barcode = 3805926394014;
-        $repair->repair_description = 'sadsd';
-        $repair->deposit = 10;
-        $repair->price = 20;
-        $repair->weight = 2.00;
-        $repair->code = 'R8PAZKXM';
-        $repair->status = 'repairing';
-        $repair->date_recieved = '30-04-2018'; 
-        $repair->date_returned = '24-05-2018';
-        $repair->customer_phone = '862589845';
-        $repair->customer_name = 'George Vasilev';
-        $repair->save();
->>>>>>> 0518ad667728a54d4c5ad68ed14f00e290158142
     }
 }
