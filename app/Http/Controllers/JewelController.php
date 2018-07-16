@@ -11,8 +11,8 @@ use Response;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
 use File;
-use App\Models;
-use App\Products;
+use App\Model;
+use App\Product;
 
 class JewelController extends Controller
 {
@@ -48,8 +48,7 @@ class JewelController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make( $request->all(), [
-            'name' => 'required',
-            'material' => 'required',
+            'name' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -57,9 +56,8 @@ class JewelController extends Controller
         }
 
         $jewel = Jewel::create($request->all());
-        $material = Material::find($jewel->material);
 
-        return Response::json(array('success' => View::make('admin/jewels/table',array('jewel'=>$jewel, 'material'=>$material))->render()));
+        return Response::json(array('success' => View::make('admin/jewels/table',array('jewel'=>$jewel))->render()));
     }
 
     /**
@@ -82,10 +80,9 @@ class JewelController extends Controller
     public function edit(Jewel $jewels, $jewel)
     {
         $jewel = Jewel::find($jewel);
-        $materials = Material::all();
         
         //return Response::json(array('success' => View::make('admin/jewels/edit',array('jewel'=>$jewel, 'materials'=>$materials))->render()));
-        return \View::make('admin/jewels/edit',array('jewel'=>$jewel, 'materials'=>$materials));
+        return \View::make('admin/jewels/edit',array('jewel'=>$jewel));
     }
 
     /**
@@ -98,14 +95,12 @@ class JewelController extends Controller
     public function update(Request $request, Jewel $jewels, $jewel)
     {
         $jewel = Jewel::find($jewel);
-        $materials = Material::all();
         
         $jewel->name = $request->name;
-        $jewel->material = $request->material;
         
         $jewel->save();
 
-        return Response::json(array('ID' => $jewel->id, 'table' => View::make('admin/jewels/table',array('jewel'=>$jewel, 'materials'=>$materials))->render()));
+        return Response::json(array('ID' => $jewel->id, 'table' => View::make('admin/jewels/table',array('jewel'=>$jewel))->render()));
     }
 
     /**
@@ -119,8 +114,8 @@ class JewelController extends Controller
         $jewel = Jewel::find($jewel);
         
         if($jewel){
-            $usingModel = Products::where('jewel_type', $jewel->id)->count();
-            $usingProduct = Models::where('jewel', $jewel->id)->count();
+            $usingModel = Product::where('jewel_type', $jewel->id)->count();
+            $usingProduct = Model::where('jewel', $jewel->id)->count();
 
             if($usingModel || $usingProduct){
                 return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
