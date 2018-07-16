@@ -112,6 +112,7 @@ class ModelsController extends Controller
                     $model_stones->amount = $request->stone_amount[$key];
                     $model_stones->weight = $request->stone_weight[$key];
                     $model_stones->flow = $request->stone_flow[$key];
+                    
                     $model_stones->save();
                 }
             }
@@ -199,9 +200,9 @@ class ModelsController extends Controller
                         $product_stones->amount = $request->stone_amount[$key];
                         $product_stones->weight = $request->stone_weight[$key];
                         if($request->stone_flow[$key] == true){
-                            $model_stones->flow = 'yes';
+                            $product_stones->flow = 'yes';
                         }else{
-                            $model_stones->flow = 'no';
+                            $product_stones->flow = 'no';
                         }
                         $product_stones->save();
                     }

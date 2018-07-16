@@ -39,11 +39,11 @@ class ProductController extends Controller
         $materials = Materials_quantity::all();
 
         $pass_stones = array();
-
+        
         foreach($stones as $stone){
-            $pass_stones[] = (object)[
+            $pass_stones[] = [
                 'value' => $stone->id,
-                'label' => $stone->name
+                'label' => $stone->name.' ('.\App\Stone_contours::withTrashed()->find($stone->contour)->name.', '.\App\Stone_sizes::withTrashed()->find($stone->size)->name.' )'
             ];
         }
 

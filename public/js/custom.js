@@ -1334,6 +1334,84 @@ var uvel,
                     break;
                 }
               }
+              else if (key == 'stones') {
+                var stonesArray = data[key];
+                var fieldsWrapper = document.querySelector('.model_stones');
+                var stonesData = $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null;
+
+                fieldsWrapper.innerHTML = '';
+
+                for (i=0; i<stonesArray.length; i++) {
+                  var current = stonesArray[i];
+
+                  var stoneValue = current['value'];
+                  var amount = current.amount;
+                  var weight = current.weight;
+                  var flow = current.flow == 'yes' ? 'checked' : '';
+
+                  var stoneRow = document.createElement('div');
+                  stoneRow.classList.add('form-row', 'fields');
+
+                  var newFields =
+                    '<div class="form-group col-md-6">' +
+                    '<label>Камък:</label>' +
+                    '<select name="stones[]" class="form-control">';
+
+                  stonesData.forEach(function (option) {
+                    var selected = stoneValue == option.value ? 'selected' : '';
+                    newFields += `<option value=${option.value} ${selected}>${option.label}</option>`
+                  });
+
+                  newFields +=
+                    '</select>' +
+                    '</div>' +
+                    '<div class="form-group col-md-4">' +
+                    '<label>Брой:</label>' +
+                    `<input type="text" value=${amount} class="form-control calculate-stones" name="stone_amount[]" placeholder="Брой">` +
+                    '</div>' +
+                    '<div class="form-group col-md-2">' +
+                    '<span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>'+
+                    '</div>' +
+                    '<div class="form-group col-md-6">' +
+                    '<div class="form-group">' +
+                    '<label>Тегло: </label>' +
+                    `<input type="number" value=${weight} class="form-control calculate-stones" name="stone_weight[]" placeholder="Тегло:" min="0.1" max="100">` +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="form-group col-md-6">' +
+                    '<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder">' +
+                    `<input type="checkbox" id="" class="stone-flow calculate-stones" name="stone_flow[]" class="peer" ${flow}>` +
+                    '<label for="" class="peers peer-greed js-sb ai-c">' +
+                    '<span class="peer peer-greed">За леене</span>' +
+                    '</label>' +
+                    '</div>' +
+                    '</div>';
+
+                  stoneRow.innerHTML = newFields;
+                  fieldsWrapper.appendChild(stoneRow);
+
+
+                }
+
+                var stoneFlowBtnsCollection = document.querySelectorAll('.stone-flow');
+
+                for (i=0; i<stoneFlowBtnsCollection.length; i++) {
+                  var stoneFlowBtnId = 'stoneFlow_' + String(i+1);
+
+                  stoneFlowBtnsCollection[i].setAttribute('id', stoneFlowBtnId);
+                  stoneFlowBtnsCollection[i].nextElementSibling.setAttribute('for', stoneFlowBtnId);
+                }
+
+                $self.initializeSelect($(fieldsWrapper).find('select'));
+
+                var event = document.createEvent('HTMLEvents');
+                var el = document.querySelector('input.stone-flow:checked')
+                event.initEvent('change', true, false);
+
+                if (el) {
+                  el.dispatchEvent(event);
+                }
+              }
             }
 
             var materialSelect = $('#material');
@@ -1620,6 +1698,11 @@ var uvel,
           $self.checkAllForms(currentPressedBtn);
           $('#editModel [name="default_material[]"]:checked').closest('.form-row').find('.material_type').trigger('change');
         }, 500);
+
+        setTimeout(function () {
+         $( $('#editModel input.stone-flow:checked')[0]).trigger('change');
+         $( $('#editProduct input.stone-flow:checked')[0]).trigger('change');
+        }, 700);
       }
 
       function editBtnSuccess(data, elements, btn) {
