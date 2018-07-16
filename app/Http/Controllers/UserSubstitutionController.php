@@ -141,16 +141,15 @@ class UsersubstitutionController extends Controller
      */
     public function edit(UserSubstitution $userSubstitution)
     {
-        $substitution = UserSubstitution::find($userSubstitution);
         $stores = Store::withTrashed()->get();
         $users = User::withTrashed()->get();
         $place = 'active';
 
-        if($substitution->date_to < date("Y-m-d")){
+        if($userSubstitution->date_to < date("Y-m-d")){
             $place = 'inactive';
         }
         
-        return \View::make('admin/substitutions/edit', array('users' => $users, 'stores' => $stores, 'substitution' => $substitution, 'place' => $place));
+        return \View::make('admin/substitutions/edit', array('users' => $users, 'stores' => $stores, 'substitution' => $userSubstitution, 'place' => $place));
     }
 
     /**
@@ -162,8 +161,7 @@ class UsersubstitutionController extends Controller
      */
     public function update(Request $request, UserSubstitution $userSubstitution)
     {
-        $substitution = UserSubstitution::find($userSubstitution);
-        if($substitution){
+        if($userSubstitution){
             $validator = Validator::make( $request->all(), [
                 'user' => 'required',
                 'store' => 'required',
@@ -176,19 +174,19 @@ class UsersubstitutionController extends Controller
             }
 
             $place = 'active';
-            $substitution->user_id = $request->user;
-            $substitution->store_id = $request->store;
-            $substitution->date_from = date('Y-m-d', strtotime($request->dateFrom));
-            $substitution->date_to = date('Y-m-d', strtotime($request->dateTo));
+            $userSubstitution->user_id = $request->user;
+            $userSubstitution->store_id = $request->store;
+            $userSubstitution->date_from = date('Y-m-d', strtotime($request->dateFrom));
+            $userSubstitution->date_to = date('Y-m-d', strtotime($request->dateTo));
 
-            if($substitution->date_to < date("Y-m-d")){
+            if($userSubstitution->date_to < date("Y-m-d")){
                 $place = 'inactive';
             }
 
     
-            $substitution->save();
+            $userSubstitution->save();
     
-            return Response::json(array('ID' => $substitution->id, 'table' => View::make('admin/substitutions/table',array('substitution'=>$substitution))->render(), 'place' => $place));
+            return Response::json(array('ID' => $userSubstitution->id, 'table' => View::make('admin/substitutions/table',array('substitution'=>$userSubstitution))->render(), 'place' => $place));
         }
     }
 
@@ -210,11 +208,9 @@ class UsersubstitutionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(UserSubstitution $userSubstitution)
-    {
-        $substitution = UserSubstitution::find($userSubstitution);
-        
-        if($substitution){
-            $substitution->delete();
+    { 
+        if($userSubstitution){
+            $userSubstitution->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
         }
     }

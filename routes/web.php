@@ -45,7 +45,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     //Route::get('/users/substitution/{user}', 'UserSubstitutionController@show');
 
     Route::get('/users/substitutions', 'UserSubstitutionController@index')->name('substitutions');
-    Route::get('/users/substitutions/{substitution}', 'UserSubstitutionController@edit');
+    Route::get('/users/substitutions/{userSubstitution}', 'UserSubstitutionController@edit');
 
     Route::get('/users', 'UserController@index')->name('users');
     Route::get('/users/{user}', 'UserController@edit');
@@ -271,8 +271,8 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/users/substitutions', 'UserSubstitutionController@store');
 
-    Route::put('/users/substitutions/{substitution}', 'UserSubstitutionController@update');
-    Route::post('/users/substitutions/delete/{substitution}', 'UserSubstitutionController@destroy');
+    Route::put('/users/substitutions/{userSubstitution}', 'UserSubstitutionController@update');
+    Route::post('/users/substitutions/delete/{userSubstitution}', 'UserSubstitutionController@destroy');
 
     Route::post('/gallery/delete/{photo}', 'GalleryController@destroy');
 });

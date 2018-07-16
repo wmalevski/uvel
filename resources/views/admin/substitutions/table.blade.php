@@ -1,6 +1,6 @@
 <tr data-id="{{ $substitution->id }}">
     <td>{{ App\User::withTrashed()->find($substitution->user_id)->name }}</td> 
-    <td>{{ App\Stores::withTrashed()->find($substitution->store_id)->name }}</td> 
+    <td>{{ App\Store::withTrashed()->find($substitution->store_id)->name }}</td> 
     <td>{{ Carbon\Carbon::parse($substitution->date_to)->format('d-m-Y') }}</td> 
     <td>{{ Carbon\Carbon::parse($substitution->date_to)->format('d-m-Y') }}</td>
     <td>

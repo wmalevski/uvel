@@ -52,7 +52,7 @@ class StoreController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $store = Stores::create($request->all());
+        $store = Store::create($request->all());
         
         return Response::json(array('success' => View::make('admin/stores/table',array('store'=>$store))->render()));
     }
