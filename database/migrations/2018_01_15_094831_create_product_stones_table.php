@@ -19,6 +19,7 @@ class CreateProductStonesTable extends Migration
             $table->integer('model')->references('id')->on('models')->nullable();
             $table->integer('stone')->references('id')->on('stones');
             $table->integer('amount');
+            $table->integer('weight');
             $table->timestamps();
             $table->softDeletes();
         });

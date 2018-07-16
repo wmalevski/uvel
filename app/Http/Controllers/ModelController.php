@@ -14,9 +14,11 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Response;
 use Illuminate\Support\Facades\View;
-use Carbon\Carbon;
-use App\Gallery;
 use File;
+use Auth;
+use Response;
+use Uuid;
+use App\MaterialQuantity;
 
 class ModelController extends Controller
 {
@@ -31,6 +33,7 @@ class ModelController extends Controller
         $jewels = Jewel::all();
         $prices = Price::all();
         $stones = Stone::all();
+        $materials = MaterialQuantity::where('store', Auth::user()->getStore())->get();
 
         $pass_stones = array();
         
@@ -41,7 +44,18 @@ class ModelController extends Controller
             ];
         }
 
-        return \View::make('admin/models/index', array('jsStones' =>  json_encode($pass_stones), 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones));
+        $pass_materials = array();
+        
+        foreach($materials as $material){
+            $pass_materials[] = [
+                'value' => $material->id,
+                'label' => Materials::withTrashed()->find($material->material)->name.' - '. Materials::withTrashed()->find($material->material)->color.  ' - '  .Materials::withTrashed()->find($material->material)->carat,
+                'pricebuy' => Prices::withTrashed()->where('material', $material->material)->where('type', 'buy')->first()->price,
+                'material' => $material->material
+            ];
+        }
+
+        return \View::make('admin/models/index', array('jsMaterials' =>  json_encode($pass_materials), 'jsStones' =>  json_encode($pass_stones), 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials));
     }
 
     /**
@@ -65,8 +79,8 @@ class ModelController extends Controller
         $validator = Validator::make( $request->all(), [
             'name' => 'required|unique:models,name',
             'jewel' => 'required',
-            'retail_price' => 'required',
             'stone_amount.*' => 'nullable|numeric|between:1,100',
+            'stone_weight.*' => 'nullable|numeric|between:1,100',
             'weight' => 'required|numeric|between:0.1,10000',
             'size'  => 'required|numeric|between:0.1,10000',
             'workmanship' => 'required|numeric|between:0.1,500000',
@@ -77,7 +91,14 @@ class ModelController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $model = Models::create($request->all());
+        $model = new Models();
+        $model->name = $request->name;
+        $model->jewel = $request->jewel;
+        $model->weight = $request->weight;
+        $model->size = $request->size;
+        $model->workmanship = $request->workmanship;
+        $model->price = $request->price;
+        $model->save();
 
         foreach($request->stones as $key => $stone){
             if($stone){
@@ -85,6 +106,8 @@ class ModelController extends Controller
                 $model_stones->model = $model->id;
                 $model_stones->stone = $stone;
                 $model_stones->amount = $request->stone_amount[$key];
+                $model_stones->weight = $request->stone_weight[$key];
+                $model_stones->flow = $request->stone_flow[$key];
                 $model_stones->save();
             }
         }
@@ -106,6 +129,25 @@ class ModelController extends Controller
             $photo->table = 'models';
 
             $photo->save();
+        }
+
+        foreach($request->material as $key => $material){
+            if($material){
+                $model_option = new ModelOptions();
+                $model_option->model = $model->id;
+                $model_option->material = $material;
+                $model_option->retail_price = $request->retail_price[$key];
+                $model_option->wholesale_price = $request->wholesale_price[$key];
+                $model_option->default = $request->default_material[$key];
+
+                if($request->default_material[$key] == true){
+                    $model_option->default = "yes";
+                }else{
+                    $model_option->default = "no";
+                }
+
+                $model_option->save();
+            }
         }
 
         if ($request->release_product == true) {
@@ -144,9 +186,26 @@ class ModelController extends Controller
                     $product_stones->model = $model->id;
                     $product_stones->stone = $stone;
                     $product_stones->amount = $request->stone_amount[$key];
+                    $product_stones->weight = $request->stone_weight[$key];
+                    if($request->stone_flow[$key] == true){
+                        $model_stones->flow = 'yes';
+                    }else{
+                        $model_stones->flow = 'no';
+                    }
                     $product_stones->save();
                 }
             }
+
+
+            //To be un-commented when FE is ready!!!
+            // foreach($request->options as $key => $option){
+            //     $option = new Model_stones();
+            //     $option->model = $model->id;
+            //     $option->material = $request->material[$key];
+            //     $option->retail_price = $request->retail_price[$key];
+            //     $option->wholesale_price = $request->wholesale_price[$key];
+            //     $model_stones->save();
+            // }
         }
 
         return Response::json(array('success' => View::make('admin/models/table',array('model'=>$model))->render()));
@@ -183,14 +242,31 @@ class ModelController extends Controller
             ]
         )->get();
 
-        //dd($modelStones);
+        $options = ModelOptions::where('model', $model->id)->get();
+
+        $materials = Materials_quantity::where('store', Auth::user()->getStore())->get();
         
-        //return Response::json(array('success' => View::make('admin/models/edit',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render()));
+        $pass_stones = array();
+        
+        foreach($stones as $stone){
+            $pass_stones[] = [
+                'value' => $stone->id,
+                'label' => $stone->name.' ('.\App\Stone_contours::withTrashed()->find($stone->contour)->name.', '.\App\Stone_sizes::withTrashed()->find($stone->size)->name.' )'
+            ];
+        }
 
-        //$product = Products_others::find($product);
-        //$types = Products_others_types::all();
+        $pass_materials = array();
+        
+        foreach($materials as $material){
+            $pass_materials[] = [
+                'value' => $material->id,
+                'label' => Materials::withTrashed()->find($material->material)->name.' - '. Materials::withTrashed()->find($material->material)->color.  ' - '  .Materials::withTrashed()->find($material->material)->carat,
+                'pricebuy' => Prices::withTrashed()->where('material', $material->material)->where('type', 'buy')->first()->price,
+                'material' => $material->material
+            ];
+        }
 
-        return \View::make('admin/models/edit', array('photos' => $photos, 'model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones, 'modelStones' => $modelStones));
+        return \View::make('admin/models/edit', array('photos' => $photos, 'model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones, 'modelStones' => $modelStones, 'options' => $options, 'stones' => $stones, 'materials' => $materials, 'jsMaterials' =>  json_encode($pass_materials), 'jsStones' =>  json_encode($pass_stones)));
     }
 
     /**
@@ -210,8 +286,8 @@ class ModelController extends Controller
         
         $model->name = $request->name;
         $model->jewel = $request->jewel;
-        $model->retail_price = $request->retail_price;
-        $model->wholesale_price = $request->wholesale_price;
+        $model->price = $request->price;
+        $model->workmanship = $request->workmanship;
         $model->weight = $request->weight;
         
         $model->save();
@@ -228,7 +304,34 @@ class ModelController extends Controller
                 $model_stones->model = $model->id;
                 $model_stones->stone = $stone;
                 $model_stones->amount = $request->stone_amount[$key];
+                $model_stones->weight = $request->stone_weight[$key];
+                if($request->stone_flow[$key] == true){
+                    $model_stones->flow = 'yes';
+                }else{
+                    $model_stones->flow = 'no';
+                }
                 $model_stones->save();
+            }
+        }
+
+        $deleteOptions = ModelOptions::where('model', $model->id)->delete();
+
+        foreach($request->material as $key => $material){
+            if($material){
+                $model_option = new ModelOptions();
+                $model_option->model = $model->id;
+                $model_option->material = $material;
+                $model_option->retail_price = $request->retail_price[$key];
+                $model_option->wholesale_price = $request->wholesale_price[$key];
+                $model_option->default = $request->default_material[$key];
+
+                if($request->default_material[$key] == true){
+                    $model_option->default = "yes";
+                }else{
+                    $model_option->default = "no";
+                }
+
+                $model_option->save();
             }
         }
 

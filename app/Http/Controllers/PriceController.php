@@ -154,12 +154,19 @@ class PriceController extends Controller
     public function getByMaterial($material){
         $prices = Price::where(
             [
-                ['material', '=', Jewel::find($material)->material],
+                ['material', '=', $material],
                 ['type', '=', 'sell']
             ]
         )->get();
 
         $prices_retail = array();
+
+        $priceBuy = Prices::where(
+            [
+                ['material', '=', $material],
+                ['type', '=', 'buy']
+            ]
+        )->first();
 
         // $prices_retail[0] = (object)[
         //     'id' => '',
@@ -193,6 +200,6 @@ class PriceController extends Controller
             ];
         }
 
-        return Response::json(array('prices' => $prices_retail, 'pass_models' => $models));
+        return Response::json(array('prices' => $prices_retail, 'pass_models' => $models, 'priceBuy' => $priceBuy->price));
     }
 }
