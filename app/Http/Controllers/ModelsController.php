@@ -83,7 +83,7 @@ class ModelsController extends Controller
             'name' => 'required|unique:models,name',
             'jewel' => 'required',
             'stone_amount.*' => 'numeric|between:1,100',
-            'stone_weight.*' => 'numeric|between:1,100',
+            'stone_weight.*' => 'numeric|between:0.01,1000',
             'weight' => 'required|numeric|between:0.1,10000',
             'size'  => 'required|numeric|between:0.1,10000',
             'workmanship' => 'required|numeric|between:0.1,500000',
@@ -302,7 +302,7 @@ class ModelsController extends Controller
         $validator = Validator::make( $request->all(), [
             'jewel' => 'required',
             'stone_amount.*' => 'numeric|between:1,100',
-            'stone_weight.*' => 'numeric|between:1,100',
+            'stone_weight.*' => 'numeric|between:0.01,1000',
             'weight' => 'required|numeric|between:0.1,10000',
             'size'  => 'required|numeric|between:0.1,10000',
             'workmanship' => 'required|numeric|between:0.1,500000',
