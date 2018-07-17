@@ -73,9 +73,7 @@ class StoneSizeController extends Controller
      */
 public function edit(StoneSize $stoneSize)
     {
-        $size = StoneSize::find($stoneSize)->first();
-        
-        return \View::make('admin/stone_sizes/edit', array('size' => $size));
+        return \View::make('admin/stone_sizes/edit', array('size' => $stoneSize));
     }
 
     /**
@@ -87,13 +85,11 @@ public function edit(StoneSize $stoneSize)
      */
     public function update(Request $request, StoneSize $stoneSize)
     {
-        $size = StoneSize::find($stoneSize)->first();
+        $stoneSize->name = $request->name;
         
-        $size->name = $request->name;
+        $stoneSize->save();
         
-        $size->save();
-        
-        return Response::json(array('ID' => $size->id, 'table' => View::make('admin/stone_sizes/table', array('size' => $size))->render()));
+        return Response::json(array('ID' => $stoneSize->id, 'table' => View::make('admin/stone_sizes/table', array('size' => $stoneSize))->render()));
     }
 
     /**
@@ -104,10 +100,8 @@ public function edit(StoneSize $stoneSize)
      */
     public function destroy(StoneSize $stoneSize)
     {
-        $size = StoneSize::find($stoneSize)->first();
-        
-        if($size){
-            $size->delete();
+        if($stoneSize){
+            $stoneSize->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
         }
     }

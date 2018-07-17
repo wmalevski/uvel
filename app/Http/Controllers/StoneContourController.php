@@ -71,9 +71,7 @@ class StoneContourController extends Controller
      */
     public function edit(StoneContour $stoneContour)
     {
-        $contour = StoneContour::find($stoneContour)->first();
-        
-        return \View::make('admin/stone_contours/edit', array('contour' => $contour));
+        return \View::make('admin/stone_contours/edit', array('contour' => $stoneContour));
     }
 
     /**
@@ -85,13 +83,11 @@ class StoneContourController extends Controller
      */
     public function update(Request $request, StoneContour $stoneContour)
     {
-        $contour = StoneContour::find($stoneContour)->first();
+        $stoneContour->name = $request->name;
         
-        $contour->name = $request->name;
+        $stoneContour->save();
         
-        $contour->save();
-        
-        return Response::json(array('ID' => $contour->id, 'table' => View::make('admin/stone_contours/table', array('contour' => $contour))->render()));
+        return Response::json(array('ID' => $stoneContour->id, 'table' => View::make('admin/stone_contours/table', array('contour' => $stoneContour))->render()));
     }
 
     /**
@@ -102,10 +98,8 @@ class StoneContourController extends Controller
      */
     public function destroy(StoneContour $stoneContour)
     {
-        $contour = StoneContour::find($stoneContour)->first();
-        
-        if($contour){
-            $contour->delete();
+        if($stoneContour){
+            $stoneContour->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
         }
     }
