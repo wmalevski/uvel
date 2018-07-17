@@ -152,6 +152,7 @@ return [
         'workmanship' => 'Изработка',
         'retail_price' => 'Цена на дребно',
         'stone_amount.*' => 'Брой камъни',
+        'stone_weight.*' => 'Тегло камъни',
         'storeTo' => 'Магазин',
         'carat' => 'Карат',
         'deposit' => 'Капаро'
