@@ -20,6 +20,7 @@ class CreateModelsTable extends Migration
             $table->float('weight');
             $table->integer('size');
             $table->float('workmanship');
+            $table->float('totalStones');
             $table->float('price');
             $table->timestamps();
             $table->softDeletes();

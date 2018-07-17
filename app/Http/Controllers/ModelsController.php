@@ -87,7 +87,10 @@ class ModelsController extends Controller
             'weight' => 'required|numeric|between:0.1,10000',
             'size'  => 'required|numeric|between:0.1,10000',
             'workmanship' => 'required|numeric|between:0.1,500000',
-            'price' => 'required|numeric|between:0.1,500000'
+            'price' => 'required|numeric|between:0.1,500000',
+            'material.*' => 'required',
+            'retail_price.*' => 'required',
+            'wholesale_price.*' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -101,6 +104,7 @@ class ModelsController extends Controller
         $model->size = $request->size;
         $model->workmanship = $request->workmanship;
         $model->price = $request->price;
+        $model->totalStones =  $request->totalStones;
         $model->save();
 
         if($request->stones){
@@ -300,13 +304,17 @@ class ModelsController extends Controller
         $stones = Stones::all();
 
         $validator = Validator::make( $request->all(), [
+            'name' => 'required|unique:models,name',
             'jewel' => 'required|numeric|min:1',
             'stone_amount.*' => 'numeric|between:1,100',
             'stone_weight.*' => 'numeric|between:0.01,1000',
             'weight' => 'required|numeric|between:0.1,10000',
             'size'  => 'required|numeric|between:0.1,10000',
             'workmanship' => 'required|numeric|between:0.1,500000',
-            'price' => 'required|numeric|between:0.1,500000'
+            'price' => 'required|numeric|between:0.1,500000',
+            'material.*' => 'required',
+            'retail_price.*' => 'required',
+            'wholesale_price.*' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -318,6 +326,8 @@ class ModelsController extends Controller
         $model->price = $request->price;
         $model->workmanship = $request->workmanship;
         $model->weight = $request->weight;
+        $model->totalStones =  $request->totalStones;
+        $model->size = $request->size;
         
         $model->save();
 
