@@ -110,7 +110,6 @@ class StoneController extends Controller
      */
     public function edit(Stone $stone)
     {
-        $stone = Stone::find($stone)->first();
         $stone_sizes = StoneSize::all();
         $stone_contours = StoneContour::all();
         $stone_styles = StoneStyle::all();
@@ -133,8 +132,6 @@ class StoneController extends Controller
      */
     public function update(Request $request, Stone $stone)
     {
-        $stone = Stone::find($stone)->first();
-
         $validator = Validator::make( $request->all(), [
             'name' => 'required',
             'type' => 'required',
@@ -209,8 +206,6 @@ class StoneController extends Controller
      */
     public function destroy(Stone $stone)
     {
-        $stone = Stone::find($stone)->first();;
-        
         if($stone){
             $usingModel = ModelStone::where('stone', $stone->id)->count();
             $usingProduct = ProductStone::where('stone', $stone->id)->count();

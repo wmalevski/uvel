@@ -78,9 +78,6 @@ class JewelController extends Controller
      */
     public function edit(Jewel $jewel)
     {
-        $jewel = Jewel::find($jewel)->first();
-        
-        //return Response::json(array('success' => View::make('admin/jewels/edit',array('jewel'=>$jewel, 'materials'=>$materials))->render()));
         return \View::make('admin/jewels/edit',array('jewel'=>$jewel));
     }
 
@@ -93,8 +90,6 @@ class JewelController extends Controller
      */
     public function update(Request $request, Jewel $jewel)
     {
-        $jewel = Jewel::find($jewel)->first();
-        
         $jewel->name = $request->name;
         
         $jewel->save();
@@ -110,8 +105,6 @@ class JewelController extends Controller
      */
     public function destroy(Jewel $jewel)
     {
-        // $jewel = Jewel::find($jewel)->first();
-        
         if($jewel){
             $usingModel = Product::where('jewel_type', $jewel->id)->count();
             $usingProduct = Model::where('jewel', $jewel->id)->count();

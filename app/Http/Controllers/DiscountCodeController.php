@@ -112,9 +112,8 @@ class DiscountCodeController extends Controller
     public function edit(DiscountCode $discountCode)
     {
         $users = User::all();
-        $discount = DiscountCode::find($discountCode)->first();
         
-        return \View::make('admin/discounts/edit', array('users' => $users, 'discount' => $discount));
+        return \View::make('admin/discounts/edit', array('users' => $users, 'discount' => $discountCode));
     }
 
     /**
@@ -135,27 +134,26 @@ class DiscountCodeController extends Controller
         }
 
         $users = User::all();
-        $discount = DiscountCode::find($discountCode)->first();
 
-        $discount->discount = $request->discount;
-        $discount->expires = $request->date_expires;
-        $discount->user = $request->user;
+        $discountCode->discount = $request->discount;
+        $discountCode->expires = $request->date_expires;
+        $discountCode->user = $request->user;
 
         if($request->active == false){
-            $discount->active = 'no';
+            $discountCode->active = 'no';
         } else{
-            $discount->active = 'yes';
+            $discountCode->active = 'yes';
         }
 
         if($request->lifetime == false){
-            $discount->lifetime = 'no';
+            $discountCode->lifetime = 'no';
         } else{
-            $discount->lifetime = 'yes';
+            $discountCode->lifetime = 'yes';
         }
 
-        $discount->save();
+        $discountCode->save();
 
-        return Response::json(array('ID' => $discount->id, 'table' => View::make('admin/discounts/table',array('discount' => $discount, 'users' => $users))->render()));
+        return Response::json(array('ID' => $discountCode->id, 'table' => View::make('admin/discounts/table',array('discount' => $discountCode, 'users' => $users))->render()));
     }
 
     /**
@@ -166,10 +164,9 @@ class DiscountCodeController extends Controller
      */
     public function destroy(DiscountCode $discountCode)
     {
-        $discount = DiscountCode::find($discountCode)->first();
-        
-        if($discount){
-            $discount->delete();
+
+        if($discountCode){
+            $discountCode->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
         }
     }

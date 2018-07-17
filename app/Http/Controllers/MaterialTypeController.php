@@ -76,9 +76,7 @@ class MaterialTypeController extends Controller
      */
     public function edit(MaterialType $materialType)
     {
-        $material = MaterialType::find($materialType)->first();
-
-        return \View::make('admin/materials_types/edit',array('material'=>$material));
+        return \View::make('admin/materials_types/edit',array('material'=>$materialType));
     }
 
     /**
@@ -90,13 +88,11 @@ class MaterialTypeController extends Controller
      */
     public function update(Request $request, MaterialType $materialType)
     {
-        $material = MaterialType::find($materialType)->first();
+        $materialType->name = $request->name;
         
-        $material->name = $request->name;
-        
-        $material->save();
+        $materialType->save();
 
-        return Response::json(array('ID' => $material->id,'table' => View::make('admin/materials_types/table',array('material'=>$material))->render()));
+        return Response::json(array('ID' => $materialType->id,'table' => View::make('admin/materials_types/table',array('material'=>$materialType))->render()));
     }
 
     /**
@@ -107,15 +103,14 @@ class MaterialTypeController extends Controller
      */
     public function destroy(MaterialType $materialType)
     {
-        $material = MaterialType::find($materialType)->first();
         
-        if($material){
-            $using = Material::where('parent', $material->id)->count();
+        if($materialType){
+            $using = Material::where('parent', $materialType->id)->count();
             
             if($using){
                 return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
             }else{
-                $material->delete();
+                $materialType->delete();
                 return Response::json(array('success' => 'Успешно изтрито!'));
             }
         }

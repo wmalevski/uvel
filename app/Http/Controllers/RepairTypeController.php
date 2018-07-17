@@ -72,9 +72,7 @@ class RepairTypeController extends Controller
      */
     public function edit(RepairType $repairType)
     {
-        $type = RepairType::find($repairType)->first();
-
-        return \View::make('admin/repair_types/edit', array('repair' => $type));
+        return \View::make('admin/repair_types/edit', array('repair' => $repairType));
     }
 
     /**
@@ -86,13 +84,12 @@ class RepairTypeController extends Controller
      */
     public function update(Request $request, RepairType $repairType)
     {
-        $type = RepairType::find($repairType)->first();
-        $type->name = $request->name;
-        $type->price = $request->price;
+        $repairType->name = $request->name;
+        $repairType->price = $request->price;
 
-        $type->save();
+        $repairType->save();
         
-        return Response::json(array('ID' => $type->id, 'table' => View::make('admin/repair_types/table',array('repairType'=>$type))->render()));
+        return Response::json(array('ID' => $repairType->id, 'table' => View::make('admin/repair_types/table',array('repairType'=>$repairType))->render()));
     }
 
     /**
@@ -103,10 +100,8 @@ class RepairTypeController extends Controller
      */
     public function destroy(RepairType $repairType)
     {
-        $type = RepairType::find($repairType)->first();
-        
-        if($type){
-            $type->delete();
+        if($repairType){
+            $repairType->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
         }
     }

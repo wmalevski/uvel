@@ -71,9 +71,7 @@ class StoneStyleController extends Controller
      */
     public function edit(StoneStyle $stoneStyle)
     {
-        $style = StoneStyle::find($stoneStyle)->first();
-
-        return \View::make('admin/stone_styles/edit', array('style' => $style));
+        return \View::make('admin/stone_styles/edit', array('style' => $stoneStyle));
     }
 
     /**
@@ -85,13 +83,11 @@ class StoneStyleController extends Controller
      */
     public function update(Request $request, StoneStyle $stoneStyle)
     {
-        $style = StoneStyle::find($stoneStyle)->first();
+        $stoneStyle->name = $request->name;
         
-        $style->name = $request->name;
+        $stoneStyle->save();
         
-        $style->save();
-        
-        return Response::json(array('ID' => $style->id, 'table' => View::make('admin/stone_styles/table', array('style' => $style))->render()));
+        return Response::json(array('ID' => $stoneStyle->id, 'table' => View::make('admin/stone_styles/table', array('style' => $stoneStyle))->render()));
     }
 
     /**
@@ -102,10 +98,8 @@ class StoneStyleController extends Controller
      */
     public function destroy(StoneStyle $stoneStyle)
     {
-        $style = StoneStyle::find($stoneStyle)->first();
-        
-        if($style){
-            $style->delete();
+        if($stoneStyle){
+            $stoneStyle->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
         }
     }
