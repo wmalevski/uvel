@@ -73,8 +73,6 @@ class PriceController extends Controller
      */
     public function show(Price $price, $material)
     {
-        $material = Material::find($material);
-
         if($material){
             $prices = Price::where('material', $material->id)->get();
 
