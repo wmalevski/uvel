@@ -88,11 +88,10 @@ class MaterialQuantityController extends Controller
      */
     public function edit(MaterialQuantity $materialQuantity)
     {
-        $material = MaterialQuantity::find($materialQuantity)->first();
         $stores = Store::all();
         $materials_types = Material::withTrashed()->get();
-
-        return \View::make('admin/materials_quantity/edit',array('material'=>$material, 'types' => $materials_types, 'stores' => $stores));
+        
+        return \View::make('admin/materials_quantity/edit',array('material'=>$materialQuantity, 'types' => $materials_types, 'stores' => $stores));
     }
 
     /**
@@ -104,11 +103,9 @@ class MaterialQuantityController extends Controller
      */
     public function update(Request $request, MaterialQuantity $materialQuantity)
     {
-        $material = MaterialQuantity::find($materialQuantity)->first();
-        
-        $material->material = $request->material;
-        $material->quantity = $request->quantity;
-        $material->store = $request->store;
+        $materialQuantity->material = $request->material;
+        $materialQuantity->quantity = $request->quantity;
+        $materialQuantity->store = $request->store;
 
         $validator = Validator::make( $request->all(), [
             'material' => 'required',
@@ -120,9 +117,9 @@ class MaterialQuantityController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
         
-        $material->save();
+        $materialQuantity->save();
         
-        return Response::json(array('ID' => $material->id, 'table' => View::make('admin/materials_quantity/table', array('material' => $material))->render()));
+        return Response::json(array('ID' => $materialQuantity->id, 'table' => View::make('admin/materials_quantity/table', array('material' => $materialQuantity))->render()));
     }
 
     /**

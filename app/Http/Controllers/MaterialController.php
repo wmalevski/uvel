@@ -81,10 +81,8 @@ class MaterialController extends Controller
      */
     public function edit(Material $material)
     {
-        $material = Material::find($material)->first();
         $parents = MaterialType::all();
 
-        //return Response::json(array('success' => View::make('admin/materials/edit',array('material'=>$material))->render()));
         return \View::make('admin/materials/edit',array('material'=>$material, 'parents' => $parents));
     }
 
@@ -97,8 +95,6 @@ class MaterialController extends Controller
      */
     public function update(Request $request, Material $material)
     {
-        $material = Material::find($material)->first();
-        
         $material->code = $request->code;
         $material->color = $request->color;
         $material->carat = $request->carat;
@@ -117,8 +113,6 @@ class MaterialController extends Controller
      */
     public function destroy(Material $material)
     {
-        $material = Material::find($material)->first();
-        
         if($material){
             $using = Jewel::where('material', $material->id)->count();
             
