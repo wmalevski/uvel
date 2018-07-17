@@ -73,9 +73,7 @@ class ProductOtherTypeController extends Controller
      */
     public function edit(ProductOtherType $productOtherType)
     {
-        $type = ProductOtherType::find($productOtherType)->first();
-
-        return \View::make('admin/products_others_types/edit', array('type' => $type));
+        return \View::make('admin/products_others_types/edit', array('type' => $productOtherType));
     }
 
     /**
@@ -87,12 +85,10 @@ class ProductOtherTypeController extends Controller
      */
     public function update(Request $request, ProductOtherType $productOtherType)
     {
-        $type = ProductOtherType::find($productOtherType)->first();
+        $productOtherType->name = $request->name;
+        $productOtherType->save();
         
-        $type->name = $request->name;
-        $type->save();
-        
-        return Response::json(array('ID' => $type->id, 'table' => View::make('admin/products_others_types/table',array('type'=>$type))->render()));
+        return Response::json(array('ID' => $productOtherType->id, 'table' => View::make('admin/products_others_types/table',array('type'=>$productOtherType))->render()));
     }
 
     /**
@@ -103,10 +99,8 @@ class ProductOtherTypeController extends Controller
      */
     public function destroy(ProductOtherType $productOtherType)
     {
-        $type = ProductOtherType::find($productOtherType)->first();
-        
-        if($type){
-            $type->delete();
+        if($productOtherType){
+            $productOtherType->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
         }
     }

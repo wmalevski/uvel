@@ -108,12 +108,11 @@ class ProductOtherController extends Controller
      */
     public function edit(ProductOther $productOther)
     {
-        $product = ProductOther::find($productOther)->first();
         $types = ProductOtherType::all();
         $stores = Store::all();
 
 
-        return \View::make('admin/products_others/edit', array('product' => $product, 'types' => $types, 'stores' => $stores));
+        return \View::make('admin/products_others/edit', array('product' => $productOther, 'types' => $types, 'stores' => $stores));
     }
 
     /**
@@ -125,23 +124,21 @@ class ProductOtherController extends Controller
      */
     public function update(Request $request, ProductOther $productOther)
     {
-        $product = ProductOther::find($productOther)->first();
-        
-        $product->name = $request->name;
-        $product->type = $request->type;
-        $product->price = $request->price;
-        $product->store = $request->store;
+        $productOther->name = $request->name;
+        $productOther->type = $request->type;
+        $productOther->price = $request->price;
+        $productOther->store = $request->store;
 
         //$product->quantity = $request->quantity;
 
         if($request->quantity_action == 'add'){
-            $product->quantity = $request->quantity+$request->quantity_after;
+            $productOther->quantity = $request->quantity+$request->quantity_after;
         } else if($request->quantity_action == 'remove'){
-            $product->quantity = $request->quantity-$request->quantity_after;
+            $productOther->quantity = $request->quantity-$request->quantity_after;
         }
 
         $validator = Validator::make( $request->all(), [
-            'name' => 'required|unique:products_others,name,'.$product->id,
+            'name' => 'required|unique:products_others,name,'.$productOther->id,
             'type' => 'required',
             'price' => 'required|numeric|between:0.1,10000',
             'quantity' => 'required|numeric|between:1,10000',
@@ -152,9 +149,9 @@ class ProductOtherController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
         
-        $product->save();
+        $productOther->save();
         
-        return Response::json(array('table' => View::make('admin/products_others/table',array('product'=>$product))->render(), 'ID' => $product->id));
+        return Response::json(array('table' => View::make('admin/products_others/table',array('product'=>$productOther))->render(), 'ID' => $productOther->id));
     }
 
     /**
@@ -165,10 +162,8 @@ class ProductOtherController extends Controller
      */
     public function destroy(ProductOther $productOther)
     {
-        $product = ProductOther::find($productOther)->first();
-        
-        if($product){
-            $product->delete();
+        if($productOther){
+            $productOther->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
         }
     }
