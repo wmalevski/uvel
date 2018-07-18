@@ -21,4 +21,14 @@ class Model extends BaseModel
 
     protected $table = 'models';
     protected $dates = ['deleted_at'];    
+
+    public function stones()
+    {
+        return $this->hasMany('App\ModelStone');
+    }
+
+    public function options()
+    {
+        return $this->hasMany('App\ModelOption');
+    }
 }

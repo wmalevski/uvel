@@ -105,7 +105,7 @@ class MaterialTypeController extends Controller
     {
         
         if($materialType){
-            $using = Material::where('parent', $materialType->id)->count();
+            $using = Material::where('parent_id', $materialType->id)->count();
             
             if($using){
                 return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);

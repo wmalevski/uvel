@@ -50,7 +50,7 @@ class MaterialController extends Controller
             'code' => 'required',
             'color' => 'required',
             'carat' => 'nullable|numeric|between:1,100',
-            'parent' => 'nullable|numeric'
+            'parent_id' => 'nullable|numeric'
          ]);
 
         if ($validator->fails()) {
@@ -98,7 +98,7 @@ class MaterialController extends Controller
         $material->code = $request->code;
         $material->color = $request->color;
         $material->carat = $request->carat;
-        $material->parent = $request->parent;
+        $material->parent_id = $request->parent;
         
         $material->save();
 
