@@ -180,7 +180,7 @@
                 <div class="form-group col-md-6">
                     <div class="form-group">
                         <label for="1">Тегло: </label>
-                        <input type="number" value="{{  $modelStone->weight  }}" class="form-control calculate-stones" id="1" name="stone_weight[]" placeholder="Тегло:" min="0.1" max="100">
+                        <input type="number" value="{{  $modelStone->weight  }}" class="form-control calculate-stones" id="1" name="stone_weight[]" placeholder="Тегло:">
                     </div>
                 </div>
 

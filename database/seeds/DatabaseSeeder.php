@@ -196,7 +196,6 @@ class DatabaseSeeder extends Seeder
 
             $jewel = new Jewels();
             $jewel->name = 'Бижу '.$i;
-            $jewel->material = rand(1,2);
             $jewel->save();
         }
 
