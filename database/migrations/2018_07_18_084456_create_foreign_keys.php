@@ -31,6 +31,16 @@ class CreateForeignKeys extends Migration {
 						->onDelete('restrict')
 						->onUpdate('restrict');
 		});
+
+		Schema::table('stones', function (Blueprint $table) {
+
+            $table->foreign('size_id')->references('id')->on('stone_sizes')->onDelete('restrict')->onUpdate('restrict');
+
+            $table->foreign('style_id')->references('id')->on('stone_styles')->onDelete('restrict')->onUpdate('restrict');
+
+            $table->foreign('contour_id')->references('id')->on('stone_contours')->onDelete('restrict')->onUpdate('restrict');
+
+        });
 	}
 
 	public function down()
@@ -38,5 +48,10 @@ class CreateForeignKeys extends Migration {
 		Schema::table('materials', function(Blueprint $table) {
 			$table->dropForeign('materials_parent_id_foreign');
 		});
+
+		Schema::table('stones', function(Blueprint $table) {
+			$table->dropForeign('stones_parent_id_foreign');
+		});
+
 	}
 }

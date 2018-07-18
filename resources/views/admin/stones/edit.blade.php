@@ -42,7 +42,7 @@
                     <option value="">Избер размер</option>
             
                     @foreach($stone_sizes as $size)
-                        <option value="{{ $size->id }}" @if($stone->size == $size->id) selected @endif>{{ $size->name }}</option>
+                        <option value="{{ $size->id }}" @if($stone->size_id == $size->id) selected @endif>{{ $size->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -53,7 +53,7 @@
                     <option value="">Избери контур</option> 
                         
                     @foreach($stone_contours as $contour)
-                        <option value="{{ $contour->id }}" @if($stone->contour == $contour->id) selected @endif>{{ $contour->name }}</option>
+                        <option value="{{ $contour->id }}" @if($stone->contour_id == $contour->id) selected @endif>{{ $contour->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -64,7 +64,7 @@
                     <option value="">Избери стил</option>
             
                     @foreach($stone_styles as $style)
-                        <option value="{{ $style->id }}" @if($stone->style == $style->id) selected @endif>{{ $style->name }}</option>
+                        <option value="{{ $style->id }}" @if($stone->style_id == $style->id) selected @endif>{{ $style->name }}</option>
                     @endforeach
                 </select>
             </div>

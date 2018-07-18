@@ -3,6 +3,8 @@
 namespace App;
 
 use App\StoneSize;
+use App\StoneStyle;
+use App\StoneContour;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -27,6 +29,16 @@ class Stone extends Model
 
     public function size()
     {
-        return $this->hasOne('App\StoneSize');        
+        return $this->belongsTo('App\StoneSize');        
+    }
+
+    public function style()
+    {
+        return $this->belongsTo('App\StoneStyle');
+    }
+
+    public function contour()
+    {
+        return $this->belongsTo('App\StoneContour');
     }
 }
