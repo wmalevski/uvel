@@ -151,9 +151,9 @@ class StoneController extends Controller
         $stone->name = $request->name;
         $stone->weight = $request->weight;
         $stone->carat = $request->carat;
-        $stone->contour = $request->contour;
-        $stone->style = $request->style;
-        $stone->size = $request->size;
+        $stone->contour_id = $request->contour_id;
+        $stone->style_id = $request->style_id;
+        $stone->size_id = $request->size_id;
         $stone->amount = $request->amount;
         $stone->price = $request->price;
 

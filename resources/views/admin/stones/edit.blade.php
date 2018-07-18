@@ -38,7 +38,7 @@
         
             <div class="form-group">
                 <label>Размер: </label>
-                <select name="size" class="form-control">
+                <select name="size_id" class="form-control">
                     <option value="">Избер размер</option>
             
                     @foreach($stone_sizes as $size)
@@ -49,7 +49,7 @@
 
             <div class="form-group">
                 <label>Контур: </label>
-                <select name="contour" class="form-control">
+                <select name="contour_id" class="form-control">
                     <option value="">Избери контур</option> 
                         
                     @foreach($stone_contours as $contour)
@@ -60,7 +60,7 @@
 
             <div class="form-group">
                 <label>Стил: </label>
-                <select name="style" class="form-control">
+                <select name="style_id" class="form-control">
                     <option value="">Избери стил</option>
             
                     @foreach($stone_styles as $style)
