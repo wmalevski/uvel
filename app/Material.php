@@ -18,4 +18,8 @@ class Material extends Model
 
     protected $table = 'materials';
     protected $dates = ['deleted_at'];
+
+    public function parent(){
+        return $this->belongsTo('App\MaterialType');
+    }
 }

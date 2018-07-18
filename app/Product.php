@@ -42,6 +42,11 @@ class Product extends Model
         return $this->hasMany('App\Gallery');
     }
 
+    public function stones()
+    {
+        return $this->hasMany('App\ProductStone');
+    }
+
     public function chainedSelects(Model $model){
         $materials = Material::all();
         $default = ModelOption::where([
