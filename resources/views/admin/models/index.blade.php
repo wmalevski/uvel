@@ -24,8 +24,8 @@ aria-hidden="true">
                         </div>
                         <div class="form-group col-md-6">
                             <label>Избери вид бижу: </label>
-                            <select id="jewels_types" name="jewel" class="form-control calculate">
-                                <option value="0">Избери</option>
+                            <select id="jewels_types" name="jewel" class="form-control jewels_types">
+                                <option value="">Избери</option>
                         
                                 @foreach($jewels as $jewel)
                                     <option value="{{ $jewel->id }}">{{ $jewel->name }}</option>
@@ -42,7 +42,7 @@ aria-hidden="true">
                             <div class="form-group col-md-12">
                                 <label>Избери материал: </label>
                                 <select id="material_type" name="material[]" class="material_type form-control calculate">
-                                    <option value="0">Избери</option>
+                                    <option value="">Избери</option>
                             
                                     @foreach($materials as $material)
                                         <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ App\Prices::where([['material', '=', $material->material], ['type', '=', 'buy']])->first()->price}}">{{ App\Materials::withTrashed()->find($material->material)->name }} - {{ App\Materials::withTrashed()->find($material->material)->color }} - {{ App\Materials::withTrashed()->find($material->material)->code }}</option>
@@ -53,14 +53,14 @@ aria-hidden="true">
                             <div class="form-group col-md-6">
                                 <label>Цена на дребно: </label>
                                 <select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled retail-price" disabled>
-                                    <option value="0">Избери</option>
+                                    <option value="">Избери</option>
                                 </select>
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label>Цена на едро: </label>
                                 <select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled wholesale-price" disabled>
-                                    <option value="0">Избери</option>
+                                    <option value="">Избери</option>
                                 </select>
                             </div>
 

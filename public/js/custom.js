@@ -68,13 +68,13 @@ var uvel,
             '</div>' +
             '<div class="form-group col-md-5">' +
             '<label>Цена на дребно: </label>' +
-            '<select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled retail-price" disabled>' +
+            '<select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled retail-price retail_prices" disabled>' +
             '<option value="0">Избери</option>' +
             '</select>' +
             '</div>' +
             '<div class="form-group col-md-5">' +
             '<label>Цена на едро: </label>' +
-            '<select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled wholesale-price" disabled>' +
+            '<select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled wholesale-price wholesale_price" disabled>' +
             '<option value="0">Избери</option>' +
             '</select>' +
             '</div>' +
@@ -168,6 +168,7 @@ var uvel,
               '<label for="" class="peers peer-greed js-sb ai-c">' +
               '<span class="peer peer-greed">За леене</span>' +
               '</label>' +
+              '<span class="row-total-weight"></span>' +
               '</div>' +
               '</div>';
 
@@ -205,6 +206,7 @@ var uvel,
     this.calculateStones = function(row, add) {
       var amount = row.querySelector('input[name="stone_amount[]"]').value;
       var weight = row.querySelector('input[name="stone_weight[]"]').value;
+      var rowTotalNode = row.querySelector('.row-total-weight');
       var total;
       var totalNode = row.parentNode.parentNode.querySelector('#totalStones');
       var currentTotal = 0;
@@ -226,9 +228,17 @@ var uvel,
 
       if (add) {
         newTotal = currentTotal*1 + total;
+        rowTotalNode.innerHTML = `(${total} гр.)`;
+        rowTotalNode.style.opacity = 1;
       }
       else {
         newTotal = currentTotal;
+        rowTotalNode.style.opacity = 0;
+        rowTotalNode.parentNode.querySelector('input[type="checkbox"]').setAttribute('disabled', true);
+        setTimeout(function() {
+          rowTotalNode.innerHTML = '';
+          rowTotalNode.parentNode.querySelector('input[type="checkbox"]').removeAttribute('disabled');
+        }, 400);
       }
 
       totalNode.value = newTotal;
@@ -387,7 +397,6 @@ var uvel,
     }   
 
     this.checkAllForms = function(currentPressedBtn) {
-      var collectionModalEditBtns = document.querySelectorAll('.modal-dialog .modal-footer .edit-btn-modal');
       var collectionModalAddBtns = document.querySelectorAll('.modal-dialog .modal-footer .add-btn-modal');
       var collectionScanRepairBtns = document.querySelectorAll('.scan-repair');
       var collectionReturnRepairBtns = document.querySelectorAll('.return-repair');
@@ -617,6 +626,8 @@ var uvel,
         })
       }
 
+      var collectionModalEditBtns = document.querySelectorAll('.modal-dialog .modal-footer .edit-btn-modal');
+
       if(collectionModalEditBtns.length > 0) {
         var modelSelectEdit = $('#model_select_edit');
         var typeSelect;
@@ -628,7 +639,8 @@ var uvel,
         }
 
         if(modelSelectEdit) {   
-          modelSelectEdit.on('select2:select', function(ev) {
+          modelSelectEdit.on('change select2:select', function(ev) {
+            var targetModal = document.getElementById('editProduct');
             if(modelSelectEdit.val()) {
               var value = modelSelectEdit.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
@@ -639,7 +651,7 @@ var uvel,
                 modelSelectEdit.val('0').trigger('change.select2');
               });
 
-              productsRequest(tempUrl);
+              productsRequest(tempUrl, targetModal);
             }
           });
         }
@@ -662,6 +674,7 @@ var uvel,
 
         if(modelSelect) {
           modelSelect.on('select2:select', function(ev) {
+            var targetModal = document.getElementById('addProduct');
             if(modelSelect.val()) {
               var value = modelSelect.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
@@ -674,7 +687,7 @@ var uvel,
 
               $('.prices-filled').attr('disabled', false);
 
-              productsRequest(tempUrl);
+              productsRequest(tempUrl, targetModal);
             }
           });
         }
@@ -1267,7 +1280,7 @@ var uvel,
               }                 
       }
 
-      function productsRequest(tempUrl) {
+      function productsRequest(tempUrl, targetModal) {
         var xhttp = new XMLHttpRequest();
 
         xhttp.open('GET', tempUrl, true);
@@ -1286,10 +1299,11 @@ var uvel,
           }
 
           for(var key in data) {
-            var holder = document.getElementById(key);
+            var holder = targetModal.querySelector(`.${key}`);
 
             if(holder) {
               var tagName = holder.tagName.toLowerCase();
+              
 
               switch(tagName) {
                 case 'input':
@@ -1336,7 +1350,7 @@ var uvel,
               }
               else if (key == 'stones') {
                 var stonesArray = data[key];
-                var fieldsWrapper = document.querySelector('.model_stones');
+                var fieldsWrapper = targetModal.querySelector('.model_stones');
                 var stonesData = $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null;
 
                 fieldsWrapper.innerHTML = '';
@@ -1384,13 +1398,20 @@ var uvel,
                     '<label for="" class="peers peer-greed js-sb ai-c">' +
                     '<span class="peer peer-greed">За леене</span>' +
                     '</label>' +
+                    '<span class="row-total-weight"></span>' +
                     '</div>' +
                     '</div>';
 
                   stoneRow.innerHTML = newFields;
                   fieldsWrapper.appendChild(stoneRow);
 
+                  var event = document.createEvent('HTMLEvents');
+                  var el = stoneRow.querySelector('input.stone-flow:checked')
+                  event.initEvent('change', true, false);
 
+                  if (el) {
+                    el.dispatchEvent(event);
+                  }
                 }
 
                 var stoneFlowBtnsCollection = document.querySelectorAll('.stone-flow');
@@ -1403,18 +1424,10 @@ var uvel,
                 }
 
                 $self.initializeSelect($(fieldsWrapper).find('select'));
-
-                var event = document.createEvent('HTMLEvents');
-                var el = document.querySelector('input.stone-flow:checked')
-                event.initEvent('change', true, false);
-
-                if (el) {
-                  el.dispatchEvent(event);
-                }
               }
             }
 
-            var materialSelect = $('#material');
+            var materialSelect = $(targetModal).find('.material_type');
             materialSelect.val(selectedMaterial);
             materialSelect.trigger('change');
             materialSelect.trigger('select2:select');
@@ -1700,8 +1713,7 @@ var uvel,
         }, 500);
 
         setTimeout(function () {
-         $( $('#editModel input.stone-flow:checked')[0]).trigger('change');
-         $( $('#editProduct input.stone-flow:checked')[0]).trigger('change');
+          $('input.stone-flow:checked').trigger('change');
         }, 700);
       }
 
