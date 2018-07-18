@@ -30,7 +30,7 @@ class StoneController extends Controller
         $stone_sizes = StoneSize::all();
         $stone_contours = StoneContour::all();
         $stone_styles = StoneStyle::all();
-        
+
         return view('admin.stones.index', compact('stones', 'stone_sizes', 'stone_contours', 'stone_styles'));
     }
 
@@ -57,9 +57,9 @@ class StoneController extends Controller
             'type' => 'required',
             'weight' => 'required|numeric|between:0.01,100000',
             'carat' => 'required|numeric',
-            'size' => 'required|numeric',
-            'style' => 'required',
-            'contour' => 'required',
+            'size_id' => 'required|numeric',
+            'style_id' => 'required',
+            'contour_id' => 'required',
             'price' => 'required|numeric|regex:/^\d*(\.\d{1,3})?$/',
             'amount' => 'required|numeric|between:0.01,100000'
          ]);
@@ -68,6 +68,7 @@ class StoneController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
+        
         $stone = Stone::create($request->all());
 
         $path = public_path('uploads/stones/');
@@ -137,9 +138,9 @@ class StoneController extends Controller
             'type' => 'required',
             'weight' => 'required|numeric|between:0.01,100000',
             'carat' => 'required|numeric',
-            'size' => 'required|numeric',
-            'style' => 'required',
-            'contour' => 'required',
+            'size_id' => 'required|numeric',
+            'style_id' => 'required',
+            'contour_id' => 'required',
             'price' => 'required|numeric|regex:/^\d*(\.\d{1,3})?$/',
             'amount' => 'required|numeric|between:0.01,100000'
         ]);
@@ -151,9 +152,9 @@ class StoneController extends Controller
         $stone->name = $request->name;
         $stone->weight = $request->weight;
         $stone->carat = $request->carat;
-        $stone->contour = $request->contour;
-        $stone->style = $request->style;
-        $stone->size = $request->size;
+        $stone->contour_id = $request->contour_id;
+        $stone->style_id = $request->style_id;
+        $stone->size_id = $request->size_id;
         $stone->amount = $request->amount;
         $stone->price = $request->price;
 

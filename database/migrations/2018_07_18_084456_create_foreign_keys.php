@@ -42,6 +42,7 @@ class CreateForeignKeys extends Migration {
 						->onUpdate('cascade');
 		});
 
+<<<<<<< HEAD
 		Schema::table('materials_travellings', function(Blueprint $table) {
 			$table->foreign('material_id')->references('id')->on('materials_types')
 						->onDelete('cascade')
@@ -59,6 +60,17 @@ class CreateForeignKeys extends Migration {
 						->onDelete('cascade')
 						->onUpdate('cascade');
 		});
+=======
+		Schema::table('stones', function (Blueprint $table) {
+
+            $table->foreign('size_id')->references('id')->on('stone_sizes')->onDelete('restrict')->onUpdate('restrict');
+
+            $table->foreign('style_id')->references('id')->on('stone_styles')->onDelete('restrict')->onUpdate('restrict');
+
+            $table->foreign('contour_id')->references('id')->on('stone_contours')->onDelete('restrict')->onUpdate('restrict');
+
+        });
+>>>>>>> 22e5f8b029cccd5cece6b0acf2e5e604d8b81806
 	}
 
 	public function down()
@@ -66,5 +78,10 @@ class CreateForeignKeys extends Migration {
 		Schema::table('materials', function(Blueprint $table) {
 			$table->dropForeign('materials_parent_id_foreign');
 		});
+
+		Schema::table('stones', function(Blueprint $table) {
+			$table->dropForeign('stones_parent_id_foreign');
+		});
+
 	}
 }
