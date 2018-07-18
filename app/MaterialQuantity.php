@@ -10,10 +10,18 @@ class MaterialQuantity extends Model
     use SoftDeletes;
     
     protected $fillable = [
-        'material',
+        'material_id',
         'quantity',
-        'store'
+        'store_id'
     ];
+
+    public function store(){
+        return $this->belongsTo('App\Store');
+    }
+
+    public function material(){
+        return $this->belongsTo('App\Material');
+    }
 
     protected $table = 'materials_quantities';
     protected $dates = ['deleted_at'];

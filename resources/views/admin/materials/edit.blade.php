@@ -16,11 +16,11 @@
 
         <div class="form-row">
             <label>Наследява: </label>
-            <select name="parent" class="form-control">
+            <select name="parent_id" class="form-control">
                 <option value="">Избери материал: </option>
         
                 @foreach($parents as $parent)
-                    <option value="{{ $parent->id }}" @if($parent->id == $material->id) selected @endif>{{ $parent->name }}</option>
+                    <option value="{{ $parent->id }}" @if($parent->id == $material->parent->id) selected @endif>{{ $parent->name }}</option>
                 @endforeach
             </select>
         </div>

@@ -13,7 +13,7 @@ class Material extends Model
         'code',
         'color',
         'carat',
-        'parent'
+        'parent_id'
     ];
 
     protected $table = 'materials';
@@ -21,5 +21,9 @@ class Material extends Model
 
     public function parent(){
         return $this->belongsTo('App\MaterialType');
+    }
+
+    public function quantity(){
+        return $this->hasMany('App\MaterialQuantity');
     }
 }
