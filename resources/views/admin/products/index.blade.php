@@ -56,7 +56,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label>Вид: </label>
-                            <select id="jewels_types" name="jewelsTypes" class="form-control calculate" disabled>
+                            <select id="jewels_types" name="jewelsTypes" class="jewels_types form-control" disabled>
                                 <option value="">Избери</option>
                         
                                 @foreach($jewels as $jewel)
@@ -72,7 +72,7 @@
                     <div class="form-row model_materials">
                         <div class="form-group col-md-12">
                             <label>Материал: </label>
-                            <select id="material" name="material" class="material_type form-control calculate">
+                            <select id="material" name="material" class="material_type form-control material calculate">
                                 <option value="">Избери</option>
                         
                                 @foreach($materials as $material)
@@ -83,8 +83,8 @@
 
                         <div class="form-group col-md-6">
                             <label>Цена на дребно: </label>
-                            <select id="retail_prices" name="retail_price" class="form-control calculate prices-filled retail-price">
-                                <option value="0">Избери</option>
+                            <select id="retail_prices" name="retail_price" class="form-control calculate prices-filled retail-price retail_prices">
+                                <option value="">Избери</option>
                         
                                 @foreach($prices->where('type', 'sell') as $price)
                                     <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
@@ -94,8 +94,8 @@
 
                         <div class="form-group col-md-6">
                             <label>Цена на едро: </label>
-                            <select id="wholesale_prices" name="wholesale_prices" class="form-control prices-filled wholesale-price">
-                                <option value="0">Избери</option>
+                            <select id="wholesale_prices" name="wholesale_prices" class="form-control prices-filled wholesale-price wholesale_prices">
+                                <option value="">Избери</option>
                         
                                 @foreach($prices->where('type', 'sell') as $price)
                                     <option value="{{ $price->id }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
@@ -113,12 +113,12 @@
                     <div class="form-row">
                         <div class="form-group col-md-6 weight-holder">
                             <label for="1">Тегло: </label>
-                            <input type="text" class="form-control calculate" id="weight" name="weight" placeholder="Тегло:" min="1" max="10000">
+                            <input type="text" class="form-control weight calculate" id="weight" name="weight" placeholder="Тегло:" min="1" max="10000">
                         </div>
                     
                         <div class="form-group col-md-6">
                             <label for="1">Размер: </label>
-                            <input type="text" class="form-control" id="size" name="size" placeholder="Размер:" min="1" max="10000">
+                            <input type="text" class="form-control size" id="size" name="size" placeholder="Размер:" min="1" max="10000">
                         </div>
 
                         <div class="col-12">
@@ -184,7 +184,7 @@
                         <div class="form-group col-md-6">
                             <label for="workmanship">Изработка: </label>
                             <div class="input-group"> 
-                                <input type="number" class="form-control worksmanship_price" name="workmanship" id="workmanship" value="0">
+                                <input type="number" class="form-control workmanship worksmanship_price" name="workmanship" id="workmanship" value="0">
                                 <span class="input-group-addon">лв</span>
                             </div>
                         </div>
@@ -192,7 +192,7 @@
                         <div class="form-group col-md-6">
                             <label for="price">Цена: </label>
                             <div class="input-group"> 
-                                <input type="number" class="form-control final_price" name="price" id="price" value="0">
+                                <input type="number" class="form-control final_price price" name="price" id="price" value="0">
                                 <span class="input-group-addon">лв</span>
                             </div>
                         </div>

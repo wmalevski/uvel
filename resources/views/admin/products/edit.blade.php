@@ -53,7 +53,7 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label>Вид: </label>
-                    <select id="jewel_edit" name="jewelsTypes" class="form-control calculate" disabled>
+                    <select id="jewel_edit" name="jewelsTypes" class="form-control jewels_types" disabled>
                         <option value="">Избери</option>
                 
                         @foreach($jewels as $jewel)
@@ -79,7 +79,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label>Цена на дребно: </label>
-                    <select id="retail_price_edit" name="retail_price" class="form-control calculate prices-filled retail-price" >
+                    <select id="retail_price_edit" name="retail_price" class="form-control calculate prices-filled retail-price retail_prices" >
                         <option value="">Избери</option>
                 
                         @foreach($prices->where('type', 'sell') as $price)
@@ -90,7 +90,7 @@
 
                 <div class="form-group col-md-6">            
                     <label>Цена на едро: </label>
-                    <select id="wholesale_price_edit" name="wholesale_prices" class="form-control prices-filled wholesale-price">
+                    <select id="wholesale_price_edit" name="wholesale_prices" class="form-control prices-filled wholesale-price wholesale_prices">
                         <option value="">Избери</option>
                 
                         @foreach($prices->where('type', 'sell') as $price)
@@ -109,12 +109,12 @@
             <div class="form-row">
                 <div class="form-group col-md-6 weight-holder weight-holder-edit">
                     <label for="1">Тегло: </label>
-                    <input type="text" class="form-control calculate" id="weight" value="{{ $product->weight }}" name="weight" placeholder="Тегло:" min="1" max="10000">
+                    <input type="text" class="form-control weight calculate" id="weight" value="{{ $product->weight }}" name="weight" placeholder="Тегло:" min="1" max="10000">
                 </div>
             
                 <div class="form-group col-md-6">
                     <label for="1">Размер: </label>
-                    <input type="text" class="form-control" id="size" value="{{ $product->size }}" name="size" placeholder="Размер:" min="1" max="10000">
+                    <input type="text" class="form-control size" id="size" value="{{ $product->size }}" name="size" placeholder="Размер:" min="1" max="10000">
                 </div>
 
                 <div class="col-12">
@@ -158,7 +158,13 @@
                     </div>
 
                     <div class="form-group col-md-6">
-                        <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder"><input type="checkbox" id="inputCall1" name="stone_flow[]" class="peer stone-flow calculate-stones" @if($modelStone->flow == 'yes') checked @endif><label for="inputCall1" class="peers peer-greed js-sb ai-c"><span class="peer peer-greed">За леене</span></label></div>
+                        <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder">
+                            <input type="checkbox" id="inputCall1" name="stone_flow[]" class="peer stone-flow calculate-stones" @if($modelStone->flow == 'yes') checked @endif>
+                            <label for="inputCall1" class="peers peer-greed js-sb ai-c">
+                                <span class="peer peer-greed">За леене</span>
+                            </label>
+                            <span class="row-total-weight"></span>
+                        </div>
                     </div>
                 </div>
                 @endforeach
@@ -209,7 +215,7 @@
                 <div class="form-group col-md-6">
                     <label for="workmanship">Изработка: </label>
                     <div class="input-group"> 
-                        <input type="number" class="form-control worksmanship_price" value="{{ $product->workmanship }}" name="workmanship" id="workmanship" value="0">
+                        <input type="number" class="form-control worksmanship_price workmanship" value="{{ $product->workmanship }}" name="workmanship" id="workmanship" value="0">
                         <span class="input-group-addon">лв</span>
                     </div>
                 </div>
@@ -217,7 +223,7 @@
                 <div class="form-group col-md-6">
                     <label for="price">Цена: </label>
                     <div class="input-group"> 
-                        <input type="number" class="form-control final_price" value="{{ $product->price }}" name="price" id="price" value="0">
+                        <input type="number" class="form-control final_price price" value="{{ $product->price }}" name="price" id="price" value="0">
                         <span class="input-group-addon">лв</span>
                     </div>
                 </div>

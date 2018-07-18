@@ -202,3 +202,9 @@ textarea {
     display:none;
   }
 }
+
+.row-total-weight {
+  padding-left: 10px;
+  cursor: default;
+  transition: opacity .4s ease;
+}
