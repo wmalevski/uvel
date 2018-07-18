@@ -19,7 +19,7 @@ aria-hidden="true">
                     <div id="success-container"></div>
                     <div class="form-row">
                         <label>Наследява: </label>
-                        <select name="parent" class="form-control">
+                        <select name="parent_id" class="form-control">
                             <option value="">Избери материал: </option>
                     
                             @foreach($parents as $parent)
