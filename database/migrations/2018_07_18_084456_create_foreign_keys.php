@@ -10,26 +10,36 @@ class CreateForeignKeys extends Migration {
 	{
 		Schema::table('materials', function(Blueprint $table) {
 			$table->foreign('parent_id')->references('id')->on('materials_types')
-						->onDelete('restrict')
-						->onUpdate('restrict');
+						->onDelete('cascade')
+						->onUpdate('cascade');
 		});
 
 		Schema::table('model_options', function(Blueprint $table) {
 			$table->foreign('model')->references('id')->on('models')
-						->onDelete('restrict')
-						->onUpdate('restrict');
+						->onDelete('cascade')
+						->onUpdate('cascade');
 
 			$table->foreign('material')->references('id')->on('materials')
-						->onDelete('restrict')
-						->onUpdate('restrict');
+						->onDelete('cascade')
+						->onUpdate('cascade');
 
 			$table->foreign('retail_price')->references('id')->on('prices')
-						->onDelete('restrict')
-						->onUpdate('restrict');
+						->onDelete('cascade')
+						->onUpdate('cascade');
 
 			$table->foreign('wholesale_price')->references('id')->on('prices')
-						->onDelete('restrict')
-						->onUpdate('restrict');
+						->onDelete('cascade')
+						->onUpdate('cascade');
+		});
+
+		Schema::table('materials_quantities', function(Blueprint $table) {
+			$table->foreign('material_id')->references('id')->on('materials')
+						->onDelete('cascade')
+						->onUpdate('cascade');
+
+			$table->foreign('store_id')->references('id')->on('stores')
+						->onDelete('cascade')
+						->onUpdate('cascade');
 		});
 	}
 

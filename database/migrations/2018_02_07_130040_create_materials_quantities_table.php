@@ -15,9 +15,9 @@ class CreateMaterialsQuantitiesTable extends Migration
     {
         Schema::create('materials_quantities', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('material')->references('id')->on('materials');
+            $table->integer('material_id')->unsigned();
             $table->float('quantity');
-            $table->integer('store')->references('id')->on('stores');
+            $table->integer('store_id')->unsigned();
             $table->float('carat');
             $table->timestamps();
             $table->softDeletes();

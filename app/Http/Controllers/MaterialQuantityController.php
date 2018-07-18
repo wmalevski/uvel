@@ -51,9 +51,9 @@ class MaterialQuantityController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make( $request->all(), [
-            'material' => 'required',
+            'material_id' => 'required',
             'quantity' => 'required',
-            'store' => 'required'
+            'store_id' => 'required'
          ]);
 
         if ($validator->fails()) {
@@ -103,14 +103,14 @@ class MaterialQuantityController extends Controller
      */
     public function update(Request $request, MaterialQuantity $materialQuantity)
     {
-        $materialQuantity->material = $request->material;
+        $materialQuantity->material_id = $request->material_id;
         $materialQuantity->quantity = $request->quantity;
-        $materialQuantity->store = $request->store;
+        $materialQuantity->store_id = $request->store_id;
 
         $validator = Validator::make( $request->all(), [
-            'material' => 'required',
+            'material_id' => 'required',
             'quantity' => 'required',
-            'store' => 'required'
+            'store_id' => 'required'
          ]);
 
         if ($validator->fails()) {

@@ -20,11 +20,11 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label>Тип: </label>
-                            <select name="material" class="form-control">
+                            <select name="material_id" class="form-control">
                                 <option value="">Избери материал</option>
                         
                                 @foreach($types as $type)
-                                    <option value="{{ $type->id }}">@if($type->parent) {{ App\MaterialType::withTrashed()->find($type->parent)->name }} - {{ $type->color }} - {{ $type->code }} @endif</option>
+                                    <option value="{{ $type->id }}">@if($type->parent) {{ App\MaterialType::withTrashed()->find($type->parent_id)->name }} - {{ $type->color }} - {{ $type->code }} @endif</option>
                                 @endforeach
                             </select>
                         </div>
@@ -38,7 +38,7 @@ aria-hidden="true">
 
                     <div class="form-group">
                         <label>Магазин: </label>
-                        <select name="store" class="form-control">
+                        <select name="store_id" class="form-control">
                             <option value="">Избери магазин</option>
                     
                             @foreach($stores as $store)

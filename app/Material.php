@@ -22,4 +22,8 @@ class Material extends Model
     public function parent(){
         return $this->belongsTo('App\MaterialType');
     }
+
+    public function quantity(){
+        return $this->hasMany('App\MaterialQuantity');
+    }
 }
