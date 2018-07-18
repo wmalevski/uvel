@@ -17,20 +17,9 @@ aria-hidden="true">
                     </div>
                     {{ csrf_field() }}
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-12">
                             <label for="1">Име: </label>
                             <input type="text" class="form-control" id="1" name="name" placeholder="Име:">
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label>Материал: </label>
-                            <select name="material" class="form-control">
-                                <option value="">Избер материал</option>
-                        
-                                @foreach($materials as $material)
-                                    <option value="{{ $material->id }}">@if($material->parent) {{ App\Materials_type::withTrashed()->find($material->parent)->name }} - {{ $material->color }} - {{ $material->code }} @endif</option>
-                                @endforeach
-                            </select>
                         </div>
                     </div>
                 </div>
@@ -84,7 +73,6 @@ aria-hidden="true">
         <thead>
           <tr>
             <th scope="col">Име</th> 
-            <th scope="col">Материал</th>
             <th scope="col">Действия</th>
           </tr>
         </thead>

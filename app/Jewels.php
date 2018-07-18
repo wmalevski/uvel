@@ -11,7 +11,6 @@ class Jewels extends Model
     
     protected $fillable = [
         'name',
-        'material',
     ];
 
     protected $table = 'jewels';
