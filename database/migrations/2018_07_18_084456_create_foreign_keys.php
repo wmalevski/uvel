@@ -44,12 +44,25 @@ class CreateForeignKeys extends Migration {
 
 		Schema::table('stones', function (Blueprint $table) {
 
-            $table->foreign('size_id')->references('id')->on('stone_sizes')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('size_id')->references('id')->on('stone_sizes')
+            			->onDelete('cascade')
+            			->onUpdate('cascade');
 
-            $table->foreign('style_id')->references('id')->on('stone_styles')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('style_id')->references('id')->on('stone_styles')
+            			->onDelete('cascade')
+            			->onUpdate('cascade');
 
-            $table->foreign('contour_id')->references('id')->on('stone_contours')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('contour_id')->references('id')->on('stone_contours')
+            			->onDelete('cascade')
+            			->onUpdate('cascade');
 
+        });
+
+        Schema::table('discount_codes', function (Blueprint $table) {
+
+            $table->foreign('user_id')->references('id')->on('users')
+            			->onDelete('cascade')
+            			->onUpdate('cascade');
         });
 	}
 
@@ -61,6 +74,10 @@ class CreateForeignKeys extends Migration {
 
 		Schema::table('stones', function(Blueprint $table) {
 			$table->dropForeign('stones_parent_id_foreign');
+		});
+
+		Schema::table('discount_codes', function(Blueprint $table) {
+			$table->dropForeign('discount_codes_parent_id_foreign');
 		});
 
 	}

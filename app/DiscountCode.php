@@ -12,7 +12,7 @@ class DiscountCode extends Model
     protected $fillable = [
         'discount',
         'expires',
-        'user',
+        'user_id',
         'code',
         'barcode',
         'lifetime',
@@ -42,4 +42,8 @@ class DiscountCode extends Model
         }
     }
 
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }

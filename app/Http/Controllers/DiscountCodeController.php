@@ -61,7 +61,7 @@ class DiscountCodeController extends Controller
         $discount = DiscountCode::create([
             'discount' => $request->discount,
             'expires' => $request->date_expires,
-            'user' => $request->user,
+            'user_id' => $request->user_id,
             'code' =>  unique_random('discount_codes', 'code', 4),
         ]);
 

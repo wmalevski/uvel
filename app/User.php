@@ -6,6 +6,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\DiscountCode;
+use App\UserSubstitution;
 
 class User extends Authenticatable
 {
@@ -50,5 +52,10 @@ class User extends Authenticatable
         }else{
             return $this->store;
         }
+    }
+
+    public function discountCodes()
+    {
+        return $this->hasMany('DiscountCode');
     }
 }

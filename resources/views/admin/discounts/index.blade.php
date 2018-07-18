@@ -48,7 +48,7 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="2">Потребител: </label>
-                            <select name="user" class="form-control">
+                            <select name="user_id" class="form-control">
                                 <option value="">Избери</option>
 
                                 @foreach($users as $user)
