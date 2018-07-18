@@ -46,15 +46,18 @@ aria-hidden="true">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
             <h4 class="c-grey-900 mB-20">Камъни Стилове <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addStyle">Добави</button></h4>
             <p>Преглед на създадените стилове.</p>
-            <table class="table table-condensed">
-                <tr>
-                    <th>Име</th> 
-                    <th>Действия</th> 
-                </tr>
-                
-                @foreach($styles as $style)
-                    @include('admin.stone_styles.table')
-                @endforeach
+            <table class="table table-condensed tablesort">
+                <thead>
+                    <tr>
+                        <th>Име</th> 
+                        <th class="sort-false">Действия</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($styles as $style)
+                        @include('admin.stone_styles.table')
+                    @endforeach
+                </tbody>
             </table>
         </div>
     </div>

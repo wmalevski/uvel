@@ -104,9 +104,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/models/{model}', 'ModelsController@edit');
     Route::put('/models/{model}', 'ModelsController@update');
 
-    Route::get('/products/{id}', 'ProductsController@edit');
-    Route::get('/products', 'ProductsController@index')->name('products');
-    Route::post('/products', 'ProductsController@store');
+    Route::get('/products/{id}', 'ProductController@edit');
+    Route::get('/products', 'ProductController@index')->name('products');
+    Route::post('/products', 'ProductController@store');
 
     Route::get('/productsothers', 'ProductsOthersController@index')->name('productsothers');
     Route::get('/productsothers/{product}', 'ProductsOthersController@edit');
@@ -238,11 +238,11 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/discounts', 'DiscountCodesController@store');
     Route::put('/discounts/{discount}', 'DiscountCodesController@update');
 
-    Route::get('/products/{model}', 'ProductsController@chainedSelects');
+    Route::get('/products/{model}', 'ProductController@chainedSelects');
 
-    Route::post('/products', 'ProductsController@store');
-    Route::post('/products/delete/{product}', 'ProductsController@destroy');
-    Route::put('/products/{id}', 'ProductsController@update');
+    Route::post('/products', 'ProductController@store');
+    Route::post('/products/delete/{product}', 'ProductController@destroy');
+    Route::put('/products/{id}', 'ProductController@update');
 
     Route::post('/productsotherstypes', 'ProductsOthersTypesController@store');
     Route::put('/productsotherstypes/{type}', 'ProductsOthersTypesController@update');
@@ -267,7 +267,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/settings/currencies/delete/{currency}', 'CurrenciesController@destroy');
     Route::put('/settings/currencies/{currency}', 'CurrenciesController@update');
 
-    Route::get('/getPrices/{material}', 'PricesController@getByMaterial');
+    Route::get('/getPrices/{material}/{model}', 'PricesController@getByMaterial');
 
     Route::post('/users/substitutions', 'UsersubstitutionsController@store');
 
