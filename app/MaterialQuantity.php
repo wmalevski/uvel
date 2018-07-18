@@ -23,6 +23,10 @@ class MaterialQuantity extends Model
         return $this->belongsTo('App\Material');
     }
 
+    public function travelling(){
+        return $this->belongsTo('App\MaterialTravelling');
+    }
+
     protected $table = 'materials_quantities';
     protected $dates = ['deleted_at'];
 }

@@ -20,12 +20,13 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label>Тип: </label>
-                            <select name="type" class="form-control">
+                            <select name="material_id" class="form-control">
                                 <option value="">Избер материал</option>
                         
                                 @foreach($materials as $material)
                                     <option value="{{ $material->id }}">
-                                        {{ App\MaterialType::withTrashed()->find(App\Material::withTrashed()->find($material->material)->parent)->name  }} - {{ App\Material::withTrashed()->find($material->material)->color }} - {{ App\Material::withTrashed()->find($material->material)->code }} ({{ $material->quantity }}) - {{ App\Store::withTrashed()->find($material->store)->name }}
+                                        {{-- {{ App\MaterialType::withTrashed()->find(App\Material::withTrashed()->find($material->material)->parent_id)->name  }} - {{ App\Material::withTrashed()->find($material->material)->color }} - {{ App\Material::withTrashed()->find($material->material)->code }} ({{ $material->quantity }}) - {{ App\Store::withTrashed()->find($material->store)->name }} --}}
+                                        {{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->code }} - {{ $material->store->name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -38,7 +39,7 @@ aria-hidden="true">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="3">Магазин: </label>
-                            <select name="storeTo" class="form-control">
+                            <select name="store_to_id" class="form-control">
                                 <option value="">Избери магазин</option>
                         
                                 @foreach($stores as $store)

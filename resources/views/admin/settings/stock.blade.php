@@ -11,7 +11,7 @@
                 <div class="form-row">
                     @foreach($materials as $material)
                         <div class="form-group col-md-2">
-                            {{ App\MaterialType::withTrashed()->find($material->parent)->name }} {{ $material->carat }}к
+                            {{ $material->parent->name }} {{ $material->carat }}к
                             цена: <input type="number" class="form-control" name="stock_price[]" value="{{ $material->stock_price }}">
                             <input type="hidden" class="form-control" name="mat[]" value="{{ $material->id }}">
                             <input type="hidden" class="form-control" name="carat[]" value="{{ $material->carat }}">
