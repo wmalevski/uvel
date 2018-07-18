@@ -37,7 +37,7 @@
         </div>
 
         <div class="form-row model_materials">
-        <div class="form-row">
+        <!-- <div class="form-row">
             <div class="form-group col-md-12">
                 <label>Избери материал: </label>
                 <select id="material_type" name="material[]" class="material_type form-control calculate">
@@ -69,14 +69,16 @@
                     <label for="">Материал по подразбиране</label>
                 </div>
             </div>
-        </div>   
+        </div> -->   
 
         @if($options)
             @foreach($options as $option)
             <div class="form-row">
+                @if(!$loop->first)
                 <div class="col-6">
                     <hr>
                 </div>
+                @endif
                 <div class="form-group col-md-12">
                     <label>Избери материал: </label>
                     <select id="material_type" name="material[]" class="material_type form-control calculate">
@@ -88,7 +90,7 @@
                     </select>
                 </div>
 
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-5">
                     <label>Цена на дребно: </label>
                     <select id="retail_price_edit" name="retail_price[]" class="form-control calculate prices-filled retail-price">
                         <option value="">Избери</option>
@@ -99,7 +101,7 @@
                     </select>
                 </div>
 
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-5">
                     <label>Цена на едро: </label>
                     <select id="wholesale_price_edit" name="wholesale_price[]" class="form-control prices-filled wholesale-price">
                         <option value="">Избери</option>
@@ -109,6 +111,12 @@
                         @endforeach
                     </select>
                 </div>
+                
+                @if(!$loop->first)
+                <div class="form-group col-md-2">
+                    <span class="delete-material remove_field"><i class="c-brown-500 ti-trash"></i></span>
+                </div>
+                @endif
 
                 <div class="form-group col-md-12">
                     <div class="radio radio-info">
