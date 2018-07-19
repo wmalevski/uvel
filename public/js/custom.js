@@ -63,8 +63,11 @@ var uvel,
     this.defaultMaterialSelect = function (defaultBtn) {
       var material = defaultBtn.closest('.form-row').find('.material_type');
 
-      defaultBtn.on('click', function() {
-        material.trigger('change');
+      defaultBtn.off();
+      defaultBtn.on('change', function() {
+        if (defaultBtn.is(':checked')) {
+          material.trigger('change');
+        }
       })
     }
 
@@ -75,7 +78,8 @@ var uvel,
         var materialsWrapper = $(btn).closest('form').find('.model_materials');
         var defaultBtnsCollection = document.querySelectorAll('.default_material');
 
-        btn.addEventListener('click', function(e) {
+        $(btn).off();
+        $(btn).on('click', function(e) {
           var materialsData = $('#materials_data').length > 0 ? JSON.parse($('#materials_data').html()) : null;
           var newRow = document.createElement('div');
 
@@ -159,6 +163,7 @@ var uvel,
         var fieldsWrapper = $(this).parents().find('.model_stones');
         var stoneFlowBtnsCollection = document.querySelectorAll('.stone-flow');
 
+        thisBtn.off();
         thisBtn.on('click', function(e) {
           var fields = fieldsWrapper.find('.fields');
           var stonesData = $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null;
@@ -669,7 +674,8 @@ var uvel,
             this.dropFunctionality(collectionFiles);   
         }
 
-        if(modelSelectEdit) {   
+        if(modelSelectEdit) {
+          modelSelectEdit.off();
           modelSelectEdit.on('change select2:select', function(ev) {
             var targetModal = document.getElementById('editProduct');
             if(modelSelectEdit.val()) {
@@ -704,6 +710,7 @@ var uvel,
         }
 
         if(modelSelect) {
+          modelSelect.off();
           modelSelect.on('select2:select', function(ev) {
             var targetModal = document.getElementById('addProduct');
             if(modelSelect.val()) {
@@ -1745,6 +1752,7 @@ var uvel,
 
         setTimeout(function () {
           $('input.stone-flow:checked').trigger('change');
+          $('#editProduct [name="material"]').trigger('change');
         }, 700);
       }
 
