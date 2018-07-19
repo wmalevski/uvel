@@ -12,16 +12,13 @@ var uvel,
     };
     
     // FUNCTION THAT REPLACE THE TABLE ROW FROM THE AJAX REQUEST
-    this.replaceRowFromAjaxRequest = function(_this , rowId , response) {
-      _this.parents("tr[data-id=" + rowId + "]").replaceWith(response);
+    this.replaceTableRowFromAjaxRequest = function(currentButton , rowId , response) {
+      currentButton.parents("tr[data-id=" + rowId + "]").replaceWith(response);
     }
 
     //FUNCTION THAT UPDATES THE STATUS OF TRAVELLING MATERIALS ( DECLINE OR ACCEPT )
     this.travellingMaterialsState = function() {
-      console.log('test');
-      var materialTravelStateButton = $('.material--travelling_state');
-
-      materialTravelStateButton.click(function(e) {
+      $('table').on('click' , '.material--travelling_state' , function(e) {
         e.preventDefault();
         
         var _this = $(this);
@@ -32,15 +29,15 @@ var uvel,
           method: "POST",
           url: '/ajax/materials/' + buttonState + '/' + buttonStateRowId,
           success: function(resp) {
-            console.log(resp);
-          },
-          error: function(err) {
-            console.log(err);
+            var htmlResponse = JSON.stringify(resp.success);
+
+            $self.replaceTableRowFromAjaxRequest(_this, buttonStateRowId , resp.success);
           }
         });
       });
     }
 
+    // FUNCTION THAT GET THE SELECT OPTION'S ATTRIBUTES AND ATTACH THEM ON THE SELECT2 PLUGIN LIST ITEMS.
     this.addSelect2CustomAttributes = function(data, container) {
       if(data.element) {
         $(container).attr({
@@ -50,9 +47,11 @@ var uvel,
           'data-material': $(data.element).attr('data-material') || 0
         });
       }
+
       return data.text;
     }
 
+    //FUNCTION THAT INITIALIZES THE SELECT 2 PLUGIN
     this.initializeSelect = function (select) {
       select.select2({
         templateResult: $self.addSelect2CustomAttributes,
@@ -1797,7 +1796,7 @@ $(function () {
 
 //todo: IN PROGRESS refactor this in RBD WAY
 $(document).ready(function () {
-  // Gosho's creation ! extra attention :D
+  
   var select_input = $('#jewel');
   var disabled_input = $('.disabled-first');
 
