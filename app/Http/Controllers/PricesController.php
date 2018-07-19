@@ -136,13 +136,10 @@ class PricesController extends Controller
         $price = Prices::find($price);
         
         if($price){
-            $usingWProduct = Product::where('wholesale_price', $price->id)->count();
-            $usingRProduct = Product::where('retail_price', $price->id)->count();
+            $usingWModel = ModelOptions::where('wholesale_price', $price->id)->count();
+            $usingRModel = ModelOptions::where('retail_price', $price->id)->count();
 
-            $usingWModel = Models::where('wholesale_price', $price->id)->count();
-            $usingRModel = Models::where('retail_price', $price->id)->count();
-
-            if($usingWProduct || $usingRProduct || $usingWModel || $usingRModel){
+            if($usingWModel || $usingRModel){
                 return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
             }else{
 
