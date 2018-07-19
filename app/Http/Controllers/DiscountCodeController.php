@@ -137,7 +137,7 @@ class DiscountCodeController extends Controller
 
         $discountCode->discount = $request->discount;
         $discountCode->expires = $request->date_expires;
-        $discountCode->user = $request->user;
+        $discountCode->user_id = $request->user_id;
 
         if($request->active == false){
             $discountCode->active = 'no';
