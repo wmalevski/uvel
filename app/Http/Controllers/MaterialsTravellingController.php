@@ -11,11 +11,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
-use Faker\Provider\tr_TR\DateTime;
 use Illuminate\Support\Facades\Redirect;
 use Response;
 use Auth;
 use Bouncer;
+use Carbon\Carbon;
 
 class MaterialsTravellingController extends Controller
 {
@@ -138,7 +138,7 @@ class MaterialsTravellingController extends Controller
             }
 
             $material->status = '1';
-            $material->dateReceived = new \DateTime();
+            $material->dateReceived = Carbon::now()->format('Y-m-d H:i:s');
             $material->save();
 
             return Response::json(array('success' => View::make('admin/materials_travelling/table', array('material' => $material, 'matID' => $material->id))->render()));
