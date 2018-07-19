@@ -496,7 +496,7 @@
               <input class="form-control" type="text" placeholder="Search...">
             </li> --}}
             {{-- <li>
-                {{ App\Store::find(Auth::user()->store)->name }} 
+                {{ App\User::find(Auth::user()->id)->store->name }} 
             </li> --}}
           </ul>
           <ul class="nav-right">
@@ -698,7 +698,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle no-after peers fxw-nw ai-c lh-1">
                 <div class="peer">
-                  <span class="fsz-sm c-grey-900">{{ App\Store::withTrashed()->find(Auth::user()->store)->name }} </span>
+                  <span class="fsz-sm c-grey-900">{{ App\User::withTrashed()->find(Auth::user()->id)->store->name }} </span>
                 </div>
               </a>
             </li>

@@ -32,11 +32,11 @@
 
         <div class="form-group">
             <label>Магазин: </label>
-            <select name="store" class="form-control">
+            <select name="store_id" class="form-control">
                 <option value="">Избери магазин</option>
         
                 @foreach($stores as $store)
-                    <option value="{{ $store->id }}" @if($user->store == $store->id) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
+                    <option value="{{ $store->id }}" @if($user->store_id == $store->id) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
                 @endforeach
             </select>
         </div>

@@ -38,7 +38,7 @@
                                 <option value="">Избери потребител</option>
                         
                                 @foreach($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }} - {{ $user->store }}</option>
+                                    <option value="{{ $user->id }}">{{ $user->name }} - {{ $user->store_id }}</option>
                                 @endforeach
                             </select>
                         </div>

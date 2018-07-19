@@ -17,4 +17,9 @@ class Store extends Model
 
     protected $table = 'stores';
     protected $dates = ['deleted_at'];
+
+    public function users()
+    {
+    	return $this->hasMany('App\User');
+    }
 }

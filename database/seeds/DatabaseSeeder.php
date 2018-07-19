@@ -144,23 +144,6 @@ class DatabaseSeeder extends Seeder
         Bouncer::allow($merchant)->to($sellingStatus);
         Bouncer::allow($merchant)->to($jewelStatus);
 
-        $user = new User();
-        $user->name = 'Admin';
-        $user->email = 'admin@uvel.com';
-        $user->password = bcrypt('administrator');
-        $user->store = 1;
-        $user->save();
-
-        Bouncer::assign('admin')->to($user);
-
-        $merchant = new User();
-        $merchant->name = 'Merchant';
-        $merchant->email = 'merchant@uvel.com';
-        $merchant->password = bcrypt('merchant');
-        $merchant->store = 2;
-        $merchant->save();
-
-        Bouncer::assign('merchant')->to($merchant);
 
         for($i = 1; $i <= 5; $i++){
             $stone_styles = new StoneStyle();
@@ -200,6 +183,23 @@ class DatabaseSeeder extends Seeder
             // $jewel->save();
         }
 
+        $user = new User();
+        $user->name = 'Admin';
+        $user->email = 'admin@uvel.com';
+        $user->password = bcrypt('administrator');
+        $user->store_id = 1;
+        $user->save();
+
+        Bouncer::assign('admin')->to($user);
+
+        $merchant = new User();
+        $merchant->name = 'Merchant';
+        $merchant->email = 'merchant@uvel.com';
+        $merchant->password = bcrypt('merchant');
+        $merchant->store_id = 2;
+        $merchant->save();
+
+        Bouncer::assign('merchant')->to($merchant);
         // $material_type = new MaterialType();
         // $material_type->name = 'Злато';
         // $material_type->save();

@@ -8,6 +8,12 @@ class CreateForeignKeys extends Migration {
 
 	public function up()
 	{
+		Schema::table('users', function(Blueprint $table) {
+			$table->foreign('store_id')->references('id')->on('stores')
+						->onDelete('cascade')
+						->onUpdate('cascade');
+		});
+
 		Schema::table('materials', function(Blueprint $table) {
 			$table->foreign('parent_id')->references('id')->on('materials_types')
 						->onDelete('cascade')
@@ -86,6 +92,10 @@ class CreateForeignKeys extends Migration {
 
 	public function down()
 	{
+		Schema::table('users', function(Blueprint $table) {
+			$table->dropForeign('users_parent_id_foreign');
+		});
+
 		Schema::table('materials', function(Blueprint $table) {
 			$table->dropForeign('materials_parent_id_foreign');
 		});

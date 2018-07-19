@@ -8,6 +8,7 @@ use Silber\Bouncer\Database\HasRolesAndAbilities;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\DiscountCode;
 use App\UserSubstitution;
+use App\Store;
 
 class User extends Authenticatable
 {
@@ -56,6 +57,11 @@ class User extends Authenticatable
 
     public function discountCodes()
     {
-        return $this->hasMany('DiscountCode');
+        return $this->hasMany('App\DiscountCode');
+    }
+
+    public function store()
+    {
+        return $this->belongsTo('App\Store');
     }
 }
