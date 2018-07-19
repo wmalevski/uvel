@@ -16,7 +16,6 @@ class CreateJewelsTable extends Migration
         Schema::create('jewels', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('material')->references('id')->on('materials');
             $table->timestamps();
             $table->softDeletes();
         });

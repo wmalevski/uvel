@@ -99,7 +99,7 @@ aria-hidden="true">
 
 <h3>Добави друг продукт <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
 
-<table class="table table-condensed">
+<table class="table table-condensed tablesort">
     <tr>
         <th>Баркод</th> 
         <th>Модел</th>

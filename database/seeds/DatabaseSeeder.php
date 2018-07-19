@@ -196,7 +196,6 @@ class DatabaseSeeder extends Seeder
 
             $jewel = new Jewels();
             $jewel->name = 'Бижу '.$i;
-            $jewel->material = rand(1,2);
             $jewel->save();
         }
 
@@ -276,32 +275,30 @@ class DatabaseSeeder extends Seeder
         $currency->default = 'yes';
         $currency->save();
         
-        $model = new Models();
-        $model->name = 'Модел 1';
-        $model->jewel = 1;
-        $model->retail_price = 2;
-        $model->wholesale_price = 4;
-        $model->weight = 56;
-        $model->size = 56;
-        $model->workmanship = 3920;
-        $model->price = 5040;
-        $model->save();
+        // $model = new Models();
+        // $model->name = 'Модел 1';
+        // $model->jewel = 1;
+        // $model->weight = 56;
+        // $model->size = 56;
+        // $model->workmanship = 3920;
+        // $model->price = 5040;
+        // $model->save();
 
-        $product = new Products();
-        $product->id = Uuid::generate()->string;
-        $product->name = 'Продукт 1';
-        $product->model = 1;
-        $product->jewel_type = 1;
-        $product->type = 1;
-        $product->retail_price = 2;
-        $product->wholesale_price = 4;
-        $product->weight = 56;
-        $product->size = 56;
-        $product->workmanship = 120;
-        $product->price = 210;
-        $product->code = 'PE0NM23K';
-        $product->barcode = 3807260069719;
-        $product->save();
+        // $product = new Products();
+        // $product->id = Uuid::generate()->string;
+        // $product->name = 'Продукт 1';
+        // $product->model = 1;
+        // $product->jewel_type = 1;
+        // $product->type = 1;
+        // $product->retail_price = 2;
+        // $product->wholesale_price = 4;
+        // $product->weight = 56;
+        // $product->size = 56;
+        // $product->workmanship = 120;
+        // $product->price = 210;
+        // $product->code = 'PE0NM23K';
+        // $product->barcode = 3807260069719;
+        // $product->save();
 
         $discount = new Discount_codes();
         $discount->discount = 20;

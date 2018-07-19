@@ -16,7 +16,7 @@ use App\Stone_sizes;
 use App\Gallery;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Products extends Model
+class Product extends Model
 {
     use SoftDeletes;
 
@@ -37,10 +37,19 @@ class Products extends Model
 
     protected $table = 'products';
 
-    public $incrementing = false;
+    public function images()
+    {
+        return $this->hasMany('App\Gallery');
+    }
 
     public function chainedSelects($model){
         $model = Models::find($model);
+        $materials = Materials::all();
+        $default = ModelOptions::where([
+            ['model', '=', $model->id],
+            ['default', '=', 'yes']
+        ])->first();
+
         if($model){
             $model_material = Jewels::find($model->material);
             $jewels = Jewels::where('id', $model->jewel)->get()
@@ -49,17 +58,19 @@ class Products extends Model
 
             $retail_prices = Prices::where([
                 'type' => 'sell',
-                'material' => Jewels::withTrashed()->find($model->jewel)->material
+                'material' => $default->material
             ])->get();
 
             $wholesale_prices = Prices::where([
                 'type' => 'sell',
-                'material' => Jewels::withTrashed()->find($model->jewel)->material
+                'material' => $default->material
             ])->get();
 
             $model_stones = Model_stones::where('model', $model->id)->get();
-
-            $model_photos = Gallery::where('table', 'models')->get();
+            $model_photos = Gallery::where([
+                ['table', '=', 'models'],
+                ['model_id', '=', $model->id]
+            ])->get();
     
             $pass_jewels = array();
             
@@ -74,7 +85,6 @@ class Products extends Model
                     'value' => $jewel->id,
                     'label' => $jewel->name,
                     'material' => $jewel->material,
-                    'pricebuy' => Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price,
                     'selected' => $selected
                 ];
             }
@@ -82,7 +92,7 @@ class Products extends Model
             $prices_retail = array();
             
             foreach($retail_prices as $price){
-                if($price->material == Jewels::withTrashed()->find($model->jewel)->material){
+                if($price->id == $default->retail_price){
                     $selected = true;
                 }else{
                     $selected = false;
@@ -99,7 +109,7 @@ class Products extends Model
             $prices_wholesale = array();
             
             foreach($wholesale_prices as $price){
-                if($price->material == Jewels::withTrashed()->find($model->jewel)->material){
+                if($price->id == $default->wholesale_price){
                     $selected = true;
                 }else{
                     $selected = false;
@@ -118,7 +128,36 @@ class Products extends Model
             foreach($model_stones as $stone){
                 $pass_stones[] = [
                     'value' => Stones::withTrashed()->find($stone->stone)->id,
-                    'label' => Stones::withTrashed()->find($stone->stone)->name.' ('.Stone_contours::withTrashed()->find(Stones::withTrashed()->find($stone->stone)->contour)->name. ', ' .Stone_sizes::withTrashed()->find(Stones::withTrashed()->find($stone->stone)->size)->name. ' )'
+                    'label' => Stones::withTrashed()->find($stone->stone)->name.' ('.Stone_contours::withTrashed()->find(Stones::withTrashed()->find($stone->stone)->contour)->name. ', ' .Stone_sizes::withTrashed()->find(Stones::withTrashed()->find($stone->stone)->size)->name. ' )',
+                    'amount' => $stone->amount,
+                    'weight' => $stone->weight,
+                    'flow' => $stone->flow
+                ];
+            }
+
+            $pass_materials = array();
+            
+            foreach($materials as $material){
+                if($material->id == $default->material){
+                    $selected = true;
+                }else{
+                    $selected = false;
+                }
+
+                $pass_materials[] = (object)[
+                    'value' => $material->id,
+                    'label' => $material->name.' - '.$material->code.' - '.$material->carat,
+                    'selected' => $selected,
+                ];
+            }
+
+            $pass_photos = array();
+
+            foreach($model_photos as $photo){
+               
+                $pass_photos[] = (object)[
+                    'id' => $photo->id,
+                    'photo' => $photo->photo
                 ];
             }
 
@@ -138,7 +177,9 @@ class Products extends Model
                 'size'   => $model->size,
                 'workmanship' => $model->workmanship,
                 'price' => $model->price,
-                'photos' => $pass_photos
+                'materials' => $pass_materials,
+                'photos' => $pass_photos,
+                'pricebuy' => Prices::withTrashed()->where('material', $default->material)->where('type', 'buy')->first()->price,
             );
         }
     }

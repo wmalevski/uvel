@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateModelStonesTable extends Migration
+class CreateModelOptionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,15 @@ class CreateModelStonesTable extends Migration
      */
     public function up()
     {
-        Schema::create('model_stones', function (Blueprint $table) {
+        Schema::create('model_options', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('model')->references('id')->on('models');
-            $table->integer('stone')->references('id')->on('stones');
-            $table->integer('amount');
-            $table->integer('weight');
-            $table->enum('flow', ['yes', 'no'])->default('no');
+            $table->integer('material')->references('id')->on('materials');
+            $table->integer('retail_price')->references('id')->on('prices');
+            $table->integer('wholesale_price')->references('id')->on('prices');
+            $table->enum('default', ['yes', 'no'])->default('no');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -31,6 +32,6 @@ class CreateModelStonesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('model_stones');
+        Schema::dropIfExists('model_options');
     }
 }

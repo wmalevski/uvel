@@ -83,19 +83,22 @@ aria-hidden="true">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
         <h4 class="c-grey-900 mB-20">Отстъпки <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addDiscount">Добави</button></h4>
         <p>Преглед на създадените отстъпки.</p>
-        <table class="table table-condensed">
-            <tr>
-                <th>Баркод</th> 
-                <th>Отстъпка</th> 
-                <th>Валидна до</th> 
-                <th>Статус</th>
-                <th>Потребител</th>
-                <th>Действия</th>
-            </tr>
-            
-            @foreach($discounts as $discount)
-                @include('admin.discounts.table')
-            @endforeach
+        <table class="table table-condensed tablesort">
+            <thead>
+                <tr>
+                    <th class="sort-false">Баркод</th> 
+                    <th>Отстъпка</th> 
+                    <th class="sort-false">Валидна до</th> 
+                    <th>Статус</th>
+                    <th class="sort-false">Потребител</th>
+                    <th class="sort-false">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($discounts as $discount)
+                    @include('admin.discounts.table')
+                @endforeach
+            </tbody>
         </table>
       </div>
     </div>

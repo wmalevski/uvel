@@ -82,6 +82,7 @@ aria-hidden="true">
                       <th>До магазин</th> 
                       <th>Статус</th> 
                       <th></th> 
+                      <th></th> 
                   </tr>
                   
                   @foreach($travelling as $material)

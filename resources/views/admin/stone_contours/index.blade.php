@@ -45,15 +45,18 @@ aria-hidden="true">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
         <h4 class="c-grey-900 mB-20">Камъни контури <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addContour">Добави</button></h4>
         <p>Преглед на създадените контури.</p>
-        <table class="table table-condensed">
-            <tr>
-                <th>Име</th> 
-                <th>Действия</th> 
-            </tr>
-            
-            @foreach($contours as $contour)
-                @include('admin.stone_contours.table')
-            @endforeach
+        <table class="table table-condensed tablesort">
+            <thead>
+                <tr>
+                    <th>Име</th> 
+                    <th class="sort-false">Действия</th> 
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($contours as $contour)
+                    @include('admin.stone_contours.table')
+                @endforeach
+            </tbody>
         </table>
       </div>
     </div>
