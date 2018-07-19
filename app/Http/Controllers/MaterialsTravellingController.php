@@ -145,6 +145,36 @@ class MaterialsTravellingController extends Controller
         }
     }
 
+    public function decline(Request $request, Materials_travelling $material)
+    {
+        if($material->status == 0){
+            $check = Materials_quantity::where(
+                [
+                    ['material', '=', $material->type],
+                    ['store', '=', $material->storeTo]
+                ]
+            )->first();
+    
+            if($check){
+                $check->quantity = $check->quantity + $material->quantity;
+                $check->save();
+            } else{
+                $quantity = new Materials_quantity();
+                $quantity->material = $material->type;
+                $quantity->quantity = $material->quantity;
+                $quantity->store = $material->storeTo;
+                $quantity->carat = '';
+    
+                $quantity->save();
+            }
+
+            $material->dateReceived = Carbon::now()->format('Y-m-d H:i:s');
+            $material->save();
+
+            return Response::json(array('success' => View::make('admin/materials_travelling/table', array('material' => $material, 'matID' => $material->id))->render()));
+        }
+    }
+
     /**
      * Display the specified resource.
      *
