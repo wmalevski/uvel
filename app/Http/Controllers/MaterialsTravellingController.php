@@ -141,7 +141,7 @@ class MaterialsTravellingController extends Controller
             $material->dateReceived = new \DateTime();
             $material->save();
 
-            return Response::json(array('success' => View::make('admin/materials_travelling/table', array('material' => $material, 'matID' => $check->material))->render()));
+            return Response::json(array('success' => View::make('admin/materials_travelling/table', array('material' => $material, 'matID' => $material->id))->render()));
         }
     }
 

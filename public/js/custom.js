@@ -10,7 +10,13 @@ var uvel,
       $self.defaultMaterialSelect($('.default_material'));
       $self.checkAllForms();    
     };
+    
+    // FUNCTION THAT REPLACE THE TABLE ROW FROM THE AJAX REQUEST
+    this.replaceRowFromAjaxRequest = function(_this , rowId , response) {
+      _this.parents("tr[data-id=" + rowId + "]").replaceWith(response);
+    }
 
+    //FUNCTION THAT UPDATES THE STATUS OF TRAVELLING MATERIALS ( DECLINE OR ACCEPT )
     this.travellingMaterialsState = function() {
       console.log('test');
       var materialTravelStateButton = $('.material--travelling_state');
