@@ -154,14 +154,6 @@ class Product extends Model
             $pass_photos = array();
 
             foreach($model_photos as $photo){
-               
-                $pass_photos[] = (object)[
-                    'id' => $photo->id,
-                    'photo' => $photo->photo
-                ];
-            }
-
-            foreach($model_photos as $photo){
                 $pass_photos[] = [
                     'id' => $photo->id,
                     'url' => asset("uploads/models/" . $photo->photo)
