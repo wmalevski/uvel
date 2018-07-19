@@ -36,7 +36,13 @@ class MaterialsTravellingController extends Controller
         //$stores = Stores::where('id', '!=', Auth::user()->store)->get();
         $stores = Stores::all();
         $materials_types = Materials::all();
-        $travelling = Materials_travelling::all();
+
+        if(Bouncer::is(Auth::user())->an('admin')){
+            $travelling = Materials_travelling::all();
+        }else{
+            $travelling = Materials_travelling::where('storeFrom', '=', Auth::user()->getStore())->orWhere('storeTo', '=', Auth::user()->getStore())->get();
+        }
+
   
         return \View::make('admin/materials_travelling/index', array('materials' => $materials, 'types' => $materials_types, 'stores' => $stores, 'travelling' => $travelling));
     }
