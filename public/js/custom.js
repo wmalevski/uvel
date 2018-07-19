@@ -24,7 +24,7 @@ var uvel,
 
         $.ajax({
           method: "POST",
-          url: '/admin/materials/' + buttonState + '/' + buttonStateRowId,
+          url: '/ajax/materials/' + buttonState + '/' + buttonStateRowId,
           success: function(resp) {
             console.log(resp);
           },

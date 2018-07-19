@@ -114,10 +114,8 @@ class MaterialsTravellingController extends Controller
         }
     }
 
-    public function accept(Request $request, $material)
+    public function accept(Request $request, Materials_travelling $material)
     {
-        $material = Materials_travelling::findOrFail($material);
-
         if($material->status == 0){
             $check = Materials_quantity::where(
                 [
@@ -143,7 +141,7 @@ class MaterialsTravellingController extends Controller
             $material->dateReceived = new \DateTime();
             $material->save();
 
-            return Redirect::back();
+            return Response::json(array('success' => View::make('admin/materials_travelling/table', array('material' => $material, 'matID' => $check->material))->render()));
         }
     }
 
