@@ -5,14 +5,24 @@
     <td>{{ $material->created_at }} </td> 
     <td>{{ App\Stores::withTrashed()->find($material->storeFrom)->name }}</td>
     <td>{{ App\Stores::withTrashed()->find($material->storeTo)->name }}</td>
-    <td>@if($material->status == 0) На път @else Приет @endif</td>
+    <td>@if($material->dateReceived != '' && $material->status == 0) Отказан @elseif($material->status == 0) На път @else Приет @endif</td>
 
-    <td>
-        @if($material->storeTo == Auth::user()->store && $material->dateReceived =! '')
+    @if($material->dateReceived)
+        <td>
+            {{ $material->dateReceived }}
+        </td>
+    @endif
+
+    @if($material->storeTo == Auth::user()->store && $material->status == 0)
+        <td>
             <button type="button" data-travelstate="accept" class="btn btn-primary material--travelling_state" data-material="$material->id">Приеми</button>
             <button type="button" data-travelstate="decline" class="btn btn-primary material--travelling_state" data-material="$material->id">Откажи</button>
-        @else
-            {{ $material->dateReceived }}
-        @endif
-    </td> 
+        </td> 
+
+        @else 
+            <td>
+                <button type="button" data-travelstate="accept" class="btn btn-primary material--travelling_state" data-material="$material->id" disabled>Приеми</button>
+                <button type="button" data-travelstate="decline" class="btn btn-primary material--travelling_state" data-material="$material->id" disabled>Откажи</button>
+        </td> 
+    @endif
 </tr>
