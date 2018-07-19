@@ -83,7 +83,7 @@
                         <option value="">Избери</option>
                 
                         @foreach($prices->where('type', 'sell') as $price)
-                            <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}" @if($product->retail_price == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
+                    <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}" @if($product->retail_price == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
                         @endforeach
                     </select>
                 </div>

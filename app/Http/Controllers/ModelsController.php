@@ -337,19 +337,21 @@ class ModelsController extends Controller
 
         $deleteStones = Model_stones::where('model', $model->id)->delete();
 
-        foreach($request->stones as $key => $stone){
-            if($stone){
-                $model_stones = new Model_stones();
-                $model_stones->model = $model->id;
-                $model_stones->stone = $stone;
-                $model_stones->amount = $request->stone_amount[$key];
-                $model_stones->weight = $request->stone_weight[$key];
-                if($request->stone_flow[$key] == true){
-                    $model_stones->flow = 'yes';
-                }else{
-                    $model_stones->flow = 'no';
+        if($request->stones){
+            foreach($request->stones as $key => $stone){
+                if($stone){
+                    $model_stones = new Model_stones();
+                    $model_stones->model = $model->id;
+                    $model_stones->stone = $stone;
+                    $model_stones->amount = $request->stone_amount[$key];
+                    $model_stones->weight = $request->stone_weight[$key];
+                    if($request->stone_flow[$key] == true){
+                        $model_stones->flow = 'yes';
+                    }else{
+                        $model_stones->flow = 'no';
+                    }
+                    $model_stones->save();
                 }
-                $model_stones->save();
             }
         }
 
