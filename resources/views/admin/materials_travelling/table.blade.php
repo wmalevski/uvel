@@ -11,6 +11,9 @@
         <td>
             {{ $material->dateReceived }}
         </td>
+        @else 
+        <td>
+        </td>
     @endif
 
     @if($material->storeTo == Auth::user()->store && $material->status == 0)
