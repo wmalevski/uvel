@@ -8,7 +8,7 @@
     <td>@if($material->status == 0) На път @else Приет @endif</td>
 
     <td>
-        @if($material->storeTo == Auth::user()->store && $material->status == 0)
+        @if($material->storeTo == Auth::user()->store && $material->dateReceived =! '')
             <button type="button" data-travelstate="accept" class="btn btn-primary material--travelling_state" data-material="$material->id">Приеми</button>
             <button type="button" data-travelstate="decline" class="btn btn-primary material--travelling_state" data-material="$material->id">Откажи</button>
         @else
