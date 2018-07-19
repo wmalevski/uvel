@@ -5,11 +5,39 @@ var uvel,
       currentPressedBtn;
 
     this.init = function () {
+      $self.travellingMaterialsState();
       $self.initializeSelect($('select'));
       $self.defaultMaterialSelect($('.default_material'));
       $self.checkAllForms();    
     };
+    
+    // FUNCTION THAT REPLACE THE TABLE ROW FROM THE AJAX REQUEST
+    this.replaceTableRowFromAjaxRequest = function(currentButton , rowId , response) {
+      currentButton.parents("tr[data-id=" + rowId + "]").replaceWith(response);
+    }
 
+    //FUNCTION THAT UPDATES THE STATUS OF TRAVELLING MATERIALS ( DECLINE OR ACCEPT )
+    this.travellingMaterialsState = function() {
+      $('table').on('click' , '.material--travelling_state' , function(e) {
+        e.preventDefault();
+        
+        var _this = $(this);
+        var buttonState = _this.attr('data-travelstate');
+        var buttonStateRowId = _this.parents('tr').attr('data-id');
+
+        $.ajax({
+          method: "POST",
+          url: '/ajax/materials/' + buttonState + '/' + buttonStateRowId,
+          success: function(resp) {
+            var htmlResponse = JSON.stringify(resp.success);
+
+            $self.replaceTableRowFromAjaxRequest(_this, buttonStateRowId , resp.success);
+          }
+        });
+      });
+    }
+
+    // FUNCTION THAT GET THE SELECT OPTION'S ATTRIBUTES AND ATTACH THEM ON THE SELECT2 PLUGIN LIST ITEMS.
     this.addSelect2CustomAttributes = function(data, container) {
       if(data.element) {
         $(container).attr({
@@ -19,9 +47,11 @@ var uvel,
           'data-material': $(data.element).attr('data-material') || 0
         });
       }
+
       return data.text;
     }
 
+    //FUNCTION THAT INITIALIZES THE SELECT 2 PLUGIN
     this.initializeSelect = function (select) {
       select.select2({
         templateResult: $self.addSelect2CustomAttributes,
@@ -1766,7 +1796,7 @@ $(function () {
 
 //todo: IN PROGRESS refactor this in RBD WAY
 $(document).ready(function () {
-  // Gosho's creation ! extra attention :D
+  
   var select_input = $('#jewel');
   var disabled_input = $('.disabled-first');
 

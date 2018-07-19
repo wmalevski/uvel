@@ -11,11 +11,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
-use Faker\Provider\tr_TR\DateTime;
 use Illuminate\Support\Facades\Redirect;
 use Response;
 use Auth;
 use Bouncer;
+use Carbon\Carbon;
 
 class MaterialsTravellingController extends Controller
 {
@@ -36,7 +36,13 @@ class MaterialsTravellingController extends Controller
         //$stores = Stores::where('id', '!=', Auth::user()->store)->get();
         $stores = Stores::all();
         $materials_types = Materials::all();
-        $travelling = Materials_travelling::all();
+
+        if(Bouncer::is(Auth::user())->an('admin')){
+            $travelling = Materials_travelling::all();
+        }else{
+            $travelling = Materials_travelling::where('storeFrom', '=', Auth::user()->getStore())->orWhere('storeTo', '=', Auth::user()->getStore())->get();
+        }
+
   
         return \View::make('admin/materials_travelling/index', array('materials' => $materials, 'types' => $materials_types, 'stores' => $stores, 'travelling' => $travelling));
     }
@@ -114,10 +120,8 @@ class MaterialsTravellingController extends Controller
         }
     }
 
-    public function accept(Request $request, $material)
+    public function accept(Request $request, Materials_travelling $material)
     {
-        $material = Materials_travelling::findOrFail($material);
-
         if($material->status == 0){
             $check = Materials_quantity::where(
                 [
@@ -140,10 +144,40 @@ class MaterialsTravellingController extends Controller
             }
 
             $material->status = '1';
-            $material->dateReceived = new \DateTime();
+            $material->dateReceived = Carbon::now()->format('Y-m-d H:i:s');
             $material->save();
 
-            return Redirect::back();
+            return Response::json(array('success' => View::make('admin/materials_travelling/table', array('material' => $material, 'matID' => $material->id))->render()));
+        }
+    }
+
+    public function decline(Request $request, Materials_travelling $material)
+    {
+        if($material->status == 0){
+            $check = Materials_quantity::where(
+                [
+                    ['material', '=', $material->type],
+                    ['store', '=', $material->storeTo]
+                ]
+            )->first();
+    
+            if($check){
+                $check->quantity = $check->quantity + $material->quantity;
+                $check->save();
+            } else{
+                $quantity = new Materials_quantity();
+                $quantity->material = $material->type;
+                $quantity->quantity = $material->quantity;
+                $quantity->store = $material->storeTo;
+                $quantity->carat = '';
+    
+                $quantity->save();
+            }
+
+            $material->dateReceived = Carbon::now()->format('Y-m-d H:i:s');
+            $material->save();
+
+            return Response::json(array('success' => View::make('admin/materials_travelling/table', array('material' => $material, 'matID' => $material->id))->render()));
         }
     }
 
