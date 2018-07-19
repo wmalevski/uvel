@@ -5,10 +5,35 @@ var uvel,
       currentPressedBtn;
 
     this.init = function () {
+      $self.travellingMaterialsState();
       $self.initializeSelect($('select'));
       $self.defaultMaterialSelect($('.default_material'));
       $self.checkAllForms();    
     };
+
+    this.travellingMaterialsState = function() {
+      console.log('test');
+      var materialTravelStateButton = $('.material--travelling_state');
+
+      materialTravelStateButton.click(function(e) {
+        e.preventDefault();
+        
+        var _this = $(this);
+        var buttonState = _this.attr('data-travelstate');
+        var buttonStateRowId = _this.parents('tr').attr('data-id');
+
+        $.ajax({
+          method: "POST",
+          url: '/admin/materials/' + buttonState + '/' + buttonStateRowId,
+          success: function(resp) {
+            console.log(resp);
+          },
+          error: function(err) {
+            console.log(err);
+          }
+        });
+      });
+    }
 
     this.addSelect2CustomAttributes = function(data, container) {
       if(data.element) {
