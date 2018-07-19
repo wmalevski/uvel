@@ -1,10 +1,10 @@
 <tr data-id="{{ $material->id }}">
-    <td>{{ App\MaterialType::withTrashed()->find(App\Material::withTrashed()->find(App\MaterialQuantity::withTrashed()->find($material->type)->material)->parent)->name }} - {{ App\Material::withTrashed()->find(App\MaterialQuantity::withTrashed()->find($material->type)->material)->code }} - {{ App\Material::withTrashed()->find(App\MaterialQuantity::withTrashed()->find($material->type)->material)->color }}</td> 
+    <td>{{ $material->material->material->parent->name }} - {{ $material->material->material->code }} - {{ $material->material->material->color }}</td> 
     <td>{{ $material->quantity }}</td> 
     <td>{{ $material->price }}</td> 
     <td>{{ $material->created_at }} </td> 
-    <td>{{ App\Store::withTrashed()->find($material->storeFrom)->name }}</td>
-    <td>{{ App\Store::withTrashed()->find($material->storeTo)->name }}</td>
+    <td>{{ $material->store_from->name }}</td>
+    <td>{{ $material->store_to->name }}</td>
     <td>@if($material->status == 0) На път @else Приет @endif</td>
 
     <td>

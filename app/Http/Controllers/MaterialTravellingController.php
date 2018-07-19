@@ -60,37 +60,37 @@ class MaterialTravellingController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make( $request->all(), [
-            'type' => 'required',
+            'material_id' => 'required',
             'quantity' => 'required',
-            'storeTo' => 'required',
+            'store_to_id' => 'required',
         ]);
 
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $check = MaterialQuantity::find($request->type);
+        $check = MaterialQuantity::find($request->material_id);
 
         if($check){
             if($request->quantity <= $check->quantity && $check->quantity != 0){
-                $price = Material::find($check->material);
+                $price = Material::find($check->material_id);
 
                 if($check->store == $request->storeTo){
                     return Response::json(['errors' => array('quantity' => ['Не може да изпращате материал към същият магазин'])], 401);
                 }
 
                 $material = new MaterialTravelling();
-                $material->type = $request->type;
+                $material->material_id = $request->material_id;
                 $material->quantity = $request->quantity;
                 $material->price = ($request->quantity)*($price->stock_price);
-                $material->storeFrom = Auth::user()->getStore();
-                $material->storeTo  = $request->storeTo;
+                $material->store_from_id = Auth::user()->getStore();
+                $material->store_to_id  = $request->store_to_id;
                 $material->dateSent = new \DateTime();
-                $material->userSent = Auth::user()->getId();
+                $material->user_sent_id = Auth::user()->getId();
 
                 $material->save();
 
-                $quantity = MaterialQuantity::find($request->type);
+                $quantity = MaterialQuantity::find($request->material_id);
 
                 if($quantity){
                     $quantity->quantity = $quantity->quantity - $request->quantity;
@@ -121,8 +121,8 @@ class MaterialTravellingController extends Controller
         if($material->status == 0){
             $check = MaterialQuantity::where(
                 [
-                    ['material', '=', $material->type],
-                    ['store', '=', $material->storeTo]
+                    ['material_id', '=', $material->material_id],
+                    ['store_id', '=', $material->store_to_id]
                 ]
             )->first();
     
@@ -131,9 +131,9 @@ class MaterialTravellingController extends Controller
                 $check->save();
             } else{
                 $quantity = new MaterialQuantity();
-                $quantity->material = $material->type;
+                $quantity->material_id = $material->material_id;
                 $quantity->quantity = $material->quantity;
-                $quantity->store = $material->storeTo;
+                $quantity->store_id = $material->store_to_id;
                 $quantity->carat = '';
     
                 $quantity->save();
