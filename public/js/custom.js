@@ -33,8 +33,10 @@ var uvel,
       var material = defaultBtn.closest('.form-row').find('.material_type');
 
       defaultBtn.off();
-      defaultBtn.on('click', function() {
-        material.trigger('change');
+      defaultBtn.on('change', function() {
+        if (defaultBtn.is(':checked')) {
+          material.trigger('change');
+        }
       })
     }
 
