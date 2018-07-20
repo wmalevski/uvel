@@ -5,12 +5,34 @@ var uvel,
       currentPressedBtn;
 
     this.init = function () {
+      $self.removeImagePhotoFromDropArea();
       $self.travellingMaterialsState();
       $self.initializeSelect($('select'));
       $self.defaultMaterialSelect($('.default_material'));
       $self.checkAllForms();    
     };
     
+    /*
+      FUNCTION THAT RENDER THE IMAGES RECEIVED FROM THE AJAX CALL (E.G photos received from productsRequest ajax call)
+    */
+
+    this.uploadPhotosFromAjaxRequest = function(photoUrl) {
+      var dropAreaGalleryHolder = $('.drop-area-gallery');
+      var imageWrapper = $('<div class="image-wrapper"></div>');
+      var newImg = $('<img src=' + photoUrl + '>');
+
+      imageWrapper.append('<div class="close">x</div>');
+      imageWrapper.append(newImg);
+      
+      dropAreaGalleryHolder.append(imageWrapper);
+    }
+
+    this.removeImagePhotoFromDropArea = function() {
+      $('form').on('click' , '.close' , function() {
+        $(this).parent('.image-wrapper').remove();
+      });
+    }
+
     // FUNCTION THAT REPLACE THE TABLE ROW FROM THE AJAX REQUEST
     this.replaceTableRowFromAjaxRequest = function(currentButton , rowId , response) {
       currentButton.parents("tr[data-id=" + rowId + "]").replaceWith(response);
@@ -367,14 +389,14 @@ var uvel,
             imageWrapper.setAttribute("class", "image-wrapper");
             closeBtn.setAttribute("class", "close");
             closeBtn.innerHTML = '&#215;';            
-            closeBtn.addEventListener('click', function(event){
-              event.currentTarget.parentElement.remove();
-            });
 
+            //HERE1
             img.src = reader.result;
             imageWrapper.append(closeBtn);
             imageWrapper.append(img);
             dropAreaGallery.append(imageWrapper);
+
+            console.log('img appended');
           }
         }  
       });
@@ -1320,12 +1342,16 @@ var uvel,
       function productsRequest(tempUrl, targetModal) {
         var xhttp = new XMLHttpRequest();
 
+        console.log('/productsRequest');
+
         xhttp.open('GET', tempUrl, true);
         xhttp.onreadystatechange = function () {
 
         if(this.readyState == 4 && this.status == 200) {
           var data = JSON.parse(this.responseText);
           var editHolder =  document.getElementById("jewel_edit");
+
+          var responsePhotos = data.photos;
 
           for (i=0; i<data.materials.length; i++) {
             var material = data.materials[i];
@@ -1463,6 +1489,15 @@ var uvel,
                 $self.initializeSelect($(fieldsWrapper).find('select'));
               }
             }
+
+          
+          responsePhotos.map(function(element) {
+            var photoUrl = element.url;
+
+            console.log(photoUrl);
+
+            $self.uploadPhotosFromAjaxRequest(photoUrl);
+          });
 
             var materialSelect = $(targetModal).find('.material_type');
             materialSelect.val(selectedMaterial);
