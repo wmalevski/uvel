@@ -60,7 +60,7 @@
                         <option value="">Избери</option>
 
                         @foreach($repairTypes as $repairType)
-                            <option value="{{ $repairType->id }}" data-price="{{ $repairType->price }}" @if($repair->type == $repairType->id) selected @endif>{{ $repairType->name }} - {{ $repairType->price }}</option>
+                            <option value="{{ $repairType->id }}" data-price="{{ $repairType->price }}" @if($repair->type_id == $repairType->id) selected @endif>{{ $repairType->name }} - {{ $repairType->price }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -71,7 +71,7 @@
                         <option value="">Избер материал</option>
                 
                         @foreach($materials as $material)
-                            <option value="{{ $material->id }}" @if($repair->material == $material->id) selected @endif>@if($material->parent) {{ App\MaterialType::withTrashed()->find($material->parent)->name }} @endif - {{ $material->color }} - {{ $material->code }}</option>
+                            <option value="{{ $material->id }}" @if($repair->material_id == $material->id) selected @endif>@if($material->parent) {{ App\MaterialType::withTrashed()->find($material->parent)->name }} @endif - {{ $material->color }} - {{ $material->code }}</option>
                         @endforeach
                     </select>
                 </div>
