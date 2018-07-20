@@ -21,19 +21,19 @@ class CreateForeignKeys extends Migration {
 		});
 
 		Schema::table('model_options', function(Blueprint $table) {
-			$table->foreign('model')->references('id')->on('models')
+			$table->foreign('model_id')->references('id')->on('models')
 						->onDelete('cascade')
 						->onUpdate('cascade');
 
-			$table->foreign('material')->references('id')->on('materials')
+			$table->foreign('material_id')->references('id')->on('materials')
 						->onDelete('cascade')
 						->onUpdate('cascade');
 
-			$table->foreign('retail_price')->references('id')->on('prices')
+			$table->foreign('retail_price_id')->references('id')->on('prices')
 						->onDelete('cascade')
 						->onUpdate('cascade');
 
-			$table->foreign('wholesale_price')->references('id')->on('prices')
+			$table->foreign('wholesale_price_id')->references('id')->on('prices')
 						->onDelete('cascade')
 						->onUpdate('cascade');
 		});
@@ -87,26 +87,77 @@ class CreateForeignKeys extends Migration {
             $table->foreign('user_id')->references('id')->on('users')
             			->onDelete('cascade')
             			->onUpdate('cascade');
-        });
+		});
+		
+		Schema::table('repairs', function (Blueprint $table) {
+			
+			$table->foreign('type_id')->references('id')->on('repair_types')
+						->onDelete('cascade')
+						->onUpdate('cascade');
+
+			$table->foreign('material_id')->references('id')->on('materials')
+						->onDelete('cascade')
+						->onUpdate('cascade');
+		});
 	}
 
 	public function down()
 	{
 		Schema::table('users', function(Blueprint $table) {
-			$table->dropForeign('users_parent_id_foreign');
+			$table->dropForeign('users_store_id_foreign');
+			$table->dropColumn('store_id');
 		});
 
 		Schema::table('materials', function(Blueprint $table) {
 			$table->dropForeign('materials_parent_id_foreign');
+			$table->dropColumn('parent_id');
+		});
+
+		Schema::table('model_options', function(Blueprint $table) {
+			$table->dropForeign('model_options_model_id_foreign');
+			$table->dropForeign('model_options_material_id_foreign');
+			$table->dropForeign('model_options_retail_price_id_foreign');
+			$table->dropForeign('model_options_wholesale_price_id_foreign');
+
+			$table->dropColumn('model_id');
+			$table->dropColumn('material_id');
+			$table->dropColumn('retail_price_id');
+			$table->dropColumn('wholesale_price_id');
+		});
+
+		Schema::table('materials_quantities', function(Blueprint $table) {
+			$table->dropForeign('materials_quantities_material_id_foreign');
+			$table->dropForeign('materials_quantities_store_id_foreign');
+
+			$table->dropColumn('material_id');
+			$table->dropColumn('store_id');
+		});
+
+		Schema::table('materials_travellings', function(Blueprint $table) {
+			$table->dropForeign('materials_travellings_material_id_foreign');
+			$table->dropForeign('materials_travellings_store_from_id_foreign');
+			$table->dropForeign('materials_travellings_store_to_id_foreign');
+			$table->dropForeign('materials_travellings_user_sent_id_foreign');
+
+			$table->dropColumn('material_id');
+			$table->dropColumn('store_from_id');
+			$table->dropColumn('store_to_id');
+			$table->dropColumn('user_sent_id');
 		});
 
 		Schema::table('stones', function(Blueprint $table) {
-			$table->dropForeign('stones_parent_id_foreign');
+			$table->dropForeign('stones_style_id_foreign');
+			$table->dropForeign('stones_contour_id_foreign');
+			$table->dropForeign('stones_size_id_foreign');
+
+			$table->dropColumn('size_id');
+			$table->dropColumn('style_id');
+			$table->dropColumn('contour_id');
 		});
 
 		Schema::table('discount_codes', function(Blueprint $table) {
-			$table->dropForeign('discount_codes_parent_id_foreign');
+			$table->dropForeign('discount_codes_user_id_foreign');
+			$table->dropColumn('user_id');
 		});
-
 	}
 }

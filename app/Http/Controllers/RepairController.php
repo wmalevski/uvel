@@ -53,7 +53,7 @@ class RepairController extends Controller
         $validator = Validator::make( $request->all(), [
             'customer_name' => 'required',
             'customer_phone' => 'required|numeric',
-            'type' => 'required',
+            'type_id' => 'required',
             'date_returned' => 'required',
             'weight' => 'required|numeric',
             'price' => 'required|numeric|between:0.1,5000'
@@ -66,14 +66,14 @@ class RepairController extends Controller
         $repair = Repair::create([
             'customer_name' => $request->customer_name,
             'customer_phone' => $request->customer_phone,
-            'type' => $request->type,
+            'type_id' => $request->type_id,
             'date_recieved' => $request->date_recieved,
             'date_returned' => $request->date_returned,
             'code' =>  'R'.unique_random('products', 'code', 7),
             'weight' => $request->weight,
             'price' => $request->price,
             'repair_description' => $request->repair_description,
-            'material' => $request->material,
+            'material_id' => $request->material_id,
             'status' => 'repairing'
         ]);
         
@@ -213,7 +213,7 @@ class RepairController extends Controller
             $repair->date_returned = $request->date_returned;
             $repair->price_after = $request->price_after; 
             $repair->repair_description = $request->repair_description;
-            $repair->material = $request->material;
+            $repair->material_id = $request->material_id;
             $repair->weight_after = $request->weight_after;
             
             $repair->save();
@@ -243,7 +243,7 @@ class RepairController extends Controller
         $repair->date_returned = $request->date_returned;
         $repair->price_after = $request->price_after; 
         $repair->repair_description = $request->repair_description;
-        $repair->material = $request->material;
+        $repair->material_id = $request->material_id;
         $repair->weight_after = $request->weight_after;
 
         // if($repair->weight < $request->weight_after){
