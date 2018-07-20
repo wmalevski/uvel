@@ -389,6 +389,7 @@ class ModelsController extends Controller
             $photo->photo = $file_name;
             $photo->model_id = $model->id;
             $photo->table = 'models';
+            $photo->base64 = $img;
 
             $photo->save();
         }
