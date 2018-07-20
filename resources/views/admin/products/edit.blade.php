@@ -239,7 +239,7 @@
                 @foreach($photos as $photo)
                     <div class='image-wrapper'>
                         <div class='close'><span data-url="gallery/delete/{{$photo->id}}">&#215;</span></div>
-                        <img src="{{ asset("uploads/products/" . $photo->photo) }}" alt="" class="img-responsive" />
+                        <img src="data:image/png;base64,{{$photo->base64}}" alt="" class="img-responsive" />
                     </div>
                 @endforeach 
             </div>

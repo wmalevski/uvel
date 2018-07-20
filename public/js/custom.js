@@ -17,10 +17,15 @@ var uvel,
     */
 
     this.uploadPhotosFromAjaxRequest = function(photoUrl) {
+      console.log(photoUrl);
+      
       var dropAreaGalleryHolder = $('.drop-area-gallery');
       var imageWrapper = $('<div class="image-wrapper"></div>');
-      var newImg = $('<img src=' + photoUrl + '>');
+      var newImg = $('<img>');
 
+      newImg.attr('src' , "data:image/png;base64," + photoUrl);
+
+      dropAreaGalleryHolder.empty();
       imageWrapper.append('<div class="close">x</div>');
       imageWrapper.append(newImg);
       

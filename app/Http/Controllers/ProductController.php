@@ -143,20 +143,6 @@ class ProductController extends Controller
         
         File::makeDirectory($path, 0775, true, true);
 
-        $file_data = $request->input('images'); 
-        foreach($file_data as $img){
-            $file_name = 'productimage_'.uniqid().time().'.png';
-            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-            file_put_contents(public_path('uploads/products/').$file_name, $data);
-
-            $photo = new Gallery();
-            $photo->photo = $file_name;
-            $photo->product_id = 1;
-            $photo->table = 'products';
-
-            $photo->save();
-        }
-
         $findModel = ModelOptions::where([
             ['material', '=', $request->material],
             ['model', '=', $request->model]
@@ -343,6 +329,8 @@ class ProductController extends Controller
     
             $file_data = $request->input('images'); 
             foreach($file_data as $img){
+                echo count($file_data); die;
+
                 $file_name = 'productimage_'.uniqid().time().'.png';
                 $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
                 file_put_contents(public_path('uploads/products/').$file_name, $data);
