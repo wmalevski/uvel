@@ -156,7 +156,7 @@ class Product extends Model
             foreach($model_photos as $photo){
                 $pass_photos[] = [
                     'id' => $photo->id,
-                    'url' => $photo->base64
+                    'url' => asset("uploads/models/" . $photo->photo)
                 ];
             }
     

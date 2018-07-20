@@ -26,7 +26,7 @@ class CreateGalleriesTable extends Migration
             $table->foreign('stone_id')->references('id')->on('stones');
 
             $table->string('table');
-            $table->text('base64');
+            $table->binary('base64');
 
             $table->timestamps();
         });
