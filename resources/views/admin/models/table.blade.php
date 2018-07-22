@@ -12,6 +12,16 @@
                 {{ $stone->amount }}
             @endforeach"></i> --}}
     </td>
+
+    <td class="stones--tooltip">
+      Виж камъни
+        <ul>
+        @foreach(App\Model_stones::where('model', $model->id)->get() as $stone)
+            
+                <li>{{ App\Stones::find($stone->stone)->name }} , {{ $stone->amount }}</li>
+        @endforeach
+        </ul>
+    </td>
 </tr>
 
 {{-- <tr>
@@ -32,4 +42,4 @@
         </table>
         
     </td>
-</tr> --}}
+</tr>--}}

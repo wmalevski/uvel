@@ -81,7 +81,7 @@
                 @endif
                 <div class="form-group col-md-12">
                     <label>Избери материал: </label>
-                    <select id="material_type" name="material[]" class="material_type form-control calculate">
+                    <select name="material[]" class="material_type form-control calculate">
                         <option value="">Избери</option>
                 
                         @foreach($materials as $material)
