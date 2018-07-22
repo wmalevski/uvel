@@ -5,6 +5,7 @@ var uvel,
       currentPressedBtn;
 
     this.init = function () {
+      $self.removingEditFormFromModal();
       $self.addModelSelectInitialize();
       $self.removeImagePhotoFromDropArea();
       $self.travellingMaterialsState();
@@ -14,14 +15,17 @@ var uvel,
     };
     
 
-    $('body').click(function() {
-      console.log('clicked');
+    /* 
+      FUNCTION THAT REMOVES THE "EDIT" FORM FROM THE MODALS WHEN IT'S CLOSED *THERE ARE SAME ISSUES CAUSED BECAUSE OF THE SAME IDs AND ETC.*
+    */
 
-      if(!$('#editModel').hasClass('show')) {
-        console.log('missing');
-        $('#editModel').find('form[name="edit"]').remove();
-      }
-    });
+    this.removingEditFormFromModal = function() {
+      $('body').click(function() {
+        if(!$('#editModel').hasClass('show')) {
+          $('#editModel').find('form[name="edit"]').remove();
+        }
+      });
+    }
 
     /* 
       INITIALIZING SELECT2 IN THE ADD FORM , BECAUSE WHEN EDIT BUTTON IS CLICKED , THE SELECT2 IN ADDMODEL DESTROYS ITSELF.
@@ -455,13 +459,10 @@ var uvel,
             closeBtn.setAttribute("class", "close");
             closeBtn.innerHTML = '&#215;';            
             
-            console.log(reader.result);
             img.src = reader.result;
             imageWrapper.append(closeBtn);
             imageWrapper.append(img);
             dropAreaGallery.append(imageWrapper);
-
-            console.log('img appended');
           }
         }  
       });
@@ -615,7 +616,6 @@ var uvel,
 
             if (materialAttribute !== undefined) {
               ajaxFn('GET' , requestLink , function(response) {
-                console.log('sendingAJAX');
 
                 var retailData = response.retail_prices;
                 var wholesaleData = response.wholesale_prices;
@@ -1415,8 +1415,6 @@ var uvel,
       function productsRequest(tempUrl, targetModal) {
         var xhttp = new XMLHttpRequest();
 
-        console.log('/productsRequest');
-
         xhttp.open('GET', tempUrl, true);
         xhttp.onreadystatechange = function () {
 
@@ -1436,8 +1434,6 @@ var uvel,
 
           for(var key in data) {
             var holder = targetModal.querySelector(`.${key}`);
-
-            // console.log(holder);
 
             if(holder) {
               var tagName = holder.tagName.toLowerCase();
