@@ -20,6 +20,7 @@ use Response;
 use File;
 use App\Materials;
 use App\Materials_quantity;
+use Storage;
 
 class ProductController extends Controller
 {

@@ -15,6 +15,7 @@ use App\Gallery;
 use File;
 use App\Model_stones;
 use App\Product_stones;
+use Storage;
 
 
 class StonesController extends Controller
