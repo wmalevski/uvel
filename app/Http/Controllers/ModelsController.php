@@ -223,7 +223,6 @@ class ModelsController extends Controller
                 $photo->photo = $file_name;
                 $photo->model_id = $product->id;
                 $photo->table = 'products';
-                $photo->base64 = $img;
     
                 $photo->save();
             }
@@ -266,6 +265,8 @@ class ModelsController extends Controller
         $options = ModelOptions::where('model', $model->id)->get();
 
         $materials = Materials_quantity::where('store', Auth::user()->getStore())->get();
+
+        $pass_photos = array();
         
         $pass_stones = array();
         
@@ -275,6 +276,26 @@ class ModelsController extends Controller
                 'label' => $stone->name.' ('.\App\Stone_contours::withTrashed()->find($stone->contour)->name.', '.\App\Stone_sizes::withTrashed()->find($stone->size)->name.' )'
             ];
         }
+
+        foreach($photos as $photo){
+            $img_url = asset("uploads/models/" . $photo->photo);
+            //$b64_img = base64_encode(file_get_contents($b64_url));
+
+            $curl = curl_init($img_url);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true );
+            $ret_val = curl_exec($curl);
+            // TODO: error checking!!!
+            
+            $b64_image_data =  chunk_split(base64_encode($ret_val));
+            curl_close($curl);
+            
+
+            $pass_photos[] = [
+                'id' => $photo->id,
+                'photo' =>  $b64_image_data
+            ];
+        }
+
 
         $pass_materials = array();
         
@@ -287,7 +308,7 @@ class ModelsController extends Controller
             ];
         }
 
-        return \View::make('admin/models/edit', array('photos' => $photos, 'model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones, 'modelStones' => $modelStones, 'options' => $options, 'stones' => $stones, 'materials' => $materials, 'jsMaterials' =>  json_encode($pass_materials), 'jsStones' =>  json_encode($pass_stones)));
+        return \View::make('admin/models/edit', array('photos' => $photos, 'model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones, 'modelStones' => $modelStones, 'options' => $options, 'stones' => $stones, 'materials' => $materials, 'jsMaterials' =>  json_encode($pass_materials), 'jsStones' =>  json_encode($pass_stones), 'basephotos' => $pass_photos));
     }
 
     /**
@@ -389,7 +410,6 @@ class ModelsController extends Controller
             $photo->photo = $file_name;
             $photo->model_id = $model->id;
             $photo->table = 'models';
-            $photo->base64 = $img;
 
             $photo->save();
         }

@@ -154,9 +154,11 @@ class Product extends Model
             $pass_photos = array();
 
             foreach($model_photos as $photo){
+                $base64 =  base64_encode(file_get_contents(asset("uploads/models/" . $photo->photo)));
                 $pass_photos[] = [
                     'id' => $photo->id,
-                    'url' => asset("uploads/models/" . $photo->photo)
+                    'url' => asset("uploads/models/" . $photo->photo),
+                    'base64' => $base64
                 ];
             }
     

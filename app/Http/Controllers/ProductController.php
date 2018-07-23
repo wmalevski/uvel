@@ -195,7 +195,6 @@ class ProductController extends Controller
             $photo = new Gallery();
             $photo->photo = $file_name;
             $photo->product_id = $product->id;
-            $photo->base64 = $img;
             $photo->table = 'products';
 
             $photo->save();
@@ -337,7 +336,6 @@ class ProductController extends Controller
                 $photo->photo = $file_name;
                 $photo->product_id = $product->id;
                 $photo->table = 'products';
-                $photo->base64 = $img;
     
                 $photo->save();
             }
