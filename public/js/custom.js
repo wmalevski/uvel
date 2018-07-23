@@ -5,6 +5,8 @@ var uvel,
       currentPressedBtn;
 
     this.init = function () {
+      $self.removingEditFormFromModal();
+      $self.addModelSelectInitialize();
       $self.removeImagePhotoFromDropArea();
       $self.travellingMaterialsState();
       $self.initializeSelect($('select'));
@@ -12,25 +14,75 @@ var uvel,
       $self.checkAllForms();    
     };
     
+
+    /* 
+      FUNCTION THAT REMOVES THE "EDIT" FORM FROM THE MODALS WHEN IT'S CLOSED *THERE ARE SAME ISSUES CAUSED BECAUSE OF THE SAME IDs AND ETC.*
+    */
+
+    this.removingEditFormFromModal = function() {
+      $('body').click(function() {
+        if(!$('#editModel').hasClass('show')) {
+          $('#editModel').find('form[name="edit"]').remove();
+        }
+      });
+    }
+
+    /* 
+      INITIALIZING SELECT2 IN THE ADD FORM , BECAUSE WHEN EDIT BUTTON IS CLICKED , THE SELECT2 IN ADDMODEL DESTROYS ITSELF.
+    */
+
+    this.addModelSelectInitialize = function() {
+      var addModelButton = $('[data-target="#addModel"]');
+
+      addModelButton.click(function() {
+        $self.initializeSelect($('form[name="addModel"]').find('select'));   
+      });
+    }
+
+    /* 
+      FUNCTION THAT CONVERTS IMAGE URL TO BASE64 ENCODE 
+    */
+
+    this.convertImageUrlToBase64 = function(url , callback) {
+      var xhr = new XMLHttpRequest();
+        xhr.onload = function() {
+            var reader = new FileReader();
+            reader.onloadend = function() {
+                callback(reader.result);
+            }
+            reader.readAsDataURL(xhr.response);
+        };
+        xhr.open('GET', url);
+        xhr.responseType = 'blob';
+        xhr.send();
+    }
+    
+    // toDataUrl("http://127.0.0.1:8000/uploads/models/productimage_5b509c672ccd71532009575.png", function(myBase64) {
+    //   console.log(myBase64); // myBase64 is the base64 string
+    // });
+
     /*
       FUNCTION THAT RENDER THE IMAGES RECEIVED FROM THE AJAX CALL (E.G photos received from productsRequest ajax call)
     */
 
     this.uploadPhotosFromAjaxRequest = function(photoUrl) {
-      console.log(photoUrl);
-      
       var dropAreaGalleryHolder = $('.drop-area-gallery');
       var imageWrapper = $('<div class="image-wrapper"></div>');
       var newImg = $('<img>');
 
-      newImg.attr('src' , "data:image/png;base64," + photoUrl);
+      $self.convertImageUrlToBase64(photoUrl , function(base64Url) {
+        newImg.attr('src' , base64Url);
 
-      dropAreaGalleryHolder.empty();
-      imageWrapper.append('<div class="close">x</div>');
-      imageWrapper.append(newImg);
+        imageWrapper.append('<div class="close">x</div>');
+        imageWrapper.append(newImg);
       
-      dropAreaGalleryHolder.append(imageWrapper);
+        dropAreaGalleryHolder.append(imageWrapper);
+      });
     }
+
+    /*
+      FUNCTION THAT REMOVES IMAGES FROM THE DROPAREA FROM BOTH ADDING PHOTOS ,AND FETCHING THEM FROM THE REQUEST.
+    */
 
     this.removeImagePhotoFromDropArea = function() {
       $('form').on('click' , '.close' , function() {
@@ -38,12 +90,18 @@ var uvel,
       });
     }
 
-    // FUNCTION THAT REPLACE THE TABLE ROW FROM THE AJAX REQUEST
+    /* 
+      FUNCTION THAT REPLACE THE TABLE ROW FROM THE AJAX REQUEST
+    */
+
     this.replaceTableRowFromAjaxRequest = function(currentButton , rowId , response) {
       currentButton.parents("tr[data-id=" + rowId + "]").replaceWith(response);
     }
 
-    //FUNCTION THAT UPDATES THE STATUS OF TRAVELLING MATERIALS ( DECLINE OR ACCEPT )
+    /*
+      FUNCTION THAT UPDATES THE STATUS OF TRAVELLING MATERIALS ( DECLINE OR ACCEPT )
+    */
+
     this.travellingMaterialsState = function() {
       $('table').on('click' , '.material--travelling_state' , function(e) {
         e.preventDefault();
@@ -64,7 +122,10 @@ var uvel,
       });
     }
 
-    // FUNCTION THAT GET THE SELECT OPTION'S ATTRIBUTES AND ATTACH THEM ON THE SELECT2 PLUGIN LIST ITEMS.
+    /* 
+      FUNCTION THAT GET THE SELECT OPTION'S ATTRIBUTES AND ATTACH THEM ON THE SELECT2 PLUGIN LIST ITEMS.
+    */
+
     this.addSelect2CustomAttributes = function(data, container) {
       if(data.element) {
         $(container).attr({
@@ -78,7 +139,10 @@ var uvel,
       return data.text;
     }
 
-    //FUNCTION THAT INITIALIZES THE SELECT 2 PLUGIN
+    /*
+      FUNCTION THAT INITIALIZES THE SELECT 2 PLUGIN
+    */
+
     this.initializeSelect = function (select) {
       select.select2({
         templateResult: $self.addSelect2CustomAttributes,
@@ -374,7 +438,7 @@ var uvel,
           files.forEach(previewFile);
         }
   
-        function previewFile(file) {          
+        function previewFile(file) {   
           var reader = new FileReader();
           reader.readAsDataURL(file);
   
@@ -394,14 +458,11 @@ var uvel,
             imageWrapper.setAttribute("class", "image-wrapper");
             closeBtn.setAttribute("class", "close");
             closeBtn.innerHTML = '&#215;';            
-
-            //HERE1
+            
             img.src = reader.result;
             imageWrapper.append(closeBtn);
             imageWrapper.append(img);
             dropAreaGallery.append(imageWrapper);
-
-            console.log('img appended');
           }
         }  
       });
@@ -521,13 +582,14 @@ var uvel,
       var dataWeight = 0;
       var priceDev = 0;
 
-      $(document).on('change' , '.calculate' , function(e) {
+      $("form").on('change' , '.calculate' , function(e) {
         var _element = $(e.currentTarget);
         var ajaxUrl = window.location.origin + '/ajax/getPrices/';
         var parentElement = _element.parents('form');
 
         if(_element[0].nodeName == 'SELECT') {
-          if(_element[0].classList.contains('material_type') || _element[0].id == 'jewel_edit') {
+
+          if(_element[0].classList.contains('material_type')) {
             var materialType = _element.find(':selected').val();
             var materialAttribute = _element.find(':selected').attr('data-material');
             var pricesFilled = _element.closest('.form-row').children().find('.prices-filled');
@@ -554,6 +616,7 @@ var uvel,
 
             if (materialAttribute !== undefined) {
               ajaxFn('GET' , requestLink , function(response) {
+
                 var retailData = response.retail_prices;
                 var wholesaleData = response.wholesale_prices;
                 var models = response.pass_models;
@@ -661,7 +724,7 @@ var uvel,
         }
       });
 
-      $(document).on('change', '.calculate-stones', function(e) {
+      $("form").on('change', '.calculate-stones', function(e) {
         var _element = $(e.currentTarget);
         var row = _element.closest('.form-row');
         var add = true;
@@ -738,8 +801,13 @@ var uvel,
         if(modelSelect) {
           modelSelect.off();
           modelSelect.on('select2:select', function(ev) {
+
             var targetModal = document.getElementById('addProduct');
             if(modelSelect.val()) {
+
+              /* CLEARING THE GALLERY CONTAINER ON CHANGE */
+              $(this).parents('form').find('.drop-area-gallery').empty();
+
               var value = modelSelect.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
                   xhttp = new XMLHttpRequest(),
@@ -1347,8 +1415,6 @@ var uvel,
       function productsRequest(tempUrl, targetModal) {
         var xhttp = new XMLHttpRequest();
 
-        console.log('/productsRequest');
-
         xhttp.open('GET', tempUrl, true);
         xhttp.onreadystatechange = function () {
 
@@ -1372,7 +1438,6 @@ var uvel,
             if(holder) {
               var tagName = holder.tagName.toLowerCase();
               
-
               switch(tagName) {
                 case 'input':
                   holder.value = data[key];
@@ -1498,9 +1563,6 @@ var uvel,
           
           responsePhotos.map(function(element) {
             var photoUrl = element.url;
-
-            console.log(photoUrl);
-
             $self.uploadPhotosFromAjaxRequest(photoUrl);
           });
 
@@ -1811,6 +1873,8 @@ var uvel,
          }
 
          $(selector).html(html);
+
+         //here
          $self.initializeSelect($(selector).children().find('select'));
 
          $self.addAndRemoveFieldsMaterials();
