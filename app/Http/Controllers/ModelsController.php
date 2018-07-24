@@ -140,7 +140,6 @@ class ModelsController extends Controller
             $photo = new Gallery();
             $photo->photo = $file_name;
             $photo->model_id = $model->id;
-            $photo->base64 = $img;
             $photo->table = 'models';
 
             $photo->save();
@@ -283,23 +282,19 @@ class ModelsController extends Controller
             ];
         }
 
-        foreach($photos as $photo){
-            $img_url = asset("uploads/models/" . $photo->photo);
-            //$b64_img = base64_encode(file_get_contents($b64_url));
+        foreach($photos as $img){
+            $file_name = 'productimage_'.uniqid().time().'.png';
+            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+            file_put_contents(public_path('uploads/models/').$file_name, $data);
 
-            $curl = curl_init($img_url);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true );
-            $ret_val = curl_exec($curl);
-            // TODO: error checking!!!
-            
-            $b64_image_data =  chunk_split(base64_encode($ret_val));
-            curl_close($curl);
-            
+            Storage::disk('public')->put('models/'.$file_name, file_get_contents(public_path('uploads/models/').$file_name));
 
-            $pass_photos[] = [
-                'id' => $photo->id,
-                'photo' =>  $b64_image_data
-            ];
+            $photo = new Gallery();
+            $photo->photo = $file_name;
+            $photo->model_id = $model->id;
+            $photo->table = 'models';
+
+            $photo->save();
         }
 
 
