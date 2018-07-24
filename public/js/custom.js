@@ -5,7 +5,7 @@ var uvel,
       currentPressedBtn;
 
     this.init = function () {
-      $self.removingEditFormFromModal();
+      // $self.removingEditFormFromModal();
       $self.addModelSelectInitialize();
       $self.removeImagePhotoFromDropArea();
       $self.travellingMaterialsState();
@@ -23,6 +23,10 @@ var uvel,
       $('body').click(function() {
         if(!$('#editModel').hasClass('show')) {
           $('#editModel').find('form[name="edit"]').remove();
+        }
+
+        if(!$('#editProduct').hasClass('show')) {
+         $('#editProduct').find('form[name="edit"]').remove(); 
         }
       });
     }
@@ -43,19 +47,19 @@ var uvel,
       FUNCTION THAT CONVERTS IMAGE URL TO BASE64 ENCODE 
     */
 
-    this.convertImageUrlToBase64 = function(url , callback) {
-      var xhr = new XMLHttpRequest();
-        xhr.onload = function() {
-            var reader = new FileReader();
-            reader.onloadend = function() {
-                callback(reader.result);
-            }
-            reader.readAsDataURL(xhr.response);
-        };
-        xhr.open('GET', url);
-        xhr.responseType = 'blob';
-        xhr.send();
-    }
+    // this.convertImageUrlToBase64 = function(url , callback) {
+    //   var xhr = new XMLHttpRequest();
+    //     xhr.onload = function() {
+    //         var reader = new FileReader();
+    //         reader.onloadend = function() {
+    //             callback(reader.result);
+    //         }
+    //         reader.readAsDataURL(xhr.response);
+    //     };
+    //     xhr.open('GET', url);
+    //     xhr.responseType = 'blob';
+    //     xhr.send();
+    // }
     
     // toDataUrl("http://127.0.0.1:8000/uploads/models/productimage_5b509c672ccd71532009575.png", function(myBase64) {
     //   console.log(myBase64); // myBase64 is the base64 string
@@ -70,14 +74,12 @@ var uvel,
       var imageWrapper = $('<div class="image-wrapper"></div>');
       var newImg = $('<img>');
 
-      $self.convertImageUrlToBase64(photoUrl , function(base64Url) {
-        newImg.attr('src' , base64Url);
+      newImg.attr('src' , 'data:image/png;base64,' + photoUrl);
 
-        imageWrapper.append('<div class="close">x</div>');
-        imageWrapper.append(newImg);
-      
-        dropAreaGalleryHolder.append(imageWrapper);
-      });
+      imageWrapper.append('<div class="close">x</div>');
+      imageWrapper.append(newImg);
+    
+      dropAreaGalleryHolder.append(imageWrapper);
     }
 
     /*
@@ -1562,7 +1564,7 @@ var uvel,
 
           
           responsePhotos.map(function(element) {
-            var photoUrl = element.url;
+            var photoUrl = element.base64;
             $self.uploadPhotosFromAjaxRequest(photoUrl);
           });
 
