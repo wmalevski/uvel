@@ -245,12 +245,17 @@ class ProductController extends Controller
 
         foreach($photos as $photo){
             $url =  Storage::get('public/products/'.$photo->photo);
+            $ext_url = Storage::url('public/products/'.$photo->photo);
+            
+            $info = pathinfo($ext_url);
+            
+            $image_name =  basename($ext_url,'.'.$info['extension']);
             
             $base64 = base64_encode($url);
 
             $pass_photos[] = [
                 'id' => $photo->id,
-                'photo' => 'data:image/png;base64,'.$base64
+                'photo' => 'data:image/'.$info['extension'].';base64,'.$base64
             ];
         }
 

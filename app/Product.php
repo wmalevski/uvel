@@ -157,12 +157,17 @@ class Product extends Model
 
             foreach($model_photos as $photo){
                 $url =  Storage::get('public/models/'.$photo->photo);
+                $ext_url = Storage::url('public/models/'.$photo->photo);
+                
+                $info = pathinfo($ext_url);
+                
+                $image_name =  basename($ext_url,'.'.$info['extension']);
                 
                 $base64 = base64_encode($url);
 
                 $pass_photos[] = [
                     'id' => $photo->id,
-                    'base64' => 'data:image/png;base64,'.$base64
+                    'base64' => 'data:image/'.$info['extension'].';base64,'.$base64
                 ];
             }
     
