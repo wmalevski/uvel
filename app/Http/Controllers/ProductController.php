@@ -250,7 +250,7 @@ class ProductController extends Controller
 
             $pass_photos[] = [
                 'id' => $photo->id,
-                'photo' => $base64
+                'photo' => 'data:image/png;base64,'.$base64
             ];
         }
 

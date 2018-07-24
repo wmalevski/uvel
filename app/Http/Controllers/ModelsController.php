@@ -284,12 +284,12 @@ class ModelsController extends Controller
 
         foreach($photos as $photo){
             $url =  Storage::get('public/models/'.$photo->photo);
-            
+
             $base64 = base64_encode($url);
 
             $pass_photos[] = [
                 'id' => $photo->id,
-                'photo' => $base64
+                'photo' => 'data:image/png;base64,'.$base64,
             ];
         }
 

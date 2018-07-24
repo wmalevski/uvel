@@ -162,7 +162,7 @@ class Product extends Model
 
                 $pass_photos[] = [
                     'id' => $photo->id,
-                    'base64' => $base64
+                    'base64' => 'data:image/png;base64,'.$base64
                 ];
             }
     
