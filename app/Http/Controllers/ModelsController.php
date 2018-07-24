@@ -282,19 +282,15 @@ class ModelsController extends Controller
             ];
         }
 
-        foreach($photos as $img){
-            $file_name = 'productimage_'.uniqid().time().'.png';
-            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-            file_put_contents(public_path('uploads/models/').$file_name, $data);
+        foreach($photos as $photo){
+            $url =  Storage::get('public/models/'.$photo->photo);
+            
+            $base64 = base64_encode($url);
 
-            Storage::disk('public')->put('models/'.$file_name, file_get_contents(public_path('uploads/models/').$file_name));
-
-            $photo = new Gallery();
-            $photo->photo = $file_name;
-            $photo->model_id = $model->id;
-            $photo->table = 'models';
-
-            $photo->save();
+            $pass_photos[] = [
+                'id' => $photo->id,
+                'photo' => $base64
+            ];
         }
 
 
