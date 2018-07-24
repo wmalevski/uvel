@@ -2,6 +2,7 @@ var uvel,
   uvelController = function () {
     var $self = this,
       $window = $(window),
+      $body = $('body'),
       currentPressedBtn;
 
     this.init = function () {
@@ -13,22 +14,19 @@ var uvel,
       $self.defaultMaterialSelect($('.default_material'));
       $self.checkAllForms();    
     };
-    
 
     /* 
-      FUNCTION THAT REMOVES THE "EDIT" FORM FROM THE MODALS WHEN IT'S CLOSED *THERE ARE SAME ISSUES CAUSED BECAUSE OF THE SAME IDs AND ETC.*
+      FUNCTION THAT REMOVES THE "EDIT" FORM FROM THE MODALS WHEN IT'S CLOSED *THERE ARE SAME ISSUES CAUSED BECAUSE OF THE SAME IDs AND ETC.* (NOT USED YET , COMMENTED IN INIT , LEFT FOR LATER ) 
     */
 
     this.removingEditFormFromModal = function() {
-      $('body').click(function() {
-        if(!$('#editModel').hasClass('show')) {
-          $('#editModel').find('form[name="edit"]').remove();
-        }
+      $body.click(function() {
+        var editModalWrapper = $('.editModalWrapper');
 
-        if(!$('#editProduct').hasClass('show')) {
-         $('#editProduct').find('form[name="edit"]').remove(); 
+        if(!editModalWrapper.parents('.modal').hasClass('show')) {
+          editModalWrapper.find('form[name="edit"]').remove();
         }
-      });
+      }); 
     }
 
     /* 
@@ -43,28 +41,6 @@ var uvel,
       });
     }
 
-    /* 
-      FUNCTION THAT CONVERTS IMAGE URL TO BASE64 ENCODE 
-    */
-
-    // this.convertImageUrlToBase64 = function(url , callback) {
-    //   var xhr = new XMLHttpRequest();
-    //     xhr.onload = function() {
-    //         var reader = new FileReader();
-    //         reader.onloadend = function() {
-    //             callback(reader.result);
-    //         }
-    //         reader.readAsDataURL(xhr.response);
-    //     };
-    //     xhr.open('GET', url);
-    //     xhr.responseType = 'blob';
-    //     xhr.send();
-    // }
-    
-    // toDataUrl("http://127.0.0.1:8000/uploads/models/productimage_5b509c672ccd71532009575.png", function(myBase64) {
-    //   console.log(myBase64); // myBase64 is the base64 string
-    // });
-
     /*
       FUNCTION THAT RENDER THE IMAGES RECEIVED FROM THE AJAX CALL (E.G photos received from productsRequest ajax call)
     */
@@ -74,7 +50,7 @@ var uvel,
       var imageWrapper = $('<div class="image-wrapper"></div>');
       var newImg = $('<img>');
 
-      newImg.attr('src' , 'data:image/png;base64,' + photoUrl);
+      newImg.attr('src' , photoUrl);
 
       imageWrapper.append('<div class="close">x</div>');
       imageWrapper.append(newImg);
@@ -449,13 +425,19 @@ var uvel,
             var closeBtn = document.createElement('div');
             var img = document.createElement('img');
 
-            toDataURL(
-              reader.result,
-              function(dataUrl) {
-                var data = dataUrl.replace('data:image/png;base64,',''); 
-                instanceFiles.push(data);          
-              }
-            )   
+            console.log(reader.result);
+
+            instanceFiles.push(reader.result);   
+
+            console.log(instanceFiles);       
+
+            // toDataURL(
+            //   reader.result,
+            //   function(dataUrl) {
+            //     var data = dataUrl.replace('data:image/png;base64,',''); 
+                
+            //   }
+            // )   
 
             imageWrapper.setAttribute("class", "image-wrapper");
             closeBtn.setAttribute("class", "close");
@@ -1099,6 +1081,7 @@ var uvel,
         $(btn).on('click',print);
       });
 
+
       deleteBtns.forEach(function(btn){
         btn.addEventListener('click',deleteRowRecord);
       });
@@ -1316,10 +1299,13 @@ var uvel,
                       for (var i=0; i<uploadedImages.length; i++){
                         var image = $(uploadedImages[i]).find('img');
                         var imageSrc = $(image).attr('src');
-                        var imagePath = imageSrc.split(',')[1];
+                        // var imagePath = imageSrc.split(',')[1];
 
-                        images.push(imagePath);
+                        images.push(imageSrc);
                       }
+
+                      console.log('///images');
+                      console.log(images);
 
                       collectionData[name] = images;
                       collectionElements.push(el);
@@ -1833,7 +1819,7 @@ var uvel,
         var collectionEditBtns = [].slice.apply(document.querySelectorAll('.edit-btn'));
   
         collectionEditBtns.forEach(function (btn) {
-          $(btn).off();
+          $(btn).off('click',clickEditButton);
           $(btn).on('click',clickEditButton);
         });
       }
@@ -1848,8 +1834,12 @@ var uvel,
 
         ajaxFn("GET", linkAjax, editBtnSuccess, '', '', this);        
         $self.currentPressedBtn = this;  
+
         setTimeout(function() {
+
+          // HERE THE REQUESTS AND FUNCTIONS STACKS
           $self.checkAllForms(currentPressedBtn);
+
           $('#editModel [name="default_material[]"]:checked').closest('.form-row').find('.material_type').trigger('change');
         }, 500);
 
