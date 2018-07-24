@@ -226,7 +226,7 @@ class ModelsController extends Controller
     
                 $photo = new Gallery();
                 $photo->photo = $file_name;
-                $photo->model_id = $product->id;
+                $photo->product_id = $product->id;
                 $photo->table = 'products';
     
                 $photo->save();

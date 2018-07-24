@@ -241,7 +241,20 @@ class ProductController extends Controller
             ]
         )->get();
 
-        return \View::make('admin/products/edit', array('photos' => $photos, 'product_stones' => $product_stones, 'product' => $product, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials));
+        $pass_photos = array();
+
+        foreach($photos as $photo){
+            $url =  Storage::get('public/products/'.$photo->photo);
+            
+            $base64 = base64_encode($url);
+
+            $pass_photos[] = [
+                'id' => $photo->id,
+                'photo' => $base64
+            ];
+        }
+
+        return \View::make('admin/products/edit', array('photos' => $photos, 'product_stones' => $product_stones, 'product' => $product, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials, 'basephotos' => $pass_photos));
     }
 
     /**
