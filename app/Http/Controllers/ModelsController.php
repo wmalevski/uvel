@@ -131,7 +131,19 @@ class ModelsController extends Controller
         $file_data = $request->input('images'); 
         
         foreach($file_data as $img){
-            $file_name = 'productimage_'.uniqid().time().'.png';
+            $memi = substr($img, 5, strpos($img, ';')-5);
+
+            $extension = explode('/',$memi);
+
+            if($extension[1] == "svg+xml"){
+                $ext = 'png';
+            }else{
+                $ext = $extension[1];
+            }
+            
+
+            $file_name = 'productimage_'.uniqid().time().'.'.$ext;
+        
             $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
             file_put_contents(public_path('uploads/models/').$file_name, $data);
 
@@ -218,7 +230,18 @@ class ModelsController extends Controller
             }
 
             foreach($file_data as $img){
-                $file_name = 'productimage_'.uniqid().time().'.png';
+                $memi = substr($img, 5, strpos($img, ';')-5);
+                
+                $extension = explode('/',$memi);
+    
+                if($extension[1] == "svg+xml"){
+                    $ext = 'png';
+                }else{
+                    $ext = $extension[1];
+                }
+                
+    
+                $file_name = 'productimage_'.uniqid().time().'.'.$ext;
                 $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
                 file_put_contents(public_path('uploads/products/').$file_name, $data);
 
@@ -292,9 +315,15 @@ class ModelsController extends Controller
 
             $base64 = base64_encode($url);
 
+            if($info['extension'] == "svg"){
+                $ext = "png";
+            }else{
+                $ext = $info['extension'];
+            }
+
             $pass_photos[] = [
                 'id' => $photo->id,
-                'photo' => 'data:image/'.$info['extension'].';base64,'.$base64,
+                'photo' => 'data:image/'.$ext.';base64,'.$base64
             ];
         }
 
@@ -404,7 +433,18 @@ class ModelsController extends Controller
         $file_data = $request->input('images'); 
         
         foreach($file_data as $img){
-            $file_name = 'modelimage_'.uniqid().time().'.png';
+            $memi = substr($img, 5, strpos($img, ';')-5);
+            
+            $extension = explode('/',$memi);
+
+            if($extension[1] == "svg+xml"){
+                $ext = 'svg';
+            }else{
+                $ext = $extension[1];
+            }         
+            
+            $file_name = 'modelimage_'.uniqid().time().'.'.$ext;
+
             $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
 
             file_put_contents(public_path('uploads/models/').$file_name, $data);
