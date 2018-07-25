@@ -2,21 +2,84 @@ var uvel,
   uvelController = function () {
     var $self = this,
       $window = $(window),
+      $body = $('body'),
       currentPressedBtn;
 
     this.init = function () {
+      // $self.removingEditFormFromModal();
+      $self.addModelSelectInitialize();
+      $self.removeImagePhotoFromDropArea();
       $self.travellingMaterialsState();
       $self.initializeSelect($('select'));
       $self.defaultMaterialSelect($('.default_material'));
       $self.checkAllForms();    
     };
+
+    /* 
+      FUNCTION THAT REMOVES THE "EDIT" FORM FROM THE MODALS WHEN IT'S CLOSED *THERE ARE SAME ISSUES CAUSED BECAUSE OF THE SAME IDs AND ETC.* (NOT USED YET , COMMENTED IN INIT , LEFT FOR LATER ) 
+    */
+
+    this.removingEditFormFromModal = function() {
+      $body.click(function() {
+        var editModalWrapper = $('.editModalWrapper');
+
+        if(!editModalWrapper.parents('.modal').hasClass('show')) {
+          editModalWrapper.find('form[name="edit"]').remove();
+        }
+      }); 
+    }
+
+    /* 
+      INITIALIZING SELECT2 IN THE ADD FORM , BECAUSE WHEN EDIT BUTTON IS CLICKED , THE SELECT2 IN ADDMODEL DESTROYS ITSELF.
+    */
+
+    this.addModelSelectInitialize = function() {
+      var addModelButton = $('[data-target="#addModel"]');
+
+      addModelButton.click(function() {
+        $self.initializeSelect($('form[name="addModel"]').find('select'));   
+      });
+    }
+
+    /*
+      FUNCTION THAT RENDER THE IMAGES RECEIVED FROM THE AJAX CALL (E.G photos received from productsRequest ajax call)
+    */
+
+    this.uploadPhotosFromAjaxRequest = function(photoUrl) {
+      var dropAreaGalleryHolder = $('.drop-area-gallery');
+      var imageWrapper = $('<div class="image-wrapper"></div>');
+      var newImg = $('<img>');
+
+      newImg.attr('src' , photoUrl);
+
+      imageWrapper.append('<div class="close">x</div>');
+      imageWrapper.append(newImg);
     
-    // FUNCTION THAT REPLACE THE TABLE ROW FROM THE AJAX REQUEST
+      dropAreaGalleryHolder.append(imageWrapper);
+    }
+
+    /*
+      FUNCTION THAT REMOVES IMAGES FROM THE DROPAREA FROM BOTH ADDING PHOTOS ,AND FETCHING THEM FROM THE REQUEST.
+    */
+
+    this.removeImagePhotoFromDropArea = function() {
+      $('body').on('click' , '.drop-area-gallery .close' , function() {
+        $(this).parent('.image-wrapper').remove();
+      });
+    }
+
+    /* 
+      FUNCTION THAT REPLACE THE TABLE ROW FROM THE AJAX REQUEST
+    */
+
     this.replaceTableRowFromAjaxRequest = function(currentButton , rowId , response) {
       currentButton.parents("tr[data-id=" + rowId + "]").replaceWith(response);
     }
 
-    //FUNCTION THAT UPDATES THE STATUS OF TRAVELLING MATERIALS ( DECLINE OR ACCEPT )
+    /*
+      FUNCTION THAT UPDATES THE STATUS OF TRAVELLING MATERIALS ( DECLINE OR ACCEPT )
+    */
+
     this.travellingMaterialsState = function() {
       $('table').on('click' , '.material--travelling_state' , function(e) {
         e.preventDefault();
@@ -37,7 +100,10 @@ var uvel,
       });
     }
 
-    // FUNCTION THAT GET THE SELECT OPTION'S ATTRIBUTES AND ATTACH THEM ON THE SELECT2 PLUGIN LIST ITEMS.
+    /* 
+      FUNCTION THAT GET THE SELECT OPTION'S ATTRIBUTES AND ATTACH THEM ON THE SELECT2 PLUGIN LIST ITEMS.
+    */
+
     this.addSelect2CustomAttributes = function(data, container) {
       if(data.element) {
         $(container).attr({
@@ -51,7 +117,10 @@ var uvel,
       return data.text;
     }
 
-    //FUNCTION THAT INITIALIZES THE SELECT 2 PLUGIN
+    /*
+      FUNCTION THAT INITIALIZES THE SELECT 2 PLUGIN
+    */
+
     this.initializeSelect = function (select) {
       select.select2({
         templateResult: $self.addSelect2CustomAttributes,
@@ -297,7 +366,11 @@ var uvel,
               collectionFiles= [];
          
           for(var file of files) {
-            collectionFiles.push(file);
+            if(file.type == "image/svg+xml") {
+              alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
+            } else {
+              collectionFiles.push(file);
+            }
           }
 
           handleFiles(collectionFiles);
@@ -337,7 +410,11 @@ var uvel,
               collectionFiles= [];
   
           for(var file of files) {
-            collectionFiles.push(file);
+            if(file.type == "image/svg+xml") {
+              alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
+            } else {
+              collectionFiles.push(file);
+            }
           }
   
           handleFiles(collectionFiles);
@@ -347,7 +424,7 @@ var uvel,
           files.forEach(previewFile);
         }
   
-        function previewFile(file) {          
+        function previewFile(file) {   
           var reader = new FileReader();
           reader.readAsDataURL(file);
   
@@ -356,21 +433,12 @@ var uvel,
             var closeBtn = document.createElement('div');
             var img = document.createElement('img');
 
-            toDataURL(
-              reader.result,
-              function(dataUrl) {
-                var data = dataUrl.replace('data:image/png;base64,',''); 
-                instanceFiles.push(data);          
-              }
-            )   
+            instanceFiles.push(reader.result);   
 
             imageWrapper.setAttribute("class", "image-wrapper");
             closeBtn.setAttribute("class", "close");
             closeBtn.innerHTML = '&#215;';            
-            closeBtn.addEventListener('click', function(event){
-              event.currentTarget.parentElement.remove();
-            });
-
+            
             img.src = reader.result;
             imageWrapper.append(closeBtn);
             imageWrapper.append(img);
@@ -407,28 +475,6 @@ var uvel,
       function deleteUploadedImageSuccess(e) {
         $(e.target).parents('.image-wrapper').remove();
       }
-
-      function toDataURL(src, callback, outputFormat) {
-        var img = new Image();
-        img.crossOrigin = 'Anonymous';
-
-        img.onload = function() {
-          var canvas = document.createElement('CANVAS');
-          var ctx = canvas.getContext('2d');
-          var dataURL;
-          canvas.height = this.naturalHeight;
-          canvas.width = this.naturalWidth;
-          ctx.drawImage(this, 0, 0);
-          dataURL = canvas.toDataURL(outputFormat);
-          callback(dataURL);
-        };
-
-        img.src = src;
-        if (img.complete || img.complete === undefined) {
-          img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
-          img.src = src;
-        }
-      } 
     }   
 
     this.checkAllForms = function(currentPressedBtn) {
@@ -494,13 +540,14 @@ var uvel,
       var dataWeight = 0;
       var priceDev = 0;
 
-      $(document).on('change' , '.calculate' , function(e) {
+      $("form").on('change' , '.calculate' , function(e) {
         var _element = $(e.currentTarget);
         var ajaxUrl = window.location.origin + '/ajax/getPrices/';
         var parentElement = _element.parents('form');
 
         if(_element[0].nodeName == 'SELECT') {
-          if(_element[0].classList.contains('material_type') || _element[0].id == 'jewel_edit') {
+
+          if(_element[0].classList.contains('material_type')) {
             var materialType = _element.find(':selected').val();
             var materialAttribute = _element.find(':selected').attr('data-material');
             var pricesFilled = _element.closest('.form-row').children().find('.prices-filled');
@@ -527,6 +574,7 @@ var uvel,
 
             if (materialAttribute !== undefined) {
               ajaxFn('GET' , requestLink , function(response) {
+
                 var retailData = response.retail_prices;
                 var wholesaleData = response.wholesale_prices;
                 var models = response.pass_models;
@@ -634,7 +682,7 @@ var uvel,
         }
       });
 
-      $(document).on('change', '.calculate-stones', function(e) {
+      $("form").on('change', '.calculate-stones', function(e) {
         var _element = $(e.currentTarget);
         var row = _element.closest('.form-row');
         var add = true;
@@ -711,8 +759,13 @@ var uvel,
         if(modelSelect) {
           modelSelect.off();
           modelSelect.on('select2:select', function(ev) {
+
             var targetModal = document.getElementById('addProduct');
             if(modelSelect.val()) {
+
+              /* CLEARING THE GALLERY CONTAINER ON CHANGE */
+              $(this).parents('form').find('.drop-area-gallery').empty();
+
               var value = modelSelect.find(':selected').val(),
                   tempUrl = url + '/products/' + value,
                   xhttp = new XMLHttpRequest(),
@@ -1002,6 +1055,7 @@ var uvel,
         $(btn).on('click',print);
       });
 
+
       deleteBtns.forEach(function(btn){
         btn.addEventListener('click',deleteRowRecord);
       });
@@ -1219,9 +1273,9 @@ var uvel,
                       for (var i=0; i<uploadedImages.length; i++){
                         var image = $(uploadedImages[i]).find('img');
                         var imageSrc = $(image).attr('src');
-                        var imagePath = imageSrc.split(',')[1];
+                        // var imagePath = imageSrc.split(',')[1];
 
-                        images.push(imagePath);
+                        images.push(imageSrc);
                       }
 
                       collectionData[name] = images;
@@ -1327,6 +1381,8 @@ var uvel,
           var data = JSON.parse(this.responseText);
           var editHolder =  document.getElementById("jewel_edit");
 
+          var responsePhotos = data.photos;
+
           for (i=0; i<data.materials.length; i++) {
             var material = data.materials[i];
 
@@ -1341,7 +1397,6 @@ var uvel,
             if(holder) {
               var tagName = holder.tagName.toLowerCase();
               
-
               switch(tagName) {
                 case 'input':
                   holder.value = data[key];
@@ -1463,6 +1518,12 @@ var uvel,
                 $self.initializeSelect($(fieldsWrapper).find('select'));
               }
             }
+
+          
+          responsePhotos.map(function(element) {
+            var photoUrl = element.base64;
+            $self.uploadPhotosFromAjaxRequest(photoUrl);
+          });
 
             var materialSelect = $(targetModal).find('.material_type');
             materialSelect.val(selectedMaterial);
@@ -1729,7 +1790,7 @@ var uvel,
         var collectionEditBtns = [].slice.apply(document.querySelectorAll('.edit-btn'));
   
         collectionEditBtns.forEach(function (btn) {
-          $(btn).off();
+          $(btn).off('click',clickEditButton);
           $(btn).on('click',clickEditButton);
         });
       }
@@ -1744,8 +1805,12 @@ var uvel,
 
         ajaxFn("GET", linkAjax, editBtnSuccess, '', '', this);        
         $self.currentPressedBtn = this;  
+
         setTimeout(function() {
+
+          // HERE THE REQUESTS AND FUNCTIONS STACKS
           $self.checkAllForms(currentPressedBtn);
+
           $('#editModel [name="default_material[]"]:checked').closest('.form-row').find('.material_type').trigger('change');
         }, 500);
 
@@ -1771,6 +1836,8 @@ var uvel,
          }
 
          $(selector).html(html);
+
+         //here
          $self.initializeSelect($(selector).children().find('select'));
 
          $self.addAndRemoveFieldsMaterials();

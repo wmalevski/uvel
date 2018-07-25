@@ -22,6 +22,7 @@ use File;
 use Auth;
 use Response;
 use Uuid;
+use Storage;
 
 class ModelsController extends Controller
 {
@@ -125,13 +126,28 @@ class ModelsController extends Controller
         $path = public_path('uploads/models/');
         
         File::makeDirectory($path, 0775, true, true);
+        Storage::disk('public')->makeDirectory('models', 0775, true);
 
         $file_data = $request->input('images'); 
         
         foreach($file_data as $img){
-            $file_name = 'productimage_'.uniqid().time().'.png';
+            $memi = substr($img, 5, strpos($img, ';')-5);
+
+            $extension = explode('/',$memi);
+
+            if($extension[1] == "svg+xml"){
+                $ext = 'png';
+            }else{
+                $ext = $extension[1];
+            }
+            
+
+            $file_name = 'productimage_'.uniqid().time().'.'.$ext;
+        
             $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
             file_put_contents(public_path('uploads/models/').$file_name, $data);
+
+            Storage::disk('public')->put('models/'.$file_name, file_get_contents(public_path('uploads/models/').$file_name));
 
             $photo = new Gallery();
             $photo->photo = $file_name;
@@ -214,13 +230,26 @@ class ModelsController extends Controller
             }
 
             foreach($file_data as $img){
-                $file_name = 'productimage_'.uniqid().time().'.png';
+                $memi = substr($img, 5, strpos($img, ';')-5);
+                
+                $extension = explode('/',$memi);
+    
+                if($extension[1] == "svg+xml"){
+                    $ext = 'png';
+                }else{
+                    $ext = $extension[1];
+                }
+                
+    
+                $file_name = 'productimage_'.uniqid().time().'.'.$ext;
                 $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
                 file_put_contents(public_path('uploads/products/').$file_name, $data);
+
+                Storage::disk('public')->put('products/'.$file_name, file_get_contents(public_path('uploads/products/').$file_name));
     
                 $photo = new Gallery();
                 $photo->photo = $file_name;
-                $photo->model_id = $product->id;
+                $photo->product_id = $product->id;
                 $photo->table = 'products';
     
                 $photo->save();
@@ -264,6 +293,8 @@ class ModelsController extends Controller
         $options = ModelOptions::where('model', $model->id)->get();
 
         $materials = Materials_quantity::where('store', Auth::user()->getStore())->get();
+
+        $pass_photos = array();
         
         $pass_stones = array();
         
@@ -273,6 +304,29 @@ class ModelsController extends Controller
                 'label' => $stone->name.' ('.\App\Stone_contours::withTrashed()->find($stone->contour)->name.', '.\App\Stone_sizes::withTrashed()->find($stone->size)->name.' )'
             ];
         }
+
+        foreach($photos as $photo){
+            $url =  Storage::get('public/models/'.$photo->photo);
+            $ext_url = Storage::url('public/models/'.$photo->photo);
+
+            $info = pathinfo($ext_url);
+            
+            $image_name =  basename($ext_url,'.'.$info['extension']);
+
+            $base64 = base64_encode($url);
+
+            if($info['extension'] == "svg"){
+                $ext = "png";
+            }else{
+                $ext = $info['extension'];
+            }
+
+            $pass_photos[] = [
+                'id' => $photo->id,
+                'photo' => 'data:image/'.$ext.';base64,'.$base64
+            ];
+        }
+
 
         $pass_materials = array();
         
@@ -285,7 +339,7 @@ class ModelsController extends Controller
             ];
         }
 
-        return \View::make('admin/models/edit', array('photos' => $photos, 'model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones, 'modelStones' => $modelStones, 'options' => $options, 'stones' => $stones, 'materials' => $materials, 'jsMaterials' =>  json_encode($pass_materials), 'jsStones' =>  json_encode($pass_stones)));
+        return \View::make('admin/models/edit', array('photos' => $photos, 'model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones, 'modelStones' => $modelStones, 'options' => $options, 'stones' => $stones, 'materials' => $materials, 'jsMaterials' =>  json_encode($pass_materials), 'jsStones' =>  json_encode($pass_stones), 'basephotos' => $pass_photos));
     }
 
     /**
@@ -331,7 +385,7 @@ class ModelsController extends Controller
         
         $model->save();
 
-        $path = public_path('uploads/models/');
+        $path = public_path('storage/models/');
         
         File::makeDirectory($path, 0775, true, true);
 
@@ -379,9 +433,23 @@ class ModelsController extends Controller
         $file_data = $request->input('images'); 
         
         foreach($file_data as $img){
-            $file_name = 'modelimage_'.uniqid().time().'.png';
+            $memi = substr($img, 5, strpos($img, ';')-5);
+            
+            $extension = explode('/',$memi);
+
+            if($extension[1] == "svg+xml"){
+                $ext = 'svg';
+            }else{
+                $ext = $extension[1];
+            }         
+            
+            $file_name = 'modelimage_'.uniqid().time().'.'.$ext;
+
             $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+
             file_put_contents(public_path('uploads/models/').$file_name, $data);
+
+            Storage::disk('public')->put('models/'.$file_name, file_get_contents(public_path('uploads/models/').$file_name));
 
             $photo = new Gallery();
             $photo->photo = $file_name;

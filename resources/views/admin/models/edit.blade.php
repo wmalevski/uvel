@@ -81,7 +81,7 @@
                 @endif
                 <div class="form-group col-md-12">
                     <label>Избери материал: </label>
-                    <select id="material_type" name="material[]" class="material_type form-control calculate">
+                    <select name="material[]" class="material_type form-control calculate">
                         <option value="">Избери</option>
                 
                         @foreach($materials as $material)
@@ -303,10 +303,10 @@
         </div>
 
         <div class="uploaded-images-area">
-        @foreach($photos as $photo)
+        @foreach($basephotos as $photo)
             <div class='image-wrapper'>
-                <div class='close'><span data-url="gallery/delete/{{$photo->id}}">&#215;</span></div>
-                <img src="{{ asset("uploads/models/" . $photo->photo) }}" alt="" class="img-responsive" />
+                <div class='close'><span data-url="gallery/delete/{{$photo['id']}}">&#215;</span></div>
+                <img src="{{$photo['photo']}}" alt="" class="img-responsive" />
             </div>
         @endforeach 
         </div>
