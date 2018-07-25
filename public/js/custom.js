@@ -63,7 +63,7 @@ var uvel,
     */
 
     this.removeImagePhotoFromDropArea = function() {
-      $('form').on('click' , '.close' , function() {
+      $('body').on('click' , '.drop-area-gallery .close' , function() {
         $(this).parent('.image-wrapper').remove();
       });
     }
@@ -366,7 +366,11 @@ var uvel,
               collectionFiles= [];
          
           for(var file of files) {
-            collectionFiles.push(file);
+            if(file.type == "image/svg+xml") {
+              alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
+            } else {
+              collectionFiles.push(file);
+            }
           }
 
           handleFiles(collectionFiles);
@@ -406,7 +410,11 @@ var uvel,
               collectionFiles= [];
   
           for(var file of files) {
-            collectionFiles.push(file);
+            if(file.type == "image/svg+xml") {
+              alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
+            } else {
+              collectionFiles.push(file);
+            }
           }
   
           handleFiles(collectionFiles);
@@ -425,19 +433,7 @@ var uvel,
             var closeBtn = document.createElement('div');
             var img = document.createElement('img');
 
-            console.log(reader.result);
-
             instanceFiles.push(reader.result);   
-
-            console.log(instanceFiles);       
-
-            // toDataURL(
-            //   reader.result,
-            //   function(dataUrl) {
-            //     var data = dataUrl.replace('data:image/png;base64,',''); 
-                
-            //   }
-            // )   
 
             imageWrapper.setAttribute("class", "image-wrapper");
             closeBtn.setAttribute("class", "close");
@@ -479,28 +475,6 @@ var uvel,
       function deleteUploadedImageSuccess(e) {
         $(e.target).parents('.image-wrapper').remove();
       }
-
-      function toDataURL(src, callback, outputFormat) {
-        var img = new Image();
-        img.crossOrigin = 'Anonymous';
-
-        img.onload = function() {
-          var canvas = document.createElement('CANVAS');
-          var ctx = canvas.getContext('2d');
-          var dataURL;
-          canvas.height = this.naturalHeight;
-          canvas.width = this.naturalWidth;
-          ctx.drawImage(this, 0, 0);
-          dataURL = canvas.toDataURL(outputFormat);
-          callback(dataURL);
-        };
-
-        img.src = src;
-        if (img.complete || img.complete === undefined) {
-          img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
-          img.src = src;
-        }
-      } 
     }   
 
     this.checkAllForms = function(currentPressedBtn) {

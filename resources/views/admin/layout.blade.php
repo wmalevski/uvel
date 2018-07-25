@@ -726,8 +726,6 @@
   <script type="text/javascript" src="{{ URL::asset('js/bootstrap.min.js') }}"></script>  
   <script type="text/javascript" src="{{ URL::asset('vendor.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('bundle.js') }}"></script>
-  <script type="text/javascript" src="{{ URL::asset('js/table-sort.min.js') }}"></script>
-  <script type="text/javascript" src="{{ URL::asset('js/table-sort.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('js/custom.js') }}"></script>
   
   
