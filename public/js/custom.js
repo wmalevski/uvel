@@ -1278,9 +1278,6 @@ var uvel,
                         images.push(imageSrc);
                       }
 
-                      console.log('///images');
-                      console.log(images);
-
                       collectionData[name] = images;
                       collectionElements.push(el);
                       return true;
