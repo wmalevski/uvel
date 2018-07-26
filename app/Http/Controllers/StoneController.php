@@ -54,7 +54,7 @@ class StoneController extends Controller
     {
         $validator = Validator::make( $request->all(), [
             'name' => 'required',
-            'type' => 'required',
+            'type_id' => 'required',
             'weight' => 'required|numeric|between:0.01,100000',
             'carat' => 'required|numeric',
             'size_id' => 'required|numeric',
@@ -135,7 +135,7 @@ class StoneController extends Controller
     {
         $validator = Validator::make( $request->all(), [
             'name' => 'required',
-            'type' => 'required',
+            'type_id' => 'required',
             'weight' => 'required|numeric|between:0.01,100000',
             'carat' => 'required|numeric',
             'size_id' => 'required|numeric',
@@ -150,6 +150,7 @@ class StoneController extends Controller
         }
 
         $stone->name = $request->name;
+        $stone->type_id = $request->type_id;
         $stone->weight = $request->weight;
         $stone->carat = $request->carat;
         $stone->contour_id = $request->contour_id;

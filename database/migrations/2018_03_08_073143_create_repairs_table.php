@@ -29,7 +29,7 @@ class CreateRepairsTable extends Migration
             $table->float('deposit')->default(0)->nullable();
             $table->float('price_after')->nullable();
             $table->string('barcode')->nullable();
-            $table->integer('discount');
+            $table->integer('discount_id');
             $table->text('repair_description')->nullable();
             $table->integer('material_id')->unsigned()->nullable();
             $table->timestamps();

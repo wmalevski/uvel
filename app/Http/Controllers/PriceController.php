@@ -27,7 +27,7 @@ class PriceController extends Controller
         $materials = Material::all();
         
         if ($request->isMethod('post')){
-            return redirect()->route('view_price', ['material' => $request->material]);
+            return redirect()->route('view_price', ['material' => $request->material_id]);
         }
 
         return \View::make('admin/prices/index', array('materials' => $materials));
@@ -128,11 +128,11 @@ class PriceController extends Controller
     public function destroy(Price $price)
     { 
         if($price){
-            $usingWProduct = Product::where('wholesale_price', $price->id)->count();
-            $usingRProduct = Product::where('retail_price', $price->id)->count();
+            $usingWProduct = Product::where('wholesale_price_id', $price->id)->count();
+            $usingRProduct = Product::where('retail_price_id', $price->id)->count();
 
-            $usingWModel = Models::where('wholesale_price', $price->id)->count();
-            $usingRModel = Models::where('retail_price', $price->id)->count();
+            $usingWModel = Models::where('wholesale_price_id', $price->id)->count();
+            $usingRModel = Models::where('retail_price_id', $price->id)->count();
 
             if($usingWProduct || $usingRProduct || $usingWModel || $usingRModel){
                 return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
@@ -146,8 +146,8 @@ class PriceController extends Controller
 
     public function getByMaterial($material, $model){
         $checkExisting = ModelOption::where([
-            ['model', '=', $model],
-            ['material', '=', $material],
+            ['model_id', '=', $model],
+            ['material_id', '=', $material],
             ['default', '=', 'yes']
         ])->first();
 
@@ -155,14 +155,14 @@ class PriceController extends Controller
 
         $retail_prices = Price::where(
             [
-                ['material', '=', $material],
+                ['material_id', '=', $material],
                 ['type', '=', 'sell']
             ]
         )->get();
 
         $wholesale_prices = Price::where(
             [
-                ['material', '=', $material],
+                ['material_id', '=', $material],
                 ['type', '=', 'sell']
             ]
         )->get();
@@ -172,14 +172,14 @@ class PriceController extends Controller
 
         $priceBuy = Price::where(
             [
-                ['material', '=', $material],
+                ['material_id', '=', $material],
                 ['type', '=', 'buy']
             ]
         )->first();
 
         $models = Model::where(
             [
-                ['jewel', '=', $material],
+                ['jewel_id', '=', $material],
             ]
         )->get();
 
@@ -195,7 +195,7 @@ class PriceController extends Controller
         foreach($retail_prices as $price){
 
             if($checkExisting){
-                if($price->id == $checkExisting->retail_price){
+                if($price->id == $checkExisting->retail_price_id){
                     $selected = true;
                 }else{
                     $selected = false;
@@ -206,7 +206,7 @@ class PriceController extends Controller
 
             $prices_retail[] = (object)[
                 'id' => $price->id,
-                'material' => $price->material,
+                'material' => $price->material_id,
                 'slug' => $price->slug.' - '.$price->price.'лв',
                 'price' => $price->price,
                 'selected' => $selected
@@ -216,7 +216,7 @@ class PriceController extends Controller
         foreach($wholesale_prices as $price){
             
             if($checkExisting){
-                if($price->id == $checkExisting->wholesale_price){
+                if($price->id == $checkExisting->wholesale_price_id){
                     $selected = true;
                 }else{
                     $selected = false;
@@ -227,7 +227,7 @@ class PriceController extends Controller
 
             $prices_wholesale[] = (object)[
                 'id' => $price->id,
-                'material' => $price->material,
+                'material' => $price->material_id,
                 'slug' => $price->slug.' - '.$price->price.'лв',
                 'price' => $price->price,
                 'selected' => $selected

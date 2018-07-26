@@ -80,7 +80,7 @@ class ModelController extends Controller
     {
         $validator = Validator::make( $request->all(), [
             'name' => 'required|unique:models,name',
-            'jewel' => 'required',
+            'jewel_id' => 'required',
             'stone_amount.*' => 'numeric|between:1,100',
             'stone_weight.*' => 'numeric|between:1,100',
             'weight' => 'required|numeric|between:0.1,10000',
@@ -95,7 +95,7 @@ class ModelController extends Controller
 
         $model = new Model();
         $model->name = $request->name;
-        $model->jewel = $request->jewel;
+        $model->jewel_id = $request->jewel_id;
         $model->weight = $request->weight;
         $model->size = $request->size;
         $model->workmanship = $request->workmanship;
@@ -106,8 +106,8 @@ class ModelController extends Controller
             foreach($request->stones as $key => $stone){
                 if($stone){
                     $model_stones = new ModelStone();
-                    $model_stones->model = $model->id;
-                    $model_stones->stone = $stone;
+                    $model_stones->model_id = $model->id;
+                    $model_stones->stone_id = $stone;
                     $model_stones->amount = $request->stone_amount[$key];
                     $model_stones->weight = $request->stone_weight[$key];
                     $model_stones->flow = $request->stone_flow[$key];
@@ -138,10 +138,10 @@ class ModelController extends Controller
         foreach($request->material as $key => $material){
             if($material){
                 $model_option = new ModelOption();
-                $model_option->model = $model->id;
-                $model_option->material = $material;
-                $model_option->retail_price = $request->retail_price[$key];
-                $model_option->wholesale_price = $request->wholesale_price[$key];
+                $model_option->model_id = $model->id;
+                $model_option->material_id = $material;
+                $model_option->retail_price_id = $request->retail_price[$key];
+                $model_option->wholesale_price_id = $request->wholesale_price[$key];
                 $model_option->default = $request->default_material[$key];
 
                 if($request->default_material[$key] == true){
@@ -162,12 +162,12 @@ class ModelController extends Controller
 
             $product = new Product();
             $product->name = $request->name;
-            $product->model = $model->id;
-            $product->jewel_type = $request->jewel;
+            $product->model_id = $model->id;
+            $product->jewel_id= $request->jewel_id;
             $product->weight = $request->weight;
-            $product->material = $default->material;
-            $product->retail_price = $default->retail_price;
-            $product->wholesale_price  = $default->wholesale_price;
+            $product->material_id = $default->material_id;
+            $product->retail_price_id = $default->retail_price_id;
+            $product->wholesale_price_id  = $default->wholesale_price_id;
             $product->size = $request->size;
             $product->workmanship = $request->workmanship;
             $product->price = $request->price;
@@ -192,11 +192,13 @@ class ModelController extends Controller
                 foreach($request->stones as $key => $stone){
                     if($stone){
                         $product_stones = new ProductStone();
-                        $product_stones->product = $product->id;
-                        $product_stones->model = $model->id;
-                        $product_stones->stone = $stone;
+                        $product_stones->product_id = $product->id;
+                        $product_stones->model_id = $model->id;
+                        $product_stones->stone_id = $stone;
                         $product_stones->amount = $request->stone_amount[$key];
                         $product_stones->weight = $request->stone_weight[$key];
+                        $product_stones->flow = $request->stone_flow[$key];
+
                         if($request->stone_flow[$key] == true){
                             $model_stones->flow = 'yes';
                         }else{
@@ -328,8 +330,8 @@ class ModelController extends Controller
         foreach($request->stones as $key => $stone){
             if($stone){
                 $model_stones = new ModelStone();
-                $model_stones->model = $model->id;
-                $model_stones->stone = $stone;
+                $model_stones->model_id = $model->id;
+                $model_stones->stone_id = $stone;
                 $model_stones->amount = $request->stone_amount[$key];
                 $model_stones->weight = $request->stone_weight[$key];
                 if($request->stone_flow[$key] == true){
@@ -346,10 +348,10 @@ class ModelController extends Controller
         foreach($request->material as $key => $material){
             if($material){
                 $model_option = new ModelOption();
-                $model_option->model = $model->id;
-                $model_option->material = $material;
-                $model_option->retail_price = $request->retail_price[$key];
-                $model_option->wholesale_price = $request->wholesale_price[$key];
+                $model_option->model_id = $model->id;
+                $model_option->material_id = $material;
+                $model_option->retail_price_id = $request->retail_price[$key];
+                $model_option->wholesale_price_id = $request->wholesale_price[$key];
                 $model_option->default = $request->default_material[$key];
 
                 if($request->default_material[$key] == true){

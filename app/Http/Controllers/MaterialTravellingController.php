@@ -116,8 +116,6 @@ class MaterialTravellingController extends Controller
 
     public function accept(Request $request, $material)
     {
-        $material = MaterialTravelling::findOrFail($material);
-
         if($material->status == 0){
             $check = MaterialQuantity::where(
                 [

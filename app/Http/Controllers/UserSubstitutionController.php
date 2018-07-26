@@ -163,7 +163,7 @@ class UsersubstitutionController extends Controller
     {
         if($userSubstitution){
             $validator = Validator::make( $request->all(), [
-                'user' => 'required',
+                'user_id' => 'required',
                 'store' => 'required',
                 'dateFrom' => 'required',
                 'dateTo' => 'required',
@@ -174,7 +174,7 @@ class UsersubstitutionController extends Controller
             }
 
             $place = 'active';
-            $userSubstitution->user_id = $request->user;
+            $userSubstitution->user_id = $request->user_id;
             $userSubstitution->store_id = $request->store;
             $userSubstitution->date_from = date('Y-m-d', strtotime($request->dateFrom));
             $userSubstitution->date_to = date('Y-m-d', strtotime($request->dateTo));

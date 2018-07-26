@@ -71,8 +71,6 @@ class CurrencyController extends Controller
      */
     public function edit(Currency $currency)
     {
-        $currency = Currency::find($currency);
-
         return \View::make('admin/settings/editCurrency', array('currency' => $currency));
     }
 
@@ -85,8 +83,6 @@ class CurrencyController extends Controller
      */
     public function update(Request $request, Currency $currency)
     {
-        $currency = Currency::find($currency);
-        
         if($currency){
             $validator = Validator::make( $request->all(), [
                 'name' => 'required',
@@ -114,8 +110,6 @@ class CurrencyController extends Controller
      */
     public function destroy(Currency $currency)
     {
-        $currency = Currency::find($currency);
-        
         if($currency){
             $currency->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));

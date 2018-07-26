@@ -103,7 +103,6 @@ class MaterialTypeController extends Controller
      */
     public function destroy(MaterialType $materialType)
     {
-        
         if($materialType){
             $using = Material::where('parent_id', $materialType->id)->count();
             

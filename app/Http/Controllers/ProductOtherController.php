@@ -47,7 +47,7 @@ class ProductOtherController extends Controller
     {
         $validator = Validator::make( $request->all(), [
             'name' => 'required|unique:products_others,name',
-            'type' => 'required',
+            'type_id' => 'required',
             'price' => 'required|numeric|between:0.1,10000',
             'quantity' => 'required|numeric|between:1,10000',
             'store' => 'required'
@@ -61,7 +61,7 @@ class ProductOtherController extends Controller
 
         $product = ProductOther::create([
             'name' => $request->name,
-            'type' => $request->type,
+            'type_id' => $request->type_id,
             'price' => $request->price,
             'quantity' => $request->quantity,
             'store' => $request->store
@@ -125,7 +125,7 @@ class ProductOtherController extends Controller
     public function update(Request $request, ProductOther $productOther)
     {
         $productOther->name = $request->name;
-        $productOther->type = $request->type;
+        $productOther->type_id = $request->type_id;
         $productOther->price = $request->price;
         $productOther->store = $request->store;
 
@@ -139,7 +139,7 @@ class ProductOtherController extends Controller
 
         $validator = Validator::make( $request->all(), [
             'name' => 'required|unique:products_others,name,'.$productOther->id,
-            'type' => 'required',
+            'type_id' => 'required',
             'price' => 'required|numeric|between:0.1,10000',
             'quantity' => 'required|numeric|between:1,10000',
             'store' => 'required'

@@ -73,10 +73,10 @@ class ProductController extends Controller
     {
 
         $validator = Validator::make( $request->all(), [
-            'jewelsTypes' => 'required',
-            'retail_price' => 'required',
-            'material' => 'required',
-            'wholesale_prices' => 'required',
+            'jewel-id' => 'required',
+            'retail_price_id' => 'required',
+            'material_id' => 'required',
+            'wholesale_prices_id' => 'required',
             'weight' => 'required|numeric|between:0.1,10000',
             'size' => 'required|numeric|between:0.1,10000',
             'workmanship' => 'required|numeric|between:0.1,500000',
@@ -96,16 +96,16 @@ class ProductController extends Controller
         // $material->quantity - $request->weight;
         // $material->save();
 
-        $model = Model::find($request->model);
+        $model = Model::find($request->model_id);
 
         $product = new Product();
         $product->name = $model->name;
-        $product->model = $request->model;
-        $product->jewel_type = $request->jewelsTypes;
-        $product->material = $request->material;
+        $product->model_id = $request->model_id;
+        $product->jewel_id = $request->jewel_id;
+        $product->material_id = $request->material_id;
         $product->weight = $request->weight;
-        $product->retail_price = $request->retail_price;
-        $product->wholesale_price  = $request->wholesale_prices;
+        $product->retail_price_id = $request->retail_price_id;
+        $product->wholesale_price_id  = $request->wholesale_prices_id;
         $product->size = $request->size;
         $product->workmanship = $request->workmanship;
         $product->price = $request->price;
@@ -142,30 +142,33 @@ class ProductController extends Controller
         File::makeDirectory($path, 0775, true, true);
 
         $file_data = $request->input('images'); 
-        foreach($file_data as $img){
-            $file_name = 'productimage_'.uniqid().time().'.png';
-            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-            file_put_contents(public_path('uploads/products/').$file_name, $data);
-
-            $photo = new Gallery();
-            $photo->photo = $file_name;
-            $photo->product_id = 1;
-            $photo->table = 'products';
-
-            $photo->save();
+        if($file_data){
+            foreach($file_data as $img){
+                $file_name = 'productimage_'.uniqid().time().'.png';
+                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                file_put_contents(public_path('uploads/products/').$file_name, $data);
+    
+                $photo = new Gallery();
+                $photo->photo = $file_name;
+                $photo->product_id = 1;
+                $photo->table = 'products';
+    
+                $photo->save();
+            }
         }
 
+
         $findModel = ModelOption::where([
-            ['material', '=', $request->material],
-            ['model', '=', $request->model]
+            ['material_id', '=', $request->material],
+            ['model_id', '=', $request->model]
         ])->get();
 
         if(!$findModel){
             $option = new ModelOption();
-            $option->material = $request->material;
-            $option->model = $request->model;
-            $option->retail_price = $request->retail_price;
-            $option->wholesale_price = $request->wholesale_price;
+            $option->material_id = $request->material_id;
+            $option->model_id = $request->model_id;
+            $option->retail_price_id = $request->retail_price_id;
+            $option->wholesale_price_id = $request->wholesale_price_id;
 
             $option->save;
         }
@@ -183,8 +186,8 @@ class ProductController extends Controller
     
                     $product_stones = new ProductStone();
                     $product_stones->product = $product->id;
-                    $product_stones->model = $request->model;
-                    $product_stones->stone = $stone;
+                    $product_stones->model_id = $request->model_id;
+                    $product_stones->stone_id = $stone;
                     $product_stones->amount = $request->stone_amount[$key];
                     $product_stones->weight = $request->stone_weight[$key];
                     if($request->stone_flow[$key] == true){
@@ -198,18 +201,20 @@ class ProductController extends Controller
         }
 
         $file_data = $request->input('images'); 
-        
-        foreach($file_data as $img){
-            $file_name = 'productimage_'.uniqid().time().'.png';
-            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-            file_put_contents(public_path('uploads/products/').$file_name, $data);
 
-            $photo = new Gallery();
-            $photo->photo = $file_name;
-            $photo->product_id = $product->id;
-            $photo->table = 'products';
+        if($file_data){
+            foreach($file_data as $img){
+                $file_name = 'productimage_'.uniqid().time().'.png';
+                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                file_put_contents(public_path('uploads/products/').$file_name, $data);
 
-            $photo->save();
+                $photo = new Gallery();
+                $photo->photo = $file_name;
+                $photo->product_id = $product->id;
+                $photo->table = 'products';
+
+                $photo->save();
+            }
         }
         
         return Response::json(array('success' => View::make('admin/products/table',array('product'=>$product))->render()));
@@ -234,7 +239,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $product_stones = ProductStone::where('product', $product)->get();
+        $product_stones = ProductStone::where('product_id', $product)->get();
         $models = Model::all();
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
@@ -261,7 +266,7 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         if($product){
-            $product_stones = ProductStone::where('product', $product)->get();
+            $product_stones = ProductStone::where('product_id', $product)->get();
             $models = Model::all();
             $jewels = Jewel::all();
             $prices = Price::where('type', 'sell')->get();
@@ -275,9 +280,9 @@ class ProductController extends Controller
             )->get();
 
             $validator = Validator::make( $request->all(), [
-                'jewelsTypes' => 'required',
-                'retail_price' => 'required',
-                'wholesale_prices' => 'required',
+                'jewel_id' => 'required',
+                'retail_price_id' => 'required',
+                'wholesale_prices_id' => 'required',
                 'weight' => 'required|numeric|between:0.1,10000',
                 'size' => 'required|numeric|between:0.1,10000',
                 'workmanship' => 'required|numeric|between:0.1,500000',
@@ -314,11 +319,11 @@ class ProductController extends Controller
 
             }
     
-            $product->model = $request->model;
-            $product->jewel_type = $request->jewelsTypes;
+            $product->model_id = $request->model_id;
+            $product->jewel_id = $request->jewel_id;
             $product->weight = $request->weight;
-            $product->retail_price = $request->retail_price;
-            $product->wholesale_price  = $request->wholesale_prices;
+            $product->retail_price_id = $request->retail_price_id;
+            $product->wholesale_price_id  = $request->wholesale_price_id;
             $product->size = $request->size;
             $product->workmanship = $request->workmanship;
             $product->price = $request->price;
@@ -336,28 +341,30 @@ class ProductController extends Controller
             File::makeDirectory($path, 0775, true, true);
     
             $file_data = $request->input('images'); 
-            foreach($file_data as $img){
-                $file_name = 'productimage_'.uniqid().time().'.png';
-                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                file_put_contents(public_path('uploads/products/').$file_name, $data);
-    
-                $photo = new Gallery();
-                $photo->photo = $file_name;
-                $photo->product_id = $product->id;
-                $photo->table = 'products';
-    
-                $photo->save();
+            if($file_data){
+                foreach($file_data as $img){
+                    $file_name = 'productimage_'.uniqid().time().'.png';
+                    $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                    file_put_contents(public_path('uploads/products/').$file_name, $data);
+        
+                    $photo = new Gallery();
+                    $photo->photo = $file_name;
+                    $photo->product_id = $product->id;
+                    $photo->table = 'products';
+        
+                    $photo->save();
+                }
             }
 
-            $deleteStones = ProductStone::where('product', $product->id)->delete();
+            $deleteStones = ProductStone::where('product_id', $product->id)->delete();
     
             if($request->stones){
                 foreach($request->stones as $key => $stone){
                     if($stone) {
                         $product_stones = new ProductStone();
-                        $product_stones->product = $product->id;
-                        $product_stones->model = $request->model;
-                        $product_stones->stone = $stone;
+                        $product_stones->product_id = $product->id;
+                        $product_stones->model_id = $request->model;
+                        $product_stones->stone_id = $stone;
                         $product_stones->amount = $request->stone_amount[$key];
                         $product_stones->weight = $request->stone_weight[$key];
                         if($request->stone_flow[$key] == true){

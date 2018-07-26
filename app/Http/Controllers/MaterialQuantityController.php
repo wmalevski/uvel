@@ -130,10 +130,8 @@ class MaterialQuantityController extends Controller
      */
     public function destroy(MaterialQuantity $materialQuantity)
     {
-        $material = MaterialQuantity::find($materialQuantity)->first();
-        
-        if($material){
-            $material->delete();
+        if($materialQuantity){
+            $materialQuantity->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
         }
     }
