@@ -16,7 +16,7 @@ class CreateModelsTable extends Migration
         Schema::create('models', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('jewel')->references('id')->on('jewels');
+            $table->integer('jewel_id')->unsigned();
             $table->float('weight');
             $table->integer('size');
             $table->float('workmanship');

@@ -99,6 +99,13 @@ class CreateForeignKeys extends Migration {
 						->onDelete('cascade')
 						->onUpdate('cascade');
 		});
+
+		Schema::table('prices', function (Blueprint $table) {
+			
+			$table->foreign('material_id')->references('id')->on('materials')
+						->onDelete('cascade')
+						->onUpdate('cascade');
+		});
 	}
 
 	public function down()
@@ -158,6 +165,11 @@ class CreateForeignKeys extends Migration {
 		Schema::table('discount_codes', function(Blueprint $table) {
 			$table->dropForeign('discount_codes_user_id_foreign');
 			$table->dropColumn('user_id');
+		});
+
+		Schema::table('prices', function(Blueprint $table) {
+			$table->dropForeign('prices_material_id_foreign');
+			$table->dropColumn('material_id');
 		});
 	}
 }

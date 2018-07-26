@@ -25,7 +25,6 @@ aria-hidden="true">
                         
                                 @foreach($materials as $material)
                                     <option value="{{ $material->id }}">
-                                        {{-- {{ App\MaterialType::withTrashed()->find(App\Material::withTrashed()->find($material->material)->parent_id)->name  }} - {{ App\Material::withTrashed()->find($material->material)->color }} - {{ App\Material::withTrashed()->find($material->material)->code }} ({{ $material->quantity }}) - {{ App\Store::withTrashed()->find($material->store)->name }} --}}
                                         {{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->code }} - {{ $material->store->name }}
                                     </option>
                                 @endforeach

@@ -15,8 +15,8 @@ class CreateUserSubstitutionsTable extends Migration
     {
         Schema::create('user_substitutions', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->references('id')->on('users');;
-            $table->integer('store_id')->references('id')->on('stores');;
+            $table->integer('user_id')->unsigned();
+            $table->integer('store_id')->unsigned();
             $table->date('date_from');
             $table->date('date_to');
             $table->timestamps();

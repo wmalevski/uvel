@@ -11,7 +11,7 @@ class Price extends Model
 
     protected $fillable = [
         'slug',
-        'material',
+        'material_id',
         'price',
         'type'
     ];

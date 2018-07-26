@@ -74,7 +74,7 @@ class PriceController extends Controller
     public function show(Price $price, $material)
     {
         if($material){
-            $prices = Price::where('material', $material->id)->get();
+            $prices = Price::where('material', $material)->get();
 
             return view('admin/prices/show', compact('prices', 'material'));
         }

@@ -15,7 +15,7 @@ class CreatePricesTable extends Migration
     {
         Schema::create('prices', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('material')->references('id')->on('materials');
+            $table->integer('material_id')->unsigned();
             $table->string('slug');
             $table->float('price');
             $table->enum('type', ['buy', 'sell']);	
