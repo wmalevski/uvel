@@ -24,7 +24,9 @@ aria-hidden="true">
                                 <option value="">Избери материал</option>
                         
                                 @foreach($types as $type)
-                                    <option value="{{ $type->id }}">@if($type->parent) {{ App\MaterialType::withTrashed()->find($type->parent_id)->name }} - {{ $type->color }} - {{ $type->code }} @endif</option>
+                            
+                                    <option value="{{ $type->id }}">@if($type->parent) {{ $type->parent->name }} - {{ $type->color }} - {{ $type->code }} @endif</option>
+                                }
                                 @endforeach
                             </select>
                         </div>

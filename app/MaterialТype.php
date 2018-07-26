@@ -15,4 +15,5 @@ class MaterialType extends Model
 
     protected $table = 'materials_types';
     protected $dates = ['deleted_at'];
+
 }
