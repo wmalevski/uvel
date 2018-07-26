@@ -21,4 +21,9 @@ class ProductOther extends Model
     {
         return $this->belongsTo('App\ProductOtherType');
     }
+
+    public function store()
+    {
+        return $this->belongsTo('App\Store');
+    }
 }
