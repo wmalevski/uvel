@@ -105,7 +105,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'store' => $request->store
+            'store_id' => $request->store_id
         ]);
 
         //$user->attachRole($request->role);
