@@ -27,7 +27,7 @@ aria-hidden="true">
                 
                     <div class="form-group">
                         <label>Тип: </label>
-                        <select id="type " name="type" class="form-control">
+                        <select id="type" name="type_id" class="form-control">
                             <option value="">Избери</option>
                     
                             @foreach($types as $type)
@@ -48,7 +48,7 @@ aria-hidden="true">
 
                     <div class="form-group">
                         <label>Магазин: </label>
-                        <select id="store " name="store" class="form-control">
+                        <select id="store " name="store_id" class="form-control">
                             <option value="">Избери</option>
                     
                             @foreach($stores as $store)

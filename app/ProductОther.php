@@ -8,12 +8,22 @@ class ProductOther extends Model
 {
     protected $fillable = [
         'name',
-        'type',
+        'type_id',
         'price',
         'quantity',
         'barcode',
-        'store'
+        'store_id'
     ];
 
     protected $table = 'products_others';
+
+    public function type()
+    {
+        return $this->belongsTo('App\ProductOtherType');
+    }
+
+    public function store()
+    {
+        return $this->belongsTo('App\Store');
+    }
 }

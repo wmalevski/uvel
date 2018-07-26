@@ -50,7 +50,7 @@ class ProductOtherController extends Controller
             'type_id' => 'required',
             'price' => 'required|numeric|between:0.1,10000',
             'quantity' => 'required|numeric|between:1,10000',
-            'store' => 'required'
+            'store_id' => 'required'
         ]); 
 
         if ($validator->fails()) {
@@ -64,7 +64,7 @@ class ProductOtherController extends Controller
             'type_id' => $request->type_id,
             'price' => $request->price,
             'quantity' => $request->quantity,
-            'store' => $request->store
+            'store_id' => $request->store_id
         ]);
 
         $product->code = 'B'.unique_random('products_others', 'code', 7);
@@ -127,7 +127,7 @@ class ProductOtherController extends Controller
         $productOther->name = $request->name;
         $productOther->type_id = $request->type_id;
         $productOther->price = $request->price;
-        $productOther->store = $request->store;
+        $productOther->store_id = $request->store_id;
 
         //$product->quantity = $request->quantity;
 
@@ -142,7 +142,7 @@ class ProductOtherController extends Controller
             'type_id' => 'required',
             'price' => 'required|numeric|between:0.1,10000',
             'quantity' => 'required|numeric|between:1,10000',
-            'store' => 'required'
+            'store_id' => 'required'
         ]); 
 
         if ($validator->fails()) {

@@ -3,7 +3,7 @@
     <td> {{ $product->name }} </td>
     <td> {{ $product->price }} </td>
     <td> {{ $product->quantity }} </td>
-    <td> {{ App\Store::withTrashed()->find($product->store)->name}} </td>
+    <td> {{ $product->store->name}} </td>
     <td> {{ $product->code }} </td>
     <td>
         <span data-url="productsothers/{{$product->id}}" class="edit-btn" data-toggle="modal" data-target="#editProduct"><i class="c-brown-500 ti-pencil"></i></span>
