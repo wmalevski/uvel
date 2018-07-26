@@ -10,9 +10,9 @@ class Model extends BaseModel
 
     protected $fillable = [
         'name',
-        'jewel',
-        'retail_price',
-        'wholesale_price',
+        'jewel_id',
+        'retail_price_id',
+        'wholesale_price_id',
         'weight',
         'size',
         'workmanship',
@@ -30,5 +30,15 @@ class Model extends BaseModel
     public function options()
     {
         return $this->hasMany('App\ModelOption');
+    }
+
+    public function jewel()
+    {
+        return $this->belongsTo('App\Jewel');
+    }
+
+    public function photos()
+    {
+        return $this->hasMany('App\Gallery');
     }
 }

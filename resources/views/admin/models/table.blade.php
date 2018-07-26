@@ -1,6 +1,6 @@
 <tr data-id="{{ $model->id }}">
     <td> {{ $model->name }} </td>
-    <td> {{ App\Jewel::withTrashed()->find($model->jewel)->name }} </td> 
+    <td> {{ $model->jewel->name }} </td> 
     <td> {{ $model->weight }} </td>
     <td> {{ $model->workmanship }}лв. </td>
     <td> {{ $model->price }}лв. </td>

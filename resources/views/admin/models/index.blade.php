@@ -24,7 +24,7 @@ aria-hidden="true">
                         </div>
                         <div class="form-group col-md-6">
                             <label>Избери вид бижу: </label>
-                            <select id="jewels_types" name="jewel" class="form-control calculate">
+                            <select id="jewel_id" name="jewel" class="form-control calculate">
                                 <option value="0">Избери</option>
                         
                                 @foreach($jewels as $jewel)
@@ -41,25 +41,25 @@ aria-hidden="true">
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label>Избери материал: </label>
-                                <select id="material_type" name="material[]" class="material_type form-control calculate">
+                                <select id="material_type" name="material_id[]" class="material_type form-control calculate">
                                     <option value="0">Избери</option>
                             
                                     @foreach($materials as $material)
-                                        <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ App\Price::where([['material', '=', $material->material], ['type', '=', 'buy']])->first()->price}}">{{ App\Material::withTrashed()->find($material->material)->name }} - {{ App\Material::withTrashed()->find($material->material)->color }} - {{ App\Material::withTrashed()->find($material->material)->carat }}</option>
+                                        <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ App\Price::where([['material', '=', $material->material], ['type', '=', 'buy']])->first()->price}}">{{ $material->parent->name }} - {{ $material->parent->color }} - {{ $material->parent->carat }}</option>
                                     @endforeach
                                 </select>
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label>Цена на дребно: </label>
-                                <select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled retail-price" disabled>
+                                <select id="retail_prices" name="retail_price_id[]" class="form-control calculate prices-filled retail-price" disabled>
                                     <option value="0">Избери</option>
                                 </select>
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label>Цена на едро: </label>
-                                <select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled wholesale-price" disabled>
+                                <select id="wholesale_price" name="wholesale_price_id[]" class="form-control prices-filled wholesale-price" disabled>
                                     <option value="0">Избери</option>
                                 </select>
                             </div>
@@ -110,7 +110,7 @@ aria-hidden="true">
 
                                     @foreach($stones as $stone)
                                         <option value="{{ $stone->id }}">
-                                            {{ $stone->name }} ({{ App\StoneContour::withTrashed()->find($stone->contour)->name }}, {{ App\StoneSize::withTrashed()->find($stone->size)->name }})
+                                            {{ $stone->name }} ({{ $stone->contour->name }}, {{ $stone->style->name }})
                                         </option>
                                     @endforeach
                                 </select>
