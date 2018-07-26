@@ -34,7 +34,7 @@ aria-hidden="true">
                             <option value="sell">Продава</option>
                         </select>
                     
-                        <input type="hidden" name="material" value="{{ $material->id }}">
+                        <input type="hidden" name="material_id" value="{{ $material->id }}">
                 </div>
 
                 <div class="modal-footer">
@@ -78,7 +78,7 @@ aria-hidden="true">
 </div>
 
 
-<h4 class="c-grey-900 mT-10 mB-30">Цени за {{ App\MaterialType::withTrashed()->find($material->parent)->name }}
+<h4 class="c-grey-900 mT-10 mB-30">Цени за {{ $material->parent->name }}
     <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-toggle="modal" data-target="#addPrice">Добави</button>
 </h4>
 <div class="row">
