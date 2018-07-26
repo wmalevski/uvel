@@ -35,14 +35,13 @@ class ModelController extends Controller
         $jewels = Jewel::all();
         $prices = Price::all();
         $stones = Stone::all();
-        $materials = MaterialQuantity::where('store', Auth::user()->getStore())->get();
-
+        $materials = MaterialQuantity::where('store_id', 1)->get();
         $pass_stones = array();
         
         foreach($stones as $stone){
             $pass_stones[] = [
                 'value' => $stone->id,
-                'label' => $stone->name.' ('.\App\StoneContour::withTrashed()->find($stone->contour)->name.', '.\App\StoneSize::withTrashed()->find($stone->size)->name.' )'
+                'label' => $stone->name.' ('.$stone->contour->name.', '.$stone->style->name.' )'
             ];
         }
 
@@ -51,8 +50,8 @@ class ModelController extends Controller
         foreach($materials as $material){
             $pass_materials[] = [
                 'value' => $material->id,
-                'label' => Material::withTrashed()->find($material->material)->name.' - '. Material::withTrashed()->find($material->material)->color.  ' - '  .Material::withTrashed()->find($material->material)->carat,
-                'pricebuy' => Price::withTrashed()->where('material', $material->material)->where('type', 'buy')->first()->price,
+                'label' => $material->material->parent->name.' - '. $material->material->parent->color.  ' - '  .$material->material->parent->carat,
+                'pricebuy' => Price::withTrashed()->where('material_id', $material->material->id)->where('type', 'buy')->first()->price,
                 'material' => $material->material
             ];
         }
@@ -276,7 +275,7 @@ class ModelController extends Controller
             $pass_materials[] = [
                 'value' => $material->id,
                 'label' => Material::withTrashed()->find($material->material)->name.' - '. Material::withTrashed()->find($material->material)->color.  ' - '  .Material::withTrashed()->find($material->material)->carat,
-                'pricebuy' => Price::withTrashed()->where('material', $material->material)->where('type', 'buy')->first()->price,
+                'pricebuy' => Price::withTrashed()->where('material_id', $material->material->id)->where('type', 'buy')->first()->price,
                 'material' => $material->material
             ];
         }
