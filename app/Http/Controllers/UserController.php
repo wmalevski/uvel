@@ -65,15 +65,15 @@ class UserController extends Controller
         //     Bouncer::disallow($user)->to($ability);
         // }
 
-        foreach($request->permissions as $key => $role){
-            //Bouncer::allow($user)->to($role);
+        // foreach($request->permissions as $key => $role){
+        //     //Bouncer::allow($user)->to($role);
 
-            if($role == true){
-                Bouncer::allow($user)->to($key+1);
-            }else{
-                Bouncer::disallow($user)->to($key+1);
-            }
-        }
+        //     if($role == true){
+        //         Bouncer::allow($user)->to($key+1);
+        //     }else{
+        //         Bouncer::disallow($user)->to($key+1);
+        //     }
+        // }
 
         Bouncer::sync($user)->roles([$request->role]);
     

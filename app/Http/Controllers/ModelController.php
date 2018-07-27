@@ -51,7 +51,7 @@ class ModelController extends Controller
             $pass_materials[] = [
                 'value' => $material->id,
                 'label' => $material->material->parent->name.' - '. $material->material->parent->color.  ' - '  .$material->material->parent->carat,
-                'pricebuy' => Price::withTrashed()->where('material_id', $material->material->id)->where('type', 'buy')->first()->price,
+                'pricebuy' => $material->material->pricesBuy->first()->price,
                 'material' => $material->material
             ];
         }
@@ -121,35 +121,39 @@ class ModelController extends Controller
 
         $file_data = $request->input('images'); 
         
-        foreach($file_data as $img){
-            $file_name = 'productimage_'.uniqid().time().'.png';
-            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-            file_put_contents(public_path('uploads/models/').$file_name, $data);
-
-            $photo = new Gallery();
-            $photo->photo = $file_name;
-            $photo->model_id = $model->id;
-            $photo->table = 'models';
-
-            $photo->save();
+        if($file_data){
+            foreach($file_data as $img){
+                $file_name = 'productimage_'.uniqid().time().'.png';
+                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                file_put_contents(public_path('uploads/models/').$file_name, $data);
+    
+                $photo = new Gallery();
+                $photo->photo = $file_name;
+                $photo->model_id = $model->id;
+                $photo->table = 'models';
+    
+                $photo->save();
+            }
         }
-
-        foreach($request->material as $key => $material){
-            if($material){
-                $model_option = new ModelOption();
-                $model_option->model_id = $model->id;
-                $model_option->material_id = $material;
-                $model_option->retail_price_id = $request->retail_price[$key];
-                $model_option->wholesale_price_id = $request->wholesale_price[$key];
-                $model_option->default = $request->default_material[$key];
-
-                if($request->default_material[$key] == true){
-                    $model_option->default = "yes";
-                }else{
-                    $model_option->default = "no";
+        
+        if($request->material){
+            foreach($request->material as $key => $material){
+                if($material){
+                    $model_option = new ModelOption();
+                    $model_option->model_id = $model->id;
+                    $model_option->material_id = $material;
+                    $model_option->retail_price_id = $request->retail_price[$key];
+                    $model_option->wholesale_price_id = $request->wholesale_price[$key];
+                    $model_option->default = $request->default_material[$key];
+    
+                    if($request->default_material[$key] == true){
+                        $model_option->default = "yes";
+                    }else{
+                        $model_option->default = "no";
+                    }
+    
+                    $model_option->save();
                 }
-
-                $model_option->save();
             }
         }
 
@@ -248,7 +252,7 @@ class ModelController extends Controller
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::all();
-        $modelStones = ModelStone::where('model', $model->id)->get();
+        $modelStones = $model->stones;
         $photos = Gallery::where(
             [
                 ['table', '=', 'models'],
@@ -256,16 +260,16 @@ class ModelController extends Controller
             ]
         )->get();
 
-        $options = ModelOption::where('model', $model->id)->get();
+        $options = $model->options;
 
-        $materials = MaterialQuantity::where('store', Auth::user()->getStore())->get();
+        $materials = MaterialQuantity::where('store_id', Auth::user()->getStore())->get();
         
         $pass_stones = array();
         
         foreach($stones as $stone){
             $pass_stones[] = [
                 'value' => $stone->id,
-                'label' => $stone->name.' ('.\App\StoneContour::withTrashed()->find($stone->contour)->name.', '.\App\StoneSize::withTrashed()->find($stone->size)->name.' )'
+                'label' => $stone->name.' ('.$stone->contour->name.', '.$stone->style->name.' )'
             ];
         }
 
@@ -274,8 +278,8 @@ class ModelController extends Controller
         foreach($materials as $material){
             $pass_materials[] = [
                 'value' => $material->id,
-                'label' => Material::withTrashed()->find($material->material)->name.' - '. Material::withTrashed()->find($material->material)->color.  ' - '  .Material::withTrashed()->find($material->material)->carat,
-                'pricebuy' => Price::withTrashed()->where('material_id', $material->material->id)->where('type', 'buy')->first()->price,
+                'label' => $material->material->parent->name.' - '. $material->material->parent->color.  ' - '  .$material->material->parent->carat,
+                'pricebuy' => $material->material->pricesBuy->first()->price,
                 'material' => $material->material
             ];
         }
@@ -299,7 +303,7 @@ class ModelController extends Controller
         $stones = Stone::all();
 
         $validator = Validator::make( $request->all(), [
-            'jewel' => 'required',
+            'jewel_id' => 'required',
             'stone_amount.*' => 'numeric|between:1,100',
             'stone_weight.*' => 'numeric|between:1,100',
             'weight' => 'required|numeric|between:0.1,10000',

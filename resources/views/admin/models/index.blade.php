@@ -24,7 +24,7 @@ aria-hidden="true">
                         </div>
                         <div class="form-group col-md-6">
                             <label>Избери вид бижу: </label>
-                            <select id="jewel_id" name="jewel" class="form-control calculate">
+                            <select id="jewel_id" name="jewel_id" class="form-control calculate">
                                 <option value="0">Избери</option>
                         
                                 @foreach($jewels as $jewel)
@@ -45,7 +45,7 @@ aria-hidden="true">
                                     <option value="0">Избери</option>
                             
                                     @foreach($materials as $material)
-                                        <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ App\Price::where([['material', '=', $material->material], ['type', '=', 'buy']])->first()->price}}">{{ $material->parent->name }} - {{ $material->parent->color }} - {{ $material->parent->carat }}</option>
+                                        <option value="{{ $material->id }}" data-material="{{ $material->id }}" data-pricebuy="{{ App\Price::where([['material_id', '=', $material->id], ['type', '=', 'buy']])->first()->price}}">{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
                                     @endforeach
                                 </select>
                             </div>

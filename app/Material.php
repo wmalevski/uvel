@@ -26,4 +26,16 @@ class Material extends Model
     public function quantity(){
         return $this->hasMany('App\MaterialQuantity');
     }
+
+    public function prices(){
+        return $this->hasMany('App\Price');
+    }
+
+    public function pricesBuy(){
+        return $this->hasMany('App\Price')->where('type', 'buy');
+    }
+
+    public function pricesSell(){
+        return $this->hasMany('App\Price')->where('type', 'sell');
+    }
 }

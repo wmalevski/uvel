@@ -40,7 +40,7 @@
                 @endforeach
             </select>
         </div>
-        <div class="form-group">
+        {{-- <div class="form-group">
             @foreach(Bouncer::ability()->get() as $permission)
             <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
                 <input type="checkbox" id="inputCall{{ $permission->id }}" 
@@ -50,7 +50,7 @@
                 </label>
             </div>
             @endforeach
-        </div>
+        </div> --}}
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
