@@ -76,11 +76,13 @@
                                 <option value="">Избери</option>
                         
                                 @foreach($materials as $material)
-                                    <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ $material->material->pricesBuy->first() }}">
-                                        {{ $material->material->name }} - 
-                                        {{ $material->material->color }} - 
-                                        {{ $material->material->carat }}
-                                    </option>
+                                    @if(count($material->material->pricesBuy) > 0)
+                                        <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">
+                                            {{ $material->material->name }} - 
+                                            {{ $material->material->color }} - 
+                                            {{ $material->material->carat }}
+                                        </option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
