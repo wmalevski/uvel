@@ -57,39 +57,38 @@ class Product extends Model
         return $this->hasMany('App\ProductStone');
     }
 
+    public function retailPrice()
+    {
+        return $this->belongsTo('App\Price');
+    }
+
     public function chainedSelects(Model $model){
         $materials = Material::all();
         $default = ModelOption::where([
-            ['model', '=', $model->id],
+            ['model_id', '=', $model->id],
             ['default', '=', 'yes']
         ])->first();
 
         if($model){
-            $model_material = Jewel::find($model->material);
-            $jewels = Jewel::where('id', $model->jewel)->get()
-             ;
-            $prices = Price::where('material', $model->jewel)->get();
-
+            $jewels = Jewel::all();
+            
             $retail_prices = Price::where([
                 'type' => 'sell',
-                'material' => $default->material
+                'material_id' => $default->material_id
             ])->get();
 
             $wholesale_prices = Price::where([
                 'type' => 'sell',
-                'material' => $default->material
+                'material_id' => $default->material_id
             ])->get();
 
-            $model_stones = ModelStone::where('model', $model->id)->get();
-            $model_photos = Gallery::where([
-                ['table', '=', 'models'],
-                ['model_id', '=', $model->id]
-            ])->get();
+            $model_stones = $model->stones;
+            $model_photos = $model->photos;
     
             $pass_jewels = array();
             
             foreach($jewels as $jewel){
-                if($jewel->id == $model->jewel){
+                if($jewel->id == $model->jewel_id){
                     $selected = true;
                 }else{
                     $selected = false;
@@ -98,7 +97,6 @@ class Product extends Model
                 $pass_jewels[] = (object)[
                     'value' => $jewel->id,
                     'label' => $jewel->name,
-                    'material' => $jewel->material,
                     'selected' => $selected
                 ];
             }
@@ -106,7 +104,7 @@ class Product extends Model
             $prices_retail = array();
             
             foreach($retail_prices as $price){
-                if($price->id == $default->retail_price){
+                if($price->id == $default->retail_price_id){
                     $selected = true;
                 }else{
                     $selected = false;
@@ -123,7 +121,7 @@ class Product extends Model
             $prices_wholesale = array();
             
             foreach($wholesale_prices as $price){
-                if($price->id == $default->wholesale_price){
+                if($price->id == $default->wholesale_price_id){
                     $selected = true;
                 }else{
                     $selected = false;
@@ -141,8 +139,8 @@ class Product extends Model
             
             foreach($model_stones as $stone){
                 $pass_stones[] = [
-                    'value' => Stone::withTrashed()->find($stone->stone)->id,
-                    'label' => Stone::withTrashed()->find($stone->stone)->name.' ('.StoneContour::withTrashed()->find(Stone::withTrashed()->find($stone->stone)->contour)->name. ', ' .StoneSize::withTrashed()->find(Stone::withTrashed()->find($stone->stone)->size)->name. ' )',
+                    'value' => $stone->stone->id,
+                    'label' => $stone->stone->name.' ('.$stone->stone->contour->name. ', ' .$stone->stone->size->name. ' )',
                     'amount' => $stone->amount,
                     'weight' => $stone->weight,
                     'flow' => $stone->flow
@@ -152,7 +150,7 @@ class Product extends Model
             $pass_materials = array();
             
             foreach($materials as $material){
-                if($material->id == $default->material){
+                if($material->id == $default->material_id){
                     $selected = true;
                 }else{
                     $selected = false;
@@ -186,7 +184,7 @@ class Product extends Model
                 'price' => $model->price,
                 'materials' => $pass_materials,
                 'photos' => $pass_photos,
-                'pricebuy' => Price::withTrashed()->where('material', $default->material)->where('type', 'buy')->first()->price,
+                'pricebuy' => $default->material->pricesBuy->first()->price,
             );
         }
     }

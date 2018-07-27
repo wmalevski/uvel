@@ -19,4 +19,24 @@ class ModelOption extends Model
 
     protected $table = 'model_options';
     protected $dates = ['deleted_at'];    
+
+    public function model()
+    {
+        return $this->belongsTo('App\Model');
+    }
+
+    public function material()
+    {
+        return $this->belongsTo('App\Material');
+    }
+
+    public function retailPrice()
+    {
+        return $this->belongsTo('App\Price');
+    }
+
+    public function wholesalePrice()
+    {
+        return $this->belongsTo('App\Price');
+    }
 }

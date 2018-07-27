@@ -2,9 +2,9 @@
     <td>{{ $product->code }}</td>
     <td> @if($product->model) {{ $product->model->name }} @endif </td>
     <td> @if($product->model) {{ $product->jewel->name }} @endif </td> 
-    <td> {{ App\Price::withTrashed()->find($product->retail_price)->price }} </td> 
+    <td> {{ $product->retailPrice->price }} </td> 
     <td> {{ $product->weight }} </td>
-    <td> {{ (App\Price::withTrashed()->find($product->retail_price)->price)*$product->weight }} </td>
+    <td> {{ ($product->retailPrice->price)*$product->weight }} </td>
     <td>
          {!! DNS1D::getBarcodeSVG($product->barcode, "EAN13",1,33,"black", true) !!} <br/> 
         {{--  {!! '<img src="' . DNS1D::getBarcodePNG("4", "C39+",3,33,array(1,1,1), true) . '" alt="barcode"   />' !!}  --}}
