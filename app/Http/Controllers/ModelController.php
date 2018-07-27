@@ -159,7 +159,7 @@ class ModelController extends Controller
 
         if ($request->release_product == true) {
             $default = ModelOption::where([
-                ['model', '=', $model->id],
+                ['model_id', '=', $model->id],
                 ['default', '=', 'yes']
             ])->first();
 
@@ -296,7 +296,7 @@ class ModelController extends Controller
      */
     public function update(Request $request, Model $model)
     {
-        $model = Model::find($model);
+        //$model = Model::find($model);
 
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
@@ -317,7 +317,7 @@ class ModelController extends Controller
         }
         
         $model->name = $request->name;
-        $model->jewel = $request->jewel;
+        $model->jewel_id = $request->jewel_id;
         $model->price = $request->price;
         $model->workmanship = $request->workmanship;
         $model->weight = $request->weight;
@@ -328,58 +328,65 @@ class ModelController extends Controller
         
         File::makeDirectory($path, 0775, true, true);
 
-        $deleteStones = ModelStone::where('model', $model->id)->delete();
+        $deleteStones = ModelStone::where('model_id', $model->id)->delete();
 
-        foreach($request->stones as $key => $stone){
-            if($stone){
-                $model_stones = new ModelStone();
-                $model_stones->model_id = $model->id;
-                $model_stones->stone_id = $stone;
-                $model_stones->amount = $request->stone_amount[$key];
-                $model_stones->weight = $request->stone_weight[$key];
-                if($request->stone_flow[$key] == true){
-                    $model_stones->flow = 'yes';
-                }else{
-                    $model_stones->flow = 'no';
+        if($request->stones){
+            foreach($request->stones as $key => $stone){
+                if($stone){
+                    $model_stones = new ModelStone();
+                    $model_stones->model_id = $model->id;
+                    $model_stones->stone_id = $stone;
+                    $model_stones->amount = $request->stone_amount[$key];
+                    $model_stones->weight = $request->stone_weight[$key];
+                    if($request->stone_flow[$key] == true){
+                        $model_stones->flow = 'yes';
+                    }else{
+                        $model_stones->flow = 'no';
+                    }
+                    $model_stones->save();
                 }
-                $model_stones->save();
             }
         }
+        
 
-        $deleteOptions = ModelOption::where('model', $model->id)->delete();
+        $deleteOptions = ModelOption::where('model_id', $model->id)->delete();
 
-        foreach($request->material as $key => $material){
-            if($material){
-                $model_option = new ModelOption();
-                $model_option->model_id = $model->id;
-                $model_option->material_id = $material;
-                $model_option->retail_price_id = $request->retail_price[$key];
-                $model_option->wholesale_price_id = $request->wholesale_price[$key];
-                $model_option->default = $request->default_material[$key];
-
-                if($request->default_material[$key] == true){
-                    $model_option->default = "yes";
-                }else{
-                    $model_option->default = "no";
+        if($request->material){
+            foreach($request->material as $key => $material){
+                if($material){
+                    $model_option = new ModelOption();
+                    $model_option->model_id = $model->id;
+                    $model_option->material_id = $material;
+                    $model_option->retail_price_id = $request->retail_price[$key];
+                    $model_option->wholesale_price_id = $request->wholesale_price[$key];
+                    $model_option->default = $request->default_material[$key];
+    
+                    if($request->default_material[$key] == true){
+                        $model_option->default = "yes";
+                    }else{
+                        $model_option->default = "no";
+                    }
+    
+                    $model_option->save();
                 }
-
-                $model_option->save();
             }
         }
 
         $file_data = $request->input('images'); 
         
-        foreach($file_data as $img){
-            $file_name = 'modelimage_'.uniqid().time().'.png';
-            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-            file_put_contents(public_path('uploads/models/').$file_name, $data);
-
-            $photo = new Gallery();
-            $photo->photo = $file_name;
-            $photo->model_id = $model->id;
-            $photo->table = 'models';
-
-            $photo->save();
+        if($file_data){
+            foreach($file_data as $img){
+                $file_name = 'modelimage_'.uniqid().time().'.png';
+                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                file_put_contents(public_path('uploads/models/').$file_name, $data);
+    
+                $photo = new Gallery();
+                $photo->photo = $file_name;
+                $photo->model_id = $model->id;
+                $photo->table = 'models';
+    
+                $photo->save();
+            }
         }
 
         $model_photos = Gallery::where(
