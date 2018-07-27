@@ -41,7 +41,7 @@
                         <option value="">Избери</option>
                 
                         @foreach($models as $model)
-                            <option value="{{ $model->id }}" data-jewel="{{ App\Jewel::find($model->jewel)->id }}" @if($product->model == $model->id) selected @endif>{{ $model->name }}</option>
+                            <option value="{{ $model->id }}" data-jewel="{{ $model->jewel->id }}" @if($product->model == $model->id) selected @endif>{{ $model->name }}</option>
                         @endforeach
                     </select>
                 </div>
