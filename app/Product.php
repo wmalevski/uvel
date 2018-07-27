@@ -180,3 +180,4 @@ class Product extends Model
         }
     }
 }
+

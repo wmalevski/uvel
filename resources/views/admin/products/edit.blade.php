@@ -37,11 +37,11 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label>Модел: </label>
-                    <select id="model_select_edit" name="model" class="model-select form-control model-filled">
+                    <select id="model_select_edit" name="model_id" class="model-select form-control model-filled">
                         <option value="">Избери</option>
                 
                         @foreach($models as $model)
-                            <option value="{{ $model->id }}" data-jewel="{{ $model->jewel->id }}" @if($product->model == $model->id) selected @endif>{{ $model->name }}</option>
+                            <option value="{{ $model->id }}" data-jewel="{{ $model->jewel->id }}" @if($product->model->id == $model->id) selected @endif>{{ $model->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -53,7 +53,7 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label>Вид: </label>
-                    <select id="jewel_edit" name="jewelsTypes" class="form-control calculate" disabled>
+                    <select id="jewel_edit" name="jewel_id" class="form-control calculate" disabled>
                         <option value="">Избери</option>
                 
                         @foreach($jewels as $jewel)
@@ -69,7 +69,7 @@
             <div class="form-row model_materials">
                 <div class="form-group col-md-12">
                     <label>Материал: </label>
-                    <select id="material_edit" name="material" class="material_type form-control calculate">
+                    <select id="material_edit" name="material_id" class="material_type form-control calculate">
                         <option value="">Избери</option>
                 
                         @foreach($materials as $material)
@@ -79,7 +79,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label>Цена на дребно: </label>
-                    <select id="retail_price_edit" name="retail_price" class="form-control calculate prices-filled retail-price" >
+                    <select id="retail_price_edit" name="retail_price_id" class="form-control calculate prices-filled retail-price" >
                         <option value="">Избери</option>
                 
                         @foreach($prices->where('type', 'sell') as $price)
@@ -90,7 +90,7 @@
 
                 <div class="form-group col-md-6">            
                     <label>Цена на едро: </label>
-                    <select id="wholesale_price_edit" name="wholesale_prices" class="form-control prices-filled wholesale-price">
+                    <select id="wholesale_price_edit" name="wholesale_price_id" class="form-control prices-filled wholesale-price">
                         <option value="">Избери</option>
                 
                         @foreach($prices->where('type', 'sell') as $price)

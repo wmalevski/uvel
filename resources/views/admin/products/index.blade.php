@@ -40,7 +40,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label>Модел: </label>
-                            <select id="model_select" name="model" class="model-select form-control model-filled">
+                            <select id="model_select" name="model_id" class="model-select form-control model-filled">
                                 <option value="">Избери</option>
                         
                                 @foreach($models as $model)

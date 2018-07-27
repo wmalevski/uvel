@@ -87,14 +87,14 @@ class ProductController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $material = MaterialQuantity::withTrashed()->find($request->material);
-
+        $material = MaterialQuantity::withTrashed()->find($request->material_id);
+        
         if($material->quantity < $request->weight){
             return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
         }
 
         $model = Model::find($request->model_id);
-
+        
         $product = new Product();
         $product->name = $model->name;
         $product->model_id = $request->model_id;
@@ -102,7 +102,7 @@ class ProductController extends Controller
         $product->material_id = $request->material_id;
         $product->weight = $request->weight;
         $product->retail_price_id = $request->retail_price_id;
-        $product->wholesale_price_id  = $request->wholesale_prices_id;
+        $product->wholesale_price_id  = $request->wholesale_price_id;
         $product->size = $request->size;
         $product->workmanship = $request->workmanship;
         $product->price = $request->price;
