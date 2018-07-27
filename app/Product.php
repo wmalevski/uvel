@@ -64,23 +64,14 @@ class Product extends Model
 
     public function chainedSelects(Model $model){
         $materials = Material::all();
-        $default = ModelOption::where([
-            ['model_id', '=', $model->id],
-            ['default', '=', 'yes']
-        ])->first();
+        $default = $model->options->where('default', 'yes')->first();
 
         if($model){
             $jewels = Jewel::all();
-            
-            $retail_prices = Price::where([
-                'type' => 'sell',
-                'material_id' => $default->material_id
-            ])->get();
 
-            $wholesale_prices = Price::where([
-                'type' => 'sell',
-                'material_id' => $default->material_id
-            ])->get();
+            $retail_prices = $default->material->pricesBuy;
+
+            $wholesale_prices = $default->material->pricesSell;
 
             $model_stones = $model->stones;
             $model_photos = $model->photos;
