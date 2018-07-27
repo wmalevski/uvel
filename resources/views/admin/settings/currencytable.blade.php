@@ -1,4 +1,4 @@
-<tr>
+<tr data-id="{{ $currency->id }}">
     <td>{{ $currency->name }}</td> 
     <td>{{ $currency->currency }}</td> 
     <td>

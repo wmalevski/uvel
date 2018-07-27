@@ -120,14 +120,10 @@ class MaterialsController extends Controller
         $material = Materials::find($material);
         
         if($material){
-            $using = Jewels::where('material', $material->id)->count();
             
-            if($using){
-                return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
-            }else{
-                $material->delete();
-                return Response::json(array('success' => 'Успешно изтрито!'));
-            }
+            $material->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+            
         }
     }
 }

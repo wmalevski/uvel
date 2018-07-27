@@ -24,7 +24,7 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" class="btn btn-primary add-btn-modal">Добави</button>
+                    <button type="submit" data-state="add_state" class="action--state_button btn btn-primary add-btn-modal">Добави</button>
                 </div>
             </form>
         </div>
@@ -32,7 +32,7 @@ aria-hidden="true">
 </div>
 
 <div class="modal fade" id="editContour" tabindex="-1"  role="dialog" aria-labelledby="editContour">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog edit--modal_holder" role="document">
         <div class="modal-content">
             
 

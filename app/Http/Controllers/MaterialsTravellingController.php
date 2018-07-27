@@ -79,7 +79,7 @@ class MaterialsTravellingController extends Controller
 
         if($check){
             if($request->quantity <= $check->quantity && $check->quantity != 0){
-                $price = Materials::find($check->material);
+                $price = Materials::withTrashed()->find($check->material);
 
                 if($check->store == $request->storeTo){
                     return Response::json(['errors' => array('quantity' => ['Не може да изпращате материал към същият магазин'])], 401);

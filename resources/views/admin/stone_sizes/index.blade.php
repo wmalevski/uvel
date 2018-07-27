@@ -24,14 +24,14 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" class="btn btn-primary add-btn-modal">Добави</button>
+                    <button type="submit" data-state="add_state" class="action--state_button btn btn-primary add-btn-modal">Добави</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="editSize" tabindex="-1"  role="dialog" aria-labelledby="editSize">
+<div class="modal fade edit--modal_holder" id="editSize" tabindex="-1"  role="dialog" aria-labelledby="editSize">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             

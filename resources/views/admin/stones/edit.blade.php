@@ -98,7 +98,7 @@
 
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-            <button type="submit" class="edit-btn-modal btn btn-primary">Промени</button>
+            <button type="submit" data-state="edit_state" class="action--state_button edit-btn-modal btn btn-primary">Промени</button>
         </div>
         
     </form>

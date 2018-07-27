@@ -194,7 +194,7 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" class="add-btn-modal btn btn-primary">Добави</button>
+                    <button type="submit" data-state="add_state" class="action--state_button add-btn-modal btn btn-primary">Добави</button>
                 </div>
             </form>
         </div>
@@ -202,7 +202,7 @@ aria-hidden="true">
 </div>
 
 
-<div class="modal fade" id="editModel" role="dialog" aria-labelledby="editModelLabel"
+<div class="modal fade edit--modal_holder" id="editModel" role="dialog" aria-labelledby="editModelLabel"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
