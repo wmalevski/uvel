@@ -417,7 +417,7 @@ class ModelController extends Controller
     public function destroy(Model $model)
     {
         if($model){
-            $using = Product::where('model', $model->id)->count();
+            $using = Product::where('model_id', $model->id)->count();
             
             if($using){
                 return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
