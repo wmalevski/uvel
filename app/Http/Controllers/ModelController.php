@@ -48,12 +48,14 @@ class ModelController extends Controller
         $pass_materials = array();
         
         foreach($materials as $material){
-            $pass_materials[] = [
-                'value' => $material->id,
-                'label' => $material->material->parent->name.' - '. $material->material->parent->color.  ' - '  .$material->material->parent->carat,
-                'pricebuy' => $material->material->pricesBuy->first()->price,
-                'material' => $material->material
-            ];
+            if($material->material->pricesBuy->first()){
+                $pass_materials[] = [
+                    'value' => $material->id,
+                    'label' => $material->material->parent->name.' - '. $material->material->parent->color.  ' - '  .$material->material->parent->carat,
+                    'pricebuy' => $material->material->pricesBuy->first()->price,
+                    'material' => $material->material
+                ];
+            }
         }
 
         return \View::make('admin/models/index', array('jsMaterials' =>  json_encode($pass_materials), 'jsStones' =>  json_encode($pass_stones), 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials));

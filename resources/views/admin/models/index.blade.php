@@ -45,7 +45,9 @@ aria-hidden="true">
                                     <option value="0">Избери</option>
                             
                                     @foreach($materials as $material)
-                                        <option value="{{ $material->id }}" data-material="{{ $material->id }}" data-pricebuy="{{ App\Price::where([['material_id', '=', $material->id], ['type', '=', 'buy']])->first()->price}}">{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
+                                        @if($material->material->pricesBuy->first())
+                                            <option value="{{ $material->id }}" data-material="{{ $material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
