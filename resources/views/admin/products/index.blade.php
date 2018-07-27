@@ -132,42 +132,6 @@
                         </div>
                     </div>
 
-                    <div class="form-row model_stones">
-                        <!-- <div class="form-row fields">
-                            <div class="form-group col-md-6">
-                                <label>Камък: </label>
-                                <select name="stones[]" class="form-control">
-                                    <option value="">Избери</option>
-
-                                    @foreach($stones as $stone)
-                                        <option value="{{ $stone->id }}">
-                                            {{ $stone->name }} ({{ App\StoneContour::withTrashed()->find($stone->contour)->name }}, {{ App\StoneSize::withTrashed()->find($stone->size)->name }})
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="1">Брой: </label>
-                                <input type="number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="50">
-                            </div>
-                            <div class="form-group col-md-2">
-                                <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="1">Тегло: </label>
-                                <input type="number" class="form-control" name="stone_weight[]" placeholder="Тегло" min="1" max="50">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder">
-                                    <input type="checkbox" id="stone_flow" class="stone-flow" name="stone_flow[]" class="peer">
-                                    <label for="stone_flow" class="peers peer-greed js-sb ai-c">
-                                        <span class="peer peer-greed">За леене</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div> -->
-                    </div>
-
                     <div class="form-row">
                         <div class="form-group col-md-5">
                             <button type="button" class="btn btn-primary add_field_button">Добави камък</button>
@@ -252,33 +216,6 @@ aria-hidden="true">
         @endforeach
     </tbody>
 </table>
-
-<form method="POST" action="">
-    {{ csrf_field() }}
-
-    {{--  <h3>Камъни към този модел</h3>
-
-    <div class="model-stones">
-        <div class="fields">
-            <label>Камък: </label>
-            <select name="stones[]" class="form-control">
-                <option value="">Избери</option>
-    
-                @foreach($stones as $stone)
-                    <option value="{{ $stone->id }}">{{ $stone->name }}</option>
-                @endforeach
-            </select>
-    
-            <div class="form-group">
-                <label for="1">Брой: </label>
-                <input type="text" class="form-control" id="1" name="stone_amount[]" placeholder="Брой:">
-            </div>
-            <br/>
-        </div>
-    </div>  --}}
-
-    {{--  <button type="button" class="btn btn-primary add_field_button">Добави нов камък</button>  --}}
-</form>
 @endsection
 
 @section('footer-scripts')

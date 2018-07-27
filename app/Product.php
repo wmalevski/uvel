@@ -37,6 +37,16 @@ class Product extends Model
 
     protected $table = 'products';
 
+    public function model()
+    {
+        return $this->belongsTo('App\Model');
+    }
+
+    public function jewel()
+    {
+        return $this->belongsTo('App\Model');
+    }
+
     public function images()
     {
         return $this->hasMany('App\Gallery');

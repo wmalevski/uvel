@@ -57,7 +57,7 @@
                         <option value="">Избери</option>
                 
                         @foreach($jewels as $jewel)
-                        <option @if($product->jewel_type == $jewel->id) selected @endif value="{{ $jewel->id }}" data-pricebuy="@if(App\Price::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()){{App\Price::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" data-material="{{ $jewel->material }}">{{ $jewel->name }}</option>
+                        <option @if($product->jewel_type == $jewel->id) selected @endif value="{{ $jewel->id }}">{{ $jewel->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -73,7 +73,7 @@
                         <option value="">Избери</option>
                 
                         @foreach($materials as $material)
-                            <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ App\Price::where([['material', '=', $material->material], ['type', '=', 'buy']])->first()->price}}" @if($material->id == $product->material) selected @endif>{{ App\Material::withTrashed()->find($material->material)->name }} - {{ App\Material::withTrashed()->find($material->material)->color }} - {{ App\Material::withTrashed()->find($material->material)->carat }}</option>
+                            <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}" @if($material->id == $product->material) selected @endif>{{ $material->material->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -133,9 +133,9 @@
 
                             @foreach($stones as $stone)
                                 <option value="{{ $stone->id }}" @if($modelStone->stone == $stone->id) selected @endif>
-                                    {{ App\Stone::find($stone->id)->name }} 
+                                    {{ $stone->stone->name }} 
 
-                                    ({{ App\StoneContour::find($stone->contour)->name }}, {{ App\StoneSize::find($stone->size)->name }})
+                                    ({{ $stone->stone->contour->name }}, {{ $stone->stone->size->name }})
                                 </option>
                             @endforeach
                         </select>
@@ -162,29 +162,6 @@
                     </div>
                 </div>
                 @endforeach
-                
-    
-                <!-- <div class="form-row fields">
-                    <div class="form-group col-md-6">
-                        <label>Камък: </label>
-                        <select name="stones[]" class="form-control">
-                            <option value="">Избери</option>
-    
-                            @foreach($stones as $stone)
-                                <option value="{{ $stone->id }}">
-                                    {{ $stone->name }} ({{ App\StoneContour::find($stone->contour)->name }}, {{ App\Stone_sizes::find($stone->size)->name }})
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="1">Брой: </label>
-                        <input type="number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="50">
-                    </div>
-                    <div class="form-group col-md-2">
-                        <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
-                    </div>
-                </div> -->
             </div>
 
             <div class="form-row">
