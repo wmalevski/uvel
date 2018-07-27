@@ -106,8 +106,8 @@ class JewelController extends Controller
     public function destroy(Jewel $jewel)
     {
         if($jewel){
-            $usingModel = Product::where('jewel_type', $jewel->id)->count();
-            $usingProduct = Model::where('jewel', $jewel->id)->count();
+            $usingModel = $jewel->products->count();
+            $usingProduct = $jewel->models->count();
 
             if($usingModel || $usingProduct){
                 return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);

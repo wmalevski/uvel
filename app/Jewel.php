@@ -15,4 +15,12 @@ class Jewel extends Model
 
     protected $table = 'jewels';
     protected $dates = ['deleted_at'];
+
+    public function products() {
+    	return $this->hasMany('App\Product');
+    }
+
+    public function models() {
+    	return $this->hasMany('App\Model');
+    }
 }
