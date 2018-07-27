@@ -15,4 +15,9 @@ class ModelStone extends Model
     ];
 
     protected $table = 'model_stones';
+
+    public function stone()
+    {
+        return $this->belongsTo('App\Stone');
+    }
 }
