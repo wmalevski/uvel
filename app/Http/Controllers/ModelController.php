@@ -296,8 +296,6 @@ class ModelController extends Controller
      */
     public function update(Request $request, Model $model)
     {
-        //$model = Model::find($model);
-
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::all();
@@ -347,7 +345,6 @@ class ModelController extends Controller
                 }
             }
         }
-        
 
         $deleteOptions = ModelOption::where('model_id', $model->id)->delete();
 
