@@ -90,6 +90,14 @@ class JewelController extends Controller
      */
     public function update(Request $request, Jewel $jewel)
     {
+        $validator = Validator::make( $request->all(), [
+            'name' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+        
         $jewel->name = $request->name;
         
         $jewel->save();

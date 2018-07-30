@@ -34,11 +34,11 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Потребител: </label>
-                            <select name="user" class="form-control">
+                            <select name="user_id" class="form-control">
                                 <option value="">Избери потребител</option>
                         
                                 @foreach($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }} - {{ $user->store_id }}</option>
+                                    <option value="{{ $user->id }}">{{ $user->name }} - {{ $user->store->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -49,7 +49,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Магазин: </label>
-                            <select name="store" class="form-control">
+                            <select name="store_id" class="form-control">
                                 <option value="">Избер магазин</option>
                         
                                 @foreach($stores as $store)
@@ -79,7 +79,7 @@
                                 <div class="input-group-addon bgc-white bd bdwR-0">
                                     <i class="ti-calendar"></i>
                                 </div>
-                                <input name="dateTo" type="text" class="form-control bdc-grey-200 end-date" placeholder="Избери дата" data-provide="datepicker" data-date-autoclose="true" value="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" data-date-format="dd-mm-yyyy">
+                                <input name="dateTo" type="text" class="form-control bdc-grey-200 end-date" placeholder="Избери дата" data-provide="datepicker" data-date-autoclose="true" value="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" data-date-format="dd-mm-yyyy" data-date-start-date="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}">
                             </div>
                         </div>
                     </div>

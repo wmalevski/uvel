@@ -50,8 +50,8 @@ class DiscountCodeController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make( $request->all(), [
-            'discount' => 'required|integer|between:0,100'
-         ]);
+            'discount' => 'required|integer|between:1,100'
+        ]);
         
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
@@ -126,8 +126,8 @@ class DiscountCodeController extends Controller
     public function update(Request $request, DiscountCode $discountCode)
     {
         $validator = Validator::make( $request->all(), [
-            'discount' => 'required|integer|between:0,100'
-         ]);
+            'discount' => 'required|integer|between:1,100'
+        ]);
         
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);

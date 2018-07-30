@@ -101,10 +101,6 @@ class PriceController extends Controller
      */
     public function update(Request $request, Price $price)
     {       
-        $price->slug = $request->slug;
-        $price->price = $request->price;
-        $price->type = $request->type;
-
         $validator = Validator::make( $request->all(), [
             'slug' => 'required',
             'price' => 'required|regex:/^\d*(\.\d{1,3})?$/',
@@ -114,6 +110,10 @@ class PriceController extends Controller
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
+
+        $price->slug = $request->slug;
+        $price->price = $request->price;
+        $price->type = $request->type;
         
         $price->save();
         

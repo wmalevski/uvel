@@ -33,14 +33,14 @@ class DashboardController extends Controller
             $priceCon = 0;
         }
 
-        // $substitution = UserSubstitution::where([
-        //     ['user_id', '=', Auth::user()->id],
-        //     ['date_to', '>=', date("Y-m-d")]
-        // ])->first();
+        $substitution = UserSubstitution::where([
+            ['user_id', '=', Auth::user()->id],
+            ['date_to', '>=', date("Y-m-d")]
+        ])->first();
 
-        // if($substitution){
-        //     Auth::user()->store = $substitution->store_id;
-        // }
+        if($substitution){
+            Auth::user()->store_id = $substitution->store_id;
+        }
 
         $items = [];
         

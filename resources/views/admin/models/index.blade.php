@@ -104,42 +104,7 @@ aria-hidden="true">
                     </div>
 
                     <div class="from-row model_stones">
-                        <!-- <div class="form-row fields">
-                            <div class="form-group col-md-6">
-                                <label>Камък: </label>
-                                <select id="model-stone" name="stones[]" class="form-control">
-                                    <option value="">Избери</option>
-
-                                    @foreach($stones as $stone)
-                                        <option value="{{ $stone->id }}">
-                                            {{ $stone->name }} ({{ $stone->contour->name }}, {{ $stone->style->name }})
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="1">Брой: </label>
-                                <input type="number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="50">
-                            </div>
-                            <div class="form-group col-md-2">
-                                <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <div class="form-group">
-                                    <label>Тегло: </label>
-                                    <input type="number" class="form-control" name="stone_weight[]" placeholder="Тегло:" min="0.1" max="100">
-                                </div>
-                            </div>
-    
-                            <div class="form-group col-md-6">
-                                <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder">
-                                    <input type="checkbox" id="" class="stone-flow" name="stone_flow[]" class="peer">
-                                    <label for="" class="peers peer-greed js-sb ai-c">
-                                        <span class="peer peer-greed">За леене</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div> -->
+                        
                     </div>
 
                     <div class="form-row">

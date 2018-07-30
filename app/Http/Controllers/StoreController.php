@@ -88,6 +88,16 @@ class StoreController extends Controller
      */
     public function update(Request $request, Store $store)
     {   
+        $validator = Validator::make( $request->all(), [
+            'name' => 'required',
+            'location' => 'required',
+            'phone' => 'required|numeric',
+         ]);
+        
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+        
         $store->name = $request->name;
         $store->location = $request->location;
         $store->phone = $request->phone;

@@ -59,20 +59,13 @@ class UsersubstitutionController extends Controller
             ['date_to', '>=', date("Y-m-d")]
         ])->first();
 
-        // foreach($substitution as $sub){
-        //     //print_r(date("d-m-Y"));  print_r($sub->date_to); die;
-        //     if($sub->date_to >= date("d-m-Y")){
-        //         $status = 1;
-        //     }
-        // }
-
         if($substitution){
             return Response::json(['errors' => ['already_sub' => ['Този потребител вмомента замества в друг магазин']]], 401);
 
         } else{
             $validator = Validator::make( $request->all(), [
-                'user' => 'required',
-                'store' => 'required',
+                'user_id' => 'required',
+                'store_id' => 'required',
                 'dateFrom' => 'required',
                 'dateTo' => 'required',
              ]);
@@ -81,14 +74,14 @@ class UsersubstitutionController extends Controller
                 return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
             }
             
-            $user = User::find($request->user);
+            $user = User::find($request->user_id);
 
-            if($user->store != $request->store){
+            if($user->store_id != $request->store_id){
                 $status = 1;
                 $place = 'active';
                 $substitution = new UserSubstitution();
-                $substitution->user_id = $request->user;
-                $substitution->store_id = $request->store;
+                $substitution->user_id = $request->user_id;
+                $substitution->store_id = $request->store_id;
                 $substitution->date_from = date('Y-m-d', strtotime($request->dateFrom));
                 $substitution->date_to = date('Y-m-d', strtotime($request->dateTo));
         
@@ -164,7 +157,7 @@ class UsersubstitutionController extends Controller
         if($userSubstitution){
             $validator = Validator::make( $request->all(), [
                 'user_id' => 'required',
-                'store' => 'required',
+                'store_id' => 'required',
                 'dateFrom' => 'required',
                 'dateTo' => 'required',
              ]);
@@ -175,7 +168,7 @@ class UsersubstitutionController extends Controller
 
             $place = 'active';
             $userSubstitution->user_id = $request->user_id;
-            $userSubstitution->store_id = $request->store;
+            $userSubstitution->store_id = $request->store_id;
             $userSubstitution->date_from = date('Y-m-d', strtotime($request->dateFrom));
             $userSubstitution->date_to = date('Y-m-d', strtotime($request->dateTo));
 

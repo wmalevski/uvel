@@ -7,39 +7,15 @@
     <td>
         <span data-url="models/{{$model->id}}" class="edit-btn" data-toggle="modal" data-target="#editModel"><i class="c-brown-500 ti-pencil"></i></span>
         <span data-url="models/delete/{{$model->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></span> 
-        {{-- <i class="c-brown-500 ti-hummer" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="@foreach(App\ModelStone::where('model', $model->id)->get() as $stone)
-                {{ App\Stones::find($stone->stone)->name }}
-                {{ $stone->amount }}
-            @endforeach"></i> --}}
     </td>
 
     <td class="stones--tooltip">
       Виж камъни
         <ul>
-        @foreach(App\Model_stones::where('model', $model->id)->get() as $stone)
+        @foreach($model->stones as $stone)
             
-                <li>{{ App\Stones::find($stone->stone)->name }} , {{ $stone->amount }}</li>
+                <li>{{ $stone->stone->name }} , {{ $stone->amount }}</li>
         @endforeach
         </ul>
     </td>
 </tr>
-
-{{-- <tr>
-    <th>камъни</th>
-    <td>
-        <table class="table table-condensed">
-            <tr>
-                <th>Тип</th>
-                <th>Брой</th>
-            </tr>
-
-            @foreach(App\ModelStone::where('model', $model->id)->get() as $stone)
-                <tr>
-                    <td>{{ App\Stones::find($stone->stone)->name }}</td>
-                    <td>{{ $stone->amount }}</td>
-                </tr>
-            @endforeach
-        </table>
-        
-    </td>
-</tr>--}}
