@@ -37,7 +37,7 @@ class ModelController extends Controller
         $jewels = Jewel::all();
         $prices = Price::all();
         $stones = Stone::all();
-        $materials = MaterialQuantity::where('store_id', 1)->get();
+        $materials = MaterialQuantity::where('store_id', Auth::user()->id)->get();
         $pass_stones = array();
         
         foreach($stones as $stone){
