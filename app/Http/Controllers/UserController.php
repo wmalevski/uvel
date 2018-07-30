@@ -43,6 +43,15 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
+        $validator = Validator::make( $request->all(), [
+            'name' => 'required|string|max:255',
+            'role' => 'required',
+            'store_id' => 'required'
+         ]);
+        
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
         
         $user->name = $request->name;
         $user->store_id = $request->store_id;
@@ -93,6 +102,8 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'role' => 'required',
+            'store_id' => 'required'
          ]);
         
         if ($validator->fails()) {
