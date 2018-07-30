@@ -84,6 +84,15 @@ class RepairTypeController extends Controller
      */
     public function update(Request $request, RepairType $repairType)
     {
+         $validator = Validator::make( $request->all(), [
+            'name' => 'required',
+            'price' => 'required|numeric|between:0.1,50000',
+        ]);
+        
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
         $repairType->name = $request->name;
         $repairType->price = $request->price;
 

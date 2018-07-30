@@ -30,20 +30,22 @@ class SettingController extends Controller
 
     public function updatePrices(Request $request)
     {
-        foreach($request->mat as $mat => $key){
-            $validator = Validator::make( $request->all(), [
-                'stock_price.*' => 'required|numeric|between:0.1,10000'
-            ]);
+        if($request->mat){
+             foreach($request->mat as $mat => $key){
+                $validator = Validator::make( $request->all(), [
+                    'stock_price.*' => 'required|numeric|between:0.1,10000'
+                ]);
 
-            if ($validator->fails()) {
-                return Redirect::back();
+                if ($validator->fails()) {
+                    return Redirect::back();
+                }
+
+                $material = Material::find($key);
+                $material->stock_price = $request->stock_price[$mat];
+                $material->save();
             }
-
-            $material = Material::find($key);
-            $material->stock_price = $request->stock_price[$mat];
-            $material->save();
         }
-
+       
         return Redirect::back();
     }
 

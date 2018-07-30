@@ -85,6 +85,14 @@ public function edit(StoneSize $stoneSize)
      */
     public function update(Request $request, StoneSize $stoneSize)
     {
+        $validator = Validator::make( $request->all(), [
+            'name' => 'required|unique:stone_sizes',
+        ]);
+        
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+        
         $stoneSize->name = $request->name;
         
         $stoneSize->save();
