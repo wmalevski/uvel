@@ -21,7 +21,6 @@ use Response;
 use Illuminate\Support\Facades\View;
 use File;
 use Auth;
-use Response;
 use Uuid;
 use Storage;
 

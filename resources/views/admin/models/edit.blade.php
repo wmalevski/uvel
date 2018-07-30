@@ -37,98 +37,64 @@
         </div>
 
         <div class="form-row model_materials">
-        <!-- <div class="form-row">
-            <div class="form-group col-md-12">
-                <label>Избери материал: </label>
-                <select id="material_type" name="material[]" class="material_type form-control calculate">
-                    <option value="">Избери</option>
-            
-                    @foreach($materials as $material)
-                        <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">{{ $material->material->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
-                    @endforeach
-                </select>
-            </div>
+            @if($options)
+                @foreach($options as $option)
+                <div class="form-row">
+                    @if(!$loop->first)
+                    <div class="col-6">
+                        <hr>
+                    </div>
+                    @endif
+                    <div class="form-group col-md-12">
+                        <label>Избери материал: </label>
+                        <select id="material_type" name="material_id[]" class="material_type form-control calculate">
+                            <option value="">Избери</option>
+                    
+                            @foreach($materials as $material)
+                                @if($material->material->pricesBuy->first())
+                                    <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}" @if($material->id == $option->material) selected @endif>{{ $material->material->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
 
-            <div class="form-group col-md-6">
-                <label>Цена на дребно: </label>
-                <select id="retail_prices" name="retail_price_id[]" class="form-control calculate prices-filled" disabled>
-                    <option value="">Избери</option>
-                </select>
-            </div>
+                    <div class="form-group col-md-5">
+                        <label>Цена на дребно: </label>
+                        <select id="retail_price_edit" name="retail_price_id[]" class="form-control calculate prices-filled retail-price">
+                            <option value="">Избери</option>
 
-            <div class="form-group col-md-6">
-                <label>Цена на едро: </label>
-                <select id="wholesale_price" name="wholesale_price_id[]" class="form-control prices-filled" disabled>
-                    <option value="">Избери</option>
-                </select>
-            </div>
+                            @foreach($prices->where('type', 'sell') as $price)
+                                <option value="{{ $price->id }}" data-material="{{ $price->material }}" @if($option->retail_price == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-            <div class="form-group col-md-12">
-                <div class="radio radio-info">
-                    <input type="radio" class="default_material" id="" name="default_material[]">
-                    <label for="">Материал по подразбиране</label>
-                </div>
-            </div>
-        </div> -->   
+                    <div class="form-group col-md-5">
+                        <label>Цена на едро: </label>
+                        <select id="wholesale_price_edit" name="wholesale_price_id[]" class="form-control prices-filled wholesale-price">
+                            <option value="">Избери</option>
 
-        @if($options)
-            @foreach($options as $option)
-            <div class="form-row">
-                @if(!$loop->first)
-                <div class="col-6">
-                    <hr>
-                </div>
-                @endif
-                <div class="form-group col-md-12">
-                    <label>Избери материал: </label>
-                    <select id="material_type" name="material_id[]" class="material_type form-control calculate">
-                        <option value="">Избери</option>
-                
-                        @foreach($materials as $material)
-                            @if($material->material->pricesBuy->first())
-                                <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}" @if($material->id == $option->material) selected @endif>{{ $material->material->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                </div>
+                            @foreach($prices->where('type', 'sell') as $price)
+                                <option value="{{ $price->id }}" data-material="{{ $price->material }}" @if($option->wholesale_price == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    
+                    @if(!$loop->first)
+                    <div class="form-group col-md-2">
+                        <span class="delete-material remove_field"><i class="c-brown-500 ti-trash"></i></span>
+                    </div>
+                    @endif
 
-                <div class="form-group col-md-5">
-                    <label>Цена на дребно: </label>
-                    <select id="retail_price_edit" name="retail_price_id[]" class="form-control calculate prices-filled retail-price">
-                        <option value="">Избери</option>
-
-                        @foreach($prices->where('type', 'sell') as $price)
-                            <option value="{{ $price->id }}" data-material="{{ $price->material }}" @if($option->retail_price == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="form-group col-md-5">
-                    <label>Цена на едро: </label>
-                    <select id="wholesale_price_edit" name="wholesale_price_id[]" class="form-control prices-filled wholesale-price">
-                        <option value="">Избери</option>
-
-                        @foreach($prices->where('type', 'sell') as $price)
-                            <option value="{{ $price->id }}" data-material="{{ $price->material }}" @if($option->wholesale_price == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                
-                @if(!$loop->first)
-                <div class="form-group col-md-2">
-                    <span class="delete-material remove_field"><i class="c-brown-500 ti-trash"></i></span>
-                </div>
-                @endif
-
-                <div class="form-group col-md-12">
-                    <div class="radio radio-info">
-                        <input type="radio" class="default_material" id="" name="default_material[]" @if($option->default == 'yes') checked @endif>
-                        <label for="">Материал по подразбиране</label>
+                    <div class="form-group col-md-12">
+                        <div class="radio radio-info">
+                            <input type="radio" class="default_material" id="" name="default_material[]" @if($option->default == 'yes') checked @endif>
+                            <label for="">Материал по подразбиране</label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            @endforeach
-        @endif
+                @endforeach
+            @endif
         </div>
 
         <div class="form-row">

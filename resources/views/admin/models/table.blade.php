@@ -16,30 +16,10 @@
     <td class="stones--tooltip">
       Виж камъни
         <ul>
-        @foreach(App\Model_stones::where('model', $model->id)->get() as $stone)
+        @foreach($model->stones as $stone)
             
-                <li>{{ App\Stones::find($stone->stone)->name }} , {{ $stone->amount }}</li>
+                <li>{{ $stone->stone->name }} , {{ $stone->amount }}</li>
         @endforeach
         </ul>
     </td>
 </tr>
-
-{{-- <tr>
-    <th>камъни</th>
-    <td>
-        <table class="table table-condensed">
-            <tr>
-                <th>Тип</th>
-                <th>Брой</th>
-            </tr>
-
-            @foreach(App\ModelStone::where('model', $model->id)->get() as $stone)
-                <tr>
-                    <td>{{ App\Stones::find($stone->stone)->name }}</td>
-                    <td>{{ $stone->amount }}</td>
-                </tr>
-            @endforeach
-        </table>
-        
-    </td>
-</tr>--}}
