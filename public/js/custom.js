@@ -59,12 +59,14 @@ var uvel,
 
     this.attachInitialEvents = function () {
       var $openFormTrigger = $('[data-form]');
+      var $deleteRowTrigger = $('.delete-btn');
 
       $self.openForm($openFormTrigger);
+      $self.deleteRow($deleteRowTrigger);
     }
 
     this.openForm = function(openFormTrigger) {
-      var timeToOpenModal = 500; //time which takes for modals to open
+      var timeToOpenModal = 1000; //time which takes for modals to open
 
 
       openFormTrigger.on('click', function() {
@@ -81,16 +83,31 @@ var uvel,
 
         setTimeout(function() {
           if(formType == 'add' && !formSettings.initialized) {
-            
-            $self.initializeForm(formSettings, formType);
             formSettings.initialized = true;
-
-          } else if (formType == 'edit') {
-            $self.initializeForm(formSettings, formType);
           }
+
+          $self.initializeForm(formSettings, formType);
         }, timeToOpenModal);
       });
     };
+
+    this.deleteRow = function(deleteRowTrigger) {
+      deleteRowTrigger.on('click', function() {
+        console.log('delete row');
+        var _this = $(this);
+        var ajaxRequestLink = $self.buildAjaxRequestLink('deleteRow', _this.attr('data-url'));
+
+        if(confirm("Сигурен ли сте, че искате да изтриете записа?")) {
+          $.ajax({
+            method: "POST",
+            url: ajaxRequestLink,
+            success: function(resp) {
+              _this.parents('tr').remove();
+            }
+          });
+        }
+      })
+    }
 
     this.initializeForm = function(formSettings, formType) {
       var form = $(formSettings.selector + '[data-type="' + formType + '"]');
@@ -166,7 +183,7 @@ var uvel,
             }
           },
           error: function(err) {
-            $self.formsErrorHandler(err , form);
+            $self.formsErrorHandler(err, form);
           }
       });
     }
@@ -199,11 +216,12 @@ var uvel,
       form.parents('.main-content').find('table tbody').append(responseHTML);
       
       var $openFormTriggers = $('[data-form]');
-
-      console.log($openFormTriggers);
+      var deleteRowTiggers = $('.delete-btn');
       var newRowFormTrigger = $($openFormTriggers[$openFormTriggers.length - 1]);
+      var newDeleteRowTrigger = $(deleteRowTiggers[deleteRowTiggers.length - 1]);
 
       $self.openForm(newRowFormTrigger);
+      $self.deleteRow(newDeleteRowTrigger);
     }
 
      // FUNCTION THAT APPENDS SUCCESS MESSAGES TO THE FORM WHEN THE REQUEST IS SUCCESS
@@ -231,7 +249,7 @@ var uvel,
       $.ajax({
         url: ajaxRequestLink,
         success: function(resp) {
-          currentButton.parents().find('.edit--modal_holder .modal-content').html(resp);  
+          currentButton.parents().find('.edit--modal_holder .modal-content').html(resp);
           // $self.initializeSelect(_this.parents().find('select'));
         }
       });
@@ -244,6 +262,12 @@ var uvel,
       var rowId = response.ID;
 
       form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]').replaceWith(replaceRowHTML);
+
+      var editBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .edit-btn');
+      var deleteBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .delete-btn');
+      
+      $self.openForm(editBtn);
+      $self.deleteRow(deleteBtn);
     }
 
     // FUNCTION THAT DISPLAY THE EDIT SUCCESS MESSAGE.
@@ -274,6 +298,9 @@ var uvel,
             break
         case 'submitForm' :
           prefix = '/ajax';
+            break;
+        case 'deleteRow' :
+          prefix = '/ajax/';
             break;
       }
 
