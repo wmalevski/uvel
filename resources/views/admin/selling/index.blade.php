@@ -10,7 +10,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/repairs" name="fullEditRepair">
+            <form method="POST" action="repairs" name="fullEditRepair">
                  
                 <div class="modal-body">    
                     <div class="info-cont">
@@ -42,7 +42,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/sell/payment" name="paymentModal">
+            <form method="POST" action="sell/payment" name="paymentModal">
                  
                 <div class="modal-body">    
                     <div class="info-cont">

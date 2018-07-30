@@ -4,7 +4,7 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<form method="POST" action="/repairs/return/{{ $repair->barcode }}" name="scanRepair">
+<form method="POST" action="repairs/return/{{ $repair->barcode }}" name="scanRepair">
     <input name="_method" type="hidden" value="PUT">
     <div class="modal-body">    
         <div class="info-cont">

@@ -7,7 +7,7 @@
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
             <h4 class="c-grey-900 mB-20">Настройки </h4>
             Борсови цениW
-            <form method="POST" action="/admin/settings/updatePrices">
+            <form method="POST" action="admin/settings/updatePrices">
                 {{ csrf_field() }}
                 <div class="form-row">
                     @foreach($materials as $material)

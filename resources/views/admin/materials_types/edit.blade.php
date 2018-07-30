@@ -6,7 +6,7 @@
         </button>
     </div>
     
-    <form method="POST" name="edit" action="/materialstypes/{{ $material->id }}">
+    <form method="POST" name="edit" action="materialstypes/{{ $material->id }}">
         <input name="_method" type="hidden" value="PUT">
         <div class="modal-body">
                 

@@ -12,7 +12,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/models" name="addModel" autocomplete="off">
+            <form method="POST" action="models" name="addModel" autocomplete="off">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>

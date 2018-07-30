@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="addSize" action="/stones/sizes">
+            <form method="POST" name="addSize" action="stones/sizes">
                 <div class="modal-body">    
                     <div class="info-cont">
                     </div>
