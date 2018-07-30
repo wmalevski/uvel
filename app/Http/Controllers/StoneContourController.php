@@ -83,6 +83,14 @@ class StoneContourController extends Controller
      */
     public function update(Request $request, StoneContour $stoneContour)
     {
+        $validator = Validator::make( $request->all(), [
+            'name' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
         $stoneContour->name = $request->name;
         
         $stoneContour->save();
