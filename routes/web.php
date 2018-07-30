@@ -75,7 +75,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/materials/{material}', 'MaterialController@edit');
     Route::put('/materials/{material}', 'MaterialController@update');
 
-    Route::get('/materials/accept/{material}', 'MaterialTravellingController@accept');
+    Route::post('/materials/accept/{material}', 'MaterialTravellingController@accept');
+    Route::post('/materials/decline/{material}', 'MaterialTravellingController@decline');
 
     Route::get('/mquantity', 'MaterialQuantityController@index')->name('materials_quantity');
     Route::post('/mquantity', 'MaterialQuantityController@store');
@@ -275,4 +276,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/users/substitutions/delete/{userSubstitution}', 'UserSubstitutionController@destroy');
 
     Route::post('/gallery/delete/{photo}', 'GalleryController@destroy');
+
+    Route::post('/materials/accept/{material}', 'MaterialsTravellingController@accept');
+    Route::post('/materials/decline/{material}', 'MaterialsTravellingController@decline');
 });

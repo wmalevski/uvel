@@ -19,6 +19,7 @@ use Response;
 use File;
 use App\Material;
 use App\MaterialQuantity;
+use Storage;
 
 class ProductController extends Controller
 {
@@ -37,11 +38,11 @@ class ProductController extends Controller
         $materials = MaterialQuantity::all();
 
         $pass_stones = array();
-
+        
         foreach($stones as $stone){
-            $pass_stones[] = (object)[
+            $pass_stones[] = [
                 'value' => $stone->id,
-                'label' => $stone->name
+                'label' => $stone->name.' ('.\App\Stone_contours::withTrashed()->find($stone->contour)->name.', '.\App\Stone_sizes::withTrashed()->find($stone->size)->name.' )'
             ];
         }
 
@@ -137,22 +138,7 @@ class ProductController extends Controller
         $path = public_path('uploads/products/');
         
         File::makeDirectory($path, 0775, true, true);
-
-        $file_data = $request->input('images'); 
-        if($file_data){
-            foreach($file_data as $img){
-                $file_name = 'productimage_'.uniqid().time().'.png';
-                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                file_put_contents(public_path('uploads/products/').$file_name, $data);
-    
-                $photo = new Gallery();
-                $photo->photo = $file_name;
-                $photo->product_id = 1;
-                $photo->table = 'products';
-    
-                $photo->save();
-            }
-        }
+        Storage::disk('public')->makeDirectory('products', 0775, true);
 
 
         $findModel = ModelOption::where([
@@ -198,18 +184,32 @@ class ProductController extends Controller
         }
 
         $file_data = $request->input('images'); 
-
+        
         if($file_data){
             foreach($file_data as $img){
-                $file_name = 'productimage_'.uniqid().time().'.png';
+                $memi = substr($img, 5, strpos($img, ';')-5);
+                
+                $extension = explode('/',$memi);
+    
+                if($extension[1] == "svg+xml"){
+                    $ext = 'png';
+                }else{
+                    $ext = $extension[1];
+                }
+                
+    
+                $file_name = 'productimage_'.uniqid().time().'.'.$ext;
+    
                 $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
                 file_put_contents(public_path('uploads/products/').$file_name, $data);
-
+    
+                Storage::disk('public')->put('products/'.$file_name, file_get_contents(public_path('uploads/products/').$file_name));
+    
                 $photo = new Gallery();
                 $photo->photo = $file_name;
                 $photo->product_id = $product->id;
                 $photo->table = 'products';
-
+    
                 $photo->save();
             }
         }
@@ -250,7 +250,31 @@ class ProductController extends Controller
             ]
         )->get();
 
-        return \View::make('admin/products/edit', array('photos' => $photos, 'product_stones' => $product_stones, 'product' => $product, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials));
+        $pass_photos = array();
+
+        foreach($photos as $photo){
+            $url =  Storage::get('public/products/'.$photo->photo);
+            $ext_url = Storage::url('public/products/'.$photo->photo);
+            
+            $info = pathinfo($ext_url);
+            
+            $image_name =  basename($ext_url,'.'.$info['extension']);
+            
+            $base64 = base64_encode($url);
+
+            if($info['extension'] == "svg"){
+                $ext = "png";
+            }else{
+                $ext = $info['extension'];
+            }
+
+            $pass_photos[] = [
+                'id' => $photo->id,
+                'photo' => 'data:image/'.$ext.';base64,'.$base64
+            ];
+        }
+
+        return \View::make('admin/products/edit', array('photos' => $photos, 'product_stones' => $product_stones, 'product' => $product, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials, 'basephotos' => $pass_photos));
     }
 
     /**
@@ -338,19 +362,31 @@ class ProductController extends Controller
             File::makeDirectory($path, 0775, true, true);
     
             $file_data = $request->input('images'); 
-            if($file_data){
-                foreach($file_data as $img){
-                    $file_name = 'productimage_'.uniqid().time().'.png';
-                    $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                    file_put_contents(public_path('uploads/products/').$file_name, $data);
-        
-                    $photo = new Gallery();
-                    $photo->photo = $file_name;
-                    $photo->product_id = $product->id;
-                    $photo->table = 'products';
-        
-                    $photo->save();
+            foreach($file_data as $img){
+                $memi = substr($img, 5, strpos($img, ';')-5);
+                
+                $extension = explode('/',$memi);
+    
+                if($extension[1] == "svg+xml"){
+                    $ext = 'png';
+                }else{
+                    $ext = $extension[1];
                 }
+                
+    
+                $file_name = 'productimage_'.uniqid().time().'.'.$ext;
+                
+                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                file_put_contents(public_path('uploads/products/').$file_name, $data);
+
+                Storage::disk('public')->put('products/'.$file_name, file_get_contents(public_path('uploads/products/').$file_name));
+    
+                $photo = new Gallery();
+                $photo->photo = $file_name;
+                $photo->product_id = $product->id;
+                $photo->table = 'products';
+    
+                $photo->save();
             }
 
             $deleteStones = ProductStone::where('product_id', $product->id)->delete();

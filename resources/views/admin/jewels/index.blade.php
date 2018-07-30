@@ -17,7 +17,7 @@ aria-hidden="true">
                     </div>
                     {{ csrf_field() }}
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-12">
                             <label for="1">Име: </label>
                             <input type="text" class="form-control" id="1" name="name" placeholder="Име:">
                         </div>

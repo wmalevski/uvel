@@ -9,6 +9,8 @@ use App\Currency;
 use Illuminate\Http\Request;
 use Auth;
 use Cart;
+use View;
+use Storage;
 
 class DashboardController extends Controller
 {

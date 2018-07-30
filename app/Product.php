@@ -14,7 +14,9 @@ use App\StoneContour;
 use App\StoneSize;
 use App\Gallery;
 use App\ModelOption;
+use Illuminate\Http\File;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
@@ -157,10 +159,18 @@ class Product extends Model
             $pass_photos = array();
 
             foreach($model_photos as $photo){
-               
-                $pass_photos[] = (object)[
+                $url =  Storage::get('public/models/'.$photo->photo);
+                $ext_url = Storage::url('public/models/'.$photo->photo);
+                
+                $info = pathinfo($ext_url);
+                
+                $image_name =  basename($ext_url,'.'.$info['extension']);
+                
+                $base64 = base64_encode($url);
+
+                $pass_photos[] = [
                     'id' => $photo->id,
-                    'photo' => $photo->photo
+                    'base64' => 'data:image/'.$info['extension'].';base64,'.$base64
                 ];
             }
     

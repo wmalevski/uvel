@@ -15,7 +15,7 @@ use App\Gallery;
 use File;
 use App\ModelStone;
 use App\ProductStone;
-
+use Storage;
 
 class StoneController extends Controller
 {
@@ -74,12 +74,15 @@ class StoneController extends Controller
         $path = public_path('uploads/stones/');
         
         File::makeDirectory($path, 0775, true, true);
+        Storage::disk('public')->makeDirectory('stones', 0775, true);
 
         $file_data = $request->input('images'); 
         foreach($file_data as $img){
             $file_name = 'productimage_'.uniqid().time().'.png';
             $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
             file_put_contents(public_path('uploads/stones/').$file_name, $data);
+
+            Storage::disk('public')->put('stones/'.$file_name, file_get_contents(public_path('uploads/stones/').$file_name));
 
             $photo = new Gallery();
             $photo->photo = $file_name;
@@ -171,6 +174,8 @@ class StoneController extends Controller
             $file_name = 'stoneimage_'.uniqid().time().'.png';
             $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
             file_put_contents(public_path('uploads/stones/').$file_name, $data);
+
+            Storage::disk('public')->put('stones/'.$file_name, file_get_contents(public_path('uploads/stones/').$file_name));
 
             $photo = new Gallery();
             $photo->photo = $file_name;

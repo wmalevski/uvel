@@ -20,6 +20,7 @@ class CreateGalleriesTable extends Migration
             $table->integer('model_id')->unsigned();
             $table->integer('stone_id')->unsigned();
             $table->string('table');
+
             $table->timestamps();
         });
     }

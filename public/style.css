@@ -202,3 +202,51 @@ textarea {
     display:none;
   }
 }
+
+.row-total-weight {
+  padding-left: 10px;
+  cursor: default;
+  transition: opacity .4s ease;
+}
+
+/* custom styles */
+
+.stones--tooltip {
+  position: relative;
+}
+
+.stones--tooltip:hover ul {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: all;
+}
+
+.stones--tooltip ul {
+  z-index: 20;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  min-width: 400px;
+  padding: 12px;
+  margin-top: 10px;
+  list-style: none;
+  background: #fff;
+  box-shadow: 0 0 30px rgba(0,0,0,0.1);
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: visibility .4s , opacity .4s;
+}
+
+/* .stones--tooltip ul:before {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent #fff transparent;
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+} */

@@ -25,7 +25,7 @@ aria-hidden="true">
                         <div class="form-group col-md-6">
                             <label>Избери вид бижу: </label>
                             <select id="jewel_id" name="jewel_id" class="form-control calculate">
-                                <option value="0">Избери</option>
+                                <option value="">Избери</option>
                         
                                 @foreach($jewels as $jewel)
                                     <option value="{{ $jewel->id }}">{{ $jewel->name }}</option>
@@ -42,7 +42,7 @@ aria-hidden="true">
                             <div class="form-group col-md-12">
                                 <label>Избери материал: </label>
                                 <select id="material_type" name="material_id[]" class="material_type form-control calculate">
-                                    <option value="0">Избери</option>
+                                    <option value="">Избери</option>
                             
                                     @foreach($materials as $material)
                                         @if($material->material->pricesBuy->first())
@@ -55,14 +55,14 @@ aria-hidden="true">
                             <div class="form-group col-md-6">
                                 <label>Цена на дребно: </label>
                                 <select id="retail_prices" name="retail_price_id[]" class="form-control calculate prices-filled retail-price" disabled>
-                                    <option value="0">Избери</option>
+                                    <option value="">Избери</option>
                                 </select>
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label>Цена на едро: </label>
                                 <select id="wholesale_price" name="wholesale_price_id[]" class="form-control prices-filled wholesale-price" disabled>
-                                    <option value="0">Избери</option>
+                                    <option value="">Избери</option>
                                 </select>
                             </div>
 
@@ -227,7 +227,7 @@ aria-hidden="true">
 
 <h3>Модели <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addModel">Добави</button></h3>
 
-<table class="table table-condensed models-table">
+<table class="table table-condensed models-table tablesort">
     <tr>
         <th>Име</th> 
         <th>Виж бижу</th>
