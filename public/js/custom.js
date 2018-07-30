@@ -93,7 +93,6 @@ var uvel,
 
     this.deleteRow = function(deleteRowTrigger) {
       deleteRowTrigger.on('click', function() {
-        console.log('delete row');
         var _this = $(this);
         var ajaxRequestLink = $self.buildAjaxRequestLink('deleteRow', _this.attr('data-url'));
 
@@ -126,8 +125,6 @@ var uvel,
     }
 
     this.submitForm = function(form) {
-      console.log(form);
-
       var submitButton = form.find('[type="submit"]');
       var ajaxRequestLink = $self.buildAjaxRequestLink('submitForm', form.attr('action'));
       var formType = form.attr('data-type');
@@ -297,8 +294,6 @@ var uvel,
           prefix = '/admin/';
             break
         case 'submitForm' :
-          prefix = '/ajax';
-            break;
         case 'deleteRow' :
           prefix = '/ajax/';
             break;

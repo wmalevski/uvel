@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" data-type="add" name="repair_types" action="/repairtypes" autocomplete="off">
+            <form method="POST" data-type="add" name="repair_types" action="repairtypes" autocomplete="off">
                 <div class="modal-body">    
                     <div class="info-cont">
                     </div>
