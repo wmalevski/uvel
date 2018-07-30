@@ -7,10 +7,6 @@
     <td>
         <span data-url="models/{{$model->id}}" class="edit-btn" data-toggle="modal" data-target="#editModel"><i class="c-brown-500 ti-pencil"></i></span>
         <span data-url="models/delete/{{$model->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></span> 
-        {{-- <i class="c-brown-500 ti-hummer" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="@foreach(App\ModelStone::where('model', $model->id)->get() as $stone)
-                {{ App\Stones::find($stone->stone)->name }}
-                {{ $stone->amount }}
-            @endforeach"></i> --}}
     </td>
 
     <td class="stones--tooltip">
