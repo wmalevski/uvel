@@ -83,6 +83,14 @@ class StoneStyleController extends Controller
      */
     public function update(Request $request, StoneStyle $stoneStyle)
     {
+        $validator = Validator::make( $request->all(), [
+            'name' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
         $stoneStyle->name = $request->name;
         
         $stoneStyle->save();
