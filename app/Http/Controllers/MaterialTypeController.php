@@ -88,6 +88,14 @@ class MaterialTypeController extends Controller
      */
     public function update(Request $request, MaterialType $materialType)
     {
+        $validator = Validator::make( $request->all(), [
+            'name' => 'required',
+         ]);
+
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+        
         $materialType->name = $request->name;
         
         $materialType->save();
