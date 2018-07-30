@@ -95,6 +95,17 @@ class MaterialController extends Controller
      */
     public function update(Request $request, Material $material)
     {
+        $validator = Validator::make( $request->all(), [
+            'code' => 'required',
+            'color' => 'required',
+            'carat' => 'nullable|numeric|between:1,100',
+            'parent_id' => 'required|nullable|numeric'
+         ]);
+
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
         $material->code = $request->code;
         $material->color = $request->color;
         $material->carat = $request->carat;
@@ -114,14 +125,8 @@ class MaterialController extends Controller
     public function destroy(Material $material)
     {
         if($material){
-            $using = Jewel::where('material', $material->id)->count();
-            
-            if($using){
-                return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
-            }else{
-                $material->delete();
-                return Response::json(array('success' => 'Успешно изтрито!'));
-            }
+            $material->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
         }
     }
 }
