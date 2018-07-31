@@ -93,10 +93,11 @@ var uvel,
 
         setTimeout(function() {
           if(formType == 'add' && !formSettings.initialized) {
+            $self.initializeForm(formSettings, formType);
             formSettings.initialized = true;
+          } else if(formType == 'edit') {
+            $self.initializeForm(formSettings, formType);
           }
-
-          $self.initializeForm(formSettings, formType);
         }, timeToOpenModal);
       });
     };
