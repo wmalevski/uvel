@@ -18,12 +18,12 @@ var uvel,
         token : $('meta[name="csrf-token"]').attr('content'),
         controllers: ['submitForm']
       },
-      jewels : {
+      jewels: {
         selector: '[name="jewels"]',
         controllers: [],
         initialized: false
       },
-      stores : {
+      stores: {
         selector: '[name="stores"]',
         controllers: [],
         initialized: false
