@@ -135,10 +135,10 @@
                             <option value="">Избери</option>
 
                             @foreach($stones as $stone)
-                                <option value="{{ $stone->id }}" @if($modelStone->stone == $stone->id) selected @endif>
-                                    {{ $stone->stone->name }} 
+                                <option value="{{ $stone->id }}" @if($modelStone->stone->id == $stone->id) selected @endif>
+                                    {{ $modelStone->stone->name }} 
 
-                                    ({{ $stone->stone->contour->name }}, {{ $stone->stone->style->network_admin_url( path, scheme ) }})
+                                    ({{ $modelStone->stone->contour->name }}, {{ $modelStone->stone->style->name }})
                                 </option>
                             @endforeach
                         </select>
