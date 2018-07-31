@@ -42,7 +42,7 @@ aria-hidden="true">
                                 <option value="">Избери магазин</option>
                         
                                 @foreach($stores as $store)
-                                    @if($store->id != Auth::user()->getStore())
+                                    @if($store->id != Auth::user()->getStore()->id)
                                         <option value="{{ $store->id }}">
                                             {{ $store->name }} - {{ $store->location }}
                                         </option>
