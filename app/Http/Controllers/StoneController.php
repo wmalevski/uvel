@@ -214,8 +214,8 @@ class StoneController extends Controller
     public function destroy(Stone $stone)
     {
         if($stone){
-            $usingModel = ModelStone::where('stone', $stone->id)->count();
-            $usingProduct = ProductStone::where('stone', $stone->id)->count();
+            $usingModel = $stone->modelStones->count();
+            $usingProduct = $stone->productStones->count();
 
             if($usingModel || $usingProduct){
                 return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
