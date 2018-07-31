@@ -14,8 +14,8 @@ var uvel,
     **********************************************/
 
     this.formsConfig = {
-      token : $('meta[name="csrf-token"]').attr('content'),
       globalSettings: {
+        token: $('meta[name="csrf-token"]').attr('content'),
         controllers: ['submitForm']
       },
       discounts: {
@@ -23,8 +23,13 @@ var uvel,
         controllers: [],
         initialized: false
       },
-      jewels : {
+      jewels: {
         selector: '[name="jewels"]',
+        controllers: [],
+        initialized: false
+      },
+      stores: {
+        selector: '[name="stores"]',
         controllers: [],
         initialized: false
       },
@@ -150,7 +155,7 @@ var uvel,
     }
 
     this.getFormFields = function(form, ajaxRequestLink, formType, inputFields) {
-      var data = {_token : $self.formsConfig.token};
+      var data = {_token : $self.formsConfig.globalSettings.token};
 
       if(formType == 'edit') {
         data._method = "PUT";
