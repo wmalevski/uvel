@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Auth;
 
 class MaterialQuantity extends Model
 {
@@ -15,6 +16,10 @@ class MaterialQuantity extends Model
         'store_id'
     ];
 
+    public function scopeCurrentStore()
+    {
+        return $this->where('store_id', Auth::user()->getStore())->get();
+    }
     public function store(){
         return $this->belongsTo('App\Store');
     }
