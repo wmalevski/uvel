@@ -59,6 +59,16 @@ class MaterialQuantityController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
+        $checkQuantity = MaterialQuantity::where([
+            ['material_id', '=', $request->material_id],
+            ['store_id', '=', $request->store_id]
+            
+        ])->first();
+
+        if($checkQuantity){
+            return Response::json(['errors' => ['using' => ['Вече имате добавена наличност от този материал, можете да я редактирате..']]], 401);
+        }
+
         $material = MaterialQuantity::create($request->all());
 
         return Response::json(array('success' => View::make('admin/materials_quantity/table',array('material'=>$material))->render()));
