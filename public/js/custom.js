@@ -18,6 +18,11 @@ var uvel,
       globalSettings: {
         controllers: ['submitForm']
       },
+      jewels : {
+        selector: '[name="jewels"]',
+        controllers: [],
+        initialized: false
+      },
       repairTypes: {
         selector: '[name="repair_types"]',
         controllers: [],
