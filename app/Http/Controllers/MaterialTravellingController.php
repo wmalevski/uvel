@@ -107,7 +107,7 @@ class MaterialTravellingController extends Controller
                 $history = new History();
 
                 $history->action = '1';
-                $history->user = Auth::user()->getId();
+                $history->user_id = Auth::user()->getId();
                 $history->table = 'materials_travelling';
                 $history->result_id = $material->id;
 
