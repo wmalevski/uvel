@@ -149,9 +149,15 @@ class Product extends Model
                     $selected = false;
                 }
 
+                if($material->parent){
+                    $name = $material->parent->name;
+                }else{
+                    $name = $material->name;
+                }
+
                 $pass_materials[] = (object)[
                     'value' => $material->id,
-                    'label' => $material->name.' - '.$material->code.' - '.$material->carat,
+                    'label' => $name.' - '.$material->code.' - '.$material->carat,
                     'selected' => $selected,
                 ];
             }
