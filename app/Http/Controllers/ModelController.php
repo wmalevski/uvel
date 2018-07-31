@@ -301,7 +301,7 @@ class ModelController extends Controller
 
         $options = $model->options;
 
-        $materials = MaterialQuantity::where('store_id', Auth::user()->getStore())->get();
+        $materials = MaterialQuantity::currentStore();
         $pass_photos = array();        
         $pass_stones = array();
         

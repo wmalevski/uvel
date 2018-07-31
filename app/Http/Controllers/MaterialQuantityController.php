@@ -20,16 +20,15 @@ class MaterialQuantityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(MaterialTravelling $travelling)
     {
         //$materials = Materials_quantity::where('store', Auth::user()->store)->get();
         //$stores = Store::where('id', '!=', Auth::user()->store)->get();
         $materials = MaterialQuantity::all();
         $stores = Store::all();
         $materials_types = Material::all();
-        $travelling = MaterialTravelling::where('store_from_id', Auth::user()->store)->orWhere('store_to_id', Auth::user()->store)->get();
         
-        return \View::make('admin/materials_quantity/index', array('materials' => $materials, 'types' => $materials_types, 'stores' => $stores, 'travelling' => $travelling));
+        return \View::make('admin/materials_quantity/index', array('materials' => $materials, 'types' => $materials_types, 'stores' => $stores, 'travelling' => $travelling::current()));
     }
 
     /**
@@ -137,7 +136,7 @@ class MaterialQuantityController extends Controller
     }
 
     public function deleteByMaterial($material){
-        MaterialQuantity::where('material', $material)->delete();
+        MaterialQuantity::where('material_id', $material)->delete();
         return Response::json(array('success' => 'Успешно изтрито!'));
     }
 }
