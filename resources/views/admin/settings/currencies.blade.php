@@ -12,7 +12,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/settings/currencies" name="addCurrency">
+            <form method="POST" action="settings/currencies" name="addCurrency">
                  
                 <div class="modal-body">    
                     <div class="info-cont">

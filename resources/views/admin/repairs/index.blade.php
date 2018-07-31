@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/repairs" name="addRepair" autocomplete="off">
+            <form method="POST" action="repairs" name="addRepair" autocomplete="off">
                  
                 <div class="modal-body">    
                     <div class="info-cont">
@@ -117,7 +117,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/repairs" name="fullEditRepair">
+            <form method="POST" action="repairs" name="fullEditRepair">
                  
                 <div class="modal-body">    
                     <div class="info-cont">
@@ -145,7 +145,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/repairs/return" id='return-repair-form' name="returnRepair">
+            <form method="POST" action="repairs/return" id='return-repair-form' name="returnRepair">
                  
                 <div class="modal-body">    
                     <div class="info-cont">
@@ -179,7 +179,7 @@ aria-hidden="true">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form method="POST" action="/repairs/return" id='scan-repair-form' name="scanRepair">
+                <form method="POST" action="repairs/return" id='scan-repair-form' name="scanRepair">
                     
                     <div class="modal-body">    
                         <div class="info-cont">

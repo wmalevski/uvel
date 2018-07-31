@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="addContour" action="/stones/contours">
+            <form method="POST" name="addContour" action="stones/contours">
                 <div class="modal-body">  
                     <div class="info-cont">
                     </div>  

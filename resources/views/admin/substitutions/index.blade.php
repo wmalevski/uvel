@@ -23,7 +23,7 @@
                 </button>
               </div>
             
-            <form method="POST" name="sendUser" action="/users/substitutions">
+            <form method="POST" name="sendUser" action="users/substitutions">
                 <div class="modal-body">    
                   <div class="info-cont">
                   </div>

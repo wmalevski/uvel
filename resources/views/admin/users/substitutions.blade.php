@@ -6,7 +6,7 @@
         </button>
       </div>
     
-    <form method="POST" name="sendUser" action="/users/substitutions/{{$user}}">
+    <form method="POST" name="sendUser" action="users/substitutions/{{$user}}">
         <input name="_method" type="hidden" value="PUT">    
         <div class="modal-body">    
           <div class="info-cont">

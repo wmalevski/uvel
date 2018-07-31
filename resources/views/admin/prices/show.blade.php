@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="addPrice" action="/prices/{{$material->id}}">
+            <form method="POST" name="addPrice" action="prices/{{$material->id}}">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>
@@ -56,7 +56,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/prices" name="editPrice">
+            <form method="POST" action="prices" name="editPrice">
                  
                 <div class="modal-body">    
                     <div class="info-cont">

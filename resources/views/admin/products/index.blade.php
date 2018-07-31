@@ -10,7 +10,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="products" action="/products" autocomplete="off">
+            <form method="POST" name="products" action="products" autocomplete="off">
                 <div class="modal-body">
 
                     <div class="info-cont">
