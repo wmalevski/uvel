@@ -163,10 +163,15 @@ var uvel,
 
       inputFields.each(function(index, element) {
         var _this = element;
+        var inputType = _this.type;
         var dataKey = _this.name;
         var dataKeyValue = _this.value;
 
-        data[dataKey] = dataKeyValue;
+        if(inputType == 'radio' || inputType == 'checkbox') {
+          data[dataKey] = $(_this).is(':checked');
+        } else {
+          data[dataKey] = dataKeyValue;
+        }
 
         if(dataKey == 'images') {
          imagesInputFieldExists = true;
