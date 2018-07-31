@@ -18,6 +18,11 @@ var uvel,
       globalSettings: {
         controllers: ['submitForm']
       },
+      discounts: {
+        selector: '[name="discounts"]',
+        controllers: [],
+        initialized: false
+      },
       jewels : {
         selector: '[name="jewels"]',
         controllers: [],

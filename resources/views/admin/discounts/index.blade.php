@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="addDiscount" action="discounts" autocomplete="off">
+            <form method="POST" name="discounts" data-type="add" action="discounts" autocomplete="off">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>
@@ -81,7 +81,7 @@ aria-hidden="true">
 <div class="row">
     <div class="col-md-12">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
-        <h4 class="c-grey-900 mB-20">Отстъпки <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addDiscount">Добави</button></h4>
+        <h4 class="c-grey-900 mB-20">Отстъпки <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="discounts" data-toggle="modal" data-target="#addDiscount">Добави</button></h4>
         <p>Преглед на създадените отстъпки.</p>
         <table class="table table-condensed tablesort">
             <thead>
