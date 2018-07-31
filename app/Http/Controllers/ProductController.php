@@ -20,6 +20,7 @@ use File;
 use App\Material;
 use App\MaterialQuantity;
 use Storage;
+use Auth;
 
 class ProductController extends Controller
 {
@@ -35,7 +36,7 @@ class ProductController extends Controller
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::all();
-        $materials = MaterialQuantity::all();
+        $materials = MaterialQuantity::where('store_id', Auth::user()->id)->get();
 
         $pass_stones = array();
         

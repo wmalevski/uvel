@@ -287,7 +287,6 @@ class ModelController extends Controller
      */
     public function edit(Model $model)
     {
-        $model = Model::find($model)->first();
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::all();
