@@ -90,7 +90,7 @@ class MaterialTravellingController extends Controller
                 $material->material_id = $request->material_id;
                 $material->quantity = $request->quantity;
                 $material->price = ($request->quantity)*($price->stock_price);
-                $material->store_from_id = Auth::user()->getStore();
+                $material->store_from_id = Auth::user()->getStore()->id;
                 $material->store_to_id  = $request->store_to_id;
                 $material->dateSent = new \DateTime();
                 $material->user_sent_id = Auth::user()->getId();
