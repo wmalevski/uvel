@@ -78,7 +78,10 @@
                                 @foreach($materials as $material)
                                     @if(count($material->material->pricesBuy) > 0)
                                         <option value="{{ $material->id }}" data-material="{{ $material->material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">
-                                            {{ $material->material->name }} - 
+                                            @if($material->material->parent)
+                                            {{ $material->material->parent->name }}
+                                            @else {{ $material->material->name }} @endif
+                                            - 
                                             {{ $material->material->color }} - 
                                             {{ $material->material->carat }}
                                         </option>
