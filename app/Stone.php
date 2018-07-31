@@ -41,4 +41,14 @@ class Stone extends Model
     {
         return $this->belongsTo('App\StoneContour');
     }
+
+    public function modelStones()
+    {
+        return $this->hasMany('App\ModelStone');
+    }
+
+    public function productStones()
+    {
+        return $this->hasMany('App\ProductStone');
+    }
 }
