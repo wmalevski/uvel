@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Auth;
 
 class MaterialTravelling extends Model
 {
@@ -17,6 +18,11 @@ class MaterialTravelling extends Model
         'user_sent_id',
         'status'
     ];
+
+    public function scopeCurrent($query)
+    {
+        return $query->where('store_from_id', Auth::user()->store)->orWhere('store_to_id', Auth::user()->store)->get();
+    }
 
     public function store_from(){
         return $this->belongsTo('App\Store');
