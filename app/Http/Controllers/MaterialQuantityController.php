@@ -136,7 +136,7 @@ class MaterialQuantityController extends Controller
     }
 
     public function deleteByMaterial($material){
-        MaterialQuantity::where('material', $material)->delete();
+        MaterialQuantity::where('material_id', $material)->delete();
         return Response::json(array('success' => 'Успешно изтрито!'));
     }
 }
