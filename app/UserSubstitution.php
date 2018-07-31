@@ -21,4 +21,12 @@ class UserSubstitution extends Model
     {
     	return $this->belongsTo('App\User');
     }
+
+    public function scopeSubstitution($query)
+    {
+        return $query->where([
+            ['user_id', '=', Auth::user()->id],
+            ['date_to', '>=', date("Y-m-d")]
+        ])->first();
+    }
 }
