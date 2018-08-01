@@ -218,6 +218,12 @@ class ModelController extends Controller
             if($request->stones){
                 foreach($request->stones as $key => $stone){
                     if($stone){
+                        $checkStone = Stone::find($stone);
+                        
+                        if($checkStone->amount < $request->stone_amount[$key]){
+                            return Response::json(['errors' => ['stone_weight' => ['Няма достатъчна наличност от този камък.']]], 401);
+                        }
+
                         $product_stones = new ProductStone();
                         $product_stones->product_id = $product->id;
                         $product_stones->model_id = $model->id;
