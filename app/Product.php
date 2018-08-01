@@ -67,7 +67,7 @@ class Product extends Model
     public function chainedSelects(Model $model){
         $materials = Material::all();
         $default = $model->options->where('default', 'yes')->first();
-
+        
         if($model){
             $jewels = Jewel::all();
             
