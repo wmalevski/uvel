@@ -62,6 +62,6 @@ class User extends Authenticatable
 
     public function store()
     {
-        return $this->belongsTo('App\Store');
+        return $this->belongsTo('App\Store')->withTrashed();
     }
 }
