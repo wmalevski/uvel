@@ -18,7 +18,7 @@ class MaterialQuantity extends Model
 
     public function scopeCurrentStore()
     {
-        return $this->where('store_id', Auth::user()->getStore())->get();
+        return $this->where('store_id', Auth::user()->getStore()->id)->get();
     }
     public function store(){
         return $this->belongsTo('App\Store');
