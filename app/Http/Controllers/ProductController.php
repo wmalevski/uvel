@@ -363,6 +363,7 @@ class ProductController extends Controller
             File::makeDirectory($path, 0775, true, true);
     
             $file_data = $request->input('images'); 
+            
             foreach($file_data as $img){
                 $memi = substr($img, 5, strpos($img, ';')-5);
                 
