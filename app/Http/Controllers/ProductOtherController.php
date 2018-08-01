@@ -135,6 +135,10 @@ class ProductOtherController extends Controller
             $productOther->quantity = $request->quantity+$request->quantity_after;
         } else if($request->quantity_action == 'remove'){
             $productOther->quantity = $request->quantity-$request->quantity_after;
+
+            if($request->quantity - $request->quantity_after < 0){
+                return Response::json(['errors' => ['quantity' => ['Не може да имате отрицателно количество.']]], 401);
+            }
         }
 
         $validator = Validator::make( $request->all(), [
