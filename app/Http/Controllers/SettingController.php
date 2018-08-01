@@ -18,13 +18,13 @@ class SettingController extends Controller
      */
     public function index()
     {
-        $materials = Material::groupBy('name')->get();
+        $materials = Material::all();
         return \View::make('admin/settings/index', array('materials' => $materials));
     }
 
     public function stockPrices()
     {
-        $materials = Material::groupBy('name')->get();
+        $materials = Material::all();
         return \View::make('admin/settings/stock', array('materials' => $materials));
     }
 
