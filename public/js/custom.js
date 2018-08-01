@@ -33,6 +33,11 @@ var uvel,
         controllers: [],
         initialized: false
       },
+      otherProducts: {
+        selector: '[name="productsothers"]',
+        controllers: [],
+        initialized: false
+      },
       repairTypes: {
         selector: '[name="repair_types"]',
         controllers: [],
