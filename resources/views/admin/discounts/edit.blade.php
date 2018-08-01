@@ -5,7 +5,7 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<form method="POST" name="editDiscount" action="discounts/{{ $discount->id }}">
+<form method="POST" name="discounts" data-type="edit" action="discounts/{{ $discount->id }}">
     <input name="_method" type="hidden" value="PUT">
     <div class="modal-body">
         <div class="info-cont">
@@ -32,8 +32,8 @@
 
         <div class="form-group">
             <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                <input type="checkbox" id="lifetime" name="lifetime" class="peer" @if($discount->lifetime == 'yes') checked @endif>
-                <label for="lifetime" class="peers peer-greed js-sb ai-c">
+                <input type="checkbox" id="lifetime_edit" name="lifetime" class="peer" @if($discount->lifetime == 'yes') checked @endif>
+                <label for="lifetime_edit" class="peers peer-greed js-sb ai-c">
                     <span class="peer peer-greed">Безсрочна</span>
                 </label>
             </div>

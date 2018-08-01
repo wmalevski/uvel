@@ -15,8 +15,13 @@ var uvel,
 
     this.formsConfig = {
       globalSettings: {
-        token : $('meta[name="csrf-token"]').attr('content'),
+        token: $('meta[name="csrf-token"]').attr('content'),
         controllers: ['submitForm']
+      },
+      discounts: {
+        selector: '[name="discounts"]',
+        controllers: [],
+        initialized: false
       },
       jewels: {
         selector: '[name="jewels"]',
@@ -93,10 +98,11 @@ var uvel,
 
         setTimeout(function() {
           if(formType == 'add' && !formSettings.initialized) {
+            $self.initializeForm(formSettings, formType);
             formSettings.initialized = true;
+          } else if(formType == 'edit') {
+            $self.initializeForm(formSettings, formType);
           }
-
-          $self.initializeForm(formSettings, formType);
         }, timeToOpenModal);
       });
     };
@@ -157,10 +163,15 @@ var uvel,
 
       inputFields.each(function(index, element) {
         var _this = element;
+        var inputType = _this.type;
         var dataKey = _this.name;
         var dataKeyValue = _this.value;
 
-        data[dataKey] = dataKeyValue;
+        if(inputType == 'radio' || inputType == 'checkbox') {
+          data[dataKey] = $(_this).is(':checked');
+        } else {
+          data[dataKey] = dataKeyValue;
+        }
 
         if(dataKey == 'images') {
          imagesInputFieldExists = true;
