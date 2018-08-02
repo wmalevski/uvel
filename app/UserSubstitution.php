@@ -14,12 +14,12 @@ class UserSubstitution extends Model
 
     public function store()
     {
-    	return $this->belongsTo('App\Store');
+    	return $this->belongsTo('App\Store')->withTrashed();
     }
 
     public function user()
     {
-    	return $this->belongsTo('App\User');
+    	return $this->belongsTo('App\User')->withTrashed();
     }
 
     public function scopeSubstitution($query)
