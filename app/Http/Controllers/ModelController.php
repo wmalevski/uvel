@@ -55,7 +55,7 @@ class ModelController extends Controller
                     'value' => $material->id,
                     'label' => $material->material->parent->name.' - '. $material->material->color.  ' - '  .$material->material->carat,
                     'pricebuy' => $material->material->pricesBuy->first()->price,
-                    'material' => $material->material
+                    'material' => $material->material->id
                 ];
             }
         }
