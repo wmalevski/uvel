@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="addMQuantity" action="mquantity" autocomplete="off">
+            <form method="POST" data-type="add" name="materialsQuantity" action="mquantity" autocomplete="off">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>
@@ -75,7 +75,7 @@ aria-hidden="true">
     <div class="col-md-12">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
         <h4 class="c-grey-900 mB-20">Налични материали 
-            <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addMQuantity">Добави</button>
+            <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="materialsQuantity" data-toggle="modal" data-target="#addMQuantity">Добави</button>
         </h4>
         <p>Преглед на наличност.</p>
         <table class="table table-condensed">
