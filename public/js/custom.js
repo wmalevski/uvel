@@ -33,6 +33,11 @@ var uvel,
         controllers: [],
         initialized: false
       },
+      materialTypes: {
+        selector: '[name="materialstypes"]',
+        controllers: [],
+        initialized: false
+      },
       materials: {
         selector: '[name="materials"]',
         controllers: [],
