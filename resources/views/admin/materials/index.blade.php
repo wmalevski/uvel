@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="addMaterial" action="materials" autocomplete="off">
+            <form method="POST" data-type="add" name="materials" action="materials" autocomplete="off">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>
@@ -69,7 +69,7 @@ aria-hidden="true">
 <div class="row">
     <div class="col-md-12">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
-        <h4 class="c-grey-900 mB-20">Материали <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addMaterial">Добави</button></h4>
+        <h4 class="c-grey-900 mB-20">Материали <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="materials" data-toggle="modal" data-target="#addMaterial">Добави</button></h4>
         <p>Преглед на създадените материали.</p>
         <table class="table">
             <tr>
