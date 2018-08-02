@@ -34,7 +34,7 @@ var uvel,
         initialized: false
       },
       materialsQuantity: {
-        selector: '[name="mquantity"]',
+        selector: '[name="materialsQuantity"]',
         controllers: [],
         initialized: false
       },
