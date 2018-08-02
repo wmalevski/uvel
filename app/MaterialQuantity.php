@@ -21,15 +21,15 @@ class MaterialQuantity extends Model
         return $this->where('store_id', Auth::user()->getStore()->id)->get();
     }
     public function store(){
-        return $this->belongsTo('App\Store');
+        return $this->belongsTo('App\Store')->withTrashed();
     }
 
     public function material(){
-        return $this->belongsTo('App\Material');
+        return $this->belongsTo('App\Material')->withTrashed();
     }
 
     public function travelling(){
-        return $this->belongsTo('App\MaterialTravelling');
+        return $this->belongsTo('App\MaterialTravelling')->withTrashed();
     }
 
     protected $table = 'materials_quantities';

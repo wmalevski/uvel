@@ -25,19 +25,19 @@ class MaterialTravelling extends Model
     }
 
     public function store_from(){
-        return $this->belongsTo('App\Store');
+        return $this->belongsTo('App\Store')->withTrashed();
     }
 
     public function store_to(){
-        return $this->belongsTo('App\Store');
+        return $this->belongsTo('App\Store')->withTrashed();
     }
 
     public function material(){
-        return $this->belongsTo('App\MaterialQuantity');
+        return $this->belongsTo('App\MaterialQuantity')->withTrashed();
     }
 
     public function user_sent(){
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User')->withTrashed();
     }
 
     protected $table = 'materials_travellings';

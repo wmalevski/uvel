@@ -20,15 +20,15 @@ class Material extends Model
     protected $dates = ['deleted_at'];
 
     public function parent(){
-        return $this->belongsTo('App\MaterialType');
+        return $this->belongsTo('App\MaterialType')->withTrashed();
     }
 
     public function quantity(){
-        return $this->hasMany('App\MaterialQuantity');
+        return $this->hasMany('App\MaterialQuantity')->withTrashed();
     }
 
     public function prices(){
-        return $this->hasMany('App\Price');
+        return $this->hasMany('App\Price')->withTrashed();
     }
 
     public function pricesBuy(){
