@@ -72,9 +72,9 @@ class Product extends Model
             $jewels = Jewel::all();
             
             if($default){
-                $retail_prices = $default->material->pricesBuy;
+                $retail_prices = $default->material->material->pricesBuy;
                 
-                $wholesale_prices = $default->material->pricesSell;
+                $wholesale_prices = $default->material->material->pricesSell;
     
                 $model_stones = $model->stones;
                 $model_photos = $model->photos;
@@ -192,7 +192,7 @@ class Product extends Model
                     'price' => $model->price,
                     'materials' => $pass_materials,
                     'photos' => $pass_photos,
-                    'pricebuy' => $default->material->pricesBuy->first()->price,
+                    'pricebuy' => $default->material->material->pricesBuy->first()->price,
                 );
             }
         }

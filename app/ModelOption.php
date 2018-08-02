@@ -27,7 +27,7 @@ class ModelOption extends Model
 
     public function material()
     {
-        return $this->belongsTo('App\Material');
+        return $this->belongsTo('App\MaterialQuantity')->withTrashed();
     }
 
     public function retailPrice()
