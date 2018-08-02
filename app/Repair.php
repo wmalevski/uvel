@@ -32,11 +32,11 @@ class Repair extends Model
 
     public function type()
     {
-        return $this->belongsTo('App\RepairType');
+        return $this->belongsTo('App\RepairType')->withTrashed();
     }
 
     public function material()
     {
-        return $this->belongsTo('App\Materials');
+        return $this->belongsTo('App\Materials')->withTrashed();
     }
 }
