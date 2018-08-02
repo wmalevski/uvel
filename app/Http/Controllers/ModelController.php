@@ -53,7 +53,7 @@ class ModelController extends Controller
             if($material->material->pricesBuy->first()){
                 $pass_materials[] = [
                     'value' => $material->id,
-                    'label' => $material->material->parent->name.' - '. $material->material->parent->color.  ' - '  .$material->material->parent->carat,
+                    'label' => $material->material->parent->name.' - '. $material->material->color.  ' - '  .$material->material->carat,
                     'pricebuy' => $material->material->pricesBuy->first()->price,
                     'material' => $material->material
                 ];
