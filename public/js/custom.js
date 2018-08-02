@@ -38,6 +38,11 @@ var uvel,
         controllers: [],
         initialized: false
       },
+      materailsTraveling: {
+        selector: '[name="sendMaterial"]',
+        controllers: [],
+        initialized: false
+      },
       repairTypes: {
         selector: '[name="repair_types"]',
         controllers: [],
@@ -80,9 +85,11 @@ var uvel,
     this.attachInitialEvents = function () {
       var $openFormTrigger = $('[data-form]');
       var $deleteRowTrigger = $('.delete-btn');
+      var $printTrigger = $('.print-btn');
 
       $self.openForm($openFormTrigger);
       $self.deleteRow($deleteRowTrigger);
+      $self.print($printTrigger);
     }
 
     this.openForm = function(openFormTrigger) {
@@ -239,12 +246,15 @@ var uvel,
       form.parents('.main-content').find('table tbody').append(responseHTML);
       
       var $openFormTriggers = $('[data-form]');
-      var deleteRowTiggers = $('.delete-btn');
+      var $deleteRowTiggers = $('.delete-btn');
+      var $printTriggers = $('.print-btn');
       var newRowFormTrigger = $($openFormTriggers[$openFormTriggers.length - 1]);
-      var newDeleteRowTrigger = $(deleteRowTiggers[deleteRowTiggers.length - 1]);
+      var newDeleteRowTrigger = $($deleteRowTiggers[$deleteRowTiggers.length - 1]);
+      var newPrintTrigger = $($printTriggers[$printTriggers.length - 1]);
 
       $self.openForm(newRowFormTrigger);
       $self.deleteRow(newDeleteRowTrigger);
+      $self.print(newPrintTrigger);
     }
 
      // FUNCTION THAT APPENDS SUCCESS MESSAGES TO THE FORM WHEN THE REQUEST IS SUCCESS
@@ -321,11 +331,44 @@ var uvel,
             break
         case 'submitForm' :
         case 'deleteRow' :
+        case 'print':
           prefix = '/ajax/';
             break;
       }
 
       return  prefix + path;
+    }
+
+    this.print = function(btn) {
+      btn.on('click', function(e) {
+        e.preventDefault();
+
+        var _this = $(this);
+        var ajaxRequestLink = $self.buildAjaxRequestLink('print', _this.attr('href'));
+
+        $self.handlePrintResponse(ajaxRequestLink);
+      })
+    }
+
+    this.handlePrintResponse = function(ajaxRequestLink) {
+      $.ajax({
+        type: "GET",
+        url : ajaxRequestLink,
+        success: function(resp) {
+          if(resp.html) {
+            var toPrint = resp.html;
+            var node = document.createElement("div");
+            var printElement = document.body.appendChild(node);
+
+            printElement.classList.add("to-print");
+            printElement.innerHTML = toPrint;
+            document.body.classList.add("print-mode");
+            window.print();
+            document.body.removeChild(node);
+            document.body.classList.remove("print-mode")
+          } 
+        }
+      });
     }
 
     /**********************************************
