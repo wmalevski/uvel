@@ -33,6 +33,11 @@ var uvel,
         controllers: [],
         initialized: false
       },
+      materialsQuantity: {
+        selector: '[name="materialsQuantity"]',
+        controllers: [],
+        initialized: false
+      },
       materailsTraveling: {
         selector: '[name="sendMaterial"]',
         controllers: [],
