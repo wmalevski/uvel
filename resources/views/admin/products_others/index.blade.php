@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="products" action="productsothers" autocomplete="off">
+            <form method="POST" name="productsothers" data-type="add" action="productsothers" autocomplete="off">
 
 
                 <div class="modal-body">
@@ -78,7 +78,7 @@ aria-hidden="true">
     </div>
 </div>
 
-<h3>Добави друг продукт <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
+<h3>Добави друг продукт <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="otherProducts" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
 
 <table class="table table-condensed tablesort">
     <tr>
