@@ -33,6 +33,11 @@ var uvel,
         controllers: [],
         initialized: false
       },
+      materailsTraveling: {
+        selector: '[name="sendMaterial"]',
+        controllers: [],
+        initialized: false
+      },
       repairTypes: {
         selector: '[name="repair_types"]',
         controllers: [],
