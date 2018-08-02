@@ -34,17 +34,17 @@ var uvel,
         initialized: false
       },
       otherProductsTypes: {
-        selector: '[name="productsotherstypes"]',
+        selector: '[name="productsOthersTypes"]',
         controllers: [],
         initialized: false
       },
       otherProducts: {
-        selector: '[name="productsothers"]',
+        selector: '[name="productsOthers"]',
         controllers: [],
         initialized: false
       },
       materialTypes: {
-        selector: '[name="materialstypes"]',
+        selector: '[name="materialsTypes"]',
         controllers: [],
         initialized: false
       },
@@ -64,7 +64,7 @@ var uvel,
         initialized: false
       },
       repairTypes: {
-        selector: '[name="repair_types"]',
+        selector: '[name="repairTypes"]',
         controllers: [],
         initialized: false
       }

@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="productsothers" data-type="add" action="productsothers" autocomplete="off">
+            <form method="POST" name="productsOthers" data-type="add" action="productsothers" autocomplete="off">
 
 
                 <div class="modal-body">
