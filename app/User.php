@@ -49,7 +49,7 @@ class User extends Authenticatable
         ])->first();
 
         if($substitution){
-            return $substitution->store_id;
+            return Store::find($substitution->store_id);
         }else{
             return $this->store;
         }

@@ -54,7 +54,7 @@ aria-hidden="true">
                     <div id="errors-container"></div>
                 </div>
 
-                <input type="hidden" name="store" value="{{  Auth::user()->store->id }}">
+                <input type="hidden" name="store" value="{{  Auth::user()->getStore()->id }}">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>

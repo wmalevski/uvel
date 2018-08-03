@@ -215,13 +215,14 @@ class RepairController extends Controller
             $repair->repair_description = $request->repair_description;
             $repair->material_id = $request->material_id;
             $repair->weight_after = $request->weight_after;
+            $repair->type_id = $request->type_id;
             
             $repair->save();
 
-            $history = new History;
-            $history->action = 'repair';
-            $history->user = Auth::user()->id;
-            $history->result_id = $repair->id;
+            // $history = new History;
+            // $history->action = 'repair';
+            // $history->user = Auth::user()->id;
+            // $history->result_id = $repair->id;
 
             return Response::json(array('table' => View::make('admin/repairs/table',array('repair'=>$repair))->render(), 'ID' => $repair->id));
         }
