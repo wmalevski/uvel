@@ -45,6 +45,8 @@ class UserController extends Controller
     {
         $validator = Validator::make( $request->all(), [
             'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,' . $user->id ,
+            'password' => 'required|string|min:6|confirmed',
             'role' => 'required',
             'store_id' => 'required'
          ]);
@@ -136,6 +138,12 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         if($user){
+            foreach($user->discountCodes as $discountCode) {
+                if($discountCode->active == "yes") {
+                   $discountCode->active = "no";
+                   $discountCode->save();
+                }
+            }
             $user->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
         }
