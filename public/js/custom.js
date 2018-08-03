@@ -63,6 +63,11 @@ var uvel,
         controllers: [],
         initialized: false
       },
+      substitutions: {
+        selector: '[name="substitutions"]',
+        controllers: [],
+        initialized: false
+      },
       repairTypes: {
         selector: '[name="repairTypes"]',
         controllers: [],
@@ -262,12 +267,21 @@ var uvel,
 
     this.appendResponseToTable = function(response, form) {
       var responseHTML = response.success;
+      var table;
 
-      form.parents('.main-content').find('table tbody').append(responseHTML);
+      if (response.place == 'active') {
+        table = form.parents('.main-content').find('table.active tbody');
+      }else if(response.place == 'inactive') {
+        table = form.parents('.main-content').find('table.inactive tbody');
+      }else {
+        table = form.parents('.main-content').find('table tbody');
+      }
+
+      table.append(responseHTML);
       
-      var $openFormTriggers = $('[data-form]');
-      var $deleteRowTiggers = $('.delete-btn');
-      var $printTriggers = $('.print-btn');
+      var $openFormTriggers = table.find('[data-form]');
+      var $deleteRowTiggers = table.find('.delete-btn');
+      var $printTriggers = table.find('.print-btn');
       var newRowFormTrigger = $($openFormTriggers[$openFormTriggers.length - 1]);
       var newDeleteRowTrigger = $($deleteRowTiggers[$deleteRowTiggers.length - 1]);
       var newPrintTrigger = $($printTriggers[$printTriggers.length - 1]);
@@ -313,14 +327,26 @@ var uvel,
     this.replaceResponseRowToTheTable = function(form , response) {
       var replaceRowHTML = response.table;
       var rowId = response.ID;
+      var rowToChange = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]');
+      var iscurrentlyActive = rowToChange.closest('table').hasClass('active');
 
-      form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]').replaceWith(replaceRowHTML);
+      if (response.place == 'active' && !iscurrentlyActive) {
+        rowToChange.remove();
+        form.parents('.main-content').find('table.active tbody').append(replaceRowHTML);
+      }else if(response.place == 'inactive' && iscurrentlyActive) {
+        rowToChange.remove();
+        form.parents('.main-content').find('table.inactive tbody').append(replaceRowHTML);
+      }else {
+        rowToChange.replaceWith(replaceRowHTML);
+      }
 
       var editBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .edit-btn');
       var deleteBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .delete-btn');
+      var printBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .print-btn');
       
       $self.openForm(editBtn);
       $self.deleteRow(deleteBtn);
+      $self.print(printBtn);
     }
 
     // FUNCTION THAT DISPLAY THE EDIT SUCCESS MESSAGE.

@@ -6,7 +6,7 @@
         </button>
         </div>
     
-    <form method="POST" name="sendUser" action="users/substitutions/{{ $substitution->id }}">
+    <form method="POST" name="substitutions" data-type="edit" action="users/substitutions/{{ $substitution->id }}">
         <input name="_method" type="hidden" value="PUT">
         <div class="modal-body">    
             <div class="info-cont">
@@ -72,7 +72,7 @@
         
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-            <button type="submit" id="sendUserForm" class="edit-btn-modal btn btn-primary">Промени</button>
+            <button type="submit" id="sendUserForm" data-state="edit_state" class="edit-btn-modal btn btn-primary">Промени</button>
         </div>
     </form>
 </div>
