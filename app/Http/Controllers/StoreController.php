@@ -119,8 +119,9 @@ class StoreController extends Controller
 
             $usingByUsers = $store->users->count();
             $usingByMaterials = $store->materials->count();
+            $usingByProductsOther = $store->productsOther->count();
 
-            if($usingByUsers || $usingByMaterials) {
+            if($usingByUsers || $usingByMaterials || $usingByProductsOther) {
                 return Response::json(['errors' => ['using' => ['Този магазин се използва от системата и не може да бъде изтрит.']]], 401);
             }
 

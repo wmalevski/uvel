@@ -27,4 +27,9 @@ class Store extends Model
     {
         return $this->hasMany('App\MaterialQuantity');
     }
+
+    public function productsOther()
+    {
+        return $this->hasMany('App\ProductOther');
+    }
 }
