@@ -63,6 +63,11 @@ var uvel,
         controllers: [],
         initialized: false
       },
+      users: {
+        selector: '[name="users"]',
+        controllers: [],
+        initialized: false
+      },
       repairTypes: {
         selector: '[name="repairTypes"]',
         controllers: [],
