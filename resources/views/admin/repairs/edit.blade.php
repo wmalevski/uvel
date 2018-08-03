@@ -60,7 +60,7 @@
                         <option value="">Избери</option>
 
                         @foreach($repairTypes as $repairType)
-                            <option value="{{ $repairType->id }}" data-price="{{ $repairType->price }}" @if($repair->type_id == $repairType->id) selected @endif>{{ $repairType->name }} - {{ $repairType->price }}</option>
+                            <option value="{{ $repairType->id }}" data-price="{{ $repairType->price }}" @if($repair->type->id == $repairType->id) selected @endif>{{ $repairType->name }} - {{ $repairType->price }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -71,7 +71,9 @@
                         <option value="">Избер материал</option>
                 
                         @foreach($materials as $material)
-                            <option value="{{ $material->id }}" @if($repair->material_id == $material->id) selected @endif>@if($material->parent) {{ $material->parent->name }} @endif - {{ $material->color }} - {{ $material->code }}</option>
+                            @if($material->pricesSell->first())
+                                <option value="{{ $material->id }}" @if($repair->material_id == $material->id) selected @endif>@if($material->parent) {{ $material->parent->name }} @endif - {{ $material->color }} - {{ $material->code }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
@@ -84,7 +86,7 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="inputPassword4">Тегло</label>
+                    <label for="inputPassword4">Тегло след ремонта</label>
                     <input type="number" class="form-control" name="weight_after" value="{{ $repair->weight_after }}" placeholder="Тегло на артикула след ремонта">
                 </div>
             </div>

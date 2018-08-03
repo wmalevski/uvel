@@ -77,7 +77,9 @@ aria-hidden="true">
                                     <option value="">Избер материал</option>
                             
                                     @foreach($materials as $material)
-                                        <option value="{{ $material->id }}">@if($material->parent) {{ $material->parent->name }} @endif - {{ $material->color }} - {{ $material->code }}</option>
+                                        @if($material->pricesSell->first())
+                                            <option value="{{ $material->id }}">@if($material->parent) {{ $material->parent->name }} @endif - {{ $material->color }} - {{ $material->code }}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
@@ -322,108 +324,6 @@ aria-hidden="true">
                     @endforeach
                 </tbody>
             </table>
-            {{--  <div class="form-group">
-                <div class="checkbox checkbox-circle checkbox-info peers ai-c">
-                    <input type="checkbox" id="inputCall2" name="inputCheckboxesCall" class="peer">
-                    <label for="inputCall2" class="peers peer-greed js-sb ai-c">
-                        <span class="peer peer-greed">Обмяна</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="form-group form-row">
-                <label for="inputEmail3" class="col-sm-9 control-label">Даден материал в карати</label>
-                <div class="col-sm-3">
-                    <input type="email" class="form-control" id="inputEmail3" placeholder="">
-                </div>
-            </div>
-
-            <div class="form-group form-row">
-                <label for="inputEmail3" class="col-sm-9 control-label">Даден материал в 14к</label>
-                <div class="col-sm-3">
-                    <input type="email" class="form-control" id="inputEmail3" placeholder="">
-                </div>
-            </div>
-
-            <div class="form-group form-row">
-                <label for="inputEmail3" class="col-sm-9 control-label">Готов продукт в 14к</label>
-                <div class="col-sm-3">
-                    <input type="email" class="form-control" id="inputEmail3" placeholder="">
-                </div>
-            </div>
-
-            <div class="form-group form-row">
-                <label for="inputEmail3" class="col-sm-9 control-label">Разлика в гр.</label>
-                <div class="col-sm-3">
-                    <input type="email" class="form-control" id="inputEmail3" placeholder="">
-                </div>
-            </div>
-
-            <div class="form-group form-row">
-                <label for="inputEmail3" class="col-sm-9 control-label">Разлика в лв.</label>
-                <div class="col-sm-3">
-                    <input type="email" class="form-control" id="inputEmail3" placeholder="">
-                </div>
-            </div>
-
-            <div class="form-group form-row">
-                <label for="inputEmail3" class="col-sm-9 control-label">Цена</label>
-                <div class="col-sm-3">
-                    <input type="email" class="form-control" id="inputEmail3" placeholder="">
-                </div>
-            </div>
-
-            <div class="form-group form-row">
-                <label for="inputEmail3" class="col-sm-9 control-label">Капаро</label>
-                <div class="col-sm-3">
-                    <input type="email" class="form-control" id="inputEmail3" placeholder="">
-                </div>
-            </div>
-
-            <div class="form-group form-row">
-                <label for="inputEmail3" class="col-sm-9 control-label">Остатък</label>
-                <div class="col-sm-3">
-                    <input type="email" class="form-control" id="inputEmail3" placeholder="">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Отстъпка</label>
-                <select id="repair_type" name="repair_type" class="form-control">
-                    <option value="">Избери</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Описание</label>
-                <textarea class="form-control"></textarea>
-            </div>
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Приложи отстъпка</button>
-                <button type="submit" class="btn btn-primary">Приложи</button>
-            </div>
-
-            <div class="form-group">
-                <div class="checkbox checkbox-circle checkbox-info peers ai-c">
-                    <input type="checkbox" id="inputCall2" name="inputCheckboxesCall" class="peer">
-                    <label for="inputCall2" class="peers peer-greed js-sb ai-c">
-                        <span class="peer peer-greed">Фискален</span>
-                    </label>
-                </div>
-
-                <div class="checkbox checkbox-circle checkbox-info peers ai-c">
-                    <input type="checkbox" id="inputCall2" name="inputCheckboxesCall" class="peer">
-                    <label for="inputCall2" class="peers peer-greed js-sb ai-c">
-                        <span class="peer peer-greed">Служебен</span>
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Плащане</button>
-                <button type="submit" class="btn btn-primary">Ръчно пускане на фискален бон</button>
-            </div>  --}}
-        
         </div>
     </div>
 </div>
