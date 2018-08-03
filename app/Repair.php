@@ -37,6 +37,6 @@ class Repair extends Model
 
     public function material()
     {
-        return $this->belongsTo('App\Materials')->withTrashed();
+        return $this->belongsTo('App\Material')->withTrashed();
     }
 }

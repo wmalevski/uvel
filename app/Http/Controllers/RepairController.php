@@ -215,13 +215,14 @@ class RepairController extends Controller
             $repair->repair_description = $request->repair_description;
             $repair->material_id = $request->material_id;
             $repair->weight_after = $request->weight_after;
+            $repair->type_id = $request->type_id;
             
             $repair->save();
 
-            $history = new History;
-            $history->action = 'repair';
-            $history->user = Auth::user()->id;
-            $history->result_id = $repair->id;
+            // $history = new History;
+            // $history->action = 'repair';
+            // $history->user = Auth::user()->id;
+            // $history->result_id = $repair->id;
 
             return Response::json(array('table' => View::make('admin/repairs/table',array('repair'=>$repair))->render(), 'ID' => $repair->id));
         }
@@ -236,36 +237,8 @@ class RepairController extends Controller
      */
     public function update(Request $request, $barcode)
     {
+
         $repair = Repair::where('barcode', $barcode)->first();
-        
-        $repair->customer_name = $request->customer_name;
-        $repair->customer_phone = $request->customer_phone;
-        $repair->date_returned = $request->date_returned;
-        $repair->price_after = $request->price_after; 
-        $repair->repair_description = $request->repair_description;
-        $repair->material_id = $request->material_id;
-        $repair->weight_after = $request->weight_after;
-
-        // if($repair->weight < $request->weight_after){
-        //     // $repair->price_after = $repair->price + ($repair->weight*Prices::withTrashed()->where(
-        //     //     [
-        //     //         ['material', '=', $repair->material],
-        //     //         ['type', '=', 'sell']
-        //     //     ])->first()->price);
-        //     $repair->price_after = $repair ->price;
-        // }else{
-        //     $repair->price_after = $repair->price;
-        // }
-
-        if($request->status){
-            $repair->status = 'done';
-
-            // $history = new History;
-            // $history->action = 'repair';
-            // $history->user = Auth::user()->id;
-            // $history->result_id = $repair->id;
-            // $history->save();
-        }
 
         $validator = Validator::make( $request->all(), [
             'customer_name' => 'required',
@@ -273,11 +246,32 @@ class RepairController extends Controller
             'type_id' => 'required',
             'date_returned' => 'required',
             'weight' => 'required|numeric',
-            'price' => 'required|numeric|between:0.1,5000'
+            'price' => 'required|numeric|between:0.1,5000',
+            'price_after' => 'required|numeric|between:0.1,5000',
+            'weight_after' => 'required|numeric'
          ]);
-        
-        if ($validator->fails()) {
+
+         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
+         $repair->customer_name = $request->customer_name;
+         $repair->customer_phone = $request->customer_phone;
+         $repair->date_returned = $request->date_returned;
+         $repair->price_after = $request->price_after; 
+         $repair->repair_description = $request->repair_description;
+         $repair->material_id = $request->material_id;
+         $repair->weight_after = $request->weight_after;
+         $repair->type_id = $request->type_id;
+
+        if($request->status){
+            $repair->status = 'done';
+        }
+
+        if($repair->weight < $request->weight_after){
+            $repair->price_after = $repair->price + ($repair->weight*$repair->material->pricesSell->first()->price);
+        }else{
+            $repair->price_after = $repair->price;
         }
     
         $repair->save();
