@@ -116,6 +116,13 @@ class StoreController extends Controller
     public function destroy(Store $store)
     {
         if($store){
+
+            $usingByUsers = $store->users->count();
+
+            if($usingByUsers) {
+                return Response::json(['errors' => ['using' => ['Този магазин се използва от системата и не може да бъде изтрит.']]], 401);
+            }
+            
             $store->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
         }
