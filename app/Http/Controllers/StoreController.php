@@ -118,11 +118,12 @@ class StoreController extends Controller
         if($store){
 
             $usingByUsers = $store->users->count();
+            $usingByMaterials = $store->materials->count();
 
-            if($usingByUsers) {
+            if($usingByUsers || $usingByMaterials) {
                 return Response::json(['errors' => ['using' => ['Този магазин се използва от системата и не може да бъде изтрит.']]], 401);
             }
-            
+
             $store->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
         }

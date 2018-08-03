@@ -22,4 +22,9 @@ class Store extends Model
     {
     	return $this->hasMany('App\User');
     }
+
+    public function materials()
+    {
+        return $this->hasMany('App\MaterialQuantity');
+    }
 }
