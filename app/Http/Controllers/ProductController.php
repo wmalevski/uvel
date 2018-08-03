@@ -29,14 +29,13 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(MaterialQuantity $materials)
     {
         $products = Product::all();
         $models = Model::all();
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::all();
-        $materials = MaterialQuantity::where('store_id', Auth::user()->id)->get();
 
         $pass_stones = array();
         
@@ -47,7 +46,7 @@ class ProductController extends Controller
             ];
         }
 
-        return \View::make('admin/products/index', array('products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials, 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
+        return \View::make('admin/products/index', array('products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials->scopeCurrentStore(), 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
     }
 
     /**
