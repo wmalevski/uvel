@@ -181,7 +181,7 @@ var uvel,
       var submitButton = form.find('[type="submit"]');
       var ajaxRequestLink = $self.buildAjaxRequestLink('submitForm', form.attr('action'));
       var formType = form.attr('data-type');
-      var inputFields = form.find('select , input:not([type="hidden"])');
+      var inputFields = form.find('select , input');
 
       submitButton.click(function(e) {
         e.preventDefault();
@@ -267,12 +267,25 @@ var uvel,
 
     this.appendResponseToTable = function(response, form) {
       var responseHTML = response.success;
+      var table;
 
-      form.parents('.main-content').find('table tbody').append(responseHTML);
+      if (response.place == 'active') {
+        table = form.parents('.main-content').find('table.active tbody');
+      }else if(response.place == 'inactive') {
+        table = form.parents('.main-content').find('table.inactive tbody');
+      }else if(response.type == 'buy') {
+        table = form.parents('.main-content').find('table#buy tbody');
+      }else if(response.type == 'sell') {
+        table = form.parents('.main-content').find('table#sell tbody');
+      }else {
+        table = form.parents('.main-content').find('table tbody');
+      }
+
+      table.append(responseHTML);
       
-      var $openFormTriggers = $('[data-form]');
-      var $deleteRowTiggers = $('.delete-btn');
-      var $printTriggers = $('.print-btn');
+      var $openFormTriggers = table.find('[data-form]');
+      var $deleteRowTiggers = table.find('.delete-btn');
+      var $printTriggers = table.find('.print-btn');
       var newRowFormTrigger = $($openFormTriggers[$openFormTriggers.length - 1]);
       var newDeleteRowTrigger = $($deleteRowTiggers[$deleteRowTiggers.length - 1]);
       var newPrintTrigger = $($printTriggers[$printTriggers.length - 1]);
@@ -318,14 +331,36 @@ var uvel,
     this.replaceResponseRowToTheTable = function(form , response) {
       var replaceRowHTML = response.table;
       var rowId = response.ID;
+      var rowToChange = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]');
+      var iscurrentlyActive = rowToChange.closest('table').hasClass('active');
+      var isCurrentlyBuy = rowToChange.closest('table').hasClass('buy');
 
-      form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]').replaceWith(replaceRowHTML);
+      if (response.place == 'active' && !iscurrentlyActive) {
+        $self.moveRowToTheTable(rowToChange, form.parents('.main-content').find('table.active tbody'), replaceRowHTML);
+      }else if(response.place == 'inactive' && iscurrentlyActive) {
+        $self.moveRowToTheTable(rowToChange, form.parents('.main-content').find('table.inactive tbody'), replaceRowHTML);
+      }else if(response.type == 'buy' && !isCurrentlyBuy) {
+        $self.moveRowToTheTable(rowToChange, form.parents('.main-content').find('table#buy tbody'), replaceRowHTML);
+      }else if(response.type == 'sell' && isCurrentlyBuy) {
+        $self.moveRowToTheTable(rowToChange, form.parents('.main-content').find('table#sell tbody'), replaceRowHTML)
+      }else {
+        rowToChange.replaceWith(replaceRowHTML);
+      }
 
       var editBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .edit-btn');
       var deleteBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .delete-btn');
+      var printBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .print-btn');
       
       $self.openForm(editBtn);
       $self.deleteRow(deleteBtn);
+      $self.print(printBtn);
+    }
+
+    // FUNCTION TO MOVE ROW FROM ONE TABLE TO ANOTHER WHEN EDITING ON SCREENS WITH MULTIPLE TABLES
+
+    this.moveRowToTheTable = function(row, targetTable, replaceRowHTML) {
+      row.remove();
+      targetTable.append(replaceRowHTML);
     }
 
     // FUNCTION THAT DISPLAY THE EDIT SUCCESS MESSAGE.
