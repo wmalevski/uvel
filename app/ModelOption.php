@@ -12,8 +12,8 @@ class ModelOption extends Model
     protected $fillable = [
         'model',
         'material',
-        'retail_price',
-        'wholesale_price',
+        'retail_price_id',
+        'wholesale_price_id',
         'default'
     ];
 
@@ -38,5 +38,15 @@ class ModelOption extends Model
     public function wholesalePrice()
     {
         return $this->belongsTo('App\Price');
+    }
+
+    public function scopeSalePrice($query, $value)
+    {
+        return $query->where('wholesale_price_id', $value)->get();
+    }
+
+    public function scopeRetailPrice($query, $value)
+    {
+        return $query->where('retail_price_id', $value)->get();
     }
 }
