@@ -74,7 +74,7 @@ class PriceController extends Controller
     public function show(Price $price, $material)
     {
         if($material){
-            $prices = Price::where('material_id', $material)->get();
+            $prices = $price->materialPrices($material);
             $material = Material::find($material);
           
             return view('admin/prices/show', compact('prices', 'material'));
@@ -131,7 +131,6 @@ class PriceController extends Controller
         if($price){
             $usingWModel = $modelOption->salePrice($price->id)->count();
             $usingRModel = $modelOption->retailPrice($price->id)->count();
-            dd($usingRModel);
             if($usingWModel || $usingRModel){
                 return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
             }else{
