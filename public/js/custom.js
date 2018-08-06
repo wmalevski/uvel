@@ -63,6 +63,11 @@ var uvel,
         controllers: [],
         initialized: false
       },
+      prices: {
+        selector: '[name="prices"]',
+        controllers: [],
+        initialized: false
+      },
       repairTypes: {
         selector: '[name="repairTypes"]',
         controllers: [],
