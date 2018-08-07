@@ -12,7 +12,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="models" name="addModel" autocomplete="off">
+            <form method="POST" action="models" name="models" data-type="add" autocomplete="off">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>
@@ -74,7 +74,7 @@ aria-hidden="true">
                     </div>
 
                     <div class="form-row">
-                        <button type="button" class="btn btn-primary add_field_variation">Добави нова комбинация</button>
+                        <button type="button" class="btn btn-primary add_field_variation" data-addMaterials-add>Добави нова комбинация</button>
                     </div>
                     
                     <div class="form-row">
@@ -223,7 +223,7 @@ aria-hidden="true">
     </div>
 </div>
 
-<h3>Модели <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addModel">Добави</button></h3>
+<h3>Модели <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="models" data-toggle="modal" data-target="#addModel">Добави</button></h3>
 
 <table class="table table-condensed tablesort">
     <thead>

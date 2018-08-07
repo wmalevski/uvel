@@ -68,6 +68,11 @@ var uvel,
         controllers: [],
         initialized: false
       },
+      models: {
+        selector: '[name="models"]',
+        controllers: ['addMaterialsInit', 'removeMaterialsInit'],
+        initialized: false
+      },
       repairTypes: {
         selector: '[name="repairTypes"]',
         controllers: [],
@@ -163,8 +168,10 @@ var uvel,
 
     this.initializeForm = function(formSettings, formType) {
       var form = $(formSettings.selector + '[data-type="' + formType + '"]');
+      var customControllers = formSettings.controllers;
 
       $self.initializeGlobalFormControllers(form);
+      $self.initializeControllers(customControllers, form);
     }
 
     this.initializeGlobalFormControllers = function(form) {
@@ -394,6 +401,101 @@ var uvel,
           } 
         }
       });
+    }
+
+    this.addMaterialsInit = function(form) {
+      var addMaterialsTrigger = form.find('[data-addMaterials-add]');
+      var defaultBtnsCollection = $('.default_material');
+
+      $self.giveElemntsIds(defaultBtnsCollection);
+
+      addMaterialsTrigger.on('click', function() {
+        $self.addMaterials(form);
+      });
+    }
+
+    this.addMaterials = function(form) {
+      var materialsWrapper = form.find('.model_materials');
+      var materialsData = $('#materials_data').length > 0 ? JSON.parse($('#materials_data').html()) : null;
+      var newRow = document.createElement('div');
+
+      $(newRow).addClass('form-row');
+
+      var newFields = 
+        '<div class="col-6">' +
+        '<hr>' +
+        '</div>' +
+        '<div class="form-group col-md-12">' +
+        '<label>Избери материал: </label>' +
+        '<select id="material_type" name="material[]" class="material_type form-control calculate">' +
+        '<option value="0">Избери</option>'
+
+      materialsData.forEach(function (option) {
+        newFields += `<option value=${option.value} data-pricebuy=${option.pricebuy} data-material=${option.material}>${option.label}</option>`;
+      })
+
+      newFields +=
+        '</select>' +
+        '</div>' +
+        '<div class="form-group col-md-5">' +
+        '<label>Цена на дребно: </label>' +
+        '<select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled retail-price retail_prices" disabled>' +
+        '<option value="0">Избери</option>' +
+        '</select>' +
+        '</div>' +
+        '<div class="form-group col-md-5">' +
+        '<label>Цена на едро: </label>' +
+        '<select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled wholesale-price wholesale_price" disabled>' +
+        '<option value="0">Избери</option>' +
+        '</select>' +
+        '</div>' +
+        '<div class="form-group col-md-2">' +
+        '<span class="delete-material remove_field" data-removeMaterials-remove><i class="c-brown-500 ti-trash"></i></span>' +
+        '</div>' +
+        '<div class="form-group col-md-12">' +
+        '<div class="radio radio-info">' +
+        '<input type="radio" id="" class="default_material" name="default_material[]">' +
+        '<label for="">Материал по подразбиране</label>' +
+        '</div>' +
+        '</div>';
+
+      newRow.innerHTML = newFields;
+      materialsWrapper[0].appendChild(newRow);
+
+      var defaultBtnsCollection = $('.default_material');
+      $self.giveElemntsIds(defaultBtnsCollection);
+
+      var newRemoveTrigger = $(newRow).find('[data-removeMaterials-remove]');
+      $self.removeMaterialsAttach(newRemoveTrigger);
+    }
+
+    this.removeMaterialsInit = function(form) {
+      var removeMaterialsTrigger = form.find('[data-removeMaterials-remove]');
+
+      $self.removeMaterialsAttach(removeMaterialsTrigger);
+    }
+
+    this.removeMaterialsAttach = function(collection) {
+      collection.on('click', function() {
+        var _this = $(this);
+
+        $self.removeMaterials(_this);
+      })
+    }
+
+    this.removeMaterials = function(_this) {
+      var parents = _this.parentsUntil(".form-row .fields");
+      
+      parents[1].remove();
+    }
+
+    this.giveElemntsIds = function(collection) {
+      for (i=0; i<collection.length; i++) {
+        var defaultBtnId = 'material_' + String(i+1);
+
+        collection[i].setAttribute('id', defaultBtnId);
+        collection[i].nextElementSibling.setAttribute('for', defaultBtnId);
+      }
     }
 
     /**********************************************
