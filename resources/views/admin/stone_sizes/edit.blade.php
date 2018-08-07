@@ -7,7 +7,7 @@
             </button>
         </div>
     
-        <form method="POST" name="edit" action="stones/sizes/{{ $size->id }}">
+        <form method="POST" name="stoneSizes" data-type="edit" action="stones/sizes/{{ $size->id }}">
             <input name="_method" type="hidden" value="PUT">
             <div class="modal-body">    
                 <div class="info-cont">
