@@ -63,6 +63,11 @@ var uvel,
         controllers: [],
         initialized: false
       },
+      stoneStyles: {
+        selector: '[name="stoneStyles"]',
+        controllers: [],
+        initialized: false
+      },
       stoneContours: {
         selector: '[name="stoneContours"]',
         controllers: [],
