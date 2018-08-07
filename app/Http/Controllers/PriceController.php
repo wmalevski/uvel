@@ -129,8 +129,8 @@ class PriceController extends Controller
     public function destroy(Price $price, ModelOption $modelOption)
     { 
         if($price){
-            $usingWModel = $modelOption->salePrice($price->id)->count();
-            $usingRModel = $modelOption->retailPrice($price->id)->count();
+            $usingWModel = ModelOption::where('wholesale_price_id', $price->id)->get();
+            $usingRModel = ModelOption::where('retail_price_id', $price->id)->get();
             if($usingWModel || $usingRModel){
                 return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
             }else{

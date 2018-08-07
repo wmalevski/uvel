@@ -39,14 +39,4 @@ class ModelOption extends Model
     {
         return $this->belongsTo('App\Price');
     }
-
-    public function scopeSalePrice($query, $value)
-    {
-        return $query->where('wholesale_price_id', $value)->get();
-    }
-
-    public function scopeRetailPrice($query, $value)
-    {
-        return $query->where('retail_price_id', $value)->get();
-    }
 }
