@@ -63,6 +63,10 @@ var uvel,
         controllers: [],
         initialized: false
       },
+      stones: {
+        selector: '[name="stones"]',
+        controllers: ['calculateCaratsInitializer'],
+        initialized: false
       stoneStyles: {
         selector: '[name="stoneStyles"]',
         controllers: [],
@@ -173,13 +177,17 @@ var uvel,
 
     this.initializeForm = function(formSettings, formType) {
       var form = $(formSettings.selector + '[data-type="' + formType + '"]');
+      var customControllers = formSettings.controllers;
 
       $self.initializeGlobalFormControllers(form);
+      $self.initializeControllers(customControllers, form);
     }
 
     this.initializeGlobalFormControllers = function(form) {
       $self.initializeControllers($self.formsConfig.globalSettings.controllers, form);
     }
+
+
 
     this.initializeControllers = function(controllers, form) {
         controllers.forEach(function(controller) {
@@ -404,6 +412,27 @@ var uvel,
           } 
         }
       });
+    }
+
+    this.calculateCaratsInitializer = function(form) {
+      var calculateCaratTrigger = form.find('[data-calculateCarats-weight], [data-calculateCarats-type]');
+
+      calculateCaratTrigger.on('change', function() {
+        $self.calculateCarats(form)
+      });
+    }
+
+    this.calculateCarats = function(form) {
+      var type = form.find('[data-calculateCarats-type]').val();
+      var caratHolder = form.find('[data-calculateCarats-carat]');
+
+      if (type == '2') {
+        var weight = form.find('[data-calculateCarats-weight]').val();
+        var carat = weight * 5;
+        caratHolder.val(carat);
+      }else {
+        caratHolder.val('0');
+      }
     }
 
     /**********************************************
