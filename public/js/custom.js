@@ -67,6 +67,19 @@ var uvel,
         selector: '[name="selling"]',
         controllers: ['paymentInitializer'],
         initialized: false
+      stones: {
+        selector: '[name="stones"]',
+        controllers: ['calculateCaratsInitializer'],
+        initialized: false
+      stoneStyles: {
+        selector: '[name="stoneStyles"]',
+        controllers: [],
+        initialized: false
+      },
+      stoneContours: {
+        selector: '[name="stoneContours"]',
+        controllers: [],
+        initialized: false
       },
       stoneSizes: {
         selector: '[name="stoneSizes"]',
@@ -479,6 +492,27 @@ var uvel,
       givenHolder.val('');
       returnHolder.val('')
       currencySelector[0].removeAttribute('disabled');
+    }
+
+    this.calculateCaratsInitializer = function(form) {
+      var calculateCaratTrigger = form.find('[data-calculateCarats-weight], [data-calculateCarats-type]');
+
+      calculateCaratTrigger.on('change', function() {
+        $self.calculateCarats(form)
+      });
+    }
+
+    this.calculateCarats = function(form) {
+      var type = form.find('[data-calculateCarats-type]').val();
+      var caratHolder = form.find('[data-calculateCarats-carat]');
+
+      if (type == '2') {
+        var weight = form.find('[data-calculateCarats-weight]').val();
+        var carat = weight * 5;
+        caratHolder.val(carat);
+      }else {
+        caratHolder.val('0');
+      }
     }
 
     /**********************************************
