@@ -67,6 +67,20 @@ var uvel,
         selector: '[name="stones"]',
         controllers: ['calculateCaratsInitializer'],
         initialized: false
+      stoneStyles: {
+        selector: '[name="stoneStyles"]',
+        controllers: [],
+        initialized: false
+      },
+      stoneContours: {
+        selector: '[name="stoneContours"]',
+        controllers: [],
+        initialized: false
+      },
+      stoneSizes: {
+        selector: '[name="stoneSizes"]',
+        controllers: [],
+        initialized: false
       },
       repairTypes: {
         selector: '[name="repairTypes"]',
