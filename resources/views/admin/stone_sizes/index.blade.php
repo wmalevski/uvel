@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="addSize" action="stones/sizes">
+            <form method="POST" name="stoneSizes" data-type="add" action="stones/sizes">
                 <div class="modal-body">    
                     <div class="info-cont">
                     </div>
@@ -44,7 +44,7 @@ aria-hidden="true">
 <div class="row">
     <div class="col-md-12">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
-            <h4 class="c-grey-900 mB-20">Камъни Размери <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addSize">Добави</button></h4>
+            <h4 class="c-grey-900 mB-20">Камъни Размери <button type="button" class="btn btn-primary" data-form-type="add" data-form="stoneSizes" data-toggle="modal" data-target="#addSize">Добави</button></h4>
             <p>Преглед на създадените размери.</p>
             <table class="table table-condensed tablesort">
                 <thead>
