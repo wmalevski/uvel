@@ -63,6 +63,11 @@ var uvel,
         controllers: [],
         initialized: false
       },
+      selling: {
+        selector: '[name="selling"]',
+        controllers: ['paymentInitializer'],
+        initialized: false
+      },
       repairTypes: {
         selector: '[name="repairTypes"]',
         controllers: [],
@@ -129,7 +134,7 @@ var uvel,
         //TODO: ASK BOBI VVVV
 
         setTimeout(function() {
-          if(formType == 'add' && !formSettings.initialized) {
+          if((formType == 'add' || formType == 'sell') && !formSettings.initialized) {
             $self.initializeForm(formSettings, formType);
             formSettings.initialized = true;
           } else if(formType == 'edit') {
@@ -158,8 +163,10 @@ var uvel,
 
     this.initializeForm = function(formSettings, formType) {
       var form = $(formSettings.selector + '[data-type="' + formType + '"]');
+      var customControllers = formSettings.controllers;
 
       $self.initializeGlobalFormControllers(form);
+      $self.initializeControllers(customControllers, form);
     }
 
     this.initializeGlobalFormControllers = function(form) {
@@ -224,13 +231,11 @@ var uvel,
           success: function(response) {
             if(formType == 'add') {
               $self.appendResponseToTable(response, form);
-              $self.formSuccessHandler(form);
+            }else if(formType == 'edit') {
+              $self.replaceResponseRowToTheTable(form, response);
             }
 
-            if(formType == 'edit') {
-              $self.replaceResponseRowToTheTable(form, response);
-              $self.formSuccessEditMessageHandler(form);
-            }
+            $self.formSuccessHandler(form, formType);
           },
           error: function(err) {
             $self.formsErrorHandler(err, form);
@@ -279,19 +284,28 @@ var uvel,
 
      // FUNCTION THAT APPENDS SUCCESS MESSAGES TO THE FORM WHEN THE REQUEST IS SUCCESS
 
-    this.formSuccessHandler = function(form) {
+    this.formSuccessHandler = function(form, formType) {
       if($('.error--messages_holder').length) {
         $('.error--messages_holder').remove();
       }
 
       var successMessage = $('<div class="alert alert-success"></div>');
-      successMessage.html("Добавихте успешно записа!");
+      var message;
+      if (formType == 'add') {
+        message = "Добавихте успешно записа!";
+      }else if(formType == 'edit') {
+        message = "Редактирахте успешно записа!";
+      }else if(formType == 'sell') {
+        message = "Извършихте успешно плащане!";
+      }
+
+      successMessage.html(message);
 
       form.find('.modal-body .info-cont').append(successMessage);
       
       setTimeout(function() {
         form.find('.modal-body .info-cont .alert-success').remove();
-      } , 2000);
+      }, 2000);
     }
 
     // APPENDING EDIT FORM TO THE MODAL
@@ -321,23 +335,6 @@ var uvel,
       
       $self.openForm(editBtn);
       $self.deleteRow(deleteBtn);
-    }
-
-    // FUNCTION THAT DISPLAY THE EDIT SUCCESS MESSAGE.
-
-    this.formSuccessEditMessageHandler = function(form) {
-          if($('.error--messages_holder').length) {
-            $('.error--messages_holder').remove();
-          }
-
-          var successMessage = $('<div class="alert alert-success"></div>');
-          successMessage.html("Редактирахте успешно записа!");
-
-          form.find('.modal-body .info-cont').append(successMessage);
-          
-          setTimeout(function() {
-           form.find('.modal-body .info-cont .alert-success').remove();
-          } , 2000);
     }
 
     // FUNCTION THAT BUILDS THE AJAX REQUEST LINK
@@ -389,6 +386,94 @@ var uvel,
           } 
         }
       });
+    }
+
+    this.paymentInitializer = function(form) {
+      var calculateTrigger = form.find('[data-calculatePayment-given]');
+      var currencyChangeTrigger = form.find('[data-calculatePayment-currency]');
+      var methodChangeTrigger = form.find('[data-calculatePayment-method]');
+      var openModalTrigger = $(document).find('.payment-btn');
+
+      $self.getWantedSum(form);
+
+      openModalTrigger.on('click', function() {
+        $self.getWantedSum(form);
+      });
+
+      calculateTrigger.on('change', function() {
+        $self.calculatePaymentInit(form);
+      });
+
+      currencyChangeTrigger.on('change', function() {
+        $self.paymentCurrencyChange(form);
+      });
+
+      methodChangeTrigger.on('change', function() {
+        var _this = $(this);
+        $self.paymentMethodChange(form, _this);
+      });
+    }
+
+    this.getWantedSum = function(form) {
+      var wantedHolder = form.find('[data-calculatePayment-wanted]');
+      var wantedValue = $('[data-calculatePayment-total]').val();
+      var selectedCurrency = form.find('[data-calculatePayment-currency] :selected').attr('data-currency');
+
+      var newWanted = wantedValue * selectedCurrency;
+      wantedHolder.val(newWanted);
+    }
+
+    this.calculatePaymentInit = function(form) {
+      var givenSum = form.find('[data-calculatePayment-given]').val();
+      var wantedSum = form.find('[data-calculatePayment-wanted]').val();
+
+      $self.calculatePayment(form, givenSum, wantedSum);
+    }
+
+    this.calculatePayment = function(form, givenSum, wantedSum) {
+      var returnHolder = form.find('[data-calculatePayment-return]');
+
+      var returnSum = Math.round((givenSum - wantedSum) * 100) / 100;
+      returnHolder.val(returnSum);
+    }
+
+    this.paymentCurrencyChange = function(form) {
+      $self.getWantedSum(form);
+      $self.calculatePaymentInit(form);
+    }
+
+    this.paymentMethodChange = function(form, _this) {
+      var currencySelector = form.find('[data-calculatePayment-currency]');
+      var givenHolder = form.find('[data-calculatePayment-given]');
+      var returnHolder = form.find('[data-calculatePayment-return]');
+
+      if (_this.is(':checked')) {
+        $self.paymentPOS(form, currencySelector, givenHolder, returnHolder);
+      }else {
+        $self.paymentCash(form, currencySelector, givenHolder, returnHolder);
+      }
+    }
+
+    this.paymentPOS = function(form, currencySelector, givenHolder, returnHolder) {
+      var defaultCurrrency = currencySelector.find('[data-default="yes"]').val();
+      var disable = document.createAttribute('readonly');
+
+      givenHolder[0].setAttributeNode(disable);
+      currencySelector.attr('disabled', true);
+      currencySelector.val(defaultCurrrency);
+      $self.getWantedSum(form);
+
+      var wantedSum = form.find('[data-calculatePayment-wanted]').val();
+      givenHolder.val(wantedSum);
+
+      $self.calculatePaymentInit(form);
+    }
+
+    this.paymentCash = function(form, currencySelector, givenHolder, returnHolder) {
+      givenHolder[0].removeAttribute('readonly');
+      givenHolder.val('');
+      returnHolder.val('')
+      currencySelector[0].removeAttribute('disabled');
     }
 
     /**********************************************

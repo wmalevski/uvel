@@ -42,7 +42,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="sell/payment" name="paymentModal">
+            <form method="POST" action="sell/payment" name="selling" data-type="sell">
                  
                 <div class="modal-body">    
                     <div class="info-cont">
@@ -55,37 +55,43 @@ aria-hidden="true">
                             <label for="wanted-sum">Дължима сума</label>
                         </div>
                         <div class="form-group col-md-6">
-                            <input class="form-control" id="wanted-sum" type="number" name="wanted_sum" readonly>
+                            <input class="form-control" id="wanted-sum" type="number" name="wanted_sum" data-calculatePayment-wanted readonly>
                         </div>
                     </div>
                                 
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="given-sum">Дадена сума</label>
-                            <input type="number" id="given-sum" class="form-control" value="0" name="given_sum" placeholder="Дадена сума от клиента">
+                            <input type="number" id="given-sum" class="form-control" value="0" name="given_sum" data-calculatePayment-given placeholder="Дадена сума от клиента">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="return-sum">Ресто</label>
-                            <input type="number" id="return-sum" class="form-control" name="return_sum" placeholder="Ресто" readonly>
+                            <input type="number" id="return-sum" class="form-control" name="return_sum" data-calculatePayment-return placeholder="Ресто" readonly>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="pay-currency">Валута</label>
-                            <select id="pay-currency" name="pay_currency" class="form-control">
+                            <select id="pay-currency" name="pay_currency" class="form-control" data-calculatePayment-currency>
                                 @foreach($currencies as $currency)
-                                    <option value="{{ $currency->id }}" data-default="{{$currency->default }}" data-currency="{{ $currency->currency }}">{{ $currency->name }}</option>
+                                    <option value="{{ $currency->id }}" data-default="{{$currency->default }}" data-currency="{{ $currency->currency }}" @if($currency->default == "yes") selected @endif >{{ $currency->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <div class="radio radio-info">
+                            <!-- <div class="radio radio-info">
                                 <input type="radio" name="pay_method" value="cash" id="pay-method-cash" checked>
                                 <label for="pay-method-cash">В брой</label>
                             </div>
                             <div class="radio radio-info">
                                 <input type="radio" name="pay_method" value="pos" id="pay-method-pos">
                                 <label for="pay-method-pos">С карта</label>
+                            </div> -->
+                            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                                <input type="checkbox" id="pay-method" class="pay-method" name="pay_method" class="peer" data-calculatePayment-method>
+                                <label for="pay-method" class="peers peer-greed js-sb ai-c">
+                                    <span class="peer peer-greed">С карта</span>
+                                </label>
                             </div>
                         </div>
                         <div class="form-group col-md-4">
@@ -227,8 +233,8 @@ aria-hidden="true">
                         </table>
 
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary payment-btn" data-toggle="modal" data-target="#paymentModal">Плащане</button>
-                            <button type="submit" class="btn btn-primary">Ръчно пускане на фискален бон</button>
+                            <button type="button" class="btn btn-primary payment-btn" data-form-type="sell" data-form="selling" data-toggle="modal" data-target="#paymentModal">Плащане</button>
+                            <button type="button" class="btn btn-primary">Ръчно пускане на фискален бон</button>
                         </div>
 
 
@@ -253,7 +259,7 @@ aria-hidden="true">
                         <div class="form-group form-row">
                             <label for="total" class="col-sm-9 control-label">Крайна цена(с ДДС +20%)</label>
                             <div class="col-sm-3">
-                                <input type="totalPrice" name="total" value="{{ Cart::session(Auth::user()->id)->getTotal() }}" class="form-control" id="total" placeholder="" readonly>
+                                <input type="totalPrice" name="total" value="{{ Cart::session(Auth::user()->id)->getTotal() }}" class="form-control" id="total" data-calculatePayment-total placeholder="" readonly>
                             </div>
                         </div>
 
