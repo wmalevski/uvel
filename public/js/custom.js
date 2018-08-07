@@ -68,6 +68,11 @@ var uvel,
         controllers: ['paymentInitializer'],
         initialized: false
       },
+      stoneSizes: {
+        selector: '[name="stoneSizes"]',
+        controllers: [],
+        initialized: false
+      },
       repairTypes: {
         selector: '[name="repairTypes"]',
         controllers: [],
