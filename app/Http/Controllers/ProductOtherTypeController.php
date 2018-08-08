@@ -100,8 +100,12 @@ class ProductOtherTypeController extends Controller
     public function destroy(ProductOtherType $productOtherType)
     {
         if($productOtherType){
-            $productOtherType->delete();
-            return Response::json(array('success' => 'Успешно изтрито!'));
+            if($productOtherType->productOther){
+                return Response::json(['errors' => ['using' => ['Този тип се използва от системата и не може да бъде изтрит.']]], 401);
+            }else {
+                $productOtherType->delete();
+                return Response::json(array('success' => 'Успешно изтрито!'));
+            }
         }
     }
 }

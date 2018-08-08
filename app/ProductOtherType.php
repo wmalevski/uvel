@@ -11,4 +11,8 @@ class ProductOtherType extends Model
     ];
 
     protected $table = 'products_others_types';
+
+    public function productOther() {
+        return $this->hasOne('App\ProductOther', 'type_id');
+    }
 }
