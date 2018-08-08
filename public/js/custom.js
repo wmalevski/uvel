@@ -70,7 +70,7 @@ var uvel,
       },
       models: {
         selector: '[name="models"]',
-        controllers: ['addMaterialsInit', 'removeMaterialsInit'],
+        controllers: ['addMaterialsInit', 'removeMaterialsInit', 'addStonesInit', 'removeStoneInit', 'calculateStonesInit'],
         initialized: false
       },
       repairTypes: {
@@ -460,7 +460,7 @@ var uvel,
         '</div>';
 
       newRow.innerHTML = newFields;
-      materialsWrapper[0].appendChild(newRow);
+      materialsWrapper.append(newRow);
 
       var defaultBtnsCollection = $('.default_material');
       $self.giveElemntsIds(defaultBtnsCollection);
@@ -471,30 +471,160 @@ var uvel,
 
     this.removeMaterialsInit = function(form) {
       var removeMaterialsTrigger = form.find('[data-removeMaterials-remove]');
-
       $self.removeMaterialsAttach(removeMaterialsTrigger);
     }
 
     this.removeMaterialsAttach = function(collection) {
       collection.on('click', function() {
         var _this = $(this);
-
         $self.removeMaterials(_this);
       })
     }
 
     this.removeMaterials = function(_this) {
       var parents = _this.parentsUntil(".form-row .fields");
-      
       parents[1].remove();
+    }
+
+    this.addStonesInit = function(form) {
+      var addStoneTrigger = form.find('[data-addStone-add]');
+      var forFlowCollection = $('.stone-flow');
+
+      $self.giveElemntsIds(forFlowCollection);
+
+      addStoneTrigger.on('click', function() {
+        $self.addStone(form);
+      });
+    }
+
+    this.addStone = function(form) {
+      var stonesWrapper = form.find('.model_stones');
+      var fields = stonesWrapper.find('.fields');
+      var stonesData = $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null;
+      var maxFields = 10;
+
+      if (fields.length < maxFields) {
+        var fieldsHolder = document.createElement('div');
+        fieldsHolder.classList.add('form-row', 'fields');
+
+        var newFields =
+          '<div class="form-group col-md-6">' +
+          '<label>Камък:</label>' +
+          '<select name="stones[]" class="form-control">';
+
+        stonesData.forEach(function (option) {
+          newFields += `<option value=${option.value}>${option.label}</option>`
+        });
+
+        newFields +=
+          '</select>' +
+          '</div>' +
+          '<div class="form-group col-md-4">' +
+          '<label>Брой:</label>' +
+          '<input type="text" class="form-control calculate-stones" name="stone_amount[]" data-calculateStones-amount placeholder="Брой">' +
+          '</div>' +
+          '<div class="form-group col-md-2">' +
+          '<span class="delete-stone remove_field" data-removeStone-remove><i class="c-brown-500 ti-trash"></i></span>'+
+          '</div>' +
+          '<div class="form-group col-md-6">' +
+          '<div class="form-group">' +
+          '<label>Тегло: </label>' +
+          '<input type="number" class="form-control calculate-stones" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">' +
+          '</div>' +
+          '</div>' +
+          '<div class="form-group col-md-6">' +
+          '<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder">' +
+          '<input type="checkbox" id="" class="stone-flow calculate-stones" name="stone_flow[]" class="peer">' +
+          '<label for="" class="peers peer-greed js-sb ai-c">' +
+          '<span class="peer peer-greed">За леене</span>' +
+          '</label>' +
+          '<span class="row-total-weight"></span>' +
+          '</div>' +
+          '</div>';
+
+        fieldsHolder.innerHTML = newFields;
+        stonesWrapper.append(fieldsHolder);
+
+        var forFlowCollection = $('.stone-flow');
+        $self.giveElemntsIds(forFlowCollection);
+
+        var newRemoveTrigger = $(fieldsHolder).find('[data-removeStone-remove]');
+        $self.removeStoneAttach(newRemoveTrigger, form);
+
+        var newCalculateTrigger = $(fieldsHolder).find('[data-calculateStones-weight], [data-calculateStones-amount], .stone-flow');
+        $self.calculateStonesAttach(newCalculateTrigger, form);
+      }
+    }
+
+    this.removeStoneInit = function(form) {
+      var removeTrigger = form.find('[data-removeStone-remove]');
+      $self.removeStoneAttach(removeTrigger, form);
+    }
+
+    this.removeStoneAttach = function(collection, form) {
+      collection.on('click', function() {
+        var _this = $(this);
+        $self.removeStone(_this, form);
+      })
+    }
+
+    this.removeStone = function(_this, form) {
+      var parents = _this.closest(".form-row");
+      parents.remove();
+      $self.calculateStones(form);
+    }
+
+    this.calculateStonesInit = function(form) {
+      var calculateStonesTrigger = form.find('[data-calculateStones-weight], [data-calculateStones-amount], .stone-flow');
+      $self.calculateStones(form);
+      $self.calculateStonesAttach(calculateStonesTrigger, form);
+    }
+
+    this.calculateStonesAttach = function(collection, form) {
+      collection.on('change', function() {
+        $self.calculateStones(form);
+      });
+    }
+
+    this.calculateStones = function(form) {
+      var stoneRows = form.find('.model_stones .fields');
+      var totalNode = form.find('[data-calculateStones-total]');
+      var currentTotal = 0;
+
+      for (var i=0; i<stoneRows.length; i++) {
+        row = $(stoneRows[i]);
+        var isForFlow = row.find('.stone-flow').is(':checked');
+        var rowTotalNode = row.find('.row-total-weight');
+
+        if (isForFlow) {
+          var rowAmount = row.find('[data-calculateStones-amount]').val();
+          var rowWeight = row.find('[data-calculateStones-weight]').val();
+          
+          var rowTotal = rowAmount * rowWeight;
+
+          rowTotalNode.html(`(${rowTotal} гр.)`);
+          rowTotalNode.css('opacity', '1');
+          currentTotal += rowTotal;
+        }else {
+          rowTotalNode.css('opacity', '0');
+        }
+      }
+
+      totalNode.val(currentTotal);
     }
 
     this.giveElemntsIds = function(collection) {
       for (i=0; i<collection.length; i++) {
-        var defaultBtnId = 'material_' + String(i+1);
+        var el = collection[i];
 
-        collection[i].setAttribute('id', defaultBtnId);
-        collection[i].nextElementSibling.setAttribute('for', defaultBtnId);
+        if ($(el).hasClass('default_material')) {
+          var setBtnId = 'material_' + String(i+1);
+        }else if($(el).hasClass('stone-flow')) {
+          var setBtnId = 'stoneFlow_' + String(i+1);
+        }
+
+        el.setAttribute('id', setBtnId);
+        el.nextElementSibling.setAttribute('for', setBtnId);
       }
     }
 
@@ -1018,46 +1148,46 @@ var uvel,
       });
     }
 
-    this.calculateStones = function(row, add) {
-      var amount = row.querySelector('input[name="stone_amount[]"]').value;
-      var weight = row.querySelector('input[name="stone_weight[]"]').value;
-      var rowTotalNode = row.querySelector('.row-total-weight');
-      var total;
-      var totalNode = row.parentNode.parentNode.querySelector('#totalStones');
-      var currentTotal = 0;
-      var newTotal;
-      var siblingsArray = Array.prototype.filter.call(row.parentNode.children, function(child){
-        return child !== row;
-      });
+    // this.calculateStones = function(row, add) {
+    //   var amount = row.querySelector('input[name="stone_amount[]"]').value;
+    //   var weight = row.querySelector('input[name="stone_weight[]"]').value;
+    //   var rowTotalNode = row.querySelector('.row-total-weight');
+    //   var total;
+    //   var totalNode = row.parentNode.parentNode.querySelector('#totalStones');
+    //   var currentTotal = 0;
+    //   var newTotal;
+    //   var siblingsArray = Array.prototype.filter.call(row.parentNode.children, function(child){
+    //     return child !== row;
+    //   });
 
-      total = amount * weight;
+    //   total = amount * weight;
 
-      siblingsArray.forEach(function(el) {
-        var a = el.querySelector('input[name="stone_amount[]"]').value;
-        var w = el.querySelector('input[name="stone_weight[]"]').value;
+    //   siblingsArray.forEach(function(el) {
+    //     var a = el.querySelector('input[name="stone_amount[]"]').value;
+    //     var w = el.querySelector('input[name="stone_weight[]"]').value;
 
-        if (el.querySelector('.stone-flow').checked) {
-          currentTotal += a*w
-        }
-      })
+    //     if (el.querySelector('.stone-flow').checked) {
+    //       currentTotal += a*w
+    //     }
+    //   })
 
-      if (add) {
-        newTotal = currentTotal*1 + total;
-        rowTotalNode.innerHTML = `(${total} гр.)`;
-        rowTotalNode.style.opacity = 1;
-      }
-      else {
-        newTotal = currentTotal;
-        rowTotalNode.style.opacity = 0;
-        rowTotalNode.parentNode.querySelector('input[type="checkbox"]').setAttribute('disabled', true);
-        setTimeout(function() {
-          rowTotalNode.innerHTML = '';
-          rowTotalNode.parentNode.querySelector('input[type="checkbox"]').removeAttribute('disabled');
-        }, 400);
-      }
+    //   if (add) {
+    //     newTotal = currentTotal*1 + total;
+    //     rowTotalNode.innerHTML = `(${total} гр.)`;
+    //     rowTotalNode.style.opacity = 1;
+    //   }
+    //   else {
+    //     newTotal = currentTotal;
+    //     rowTotalNode.style.opacity = 0;
+    //     rowTotalNode.parentNode.querySelector('input[type="checkbox"]').setAttribute('disabled', true);
+    //     setTimeout(function() {
+    //       rowTotalNode.innerHTML = '';
+    //       rowTotalNode.parentNode.querySelector('input[type="checkbox"]').removeAttribute('disabled');
+    //     }, 400);
+    //   }
 
-      totalNode.value = newTotal;
-    }
+    //   totalNode.value = newTotal;
+    // }
     
 
     // this.checkAllForms = function(currentPressedBtn) {

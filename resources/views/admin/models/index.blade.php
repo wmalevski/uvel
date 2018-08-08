@@ -117,15 +117,15 @@ aria-hidden="true">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="1">Брой: </label>
-                                <input type="number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="50">
+                                <input type="number" class="form-control" name="stone_amount[]" data-calculateStones-amount placeholder="Брой" min="1" max="50">
                             </div>
                             <div class="form-group col-md-2">
-                                <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
+                                <span class="delete-stone remove_field" data-removeStone-remove><i class="c-brown-500 ti-trash"></i></span>
                             </div>
                             <div class="form-group col-md-6">
                                 <div class="form-group">
                                     <label>Тегло: </label>
-                                    <input type="number" class="form-control" name="stone_weight[]" placeholder="Тегло:" min="0.1" max="100">
+                                    <input type="number" class="form-control" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">
                                 </div>
                             </div>
     
@@ -142,7 +142,7 @@ aria-hidden="true">
 
                     <div class="form-row">
                         <div class="form-group col-md-5">
-                            <button type="button" class="btn btn-primary add_field_button">Добави камък</button>
+                            <button type="button" class="btn btn-primary add_field_button" data-addStone-add>Добави камък</button>
                         </div>
                         
                         <div class="form-group col-md-3">
@@ -150,7 +150,7 @@ aria-hidden="true">
                         </div>
 
                         <div class="form-group col-md-4">
-                            <input type="number" class="form-control" id="totalStones" name="totalStones" disabled>
+                            <input type="number" class="form-control" id="totalStones" name="totalStones" data-calculateStones-total disabled>
                         </div>
 
                         <div class="col-12">

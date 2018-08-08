@@ -179,16 +179,16 @@
 
                 <div class="form-group col-md-4">
                     <label for="1">Брой: </label>
-                    <input type="number" id="model-stone-number" class="form-control calculate-stones" name="stone_amount[]" placeholder="Брой" value="{{  $modelStone->amount  }}" min="1" max="50">
+                    <input type="number" id="model-stone-number" class="form-control calculate-stones" name="stone_amount[]" data-calculateStones-amount placeholder="Брой" value="{{  $modelStone->amount  }}" min="1" max="50">
                 </div>
 
                 <div class="form-group col-md-2">
-                    <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
+                    <span class="delete-stone remove_field" data-removeStone-remove><i class="c-brown-500 ti-trash"></i></span>
                 </div>
                 <div class="form-group col-md-6">
                     <div class="form-group">
                         <label for="1">Тегло: </label>
-                        <input type="number" value="{{  $modelStone->weight  }}" class="form-control calculate-stones" id="1" name="stone_weight[]" placeholder="Тегло:">
+                        <input type="number" value="{{  $modelStone->weight  }}" class="form-control calculate-stones" id="1" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:">
                     </div>
                 </div>
 
