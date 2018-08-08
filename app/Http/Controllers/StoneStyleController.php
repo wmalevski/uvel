@@ -107,8 +107,12 @@ class StoneStyleController extends Controller
     public function destroy(StoneStyle $stoneStyle)
     {
         if($stoneStyle){
-            $stoneStyle->delete();
-            return Response::json(array('success' => 'Успешно изтрито!'));
+            if($stoneStyle->stones->count()){
+                return Response::json(['errors' => ['using' => ['Този контур се използва от системата и не може да бъде изтрит.']]], 401);
+            }else {
+                $stoneStyle->delete();
+                return Response::json(array('success' => 'Успешно изтрито!'));
+            }
         }
     }
 }

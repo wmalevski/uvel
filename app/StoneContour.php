@@ -15,4 +15,9 @@ class StoneContour extends Model
 
     protected $table = 'stone_contours';
     protected $dates = ['deleted_at'];
+
+    public function stones()
+    {
+        return $this->hasMany('App\Stone', 'contour_id');
+    }
 }
