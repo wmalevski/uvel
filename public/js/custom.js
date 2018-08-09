@@ -128,9 +128,9 @@ var uvel,
     };
 
     this.attachInitialEvents = function () {
-      var $openFormTrigger = $('[data-form]');
-      var $deleteRowTrigger = $('.delete-btn');
-      var $printTrigger = $('.print-btn');
+      var $openFormTrigger = $('[data-form]'),
+          $deleteRowTrigger = $('.delete-btn'),
+          $printTrigger = $('.print-btn');
 
       $self.openForm($openFormTrigger);
       $self.deleteRow($deleteRowTrigger);
@@ -166,8 +166,8 @@ var uvel,
 
     this.deleteRow = function(deleteRowTrigger) {
       deleteRowTrigger.on('click', function() {
-        var _this = $(this);
-        var ajaxRequestLink = $self.buildAjaxRequestLink('deleteRow', _this.attr('data-url'));
+        var _this = $(this),
+            ajaxRequestLink = $self.buildAjaxRequestLink('deleteRow', _this.attr('data-url'));
 
         if(confirm("Сигурен ли сте, че искате да изтриете записа?")) {
           $.ajax({
@@ -182,8 +182,8 @@ var uvel,
     }
 
     this.initializeForm = function(formSettings, formType) {
-      var form = $(formSettings.selector + '[data-type="' + formType + '"]');
-      var customControllers = formSettings.controllers;
+      var form = $(formSettings.selector + '[data-type="' + formType + '"]'),
+          customControllers = formSettings.controllers;
 
       $self.initializeGlobalFormControllers(form);
       $self.initializeControllers(customControllers, form);
@@ -200,10 +200,10 @@ var uvel,
     }
 
     this.submitForm = function(form) {
-      var submitButton = form.find('[type="submit"]');
-      var ajaxRequestLink = $self.buildAjaxRequestLink('submitForm', form.attr('action'));
-      var formType = form.attr('data-type');
-      var inputFields = form.find('select , input:not([type="hidden"])');
+      var submitButton = form.find('[type="submit"]'),
+          ajaxRequestLink = $self.buildAjaxRequestLink('submitForm', form.attr('action')),
+          formType = form.attr('data-type'),
+          inputFields = form.find('select , input:not([type="hidden"])');
 
       submitButton.click(function(e) {
         e.preventDefault();
@@ -221,10 +221,10 @@ var uvel,
       }
 
       inputFields.each(function(index, element) {
-        var _this = element;
-        var inputType = _this.type;
-        var dataKey = _this.name;
-        var dataKeyValue = _this.value;
+        var _this = element,
+            inputType = _this.type,
+            dataKey = _this.name,
+            dataKeyValue = _this.value;
 
         if(inputType == 'radio' || inputType == 'checkbox') {
           data[dataKey] = $(_this).is(':checked');
@@ -267,8 +267,8 @@ var uvel,
     // FUNCTION THAT READS ALL THE ERRORS RETURNED FROM THE REQUEST AND APPEND THEM IN THE MODAL-FORM-BODY
 
     this.formsErrorHandler = function(err , form) {
-        var errorObject = err.responseJSON.errors;
-        var errorMessagesHolder = $('<div class="error--messages_holder"></div>');
+        var errorObject = err.responseJSON.errors,
+            errorMessagesHolder = $('<div class="error--messages_holder"></div>');
 
 
         for(var key in errorObject) {
@@ -290,12 +290,12 @@ var uvel,
 
       form.parents('.main-content').find('table tbody').append(responseHTML);
       
-      var $openFormTriggers = $('[data-form]');
-      var $deleteRowTiggers = $('.delete-btn');
-      var $printTriggers = $('.print-btn');
-      var newRowFormTrigger = $($openFormTriggers[$openFormTriggers.length - 1]);
-      var newDeleteRowTrigger = $($deleteRowTiggers[$deleteRowTiggers.length - 1]);
-      var newPrintTrigger = $($printTriggers[$printTriggers.length - 1]);
+      var $openFormTriggers = $('[data-form]'),
+          $deleteRowTiggers = $('.delete-btn'),
+          $printTriggers = $('.print-btn'),
+          newRowFormTrigger = $($openFormTriggers[$openFormTriggers.length - 1]),
+          newDeleteRowTrigger = $($deleteRowTiggers[$deleteRowTiggers.length - 1]),
+          newPrintTrigger = $($printTriggers[$printTriggers.length - 1]);
 
       $self.openForm(newRowFormTrigger);
       $self.deleteRow(newDeleteRowTrigger);
@@ -309,9 +309,9 @@ var uvel,
         $('.error--messages_holder').remove();
       }
 
-      var messageStayingTime = 2000;   // How long te message will be shown on the screen
-      var successMessage = $('<div class="alert alert-success"></div>');
-      var message;
+      var messageStayingTime = 2000,   // How long te message will be shown on the screen
+          successMessage = $('<div class="alert alert-success"></div>'),
+          message;
 
       if (formType == 'add') {
         message = "Добавихте успешно записа!";
@@ -347,13 +347,13 @@ var uvel,
     // FUNCTION FOR REPLACING THE TR ROW IN THE TABLE ( THAT"s FOR THE EDIT )
 
     this.replaceResponseRowToTheTable = function(form , response) {
-      var replaceRowHTML = response.table;
-      var rowId = response.ID;
+      var replaceRowHTML = response.table,
+          rowId = response.ID;
 
       form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]').replaceWith(replaceRowHTML);
 
-      var editBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .edit-btn');
-      var deleteBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .delete-btn');
+      var editBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .edit-btn'),
+          deleteBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .delete-btn');
       
       $self.openForm(editBtn);
       $self.deleteRow(deleteBtn);
@@ -395,9 +395,9 @@ var uvel,
         url : ajaxRequestLink,
         success: function(resp) {
           if(resp.html) {
-            var toPrint = resp.html;
-            var node = document.createElement("div");
-            var printElement = document.body.appendChild(node);
+            var toPrint = resp.html,
+                node = document.createElement("div"),
+                printElement = document.body.appendChild(node);
 
             printElement.classList.add("to-print");
             printElement.innerHTML = toPrint;
@@ -449,8 +449,8 @@ var uvel,
     }
 
     this.calculatePaymentInit = function(form) {
-      var givenSum = form.find('[data-calculatePayment-given]').val();
-      var wantedSum = form.find('[data-calculatePayment-wanted]').val();
+      var givenSum = form.find('[data-calculatePayment-given]').val(),
+          wantedSum = form.find('[data-calculatePayment-wanted]').val();
 
       $self.calculatePayment(form, givenSum, wantedSum);
     }
@@ -468,9 +468,9 @@ var uvel,
     }
 
     this.paymentMethodChange = function(form, _this) {
-      var currencySelector = form.find('[data-calculatePayment-currency]');
-      var givenHolder = form.find('[data-calculatePayment-given]');
-      var returnHolder = form.find('[data-calculatePayment-return]');
+      var currencySelector = form.find('[data-calculatePayment-currency]'),
+          givenHolder = form.find('[data-calculatePayment-given]'),
+          returnHolder = form.find('[data-calculatePayment-return]');
 
       if (_this.is(':checked')) {
         $self.paymentPOS(form, currencySelector, givenHolder, returnHolder);
@@ -480,8 +480,8 @@ var uvel,
     }
 
     this.paymentPOS = function(form, currencySelector, givenHolder, returnHolder) {
-      var defaultCurrrency = currencySelector.find('[data-default="yes"]').val();
-      var disable = document.createAttribute('readonly');
+      var defaultCurrrency = currencySelector.find('[data-default="yes"]').val(),
+          disable = document.createAttribute('readonly');
 
       givenHolder[0].setAttributeNode(disable);
       currencySelector.attr('disabled', true);
@@ -510,12 +510,12 @@ var uvel,
     }
 
     this.calculateCarats = function(form) {
-      var type = form.find('[data-calculateCarats-type]').val();
-      var caratHolder = form.find('[data-calculateCarats-carat]');
+      var type = form.find('[data-calculateCarats-type]').val(),
+          caratHolder = form.find('[data-calculateCarats-carat]');
 
       if (type == '2') {
-        var weight = form.find('[data-calculateCarats-weight]').val();
-        var carat = weight * 5;
+        var weight = form.find('[data-calculateCarats-weight]').val(),
+            carat = weight * 5;
         caratHolder.val(carat);
       } else {
         caratHolder.val('0');
