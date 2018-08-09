@@ -647,13 +647,11 @@ var uvel,
     }
 
     this.materialPricesRequestBuilder = function(form, _this) {
-      var ajaxUrl = window.location.origin + '/ajax/getPrices/';
-      var materialType = _this.find(':selected').val();
-      var materialAttribute = _this.find(':selected').attr('data-material');
-      var pricesFilled = _this.closest('.form-row').find('.prices-filled');
-      var retaiPriceFilled = _this.closest('.form-row').find('.retail-price');
-      var wholesalePriceFilled = _this.closest('.form-row').find('.wholesale-price');
-      var requestLink = ajaxUrl + materialAttribute;
+      var ajaxUrl = window.location.origin + '/ajax/getPrices/',
+          materialType = _this.find(':selected').val(),
+          materialAttribute = _this.find(':selected').attr('data-material'),
+          pricesFilled = _this.closest('.form-row').find('.prices-filled'),
+          requestLink = ajaxUrl + materialAttribute;
 
       if(materialType == 0) {
         pricesFilled.val('0');
@@ -670,12 +668,38 @@ var uvel,
       }
 
       if (materialAttribute !== undefined) {
-        $self.ajaxFn('GET' , requestLink , $self.materialPricesResponseHandler);
+        $self.ajaxFn('GET' , requestLink , $self.materialPricesResponseHandler, '', '', _this);
       }
     }
 
-    this.materialPricesResponseHandler = function(response) {
-      console.log(response);
+    this.materialPricesResponseHandler = function(response, elements, _this) {
+      var retalPrices = response.retail_prices,
+          wholesalePrices = response.wholesale_prices,
+          retaiPriceFilled = _this.closest('.form-row').find('.retail-price'),
+          wholesalePriceFilled = _this.closest('.form-row').find('.wholesale-price');
+
+      $self.fillPrices(retaiPriceFilled, retalPrices);
+      $self.fillPrices(wholesalePriceFilled, wholesalePrices);
+    }
+
+    this.fillPrices = function(element, prices) {
+      var chooseOpt = '<option value="0">Избери</option>';
+
+      element.empty();
+      element.attr('disabled', false);
+      element.append(chooseOpt);
+
+      prices.forEach(function(price) {
+        var id = price.id,
+            material = price.material,
+            _price = price.price,
+            selected = price.selected,
+            text = price.slug;
+
+        var option = `<option value="${id}" data-material="${material}" data-price="${_price}">${text}</option>`;
+
+        element.append(option);
+      });
     }
 
     this.ajaxFn = function(method, url, callback, dataSend, elements, currentPressedBtn) {
