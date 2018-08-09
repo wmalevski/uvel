@@ -233,7 +233,7 @@ aria-hidden="true">
                         </table>
 
                         <div class="form-group">
-                            <button type="button" class="btn btn-primary payment-btn" data-form-type="sell" data-form="selling" data-toggle="modal" data-target="#paymentModal">Плащане</button>
+                            <button type="button" class="btn btn-primary payment-btn" data-selling-payment data-form-type="sell" data-form="selling" data-toggle="modal" data-target="#paymentModal">Плащане</button>
                             <button type="button" class="btn btn-primary">Ръчно пускане на фискален бон</button>
                         </div>
 

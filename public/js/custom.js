@@ -65,12 +65,14 @@ var uvel,
       },
       selling: {
         selector: '[name="selling"]',
-        controllers: ['paymentInitializer'],
+        controllers: ['paymentInitializer', 'getWantedSumInit'],
         initialized: false
+      },
       stones: {
         selector: '[name="stones"]',
         controllers: ['calculateCaratsInitializer'],
         initialized: false
+      },
       stoneStyles: {
         selector: '[name="stoneStyles"]',
         controllers: [],
@@ -155,7 +157,7 @@ var uvel,
           if((formType == 'add' || formType == 'sell') && !formSettings.initialized) {
             $self.initializeForm(formSettings, formType);
             formSettings.initialized = true;
-          } else if(formType == 'edit') {
+          } else if (formType == 'edit') {
             $self.initializeForm(formSettings, formType);
           }
         }, timeToOpenModal);
@@ -249,7 +251,7 @@ var uvel,
           success: function(response) {
             if(formType == 'add') {
               $self.appendResponseToTable(response, form);
-            }else if(formType == 'edit') {
+            } else if (formType == 'edit') {
               $self.replaceResponseRowToTheTable(form, response);
             }
 
@@ -307,13 +309,15 @@ var uvel,
         $('.error--messages_holder').remove();
       }
 
+      var messageStayingTime = 2000;   // How long te message will be shown on the screen
       var successMessage = $('<div class="alert alert-success"></div>');
       var message;
+
       if (formType == 'add') {
         message = "Добавихте успешно записа!";
-      }else if(formType == 'edit') {
+      } else if (formType == 'edit') {
         message = "Редактирахте успешно записа!";
-      }else if(formType == 'sell') {
+      } else if (formType == 'sell') {
         message = "Извършихте успешно плащане!";
       }
 
@@ -323,7 +327,7 @@ var uvel,
       
       setTimeout(function() {
         form.find('.modal-body .info-cont .alert-success').remove();
-      }, 2000);
+      }, messageStayingTime);
     }
 
     // APPENDING EDIT FORM TO THE MODAL
@@ -406,17 +410,20 @@ var uvel,
       });
     }
 
-    this.paymentInitializer = function(form) {
-      var calculateTrigger = form.find('[data-calculatePayment-given]');
-      var currencyChangeTrigger = form.find('[data-calculatePayment-currency]');
-      var methodChangeTrigger = form.find('[data-calculatePayment-method]');
-      var openModalTrigger = $(document).find('.payment-btn');
-
+    this.getWantedSumInit = function(form) {
       $self.getWantedSum(form);
 
-      openModalTrigger.on('click', function() {
+      var getWantedTrigger = $('[data-selling-payment]');
+
+      getWantedTrigger.on('click', function() {
         $self.getWantedSum(form);
-      });
+      })
+    }
+
+    this.paymentInitializer = function(form) {
+      var calculateTrigger = form.find('[data-calculatePayment-given]'),
+          currencyChangeTrigger = form.find('[data-calculatePayment-currency]'),
+          methodChangeTrigger = form.find('[data-calculatePayment-method]');
 
       calculateTrigger.on('change', function() {
         $self.calculatePaymentInit(form);
@@ -433,9 +440,9 @@ var uvel,
     }
 
     this.getWantedSum = function(form) {
-      var wantedHolder = form.find('[data-calculatePayment-wanted]');
-      var wantedValue = $('[data-calculatePayment-total]').val();
-      var selectedCurrency = form.find('[data-calculatePayment-currency] :selected').attr('data-currency');
+      var wantedHolder = form.find('[data-calculatePayment-wanted]'),
+          wantedValue = $('[data-calculatePayment-total]').val(),
+          selectedCurrency = form.find('[data-calculatePayment-currency] :selected').attr('data-currency');
 
       var newWanted = wantedValue * selectedCurrency;
       wantedHolder.val(newWanted);
@@ -467,7 +474,7 @@ var uvel,
 
       if (_this.is(':checked')) {
         $self.paymentPOS(form, currencySelector, givenHolder, returnHolder);
-      }else {
+      } else {
         $self.paymentCash(form, currencySelector, givenHolder, returnHolder);
       }
     }
@@ -510,7 +517,7 @@ var uvel,
         var weight = form.find('[data-calculateCarats-weight]').val();
         var carat = weight * 5;
         caratHolder.val(carat);
-      }else {
+      } else {
         caratHolder.val('0');
       }
     }
