@@ -70,7 +70,7 @@ var uvel,
       },
       models: {
         selector: '[name="models"]',
-        controllers: ['addMaterialsInit', 'removeMaterialsInit', 'addStonesInit', 'removeStoneInit', 'calculateStonesInit'],
+        controllers: ['addMaterialsInit', 'removeMaterialsInit', 'addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit'],
         initialized: false
       },
       repairTypes: {
@@ -626,6 +626,98 @@ var uvel,
         el.setAttribute('id', setBtnId);
         el.nextElementSibling.setAttribute('for', setBtnId);
       }
+    }
+
+    this.calculatePriceInit = function(form) {
+      var calculatePriceTrigger = form.find('.calculate');
+      $self.calculatePriceAttach(calculatePriceTrigger, form);
+    }
+
+    this.calculatePriceAttach = function(collection, form) {
+      collection.on('change', function() {
+        var _this = $(this);
+        $self.calculatePriceHandler(form, _this);
+      });
+    }
+
+    this.calculatePriceHandler = function(form, _this) {
+      if (_this.hasClass('material_type')) {
+        $self.materialPricesRequestBuilder(form, _this);
+      }
+    }
+
+    this.materialPricesRequestBuilder = function(form, _this) {
+      var ajaxUrl = window.location.origin + '/ajax/getPrices/';
+      var materialType = _this.find(':selected').val();
+      var materialAttribute = _this.find(':selected').attr('data-material');
+      var pricesFilled = _this.closest('.form-row').find('.prices-filled');
+      var retaiPriceFilled = _this.closest('.form-row').find('.retail-price');
+      var wholesalePriceFilled = _this.closest('.form-row').find('.wholesale-price');
+      var requestLink = ajaxUrl + materialAttribute;
+
+      if(materialType == 0) {
+        pricesFilled.val('0');
+        pricesFilled.attr('disabled', true);
+        return;
+      }
+
+      if (_this.closest('#addProduct').length > 0 || _this.closest('#editProduct').length > 0) {
+        var modelId = form.find('.model-select option:selected').val();
+        requestLink += '/' + modelId;
+      }
+      else {
+        requestLink += '/0';
+      }
+
+      if (materialAttribute !== undefined) {
+        $self.ajaxFn('GET' , requestLink , $self.materialPricesResponseHandler);
+      }
+    }
+
+    this.materialPricesResponseHandler = function(response) {
+      console.log(response);
+    }
+
+    this.ajaxFn = function(method, url, callback, dataSend, elements, currentPressedBtn) {
+      var xhttp = new XMLHttpRequest();
+      var token = $self.formsConfig.globalSettings.token;
+
+      xhttp.open(method, url, true);
+
+      xhttp.onreadystatechange = function () {
+        if(this.readyState == 4 && this.status == 200) {
+          if($self.IsJsonString(this.responseText)){
+            var data = JSON.parse(this.responseText);
+          }
+           else {
+             var data = this.responseText;
+          }
+          
+          callback(data, elements, currentPressedBtn);
+        } else if (this.readyState == 4 && this.status == 401) {
+          var data = JSON.parse(this.responseText);
+          callback(data);
+        }
+      };
+
+      xhttp.setRequestHeader('Content-Type', 'application/json');
+      xhttp.setRequestHeader('X-CSRF-TOKEN', token);
+      
+      if(method === "GET") {
+        xhttp.send();
+      }
+      else {
+        xhttp.send(JSON.stringify(dataSend));
+      }
+    }
+
+    this.IsJsonString = function(str) {
+      try {
+          JSON.parse(str);
+      } catch (e) {
+          return false;
+      }
+      return true;
     }
 
     /**********************************************
