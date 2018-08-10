@@ -188,11 +188,11 @@ var uvel,
       var submitButton = form.find('[type="submit"]');
       var ajaxRequestLink = $self.buildAjaxRequestLink('submitForm', form.attr('action'));
       var formType = form.attr('data-type');
-      var inputFields = form.find('select , input:not([type="hidden"])');
 
       submitButton.click(function(e) {
         e.preventDefault();
-        var _this = $(this);
+        var _this = $(this),
+            inputFields = form.find('select , input:not([type="hidden"])');
 
         $self.getFormFields(form, ajaxRequestLink, formType, inputFields);
       });
@@ -211,16 +211,14 @@ var uvel,
         var dataKey = _this.name;
         var dataKeyValue = _this.value;
 
-        if ((inputType == 'radio' || inputType == 'checkbox') && dataKey.includes('[]')) {
+        if((inputType == 'radio' || inputType == 'checkbox') && dataKey.indexOf('[]') !== -1) {
           dataKey = dataKey.replace('[]', '');
-          data[dataKey] = [];
-          data[dataKey].push($(_this).is(':checked'));
+          (data[dataKey] = data[dataKey] || []).push($(_this).is(':checked'));
         } else if (inputType == 'radio' || inputType == 'checkbox') {
           data[dataKey] = $(_this).is(':checked');
-        } else if (dataKey.includes('[]')) {
+        } else if (dataKey.indexOf('[]') !== -1) {
           dataKey = dataKey.replace('[]', '');
-          data[dataKey] = [];
-          data[dataKey].push(dataKeyValue);
+          (data[dataKey] = data[dataKey] || []).push(dataKeyValue);
         } else {
           data[dataKey] = dataKeyValue;
         }
