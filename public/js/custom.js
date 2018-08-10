@@ -63,6 +63,11 @@ var uvel,
         controllers: [],
         initialized: false
       },
+      users: {
+        selector: '[name="users"]',
+        controllers: [],
+        initialized: false
+      },
       selling: {
         selector: '[name="selling"]',
         controllers: ['paymentInitializer', 'getWantedSumInit'],
@@ -147,14 +152,14 @@ var uvel,
             formType = $this.attr('data-form-type'),
             formSettings = $self.formsConfig[openedForm];
 
-        if(formType == 'edit') {
+        if (formType == 'edit') {
           $self.appendingEditFormToTheModal($this);
         }
 
         //TODO: ASK BOBI VVVV
 
         setTimeout(function() {
-          if((formType == 'add' || formType == 'sell') && !formSettings.initialized) {
+          if ((formType == 'add' || formType == 'sell') && !formSettings.initialized) {
             $self.initializeForm(formSettings, formType);
             formSettings.initialized = true;
           } else if (formType == 'edit') {
@@ -169,7 +174,7 @@ var uvel,
         var _this = $(this),
             ajaxRequestLink = $self.buildAjaxRequestLink('deleteRow', _this.attr('data-url'));
 
-        if(confirm("Сигурен ли сте, че искате да изтриете записа?")) {
+        if (confirm("Сигурен ли сте, че искате да изтриете записа?")) {
           $.ajax({
             method: "POST",
             url: ajaxRequestLink,
@@ -216,7 +221,7 @@ var uvel,
     this.getFormFields = function(form, ajaxRequestLink, formType, inputFields) {
       var data = {_token : $self.formsConfig.globalSettings.token};
 
-      if(formType == 'edit') {
+      if (formType == 'edit') {
         data._method = "PUT";
       }
 
@@ -226,13 +231,13 @@ var uvel,
             dataKey = _this.name,
             dataKeyValue = _this.value;
 
-        if(inputType == 'radio' || inputType == 'checkbox') {
+        if (inputType == 'radio' || inputType == 'checkbox') {
           data[dataKey] = $(_this).is(':checked');
         } else {
           data[dataKey] = dataKeyValue;
         }
 
-        if(dataKey == 'images') {
+        if (dataKey == 'images') {
          imagesInputFieldExists = true;
         }
       });
@@ -249,7 +254,7 @@ var uvel,
           url: requestUrl,
           data: data,
           success: function(response) {
-            if(formType == 'add') {
+            if (formType == 'add') {
               $self.appendResponseToTable(response, form);
             } else if (formType == 'edit') {
               $self.replaceResponseRowToTheTable(form, response);
@@ -305,7 +310,7 @@ var uvel,
      // FUNCTION THAT APPENDS SUCCESS MESSAGES TO THE FORM WHEN THE REQUEST IS SUCCESS
 
     this.formSuccessHandler = function(form, formType) {
-      if($('.error--messages_holder').length) {
+      if ($('.error--messages_holder').length) {
         $('.error--messages_holder').remove();
       }
 
@@ -382,8 +387,8 @@ var uvel,
       btn.on('click', function(e) {
         e.preventDefault();
 
-        var _this = $(this);
-        var ajaxRequestLink = $self.buildAjaxRequestLink('print', _this.attr('href'));
+        var _this = $(this),
+            ajaxRequestLink = $self.buildAjaxRequestLink('print', _this.attr('href'));
 
         $self.handlePrintResponse(ajaxRequestLink);
       })
@@ -394,7 +399,7 @@ var uvel,
         type: "GET",
         url : ajaxRequestLink,
         success: function(resp) {
-          if(resp.html) {
+          if (resp.html) {
             var toPrint = resp.html,
                 node = document.createElement("div"),
                 printElement = document.body.appendChild(node);
