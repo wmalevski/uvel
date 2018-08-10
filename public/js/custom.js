@@ -73,6 +73,11 @@ var uvel,
         controllers: ['addMaterialsInit', 'removeMaterialsInit', 'addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit'],
         initialized: false
       },
+      products: {
+        selector: '[name="products"]',
+        controllers: ['addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'modelRequestInit'],
+        initialized: false
+      },
       repairTypes: {
         selector: '[name="repairTypes"]',
         controllers: [],
@@ -743,6 +748,71 @@ var uvel,
 
         element.append(option);
       });
+    }
+
+    this.modelRequestInit = function(form) {
+      var modelRequestTrigger = form.find('[data-calculatePrice-model]');
+
+      modelRequestTrigger.on('change', function() {
+        $self.modelRequest(form);
+      });
+    }
+
+    this.modelRequest = function(form) {
+      var ajaxUrl = window.location.origin + '/ajax/products/',
+          modelId = form.find('[data-calculatePrice-model]').val();
+
+      var requestLink = ajaxUrl + modelId;
+
+      $self.ajaxFn('GET' , requestLink , $self.modelRequestResponseHandler, '', form);
+    }
+
+    this.modelRequestResponseHandler = function(response, form) {
+      $self.fillMaterials(response, form);
+      $self.fillJewel(response, form);
+      $self.fillStones(response, form);
+    }
+
+    this.fillMaterials = function(response, form) {
+      var materialHolder = form.find('[data-calculatePrice-material]'),
+          materials = response.materials;
+
+      materialHolder.empty();
+
+      materials.forEach(function(material) {
+        var value = material.value,
+            label = material.label,
+            selected = material.selected ? 'selected' : '';
+
+        var option = `<option value="${value}" ${selected}>${label}</option>`
+
+        materialHolder.append(option);
+      });
+
+      $self.materialPricesRequestBuilder(form, materialHolder);
+    }
+
+    this.fillJewel = function(response, form) {
+      var jewelHolder = form.find('[data-modelFilled-jewel]'),
+          selected = response.jewels_types[0].value;
+
+      jewelHolder.val(selected);
+    }
+
+    this.fillStones = function(response, form) {
+      var stonesHolder = form.find('.model_stones'),
+          stones = response.stones;
+
+      stonesHolder.empty();
+
+      stones.forEach(function(stone) {
+        var amount = stone.amount,
+            selected = stone.value,
+            weight = stone.weight,
+            flow = stone.flow;
+
+        $self.addStone(form);
+      })
     }
 
     this.ajaxFn = function(method, url, callback, dataSend, elements, currentPressedBtn) {
