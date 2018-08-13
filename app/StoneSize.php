@@ -36,4 +36,9 @@ class StoneSize extends Model
 
         return $size;
     }
+
+    public function stones()
+    {
+        return $this->hasMany('App\Stone', 'size_id');
+    }
 }

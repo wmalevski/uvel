@@ -109,8 +109,12 @@ public function edit(StoneSize $stoneSize)
     public function destroy(StoneSize $stoneSize)
     {
         if($stoneSize){
-            $stoneSize->delete();
-            return Response::json(array('success' => 'Успешно изтрито!'));
+            if($stoneSize->stones->count()){
+                return Response::json(['errors' => ['using' => ['Този контур се използва от системата и не може да бъде изтрит.']]], 401);
+            }else {
+                $stoneSize->delete();
+                return Response::json(array('success' => 'Успешно изтрито!'));
+            }
         }
     }
 }

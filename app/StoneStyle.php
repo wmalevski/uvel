@@ -15,4 +15,9 @@ class StoneStyle extends Model
 
     protected $table = 'stone_styles';
     protected $dates = ['deleted_at'];
+
+    public function stones()
+    {
+        return $this->hasMany('App\Stone', 'style_id');
+    }
 }
