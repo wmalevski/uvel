@@ -148,8 +148,6 @@ class PriceController extends Controller
             ['default', '=', 'yes']
         ])->first();
 
-        
-
         $retail_prices = Price::where(
             [
                 ['material_id', '=', $material],

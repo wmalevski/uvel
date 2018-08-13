@@ -421,14 +421,14 @@ class ModelController extends Controller
 
         $deleteOptions = ModelOption::where('model_id', $model->id)->delete();
 
-        if($request->material){
-            foreach($request->material as $key => $material){
+        if($request->material_id){
+            foreach($request->material_id as $key => $material){
                 if($material){
                     $model_option = new ModelOption();
                     $model_option->model_id = $model->id;
                     $model_option->material_id = $material;
-                    $model_option->retail_price_id = $request->retail_price[$key];
-                    $model_option->wholesale_price_id = $request->wholesale_price[$key];
+                    $model_option->retail_price_id = $request->retail_price_id[$key];
+                    $model_option->wholesale_price_id = $request->wholesale_price_id[$key];
                     $model_option->default = $request->default_material[$key];
     
                     if($request->default_material[$key] == true){
