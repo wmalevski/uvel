@@ -85,7 +85,6 @@ aria-hidden="true">
   <div class="col-md-12">
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
       <h4 class="c-grey-900 mB-20">Цени Купува</h4>
-
         @if(isset($prices)) 
         <table class="table table-condensed" id="buy">
             <tr>

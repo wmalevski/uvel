@@ -18,4 +18,9 @@ class Price extends Model
 
     protected $table = 'prices';
     protected $dates = ['deleted_at'];
+
+    public function scopeMaterialPrices($query, $value)
+    {
+        return $query->where('material_id', $value)->get();
+    }
 }
