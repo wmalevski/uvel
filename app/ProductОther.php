@@ -19,11 +19,11 @@ class ProductOther extends Model
 
     public function type()
     {
-        return $this->belongsTo('App\ProductOtherType');
+        return $this->belongsTo('App\ProductOtherType')->withTrashed();
     }
 
     public function store()
     {
-        return $this->belongsTo('App\Store');
+        return $this->belongsTo('App\Store')->withTrashed();
     }
 }
