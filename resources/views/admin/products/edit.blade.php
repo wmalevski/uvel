@@ -72,7 +72,7 @@
                     <select id="material_edit" name="material_id" class="material_type form-control calculate">
                         <option value="">Избери</option>
                 
-                        @foreach($materials as $material)
+                        @if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
                             <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}" @if($material->id == $product->material) selected @endif>{{ $material->material->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
                         @endforeach
                     </select>
