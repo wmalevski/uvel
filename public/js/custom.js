@@ -97,6 +97,11 @@ var uvel,
         selector: '[name="repairTypes"]',
         controllers: [],
         initialized: false
+      },
+      repairs: {
+        selector: '[name="repairs"]',
+        controllers: ['fillRepairPrice'],
+        initialized: false
       }
     };
 
@@ -135,11 +140,13 @@ var uvel,
     this.attachInitialEvents = function () {
       var $openFormTrigger = $('[data-form]'),
           $deleteRowTrigger = $('.delete-btn'),
-          $printTrigger = $('.print-btn');
+          $printTrigger = $('.print-btn'),
+          $barcodeProcessRepairTrigger = $('[data-editRepair-scan]');
 
       $self.openForm($openFormTrigger);
       $self.deleteRow($deleteRowTrigger);
       $self.print($printTrigger);
+      $self.barcodeProcessRepairAttach($barcodeProcessRepairTrigger);
     }
 
     this.openForm = function(openFormTrigger) {
@@ -208,7 +215,7 @@ var uvel,
       var submitButton = form.find('[type="submit"]'),
           ajaxRequestLink = $self.buildAjaxRequestLink('submitForm', form.attr('action')),
           formType = form.attr('data-type'),
-          inputFields = form.find('select , input:not([type="hidden"])');
+          inputFields = form.find('select , input:not([type="hidden"]), textarea');
 
       submitButton.click(function(e) {
         e.preventDefault();
@@ -525,6 +532,34 @@ var uvel,
       } else {
         caratHolder.val('0');
       }
+    }
+
+    this.fillRepairPrice = function(form) {
+      var fillPriceTrigger = form.find('[data-repair-type]'),
+          priceHolder = form.find('[data-repair-price]');
+
+      fillPriceTrigger.on('change', function() {
+        var _this = $(this),
+            price = _this.find(':selected').attr('data-price');
+
+        priceHolder.val(price);
+      })
+    }
+
+    this.barcodeProcessRepairAttach = function(input) {
+      input.on('change', function() {
+        var _this = $(this),
+            barcode = _this.val();
+
+        if (barcode.length > 0) {
+          var urlTaken = window.location.href.split('/');
+          var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs/edit';
+          var ajaxUrl = url + '/' + barcode;
+
+          //ajaxFn("GET",ajaxUrl,sendProcessRepairBarcodeSuccess,'','',_this);
+          console.log('make request '+ajaxUrl);
+        }
+      })
     }
 
     /**********************************************

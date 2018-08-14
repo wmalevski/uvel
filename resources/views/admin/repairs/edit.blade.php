@@ -5,7 +5,7 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<form method="POST" action="repairs/{{ $repair->barcode }}" name="fullEditRepair">
+<form method="POST" action="repairs/{{ $repair->barcode }}" name="repairs" data-type="edit">
     <input name="_method" type="hidden" value="PUT">
     <div class="modal-body">    
         <div class="info-cont">
@@ -56,7 +56,7 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label>Тип ремонт</label>
-                    <select name="type" class="form-control fill-field" data-fieldToFill="input[name='price']">
+                    <select name="type" class="form-control fill-field" data-fieldToFill="input[name='price']" data-repair-type>
                         <option value="">Избери</option>
 
                         @foreach($repairTypes as $repairType)
@@ -92,7 +92,7 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputEmail4">Цена</label>
-                    <input type="number" class="form-control" name="price" value="{{ $repair->price }}" placeholder="Цена на ремонта" readonly>
+                    <input type="number" class="form-control" name="price" value="{{ $repair->price }}" placeholder="Цена на ремонта" data-repair-price readonly>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="inputEmail4">Цена след ремонта</label>
