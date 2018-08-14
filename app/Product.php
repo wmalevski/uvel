@@ -46,7 +46,7 @@ class Product extends Model
 
     public function jewel()
     {
-        return $this->belongsTo('App\Model');
+        return $this->belongsTo('App\Jewel');
     }
 
     public function images()

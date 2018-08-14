@@ -57,7 +57,7 @@
                         <option value="">Избери</option>
                 
                         @foreach($jewels as $jewel)
-                        <option @if($product->jewel_type == $jewel->id) selected @endif value="{{ $jewel->id }}">{{ $jewel->name }}</option>
+                        <option @if($product->jewel_id == $jewel->id) selected @endif value="{{ $jewel->id }}">{{ $jewel->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -72,8 +72,10 @@
                     <select id="material_edit" name="material_id" class="material_type form-control calculate">
                         <option value="">Избери</option>
                 
-                        @if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
-                            <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}" @if($material->id == $product->material) selected @endif>{{ $material->material->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
+                        @foreach($materials as $material)
+                            @if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
+                                <option value="{{ $material->id }}" data-material="{{ $material->material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}" @if($material->id == $product->material_id) selected @endif>{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
@@ -83,7 +85,7 @@
                         <option value="">Избери</option>
                 
                         @foreach($prices->where('type', 'sell') as $price)
-                    <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}" @if($product->retail_price == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
+                    <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}" @if($product->retail_price_id == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -94,7 +96,7 @@
                         <option value="">Избери</option>
                 
                         @foreach($prices->where('type', 'sell') as $price)
-                            <option value="{{ $price->id }}" data-material="{{ $price->material }}" @if($product->wholesale_price == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
+                            <option value="{{ $price->id }}" data-material="{{ $price->material }}" @if($product->wholesale_price_id == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
                         @endforeach
                     </select>
                 </div>

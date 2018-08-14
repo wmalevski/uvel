@@ -303,7 +303,7 @@ class ProductController extends Controller
             $validator = Validator::make( $request->all(), [
                 'jewel_id' => 'required',
                 'retail_price_id' => 'required',
-                'wholesale_prices_id' => 'required',
+                'wholesale_price_id' => 'required',
                 'weight' => 'required|numeric|between:0.1,10000',
                 'size' => 'required|numeric|between:0.1,10000',
                 'workmanship' => 'required|numeric|between:0.1,500000',
