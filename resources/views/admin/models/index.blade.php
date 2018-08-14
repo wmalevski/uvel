@@ -200,6 +200,7 @@ aria-hidden="true">
         <th>Изработка</th>
         <th>Цена</th>
         <th>Действия</th>
+        <th></th>
     </tr>
     
     @foreach($models as $model)

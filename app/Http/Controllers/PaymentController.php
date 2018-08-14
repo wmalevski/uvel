@@ -59,7 +59,7 @@ class PaymentController extends Controller
             }
 
             $payment = new Payment();
-            $payment->currency = $request->modal_certificate;
+            $payment->currency_id = $request->modal_certificate;
             $payment->method = $request->pay_method;
             $payment->reciept = $request->modal_reciept;
     
@@ -104,14 +104,14 @@ class PaymentController extends Controller
         //On hold for next sprint
 
         //Store the notification
-        $history = new History();
+        // $history = new History();
         
-        $history->action = 'payment'; 
-        $history->user = Auth::user()->getId();
-        $history->table = 'product_payment';
-        $history->result_id = $payment->id;
+        // $history->action = 'payment'; 
+        // $history->user = Auth::user()->getId();
+        // $history->table = 'product_payment';
+        // $history->result_id = $payment->id;
 
-        $history->save();
+        //$history->save();
     }
 
     /**
