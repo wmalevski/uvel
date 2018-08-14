@@ -29,7 +29,7 @@ class MaterialTravellingController extends Controller
         if(Bouncer::is(Auth::user())->an('admin')){
             $materials = MaterialQuantity::all();
         }else{
-            $materials = MaterialQuantity::where('store', Auth::user()->getStore());
+            $materials = MaterialQuantity::where('store', Auth::user()->getStore()->id);
         }
         
         //$materials = Materials_quantity::all();
@@ -104,16 +104,7 @@ class MaterialTravellingController extends Controller
                     $quantity->save();
                 }
 
-                $history = new History();
-
-                $history->action = '1';
-                $history->user_id = Auth::user()->getId();
-                $history->table = 'materials_travelling';
-                $history->result_id = $material->id;
-
-                $history->save();
-
-                return Response::json(array('success' => View::make('admin/materials_travelling/table', array('material' => $material, 'matID' => $check->material))->render()));
+                return Response::json(array('success' => View::make('admin/materials_travelling/table', array('material' => $material, 'matID' => $check->material->id))->render()));
 
             }else{
                 return Response::json(['errors' => array('quantity' => ['Въведохте невалидно количество!'])], 401);
