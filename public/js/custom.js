@@ -243,6 +243,7 @@ var uvel,
        $.ajax({
           method: "POST",
           url: requestUrl,
+          dataType: "json",
           data: data,
           success: function(response) {
             if(formType == 'add') {
@@ -325,8 +326,18 @@ var uvel,
       $.ajax({
         url: ajaxRequestLink,
         success: function(resp) {
-          currentButton.parents().find('.edit--modal_holder .modal-content').html(resp);
+          var modal = currentButton.parents().find('.edit--modal_holder .modal-content');
+
+          modal.html(resp);
           // $self.initializeSelect(_this.parents().find('select'));
+          if (modal.find('[data-calculatePrice-material]').length > 0) {
+            for (var i = 0; i < modal.find('[data-calculatePrice-material]').length; i++) {
+              var _this = $(modal.find('[data-calculatePrice-material]')[i]);
+              var form = _this.closest('form');
+              $self.materialPricesRequestBuilder(form, _this);
+            }
+          }
+
         }
       });
     }
@@ -514,11 +525,14 @@ var uvel,
       });
     }
 
-    this.addStone = function(form) {
-      var stonesWrapper = form.find('.model_stones');
-      var fields = stonesWrapper.find('.fields');
-      var stonesData = $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null;
-      var maxFields = 10;
+    this.addStone = function(form, stone) {
+      var stonesWrapper = form.find('.model_stones'),
+          fields = stonesWrapper.find('.fields'),
+          stonesData = stone || $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null,
+          maxFields = 10,
+          amount = stone ? stone.amount : '',
+          weight = stone ? stone.weight : '',
+          flow = stone ? stone.flow : false;
 
       if (fields.length < maxFields) {
         var fieldsHolder = document.createElement('div');
@@ -530,7 +544,8 @@ var uvel,
           '<select name="stones[]" class="form-control">';
 
         stonesData.forEach(function (option) {
-          newFields += `<option value=${option.value}>${option.label}</option>`
+          var selected = stone && stone.value == option.value ? 'selected' : '';
+          newFields += `<option value=${option.value} ${selected}>${option.label}</option>`
         });
 
         newFields +=
@@ -538,7 +553,7 @@ var uvel,
           '</div>' +
           '<div class="form-group col-md-4">' +
           '<label>Брой:</label>' +
-          '<input type="text" class="form-control calculate-stones" name="stone_amount[]" data-calculateStones-amount placeholder="Брой">' +
+          `<input type="text" value="${amount}" class="form-control calculate-stones" name="stone_amount[]" data-calculateStones-amount placeholder="Брой">` +
           '</div>' +
           '<div class="form-group col-md-2">' +
           '<span class="delete-stone remove_field" data-removeStone-remove><i class="c-brown-500 ti-trash"></i></span>'+
@@ -546,7 +561,7 @@ var uvel,
           '<div class="form-group col-md-6">' +
           '<div class="form-group">' +
           '<label>Тегло: </label>' +
-          '<input type="number" class="form-control calculate-stones" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">' +
+          `<input type="number" value="${weight}" class="form-control calculate-stones" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">` +
           '</div>' +
           '</div>' +
           '<div class="form-group col-md-6">' +
@@ -660,7 +675,7 @@ var uvel,
     this.calculatePriceHandler = function(form, _this) {
       var row = _this.closest('.form-row');
 
-      if (row.find('[data-calculatePrice-default]:checked').length > 0 || row.find('[data-calculatePrice-weight]').length > 0) {
+      if (row.find('[data-calculatePrice-default]:checked').length > 0 || row.find('[data-calculatePrice-weight]').length > 0 || form.attr('name') == 'products') {
         $self.calculatePrice(form);
       }
     }
@@ -669,8 +684,8 @@ var uvel,
       var workmanshipHolder = form.find('[data-calculatePrice-worksmanship]'),
           finalHolder = form.find('[data-calculatePrice-final]'),
           defaultMaterialRow = form.find('[data-calculatePrice-default]:checked').closest('.form-row'),
-          sellPrice = defaultMaterialRow.find('[data-calculatePrice-retail] :selected').attr('data-price')*1,
-          buyPrice = defaultMaterialRow.find('[data-calculatePrice-material] :selected').attr('data-pricebuy')*1,
+          sellPrice = form.attr('name') == 'products' ? form.find('[data-calculatePrice-retail] :selected').attr('data-price')*1 : defaultMaterialRow.find('[data-calculatePrice-retail] :selected').attr('data-price')*1,
+          buyPrice = form.attr('name') == 'products' ? form.find('[data-calculatePrice-material] :selected').attr('data-pricebuy')*1 : defaultMaterialRow.find('[data-calculatePrice-material] :selected').attr('data-pricebuy')*1,
           weight = form.find('[data-calculatePrice-weight]').val()*1;
 
       if (sellPrice && buyPrice && weight) {
@@ -771,6 +786,10 @@ var uvel,
       $self.fillMaterials(response, form);
       $self.fillJewel(response, form);
       $self.fillStones(response, form);
+      $self.fillSize(response, form);
+      $self.fillWeight(response, form);
+      $self.fillFinalPrice(response, form);
+      $self.fillWorkmanshipPrice(response, form);
     }
 
     this.fillMaterials = function(response, form) {
@@ -781,10 +800,12 @@ var uvel,
 
       materials.forEach(function(material) {
         var value = material.value,
+            dataMaterial = material.dataMaterial,
+            priceBuy = material.priceBuy,
             label = material.label,
             selected = material.selected ? 'selected' : '';
 
-        var option = `<option value="${value}" ${selected}>${label}</option>`
+        var option = `<option value="${value}" data-material="${dataMaterial}" data-pricebuy="${priceBuy}" ${selected}>${label}</option>`
 
         materialHolder.append(option);
       });
@@ -800,19 +821,42 @@ var uvel,
     }
 
     this.fillStones = function(response, form) {
-      var stonesHolder = form.find('.model_stones'),
-          stones = response.stones;
+      var stones = response.stones;
+          stonesHolder = form.find('.model_stones');
 
       stonesHolder.empty();
 
       stones.forEach(function(stone) {
-        var amount = stone.amount,
-            selected = stone.value,
-            weight = stone.weight,
-            flow = stone.flow;
+        $self.addStone(form, stone);
+      });
+    }
 
-        $self.addStone(form);
-      })
+    this.fillWeight = function(response, form) {
+      var weightHolder = form.find('[data-calculatePrice-weight]'),
+          weight = response.weight;
+
+      weightHolder.val(weight);
+    }
+
+    this.fillSize = function(response, form) {
+      var sizeHolder = form.find('[data-modelFilld-size]'),
+          size = response.size;
+
+      sizeHolder.val(size);
+    }
+
+    this.fillFinalPrice = function(response, form) {
+      var finalHolder = form.find('[data-calculatePrice-final]'),
+          price = response.price;
+
+      finalHolder.val(price);
+    }
+
+    this.fillWorkmanshipPrice = function(response, form) {
+      var workmanshipHolder = form.find('[data-calculatePrice-worksmanship]'),
+          price = response.workmanship;
+
+      workmanshipHolder.val(price);
     }
 
     this.ajaxFn = function(method, url, callback, dataSend, elements, currentPressedBtn) {

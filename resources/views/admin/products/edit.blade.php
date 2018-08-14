@@ -114,7 +114,7 @@
             
                 <div class="form-group col-md-6">
                     <label for="1">Размер: </label>
-                    <input type="text" class="form-control size" id="size" value="{{ $product->size }}" name="size" placeholder="Размер:" min="1" max="10000">
+                    <input type="text" class="form-control size" id="size" value="{{ $product->size }}" name="size" data-modelFilld-size placeholder="Размер:" min="1" max="10000">
                 </div>
 
                 <div class="col-12">
