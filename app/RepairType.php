@@ -14,6 +14,11 @@ class RepairType extends Model
         'price',
     ];
 
+    public function repairs()
+    {
+        return $this->hasMany('App\Repair', 'type_id');
+    }
+
     protected $dates = ['deleted_at'];
 
     protected $table = 'repair_types';
