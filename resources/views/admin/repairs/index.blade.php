@@ -157,7 +157,7 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="barcode_return-repairs">Баркод</label>
-                            <input type="text" class="form-control" id="barcode_return-repairs" name="barcode" placeholder="Моля сканирайте баркода за артикула">
+                            <input type="text" class="form-control" id="barcode_return-repairs" name="barcode" data-repair-scan="return" placeholder="Моля сканирайте баркода за артикула">
                         </div>
                     </div>
                 </div>
@@ -191,7 +191,7 @@ aria-hidden="true">
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label for="barcode_process-repairs">Баркод</label>
-                                <input type="text" class="form-control" id="barcode_process-repairs" data-editRepair-scan name="barcode" placeholder="Моля сканирайте баркода за артикула">
+                                <input type="text" class="form-control" id="barcode_process-repairs" data-repair-scan="edit" data-form-type="edit" data-form="repairs" name="barcode" placeholder="Моля сканирайте баркода за артикула">
                             </div>
                         </div>
 

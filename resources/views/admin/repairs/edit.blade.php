@@ -100,11 +100,15 @@
                 </div>
             </div>
 
-            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                <input type="checkbox" id="inputCall1" name="status" class="peer" value="done">
-                <label for="inputCall1" class="peers peer-greed js-sb ai-c">
-                    <span class="peer peer-greed">Готов за връщане</span>
-                </label>
+            <div class="form-row">
+                <div class="form-group col-md-5">
+                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                        <input type="checkbox" id="inputCall1" name="status" class="peer" value="done">
+                        <label for="inputCall1" class="peers peer-greed js-sb ai-c">
+                            <span class="peer peer-greed">Готов за връщане</span>
+                        </label>
+                    </div>
+                </div>
             </div>
     </div>
 

@@ -138,10 +138,10 @@ var uvel,
     };
 
     this.attachInitialEvents = function () {
-      var $openFormTrigger = $('[data-form]'),
+      var $openFormTrigger = $('[data-form]:not([data-repair-scan])'),
           $deleteRowTrigger = $('.delete-btn'),
           $printTrigger = $('.print-btn'),
-          $barcodeProcessRepairTrigger = $('[data-editRepair-scan]');
+          $barcodeProcessRepairTrigger = $('[data-repair-scan]');
 
       $self.openForm($openFormTrigger);
       $self.deleteRow($deleteRowTrigger);
@@ -150,31 +150,34 @@ var uvel,
     }
 
     this.openForm = function(openFormTrigger) {
-      var timeToOpenModal = 1000; //time which takes for modals to open
-
-
       openFormTrigger.on('click', function() {
-        var $this = $(this), 
-            openedForm = $this.attr('data-form'),
-            formType = $this.attr('data-form-type'),
-            formSettings = $self.formsConfig[openedForm];
-
-        if (formType == 'edit') {
-          $self.appendingEditFormToTheModal($this);
-        }
-
-        //TODO: ASK BOBI VVVV
-
-        setTimeout(function() {
-          if ((formType == 'add' || formType == 'sell') && !formSettings.initialized) {
-            $self.initializeForm(formSettings, formType);
-            formSettings.initialized = true;
-          } else if (formType == 'edit') {
-            $self.initializeForm(formSettings, formType);
-          }
-        }, timeToOpenModal);
+        var _this = $(this);
+        $self.openFormAction(_this);
       });
     };
+
+    this.openFormAction = function(currentPressedBtn, data) {
+      var $this = currentPressedBtn,
+          timeToOpenModal = 1000, //time which takes for modals to open 
+          openedForm = $this.attr('data-form'),
+          formType = $this.attr('data-form-type'),
+          formSettings = $self.formsConfig[openedForm];
+
+      if (formType == 'edit') {
+        $self.appendingEditFormToTheModal($this, data);
+      }
+
+      //TODO: ASK BOBI VVVV
+
+      setTimeout(function() {
+        if ((formType == 'add' || formType == 'sell') && !formSettings.initialized) {
+          $self.initializeForm(formSettings, formType);
+          formSettings.initialized = true;
+        } else if (formType == 'edit') {
+          $self.initializeForm(formSettings, formType);
+        }
+      }, timeToOpenModal);
+    }
 
     this.deleteRow = function(deleteRowTrigger) {
       deleteRowTrigger.on('click', function() {
@@ -279,14 +282,21 @@ var uvel,
     // FUNCTION THAT READS ALL THE ERRORS RETURNED FROM THE REQUEST AND APPEND THEM IN THE MODAL-FORM-BODY
 
     this.formsErrorHandler = function(err , form) {
-        var errorObject = err.responseJSON.errors,
+        var errorObject = form.find('[data-repair-scan]').length > 0 ? err.errors : err.responseJSON.errors,
             errorMessagesHolder = $('<div class="error--messages_holder"></div>');
 
 
         for(var key in errorObject) {
           var messageError = $('<div class="alert alert-danger"></div>');
 
-          messageError.append(errorObject[key][0]);
+          if (form.find('[data-repair-scan]').length > 0) {
+            for (var x in errorObject[key]) {
+              messageError.append(errorObject[key][x][0]);
+            }
+          } else {
+            messageError.append(errorObject[key][0]);
+          }
+          
           errorMessagesHolder.append(messageError);
         }
 
@@ -344,16 +354,24 @@ var uvel,
 
     // APPENDING EDIT FORM TO THE MODAL
 
-    this.appendingEditFormToTheModal = function(currentButton) {
-      var ajaxRequestLink = $self.buildAjaxRequestLink('requestForm', currentButton.attr('data-url'));
+    this.appendingEditFormToTheModal = function(currentButton, data) {
+      if (currentButton[0].hasAttribute('data-repair-scan')) {
+        currentButton.val('');
+        $self.closeModal(currentButton.closest('.modal'));
+        $('.edit--modal_holder .modal-content').html(data);
+        $self.openModal($('.edit--modal_holder'));
+      }
+      else {
+        var ajaxRequestLink = $self.buildAjaxRequestLink('requestForm', currentButton.attr('data-url'));
 
-      $.ajax({
-        url: ajaxRequestLink,
-        success: function(resp) {
-          currentButton.parents().find('.edit--modal_holder .modal-content').html(resp);
-          // $self.initializeSelect(_this.parents().find('select'));
-        }
-      });
+        $.ajax({
+          url: ajaxRequestLink,
+          success: function(resp) {
+            currentButton.parents().find('.edit--modal_holder .modal-content').html(resp);
+            // $self.initializeSelect(_this.parents().find('select'));
+          }
+        });
+      }
     }
 
     // FUNCTION FOR REPLACING THE TR ROW IN THE TABLE ( THAT"s FOR THE EDIT )
@@ -549,17 +567,108 @@ var uvel,
     this.barcodeProcessRepairAttach = function(input) {
       input.on('change', function() {
         var _this = $(this),
-            barcode = _this.val();
+            barcode = _this.val(),
+            type = _this.attr('data-repair-scan');
 
         if (barcode.length > 0) {
           var urlTaken = window.location.href.split('/');
-          var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs/edit';
+          var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs/' + type;
           var ajaxUrl = url + '/' + barcode;
 
-          //ajaxFn("GET",ajaxUrl,sendProcessRepairBarcodeSuccess,'','',_this);
-          console.log('make request '+ajaxUrl);
+          if (type == 'edit') {
+            $self.ajaxFn('GET', ajaxUrl, $self.barcodeProcessEditResponse,'','',_this);
+          } else if (type == 'return') {
+            $self.ajaxFn('GET', ajaxUrl, $self.barcodeProcessReturnResponse,'','',_this);
+          }
         }
       })
+    }
+
+    this.barcodeProcessEditResponse = function(data, elements, currentPressedBtn) {
+      $self.openFormAction(currentPressedBtn, data);
+    }
+
+    this.barcodeProcessReturnResponse = function(data, elements, currentPressedBtn) {
+      if(data.hasOwnProperty('success')) {
+        window.location.replace(data.redirect);
+      } else if (data.hasOwnProperty('errors')) {
+        var form = currentPressedBtn.closest('form');
+        
+        $self.formsErrorHandler(data, form);
+      }
+    }
+
+    this.openModal = function(modal) {
+      var backdrop1 = document.createElement('div'),
+          backdrop2 = document.createElement('div');
+
+      $(backdrop1).addClass('modal-backdrop fade in');
+      $(backdrop2).addClass('modal-backdrop fade show');
+      document.body.appendChild(backdrop1);
+      document.body.appendChild(backdrop2);
+      modal.addClass('show in');
+      modal.css('display', 'block');
+      $('body').addClass('modal-open');
+
+      var closeModalTrigger = modal.find('[data-dismiss="modal"]');
+
+      closeModalTrigger.on('click', function() {
+        $self.closeModal(modal);
+      })
+
+      modal.on('click', function(e) {
+        var _this = $(e.target);
+        console.log(_this);
+      })
+    }
+
+    this.closeModal = function(modal) {
+      modal.removeClass('show in');
+      modal.css('display', 'none');
+      $('.modal-backdrop').remove();
+      $('body').removeClass('modal-open');
+    }
+
+    this.ajaxFn = function(method, url, callback, dataSend, elements, currentPressedBtn) {
+      var xhttp = new XMLHttpRequest();
+      var token = $self.formsConfig.globalSettings.token;
+
+      xhttp.open(method, url, true);
+
+      xhttp.onreadystatechange = function () {
+        if(this.readyState == 4 && this.status == 200) {
+          if($self.IsJsonString(this.responseText)){
+            var data = JSON.parse(this.responseText);
+          }
+           else {
+             var data = this.responseText;
+          }
+          
+          callback(data, elements, currentPressedBtn);
+        } else if (this.readyState == 4 && this.status == 401) {
+          var data = JSON.parse(this.responseText);
+          callback(data, elements, currentPressedBtn);
+        }
+      };
+
+      xhttp.setRequestHeader('Content-Type', 'application/json');
+      xhttp.setRequestHeader('X-CSRF-TOKEN', token);
+      
+      if(method === "GET") {
+        xhttp.send();
+      }
+      else {
+        xhttp.send(JSON.stringify(dataSend));
+      }
+    }
+
+    this.IsJsonString = function(str) {
+      try {
+          JSON.parse(str);
+      } catch (e) {
+          return false;
+      }
+      return true;
     }
 
     /**********************************************
