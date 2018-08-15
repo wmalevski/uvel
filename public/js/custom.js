@@ -75,7 +75,7 @@ var uvel,
       },
       stones: {
         selector: '[name="stones"]',
-        controllers: ['calculateCaratsInitializer'],
+        controllers: ['calculateCaratsInitializer', 'uploadImagesInit'],
         initialized: false
       },
       stoneStyles: {
@@ -527,6 +527,51 @@ var uvel,
       }
     }
 
+    this.uploadImagesInit = function(form) {
+      uploadImagesTrigger = form.find('.drop-area-input');
+      uploadImagesTrigger.on('change', function(event) {
+        var _this = $(this);
+        $self.uploadImages(event, _this);
+      })
+    }
+
+    this.uploadImages = function(event, _this) {
+      var files = event.target.files,
+          collectionFiles= [];
+
+      var _instanceFiles = [];
+     
+      for(var file of files) {
+        if(file.type == "image/svg+xml") {
+          alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
+        } else {
+          collectionFiles.push(file);
+        }
+      }
+
+      collectionFiles.forEach(function(element) {
+        var reader = new FileReader();
+        reader.readAsDataURL(element);
+
+        reader.onloadend = function() {
+          var imageWrapper = document.createElement('div');
+          var closeBtn = document.createElement('div');
+          var img = document.createElement('img');
+
+          _instanceFiles.push(reader.result);   
+
+          imageWrapper.setAttribute("class", "image-wrapper");
+          closeBtn.setAttribute("class", "close");
+          closeBtn.innerHTML = '&#215;';            
+          
+          img.src = reader.result;
+          imageWrapper.append(closeBtn);
+          imageWrapper.append(img);
+          _this.siblings('.drop-area-gallery').append(imageWrapper);
+        }
+      });
+    }
+
     /**********************************************
     *                                            *
     *                                            *
@@ -684,6 +729,8 @@ var uvel,
       });
     }
 
+    
+
 
     // this.modelSelectRequest = function() {
     //   $('body').on('change' , '.model-select' , function() {
@@ -716,47 +763,47 @@ var uvel,
       UPLOADING IMAGES FUNCTION
     **/
 
-      this.dropFunctionality = function() {
-        $('body').on('change' , 'form .drop-area-input' , function(event) {
-          var files = event.target.files,
-              collectionFiles= [];
+      // this.dropFunctionality = function() {
+      //   $('body').on('change' , 'form .drop-area-input' , function(event) {
+      //     var files = event.target.files,
+      //         collectionFiles= [];
 
-          var _this = $(this);
+      //     var _this = $(this);
 
-          var _instanceFiles = [];
+      //     var _instanceFiles = [];
          
-          for(var file of files) {
-            if(file.type == "image/svg+xml") {
-              alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
-            } else {
-              collectionFiles.push(file);
-            }
-          }
+      //     for(var file of files) {
+      //       if(file.type == "image/svg+xml") {
+      //         alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
+      //       } else {
+      //         collectionFiles.push(file);
+      //       }
+      //     }
 
-          collectionFiles.forEach(function(element) {
-            var reader = new FileReader();
-            reader.readAsDataURL(element);
+      //     collectionFiles.forEach(function(element) {
+      //       var reader = new FileReader();
+      //       reader.readAsDataURL(element);
     
-            reader.onloadend = function() {
-              var imageWrapper = document.createElement('div');
-              var closeBtn = document.createElement('div');
-              var img = document.createElement('img');
+      //       reader.onloadend = function() {
+      //         var imageWrapper = document.createElement('div');
+      //         var closeBtn = document.createElement('div');
+      //         var img = document.createElement('img');
 
-              _instanceFiles.push(reader.result);   
+      //         _instanceFiles.push(reader.result);   
 
-              imageWrapper.setAttribute("class", "image-wrapper");
-              closeBtn.setAttribute("class", "close");
-              closeBtn.innerHTML = '&#215;';            
+      //         imageWrapper.setAttribute("class", "image-wrapper");
+      //         closeBtn.setAttribute("class", "close");
+      //         closeBtn.innerHTML = '&#215;';            
               
-              img.src = reader.result;
-              imageWrapper.append(closeBtn);
-              imageWrapper.append(img);
-              _this.siblings('.drop-area-gallery').append(imageWrapper);
-            }
-          });
+      //         img.src = reader.result;
+      //         imageWrapper.append(closeBtn);
+      //         imageWrapper.append(img);
+      //         _this.siblings('.drop-area-gallery').append(imageWrapper);
+      //       }
+      //     });
 
-        });
-      }   
+      //   });
+      // }   
 
       /**
         UPLOADING IMAGES FUNCTION
