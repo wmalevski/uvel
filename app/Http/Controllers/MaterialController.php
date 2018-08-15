@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\DB;
 use App\Jewel;
 use App\MaterialType;
+use App\MaterialQuantity;
 
 class MaterialController extends Controller
 {
@@ -125,8 +126,14 @@ class MaterialController extends Controller
     public function destroy(Material $material)
     {
         if($material){
-            $material->delete();
-            return Response::json(array('success' => 'Успешно изтрито!'));
+            $usingQuantity = MaterialQuantity::where('material_id', $material->id)->count();
+
+            if($usingQuantity){
+                return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
+            }else{
+                $material->delete();
+                return Response::json(array('success' => 'Успешно изтрито!'));
+            }
         }
     }
 }

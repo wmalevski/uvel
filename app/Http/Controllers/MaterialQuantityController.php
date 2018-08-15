@@ -140,8 +140,15 @@ class MaterialQuantityController extends Controller
     public function destroy(MaterialQuantity $materialQuantity)
     {
         if($materialQuantity){
-            $materialQuantity->delete();
-            return Response::json(array('success' => 'Успешно изтрито!'));
+
+            $using = MaterialTravelling::where('material_id', $materialQuantity->material_id)->count();
+            
+            if($using){
+                return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
+            }else{
+                $materialQuantity->delete();
+                return Response::json(array('success' => 'Успешно изтрито!'));
+            }
         }
     }
 
