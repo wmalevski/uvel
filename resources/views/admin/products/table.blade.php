@@ -6,7 +6,7 @@
     <td> {{ $product->weight }} </td>
     <td> {{ ($product->retailPrice->price)*$product->weight }} </td>
     <td>
-         {!! DNS1D::getBarcodeSVG($product->barcode, "EAN13",1,33,"black", true) !!} <br/> 
+        {!! DNS1D::getBarcodeSVG($product->barcode, "EAN13",1,33,"black", true) !!} {{ $product->barcode }}<br/> 
         {{--  {!! '<img src="' . DNS1D::getBarcodePNG("4", "C39+",3,33,array(1,1,1), true) . '" alt="barcode"   />' !!}  --}}
         {{--  {!! DNS1D::getBarcodePNGPath("4445645656", "PHARMA2T",3,33,array(255,255,0), true) !!}  --}}
         {{--  {!! '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG("256874214568", "EAN13",1,33,array(1,1,1), true) . '" alt="barcode"   />' !!}  <br/>  --}}
