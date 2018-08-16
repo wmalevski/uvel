@@ -63,6 +63,11 @@ var uvel,
         controllers: [],
         initialized: false
       },
+      substitutions: {
+        selector: '[name="substitutions"]',
+        controllers: [],
+        initialized: false
+      },
       users: {
         selector: '[name="users"]',
         controllers: [],
@@ -292,8 +297,17 @@ var uvel,
 
     this.appendResponseToTable = function(response, form) {
       var responseHTML = response.success;
+      var table;
 
-      form.parents('.main-content').find('table tbody').append(responseHTML);
+      if (response.place == 'active') {
+        table = form.parents('.main-content').find('table.active tbody');
+      }else if(response.place == 'inactive') {
+        table = form.parents('.main-content').find('table.inactive tbody');
+      }else {
+        table = form.parents('.main-content').find('table tbody');
+      }
+
+      table.append(responseHTML);
       
       var $openFormTriggers = $('[data-form]'),
           $deleteRowTiggers = $('.delete-btn'),
@@ -353,15 +367,27 @@ var uvel,
 
     this.replaceResponseRowToTheTable = function(form , response) {
       var replaceRowHTML = response.table,
-          rowId = response.ID;
+          rowId = response.ID,
+          rowToChange = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]'),
+          iscurrentlyActive = rowToChange.closest('table').hasClass('active');
 
-      form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]').replaceWith(replaceRowHTML);
+      if (response.place == 'active' && !iscurrentlyActive) {
+        rowToChange.remove();
+        form.parents('.main-content').find('table.active tbody').append(replaceRowHTML);
+      }else if(response.place == 'inactive' && iscurrentlyActive) {
+        rowToChange.remove();
+        form.parents('.main-content').find('table.inactive tbody').append(replaceRowHTML);
+      }else {
+        rowToChange.replaceWith(replaceRowHTML);
+      }
 
       var editBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .edit-btn'),
-          deleteBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .delete-btn');
+          deleteBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .delete-btn'),
+          printBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .print-btn');
       
       $self.openForm(editBtn);
       $self.deleteRow(deleteBtn);
+      $self.print(printBtn);
     }
 
     // FUNCTION THAT BUILDS THE AJAX REQUEST LINK
