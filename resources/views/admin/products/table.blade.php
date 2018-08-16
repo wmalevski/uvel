@@ -7,11 +7,6 @@
     <td> {{ ($product->retailPrice->price)*$product->weight }} </td>
     <td>
         {!! DNS1D::getBarcodeSVG($product->barcode, "EAN13",1,33,"black", true) !!} {{ $product->barcode }}<br/> 
-        {{--  {!! '<img src="' . DNS1D::getBarcodePNG("4", "C39+",3,33,array(1,1,1), true) . '" alt="barcode"   />' !!}  --}}
-        {{--  {!! DNS1D::getBarcodePNGPath("4445645656", "PHARMA2T",3,33,array(255,255,0), true) !!}  --}}
-        {{--  {!! '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG("256874214568", "EAN13",1,33,array(1,1,1), true) . '" alt="barcode"   />' !!}  <br/>  --}}
-        {{--  {{ $product->barcode }}  --}}
-        {{--  {{ $product->barcode }}  --}}
     </td>
  
     <td>
@@ -24,23 +19,3 @@
         @endcan
     </td>
 </tr>
-
-{{-- <tr>
-    <th>камъни</th>
-    <td>
-        <table class="table table-condensed">
-            <tr>
-                <th>Тип</th>
-                <th>Брой</th>
-            </tr>
-
-            @foreach(App\Product_stones::withTrashed()->where('product', $product->id)->get() as $stone)
-                <tr>
-                    <td> @if(App\Stones::withTrashed()->find($stone->stone)) {{App\Stones::withTrashed()->find($stone->stone)->name}} @endif</td>
-                    <td>{{ $stone->amount }}</td>
-                </tr>
-            @endforeach
-        </table>
-        
-    </td>
-</tr> --}}

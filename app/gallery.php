@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Gallery extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'photo',
         'table',
@@ -29,5 +32,11 @@ class Gallery extends Model
     public function stone()
     {
         return $this->hasOne('App\Stones', 'stone_id');
+    }
+
+    
+    public function destroyWithPath(Gallery $photo){
+        unlink(public_path('uploads/'.$photo->table.'/').$photo->photo);
+        $photo->delete();
     }
 }
