@@ -63,6 +63,11 @@ var uvel,
         controllers: [],
         initialized: false
       },
+      prices: {
+        selector: '[name="prices"]',
+        controllers: [],
+        initialized: false
+      },
       currencies: {
         selector: '[name="currencies"]',
         controllers: [],
@@ -308,12 +313,16 @@ var uvel,
         table = form.parents('.main-content').find('table.active tbody');
       }else if(response.place == 'inactive') {
         table = form.parents('.main-content').find('table.inactive tbody');
+      }else if(response.type == 'buy') {
+        table = form.parents('.main-content').find('table#buy tbody');
+      }else if(response.type == 'sell') {
+        table = form.parents('.main-content').find('table#sell tbody');
       }else {
         table = form.parents('.main-content').find('table tbody');
       }
 
       table.append(responseHTML);
-      
+
       var $openFormTriggers = $('[data-form]'),
           $deleteRowTiggers = $('.delete-btn'),
           $printTriggers = $('.print-btn'),
@@ -374,14 +383,17 @@ var uvel,
       var replaceRowHTML = response.table,
           rowId = response.ID,
           rowToChange = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]'),
-          iscurrentlyActive = rowToChange.closest('table').hasClass('active');
+          iscurrentlyActive = rowToChange.closest('table').hasClass('active'),
+          isCurrentlyBuy = rowToChange.closest('table').hasClass('buy');
 
       if (response.place == 'active' && !iscurrentlyActive) {
-        rowToChange.remove();
-        form.parents('.main-content').find('table.active tbody').append(replaceRowHTML);
+        $self.moveRowToTheTable(rowToChange, form.parents('.main-content').find('table.active tbody'), replaceRowHTML);
       }else if(response.place == 'inactive' && iscurrentlyActive) {
-        rowToChange.remove();
-        form.parents('.main-content').find('table.inactive tbody').append(replaceRowHTML);
+        $self.moveRowToTheTable(rowToChange, form.parents('.main-content').find('table.inactive tbody'), replaceRowHTML);
+      }else if(response.type == 'buy' && !isCurrentlyBuy) {
+        $self.moveRowToTheTable(rowToChange, form.parents('.main-content').find('table#buy tbody'), replaceRowHTML);
+      }else if(response.type == 'sell' && isCurrentlyBuy) {
+        $self.moveRowToTheTable(rowToChange, form.parents('.main-content').find('table#sell tbody'), replaceRowHTML)
       }else {
         rowToChange.replaceWith(replaceRowHTML);
       }
@@ -393,6 +405,30 @@ var uvel,
       $self.openForm(editBtn);
       $self.deleteRow(deleteBtn);
       $self.print(printBtn);
+    }
+
+    // FUNCTION TO MOVE ROW FROM ONE TABLE TO ANOTHER WHEN EDITING ON SCREENS WITH MULTIPLE TABLES
+
+    this.moveRowToTheTable = function(row, targetTable, replaceRowHTML) {
+      row.remove();
+      targetTable.append(replaceRowHTML);
+    }
+
+    // FUNCTION THAT DISPLAY THE EDIT SUCCESS MESSAGE.
+
+    this.formSuccessEditMessageHandler = function(form) {
+      if($('.error--messages_holder').length) {
+        $('.error--messages_holder').remove();
+      }
+    
+      var successMessage = $('<div class="alert alert-success"></div>');
+      successMessage.html("Редактирахте успешно записа!");
+    
+      form.find('.modal-body .info-cont').append(successMessage);
+      
+      setTimeout(function() {
+       form.find('.modal-body .info-cont .alert-success').remove();
+      } , 2000);
     }
 
     // FUNCTION THAT BUILDS THE AJAX REQUEST LINK
