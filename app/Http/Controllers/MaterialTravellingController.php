@@ -32,8 +32,6 @@ class MaterialTravellingController extends Controller
             $materials = MaterialQuantity::CurrentStore();
         }
         
-        //$materials = Materials_quantity::all();
-        //$stores = Store::where('id', '!=', Auth::user()->store)->get();
         $stores = Store::where('id', '!=', Auth::user()->getStore()->id)->get();;
         $materials_types = Material::all();
         $travelling = MaterialTravelling::all();
