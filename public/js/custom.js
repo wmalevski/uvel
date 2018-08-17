@@ -710,7 +710,7 @@ var uvel,
 
       for (var i=0; i<stoneRows.length; i++) {
         row = $(stoneRows[i]);
-        var isForFlow = row.find('.stone-flow').is(':checked');,
+        var isForFlow = row.find('.stone-flow').is(':checked'),
             rowTotalNode = row.find('.row-total-weight');
 
         if (isForFlow) {
