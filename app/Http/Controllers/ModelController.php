@@ -36,7 +36,7 @@ class ModelController extends Controller
         $models = Model::all();
         $jewels = Jewel::all();
         $prices = Price::all();
-        $stones = Stone::all();
+        $stones = Stone::currentStore();
         $materials = MaterialQuantity::currentStore();
         $pass_stones = array();
         
@@ -295,7 +295,7 @@ class ModelController extends Controller
     {
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
-        $stones = Stone::all();
+        $stones = Stone::currentStore();
         $modelStones = $model->stones;
         $photos = Gallery::where(
             [
@@ -365,7 +365,7 @@ class ModelController extends Controller
     {
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
-        $stones = Stone::all();
+        $stones = Stone::currentStore();
 
         $validator = Validator::make( $request->all(), [
             'name' => 'required',

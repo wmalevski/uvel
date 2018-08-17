@@ -15,6 +15,7 @@ use App\Gallery;
 use File;
 use App\ModelStone;
 use App\ProductStone;
+use App\Store;
 use Storage;
 
 class StoneController extends Controller
@@ -30,8 +31,9 @@ class StoneController extends Controller
         $stone_sizes = StoneSize::all();
         $stone_contours = StoneContour::all();
         $stone_styles = StoneStyle::all();
+        $stores = Store::all();
 
-        return view('admin.stones.index', compact('stones', 'stone_sizes', 'stone_contours', 'stone_styles'));
+        return view('admin.stones.index', compact('stones', 'stone_sizes', 'stone_contours', 'stone_styles', 'stores'));
     }
 
     /**
@@ -62,7 +64,7 @@ class StoneController extends Controller
             'contour_id' => 'required',
             'price' => 'required|numeric|regex:/^\d*(\.\d{1,3})?$/',
             'amount' => 'required|numeric|between:0.01,100000',
-            'store' => 'required'
+            'store_id' => 'required'
          ]);
 
         if ($validator->fails()) {
@@ -118,6 +120,7 @@ class StoneController extends Controller
         $stone_sizes = StoneSize::all();
         $stone_contours = StoneContour::all();
         $stone_styles = StoneStyle::all();
+        $stores = Store::all();
         $stone_photos = Gallery::where(
             [
                 ['table', '=', 'stones'],
@@ -125,7 +128,7 @@ class StoneController extends Controller
             ]
         )->get();
         
-        return \View::make('admin/stones/edit', array('stone' => $stone, 'stone_sizes' => $stone_sizes, 'stone_contours' => $stone_contours, 'stone_styles' => $stone_styles, 'stone_photos' => $stone_photos));
+        return \View::make('admin/stones/edit', array('stone' => $stone, 'stone_sizes' => $stone_sizes, 'stone_contours' => $stone_contours, 'stone_styles' => $stone_styles, 'stone_photos' => $stone_photos, 'stores' => $stores));
     }
 
     /**
@@ -163,7 +166,7 @@ class StoneController extends Controller
         $stone->size_id = $request->size_id;
         $stone->amount = $request->amount;
         $stone->price = $request->price;
-        $stone->store = $request->store;
+        $stone->store_id = $request->store_id;
 
         $stone->save();
 

@@ -62,4 +62,9 @@ class Stone extends Model
     {
         return $this->belongsTo('App\Store');
     }
+
+    public function scopeCurrentStore()
+    {
+        return $this->where('store_id', Auth::user()->getStore()->id)->get();
+    }
 }

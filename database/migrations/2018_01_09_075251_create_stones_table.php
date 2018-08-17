@@ -22,6 +22,7 @@ class CreateStonesTable extends Migration
             $table->unsignedInteger('size_id');
             $table->unsignedInteger('style_id');
             $table->unsignedInteger('contour_id');
+            $table->unsignedInteger('store_id');
             $table->integer('amount');
             $table->double('price', 12, 3);
             $table->timestamps();

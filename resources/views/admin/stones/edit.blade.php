@@ -78,7 +78,18 @@
                 <label for="5">Цена: </label>
                 <input type="number" class="form-control" id="5" value="{{ $stone->price }}" name="price" placeholder="Цена:">
             </div>
-      
+            
+            <div class="form-group">
+                <label>Магазин: </label>
+                <select name="store_id" class="form-control">
+                    <option value="">Избери магазин</option>
+            
+                    @foreach($stores as $store)
+                        <option value="{{ $store->id }}" @if($store->id == $material->store_id) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
+                    @endforeach
+                </select>
+            </div>
+
             <div class="drop-area" name="edit">
                 <input type="file" name="images" class="drop-area-input" id="fileElem-edit" multiple accept="image/*" >
                 <label class="button" for="fileElem-edit">Select some files</label>
