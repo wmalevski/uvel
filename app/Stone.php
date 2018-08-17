@@ -5,6 +5,7 @@ namespace App;
 use App\StoneSize;
 use App\StoneStyle;
 use App\StoneContour;
+use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

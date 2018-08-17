@@ -150,7 +150,7 @@ class StoneController extends Controller
             'contour_id' => 'required',
             'price' => 'required|numeric|regex:/^\d*(\.\d{1,3})?$/',
             'amount' => 'required|numeric|between:0.01,100000',
-            'store' => 'required'
+            'store_id' => 'required'
         ]);
 
         if ($validator->fails()) {
