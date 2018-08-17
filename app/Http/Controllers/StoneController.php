@@ -61,7 +61,8 @@ class StoneController extends Controller
             'style_id' => 'required',
             'contour_id' => 'required',
             'price' => 'required|numeric|regex:/^\d*(\.\d{1,3})?$/',
-            'amount' => 'required|numeric|between:0.01,100000'
+            'amount' => 'required|numeric|between:0.01,100000',
+            'store' => 'required'
          ]);
 
         if ($validator->fails()) {
@@ -145,7 +146,8 @@ class StoneController extends Controller
             'style_id' => 'required',
             'contour_id' => 'required',
             'price' => 'required|numeric|regex:/^\d*(\.\d{1,3})?$/',
-            'amount' => 'required|numeric|between:0.01,100000'
+            'amount' => 'required|numeric|between:0.01,100000',
+            'store' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -161,6 +163,7 @@ class StoneController extends Controller
         $stone->size_id = $request->size_id;
         $stone->amount = $request->amount;
         $stone->price = $request->price;
+        $stone->store = $request->store;
 
         $stone->save();
 

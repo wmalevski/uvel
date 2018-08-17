@@ -32,4 +32,9 @@ class Store extends Model
     {
         return $this->hasMany('App\ProductOther');
     }
+
+    public function stones()
+    {
+    	return $this->hasMany('App\Stone');
+    }
 }

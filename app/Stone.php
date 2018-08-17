@@ -21,7 +21,8 @@ class Stone extends Model
         'style_id',
         'contour_id',
         'amount',
-        'price'
+        'price',
+        'store_id'
     ];
 
     protected $table = 'stones';
@@ -55,5 +56,10 @@ class Stone extends Model
     public function productStones()
     {
         return $this->hasMany('App\ProductStone');
+    }
+
+    public function store()
+    {
+        return $this->belongsTo('App\Store');
     }
 }

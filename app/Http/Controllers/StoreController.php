@@ -120,8 +120,9 @@ class StoreController extends Controller
             $usingByUsers = $store->users->count();
             $usingByMaterials = $store->materials->count();
             $usingByProductsOther = $store->productsOther->count();
+            $usingByStones = $store->stones->count();
 
-            if($usingByUsers || $usingByMaterials || $usingByProductsOther) {
+            if($usingByUsers || $usingByMaterials || $usingByProductsOther || $usingByStones) {
                 return Response::json(['errors' => ['using' => ['Този магазин се използва от системата и не може да бъде изтрит.']]], 401);
             }
 
