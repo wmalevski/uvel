@@ -487,8 +487,8 @@ var uvel,
     }
 
     this.addStonesInit = function(form) {
-      var addStoneTrigger = form.find('[data-addStone-add]');
-      var forFlowCollection = $('.stone-flow');
+      var addStoneTrigger = form.find('[data-addStone-add]'),
+          forFlowCollection = $('.stone-flow');
 
       $self.giveElemntsIds(forFlowCollection);
 
@@ -498,10 +498,10 @@ var uvel,
     }
 
     this.addStone = function(form) {
-      var stonesWrapper = form.find('.model_stones');
-      var fields = stonesWrapper.find('.fields');
-      var stonesData = $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null;
-      var maxFields = 10;
+      var stonesWrapper = form.find('.model_stones'),
+          fields = stonesWrapper.find('.fields'),
+          stonesData = $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null,
+          maxFields = 10;
 
       if (fields.length < maxFields) {
         var fieldsHolder = document.createElement('div');
@@ -587,25 +587,24 @@ var uvel,
     }
 
     this.calculateStones = function(form) {
-      var stoneRows = form.find('.model_stones .fields');
-      var totalNode = form.find('[data-calculateStones-total]');
-      var currentTotal = 0;
+      var stoneRows = form.find('.model_stones .fields'),
+          totalNode = form.find('[data-calculateStones-total]'),
+          currentTotal = 0;
 
       for (var i=0; i<stoneRows.length; i++) {
         row = $(stoneRows[i]);
-        var isForFlow = row.find('.stone-flow').is(':checked');
-        var rowTotalNode = row.find('.row-total-weight');
+        var isForFlow = row.find('.stone-flow').is(':checked');,
+            rowTotalNode = row.find('.row-total-weight');
 
         if (isForFlow) {
-          var rowAmount = row.find('[data-calculateStones-amount]').val();
-          var rowWeight = row.find('[data-calculateStones-weight]').val();
-          
-          var rowTotal = rowAmount * rowWeight;
+          var rowAmount = row.find('[data-calculateStones-amount]').val(),
+              rowWeight = row.find('[data-calculateStones-weight]').val(),
+              rowTotal = rowAmount * rowWeight;
 
           rowTotalNode.html(`(${rowTotal} гр.)`);
           rowTotalNode.css('opacity', '1');
           currentTotal += rowTotal;
-        }else {
+        } else {
           rowTotalNode.css('opacity', '0');
         }
       }
@@ -615,12 +614,13 @@ var uvel,
 
     this.giveElemntsIds = function(collection) {
       for (i=0; i<collection.length; i++) {
-        var el = collection[i];
+        var el = collection[i],
+            setBtnId;
 
         if ($(el).hasClass('default_material')) {
-          var setBtnId = 'material_' + String(i+1);
-        }else if($(el).hasClass('stone-flow')) {
-          var setBtnId = 'stoneFlow_' + String(i+1);
+          setBtnId = 'material_' + String(i+1);
+        } else if($(el).hasClass('stone-flow')) {
+          setBtnId = 'stoneFlow_' + String(i+1);
         }
 
         el.setAttribute('id', setBtnId);
