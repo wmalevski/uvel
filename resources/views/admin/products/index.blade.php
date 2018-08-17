@@ -10,7 +10,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="products" action="products" autocomplete="off">
+            <form method="POST" name="products" data-type="add" action="products" autocomplete="off">
                 <div class="modal-body">
 
                     <div class="info-cont">
@@ -56,7 +56,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label>Вид: </label>
-                            <select id="jewels_types" name="jewelsTypes" class="jewels_types form-control" disabled>
+                            <select id="jewels_types" name="jewelsTypes" class="jewels_types form-control" data-modelFilled-jewel disabled>
                                 <option value="">Избери</option>
                         
                                 @foreach($jewels as $jewel)
@@ -118,7 +118,7 @@
                     
                         <div class="form-group col-md-6">
                             <label for="1">Размер: </label>
-                            <input type="text" class="form-control size" id="size" name="size" placeholder="Размер:" min="1" max="10000">
+                            <input type="text" class="form-control size" id="size" name="size" placeholder="Размер:" min="1" data-modelFilld-size max="10000">
                         </div>
 
                         <div class="col-12">
@@ -164,7 +164,7 @@
 
                     <div class="form-row">
                         <div class="form-group col-md-5">
-                            <button type="button" class="btn btn-primary add_field_button">Добави камък</button>
+                            <button type="button" class="btn btn-primary add_field_button" data-addStone-add>Добави камък</button>
                         </div>
 
                         <div class="form-group col-md-3">
@@ -172,7 +172,7 @@
                         </div>
 
                         <div class="form-group col-md-4">
-                            <input type="text" class="form-control" id="totalStones" name="totalStones" disabled>
+                            <input type="text" class="form-control" id="totalStones" name="totalStones" data-calculateStones-total disabled>
                         </div>
 
                         <div class="col-12">
@@ -225,7 +225,7 @@ aria-hidden="true">
     </div>
 </div>
 
-<h3>Добави готово изделие <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
+<h3>Добави готово изделие <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="products" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
 
 <table class="table table-condensed tablesort">
     <thead>

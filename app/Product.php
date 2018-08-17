@@ -14,6 +14,7 @@ use App\Stone_styles;
 use App\Stone_contours;
 use App\Stone_sizes;
 use App\Gallery;
+use App\Materials_quantity;
 use Illuminate\Http\File;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
@@ -46,7 +47,7 @@ class Product extends Model
 
     public function chainedSelects($model){
         $model = Models::find($model);
-        $materials = Materials::all();
+        $materials = Materials_quantity::all();
         $default = ModelOptions::where([
             ['model', '=', $model->id],
             ['default', '=', 'yes']
@@ -140,16 +141,19 @@ class Product extends Model
             $pass_materials = array();
             
             foreach($materials as $material){
-                if($material->id == $default->material){
+                if($material->material == $default->material){
                     $selected = true;
                 }else{
                     $selected = false;
                 }
 
+                //BE: Use materials quantity, not MATERIAL TYPE! Do it after merging.
                 $pass_materials[] = (object)[
                     'value' => $material->id,
-                    'label' => $material->name.' - '.$material->code.' - '.$material->carat,
+                    'label' => Materials::withTrashed()->find($material->material)->name.' - '.Materials::withTrashed()->find($material->material)->color.'- '.Materials::withTrashed()->find($material->material)->code,
                     'selected' => $selected,
+                    'dataMaterial' => $material->material,
+                    'priceBuy' => Prices::withTrashed()->where('material', $material->material)->where('type', 'buy')->first()->price,
                 ];
             }
 

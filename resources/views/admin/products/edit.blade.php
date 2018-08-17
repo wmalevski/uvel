@@ -5,7 +5,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <form method="POST" name="edit" action="/products/{{ $product->id }}">
+    <form method="POST" name="products" data-type="edit" action="/products/{{ $product->id }}">
         <input name="_method" type="hidden" value="PUT">
 
         <div class="modal-body">
@@ -53,7 +53,7 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label>Вид: </label>
-                    <select id="jewel_edit" name="jewelsTypes" class="form-control jewels_types" disabled>
+                    <select id="jewel_edit" name="jewelsTypes" class="form-control jewels_types" data-modelFilled-jewel disabled>
                         <option value="">Избери</option>
                 
                         @foreach($jewels as $jewel)
@@ -114,7 +114,7 @@
             
                 <div class="form-group col-md-6">
                     <label for="1">Размер: </label>
-                    <input type="text" class="form-control size" id="size" value="{{ $product->size }}" name="size" placeholder="Размер:" min="1" max="10000">
+                    <input type="text" class="form-control size" id="size" value="{{ $product->size }}" name="size" data-modelFilld-size placeholder="Размер:" min="1" max="10000">
                 </div>
 
                 <div class="col-12">
@@ -143,7 +143,7 @@
     
                     <div class="form-group col-md-4">
                         <label for="1">Брой: </label>
-                        <input type="number" class="form-control calculate-stones" name="stone_amount[]" placeholder="Брой" value="{{  $modelStone->amount  }}" min="1" max="50">
+                        <input type="number" class="form-control calculate-stones" name="stone_amount[]" placeholder="Брой" value="{{  $modelStone->amount  }}" data-calculateStones-amount min="1" max="50">
                     </div>
 
                     <div class="form-group col-md-2">
@@ -153,7 +153,7 @@
                     <div class="form-group col-md-6">
                         <div class="form-group">
                             <label for="1">Тегло: </label>
-                            <input type="number" value="{{  $modelStone->weight  }}" class="form-control calculate-stones" id="1" name="stone_weight[]" placeholder="Тегло:" min="0.1" max="100">
+                            <input type="number" value="{{  $modelStone->weight  }}" class="form-control calculate-stones" id="1" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">
                         </div>
                     </div>
 
@@ -195,7 +195,7 @@
 
             <div class="form-row">
                 <div class="form-group col-md-5">
-                    <button type="button" class="btn btn-primary add_field_button">Добави камък</button>
+                    <button type="button" class="btn btn-primary add_field_button" data-addStone-add>Добави камък</button>
                 </div>
                 
                 <div class="form-group col-md-3">
@@ -203,7 +203,7 @@
                 </div>
 
                 <div class="form-group col-md-4">
-                    <input type="number" class="form-control" id="totalStones" name="totalStones" disabled>
+                    <input type="number" class="form-control" id="totalStones" name="totalStones" data-calculateStones-total disabled>
                 </div>
 
                 <div class="col-12">
