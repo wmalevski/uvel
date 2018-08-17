@@ -110,7 +110,7 @@ var uvel,
       },
       models: {
         selector: '[name="models"]',
-        controllers: ['addMaterialsInit', 'removeMaterialsInit', 'addStonesInit', 'removeStoneInit', 'calculateStonesInit'],
+        controllers: ['addMaterialsInit', 'removeMaterialsInit', 'addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit'],
         initialized: false
       },
       repairTypes: {
@@ -232,7 +232,8 @@ var uvel,
 
       submitButton.click(function(e) {
         e.preventDefault();
-        var _this = $(this);
+        var _this = $(this),
+            inputFields = form.find('select , input:not([type="hidden"])');
 
         $self.getFormFields(form, ajaxRequestLink, formType, inputFields);
       });
@@ -251,8 +252,14 @@ var uvel,
             dataKey = _this.name,
             dataKeyValue = _this.value;
 
-        if (inputType == 'radio' || inputType == 'checkbox') {
+        if((inputType == 'radio' || inputType == 'checkbox') && dataKey.indexOf('[]') !== -1) {
+          dataKey = dataKey.replace('[]', '');
+          (data[dataKey] = data[dataKey] || []).push($(_this).is(':checked'));
+        } else if (inputType == 'radio' || inputType == 'checkbox') {
           data[dataKey] = $(_this).is(':checked');
+        } else if (dataKey.indexOf('[]') !== -1) {
+          dataKey = dataKey.replace('[]', '');
+          (data[dataKey] = data[dataKey] || []).push(dataKeyValue);
         } else {
           data[dataKey] = dataKeyValue;
         }
@@ -511,7 +518,7 @@ var uvel,
         '</div>' +
         '<div class="form-group col-md-12">' +
         '<label>Избери материал: </label>' +
-        '<select id="material_type" name="material[]" class="material_type form-control calculate">' +
+        '<select id="material_type" name="material[]" class="material_type form-control calculate" data-calculatePrice-material>' +
         '<option value="0">Избери</option>'
 
       materialsData.forEach(function (option) {
@@ -523,13 +530,13 @@ var uvel,
         '</div>' +
         '<div class="form-group col-md-5">' +
         '<label>Цена на дребно: </label>' +
-        '<select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled retail-price retail_prices" disabled>' +
+        '<select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail disabled>' +
         '<option value="0">Избери</option>' +
         '</select>' +
         '</div>' +
         '<div class="form-group col-md-5">' +
         '<label>Цена на едро: </label>' +
-        '<select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled wholesale-price wholesale_price" disabled>' +
+        '<select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled wholesale-price wholesale_price" data-calculatePrice-wholesale disabled>' +
         '<option value="0">Избери</option>' +
         '</select>' +
         '</div>' +
@@ -538,7 +545,7 @@ var uvel,
         '</div>' +
         '<div class="form-group col-md-12">' +
         '<div class="radio radio-info">' +
-        '<input type="radio" id="" class="default_material" name="default_material[]">' +
+        '<input type="radio" id="" class="default_material" name="default_material[]" data-calculatePrice-default>' +
         '<label for="">Материал по подразбиране</label>' +
         '</div>' +
         '</div>';
@@ -551,6 +558,12 @@ var uvel,
 
       var newRemoveTrigger = $(newRow).find('[data-removeMaterials-remove]');
       $self.removeMaterialsAttach(newRemoveTrigger);
+
+      var newCalculatePriceTrigger = $(newRow).find('[data-calculatePrice-retail], [data-calculatePrice-default]');
+      $self.calculatePriceAttach(newCalculatePriceTrigger, form);
+
+      var newPriceRequestTrigger = $(newRow).find('[data-calculatePrice-material]');
+      $self.materialPricesRequestAttach(newPriceRequestTrigger, form);
     }
 
     this.removeMaterialsInit = function(form) {
@@ -710,6 +723,150 @@ var uvel,
         el.setAttribute('id', setBtnId);
         el.nextElementSibling.setAttribute('for', setBtnId);
       }
+    }
+
+    this.calculatePriceInit = function(form) {
+      var calculatePriceTrigger = form.find('[data-calculatePrice-retail], [data-calculatePrice-default], [data-calculatePrice-weight]');
+      $self.calculatePriceAttach(calculatePriceTrigger, form);
+    }
+
+    this.calculatePriceAttach = function(collection, form) {
+      collection.on('change', function() {
+        var _this = $(this);
+        $self.calculatePriceHandler(form, _this);
+      });
+    }
+
+    this.calculatePriceHandler = function(form, _this) {
+      var row = _this.closest('.form-row');
+
+      if (row.find('[data-calculatePrice-default]:checked').length > 0 || row.find('[data-calculatePrice-weight]').length > 0) {
+        $self.calculatePrice(form);
+      }
+    }
+
+    this.calculatePrice = function(form) {
+      var workmanshipHolder = form.find('[data-calculatePrice-worksmanship]'),
+          finalHolder = form.find('[data-calculatePrice-final]'),
+          defaultMaterialRow = form.find('[data-calculatePrice-default]:checked').closest('.form-row'),
+          sellPrice = defaultMaterialRow.find('[data-calculatePrice-retail] :selected').attr('data-price')*1,
+          buyPrice = defaultMaterialRow.find('[data-calculatePrice-material] :selected').attr('data-pricebuy')*1,
+          weight = form.find('[data-calculatePrice-weight]').val()*1;
+
+      if (sellPrice && buyPrice && weight) {
+        var worksmanShipPrice = (sellPrice - buyPrice) * weight,
+            finalPrice = sellPrice * weight;
+
+        workmanshipHolder.val(worksmanShipPrice);
+        finalHolder.val(finalPrice);
+      }
+    }
+
+    this.materialPricesRequestInit = function(form) {
+      var pricesRequestTrigger = form.find('[data-calculatePrice-material]');
+      $self.materialPricesRequestAttach(pricesRequestTrigger, form);
+    }
+
+    this.materialPricesRequestAttach = function(collection, form) {
+      collection.on('change', function(){
+        var _this = $(this);
+        $self.materialPricesRequestBuilder(form, _this);
+      })
+    }
+
+    this.materialPricesRequestBuilder = function(form, _this) {
+      var ajaxUrl = window.location.origin + '/ajax/getPrices/',
+          materialType = _this.find(':selected').val(),
+          materialAttribute = _this.find(':selected').attr('data-material'),
+          pricesFilled = _this.closest('.form-row').find('.prices-filled'),
+          requestLink = ajaxUrl + materialAttribute;
+
+      if(materialType == 0) {
+        pricesFilled.val('0');
+        pricesFilled.attr('disabled', true);
+        return;
+      }
+
+      if (_this.closest('#addProduct').length > 0 || _this.closest('#editProduct').length > 0) {
+        var modelId = form.find('[data-calculatePrice-model] option:selected').val();
+        requestLink += '/' + modelId;
+      } else {
+        requestLink += '/0';
+      }
+
+      if (materialAttribute !== undefined) {
+        $self.ajaxFn('GET' , requestLink , $self.materialPricesResponseHandler, '', '', _this);
+      }
+    }
+
+    this.materialPricesResponseHandler = function(response, elements, _this) {
+      var retalPrices = response.retail_prices,
+          wholesalePrices = response.wholesale_prices,
+          retaiPriceFilled = _this.closest('.form-row').find('[data-calculatePrice-retail]'),
+          wholesalePriceFilled = _this.closest('.form-row').find('[data-calculatePrice-wholesale]');
+
+      $self.fillPrices(retaiPriceFilled, retalPrices);
+      $self.fillPrices(wholesalePriceFilled, wholesalePrices);
+    }
+
+    this.fillPrices = function(element, prices) {      //  for now it's made for classic select, needs review when we apply Select2 
+      var chooseOpt = '<option value="0">Избери</option>';
+
+      element.empty();
+      element.attr('disabled', false);
+      element.append(chooseOpt);
+
+      prices.forEach(function(price) {
+        var id = price.id,
+            material = price.material,
+            _price = price.price,
+            selected = price.selected,
+            text = price.slug;
+
+        var option = `<option value="${id}" data-material="${material}" data-price="${_price}">${text}</option>`;
+
+        element.append(option);
+      });
+    }
+
+    this.ajaxFn = function(method, url, callback, dataSend, elements, currentPressedBtn) {
+      var xhttp = new XMLHttpRequest(),
+          token = $self.formsConfig.globalSettings.token;
+
+      xhttp.open(method, url, true);
+
+      xhttp.onreadystatechange = function () {
+        if(this.readyState == 4 && this.status == 200) {
+          if($self.IsJsonString(this.responseText)){
+            var data = JSON.parse(this.responseText);
+          } else {
+            var data = this.responseText;
+          }
+          
+          callback(data, elements, currentPressedBtn);
+        } else if (this.readyState == 4 && this.status == 401) {
+          var data = JSON.parse(this.responseText);
+          callback(data);
+        }
+      };
+
+      xhttp.setRequestHeader('Content-Type', 'application/json');
+      xhttp.setRequestHeader('X-CSRF-TOKEN', token);
+      
+      if(method === "GET") {
+        xhttp.send();
+      } else {
+        xhttp.send(JSON.stringify(dataSend));
+      }
+    }
+
+    this.IsJsonString = function(str) {
+      try {
+          JSON.parse(str);
+      } catch (e) {
+          return false;
+      }
+      return true;
     }
 
     this.getWantedSumInit = function(form) {

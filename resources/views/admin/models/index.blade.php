@@ -41,7 +41,7 @@ aria-hidden="true">
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label>Избери материал: </label>
-                                <select id="material_type" name="material[]" class="material_type form-control calculate">
+                                <select id="material_type" name="material[]" data-calculatePrice-material class="material_type form-control calculate">
                                     <option value="">Избери</option>
                             
                                     @foreach($materials as $material)
@@ -52,21 +52,21 @@ aria-hidden="true">
 
                             <div class="form-group col-md-6">
                                 <label>Цена на дребно: </label>
-                                <select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled retail-price" disabled>
+                                <select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled retail-price" data-calculatePrice-retail disabled>
                                     <option value="">Избери</option>
                                 </select>
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label>Цена на едро: </label>
-                                <select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled wholesale-price" disabled>
+                                <select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled wholesale-price" data-calculatePrice-wholesale disabled>
                                     <option value="">Избери</option>
                                 </select>
                             </div>
 
                             <div class="form-group col-md-12">
                                 <div class="radio radio-info">
-                                    <input type="radio" class="default_material" id="" name="default_material[]" checked>
+                                    <input type="radio" class="default_material" id="" name="default_material[]" data-calculatePrice-default checked>
                                     <label for="">Материал по подразбиране</label>
                                 </div>
                             </div>
@@ -86,7 +86,7 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-6 weight-holder">
                             <label for="1">Тегло: </label>
-                            <input type="number" class="form-control calculate" id="weight" name="weight" placeholder="Тегло:">
+                            <input type="number" class="form-control calculate" id="weight" name="weight" data-calculatePrice-weight placeholder="Тегло:">
                         </div>
 
                         <div class="form-group col-md-6">
@@ -164,7 +164,7 @@ aria-hidden="true">
                         <div class="form-group col-md-6">
                             <label>Избработка:</label>
                             <div class="input-group">
-                                <input id="workmanship" type="number" class="form-control worksmanship_price" value="0" name="workmanship">
+                                <input id="workmanship" type="number" class="form-control worksmanship_price" value="0" name="workmanship" data-calculatePrice-worksmanship>
                                 <span class="input-group-addon">лв</span>
                             </div>
                         </div>
@@ -172,7 +172,7 @@ aria-hidden="true">
                          <div class="form-group col-md-6">
                             <label>Цена:</label>
                             <div class="input-group">
-                                <input id="price" type="number" class="form-control final_price" value="0" name="price">
+                                <input id="price" type="number" class="form-control final_price" value="0" name="price" data-calculatePrice-final>
                                 <span class="input-group-addon">лв</span>
                             </div>
                         </div>

@@ -81,7 +81,7 @@
                 @endif
                 <div class="form-group col-md-12">
                     <label>Избери материал: </label>
-                    <select name="material[]" class="material_type form-control calculate">
+                    <select name="material[]" class="material_type form-control calculate" data-calculatePrice-material>
                         <option value="">Избери</option>
                 
                         @foreach($materials as $material)
@@ -92,7 +92,7 @@
 
                 <div class="form-group col-md-5">
                     <label>Цена на дребно: </label>
-                    <select id="retail_price_edit" name="retail_price[]" class="form-control calculate prices-filled retail-price">
+                    <select id="retail_price_edit" name="retail_price[]" class="form-control calculate prices-filled retail-price" data-calculatePrice-retail>
                         <option value="">Избери</option>
 
                         @foreach($prices->where('type', 'sell') as $price)
@@ -103,7 +103,7 @@
 
                 <div class="form-group col-md-5">
                     <label>Цена на едро: </label>
-                    <select id="wholesale_price_edit" name="wholesale_price[]" class="form-control prices-filled wholesale-price">
+                    <select id="wholesale_price_edit" name="wholesale_price[]" class="form-control prices-filled wholesale-price" data-calculatePrice-wholesale>
                         <option value="">Избери</option>
 
                         @foreach($prices->where('type', 'sell') as $price)
@@ -120,7 +120,7 @@
 
                 <div class="form-group col-md-12">
                     <div class="radio radio-info">
-                        <input type="radio" class="default_material" id="" name="default_material[]" @if($option->default == 'yes') checked @endif>
+                        <input type="radio" class="default_material" id="" name="default_material[]" data-calculatePrice-default @if($option->default == 'yes') checked @endif>
                         <label for="">Материал по подразбиране</label>
                     </div>
                 </div>
@@ -142,7 +142,7 @@
         <div class="form-row">
             <div class="form-group col-md-6 weight-holder">
                 <label for="1">Тегло: </label>
-                <input type="number" class="form-control calculate" id="weight" value="{{ $model->weight }}" name="weight" placeholder="Тегло:">
+                <input type="number" class="form-control calculate" id="weight" value="{{ $model->weight }}" name="weight" data-calculatePrice-weight placeholder="Тегло:">
             </div>
 
             <div class="form-group col-md-6">
@@ -282,7 +282,7 @@
             <div class="form-group col-md-6">
                 <label>Избработка:</label>
                 <div class="input-group">
-                    <input type="number" class="form-control worksmanship_price" value="{{ $model->workmanship }}" name="workmanship">
+                    <input type="number" class="form-control worksmanship_price" value="{{ $model->workmanship }}" name="workmanship" data-calculatePrice-worksmanship>
                     <span class="input-group-addon">лв</span>
                 </div>
             </div>
@@ -290,7 +290,7 @@
              <div class="form-group col-md-6">
                 <label>Цена:</label>
                 <div class="input-group">
-                    <input type="number" class="form-control final_price" value="{{ $model->price }}" value="0" name="price">
+                    <input type="number" class="form-control final_price" value="{{ $model->price }}" value="0" name="price" data-calculatePrice-final>
                     <span class="input-group-addon">лв</span>
                 </div>
             </div>

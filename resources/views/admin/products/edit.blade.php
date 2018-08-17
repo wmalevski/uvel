@@ -37,7 +37,7 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label>Модел: </label>
-                    <select id="model_select_edit" name="model" class="model-select form-control model-filled">
+                    <select id="model_select_edit" name="model" class="model-select form-control model-filled" data-calculatePrice-model>
                         <option value="">Избери</option>
                 
                         @foreach($models as $model)
@@ -69,7 +69,7 @@
             <div class="form-row model_materials">
                 <div class="form-group col-md-12">
                     <label>Материал: </label>
-                    <select id="material_edit" name="material" class="material_type form-control calculate">
+                    <select id="material_edit" name="material" class="material_type form-control calculate" data-calculatePrice-material>
                         <option value="">Избери</option>
                 
                         @foreach($materials as $material)
@@ -79,7 +79,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label>Цена на дребно: </label>
-                    <select id="retail_price_edit" name="retail_price" class="form-control calculate prices-filled retail-price retail_prices" >
+                    <select id="retail_price_edit" name="retail_price" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail>
                         <option value="">Избери</option>
                 
                         @foreach($prices->where('type', 'sell') as $price)
@@ -90,7 +90,7 @@
 
                 <div class="form-group col-md-6">            
                     <label>Цена на едро: </label>
-                    <select id="wholesale_price_edit" name="wholesale_prices" class="form-control prices-filled wholesale-price wholesale_prices">
+                    <select id="wholesale_price_edit" name="wholesale_prices" class="form-control prices-filled wholesale-price wholesale_prices" data-calculatePrice-wholesale>
                         <option value="">Избери</option>
                 
                         @foreach($prices->where('type', 'sell') as $price)
@@ -109,7 +109,7 @@
             <div class="form-row">
                 <div class="form-group col-md-6 weight-holder weight-holder-edit">
                     <label for="1">Тегло: </label>
-                    <input type="text" class="form-control weight calculate" id="weight" value="{{ $product->weight }}" name="weight" placeholder="Тегло:" min="1" max="10000">
+                    <input type="text" class="form-control weight calculate" id="weight" value="{{ $product->weight }}" name="weight" data-calculatePrice-weight placeholder="Тегло:" min="1" max="10000">
                 </div>
             
                 <div class="form-group col-md-6">
@@ -215,7 +215,7 @@
                 <div class="form-group col-md-6">
                     <label for="workmanship">Изработка: </label>
                     <div class="input-group"> 
-                        <input type="number" class="form-control worksmanship_price workmanship" value="{{ $product->workmanship }}" name="workmanship" id="workmanship" value="0">
+                        <input type="number" class="form-control worksmanship_price workmanship" value="{{ $product->workmanship }}" name="workmanship" id="workmanship" value="0" data-calculatePrice-worksmanship>
                         <span class="input-group-addon">лв</span>
                     </div>
                 </div>
@@ -223,7 +223,7 @@
                 <div class="form-group col-md-6">
                     <label for="price">Цена: </label>
                     <div class="input-group"> 
-                        <input type="number" class="form-control final_price price" value="{{ $product->price }}" name="price" id="price" value="0">
+                        <input type="number" class="form-control final_price price" value="{{ $product->price }}" name="price" id="price" value="0" data-calculatePrice-final>
                         <span class="input-group-addon">лв</span>
                     </div>
                 </div>
