@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="addPrice" action="prices/{{$material->id}}">
+            <form method="POST" name="prices" data-type="add" action="prices/{{$material->id}}">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>
@@ -79,7 +79,7 @@ aria-hidden="true">
 
 
 <h4 class="c-grey-900 mT-10 mB-30">Цени за {{ App\Materials_type::withTrashed()->find($material->parent)->name }}
-    <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-toggle="modal" data-target="#addPrice">Добави</button>
+    <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-toggle="modal" data-form-type="add" data-form="prices" data-target="#addPrice">Добави</button>
 </h4>
 <div class="row">
   <div class="col-md-12">
@@ -87,7 +87,7 @@ aria-hidden="true">
       <h4 class="c-grey-900 mB-20">Цени Купува</h4>
 
         @if(isset($prices)) 
-        <table class="table table-condensed" id="buy">
+        <table class="table table-condensed buy" id="buy">
             <tr>
                 <th width="46%">#</th>
                 <th width="18%">Име</th> 
@@ -111,7 +111,7 @@ aria-hidden="true">
         <h4 class="c-grey-900 mB-20">Цени Продава</h4>
   
           @if(isset($prices))
-          <table class="table table-condensed" id="sell">
+          <table class="table table-condensed sell" id="sell">
               <tr>
                   <th width="46%">#</th>
                   <th width="18%">Име</th> 

@@ -63,6 +63,46 @@ var uvel,
         controllers: [],
         initialized: false
       },
+      prices: {
+        selector: '[name="prices"]',
+        controllers: [],
+        initialized: false
+      },
+      currencies: {
+        selector: '[name="currencies"]',
+        controllers: [],
+        initialized: false
+      },
+      substitutions: {
+        selector: '[name="substitutions"]',
+        controllers: [],
+        initialized: false
+      },
+      users: {
+        selector: '[name="users"]',
+        controllers: [],
+        initialized: false
+      },
+      selling: {
+        selector: '[name="selling"]',
+        controllers: ['paymentInitializer', 'getWantedSumInit'],
+        initialized: false
+      },
+      stones: {
+        selector: '[name="stones"]',
+        controllers: ['calculateCaratsInitializer'],
+        initialized: false
+      },
+      stoneStyles: {
+        selector: '[name="stoneStyles"]',
+        controllers: [],
+        initialized: false
+      },
+      stoneContours: {
+        selector: '[name="stoneContours"]',
+        controllers: [],
+        initialized: false
+      },
       stoneSizes: {
         selector: '[name="stoneSizes"]',
         controllers: [],
@@ -113,9 +153,9 @@ var uvel,
     };
 
     this.attachInitialEvents = function () {
-      var $openFormTrigger = $('[data-form]');
-      var $deleteRowTrigger = $('.delete-btn');
-      var $printTrigger = $('.print-btn');
+      var $openFormTrigger = $('[data-form]'),
+          $deleteRowTrigger = $('.delete-btn'),
+          $printTrigger = $('.print-btn');
 
       $self.openForm($openFormTrigger);
       $self.deleteRow($deleteRowTrigger);
@@ -132,17 +172,17 @@ var uvel,
             formType = $this.attr('data-form-type'),
             formSettings = $self.formsConfig[openedForm];
 
-        if(formType == 'edit') {
+        if (formType == 'edit') {
           $self.appendingEditFormToTheModal($this);
         }
 
         //TODO: ASK BOBI VVVV
 
         setTimeout(function() {
-          if(formType == 'add' && !formSettings.initialized) {
+          if ((formType == 'add' || formType == 'sell') && !formSettings.initialized) {
             $self.initializeForm(formSettings, formType);
             formSettings.initialized = true;
-          } else if(formType == 'edit') {
+          } else if (formType == 'edit') {
             $self.initializeForm(formSettings, formType);
           }
         }, timeToOpenModal);
@@ -151,10 +191,10 @@ var uvel,
 
     this.deleteRow = function(deleteRowTrigger) {
       deleteRowTrigger.on('click', function() {
-        var _this = $(this);
-        var ajaxRequestLink = $self.buildAjaxRequestLink('deleteRow', _this.attr('data-url'));
+        var _this = $(this),
+            ajaxRequestLink = $self.buildAjaxRequestLink('deleteRow', _this.attr('data-url'));
 
-        if(confirm("Сигурен ли сте, че искате да изтриете записа?")) {
+        if (confirm("Сигурен ли сте, че искате да изтриете записа?")) {
           $.ajax({
             method: "POST",
             url: ajaxRequestLink,
@@ -167,8 +207,8 @@ var uvel,
     }
 
     this.initializeForm = function(formSettings, formType) {
-      var form = $(formSettings.selector + '[data-type="' + formType + '"]');
-      var customControllers = formSettings.controllers;
+      var form = $(formSettings.selector + '[data-type="' + formType + '"]'),
+          customControllers = formSettings.controllers;
 
       $self.initializeGlobalFormControllers(form);
       $self.initializeControllers(customControllers, form);
@@ -185,9 +225,10 @@ var uvel,
     }
 
     this.submitForm = function(form) {
-      var submitButton = form.find('[type="submit"]');
-      var ajaxRequestLink = $self.buildAjaxRequestLink('submitForm', form.attr('action'));
-      var formType = form.attr('data-type');
+      var submitButton = form.find('[type="submit"]'),
+          ajaxRequestLink = $self.buildAjaxRequestLink('submitForm', form.attr('action')),
+          formType = form.attr('data-type'),
+          inputFields = form.find('select , input:not([type="hidden"])');
 
       submitButton.click(function(e) {
         e.preventDefault();
@@ -201,15 +242,15 @@ var uvel,
     this.getFormFields = function(form, ajaxRequestLink, formType, inputFields) {
       var data = {_token : $self.formsConfig.globalSettings.token};
 
-      if(formType == 'edit') {
+      if (formType == 'edit') {
         data._method = "PUT";
       }
 
       inputFields.each(function(index, element) {
-        var _this = element;
-        var inputType = _this.type;
-        var dataKey = _this.name;
-        var dataKeyValue = _this.value;
+        var _this = element,
+            inputType = _this.type,
+            dataKey = _this.name,
+            dataKeyValue = _this.value;
 
         if((inputType == 'radio' || inputType == 'checkbox') && dataKey.indexOf('[]') !== -1) {
           dataKey = dataKey.replace('[]', '');
@@ -223,7 +264,7 @@ var uvel,
           data[dataKey] = dataKeyValue;
         }
 
-        if(dataKey == 'images') {
+        if (dataKey == 'images') {
          imagesInputFieldExists = true;
         }
       });
@@ -240,15 +281,13 @@ var uvel,
           url: requestUrl,
           data: data,
           success: function(response) {
-            if(formType == 'add') {
+            if (formType == 'add') {
               $self.appendResponseToTable(response, form);
-              $self.formSuccessHandler(form);
+            } else if (formType == 'edit') {
+              $self.replaceResponseRowToTheTable(form, response);
             }
 
-            if(formType == 'edit') {
-              $self.replaceResponseRowToTheTable(form, response);
-              $self.formSuccessEditMessageHandler(form);
-            }
+            $self.formSuccessHandler(form, formType);
           },
           error: function(err) {
             $self.formsErrorHandler(err, form);
@@ -260,8 +299,8 @@ var uvel,
     // FUNCTION THAT READS ALL THE ERRORS RETURNED FROM THE REQUEST AND APPEND THEM IN THE MODAL-FORM-BODY
 
     this.formsErrorHandler = function(err , form) {
-        var errorObject = err.responseJSON.errors;
-        var errorMessagesHolder = $('<div class="error--messages_holder"></div>');
+        var errorObject = err.responseJSON.errors,
+            errorMessagesHolder = $('<div class="error--messages_holder"></div>');
 
 
         for(var key in errorObject) {
@@ -280,15 +319,28 @@ var uvel,
 
     this.appendResponseToTable = function(response, form) {
       var responseHTML = response.success;
+      var table;
 
-      form.parents('.main-content').find('table tbody').append(responseHTML);
-      
-      var $openFormTriggers = $('[data-form]');
-      var $deleteRowTiggers = $('.delete-btn');
-      var $printTriggers = $('.print-btn');
-      var newRowFormTrigger = $($openFormTriggers[$openFormTriggers.length - 1]);
-      var newDeleteRowTrigger = $($deleteRowTiggers[$deleteRowTiggers.length - 1]);
-      var newPrintTrigger = $($printTriggers[$printTriggers.length - 1]);
+      if (response.place == 'active') {
+        table = form.parents('.main-content').find('table.active tbody');
+      } else if(response.place == 'inactive') {
+        table = form.parents('.main-content').find('table.inactive tbody');
+      } else if(response.type == 'buy') {
+        table = form.parents('.main-content').find('table#buy tbody');
+      } else if(response.type == 'sell') {
+        table = form.parents('.main-content').find('table#sell tbody');
+      } else {
+        table = form.parents('.main-content').find('table tbody');
+      }
+
+      table.append(responseHTML);
+
+      var $openFormTriggers = $('[data-form]'),
+          $deleteRowTiggers = $('.delete-btn'),
+          $printTriggers = $('.print-btn'),
+          newRowFormTrigger = $($openFormTriggers[$openFormTriggers.length - 1]),
+          newDeleteRowTrigger = $($deleteRowTiggers[$deleteRowTiggers.length - 1]),
+          newPrintTrigger = $($printTriggers[$printTriggers.length - 1]);
 
       $self.openForm(newRowFormTrigger);
       $self.deleteRow(newDeleteRowTrigger);
@@ -297,19 +349,30 @@ var uvel,
 
      // FUNCTION THAT APPENDS SUCCESS MESSAGES TO THE FORM WHEN THE REQUEST IS SUCCESS
 
-    this.formSuccessHandler = function(form) {
-      if($('.error--messages_holder').length) {
+    this.formSuccessHandler = function(form, formType) {
+      if ($('.error--messages_holder').length) {
         $('.error--messages_holder').remove();
       }
 
-      var successMessage = $('<div class="alert alert-success"></div>');
-      successMessage.html("Добавихте успешно записа!");
+      var messageStayingTime = 2000,   // How long te message will be shown on the screen
+          successMessage = $('<div class="alert alert-success"></div>'),
+          message;
+
+      if (formType == 'add') {
+        message = "Добавихте успешно записа!";
+      } else if (formType == 'edit') {
+        message = "Редактирахте успешно записа!";
+      } else if (formType == 'sell') {
+        message = "Извършихте успешно плащане!";
+      }
+
+      successMessage.html(message);
 
       form.find('.modal-body .info-cont').append(successMessage);
       
       setTimeout(function() {
         form.find('.modal-body .info-cont .alert-success').remove();
-      } , 2000);
+      }, messageStayingTime);
     }
 
     // APPENDING EDIT FORM TO THE MODAL
@@ -329,33 +392,55 @@ var uvel,
     // FUNCTION FOR REPLACING THE TR ROW IN THE TABLE ( THAT"s FOR THE EDIT )
 
     this.replaceResponseRowToTheTable = function(form , response) {
-      var replaceRowHTML = response.table;
-      var rowId = response.ID;
+      var replaceRowHTML = response.table,
+          rowId = response.ID,
+          rowToChange = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]'),
+          iscurrentlyActive = rowToChange.closest('table').hasClass('active'),
+          isCurrentlyBuy = rowToChange.closest('table').hasClass('buy');
 
-      form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]').replaceWith(replaceRowHTML);
+      if (response.place == 'active' && !iscurrentlyActive) {
+        $self.moveRowToTheTable(rowToChange, form.parents('.main-content').find('table.active tbody'), replaceRowHTML);
+      } else if(response.place == 'inactive' && iscurrentlyActive) {
+        $self.moveRowToTheTable(rowToChange, form.parents('.main-content').find('table.inactive tbody'), replaceRowHTML);
+      } else if(response.type == 'buy' && !isCurrentlyBuy) {
+        $self.moveRowToTheTable(rowToChange, form.parents('.main-content').find('table#buy tbody'), replaceRowHTML);
+      } else if(response.type == 'sell' && isCurrentlyBuy) {
+        $self.moveRowToTheTable(rowToChange, form.parents('.main-content').find('table#sell tbody'), replaceRowHTML)
+      } else {
+        rowToChange.replaceWith(replaceRowHTML);
+      }
 
-      var editBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .edit-btn');
-      var deleteBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .delete-btn');
+      var editBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .edit-btn'),
+          deleteBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .delete-btn'),
+          printBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .print-btn');
       
       $self.openForm(editBtn);
       $self.deleteRow(deleteBtn);
+      $self.print(printBtn);
+    }
+
+    // FUNCTION TO MOVE ROW FROM ONE TABLE TO ANOTHER WHEN EDITING ON SCREENS WITH MULTIPLE TABLES
+
+    this.moveRowToTheTable = function(row, targetTable, replaceRowHTML) {
+      row.remove();
+      targetTable.append(replaceRowHTML);
     }
 
     // FUNCTION THAT DISPLAY THE EDIT SUCCESS MESSAGE.
 
     this.formSuccessEditMessageHandler = function(form) {
-          if($('.error--messages_holder').length) {
-            $('.error--messages_holder').remove();
-          }
-
-          var successMessage = $('<div class="alert alert-success"></div>');
-          successMessage.html("Редактирахте успешно записа!");
-
-          form.find('.modal-body .info-cont').append(successMessage);
-          
-          setTimeout(function() {
-           form.find('.modal-body .info-cont .alert-success').remove();
-          } , 2000);
+      if($('.error--messages_holder').length) {
+        $('.error--messages_holder').remove();
+      }
+    
+      var successMessage = $('<div class="alert alert-success"></div>');
+      successMessage.html("Редактирахте успешно записа!");
+    
+      form.find('.modal-body .info-cont').append(successMessage);
+      
+      setTimeout(function() {
+       form.find('.modal-body .info-cont .alert-success').remove();
+      } , 2000);
     }
 
     // FUNCTION THAT BUILDS THE AJAX REQUEST LINK
@@ -381,8 +466,8 @@ var uvel,
       btn.on('click', function(e) {
         e.preventDefault();
 
-        var _this = $(this);
-        var ajaxRequestLink = $self.buildAjaxRequestLink('print', _this.attr('href'));
+        var _this = $(this),
+            ajaxRequestLink = $self.buildAjaxRequestLink('print', _this.attr('href'));
 
         $self.handlePrintResponse(ajaxRequestLink);
       })
@@ -393,10 +478,10 @@ var uvel,
         type: "GET",
         url : ajaxRequestLink,
         success: function(resp) {
-          if(resp.html) {
-            var toPrint = resp.html;
-            var node = document.createElement("div");
-            var printElement = document.body.appendChild(node);
+          if (resp.html) {
+            var toPrint = resp.html,
+                node = document.createElement("div"),
+                printElement = document.body.appendChild(node);
 
             printElement.classList.add("to-print");
             printElement.innerHTML = toPrint;
@@ -499,8 +584,8 @@ var uvel,
     }
 
     this.addStonesInit = function(form) {
-      var addStoneTrigger = form.find('[data-addStone-add]');
-      var forFlowCollection = $('.stone-flow');
+      var addStoneTrigger = form.find('[data-addStone-add]'),
+          forFlowCollection = $('.stone-flow');
 
       $self.giveElemntsIds(forFlowCollection);
 
@@ -510,10 +595,10 @@ var uvel,
     }
 
     this.addStone = function(form) {
-      var stonesWrapper = form.find('.model_stones');
-      var fields = stonesWrapper.find('.fields');
-      var stonesData = $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null;
-      var maxFields = 10;
+      var stonesWrapper = form.find('.model_stones'),
+          fields = stonesWrapper.find('.fields'),
+          stonesData = $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null,
+          maxFields = 10;
 
       if (fields.length < maxFields) {
         var fieldsHolder = document.createElement('div');
@@ -599,25 +684,24 @@ var uvel,
     }
 
     this.calculateStones = function(form) {
-      var stoneRows = form.find('.model_stones .fields');
-      var totalNode = form.find('[data-calculateStones-total]');
-      var currentTotal = 0;
+      var stoneRows = form.find('.model_stones .fields'),
+          totalNode = form.find('[data-calculateStones-total]'),
+          currentTotal = 0;
 
       for (var i=0; i<stoneRows.length; i++) {
         row = $(stoneRows[i]);
-        var isForFlow = row.find('.stone-flow').is(':checked');
-        var rowTotalNode = row.find('.row-total-weight');
+        var isForFlow = row.find('.stone-flow').is(':checked');,
+            rowTotalNode = row.find('.row-total-weight');
 
         if (isForFlow) {
-          var rowAmount = row.find('[data-calculateStones-amount]').val();
-          var rowWeight = row.find('[data-calculateStones-weight]').val();
-          
-          var rowTotal = rowAmount * rowWeight;
+          var rowAmount = row.find('[data-calculateStones-amount]').val(),
+              rowWeight = row.find('[data-calculateStones-weight]').val(),
+              rowTotal = rowAmount * rowWeight;
 
           rowTotalNode.html(`(${rowTotal} гр.)`);
           rowTotalNode.css('opacity', '1');
           currentTotal += rowTotal;
-        }else {
+        } else {
           rowTotalNode.css('opacity', '0');
         }
       }
@@ -627,12 +711,13 @@ var uvel,
 
     this.giveElemntsIds = function(collection) {
       for (i=0; i<collection.length; i++) {
-        var el = collection[i];
+        var el = collection[i],
+            setBtnId;
 
         if ($(el).hasClass('default_material')) {
-          var setBtnId = 'material_' + String(i+1);
-        }else if($(el).hasClass('stone-flow')) {
-          var setBtnId = 'stoneFlow_' + String(i+1);
+          setBtnId = 'material_' + String(i+1);
+        } else if($(el).hasClass('stone-flow')) {
+          setBtnId = 'stoneFlow_' + String(i+1);
         }
 
         el.setAttribute('id', setBtnId);
@@ -705,8 +790,7 @@ var uvel,
       if (_this.closest('#addProduct').length > 0 || _this.closest('#editProduct').length > 0) {
         var modelId = form.find('[data-calculatePrice-model] option:selected').val();
         requestLink += '/' + modelId;
-      }
-      else {
+      } else {
         requestLink += '/0';
       }
 
@@ -746,8 +830,8 @@ var uvel,
     }
 
     this.ajaxFn = function(method, url, callback, dataSend, elements, currentPressedBtn) {
-      var xhttp = new XMLHttpRequest();
-      var token = $self.formsConfig.globalSettings.token;
+      var xhttp = new XMLHttpRequest(),
+          token = $self.formsConfig.globalSettings.token;
 
       xhttp.open(method, url, true);
 
@@ -755,9 +839,8 @@ var uvel,
         if(this.readyState == 4 && this.status == 200) {
           if($self.IsJsonString(this.responseText)){
             var data = JSON.parse(this.responseText);
-          }
-           else {
-             var data = this.responseText;
+          } else {
+            var data = this.responseText;
           }
           
           callback(data, elements, currentPressedBtn);
@@ -772,8 +855,7 @@ var uvel,
       
       if(method === "GET") {
         xhttp.send();
-      }
-      else {
+      } else {
         xhttp.send(JSON.stringify(dataSend));
       }
     }
@@ -785,6 +867,118 @@ var uvel,
           return false;
       }
       return true;
+    }
+
+    this.getWantedSumInit = function(form) {
+      $self.getWantedSum(form);
+
+      var getWantedTrigger = $('[data-selling-payment]');
+
+      getWantedTrigger.on('click', function() {
+        $self.getWantedSum(form);
+      })
+    }
+
+    this.paymentInitializer = function(form) {
+      var calculateTrigger = form.find('[data-calculatePayment-given]'),
+          currencyChangeTrigger = form.find('[data-calculatePayment-currency]'),
+          methodChangeTrigger = form.find('[data-calculatePayment-method]');
+
+      calculateTrigger.on('change', function() {
+        $self.calculatePaymentInit(form);
+      });
+
+      currencyChangeTrigger.on('change', function() {
+        $self.paymentCurrencyChange(form);
+      });
+
+      methodChangeTrigger.on('change', function() {
+        var _this = $(this);
+        $self.paymentMethodChange(form, _this);
+      });
+    }
+
+    this.getWantedSum = function(form) {
+      var wantedHolder = form.find('[data-calculatePayment-wanted]'),
+          wantedValue = $('[data-calculatePayment-total]').val(),
+          selectedCurrency = form.find('[data-calculatePayment-currency] :selected').attr('data-currency');
+
+      var newWanted = wantedValue * selectedCurrency;
+      wantedHolder.val(newWanted);
+    }
+
+    this.calculatePaymentInit = function(form) {
+      var givenSum = form.find('[data-calculatePayment-given]').val(),
+          wantedSum = form.find('[data-calculatePayment-wanted]').val();
+
+      $self.calculatePayment(form, givenSum, wantedSum);
+    }
+
+    this.calculatePayment = function(form, givenSum, wantedSum) {
+      var returnHolder = form.find('[data-calculatePayment-return]');
+
+      var returnSum = Math.round((givenSum - wantedSum) * 100) / 100;
+      returnHolder.val(returnSum);
+    }
+
+    this.paymentCurrencyChange = function(form) {
+      $self.getWantedSum(form);
+      $self.calculatePaymentInit(form);
+    }
+
+    this.paymentMethodChange = function(form, _this) {
+      var currencySelector = form.find('[data-calculatePayment-currency]'),
+          givenHolder = form.find('[data-calculatePayment-given]'),
+          returnHolder = form.find('[data-calculatePayment-return]');
+
+      if (_this.is(':checked')) {
+        $self.paymentPOS(form, currencySelector, givenHolder, returnHolder);
+      } else {
+        $self.paymentCash(form, currencySelector, givenHolder, returnHolder);
+      }
+    }
+
+    this.paymentPOS = function(form, currencySelector, givenHolder, returnHolder) {
+      var defaultCurrrency = currencySelector.find('[data-default="yes"]').val(),
+          disable = document.createAttribute('readonly');
+
+      givenHolder[0].setAttributeNode(disable);
+      currencySelector.attr('disabled', true);
+      currencySelector.val(defaultCurrrency);
+      $self.getWantedSum(form);
+
+      var wantedSum = form.find('[data-calculatePayment-wanted]').val();
+      givenHolder.val(wantedSum);
+
+      $self.calculatePaymentInit(form);
+    }
+
+    this.paymentCash = function(form, currencySelector, givenHolder, returnHolder) {
+      givenHolder[0].removeAttribute('readonly');
+      givenHolder.val('');
+      returnHolder.val('')
+      currencySelector[0].removeAttribute('disabled');
+    }
+
+    this.calculateCaratsInitializer = function(form) {
+      var calculateCaratTrigger = form.find('[data-calculateCarats-weight], [data-calculateCarats-type]');
+
+      calculateCaratTrigger.on('change', function() {
+        $self.calculateCarats(form)
+      });
+    }
+
+    this.calculateCarats = function(form) {
+      var type = form.find('[data-calculateCarats-type]').val(),
+          caratHolder = form.find('[data-calculateCarats-carat]');
+
+      if (type == '2') {
+        var weight = form.find('[data-calculateCarats-weight]').val(),
+            carat = weight * 5;
+        caratHolder.val(carat);
+      } else {
+        caratHolder.val('0');
+      }
     }
 
     /**********************************************
