@@ -29,12 +29,12 @@ class MaterialTravellingController extends Controller
         if(Bouncer::is(Auth::user())->an('admin')){
             $materials = MaterialQuantity::all();
         }else{
-            $materials = MaterialQuantity::where('store', Auth::user()->getStore()->id);
+            $materials = MaterialQuantity::CurrentStore();
         }
         
         //$materials = Materials_quantity::all();
         //$stores = Store::where('id', '!=', Auth::user()->store)->get();
-        $stores = Store::all();
+        $stores = Store::where('id', '!=', Auth::user()->getStore()->id)->get();;
         $materials_types = Material::all();
         $travelling = MaterialTravelling::all();
 
