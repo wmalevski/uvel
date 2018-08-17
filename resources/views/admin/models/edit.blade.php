@@ -6,7 +6,7 @@
     </button>
 </div>
 
-<form method="POST" name="edit" action="models/{{ $model->id }}">
+<form method="POST" name="models" data-type="edit" action="models/{{ $model->id }}">
     <input name="_method" type="hidden" value="PUT">
     <div class="modal-body">
             
@@ -114,7 +114,7 @@
                 
                 @if(!$loop->first)
                 <div class="form-group col-md-2">
-                    <span class="delete-material remove_field"><i class="c-brown-500 ti-trash"></i></span>
+                    <span class="delete-material remove_field" data-removeMaterials-remove><i class="c-brown-500 ti-trash"></i></span>
                 </div>
                 @endif
 
@@ -130,7 +130,7 @@
         </div>
 
         <div class="form-row">
-            <button type="button" class="btn btn-primary add_field_variation">Добави нова комбинация</button>
+            <button type="button" class="btn btn-primary add_field_variation" data-addMaterials-add>Добави нова комбинация</button>
         </div>
         
         <div class="form-row">
