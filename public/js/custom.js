@@ -63,6 +63,11 @@ var uvel,
         controllers: [],
         initialized: false
       },
+      currencies: {
+        selector: '[name="currencies"]',
+        controllers: [],
+        initialized: false
+      },
       substitutions: {
         selector: '[name="substitutions"]',
         controllers: [],
