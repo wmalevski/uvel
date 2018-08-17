@@ -158,6 +158,7 @@ class StonesController extends Controller
         }
 
         $stone->name = $request->name;
+        $stone->type = $request->type;
         $stone->weight = $request->weight;
         $stone->carat = $request->carat;
         $stone->contour = $request->contour;
