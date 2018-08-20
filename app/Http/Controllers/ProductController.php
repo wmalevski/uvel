@@ -441,8 +441,12 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         if($product){
-            $product->delete();
-            return Response::json(array('success' => 'Успешно изтрито!'));
+            if($product->status != 'selling'){
+                $product->delete();
+                return Response::json(array('success' => 'Успешно изтрито!'));
+            }else{
+                return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
+            }
         }
     }
 }
