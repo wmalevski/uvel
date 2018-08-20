@@ -65,7 +65,9 @@ class StoreController extends Controller
      */
     public function show(Store $store)
     {
-        //
+        $users = $store->users();
+
+        return \View::make('admin/stores/store', array('users' => $users, 'store' => $store));
     }
 
     /**

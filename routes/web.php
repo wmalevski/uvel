@@ -57,6 +57,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/stores', 'StoreController@index')->name('stores');
     Route::post('/stores', 'StoreController@store');
+    Route::get('/stores/info/{store}', 'StoreController@show');
 
     Route::get('/stores/{store}', 'StoreController@edit');
     //Route::put('/stores/{store}', 'StoreController@update');
