@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Payment;
 use App\Sellings;
 use App\History;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use App\Repair;
+use App\Product;
 use Response;
 use Auth;
 use Cart;
-use App\Repair;
-use App\Product;
 
 class PaymentController extends Controller
 {
@@ -48,6 +48,8 @@ class PaymentController extends Controller
 
         //Store the payment
         if($request->given_sum >= $request->wanted_sum){
+            $userId = Auth::user()->getId();
+
             //Check if the given sum is more or equal to the wanted sum
             $validator = Validator::make( $request->all(), [
                 'wanted_sum' => 'required|numeric|between:0,1000000000',
@@ -59,19 +61,39 @@ class PaymentController extends Controller
             }
 
             $payment = new Payment();
-            $payment->currency_id = $request->modal_certificate;
+            $payment->currency_id = $request->pay_currency;
             $payment->method = $request->pay_method;
             $payment->reciept = $request->modal_reciept;
-    
             $payment->ticket = $request->modal_ticket;
             $payment->price = $request->wanted_sum;
             $payment->given = $request->given_sum;
+            $payment->discount_id = $request->discount_id;
+            $payment->info = $request->info;
+            $payment->certificate = $request->modal_certificate;
+            $payment->user_id = $userId;
             $payment->save();
+            
+            $items = [];
+            
+            Cart::session($userId)->getContent()->each(function($item) use (&$items)
+            {
+                $items[] = $item;
+            });
 
-            $userId = Auth::user()->getId(); 
+            //Saving the sold item to a database
+            foreach($items as $item){
+                $selling = new Selling();
+                $selling->item_id = $item->id;
+                $selling->weight = $item->weight;
+                $selling->quantity = $item->quantity;
+                $selling->price = $item->price;
+                $selling->payment = $payment->id;
+
+                $selling->save();
+            }
 
             
-            Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
+            Cart::session($userId)->getContent()->each(function($item) use (&$items)
             {
                 if($item['attributes']->type == 'repair'){
                     $repair = Repair::where('barcode', $item->id)->first();

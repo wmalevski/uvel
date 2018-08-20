@@ -19,10 +19,13 @@ class CreatePaymentsTable extends Migration
             $table->enum('method', ['cash', 'post']);
             $table->enum('reciept', ['yes', 'no']);
             $table->enum('ticket', ['yes', 'no']);
+            $table->enum('certificate', ['yes', 'no']);
             $table->float('price');
             $table->float('given')->nullable();
-            $table->integer('selling');
             $table->enum('type', ['sell', 'repair', 'order']);
+            $table->integer('discount_id');
+            $table->text('info');
+            $table->integer('user_id');
             $table->timestamps();
         });
     }
