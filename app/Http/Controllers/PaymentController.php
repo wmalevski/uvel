@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Payment;
-use App\Sellings;
+use App\Selling;
 use App\History;
 use App\Repair;
 use App\Product;
@@ -84,14 +84,13 @@ class PaymentController extends Controller
             foreach($items as $item){
                 $selling = new Selling();
                 $selling->item_id = $item->id;
-                $selling->weight = $item->weight;
+                $selling->weight = $item['attributes']->weight;
                 $selling->quantity = $item->quantity;
                 $selling->price = $item->price;
-                $selling->payment = $payment->id;
+                $selling->payment_id = $payment->id;
 
                 $selling->save();
             }
-
             
             Cart::session($userId)->getContent()->each(function($item) use (&$items)
             {
@@ -104,6 +103,7 @@ class PaymentController extends Controller
                     }
                 } else if($item['attributes']->type == 'product'){
                     $product = Product::where('barcode', $item->id)->first();
+
                     if($product){
                         $product->status = 'sold';
                         $product->save();

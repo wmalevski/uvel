@@ -211,6 +211,7 @@ aria-hidden="true">
             <th class="sort-false">Тегло</th>
             <th>Цена</th>
             <th class="sort-false">Баркод</th>
+            <th>Статус</th>
             <th class="sort-false">Действия</th>
         </tr>
     </thead>

@@ -23,8 +23,8 @@ class CreatePaymentsTable extends Migration
             $table->float('price');
             $table->float('given')->nullable();
             $table->enum('type', ['sell', 'repair', 'order']);
-            $table->integer('discount_id');
-            $table->text('info');
+            $table->integer('discount_id')->nullable();
+            $table->text('info')->nullable();
             $table->integer('user_id');
             $table->timestamps();
         });

@@ -15,6 +15,11 @@ class CreateSellingsTable extends Migration
     {
         Schema::create('sellings', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('item_id');
+            $table->float('weight');
+            $table->integer('quantity');
+            $table->float('price');
+            $table->integer('payment_id');
             $table->timestamps();
         });
     }

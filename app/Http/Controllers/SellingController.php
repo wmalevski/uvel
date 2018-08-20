@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Http\JsonResponse;
 use App\DiscountCode;
 use Response;
+use App\ProductOther;
 
 class SellingController extends Controller
 {
@@ -148,6 +149,8 @@ class SellingController extends Controller
                 } else if($request->catalog_number){
                     $item = Product::where('code', $request->catalog_number)->first();
                 }
+
+                $type = "product";
             }
 
             if($item){
@@ -210,7 +213,8 @@ class SellingController extends Controller
                         'price' => $item->price,
                         'quantity' => $request->quantity,
                         'attributes' => array(
-                            'weight' => $item->weight
+                            'weight' => $item->weight,
+                            'type' => $type
                         )
                     ));
                 }
@@ -265,23 +269,19 @@ class SellingController extends Controller
 
     public function clearCart(){
         $userId = Auth::user()->getId(); 
-
-        
         
         Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
         {
             $product = Product::where('barcode', $item->id)->first();
+            $product_box = ProductOther::where('barcode', $item->id)->first();
+            $repair = Repair::where('barcode', $item->id)->first();
 
             if($product){
                 $product->status = 'available';
                 $product->save();
-            }else{
-                $product = Products_others::where('barcode', $item->id)->first();
-
-                if($product){
-                    $product->quantity = $product->quantity+$item->quantity;
-                    $product->save();
-                }
+            }else if($product_box){
+                $product_box->quantity = $product_box->quantity+$item->quantity;
+                $product_box->save();
             }
         });
 

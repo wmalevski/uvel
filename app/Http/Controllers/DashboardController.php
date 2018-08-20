@@ -49,6 +49,12 @@ class DashboardController extends Controller
             $items[] = $item;
         });
 
+        //Manually deleting the essions in the cart as the ajax does not work.
+        // Cart::clear();
+        // Cart::clearCartConditions();
+        // Cart::session(Auth::user()->getId())->clear();
+        // Cart::session(Auth::user()->getId())->clearCartConditions();
+
         return \View::make('admin/selling/index', array('items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'priceCon' => $priceCon));
     }
 
