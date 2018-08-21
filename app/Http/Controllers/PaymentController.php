@@ -68,23 +68,23 @@ class PaymentController extends Controller
             $payment->ticket = $request->modal_ticket;
             $payment->price = $request->wanted_sum;
             $payment->given = $request->given_sum;
-            $payment->discount_id = $request->discount_id;
             $payment->info = $request->info;
             $payment->certificate = $request->modal_certificate;
             $payment->user_id = $userId;
             $payment->save();
 
-            $condition = Cart::getCondition('Discount');
-
-            foreach($conditions as $condition){
+            $paymentID = $payment->id;
+            
+            $cartConditions = Cart::session($userId)->getConditions();
+            foreach($cartConditions as $condition){
                 if($condition->getName() != 'ДДС')
                 {
                     $discount = new PaymentDiscount();
-                    $discount->discount_id = $condition['attributes']->discount_id;
-                    $discount->payment_id = $payment->id;
+                    $discount->discount_id = $condition->getAttributes()['discount_id'];
+                    $discount->payment_id = $paymentID;
                     $discount->save();
                 }
-            }
+            };
             
             $items = [];
             
