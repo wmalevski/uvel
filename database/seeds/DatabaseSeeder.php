@@ -6,7 +6,7 @@ use App\StoneStyle;
 use App\StoneContour;
 use App\Store;
 use App\Material;
-use App\Prices;
+use App\Price;
 use App\Stone;
 use App\Jewel;
 use App\User;
@@ -18,7 +18,8 @@ use App\DiscountCode;
 use App\ProductOther;
 use App\ProductOtherType;
 use App\Repair;
-//use App\MaterialType;
+use App\MaterialQuantity;
+use App\MaterialType;
 
 class DatabaseSeeder extends Seeder
 {
@@ -165,22 +166,21 @@ class DatabaseSeeder extends Seeder
             $stores->save();
 
 
-            // $stone = new Stone();
-            // $stone->name = 'Камък '.$i;
-            // $stone->type = rand(1,2);
-            // $stone->weight = rand(1,5);
-            // $stone->carat = rand(1,5);
-            // $stone->size = rand(1,5);
-            // $stone->style = rand(1,5);
-            // $stone->contour = rand(1,5);
-            // $stone->amount = rand(1,20);
-            // $stone->price = rand(20,45);
-            // $stone->save();
+            $stone = new Stone();
+            $stone->name = 'Камък '.$i;
+            $stone->type = rand(1,2);
+            $stone->weight = rand(1,5);
+            $stone->carat = rand(1,5);
+            $stone->size_id = rand(1,1);
+            $stone->style_id = rand(1,1);
+            $stone->contour_id = rand(1,1);
+            $stone->amount = rand(1,20);
+            $stone->price = rand(20,45);
+            $stone->save();
 
-            // $jewel = new Jewel();
-            // $jewel->name = 'Бижу '.$i;
-            // $jewel->material = rand(1,2);
-            // $jewel->save();
+            $jewel = new Jewel();
+            $jewel->name = 'Бижу '.$i;
+            $jewel->save();
         }
 
         $user = new User();
@@ -200,83 +200,89 @@ class DatabaseSeeder extends Seeder
         $merchant->save();
 
         Bouncer::assign('merchant')->to($merchant);
-        // $material_type = new MaterialType();
-        // $material_type->name = 'Злато';
-        // $material_type->save();
+        $material_type = new MaterialType();
+        $material_type->name = 'Злато';
+        $material_type->save();
 
-        // $material = new Material();
-        // $material->name = 'Злато';
-        // $material->code = '525';
-        // $material->color = 'Жълто';
-        // $material->carat = '14';
-        // $material->parent = 1;
-        // $material->stock_price = '24';
-        // $material->save();
+        $material = new Material();
+        $material->name = 'Злато';
+        $material->code = '525';
+        $material->color = 'Жълто';
+        $material->carat = '14';
+        $material->parent_id = 1;
+        $material->stock_price = '24';
+        $material->save();
 
-        // $price = new Price();
-        // $price->material = $material->id;
-        // $price->slug = 'Купува 1';
-        // $price->price = '30';
-        // $price->type = 'buy';
-        // $price->save();
+        $material_quantity = new MaterialQuantity();
+        $material_quantity->material_id = $material->id;
+        $material_quantity->quantity = 500;
+        $material_quantity->store_id = 1;
+        $material_quantity->save();
+
+        $price = new Price();
+        $price->material_id = $material->id;
+        $price->slug = 'Купува 1';
+        $price->price = '30';
+        $price->type = 'buy';
+        $price->save();
         
-        // $price = new Price();
-        // $price->material = $material->id;
-        // $price->slug = 'Продава 1';
-        // $price->price = '90';
-        // $price->type = 'sell';
-        // $price->save();
+        $price = new Price();
+        $price->material_id = $material->id;
+        $price->slug = 'Продава 1';
+        $price->price = '90';
+        $price->type = 'sell';
+        $price->save();
 
-        // $material = new Material();
-        // $material->name = 'Сребро';
-        // $material->code = '925';
-        // $material->color = 'Сив';
-        // $material->carat = '14';
-        // $material->parent = 1;
-        // $material->stock_price = '24';
-        // $material->save();
+        $material = new Material();
+        $material->name = 'Сребро';
+        $material->code = '925';
+        $material->color = 'Сив';
+        $material->carat = '14';
+        $material->parent_id = 1;
+        $material->stock_price = '24';
+        $material->save();
 
-        // $price = new Price();
-        // $price->material = $material->id;
-        // $price->slug = 'Купува 1';
-        // $price->price = '20';
-        // $price->type = 'buy';
-        // $price->save();
+        $price = new Price();
+        $price->material_id = $material->id;
+        $price->slug = 'Купува 1';
+        $price->price = '20';
+        $price->type = 'buy';
+        $price->save();
         
-        // $price = new Price();
-        // $price->material = $material->id;
-        // $price->slug = 'Продава 1';
-        // $price->price = '70';
-        // $price->type = 'sell';
-        // $price->save();
+        $price = new Price();
+        $price->material_id = $material->id;
+        $price->slug = 'Продава 1';
+        $price->price = '70';
+        $price->type = 'sell';
+        $price->save();
 
-        // $repairType = new Repair_types();
-        // $repairType->name = 'Залепяне на камък';
-        // $repairType->price = '30';
-        // $repairType->save();
+        $repairType = new RepairType();
+        $repairType->name = 'Залепяне на камък';
+        $repairType->price = '30';
+        $repairType->save();
 
-        // $currency = new Currencies();
-        // $currency->name = 'GBP';
-        // $currency->currency = '0.44';
-        // $currency->save();
+        $currency = new Currency();
+        $currency->name = 'GBP';
+        $currency->currency = '0.44';
+        $currency->save();
 
-        // $currency = new Currencies();
-        // $currency->name = 'USD';
-        // $currency->currency = '0.63';
-        // $currency->save();
+        $currency = new Currency();
+        $currency->name = 'USD';
+        $currency->currency = '0.63';
+        $currency->save();
 
-        // $currency = new Currencies();
-        // $currency->name = 'EUR';
-        // $currency->currency = '0.51';
-        // $currency->save();
+        $currency = new Currency();
+        $currency->name = 'EUR';
+        $currency->currency = '0.51';
+        $currency->save();
 
-        // $currency = new Currencies();
-        // $currency->name = 'BGN';
-        // $currency->currency = '1';
-        // $currency->default = 'yes';
-        // $currency->save();
+        $currency = new Currency();
+        $currency->name = 'BGN';
+        $currency->currency = '1';
+        $currency->default = 'yes';
+        $currency->save();
         
-        // $model = new Models();
+        // $model = new Model();
         // $model->name = 'Модел 1';
         // $model->jewel = 1;
         // $model->weight = 56;
