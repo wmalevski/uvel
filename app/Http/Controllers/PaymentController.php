@@ -23,7 +23,9 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        //
+        $payments = Payment::all();
+        
+        return view('admin.payments.index', compact('payments'));
     }
 
     /**
@@ -108,11 +110,18 @@ class PaymentController extends Controller
             //Saving the sold item to a database
             foreach($items as $item){
                 $selling = new Selling();
-                $selling->item_id = $item->id;
                 $selling->weight = $item['attributes']->weight;
                 $selling->quantity = $item->quantity;
                 $selling->price = $item->price;
                 $selling->payment_id = $payment->id;
+
+                if($item['attributes']->type == 'repair'){
+                    $selling->repair_id = $item->id;
+                } elseif($item['attributes']->type == 'product'){
+                    $selling->product_id = $item->id;
+                } elseif($item['attributes']->type == 'box'){
+                    $selling->product_other_id = $item->id;
+                }
 
                 $selling->save();
             }

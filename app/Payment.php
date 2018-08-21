@@ -16,4 +16,16 @@ class Payment extends Model
     ];
 
     protected $table = 'payments';
+
+    public function discounts(){
+        return $this->hasMany('App\PaymentDiscount');
+    }
+
+    public function user(){
+        return $this->belongsTo('App\User');
+    }
+
+    public function sellings(){
+        return $this->hasMany('App\Selling');
+    }
 }

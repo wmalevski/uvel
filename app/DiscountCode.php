@@ -50,6 +50,6 @@ class DiscountCode extends Model
 
     public function payments()
     {
-        return $this->hasMany('App\Payment');
+        return $this->hasMany('App\PaymentDiscount');
     }
 }

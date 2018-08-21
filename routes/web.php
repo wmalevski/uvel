@@ -59,6 +59,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::post('/stores', 'StoreController@store');
     Route::get('/stores/info/{store}', 'StoreController@show');
 
+    Route::get('/payments', 'PaymentController@index')->name('payments');
+
     Route::get('/stores/{store}', 'StoreController@edit');
     //Route::put('/stores/{store}', 'StoreController@update');
 
