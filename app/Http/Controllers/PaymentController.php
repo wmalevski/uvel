@@ -9,6 +9,7 @@ use App\Selling;
 use App\History;
 use App\Repair;
 use App\Product;
+use App\PaymentDiscount;
 use Response;
 use Auth;
 use Cart;
@@ -72,6 +73,18 @@ class PaymentController extends Controller
             $payment->certificate = $request->modal_certificate;
             $payment->user_id = $userId;
             $payment->save();
+
+            $condition = Cart::getCondition('Discount');
+
+            foreach($conditions as $condition){
+                if($condition->getName() != 'ДДС')
+                {
+                    $discount = new PaymentDiscount();
+                    $discount->discount_id = $condition['attributes']->discount_id;
+                    $discount->payment_id = $payment->id;
+                    $discount->save();
+                }
+            }
             
             $items = [];
             
