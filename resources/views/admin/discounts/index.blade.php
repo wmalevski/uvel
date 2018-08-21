@@ -91,6 +91,7 @@ aria-hidden="true">
                     <th class="sort-false">Валидна до</th> 
                     <th>Статус</th>
                     <th class="sort-false">Потребител</th>
+                    <th>Използвана</th>
                     <th class="sort-false">Действия</th>
                 </tr>
             </thead>

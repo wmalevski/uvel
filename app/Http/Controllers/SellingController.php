@@ -318,6 +318,7 @@ class SellingController extends Controller
                 'target' => 'subtotal',
                 'value' => '-'.$setDiscount.'%',
                 'attributes' => array(
+                    'discount_id' => $card->id,
                     'description' => 'Value added tax',
                     'more_data' => 'more data here'
                 ),
