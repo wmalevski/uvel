@@ -35,5 +35,20 @@
     </td>
 
     <td>{{ $payment->user->name }}</td>
-    <td>Виж отстъпки <br/> Виж артикули {{ $payment->sellings }} <br/> Допълнителна информация</td>
+    <td>Виж отстъпки 
+        @foreach($payment->discounts as $discount)
+           {{ $discount->discount->discount }}%
+        @endforeach
+        <br/> 
+        Виж артикули <br/>
+        @foreach($payment->sellings as $selling)
+            @if($selling->product_id != '')
+                {{ $selling->product->name }}
+            @elseif($selling->repair_id != '')
+                {{ $selling->product->name }}
+            @elseif($selling->product_other_id != '')
+                {{ $selling->product->customer_name }}
+            @endif
+        @endforeach
+        <br/>Допълнителна информация {{ $payment->info }}</td>
 </tr>

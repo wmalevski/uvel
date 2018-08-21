@@ -3,6 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\DiscountCode;
+use App\Product;
+use App\ProductOther;
 
 class Payment extends Model
 {

@@ -126,17 +126,17 @@ class PaymentController extends Controller
                 $selling->save();
             }
             
-            Cart::session($userId)->getContent()->each(function($item) use (&$items)
+            foreach(Cart::session($userId)->getContent() as $item)
             {
                 if($item['attributes']->type == 'repair'){
-                    $repair = Repair::where('barcode', $item->id)->first();
+                    $repair = Repair::find($item->id);
 
                     if($repair){
                         $repair->status = 'returned';
                         $repair->save();
                     }
                 } else if($item['attributes']->type == 'product'){
-                    $product = Product::where('barcode', $item->id)->first();
+                    $product = Product::find($item->id);
 
                     if($product){
                         $product->status = 'sold';
@@ -145,7 +145,7 @@ class PaymentController extends Controller
                 } else if($item['attributes']->type == 'box'){
 
                 }
-            });
+            };
 
             //Store the notification
             $history = new History();

@@ -196,7 +196,7 @@ class SellingController extends Controller
 
                 if($type == "repair"){
                     Cart::session($userId)->add(array(
-                        'id' => $item->barcode,
+                        'id' => $item->id,
                         'name' => 'Връщане на ремонт - '.$item->customer_name,
                         'price' => $item->price,
                         'quantity' => 1,
@@ -208,7 +208,7 @@ class SellingController extends Controller
             
                 }else{
                     Cart::session($userId)->add(array(
-                        'id' => $item->barcode,
+                        'id' => $item->id,
                         'name' => $item->name,
                         'price' => $item->price,
                         'quantity' => $request->quantity,
