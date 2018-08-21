@@ -75,6 +75,7 @@ class PaymentController extends Controller
 
             $paymentID = $payment->id;
             
+            //Saving car's conditions(discounts only) to the database.
             $cartConditions = Cart::session($userId)->getConditions();
             foreach($cartConditions as $condition){
                 if($condition->getName() != 'ДДС')
@@ -83,6 +84,17 @@ class PaymentController extends Controller
                     $discount->discount_id = $condition->getAttributes()['discount_id'];
                     $discount->payment_id = $paymentID;
                     $discount->save();
+
+                    //Store the notification
+                    $history = new History();
+                    
+                    $history->action = 'discount'; 
+                    $history->subaction = 'used'; 
+                    $history->user_id = Auth::user()->getId();
+                    $history->table = 'discount_codes';
+                    $history->discount_id = $condition->getAttributes()['discount_id'];
+
+                    $history->save();
                 }
             };
             
@@ -125,6 +137,17 @@ class PaymentController extends Controller
 
                 }
             });
+
+            //Store the notification
+            $history = new History();
+            
+            $history->action = 'payment'; 
+            $history->subaction = 'successful'; 
+            $history->user_id = Auth::user()->getId();
+            $history->table = 'payments';
+            $history->payment_id = $payment->id;
+
+            $history->save();
             
             Cart::clear();
             Cart::clearCartConditions();
@@ -137,16 +160,6 @@ class PaymentController extends Controller
 
         //Add to safe   
         //On hold for next sprint
-
-        //Store the notification
-        // $history = new History();
-        
-        // $history->action = 'payment'; 
-        // $history->user = Auth::user()->getId();
-        // $history->table = 'product_payment';
-        // $history->result_id = $payment->id;
-
-        //$history->save();
     }
 
     /**
