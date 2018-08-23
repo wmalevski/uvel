@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\RepairType;
 use Cart;
 use App\Product;
-use App\Products_others;
 use App\Repair;
 use Auth;
 use App\Currency;
@@ -167,9 +166,13 @@ class SellingController extends Controller
             }
         }else{
             if($request->barcode){
-                $item = Products_others::where('barcode', $request->barcode)->first();
+                $item = ProductOther::where('barcode', $request->barcode)->first();
+
+                $type = "box";
             } else if($request->catalog_number){
-                $item = Products_others::where('code', $request->catalog_number)->first();
+                $item = ProductOther::where('code', $request->catalog_number)->first();
+
+                $type = "box";
             }
 
             if($item->quantity < $request->quantity){

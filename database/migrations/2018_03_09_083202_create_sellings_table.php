@@ -18,7 +18,7 @@ class CreateSellingsTable extends Migration
             $table->integer('product_id')->nullable();
             $table->integer('product_other_id')->nullable();
             $table->integer('repair_id')->nullable();
-            $table->float('weight');
+            $table->float('weight')->nullable();
             $table->integer('quantity');
             $table->float('price');
             $table->integer('payment_id');

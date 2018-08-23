@@ -122,14 +122,29 @@
               <span class="title">Начало</span>
             </a>
           </li>
-          <li class="nav-item {{ Active::check('admin/selling', true) }}">
-            <a class="sidebar-link" href="{{ route('selling') }}" default>
+
+          <li class="nav-item dropdown {{ Active::check('admin/payments',true) }}">
+            <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
-                <i class=" ti-shopping-cart"></i>
+                <i class="ti-shopping-cart"></i>
               </span>
               <span class="title">Продажби</span>
+              <span class="arrow">
+                <i class="ti-angle-right"></i>
+              </span>
             </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="sidebar-link" href="{{ route('selling') }}">Продажба</a>
+              </li>
+
+              <li>
+                <a class="sidebar-link" href="{{ route('payments') }}">Завършени</a>
+              </li>
+
+            </ul>
           </li>
+
           <li class="nav-item {{ Active::check('admin/discounts',true) }}">
             <a class="sidebar-link" href="{{ route('discounts') }}">
               <span class="icon-holder">
