@@ -5,7 +5,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <form method="POST" name="edit" action="/products/{{ $product->id }}">
+    <form method="POST" name="products" data-type="edit" action="/products/{{ $product->id }}">
         <input name="_method" type="hidden" value="PUT">
 
         <div class="modal-body">
@@ -37,7 +37,7 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label>Модел: </label>
-                    <select id="model_select_edit" name="model" class="model-select form-control model-filled">
+                    <select id="model_select_edit" name="model" class="model-select form-control model-filled" data-calculatePrice-model>
                         <option value="">Избери</option>
                 
                         @foreach($models as $model)
@@ -53,7 +53,7 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label>Вид: </label>
-                    <select id="jewel_edit" name="jewelsTypes" class="form-control jewels_types" disabled>
+                    <select id="jewel_edit" name="jewelsTypes" class="form-control jewels_types" data-modelFilled-jewel disabled>
                         <option value="">Избери</option>
                 
                         @foreach($jewels as $jewel)
@@ -69,7 +69,7 @@
             <div class="form-row model_materials">
                 <div class="form-group col-md-12">
                     <label>Материал: </label>
-                    <select id="material_edit" name="material" class="material_type form-control calculate">
+                    <select id="material_edit" name="material" class="material_type form-control calculate" data-calculatePrice-material>
                         <option value="">Избери</option>
                 
                         @foreach($materials as $material)
@@ -79,7 +79,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label>Цена на дребно: </label>
-                    <select id="retail_price_edit" name="retail_price" class="form-control calculate prices-filled retail-price retail_prices" >
+                    <select id="retail_price_edit" name="retail_price" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail>
                         <option value="">Избери</option>
                 
                         @foreach($prices->where('type', 'sell') as $price)
@@ -90,7 +90,7 @@
 
                 <div class="form-group col-md-6">            
                     <label>Цена на едро: </label>
-                    <select id="wholesale_price_edit" name="wholesale_prices" class="form-control prices-filled wholesale-price wholesale_prices">
+                    <select id="wholesale_price_edit" name="wholesale_prices" class="form-control prices-filled wholesale-price wholesale_prices" data-calculatePrice-wholesale>
                         <option value="">Избери</option>
                 
                         @foreach($prices->where('type', 'sell') as $price)
@@ -109,12 +109,12 @@
             <div class="form-row">
                 <div class="form-group col-md-6 weight-holder weight-holder-edit">
                     <label for="1">Тегло: </label>
-                    <input type="text" class="form-control weight calculate" id="weight" value="{{ $product->weight }}" name="weight" placeholder="Тегло:" min="1" max="10000">
+                    <input type="text" class="form-control weight calculate" id="weight" value="{{ $product->weight }}" name="weight" data-calculatePrice-weight placeholder="Тегло:" min="1" max="10000">
                 </div>
             
                 <div class="form-group col-md-6">
                     <label for="1">Размер: </label>
-                    <input type="text" class="form-control size" id="size" value="{{ $product->size }}" name="size" placeholder="Размер:" min="1" max="10000">
+                    <input type="text" class="form-control size" id="size" value="{{ $product->size }}" name="size" data-modelFilld-size placeholder="Размер:" min="1" max="10000">
                 </div>
 
                 <div class="col-12">
@@ -143,7 +143,7 @@
     
                     <div class="form-group col-md-4">
                         <label for="1">Брой: </label>
-                        <input type="number" class="form-control calculate-stones" name="stone_amount[]" placeholder="Брой" value="{{  $modelStone->amount  }}" min="1" max="50">
+                        <input type="number" class="form-control calculate-stones" name="stone_amount[]" placeholder="Брой" value="{{  $modelStone->amount  }}" data-calculateStones-amount min="1" max="50">
                     </div>
 
                     <div class="form-group col-md-2">
@@ -153,7 +153,7 @@
                     <div class="form-group col-md-6">
                         <div class="form-group">
                             <label for="1">Тегло: </label>
-                            <input type="number" value="{{  $modelStone->weight  }}" class="form-control calculate-stones" id="1" name="stone_weight[]" placeholder="Тегло:" min="0.1" max="100">
+                            <input type="number" value="{{  $modelStone->weight  }}" class="form-control calculate-stones" id="1" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">
                         </div>
                     </div>
 
@@ -195,7 +195,7 @@
 
             <div class="form-row">
                 <div class="form-group col-md-5">
-                    <button type="button" class="btn btn-primary add_field_button">Добави камък</button>
+                    <button type="button" class="btn btn-primary add_field_button" data-addStone-add>Добави камък</button>
                 </div>
                 
                 <div class="form-group col-md-3">
@@ -203,7 +203,7 @@
                 </div>
 
                 <div class="form-group col-md-4">
-                    <input type="number" class="form-control" id="totalStones" name="totalStones" disabled>
+                    <input type="number" class="form-control" id="totalStones" name="totalStones" data-calculateStones-total disabled>
                 </div>
 
                 <div class="col-12">
@@ -215,7 +215,7 @@
                 <div class="form-group col-md-6">
                     <label for="workmanship">Изработка: </label>
                     <div class="input-group"> 
-                        <input type="number" class="form-control worksmanship_price workmanship" value="{{ $product->workmanship }}" name="workmanship" id="workmanship" value="0">
+                        <input type="number" class="form-control worksmanship_price workmanship" value="{{ $product->workmanship }}" name="workmanship" id="workmanship" value="0" data-calculatePrice-worksmanship>
                         <span class="input-group-addon">лв</span>
                     </div>
                 </div>
@@ -223,7 +223,7 @@
                 <div class="form-group col-md-6">
                     <label for="price">Цена: </label>
                     <div class="input-group"> 
-                        <input type="number" class="form-control final_price price" value="{{ $product->price }}" name="price" id="price" value="0">
+                        <input type="number" class="form-control final_price price" value="{{ $product->price }}" name="price" id="price" value="0" data-calculatePrice-final>
                         <span class="input-group-addon">лв</span>
                     </div>
                 </div>

@@ -116,7 +116,11 @@ class ModelsController extends Controller
                     $model_stones->stone = $stone;
                     $model_stones->amount = $request->stone_amount[$key];
                     $model_stones->weight = $request->stone_weight[$key];
-                    $model_stones->flow = $request->stone_flow[$key];
+                    if($request->stone_flow[$key] == true){
+                        $model_stones->flow = 'yes';
+                    }else{
+                        $model_stones->flow = 'no';
+                    }
                     
                     $model_stones->save();
                 }
@@ -178,7 +182,7 @@ class ModelsController extends Controller
             }
         }
 
-        if ($request->release_product == true) {
+        if ($request->release_product === true) {
             $default = ModelOptions::where([
                 ['model', '=', $model->id],
                 ['default', '=', 'yes']

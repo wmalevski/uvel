@@ -10,7 +10,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="products" action="products" autocomplete="off">
+            <form method="POST" name="products" data-type="add" action="products" autocomplete="off">
                 <div class="modal-body">
 
                     <div class="info-cont">
@@ -40,7 +40,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label>Модел: </label>
-                            <select id="model_select" name="model" class="model-select form-control model-filled">
+                            <select id="model_select" name="model" class="model-select form-control model-filled" data-calculatePrice-model>
                                 <option value="">Избери</option>
                         
                                 @foreach($models as $model)
@@ -56,7 +56,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label>Вид: </label>
-                            <select id="jewels_types" name="jewelsTypes" class="jewels_types form-control" disabled>
+                            <select id="jewels_types" name="jewelsTypes" class="jewels_types form-control" data-modelFilled-jewel disabled>
                                 <option value="">Избери</option>
                         
                                 @foreach($jewels as $jewel)
@@ -72,7 +72,7 @@
                     <div class="form-row model_materials">
                         <div class="form-group col-md-12">
                             <label>Материал: </label>
-                            <select id="material" name="material" class="material_type form-control material calculate">
+                            <select id="material" name="material" class="material_type form-control material calculate" data-calculatePrice-material>
                                 <option value="">Избери</option>
                         
                                 @foreach($materials as $material)
@@ -83,7 +83,7 @@
 
                         <div class="form-group col-md-6">
                             <label>Цена на дребно: </label>
-                            <select id="retail_prices" name="retail_price" class="form-control calculate prices-filled retail-price retail_prices">
+                            <select id="retail_prices" name="retail_price" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail>
                                 <option value="">Избери</option>
                         
                                 @foreach($prices->where('type', 'sell') as $price)
@@ -94,7 +94,7 @@
 
                         <div class="form-group col-md-6">
                             <label>Цена на едро: </label>
-                            <select id="wholesale_prices" name="wholesale_prices" class="form-control prices-filled wholesale-price wholesale_prices">
+                            <select id="wholesale_prices" name="wholesale_prices" class="form-control prices-filled wholesale-price wholesale_prices" data-calculatePrice-wholesale>
                                 <option value="">Избери</option>
                         
                                 @foreach($prices->where('type', 'sell') as $price)
@@ -113,12 +113,12 @@
                     <div class="form-row">
                         <div class="form-group col-md-6 weight-holder">
                             <label for="1">Тегло: </label>
-                            <input type="text" class="form-control weight calculate" id="weight" name="weight" placeholder="Тегло:" min="1" max="10000">
+                            <input type="text" class="form-control weight calculate" id="weight" name="weight" data-calculatePrice-weight placeholder="Тегло:" min="1" max="10000">
                         </div>
                     
                         <div class="form-group col-md-6">
                             <label for="1">Размер: </label>
-                            <input type="text" class="form-control size" id="size" name="size" placeholder="Размер:" min="1" max="10000">
+                            <input type="text" class="form-control size" id="size" name="size" placeholder="Размер:" min="1" data-modelFilld-size max="10000">
                         </div>
 
                         <div class="col-12">
@@ -164,7 +164,7 @@
 
                     <div class="form-row">
                         <div class="form-group col-md-5">
-                            <button type="button" class="btn btn-primary add_field_button">Добави камък</button>
+                            <button type="button" class="btn btn-primary add_field_button" data-addStone-add>Добави камък</button>
                         </div>
 
                         <div class="form-group col-md-3">
@@ -172,7 +172,7 @@
                         </div>
 
                         <div class="form-group col-md-4">
-                            <input type="text" class="form-control" id="totalStones" name="totalStones" disabled>
+                            <input type="text" class="form-control" id="totalStones" name="totalStones" data-calculateStones-total disabled>
                         </div>
 
                         <div class="col-12">
@@ -184,7 +184,7 @@
                         <div class="form-group col-md-6">
                             <label for="workmanship">Изработка: </label>
                             <div class="input-group"> 
-                                <input type="number" class="form-control workmanship worksmanship_price" name="workmanship" id="workmanship" value="0">
+                                <input type="number" class="form-control workmanship worksmanship_price" name="workmanship" id="workmanship" value="0" data-calculatePrice-worksmanship>
                                 <span class="input-group-addon">лв</span>
                             </div>
                         </div>
@@ -192,7 +192,7 @@
                         <div class="form-group col-md-6">
                             <label for="price">Цена: </label>
                             <div class="input-group"> 
-                                <input type="number" class="form-control final_price price" name="price" id="price" value="0">
+                                <input type="number" class="form-control final_price price" name="price" id="price" value="0" data-calculatePrice-final>
                                 <span class="input-group-addon">лв</span>
                             </div>
                         </div>
@@ -225,7 +225,7 @@ aria-hidden="true">
     </div>
 </div>
 
-<h3>Добави готово изделие <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
+<h3>Добави готово изделие <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="products" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
 
 <table class="table table-condensed tablesort">
     <thead>

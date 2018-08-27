@@ -16,7 +16,7 @@
  
     <td>
         @can('edit-products')
-            <span data-url="products/{{$product->id}}" class="edit-btn" data-toggle="modal" data-target="#editProduct"><i class="c-brown-500 ti-pencil"></i></span> 
+            <span data-url="products/{{$product->id}}" class="edit-btn" data-form-type="edit" data-form="products" data-toggle="modal" data-target="#editProduct"><i class="c-brown-500 ti-pencil"></i></span> 
         @endcan
         <a href="products/print/{{$product->id}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a> 
         @can('delete-products')
