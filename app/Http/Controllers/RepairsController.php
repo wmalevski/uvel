@@ -257,7 +257,7 @@ class RepairsController extends Controller
         //     $repair->price_after = $repair->price;
         // }
 
-        if($request->status){
+        if($request->status === 'true'){
             $repair->status = 'done';
 
             $history = new History;
@@ -265,6 +265,8 @@ class RepairsController extends Controller
             $history->user = Auth::user()->id;
             $history->result_id = $repair->id;
             $history->save();
+        }else{
+            $repair->status = 'repairing';
         }
 
         $validator = Validator::make( $request->all(), [
