@@ -358,9 +358,9 @@ var uvel,
 
       table.append(responseHTML);
 
-      var $openFormTriggers = $('[data-form]'),
-          $deleteRowTiggers = $('.delete-btn'),
-          $printTriggers = $('.print-btn'),
+      var $openFormTriggers = table.find('[data-form]'),
+          $deleteRowTiggers = table.find('.delete-btn'),
+          $printTriggers = table.find('.print-btn'),
           newRowFormTrigger = $($openFormTriggers[$openFormTriggers.length - 1]),
           newDeleteRowTrigger = $($deleteRowTiggers[$deleteRowTiggers.length - 1]),
           newPrintTrigger = $($printTriggers[$printTriggers.length - 1]);
@@ -369,6 +369,7 @@ var uvel,
       $self.deleteRow(newDeleteRowTrigger);
       $self.print(newPrintTrigger);
     }
+
 
      // FUNCTION THAT APPENDS SUCCESS MESSAGES TO THE FORM WHEN THE REQUEST IS SUCCESS
 
