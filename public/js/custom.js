@@ -1042,7 +1042,7 @@ var uvel,
           wantedValue = $('[data-calculatePayment-total]').val(),
           selectedCurrency = form.find('[data-calculatePayment-currency] :selected').attr('data-currency');
 
-      var newWanted = wantedValue * selectedCurrency;
+      var newWanted = Math.round((wantedValue * selectedCurrency) * 100) / 100;
       wantedHolder.val(newWanted);
     }
 
