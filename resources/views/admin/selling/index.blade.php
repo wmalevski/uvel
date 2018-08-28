@@ -153,7 +153,7 @@ aria-hidden="true">
                     <div class="masonry-sizer col-md-6"></div>
                     <div class="col-md-6 masonry-item form-horizontal">
                         <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                            <input type="checkbox" id="amount_check" name="amount_check" class="peer">
+                            <input type="checkbox" id="amount_check" name="amount_check" data-sell-moreProducts class="peer">
                             <label for="amount_check" class="peers peer-greed js-sb ai-c">
                                 <span class="peer peer-greed">Повече от един продукт</span>
                             </label>
@@ -167,19 +167,19 @@ aria-hidden="true">
                         <div class="form-group form-row">
                             <label for="product_barcode" class="col-sm-9 control-label">Номер на артикула</label>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="product_barcode" id="product_barcode" placeholder="Баркод:">
+                                <input type="text" class="form-control" name="product_barcode" id="product_barcode" data-sell-barcode placeholder="Баркод:">
                             </div>
                         </div>
                         <div class="form-group form-row">
                             <label for="catalog_number" class="col-sm-9 control-label">Каталожен номер</label>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" id="catalog_number" name="catalog_number" placeholder="Номер от каталога:">
+                                <input type="text" class="form-control" id="catalog_number" name="catalog_number" data-sell-catalogNumber placeholder="Номер от каталога:">
                             </div>
                         </div>
                         <div class="form-group form-row">
                             <label for="amount" class="col-sm-9 control-label">Брой</label>
                             <div class="col-sm-3">
-                                <input type="number" class="form-control" value="1" id="amount" name="amount" placeholder="1" readonly>
+                                <input type="number" class="form-control" value="1" id="amount" name="amount" data-sell-productsAmount placeholder="1" readonly>
                             </div>
                         </div>
 
@@ -241,7 +241,8 @@ aria-hidden="true">
                         <div class="form-group form-row">
                             <label for="subTotal" class="col-sm-9 control-label">Цена</label>
                             <div class="col-sm-3">
-                                <input type="price" name="subTotal" value="{{ Cart::session(Auth::user()->id)->getSubTotal() }}" class="form-control" id="subTotal" placeholder="" readonly>
+                                <input type="price" name="subTotal" value="{{ Cart::session(Auth::user()->id)->getSubTotal() }}" class="form-control" id="subTotal"
+                                data-sell-subTotal placeholder="" readonly>
                             </div>
                         </div>
 

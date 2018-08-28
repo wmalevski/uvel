@@ -166,12 +166,16 @@ var uvel,
       var $openFormTrigger = $('[data-form]:not([data-repair-scan])'),
           $deleteRowTrigger = $('.delete-btn'),
           $printTrigger = $('.print-btn'),
-          $barcodeProcessRepairTrigger = $('[data-repair-scan]');
+          $barcodeProcessRepairTrigger = $('[data-repair-scan]'),
+          $addCatalogNumberTrigger = $('[data-sell-catalogNumber]'),
+          $sellMoreProductsTrigger = $('[data-sell-moreProducts]');
 
       $self.openForm($openFormTrigger);
       $self.deleteRow($deleteRowTrigger);
       $self.print($printTrigger);
       $self.barcodeProcessRepairAttach($barcodeProcessRepairTrigger);
+      $self.addCatalogNumber($addCatalogNumberTrigger);
+      $self.sellMoreProducts($sellMoreProductsTrigger);
     }
 
     this.openForm = function(openFormTrigger) {
@@ -217,6 +221,56 @@ var uvel,
               _this.parents('tr').remove();
             }
           });
+        }
+      })
+    }
+
+    this.addCatalogNumber = function(addCatalogNumberTrigger) {
+      addCatalogNumberTrigger.on('change', function() {
+        var _this = $(this),
+            sellingForm = _this.closest('form'),
+            catalogNumber = _this.val(),
+            moreProductsChecked = sellingForm.find('[data-sell-moreProducts]').is(':checked'),
+            productsAmount = sellingForm.find('[data-sell-productsAmount]').val(),
+            ajaxUrl = sellingForm.attr('data-scan'),
+            dataSend = {
+              'catalog_number' : catalogNumber,
+              'quantity' : Number(productsAmount),
+              'amount_check' : moreProductsChecked
+            };
+
+        $self.ajaxFn("GET", ajaxUrl, $self.catalogNumberSend, dataSend, '', '');
+        _this.val('');
+      })
+    }
+
+    this.catalogNumberSend = function (response) {
+      var success = response.success,
+          subTotalInput = $('[data-sell-subTotal]'),
+          totalInput = $('[data-calculatePayment-total]'),
+          barcodeInput = $('[data-sell-barcode]'),
+          html = response.table,
+          shoppingTable = $('#shopping-table');
+
+      if(success) {
+        shoppingTable.find('tbody').html(html);
+        subTotalInput.val(data.subtotal);
+        totalInput.val(data.total);
+        barcodeInput.val("");
+      }
+    }
+
+    this.sellMoreProducts = function (sellMoreProductsTrigger) {
+      sellMoreProductsTrigger.on('change', function() {
+        var _this = $(this),
+            amountInput = $('[data-sell-productsAmount]');
+
+        if (_this.is(':checked')) {
+          amountInput.removeAttr('readonly');
+        }
+        else {
+          amountInput.attr('readonly', 'readonly');
+          amountInput.val('1');
         }
       })
     }
