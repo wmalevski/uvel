@@ -207,7 +207,7 @@ var uvel,
     this.deleteRow = function(deleteRowTrigger) {
       deleteRowTrigger.on('click', function() {
         var _this = $(this),
-            ajaxRequestLink = $self.buildAjaxRequestLink('deleteRow', _this.attr('data-url'));
+            ajaxRequestLink = _this.hasClass('cart') ? _this.attr('data-url') : $self.buildAjaxRequestLink('deleteRow', _this.attr('data-url'));
 
         if (confirm("Сигурен ли сте, че искате да изтриете записа?")) {
           $.ajax({
