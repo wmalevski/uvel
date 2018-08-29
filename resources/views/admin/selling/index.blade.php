@@ -159,7 +159,7 @@ aria-hidden="true">
                             </label>
                         </div>
                         <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                            <input type="checkbox" id="type_repair" name="type_repair" class="peer">
+                            <input type="checkbox" id="type_repair" name="type_repair" data-sell-repair class="peer">
                             <label for="type_repair" class="peers peer-greed js-sb ai-c">
                                 <span class="peer peer-greed">Ремонт</span>
                             </label>
