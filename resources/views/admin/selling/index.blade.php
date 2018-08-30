@@ -186,14 +186,14 @@ aria-hidden="true">
                         <div class="form-group form-row">
                             <label for="discount" class="col-sm-9 control-label">Отстъпка</label>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="discount" id="discount" placeholder="Проценти" >
+                                <input type="text" class="form-control" name="discount" data-url="senddiscount" id="discount" data-sell-discount placeholder="Проценти" >
                             </div>
                         </div>
 
                         <div class="form-group form-row">
                             <label for="discount_card" class="col-sm-9 control-label">Сканирай карта за отстъпка</label>
                             <div class="col-sm-3">
-                                <input type="number" class="form-control" name="discount_card" id="discount_card" placeholder="Баркод" min="1" max="100">
+                                <input type="number" class="form-control" name="discount_card" data-url="setdiscount/" id="discount_card" data-sell-discountCard placeholder="Баркод" min="1">
                             </div>
                         </div>
 

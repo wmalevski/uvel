@@ -168,7 +168,9 @@ var uvel,
           $printTrigger = $('.print-btn'),
           $barcodeProcessRepairTrigger = $('[data-repair-scan]'),
           $addNumberTrigger = $('[data-sell-catalogNumber], [data-sell-barcode]'),
-          $sellMoreProductsTrigger = $('[data-sell-moreProducts]');
+          $sellMoreProductsTrigger = $('[data-sell-moreProducts]'),
+          $addDiscountTrigger = $('[data-sell-discount]'),
+          $addCardDiscountTrigger = $('[data-sell-discountCard]');
 
       $self.openForm($openFormTrigger);
       $self.deleteRow($deleteRowTrigger);
@@ -176,6 +178,8 @@ var uvel,
       $self.barcodeProcessRepairAttach($barcodeProcessRepairTrigger);
       $self.addNumber($addNumberTrigger);
       $self.sellMoreProducts($sellMoreProductsTrigger);
+      $self.addDiscount($addDiscountTrigger);
+      $self.addCardDiscount($addCardDiscountTrigger);
     }
 
     this.openForm = function(openFormTrigger) {
@@ -251,7 +255,7 @@ var uvel,
           }
         }
 
-        $self.ajaxFn("GET", ajaxUrl, $self.numberSend, dataSend, '', '');
+        $self.ajaxFn("POST", ajaxUrl, $self.numberSend, dataSend, '', '');
         _this.val('');
       })
     }
@@ -265,8 +269,8 @@ var uvel,
 
       if(success) {
         shoppingTable.find('tbody').html(html);
-        subTotalInput.val(data.subtotal);
-        totalInput.val(data.total);
+        subTotalInput.val(response.subtotal);
+        totalInput.val(response.total);
       }
     }
 
@@ -283,6 +287,53 @@ var uvel,
           amountInput.val('1');
         }
       })
+    }
+
+    this.addDiscount = function(addDiscountTrigger) {
+      addDiscountTrigger.on('change', function() {
+        var _this = $(this),
+            discountAmount = _this.val(),
+            urlTaken = window.location.href.split('/'),
+            url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/',
+            discountUrl = _this.attr('data-url'),
+            dataSend = {
+              'discount' : Number(discountAmount)
+            };
+
+        if (discountAmount.length > 0) {
+          var ajaxUrl = url + discountUrl;
+
+          $self.ajaxFn("POST", ajaxUrl, $self.discountSuccess, dataSend, '', '');
+        }
+      });
+    }
+
+    this.addCardDiscount = function(addCardDiscountTrigger) {
+      addCardDiscountTrigger.on('change', function() {
+        var _this = $(this),
+            discountBarcode = _this.val(),
+            urlTaken = window.location.href.split('/'),
+            url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/',
+            discountUrl = _this.attr('data-url');
+
+        if (discountBarcode.length == 13) {
+          var ajaxUrl = url + discountUrl + discountBarcode;
+
+          $self.ajaxFn("GET", ajaxUrl, $self.discountSuccess, '', '', '');
+          _this.val('');
+        }
+      })
+    }
+
+    this.discountSuccess = function(response) {
+      var success = response.success,
+          subTotalInput = $('[data-sell-subTotal]'),
+          totalInput = $('[data-calculatePayment-total]');
+
+      if(success) {
+        subTotalInput.val(response.subtotal);
+        totalInput.val(response.total);
+      }
     }
 
     this.initializeForm = function(formSettings, formType) {
