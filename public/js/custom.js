@@ -166,12 +166,20 @@ var uvel,
       var $openFormTrigger = $('[data-form]:not([data-repair-scan])'),
           $deleteRowTrigger = $('.delete-btn'),
           $printTrigger = $('.print-btn'),
-          $barcodeProcessRepairTrigger = $('[data-repair-scan]');
+          $barcodeProcessRepairTrigger = $('[data-repair-scan]'),
+          $addNumberTrigger = $('[data-sell-catalogNumber], [data-sell-barcode]'),
+          $sellMoreProductsTrigger = $('[data-sell-moreProducts]'),
+          $addDiscountTrigger = $('[data-sell-discount]'),
+          $addCardDiscountTrigger = $('[data-sell-discountCard]');
 
       $self.openForm($openFormTrigger);
       $self.deleteRow($deleteRowTrigger);
       $self.print($printTrigger);
       $self.barcodeProcessRepairAttach($barcodeProcessRepairTrigger);
+      $self.addNumber($addNumberTrigger);
+      $self.sellMoreProducts($sellMoreProductsTrigger);
+      $self.addDiscount($addDiscountTrigger);
+      $self.addCardDiscount($addCardDiscountTrigger);
     }
 
     this.openForm = function(openFormTrigger) {
@@ -219,6 +227,113 @@ var uvel,
           });
         }
       })
+    }
+
+    this.addNumber = function(addNumberTrigger) {
+      addNumberTrigger.on('change', function() {
+        var _this = $(this),
+            sellingForm = _this.closest('form'),
+            number = Number(_this.val()),
+            moreProductsChecked = sellingForm.find('[data-sell-moreProducts]').is(':checked'),
+            productsAmount = Number(sellingForm.find('[data-sell-productsAmount]').val()),
+            typeRepair = sellingForm.find('[data-sell-repair]').is(':checked'),
+            ajaxUrl = sellingForm.attr('data-scan'),
+            dataSend;
+            
+        if (_this[0].hasAttribute('data-sell-catalogNumber')) {
+          dataSend = {
+            'catalog_number' : number,
+            'quantity' : productsAmount,
+            'amount_check' : moreProductsChecked
+          };
+        } else if (_this[0].hasAttribute('data-sell-barcode') && number.length == 13) {
+          dataSend = {
+            'barcode' : number,
+            'quantity' : productsAmount,
+            'amount_check' : moreProductsChecked,
+            'type_repair' : typeRepair
+          }
+        }
+
+        $self.ajaxFn("POST", ajaxUrl, $self.numberSend, dataSend, '', '');
+        _this.val('');
+      })
+    }
+
+    this.numberSend = function(response) {
+      var success = response.success,
+          subTotalInput = $('[data-sell-subTotal]'),
+          totalInput = $('[data-calculatePayment-total]'),
+          html = response.table,
+          shoppingTable = $('#shopping-table');
+
+      if(success) {
+        shoppingTable.find('tbody').html(html);
+        subTotalInput.val(response.subtotal);
+        totalInput.val(response.total);
+      }
+    }
+
+    this.sellMoreProducts = function (sellMoreProductsTrigger) {
+      sellMoreProductsTrigger.on('change', function() {
+        var _this = $(this),
+            amountInput = $('[data-sell-productsAmount]');
+
+        if (_this.is(':checked')) {
+          amountInput.removeAttr('readonly');
+        }
+        else {
+          amountInput.attr('readonly', 'readonly');
+          amountInput.val('1');
+        }
+      })
+    }
+
+    this.addDiscount = function(addDiscountTrigger) {
+      addDiscountTrigger.on('change', function() {
+        var _this = $(this),
+            discountAmount = Number(_this.val()),
+            urlTaken = window.location.href.split('/'),
+            url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/',
+            discountUrl = _this.attr('data-url'),
+            dataSend = {
+              'discount' : discountAmount
+            };
+
+        if (discountAmount.length > 0) {
+          var ajaxUrl = url + discountUrl;
+
+          $self.ajaxFn("POST", ajaxUrl, $self.discountSuccess, dataSend, '', '');
+        }
+      });
+    }
+
+    this.addCardDiscount = function(addCardDiscountTrigger) {
+      addCardDiscountTrigger.on('change', function() {
+        var _this = $(this),
+            discountBarcode = _this.val(),
+            urlTaken = window.location.href.split('/'),
+            url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/',
+            discountUrl = _this.attr('data-url');
+
+        if (discountBarcode.length == 13) {
+          var ajaxUrl = url + discountUrl + discountBarcode;
+
+          $self.ajaxFn("GET", ajaxUrl, $self.discountSuccess, '', '', '');
+          _this.val('');
+        }
+      })
+    }
+
+    this.discountSuccess = function(response) {
+      var success = response.success,
+          subTotalInput = $('[data-sell-subTotal]'),
+          totalInput = $('[data-calculatePayment-total]');
+
+      if(success) {
+        subTotalInput.val(response.subtotal);
+        totalInput.val(response.total);
+      }
     }
 
     this.initializeForm = function(formSettings, formType) {
