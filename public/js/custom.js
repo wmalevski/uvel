@@ -233,9 +233,9 @@ var uvel,
       addNumberTrigger.on('change', function() {
         var _this = $(this),
             sellingForm = _this.closest('form'),
-            number = _this.val(),
+            number = Number(_this.val()),
             moreProductsChecked = sellingForm.find('[data-sell-moreProducts]').is(':checked'),
-            productsAmount = sellingForm.find('[data-sell-productsAmount]').val(),
+            productsAmount = Number(sellingForm.find('[data-sell-productsAmount]').val()),
             typeRepair = sellingForm.find('[data-sell-repair]').is(':checked'),
             ajaxUrl = sellingForm.attr('data-scan'),
             dataSend;
@@ -243,13 +243,13 @@ var uvel,
         if (_this[0].hasAttribute('data-sell-catalogNumber')) {
           dataSend = {
             'catalog_number' : number,
-            'quantity' : Number(productsAmount),
+            'quantity' : productsAmount,
             'amount_check' : moreProductsChecked
           };
         } else if (_this[0].hasAttribute('data-sell-barcode') && number.length == 13) {
           dataSend = {
-            'barcode' : Number(number),
-            'quantity' : Number(productsAmount),
+            'barcode' : number,
+            'quantity' : productsAmount,
             'amount_check' : moreProductsChecked,
             'type_repair' : typeRepair
           }
@@ -292,12 +292,12 @@ var uvel,
     this.addDiscount = function(addDiscountTrigger) {
       addDiscountTrigger.on('change', function() {
         var _this = $(this),
-            discountAmount = _this.val(),
+            discountAmount = Number(_this.val()),
             urlTaken = window.location.href.split('/'),
             url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/',
             discountUrl = _this.attr('data-url'),
             dataSend = {
-              'discount' : Number(discountAmount)
+              'discount' : discountAmount
             };
 
         if (discountAmount.length > 0) {
