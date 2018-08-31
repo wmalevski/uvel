@@ -75,7 +75,7 @@ var uvel,
       },
       stones: {
         selector: '[name="stones"]',
-        controllers: ['calculateCaratsInitializer', 'uploadImagesInit'],
+        controllers: ['calculateCaratsInitializer', 'imageHandling'],
         initialized: false
       },
       stoneStyles: {
@@ -219,7 +219,8 @@ var uvel,
     }
 
     this.getFormFields = function(form, ajaxRequestLink, formType, inputFields) {
-      var data = {_token : $self.formsConfig.globalSettings.token};
+      var data = {_token : $self.formsConfig.globalSettings.token},
+          imageCollection = [];
 
       if (formType == 'edit') {
         data._method = "PUT";
@@ -229,7 +230,8 @@ var uvel,
         var _this = element,
             inputType = _this.type,
             dataKey = _this.name,
-            dataKeyValue = _this.value;
+            dataKeyValue = _this.value,
+            imagesInputFieldExists = dataKey == 'images' ? true : false;
 
         if (inputType == 'radio' || inputType == 'checkbox') {
           data[dataKey] = $(_this).is(':checked');
@@ -237,8 +239,16 @@ var uvel,
           data[dataKey] = dataKeyValue;
         }
 
-        if (dataKey == 'images') {
-         imagesInputFieldExists = true;
+        if(imagesInputFieldExists) {
+          var imagesHolder = $('.drop-area-gallery .image-wrapper img');
+
+          imagesHolder.each(function(index , element) {
+            var _imgSource = element.getAttribute('src');
+
+            imageCollection.push(_imgSource);
+          });
+
+          data.images = imageCollection;
         }
       });
 
@@ -309,7 +319,7 @@ var uvel,
 
      // FUNCTION THAT APPENDS SUCCESS MESSAGES TO THE FORM WHEN THE REQUEST IS SUCCESS
 
-    this.formSuccessHandler = function(form, formType) {
+    this.formSuccessHandler = function(form, formType, resp) {
       if ($('.error--messages_holder').length) {
         $('.error--messages_holder').remove();
       }
@@ -324,6 +334,8 @@ var uvel,
         message = "Редактирахте успешно записа!";
       } else if (formType == 'sell') {
         message = "Извършихте успешно плащане!";
+      } else if (formType == 'images') {
+        message = resp.success;
       }
 
       successMessage.html(message);
@@ -527,12 +539,18 @@ var uvel,
       }
     }
 
-    this.uploadImagesInit = function(form) {
-      uploadImagesTrigger = form.find('.drop-area-input');
+    this.imageHandling = function(form) {
+      var uploadImagesTrigger = form.find('.drop-area-input'),
+          deleteImagesTriggerDropArea = form.find('.drop-area-gallery .close'),
+          deleteImagesTriggerUploadArea = form.find('.uploaded-images-area .close');
+
       uploadImagesTrigger.on('change', function(event) {
         var _this = $(this);
         $self.uploadImages(event, _this);
-      })
+      });
+
+      $self.deleteImagesDropArea(deleteImagesTriggerDropArea);
+      $self.deleteImagesUploadArea(deleteImagesTriggerUploadArea, form);
     }
 
     this.uploadImages = function(event, _this) {
@@ -562,7 +580,8 @@ var uvel,
 
           imageWrapper.setAttribute("class", "image-wrapper");
           closeBtn.setAttribute("class", "close");
-          closeBtn.innerHTML = '&#215;';            
+          closeBtn.innerHTML = '&#215;';
+          $self.deleteImagesDropArea($(closeBtn));       
           
           img.src = reader.result;
           imageWrapper.append(closeBtn);
@@ -570,6 +589,29 @@ var uvel,
           _this.siblings('.drop-area-gallery').append(imageWrapper);
         }
       });
+    }
+
+    this.deleteImagesDropArea = function(deleteBtn) {
+      deleteBtn.on('click', function() {
+        $(this).parent('.image-wrapper').remove();
+      });
+    }
+
+    this.deleteImagesUploadArea = function(deleteBtn, form) {
+      deleteBtn.on('click', function() {
+        var _this = $(this),
+            path = _this.find('span[data-url]').attr('data-url'),
+            ajaxUrl = '/ajax/' + path;
+
+        $.ajax({
+          type: 'POST',
+          url: ajaxUrl,
+          success: function(resp) {
+            $self.formSuccessHandler(form, 'images', resp);
+            _this.closest('.image-wrapper').remove();
+          }
+        })
+      })
     }
 
     /**********************************************
@@ -843,11 +885,11 @@ var uvel,
       FUNCTION THAT REMOVES IMAGES FROM THE DROPAREA FROM BOTH ADDING PHOTOS ,AND FETCHING THEM FROM THE REQUEST.
     */
 
-    this.removeImagePhotoFromDropArea = function() {
-      $('body').on('click' , '.drop-area-gallery .close' , function() {
-        $(this).parent('.image-wrapper').remove();
-      });
-    }
+    // this.removeImagePhotoFromDropArea = function() {
+    //   $('body').on('click' , '.drop-area-gallery .close' , function() {
+    //     $(this).parent('.image-wrapper').remove();
+    //   });
+    // }
 
     /* 
       FUNCTION THAT REPLACE THE TABLE ROW FROM THE AJAX REQUEST
