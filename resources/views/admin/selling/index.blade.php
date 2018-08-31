@@ -153,13 +153,13 @@ aria-hidden="true">
                     <div class="masonry-sizer col-md-6"></div>
                     <div class="col-md-6 masonry-item form-horizontal">
                         <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                            <input type="checkbox" id="amount_check" name="amount_check" class="peer">
+                            <input type="checkbox" id="amount_check" name="amount_check" data-sell-moreProducts class="peer">
                             <label for="amount_check" class="peers peer-greed js-sb ai-c">
                                 <span class="peer peer-greed">Повече от един продукт</span>
                             </label>
                         </div>
                         <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                            <input type="checkbox" id="type_repair" name="type_repair" class="peer">
+                            <input type="checkbox" id="type_repair" name="type_repair" data-sell-repair class="peer">
                             <label for="type_repair" class="peers peer-greed js-sb ai-c">
                                 <span class="peer peer-greed">Ремонт</span>
                             </label>
@@ -167,33 +167,33 @@ aria-hidden="true">
                         <div class="form-group form-row">
                             <label for="product_barcode" class="col-sm-9 control-label">Номер на артикула</label>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="product_barcode" id="product_barcode" placeholder="Баркод:">
+                                <input type="text" class="form-control" name="product_barcode" id="product_barcode" data-sell-barcode placeholder="Баркод:">
                             </div>
                         </div>
                         <div class="form-group form-row">
                             <label for="catalog_number" class="col-sm-9 control-label">Каталожен номер</label>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" id="catalog_number" name="catalog_number" placeholder="Номер от каталога:">
+                                <input type="text" class="form-control" id="catalog_number" name="catalog_number" data-sell-catalogNumber placeholder="Номер от каталога:">
                             </div>
                         </div>
                         <div class="form-group form-row">
                             <label for="amount" class="col-sm-9 control-label">Брой</label>
                             <div class="col-sm-3">
-                                <input type="number" class="form-control" value="1" id="amount" name="amount" placeholder="1" readonly>
+                                <input type="number" class="form-control" value="1" id="amount" name="amount" data-sell-productsAmount placeholder="1" readonly>
                             </div>
                         </div>
 
                         <div class="form-group form-row">
                             <label for="discount" class="col-sm-9 control-label">Отстъпка</label>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="discount" id="discount" placeholder="Проценти" >
+                                <input type="text" class="form-control" name="discount" data-url="senddiscount" id="discount" data-sell-discount placeholder="Проценти" >
                             </div>
                         </div>
 
                         <div class="form-group form-row">
                             <label for="discount_card" class="col-sm-9 control-label">Сканирай карта за отстъпка</label>
                             <div class="col-sm-3">
-                                <input type="number" class="form-control" name="discount_card" id="discount_card" placeholder="Баркод" min="1" max="100">
+                                <input type="number" class="form-control" name="discount_card" data-url="setdiscount/" id="discount_card" data-sell-discountCard placeholder="Баркод" min="1">
                             </div>
                         </div>
 
@@ -241,7 +241,8 @@ aria-hidden="true">
                         <div class="form-group form-row">
                             <label for="subTotal" class="col-sm-9 control-label">Цена</label>
                             <div class="col-sm-3">
-                                <input type="price" name="subTotal" value="{{ Cart::session(Auth::user()->id)->getSubTotal() }}" class="form-control" id="subTotal" placeholder="" readonly>
+                                <input type="price" name="subTotal" value="{{ Cart::session(Auth::user()->id)->getSubTotal() }}" class="form-control" id="subTotal"
+                                data-sell-subTotal placeholder="" readonly>
                             </div>
                         </div>
 

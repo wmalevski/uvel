@@ -12,7 +12,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="settings/currencies" name="addCurrency">
+            <form method="POST" action="settings/currencies" name="currencies" data-type="add">
                  
                 <div class="modal-body">    
                     <div class="info-cont">
@@ -51,7 +51,7 @@ aria-hidden="true">
 <div class="row">
     <div class="col-md-12">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
-            <h4 class="c-grey-900 mB-20">Валути и курсове <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCurrency">Добави</button></h4>
+            <h4 class="c-grey-900 mB-20">Валути и курсове <button type="button" class="btn btn-primary" data-form-type="add" data-form="currencies" data-toggle="modal" data-target="#addCurrency">Добави</button></h4>
 
             <p>Преглед на валути и курсове.</p>
             <table class="table">
