@@ -1283,13 +1283,21 @@ var uvel,
 
             if (item.kind === 'file') {
               var file = item.getAsFile();
-              collectionFiles.push(file);
+              if(file.type == "image/svg+xml") {
+                alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
+              } else {
+                collectionFiles.push(file);
+              }
             }
           }
         } else {
           for (var i=0; i<event.dataTransfer.files.length; i++) {
             var file = event.dataTransfer.files[i];
-            collectionFiles.push(file);
+            if(file.type == "image/svg+xml") {
+              alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
+            } else {
+              collectionFiles.push(file);
+            }
           }
         }
 
