@@ -110,12 +110,12 @@ var uvel,
       },
       models: {
         selector: '[name="models"]',
-        controllers: ['addMaterialsInit', 'removeMaterialsInit', 'addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit'],
+        controllers: ['addMaterialsInit', 'removeMaterialsInit', 'addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'imageHandling'],
         initialized: false
       },
       products: {
         selector: '[name="products"]',
-        controllers: ['addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'modelRequestInit'],
+        controllers: ['addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'modelRequestInit', 'imageHandling'],
         initialized: false
       },
       repairTypes: {
@@ -1026,6 +1026,7 @@ var uvel,
       $self.fillWeight(response, form);
       $self.fillFinalPrice(response, form);
       $self.fillWorkmanshipPrice(response, form);
+      $self.fillPhotos(response, form);
     }
 
     this.fillMaterials = function(response, form) {
@@ -1095,44 +1096,29 @@ var uvel,
       workmanshipHolder.val(price);
     }
 
-    this.ajaxFn = function(method, url, callback, dataSend, elements, currentPressedBtn) {
-      var xhttp = new XMLHttpRequest(),
-          token = $self.formsConfig.globalSettings.token;
+    this.fillPhotos = function(response, form) {
+      var dropAreaGalleryHolder = form.find('.drop-area-gallery'),
+          photos = response.photos;
 
-      xhttp.open(method, url, true);
+      dropAreaGalleryHolder.empty();
 
-      xhttp.onreadystatechange = function () {
-        if(this.readyState == 4 && this.status == 200) {
-          if($self.IsJsonString(this.responseText)){
-            var data = JSON.parse(this.responseText);
-          } else {
-            var data = this.responseText;
-          }
-          
-          callback(data, elements, currentPressedBtn);
-        } else if (this.readyState == 4 && this.status == 401) {
-          var data = JSON.parse(this.responseText);
-          callback(data);
-        }
-      };
+      photos.forEach(function(photo) {
+        var imageWrapper = $(document.createElement('div')),
+            newImg = $(document.createElement('img')),
+            photoUrl = photo.base64,
+            closeBtn = $(document.createElement('div'));
 
-      xhttp.setRequestHeader('Content-Type', 'application/json');
-      xhttp.setRequestHeader('X-CSRF-TOKEN', token);
-      
-      if(method === "GET") {
-        xhttp.send();
-      } else {
-        xhttp.send(JSON.stringify(dataSend));
-      }
-    }
+        imageWrapper.addClass('image-wrapper');
+        newImg.attr('src', photoUrl);
+        closeBtn.addClass('close');
+        closeBtn.html('x');
 
-    this.IsJsonString = function(str) {
-      try {
-          JSON.parse(str);
-      } catch (e) {
-          return false;
-      }
-      return true;
+        imageWrapper.append(closeBtn);
+        imageWrapper.append(newImg);
+        dropAreaGalleryHolder.append(imageWrapper);
+
+        $self.deleteImagesDropArea(closeBtn);
+      });
     }
 
     this.getWantedSumInit = function(form) {
@@ -1249,23 +1235,71 @@ var uvel,
 
     this.imageHandling = function(form) {
       var uploadImagesTrigger = form.find('.drop-area-input'),
+          dropArea = form.find('.drop-area'),
           deleteImagesTriggerDropArea = form.find('.drop-area-gallery .close'),
           deleteImagesTriggerUploadArea = form.find('.uploaded-images-area .close');
 
       uploadImagesTrigger.on('change', function(event) {
         var _this = $(this);
-        $self.uploadImages(event, _this);
+        $self.uploadImages(event, form);
       });
+
+      $self.dragNdropImages(dropArea, form);
 
       $self.deleteImagesDropArea(deleteImagesTriggerDropArea);
       $self.deleteImagesUploadArea(deleteImagesTriggerUploadArea, form);
     }
 
-    this.uploadImages = function(event, _this) {
+    this.dragNdropImages = function(dropArea, form) {
+      dropArea.on('dragover', function(event) {
+        event.preventDefault();
+      })
+
+      dropArea.on('dragenter', function(event) {
+        event.preventDefault();
+        var _this = $(event.target);
+
+        _this.addClass('dragging');
+      })
+
+      dropArea.on('dragleave', function(event) {
+        event.preventDefault();
+        var _this = $(event.target);
+
+        _this.removeClass('dragging');
+      })
+
+      dropArea.on('drop', function(event) {
+        event.preventDefault();
+        var _this = $(event.target),
+            collectionFiles = [];
+
+        event.dataTransfer = event.originalEvent.dataTransfer;
+        _this.removeClass('dragging');
+
+        if (event.dataTransfer.items) {
+          for (var i=0; i<event.dataTransfer.items.length; i++) {
+            var item = event.dataTransfer.items[i];
+
+            if (item.kind === 'file') {
+              var file = item.getAsFile();
+              collectionFiles.push(file);
+            }
+          }
+        } else {
+          for (var i=0; i<event.dataTransfer.files.length; i++) {
+            var file = event.dataTransfer.files[i];
+            collectionFiles.push(file);
+          }
+        }
+
+        $self.appendImages(collectionFiles, form);
+      })
+    }
+
+    this.uploadImages = function(event, form) {
       var files = event.target.files,
           collectionFiles= [];
-
-      var _instanceFiles = [];
      
       for(var file of files) {
         if(file.type == "image/svg+xml") {
@@ -1274,6 +1308,12 @@ var uvel,
           collectionFiles.push(file);
         }
       }
+
+      $self.appendImages(collectionFiles, form);
+    }
+
+    this.appendImages = function(collectionFiles, form) {
+      var _instanceFiles = [];
 
       collectionFiles.forEach(function(element) {
         var reader = new FileReader();
@@ -1294,7 +1334,7 @@ var uvel,
           img.src = reader.result;
           imageWrapper.append(closeBtn);
           imageWrapper.append(img);
-          _this.siblings('.drop-area-gallery').append(imageWrapper);
+          form.find('.drop-area-gallery').append(imageWrapper);
         }
       });
     }
@@ -1400,8 +1440,8 @@ var uvel,
     }
 
     this.ajaxFn = function(method, url, callback, dataSend, elements, currentPressedBtn) {
-      var xhttp = new XMLHttpRequest();
-      var token = $self.formsConfig.globalSettings.token;
+      var xhttp = new XMLHttpRequest(),
+          token = $self.formsConfig.globalSettings.token;
 
       xhttp.open(method, url, true);
 
@@ -1409,9 +1449,8 @@ var uvel,
         if(this.readyState == 4 && this.status == 200) {
           if($self.IsJsonString(this.responseText)){
             var data = JSON.parse(this.responseText);
-          }
-           else {
-             var data = this.responseText;
+          } else {
+            var data = this.responseText;
           }
           
           callback(data, elements, currentPressedBtn);
@@ -1426,8 +1465,7 @@ var uvel,
       
       if(method === "GET") {
         xhttp.send();
-      }
-      else {
+      } else {
         xhttp.send(JSON.stringify(dataSend));
       }
     }
