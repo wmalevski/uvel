@@ -90,7 +90,7 @@ var uvel,
       },
       stones: {
         selector: '[name="stones"]',
-        controllers: ['calculateCaratsInitializer'],
+        controllers: ['calculateCaratsInitializer', 'imageHandling'],
         initialized: false
       },
       stoneStyles: {
@@ -110,12 +110,12 @@ var uvel,
       },
       models: {
         selector: '[name="models"]',
-        controllers: ['addMaterialsInit', 'removeMaterialsInit', 'addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit'],
+        controllers: ['addMaterialsInit', 'removeMaterialsInit', 'addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'imageHandling'],
         initialized: false
       },
       products: {
         selector: '[name="products"]',
-        controllers: ['addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'modelRequestInit'],
+        controllers: ['addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'modelRequestInit', 'imageHandling'],
         initialized: false
       },
       repairTypes: {
@@ -370,7 +370,8 @@ var uvel,
     }
 
     this.getFormFields = function(form, ajaxRequestLink, formType, inputFields) {
-      var data = {_token : $self.formsConfig.globalSettings.token};
+      var data = {_token : $self.formsConfig.globalSettings.token},
+          imageCollection = [];
 
       if (formType == 'edit') {
         data._method = "PUT";
@@ -380,7 +381,8 @@ var uvel,
         var _this = element,
             inputType = _this.type,
             dataKey = _this.name,
-            dataKeyValue = _this.value;
+            dataKeyValue = _this.value,
+            imagesInputFieldExists = dataKey == 'images' ? true : false;
 
         if((inputType == 'radio' || inputType == 'checkbox') && dataKey.indexOf('[]') !== -1) {
           dataKey = dataKey.replace('[]', '');
@@ -394,8 +396,16 @@ var uvel,
           data[dataKey] = dataKeyValue;
         }
 
-        if (dataKey == 'images') {
-         imagesInputFieldExists = true;
+        if(imagesInputFieldExists) {
+          var imagesHolder = $('.drop-area-gallery .image-wrapper img');
+
+          imagesHolder.each(function(index , element) {
+            var _imgSource = element.getAttribute('src');
+
+            imageCollection.push(_imgSource);
+          });
+
+          data.images = imageCollection;
         }
       });
 
@@ -488,7 +498,7 @@ var uvel,
 
      // FUNCTION THAT APPENDS SUCCESS MESSAGES TO THE FORM WHEN THE REQUEST IS SUCCESS
 
-    this.formSuccessHandler = function(form, formType) {
+    this.formSuccessHandler = function(form, formType, resp) {
       if ($('.error--messages_holder').length) {
         $('.error--messages_holder').remove();
       }
@@ -503,6 +513,8 @@ var uvel,
         message = "Редактирахте успешно записа!";
       } else if (formType == 'sell') {
         message = "Извършихте успешно плащане!";
+      } else if (formType == 'images') {
+        message = resp.success;
       }
 
       successMessage.html(message);
@@ -1014,6 +1026,7 @@ var uvel,
       $self.fillWeight(response, form);
       $self.fillFinalPrice(response, form);
       $self.fillWorkmanshipPrice(response, form);
+      $self.fillPhotos(response, form);
     }
 
     this.fillMaterials = function(response, form) {
@@ -1083,44 +1096,29 @@ var uvel,
       workmanshipHolder.val(price);
     }
 
-    this.ajaxFn = function(method, url, callback, dataSend, elements, currentPressedBtn) {
-      var xhttp = new XMLHttpRequest(),
-          token = $self.formsConfig.globalSettings.token;
+    this.fillPhotos = function(response, form) {
+      var dropAreaGalleryHolder = form.find('.drop-area-gallery'),
+          photos = response.photos;
 
-      xhttp.open(method, url, true);
+      dropAreaGalleryHolder.empty();
 
-      xhttp.onreadystatechange = function () {
-        if(this.readyState == 4 && this.status == 200) {
-          if($self.IsJsonString(this.responseText)){
-            var data = JSON.parse(this.responseText);
-          } else {
-            var data = this.responseText;
-          }
-          
-          callback(data, elements, currentPressedBtn);
-        } else if (this.readyState == 4 && this.status == 401) {
-          var data = JSON.parse(this.responseText);
-          callback(data);
-        }
-      };
+      photos.forEach(function(photo) {
+        var imageWrapper = $(document.createElement('div')),
+            newImg = $(document.createElement('img')),
+            photoUrl = photo.base64,
+            closeBtn = $(document.createElement('div'));
 
-      xhttp.setRequestHeader('Content-Type', 'application/json');
-      xhttp.setRequestHeader('X-CSRF-TOKEN', token);
-      
-      if(method === "GET") {
-        xhttp.send();
-      } else {
-        xhttp.send(JSON.stringify(dataSend));
-      }
-    }
+        imageWrapper.addClass('image-wrapper');
+        newImg.attr('src', photoUrl);
+        closeBtn.addClass('close');
+        closeBtn.html('x');
 
-    this.IsJsonString = function(str) {
-      try {
-          JSON.parse(str);
-      } catch (e) {
-          return false;
-      }
-      return true;
+        imageWrapper.append(closeBtn);
+        imageWrapper.append(newImg);
+        dropAreaGalleryHolder.append(imageWrapper);
+
+        $self.deleteImagesDropArea(closeBtn);
+      });
     }
 
     this.getWantedSumInit = function(form) {
@@ -1235,6 +1233,150 @@ var uvel,
       }
     }
 
+    this.imageHandling = function(form) {
+      var uploadImagesTrigger = form.find('.drop-area-input'),
+          dropArea = form.find('.drop-area'),
+          deleteImagesTriggerDropArea = form.find('.drop-area-gallery .close'),
+          deleteImagesTriggerUploadArea = form.find('.uploaded-images-area .close');
+
+      uploadImagesTrigger.on('change', function(event) {
+        var _this = $(this);
+        $self.uploadImages(event, form);
+      });
+
+      $self.dragNdropImages(dropArea, form);
+
+      $self.deleteImagesDropArea(deleteImagesTriggerDropArea);
+      $self.deleteImagesUploadArea(deleteImagesTriggerUploadArea, form);
+    }
+
+    this.dragNdropImages = function(dropArea, form) {
+      $('html').on('dragover', function(event) {
+        event.preventDefault();
+      })
+
+      $('html').on('drop', function(event) {
+        event.preventDefault();
+      })
+
+      dropArea.on('dragenter', function(event) {
+        event.preventDefault();
+        var _this = $(event.currentTarget);
+
+        _this.addClass('dragging');
+        _this.children().css('pointer-events', 'none');
+      })
+
+      dropArea.on('dragleave', function(event) {
+        event.preventDefault();
+        var _this = $(event.currentTarget);
+
+        _this.removeClass('dragging');
+        _this.children().css('pointer-events', 'auto');
+      })
+
+      dropArea.on('drop', function(event) {
+        event.preventDefault();
+        var _this = $(event.currentTarget),
+            collectionFiles = [];
+
+        event.dataTransfer = event.originalEvent.dataTransfer;
+        _this.removeClass('dragging');
+        _this.children().css('pointer-events', 'auto');
+
+        if (event.dataTransfer.items) {
+          for (var i=0; i<event.dataTransfer.items.length; i++) {
+            var item = event.dataTransfer.items[i];
+
+            if (item.kind === 'file') {
+              var file = item.getAsFile();
+              if(file.type == "image/svg+xml") {
+                alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
+              } else {
+                collectionFiles.push(file);
+              }
+            }
+          }
+        } else {
+          for (var i=0; i<event.dataTransfer.files.length; i++) {
+            var file = event.dataTransfer.files[i];
+            if(file.type == "image/svg+xml") {
+              alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
+            } else {
+              collectionFiles.push(file);
+            }
+          }
+        }
+
+        $self.appendImages(collectionFiles, form);
+      })
+    }
+
+    this.uploadImages = function(event, form) {
+      var files = event.target.files,
+          collectionFiles= [];
+     
+      for(var file of files) {
+        if(file.type == "image/svg+xml") {
+          alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
+        } else {
+          collectionFiles.push(file);
+        }
+      }
+
+      $self.appendImages(collectionFiles, form);
+    }
+
+    this.appendImages = function(collectionFiles, form) {
+      var _instanceFiles = [];
+
+      collectionFiles.forEach(function(element) {
+        var reader = new FileReader();
+        reader.readAsDataURL(element);
+
+        reader.onloadend = function() {
+          var imageWrapper = document.createElement('div');
+          var closeBtn = document.createElement('div');
+          var img = document.createElement('img');
+
+          _instanceFiles.push(reader.result);   
+
+          imageWrapper.setAttribute("class", "image-wrapper");
+          closeBtn.setAttribute("class", "close");
+          closeBtn.innerHTML = '&#215;';
+          $self.deleteImagesDropArea($(closeBtn));       
+          
+          img.src = reader.result;
+          imageWrapper.append(closeBtn);
+          imageWrapper.append(img);
+          form.find('.drop-area-gallery').append(imageWrapper);
+        }
+      });
+    }
+
+    this.deleteImagesDropArea = function(deleteBtn) {
+      deleteBtn.on('click', function() {
+        $(this).parent('.image-wrapper').remove();
+      });
+    }
+
+    this.deleteImagesUploadArea = function(deleteBtn, form) {
+      deleteBtn.on('click', function() {
+        var _this = $(this),
+            path = _this.find('span[data-url]').attr('data-url'),
+            ajaxUrl = '/ajax/' + path;
+
+        $.ajax({
+          type: 'POST',
+          url: ajaxUrl,
+          success: function(resp) {
+            $self.formSuccessHandler(form, 'images', resp);
+            _this.closest('.image-wrapper').remove();
+          }
+        })
+      })
+    }
+
     this.fillRepairPrice = function(form) {
       var fillPriceTrigger = form.find('[data-repair-type]'),
           priceHolder = form.find('[data-repair-price]');
@@ -1313,8 +1455,8 @@ var uvel,
     }
 
     this.ajaxFn = function(method, url, callback, dataSend, elements, currentPressedBtn) {
-      var xhttp = new XMLHttpRequest();
-      var token = $self.formsConfig.globalSettings.token;
+      var xhttp = new XMLHttpRequest(),
+          token = $self.formsConfig.globalSettings.token;
 
       xhttp.open(method, url, true);
 
@@ -1322,9 +1464,8 @@ var uvel,
         if(this.readyState == 4 && this.status == 200) {
           if($self.IsJsonString(this.responseText)){
             var data = JSON.parse(this.responseText);
-          }
-           else {
-             var data = this.responseText;
+          } else {
+            var data = this.responseText;
           }
           
           callback(data, elements, currentPressedBtn);
@@ -1339,8 +1480,7 @@ var uvel,
       
       if(method === "GET") {
         xhttp.send();
-      }
-      else {
+      } else {
         xhttp.send(JSON.stringify(dataSend));
       }
     }
@@ -1511,6 +1651,8 @@ var uvel,
       });
     }
 
+    
+
 
     // this.modelSelectRequest = function() {
     //   $('body').on('change' , '.model-select' , function() {
@@ -1543,47 +1685,47 @@ var uvel,
       UPLOADING IMAGES FUNCTION
     **/
 
-      this.dropFunctionality = function() {
-        $('body').on('change' , 'form .drop-area-input' , function(event) {
-          var files = event.target.files,
-              collectionFiles= [];
+      // this.dropFunctionality = function() {
+      //   $('body').on('change' , 'form .drop-area-input' , function(event) {
+      //     var files = event.target.files,
+      //         collectionFiles= [];
 
-          var _this = $(this);
+      //     var _this = $(this);
 
-          var _instanceFiles = [];
+      //     var _instanceFiles = [];
          
-          for(var file of files) {
-            if(file.type == "image/svg+xml") {
-              alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
-            } else {
-              collectionFiles.push(file);
-            }
-          }
+      //     for(var file of files) {
+      //       if(file.type == "image/svg+xml") {
+      //         alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
+      //       } else {
+      //         collectionFiles.push(file);
+      //       }
+      //     }
 
-          collectionFiles.forEach(function(element) {
-            var reader = new FileReader();
-            reader.readAsDataURL(element);
+      //     collectionFiles.forEach(function(element) {
+      //       var reader = new FileReader();
+      //       reader.readAsDataURL(element);
     
-            reader.onloadend = function() {
-              var imageWrapper = document.createElement('div');
-              var closeBtn = document.createElement('div');
-              var img = document.createElement('img');
+      //       reader.onloadend = function() {
+      //         var imageWrapper = document.createElement('div');
+      //         var closeBtn = document.createElement('div');
+      //         var img = document.createElement('img');
 
-              _instanceFiles.push(reader.result);   
+      //         _instanceFiles.push(reader.result);   
 
-              imageWrapper.setAttribute("class", "image-wrapper");
-              closeBtn.setAttribute("class", "close");
-              closeBtn.innerHTML = '&#215;';            
+      //         imageWrapper.setAttribute("class", "image-wrapper");
+      //         closeBtn.setAttribute("class", "close");
+      //         closeBtn.innerHTML = '&#215;';            
               
-              img.src = reader.result;
-              imageWrapper.append(closeBtn);
-              imageWrapper.append(img);
-              _this.siblings('.drop-area-gallery').append(imageWrapper);
-            }
-          });
+      //         img.src = reader.result;
+      //         imageWrapper.append(closeBtn);
+      //         imageWrapper.append(img);
+      //         _this.siblings('.drop-area-gallery').append(imageWrapper);
+      //       }
+      //     });
 
-        });
-      }   
+      //   });
+      // }   
 
       /**
         UPLOADING IMAGES FUNCTION
@@ -1623,11 +1765,11 @@ var uvel,
       FUNCTION THAT REMOVES IMAGES FROM THE DROPAREA FROM BOTH ADDING PHOTOS ,AND FETCHING THEM FROM THE REQUEST.
     */
 
-    this.removeImagePhotoFromDropArea = function() {
-      $('body').on('click' , '.drop-area-gallery .close' , function() {
-        $(this).parent('.image-wrapper').remove();
-      });
-    }
+    // this.removeImagePhotoFromDropArea = function() {
+    //   $('body').on('click' , '.drop-area-gallery .close' , function() {
+    //     $(this).parent('.image-wrapper').remove();
+    //   });
+    // }
 
     /* 
       FUNCTION THAT REPLACE THE TABLE ROW FROM THE AJAX REQUEST
