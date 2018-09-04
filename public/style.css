@@ -79,6 +79,11 @@ svg{touch-action:none}.jvectormap-container{width:100%;height:100%;position:rela
   width: 100%;
   font-family: sans-serif;
   padding: 5px 10px;
+  transition: 0.4s border-color ease;
+}
+
+.drop-area.dragging {
+  border-color: #2196f3;
 }
 
 .drop-area.highlight {
