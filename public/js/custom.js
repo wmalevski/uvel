@@ -1251,31 +1251,38 @@ var uvel,
     }
 
     this.dragNdropImages = function(dropArea, form) {
-      dropArea.on('dragover', function(event) {
+      $('html').on('dragover', function(event) {
+        event.preventDefault();
+      })
+
+      $('html').on('drop', function(event) {
         event.preventDefault();
       })
 
       dropArea.on('dragenter', function(event) {
         event.preventDefault();
-        var _this = $(event.target);
+        var _this = $(event.currentTarget);
 
         _this.addClass('dragging');
+        _this.children().css('pointer-events', 'none');
       })
 
       dropArea.on('dragleave', function(event) {
         event.preventDefault();
-        var _this = $(event.target);
+        var _this = $(event.currentTarget);
 
         _this.removeClass('dragging');
+        _this.children().css('pointer-events', 'auto');
       })
 
       dropArea.on('drop', function(event) {
         event.preventDefault();
-        var _this = $(event.target),
+        var _this = $(event.currentTarget),
             collectionFiles = [];
 
         event.dataTransfer = event.originalEvent.dataTransfer;
         _this.removeClass('dragging');
+        _this.children().css('pointer-events', 'auto');
 
         if (event.dataTransfer.items) {
           for (var i=0; i<event.dataTransfer.items.length; i++) {
