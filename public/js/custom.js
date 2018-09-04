@@ -170,7 +170,8 @@ var uvel,
           $addNumberTrigger = $('[data-sell-catalogNumber], [data-sell-barcode]'),
           $sellMoreProductsTrigger = $('[data-sell-moreProducts]'),
           $addDiscountTrigger = $('[data-sell-discount]'),
-          $addCardDiscountTrigger = $('[data-sell-discountCard]');
+          $addCardDiscountTrigger = $('[data-sell-discountCard]'),
+          $travelingMaterialsStateBtns = $('[data-travelstate]');
 
       $self.openForm($openFormTrigger);
       $self.deleteRow($deleteRowTrigger);
@@ -180,6 +181,7 @@ var uvel,
       $self.sellMoreProducts($sellMoreProductsTrigger);
       $self.addDiscount($addDiscountTrigger);
       $self.addCardDiscount($addCardDiscountTrigger);
+      $self.travellingMaterialsState($travelingMaterialsStateBtns);
     }
 
     this.openForm = function(openFormTrigger) {
@@ -647,6 +649,27 @@ var uvel,
             document.body.classList.remove("print-mode")
           } 
         }
+      });
+    }
+
+    this.travellingMaterialsState = function(travelingMaterialsStateBtns) {
+      travelingMaterialsStateBtns.on('click', function(e) {
+        e.preventDefault();
+        
+        var _this = $(this),
+            buttonState = _this.attr('data-travelstate'),
+            row = _this.parents('tr[data-id]'),
+            buttonStateRowId = row.attr('data-id');
+
+        $.ajax({
+          method: "POST",
+          url: '/ajax/materials/' + buttonState + '/' + buttonStateRowId,
+          success: function(resp) {
+            var htmlResponse = resp.success;
+
+            row.replaceWith(htmlResponse);
+          }
+        });
       });
     }
 
@@ -1641,25 +1664,25 @@ var uvel,
       FUNCTION THAT UPDATES THE STATUS OF TRAVELLING MATERIALS ( DECLINE OR ACCEPT )
     */
 
-    this.travellingMaterialsState = function() {
-      $('table').on('click' , '.material--travelling_state' , function(e) {
-        e.preventDefault();
+    // this.travellingMaterialsState = function() {
+    //   $('table').on('click' , '.material--travelling_state' , function(e) {
+    //     e.preventDefault();
         
-        var _this = $(this);
-        var buttonState = _this.attr('data-travelstate');
-        var buttonStateRowId = _this.parents('tr').attr('data-id');
+    //     var _this = $(this);
+    //     var buttonState = _this.attr('data-travelstate');
+    //     var buttonStateRowId = _this.parents('tr').attr('data-id');
 
-        $.ajax({
-          method: "POST",
-          url: '/ajax/materials/' + buttonState + '/' + buttonStateRowId,
-          success: function(resp) {
-            var htmlResponse = JSON.stringify(resp.success);
+    //     $.ajax({
+    //       method: "POST",
+    //       url: '/ajax/materials/' + buttonState + '/' + buttonStateRowId,
+    //       success: function(resp) {
+    //         var htmlResponse = JSON.stringify(resp.success);
 
-            $self.replaceTableRowFromAjaxRequest(_this, buttonStateRowId , resp.success);
-          }
-        });
-      });
-    }
+    //         $self.replaceTableRowFromAjaxRequest(_this, buttonStateRowId , resp.success);
+    //       }
+    //     });
+    //   });
+    // }
 
     /* 
       FUNCTION THAT GET THE SELECT OPTION'S ATTRIBUTES AND ATTACH THEM ON THE SELECT2 PLUGIN LIST ITEMS.
