@@ -705,7 +705,7 @@ var uvel,
         '<option value="0">Избери</option>'
 
       materialsData.forEach(function (option) {
-        newFields += `<option value=${option.value} data-pricebuy=${option.pricebuy} data-material=${option.material}>${option.label}</option>`;
+        newFields += '<option value='+option.value+' data-pricebuy='+option.pricebuy+' data-material='+option.material+'>'+option.label+'</option>';
       })
 
       newFields +=
@@ -797,7 +797,7 @@ var uvel,
 
         stonesData.forEach(function (option) {
           var selected = stone && stone.value == option.value ? 'selected' : '';
-          newFields += `<option value=${option.value} ${selected}>${option.label}</option>`
+          newFields += '<option value='+option.value+' '+selected+'>'+option.label+'</option>'
         });
 
         newFields +=
@@ -805,7 +805,7 @@ var uvel,
           '</div>' +
           '<div class="form-group col-md-4">' +
           '<label>Брой:</label>' +
-          `<input type="text" value="${amount}" class="form-control calculate-stones" name="stone_amount[]" data-calculateStones-amount placeholder="Брой">` +
+          '<input type="text" value="'+amount+'" class="form-control calculate-stones" name="stone_amount[]" data-calculateStones-amount placeholder="Брой">' +
           '</div>' +
           '<div class="form-group col-md-2">' +
           '<span class="delete-stone remove_field" data-removeStone-remove><i class="c-brown-500 ti-trash"></i></span>'+
@@ -813,7 +813,7 @@ var uvel,
           '<div class="form-group col-md-6">' +
           '<div class="form-group">' +
           '<label>Тегло: </label>' +
-          `<input type="number" value="${weight}" class="form-control calculate-stones" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">` +
+          '<input type="number" value="'+weight+'" class="form-control calculate-stones" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">' +
           '</div>' +
           '</div>' +
           '<div class="form-group col-md-6">' +
@@ -885,7 +885,7 @@ var uvel,
               rowWeight = row.find('[data-calculateStones-weight]').val(),
               rowTotal = rowAmount * rowWeight;
 
-          rowTotalNode.html(`(${rowTotal} гр.)`);
+          rowTotalNode.html('('+rowTotal+' гр.)');
           rowTotalNode.css('opacity', '1');
           currentTotal += rowTotal;
         } else {
@@ -1011,7 +1011,7 @@ var uvel,
             selected = (previousSelected == id || price.selected) ? 'selected' : '',
             text = price.slug;
 
-        var option = `<option value="${id}" data-material="${material}" data-price="${_price}" ${selected}>${text}</option>`;
+        var option = '<option value="'+id+'" data-material="'+material+'" data-price="'+_price+'" '+selected+'>'+text+'</option>';
 
         element.append(option);
       });
@@ -1058,7 +1058,7 @@ var uvel,
             label = material.label,
             selected = material.selected ? 'selected' : '';
 
-        var option = `<option value="${value}" data-material="${dataMaterial}" data-pricebuy="${priceBuy}" ${selected}>${label}</option>`
+        var option = '<option value="'+value+'" data-material="'+dataMaterial+'" data-pricebuy="'+priceBuy+'" '+selected+'>'+label+'</option>'
 
         materialHolder.append(option);
       });

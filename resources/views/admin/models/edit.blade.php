@@ -235,7 +235,7 @@
 
         <div class="form-row">
             <div class="form-group col-md-5">
-                <button type="button" class="btn btn-primary add_field_button">Добави камък</button>
+                <button type="button" class="btn btn-primary add_field_button" data-addStone-add>Добави камък</button>
             </div>
             
             <div class="form-group col-md-3">
