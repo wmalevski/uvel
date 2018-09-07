@@ -193,7 +193,7 @@ aria-hidden="true">
                         <div class="form-group form-row">
                             <label for="discount_card" class="col-sm-9 control-label">Сканирай карта за отстъпка</label>
                             <div class="col-sm-3">
-                                <input type="number" class="form-control" name="discount_card" data-url="setdiscount/" id="discount_card" data-sell-discountCard placeholder="Баркод" min="1">
+                                <input type="number" class="form-control" name="discount_card" data-url="setDiscount/" id="discount_card" data-sell-discountCard placeholder="Баркод" min="1">
                             </div>
                         </div>
 
