@@ -168,7 +168,7 @@ class ProductController extends Controller
                     $checkStone->save();
     
                     $product_stones = new ProductStone();
-                    $product_stones->product = $product->id;
+                    $product_stones->product_id = $product->id;
                     $product_stones->model_id = $request->model_id;
                     $product_stones->stone_id = $stone;
                     $product_stones->amount = $request->stone_amount[$key];

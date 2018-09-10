@@ -126,13 +126,14 @@ class Product extends Model
             
             foreach($model_stones as $stone){
                 $pass_stones[] = [
-                    'value' => Stones::withTrashed()->find($stone->stone)->id,
-                    'label' => Stones::withTrashed()->find($stone->stone)->name.' ('.Stone_contours::withTrashed()->find(Stones::withTrashed()->find($stone->stone)->contour)->name. ', ' .Stone_sizes::withTrashed()->find(Stones::withTrashed()->find($stone->stone)->size)->name. ' )',
+                    'value' => $stone->id,
+                    'label' => $stone.' ('.$stone->contour. ', ' .$stone->size. ' )',
                     'amount' => $stone->amount,
                     'weight' => $stone->weight,
                     'flow' => $stone->flow
                 ];
             }
+
 
             $pass_materials = array();
             
@@ -146,10 +147,38 @@ class Product extends Model
                 //BE: Use materials quantity, not MATERIAL TYPE! Do it after merging.
                 $pass_materials[] = (object)[
                     'value' => $material->id,
-                    'label' => Materials::withTrashed()->find($material->material)->name.' - '.Materials::withTrashed()->find($material->material)->color.'- '.Materials::withTrashed()->find($material->material)->code,
+                    'label' => $material->name.' - '.$material->color.'- '.$material->code,
                     'selected' => $selected,
-                    'dataMaterial' => $material->material,
-                    'priceBuy' => Prices::withTrashed()->where('material', $material->material)->where('type', 'buy')->first()->price,
+                    'dataMaterial' => $material->id,
+                    'priceBuy' => $material->pricesBuy->first()['price'],
+                ];
+            }
+
+            $pass_photos = array();
+            foreach($wholesale_prices as $price){
+                if($price->id == $default->wholesale_price_id){
+                    $selected = true;
+                }else{
+                    $selected = false;
+                }
+
+                $prices_wholesale[] = (object)[
+                    'value' => $price->id,
+                    'label' => $price->slug.' - '.$price->price.'лв',
+                    'selected' => $selected,
+                    'price' => $price->price
+                ];
+            }
+
+            $pass_stones = array();
+            
+            foreach($model_stones as $stone){
+                $pass_stones[] = [
+                    'value' => $stone->stone->id,
+                    'label' => $stone->stone->name.' ('.$stone->stone->contour->name. ', ' .$stone->stone->size->name. ' )',
+                    'amount' => $stone->amount,
+                    'weight' => $stone->weight,
+                    'flow' => $stone->flow
                 ];
             }
 
@@ -159,87 +188,31 @@ class Product extends Model
                 $url =  Storage::get('public/models/'.$photo->photo);
                 $ext_url = Storage::url('public/models/'.$photo->photo);
                 
-                foreach($wholesale_prices as $price){
-                    if($price->id == $default->wholesale_price_id){
-                        $selected = true;
-                    }else{
-                        $selected = false;
-                    }
-    
-                    $prices_wholesale[] = (object)[
-                        'value' => $price->id,
-                        'label' => $price->slug.' - '.$price->price.'лв',
-                        'selected' => $selected,
-                        'price' => $price->price
-                    ];
-                }
-    
-                $pass_stones = array();
+                $info = pathinfo($ext_url);
                 
-                foreach($model_stones as $stone){
-                    $pass_stones[] = [
-                        'value' => $stone->stone->id,
-                        'label' => $stone->stone->name.' ('.$stone->stone->contour->name. ', ' .$stone->stone->size->name. ' )',
-                        'amount' => $stone->amount,
-                        'weight' => $stone->weight,
-                        'flow' => $stone->flow
-                    ];
-                }
-    
-                $pass_materials = array();
+                $image_name =  basename($ext_url,'.'.$info['extension']);
                 
-                foreach($materials as $material){
-                    if($material->id == $default->material_id){
-                        $selected = true;
-                    }else{
-                        $selected = false;
-                    }
+                $base64 = base64_encode($url);
+
+                $pass_photos[] = [
+                    'id' => $photo->id,
+                    'base64' => 'data:image/'.$info['extension'].';base64,'.$base64
+                ];
+            }
     
-                    if($material->parent){
-                        $name = $material->parent->name;
-                    }else{
-                        $name = $material->name;
-                    }
-    
-                    $pass_materials[] = (object)[
-                        'value' => $material->id,
-                        'label' => $name.' - '.$material->code.' - '.$material->carat,
-                        'selected' => $selected,
-                    ];
-                }
-    
-                $pass_photos = array();
-    
-                foreach($model_photos as $photo){
-                    $url =  Storage::get('public/models/'.$photo->photo);
-                    $ext_url = Storage::url('public/models/'.$photo->photo);
-                    
-                    $info = pathinfo($ext_url);
-                    
-                    $image_name =  basename($ext_url,'.'.$info['extension']);
-                    
-                    $base64 = base64_encode($url);
-    
-                    $pass_photos[] = [
-                        'id' => $photo->id,
-                        'base64' => 'data:image/'.$info['extension'].';base64,'.$base64
-                    ];
-                }
-        
-                return array(
-                    'retail_prices' => $prices_retail, 
-                    'wholesale_prices' => $prices_wholesale, 
-                    'jewels_types' => $pass_jewels,
-                    'stones' => $pass_stones,
-                    'weight' => $model->weight,
-                    'size'   => $model->size,
-                    'workmanship' => $model->workmanship,
-                    'price' => $model->price,
-                    'materials' => $pass_materials,
-                    'photos' => $pass_photos,
-                    'pricebuy' => $default->material->material->pricesBuy->first()->price,
-                );
+            return array(
+                'retail_prices' => $prices_retail, 
+                'wholesale_prices' => $prices_wholesale, 
+                'jewels_types' => $pass_jewels,
+                'stones' => $pass_stones,
+                'weight' => $model->weight,
+                'size'   => $model->size,
+                'workmanship' => $model->workmanship,
+                'price' => $model->price,
+                'materials' => $pass_materials,
+                'photos' => $pass_photos,
+                'pricebuy' => $default->material->material->pricesBuy->first()->price,
+            );
             }
         }
     }
-}

@@ -148,8 +148,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/repairs/certificate/{barcode}', 'RepairController@certificate');
 
-    Route::get('/repairs/return/{repair}', 'RepairsController@return');
-    Route::get('/repairs/edit/{repair}', 'RepairsController@edit');
+    Route::get('/repairs/return/{repair}', 'RepairController@return');
+    Route::get('/repairs/edit/{repair}', 'RepairController@edit');
 
     Route::post('/sell/removeItem/{item}', 'SellingsController@removeItem');
 });
@@ -229,7 +229,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::get('/repairs/return/{barcode}', 'RepairController@return');
     Route::put('/repairs/return/{barcode}', 'RepairController@returnRepair');
 
-    //Route::get('/repairs/edit/{repair}', 'RepairController@edit');
+    Route::get('/repairs/edit/{barcode}', 'RepairController@edit');
     Route::put('/repairs/edit/{barcode}', 'RepairController@update');
 
     Route::get('/repairs/{barcode}', 'RepairController@scan');

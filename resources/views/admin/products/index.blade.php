@@ -72,7 +72,7 @@
                     <div class="form-row model_materials">
                         <div class="form-group col-md-12">
                             <label>Материал: </label>
-                            <select id="material" name="material_id" class="material_type form-control material calculate data-calculatePrice-material">
+                            <select id="material" name="material_id" class="material_type form-control material calculate" data-calculatePrice-material>
                                 <option value="">Избери</option>
                         
                                 @foreach($materials as $material)
@@ -134,6 +134,9 @@
                         <div class="col-12">
                             <hr>
                         </div>
+                    </div>
+
+                    <div class="form-row model_stones">
                     </div>
 
                     <div class="form-row">

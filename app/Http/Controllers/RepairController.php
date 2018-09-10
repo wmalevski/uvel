@@ -242,11 +242,11 @@ class RepairController extends Controller
         if($request->status === 'true'){
             $repair->status = 'done';
 
-            $history = new History;
-            $history->action = 'repair';
-            $history->user = Auth::user()->id;
-            $history->result_id = $repair->id;
-            $history->save();
+            // $history = new History;
+            // $history->action = 'repair';
+            // $history->user = Auth::user()->id;
+            // $history->result_id = $repair->id;
+            // $history->save();
         }else{
             $repair->status = 'repairing';
         }

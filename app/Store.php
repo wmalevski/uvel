@@ -20,7 +20,7 @@ class Store extends Model
 
     public function users()
     {
-    	return $this->hasMany('App\User')->get();
+    	return $this->hasMany('App\User');
     }
 
     public function materials()

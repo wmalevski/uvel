@@ -143,6 +143,7 @@ var uvel,
           $deleteRowTrigger = $('.delete-btn'),
           $printTrigger = $('.print-btn'),
           $barcodeProcessRepairTrigger = $('[data-repair-scan]'),
+          $returnRepairBtn = $('[data-repair-return]'),
           $addNumberTrigger = $('[data-sell-catalogNumber], [data-sell-barcode]'),
           $sellMoreProductsTrigger = $('[data-sell-moreProducts]'),
           $addDiscountTrigger = $('[data-sell-discount]'),
@@ -154,6 +155,7 @@ var uvel,
       $self.deleteRow($deleteRowTrigger);
       $self.print($printTrigger);
       $self.barcodeProcessRepairAttach($barcodeProcessRepairTrigger);
+      $self.returnRepairBtnAction($returnRepairBtn);
       $self.addNumber($addNumberTrigger);
       $self.sellMoreProducts($sellMoreProductsTrigger);
       $self.addDiscount($addDiscountTrigger);
@@ -350,13 +352,12 @@ var uvel,
     this.submitForm = function(form) {
       var submitButton = form.find('[type="submit"]'),
           ajaxRequestLink = $self.buildAjaxRequestLink('submitForm', form.attr('action')),
-          formType = form.attr('data-type'),
-          inputFields = form.find('select , input:not([type="hidden"]), textarea');
+          formType = form.attr('data-type');
 
       submitButton.click(function(e) {
         e.preventDefault();
         var _this = $(this),
-            inputFields = form.find('select , input:not([type="hidden"])');
+            inputFields = form.find('select , input, textarea');
 
         $self.getFormFields(form, ajaxRequestLink, formType, inputFields);
       });
@@ -795,10 +796,18 @@ var uvel,
           '<label>Камък:</label>' +
           '<select name="stones[]" class="form-control">';
 
-        stonesData.forEach(function (option) {
-          var selected = stone && stone.value == option.value ? 'selected' : '';
+        for(var i = 0; i<stonesData.length; i++) {
+          var option = stonesData[i],
+              selected = '';
+          
+          if (stone) {
+            if (stone.value == option.value) {
+              selected = 'selected';
+            }
+          }
+
           newFields += '<option value='+option.value+' '+selected+'>'+option.label+'</option>'
-        });
+        }
 
         newFields +=
           '</select>' +
@@ -1437,6 +1446,17 @@ var uvel,
         
         $self.formsErrorHandler(data, form);
       }
+    }
+
+    this.returnRepairBtnAction = function(returnRepairBtn) {
+      returnRepairBtn.on('click', function() {
+        var _this = $(this),
+            urlTaken = window.location.href.split('/'),
+            path = _this.attr('data-url'),
+            ajaxUrl = urlTaken[0] + '//' + urlTaken[2] + '/ajax/' + path;
+
+        $self.ajaxFn('GET', ajaxUrl, $self.barcodeProcessReturnResponse,'','',_this);
+      })
     }
 
     this.openModal = function(modal) {

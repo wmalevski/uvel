@@ -33,7 +33,6 @@ aria-hidden="true">
                             <option value="buy">Купува</option>
                             <option value="sell">Продава</option>
                         </select>
-                    
                         <input type="hidden" name="material_id" value="{{ $material->id }}">
                 </div>
 
