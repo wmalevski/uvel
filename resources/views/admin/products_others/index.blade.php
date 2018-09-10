@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="products" action="/productsothers" autocomplete="off">
+            <form method="POST" name="productsOthers" data-type="add" action="productsothers" autocomplete="off">
 
 
                 <div class="modal-body">
@@ -60,7 +60,7 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" id="add" class="add-btn-modal btn btn-primary">Добави</button>
+                    <button type="submit" id="add" data-state="add_state" class="action--state_button add-btn-modal btn btn-primary">Добави</button>
                 </div>
             </form>
         </div>
@@ -69,35 +69,16 @@ aria-hidden="true">
 
 
 
-<div class="modal fade" id="editProduct" role="dialog" aria-labelledby="editProductlLabel"
+<div class="modal fade edit--modal_holder" id="editProduct" role="dialog" aria-labelledby="editProductlLabel"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editProductLabel">Редактиране на продукт</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form method="POST" name="edit" action="/productsothers">
-                <div class="modal-body">
-                    <div class="info-cont">
-                    </div>
-                    {{ csrf_field() }}
-
-
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" id="edit" class="btn btn-primary" data-dismiss="modal">Обнови</button>
-                </div>
-            </form>
+           
         </div>
     </div>
 </div>
 
-<h3>Добави друг продукт <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
+<h3>Добави друг продукт <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="otherProducts" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
 
 <table class="table table-condensed tablesort">
     <tr>

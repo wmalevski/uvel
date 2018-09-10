@@ -184,32 +184,29 @@ class ProductController extends Controller
         }
 
         $file_data = $request->input('images'); 
-        
         if($file_data){
             foreach($file_data as $img){
                 $memi = substr($img, 5, strpos($img, ';')-5);
                 
                 $extension = explode('/',$memi);
-    
                 if($extension[1] == "svg+xml"){
                     $ext = 'png';
                 }else{
                     $ext = $extension[1];
                 }
                 
-    
+
                 $file_name = 'productimage_'.uniqid().time().'.'.$ext;
-    
+
                 $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
                 file_put_contents(public_path('uploads/products/').$file_name, $data);
-    
+
                 Storage::disk('public')->put('products/'.$file_name, file_get_contents(public_path('uploads/products/').$file_name));
-    
+
                 $photo = new Gallery();
                 $photo->photo = $file_name;
                 $photo->product_id = $product->id;
                 $photo->table = 'products';
-    
                 $photo->save();
             }
         }
@@ -362,32 +359,33 @@ class ProductController extends Controller
             File::makeDirectory($path, 0775, true, true);
     
             $file_data = $request->input('images'); 
-            
-            foreach($file_data as $img){
-                $memi = substr($img, 5, strpos($img, ';')-5);
-                
-                $extension = explode('/',$memi);
-    
-                if($extension[1] == "svg+xml"){
-                    $ext = 'png';
-                }else{
-                    $ext = $extension[1];
-                }
-                
-    
-                $file_name = 'productimage_'.uniqid().time().'.'.$ext;
-                
-                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                file_put_contents(public_path('uploads/products/').$file_name, $data);
+            if($file_data){
+                foreach($file_data as $img){
+                    $memi = substr($img, 5, strpos($img, ';')-5);
+                    
+                    $extension = explode('/',$memi);
+        
+                    if($extension[1] == "svg+xml"){
+                        $ext = 'png';
+                    }else{
+                        $ext = $extension[1];
+                    }
+                    
+        
+                    $file_name = 'productimage_'.uniqid().time().'.'.$ext;
+                    
+                    $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                    file_put_contents(public_path('uploads/products/').$file_name, $data);
 
-                Storage::disk('public')->put('products/'.$file_name, file_get_contents(public_path('uploads/products/').$file_name));
-    
-                $photo = new Gallery();
-                $photo->photo = $file_name;
-                $photo->product_id = $product->id;
-                $photo->table = 'products';
-    
-                $photo->save();
+                    Storage::disk('public')->put('products/'.$file_name, file_get_contents(public_path('uploads/products/').$file_name));
+        
+                    $photo = new Gallery();
+                    $photo->photo = $file_name;
+                    $photo->product_id = $product->id;
+                    $photo->table = 'products';
+        
+                    $photo->save();
+                }
             }
 
             $deleteStones = ProductStone::where('product_id', $product->id)->delete();

@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="addStyle" action="/stones/styles"> 
+            <form method="POST" name="stoneStyles" data-type="add" action="stones/styles"> 
                 <div class="modal-body">    
                     <div class="info-cont">
                     </div>
@@ -24,7 +24,7 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" class="btn btn-primary add-btn-modal">Добави</button>
+                    <button type="submit" data-state="add_state" class="action--state_button btn btn-primary add-btn-modal">Добави</button>
                 </div>
             </form>
         </div>
@@ -32,7 +32,7 @@ aria-hidden="true">
 </div>
 
 
-<div class="modal fade" id="editStyle" tabindex="-1"  role="dialog" aria-labelledby="editStyle">
+<div class="modal fade edit--modal_holder" id="editStyle" tabindex="-1"  role="dialog" aria-labelledby="editStyle">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             
@@ -44,7 +44,7 @@ aria-hidden="true">
 <div class="row">
     <div class="col-md-12">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
-            <h4 class="c-grey-900 mB-20">Камъни Стилове <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addStyle">Добави</button></h4>
+            <h4 class="c-grey-900 mB-20">Камъни Стилове <button type="button" class="btn btn-primary" data-form-type="add" data-form="stoneStyles" data-toggle="modal" data-target="#addStyle">Добави</button></h4>
             <p>Преглед на създадените стилове.</p>
             <table class="table table-condensed tablesort">
                 <thead>

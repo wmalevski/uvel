@@ -6,7 +6,7 @@
         </button>
     </div>
     
-    <form method="POST" name="edit" action="/prices/{{ $price->id }}">
+    <form method="POST" name="prices" data-type="edit" action="prices/{{ $price->id }}">
         <input name="_method" type="hidden" value="PUT">
         <div class="modal-body">    
             <div class="info-cont">

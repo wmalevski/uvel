@@ -239,6 +239,17 @@ class RepairController extends Controller
     {
 
         $repair = Repair::where('barcode', $barcode)->first();
+        if($request->status === 'true'){
+            $repair->status = 'done';
+
+            $history = new History;
+            $history->action = 'repair';
+            $history->user = Auth::user()->id;
+            $history->result_id = $repair->id;
+            $history->save();
+        }else{
+            $repair->status = 'repairing';
+        }
 
         $validator = Validator::make( $request->all(), [
             'customer_name' => 'required',

@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/repairs" name="addRepair" autocomplete="off">
+            <form method="POST" action="repairs" name="repairs" data-type="add" autocomplete="off">
                  
                 <div class="modal-body">    
                     <div class="info-cont">
@@ -62,7 +62,7 @@ aria-hidden="true">
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label>Тип ремонт</label>
-                                <select name="type_id" class="form-control fill-field" data-fieldToFill="input[name='price']">
+                                <select name="type_id" class="form-control fill-field" data-fieldToFill="input[name='price']" data-repair-type>
                                     <option value="">Избери</option>
     
                                     @foreach($repairTypes as $repairType)
@@ -94,7 +94,7 @@ aria-hidden="true">
  
                             <div class="form-group col-md-6">
                                 <label for="inputEmail4">Цена</label>
-                                <input type="number" class="form-control" name="price" placeholder="Цена на ремонта">
+                                <input type="number" class="form-control" name="price" placeholder="Цена на ремонта" data-repair-price>
                             </div>
                         </div>
                 </div>
@@ -109,7 +109,7 @@ aria-hidden="true">
     </div>
 </div>
 
-<div class="modal fade" id="fullEditRepair" role="dialog" aria-labelledby="fullEditRepair"
+<div class="modal fade edit--modal_holder" id="fullEditRepair" role="dialog" aria-labelledby="fullEditRepair"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -119,7 +119,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/repairs" name="fullEditRepair">
+            <form method="POST" action="repairs" name="fullEditRepair">
                  
                 <div class="modal-body">    
                     <div class="info-cont">
@@ -147,7 +147,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/repairs/return" id='return-repair-form' name="returnRepair">
+            <form method="POST" action="repairs/return" id='return-repair-form' name="returnRepair">
                  
                 <div class="modal-body">    
                     <div class="info-cont">
@@ -159,7 +159,7 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="barcode_return-repairs">Баркод</label>
-                            <input type="text" class="form-control" id="barcode_return-repairs" name="barcode" placeholder="Моля сканирайте баркода за артикула">
+                            <input type="text" class="form-control" id="barcode_return-repairs" name="barcode" data-repair-scan="return" placeholder="Моля сканирайте баркода за артикула">
                         </div>
                     </div>
                 </div>
@@ -181,7 +181,7 @@ aria-hidden="true">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form method="POST" action="/repairs/return" id='scan-repair-form' name="scanRepair">
+                <form method="POST" action="repairs/return" id='scan-repair-form' name="scanRepair">
                     
                     <div class="modal-body">    
                         <div class="info-cont">
@@ -193,7 +193,7 @@ aria-hidden="true">
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label for="barcode_process-repairs">Баркод</label>
-                                <input type="text" class="form-control" id="barcode_process-repairs" name="barcode" placeholder="Моля сканирайте баркода за артикула">
+                                <input type="text" class="form-control" id="barcode_process-repairs" data-repair-scan="edit" data-form-type="edit" data-form="repairs" name="barcode" placeholder="Моля сканирайте баркода за артикула">
                             </div>
                         </div>
 
@@ -303,7 +303,7 @@ aria-hidden="true">
 <div class="row">
     <div class="col-md-12">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
-            <h4 class="c-grey-900 mB-20">Ремонти <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addRepair">Добави</button> <button type="button" class="return-repair btn btn-primary" data-toggle="modal" data-target="#returnRepair">Върни</button> <button type="button" class="scan-repair btn btn-primary" data-toggle="modal" data-target="#scanRepair">Обработи</button></h4>
+            <h4 class="c-grey-900 mB-20">Ремонти <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="repairs" data-toggle="modal" data-target="#addRepair">Добави</button> <button type="button" class="return-repair btn btn-primary" data-toggle="modal" data-target="#returnRepair">Върни</button> <button type="button" class="scan-repair btn btn-primary" data-toggle="modal" data-target="#scanRepair">Обработи</button></h4>
             <p>Артикули за ремонт</p>
             <table class="table repair-records-table tablesort">
                 <thead class="thead-dark">

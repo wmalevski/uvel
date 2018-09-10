@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="addRepairType" action="/repairtypes" autocomplete="off">
+            <form method="POST" data-type="add" name="repairTypes" action="repairtypes" autocomplete="off">
                 <div class="modal-body">    
                     <div class="info-cont">
                     </div>
@@ -29,14 +29,14 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" class="add-btn-modal btn btn-primary">Добави</button>
+                    <button type="submit" data-state="add_state" class="action--state_button add-btn-modal btn btn-primary">Добави</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="editRepairType" role="dialog" aria-labelledby="editRepairType"
+<div class="modal fade edit--modal_holder" id="editRepairType" role="dialog" aria-labelledby="editRepairType"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -49,7 +49,7 @@ aria-hidden="true">
 <div class="row">
     <div class="col-md-12">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
-            <h4 class="c-grey-900 mB-20">Ремонтни дейности <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addRepairType">Добави</button></h4>
+            <h4 class="c-grey-900 mB-20">Ремонтни дейности <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addRepairType" data-form-type="add" data-form="repairTypes">Добави</button></h4>
             <p>Преглед на създадените ремонтни дейности.</p>
             <table class="table table-condensed tablesort">
                 <thead>

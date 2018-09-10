@@ -113,6 +113,51 @@ class Product extends Model
                 }
     
                 $prices_wholesale = array();
+
+                $prices_wholesale[] = (object)[
+                    'value' => $price->id,
+                    'label' => $price->slug.' - '.$price->price.'лв',
+                    'selected' => $selected,
+                    'price' => $price->price
+                ];
+            }
+
+            $pass_stones = array();
+            
+            foreach($model_stones as $stone){
+                $pass_stones[] = [
+                    'value' => Stones::withTrashed()->find($stone->stone)->id,
+                    'label' => Stones::withTrashed()->find($stone->stone)->name.' ('.Stone_contours::withTrashed()->find(Stones::withTrashed()->find($stone->stone)->contour)->name. ', ' .Stone_sizes::withTrashed()->find(Stones::withTrashed()->find($stone->stone)->size)->name. ' )',
+                    'amount' => $stone->amount,
+                    'weight' => $stone->weight,
+                    'flow' => $stone->flow
+                ];
+            }
+
+            $pass_materials = array();
+            
+            foreach($materials as $material){
+                if($material->material == $default->material){
+                    $selected = true;
+                }else{
+                    $selected = false;
+                }
+
+                //BE: Use materials quantity, not MATERIAL TYPE! Do it after merging.
+                $pass_materials[] = (object)[
+                    'value' => $material->id,
+                    'label' => Materials::withTrashed()->find($material->material)->name.' - '.Materials::withTrashed()->find($material->material)->color.'- '.Materials::withTrashed()->find($material->material)->code,
+                    'selected' => $selected,
+                    'dataMaterial' => $material->material,
+                    'priceBuy' => Prices::withTrashed()->where('material', $material->material)->where('type', 'buy')->first()->price,
+                ];
+            }
+
+            $pass_photos = array();
+
+            foreach($model_photos as $photo){
+                $url =  Storage::get('public/models/'.$photo->photo);
+                $ext_url = Storage::url('public/models/'.$photo->photo);
                 
                 foreach($wholesale_prices as $price){
                     if($price->id == $default->wholesale_price_id){

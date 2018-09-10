@@ -117,7 +117,11 @@ class ModelController extends Controller
                     $model_stones->stone_id = $stone;
                     $model_stones->amount = $request->stone_amount[$key];
                     $model_stones->weight = $request->stone_weight[$key];
-                    $model_stones->flow = $request->stone_flow[$key];
+                    if($request->stone_flow[$key] == true){
+                        $model_stones->flow = 'yes';
+                    }else{
+                        $model_stones->flow = 'no';
+                    }
                     
                     $model_stones->save();
                 }
@@ -451,7 +455,6 @@ class ModelController extends Controller
                 $memi = substr($img, 5, strpos($img, ';')-5);
                 
                 $extension = explode('/',$memi);
-    
                 if($extension[1] == "svg+xml"){
                     $ext = 'svg';
                 }else{
@@ -459,18 +462,17 @@ class ModelController extends Controller
                 }         
                 
                 $file_name = 'modelimage_'.uniqid().time().'.'.$ext;
-    
+
                 $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-    
+
                 file_put_contents(public_path('uploads/models/').$file_name, $data);
-    
+
                 Storage::disk('public')->put('models/'.$file_name, file_get_contents(public_path('uploads/models/').$file_name));
-    
+
                 $photo = new Gallery();
                 $photo->photo = $file_name;
                 $photo->model_id = $model->id;
                 $photo->table = 'models';
-    
                 $photo->save();
             }
         }
