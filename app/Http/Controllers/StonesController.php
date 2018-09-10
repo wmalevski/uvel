@@ -77,19 +77,21 @@ class StonesController extends Controller
         Storage::disk('public')->makeDirectory('stones', 0775, true);
 
         $file_data = $request->input('images'); 
-        foreach($file_data as $img){
-            $file_name = 'productimage_'.uniqid().time().'.png';
-            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-            file_put_contents(public_path('uploads/stones/').$file_name, $data);
+        if($file_data){
+            foreach($file_data as $img){
+                $file_name = 'productimage_'.uniqid().time().'.png';
+                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                file_put_contents(public_path('uploads/stones/').$file_name, $data);
 
-            Storage::disk('public')->put('stones/'.$file_name, file_get_contents(public_path('uploads/stones/').$file_name));
+                Storage::disk('public')->put('stones/'.$file_name, file_get_contents(public_path('uploads/stones/').$file_name));
 
-            $photo = new Gallery();
-            $photo->photo = $file_name;
-            $photo->stone_id = $stone->id;
-            $photo->table = 'stones';
+                $photo = new Gallery();
+                $photo->photo = $file_name;
+                $photo->stone_id = $stone->id;
+                $photo->table = 'stones';
 
-            $photo->save();
+                $photo->save();
+            }
         }
 
         return Response::json(array('success' => View::make('admin/stones/table',array('stone'=>$stone))->render()));
@@ -156,6 +158,7 @@ class StonesController extends Controller
         }
 
         $stone->name = $request->name;
+        $stone->type = $request->type;
         $stone->weight = $request->weight;
         $stone->carat = $request->carat;
         $stone->contour = $request->contour;
@@ -172,19 +175,21 @@ class StonesController extends Controller
         
         File::makeDirectory($path, 0775, true, true);
 
-        foreach($file_data as $img){
-            $file_name = 'stoneimage_'.uniqid().time().'.png';
-            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-            file_put_contents(public_path('uploads/stones/').$file_name, $data);
+        if($file_data){
+            foreach($file_data as $img){
+                $file_name = 'stoneimage_'.uniqid().time().'.png';
+                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                file_put_contents(public_path('uploads/stones/').$file_name, $data);
 
-            Storage::disk('public')->put('stones/'.$file_name, file_get_contents(public_path('uploads/stones/').$file_name));
+                Storage::disk('public')->put('stones/'.$file_name, file_get_contents(public_path('uploads/stones/').$file_name));
 
-            $photo = new Gallery();
-            $photo->photo = $file_name;
-            $photo->stone_id = $stone->id;
-            $photo->table = 'stones';
+                $photo = new Gallery();
+                $photo->photo = $file_name;
+                $photo->stone_id = $stone->id;
+                $photo->table = 'stones';
 
-            $photo->save();
+                $photo->save();
+            }
         }
 
         $stone_photos = Gallery::where(

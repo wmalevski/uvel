@@ -6,7 +6,7 @@
     </button>
 </div>
 
-    <form method="POST" name="edit" action="/productsothers/{{ $product->id }}">
+    <form method="POST" name="productsOthers" data-type="edit" action="productsothers/{{ $product->id }}">
         <input name="_method" type="hidden" value="PUT">
         <div class="modal-body">
 
@@ -53,7 +53,7 @@
                 <input type="number" min="0" class="form-control" id="quantity_after" name="quantity_after" placeholder="Допълнително количество:">
             </div>
 
-            div class="form-group">
+            <div class="form-group">
             <label>Магазин: </label>
                 <select id="store " name="store" class="form-control">
                     <option value="">Избери</option>
@@ -67,7 +67,7 @@
 
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-            <button type="submit" id="edit" class="edit-btn-modal btn btn-primary">Промени</button>
+            <button type="submit" id="edit" data-state="edit_state" class="action--state_button edit-btn-modal btn btn-primary">Промени</button>
         </div>
     </form>
 </div>

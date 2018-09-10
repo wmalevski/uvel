@@ -65,7 +65,7 @@ class DiscountCodesController extends Controller
             'code' =>  unique_random('discount_codes', 'code', 4),
         ]);
 
-        if($request->lifetime){
+        if($request->lifetime == 'true'){
             $discount->lifetime = 'yes';
         }
         
@@ -141,13 +141,13 @@ class DiscountCodesController extends Controller
         $discount->expires = $request->date_expires;
         $discount->user = $request->user;
 
-        if($request->active == false){
+        if($request->active == 'false'){
             $discount->active = 'no';
         } else{
             $discount->active = 'yes';
         }
 
-        if($request->lifetime == false){
+        if($request->lifetime == 'false'){
             $discount->lifetime = 'no';
         } else{
             $discount->lifetime = 'yes';

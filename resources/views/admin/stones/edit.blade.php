@@ -6,16 +6,16 @@
         </button>
     </div>
 
-    <form method="POST" id="edit-stones-form" name="edit" action="/stones/{{ $stone->id }}">
+    <form method="POST" id="edit-stones-form" name="stones" data-type="edit" action="stones/{{ $stone->id }}">
         <input name="_method" type="hidden" value="PUT">
         <div class="modal-body">    
             <div class="info-cont">
             </div>
 
             {{ csrf_field() }}
-
+            
             <div class="form-group">
-                <select name="type" id="stone_type" class="form-control">
+                <select name="type" id="stone_type" data-calculateCarats-type class="form-control">
                     <option value="1" @if($stone->type == 1) selected @endif>Синтетичен</option>
                     <option value="2" @if($stone->type == 2) selected @endif>Естествен</option>
                 </select>
@@ -28,12 +28,12 @@
 
             <div class="form-group">
                 <label for="weight">Тегло: </label>
-                <input type="number" class="form-control" value="{{ $stone->weight }}" id="weight" name="weight" placeholder="Тегло:">
+                <input type="number" class="form-control weight" value="{{ $stone->weight }}" id="weight" data-calculateCarats-weight name="weight" placeholder="Тегло:">
             </div>
         
             <div class="form-group">
                 <label for="carat">Карат: </label>
-                <input type="number" class="form-control" id="carat" value="{{ $stone->carat }}" value="0" name="carat" placeholder="Карат:" >
+                <input type="number" class="form-control carat" id="carat" value="{{ $stone->carat }}" value="0" data-calculateCarats-carat name="carat" placeholder="Карат:" readonly>
             </div>
         
             <div class="form-group">
@@ -98,7 +98,7 @@
 
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-            <button type="submit" class="edit-btn-modal btn btn-primary">Промени</button>
+            <button type="submit" data-state="edit_state" class="action--state_button edit-btn-modal btn btn-primary">Промени</button>
         </div>
         
     </form>

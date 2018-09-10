@@ -116,7 +116,11 @@ class ModelsController extends Controller
                     $model_stones->stone = $stone;
                     $model_stones->amount = $request->stone_amount[$key];
                     $model_stones->weight = $request->stone_weight[$key];
-                    $model_stones->flow = $request->stone_flow[$key];
+                    if($request->stone_flow[$key] == true){
+                        $model_stones->flow = 'yes';
+                    }else{
+                        $model_stones->flow = 'no';
+                    }
                     
                     $model_stones->save();
                 }
@@ -130,31 +134,33 @@ class ModelsController extends Controller
 
         $file_data = $request->input('images'); 
         
-        foreach($file_data as $img){
-            $memi = substr($img, 5, strpos($img, ';')-5);
+        if($file_data){
+            foreach($file_data as $img){
+                $memi = substr($img, 5, strpos($img, ';')-5);
 
-            $extension = explode('/',$memi);
+                $extension = explode('/',$memi);
 
-            if($extension[1] == "svg+xml"){
-                $ext = 'png';
-            }else{
-                $ext = $extension[1];
-            }
+                if($extension[1] == "svg+xml"){
+                    $ext = 'png';
+                }else{
+                    $ext = $extension[1];
+                }
+                
+
+                $file_name = 'productimage_'.uniqid().time().'.'.$ext;
             
+                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                file_put_contents(public_path('uploads/models/').$file_name, $data);
 
-            $file_name = 'productimage_'.uniqid().time().'.'.$ext;
-        
-            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-            file_put_contents(public_path('uploads/models/').$file_name, $data);
+                Storage::disk('public')->put('models/'.$file_name, file_get_contents(public_path('uploads/models/').$file_name));
 
-            Storage::disk('public')->put('models/'.$file_name, file_get_contents(public_path('uploads/models/').$file_name));
+                $photo = new Gallery();
+                $photo->photo = $file_name;
+                $photo->model_id = $model->id;
+                $photo->table = 'models';
 
-            $photo = new Gallery();
-            $photo->photo = $file_name;
-            $photo->model_id = $model->id;
-            $photo->table = 'models';
-
-            $photo->save();
+                $photo->save();
+            }
         }
 
         foreach($request->material as $key => $material){
@@ -176,7 +182,7 @@ class ModelsController extends Controller
             }
         }
 
-        if ($request->release_product == true) {
+        if ($request->release_product === true) {
             $default = ModelOptions::where([
                 ['model', '=', $model->id],
                 ['default', '=', 'yes']
@@ -229,30 +235,32 @@ class ModelsController extends Controller
                 }
             }
 
-            foreach($file_data as $img){
-                $memi = substr($img, 5, strpos($img, ';')-5);
-                
-                $extension = explode('/',$memi);
-    
-                if($extension[1] == "svg+xml"){
-                    $ext = 'png';
-                }else{
-                    $ext = $extension[1];
-                }
-                
-    
-                $file_name = 'productimage_'.uniqid().time().'.'.$ext;
-                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                file_put_contents(public_path('uploads/products/').$file_name, $data);
+            if($file_data){
+                foreach($file_data as $img){
+                    $memi = substr($img, 5, strpos($img, ';')-5);
+                    
+                    $extension = explode('/',$memi);
+        
+                    if($extension[1] == "svg+xml"){
+                        $ext = 'png';
+                    }else{
+                        $ext = $extension[1];
+                    }
+                    
+        
+                    $file_name = 'productimage_'.uniqid().time().'.'.$ext;
+                    $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                    file_put_contents(public_path('uploads/products/').$file_name, $data);
 
-                Storage::disk('public')->put('products/'.$file_name, file_get_contents(public_path('uploads/products/').$file_name));
-    
-                $photo = new Gallery();
-                $photo->photo = $file_name;
-                $photo->product_id = $product->id;
-                $photo->table = 'products';
-    
-                $photo->save();
+                    Storage::disk('public')->put('products/'.$file_name, file_get_contents(public_path('uploads/products/').$file_name));
+        
+                    $photo = new Gallery();
+                    $photo->photo = $file_name;
+                    $photo->product_id = $product->id;
+                    $photo->table = 'products';
+        
+                    $photo->save();
+                }
             }
         }
 
@@ -432,31 +440,33 @@ class ModelsController extends Controller
 
         $file_data = $request->input('images'); 
         
-        foreach($file_data as $img){
-            $memi = substr($img, 5, strpos($img, ';')-5);
-            
-            $extension = explode('/',$memi);
+        if($file_data){
+            foreach($file_data as $img){
+                $memi = substr($img, 5, strpos($img, ';')-5);
+                
+                $extension = explode('/',$memi);
 
-            if($extension[1] == "svg+xml"){
-                $ext = 'svg';
-            }else{
-                $ext = $extension[1];
-            }         
-            
-            $file_name = 'modelimage_'.uniqid().time().'.'.$ext;
+                if($extension[1] == "svg+xml"){
+                    $ext = 'svg';
+                }else{
+                    $ext = $extension[1];
+                }         
+                
+                $file_name = 'modelimage_'.uniqid().time().'.'.$ext;
 
-            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
 
-            file_put_contents(public_path('uploads/models/').$file_name, $data);
+                file_put_contents(public_path('uploads/models/').$file_name, $data);
 
-            Storage::disk('public')->put('models/'.$file_name, file_get_contents(public_path('uploads/models/').$file_name));
+                Storage::disk('public')->put('models/'.$file_name, file_get_contents(public_path('uploads/models/').$file_name));
 
-            $photo = new Gallery();
-            $photo->photo = $file_name;
-            $photo->model_id = $model->id;
-            $photo->table = 'models';
+                $photo = new Gallery();
+                $photo->photo = $file_name;
+                $photo->model_id = $model->id;
+                $photo->table = 'models';
 
-            $photo->save();
+                $photo->save();
+            }
         }
 
         $model_photos = Gallery::where(

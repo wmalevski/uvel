@@ -12,7 +12,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/models" name="addModel" autocomplete="off">
+            <form method="POST" action="models" name="models" data-type="add" autocomplete="off">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>
@@ -41,7 +41,7 @@ aria-hidden="true">
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label>Избери материал: </label>
-                                <select id="material_type" name="material[]" class="material_type form-control calculate">
+                                <select id="material_type" name="material[]" data-calculatePrice-material class="material_type form-control calculate">
                                     <option value="">Избери</option>
                             
                                     @foreach($materials as $material)
@@ -52,21 +52,21 @@ aria-hidden="true">
 
                             <div class="form-group col-md-6">
                                 <label>Цена на дребно: </label>
-                                <select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled retail-price" disabled>
+                                <select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled retail-price" data-calculatePrice-retail disabled>
                                     <option value="">Избери</option>
                                 </select>
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label>Цена на едро: </label>
-                                <select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled wholesale-price" disabled>
+                                <select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled wholesale-price" data-calculatePrice-wholesale disabled>
                                     <option value="">Избери</option>
                                 </select>
                             </div>
 
                             <div class="form-group col-md-12">
                                 <div class="radio radio-info">
-                                    <input type="radio" class="default_material" id="" name="default_material[]" checked>
+                                    <input type="radio" class="default_material" id="" name="default_material[]" data-calculatePrice-default checked>
                                     <label for="">Материал по подразбиране</label>
                                 </div>
                             </div>
@@ -74,7 +74,7 @@ aria-hidden="true">
                     </div>
 
                     <div class="form-row">
-                        <button type="button" class="btn btn-primary add_field_variation">Добави нова комбинация</button>
+                        <button type="button" class="btn btn-primary add_field_variation" data-addMaterials-add>Добави нова комбинация</button>
                     </div>
                     
                     <div class="form-row">
@@ -86,7 +86,7 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-6 weight-holder">
                             <label for="1">Тегло: </label>
-                            <input type="number" class="form-control calculate" id="weight" name="weight" placeholder="Тегло:">
+                            <input type="number" class="form-control calculate" id="weight" name="weight" data-calculatePrice-weight placeholder="Тегло:">
                         </div>
 
                         <div class="form-group col-md-6">
@@ -117,15 +117,15 @@ aria-hidden="true">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="1">Брой: </label>
-                                <input type="number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="50">
+                                <input type="number" class="form-control" name="stone_amount[]" data-calculateStones-amount placeholder="Брой" min="1" max="50">
                             </div>
                             <div class="form-group col-md-2">
-                                <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
+                                <span class="delete-stone remove_field" data-removeStone-remove><i class="c-brown-500 ti-trash"></i></span>
                             </div>
                             <div class="form-group col-md-6">
                                 <div class="form-group">
                                     <label>Тегло: </label>
-                                    <input type="number" class="form-control" name="stone_weight[]" placeholder="Тегло:" min="0.1" max="100">
+                                    <input type="number" class="form-control" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">
                                 </div>
                             </div>
     
@@ -142,7 +142,7 @@ aria-hidden="true">
 
                     <div class="form-row">
                         <div class="form-group col-md-5">
-                            <button type="button" class="btn btn-primary add_field_button">Добави камък</button>
+                            <button type="button" class="btn btn-primary add_field_button" data-addStone-add>Добави камък</button>
                         </div>
                         
                         <div class="form-group col-md-3">
@@ -150,7 +150,7 @@ aria-hidden="true">
                         </div>
 
                         <div class="form-group col-md-4">
-                            <input type="number" class="form-control" id="totalStones" name="totalStones" disabled>
+                            <input type="number" class="form-control" id="totalStones" name="totalStones" data-calculateStones-total disabled>
                         </div>
 
                         <div class="col-12">
@@ -164,7 +164,7 @@ aria-hidden="true">
                         <div class="form-group col-md-6">
                             <label>Избработка:</label>
                             <div class="input-group">
-                                <input id="workmanship" type="number" class="form-control worksmanship_price" value="0" name="workmanship">
+                                <input id="workmanship" type="number" class="form-control worksmanship_price" value="0" name="workmanship" data-calculatePrice-worksmanship>
                                 <span class="input-group-addon">лв</span>
                             </div>
                         </div>
@@ -172,7 +172,7 @@ aria-hidden="true">
                          <div class="form-group col-md-6">
                             <label>Цена:</label>
                             <div class="input-group">
-                                <input id="price" type="number" class="form-control final_price" value="0" name="price">
+                                <input id="price" type="number" class="form-control final_price" value="0" name="price" data-calculatePrice-final>
                                 <span class="input-group-addon">лв</span>
                             </div>
                         </div>
@@ -194,7 +194,7 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" class="add-btn-modal btn btn-primary">Добави</button>
+                    <button type="submit" data-state="add_state" class="action--state_button add-btn-modal btn btn-primary">Добави</button>
                 </div>
             </form>
         </div>
@@ -202,7 +202,7 @@ aria-hidden="true">
 </div>
 
 
-<div class="modal fade" id="editModel" role="dialog" aria-labelledby="editModelLabel"
+<div class="modal fade edit--modal_holder" id="editModel" role="dialog" aria-labelledby="editModelLabel"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -223,7 +223,7 @@ aria-hidden="true">
     </div>
 </div>
 
-<h3>Модели <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addModel">Добави</button></h3>
+<h3>Модели <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="models" data-toggle="modal" data-target="#addModel">Добави</button></h3>
 
 <table class="table table-condensed tablesort">
     <thead>

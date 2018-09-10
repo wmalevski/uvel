@@ -12,7 +12,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/stores" name="addStore" autocomplete="off">
+            <form method="POST" action="stores" name="stores" data-type="add" autocomplete="off">
                  
                 <div class="modal-body">    
                     <div class="info-cont">
@@ -37,14 +37,14 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" id="add" class="add-btn-modal btn btn-primary">Добави</button>
+                    <button type="submit" id="add" data-state="add_state" class="action--state_button add-btn-modal btn btn-primary">Добави</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="editStore" tabindex="-1"  role="dialog" aria-labelledby="editStore">
+<div class="modal fade edit--modal_holder" id="editStore" tabindex="-1"  role="dialog" aria-labelledby="editStore">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             
@@ -56,7 +56,7 @@ aria-hidden="true">
 <div class="row">
     <div class="col-md-12">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
-        <h4 class="c-grey-900 mB-20">Магазини <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addStore">Добави</button></h4>
+        <h4 class="c-grey-900 mB-20">Магазини <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="stores" data-toggle="modal" data-target="#addStore">Добави</button></h4>
         <p>Преглед на магазините.</p>
         <table class="table">
           <thead>

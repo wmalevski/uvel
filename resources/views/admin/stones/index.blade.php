@@ -13,12 +13,12 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" id="add-stones-form" action="/stones" name="addStones" autocomplete="off">
+            <form method="POST" id="add-stones-form" action="stones" name="stones" data-type="add" autocomplete="off">
                 <div class="modal-body">    
                     <div class="info-cont">
                     </div>
                     {{ csrf_field() }}
-                    <select name="type" id="stone_type" class="form-control">
+                    <select name="type" id="stone_type" data-calculateCarats-type class="form-control">
                         <option value="1">Синтетичен</option>
                         <option value="2">Естествен</option>
                     </select>
@@ -30,12 +30,12 @@ aria-hidden="true">
                 
                     <div class="form-group">
                         <label for="weight">Тегло: </label>
-                        <input type="number" class="form-control" id="weight" name="weight" placeholder="Тегло:">
+                        <input type="number" class="form-control weight" id="weight" name="weight" data-calculateCarats-weight placeholder="Тегло:">
                     </div>
                 
                     <div class="form-group">
                         <label for="carat">Карат: </label>
-                        <input type="number" class="form-control" id="carat" value="0" name="carat" placeholder="Карат:" readonly>
+                        <input type="number" class="form-control carat" id="carat" value="0" name="carat" data-calculateCarats-carat placeholder="Карат:" readonly>
                     </div>
                 
                     <label>Размер: </label>
@@ -85,14 +85,14 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" class="add-btn-modal btn btn-primary">Добави</button>
+                    <button type="submit" data-state="add_state" class="action--state_button add-btn-modal btn btn-primary">Добави</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="editStone" role="dialog" aria-labelledby="editStone"
+<div class="modal fade edit--modal_holder" id="editStone" role="dialog" aria-labelledby="editStone"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -105,7 +105,7 @@ aria-hidden="true">
 <div class="row">
   <div class="col-md-12">
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
-      <h4 class="c-grey-900 mB-20">Камъни <button class="add-btn btn btn-primary" type="button" id="dropdownMenuButton" data-toggle="modal" data-target="#addStone">Добави</button></h4>
+      <h4 class="c-grey-900 mB-20">Камъни <button class="add-btn btn btn-primary" type="button" id="dropdownMenuButton" data-form-type="add" data-form="stones" data-toggle="modal" data-target="#addStone">Добави</button></h4>
       <p>Преглед на камъни</p>
       <table class="table tablesort">
         <thead>
