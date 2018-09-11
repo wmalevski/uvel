@@ -364,7 +364,7 @@ class SellingController extends Controller
         
     }
 
-    public function removeItem(Request $request, $item){
+    public function removeItem($item){
         $userId = Auth::user()->getId(); 
         $remove = Cart::session($userId)->remove($item);
 
