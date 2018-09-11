@@ -338,6 +338,32 @@ class SellingController extends Controller
         } 
     }
 
+    public function sendDiscount(Request $request){
+        
+        $userId = Auth::user()->getId(); 
+
+        $condition = new \Darryldecode\Cart\CartCondition(array(
+            'name' => 'Discount',
+            'type' => 'discount',
+            'target' => 'subtotal',
+            'value' => '-'.$request->discount.'%',
+            'attributes' => array(
+                'description' => $request->description,
+                'more_data' => 'more data here'
+            ),
+            'order' => 1
+        ));
+
+        Cart::condition($condition);
+        Cart::session($userId)->condition($condition);
+
+        $total = Cart::session($userId)->getTotal();
+        $subtotal = Cart::session($userId)->getSubTotal();
+
+        return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal));  
+        
+    }
+
     public function removeItem(Request $request, $item){
         $userId = Auth::user()->getId(); 
         $remove = Cart::session($userId)->remove($item);
