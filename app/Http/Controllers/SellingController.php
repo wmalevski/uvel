@@ -384,6 +384,20 @@ class SellingController extends Controller
             $table .= View::make('admin/selling/table',array('item'=>$item))->render();
         }
 
+        
+        $product = Product::where('barcode', $item)->first();
+        $product_box = ProductOther::where('barcode', $item)->first();
+        $repair = Repair::where('barcode', $item)->first();
+
+        if($product){
+            $product->status = 'available';
+            $product->save();
+        }else if($product_box){
+            $product_box->quantity = $product_box->quantity+$item->quantity;
+            $product_box->save();
+        }
+        
+
         if($remove){
             return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity));  
         }
