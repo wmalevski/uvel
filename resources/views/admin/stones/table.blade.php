@@ -7,7 +7,7 @@
     <td>{{ $stone->style->name }}</td>
     <td>{{ $stone->contour->name }}</td>
     <td>{{ $stone->amount }}</td> 
-    <td>{{ $stone->store->name }}</td>
+    <td>@if($stone->store) {{ $stone->store->name }} @endif</td>
     <td>{{ $stone->price }}</td>
     <td>
         <span data-url="stones/{{$stone->id}}" class="edit-btn" data-form-type="edit" data-form="stones" data-toggle="modal" data-target="#editStone"><i class="c-brown-500 ti-pencil"></i></span>
