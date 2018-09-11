@@ -575,11 +575,13 @@ var uvel,
 
       var editBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .edit-btn'),
           deleteBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .delete-btn'),
-          printBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .print-btn');
+          printBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .print-btn'),
+          returnRepairBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] [data-repair-return]');
       
       $self.openForm(editBtn);
       $self.deleteRow(deleteBtn);
       $self.print(printBtn);
+      $self.returnRepairBtnAction(returnRepairBtn);
     }
 
     // FUNCTION TO MOVE ROW FROM ONE TABLE TO ANOTHER WHEN EDITING ON SCREENS WITH MULTIPLE TABLES
