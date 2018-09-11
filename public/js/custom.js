@@ -1094,7 +1094,13 @@ var uvel,
 
     this.fillJewel = function(response, form) {
       var jewelHolder = form.find('[data-modelFilled-jewel]'),
-          selected = response.jewels_types[0].value;
+          selected;
+
+      response.jewels_types.forEach(function(jewel) {
+        if (jewel.selected) {
+          selected = jewel.value;
+        }
+      })
 
       jewelHolder.val(selected);
     }
