@@ -17,6 +17,7 @@ use App\ModelOption;
 use Illuminate\Http\File;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
+use App\MaterialQuantity;
 
 class Product extends Model
 {
@@ -65,7 +66,7 @@ class Product extends Model
     }
 
     public function chainedSelects(Model $model){
-        $materials = Material::all();
+        $materials = MaterialQuantity::curStore();
         $default = $model->options->where('default', 'yes')->first();
         
         if($model){
@@ -138,20 +139,22 @@ class Product extends Model
             $pass_materials = array();
             
             foreach($materials as $material){
-                if($material->material == $default->material){
-                    $selected = true;
-                }else{
-                    $selected = false;
+                if($material->material->pricesBuy){
+                    if($material->material == $default->material){
+                        $selected = true;
+                    }else{
+                        $selected = false;
+                    }
+    
+                    //BE: Use materials quantity, not MATERIAL TYPE! Do it after merging.
+                    $pass_materials[] = (object)[
+                        'value' => $material->id,
+                        'label' => $material->material->name.' - '.$material->material->color.'- '.$material->material->code,
+                        'selected' => $selected,
+                        'dataMaterial' => $material->id,
+                        'priceBuy' => $material->material->pricesBuy->first()['price'],
+                    ];
                 }
-
-                //BE: Use materials quantity, not MATERIAL TYPE! Do it after merging.
-                $pass_materials[] = (object)[
-                    'value' => $material->id,
-                    'label' => $material->name.' - '.$material->color.'- '.$material->code,
-                    'selected' => $selected,
-                    'dataMaterial' => $material->id,
-                    'priceBuy' => $material->pricesBuy->first()['price'],
-                ];
             }
 
             $pass_photos = array();

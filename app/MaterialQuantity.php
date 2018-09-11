@@ -20,6 +20,12 @@ class MaterialQuantity extends Model
     {
         return $this->where('store_id', Auth::user()->getStore()->id)->get();
     }
+
+    public function scopeCurStore($query)
+    {
+        return $query->where('store_id', Auth::user()->getStore()->id)->get();
+    }
+    
     public function store(){
         return $this->belongsTo('App\Store')->withTrashed();
     }
