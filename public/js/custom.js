@@ -704,7 +704,7 @@ var uvel,
         '</div>' +
         '<div class="form-group col-md-12">' +
         '<label>Избери материал: </label>' +
-        '<select id="material_type" name="material[]" class="material_type form-control calculate" data-calculatePrice-material>' +
+        '<select id="material_type" name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material>' +
         '<option value="0">Избери</option>'
 
       materialsData.forEach(function (option) {
@@ -716,13 +716,13 @@ var uvel,
         '</div>' +
         '<div class="form-group col-md-5">' +
         '<label>Цена на дребно: </label>' +
-        '<select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail disabled>' +
+        '<select id="retail_prices" name="retail_price_id[]" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail disabled>' +
         '<option value="0">Избери</option>' +
         '</select>' +
         '</div>' +
         '<div class="form-group col-md-5">' +
         '<label>Цена на едро: </label>' +
-        '<select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled wholesale-price wholesale_price" data-calculatePrice-wholesale disabled>' +
+        '<select id="wholesale_price" name="wholesale_price_id[]" class="form-control prices-filled wholesale-price wholesale_price" data-calculatePrice-wholesale disabled>' +
         '<option value="0">Избери</option>' +
         '</select>' +
         '</div>' +
@@ -1032,7 +1032,16 @@ var uvel,
       var modelRequestTrigger = form.find('[data-calculatePrice-model]');
 
       modelRequestTrigger.on('change', function() {
-        $self.modelRequest(form);
+        var _this = $(this);
+
+        if (_this.find('option:selected').val() !== '0' && _this.find('option:selected').val() !== '') {
+          $self.modelRequest(form);
+        } else {
+          var collection = form.find('[data-calculatePrice-material], [data-calculatePrice-retail], [data-calculatePrice-wholesale]');
+
+          collection.val('0');
+          collection.attr('disabled', 'disabled');
+        }
       });
     }
 
