@@ -146,7 +146,7 @@ var uvel,
           $returnRepairBtn = $('[data-repair-return]'),
           $addNumberTrigger = $('[data-sell-catalogNumber], [data-sell-barcode]'),
           $sellMoreProductsTrigger = $('[data-sell-moreProducts]'),
-          $addDiscountTrigger = $('[data-sell-discount]'),
+          $addDiscountTrigger = $('[data-sell-discountApply]'),
           $addCardDiscountTrigger = $('[data-sell-discountCard]'),
           $travelingMaterialsStateBtns = $('[data-travelstate]'),
           $inputCollection = $('input');
@@ -228,7 +228,7 @@ var uvel,
       addNumberTrigger.on('change', function() {
         var _this = $(this),
             sellingForm = _this.closest('form'),
-            number = Number(_this.val()),
+            number = _this.val(),
             moreProductsChecked = sellingForm.find('[data-sell-moreProducts]').is(':checked'),
             productsAmount = Number(sellingForm.find('[data-sell-productsAmount]').val()),
             typeRepair = sellingForm.find('[data-sell-repair]').is(':checked'),
@@ -239,11 +239,12 @@ var uvel,
           dataSend = {
             'catalog_number' : number,
             'quantity' : productsAmount,
-            'amount_check' : moreProductsChecked
+            'amount_check' : moreProductsChecked,
+            'type_repair' : typeRepair
           };
         } else if (_this[0].hasAttribute('data-sell-barcode') && number.length == 13) {
           dataSend = {
-            'barcode' : number,
+            'barcode' : Number(number),
             'quantity' : productsAmount,
             'amount_check' : moreProductsChecked,
             'type_repair' : typeRepair
@@ -285,14 +286,18 @@ var uvel,
     }
 
     this.addDiscount = function(addDiscountTrigger) {
-      addDiscountTrigger.on('change', function() {
+      addDiscountTrigger.on('click', function(e) {
+        e.preventDefault();
         var _this = $(this),
-            discountAmount = Number(_this.val()),
+            discountInput = _this.closest('form').find('[data-sell-discount]'),
+            discountAmount = Number(discountInput.val()),
+            description = _this.closest('form').find('[data-sell-description]').val(),
             urlTaken = window.location.href.split('/'),
             _url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/',
             discountUrl = _this.attr('data-url'),
             dataSend = {
-              'discount' : discountAmount
+              'discount' : discountAmount,
+              'description' : description
             };
 
         if (discountAmount > 0) {

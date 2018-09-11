@@ -262,7 +262,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('discounts/delete/{discountCode}', 'DiscountCodeController@destroy');
 
     Route::post('/sell', 'SellingController@sell')->name('sellScan');
-    Route::get('/sell/setDiscount/{barcode}',  'SellingController@setDiscount')->name('add_discount');
+    Route::get('/setDiscount/{barcode}',  'SellingController@setDiscount')->name('add_discount');
     Route::get('/sellings/information', 'SellingController@printInfo');
 
     Route::post('/sell/removeItem/{item}', 'SellingController@removeItem');
