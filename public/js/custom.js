@@ -1072,6 +1072,7 @@ var uvel,
         var option = '<option value="'+value+'" data-material="'+dataMaterial+'" data-pricebuy="'+priceBuy+'" '+selected+'>'+label+'</option>'
 
         materialHolder.append(option);
+        materialHolder.attr('disabled', false);
       });
 
       $self.materialPricesRequestBuilder(form, materialHolder);
