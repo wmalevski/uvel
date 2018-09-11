@@ -163,7 +163,7 @@ class ModelController extends Controller
                 $photo->save();
             }
         }
-        
+
         if($request->material_id){
             foreach($request->material_id as $key => $material){
                 if($material){
