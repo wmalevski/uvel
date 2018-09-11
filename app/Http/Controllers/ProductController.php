@@ -395,7 +395,7 @@ class ProductController extends Controller
                     if($stone) {
                         $product_stones = new ProductStone();
                         $product_stones->product_id = $product->id;
-                        $product_stones->model_id = $request->model;
+                        $product_stones->model_id = $request->model_id;
                         $product_stones->stone_id = $stone;
                         $product_stones->amount = $request->stone_amount[$key];
                         $product_stones->weight = $request->stone_weight[$key];

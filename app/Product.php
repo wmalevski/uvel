@@ -71,14 +71,12 @@ class Product extends Model
         
         if($model){
             $jewels = Jewel::all();
+            $model_stones = $model->stones;
+            $model_photos = $model->photos;
             
             if($default){
-                $retail_prices = $default->material->material->pricesBuy;
-                
+                $retail_prices = $default->material->material->pricesBuy; 
                 $wholesale_prices = $default->material->material->pricesSell;
-    
-                $model_stones = $model->stones;
-                $model_photos = $model->photos;
         
                 $pass_jewels = array();
                 
@@ -140,11 +138,16 @@ class Product extends Model
             
             foreach($materials as $material){
                 if($material->material->pricesBuy){
-                    if($material->material == $default->material){
-                        $selected = true;
+                    if($default){
+                        if($material->material->id == $default->material->id){
+                            $selected = true;
+                        }else{
+                            $selected = false;
+                        }
                     }else{
                         $selected = false;
                     }
+                    
     
                     //BE: Use materials quantity, not MATERIAL TYPE! Do it after merging.
                     $pass_materials[] = (object)[
@@ -158,6 +161,7 @@ class Product extends Model
             }
 
             $pass_photos = array();
+            
             foreach($wholesale_prices as $price){
                 if($price->id == $default->wholesale_price_id){
                     $selected = true;

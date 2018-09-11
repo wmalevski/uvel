@@ -179,7 +179,7 @@
             </div>
 
             <div class="form-group col-md-4">
-            <input type="number" class="form-control" value="{{ $model->totalStones }}" id="totalStones" name="totalStones" disabled>
+            <input type="number" class="form-control" value="{{ $model->totalStones }}" id="totalStones" name="totalStones" data-calculateStones-total disabled>
             </div>
 
             <div class="col-12">

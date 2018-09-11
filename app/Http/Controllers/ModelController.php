@@ -117,7 +117,7 @@ class ModelController extends Controller
                     $model_stones->stone_id = $stone;
                     $model_stones->amount = $request->stone_amount[$key];
                     $model_stones->weight = $request->stone_weight[$key];
-                    if($request->stone_flow[$key] == true){
+                    if($request->stone_flow[$key] == 'true'){
                         $model_stones->flow = 'yes';
                     }else{
                         $model_stones->flow = 'no';
@@ -174,7 +174,7 @@ class ModelController extends Controller
                     $model_option->wholesale_price_id = $request->wholesale_price_id[$key];
                     $model_option->default = $request->default_material[$key];
     
-                    if($request->default_material[$key] == true){
+                    if($request->default_material[$key] == 'true'){
                         $model_option->default = "yes";
                     }else{
                         $model_option->default = "no";
@@ -185,7 +185,7 @@ class ModelController extends Controller
             }
         }
 
-        if ($request->release_product == true) {
+        if ($request->release_product == 'true') {
             $default = ModelOption::where([
                 ['model_id', '=', $model->id],
                 ['default', '=', 'yes']
@@ -238,7 +238,7 @@ class ModelController extends Controller
                         $product_stones->weight = $request->stone_weight[$key];
                         $product_stones->flow = $request->stone_flow[$key];
 
-                        if($request->stone_flow[$key] == true){
+                        if($request->stone_flow[$key] == 'true'){
                             $product_stones->flow = 'yes';
                         }else{
                             $product_stones->flow = 'no';
@@ -415,7 +415,7 @@ class ModelController extends Controller
                     $model_stones->stone_id = $stone;
                     $model_stones->amount = $request->stone_amount[$key];
                     $model_stones->weight = $request->stone_weight[$key];
-                    if($request->stone_flow[$key] == true){
+                    if($request->stone_flow[$key] == 'true'){
                         $model_stones->flow = 'yes';
                     }else{
                         $model_stones->flow = 'no';
@@ -437,7 +437,7 @@ class ModelController extends Controller
                     $model_option->wholesale_price_id = $request->wholesale_price_id[$key];
                     $model_option->default = $request->default_material[$key];
     
-                    if($request->default_material[$key] == true){
+                    if($request->default_material[$key] == 'true'){
                         $model_option->default = "yes";
                     }else{
                         $model_option->default = "no";

@@ -26,7 +26,7 @@
                 
                 <div class="form-group col-md-6">
                     <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                        <input type="checkbox" id="inputCall2" name="for_wholesale" class="peer">
+                        <input type="checkbox" id="inputCall2" name="for_wholesale" class="peer" @if($product->for_wholesale == 'yes') checked @endif>
                         <label for="inputCall2" class="peers peer-greed js-sb ai-c">
                             <span class="peer peer-greed">За продажба на едро</span>
                         </label>

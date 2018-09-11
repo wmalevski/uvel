@@ -792,7 +792,7 @@ var uvel,
           maxFields = 10,
           amount = stone ? stone.amount : '',
           weight = stone ? stone.weight : '',
-          flow = stone ? stone.flow : false;
+          flow = stone && stone.flow == 'yes' ? 'checked' : '';
 
       if (fields.length < maxFields) {
         var fieldsHolder = document.createElement('div');
@@ -834,7 +834,7 @@ var uvel,
           '</div>' +
           '<div class="form-group col-md-6">' +
           '<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder">' +
-          '<input type="checkbox" id="" class="stone-flow calculate-stones" name="stone_flow[]" class="peer">' +
+          '<input type="checkbox" id="" class="stone-flow calculate-stones" name="stone_flow[]" class="peer" '+flow+'>' +
           '<label for="" class="peers peer-greed js-sb ai-c">' +
           '<span class="peer peer-greed">За леене</span>' +
           '</label>' +
