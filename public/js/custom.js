@@ -1063,6 +1063,7 @@ var uvel,
       $self.fillMaterials(response, form);
       $self.fillJewel(response, form);
       $self.fillStones(response, form);
+      $self.calculateStones(form);
       $self.fillSize(response, form);
       $self.fillWeight(response, form);
       $self.fillFinalPrice(response, form);
