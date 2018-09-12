@@ -67,7 +67,7 @@
 
                 <div class="form-group col-md-6">
                     <label>Материал: </label>
-                    <select name="material_id" class="form-control">
+                    <select name="material_id" class="form-control" data-repair-material>
                         <option value="">Избер материал</option>
                 
                         @foreach($materials as $material)
@@ -82,12 +82,12 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputPassword4">Тегло</label>
-                    <input type="number" class="form-control" name="weight" value="{{ $repair->weight }}" placeholder="Тегло на артикула" readonly>
+                    <input type="number" class="form-control" name="weight" value="{{ $repair->weight }}" placeholder="Тегло на артикула" data-repair-weightBefore readonly>
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="inputPassword4">Тегло след ремонта</label>
-                    <input type="number" class="form-control" name="weight_after" @if($repair->weight_after == '') value="{{ $repair->weight }}" @else value="{{ $repair->weight_after }}" @endif  placeholder="Тегло на артикула след ремонта">
+                    <input type="number" class="form-control" name="weight_after" data-repair-weightAfter @if($repair->weight_after == '') value="{{ $repair->weight }}" @else value="{{ $repair->weight_after }}" @endif  placeholder="Тегло на артикула след ремонта">
                 </div>
             </div>
 
@@ -98,7 +98,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="inputEmail4">Цена след ремонта</label>
-                    <input type="number" class="form-control" name="price_after" @if($repair->price_after == '') value="{{ $repair->price }}" @else value="{{ $repair->price_after }}" @endif placeholder="Цена на ремонта">
+                    <input type="number" class="form-control" name="price_after" data-repair-priceAfter @if($repair->price_after == '') value="{{ $repair->price }}" @else value="{{ $repair->price_after }}" @endif placeholder="Цена на ремонта">
                 </div>
             </div>
 
