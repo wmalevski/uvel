@@ -68,7 +68,7 @@ aria-hidden="true">
 
                             <div class="form-group col-md-12">
                                 <div class="radio radio-info">
-                                    <input type="radio" class="default_material" id="" name="default_material[]" data-calculatePrice-default checked>
+                                    <input type="radio" class="default_material not-clear" id="" name="default_material[]" data-calculatePrice-default checked>
                                     <label for="">Материал по подразбиране</label>
                                 </div>
                             </div>

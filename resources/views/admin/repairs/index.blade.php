@@ -38,7 +38,7 @@ aria-hidden="true">
                                         <div class="input-group-addon bgc-white bd bdwR-0">
                                             <i class="ti-calendar"></i>
                                         </div>
-                                    <input readonly type="text" value="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" class="form-control bdc-grey-200" name="date_recieved" placeholder="Дата на приемане">
+                                    <input readonly type="text" value="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" class="form-control bdc-grey-200 not-clear" name="date_recieved" placeholder="Дата на приемане">
                                     </div>
                                 </div>
                             </div>
