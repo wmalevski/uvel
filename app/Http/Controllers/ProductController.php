@@ -119,6 +119,12 @@ class ProductController extends Controller
             $product->for_wholesale = 'yes';
         }
 
+        if($request->with_stones == false){
+            $product->weight_without_stones = 'no';
+        } else{
+            $product->weight_without_stones = 'yes';
+        }
+
         $digits =(string)$bar;
         // 1. Add the values of the digits in the even-numbered positions: 2, 4, 6, etc.
         $even_sum = $digits{1} + $digits{3} + $digits{5} + $digits{7} + $digits{9} + $digits{11};
@@ -350,6 +356,12 @@ class ProductController extends Controller
                 $product->for_wholesale = 'no';
             } else{
                 $product->for_wholesale = 'yes';
+            }
+
+            if($request->with_stones == false){
+                $product->weight_without_stones = 'no';
+            } else{
+                $product->weight_without_stones = 'yes';
             }
     
             $product->save();
