@@ -125,7 +125,7 @@ var uvel,
       },
       repairs: {
         selector: '[name="repairs"]',
-        controllers: ['fillRepairPrice'],
+        controllers: ['fillRepairPrice', 'calculateRepairAfterPriceInit', 'calculateRepairAfterPrice'],
         initialized: false
       }
     };
@@ -1436,6 +1436,30 @@ var uvel,
 
         priceHolder.val(price);
       })
+    }
+
+    this.calculateRepairAfterPriceInit = function(form) {
+      var calculatePriceTrigger = $('[data-repair-type], [data-repair-material], [data-repair-weightAfter]');
+
+      calculatePriceTrigger.on('change', function() {
+        $self.calculateRepairAfterPrice(form);
+      })
+    }
+
+    this.calculateRepairAfterPrice = function(form) {
+      if (form.attr('data-type') == 'edit') {
+        var repairPrice = form.find('[data-repair-type] :selected').attr('data-price') * 1,
+            materialPrice = form.find('[data-repair-material] :selected').attr('data-price') * 1,
+            weightBefore = form.find('[data-repair-weightBefore]').val(),
+            weightAfter = form.find('[data-repair-weightAfter]').val(),
+            weightDifference = weightAfter < weightBefore ? 0 : weightAfter - weightBefore,
+            priceAfter,
+            priceAfetrHolder = form.find('[data-repair-priceAfter]');
+
+        priceAfter = repairPrice + (weightDifference * materialPrice);
+        priceAfter = Math.round(priceAfter * 100) / 100;
+        priceAfetrHolder.val(priceAfter);
+      }
     }
 
     this.barcodeProcessRepairAttach = function(input) {
