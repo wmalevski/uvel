@@ -275,11 +275,11 @@ class RepairController extends Controller
          $repair->weight_after = $request->weight_after;
          $repair->type_id = $request->type_id;
 
-        if($repair->weight < $request->weight_after){
-            $repair->price_after = $repair->price + ($repair->weight*$repair->material->pricesSell->first()->price);
-        }else{
-            $repair->price_after = $repair->price;
-        }
+        // if($repair->weight < $request->weight_after){
+        //     $repair->price_after = $repair->price + ($repair->weight*$repair->material->pricesSell->first()->price);
+        // }else{
+        //     $repair->price_after = $repair->price;
+        // }
     
         $repair->save();
         
