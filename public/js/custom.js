@@ -201,7 +201,7 @@ var uvel,
 
           console.log('enter pressed');
           event.preventDefault();
-          return false;
+          _this.trigger('change');
           _this.blur();
         }
       })
