@@ -91,8 +91,8 @@ class ModelController extends Controller
             'workmanship' => 'required|numeric|between:0.1,500000',
             'price' => 'required|numeric|between:0.1,500000',
             'material_id.*' => 'required',
-            'retail_price_id.*' => 'required',
-            'wholesale_price_id.*' => 'required'
+            'retail_price_id.*' => 'required|numeric|min:1',
+            'wholesale_price_id.*' => 'required|numeric|min:1'
         ]);
 
         if ($validator->fails()) {
@@ -383,8 +383,8 @@ class ModelController extends Controller
             'workmanship' => 'required|numeric|between:0.1,500000',
             'price' => 'required|numeric|between:0.1,500000',
             'material_id.*' => 'required',
-            'retail_price_id.*' => 'required',
-            'wholesale_price_id.*' => 'required'
+            'retail_price_id.*' => 'required|numeric|min:1',
+            'wholesale_price_id.*' => 'required|numeric|min:1'
         ]);
 
         if ($validator->fails()) {
