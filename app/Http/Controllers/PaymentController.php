@@ -65,14 +65,37 @@ class PaymentController extends Controller
 
             $payment = new Payment();
             $payment->currency_id = $request->pay_currency;
-            $payment->method = $request->pay_method;
-            $payment->reciept = $request->modal_reciept;
-            $payment->ticket = $request->modal_ticket;
             $payment->price = $request->wanted_sum;
             $payment->given = $request->given_sum;
             $payment->info = $request->info;
-            $payment->certificate = $request->modal_certificate;
             $payment->user_id = $userId;
+
+
+            if($request->pay_method == 'false'){
+                $payment->method = 'cash';
+            } else{
+                $payment->method = 'post';
+            }
+
+            if($request->modal_reciept == 'false'){
+                $payment->reciept = 'no';
+            } else{
+                $payment->reciept = 'yes';
+            }
+
+            if($request->modal_ticket == 'false'){
+                $payment->ticket = 'no';
+            } else{
+                $payment->ticket = 'yes';
+            }
+
+            if($request->modal_certificate == 'false'){
+                $payment->certificate = 'no';
+            } else{
+                $payment->certificate = 'yes';
+            }
+
+
             $payment->save();
 
             $paymentID = $payment->id;
@@ -162,6 +185,8 @@ class PaymentController extends Controller
             Cart::clearCartConditions();
             Cart::session($userId)->clear();
             Cart::session($userId)->clearCartConditions();
+
+            return Response::json(array('success' => 'Успешно продадено!'));
 
         }else{
             return Response::json(['errors' => ['more_money' => ['Магазинера трябва да приеме сума равна или по-голяма от дължимата сума.']]], 401);
