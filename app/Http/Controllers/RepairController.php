@@ -239,7 +239,7 @@ class RepairController extends Controller
     {
 
         $repair = Repair::where('barcode', $barcode)->first();
-        if($request->status === 'true'){
+        if($request->status == 'true'){
             $repair->status = 'done';
 
             // $history = new History;
@@ -274,10 +274,6 @@ class RepairController extends Controller
          $repair->material_id = $request->material_id;
          $repair->weight_after = $request->weight_after;
          $repair->type_id = $request->type_id;
-
-        if($request->status){
-            $repair->status = 'done';
-        }
 
         if($repair->weight < $request->weight_after){
             $repair->price_after = $repair->price + ($repair->weight*$repair->material->pricesSell->first()->price);

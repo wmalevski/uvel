@@ -87,7 +87,7 @@
 
                 <div class="form-group col-md-6">
                     <label for="inputPassword4">Тегло след ремонта</label>
-                    <input type="number" class="form-control" name="weight_after" value="{{ $repair->weight_after }}" placeholder="Тегло на артикула след ремонта">
+                    <input type="number" class="form-control" name="weight_after" @if($repair->weight_after == '') value="{{ $repair->weight }}" @else value="{{ $repair->weight_after }}" @endif  placeholder="Тегло на артикула след ремонта">
                 </div>
             </div>
 
@@ -98,7 +98,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="inputEmail4">Цена след ремонта</label>
-                    <input type="number" class="form-control" name="price_after" value="{{ $repair->price_after }}" placeholder="Цена на ремонта">
+                    <input type="number" class="form-control" name="price_after" @if($repair->price_after == '') value="{{ $repair->price }}" @else value="{{ $repair->price_after }}" @endif placeholder="Цена на ремонта">
                 </div>
             </div>
 
