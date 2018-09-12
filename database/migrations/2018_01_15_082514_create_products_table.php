@@ -30,6 +30,7 @@ class CreateProductsTable extends Migration
             $table->string('barcode');
             $table->enum('status', ['available', 'selling', 'sold'])->default('available');
             $table->enum('for_wholesale', ['yes', 'no'])->default('no');
+            $table->enum('weight_without_stones', ['yes', 'no'])->default('no');
             $table->timestamps();
             $table->softDeletes();
         });
