@@ -110,7 +110,7 @@ class RepairTypeController extends Controller
     public function destroy(RepairType $repairType)
     {
         if($repairType){
-            if($repairType->repairs){
+            if(count($repairType->repairs) > 1){
                 return Response::json(['errors' => ['using' => ['Този тип се използва от системата и не може да бъде изтрит.']]], 401);
             }else {
                 $repairType->delete();
