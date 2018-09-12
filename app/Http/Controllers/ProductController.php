@@ -113,13 +113,13 @@ class ProductController extends Controller
         $material->quantity = $material->quantity - $request->weight;
         $material->save();
 
-        if($request->for_wholesale == false){
+        if($request->for_wholesale == 'false'){
             $product->for_wholesale = 'no';
         } else{
             $product->for_wholesale = 'yes';
         }
 
-        if($request->with_stones == false){
+        if($request->with_stones == 'false'){
             $product->weight_without_stones = 'no';
         } else{
             $product->weight_without_stones = 'yes';
@@ -179,7 +179,7 @@ class ProductController extends Controller
                     $product_stones->stone_id = $stone;
                     $product_stones->amount = $request->stone_amount[$key];
                     $product_stones->weight = $request->stone_weight[$key];
-                    if($request->stone_flow[$key] == true){
+                    if($request->stone_flow[$key] == 'true'){
                         $product_stones->flow = 'yes';
                     }else{
                         $product_stones->flow = 'no';
@@ -352,13 +352,13 @@ class ProductController extends Controller
             $product->workmanship = $request->workmanship;
             $product->price = $request->price;
     
-            if($request->for_wholesale == false){
+            if($request->for_wholesale == 'false'){
                 $product->for_wholesale = 'no';
             } else{
                 $product->for_wholesale = 'yes';
             }
 
-            if($request->with_stones == false){
+            if($request->with_stones == 'false'){
                 $product->weight_without_stones = 'no';
             } else{
                 $product->weight_without_stones = 'yes';
@@ -411,7 +411,7 @@ class ProductController extends Controller
                         $product_stones->stone_id = $stone;
                         $product_stones->amount = $request->stone_amount[$key];
                         $product_stones->weight = $request->stone_weight[$key];
-                        if($request->stone_flow[$key] == true){
+                        if($request->stone_flow[$key] == 'true'){
                             $product_stones->flow = 'yes';
                         }else{
                             $product_stones->flow = 'no';
