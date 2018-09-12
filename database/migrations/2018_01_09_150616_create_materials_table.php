@@ -20,7 +20,7 @@ class CreateMaterialsTable extends Migration
             $table->string('color');
             $table->integer('carat')->nullable();
             $table->float('stock_price');
-            $table->integer('parent')->references('id')->on('materials_types');
+            $table->integer('parent_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();
         });

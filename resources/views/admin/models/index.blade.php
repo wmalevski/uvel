@@ -24,7 +24,7 @@ aria-hidden="true">
                         </div>
                         <div class="form-group col-md-6">
                             <label>Избери вид бижу: </label>
-                            <select id="jewels_types" name="jewel" class="form-control jewels_types">
+                            <select id="jewel_id" name="jewel_id" class="form-control calculate">
                                 <option value="">Избери</option>
                         
                                 @foreach($jewels as $jewel)
@@ -41,32 +41,34 @@ aria-hidden="true">
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label>Избери материал: </label>
-                                <select id="material_type" name="material[]" data-calculatePrice-material class="material_type form-control calculate">
+                                <select id="material_type" name="material_id[]" data-calculatePrice-material class="material_type form-control calculate">
                                     <option value="">Избери</option>
                             
                                     @foreach($materials as $material)
-                                        <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ App\Prices::where([['material', '=', $material->material], ['type', '=', 'buy']])->first()->price}}">{{ App\Materials::withTrashed()->find($material->material)->name }} - {{ App\Materials::withTrashed()->find($material->material)->color }} - {{ App\Materials::withTrashed()->find($material->material)->code }}</option>
+                                        @if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
+                                            <option value="{{ $material->id }}" data-material="{{ $material->material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label>Цена на дребно: </label>
-                                <select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled retail-price" data-calculatePrice-retail disabled>
+                                <select id="retail_prices" name="retail_price_id[]" class="form-control calculate prices-filled retail-price" data-calculatePrice-retail disabled>
                                     <option value="">Избери</option>
                                 </select>
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label>Цена на едро: </label>
-                                <select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled wholesale-price" data-calculatePrice-wholesale disabled>
+                                <select id="wholesale_price" name="wholesale_price_id[]" class="form-control prices-filled wholesale-price" data-calculatePrice-wholesale disabled>
                                     <option value="">Избери</option>
                                 </select>
                             </div>
 
                             <div class="form-group col-md-12">
                                 <div class="radio radio-info">
-                                    <input type="radio" class="default_material" id="" name="default_material[]" data-calculatePrice-default checked>
+                                    <input type="radio" class="default_material not-clear" id="" name="default_material[]" data-calculatePrice-default checked>
                                     <label for="">Материал по подразбиране</label>
                                 </div>
                             </div>
@@ -102,42 +104,7 @@ aria-hidden="true">
                     </div>
 
                     <div class="from-row model_stones">
-                        <!-- <div class="form-row fields">
-                            <div class="form-group col-md-6">
-                                <label>Камък: </label>
-                                <select id="model-stone" name="stones[]" class="form-control">
-                                    <option value="">Избери</option>
-
-                                    @foreach($stones as $stone)
-                                        <option value="{{ $stone->id }}">
-                                            {{ $stone->name }} ({{ App\Stone_contours::withTrashed()->find($stone->contour)->name }}, {{ App\Stone_sizes::withTrashed()->find($stone->size)->name }})
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="1">Брой: </label>
-                                <input type="number" class="form-control" name="stone_amount[]" data-calculateStones-amount placeholder="Брой" min="1" max="50">
-                            </div>
-                            <div class="form-group col-md-2">
-                                <span class="delete-stone remove_field" data-removeStone-remove><i class="c-brown-500 ti-trash"></i></span>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <div class="form-group">
-                                    <label>Тегло: </label>
-                                    <input type="number" class="form-control" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">
-                                </div>
-                            </div>
-    
-                            <div class="form-group col-md-6">
-                                <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder">
-                                    <input type="checkbox" id="" class="stone-flow" name="stone_flow[]" class="peer">
-                                    <label for="" class="peers peer-greed js-sb ai-c">
-                                        <span class="peer peer-greed">За леене</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div> -->
+                        
                     </div>
 
                     <div class="form-row">
@@ -225,22 +192,20 @@ aria-hidden="true">
 
 <h3>Модели <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="models" data-toggle="modal" data-target="#addModel">Добави</button></h3>
 
-<table class="table table-condensed tablesort">
-    <thead>
-        <tr>
-            <th>Име</th> 
-            <th>Вид бижу</th>
-            <th>Тегло</th>
-            <th>Изработка</th>
-            <th>Цена</th>
-            <th>Действия</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($models as $model)
-            @include('admin.models.table')
-        @endforeach
-    </tbody>
+<table class="table table-condensed models-table tablesort">
+    <tr>
+        <th>Име</th> 
+        <th>Виж бижу</th>
+        <th>Тегло</th>
+        <th>Изработка</th>
+        <th>Цена</th>
+        <th>Действия</th>
+        <th></th>
+    </tr>
+    
+    @foreach($models as $model)
+        @include('admin.models.table')
+    @endforeach
 </table>
 @endsection
 

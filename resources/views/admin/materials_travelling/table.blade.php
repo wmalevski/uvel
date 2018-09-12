@@ -1,10 +1,10 @@
 <tr data-id="{{ $material->id }}">
-    <td>{{ App\Materials_type::withTrashed()->find(App\Materials::withTrashed()->find(App\Materials_quantity::withTrashed()->find($material->type)->material)->parent)->name }} - {{ App\Materials::withTrashed()->find(App\Materials_quantity::withTrashed()->find($material->type)->material)->code }} - {{ App\Materials::withTrashed()->find(App\Materials_quantity::withTrashed()->find($material->type)->material)->color }}</td> 
+    <td>{{ $material->material->material->parent->name }} - {{ $material->material->material->code }} - {{ $material->material->material->color }}</td> 
     <td>{{ $material->quantity }}</td> 
     <td>{{ $material->price }}</td> 
     <td>{{ $material->created_at }} </td> 
-    <td>{{ App\Stores::withTrashed()->find($material->storeFrom)->name }}</td>
-    <td>{{ App\Stores::withTrashed()->find($material->storeTo)->name }}</td>
+    <td>{{ $material->store_from->name }}</td>
+    <td>{{ $material->store_to->name }}</td>
     <td>@if($material->dateReceived != '' && $material->status == 0) Отказан @elseif($material->status == 0) На път @else Приет @endif</td>
 
     @if($material->dateReceived)

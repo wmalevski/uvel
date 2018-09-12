@@ -125,7 +125,7 @@ var uvel,
       },
       repairs: {
         selector: '[name="repairs"]',
-        controllers: ['fillRepairPrice'],
+        controllers: ['fillRepairPrice', 'calculateRepairAfterPriceInit', 'calculateRepairAfterPrice'],
         initialized: false
       }
     };
@@ -143,9 +143,10 @@ var uvel,
           $deleteRowTrigger = $('.delete-btn'),
           $printTrigger = $('.print-btn'),
           $barcodeProcessRepairTrigger = $('[data-repair-scan]'),
+          $returnRepairBtn = $('[data-repair-return]'),
           $addNumberTrigger = $('[data-sell-catalogNumber], [data-sell-barcode]'),
           $sellMoreProductsTrigger = $('[data-sell-moreProducts]'),
-          $addDiscountTrigger = $('[data-sell-discount]'),
+          $addDiscountTrigger = $('[data-sell-discountApply]'),
           $addCardDiscountTrigger = $('[data-sell-discountCard]'),
           $travelingMaterialsStateBtns = $('[data-travelstate]'),
           $inputCollection = $('input');
@@ -154,6 +155,7 @@ var uvel,
       $self.deleteRow($deleteRowTrigger);
       $self.print($printTrigger);
       $self.barcodeProcessRepairAttach($barcodeProcessRepairTrigger);
+      $self.returnRepairBtnAction($returnRepairBtn);
       $self.addNumber($addNumberTrigger);
       $self.sellMoreProducts($sellMoreProductsTrigger);
       $self.addDiscount($addDiscountTrigger);
@@ -199,7 +201,7 @@ var uvel,
 
           console.log('enter pressed');
           event.preventDefault();
-          return false;
+          _this.trigger('change');
           _this.blur();
         }
       })
@@ -226,7 +228,7 @@ var uvel,
       addNumberTrigger.on('change', function() {
         var _this = $(this),
             sellingForm = _this.closest('form'),
-            number = Number(_this.val()),
+            number = _this.val(),
             moreProductsChecked = sellingForm.find('[data-sell-moreProducts]').is(':checked'),
             productsAmount = Number(sellingForm.find('[data-sell-productsAmount]').val()),
             typeRepair = sellingForm.find('[data-sell-repair]').is(':checked'),
@@ -237,11 +239,12 @@ var uvel,
           dataSend = {
             'catalog_number' : number,
             'quantity' : productsAmount,
-            'amount_check' : moreProductsChecked
+            'amount_check' : moreProductsChecked,
+            'type_repair' : typeRepair
           };
         } else if (_this[0].hasAttribute('data-sell-barcode') && number.length == 13) {
           dataSend = {
-            'barcode' : number,
+            'barcode' : Number(number),
             'quantity' : productsAmount,
             'amount_check' : moreProductsChecked,
             'type_repair' : typeRepair
@@ -283,14 +286,18 @@ var uvel,
     }
 
     this.addDiscount = function(addDiscountTrigger) {
-      addDiscountTrigger.on('change', function() {
+      addDiscountTrigger.on('click', function(e) {
+        e.preventDefault();
         var _this = $(this),
-            discountAmount = Number(_this.val()),
+            discountInput = _this.closest('form').find('[data-sell-discount]'),
+            discountAmount = Number(discountInput.val()),
+            description = _this.closest('form').find('[data-sell-description]').val(),
             urlTaken = window.location.href.split('/'),
             _url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/',
             discountUrl = _this.attr('data-url'),
             dataSend = {
-              'discount' : discountAmount
+              'discount' : discountAmount,
+              'description' : description
             };
 
         if (discountAmount > 0) {
@@ -350,13 +357,12 @@ var uvel,
     this.submitForm = function(form) {
       var submitButton = form.find('[type="submit"]'),
           ajaxRequestLink = $self.buildAjaxRequestLink('submitForm', form.attr('action')),
-          formType = form.attr('data-type'),
-          inputFields = form.find('select , input:not([type="hidden"]), textarea');
+          formType = form.attr('data-type');
 
       submitButton.click(function(e) {
         e.preventDefault();
         var _this = $(this),
-            inputFields = form.find('select , input:not([type="hidden"])');
+            inputFields = form.find('select , input, textarea');
 
         $self.getFormFields(form, ajaxRequestLink, formType, inputFields);
       });
@@ -403,8 +409,17 @@ var uvel,
       });
 
       $self.sendFormRequest(form, ajaxRequestLink, formType, data);
+
+      if (form.attr('data-type') == 'add') {
+        $self.clearForm(form);
+      }
     }
 
+    this.clearForm = function(form) {
+      form.find('input:not(.not-clear):not([type="checkbox"]):not([type="radio"]), textarea:not(.not-clear)').val('');
+      form.find('input[type="checkbox"]:not(.not-clear), input[type="radio"]:not(.not-clear)').prop('checked', false);
+      form.find('select:not(.not-clear)').val('0');
+    }
 
     this.sendFormRequest = function(form, ajaxRequestLink, formType, data) {
        var requestUrl =  ajaxRequestLink;
@@ -574,11 +589,13 @@ var uvel,
 
       var editBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .edit-btn'),
           deleteBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .delete-btn'),
-          printBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .print-btn');
+          printBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .print-btn'),
+          returnRepairBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] [data-repair-return]');
       
       $self.openForm(editBtn);
       $self.deleteRow(deleteBtn);
       $self.print(printBtn);
+      $self.returnRepairBtnAction(returnRepairBtn);
     }
 
     // FUNCTION TO MOVE ROW FROM ONE TABLE TO ANOTHER WHEN EDITING ON SCREENS WITH MULTIPLE TABLES
@@ -701,7 +718,7 @@ var uvel,
         '</div>' +
         '<div class="form-group col-md-12">' +
         '<label>Избери материал: </label>' +
-        '<select id="material_type" name="material[]" class="material_type form-control calculate" data-calculatePrice-material>' +
+        '<select id="material_type" name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material>' +
         '<option value="0">Избери</option>'
 
       materialsData.forEach(function (option) {
@@ -713,13 +730,13 @@ var uvel,
         '</div>' +
         '<div class="form-group col-md-5">' +
         '<label>Цена на дребно: </label>' +
-        '<select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail disabled>' +
+        '<select id="retail_prices" name="retail_price_id[]" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail disabled>' +
         '<option value="0">Избери</option>' +
         '</select>' +
         '</div>' +
         '<div class="form-group col-md-5">' +
         '<label>Цена на едро: </label>' +
-        '<select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled wholesale-price wholesale_price" data-calculatePrice-wholesale disabled>' +
+        '<select id="wholesale_price" name="wholesale_price_id[]" class="form-control prices-filled wholesale-price wholesale_price" data-calculatePrice-wholesale disabled>' +
         '<option value="0">Избери</option>' +
         '</select>' +
         '</div>' +
@@ -784,7 +801,7 @@ var uvel,
           maxFields = 10,
           amount = stone ? stone.amount : '',
           weight = stone ? stone.weight : '',
-          flow = stone ? stone.flow : false;
+          flow = stone && stone.flow == 'yes' ? 'checked' : '';
 
       if (fields.length < maxFields) {
         var fieldsHolder = document.createElement('div');
@@ -795,10 +812,18 @@ var uvel,
           '<label>Камък:</label>' +
           '<select name="stones[]" class="form-control">';
 
-        stonesData.forEach(function (option) {
-          var selected = stone && stone.value == option.value ? 'selected' : '';
+        for(var i = 0; i<stonesData.length; i++) {
+          var option = stonesData[i],
+              selected = '';
+          
+          if (stone) {
+            if (stone.value == option.value) {
+              selected = 'selected';
+            }
+          }
+
           newFields += '<option value='+option.value+' '+selected+'>'+option.label+'</option>'
-        });
+        }
 
         newFields +=
           '</select>' +
@@ -818,7 +843,7 @@ var uvel,
           '</div>' +
           '<div class="form-group col-md-6">' +
           '<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder">' +
-          '<input type="checkbox" id="" class="stone-flow calculate-stones" name="stone_flow[]" class="peer">' +
+          '<input type="checkbox" id="" class="stone-flow calculate-stones" name="stone_flow[]" class="peer" '+flow+'>' +
           '<label for="" class="peers peer-greed js-sb ai-c">' +
           '<span class="peer peer-greed">За леене</span>' +
           '</label>' +
@@ -1021,7 +1046,16 @@ var uvel,
       var modelRequestTrigger = form.find('[data-calculatePrice-model]');
 
       modelRequestTrigger.on('change', function() {
-        $self.modelRequest(form);
+        var _this = $(this);
+
+        if (_this.find('option:selected').val() !== '0' && _this.find('option:selected').val() !== '') {
+          $self.modelRequest(form);
+        } else {
+          var collection = form.find('[data-calculatePrice-material], [data-calculatePrice-retail], [data-calculatePrice-wholesale]');
+
+          collection.val('0');
+          collection.attr('disabled', 'disabled');
+        }
       });
     }
 
@@ -1038,6 +1072,7 @@ var uvel,
       $self.fillMaterials(response, form);
       $self.fillJewel(response, form);
       $self.fillStones(response, form);
+      $self.calculateStones(form);
       $self.fillSize(response, form);
       $self.fillWeight(response, form);
       $self.fillFinalPrice(response, form);
@@ -1061,6 +1096,7 @@ var uvel,
         var option = '<option value="'+value+'" data-material="'+dataMaterial+'" data-pricebuy="'+priceBuy+'" '+selected+'>'+label+'</option>'
 
         materialHolder.append(option);
+        materialHolder.attr('disabled', false);
       });
 
       $self.materialPricesRequestBuilder(form, materialHolder);
@@ -1068,7 +1104,13 @@ var uvel,
 
     this.fillJewel = function(response, form) {
       var jewelHolder = form.find('[data-modelFilled-jewel]'),
-          selected = response.jewels_types[0].value;
+          selected;
+
+      response.jewels_types.forEach(function(jewel) {
+        if (jewel.selected) {
+          selected = jewel.value;
+        }
+      })
 
       jewelHolder.val(selected);
     }
@@ -1405,6 +1447,30 @@ var uvel,
       })
     }
 
+    this.calculateRepairAfterPriceInit = function(form) {
+      var calculatePriceTrigger = $('[data-repair-type], [data-repair-material], [data-repair-weightAfter]');
+
+      calculatePriceTrigger.on('change', function() {
+        $self.calculateRepairAfterPrice(form);
+      })
+    }
+
+    this.calculateRepairAfterPrice = function(form) {
+      if (form.attr('data-type') == 'edit') {
+        var repairPrice = form.find('[data-repair-type] :selected').attr('data-price') * 1,
+            materialPrice = form.find('[data-repair-material] :selected').attr('data-price') * 1,
+            weightBefore = form.find('[data-repair-weightBefore]').val(),
+            weightAfter = form.find('[data-repair-weightAfter]').val(),
+            weightDifference = weightAfter < weightBefore ? 0 : weightAfter - weightBefore,
+            priceAfter,
+            priceAfetrHolder = form.find('[data-repair-priceAfter]');
+
+        priceAfter = repairPrice + (weightDifference * materialPrice);
+        priceAfter = Math.round(priceAfter * 100) / 100;
+        priceAfetrHolder.val(priceAfter);
+      }
+    }
+
     this.barcodeProcessRepairAttach = function(input) {
       input.on('change', function() {
         var _this = $(this),
@@ -1437,6 +1503,17 @@ var uvel,
         
         $self.formsErrorHandler(data, form);
       }
+    }
+
+    this.returnRepairBtnAction = function(returnRepairBtn) {
+      returnRepairBtn.on('click', function() {
+        var _this = $(this),
+            urlTaken = window.location.href.split('/'),
+            path = _this.attr('data-url'),
+            ajaxUrl = urlTaken[0] + '//' + urlTaken[2] + '/ajax/' + path;
+
+        $self.ajaxFn('GET', ajaxUrl, $self.barcodeProcessReturnResponse,'','',_this);
+      })
     }
 
     this.openModal = function(modal) {

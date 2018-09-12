@@ -122,14 +122,29 @@
               <span class="title">Начало</span>
             </a>
           </li>
-          <li class="nav-item {{ Active::check('admin/selling', true) }}">
-            <a class="sidebar-link" href="{{ route('selling') }}" default>
+
+          <li class="nav-item dropdown {{ Active::check('admin/payments',true) }}">
+            <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
-                <i class=" ti-shopping-cart"></i>
+                <i class="ti-shopping-cart"></i>
               </span>
               <span class="title">Продажби</span>
+              <span class="arrow">
+                <i class="ti-angle-right"></i>
+              </span>
             </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="sidebar-link" href="{{ route('selling') }}">Продажба</a>
+              </li>
+
+              <li>
+                <a class="sidebar-link" href="{{ route('payments') }}">Завършени</a>
+              </li>
+
+            </ul>
           </li>
+
           <li class="nav-item {{ Active::check('admin/discounts',true) }}">
             <a class="sidebar-link" href="{{ route('discounts') }}">
               <span class="icon-holder">
@@ -225,10 +240,10 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a class="sidebar-link" href="{{ route('productsothers') }}">Наличности</a>
+                    <a class="sidebar-link" href="{{ route('products_others') }}">Наличности</a>
                   </li>
                   <li>
-                    <a class="sidebar-link" href="{{ route('productsotherstypes') }}">Типове</a>
+                    <a class="sidebar-link" href="{{ route('products_others_types') }}">Типове</a>
                   </li>
                 </ul>
               </li>
@@ -245,7 +260,7 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a class="sidebar-link" href="{{ route('materialstypes') }}">Типове</a>
+                    <a class="sidebar-link" href="{{ route('materials_types') }}">Типове</a>
                   </li>
 
                   <li>
@@ -301,7 +316,7 @@
             </a>
             <ul class="dropdown-menu">
               <li>
-                <a class="sidebar-link" href="{{ route('repairtypes') }}">Видове</a>
+                <a class="sidebar-link" href="{{ route('repair_types') }}">Видове</a>
               </li>
               <li>
                 <a class="sidebar-link" href="{{ route('repairs') }}">Ремонти</a>
@@ -321,7 +336,7 @@
             </a>
             <ul class="dropdown-menu">
               <li>
-                <a class="sidebar-link" href="{{ route('stockPrices') }}">Борсови цени</a>
+                <a class="sidebar-link" href="{{ route('stock_prices') }}">Борсови цени</a>
               </li>
               <li>
                 <a class="sidebar-link" href="{{ route('currencies') }}">Валути и курсове</a>
@@ -496,7 +511,7 @@
               <input class="form-control" type="text" placeholder="Search...">
             </li> --}}
             {{-- <li>
-                {{ App\Stores::find(Auth::user()->store)->name }} 
+                {{ App\User::find(Auth::user()->id)->store->name }} 
             </li> --}}
           </ul>
           <ul class="nav-right">
@@ -698,7 +713,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle no-after peers fxw-nw ai-c lh-1">
                 <div class="peer">
-                  <span class="fsz-sm c-grey-900">{{ App\Stores::withTrashed()->find(Auth::user()->store)->name }} </span>
+                  <span class="fsz-sm c-grey-900">{{ App\User::withTrashed()->find(Auth::user()->id)->store->name }} </span>
                 </div>
               </a>
             </li>

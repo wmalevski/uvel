@@ -15,14 +15,17 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('currency');
+            $table->integer('currency_id');
             $table->enum('method', ['cash', 'post']);
             $table->enum('reciept', ['yes', 'no']);
             $table->enum('ticket', ['yes', 'no']);
+            $table->enum('certificate', ['yes', 'no']);
             $table->float('price');
             $table->float('given')->nullable();
-            $table->integer('selling');
             $table->enum('type', ['sell', 'repair', 'order']);
+            $table->integer('discount_code_id')->nullable();
+            $table->text('info')->nullable();
+            $table->integer('user_id');
             $table->timestamps();
         });
     }

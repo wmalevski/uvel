@@ -15,14 +15,14 @@ class CreateMaterialsTravellingsTable extends Migration
     {
         Schema::create('materials_travellings', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('type');
+            $table->integer('material_id')->unsigned();
             $table->float('quantity');
             $table->float('price');
-            $table->integer('storeFrom')->references('id')->on('stores');;
-            $table->integer('storeTo')->references('id')->on('stores');;
+            $table->integer('store_from_id')->unsigned();
+            $table->integer('store_to_id')->unsigned();
             $table->dateTime('dateSent');
             $table->dateTime('dateReceived')->nullable();
-            $table->integer('userSent');
+            $table->integer('user_sent_id')->unsigned();
             $table->enum('status', ['0', '1'])->default(0);	
             $table->timestamps();
         });

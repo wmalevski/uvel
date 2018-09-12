@@ -39,7 +39,7 @@ aria-hidden="true">
                     </div>
                 
                     <label>Размер: </label>
-                    <select name="size" class="form-control">
+                    <select name="size_id" class="form-control">
                         <option value="">Избер размер</option>
                 
                         @foreach($stone_sizes as $size)
@@ -48,7 +48,7 @@ aria-hidden="true">
                     </select>
                 
                     <label>Контур: </label>
-                    <select name="contour" class="form-control">
+                    <select name="contour_id" class="form-control">
                         <option value="">Избери контур</option> 
                             
                         @foreach($stone_contours as $contour)
@@ -57,7 +57,7 @@ aria-hidden="true">
                     </select>
                 
                     <label>Стил: </label>
-                    <select name="style" class="form-control">
+                    <select name="style_id" class="form-control">
                         <option value="">Избери стил</option>
                 
                         @foreach($stone_styles as $style)
@@ -74,6 +74,17 @@ aria-hidden="true">
                     <div class="form-group">
                         <label for="5">Цена: </label>
                         <input type="number" class="form-control" id="5" name="price" placeholder="Цена:">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Магазин: </label>
+                        <select name="store_id" class="form-control">
+                            <option value="">Избери магазин</option>
+                    
+                            @foreach($stores as $store)
+                                <option value="{{ $store->id }}">{{ $store->name }} - {{ $store->location }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     
                     <div class="drop-area" name="add">
@@ -118,6 +129,7 @@ aria-hidden="true">
             <th scope="col">Стил</th> 
             <th scope="col">Контур</th> 
             <th scope="col">Количество</th> 
+            <th scope="col">Магазин</th> 
             <th scope="col">Цена</th> 
             <th class="sort-false" scope="col">Действия</th>
           </tr>

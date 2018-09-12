@@ -15,10 +15,10 @@ class CreateModelOptionsTable extends Migration
     {
         Schema::create('model_options', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('model')->references('id')->on('models');
-            $table->integer('material')->references('id')->on('materials');
-            $table->integer('retail_price')->references('id')->on('prices');
-            $table->integer('wholesale_price')->references('id')->on('prices');
+            $table->integer('model_id')->unsigned();
+            $table->integer('material_id')->unsigned();
+            $table->integer('retail_price_id')->unsigned();
+            $table->integer('wholesale_price_id')->unsigned();
             $table->enum('default', ['yes', 'no'])->default('no');
             $table->timestamps();
             $table->softDeletes();

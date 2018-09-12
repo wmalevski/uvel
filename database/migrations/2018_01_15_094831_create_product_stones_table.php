@@ -15,9 +15,9 @@ class CreateProductStonesTable extends Migration
     {
         Schema::create('product_stones', function (Blueprint $table) {
             $table->increments('id');
-            $table->uuid('product')->references('id')->on('products');
-            $table->integer('model')->references('id')->on('models')->nullable();
-            $table->integer('stone')->references('id')->on('stones');
+            $table->integer('product_id')->unsigned();
+            $table->integer('model_id')->unsigned();
+            $table->integer('stone_id')->unsigned();
             $table->integer('amount');
             $table->integer('weight');
             $table->enum('flow', ['yes', 'no'])->default('no');

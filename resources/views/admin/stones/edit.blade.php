@@ -38,33 +38,33 @@
         
             <div class="form-group">
                 <label>Размер: </label>
-                <select name="size" class="form-control">
+                <select name="size_id" class="form-control">
                     <option value="">Избер размер</option>
             
                     @foreach($stone_sizes as $size)
-                        <option value="{{ $size->id }}" @if($stone->size == $size->id) selected @endif>{{ $size->name }}</option>
+                        <option value="{{ $size->id }}" @if($stone->size_id == $size->id) selected @endif>{{ $size->name }}</option>
                     @endforeach
                 </select>
             </div>
 
             <div class="form-group">
                 <label>Контур: </label>
-                <select name="contour" class="form-control">
+                <select name="contour_id" class="form-control">
                     <option value="">Избери контур</option> 
                         
                     @foreach($stone_contours as $contour)
-                        <option value="{{ $contour->id }}" @if($stone->contour == $contour->id) selected @endif>{{ $contour->name }}</option>
+                        <option value="{{ $contour->id }}" @if($stone->contour_id == $contour->id) selected @endif>{{ $contour->name }}</option>
                     @endforeach
                 </select>
             </div>
 
             <div class="form-group">
                 <label>Стил: </label>
-                <select name="style" class="form-control">
+                <select name="style_id" class="form-control">
                     <option value="">Избери стил</option>
             
                     @foreach($stone_styles as $style)
-                        <option value="{{ $style->id }}" @if($stone->style == $style->id) selected @endif>{{ $style->name }}</option>
+                        <option value="{{ $style->id }}" @if($stone->style_id == $style->id) selected @endif>{{ $style->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -78,7 +78,18 @@
                 <label for="5">Цена: </label>
                 <input type="number" class="form-control" id="5" value="{{ $stone->price }}" name="price" placeholder="Цена:">
             </div>
-      
+            
+            <div class="form-group">
+                <label>Магазин: </label>
+                <select name="store_id" class="form-control">
+                    <option value="">Избери магазин</option>
+            
+                    @foreach($stores as $store)
+                        <option value="{{ $store->id }}" @if($store->id == $stone->store_id) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
+                    @endforeach
+                </select>
+            </div>
+
             <div class="drop-area" name="edit">
                 <input type="file" name="images" class="drop-area-input" id="fileElem-edit" multiple accept="image/*" >
                 <label class="button" for="fileElem-edit">Select some files</label>

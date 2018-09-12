@@ -16,11 +16,11 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label>Тип: </label>
-                    <select name="material" class="form-control">
+                    <select name="material_id" class="form-control">
                         <option value="">Избер материал</option>
                 
                         @foreach($types as $type)
-                            <option value="{{ $type->id }}" @if($type->id == $material->material) selected @endif>{{ App\Materials_type::withTrashed()->find($type->parent)->name }} - {{ $type->color }} - {{ $type->code }}</option>
+                            <option value="{{ $type->id }}" @if($type->id == $material->material_id) selected @endif>{{ $type->parent->name }} - {{ $type->color }} - {{ $type->code }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -34,11 +34,11 @@
 
             <div class="form-group">
                 <label>Магазин: </label>
-                <select name="store" class="form-control">
+                <select name="store_id" class="form-control">
                     <option value="">Избери магазин</option>
             
                     @foreach($stores as $store)
-                        <option value="{{ $store->id }}" @if($store->id == $material->store) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
+                        <option value="{{ $store->id }}" @if($store->id == $material->store_id) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
                     @endforeach
                 </select>
             </div>

@@ -18,11 +18,11 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label>Потребител: </label>
-                    <select name="user" class="form-control">
+                    <select name="user_id" class="form-control">
                         <option value="">Избери потребител</option>
                 
                         @foreach($users as $user)
-                            <option value="{{ $user->id }}" @if($substitution->user_id == $user->id) selected @endif>{{ $user->name }} - {{ $user->store }}</option>
+                            <option value="{{ $user->id }}" @if($substitution->user_id == $user->id) selected @endif>{{ $user->name }} - {{ $user->store->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -33,7 +33,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label>Магазин: </label>
-                    <select name="store" class="form-control">
+                    <select name="store_id" class="form-control">
                         <option value="">Избер магазин</option>
                 
                         @foreach($stores as $store)

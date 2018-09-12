@@ -18,7 +18,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label>Магазин: </label>
-                    <select name="store" class="form-control">
+                    <select name="store_id" class="form-control">
                         <option value="">Избер магазин</option>
                 
                         @foreach($stores as $store)

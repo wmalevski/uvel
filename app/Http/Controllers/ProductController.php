@@ -3,24 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Product;
-use App\Models;
-use App\Jewels;
-use App\Prices;
-use App\Stones;
-use App\Model_stones;
-use App\Product_stones;
-use App\ModelOptions;
+use App\Model;
+use App\Jewel;
+use App\Price;
+use App\Stone;
+use App\ModelStone;
+use App\ProductStone;
+use App\ModelOption;
 use Illuminate\Http\Request;
-use Uuid;
 use App\Gallery;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\JsonResponse;
 use Response;
 use File;
-use App\Materials;
-use App\Materials_quantity;
+use App\Material;
+use App\MaterialQuantity;
 use Storage;
+use Auth;
 
 class ProductController extends Controller
 {
@@ -29,26 +29,24 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(MaterialQuantity $materials)
     {
         $products = Product::all();
-        $models = Models::all();
-        $jewels = Jewels::all();
-        $prices = Prices::where('type', 'sell')->get();
-        $stones = Stones::all();
-        //$materials = Materials_quantity::where('store', Auth::user()->getStore())->get();
-        $materials = Materials_quantity::all();
+        $models = Model::all();
+        $jewels = Jewel::all();
+        $prices = Price::where('type', 'sell')->get();
+        $stones = Stone::all();
 
         $pass_stones = array();
         
         foreach($stones as $stone){
             $pass_stones[] = [
                 'value' => $stone->id,
-                'label' => $stone->name.' ('.\App\Stone_contours::withTrashed()->find($stone->contour)->name.', '.\App\Stone_sizes::withTrashed()->find($stone->size)->name.' )'
+                'label' => $stone->name.' ('. $stone->contour->name .', '. $stone->size->name .' )'
             ];
         }
 
-        return \View::make('admin/products/index', array('products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials, 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
+        return \View::make('admin/products/index', array('products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials->scopeCurrentStore(), 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
     }
 
     /**
@@ -61,7 +59,7 @@ class ProductController extends Controller
         
     }
 
-    public function chainedSelects(Request $request, $model){
+    public function chainedSelects(Request $request, Model $model){
         $product = new Product;
         return $product->chainedSelects($model);
     }
@@ -76,10 +74,10 @@ class ProductController extends Controller
     {
 
         $validator = Validator::make( $request->all(), [
-            'jewelsTypes' => 'required',
-            'retail_price' => 'required',
-            'material' => 'required',
-            'wholesale_prices' => 'required',
+            'jewel_id' => 'required',
+            'material_id' => 'required',
+            'retail_price_id' => 'required|numeric|min:1',
+            'wholesale_price_id' => 'required|numeric|min:1',
             'weight' => 'required|numeric|between:0.1,10000',
             'size' => 'required|numeric|between:0.1,10000',
             'workmanship' => 'required|numeric|between:0.1,500000',
@@ -90,25 +88,22 @@ class ProductController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $material = Materials_quantity::withTrashed()->find($request->material);
-
+        $material = MaterialQuantity::withTrashed()->find($request->material_id);
+        
         if($material->quantity < $request->weight){
             return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
         }
 
-        // $material->quantity - $request->weight;
-        // $material->save();
-
-        $model = Models::find($request->model);
-
+        $model = Model::find($request->model_id);
+        
         $product = new Product();
         $product->name = $model->name;
-        $product->model = $request->model;
-        $product->jewel_type = $request->jewelsTypes;
-        $product->material = $request->material;
+        $product->model_id = $request->model_id;
+        $product->jewel_id = $request->jewel_id;
+        $product->material_id = $request->material_id;
         $product->weight = $request->weight;
-        $product->retail_price = $request->retail_price;
-        $product->wholesale_price  = $request->wholesale_prices;
+        $product->retail_price_id = $request->retail_price_id;
+        $product->wholesale_price_id  = $request->wholesale_price_id;
         $product->size = $request->size;
         $product->workmanship = $request->workmanship;
         $product->price = $request->price;
@@ -118,10 +113,16 @@ class ProductController extends Controller
         $material->quantity = $material->quantity - $request->weight;
         $material->save();
 
-        if($request->for_wholesale == false){
+        if($request->for_wholesale == 'false'){
             $product->for_wholesale = 'no';
         } else{
             $product->for_wholesale = 'yes';
+        }
+
+        if($request->with_stones == 'false'){
+            $product->weight_without_stones = 'no';
+        } else{
+            $product->weight_without_stones = 'yes';
         }
 
         $digits =(string)$bar;
@@ -145,17 +146,18 @@ class ProductController extends Controller
         File::makeDirectory($path, 0775, true, true);
         Storage::disk('public')->makeDirectory('products', 0775, true);
 
-        $findModel = ModelOptions::where([
-            ['material', '=', $request->material],
-            ['model', '=', $request->model]
+
+        $findModel = ModelOption::where([
+            ['material_id', '=', $request->material],
+            ['model_id', '=', $request->model]
         ])->get();
 
         if(!$findModel){
-            $option = new ModelOptions();
-            $option->material = $request->material;
-            $option->model = $request->model;
-            $option->retail_price = $request->retail_price;
-            $option->wholesale_price = $request->wholesale_price;
+            $option = new ModelOption();
+            $option->material_id = $request->material_id;
+            $option->model_id = $request->model_id;
+            $option->retail_price_id = $request->retail_price_id;
+            $option->wholesale_price_id = $request->wholesale_price_id;
 
             $option->save;
         }
@@ -163,7 +165,7 @@ class ProductController extends Controller
         if($request->stones){
             foreach($request->stones as $key => $stone){
                 if($stone) {
-                    $checkStone = Stones::find($stone);
+                    $checkStone = Stone::find($stone);
                     if($checkStone->amount < $request->stone_amount[$key]){
                         return Response::json(['errors' => ['stone_weight' => ['Няма достатъчна наличност от този камък.']]], 401);
                     }
@@ -171,13 +173,13 @@ class ProductController extends Controller
                     $checkStone->amount = $checkStone->amount - $request->stone_amount[$key];
                     $checkStone->save();
     
-                    $product_stones = new Product_stones();
-                    $product_stones->product = $product->id;
-                    $product_stones->model = $request->model;
-                    $product_stones->stone = $stone;
+                    $product_stones = new ProductStone();
+                    $product_stones->product_id = $product->id;
+                    $product_stones->model_id = $request->model_id;
+                    $product_stones->stone_id = $stone;
                     $product_stones->amount = $request->stone_amount[$key];
                     $product_stones->weight = $request->stone_weight[$key];
-                    if($request->stone_flow[$key] == true){
+                    if($request->stone_flow[$key] == 'true'){
                         $product_stones->flow = 'yes';
                     }else{
                         $product_stones->flow = 'no';
@@ -193,7 +195,6 @@ class ProductController extends Controller
                 $memi = substr($img, 5, strpos($img, ';')-5);
                 
                 $extension = explode('/',$memi);
-
                 if($extension[1] == "svg+xml"){
                     $ext = 'png';
                 }else{
@@ -212,7 +213,6 @@ class ProductController extends Controller
                 $photo->photo = $file_name;
                 $photo->product_id = $product->id;
                 $photo->table = 'products';
-
                 $photo->save();
             }
         }
@@ -237,15 +237,14 @@ class ProductController extends Controller
      * @param  \App\Product  $products
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $products, $product)
+    public function edit(Product $product)
     {
-        $product = Product::find($product);
-        $product_stones = Product_stones::where('product', $product->id)->get();
-        $models = Models::all();
-        $jewels = Jewels::all();
-        $prices = Prices::where('type', 'sell')->get();
-        $stones = Stones::all();
-        $materials = Materials_quantity::all();
+        $product_stones = $product->stones;
+        $models = Model::all();
+        $jewels = Jewel::all();
+        $prices = Price::where('type', 'sell')->get();
+        $stones = Stone::all();
+        $materials = MaterialQuantity::all();
 
         $photos = Gallery::where(
             [
@@ -285,19 +284,17 @@ class ProductController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Products  $products
+     * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $products, $product)
+    public function update(Request $request, Product $product)
     {
-        $product = Product::find($product);
-        
         if($product){
-            $product_stones = Product_stones::where('product', $product)->get();
-            $models = Models::all();
-            $jewels = Jewels::all();
-            $prices = Prices::where('type', 'sell')->get();
-            $stones = Stones::all();
+            $product_stones = ProductStone::where('product_id', $product)->get();
+            $models = Model::all();
+            $jewels = Jewel::all();
+            $prices = Price::where('type', 'sell')->get();
+            $stones = Stone::all();
     
             $photos = Gallery::where(
                 [
@@ -307,9 +304,9 @@ class ProductController extends Controller
             )->get();
 
             $validator = Validator::make( $request->all(), [
-                'jewelsTypes' => 'required',
-                'retail_price' => 'required',
-                'wholesale_prices' => 'required',
+                'jewel_id' => 'required',
+                'retail_price_id' => 'required|numeric|min:1',
+                'wholesale_price_id' => 'required|numeric|min:1',
                 'weight' => 'required|numeric|between:0.1,10000',
                 'size' => 'required|numeric|between:0.1,10000',
                 'workmanship' => 'required|numeric|between:0.1,500000',
@@ -320,10 +317,10 @@ class ProductController extends Controller
                 return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
             }
 
-            $currentMaterial = Materials_quantity::withTrashed()->find($product->material);
+            $currentMaterial = MaterialQuantity::withTrashed()->find($product->material);
 
             if($request->material != $product->material){
-                $newMaterial = Materials_quantity::withTrashed()->find($request->material);
+                $newMaterial = MaterialQuantity::withTrashed()->find($request->material);
 
                 if($newMaterial->quantity < $request->weight){
                     return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
@@ -346,19 +343,25 @@ class ProductController extends Controller
 
             }
     
-            $product->model = $request->model;
-            $product->jewel_type = $request->jewelsTypes;
+            $product->model_id = $request->model_id;
+            $product->jewel_id = $request->jewel_id;
             $product->weight = $request->weight;
-            $product->retail_price = $request->retail_price;
-            $product->wholesale_price  = $request->wholesale_prices;
+            $product->retail_price_id = $request->retail_price_id;
+            $product->wholesale_price_id  = $request->wholesale_price_id;
             $product->size = $request->size;
             $product->workmanship = $request->workmanship;
             $product->price = $request->price;
     
-            if($request->for_wholesale == false){
+            if($request->for_wholesale == 'false'){
                 $product->for_wholesale = 'no';
             } else{
                 $product->for_wholesale = 'yes';
+            }
+
+            if($request->with_stones == 'false'){
+                $product->weight_without_stones = 'no';
+            } else{
+                $product->weight_without_stones = 'yes';
             }
     
             $product->save();
@@ -397,18 +400,18 @@ class ProductController extends Controller
                 }
             }
 
-            $deleteStones = Product_stones::where('product', $product->id)->delete();
+            $deleteStones = ProductStone::where('product_id', $product->id)->delete();
     
             if($request->stones){
                 foreach($request->stones as $key => $stone){
                     if($stone) {
-                        $product_stones = new Product_stones();
-                        $product_stones->product = $product->id;
-                        $product_stones->model = $request->model;
-                        $product_stones->stone = $stone;
+                        $product_stones = new ProductStone();
+                        $product_stones->product_id = $product->id;
+                        $product_stones->model_id = $request->model_id;
+                        $product_stones->stone_id = $stone;
                         $product_stones->amount = $request->stone_amount[$key];
                         $product_stones->weight = $request->stone_weight[$key];
-                        if($request->stone_flow[$key] == true){
+                        if($request->stone_flow[$key] == 'true'){
                             $product_stones->flow = 'yes';
                         }else{
                             $product_stones->flow = 'no';
@@ -442,16 +445,18 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Product  $products
+     * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $products, $product)
+    public function destroy(Product $product)
     {
-        $product = Product::find($product);
-        
         if($product){
-            $product->delete();
-            return Response::json(array('success' => 'Успешно изтрито!'));
+            if($product->status != 'selling'){
+                $product->delete();
+                return Response::json(array('success' => 'Успешно изтрито!'));
+            }else{
+                return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
+            }
         }
     }
 }

@@ -17,15 +17,18 @@ aria-hidden="true">
                     </div>
                     {{ csrf_field() }}
                     <div id="success-container"></div>
+
                     <div class="form-row">
-                        <label>Наследява: </label>
-                        <select name="parent" class="form-control">
-                            <option value="">Избери материал: </option>
-                    
-                            @foreach($parents as $parent)
-                                <option value="{{ $parent->id }}">{{ $parent->name }}</option>
-                            @endforeach
-                        </select>
+                        <div class="form-group col-md-12">
+                            <label>Наследява: </label>
+                            <select name="parent_id" class="form-control">
+                                <option value="">Избери материал: </option>
+                        
+                                @foreach($parents as $parent)
+                                    <option value="{{ $parent->id }}">{{ $parent->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-12">

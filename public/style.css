@@ -175,7 +175,7 @@ p {
   background: #ddd;
 }
 
-.edit-btn, .delete-btn {
+.edit-btn, .delete-btn, .return-repair-action {
   cursor: pointer;
 }
 

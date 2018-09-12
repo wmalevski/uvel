@@ -17,7 +17,7 @@ class CreateRepairsTable extends Migration
             $table->increments('id');
             $table->string('customer_name');
             $table->integer('customer_phone');
-            $table->integer('type');
+            $table->integer('type_id')->unsigned();
             $table->string('date_recieved');
             $table->string('date_returned');
             $table->string('date_received');
@@ -29,9 +29,9 @@ class CreateRepairsTable extends Migration
             $table->float('deposit')->default(0)->nullable();
             $table->float('price_after')->nullable();
             $table->string('barcode')->nullable();
-            $table->integer('discount');
+            $table->integer('discount_id');
             $table->text('repair_description')->nullable();
-            $table->integer('material')->nullable();
+            $table->integer('material_id')->unsigned()->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

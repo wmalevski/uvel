@@ -21,11 +21,11 @@
         
             <div class="form-group">
                 <label>Тип: </label>
-                <select id="type " name="type" class="form-control">
+                <select id="type " name="type_id" class="form-control">
                     <option value="">Избери</option>
             
                     @foreach($types as $type)
-                        <option value="{{ $type->id }}" @if($type->id == $product->type) selected @endif>{{ $type->name }}</option>
+                        <option value="{{ $type->id }}" @if($type->id == $product->type_id) selected @endif>{{ $type->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -55,11 +55,11 @@
 
             <div class="form-group">
             <label>Магазин: </label>
-                <select id="store " name="store" class="form-control">
+                <select id="store" name="store_id" class="form-control">
                     <option value="">Избери</option>
             
                     @foreach($stores as $store)
-                        <option value="{{ $store->id }}" @if($product->store == $store->id) selected @endif>{{ $store->name }}</option>
+                        <option value="{{ $store->id }}" @if($product->store_id == $store->id) selected @endif>{{ $store->name }}</option>
                     @endforeach
                 </select>
             </div>

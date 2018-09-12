@@ -56,22 +56,24 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label>Тип ремонт</label>
-                    <select name="type" class="form-control fill-field" data-fieldToFill="input[name='price']" data-repair-type>
+                    <select name="type_id" class="form-control fill-field" data-fieldToFill="input[name='price']" data-repair-type>
                         <option value="">Избери</option>
 
                         @foreach($repairTypes as $repairType)
-                            <option value="{{ $repairType->id }}" data-price="{{ $repairType->price }}" @if($repair->type == $repairType->id) selected @endif>{{ $repairType->name }} - {{ $repairType->price }}</option>
+                            <option value="{{ $repairType->id }}" data-price="{{ $repairType->price }}" @if($repair->type->id == $repairType->id) selected @endif>{{ $repairType->name }} - {{ $repairType->price }}</option>
                         @endforeach
                     </select>
                 </div>
 
                 <div class="form-group col-md-6">
                     <label>Материал: </label>
-                    <select name="material" class="form-control">
+                    <select name="material_id" class="form-control" data-repair-material>
                         <option value="">Избер материал</option>
                 
                         @foreach($materials as $material)
-                            <option value="{{ $material->id }}" @if($repair->material == $material->id) selected @endif>@if($material->parent) {{ App\Materials_type::withTrashed()->find($material->parent)->name }} @endif - {{ $material->color }} - {{ $material->code }}</option>
+                            @if($material->pricesSell->first())
+                                <option data-price="{{ $material->pricesSell->first()->price }}" value="{{ $material->id }}" @if($repair->material_id == $material->id) selected @endif>@if($material->parent) {{ $material->parent->name }} @endif - {{ $material->color }} - {{ $material->code }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
@@ -80,12 +82,12 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputPassword4">Тегло</label>
-                    <input type="number" class="form-control" name="weight" value="{{ $repair->weight }}" placeholder="Тегло на артикула" readonly>
+                    <input type="number" class="form-control" name="weight" value="{{ $repair->weight }}" placeholder="Тегло на артикула" data-repair-weightBefore readonly>
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="inputPassword4">Тегло</label>
-                    <input type="number" class="form-control" name="weight_after" value="{{ $repair->weight_after }}" placeholder="Тегло на артикула след ремонта">
+                    <label for="inputPassword4">Тегло след ремонта</label>
+                    <input type="number" class="form-control" name="weight_after" data-repair-weightAfter @if($repair->weight_after == '') value="{{ $repair->weight }}" @else value="{{ $repair->weight_after }}" @endif  placeholder="Тегло на артикула след ремонта">
                 </div>
             </div>
 
@@ -96,7 +98,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="inputEmail4">Цена след ремонта</label>
-                    <input type="number" class="form-control" name="price_after" value="{{ $repair->price_after }}" placeholder="Цена на ремонта">
+                    <input type="number" class="form-control" name="price_after" data-repair-priceAfter @if($repair->price_after == '') value="{{ $repair->price }}" @else value="{{ $repair->price_after }}" @endif placeholder="Цена на ремонта">
                 </div>
             </div>
 

@@ -15,8 +15,8 @@ class CreateModelStonesTable extends Migration
     {
         Schema::create('model_stones', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('model')->references('id')->on('models');
-            $table->integer('stone')->references('id')->on('stones');
+            $table->integer('model_id')->unsigned();
+            $table->integer('stone_id')->unsigned();
             $table->integer('amount');
             $table->integer('weight');
             $table->enum('flow', ['yes', 'no'])->default('no');

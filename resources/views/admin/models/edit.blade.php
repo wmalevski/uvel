@@ -22,11 +22,11 @@
 
             <div class="form-group col-md-6">
                 <label>Избери вид бижу: </label>
-                <select id="jewel_edit" name="jewel" class="form-control calculate">
+                <select id="jewel_edit" name="jewel_id" class="form-control calculate">
                     <option value="">Избери</option>
 
                     @foreach($jewels as $jewel)
-                        <option value="{{ $jewel->id }}" data-material="{{ $jewel->material }}" data-pricebuy="@if(App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()){{App\Prices::withTrashed()->where('material', $jewel->material)->where('type', 'buy')->first()->price}}@endif" @if($model->jewel == $jewel->id) selected @endif>{{ $jewel->name }}</option>
+                        <option value="{{ $jewel->id }}" data-material="{{ $jewel->material_id }}" @if($model->jewel_id == $jewel->id) selected @endif>{{ $jewel->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -37,96 +37,64 @@
         </div>
 
         <div class="form-row model_materials">
-        <!-- <div class="form-row">
-            <div class="form-group col-md-12">
-                <label>Избери материал: </label>
-                <select id="material_type" name="material[]" class="material_type form-control calculate">
-                    <option value="">Избери</option>
-            
-                    @foreach($materials as $material)
-                        <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ App\Prices::where([['material', '=', $material->material], ['type', '=', 'buy']])->first()->price}}">{{ App\Materials::withTrashed()->find($material->material)->name }} - {{ App\Materials::withTrashed()->find($material->material)->color }} - {{ App\Materials::withTrashed()->find($material->material)->code }}</option>
-                    @endforeach
-                </select>
-            </div>
+            @if($options)
+                @foreach($options as $option)
+                <div class="form-row">
+                    @if(!$loop->first)
+                    <div class="col-6">
+                        <hr>
+                    </div>
+                    @endif
+                    <div class="form-group col-md-12">
+                        <label>Избери материал: </label>
+                        <select id="material_type" name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material>
+                            <option value="">Избери</option>
+                    
+                            @foreach($materials as $material)
+                                @if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
+                                    <option value="{{ $material->id }}" data-material="{{ $material->material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}" @if($material->id == $option->material_id) selected @endif>{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
 
-            <div class="form-group col-md-6">
-                <label>Цена на дребно: </label>
-                <select id="retail_prices" name="retail_price[]" class="form-control calculate prices-filled" disabled>
-                    <option value="">Избери</option>
-                </select>
-            </div>
+                    <div class="form-group col-md-5">
+                        <label>Цена на дребно: </label>
+                        <select id="retail_price_edit" name="retail_price_id[]" class="form-control calculate prices-filled retail-price" data-calculatePrice-retail>
+                            <option value="">Избери</option>
 
-            <div class="form-group col-md-6">
-                <label>Цена на едро: </label>
-                <select id="wholesale_price" name="wholesale_price[]" class="form-control prices-filled" disabled>
-                    <option value="">Избери</option>
-                </select>
-            </div>
+                            @foreach($prices->where('type', 'sell') as $price)
+                                <option value="{{ $price->id }}" data-material="{{ $price->material }}" @if($option->retail_price_id == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-            <div class="form-group col-md-12">
-                <div class="radio radio-info">
-                    <input type="radio" class="default_material" id="" name="default_material[]">
-                    <label for="">Материал по подразбиране</label>
-                </div>
-            </div>
-        </div> -->   
+                    <div class="form-group col-md-5">
+                        <label>Цена на едро: </label>
+                        <select id="wholesale_price_edit" name="wholesale_price_id[]" class="form-control prices-filled wholesale-price" data-calculatePrice-wholesale>
+                            <option value="">Избери</option>
 
-        @if($options)
-            @foreach($options as $option)
-            <div class="form-row">
-                @if(!$loop->first)
-                <div class="col-6">
-                    <hr>
-                </div>
-                @endif
-                <div class="form-group col-md-12">
-                    <label>Избери материал: </label>
-                    <select name="material[]" class="material_type form-control calculate" data-calculatePrice-material>
-                        <option value="">Избери</option>
-                
-                        @foreach($materials as $material)
-                        <option value="{{ $material->id }}" data-material="{{ $material->material }}" data-pricebuy="{{ App\Prices::where([['material', '=', $material->material], ['type', '=', 'buy']])->first()->price}}" @if($material->id == $option->material) selected @endif>{{ App\Materials::withTrashed()->find($material->material)->name }} - {{ App\Materials::withTrashed()->find($material->material)->color }} - {{ App\Materials::withTrashed()->find($material->material)->code }}</option>
-                        @endforeach
-                    </select>
-                </div>
+                            @foreach($prices->where('type', 'sell') as $price)
+                                <option value="{{ $price->id }}" data-material="{{ $price->material }}" @if($option->wholesale_price_id == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    
+                    @if(!$loop->first)
+                    <div class="form-group col-md-2">
+                        <span class="delete-material remove_field" data-removeMaterials-remove><i class="c-brown-500 ti-trash"></i></span>
+                    </div>
+                    @endif
 
-                <div class="form-group col-md-5">
-                    <label>Цена на дребно: </label>
-                    <select id="retail_price_edit" name="retail_price[]" class="form-control calculate prices-filled retail-price" data-calculatePrice-retail>
-                        <option value="">Избери</option>
-
-                        @foreach($prices->where('type', 'sell') as $price)
-                            <option value="{{ $price->id }}" data-material="{{ $price->material }}" @if($option->retail_price == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="form-group col-md-5">
-                    <label>Цена на едро: </label>
-                    <select id="wholesale_price_edit" name="wholesale_price[]" class="form-control prices-filled wholesale-price" data-calculatePrice-wholesale>
-                        <option value="">Избери</option>
-
-                        @foreach($prices->where('type', 'sell') as $price)
-                            <option value="{{ $price->id }}" data-material="{{ $price->material }}" @if($option->wholesale_price == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                
-                @if(!$loop->first)
-                <div class="form-group col-md-2">
-                    <span class="delete-material remove_field" data-removeMaterials-remove><i class="c-brown-500 ti-trash"></i></span>
-                </div>
-                @endif
-
-                <div class="form-group col-md-12">
-                    <div class="radio radio-info">
-                        <input type="radio" class="default_material" id="" name="default_material[]" data-calculatePrice-default @if($option->default == 'yes') checked @endif>
-                        <label for="">Материал по подразбиране</label>
+                    <div class="form-group col-md-12">
+                        <div class="radio radio-info">
+                            <input type="radio" class="default_material" id="" name="default_material[]" data-calculatePrice-default @if($option->default == 'yes') checked @endif>
+                            <label for="">Материал по подразбиране</label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            @endforeach
-        @endif
+                @endforeach
+            @endif
         </div>
 
         <div class="form-row">
@@ -167,10 +135,10 @@
                             <option value="">Избери</option>
 
                             @foreach($stones as $stone)
-                                <option value="{{ $stone->id }}" @if($modelStone->stone == $stone->id) selected @endif>
-                                    {{ App\Stones::withTrashed()->find($stone->id)->name }} 
+                                <option value="{{ $stone->id }}" @if($modelStone->stone->id == $stone->id) selected @endif>
+                                    {{ $modelStone->stone->name }} 
 
-                                    ({{ App\Stone_contours::withTrashed()->find($stone->contour)->name }}, {{ App\Stone_sizes::withTrashed()->find($stone->size)->name }})
+                                    ({{ $modelStone->stone->contour->name }}, {{ $modelStone->stone->style->name }})
                                 </option>
                             @endforeach
                         </select>
@@ -198,39 +166,7 @@
                 </div>
             </div>
             @endforeach
-            
 
-            <!-- <div class="form-row fields">
-                <div class="form-group col-md-6">
-                    <label>Камък: </label>
-                    <select id="model-stone" name="stones[]" class="form-control">
-                        <option value="">Избери</option>
-
-                        @foreach($stones as $stone)
-                            <option value="{{ $stone->id }}">
-                                {{ $stone->name }} ({{ App\Stone_contours::withTrashed()->find($stone->contour)->name }}, {{ App\Stone_sizes::withTrashed()->find($stone->size)->name }})
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="1">Брой: </label>
-                    <input type="number" id="model-stone-number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="50">
-                </div>
-                <div class="form-group col-md-2">
-                    <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <div class="form-group">
-                        <label for="1">Тегло: </label>
-                        <input type="number" class="form-control" id="1" name="stone_weight[]" placeholder="Тегло:" min="0.1" max="100">
-                    </div>
-                </div>
-
-                <div class="form-group col-md-6">
-                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder"><input type="checkbox" id="inputCall1" name="stone_flow[]" class="peer stone-flow"><label for="inputCall1" class="peers peer-greed js-sb ai-c"><span class="peer peer-greed">За леене</span></label></div>
-                </div>
-            </div> -->
         </div>
 
         <div class="form-row">
@@ -243,40 +179,13 @@
             </div>
 
             <div class="form-group col-md-4">
-            <input type="number" class="form-control" value="{{ $model->totalStones }}" id="totalStones" name="totalStones" disabled>
+            <input type="number" class="form-control" value="{{ $model->totalStones }}" id="totalStones" name="totalStones" data-calculateStones-total disabled>
             </div>
 
             <div class="col-12">
                 <hr>
             </div>
         </div>
-
-        {{-- <div class="form-row model_stones">
-            <div class="form-row fields">
-                <div class="form-group col-md-6">
-                    <label>Камък: </label>
-                    <select name="stones[]" class="form-control">
-                        <option value="">Избери</option>
-
-                        @foreach($stones as $stone)
-                            <option value="{{ $stone->id }}">
-                                {{ $stone->name }} ({{ App\Stone_contours::find($stone->contour)->name }}, {{ App\Stone_sizes::find($stone->size)->name }})
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="1">Брой: </label>
-                    <input type="number" id="model-stone-number" class="form-control" name="stone_amount[]" placeholder="Брой" min="1" max="50">
-                </div>
-                <div class="form-group col-md-2">
-                    <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
-                </div>
-            </div>
-        </div> --}}
-        
-
-
 
         <div class="form-row">
             <div class="form-group col-md-6">
