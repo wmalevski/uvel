@@ -17,8 +17,8 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                        <input type="checkbox" id="inputCall1" name="with_stones" class="peer" @if($product->weight_without_stones == 'yes') checked @endif>
-                        <label for="inputCall1" class="peers peer-greed js-sb ai-c">
+                        <input type="checkbox" id="weightWithStones_edit" name="with_stones" class="peer" @if($product->weight_without_stones == 'yes') checked @endif>
+                        <label for="weightWithStones_edit" class="peers peer-greed js-sb ai-c">
                             <span class="peer peer-greed">Тегло без камъни</span>
                         </label>
                     </div>
