@@ -201,7 +201,6 @@ var uvel,
         if (event.which == 13) {
           var _this = $(this);
 
-          console.log('enter pressed');
           event.preventDefault();
           _this.trigger('change');
           _this.blur();
@@ -347,7 +346,11 @@ var uvel,
 
     this.removeDiscount = function(btn) {
       var ajaxUrl = btn.attr('data-url');
-      $self.ajaxFn("GET", ajaxUrl, '', '', '', '');
+      $self.ajaxFn("GET", ajaxUrl, $self.removeDiscountSuccess, '', '', '');
+    }
+
+    this.removeDiscountSuccess = function(data) {
+      console.log(data);
     }
 
     this.initializeForm = function(formSettings, formType) {
