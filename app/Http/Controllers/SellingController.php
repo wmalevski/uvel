@@ -43,8 +43,6 @@ class SellingController extends Controller
         {
             $items[] = $item;
         });
-
-        dd($cartConditions);
         
         return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies));
     }
