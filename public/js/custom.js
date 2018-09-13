@@ -149,7 +149,8 @@ var uvel,
           $addDiscountTrigger = $('[data-sell-discountApply]'),
           $addCardDiscountTrigger = $('[data-sell-discountCard]'),
           $travelingMaterialsStateBtns = $('[data-travelstate]'),
-          $inputCollection = $('input');
+          $inputCollection = $('input'),
+          $removeDiscountTrigger = $('[data-sell-removeDiscount]');
 
       $self.openForm($openFormTrigger);
       $self.deleteRow($deleteRowTrigger);
@@ -159,6 +160,7 @@ var uvel,
       $self.addNumber($addNumberTrigger);
       $self.sellMoreProducts($sellMoreProductsTrigger);
       $self.addDiscount($addDiscountTrigger);
+      $self.removeDiscountAttach($removeDiscountTrigger);
       $self.addCardDiscount($addCardDiscountTrigger);
       $self.travellingMaterialsState($travelingMaterialsStateBtns);
       $self.enterPressBehaviour($inputCollection);
@@ -334,6 +336,18 @@ var uvel,
         subTotalInput.val(response.subtotal);
         totalInput.val(response.total);
       }
+    }
+
+    this.removeDiscountAttach = function(removeDiscountTrigger) {
+      removeDiscountTrigger.on('click', function() {
+        var _this = $(this);
+        $self.removeDiscount(_this);
+      });
+    }
+
+    this.removeDiscount = function(btn) {
+      var ajaxUrl = btn.attr('data-url');
+      $self.ajaxFn("GET", ajaxUrl, '', '', '', '');
     }
 
     this.initializeForm = function(formSettings, formType) {

@@ -248,7 +248,9 @@ aria-hidden="true">
                         <div class="form-group form-row">
                             <label for="subTotal" class="col-sm-9 control-label">Отстъпки<br/>
                                 @foreach($conditions as $condition)
-                                    @if($condition->getName() != 'ДДС'){{ $condition->getValue() }} <a href="ajax/removeCondition/{{ $condition->getAttributes()['discount_id'] }}">x</a> <br/>@endif
+                                    @if($condition->getName() != 'ДДС'){{ $condition->getValue() }} 
+                                    <span data-url="/ajax/removeDiscount/{{ $condition->getAttributes()['discount_id'] }}" data-sell-removeDiscount>x</span> <br/>
+                                    @endif
                                 @endforeach
                             </label>
                             <div class="col-sm-3">
