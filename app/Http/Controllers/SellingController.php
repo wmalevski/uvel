@@ -162,7 +162,10 @@ class SellingController extends Controller
                 if($type == "product"){
                     $item->status = 'selling';
                     $item->save();
-                }
+                } else if($type == 'repair'){
+                    $item->status = 'returning';
+                    $item->save();
+                }           
             }
         }else{
             if($request->barcode){
@@ -199,7 +202,7 @@ class SellingController extends Controller
 
                 if($type == "repair"){
                     Cart::session($userId)->add(array(
-                        'id' => $item->id,
+                        'id' => $item->barcode,
                         'name' => 'Връщане на ремонт - '.$item->customer_name,
                         'price' => $item->price,
                         'quantity' => 1,
@@ -211,7 +214,7 @@ class SellingController extends Controller
             
                 }else{
                     Cart::session($userId)->add(array(
-                        'id' => $item->id,
+                        'id' => $item->barcode,
                         'name' => $item->name,
                         'price' => $item->price,
                         'quantity' => $request->quantity,
@@ -278,13 +281,16 @@ class SellingController extends Controller
             $product = Product::where('barcode', $item->id)->first();
             $product_box = ProductOther::where('barcode', $item->id)->first();
             $repair = Repair::where('barcode', $item->id)->first();
-
+            //dd($product);
             if($product){
                 $product->status = 'available';
                 $product->save();
             }else if($product_box){
                 $product_box->quantity = $product_box->quantity+$item->quantity;
                 $product_box->save();
+            }else if($repair){
+                $repair->status = 'done';
+                $repair->save();
             }
         });
 
