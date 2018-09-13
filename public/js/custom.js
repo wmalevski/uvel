@@ -218,6 +218,25 @@ var uvel,
             url: ajaxRequestLink,
             success: function(resp) {
               _this.parents('tr').remove();
+            },
+            error: function(resp) {
+              var obj = resp.responseJSON.errors,
+                  errors = Object.values(obj),
+                  stayingTime = 3000;
+
+              for (key in Object.keys(errors)) {
+                var errorText = errors[key][0],
+                    errorDiv = document.createElement('div'),
+                    table = _this.closest('table');
+
+                errorDiv.innerHTML = errorText;
+                $(errorDiv).addClass('alert alert-danger table-alert');
+                table.parent().prepend(errorDiv);
+
+                setTimeout(function() {
+                  $(errorDiv).remove();
+                }, stayingTime);
+              }
             }
           });
         }
