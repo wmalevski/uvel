@@ -220,11 +220,10 @@ var uvel,
               _this.parents('tr').remove();
             },
             error: function(resp) {
-              var obj = resp.responseJSON.errors,
-                  errors = Object.values(obj),
+              var errors = resp.responseJSON.errors,
                   stayingTime = 3000;
 
-              for (key in Object.keys(errors)) {
+              for (var key in errors) {
                 var errorText = errors[key][0],
                     errorDiv = document.createElement('div'),
                     table = _this.closest('table');
@@ -286,6 +285,20 @@ var uvel,
         shoppingTable.find('tbody').html(html);
         subTotalInput.val(response.subtotal);
         totalInput.val(response.total);
+      } else {
+        var errors = response.errors,
+            stayingTime = 3000;
+
+        for (var key in errors) {
+          var error = errors[key],
+              errorDiv = $('<div class="alert alert-danger table-alert"></div>');
+
+          errorDiv.append(error);
+          $('#mainContent').prepend(errorDiv);
+          setTimeout(function() {
+            errorDiv.remove();
+          }, stayingTime);
+        }
       }
     }
 
