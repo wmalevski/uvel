@@ -409,17 +409,8 @@ var uvel,
       });
 
       $self.sendFormRequest(form, ajaxRequestLink, formType, data);
-
-      if (form.attr('data-type') == 'add') {
-        $self.clearForm(form);
-      }
     }
 
-    this.clearForm = function(form) {
-      form.find('input:not(.not-clear):not([type="checkbox"]):not([type="radio"]), textarea:not(.not-clear)').val('');
-      form.find('input[type="checkbox"]:not(.not-clear), input[type="radio"]:not(.not-clear)').prop('checked', false);
-      form.find('select:not(.not-clear)').val('0');
-    }
 
     this.sendFormRequest = function(form, ajaxRequestLink, formType, data) {
        var requestUrl =  ajaxRequestLink;

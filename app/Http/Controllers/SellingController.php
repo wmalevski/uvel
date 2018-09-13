@@ -316,7 +316,7 @@ class SellingController extends Controller
 
         if(isset($setDiscount)){
             $condition = new \Darryldecode\Cart\CartCondition(array(
-                'name' => 'Discount',
+                'name' => $setDiscount,
                 'type' => 'discount',
                 'target' => 'subtotal',
                 'value' => '-'.$setDiscount.'%',
@@ -333,9 +333,38 @@ class SellingController extends Controller
 
             $total = Cart::session($userId)->getTotal();
             $subtotal = Cart::session($userId)->getSubTotal();
+            $cartConditions = Cart::session($userId)->getConditions();
+            $conds = array();
 
-            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal));  
+            foreach($cartConditions as $key => $condition){
+                $conds[$key]['value'] = $condition->getValue();
+                $conds[$key]['attributes'] = $condition->getAttributes();
+            }
+
+            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds));  
         } 
+    }
+
+    public function removeDiscount(Request $request, $name){
+        $userId = Auth::user()->getId(); 
+
+        Cart::condition($condition);
+        Cart::session($userId)->condition($condition);
+
+        $total = Cart::session($userId)->getTotal();
+        $subtotal = Cart::session($userId)->getSubTotal();
+        $cartConditions = Cart::session($userId)->getConditions();
+        $conds = array();
+
+        foreach($cartConditions as $key => $condition){
+            $conds[$key]['value'] = $condition->getValue();
+            $conds[$key]['attributes'] = $condition->getAttributes();
+        }
+
+        Cart::removeCartCondition($name);
+        Cart::session($userId)->removeCartCondition($name);
+
+        return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds));  
     }
 
     public function sendDiscount(Request $request){
