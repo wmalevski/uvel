@@ -356,9 +356,6 @@ class SellingController extends Controller
     public function removeDiscount(Request $request, $name){
         $userId = Auth::user()->getId(); 
 
-        Cart::condition($condition);
-        Cart::session($userId)->condition($condition);
-
         $total = Cart::session($userId)->getTotal();
         $subtotal = Cart::session($userId)->getSubTotal();
         $cartConditions = Cart::session($userId)->getConditionsByType('discount');
