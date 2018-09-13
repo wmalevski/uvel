@@ -31,9 +31,13 @@ class SellingController extends Controller
         $currencies = Currency::all();
         $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();
         $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
-        $condition = Cart::getCondition('Discount');
-        if($condition){
-            $priceCon = $condition->getCalculatedValue($subTotal);
+        $condition = Cart::getConditions('discount');
+        $priceCon = 0;
+
+        if(count($cartConditions) > 0){
+            foreach(Cart::session(Auth::user()->getId())->getConditionsByType('discount') as $cc){
+                $priceCon += $cc->getCalculatedValue($subTotal);
+            }
         } else{
             $priceCon = 0;
         }
