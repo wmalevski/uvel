@@ -38,13 +38,13 @@ class SellingController extends Controller
             $priceCon = 0;
         }
         $items = [];
-
-        //dd($subTotal);
         
         Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
         {
             $items[] = $item;
         });
+
+        dd($cartConditions);
         
         return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies));
     }
