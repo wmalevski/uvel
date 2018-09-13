@@ -353,7 +353,7 @@ class SellingController extends Controller
 
         $total = Cart::session($userId)->getTotal();
         $subtotal = Cart::session($userId)->getSubTotal();
-        $cartConditions = Cart::session($userId)->getConditions();
+        $cartConditions = Cart::session($userId)->getConditions('Discount');
         $conds = array();
 
         foreach($cartConditions as $key => $condition){
