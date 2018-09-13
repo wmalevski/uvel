@@ -333,7 +333,7 @@ class SellingController extends Controller
 
             $total = Cart::session($userId)->getTotal();
             $subtotal = Cart::session($userId)->getSubTotal();
-            $cartConditions = Cart::session($userId)->getConditions('Discount');
+            $cartConditions = Cart::session($userId)->getConditionsByType('discount');
             $conds = array();
 
             foreach($cartConditions as $key => $condition){
@@ -353,7 +353,7 @@ class SellingController extends Controller
 
         $total = Cart::session($userId)->getTotal();
         $subtotal = Cart::session($userId)->getSubTotal();
-        $cartConditions = Cart::session($userId)->getConditions('Discount');
+        $cartConditions = Cart::session($userId)->getConditionsByType('discount');
         $conds = array();
 
         foreach($cartConditions as $key => $condition){
