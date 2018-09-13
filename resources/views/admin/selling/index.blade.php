@@ -246,11 +246,12 @@ aria-hidden="true">
                         </div>
 
                         <div class="form-group form-row">
-                            <label for="subTotal" class="col-sm-9 control-label">Отстъпки(
+                            <label for="subTotal" class="col-sm-9 control-label">Отстъпки<br/>
                                 @foreach($conditions as $condition)
-                                    @if($condition->getName() != 'ДДС'){{ $condition->getValue() }}@endif
+                                    
+                                    @if($condition->getName() != 'ДДС'){{ $condition->getValue() }} <a href="ajax/removeCondition/">x</a> <br/>@endif
                                 @endforeach
-                            )</label>
+                            </label>
                             <div class="col-sm-3">
                                 <input type="price" name="subTotal" value="{{ $priceCon }}" class="form-control" id="subTotal" placeholder="" readonly>
                             </div>
