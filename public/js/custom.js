@@ -218,6 +218,18 @@ var uvel,
             method: "POST",
             url: ajaxRequestLink,
             success: function(resp) {
+              if (_this.hasClass('cart')) {
+                var success = resp.success;
+
+                if (success) {
+                  var subTotalInput = $('[data-sell-subTotal]'),
+                      totalInput = $('[data-calculatePayment-total]');
+
+                  subTotalInput.val(resp.subtotal);
+                  totalInput.val(resp.total);
+                }
+              }
+
               _this.parents('tr').remove();
             }
           });
@@ -268,6 +280,9 @@ var uvel,
         shoppingTable.find('tbody').html(html);
         subTotalInput.val(response.subtotal);
         totalInput.val(response.total);
+
+        var deleteRowTrigger = $('.delete-btn');
+        $self.deleteRow(deleteRowTrigger);
       }
     }
 
