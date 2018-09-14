@@ -247,14 +247,17 @@ aria-hidden="true">
 
                         <div class="form-group form-row">
                             <label for="subTotal" class="col-sm-9 control-label">Отстъпки<br/>
+                                <span class="discount--label-holder">
                                 @foreach($conditions as $condition)
-                                    @if($condition->getName() != 'ДДС'){{ $condition->getValue() }} 
-                                    <span data-url="/ajax/removeDiscount/{{ $condition->getAttributes()['discount_id'] }}" data-sell-removeDiscount>x</span> <br/>
+                                    @if($condition->getName() != 'ДДС')
+                                    <span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">{{ $condition->getValue() }}</span> 
+                                    <span data-url="/ajax/removeDiscount/{{ $condition->getAttributes()['discount_id'] }}" data-sell-removeDiscount class="discount-remove badge bgc-red-50 c-red-700 p-10 lh-0 tt-c badge-pill"><i class="c-brown-500 ti-close"></i></span> <br/>
                                     @endif
                                 @endforeach
+                                </span>
                             </label>
                             <div class="col-sm-3">
-                                <input type="price" name="subTotal" value="{{ $priceCon }}" class="form-control" id="subTotal" placeholder="" readonly>
+                                <input type="price" name="subTotal" value="{{ $priceCon }}" class="form-control" id="subTotal" placeholder="" data-sell-discountDisplay readonly>
                             </div>
                         </div>
 

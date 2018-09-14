@@ -192,6 +192,11 @@ p {
   cursor: pointer;
 }
 
+.badge.discount-remove {
+  font-size: 8px;
+  cursor: pointer;
+}
+
 .select2-container--default .select2-selection--single{
   height: 35px !important;
   border: 1px solid #ced4da !important;

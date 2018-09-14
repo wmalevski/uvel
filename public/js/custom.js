@@ -329,11 +329,37 @@ var uvel,
     this.discountSuccess = function(response) {
       var success = response.success,
           subTotalInput = $('[data-sell-subTotal]'),
-          totalInput = $('[data-calculatePayment-total]');
+          discountDisplay = $('[data-sell-discountDisplay]'),
+          totalInput = $('[data-calculatePayment-total]'),
+          discountsHolder = $('.discount--label-holder');
 
       if(success) {
+        var discounts = response.condition,
+            newFields = '';
+
+        for (key in discounts) {
+          var discount = discounts[key],
+              discountAmount = key,
+              label = discount.value,
+              discountID = discount.attributes.discount_id;
+
+          var newDiscount = 
+          '<span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">'+label+'</span>' +
+          '<span data-url="/ajax/removeDiscount/'+discountID+'" data-sell-removeDiscount class="discount-remove badge bgc-red-50 c-red-700 p-10 lh-0 tt-c badge-pill"><i class="c-brown-500 ti-close"></i></span> <br/>';
+
+          newFields += newDiscount;
+        }
+
+        discountsHolder.html(newFields);
         subTotalInput.val(response.subtotal);
         totalInput.val(response.total);
+
+        var discountsSum = (response.subtotal * 1.2) - response.total;
+        discountsSum = Math.round(discountsSum * 100) / 100;
+        discountDisplay.val(discountsSum);
+
+        var removeDiscountTrigger = $('[data-sell-removeDiscount]');
+        $self.removeDiscountAttach(removeDiscountTrigger);
       }
     }
 
@@ -346,11 +372,7 @@ var uvel,
 
     this.removeDiscount = function(btn) {
       var ajaxUrl = btn.attr('data-url');
-      $self.ajaxFn("GET", ajaxUrl, $self.removeDiscountSuccess, '', '', '');
-    }
-
-    this.removeDiscountSuccess = function(data) {
-      console.log(data);
+      $self.ajaxFn("GET", ajaxUrl, $self.discountSuccess, '', '', '');
     }
 
     this.initializeForm = function(formSettings, formType) {
