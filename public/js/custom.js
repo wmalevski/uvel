@@ -219,15 +219,7 @@ var uvel,
             url: ajaxRequestLink,
             success: function(resp) {
               if (_this.hasClass('cart')) {
-                var success = resp.success;
-
-                if (success) {
-                  var subTotalInput = $('[data-sell-subTotal]'),
-                      totalInput = $('[data-calculatePayment-total]');
-
-                  subTotalInput.val(resp.subtotal);
-                  totalInput.val(resp.total);
-                }
+                $self.cartSumsPopulate(resp);
               }
 
               _this.parents('tr').remove();
@@ -271,15 +263,13 @@ var uvel,
 
     this.numberSend = function(response) {
       var success = response.success,
-          subTotalInput = $('[data-sell-subTotal]'),
-          totalInput = $('[data-calculatePayment-total]'),
           html = response.table,
           shoppingTable = $('#shopping-table');
 
       if(success) {
         shoppingTable.find('tbody').html(html);
-        subTotalInput.val(response.subtotal);
-        totalInput.val(response.total);
+        
+        $self.cartSumsPopulate(response);
 
         var deleteRowTrigger = $('.delete-btn');
         $self.deleteRow(deleteRowTrigger);
@@ -343,9 +333,6 @@ var uvel,
 
     this.discountSuccess = function(response) {
       var success = response.success,
-          subTotalInput = $('[data-sell-subTotal]'),
-          discountDisplay = $('[data-sell-discountDisplay]'),
-          totalInput = $('[data-calculatePayment-total]'),
           discountsHolder = $('.discount--label-holder');
 
       if(success) {
@@ -366,16 +353,25 @@ var uvel,
         }
 
         discountsHolder.html(newFields);
-        subTotalInput.val(response.subtotal);
-        totalInput.val(response.total);
 
-        var discountsSum = (response.subtotal * 1.2) - response.total;
-        discountsSum = Math.round(discountsSum * 100) / 100;
-        discountDisplay.val(discountsSum);
+        $self.cartSumsPopulate(response);
 
         var removeDiscountTrigger = $('[data-sell-removeDiscount]');
         $self.removeDiscountAttach(removeDiscountTrigger);
       }
+    }
+
+    this.cartSumsPopulate = function(response) {
+      var subTotalInput = $('[data-sell-subTotal]'),
+          discountDisplay = $('[data-sell-discountDisplay]'),
+          totalInput = $('[data-calculatePayment-total]');
+
+      subTotalInput.val(response.subtotal);
+      totalInput.val(response.total);
+
+      var discountsSum = (response.subtotal * 1.2) - response.total;
+      discountsSum = Math.round(discountsSum * 100) / 100;
+      discountDisplay.val(discountsSum);
     }
 
     this.removeDiscountAttach = function(removeDiscountTrigger) {
