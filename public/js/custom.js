@@ -149,7 +149,8 @@ var uvel,
           $addDiscountTrigger = $('[data-sell-discountApply]'),
           $addCardDiscountTrigger = $('[data-sell-discountCard]'),
           $travelingMaterialsStateBtns = $('[data-travelstate]'),
-          $inputCollection = $('input');
+          $inputCollection = $('input'),
+          $removeDiscountTrigger = $('[data-sell-removeDiscount]');
 
       $self.openForm($openFormTrigger);
       $self.deleteRow($deleteRowTrigger);
@@ -159,6 +160,7 @@ var uvel,
       $self.addNumber($addNumberTrigger);
       $self.sellMoreProducts($sellMoreProductsTrigger);
       $self.addDiscount($addDiscountTrigger);
+      $self.removeDiscountAttach($removeDiscountTrigger);
       $self.addCardDiscount($addCardDiscountTrigger);
       $self.travellingMaterialsState($travelingMaterialsStateBtns);
       $self.enterPressBehaviour($inputCollection);
@@ -199,7 +201,6 @@ var uvel,
         if (event.which == 13) {
           var _this = $(this);
 
-          console.log('enter pressed');
           event.preventDefault();
           _this.trigger('change');
           _this.blur();
@@ -217,6 +218,10 @@ var uvel,
             method: "POST",
             url: ajaxRequestLink,
             success: function(resp) {
+              if (_this.hasClass('cart')) {
+                $self.cartSumsPopulate(resp);
+              }
+
               _this.parents('tr').remove();
             },
             error: function(resp) {
@@ -276,15 +281,16 @@ var uvel,
 
     this.numberSend = function(response) {
       var success = response.success,
-          subTotalInput = $('[data-sell-subTotal]'),
-          totalInput = $('[data-calculatePayment-total]'),
           html = response.table,
           shoppingTable = $('#shopping-table');
 
       if(success) {
         shoppingTable.find('tbody').html(html);
-        subTotalInput.val(response.subtotal);
-        totalInput.val(response.total);
+        
+        $self.cartSumsPopulate(response);
+
+        var deleteRowTrigger = $('.delete-btn');
+        $self.deleteRow(deleteRowTrigger);
       } else {
         var errors = response.errors,
             stayingTime = 3000;
@@ -359,13 +365,57 @@ var uvel,
 
     this.discountSuccess = function(response) {
       var success = response.success,
-          subTotalInput = $('[data-sell-subTotal]'),
-          totalInput = $('[data-calculatePayment-total]');
+          discountsHolder = $('.discount--label-holder');
 
       if(success) {
-        subTotalInput.val(response.subtotal);
-        totalInput.val(response.total);
+        var discounts = response.condition,
+            newFields = '';
+
+        for (key in discounts) {
+          var discount = discounts[key],
+              discountAmount = key,
+              label = discount.value,
+              discountID = discount.attributes.discount_id;
+
+          var newDiscount = 
+          '<span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">'+label+'</span>' +
+          '<span data-url="/ajax/removeDiscount/'+discountID+'" data-sell-removeDiscount class="discount-remove badge bgc-red-50 c-red-700 p-10 lh-0 tt-c badge-pill"><i class="c-brown-500 ti-close"></i></span> <br/>';
+
+          newFields += newDiscount;
+        }
+
+        discountsHolder.html(newFields);
+
+        $self.cartSumsPopulate(response);
+
+        var removeDiscountTrigger = $('[data-sell-removeDiscount]');
+        $self.removeDiscountAttach(removeDiscountTrigger);
       }
+    }
+
+    this.cartSumsPopulate = function(response) {
+      var subTotalInput = $('[data-sell-subTotal]'),
+          discountDisplay = $('[data-sell-discountDisplay]'),
+          totalInput = $('[data-calculatePayment-total]');
+
+      subTotalInput.val(response.subtotal);
+      totalInput.val(response.total);
+
+      var discountsSum = (response.subtotal * 1.2) - response.total;
+      discountsSum = Math.round(discountsSum * 100) / 100;
+      discountDisplay.val(discountsSum);
+    }
+
+    this.removeDiscountAttach = function(removeDiscountTrigger) {
+      removeDiscountTrigger.on('click', function() {
+        var _this = $(this);
+        $self.removeDiscount(_this);
+      });
+    }
+
+    this.removeDiscount = function(btn) {
+      var ajaxUrl = btn.attr('data-url');
+      $self.ajaxFn("GET", ajaxUrl, $self.discountSuccess, '', '', '');
     }
 
     this.initializeForm = function(formSettings, formType) {
@@ -447,11 +497,12 @@ var uvel,
       }
     }
 
-    this.clearForm = function(form) {
-      form.find('input:not(.not-clear):not([type="checkbox"]):not([type="radio"]), textarea:not(.not-clear)').val('');
-      form.find('input[type="checkbox"]:not(.not-clear), input[type="radio"]:not(.not-clear)').prop('checked', false);
-      form.find('select:not(.not-clear)').val('0');
+    this.clearForm = function(form) {  
+      form.find('input:not(.not-clear):not([type="checkbox"]):not([type="radio"]), textarea:not(.not-clear)').val('');    
+      form.find('input[type="checkbox"]:not(.not-clear), input[type="radio"]:not(.not-clear)').prop('checked', false);    
+      form.find('select:not(.not-clear)').val('0');   
     }
+
 
     this.sendFormRequest = function(form, ajaxRequestLink, formType, data) {
        var requestUrl =  ajaxRequestLink;
