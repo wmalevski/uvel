@@ -492,21 +492,12 @@ var uvel,
 
       $self.sendFormRequest(form, ajaxRequestLink, formType, data);
 
-<<<<<<< HEAD
       if (form.attr('data-type') == 'add') {    
         $self.clearForm(form);    
       }
     }
 
     this.clearForm = function(form) {   
-=======
-      if (form.attr('data-type') == 'add') {
-        $self.clearForm(form);
-      }
-    }
-
-    this.clearForm = function(form) {  
->>>>>>> abd44e2384aa3091f7c3471b87466dc89e36e6a4
       form.find('input:not(.not-clear):not([type="checkbox"]):not([type="radio"]), textarea:not(.not-clear)').val('');    
       form.find('input[type="checkbox"]:not(.not-clear), input[type="radio"]:not(.not-clear)').prop('checked', false);    
       form.find('select:not(.not-clear)').val('0');   
