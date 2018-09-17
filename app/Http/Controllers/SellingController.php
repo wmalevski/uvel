@@ -370,7 +370,20 @@ class SellingController extends Controller
             $conds[$key]['attributes'] = $condition->getAttributes();
         }
 
-        return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds));  
+        $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();
+        $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
+        $condition = Cart::getConditions('discount');
+        $priceCon = 0;
+
+        if(count($cartConditions) > 0){
+            foreach(Cart::session(Auth::user()->getId())->getConditionsByType('discount') as $cc){
+                $priceCon += $cc->getCalculatedValue($subTotal);
+            }
+        } else{
+            $priceCon = 0;
+        }
+
+        return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'con' => $priceCon));  
     }
 
     public function sendDiscount(Request $request){
