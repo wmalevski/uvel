@@ -329,7 +329,7 @@ class SellingController extends Controller
                 'target' => 'subtotal',
                 'value' => '-'.$setDiscount.'%',
                 'attributes' => array(
-                    'discount_id' => $card->id,
+                    'discount_id' => $setDiscount,
                     'description' => 'Value added tax',
                     'more_data' => 'more data here'
                 ),
@@ -355,9 +355,6 @@ class SellingController extends Controller
 
     public function removeDiscount(Request $request, $name){
         $userId = Auth::user()->getId(); 
-
-        $total = Cart::session($userId)->getTotal();
-        $subtotal = Cart::session($userId)->getSubTotal();
         $conds = array();
 
         Cart::removeCartCondition($name);
@@ -370,6 +367,7 @@ class SellingController extends Controller
             $conds[$key]['attributes'] = $condition->getAttributes();
         }
 
+        $total = Cart::session($userId)->getTotal();
         $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();
         $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
         $condition = Cart::getConditions('discount');
@@ -383,7 +381,7 @@ class SellingController extends Controller
             $priceCon = 0;
         }
 
-        return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'con' => $priceCon));  
+        return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subTotal, 'condition' => $conds, 'con' => $priceCon));  
     }
 
     public function sendDiscount(Request $request){
@@ -396,6 +394,7 @@ class SellingController extends Controller
             'target' => 'subtotal',
             'value' => '-'.$request->discount.'%',
             'attributes' => array(
+                'discount_id' => $request->discount,
                 'description' => $request->description,
                 'more_data' => 'more data here'
             ),
