@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
+use App\MaterialQuantity;
 
 class RepairController extends Controller
 {
@@ -275,11 +276,19 @@ class RepairController extends Controller
          $repair->weight_after = $request->weight_after;
          $repair->type_id = $request->type_id;
 
-        // if($repair->weight < $request->weight_after){
-        //     $repair->price_after = $repair->price + ($repair->weight*$repair->material->pricesSell->first()->price);
-        // }else{
-        //     $repair->price_after = $repair->price;
-        // }
+        if($repair->weight < $request->weight_after){
+            //check for material quantity
+            $materialQuantity = MaterialQuantity::where('material_id', $request->material_id)->first();
+
+            if($materialQuantity){
+                if($materialQuantity->quantity > $request->weight_after){
+                    $materialQuantity->quantity = $materialQuantity->quantity - ($request->weight_after - $request->weight);
+                    $materialQuantity->save();
+                }else{
+                    return Response::json(['errors' => ['not_quantity' => ['Няма достатъчна наличност от този материал.']]], 401);
+                }
+            }
+        }
     
         $repair->save();
         
