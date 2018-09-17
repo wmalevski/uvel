@@ -16,10 +16,10 @@
         </td>
     @endif
 
-    @if($material->storeTo == Auth::user()->store && $material->status == 0)
+    @if($material->store_to_id == Auth::user()->getStore()->id && $material->status == 0)
         <td>
-            <button type="button" data-travelstate="accept" class="btn btn-primary material--travelling_state" data-material="$material->id">Приеми</button>
-            <button type="button" data-travelstate="decline" class="btn btn-primary material--travelling_state" data-material="$material->id">Откажи</button>
+            <button type="button" data-travelstate="accept" class="btn btn-primary material--travelling_state" data-material="{{ $material->id }}">Приеми</button>
+            <button type="button" data-travelstate="decline" class="btn btn-primary material--travelling_state" data-material="{{ $material->id }}">Откажи</button>
         </td> 
 
         @elseif($material->storeTo == Auth::user()->store && $material->status != 0) 
