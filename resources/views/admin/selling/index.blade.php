@@ -251,7 +251,7 @@ aria-hidden="true">
                                 @foreach($conditions as $condition)
                                     @if($condition->getName() != 'ДДС')
                                     <span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">{{ $condition->getValue() }}</span> 
-                                    <span data-url="/ajax/removeDiscount/{{ $condition->getAttributes()['discount_id'] }}" data-sell-removeDiscount class="discount-remove badge bgc-red-50 c-red-700 p-10 lh-0 tt-c badge-pill"><i class="c-brown-500 ti-close"></i></span> <br/>
+                                    <span data-url="/ajax/removeDiscount/{{ $condition->getName() }}" data-sell-removeDiscount class="discount-remove badge bgc-red-50 c-red-700 p-10 lh-0 tt-c badge-pill"><i class="c-brown-500 ti-close"></i></span> <br/>
                                     @endif
                                 @endforeach
                                 </span>

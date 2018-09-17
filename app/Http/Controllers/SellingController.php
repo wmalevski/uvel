@@ -358,16 +358,17 @@ class SellingController extends Controller
 
         $total = Cart::session($userId)->getTotal();
         $subtotal = Cart::session($userId)->getSubTotal();
-        $cartConditions = Cart::session($userId)->getConditionsByType('discount');
         $conds = array();
-
-        foreach($cartConditions as $key => $condition){
-            $conds[$key]['value'] = $condition->getValue();
-            $conds[$key]['attributes'] = $condition->getAttributes();
-        }
 
         Cart::removeCartCondition($name);
         Cart::session($userId)->removeCartCondition($name);
+
+        $cartConditions = Cart::session($userId)->getConditionsByType('discount');
+        foreach($cartConditions as $key => $condition){
+            $conds[$key]['value'] = $condition->getValue();
+            $conds[$key]['name'] = $condition->getValue();
+            $conds[$key]['attributes'] = $condition->getAttributes();
+        }
 
         return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds));  
     }
@@ -377,7 +378,7 @@ class SellingController extends Controller
         $userId = Auth::user()->getId(); 
 
         $condition = new \Darryldecode\Cart\CartCondition(array(
-            'name' => 'Discount',
+            'name' => $request->discount,
             'type' => 'discount',
             'target' => 'subtotal',
             'value' => '-'.$request->discount.'%',
@@ -391,10 +392,19 @@ class SellingController extends Controller
         Cart::condition($condition);
         Cart::session($userId)->condition($condition);
 
+        $cartConditions = Cart::session($userId)->getConditionsByType('discount');
+        $conds = array();
+        
+        foreach($cartConditions as $key => $condition){
+            $conds[$key]['value'] = $condition->getValue();
+            $conds[$key]['name'] = $condition->getValue();
+            $conds[$key]['attributes'] = $condition->getAttributes();
+        }
+
         $total = Cart::session($userId)->getTotal();
         $subtotal = Cart::session($userId)->getSubTotal();
 
-        return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal));  
+        return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds));  
         
     }
 
