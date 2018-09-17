@@ -282,6 +282,6 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/gallery/delete/{photo}', 'GalleryController@destroy');
 
-    Route::post('/materials/accept/{material}', 'MaterialsTravellingController@accept');
-    Route::post('/materials/decline/{material}', 'MaterialsTravellingController@decline');
+    Route::post('/materials/accept/{material}', 'MaterialTravellingController@accept');
+    Route::post('/materials/decline/{material}', 'MaterialTravellingController@decline');
 });

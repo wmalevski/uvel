@@ -39,7 +39,7 @@ class MaterialTravellingController extends Controller
         if(Bouncer::is(Auth::user())->an('admin')){
             $travelling = MaterialTravelling::all();
         }else{
-            $travelling = MaterialTravelling::where('storeFrom', '=', Auth::user()->getStore())->orWhere('storeTo', '=', Auth::user()->getStore())->get();
+            $travelling = MaterialTravelling::where('store_from_id', '=', Auth::user()->getStore()->id)->orWhere('store_to_id', '=', Auth::user()->getStore()->id)->get();
         }
 
   
@@ -110,7 +110,7 @@ class MaterialTravellingController extends Controller
         }
     }
 
-    public function accept(Request $request, Materials_travelling $material)
+    public function accept(Request $request, MaterialTravelling $material)
     {
         if($material->status == 0){
             $check = MaterialQuantity::where(
@@ -141,13 +141,13 @@ class MaterialTravellingController extends Controller
         }
     }
 
-    public function decline(Request $request, Materials_travelling $material)
+    public function decline(Request $request, MaterialTravelling $material)
     {
         if($material->status == 0){
-            $check = Materials_quantity::where(
+            $check = MaterialQuantity::where(
                 [
-                    ['material', '=', $material->type],
-                    ['store', '=', $material->storeTo]
+                    ['material_id', '=', $material->material_id],
+                    ['store_id', '=', $material->store_to_id]
                 ]
             )->first();
     
@@ -155,10 +155,10 @@ class MaterialTravellingController extends Controller
                 $check->quantity = $check->quantity + $material->quantity;
                 $check->save();
             } else{
-                $quantity = new Materials_quantity();
-                $quantity->material = $material->type;
+                $quantity = new MaterialQuantity();
+                $quantity->material_id = $material->material_id;
                 $quantity->quantity = $material->quantity;
-                $quantity->store = $material->storeTo;
+                $quantity->store_id = $material->store_to_id;
                 $quantity->carat = '';
     
                 $quantity->save();
