@@ -223,6 +223,24 @@ var uvel,
               }
 
               _this.parents('tr').remove();
+            },
+            error: function(resp) {
+              var errors = resp.responseJSON.errors,
+                  stayingTime = 3000;
+
+              for (var key in errors) {
+                var errorText = errors[key][0],
+                    errorDiv = document.createElement('div'),
+                    table = _this.closest('table');
+
+                errorDiv.innerHTML = errorText;
+                $(errorDiv).addClass('alert alert-danger table-alert');
+                table.parent().prepend(errorDiv);
+
+                setTimeout(function() {
+                  $(errorDiv).remove();
+                }, stayingTime);
+              }
             }
           });
         }
@@ -273,6 +291,20 @@ var uvel,
 
         var deleteRowTrigger = $('.delete-btn');
         $self.deleteRow(deleteRowTrigger);
+      } else {
+        var errors = response.errors,
+            stayingTime = 3000;
+
+        for (var key in errors) {
+          var error = errors[key],
+              errorDiv = $('<div class="alert alert-danger table-alert"></div>');
+
+          errorDiv.append(error);
+          $('#mainContent').prepend(errorDiv);
+          setTimeout(function() {
+            errorDiv.remove();
+          }, stayingTime);
+        }
       }
     }
 
@@ -460,12 +492,21 @@ var uvel,
 
       $self.sendFormRequest(form, ajaxRequestLink, formType, data);
 
+<<<<<<< HEAD
       if (form.attr('data-type') == 'add') {    
         $self.clearForm(form);    
       }
     }
 
     this.clearForm = function(form) {   
+=======
+      if (form.attr('data-type') == 'add') {
+        $self.clearForm(form);
+      }
+    }
+
+    this.clearForm = function(form) {  
+>>>>>>> abd44e2384aa3091f7c3471b87466dc89e36e6a4
       form.find('input:not(.not-clear):not([type="checkbox"]):not([type="radio"]), textarea:not(.not-clear)').val('');    
       form.find('input[type="checkbox"]:not(.not-clear), input[type="radio"]:not(.not-clear)').prop('checked', false);    
       form.find('select:not(.not-clear)').val('0');   
