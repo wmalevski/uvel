@@ -31,15 +31,17 @@ class SellingController extends Controller
         $currencies = Currency::all();
         $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();
         $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
-        $condition = Cart::getCondition('Discount');
-        if($condition){
-            $priceCon = $condition->getCalculatedValue($subTotal);
+        $condition = Cart::getConditions('discount');
+        $priceCon = 0;
+
+        if(count($cartConditions) > 0){
+            foreach(Cart::session(Auth::user()->getId())->getConditionsByType('discount') as $cc){
+                $priceCon += $cc->getCalculatedValue($subTotal);
+            }
         } else{
             $priceCon = 0;
         }
         $items = [];
-
-        //dd($subTotal);
         
         Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
         {
@@ -162,7 +164,10 @@ class SellingController extends Controller
                 if($type == "product"){
                     $item->status = 'selling';
                     $item->save();
-                }
+                } else if($type == 'repair'){
+                    $item->status = 'returning';
+                    $item->save();
+                }           
             }
         }else{
             if($request->barcode){
@@ -199,7 +204,7 @@ class SellingController extends Controller
 
                 if($type == "repair"){
                     Cart::session($userId)->add(array(
-                        'id' => $item->id,
+                        'id' => $item->barcode,
                         'name' => 'Връщане на ремонт - '.$item->customer_name,
                         'price' => $item->price,
                         'quantity' => 1,
@@ -211,7 +216,7 @@ class SellingController extends Controller
             
                 }else{
                     Cart::session($userId)->add(array(
-                        'id' => $item->id,
+                        'id' => $item->barcode,
                         'name' => $item->name,
                         'price' => $item->price,
                         'quantity' => $request->quantity,
@@ -278,13 +283,16 @@ class SellingController extends Controller
             $product = Product::where('barcode', $item->id)->first();
             $product_box = ProductOther::where('barcode', $item->id)->first();
             $repair = Repair::where('barcode', $item->id)->first();
-
+            //dd($product);
             if($product){
                 $product->status = 'available';
                 $product->save();
             }else if($product_box){
                 $product_box->quantity = $product_box->quantity+$item->quantity;
                 $product_box->save();
+            }else if($repair){
+                $repair->status = 'done';
+                $repair->save();
             }
         });
 
@@ -316,12 +324,12 @@ class SellingController extends Controller
 
         if(isset($setDiscount)){
             $condition = new \Darryldecode\Cart\CartCondition(array(
-                'name' => 'Discount',
+                'name' => $setDiscount,
                 'type' => 'discount',
                 'target' => 'subtotal',
                 'value' => '-'.$setDiscount.'%',
                 'attributes' => array(
-                    'discount_id' => $card->id,
+                    'discount_id' => $setDiscount,
                     'description' => 'Value added tax',
                     'more_data' => 'more data here'
                 ),
@@ -333,9 +341,47 @@ class SellingController extends Controller
 
             $total = Cart::session($userId)->getTotal();
             $subtotal = Cart::session($userId)->getSubTotal();
+            $cartConditions = Cart::session($userId)->getConditionsByType('discount');
+            $conds = array();
 
-            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal));  
+            foreach($cartConditions as $key => $condition){
+                $conds[$key]['value'] = $condition->getValue();
+                $conds[$key]['attributes'] = $condition->getAttributes();
+            }
+
+            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds));  
         } 
+    }
+
+    public function removeDiscount(Request $request, $name){
+        $userId = Auth::user()->getId(); 
+        $conds = array();
+
+        Cart::removeCartCondition($name);
+        Cart::session($userId)->removeCartCondition($name);
+
+        $cartConditions = Cart::session($userId)->getConditionsByType('discount');
+        foreach($cartConditions as $key => $condition){
+            $conds[$key]['value'] = $condition->getValue();
+            $conds[$key]['name'] = $condition->getValue();
+            $conds[$key]['attributes'] = $condition->getAttributes();
+        }
+
+        $total = Cart::session($userId)->getTotal();
+        $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();
+        $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
+        $condition = Cart::getConditions('discount');
+        $priceCon = 0;
+
+        if(count($cartConditions) > 0){
+            foreach(Cart::session(Auth::user()->getId())->getConditionsByType('discount') as $cc){
+                $priceCon += $cc->getCalculatedValue($subTotal);
+            }
+        } else{
+            $priceCon = 0;
+        }
+
+        return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subTotal, 'condition' => $conds, 'con' => $priceCon));  
     }
 
     public function sendDiscount(Request $request){
@@ -343,11 +389,12 @@ class SellingController extends Controller
         $userId = Auth::user()->getId(); 
 
         $condition = new \Darryldecode\Cart\CartCondition(array(
-            'name' => 'Discount',
+            'name' => $request->discount,
             'type' => 'discount',
             'target' => 'subtotal',
             'value' => '-'.$request->discount.'%',
             'attributes' => array(
+                'discount_id' => $request->discount,
                 'description' => $request->description,
                 'more_data' => 'more data here'
             ),
@@ -357,10 +404,19 @@ class SellingController extends Controller
         Cart::condition($condition);
         Cart::session($userId)->condition($condition);
 
+        $cartConditions = Cart::session($userId)->getConditionsByType('discount');
+        $conds = array();
+        
+        foreach($cartConditions as $key => $condition){
+            $conds[$key]['value'] = $condition->getValue();
+            $conds[$key]['name'] = $condition->getValue();
+            $conds[$key]['attributes'] = $condition->getAttributes();
+        }
+
         $total = Cart::session($userId)->getTotal();
         $subtotal = Cart::session($userId)->getSubTotal();
 
-        return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal));  
+        return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds));  
         
     }
 

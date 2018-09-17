@@ -261,6 +261,7 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/sell', 'SellingController@sell')->name('sellScan');
     Route::get('/setDiscount/{barcode}',  'SellingController@setDiscount')->name('add_discount');
+    Route::get('/removeDiscount/{name}',  'SellingController@removeDiscount')->name('remove_discount');
     Route::post('/sendDiscount',  'SellingController@sendDiscount')->name('send_discount');
     Route::get('/sellings/information', 'SellingController@printInfo');
 
@@ -281,6 +282,6 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/gallery/delete/{photo}', 'GalleryController@destroy');
 
-    Route::post('/materials/accept/{material}', 'MaterialsTravellingController@accept');
-    Route::post('/materials/decline/{material}', 'MaterialsTravellingController@decline');
+    Route::post('/materials/accept/{material}', 'MaterialTravellingController@accept');
+    Route::post('/materials/decline/{material}', 'MaterialTravellingController@decline');
 });

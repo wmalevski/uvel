@@ -174,6 +174,7 @@ class DatabaseSeeder extends Seeder
             $stone->size_id = rand(1,1);
             $stone->style_id = rand(1,1);
             $stone->contour_id = rand(1,1);
+            $stone->store_id = 1;
             $stone->amount = rand(1,20);
             $stone->price = rand(20,45);
             $stone->save();
