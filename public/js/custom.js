@@ -491,16 +491,12 @@ var uvel,
       });
 
       $self.sendFormRequest(form, ajaxRequestLink, formType, data);
-
-      if (form.attr('data-type') == 'add') {    
-        $self.clearForm(form);    
-      }
     }
 
     this.clearForm = function(form) {   
-      form.find('input:not(.not-clear):not([type="checkbox"]):not([type="radio"]), textarea:not(.not-clear)').val('');    
-      form.find('input[type="checkbox"]:not(.not-clear), input[type="radio"]:not(.not-clear)').prop('checked', false);    
-      form.find('select:not(.not-clear)').val('0');   
+      form.find('input:not(.not-clear):not([type="checkbox"]):not([type="radio"]):not([type="hidden"]), textarea:not(.not-clear)').val('');
+      form.find('input[type="checkbox"]:not(.not-clear), input[type="radio"]:not(.not-clear)').prop('checked', false);
+      form.find('select:not(.not-clear)').val('0');
     }
 
 
@@ -615,6 +611,10 @@ var uvel,
       setTimeout(function() {
         form.find('.modal-body .info-cont .alert-success').remove();
       }, messageStayingTime);
+
+      if (formType == 'add') {    
+        $self.clearForm(form);
+      }
     }
 
     // APPENDING EDIT FORM TO THE MODAL
