@@ -636,7 +636,7 @@ var uvel,
 
             modal.html(resp);
             // $self.initializeSelect(_this.parents().find('select'));
-            if (modal.find('[data-calculatePrice-material]').length > 0) {
+            if (modal.find('[data-calculatePrice-material]').length > 0 && modal.closest('#editProduct').length > 0) {
               for (var i = 0; i < modal.find('[data-calculatePrice-material]').length; i++) {
                 var _this = $(modal.find('[data-calculatePrice-material]')[i]),
                     form = _this.closest('form');
