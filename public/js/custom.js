@@ -491,10 +491,6 @@ var uvel,
       });
 
       $self.sendFormRequest(form, ajaxRequestLink, formType, data);
-
-      if (form.attr('data-type') == 'add') {    
-        $self.clearForm(form);
-      }
     }
 
     this.clearForm = function(form) {   
@@ -615,6 +611,10 @@ var uvel,
       setTimeout(function() {
         form.find('.modal-body .info-cont .alert-success').remove();
       }, messageStayingTime);
+
+      if (formType == 'add') {    
+        $self.clearForm(form);
+      }
     }
 
     // APPENDING EDIT FORM TO THE MODAL
