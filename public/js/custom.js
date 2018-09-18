@@ -943,7 +943,7 @@ var uvel,
         var newRemoveTrigger = $(fieldsHolder).find('[data-removeStone-remove]');
         $self.removeStoneAttach(newRemoveTrigger, form);
 
-        var newCalculateTrigger = $(fieldsHolder).find('[data-calculateStones-weight], [data-calculateStones-amount], .stone-flow');
+        var newCalculateTrigger = $(fieldsHolder).find('[data-calculateStones-weight], .stone-flow');
         $self.calculateStonesAttach(newCalculateTrigger, form);
       }
     }
@@ -967,7 +967,7 @@ var uvel,
     }
 
     this.calculateStonesInit = function(form) {
-      var calculateStonesTrigger = form.find('[data-calculateStones-weight], [data-calculateStones-amount], .stone-flow');
+      var calculateStonesTrigger = form.find('[data-calculateStones-weight], .stone-flow');
       $self.calculateStones(form);
       $self.calculateStonesAttach(calculateStonesTrigger, form);
     }
@@ -989,13 +989,11 @@ var uvel,
             rowTotalNode = row.find('.row-total-weight');
 
         if (isForFlow) {
-          var rowAmount = row.find('[data-calculateStones-amount]').val(),
-              rowWeight = row.find('[data-calculateStones-weight]').val(),
-              rowTotal = rowAmount * rowWeight;
+          var rowWeight = row.find('[data-calculateStones-weight]').val() * 1;
 
-          rowTotalNode.html('('+rowTotal+' гр.)');
+          rowTotalNode.html('('+rowWeight+' гр.)');
           rowTotalNode.css('opacity', '1');
-          currentTotal += rowTotal;
+          currentTotal += rowWeight;
         } else {
           rowTotalNode.css('opacity', '0');
         }
