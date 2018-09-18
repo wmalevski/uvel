@@ -1103,8 +1103,7 @@ var uvel,
     }
 
     this.fillPrices = function(element, prices) {      //  for now it's made for classic select, needs review when we apply Select2 
-      var chooseOpt = '<option value="0">Избери</option>',
-          previousSelected = element.find(':selected').val();
+      var chooseOpt = '<option value="0">Избери</option>';
 
       element.empty();
       element.attr('disabled', false);
@@ -1114,7 +1113,7 @@ var uvel,
         var id = price.id,
             material = price.material,
             _price = price.price,
-            selected = (previousSelected == id || price.selected) ? 'selected' : '',
+            selected = price.selected ? 'selected' : '',
             text = price.slug;
 
         var option = '<option value="'+id+'" data-material="'+material+'" data-price="'+_price+'" '+selected+'>'+text+'</option>';
