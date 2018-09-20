@@ -22,7 +22,7 @@
                             <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
                                 <input type="checkbox" id="weightWithStones" name="with_stones" class="peer">
                                 <label for="weightWithStones" class="peers peer-greed js-sb ai-c">
-                                    <span class="peer peer-greed">Тегло без камъни</span>
+                                    <span class="peer peer-greed">Тегло с камъни</span>
                                 </label>
                             </div>
                         </div>
@@ -122,12 +122,16 @@
                     
                     <div class="form-row">
                         <div class="form-group col-md-6 weight-holder">
-                            <label for="1">Тегло: </label>
-                            <input type="text" class="form-control weight calculate" id="weight" name="weight" data-calculatePrice-weight placeholder="Тегло:" min="1" max="10000">
+                            <label for="weight">Нетно тегло: </label>
+                            <div class="input-group">
+                                <input type="text" class="form-control weight calculate" id="weight" name="weight" data-calculatePrice-netWeight placeholder="Тегло:" min="1" max="10000">
+                                <span class="input-group-addon">гр</span>
+                            </div>
+                            
                         </div>
                     
                         <div class="form-group col-md-6">
-                            <label for="1">Размер: </label>
+                            <label for="size">Размер: </label>
                             <input type="text" class="form-control size" id="size" name="size" placeholder="Размер:" min="1" data-modelFilld-size max="10000">
                         </div>
 
@@ -149,7 +153,10 @@
                         </div>
 
                         <div class="form-group col-md-4">
-                            <input type="text" class="form-control" id="totalStones" name="totalStones" data-calculateStones-total disabled>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="totalStones" name="totalStones" data-calculateStones-total disabled>
+                                <span class="input-group-addon">гр</span>
+                            </div>
                         </div>
 
                         <div class="col-12">
@@ -158,7 +165,15 @@
                     </div>
                     
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
+                            <label for="grossWeight">Брутно тегло:</label>
+                            <div class="input-group"> 
+                                <input type="number" class="form-control" name="gross_weight" id="grossWeight" value="0" data-calculatePrice-grossWeight disabled>
+                                <span class="input-group-addon">гр</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
                             <label for="workmanship">Изработка: </label>
                             <div class="input-group"> 
                                 <input type="number" class="form-control workmanship worksmanship_price" name="workmanship" id="workmanship" value="0" data-calculatePrice-worksmanship>
@@ -166,7 +181,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <label for="price">Цена: </label>
                             <div class="input-group"> 
                                 <input type="number" class="form-control final_price price" name="price" id="price" value="0" data-calculatePrice-final>

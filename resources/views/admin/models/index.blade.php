@@ -87,8 +87,11 @@ aria-hidden="true">
 
                     <div class="form-row">
                         <div class="form-group col-md-6 weight-holder">
-                            <label for="1">Тегло: </label>
-                            <input type="number" class="form-control calculate" id="weight" name="weight" data-calculatePrice-weight placeholder="Тегло:">
+                            <label for="weight">Нетно тегло: </label>
+                            <div class="input-group">
+                                <input type="number" class="form-control calculate" id="weight" name="weight" data-calculatePrice-netWeight placeholder="Тегло:">
+                                <span class="input-group-addon">гр</span>
+                            </div>
                         </div>
 
                         <div class="form-group col-md-6">
@@ -117,7 +120,10 @@ aria-hidden="true">
                         </div>
 
                         <div class="form-group col-md-4">
-                            <input type="number" class="form-control" id="totalStones" name="totalStones" data-calculateStones-total disabled>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="totalStones" name="totalStones" data-calculateStones-total disabled>
+                                <span class="input-group-addon">гр</span>
+                            </div>
                         </div>
 
                         <div class="col-12">
@@ -128,7 +134,15 @@ aria-hidden="true">
                     <br/>
 
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
+                            <label for="grossWeight">Брутно тегло:</label>
+                            <div class="input-group"> 
+                                <input type="number" class="form-control" name="gross_weight" id="grossWeight" value="0" data-calculatePrice-grossWeight disabled>
+                                <span class="input-group-addon">гр</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
                             <label>Избработка:</label>
                             <div class="input-group">
                                 <input id="workmanship" type="number" class="form-control worksmanship_price" value="0" name="workmanship" data-calculatePrice-worksmanship>
@@ -136,7 +150,7 @@ aria-hidden="true">
                             </div>
                         </div>
                         
-                         <div class="form-group col-md-6">
+                         <div class="form-group col-md-4">
                             <label>Цена:</label>
                             <div class="input-group">
                                 <input id="price" type="number" class="form-control final_price" value="0" name="price" data-calculatePrice-final>

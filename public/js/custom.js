@@ -921,7 +921,10 @@ var uvel,
           '<div class="form-group col-md-6">' +
           '<div class="form-group">' +
           '<label>Тегло: </label>' +
+          '<div class="input-group">' +
           '<input type="number" value="'+weight+'" class="form-control calculate-stones" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">' +
+          '<span class="input-group-addon">гр</span>' +
+          '</div>' +
           '</div>' +
           '</div>' +
           '<div class="form-group col-md-6">' +
@@ -1019,7 +1022,7 @@ var uvel,
     }
 
     this.calculatePriceInit = function(form) {
-      var calculatePriceTrigger = form.find('[data-calculatePrice-retail], [data-calculatePrice-default], [data-calculatePrice-weight]');
+      var calculatePriceTrigger = form.find('[data-calculatePrice-retail], [data-calculatePrice-default], [data-calculatePrice-netWeight]');
       $self.calculatePriceAttach(calculatePriceTrigger, form);
     }
 
@@ -1033,7 +1036,7 @@ var uvel,
     this.calculatePriceHandler = function(form, _this) {
       var row = _this.closest('.form-row');
 
-      if (row.find('[data-calculatePrice-default]:checked').length > 0 || row.find('[data-calculatePrice-weight]').length > 0 || form.attr('name') == 'products') {
+      if (row.find('[data-calculatePrice-default]:checked').length > 0 || row.find('[data-calculatePrice-netWeight]').length > 0 || form.attr('name') == 'products') {
         $self.calculatePrice(form);
       }
     }
@@ -1044,7 +1047,7 @@ var uvel,
           defaultMaterialRow = form.find('[data-calculatePrice-default]:checked').closest('.form-row'),
           sellPrice = form.attr('name') == 'products' ? form.find('[data-calculatePrice-retail] :selected').attr('data-price')*1 : defaultMaterialRow.find('[data-calculatePrice-retail] :selected').attr('data-price')*1,
           buyPrice = form.attr('name') == 'products' ? form.find('[data-calculatePrice-material] :selected').attr('data-pricebuy')*1 : defaultMaterialRow.find('[data-calculatePrice-material] :selected').attr('data-pricebuy')*1,
-          weight = form.find('[data-calculatePrice-weight]').val()*1;
+          weight = form.find('[data-calculatePrice-netWeight]').val()*1;
 
       if (sellPrice && buyPrice && weight) {
         var worksmanShipPrice = (sellPrice - buyPrice) * weight,
@@ -1207,7 +1210,7 @@ var uvel,
     }
 
     this.fillWeight = function(response, form) {
-      var weightHolder = form.find('[data-calculatePrice-weight]'),
+      var weightHolder = form.find('[data-calculatePrice-netWeight]'),
           weight = response.weight;
 
       weightHolder.val(weight);
