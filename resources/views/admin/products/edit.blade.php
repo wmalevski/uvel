@@ -17,7 +17,7 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                        <input type="checkbox" id="weightWithStones_edit" name="with_stones" class="peer" @if($product->weight_without_stones == 'yes') checked @endif>
+                        <input type="checkbox" id="weightWithStones_edit" name="with_stones" class="peer" data-calculatePrice-withStones @if($product->weight_without_stones == 'yes') checked @endif >
                         <label for="weightWithStones_edit" class="peers peer-greed js-sb ai-c">
                             <span class="peer peer-greed">Тегло с камъни</span>
                         </label>
@@ -133,7 +133,7 @@
                     <div class="form-group col-md-6">
                         <label>Камъни: </label>
                         
-                        <select name="stones[]" class="form-control">
+                        <select name="stones[]" class="form-control" data-calculatePrice-stone>
                             <option value="">Избери</option>
 
                             @foreach($stones as $stone)

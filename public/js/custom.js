@@ -893,7 +893,7 @@ var uvel,
         var newFields =
           '<div class="form-group col-md-6">' +
           '<label>Камък:</label>' +
-          '<select name="stones[]" class="form-control">';
+          '<select name="stones[]" class="form-control" data-calculatePrice-stone>';
 
         for(var i = 0; i<stonesData.length; i++) {
           var option = stonesData[i],
@@ -948,6 +948,9 @@ var uvel,
 
         var newCalculateTrigger = $(fieldsHolder).find('[data-calculateStones-weight], .stone-flow');
         $self.calculateStonesAttach(newCalculateTrigger, form);
+
+        var newCalculatePriceTrigger = $(fieldsHolder).find('[data-calculateStones-weight], [data-calculatePrice-stone]');
+        $self.calculatePriceAttach(newCalculatePriceTrigger, form);
       }
     }
 
@@ -1022,7 +1025,7 @@ var uvel,
     }
 
     this.calculatePriceInit = function(form) {
-      var calculatePriceTrigger = form.find('[data-calculatePrice-retail], [data-calculatePrice-default], [data-calculatePrice-netWeight]');
+      var calculatePriceTrigger = form.find('[data-calculatePrice-retail], [data-calculatePrice-default], [data-calculatePrice-netWeight], [data-calculatePrice-withStones], [data-calculateStones-weight], [data-calculatePrice-stone]');
       $self.calculatePriceAttach(calculatePriceTrigger, form);
     }
 
@@ -1043,18 +1046,51 @@ var uvel,
 
     this.calculatePrice = function(form) {
       var workmanshipHolder = form.find('[data-calculatePrice-worksmanship]'),
+          grossWeightHolder = form.find('[data-calculatePrice-grossWeight]'),
+          stones = form.find('.form-row.model_stones .form-row.fields'),
           finalHolder = form.find('[data-calculatePrice-final]'),
           defaultMaterialRow = form.find('[data-calculatePrice-default]:checked').closest('.form-row'),
           sellPrice = form.attr('name') == 'products' ? form.find('[data-calculatePrice-retail] :selected').attr('data-price')*1 : defaultMaterialRow.find('[data-calculatePrice-retail] :selected').attr('data-price')*1,
           buyPrice = form.attr('name') == 'products' ? form.find('[data-calculatePrice-material] :selected').attr('data-pricebuy')*1 : defaultMaterialRow.find('[data-calculatePrice-material] :selected').attr('data-pricebuy')*1,
-          weight = form.find('[data-calculatePrice-netWeight]').val()*1;
+          netWeight = form.find('[data-calculatePrice-netWeight]').val()*1,
+          grossWeight = 0,
+          isWeightWithStones = $('[data-calculatePrice-withStones]').is(':checked'),
+          naturalStonesPrice = 0,
+          synthStonesWeight = 0;
 
-      if (sellPrice && buyPrice && weight) {
-        var worksmanShipPrice = (sellPrice - buyPrice) * weight,
-            finalPrice = sellPrice * weight;
+      for (var i=0; i<stones.length; i++) {
+        var stoneRow = $(stones[i]),
+            stone = stoneRow.find('[data-calculatePrice-stone] option:selected'),
+            stonePrice = stone.attr('data-stone-price')*1,
+            stoneType = stone.attr('data-stone-type'),
+            stoneWeight = stoneRow.find('[data-calculateStones-weight]').val()*1;
+
+        if (stoneType == 'natural') {
+          naturalStonesPrice += stonePrice;
+        } else if (stoneType == 'synthetic') {
+          synthStonesWeight += stoneWeight;
+        }
+      }
+
+      if (isWeightWithStones) {
+        grossWeight = netWeight + synthStonesWeight;
+      } else {
+        grossWeight = netWeight;
+      }
+
+      grossWeightHolder.val(grossWeight);
+
+      if (sellPrice && buyPrice && netWeight) {
+        if (!isWeightWithStones) {
+          var worksmanShipPrice = Math.round(((sellPrice - buyPrice) * netWeight) * 100) / 100,
+              productPrice = Math.round(((sellPrice * netWeight) + naturalStonesPrice) * 100) / 100;
+        } else if (isWeightWithStones) {
+          var worksmanShipPrice = Math.round(((sellPrice - buyPrice) * grossWeight) * 100) / 100,
+              productPrice = Math.round(((sellPrice * grossWeight) + naturalStonesPrice) * 100) / 100;
+        }
 
         workmanshipHolder.val(worksmanShipPrice);
-        finalHolder.val(finalPrice);
+        finalHolder.val(productPrice);
       }
     }
 

@@ -134,7 +134,7 @@
                 <div class="form-group col-md-6">
                     <label>Камък: </label>
                     
-                        <select id="model-stone" name="stones[]" class="form-control">
+                        <select id="model-stone" name="stones[]" class="form-control" data-calculatePrice-stone>
                             <option value="">Избери</option>
 
                             @foreach($stones as $stone)
