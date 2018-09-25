@@ -225,17 +225,17 @@ textarea {
 
 /* custom styles */
 
-.stones--tooltip {
+.stones--tooltip, .thumbnail--tooltip {
   position: relative;
 }
 
-.stones--tooltip:hover ul {
+.stones--tooltip:hover ul, .thumbnail--tooltip:hover ul {
   visibility: visible;
   opacity: 1;
   pointer-events: all;
 }
 
-.stones--tooltip ul {
+.stones--tooltip ul, .thumbnail--tooltip ul {
   z-index: 20;
   position: absolute;
   right: 0;
@@ -250,6 +250,14 @@ textarea {
   opacity: 0;
   pointer-events: none;
   transition: visibility .4s , opacity .4s;
+}
+
+.thumbnail--tooltip ul {
+  left: 0;
+}
+
+.stones--tooltip ul {
+  right: 0;
 }
 
 /* .stones--tooltip ul:before {

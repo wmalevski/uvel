@@ -1,5 +1,8 @@
 <tr data-id="{{ $stone->id }}">
-    <td>{{ $stone->name }}</td> 
+    <td class="thumbnail--tooltip">
+        {{ $stone->name }}
+        <ul>image here</ul>
+    </td> 
     <td> @if($stone->type == 1) Синтетичен  @else Естествен  @endif </td> 
     <td>{{ $stone->weight }}</td> 
     <td>{{ $stone->carat }}</td> 
