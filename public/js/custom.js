@@ -970,6 +970,7 @@ var uvel,
       var parents = _this.closest(".form-row");
       parents.remove();
       $self.calculateStones(form);
+      $self.calculatePrice(form);
     }
 
     this.calculateStonesInit = function(form) {
