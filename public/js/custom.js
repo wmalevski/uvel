@@ -905,7 +905,7 @@ var uvel,
             }
           }
 
-          newFields += '<option value='+option.value+' '+selected+'>'+option.label+'</option>'
+          newFields += '<option value='+option.value+' data-stone-price='+option.price+' data-stone-type='+option.type+' '+selected+'>'+option.label+'</option>'
         }
 
         newFields +=
@@ -1039,7 +1039,7 @@ var uvel,
     this.calculatePriceHandler = function(form, _this) {
       var row = _this.closest('.form-row');
 
-      if (row.find('[data-calculatePrice-default]:checked').length > 0 || row.find('[data-calculatePrice-netWeight]').length > 0 || form.attr('name') == 'products') {
+      if (row.find('[data-calculatePrice-default]:checked').length > 0 || row.find('[data-calculatePrice-netWeight]').length > 0 || form.attr('name') == 'products' || _this.closest('.model_stones').length > 0) {
         $self.calculatePrice(form);
       }
     }
@@ -1047,7 +1047,7 @@ var uvel,
     this.calculatePrice = function(form) {
       var workmanshipHolder = form.find('[data-calculatePrice-worksmanship]'),
           grossWeightHolder = form.find('[data-calculatePrice-grossWeight]'),
-          stones = form.find('.form-row.model_stones .form-row.fields'),
+          stones = form.find('.model_stones .fields'),
           finalHolder = form.find('[data-calculatePrice-final]'),
           defaultMaterialRow = form.find('[data-calculatePrice-default]:checked').closest('.form-row'),
           sellPrice = form.attr('name') == 'products' ? form.find('[data-calculatePrice-retail] :selected').attr('data-price')*1 : defaultMaterialRow.find('[data-calculatePrice-retail] :selected').attr('data-price')*1,
@@ -1065,9 +1065,9 @@ var uvel,
             stoneType = stone.attr('data-stone-type'),
             stoneWeight = stoneRow.find('[data-calculateStones-weight]').val()*1;
 
-        if (stoneType == 'natural') {
+        if (stoneType == 2) {   // natural stone
           naturalStonesPrice += stonePrice;
-        } else if (stoneType == 'synthetic') {
+        } else if (stoneType == 1) {  // synthetic stone
           synthStonesWeight += stoneWeight;
         }
       }
