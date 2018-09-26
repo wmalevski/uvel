@@ -1,7 +1,7 @@
 <tr data-id="{{ $model->id }}">
     <td class="thumbnail--tooltip">
         {{ $model->name }}
-        <ul>@if($model->photos) {{ $model->photos->first()['photo'] }} @endif</ul>
+        <ul>@if($model->photos) <img src="{{ asset("uploads/models/" . $model->photos->first()['photo']) }}" alt="" class="img-responsive" /> @endif</ul>
     </td>
     <td> {{ $model->jewel->name }} </td> 
     <td> {{ $model->weight }} </td>

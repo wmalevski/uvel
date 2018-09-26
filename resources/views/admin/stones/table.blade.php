@@ -1,7 +1,10 @@
 <tr data-id="{{ $stone->id }}">
     <td class="thumbnail--tooltip">
         {{ $stone->name }}
-        <ul>@if($stone->photos) {{ $stone->photos->first()['photo'] }} @endif</ul>
+        <ul>
+            
+            @if($stone->photos) <img src="{{ asset("uploads/stones/" . $stone->photos->first()['photo']) }}" alt="" class="img-responsive" /> @endif
+        </ul>
     </td> 
     <td> @if($stone->type == 1) Синтетичен  @else Естествен  @endif </td> 
     <td>{{ $stone->weight }}</td> 
