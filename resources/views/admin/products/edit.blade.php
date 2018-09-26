@@ -137,7 +137,7 @@
                             <option value="">Избери</option>
 
                             @foreach($stones as $stone)
-                                <option value="{{ $stone->id }}" @if($modelStone->stone_id == $stone->id) selected @endif>
+                                <option value="{{ $stone->id }}" @if($modelStone->stone_id == $stone->id) selected @endif data-stone-type="{{ $stone->type }}" data-stone-price="{{ $stone->price }}">
                                     {{ $stone->name }}
                                     ({{ $stone->contour->name }}, {{ $stone->size->name }})
                                 </option>

@@ -129,7 +129,9 @@ class Product extends Model
                     'label' => $stone.' ('.$stone->contour. ', ' .$stone->size. ' )',
                     'amount' => $stone->amount,
                     'weight' => $stone->weight,
-                    'flow' => $stone->flow
+                    'flow' => $stone->flow,
+                    'type' => $stone->type,
+                    'price' => $stone->price
                 ];
             }
 

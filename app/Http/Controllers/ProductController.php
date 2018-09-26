@@ -42,7 +42,9 @@ class ProductController extends Controller
         foreach($stones as $stone){
             $pass_stones[] = [
                 'value' => $stone->id,
-                'label' => $stone->name.' ('. $stone->contour->name .', '. $stone->size->name .' )'
+                'label' => $stone->name.' ('. $stone->contour->name .', '. $stone->size->name .' )',
+                'type'  => $stone->type,
+                'price' => $stone->price
             ];
         }
 
