@@ -949,7 +949,7 @@ var uvel,
         var newCalculateTrigger = $(fieldsHolder).find('[data-calculateStones-weight], .stone-flow');
         $self.calculateStonesAttach(newCalculateTrigger, form);
 
-        var newCalculatePriceTrigger = $(fieldsHolder).find('[data-calculateStones-weight], [data-calculatePrice-stone]');
+        var newCalculatePriceTrigger = $(fieldsHolder).find('[data-calculateStones-weight], [data-calculatePrice-stone], [data-calculateStones-amount]');
         $self.calculatePriceAttach(newCalculatePriceTrigger, form);
       }
     }
@@ -1026,7 +1026,7 @@ var uvel,
     }
 
     this.calculatePriceInit = function(form) {
-      var calculatePriceTrigger = form.find('[data-calculatePrice-retail], [data-calculatePrice-default], [data-calculatePrice-netWeight], [data-calculatePrice-withStones], [data-calculateStones-weight], [data-calculatePrice-stone]');
+      var calculatePriceTrigger = form.find('[data-calculatePrice-retail], [data-calculatePrice-default], [data-calculatePrice-netWeight], [data-calculatePrice-withStones], [data-calculateStones-weight], [data-calculatePrice-stone], [data-calculateStones-amount]');
       $self.calculatePriceAttach(calculatePriceTrigger, form);
     }
 
@@ -1064,10 +1064,11 @@ var uvel,
             stone = stoneRow.find('[data-calculatePrice-stone] option:selected'),
             stonePrice = stone.attr('data-stone-price')*1,
             stoneType = stone.attr('data-stone-type'),
-            stoneWeight = stoneRow.find('[data-calculateStones-weight]').val()*1;
+            stoneWeight = stoneRow.find('[data-calculateStones-weight]').val()*1,
+            stonesAmount = stoneRow.find('[data-calculateStones-amount]').val()*1;
 
         if (stoneType == 2) {   // natural stone
-          naturalStonesPrice += stonePrice;
+          naturalStonesPrice += (stonePrice * stonesAmount);
         } else if (stoneType == 1) {  // synthetic stone
           synthStonesWeight += stoneWeight;
         }
@@ -1128,21 +1129,21 @@ var uvel,
       }
 
       if (materialAttribute !== undefined) {
-        $self.ajaxFn('GET' , requestLink , $self.materialPricesResponseHandler, '', '', _this);
+        $self.ajaxFn('GET' , requestLink , $self.materialPricesResponseHandler, '', form, _this);
       }
     }
 
-    this.materialPricesResponseHandler = function(response, elements, _this) {
+    this.materialPricesResponseHandler = function(response, form, _this) {
       var retalPrices = response.retail_prices,
           wholesalePrices = response.wholesale_prices,
           retaiPriceFilled = _this.closest('.form-row').find('[data-calculatePrice-retail]'),
           wholesalePriceFilled = _this.closest('.form-row').find('[data-calculatePrice-wholesale]');
 
-      $self.fillPrices(retaiPriceFilled, retalPrices);
-      $self.fillPrices(wholesalePriceFilled, wholesalePrices);
+      $self.fillPrices(retaiPriceFilled, retalPrices, form);
+      $self.fillPrices(wholesalePriceFilled, wholesalePrices, form);
     }
 
-    this.fillPrices = function(element, prices) {      //  for now it's made for classic select, needs review when we apply Select2 
+    this.fillPrices = function(element, prices, form) {      //  for now it's made for classic select, needs review when we apply Select2 
       var chooseOpt = '<option value="0">Избери</option>';
 
       element.empty();
@@ -1160,6 +1161,8 @@ var uvel,
 
         element.append(option);
       });
+
+      $self.calculatePrice(form);
     }
 
     this.modelRequestInit = function(form) {

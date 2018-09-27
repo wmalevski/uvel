@@ -13,6 +13,7 @@ use Response;
 use Illuminate\Support\Facades\View;
 use App\Product;
 use App\Jewel;
+use App\MaterialQuantity;
 
 class PriceController extends Controller
 {
@@ -144,20 +145,22 @@ class PriceController extends Controller
     public function getByMaterial($material, $model){
         $checkExisting = ModelOption::where([
             ['model_id', '=', $model],
-            ['material_id', '=', $material],
-            ['default', '=', 'yes']
+            ['material_id', '=', $material]
+            //['default', '=', 'yes']
         ])->first();
+
+        $mat = MaterialQuantity::find($material);
 
         $retail_prices = Price::where(
             [
-                ['material_id', '=', $material],
+                ['material_id', '=', $mat->material_id],
                 ['type', '=', 'sell']
             ]
         )->get();
 
         $wholesale_prices = Price::where(
             [
-                ['material_id', '=', $material],
+                ['material_id', '=', $mat->material_id],
                 ['type', '=', 'sell']
             ]
         )->get();
