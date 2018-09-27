@@ -202,7 +202,7 @@
                 <div class="form-group col-md-4">
                     <label for="grossWeight_edit">Брутно тегло:</label>
                     <div class="input-group"> 
-                        <input type="number" class="form-control" name="gross_weight" id="grossWeight_edit" value="0" data-calculatePrice-grossWeight disabled>
+                        <input type="number" class="form-control" name="gross_weight" id="grossWeight_edit" value="{{ $product->gross_weight }}" data-calculatePrice-grossWeight disabled>
                         <span class="input-group-addon">гр</span>
                     </div>
                 </div>
