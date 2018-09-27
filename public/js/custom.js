@@ -1247,10 +1247,28 @@ var uvel,
     }
 
     this.fillWeight = function(response, form) {
-      var weightHolder = form.find('[data-calculatePrice-netWeight]'),
-          weight = response.weight;
+      var netWeightHolder = form.find('[data-calculatePrice-netWeight]'),
+          grossWeightHolder = form.find('[data-calculatePrice-grossWeight]'),
+          weight = response.weight * 1,
+          isWeightWithStones = $('[data-calculatePrice-withStones]').is(':checked'),
+          stones = form.find('.model_stones .fields');
 
-      weightHolder.val(weight);
+      netWeightHolder.val(weight);
+
+      if (isWeightWithStones) {
+        for (var i=0; i<stones.length; i++) {
+          var stoneRow = $(stones[i]),
+              stone = stoneRow.find('[data-calculatePrice-stone] option:selected'),
+              stoneType = stone.attr('data-stone-type'),
+              stoneWeight = stoneRow.find('[data-calculateStones-weight]').val()*1;
+
+          if (stoneType == 1) {  // synthetic stone
+            weight += stoneWeight;
+          }
+        }
+      }
+
+      grossWeightHolder.val(weight);
     }
 
     this.fillSize = function(response, form) {
