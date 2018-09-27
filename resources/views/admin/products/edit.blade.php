@@ -17,9 +17,9 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                        <input type="checkbox" id="weightWithStones_edit" name="with_stones" class="peer" @if($product->weight_without_stones == 'yes') checked @endif>
+                        <input type="checkbox" id="weightWithStones_edit" name="with_stones" class="peer" data-calculatePrice-withStones @if($product->weight_without_stones == 'yes') checked @endif >
                         <label for="weightWithStones_edit" class="peers peer-greed js-sb ai-c">
-                            <span class="peer peer-greed">Тегло без камъни</span>
+                            <span class="peer peer-greed">Тегло с камъни</span>
                         </label>
                     </div>
                 </div>
@@ -110,13 +110,16 @@
             
             <div class="form-row">
                 <div class="form-group col-md-6 weight-holder weight-holder-edit">
-                    <label for="1">Тегло: </label>
-                    <input type="text" class="form-control weight calculate" id="weight" value="{{ $product->weight }}" name="weight" data-calculatePrice-weight placeholder="Тегло:" min="1" max="10000">
+                    <label for="weight_edit">Нетно тегло: </label>
+                    <div class="input-group">
+                        <input type="text" class="form-control weight calculate" id="weight_edit" value="{{ $product->weight }}" name="weight" data-calculatePrice-netWeight placeholder="Тегло:" min="1" max="10000">
+                        <span class="input-group-addon">гр</span>
+                    </div>
                 </div>
             
                 <div class="form-group col-md-6">
-                    <label for="1">Размер: </label>
-                    <input type="text" class="form-control size" id="size" value="{{ $product->size }}" name="size" data-modelFilld-size placeholder="Размер:" min="1" max="10000">
+                    <label for="size_edit">Размер: </label>
+                    <input type="text" class="form-control size" id="size_edit" value="{{ $product->size }}" name="size" data-modelFilld-size placeholder="Размер:" min="1" max="10000">
                 </div>
 
                 <div class="col-12">
@@ -130,11 +133,11 @@
                     <div class="form-group col-md-6">
                         <label>Камъни: </label>
                         
-                        <select name="stones[]" class="form-control">
+                        <select name="stones[]" class="form-control" data-calculatePrice-stone>
                             <option value="">Избери</option>
 
                             @foreach($stones as $stone)
-                                <option value="{{ $stone->id }}" @if($modelStone->stone_id == $stone->id) selected @endif>
+                                <option value="{{ $stone->id }}" @if($modelStone->stone_id == $stone->id) selected @endif data-stone-type="{{ $stone->type }}" data-stone-price="{{ $stone->price }}">
                                     {{ $stone->name }}
                                     ({{ $stone->contour->name }}, {{ $stone->size->name }})
                                 </option>
@@ -154,7 +157,10 @@
                     <div class="form-group col-md-6">
                         <div class="form-group">
                             <label for="1">Тегло: </label>
-                            <input type="number" value="{{  $modelStone->weight  }}" class="form-control calculate-stones" id="1" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">
+                            <div class="input-group">
+                                <input type="number" value="{{  $modelStone->weight  }}" class="form-control calculate-stones" id="1" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">
+                                <span class="input-group-addon">гр</span>
+                            </div>
                         </div>
                     </div>
 
@@ -177,11 +183,14 @@
                 </div>
                 
                 <div class="form-group col-md-3">
-                    <label for="totalStones">Общо за леене:</label>
+                    <label for="totalStones_edit">Общо за леене:</label>
                 </div>
 
                 <div class="form-group col-md-4">
-                    <input type="number" class="form-control" id="totalStones" name="totalStones" data-calculateStones-total disabled>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="totalStones" name="totalStones_edit" data-calculateStones-total disabled>
+                        <span class="input-group-addon">гр</span>
+                    </div>
                 </div>
 
                 <div class="col-12">
@@ -190,7 +199,15 @@
             </div>
             
             <div class="form-row">
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-4">
+                    <label for="grossWeight_edit">Брутно тегло:</label>
+                    <div class="input-group"> 
+                        <input type="number" class="form-control" name="gross_weight" id="grossWeight_edit" value="{{ $product->gross_weight }}" data-calculatePrice-grossWeight disabled>
+                        <span class="input-group-addon">гр</span>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4">
                     <label for="workmanship">Изработка: </label>
                     <div class="input-group"> 
                         <input type="number" class="form-control worksmanship_price workmanship" value="{{ $product->workmanship }}" name="workmanship" id="workmanship" value="0" data-calculatePrice-worksmanship>
@@ -198,7 +215,7 @@
                     </div>
                 </div>
 
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-4">
                     <label for="price">Цена: </label>
                     <div class="input-group"> 
                         <input type="number" class="form-control final_price price" value="{{ $product->price }}" name="price" id="price" value="0" data-calculatePrice-final>

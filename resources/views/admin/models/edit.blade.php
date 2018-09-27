@@ -109,8 +109,11 @@
         
         <div class="form-row">
             <div class="form-group col-md-6 weight-holder">
-                <label for="1">Тегло: </label>
-                <input type="number" class="form-control calculate" id="weight" value="{{ $model->weight }}" name="weight" data-calculatePrice-weight placeholder="Тегло:">
+                <label for="weight_edit">Нетно тегло: </label>
+                <div class="input-group">
+                    <input type="number" class="form-control calculate" id="weight_edit" value="{{ $model->weight }}" name="weight" data-calculatePrice-netWeight placeholder="Тегло:">
+                    <span class="input-group-addon">гр</span>
+                </div>
             </div>
 
             <div class="form-group col-md-6">
@@ -131,11 +134,11 @@
                 <div class="form-group col-md-6">
                     <label>Камък: </label>
                     
-                        <select id="model-stone" name="stones[]" class="form-control">
+                        <select id="model-stone" name="stones[]" class="form-control" data-calculatePrice-stone>
                             <option value="">Избери</option>
 
                             @foreach($stones as $stone)
-                                <option value="{{ $stone->id }}" @if($modelStone->stone->id == $stone->id) selected @endif>
+                                <option value="{{ $stone->id }}" @if($modelStone->stone->id == $stone->id) selected @endif data-stone-type="{{ $stone->type }}" data-stone-price="{{ $stone->price }}">
                                     {{ $modelStone->stone->name }} 
 
                                     ({{ $modelStone->stone->contour->name }}, {{ $modelStone->stone->style->name }})
@@ -156,7 +159,10 @@
                 <div class="form-group col-md-6">
                     <div class="form-group">
                         <label for="1">Тегло: </label>
-                        <input type="number" value="{{  $modelStone->weight  }}" class="form-control calculate-stones" id="1" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:">
+                        <div class="input-group">
+                            <input type="number" value="{{  $modelStone->weight  }}" class="form-control calculate-stones" id="1" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:">
+                            <span class="input-group-addon">гр</span>
+                        </div>
                     </div>
                 </div>
 
@@ -175,11 +181,14 @@
             </div>
             
             <div class="form-group col-md-3">
-                <label for="totalStones">Общо за леене:</label>
+                <label for="totalStones_edit">Общо за леене:</label>
             </div>
 
             <div class="form-group col-md-4">
-            <input type="number" class="form-control" value="{{ $model->totalStones }}" id="totalStones" name="totalStones" data-calculateStones-total disabled>
+                <div class="input-group">
+                    <input type="number" class="form-control" value="{{ $model->totalStones }}" id="totalStones_edit" name="totalStones" data-calculateStones-total disabled>
+                    <span class="input-group-addon">гр</span>
+                </div>
             </div>
 
             <div class="col-12">
