@@ -134,15 +134,7 @@ aria-hidden="true">
                     <br/>
 
                     <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label for="grossWeight">Брутно тегло:</label>
-                            <div class="input-group"> 
-                                <input type="number" class="form-control" name="gross_weight" id="grossWeight" value="0" data-calculatePrice-grossWeight disabled>
-                                <span class="input-group-addon">гр</span>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-6">
                             <label>Избработка:</label>
                             <div class="input-group">
                                 <input id="workmanship" type="number" class="form-control worksmanship_price" value="0" name="workmanship" data-calculatePrice-worksmanship>
@@ -150,7 +142,7 @@ aria-hidden="true">
                             </div>
                         </div>
                         
-                         <div class="form-group col-md-4">
+                         <div class="form-group col-md-6">
                             <label>Цена:</label>
                             <div class="input-group">
                                 <input id="price" type="number" class="form-control final_price" value="0" name="price" data-calculatePrice-final>
