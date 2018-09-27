@@ -62,8 +62,8 @@
                         <label>Цена на дребно: </label>
                         <select id="retail_price_edit" name="retail_price_id[]" class="form-control calculate prices-filled retail-price" data-calculatePrice-retail>
                             <option value="">Избери</option>
-
-                            @foreach($prices->where('type', 'sell') as $price)
+                            
+                            @foreach($option->material->material->pricesSell as $price)
                                 <option value="{{ $price->id }}" data-material="{{ $price->material }}" @if($option->retail_price_id == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
                             @endforeach
                         </select>
@@ -74,7 +74,7 @@
                         <select id="wholesale_price_edit" name="wholesale_price_id[]" class="form-control prices-filled wholesale-price" data-calculatePrice-wholesale>
                             <option value="">Избери</option>
 
-                            @foreach($prices->where('type', 'sell') as $price)
+                            @foreach($option->material->material->pricesSell as $price)
                                 <option value="{{ $price->id }}" data-material="{{ $price->material }}" @if($option->wholesale_price_id == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
                             @endforeach
                         </select>
