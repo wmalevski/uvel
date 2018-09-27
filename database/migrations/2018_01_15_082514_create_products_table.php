@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->integer('jewel_id')->unsigned();
             $table->integer('type')->default(1);
             $table->float('weight');
+            $table->float('gross_weight');
             $table->integer('retail_price_id')->unsigned();
             $table->integer('wholesale_price_id')->unsigned();
             $table->integer('size');

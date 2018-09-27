@@ -42,7 +42,9 @@ class ProductController extends Controller
         foreach($stones as $stone){
             $pass_stones[] = [
                 'value' => $stone->id,
-                'label' => $stone->name.' ('. $stone->contour->name .', '. $stone->size->name .' )'
+                'label' => $stone->name.' ('. $stone->contour->name .', '. $stone->size->name .' )',
+                'type'  => $stone->type,
+                'price' => $stone->price
             ];
         }
 
@@ -79,6 +81,7 @@ class ProductController extends Controller
             'retail_price_id' => 'required|numeric|min:1',
             'wholesale_price_id' => 'required|numeric|min:1',
             'weight' => 'required|numeric|between:0.1,10000',
+            'gross_weight' => 'required|numeric|between:0.1,10000',
             'size' => 'required|numeric|between:0.1,10000',
             'workmanship' => 'required|numeric|between:0.1,500000',
             'price' => 'required|numeric|between:0.1,500000'
@@ -102,6 +105,7 @@ class ProductController extends Controller
         $product->jewel_id = $request->jewel_id;
         $product->material_id = $request->material_id;
         $product->weight = $request->weight;
+        $product->gross_weight = $request->gross_weight;
         $product->retail_price_id = $request->retail_price_id;
         $product->wholesale_price_id  = $request->wholesale_price_id;
         $product->size = $request->size;
@@ -308,6 +312,7 @@ class ProductController extends Controller
                 'retail_price_id' => 'required|numeric|min:1',
                 'wholesale_price_id' => 'required|numeric|min:1',
                 'weight' => 'required|numeric|between:0.1,10000',
+                'gross_weight' => 'required|numeric|between:0.1,10000',
                 'size' => 'required|numeric|between:0.1,10000',
                 'workmanship' => 'required|numeric|between:0.1,500000',
                 'price' => 'required|numeric|between:0.1,500000'
@@ -346,6 +351,7 @@ class ProductController extends Controller
             $product->model_id = $request->model_id;
             $product->jewel_id = $request->jewel_id;
             $product->weight = $request->weight;
+            $product->gross_weight = $request->gross_weight;
             $product->retail_price_id = $request->retail_price_id;
             $product->wholesale_price_id  = $request->wholesale_price_id;
             $product->size = $request->size;
