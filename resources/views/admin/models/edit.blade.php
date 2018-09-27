@@ -64,7 +64,7 @@
                             <option value="">Избери</option>
                             
                             @foreach($option->material->material->pricesSell as $price)
-                                <option value="{{ $price->id }}" data-material="{{ $price->material }}" @if($option->retail_price_id == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
+                                <option value="{{ $price->id }}" data-material="{{ $price->material_id }}" data-price="{{ $price->price }}" @if($option->retail_price_id == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -75,7 +75,7 @@
                             <option value="">Избери</option>
 
                             @foreach($option->material->material->pricesSell as $price)
-                                <option value="{{ $price->id }}" data-material="{{ $price->material }}" @if($option->wholesale_price_id == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
+                                <option value="{{ $price->id }}" data-material="{{ $price->material_id }}" data-price="{{ $price->price }}" @if($option->wholesale_price_id == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
                             @endforeach
                         </select>
                     </div>
