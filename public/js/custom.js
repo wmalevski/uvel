@@ -1198,6 +1198,9 @@ var uvel,
       $self.fillFinalPrice(response, form);
       $self.fillWorkmanshipPrice(response, form);
       $self.fillPhotos(response, form);
+      if ($('[data-calculatePrice-withStones]').is(':checked')) {
+        $self.calculatePrice(form);
+      }
     }
 
     this.fillMaterials = function(response, form) {
