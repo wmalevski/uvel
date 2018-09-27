@@ -87,8 +87,11 @@ aria-hidden="true">
 
                     <div class="form-row">
                         <div class="form-group col-md-6 weight-holder">
-                            <label for="1">Тегло: </label>
-                            <input type="number" class="form-control calculate" id="weight" name="weight" data-calculatePrice-weight placeholder="Тегло:">
+                            <label for="weight">Нетно тегло: </label>
+                            <div class="input-group">
+                                <input type="number" class="form-control calculate" id="weight" name="weight" data-calculatePrice-netWeight placeholder="Тегло:">
+                                <span class="input-group-addon">гр</span>
+                            </div>
                         </div>
 
                         <div class="form-group col-md-6">
@@ -117,7 +120,10 @@ aria-hidden="true">
                         </div>
 
                         <div class="form-group col-md-4">
-                            <input type="number" class="form-control" id="totalStones" name="totalStones" data-calculateStones-total disabled>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="totalStones" name="totalStones" data-calculateStones-total disabled>
+                                <span class="input-group-addon">гр</span>
+                            </div>
                         </div>
 
                         <div class="col-12">

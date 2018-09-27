@@ -636,7 +636,7 @@ var uvel,
 
             modal.html(resp);
             // $self.initializeSelect(_this.parents().find('select'));
-            if (modal.find('[data-calculatePrice-material]').length > 0) {
+            if (modal.find('[data-calculatePrice-material]').length > 0 && modal.closest('#editProduct').length > 0) {
               for (var i = 0; i < modal.find('[data-calculatePrice-material]').length; i++) {
                 var _this = $(modal.find('[data-calculatePrice-material]')[i]),
                     form = _this.closest('form');
@@ -893,7 +893,7 @@ var uvel,
         var newFields =
           '<div class="form-group col-md-6">' +
           '<label>Камък:</label>' +
-          '<select name="stones[]" class="form-control">';
+          '<select name="stones[]" class="form-control" data-calculatePrice-stone>';
 
         for(var i = 0; i<stonesData.length; i++) {
           var option = stonesData[i],
@@ -905,7 +905,7 @@ var uvel,
             }
           }
 
-          newFields += '<option value='+option.value+' '+selected+'>'+option.label+'</option>'
+          newFields += '<option value='+option.value+' data-stone-price='+option.price+' data-stone-type='+option.type+' '+selected+'>'+option.label+'</option>'
         }
 
         newFields +=
@@ -921,7 +921,10 @@ var uvel,
           '<div class="form-group col-md-6">' +
           '<div class="form-group">' +
           '<label>Тегло: </label>' +
+          '<div class="input-group">' +
           '<input type="number" value="'+weight+'" class="form-control calculate-stones" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">' +
+          '<span class="input-group-addon">гр</span>' +
+          '</div>' +
           '</div>' +
           '</div>' +
           '<div class="form-group col-md-6">' +
@@ -943,8 +946,11 @@ var uvel,
         var newRemoveTrigger = $(fieldsHolder).find('[data-removeStone-remove]');
         $self.removeStoneAttach(newRemoveTrigger, form);
 
-        var newCalculateTrigger = $(fieldsHolder).find('[data-calculateStones-weight], [data-calculateStones-amount], .stone-flow');
+        var newCalculateTrigger = $(fieldsHolder).find('[data-calculateStones-weight], .stone-flow');
         $self.calculateStonesAttach(newCalculateTrigger, form);
+
+        var newCalculatePriceTrigger = $(fieldsHolder).find('[data-calculateStones-weight], [data-calculatePrice-stone], [data-calculateStones-amount]');
+        $self.calculatePriceAttach(newCalculatePriceTrigger, form);
       }
     }
 
@@ -964,10 +970,11 @@ var uvel,
       var parents = _this.closest(".form-row");
       parents.remove();
       $self.calculateStones(form);
+      $self.calculatePrice(form);
     }
 
     this.calculateStonesInit = function(form) {
-      var calculateStonesTrigger = form.find('[data-calculateStones-weight], [data-calculateStones-amount], .stone-flow');
+      var calculateStonesTrigger = form.find('[data-calculateStones-weight], .stone-flow');
       $self.calculateStones(form);
       $self.calculateStonesAttach(calculateStonesTrigger, form);
     }
@@ -989,13 +996,11 @@ var uvel,
             rowTotalNode = row.find('.row-total-weight');
 
         if (isForFlow) {
-          var rowAmount = row.find('[data-calculateStones-amount]').val(),
-              rowWeight = row.find('[data-calculateStones-weight]').val(),
-              rowTotal = rowAmount * rowWeight;
+          var rowWeight = row.find('[data-calculateStones-weight]').val() * 1;
 
-          rowTotalNode.html('('+rowTotal+' гр.)');
+          rowTotalNode.html('('+rowWeight+' гр.)');
           rowTotalNode.css('opacity', '1');
-          currentTotal += rowTotal;
+          currentTotal += rowWeight;
         } else {
           rowTotalNode.css('opacity', '0');
         }
@@ -1021,7 +1026,7 @@ var uvel,
     }
 
     this.calculatePriceInit = function(form) {
-      var calculatePriceTrigger = form.find('[data-calculatePrice-retail], [data-calculatePrice-default], [data-calculatePrice-weight]');
+      var calculatePriceTrigger = form.find('[data-calculatePrice-retail], [data-calculatePrice-default], [data-calculatePrice-netWeight], [data-calculatePrice-withStones], [data-calculateStones-weight], [data-calculatePrice-stone], [data-calculateStones-amount]');
       $self.calculatePriceAttach(calculatePriceTrigger, form);
     }
 
@@ -1035,25 +1040,59 @@ var uvel,
     this.calculatePriceHandler = function(form, _this) {
       var row = _this.closest('.form-row');
 
-      if (row.find('[data-calculatePrice-default]:checked').length > 0 || row.find('[data-calculatePrice-weight]').length > 0 || form.attr('name') == 'products') {
+      if (row.find('[data-calculatePrice-default]:checked').length > 0 || row.find('[data-calculatePrice-netWeight]').length > 0 || form.attr('name') == 'products' || _this.closest('.model_stones').length > 0) {
         $self.calculatePrice(form);
       }
     }
 
     this.calculatePrice = function(form) {
       var workmanshipHolder = form.find('[data-calculatePrice-worksmanship]'),
+          grossWeightHolder = form.find('[data-calculatePrice-grossWeight]'),
+          stones = form.find('.model_stones .fields'),
           finalHolder = form.find('[data-calculatePrice-final]'),
           defaultMaterialRow = form.find('[data-calculatePrice-default]:checked').closest('.form-row'),
           sellPrice = form.attr('name') == 'products' ? form.find('[data-calculatePrice-retail] :selected').attr('data-price')*1 : defaultMaterialRow.find('[data-calculatePrice-retail] :selected').attr('data-price')*1,
           buyPrice = form.attr('name') == 'products' ? form.find('[data-calculatePrice-material] :selected').attr('data-pricebuy')*1 : defaultMaterialRow.find('[data-calculatePrice-material] :selected').attr('data-pricebuy')*1,
-          weight = form.find('[data-calculatePrice-weight]').val()*1;
+          netWeight = form.find('[data-calculatePrice-netWeight]').val()*1,
+          grossWeight = 0,
+          isWeightWithStones = $('[data-calculatePrice-withStones]').is(':checked'),
+          naturalStonesPrice = 0,
+          synthStonesWeight = 0;
 
-      if (sellPrice && buyPrice && weight) {
-        var worksmanShipPrice = (sellPrice - buyPrice) * weight,
-            finalPrice = sellPrice * weight;
+      for (var i=0; i<stones.length; i++) {
+        var stoneRow = $(stones[i]),
+            stone = stoneRow.find('[data-calculatePrice-stone] option:selected'),
+            stonePrice = stone.attr('data-stone-price')*1,
+            stoneType = stone.attr('data-stone-type'),
+            stoneWeight = stoneRow.find('[data-calculateStones-weight]').val()*1,
+            stonesAmount = stoneRow.find('[data-calculateStones-amount]').val()*1;
+
+        if (stoneType == 2) {   // natural stone
+          naturalStonesPrice += (stonePrice * stonesAmount);
+        } else if (stoneType == 1) {  // synthetic stone
+          synthStonesWeight += stoneWeight;
+        }
+      }
+
+      if (isWeightWithStones) {
+        grossWeight = netWeight + synthStonesWeight;
+      } else {
+        grossWeight = netWeight;
+      }
+
+      grossWeightHolder.val(grossWeight);
+
+      if (sellPrice && buyPrice && netWeight) {
+        if (!isWeightWithStones) {
+          var worksmanShipPrice = Math.round(((sellPrice - buyPrice) * netWeight) * 100) / 100,
+              productPrice = Math.round(((sellPrice * netWeight) + naturalStonesPrice) * 100) / 100;
+        } else if (isWeightWithStones) {
+          var worksmanShipPrice = Math.round(((sellPrice - buyPrice) * grossWeight) * 100) / 100,
+              productPrice = Math.round(((sellPrice * grossWeight) + naturalStonesPrice) * 100) / 100;
+        }
 
         workmanshipHolder.val(worksmanShipPrice);
-        finalHolder.val(finalPrice);
+        finalHolder.val(productPrice);
       }
     }
 
@@ -1090,23 +1129,22 @@ var uvel,
       }
 
       if (materialAttribute !== undefined) {
-        $self.ajaxFn('GET' , requestLink , $self.materialPricesResponseHandler, '', '', _this);
+        $self.ajaxFn('GET' , requestLink , $self.materialPricesResponseHandler, '', form, _this);
       }
     }
 
-    this.materialPricesResponseHandler = function(response, elements, _this) {
+    this.materialPricesResponseHandler = function(response, form, _this) {
       var retalPrices = response.retail_prices,
           wholesalePrices = response.wholesale_prices,
           retaiPriceFilled = _this.closest('.form-row').find('[data-calculatePrice-retail]'),
           wholesalePriceFilled = _this.closest('.form-row').find('[data-calculatePrice-wholesale]');
 
-      $self.fillPrices(retaiPriceFilled, retalPrices);
-      $self.fillPrices(wholesalePriceFilled, wholesalePrices);
+      $self.fillPrices(retaiPriceFilled, retalPrices, form);
+      $self.fillPrices(wholesalePriceFilled, wholesalePrices, form);
     }
 
-    this.fillPrices = function(element, prices) {      //  for now it's made for classic select, needs review when we apply Select2 
-      var chooseOpt = '<option value="0">Избери</option>',
-          previousSelected = element.find(':selected').val();
+    this.fillPrices = function(element, prices, form) {      //  for now it's made for classic select, needs review when we apply Select2 
+      var chooseOpt = '<option value="0">Избери</option>';
 
       element.empty();
       element.attr('disabled', false);
@@ -1116,13 +1154,15 @@ var uvel,
         var id = price.id,
             material = price.material,
             _price = price.price,
-            selected = (previousSelected == id || price.selected) ? 'selected' : '',
+            selected = price.selected ? 'selected' : '',
             text = price.slug;
 
         var option = '<option value="'+id+'" data-material="'+material+'" data-price="'+_price+'" '+selected+'>'+text+'</option>';
 
         element.append(option);
       });
+
+      $self.calculatePrice(form);
     }
 
     this.modelRequestInit = function(form) {
@@ -1161,6 +1201,9 @@ var uvel,
       $self.fillFinalPrice(response, form);
       $self.fillWorkmanshipPrice(response, form);
       $self.fillPhotos(response, form);
+      if ($('[data-calculatePrice-withStones]').is(':checked')) {
+        $self.calculatePrice(form);
+      }
     }
 
     this.fillMaterials = function(response, form) {
@@ -1210,10 +1253,28 @@ var uvel,
     }
 
     this.fillWeight = function(response, form) {
-      var weightHolder = form.find('[data-calculatePrice-weight]'),
-          weight = response.weight;
+      var netWeightHolder = form.find('[data-calculatePrice-netWeight]'),
+          grossWeightHolder = form.find('[data-calculatePrice-grossWeight]'),
+          weight = response.weight * 1,
+          isWeightWithStones = $('[data-calculatePrice-withStones]').is(':checked'),
+          stones = form.find('.model_stones .fields');
 
-      weightHolder.val(weight);
+      netWeightHolder.val(weight);
+
+      if (isWeightWithStones) {
+        for (var i=0; i<stones.length; i++) {
+          var stoneRow = $(stones[i]),
+              stone = stoneRow.find('[data-calculatePrice-stone] option:selected'),
+              stoneType = stone.attr('data-stone-type'),
+              stoneWeight = stoneRow.find('[data-calculateStones-weight]').val()*1;
+
+          if (stoneType == 1) {  // synthetic stone
+            weight += stoneWeight;
+          }
+        }
+      }
+
+      grossWeightHolder.val(weight);
     }
 
     this.fillSize = function(response, form) {
