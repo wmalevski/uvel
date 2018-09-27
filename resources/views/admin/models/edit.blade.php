@@ -52,7 +52,7 @@
                     
                             @foreach($materials as $material)
                                 @if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
-                                    <option value="{{ $material->id }}" data-material="{{ $material->material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}" @if($material->id == $option->material_id) selected @endif>{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
+                                    <option value="{{ $material->id }}" data-material="{{ $material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}" @if($material->id == $option->material_id) selected @endif>{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
                                 @endif
                             @endforeach
                         </select>
