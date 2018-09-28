@@ -1,5 +1,9 @@
 <tr data-id="{{ $model->id }}">
-    <td> {{ $model->name }} </td>
+    <td class="thumbnail--tooltip">
+        {{ $model->name }}
+        <ul @if($model->photos) style="background-image: url({{ asset("uploads/models/" . $model->photos->first()['photo']) }});" @endif>
+        </ul>
+    </td>
     <td> {{ $model->jewel->name }} </td> 
     <td> {{ $model->weight }} </td>
     <td> {{ $model->workmanship }}лв. </td>

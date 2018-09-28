@@ -68,4 +68,9 @@ class Stone extends Model
     {
         return $this->where('store_id', Auth::user()->getStore()->id)->get();
     }
+
+    public function photos()
+    {
+        return $this->hasMany('App\Gallery');
+    }
 }
