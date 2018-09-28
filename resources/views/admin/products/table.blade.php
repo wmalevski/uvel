@@ -1,7 +1,8 @@
 <tr data-id="{{ $product->id }}">
     <td class="thumbnail--tooltip">
         {{ $product->code }}
-        <ul>@if($product->photos) <img src="{{ asset("uploads/products/" . $product->photos->first()['photo']) }}" alt="" class="img-responsive" /> @endif</ul>
+        <ul @if($product->photos) style="background-image: url({{ asset("uploads/products/" . $product->photos->first()['photo']) }});" @endif>
+        </ul>
     </td>
     <td> @if($product->model) {{ $product->model->name }} @endif </td>
     <td> @if($product->model) {{ $product->jewel->name }} @endif </td> 

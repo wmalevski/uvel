@@ -236,11 +236,10 @@ textarea {
 }
 
 .stones--tooltip ul, .thumbnail--tooltip ul {
-  z-index: 20;
+  z-index: 801;
   position: absolute;
   right: 0;
-  top: 100%;
-  min-width: 400px;
+  top: 0;
   padding: 12px;
   margin-top: 10px;
   list-style: none;
@@ -250,14 +249,21 @@ textarea {
   opacity: 0;
   pointer-events: none;
   transition: visibility .4s , opacity .4s;
+  transform: translateY(-100%);
 }
 
 .thumbnail--tooltip ul {
-  left: 0;
+  left: 80%;
+  width: 170px;
+  height: 170px;
+  background-position: center;
+  background-size: cover;
 }
 
 .stones--tooltip ul {
-  right: 0;
+  left: 0;
+  min-width: 400px;
+  transform: translateX(-100%) translateY(-100%);
 }
 
 /* .stones--tooltip ul:before {

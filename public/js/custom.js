@@ -132,11 +132,37 @@ var uvel,
 
     this.init = function () {
       $self.attachInitialEvents();
+      // $self.checkThumbnailPosition();
 
       // $self.initializeSelect($('select'));
 
       // $self.checkAllForms();      
     };
+
+    this.checkThumbnailPosition = function() {
+      $window.on('load scroll', function() {
+        var thumbnails = $('.thumbnail--tooltip ul'),
+            windowHeight = $window.height(),
+            windowOffset = $window.scrollTop(),
+            windowBottomCoordinate = windowOffset + windowHeight;
+
+        if (thumbnails.length > 0) {
+          for (var i = 0; i < thumbnails.length; i++) {
+            var thumbnail = $(thumbnails[i]),
+                thumbnailContainer = thumbnail.closest('.thumbnail--tooltip'),
+                height = thumbnail.outerHeight(),
+                topOffset = thumbnail.offset().top,
+                bottomCoordinate = height + topOffset;
+
+            if (bottomCoordinate > windowBottomCoordinate) {
+              thumbnailContainer.addClass('top');
+            } else {
+              thumbnailContainer.removeClass('top');
+            }
+          }
+        }
+      })
+    }
 
     this.attachInitialEvents = function () {
       var $openFormTrigger = $('[data-form]:not([data-repair-scan])'),
