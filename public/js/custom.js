@@ -493,10 +493,54 @@ var uvel,
       $self.sendFormRequest(form, ajaxRequestLink, formType, data);
     }
 
-    this.clearForm = function(form) {   
-      form.find('input:not(.not-clear):not([type="checkbox"]):not([type="radio"]):not([type="hidden"]), textarea:not(.not-clear)').val('');
-      form.find('input[type="checkbox"]:not(.not-clear), input[type="radio"]:not(.not-clear)').prop('checked', false);
-      form.find('select:not(.not-clear)').val('0');
+    this.clearForm = function(form) {
+      var textInputs = form.find('input:not(.not-clear):not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]), textarea:not(.not-clear)'),
+          checksAndRadios = form.find('input[type="checkbox"]:not(.not-clear), input[type="radio"]:not(.not-clear)'),
+          checksAndRadiosNotToClear = form.find('input[type="checkbox"].not-clear, input[type="radio"].not-clear'),
+          selects = form.find('select:not(.not-clear)'),
+          stoneRowsContainer = form.find('.model_stones'),
+          imagesContainer = form.find('.drop-area-gallery'),
+          materialsContainer = form.find('.model_materials');
+
+      for (var i = 0; i < textInputs.length; i++) {
+        var input = $(textInputs[i]);
+
+        if (input.attr('placeholder')) {
+          input.val('');
+        } else {
+          input.val(0);
+        }
+      }
+
+      checksAndRadios.prop('checked', false);
+      checksAndRadiosNotToClear.prop('checked', true);
+
+      for (var i = 0; i < selects.length; i++) {
+        var select = $(selects[i]),
+            options = select.find('option');
+
+        for (var n = 0; n < options.length; n++) {
+          var option = $(options[n]),
+              value = option.attr('value');
+
+          if (value == '' || value == '0') {
+            option.prop('selected', true);
+          }
+        }
+      }
+
+      if (form.attr('name') == 'models') {                          // removes all material rows except the first one
+        var materials = materialsContainer.children('.form-row');
+
+        for (var i = 1; i < materials.length; i++) {
+          var materialRow = $(materials[i]);
+
+          materialRow.remove();
+        }
+      }
+
+      stoneRowsContainer.empty();
+      imagesContainer.empty();
     }
 
 
@@ -862,8 +906,15 @@ var uvel,
     }
 
     this.removeMaterials = function(_this) {
-      var parents = _this.parentsUntil(".form-row .fields");
-      parents[1].remove();
+      var errorMessage = "Материалът, който искате да премахнете е избран за материал по подразбиране и не може да бъде изтрит.",
+          materialRow = _this.closest('.form-row'),
+          isDefault = materialRow.find('[data-calculateprice-default]').is(':checked');
+
+      if (isDefault) {
+        alert(errorMessage);
+      } else {
+        materialRow.remove();
+      }
     }
 
     this.addStonesInit = function(form) {
