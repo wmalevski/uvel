@@ -106,7 +106,7 @@ class PaymentController extends Controller
                 if($condition->getName() != 'ДДС')
                 {
                     $discount = new PaymentDiscount();
-                    $discount->discount_id = $condition->getAttributes()['discount_id'];
+                    $discount->discount_code_id = $condition->getAttributes()['discount_id'];
                     $discount->payment_id = $paymentID;
                     $discount->save();
 

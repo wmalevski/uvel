@@ -494,7 +494,7 @@ var uvel,
     }
 
     this.clearForm = function(form) {
-      var textInputs = form.find('input[type="text"]:not(.not-clear), input[type="number"]:not(.not-clear), textarea:not(.not-clear)'),
+      var textInputs = form.find('input[type="text"]:not(.not-clear), input[type="number"]:not(.not-clear), input[type="password"]:not(.not-clear), input[type="email"]:not(.not-clear), textarea:not(.not-clear)'),
           checksAndRadios = form.find('input[type="checkbox"]:not(.not-clear), input[type="radio"]:not(.not-clear)'),
           checksAndRadiosNotToClear = form.find('input[type="checkbox"].not-clear, input[type="radio"].not-clear'),
           selects = form.find('select:not(.not-clear)'),
@@ -505,7 +505,7 @@ var uvel,
       for (var i = 0; i < textInputs.length; i++) {
         var input = $(textInputs[i]);
 
-        if (input.attr('placeholder')) {
+        if (input.attr('placeholder') || input.prop('tagName') == 'TEXTAREA') {
           input.val('');
         } else {
           input.val(0);

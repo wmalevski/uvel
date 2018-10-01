@@ -28,7 +28,10 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="2">Количество: </label>
-                    <input type="number" class="form-control" id="2" value="{{ $material->quantity }}" name="quantity" placeholder="Количество:" min="1">
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="2" value="{{ $material->quantity }}" name="quantity" placeholder="Количество:" min="1">
+                        <span class="input-group-addon">гр.</span>
+                    </div>
                 </div>
             </div>
 

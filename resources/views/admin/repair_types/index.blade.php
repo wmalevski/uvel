@@ -23,7 +23,10 @@ aria-hidden="true">
 
                     <div class="form-group">
                         <label for="1">Цена: </label>
-                        <input type="number" class="form-control" id="1" name="price" placeholder="Цена на ремонтната дейност:" min="0">
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="1" name="price" placeholder="Цена на ремонтната дейност:" min="0">
+                            <span class="input-group-addon">лв</span>
+                        </div>
                     </div>
                 </div>
 

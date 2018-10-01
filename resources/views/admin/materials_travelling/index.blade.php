@@ -33,8 +33,11 @@ aria-hidden="true">
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="2">Количество:(гр) </label>
-                            <input type="text" class="form-control" id="2" name="quantity" placeholder="Количество:">
+                            <label for="2">Количество:</label>
+                            <div class="input-group">
+                              <input type="text" class="form-control" id="2" name="quantity" placeholder="Количество:">
+                              <span class="input-group-addon">гр.</span>
+                            </div>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="3">Магазин: </label>

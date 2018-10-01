@@ -28,7 +28,10 @@
 
             <div class="form-group">
                 <label for="weight">Тегло: </label>
-                <input type="number" class="form-control weight" value="{{ $stone->weight }}" id="weight" data-calculateCarats-weight name="weight" placeholder="Тегло:">
+                <div class="input-group">
+                    <input type="number" class="form-control weight" value="{{ $stone->weight }}" id="weight" data-calculateCarats-weight name="weight" placeholder="Тегло:">
+                    <span class="input-group-addon">гр.</span>
+                </div>
             </div>
         
             <div class="form-group">
@@ -76,7 +79,10 @@
         
             <div class="form-group">
                 <label for="5">Цена: </label>
-                <input type="number" class="form-control" id="5" value="{{ $stone->price }}" name="price" placeholder="Цена:">
+                <div class="input-group">
+                    <input type="number" class="form-control" id="5" value="{{ $stone->price }}" name="price" placeholder="Цена:">
+                    <span class="input-group-addon">лв</span>
+                </div>
             </div>
             
             <div class="form-group">
