@@ -33,7 +33,7 @@ aria-hidden="true">
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputCity">Приемане</label>
-                                <div class="input-icon form-group">
+                                <div class="input-icon form-group date-recieved">
                                     <div class="input-group">
                                         <div class="input-group-addon bgc-white bd bdwR-0">
                                             <i class="ti-calendar"></i>
@@ -44,7 +44,7 @@ aria-hidden="true">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputZip">Срок</label>
-                                <div class="timepicker-input input-icon form-group">
+                                <div class="timepicker-input input-icon form-group date-returned">
                                     <div class="input-group">
                                         <div class="input-group-addon bgc-white bd bdwR-0">
                                             <i class="ti-calendar"></i>

@@ -125,7 +125,7 @@ var uvel,
       },
       repairs: {
         selector: '[name="repairs"]',
-        controllers: ['fillRepairPrice', 'calculateRepairAfterPriceInit', 'calculateRepairAfterPrice'],
+        controllers: ['fillRepairPrice', 'calculateRepairAfterPriceInit', 'calculateRepairAfterPrice', 'focusDatePicker'],
         initialized: false
       }
     };
@@ -1673,6 +1673,15 @@ var uvel,
         priceAfter = Math.round(priceAfter * 100) / 100;
         priceAfetrHolder.val(priceAfter);
       }
+    }
+
+    this.focusDatePicker = function(form) {
+      var datePicker = form.find('.date-returned input'),
+          datePickerTrigger = form.find('.date-returned .input-group-addon');
+
+      datePickerTrigger.on('click', function() {
+        datePicker.focus();
+      })
     }
 
     this.barcodeProcessRepairAttach = function(input) {
