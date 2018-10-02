@@ -30,7 +30,10 @@ aria-hidden="true">
                 
                     <div class="form-group">
                         <label for="weight">Тегло: </label>
-                        <input type="number" class="form-control weight" id="weight" name="weight" data-calculateCarats-weight placeholder="Тегло:">
+                        <div class="input-group">
+                            <input type="number" class="form-control weight" id="weight" name="weight" data-calculateCarats-weight placeholder="Тегло:">
+                            <span class="input-group-addon">гр.</span>
+                        </div>
                     </div>
                 
                     <div class="form-group">
@@ -73,7 +76,10 @@ aria-hidden="true">
                 
                     <div class="form-group">
                         <label for="5">Цена: </label>
-                        <input type="number" class="form-control" id="5" name="price" placeholder="Цена:">
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="5" name="price" placeholder="Цена:">
+                            <span class="input-group-addon">лв</span>
+                        </div>
                     </div>
 
                     <div class="form-group">

@@ -493,10 +493,54 @@ var uvel,
       $self.sendFormRequest(form, ajaxRequestLink, formType, data);
     }
 
-    this.clearForm = function(form) {   
-      form.find('input:not(.not-clear):not([type="checkbox"]):not([type="radio"]):not([type="hidden"]), textarea:not(.not-clear)').val('');
-      form.find('input[type="checkbox"]:not(.not-clear), input[type="radio"]:not(.not-clear)').prop('checked', false);
-      form.find('select:not(.not-clear)').val('0');
+    this.clearForm = function(form) {
+      var textInputs = form.find('input[type="text"]:not(.not-clear), input[type="number"]:not(.not-clear), input[type="password"]:not(.not-clear), input[type="email"]:not(.not-clear), textarea:not(.not-clear)'),
+          checksAndRadios = form.find('input[type="checkbox"]:not(.not-clear), input[type="radio"]:not(.not-clear)'),
+          checksAndRadiosNotToClear = form.find('input[type="checkbox"].not-clear, input[type="radio"].not-clear'),
+          selects = form.find('select:not(.not-clear)'),
+          stoneRowsContainer = form.find('.model_stones'),
+          imagesContainer = form.find('.drop-area-gallery'),
+          materialsContainer = form.find('.model_materials');
+
+      for (var i = 0; i < textInputs.length; i++) {
+        var input = $(textInputs[i]);
+
+        if (input.attr('placeholder') || input.prop('tagName') == 'TEXTAREA') {
+          input.val('');
+        } else {
+          input.val(0);
+        }
+      }
+
+      checksAndRadios.prop('checked', false);
+      checksAndRadiosNotToClear.prop('checked', true);
+
+      for (var i = 0; i < selects.length; i++) {
+        var select = $(selects[i]),
+            options = select.find('option');
+
+        for (var n = 0; n < options.length; n++) {
+          var option = $(options[n]),
+              value = option.attr('value');
+
+          if (value == '' || value == '0') {
+            option.prop('selected', true);
+          }
+        }
+      }
+
+      if (form.attr('name') == 'models') {                          // removes all material rows except the first one
+        var materials = materialsContainer.children('.form-row');
+
+        for (var i = 1; i < materials.length; i++) {
+          var materialRow = $(materials[i]);
+
+          materialRow.remove();
+        }
+      }
+
+      stoneRowsContainer.empty();
+      imagesContainer.empty();
     }
 
 
@@ -862,8 +906,15 @@ var uvel,
     }
 
     this.removeMaterials = function(_this) {
-      var parents = _this.parentsUntil(".form-row .fields");
-      parents[1].remove();
+      var errorMessage = "Материалът, който искате да премахнете е избран за материал по подразбиране и не може да бъде изтрит.",
+          materialRow = _this.closest('.form-row'),
+          isDefault = materialRow.find('[data-calculateprice-default]').is(':checked');
+
+      if (isDefault) {
+        alert(errorMessage);
+      } else {
+        materialRow.remove();
+      }
     }
 
     this.addStonesInit = function(form) {
@@ -1113,15 +1164,22 @@ var uvel,
           materialType = _this.find(':selected').val(),
           materialAttribute = _this.find(':selected').attr('data-material'),
           pricesFilled = _this.closest('.form-row').find('.prices-filled'),
-          requestLink = ajaxUrl + materialAttribute;
+          requestLink = ajaxUrl + materialAttribute,
+          formName = form.attr('name');
 
       if(materialType == 0) {
         pricesFilled.val('0');
         pricesFilled.attr('disabled', true);
+
+        if (formName == 'products' || _this.closest('.form-row').find('[data-calculatePrice-default]').is(':checked')) {
+          form.find('[data-calculatePrice-worksmanship]').val(0);
+          form.find('[data-calculatePrice-final]').val(0);
+        }
+
         return;
       }
 
-      if (_this.closest('#addProduct').length > 0 || _this.closest('#editProduct').length > 0) {
+      if (formName == 'products') {
         var modelId = form.find('[data-calculatePrice-model] option:selected').val();
         requestLink += '/' + modelId;
       } else {
@@ -1134,12 +1192,12 @@ var uvel,
     }
 
     this.materialPricesResponseHandler = function(response, form, _this) {
-      var retalPrices = response.retail_prices,
+      var retailPrices = response.retail_prices,
           wholesalePrices = response.wholesale_prices,
           retaiPriceFilled = _this.closest('.form-row').find('[data-calculatePrice-retail]'),
           wholesalePriceFilled = _this.closest('.form-row').find('[data-calculatePrice-wholesale]');
 
-      $self.fillPrices(retaiPriceFilled, retalPrices, form);
+      $self.fillPrices(retaiPriceFilled, retailPrices, form);
       $self.fillPrices(wholesalePriceFilled, wholesalePrices, form);
     }
 
@@ -1208,9 +1266,11 @@ var uvel,
 
     this.fillMaterials = function(response, form) {
       var materialHolder = form.find('[data-calculatePrice-material]'),
-          materials = response.materials;
+          materials = response.materials,
+          chooseOpt = '<option value="0">Избери</option>';
 
       materialHolder.empty();
+      materialHolder.append(chooseOpt);
 
       materials.forEach(function(material) {
         var value = material.value,

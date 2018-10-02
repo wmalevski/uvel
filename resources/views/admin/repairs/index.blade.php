@@ -88,13 +88,19 @@ aria-hidden="true">
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputPassword4">Тегло</label>
-                                <input type="number" class="form-control" name="weight" placeholder="Тегло на артикула">
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="weight" placeholder="Тегло на артикула">
+                                    <span class="input-group-addon">гр.</span>
+                                </div>
                             </div>
 
  
                             <div class="form-group col-md-6">
                                 <label for="inputEmail4">Цена</label>
-                                <input type="number" class="form-control" name="price" placeholder="Цена на ремонта" data-repair-price>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="price" placeholder="Цена на ремонта" data-repair-price>
+                                    <span class="input-group-addon">лв</span>
+                                </div>
                             </div>
                         </div>
                 </div>

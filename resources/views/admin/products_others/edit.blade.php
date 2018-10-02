@@ -32,12 +32,18 @@
 
             <div class="form-group">
                 <label for="1">Цена: </label>
-                <input type="text" class="form-control" id="price" value="{{ $product->price }}" name="price" placeholder="Цена на брой:">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="price" value="{{ $product->price }}" name="price" placeholder="Цена на брой:">
+                    <span class="input-group-addon">лв</span>
+                </div>
             </div>
 
             <div class="form-group">
                 <label for="1">Количество: </label>
-                <input type="number" min="0" class="form-control" id="quantity" value="{{ $product->quantity }}" name="quantity" placeholder="Налично количество:" readonly>
+                <div class="input-group">
+                    <input type="number" min="0" class="form-control" id="quantity" value="{{ $product->quantity }}" name="quantity" placeholder="Налично количество:" readonly>
+                    <span class="input-group-addon">бр.</span>
+                </div>
             </div>
 
             <div class="form-group">
@@ -50,7 +56,10 @@
 
             <div class="form-group">
                 <label for="1">Количество: </label>
-                <input type="number" min="0" class="form-control" id="quantity_after" name="quantity_after" placeholder="Допълнително количество:">
+                <div class="input-group">
+                    <input type="number" min="0" class="form-control" id="quantity_after" name="quantity_after" placeholder="Допълнително количество:">
+                    <span class="input-group-addon">бр.</span>
+                </div>
             </div>
 
             <div class="form-group">

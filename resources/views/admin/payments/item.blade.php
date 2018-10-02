@@ -36,9 +36,14 @@
 
     <td>{{ $payment->user->name }}</td>
     <td>Виж отстъпки 
-        @foreach($payment->discounts as $discount)
-           {{ $discount->discount->discount }}%
-        @endforeach
+        <!-- @foreach($payment->discounts as $discount)
+            @if($discount->discount)
+                {{ $discount->discount }}%
+            @else
+                {{ $discount->discount }}%
+            @endif
+            {{ $discount->discount->discount }}% 
+        @endforeach -->
         <br/> 
         Виж артикули <br/>
         @foreach($payment->sellings as $selling)

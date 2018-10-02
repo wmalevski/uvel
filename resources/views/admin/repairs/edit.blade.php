@@ -82,23 +82,35 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputPassword4">Тегло</label>
-                    <input type="number" class="form-control" name="weight" value="{{ $repair->weight }}" placeholder="Тегло на артикула" data-repair-weightBefore readonly>
+                    <div class="input-group">
+                        <input type="number" class="form-control" name="weight" value="{{ $repair->weight }}" placeholder="Тегло на артикула" data-repair-weightBefore readonly>
+                        <span class="input-group-addon">гр.</span>
+                    </div>
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="inputPassword4">Тегло след ремонта</label>
-                    <input type="number" class="form-control" name="weight_after" data-repair-weightAfter @if($repair->weight_after == '') value="{{ $repair->weight }}" @else value="{{ $repair->weight_after }}" @endif  placeholder="Тегло на артикула след ремонта">
+                    <div class="input-group">
+                        <input type="number" class="form-control" name="weight_after" data-repair-weightAfter @if($repair->weight_after == '') value="{{ $repair->weight }}" @else value="{{ $repair->weight_after }}" @endif  placeholder="Тегло на артикула след ремонта">
+                        <span class="input-group-addon">гр.</span>
+                    </div>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputEmail4">Цена</label>
-                    <input type="number" class="form-control" name="price" value="{{ $repair->price }}" placeholder="Цена на ремонта" data-repair-price readonly>
+                    <div class="input-group">
+                        <input type="number" class="form-control" name="price" value="{{ $repair->price }}" placeholder="Цена на ремонта" data-repair-price readonly>
+                        <span class="input-group-addon">лв</span>
+                    </div>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="inputEmail4">Цена след ремонта</label>
-                    <input type="number" class="form-control" name="price_after" data-repair-priceAfter @if($repair->price_after == '') value="{{ $repair->price }}" @else value="{{ $repair->price_after }}" @endif placeholder="Цена на ремонта">
+                    <div class="input-group">
+                        <input type="number" class="form-control" name="price_after" data-repair-priceAfter @if($repair->price_after == '') value="{{ $repair->price }}" @else value="{{ $repair->price_after }}" @endif placeholder="Цена на ремонта">
+                        <span class="input-group-addon">лв</span>
+                    </div>
                 </div>
             </div>
 

@@ -21,7 +21,10 @@
         
             <div class="form-group">
                 <label for="2">Стойност: </label>
-                <input type="number" class="form-control" id="2" value="{{ $price->price }}" name="price" placeholder="Цена:">
+                <div class="input-group">
+                    <input type="number" class="form-control" id="2" value="{{ $price->price }}" name="price" placeholder="Цена:">
+                    <span class="input-group-addon">лв / гр.</span>
+                </div>
             </div>
         
             <label>Тип: </label>
