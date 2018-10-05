@@ -36,7 +36,7 @@ class ModelController extends Controller
         $models = Model::all();
         $jewels = Jewel::all();
         $prices = Price::all();
-        $stones = Stone::currentStore();
+        $stones = Stone::all();
         $materials = MaterialQuantity::currentStore();
         $pass_stones = array();
         
@@ -303,7 +303,7 @@ class ModelController extends Controller
     {
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
-        $stones = Stone::currentStore();
+        $stones = Stone::all();
         $modelStones = $model->stones;
         $photos = Gallery::where(
             [
