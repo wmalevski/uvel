@@ -75,7 +75,7 @@ var uvel,
       },
       substitutions: {
         selector: '[name="substitutions"]',
-        controllers: [],
+        controllers: ['focusDatePicker'],
         initialized: false
       },
       users: {
@@ -1676,10 +1676,12 @@ var uvel,
     }
 
     this.focusDatePicker = function(form) {
-      var datePicker = form.find('.date-returned input'),
-          datePickerTrigger = form.find('.date-returned .input-group-addon');
+      var  datePickerTriggers = form.find('.timepicker-input input:not([readonly])').closest('.timepicker-input').find('.input-group-addon');
 
-      datePickerTrigger.on('click', function() {
+      datePickerTriggers.on('click', function() {
+        var _this = $(this),
+            datePicker = _this.closest('.timepicker-input').find('input');
+            
         datePicker.focus();
       })
     }
