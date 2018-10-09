@@ -186,7 +186,10 @@ aria-hidden="true">
                         <div class="form-group form-row">
                             <label for="discount" class="col-sm-9 control-label">Отстъпка</label>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="discount"  id="discount" data-sell-discount placeholder="Проценти" >
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="discount"  id="discount" data-sell-discount placeholder="Проценти" >
+                                    <span class="input-group-addon">%</span>
+                                </div>
                             </div>
                         </div>
 
@@ -238,15 +241,27 @@ aria-hidden="true">
 
 
                         <div class="form-group form-row">
-                            <label for="subTotal" class="col-sm-9 control-label">Цена</label>
+                            <label for="subTotal" class="col-sm-9 control-label">Цена (с ДДС):</label>
                             <div class="col-sm-3">
-                                <input type="price" name="subTotal" value="{{ Cart::session(Auth::user()->id)->getSubTotal() }}" class="form-control" id="subTotal"
-                                data-sell-subTotal placeholder="" readonly>
+                                <div class="input-group">
+                                    <input type="price" name="subTotal" value="{{ Cart::session(Auth::user()->id)->getSubTotal() }}" class="form-control" id="subTotal" data-sell-subTotal placeholder="" readonly>
+                                    <span class="input-group-addon">лв</span>
+                                </div>
                             </div>
                         </div>
 
                         <div class="form-group form-row">
-                            <label for="subTotal" class="col-sm-9 control-label">Отстъпки<br/>
+                            <label for="tax" class="col-sm-9 control-label">ДДС:</label>
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <input type="price" name="tax" value="0" class="form-control" id="tax" data-sell-tax placeholder="" readonly>
+                                    <span class="input-group-addon">лв</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-row">
+                            <label for="subTotal" class="col-sm-9 control-label">Отстъпки:<br/>
                                 <span class="discount--label-holder">
                                 @foreach($conditions as $condition)
                                     @if($condition->getName() != 'ДДС')
@@ -257,14 +272,20 @@ aria-hidden="true">
                                 </span>
                             </label>
                             <div class="col-sm-3">
-                                <input type="price" name="subTotal" value="{{ $priceCon }}" class="form-control" id="subTotal" placeholder="" data-sell-discountDisplay readonly>
+                                <div class="input-group">
+                                    <input type="price" name="subTotal" value="{{ $priceCon }}" class="form-control" id="subTotal" placeholder="" data-sell-discountDisplay readonly>
+                                    <span class="input-group-addon">лв</span>
+                                </div>
                             </div>
                         </div>
 
                         <div class="form-group form-row">
-                            <label for="total" class="col-sm-9 control-label">Крайна цена(с ДДС +20%)</label>
+                            <label for="total" class="col-sm-9 control-label">Крайна цена:</label>
                             <div class="col-sm-3">
-                                <input type="totalPrice" name="total" value="{{ Cart::session(Auth::user()->id)->getTotal() }}" class="form-control" id="total" data-calculatePayment-total placeholder="" readonly>
+                                <div class="input-group">
+                                    <input type="totalPrice" name="total" value="{{ Cart::session(Auth::user()->id)->getTotal() }}" class="form-control" id="total" data-calculatePayment-total placeholder="" readonly>
+                                    <span class="input-group-addon">лв</span>
+                                </div>
                             </div>
                         </div>
 
