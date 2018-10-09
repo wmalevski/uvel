@@ -178,8 +178,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         Pyaesone17\ActiveState\ActiveStateServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
-        Darryldecode\Cart\CartServiceProvider::class
-
+        Darryldecode\Cart\CartServiceProvider::class,
+        App\Providers\CartCustomConditionServiceProvider::class
     ],
 
     /*
