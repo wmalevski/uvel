@@ -120,20 +120,20 @@ class SellingController extends Controller
     public function sell(Request $request){
         $type = "product";
 
-        $tax = new \Darryldecode\Cart\CartCondition(array(
-            'name' => 'ДДС',
-            'type' => 'tax',
-            'target' => 'subtotal',
-            'value' => '+20%',
-            'attributes' => array(
-                'description' => 'Value added tax',
-                'more_data' => 'more data here'
-            ),
-            'order' => 2
-        ));
+        // $tax = new \Darryldecode\Cart\CartCondition(array(
+        //     'name' => 'ДДС',
+        //     'type' => 'tax',
+        //     'target' => 'subtotal',
+        //     'value' => '+20%',
+        //     'attributes' => array(
+        //         'description' => 'Value added tax',
+        //         'more_data' => 'more data here'
+        //     ),
+        //     'order' => 2
+        // ));
 
-        Cart::condition($tax);
-        Cart::session(Auth::user()->getId())->condition($tax);
+        // Cart::condition($tax);
+        // Cart::session(Auth::user()->getId())->condition($tax);
 
         if($request->amount_check == false){
             if($request->type_repair == true){
@@ -283,7 +283,6 @@ class SellingController extends Controller
             $product = Product::where('barcode', $item->id)->first();
             $product_box = ProductOther::where('barcode', $item->id)->first();
             $repair = Repair::where('barcode', $item->id)->first();
-            //dd($product);
             if($product){
                 $product->status = 'available';
                 $product->save();
@@ -332,8 +331,7 @@ class SellingController extends Controller
                     'discount_id' => $setDiscount,
                     'description' => 'Value added tax',
                     'more_data' => 'more data here'
-                ),
-                'order' => 1
+                )
             ));
 
             Cart::condition($condition);
