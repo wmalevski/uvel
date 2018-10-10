@@ -81,6 +81,13 @@ Class CartCustomCondition extends CartCondition {
         // Do not allow items with negative prices.
         return $result < 0 ? 0.00 : $result;
     }
+
+    public function getCalculatedValue($totalOrSubTotalOrPrice)
+    {
+        $this->apply($totalOrSubTotalOrPrice, $this->getValue());
+
+        return $this->parsedRawValue;
+    }
 }
 
 class SellingController extends Controller
@@ -101,7 +108,7 @@ class SellingController extends Controller
         $priceCon = 0;
 
         if(count($cartConditions) > 0){
-            foreach(Cart::session(Auth::user()->getId())->getConditionsByType('discount') as $cc){
+            foreach(Cart::session(Auth::user()->getId())->getConditions() as $cc){
                 $priceCon += $cc->getCalculatedValue($subTotal);
             }
         } else{
@@ -406,15 +413,25 @@ class SellingController extends Controller
 
             $total = Cart::session($userId)->getTotal();
             $subtotal = Cart::session($userId)->getSubTotal();
-            $cartConditions = Cart::session($userId)->getConditionsByType('discount');
+            $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();
+            $cartConditions = Cart::session($userId)->getConditions();
             $conds = array();
+            $priceCon = 0;
+    
+            if(count($cartConditions) > 0){
+                foreach(Cart::session(Auth::user()->getId())->getConditions() as $cc){
+                    $priceCon += $cc->getCalculatedValue($subTotal);
+                }
+            } else{
+                $priceCon = 0;
+            }
 
             foreach($cartConditions as $key => $condition){
                 $conds[$key]['value'] = $condition->getValue();
                 $conds[$key]['attributes'] = $condition->getAttributes();
             }
 
-            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds));  
+            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon));  
         } 
     }
 
@@ -469,8 +486,18 @@ class SellingController extends Controller
         Cart::condition($condition);
         Cart::session($userId)->condition($condition);
 
-        $cartConditions = Cart::session($userId)->getConditionsByType('discount');
+        $cartConditions = Cart::session($userId)->getConditions();
+        $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();
         $conds = array();
+        $priceCon = 0;
+
+        if(count($cartConditions) > 0){
+            foreach(Cart::session(Auth::user()->getId())->getConditions() as $cc){
+                $priceCon += $cc->getCalculatedValue($subTotal);
+            }
+        } else{
+            $priceCon = 0;
+        }
         
         foreach($cartConditions as $key => $condition){
             $conds[$key]['value'] = $condition->getValue();
@@ -481,7 +508,7 @@ class SellingController extends Controller
         $total = Cart::session($userId)->getTotal();
         $subtotal = Cart::session($userId)->getSubTotal();
 
-        return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds));  
+        return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon));  
         
     }
 

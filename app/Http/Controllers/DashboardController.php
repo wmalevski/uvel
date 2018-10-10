@@ -89,7 +89,6 @@ class DashboardController extends Controller
     {
         $discounts = DiscountCode::all();
         $currencies = Currency::all();
-        $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
         $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();
         $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
         $condition = Cart::getConditions('discount');
