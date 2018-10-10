@@ -401,14 +401,11 @@ var uvel,
 
       subTotalInput.val(response.subtotal);
       totalInput.val(response.total);
+      taxInput.val(response.dds);
 
       var discountsSum = response.subtotal - response.total;
       discountsSum = Math.round(discountsSum * 100) / 100;
-      discountDisplay.val(discountsSum);
-
-      var taxAmount = response.subtotal - (response.subtotal / 1.2);
-      taxAmount = Math.round(taxAmount * 100) / 100;
-      taxInput.val(taxAmount);
+      discountDisplay.val(discountsSum);      
     }
 
     this.removeDiscountAttach = function(removeDiscountTrigger) {
