@@ -255,14 +255,16 @@ class SellingController extends Controller
                 $type = "box";
             }
 
+           if($item){
             if($item->quantity < $request->quantity){
                 return Response::json(['errors' => array(
                     'quantity' => 'Системата няма това количество, което желаете да продадете.'
                 )], 401);
             }
-
+            
             $item->quantity = $item->quantity-$request->quantity;
             $item->save();
+           }
         }
 
         if($item){       
