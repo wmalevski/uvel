@@ -528,14 +528,14 @@ class SellingController extends Controller
 
         $items = [];
         
-        Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
+        Cart::session($userId)->getContent()->each(function($singleitem) use (&$items)
         {
-            $items[] = $item;
+            $items[] = $singleitem;
         });
 
         $table = '';
-        foreach($items as $item){
-            $table .= View::make('admin/selling/table',array('item'=>$item))->render();
+        foreach($items as $singleitem){
+            $table .= View::make('admin/selling/table',array('item'=>$singleitem))->render();
         }
 
         
