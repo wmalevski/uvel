@@ -359,7 +359,7 @@ class SellingController extends Controller
         {
             $product = Product::where('barcode', $item->id)->first();
             $product_box = ProductOther::where('barcode', $item->id)->first();
-            $repair = Repair::where('barcode', $item->id)->first();
+            $repair = Repair::where('barcode', $item->id)->first(); 
             if($product){
                 $product->status = 'available';
                 $product->save();
@@ -519,6 +519,7 @@ class SellingController extends Controller
 
     public function removeItem($item){
         $userId = Auth::user()->getId(); 
+        //dd($item);
         $remove = Cart::session($userId)->remove($item);
 
         $total = round(Cart::session($userId)->getTotal(),2);
