@@ -76,6 +76,13 @@ Class CartCustomCondition extends CartCondition {
         // Do not allow items with negative prices.
         return $result < 0 ? 0.00 : $result;
     }
+
+    public function getCalculatedValue($totalOrSubTotalOrPrice)
+    {
+        $this->apply($totalOrSubTotalOrPrice, $this->getValue());
+
+        return $this->parsedRawValue;
+    }
 }
 
 class DashboardController extends Controller
@@ -124,13 +131,9 @@ class DashboardController extends Controller
             $items[] = $item;
         });
 
-        //Manually deleting the essions in the cart as the ajax does not work.
-        // Cart::clear();
-        // Cart::clearCartConditions();
-        // Cart::session(Auth::user()->getId())->clear();
-        // Cart::session(Auth::user()->getId())->clearCartConditions();
+        $dds = round($subTotal - ($subTotal/1.2), 2);
 
-        return \View::make('admin/selling/index', array('items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'priceCon' => $priceCon));
+        return \View::make('admin/selling/index', array('items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'priceCon' => $priceCon, 'dds' => $dds));
     }
 
     /**

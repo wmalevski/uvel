@@ -254,7 +254,7 @@ aria-hidden="true">
                             <label for="tax" class="col-sm-9 control-label">ДДС:</label>
                             <div class="col-sm-3">
                                 <div class="input-group">
-                                    <input type="price" name="tax" value="0" class="form-control" id="tax" data-sell-tax placeholder="" readonly>
+                                    <input type="price" name="tax" value="{{ $dds }}" class="form-control" id="tax" data-sell-tax placeholder="" readonly>
                                     <span class="input-group-addon">лв</span>
                                 </div>
                             </div>
@@ -283,7 +283,7 @@ aria-hidden="true">
                             <label for="total" class="col-sm-9 control-label">Крайна цена:</label>
                             <div class="col-sm-3">
                                 <div class="input-group">
-                                    <input type="totalPrice" name="total" value="{{ Cart::session(Auth::user()->id)->getTotal() }}" class="form-control" id="total" data-calculatePayment-total placeholder="" readonly>
+                                    <input type="totalPrice" name="total" value="{{ round(Cart::session(Auth::user()->id)->getTotal(),2) }}" class="form-control" id="total" data-calculatePayment-total placeholder="" readonly>
                                     <span class="input-group-addon">лв</span>
                                 </div>
                             </div>

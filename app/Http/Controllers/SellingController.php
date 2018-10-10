@@ -121,8 +121,9 @@ class SellingController extends Controller
             $items[] = $item;
         });
 
+        $dds = round($subTotal - ($subTotal/1.2), 2);
         
-        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies));
+        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds));
     }
 
     /**
@@ -304,8 +305,8 @@ class SellingController extends Controller
 
         
 
-            $total = Cart::session($userId)->getTotal();
-            $subtotal = Cart::session($userId)->getSubTotal();
+            $total = round(Cart::session($userId)->getTotal(),2);
+            $subtotal = round(Cart::session($userId)->getSubTotal(),2);
             $quantity = Cart::session($userId)->getTotalQuantity();
 
             $items = [];
@@ -320,7 +321,9 @@ class SellingController extends Controller
                 $table .= View::make('admin/selling/table',array('item'=>$item))->render();
             }
 
-            return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity));  
+            $dds = round($subtotal - ($subtotal/1.2), 2);
+
+            return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'dds' => $dds));  
 
         }else{
             return Response::json(array('success' => false)); 
@@ -330,8 +333,8 @@ class SellingController extends Controller
     public function getCartTable(){
         $userId = Auth::user()->getId(); // or any string represents user identifier
 
-        $total = Cart::session($userId)->getTotal();
-        $subtotal = Cart::session($userId)->getSubTotal();
+        $total = round(Cart::session($userId)->getTotal(),2);
+        $subtotal = round(Cart::session($userId)->getSubTotal(),2);
         $quantity = Cart::session($userId)->getTotalQuantity();
 
         $items = [];
@@ -411,9 +414,9 @@ class SellingController extends Controller
             Cart::condition($condition);
             Cart::session($userId)->condition($condition);
 
-            $total = Cart::session($userId)->getTotal();
-            $subtotal = Cart::session($userId)->getSubTotal();
-            $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();
+            $total = round(Cart::session($userId)->getTotal(),2);
+            $subtotal = round(Cart::session($userId)->getSubTotal(),2);
+            $subTotal = round(Cart::session(Auth::user()->getId())->getSubTotal(),2);
             $cartConditions = Cart::session($userId)->getConditions();
             $conds = array();
             $priceCon = 0;
@@ -431,7 +434,9 @@ class SellingController extends Controller
                 $conds[$key]['attributes'] = $condition->getAttributes();
             }
 
-            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon));  
+            $dds = round($subTotal - ($subTotal/1.2), 2);
+
+            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon, 'dds' => $dds));  
         } 
     }
 
@@ -449,8 +454,8 @@ class SellingController extends Controller
             $conds[$key]['attributes'] = $condition->getAttributes();
         }
 
-        $total = Cart::session($userId)->getTotal();
-        $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();
+        $total = round(Cart::session($userId)->getTotal(),2);
+        $subTotal = round(Cart::session(Auth::user()->getId())->getSubTotal(),2);
         $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
         $condition = Cart::getConditions('discount');
         $priceCon = 0;
@@ -487,7 +492,7 @@ class SellingController extends Controller
         Cart::session($userId)->condition($condition);
 
         $cartConditions = Cart::session($userId)->getConditions();
-        $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();
+        $subTotal = round(Cart::session(Auth::user()->getId())->getSubTotal(),2);
         $conds = array();
         $priceCon = 0;
 
@@ -505,8 +510,8 @@ class SellingController extends Controller
             $conds[$key]['attributes'] = $condition->getAttributes();
         }
 
-        $total = Cart::session($userId)->getTotal();
-        $subtotal = Cart::session($userId)->getSubTotal();
+        $total = round(Cart::session($userId)->getTotal(),2);
+        $subtotal = round(Cart::session($userId)->getSubTotal(),2);
 
         return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon));  
         
@@ -516,8 +521,8 @@ class SellingController extends Controller
         $userId = Auth::user()->getId(); 
         $remove = Cart::session($userId)->remove($item);
 
-        $total = Cart::session($userId)->getTotal();
-        $subtotal = Cart::session($userId)->getSubTotal();
+        $total = round(Cart::session($userId)->getTotal(),2);
+        $subtotal = round(Cart::session($userId)->getSubTotal(),2);
         $quantity = Cart::session($userId)->getTotalQuantity();
 
         $items = [];
@@ -544,10 +549,12 @@ class SellingController extends Controller
             $product_box->quantity = $product_box->quantity+$item->quantity;
             $product_box->save();
         }
+
+        $dds = round($subtotal - ($subtotal/1.2), 2);
         
 
         if($remove){
-            return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity));  
+            return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'dds' => $dds));  
         }
     }
 
@@ -555,8 +562,8 @@ class SellingController extends Controller
         //$repair = Repairs::find($id);
 
         $userId = Auth::user()->getId(); 
-        $total = Cart::session($userId)->getTotal();
-        $subtotal = Cart::session($userId)->getSubTotal();
+        $total = round(Cart::session($userId)->getTotal(),2);
+        $subtotal = round(Cart::session($userId)->getSubTotal(),2);
 
         $items = [];
         
