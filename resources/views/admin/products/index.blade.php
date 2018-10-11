@@ -102,7 +102,7 @@
                             </select>
                         </div>
 
-                        <div class="form-group col-md-6">
+                        {{-- <div class="form-group col-md-6">
                             <label>Цена на едро: </label>
                             <select id="wholesale_prices" name="wholesale_price_id" class="form-control prices-filled wholesale-price wholesale_prices" data-calculatePrice-wholesale disabled>
                                 <option value="">Избери</option>
@@ -111,7 +111,7 @@
                                     <option value="{{ $price->id }}" data-material="{{ $price->material }}">{{ $price->slug }} - {{ $price->price }}</option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div> --}}
                     </div>
                     
                     <div class="form-row">

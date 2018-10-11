@@ -33,9 +33,9 @@ class CreateForeignKeys extends Migration {
 						->onDelete('cascade')
 						->onUpdate('cascade');
 
-			$table->foreign('wholesale_price_id')->references('id')->on('prices')
-						->onDelete('cascade')
-						->onUpdate('cascade');
+			// $table->foreign('wholesale_price_id')->references('id')->on('prices')
+			// 			->onDelete('cascade')
+			// 			->onUpdate('cascade');
 		});
 
 		Schema::table('materials_quantities', function(Blueprint $table) {

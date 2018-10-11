@@ -13,7 +13,7 @@ class ModelOption extends Model
         'model',
         'material',
         'retail_price_id',
-        'wholesale_price_id',
+        //'wholesale_price_id',
         'default'
     ];
 
