@@ -8,7 +8,8 @@
     <td> @if($product->model) {{ $product->jewel->name }} @endif </td> 
     <td> {{ $product->retailPrice->price }} </td> 
     <td> {{ $product->weight }} </td>
-    <td> {{ ($product->retailPrice->price)*$product->weight }} </td>
+    <td> {{ $product->price }} </td>
+    {{-- <td> {{ ($product->retailPrice->price)*$product->weight }} </td> --}}
     <td>
         {!! DNS1D::getBarcodeSVG($product->barcode, "EAN13",1,33,"black", true) !!} <br/> {{ $product->barcode }}<br/> 
     </td>
