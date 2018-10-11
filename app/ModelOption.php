@@ -13,7 +13,7 @@ class ModelOption extends Model
         'model',
         'material',
         'retail_price_id',
-        //'wholesale_price_id',
+
         'default'
     ];
 
@@ -31,11 +31,6 @@ class ModelOption extends Model
     }
 
     public function retailPrice()
-    {
-        return $this->belongsTo('App\Price');
-    }
-
-    public function wholesalePrice()
     {
         return $this->belongsTo('App\Price');
     }

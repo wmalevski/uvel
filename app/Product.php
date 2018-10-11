@@ -29,7 +29,6 @@ class Product extends Model
         'type',
         'weight',
         'retail_price',
-        //'wholesale_price',
         'size',
         'workmanship',
         'price',
@@ -76,7 +75,6 @@ class Product extends Model
             
             if($default){
                 $retail_prices = $default->material->material->pricesBuy; 
-                //$wholesale_prices = $default->material->material->pricesSell;
         
                 $pass_jewels = array();
                 
@@ -110,15 +108,6 @@ class Product extends Model
                         'price' => $price->price
                     ];
                 }
-    
-                // $prices_wholesale = array();
-
-                // $prices_wholesale[] = (object)[
-                //     'value' => $price->id,
-                //     'label' => $price->slug.' - '.$price->price.'лв',
-                //     'selected' => $selected,
-                //     'price' => $price->price
-                // ];
             }
 
             $pass_stones = array();
@@ -163,21 +152,6 @@ class Product extends Model
             }
 
             $pass_photos = array();
-            
-            // foreach($wholesale_prices as $price){
-            //     if($price->id == $default->wholesale_price_id){
-            //         $selected = true;
-            //     }else{
-            //         $selected = false;
-            //     }
-
-            //     $prices_wholesale[] = (object)[
-            //         'value' => $price->id,
-            //         'label' => $price->slug.' - '.$price->price.'лв',
-            //         'selected' => $selected,
-            //         'price' => $price->price
-            //     ];
-            // }
 
             $pass_stones = array();
             
@@ -213,7 +187,6 @@ class Product extends Model
     
             return array(
                 'retail_prices' => $prices_retail, 
-                //'wholesale_prices' => $prices_wholesale, 
                 'jewels_types' => $pass_jewels,
                 'stones' => $pass_stones,
                 'weight' => $model->weight,

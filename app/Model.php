@@ -12,7 +12,6 @@ class Model extends BaseModel
         'name',
         'jewel_id',
         'retail_price_id',
-        //'wholesale_price_id',
         'weight',
         'size',
         'workmanship',

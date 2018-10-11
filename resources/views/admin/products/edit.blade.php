@@ -23,15 +23,6 @@
                         </label>
                     </div>
                 </div>
-                
-                <div class="form-group col-md-6">
-                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                        <input type="checkbox" id="inputCall2" name="for_wholesale" class="peer" @if($product->for_wholesale == 'yes') checked @endif>
-                        <label for="inputCall2" class="peers peer-greed js-sb ai-c">
-                            <span class="peer peer-greed">За продажба на едро</span>
-                        </label>
-                    </div>
-                </div>
             </div>
             
             <div class="form-row">
@@ -79,7 +70,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-12">
                     <label>Цена на дребно: </label>
                     <select id="retail_price_edit" name="retail_price_id" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail>
                         <option value="">Избери</option>
@@ -89,17 +80,6 @@
                         @endforeach
                     </select>
                 </div>
-
-                {{-- <div class="form-group col-md-6">            
-                    <label>Цена на едро: </label>
-                    <select id="wholesale_price_edit" name="wholesale_price_id" class="form-control prices-filled wholesale-price wholesale_prices" data-calculatePrice-wholesale>
-                        <option value="">Избери</option>
-                
-                        @foreach($prices->where('type', 'sell') as $price)
-                            <option value="{{ $price->id }}" data-material="{{ $price->material }}" @if($product->wholesale_price_id == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
-                        @endforeach
-                    </select>
-                </div> --}}
             </div>
 
             <div class="form-row">

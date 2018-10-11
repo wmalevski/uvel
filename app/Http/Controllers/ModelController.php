@@ -93,8 +93,7 @@ class ModelController extends Controller
             'workmanship' => 'required|numeric|between:0.1,500000',
             'price' => 'required|numeric|between:0.1,500000',
             'material_id.*' => 'required',
-            'retail_price_id.*' => 'required|numeric|min:1',
-            //'wholesale_price_id.*' => 'required|numeric|min:1'
+            'retail_price_id.*' => 'required|numeric|min:1'
         ]);
 
         if ($validator->fails()) {
@@ -173,7 +172,6 @@ class ModelController extends Controller
                     $model_option->model_id = $model->id;
                     $model_option->material_id = $material;
                     $model_option->retail_price_id = $request->retail_price_id[$key];
-                    //$model_option->wholesale_price_id = $request->wholesale_price_id[$key];
                     $model_option->default = $request->default_material[$key];
     
                     if($request->default_material[$key] == 'true'){
@@ -200,7 +198,6 @@ class ModelController extends Controller
             $product->weight = $request->weight;
             $product->material_id = $default->material_id;
             $product->retail_price_id = $default->retail_price_id;
-            //$product->wholesale_price_id  = $default->wholesale_price_id;
             $product->size = $request->size;
             $product->workmanship = $request->workmanship;
             $product->price = $request->price;
@@ -388,7 +385,6 @@ class ModelController extends Controller
             'price' => 'required|numeric|between:0.1,500000',
             'material_id.*' => 'required',
             'retail_price_id.*' => 'required|numeric|min:1',
-            //'wholesale_price_id.*' => 'required|numeric|min:1'
         ]);
 
         if ($validator->fails()) {
@@ -438,7 +434,6 @@ class ModelController extends Controller
                     $model_option->model_id = $model->id;
                     $model_option->material_id = $material;
                     $model_option->retail_price_id = $request->retail_price_id[$key];
-                    //$model_option->wholesale_price_id = $request->wholesale_price_id[$key];
                     $model_option->default = $request->default_material[$key];
     
                     if($request->default_material[$key] == 'true'){

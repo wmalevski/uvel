@@ -79,7 +79,6 @@ class ProductController extends Controller
             'jewel_id' => 'required',
             'material_id' => 'required',
             'retail_price_id' => 'required|numeric|min:1',
-            //'wholesale_price_id' => 'required|numeric|min:1',
             'weight' => 'required|numeric|between:0.1,10000',
             'gross_weight' => 'required|numeric|between:0.1,10000',
             'size' => 'required|numeric|between:0.1,10000',
@@ -107,7 +106,6 @@ class ProductController extends Controller
         $product->weight = $request->weight;
         $product->gross_weight = $request->gross_weight;
         $product->retail_price_id = $request->retail_price_id;
-        //$product->wholesale_price_id  = $request->wholesale_price_id;
         $product->size = $request->size;
         $product->workmanship = $request->workmanship;
         $product->price = $request->price;
@@ -116,12 +114,6 @@ class ProductController extends Controller
 
         $material->quantity = $material->quantity - $request->weight;
         $material->save();
-
-        // if($request->for_wholesale == 'false'){
-        //     $product->for_wholesale = 'no';
-        // } else{
-        //     $product->for_wholesale = 'yes';
-        // }
 
         if($request->with_stones == 'false'){
             $product->weight_without_stones = 'no';
@@ -161,7 +153,6 @@ class ProductController extends Controller
             $option->material_id = $request->material_id;
             $option->model_id = $request->model_id;
             $option->retail_price_id = $request->retail_price_id;
-            //$option->wholesale_price_id = $request->wholesale_price_id;
 
             $option->save;
         }
@@ -310,7 +301,6 @@ class ProductController extends Controller
             $validator = Validator::make( $request->all(), [
                 'jewel_id' => 'required',
                 'retail_price_id' => 'required|numeric|min:1',
-                //'wholesale_price_id' => 'required|numeric|min:1',
                 'weight' => 'required|numeric|between:0.1,10000',
                 'gross_weight' => 'required|numeric|between:0.1,10000',
                 'size' => 'required|numeric|between:0.1,10000',
@@ -353,16 +343,9 @@ class ProductController extends Controller
             $product->weight = $request->weight;
             $product->gross_weight = $request->gross_weight;
             $product->retail_price_id = $request->retail_price_id;
-            //$product->wholesale_price_id  = $request->wholesale_price_id;
             $product->size = $request->size;
             $product->workmanship = $request->workmanship;
             $product->price = $request->price;
-    
-            // if($request->for_wholesale == 'false'){
-            //     $product->for_wholesale = 'no';
-            // } else{
-            //     $product->for_wholesale = 'yes';
-            // }
 
             if($request->with_stones == 'false'){
                 $product->weight_without_stones = 'no';

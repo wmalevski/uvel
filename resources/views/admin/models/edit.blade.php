@@ -58,7 +58,7 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-md-5">
+                    <div class="form-group col-md-10">
                         <label>Цена на дребно: </label>
                         <select id="retail_price_edit" name="retail_price_id[]" class="form-control calculate prices-filled retail-price" data-calculatePrice-retail>
                             <option value="">Избери</option>
@@ -69,17 +69,6 @@
                         </select>
                     </div>
 
-                    {{-- <div class="form-group col-md-5">
-                        <label>Цена на едро: </label>
-                        <select id="wholesale_price_edit" name="wholesale_price_id[]" class="form-control prices-filled wholesale-price" data-calculatePrice-wholesale>
-                            <option value="">Избери</option>
-
-                            @foreach($option->material->material->pricesSell as $price)
-                                <option value="{{ $price->id }}" data-material="{{ $price->material_id }}" data-price="{{ $price->price }}" @if($option->wholesale_price_id == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
-                            @endforeach
-                        </select>
-                    </div> --}}
-                    
                     @if(!$loop->first)
                     <div class="form-group col-md-2">
                         <span class="delete-material remove_field" data-removeMaterials-remove><i class="c-brown-500 ti-trash"></i></span>
