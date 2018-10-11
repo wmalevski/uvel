@@ -41,11 +41,13 @@
                 @foreach($options as $option)
                 <div class="form-row">
                     @if(!$loop->first)
-                    <div class="col-6">
-                        <hr>
+                    <div class="col-md-12">
+                        <div class="col-6">
+                            <hr>
+                        </div>
                     </div>
                     @endif
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-6">
                         <label>Избери материал: </label>
                         <select id="material_type" name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material>
                             <option value="">Избери</option>
@@ -58,8 +60,8 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-md-10">
-                        <label>Цена на дребно: </label>
+                    <div class="form-group col-md-5">
+                        <label>Цена: </label>
                         <select id="retail_price_edit" name="retail_price_id[]" class="form-control calculate prices-filled retail-price" data-calculatePrice-retail>
                             <option value="">Избери</option>
                             
@@ -70,7 +72,7 @@
                     </div>
 
                     @if(!$loop->first)
-                    <div class="form-group col-md-2">
+                    <div class="form-group col-md-1">
                         <span class="delete-material remove_field" data-removeMaterials-remove><i class="c-brown-500 ti-trash"></i></span>
                     </div>
                     @endif

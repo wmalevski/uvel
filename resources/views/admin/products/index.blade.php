@@ -29,7 +29,7 @@
                     </div>
                     
                     <div class="form-row">
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6">
                             <label>Модел: </label>
                             <select id="model_select" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model>
                                 <option value="">Избери</option>
@@ -39,13 +39,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-12">
-                            <hr>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6">
                             <label>Вид: </label>
                             <select id="jewels_types" name="jewel_id" class="jewels_types form-control" data-modelFilled-jewel disabled>
                                 <option value="">Избери</option>
@@ -59,7 +53,7 @@
                             <hr>
                         </div>
                     </div>
-                    
+                                        
                     <div class="form-row model_materials">
                         <div class="form-group col-md-12">
                             <label>Материал: </label>
@@ -82,8 +76,8 @@
                             </select>
                         </div>
 
-                        <div class="form-group col-md-12">
-                            <label>Цена на дребно: </label>
+                        <div class="form-group col-md-6">
+                            <label>Цена: </label>
                             <select id="retail_prices" name="retail_price_id" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail disabled>
                                 <option value="">Избери</option>
                         
@@ -92,17 +86,7 @@
                                 @endforeach
                             </select>
                         </div>
-
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group col-md-12">
-                            <hr>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group col-md-6 weight-holder">
+                        <div class="form-group col-md-3 weight-holder">
                             <label for="weight">Нетно тегло: </label>
                             <div class="input-group">
                                 <input type="text" class="form-control weight calculate" id="weight" name="weight" data-calculatePrice-netWeight placeholder="Тегло:" min="1" max="10000">
@@ -111,16 +95,18 @@
                             
                         </div>
                     
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                             <label for="size">Размер: </label>
                             <input type="text" class="form-control size" id="size" name="size" placeholder="Размер:" min="1" data-modelFilld-size max="10000">
                         </div>
-
-                        <div class="col-12">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
                             <hr>
                         </div>
                     </div>
-
+                    
                     <div class="form-row model_stones">
                     </div>
 
