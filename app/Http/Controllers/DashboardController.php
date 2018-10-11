@@ -11,6 +11,79 @@ use Auth;
 use Cart;
 use View;
 use Storage;
+use \Darryldecode\Cart\CartCondition as CartCondition;
+use \Darryldecode\Cart\Helpers\Helpers as Helpers;
+
+Class CartCustomCondition extends CartCondition {
+    public function apply($totalOrSubTotalOrPrice, $conditionValue){
+        if( $this->valueIsPercentage($conditionValue) )
+        {
+            if( $this->valueIsToBeSubtracted($conditionValue) )
+            {
+                $price = $totalOrSubTotalOrPrice;
+                if($this->getTarget() == 'subtotal'){
+                    $price = \Cart::getSubTotal();
+                }elseif($this->getTarget() == 'total'){
+                    $price = \Cart::getTotal();
+                }
+                
+                $value = Helpers::normalizePrice( $this->cleanValue($conditionValue) );
+                $this->parsedRawValue = $price * ($value / 100);
+                $result = floatval($totalOrSubTotalOrPrice - $this->parsedRawValue);
+            }
+            else if ( $this->valueIsToBeAdded($conditionValue) )
+            {
+                $value = Helpers::normalizePrice( $this->cleanValue($conditionValue) );
+
+                $this->parsedRawValue = $totalOrSubTotalOrPrice * ($value / 100);
+
+                $result = floatval($totalOrSubTotalOrPrice + $this->parsedRawValue);
+            }
+            else
+            {
+                $value = Helpers::normalizePrice($conditionValue);
+
+                $this->parsedRawValue = $totalOrSubTotalOrPrice * ($value / 100);
+
+                $result = floatval($totalOrSubTotalOrPrice + $this->parsedRawValue);
+            }
+        }
+
+        // if the value has no percent sign on it, the operation will not be a percentage
+        // next is we will check if it has a minus/plus sign so then we can just deduct it to total/subtotal/price
+        else
+        {
+            if( $this->valueIsToBeSubtracted($conditionValue) )
+            {
+                $this->parsedRawValue = Helpers::normalizePrice( $this->cleanValue($conditionValue) );
+
+                $result = floatval($totalOrSubTotalOrPrice - $this->parsedRawValue);
+            }
+            else if ( $this->valueIsToBeAdded($conditionValue) )
+            {
+                $this->parsedRawValue = Helpers::normalizePrice( $this->cleanValue($conditionValue) );
+
+                $result = floatval($totalOrSubTotalOrPrice + $this->parsedRawValue);
+            }
+            else
+            {
+                $this->parsedRawValue = Helpers::normalizePrice($conditionValue);
+
+                $result = floatval($totalOrSubTotalOrPrice + $this->parsedRawValue);
+            }
+        }
+
+        // Do not allow items with negative prices.
+        return $result < 0 ? 0.00 : $result;
+    }
+
+    public function getCalculatedValue($totalOrSubTotalOrPrice)
+    {
+        $this->apply($totalOrSubTotalOrPrice, $this->getValue());
+
+        return $this->parsedRawValue;
+    }
+}
 
 class DashboardController extends Controller
 {
@@ -23,15 +96,24 @@ class DashboardController extends Controller
     {
         $discounts = DiscountCode::all();
         $currencies = Currency::all();
-        $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
         $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();
         $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
-        $condition = Cart::getCondition('Discount');
-        if($condition){
-            $priceCon = $condition->getCalculatedValue($subTotal);
+        $condition = Cart::getConditions('discount');
+        $priceCon = 0;
+
+        if(count($cartConditions) > 0){
+            foreach(Cart::session(Auth::user()->getId())->getConditions() as $cc){
+                $priceCon += $cc->getCalculatedValue($subTotal);
+            }
         } else{
             $priceCon = 0;
         }
+        $items = [];
+        
+        Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
+        {
+            $items[] = $item;
+        });
 
         $substitution = UserSubstitution::where([
             ['user_id', '=', Auth::user()->id],
@@ -49,13 +131,9 @@ class DashboardController extends Controller
             $items[] = $item;
         });
 
-        //Manually deleting the essions in the cart as the ajax does not work.
-        // Cart::clear();
-        // Cart::clearCartConditions();
-        // Cart::session(Auth::user()->getId())->clear();
-        // Cart::session(Auth::user()->getId())->clearCartConditions();
+        $dds = round($subTotal - ($subTotal/1.2), 2);
 
-        return \View::make('admin/selling/index', array('items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'priceCon' => $priceCon));
+        return \View::make('admin/selling/index', array('items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'priceCon' => $priceCon, 'dds' => $dds));
     }
 
     /**

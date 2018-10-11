@@ -396,14 +396,16 @@ var uvel,
     this.cartSumsPopulate = function(response) {
       var subTotalInput = $('[data-sell-subTotal]'),
           discountDisplay = $('[data-sell-discountDisplay]'),
-          totalInput = $('[data-calculatePayment-total]');
+          totalInput = $('[data-calculatePayment-total]'),
+          taxInput = $('[data-sell-tax]');
 
       subTotalInput.val(response.subtotal);
       totalInput.val(response.total);
+      taxInput.val(response.dds);
 
-      var discountsSum = (response.subtotal * 1.2) - response.total;
+      var discountsSum = response.subtotal - response.total;
       discountsSum = Math.round(discountsSum * 100) / 100;
-      discountDisplay.val(discountsSum);
+      discountDisplay.val(discountsSum);      
     }
 
     this.removeDiscountAttach = function(removeDiscountTrigger) {
