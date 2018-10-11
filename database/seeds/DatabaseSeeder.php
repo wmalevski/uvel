@@ -299,7 +299,6 @@ class DatabaseSeeder extends Seeder
         // $product->jewel_type = 1;
         // $product->type = 1;
         // $product->retail_price = 2;
-        // $product->wholesale_price = 4;
         // $product->weight = 56;
         // $product->size = 56;
         // $product->workmanship = 120;
