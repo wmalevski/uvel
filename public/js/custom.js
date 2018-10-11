@@ -75,7 +75,7 @@ var uvel,
       },
       substitutions: {
         selector: '[name="substitutions"]',
-        controllers: [],
+        controllers: ['focusDatePicker'],
         initialized: false
       },
       users: {
@@ -396,14 +396,16 @@ var uvel,
     this.cartSumsPopulate = function(response) {
       var subTotalInput = $('[data-sell-subTotal]'),
           discountDisplay = $('[data-sell-discountDisplay]'),
-          totalInput = $('[data-calculatePayment-total]');
+          totalInput = $('[data-calculatePayment-total]'),
+          taxInput = $('[data-sell-tax]');
 
       subTotalInput.val(response.subtotal);
       totalInput.val(response.total);
+      taxInput.val(response.dds);
 
-      var discountsSum = (response.subtotal * 1.2) - response.total;
+      var discountsSum = response.subtotal - response.total;
       discountsSum = Math.round(discountsSum * 100) / 100;
-      discountDisplay.val(discountsSum);
+      discountDisplay.val(discountsSum);      
     }
 
     this.removeDiscountAttach = function(removeDiscountTrigger) {
@@ -1669,10 +1671,12 @@ var uvel,
     }
 
     this.focusDatePicker = function(form) {
-      var datePicker = form.find('.date-returned input'),
-          datePickerTrigger = form.find('.date-returned .input-group-addon');
+      var  datePickerTriggers = form.find('.timepicker-input input:not([readonly])').closest('.timepicker-input').find('.input-group-addon');
 
-      datePickerTrigger.on('click', function() {
+      datePickerTriggers.on('click', function() {
+        var _this = $(this),
+            datePicker = _this.closest('.timepicker-input').find('input');
+            
         datePicker.focus();
       })
     }

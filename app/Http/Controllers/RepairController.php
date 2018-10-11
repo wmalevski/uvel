@@ -173,19 +173,19 @@ class RepairController extends Controller
                     )
                 ));
         
-                $tax = new \Darryldecode\Cart\CartCondition(array(
-                    'name' => 'ДДС',
-                    'type' => 'tax',
-                    'target' => 'subtotal',
-                    'value' => '+20%',
-                    'attributes' => array(
-                        'description' => 'Value added tax',
-                        'more_data' => 'more data here'
-                    )
-                ));
+                // $tax = new \Darryldecode\Cart\CartCondition(array(
+                //     'name' => 'ДДС',
+                //     'type' => 'tax',
+                //     'target' => 'subtotal',
+                //     'value' => '+20%',
+                //     'attributes' => array(
+                //         'description' => 'Value added tax',
+                //         'more_data' => 'more data here'
+                //     )
+                // ));
         
-                Cart::condition($tax);
-                Cart::session($userId)->condition($tax);
+                // Cart::condition($tax);
+                // Cart::session($userId)->condition($tax);
         
                 //return redirect()->route('admin');
                 return Response::json(array('success' => '', 'redirect' => route('admin')));

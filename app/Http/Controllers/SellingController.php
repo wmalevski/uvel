@@ -16,6 +16,79 @@ use Illuminate\Http\JsonResponse;
 use App\DiscountCode;
 use Response;
 use App\ProductOther;
+use \Darryldecode\Cart\CartCondition as CartCondition;
+use \Darryldecode\Cart\Helpers\Helpers as Helpers;
+
+Class CartCustomCondition extends CartCondition {
+    public function apply($totalOrSubTotalOrPrice, $conditionValue){
+        if( $this->valueIsPercentage($conditionValue) )
+        {
+            if( $this->valueIsToBeSubtracted($conditionValue) )
+            {
+                $price = $totalOrSubTotalOrPrice;
+                if($this->getTarget() == 'subtotal'){
+                    $price = \Cart::getSubTotal();
+                }elseif($this->getTarget() == 'total'){
+                    $price = \Cart::getTotal();
+                }
+                
+                $value = Helpers::normalizePrice( $this->cleanValue($conditionValue) );
+                $this->parsedRawValue = $price * ($value / 100);
+                $result = floatval($totalOrSubTotalOrPrice - $this->parsedRawValue);
+            }
+            else if ( $this->valueIsToBeAdded($conditionValue) )
+            {
+                $value = Helpers::normalizePrice( $this->cleanValue($conditionValue) );
+
+                $this->parsedRawValue = $totalOrSubTotalOrPrice * ($value / 100);
+
+                $result = floatval($totalOrSubTotalOrPrice + $this->parsedRawValue);
+            }
+            else
+            {
+                $value = Helpers::normalizePrice($conditionValue);
+
+                $this->parsedRawValue = $totalOrSubTotalOrPrice * ($value / 100);
+
+                $result = floatval($totalOrSubTotalOrPrice + $this->parsedRawValue);
+            }
+        }
+
+        // if the value has no percent sign on it, the operation will not be a percentage
+        // next is we will check if it has a minus/plus sign so then we can just deduct it to total/subtotal/price
+        else
+        {
+            if( $this->valueIsToBeSubtracted($conditionValue) )
+            {
+                $this->parsedRawValue = Helpers::normalizePrice( $this->cleanValue($conditionValue) );
+
+                $result = floatval($totalOrSubTotalOrPrice - $this->parsedRawValue);
+            }
+            else if ( $this->valueIsToBeAdded($conditionValue) )
+            {
+                $this->parsedRawValue = Helpers::normalizePrice( $this->cleanValue($conditionValue) );
+
+                $result = floatval($totalOrSubTotalOrPrice + $this->parsedRawValue);
+            }
+            else
+            {
+                $this->parsedRawValue = Helpers::normalizePrice($conditionValue);
+
+                $result = floatval($totalOrSubTotalOrPrice + $this->parsedRawValue);
+            }
+        }
+
+        // Do not allow items with negative prices.
+        return $result < 0 ? 0.00 : $result;
+    }
+
+    public function getCalculatedValue($totalOrSubTotalOrPrice)
+    {
+        $this->apply($totalOrSubTotalOrPrice, $this->getValue());
+
+        return $this->parsedRawValue;
+    }
+}
 
 class SellingController extends Controller
 {
@@ -35,7 +108,7 @@ class SellingController extends Controller
         $priceCon = 0;
 
         if(count($cartConditions) > 0){
-            foreach(Cart::session(Auth::user()->getId())->getConditionsByType('discount') as $cc){
+            foreach(Cart::session(Auth::user()->getId())->getConditions() as $cc){
                 $priceCon += $cc->getCalculatedValue($subTotal);
             }
         } else{
@@ -47,8 +120,10 @@ class SellingController extends Controller
         {
             $items[] = $item;
         });
+
+        $dds = round($subTotal - ($subTotal/1.2), 2);
         
-        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies));
+        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds));
     }
 
     /**
@@ -120,20 +195,20 @@ class SellingController extends Controller
     public function sell(Request $request){
         $type = "product";
 
-        $tax = new \Darryldecode\Cart\CartCondition(array(
-            'name' => 'ДДС',
-            'type' => 'tax',
-            'target' => 'subtotal',
-            'value' => '+20%',
-            'attributes' => array(
-                'description' => 'Value added tax',
-                'more_data' => 'more data here'
-            ),
-            'order' => 2
-        ));
+        // $tax = new \Darryldecode\Cart\CartCondition(array(
+        //     'name' => 'ДДС',
+        //     'type' => 'tax',
+        //     'target' => 'subtotal',
+        //     'value' => '+20%',
+        //     'attributes' => array(
+        //         'description' => 'Value added tax',
+        //         'more_data' => 'more data here'
+        //     ),
+        //     'order' => 2
+        // ));
 
-        Cart::condition($tax);
-        Cart::session(Auth::user()->getId())->condition($tax);
+        // Cart::condition($tax);
+        // Cart::session(Auth::user()->getId())->condition($tax);
 
         if($request->amount_check == false){
             if($request->type_repair == true){
@@ -180,14 +255,16 @@ class SellingController extends Controller
                 $type = "box";
             }
 
+           if($item){
             if($item->quantity < $request->quantity){
                 return Response::json(['errors' => array(
                     'quantity' => 'Системата няма това количество, което желаете да продадете.'
                 )], 401);
             }
-
+            
             $item->quantity = $item->quantity-$request->quantity;
             $item->save();
+           }
         }
 
         if($item){       
@@ -230,8 +307,8 @@ class SellingController extends Controller
 
         
 
-            $total = Cart::session($userId)->getTotal();
-            $subtotal = Cart::session($userId)->getSubTotal();
+            $total = round(Cart::session($userId)->getTotal(),2);
+            $subtotal = round(Cart::session($userId)->getSubTotal(),2);
             $quantity = Cart::session($userId)->getTotalQuantity();
 
             $items = [];
@@ -246,7 +323,9 @@ class SellingController extends Controller
                 $table .= View::make('admin/selling/table',array('item'=>$item))->render();
             }
 
-            return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity));  
+            $dds = round($subtotal - ($subtotal/1.2), 2);
+
+            return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'dds' => $dds));  
 
         }else{
             return Response::json(array('success' => false)); 
@@ -256,8 +335,8 @@ class SellingController extends Controller
     public function getCartTable(){
         $userId = Auth::user()->getId(); // or any string represents user identifier
 
-        $total = Cart::session($userId)->getTotal();
-        $subtotal = Cart::session($userId)->getSubTotal();
+        $total = round(Cart::session($userId)->getTotal(),2);
+        $subtotal = round(Cart::session($userId)->getSubTotal(),2);
         $quantity = Cart::session($userId)->getTotalQuantity();
 
         $items = [];
@@ -282,8 +361,7 @@ class SellingController extends Controller
         {
             $product = Product::where('barcode', $item->id)->first();
             $product_box = ProductOther::where('barcode', $item->id)->first();
-            $repair = Repair::where('barcode', $item->id)->first();
-            //dd($product);
+            $repair = Repair::where('barcode', $item->id)->first(); 
             if($product){
                 $product->status = 'available';
                 $product->save();
@@ -323,7 +401,7 @@ class SellingController extends Controller
         
 
         if(isset($setDiscount)){
-            $condition = new \Darryldecode\Cart\CartCondition(array(
+            $condition = new CartCustomCondition(array(
                 'name' => $setDiscount,
                 'type' => 'discount',
                 'target' => 'subtotal',
@@ -332,24 +410,35 @@ class SellingController extends Controller
                     'discount_id' => $setDiscount,
                     'description' => 'Value added tax',
                     'more_data' => 'more data here'
-                ),
-                'order' => 1
+                )
             ));
 
             Cart::condition($condition);
             Cart::session($userId)->condition($condition);
 
-            $total = Cart::session($userId)->getTotal();
-            $subtotal = Cart::session($userId)->getSubTotal();
-            $cartConditions = Cart::session($userId)->getConditionsByType('discount');
+            $total = round(Cart::session($userId)->getTotal(),2);
+            $subtotal = round(Cart::session($userId)->getSubTotal(),2);
+            $subTotal = round(Cart::session(Auth::user()->getId())->getSubTotal(),2);
+            $cartConditions = Cart::session($userId)->getConditions();
             $conds = array();
+            $priceCon = 0;
+    
+            if(count($cartConditions) > 0){
+                foreach(Cart::session(Auth::user()->getId())->getConditions() as $cc){
+                    $priceCon += $cc->getCalculatedValue($subTotal);
+                }
+            } else{
+                $priceCon = 0;
+            }
 
             foreach($cartConditions as $key => $condition){
                 $conds[$key]['value'] = $condition->getValue();
                 $conds[$key]['attributes'] = $condition->getAttributes();
             }
 
-            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds));  
+            $dds = round($subTotal - ($subTotal/1.2), 2);
+
+            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon, 'dds' => $dds));  
         } 
     }
 
@@ -367,8 +456,8 @@ class SellingController extends Controller
             $conds[$key]['attributes'] = $condition->getAttributes();
         }
 
-        $total = Cart::session($userId)->getTotal();
-        $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();
+        $total = round(Cart::session($userId)->getTotal(),2);
+        $subTotal = round(Cart::session(Auth::user()->getId())->getSubTotal(),2);
         $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
         $condition = Cart::getConditions('discount');
         $priceCon = 0;
@@ -388,7 +477,7 @@ class SellingController extends Controller
         
         $userId = Auth::user()->getId(); 
 
-        $condition = new \Darryldecode\Cart\CartCondition(array(
+        $condition = new CartCustomCondition(array(
             'name' => $request->discount,
             'type' => 'discount',
             'target' => 'subtotal',
@@ -404,8 +493,18 @@ class SellingController extends Controller
         Cart::condition($condition);
         Cart::session($userId)->condition($condition);
 
-        $cartConditions = Cart::session($userId)->getConditionsByType('discount');
+        $cartConditions = Cart::session($userId)->getConditions();
+        $subTotal = round(Cart::session(Auth::user()->getId())->getSubTotal(),2);
         $conds = array();
+        $priceCon = 0;
+
+        if(count($cartConditions) > 0){
+            foreach(Cart::session(Auth::user()->getId())->getConditions() as $cc){
+                $priceCon += $cc->getCalculatedValue($subTotal);
+            }
+        } else{
+            $priceCon = 0;
+        }
         
         foreach($cartConditions as $key => $condition){
             $conds[$key]['value'] = $condition->getValue();
@@ -413,31 +512,32 @@ class SellingController extends Controller
             $conds[$key]['attributes'] = $condition->getAttributes();
         }
 
-        $total = Cart::session($userId)->getTotal();
-        $subtotal = Cart::session($userId)->getSubTotal();
+        $total = round(Cart::session($userId)->getTotal(),2);
+        $subtotal = round(Cart::session($userId)->getSubTotal(),2);
 
-        return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds));  
+        return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon));  
         
     }
 
     public function removeItem($item){
         $userId = Auth::user()->getId(); 
+        //dd($item);
         $remove = Cart::session($userId)->remove($item);
 
-        $total = Cart::session($userId)->getTotal();
-        $subtotal = Cart::session($userId)->getSubTotal();
+        $total = round(Cart::session($userId)->getTotal(),2);
+        $subtotal = round(Cart::session($userId)->getSubTotal(),2);
         $quantity = Cart::session($userId)->getTotalQuantity();
 
         $items = [];
         
-        Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
+        Cart::session($userId)->getContent()->each(function($singleitem) use (&$items)
         {
-            $items[] = $item;
+            $items[] = $singleitem;
         });
 
         $table = '';
-        foreach($items as $item){
-            $table .= View::make('admin/selling/table',array('item'=>$item))->render();
+        foreach($items as $singleitem){
+            $table .= View::make('admin/selling/table',array('item'=>$singleitem))->render();
         }
 
         
@@ -452,10 +552,12 @@ class SellingController extends Controller
             $product_box->quantity = $product_box->quantity+$item->quantity;
             $product_box->save();
         }
+
+        $dds = round($subtotal - ($subtotal/1.2), 2);
         
 
         if($remove){
-            return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity));  
+            return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'dds' => $dds));  
         }
     }
 
@@ -463,8 +565,8 @@ class SellingController extends Controller
         //$repair = Repairs::find($id);
 
         $userId = Auth::user()->getId(); 
-        $total = Cart::session($userId)->getTotal();
-        $subtotal = Cart::session($userId)->getSubTotal();
+        $total = round(Cart::session($userId)->getTotal(),2);
+        $subtotal = round(Cart::session($userId)->getSubTotal(),2);
 
         $items = [];
         
