@@ -842,10 +842,12 @@ var uvel,
       $(newRow).addClass('form-row');
 
       var newFields = 
+        '<div class="col-12">' +
         '<div class="col-6">' +
         '<hr>' +
         '</div>' +
-        '<div class="form-group col-md-12">' +
+        '</div>' +
+        '<div class="form-group col-md-6">' +
         '<label>Избери материал: </label>' +
         '<select id="material_type" name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material>' +
         '<option value="0">Избери</option>'
@@ -858,18 +860,12 @@ var uvel,
         '</select>' +
         '</div>' +
         '<div class="form-group col-md-5">' +
-        '<label>Цена на дребно: </label>' +
+        '<label>Цена: </label>' +
         '<select id="retail_prices" name="retail_price_id[]" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail disabled>' +
         '<option value="0">Избери</option>' +
         '</select>' +
         '</div>' +
-        '<div class="form-group col-md-5">' +
-        '<label>Цена на едро: </label>' +
-        '<select id="wholesale_price" name="wholesale_price_id[]" class="form-control prices-filled wholesale-price wholesale_price" data-calculatePrice-wholesale disabled>' +
-        '<option value="0">Избери</option>' +
-        '</select>' +
-        '</div>' +
-        '<div class="form-group col-md-2">' +
+        '<div class="form-group col-md-1">' +
         '<span class="delete-material remove_field" data-removeMaterials-remove><i class="c-brown-500 ti-trash"></i></span>' +
         '</div>' +
         '<div class="form-group col-md-12">' +
@@ -1195,12 +1191,9 @@ var uvel,
 
     this.materialPricesResponseHandler = function(response, form, _this) {
       var retailPrices = response.retail_prices,
-          wholesalePrices = response.wholesale_prices,
-          retaiPriceFilled = _this.closest('.form-row').find('[data-calculatePrice-retail]'),
-          wholesalePriceFilled = _this.closest('.form-row').find('[data-calculatePrice-wholesale]');
+          retaiPriceFilled = _this.closest('.form-row').find('[data-calculatePrice-retail]');
 
       $self.fillPrices(retaiPriceFilled, retailPrices, form);
-      $self.fillPrices(wholesalePriceFilled, wholesalePrices, form);
     }
 
     this.fillPrices = function(element, prices, form) {      //  for now it's made for classic select, needs review when we apply Select2 
@@ -1234,7 +1227,7 @@ var uvel,
         if (_this.find('option:selected').val() !== '0' && _this.find('option:selected').val() !== '') {
           $self.modelRequest(form);
         } else {
-          var collection = form.find('[data-calculatePrice-material], [data-calculatePrice-retail], [data-calculatePrice-wholesale]');
+          var collection = form.find('[data-calculatePrice-material], [data-calculatePrice-retail]');
 
           collection.val('0');
           collection.attr('disabled', 'disabled');

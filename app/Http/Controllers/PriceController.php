@@ -130,9 +130,8 @@ class PriceController extends Controller
     public function destroy(Price $price, ModelOption $modelOption)
     { 
         if($price){
-            $usingWModel = ModelOption::where('wholesale_price_id', $price->id)->get();
             $usingRModel = ModelOption::where('retail_price_id', $price->id)->get();
-            if($usingWModel || $usingRModel){
+            if($usingRModel){
                 return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
             }else{
 
@@ -158,15 +157,7 @@ class PriceController extends Controller
             ]
         )->get();
 
-        $wholesale_prices = Price::where(
-            [
-                ['material_id', '=', $mat->material_id],
-                ['type', '=', 'sell']
-            ]
-        )->get();
-
         $prices_retail = array();
-        $prices_wholesale = array();
 
         $priceBuy = Price::where(
             [
@@ -211,30 +202,8 @@ class PriceController extends Controller
             ];
         }
 
-        foreach($wholesale_prices as $price){
-            
-            if($checkExisting){
-                if($price->id == $checkExisting->wholesale_price_id){
-                    $selected = true;
-                }else{
-                    $selected = false;
-                }
-            }else{
-                $selected = false;
-            }
-
-            $prices_wholesale[] = (object)[
-                'id' => $price->id,
-                'material' => $price->material_id,
-                'slug' => $price->slug.' - '.$price->price.'лв',
-                'price' => $price->price,
-                'selected' => $selected
-            ];
-        }
-
         return Response::json(array(
             'retail_prices' => $prices_retail, 
-            'wholesale_prices' => $prices_wholesale, 
             'pass_models' => $models, 
             'pricebuy' => $priceBuy->price));
     }

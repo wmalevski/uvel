@@ -18,7 +18,6 @@ class CreateModelOptionsTable extends Migration
             $table->integer('model_id')->unsigned();
             $table->integer('material_id')->unsigned();
             $table->integer('retail_price_id')->unsigned();
-            $table->integer('wholesale_price_id')->unsigned();
             $table->enum('default', ['yes', 'no'])->default('no');
             $table->timestamps();
             $table->softDeletes();

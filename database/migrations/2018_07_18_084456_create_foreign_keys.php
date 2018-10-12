@@ -32,10 +32,6 @@ class CreateForeignKeys extends Migration {
 			$table->foreign('retail_price_id')->references('id')->on('prices')
 						->onDelete('cascade')
 						->onUpdate('cascade');
-
-			$table->foreign('wholesale_price_id')->references('id')->on('prices')
-						->onDelete('cascade')
-						->onUpdate('cascade');
 		});
 
 		Schema::table('materials_quantities', function(Blueprint $table) {
@@ -131,12 +127,10 @@ class CreateForeignKeys extends Migration {
 			$table->dropForeign('model_options_model_id_foreign');
 			$table->dropForeign('model_options_material_id_foreign');
 			$table->dropForeign('model_options_retail_price_id_foreign');
-			$table->dropForeign('model_options_wholesale_price_id_foreign');
 
 			$table->dropColumn('model_id');
 			$table->dropColumn('material_id');
 			$table->dropColumn('retail_price_id');
-			$table->dropColumn('wholesale_price_id');
 		});
 
 		Schema::table('materials_quantities', function(Blueprint $table) {

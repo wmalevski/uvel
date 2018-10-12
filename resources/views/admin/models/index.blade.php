@@ -39,7 +39,7 @@ aria-hidden="true">
                     </div>
                     <div class="form-row model_materials">
                         <div class="form-row">
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-6">
                                 <label>Избери материал: </label>
                                 <select id="material_type" name="material_id[]" data-calculatePrice-material class="material_type form-control calculate">
                                     <option value="">Избери</option>
@@ -53,15 +53,8 @@ aria-hidden="true">
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label>Цена на дребно: </label>
+                                <label>Цена:</label>
                                 <select id="retail_prices" name="retail_price_id[]" class="form-control calculate prices-filled retail-price" data-calculatePrice-retail disabled>
-                                    <option value="">Избери</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label>Цена на едро: </label>
-                                <select id="wholesale_price" name="wholesale_price_id[]" class="form-control prices-filled wholesale-price" data-calculatePrice-wholesale disabled>
                                     <option value="">Избери</option>
                                 </select>
                             </div>
