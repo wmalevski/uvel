@@ -10,7 +10,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="products" data-type="add" action="productstravelling" autocomplete="off">
+            <form method="POST" name="productsTravelling" data-type="add" action="productstravelling" autocomplete="off">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>
@@ -64,7 +64,7 @@
     <div class="col-md-12">
             <div class="bgc-white bd bdrs-3 p-20 mB-20">
               <h4 class="c-grey-900 mB-20">Продукти на път
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sendProduct">Изпрати</button>
+                    <button type="button" class="btn btn-primary" data-form-type="add" data-form="productsTravelling" data-toggle="modal" data-target="#sendProduct">Изпрати</button>
               </h4>
               <p>Преглед на пътуващите продукти.</p>
               <table class="table table-condensed">
