@@ -11,5 +11,9 @@
         @else
             {{ $product->date_received }}
         @endif
+
+        @if($product->status == 0)
+            <span data-url="productstravelling/delete/{{$product->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></span> 
+        @endif
     </td> 
 </tr>

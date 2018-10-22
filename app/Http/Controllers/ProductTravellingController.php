@@ -148,8 +148,15 @@ class ProductTravellingController extends Controller
      * @param  \App\ProductTravelling  $productTravelling
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProductTravelling $productTravelling)
+    public function destroy(ProductTravelling $product)
     {
-        //
+        if($product){
+            $originProduct = Product::find($product->product_id);
+            $originProduct->status = 'available';
+            $originProduct->save();
+
+            $product->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

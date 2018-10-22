@@ -219,13 +219,27 @@
                   <span class="title">Модели</span>
                 </a>
               </li>
-              <li class="nav-item {{ Active::check('admin/products',true) }}">
-                <a class="sidebar-link" href="{{ route('products') }}">
+
+
+
+              <li class="nav-item dropdown {{ Active::check('admin/products',true) }}">
+                <a class="dropdown-toggle" href="javascript:void(0);">
                   <span class="icon-holder">
-                    <i class=" ti-package"></i>
+                    <i class="ti-package"></i>
                   </span>
                   <span class="title">Продукти</span>
+                  <span class="arrow">
+                    <i class="ti-angle-right"></i>
+                  </span>
                 </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="sidebar-link" href="{{ route('products') }}">Наличности</a>
+                  </li>
+                  <li>
+                    <a class="sidebar-link" href="{{ route('products_travelling') }}">На път</a>
+                  </li>
+                </ul>
               </li>
 
               <li class="nav-item dropdown {{ Active::check('admin/productsothers',true) }}">
