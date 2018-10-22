@@ -191,6 +191,19 @@
                 </div>
             </div>
 
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label>Магазин: </label>
+                    <select name="store_id" class="form-control">
+                        <option value="">Избери магазин</option>
+                
+                        @foreach($stores as $store)
+                            <option value="{{ $store->id }}" @if($store->id == $material->store_id) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
             <div class="drop-area" name="edit">
                 <input type="file" name="images" class="drop-area-input" id="fileElem-edit" multiple accept="image/*" >
                 <label class="button" for="fileElem-edit">Select some files</label>

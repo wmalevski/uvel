@@ -235,6 +235,12 @@ class SellingController extends Controller
                         'selling' => 'Продукта вмомента принадлежи на друга продажба.'
                     )], 401);
                 }
+
+                if($item->status == 'travelling'){
+                    return Response::json(['errors' => array(
+                        'selling' => 'Продукта вмомента е на път.'
+                    )], 401);
+                }
     
                 if($type == "product"){
                     $item->status = 'selling';

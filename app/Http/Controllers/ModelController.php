@@ -202,6 +202,7 @@ class ModelController extends Controller
             $product->workmanship = $request->workmanship;
             $product->price = $request->price;
             $product->code = 'P'.unique_random('products', 'code', 7);
+            $product->store_id = 1;
             $bar = '380'.unique_number('products', 'barcode', 7).'1'; 
             
             $digits =(string)$bar;

@@ -18,6 +18,7 @@ use Illuminate\Http\JsonResponse;
 use Response;
 use File;
 use App\Material;
+use App\Store;
 use App\MaterialQuantity;
 use Storage;
 use Auth;
@@ -36,6 +37,7 @@ class ProductController extends Controller
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::all();
+        $stores = Store::all();
 
         $pass_stones = array();
         
@@ -48,7 +50,7 @@ class ProductController extends Controller
             ];
         }
 
-        return \View::make('admin/products/index', array('products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials->scopeCurrentStore(), 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
+        return \View::make('admin/products/index', array('stores' => $stores ,'products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials->scopeCurrentStore(), 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
     }
 
     /**
@@ -83,7 +85,8 @@ class ProductController extends Controller
             'gross_weight' => 'required|numeric|between:0.1,10000',
             'size' => 'required|numeric|between:0.1,10000',
             'workmanship' => 'required|numeric|between:0.1,500000',
-            'price' => 'required|numeric|between:0.1,500000'
+            'price' => 'required|numeric|between:0.1,500000',
+            'store_id' => 'required|numeric'
         ]); 
 
         if ($validator->fails()) {
@@ -110,6 +113,7 @@ class ProductController extends Controller
         $product->workmanship = $request->workmanship;
         $product->price = $request->price;
         $product->code = 'P'.unique_random('products', 'code', 7);
+        $product->store_id = $request->store_id;
         $bar = '380'.unique_number('products', 'barcode', 7).'1'; 
 
         $material->quantity = $material->quantity - $request->weight;
@@ -251,6 +255,7 @@ class ProductController extends Controller
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::all();
         $materials = MaterialQuantity::all();
+        $stores = Store::all();
 
         $photos = Gallery::where(
             [
@@ -283,7 +288,7 @@ class ProductController extends Controller
             ];
         }
 
-        return \View::make('admin/products/edit', array('photos' => $photos, 'product_stones' => $product_stones, 'product' => $product, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials, 'basephotos' => $pass_photos));
+        return \View::make('admin/products/edit', array('stores' => $stores ,'photos' => $photos, 'product_stones' => $product_stones, 'product' => $product, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials, 'basephotos' => $pass_photos));
     }
 
     /**
@@ -316,7 +321,8 @@ class ProductController extends Controller
                 'gross_weight' => 'required|numeric|between:0.1,10000',
                 'size' => 'required|numeric|between:0.1,10000',
                 'workmanship' => 'required|numeric|between:0.1,500000',
-                'price' => 'required|numeric|between:0.1,500000'
+                'price' => 'required|numeric|between:0.1,500000',
+                'store_id' => 'required|numeric'
             ]); 
     
             if ($validator->fails()) {
@@ -357,6 +363,7 @@ class ProductController extends Controller
             $product->size = $request->size;
             $product->workmanship = $request->workmanship;
             $product->price = $request->price;
+            $product->store_id = $request->store_id;
 
             if($request->with_stones == 'false'){
                 $product->weight_without_stones = 'no';
