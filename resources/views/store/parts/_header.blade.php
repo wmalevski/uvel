@@ -118,7 +118,7 @@
                             <div class="collapse navbar-collapse">
                                 <ul class="nav navbar-nav hoverMenuWrapper">
                                     <li class="nav-item active">
-                                    <a href="#">
+                                    <a href="{{ route('store') }}">
                                     <span>Home</span>
                                     </a>
                                     </li>

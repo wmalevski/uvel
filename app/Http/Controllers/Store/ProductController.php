@@ -16,9 +16,9 @@ class ProductController extends Controller
     {
         $products = Product::where([
             ['status', '=', 'available']
-        ])->get();
+        ])->paginate(12);
 
-        return \View::make('store.pages.products', array('products' => $products));
+        return \View::make('store.pages.products.index', array('products' => $products));
     }
 
     public function show(Product $product){
