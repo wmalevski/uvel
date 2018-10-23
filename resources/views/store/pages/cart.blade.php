@@ -61,62 +61,31 @@
                                                         <ul class="list-inline">
                                                             <li class="image">
                                                             <a href="./product.html">
-                                                            <img src="./assets/images/demo_100x100.png" alt="Donec condime fermentum">
+                                                            <img src="{{ asset("uploads/products/" . $item->attributes['photo']) }}" alt="{{ $item->attributes['name'] }}">
                                                             </a>
                                                             </li>
                                                             <li class="link">
-                                                            <a href="./product.html">
-                                                            <span class="title-5">Donec condime fermentum</span>
+                                                            <a href="{{ route('single_product', ['product' => $item->attributes['product_id']])  }}">
+                                                            <span class="title-5">{{ $item->attributes['name'] }}</span>
                                                             </a>
-                                                            <br>
-                                                            <span class="variant_title">black / small</span>
-                                                            <br>
                                                             </li>
                                                         </ul>
                                                     </td>
                                                     <td class="title-1">
-                                                        $200.00
+                                                        {{ $product->price }}
                                                     </td>
                                                     <td>
-                                                        <input class="form-control input-1 replace" maxlength="5" size="5" id="updates_3947646083" name="updates[]" value="1">
+                                                        <input class="form-control input-1 replace" maxlength="5" size="5" id="updates_3947646083" name="updates[]" value="{{ $item->quantity }}">
                                                     </td>
                                                     <td class="total title-1">
-                                                        $200.00
+                                                            {{ $product->price*$item->quantity }}
                                                     </td>
                                                     <td class="action">
                                                         <button type="button" onclick="window.location='/cart/change?line=1&amp;quantity=0'"><i class="fa fa-times"></i>Remove</button>
                                                     </td>
                                                 </tr>
                                             @endforeach
-											<tr class="item curabitur-cursus-dignis-1">
-												<td class="title text-left">
-													<ul class="list-inline">
-														<li class="image">
-														<a href="./product.html">
-														<img src="./assets/images/demo_100x100.png" alt="Curabitur cursus dignis">
-														</a>
-														</li>
-														<li class="link">
-														<a href="./product.html">
-														<span class="title-5">Curabitur cursus dignis</span>
-														</a>
-														<br>
-														</li>
-													</ul>
-												</td>
-												<td class="title-1">
-													$200.00
-												</td>
-												<td>
-													<input class="form-control input-1 replace" maxlength="5" size="5" id="updates_5141875779" name="updates[]" value="7">
-												</td>
-												<td class="total title-1">
-													$1,400.00
-												</td>
-												<td class="action">
-													<button type="button" onclick="window.location='/cart/change?line=2&amp;quantity=0'"><i class="fa fa-times"></i>Remove</button>
-												</td>
-											</tr>
+											
 											</tbody>
 											<tfoot>
 											<tr class="bottom-summary">

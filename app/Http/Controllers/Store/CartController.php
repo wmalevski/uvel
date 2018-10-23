@@ -46,6 +46,7 @@ class CartController extends Controller
                 'attributes' => array(
                     'weight' => $item->weight,
                     'price' => $item->price,
+                    'name' => $item->name,
                     'product_id' => $item->id,
                     'photo' => asset("uploads/products/" . $item->photos->first()['photo']),
                     'type' => 'product'
