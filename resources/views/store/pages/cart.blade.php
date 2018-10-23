@@ -21,7 +21,7 @@
 					<div class="container">
 						<div class="row">
 							<div id="page-header" class="col-md-24">
-								<h1 id="page-title">Shopping Cart</h1>
+								<h1 id="page-title">Кошница</h1>
 							</div>
 							<div id="col-main" class="col-md-24 cart-page content">
 								<form action="/cart" method="post" id="cartform" class="clearfix">
@@ -38,16 +38,16 @@
 											<thead>
 											<tr class="top-labels">
 												<th>
-													Items
+													Продукт
 												</th>
 												<th>
-													Price
+													Цвят
 												</th>
 												<th>
-													Qty
+													Количество
 												</th>
 												<th>
-													SubTotal
+													Тотал
 												</th>
 												<th>
 													&nbsp;
@@ -55,37 +55,39 @@
 											</tr>
 											</thead>
 											<tbody>
-											<tr class="item donec-condime-fermentum">
-												<td class="title text-left">
-													<ul class="list-inline">
-														<li class="image">
-														<a href="./product.html">
-														<img src="./assets/images/demo_100x100.png" alt="Donec condime fermentum">
-														</a>
-														</li>
-														<li class="link">
-														<a href="./product.html">
-														<span class="title-5">Donec condime fermentum</span>
-														</a>
-														<br>
-														<span class="variant_title">black / small</span>
-														<br>
-														</li>
-													</ul>
-												</td>
-												<td class="title-1">
-													$200.00
-												</td>
-												<td>
-													<input class="form-control input-1 replace" maxlength="5" size="5" id="updates_3947646083" name="updates[]" value="1">
-												</td>
-												<td class="total title-1">
-													$200.00
-												</td>
-												<td class="action">
-													<button type="button" onclick="window.location='/cart/change?line=1&amp;quantity=0'"><i class="fa fa-times"></i>Remove</button>
-												</td>
-											</tr>
+                                            @foreach($items as $item)
+                                                <tr class="item donec-condime-fermentum">
+                                                    <td class="title text-left">
+                                                        <ul class="list-inline">
+                                                            <li class="image">
+                                                            <a href="./product.html">
+                                                            <img src="./assets/images/demo_100x100.png" alt="Donec condime fermentum">
+                                                            </a>
+                                                            </li>
+                                                            <li class="link">
+                                                            <a href="./product.html">
+                                                            <span class="title-5">Donec condime fermentum</span>
+                                                            </a>
+                                                            <br>
+                                                            <span class="variant_title">black / small</span>
+                                                            <br>
+                                                            </li>
+                                                        </ul>
+                                                    </td>
+                                                    <td class="title-1">
+                                                        $200.00
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control input-1 replace" maxlength="5" size="5" id="updates_3947646083" name="updates[]" value="1">
+                                                    </td>
+                                                    <td class="total title-1">
+                                                        $200.00
+                                                    </td>
+                                                    <td class="action">
+                                                        <button type="button" onclick="window.location='/cart/change?line=1&amp;quantity=0'"><i class="fa fa-times"></i>Remove</button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
 											<tr class="item curabitur-cursus-dignis-1">
 												<td class="title text-left">
 													<ul class="list-inline">

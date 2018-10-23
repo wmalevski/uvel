@@ -29,8 +29,6 @@ class CartController extends Controller
             $items[] = $item;
         });
 
-        print_r($items); die;
-
         return \View::make('store.pages.cart', array('items' => $items, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity));
     }
 
@@ -48,6 +46,8 @@ class CartController extends Controller
                 'attributes' => array(
                     'weight' => $item->weight,
                     'price' => $item->price,
+                    'product_id' => $item->id,
+                    'photo' => asset("uploads/products/" . $item->photos->first()['photo']),
                     'type' => 'product'
                 )
             ));
