@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Store;
 use Cart;
+use Response;
 use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -28,6 +29,8 @@ class CartController extends Controller
             $items[] = $item;
         });
 
+        print_r($items); die;
+
         return \View::make('store.pages.cart', array('items' => $items, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity));
     }
 
@@ -41,6 +44,7 @@ class CartController extends Controller
                 'id' => $item->barcode,
                 'name' => $item->name,
                 'price' => $item->price,
+                'quantity' => 1,
                 'attributes' => array(
                     'weight' => $item->weight,
                     'price' => $item->price,
