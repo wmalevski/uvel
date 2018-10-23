@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Store;
-use App\Products;
+use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -14,9 +14,8 @@ class StoreController extends Controller
      */
     public function index()
     {
-        $products = Products::where([
-            ['status', '=', 'available'],
-            ['for_wholesale', '=', 'no']
+        $products = Product::where([
+            ['status', '=', 'available']
         ])->get();
 
         return \View::make('store.pages.index', array('products' => $products));

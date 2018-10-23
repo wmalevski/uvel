@@ -16,9 +16,12 @@ class CreateGalleriesTable extends Migration
         Schema::create('galleries', function (Blueprint $table) {
             $table->increments('id');
             $table->string('photo');
-            $table->integer('row_id');
+            $table->integer('product_id')->unsigned();
+            $table->integer('model_id')->unsigned();
+            $table->integer('stone_id')->unsigned();
             $table->string('table');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

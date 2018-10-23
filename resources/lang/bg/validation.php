@@ -59,7 +59,7 @@ return [
     'mimes'                => 'The :attribute must be a file of type: :values.',
     'mimetypes'            => 'The :attribute must be a file of type: :values.',
     'min'                  => [
-        'numeric' => 'The :attribute must be at least :min.',
+        'numeric' => ':attribute трябва да е валидно.',
         'file'    => 'The :attribute must be at least :min kilobytes.',
         'string'  => 'The :attribute must be at least :min characters.',
         'array'   => 'The :attribute must have at least :min items.',
@@ -152,6 +152,7 @@ return [
         'workmanship' => 'Изработка',
         'retail_price' => 'Цена на дребно',
         'stone_amount.*' => 'Брой камъни',
+        'stone_weight.*' => 'Тегло камъни',
         'storeTo' => 'Магазин',
         'carat' => 'Карат',
         'deposit' => 'Капаро'

@@ -22,257 +22,273 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function() {
     Route::get('/', 'DashboardController@index')->name('admin');
 
-    Route::get('/repairtypes', 'RepairTypesController@index')->name('repairtypes');
-    Route::post('/repairtypes', 'RepairTypesController@store');
-    Route::get('/repairtypes/{type}', 'RepairTypesController@edit');
+    Route::get('/repairtypes', 'RepairTypeController@index')->name('repair_types');
+    Route::post('/repairtypes', 'RepairTypeController@store');
+    Route::get('/repairtypes/{repairType}', 'RepairTypeController@edit');
 
-    Route::get('/repairs', 'RepairsController@index')->name('repairs');
-    Route::post('/repairs', 'RepairsController@store');
-    Route::get('/repairs/{repair}', 'RepairsController@edit');
+    Route::get('/repairs', 'RepairController@index')->name('repairs');
+    Route::post('/repairs', 'RepairController@store');
+    Route::get('/repairs/{barcode}', 'RepairController@edit');
 
-    Route::get('/selling', 'SellingsController@index')->name('selling');
-    Route::post('/selling', 'SellingsController@store');
+    Route::get('/selling', 'SellingController@index')->name('selling');
+    Route::post('/selling', 'SellingController@store');
 
-    Route::get('/stones/sizes', 'StoneSizesController@index')->name('sizes');
-    Route::post('/stones/sizes', 'StoneSizesController@store');
+    Route::get('/stones/sizes', 'StoneSizeController@index')->name('sizes');
+    Route::post('/stones/sizes', 'StoneSizeController@store');
 
-    Route::get('/stones/styles', 'StoneStylesController@index')->name('styles');
-    Route::post('/stones/styles', 'StoneStylesController@store');
+    Route::get('/stones/styles', 'StoneStyleController@index')->name('styles');
+    Route::post('/stones/styles', 'StoneStyleController@store');
 
-    Route::get('/stones/contours', 'StoneContoursController@index')->name('contours');
-    Route::post('/stones/contours', 'StoneContoursController@store');
+    Route::get('/stones/contours', 'StoneContourController@index')->name('contours');
+    Route::post('/stones/contours', 'StoneContourController@store');
 
-    //Route::get('/users/substitution/{user}', 'UsersubstitutionsController@show');
+    //Route::get('/users/substitution/{user}', 'UserSubstitutionController@show');
 
-    Route::get('/users/substitutions', 'UsersubstitutionsController@index')->name('substitutions');
-    Route::get('/users/substitutions/{substitution}', 'UsersubstitutionsController@edit');
+    Route::get('/users/substitutions', 'UserSubstitutionController@index')->name('substitutions');
+    Route::get('/users/substitutions/{userSubstitution}', 'UserSubstitutionController@edit');
 
     Route::get('/users', 'UserController@index')->name('users');
     Route::get('/users/{user}', 'UserController@edit');
 
-    Route::get('/stones', 'StonesController@index')->name('stones');
-    Route::post('/stones', 'StonesController@store');
+    Route::get('/stones', 'StoneController@index')->name('stones');
+    Route::post('/stones', 'StoneController@store');
 
-    Route::get('/stones/{stone}', 'StonesController@edit');
+    Route::get('/stones/{stone}', 'StoneController@edit');
 
-    Route::get('/stores', 'StoresController@index')->name('stores');
-    Route::post('/stores', 'StoresController@store');
+    Route::get('/stores', 'StoreController@index')->name('stores');
+    Route::post('/stores', 'StoreController@store');
+    Route::get('/stores/info/{store}', 'StoreController@show');
 
-    Route::get('/stores/{store}', 'StoresController@edit');
-    //Route::put('/stores/{store}', 'StoresController@update');
+    Route::get('/payments', 'PaymentController@index')->name('payments');
+
+    Route::get('/stores/{store}', 'StoreController@edit');
+    //Route::put('/stores/{store}', 'StoreController@update');
 
     Route::get('/nomenclatures', 'NomenclaturesController@index')->name('nomenclatures');
     Route::post('/nomenclatures', 'NomenclaturesController@store');
 
-    Route::get('/materials', 'MaterialsController@index')->name('materials');
-    Route::post('/materials', 'MaterialsController@store');
+    Route::get('/materials', 'MaterialController@index')->name('materials');
+    Route::post('/materials', 'MaterialController@store');
 
-    Route::get('/materialstypes', 'MaterialsTypeController@index')->name('materialstypes');
-    Route::post('/materialstypes', 'MaterialsTypeController@store');
+    Route::get('/materialstypes', 'MaterialTypeController@index')->name('materials_types');
+    Route::post('/materialstypes', 'MaterialTypeController@store');
 
-    Route::get('/materialstypes/{material}', 'MaterialsTypeController@edit');
+    Route::get('/materialstypes/{materialType}', 'MaterialTypeController@edit');
 
-    Route::get('/materials/{material}', 'MaterialsController@edit');
-    Route::put('/materials/{material}', 'MaterialsController@update');
+    Route::get('/materials/{material}', 'MaterialController@edit');
+    Route::put('/materials/{material}', 'MaterialController@update');
 
-    Route::get('/materials/accept/{material}', 'MaterialsTravellingController@accept');
+    Route::post('/materials/accept/{material}', 'MaterialTravellingController@accept');
+    Route::post('/materials/decline/{material}', 'MaterialTravellingController@decline');
 
-    Route::get('/mquantity', 'MaterialsQuantityController@index')->name('materials_quantity');
-    Route::post('/mquantity', 'MaterialsQuantityController@store');
+    Route::get('/mquantity', 'MaterialQuantityController@index')->name('materials_quantity');
+    Route::post('/mquantity', 'MaterialQuantityController@store');
 
-    Route::get('/mtravelling', 'MaterialsTravellingController@index')->name('materials_travelling');
-    Route::post('/mtravelling', 'MaterialsTravellingController@store');
+    Route::get('/mtravelling', 'MaterialTravellingController@index')->name('materials_travelling');
+    Route::post('/mtravelling', 'MaterialTravellingController@store');
 
-    Route::get('/mquantity/{material}', 'MaterialsQuantityController@edit');
+    Route::get('/mquantity/{materialQuantity}', 'MaterialQuantityController@edit');
 
-    Route::get('/prices', 'PricesController@index')->name('prices');
-    Route::post('/prices', 'PricesController@index');
+    Route::get('/prices', 'PriceController@index')->name('prices');
+    Route::post('/prices', 'PriceController@index');
 
-    Route::get('/prices/{material}', 'PricesController@show')->name('view-price');
-    Route::post('/prices/{material}', 'PricesController@store');
+    Route::get('/prices/{material}', 'PriceController@show')->name('view_price');
+    Route::post('/prices/{material}', 'PriceController@store');
 
-    Route::get('/prices/edit/{price}', 'PricesController@edit');
+    Route::get('/prices/edit/{price}', 'PriceController@edit');
 
-    Route::get('/jewels', 'JewelsController@index')->name('jewels');
-    Route::post('/jewels', 'JewelsController@store');
+    Route::get('/jewels', 'JewelController@index')->name('jewels');
+    Route::post('/jewels', 'JewelController@store');
 
-    Route::get('/jewels/{jewel}', 'JewelsController@edit');
+    Route::get('/jewels/{jewel}', 'JewelController@edit');
 
-    Route::get('/models', 'ModelsController@index')->name('models');
-    Route::post('/models', 'ModelsController@store');
+    Route::get('/models', 'ModelController@index')->name('models');
+    Route::post('/models', 'ModelController@store');
 
-    Route::get('/models/{model}', 'ModelsController@edit');
-    Route::put('/models/{model}', 'ModelsController@update');
+    Route::get('/models/{model}', 'ModelController@edit');
+    Route::put('/models/{model}', 'ModelController@update');
 
-    Route::get('/products/{id}', 'ProductsController@edit');
-    Route::get('/products', 'ProductsController@index')->name('products');
-    Route::post('/products', 'ProductsController@store');
+    Route::get('/products/{product}', 'ProductController@edit');
+    Route::get('/products', 'ProductController@index')->name('products');
+    Route::post('/products', 'ProductController@store');
 
-    Route::get('/productsothers', 'ProductsOthersController@index')->name('productsothers');
-    Route::get('/productsothers/{product}', 'ProductsOthersController@edit');
-    //Route::put('/productsothers/{product}', 'ProductsOthersController@update');
+    Route::get('/productsothers', 'ProductOtherController@index')->name('products_others');
+    Route::get('/productsothers/{productOther}', 'ProductOtherController@edit');
+    //Route::put('/productsothers/{product}', 'ProductOtherController@update');
 
-    Route::get('/productsotherstypes', 'ProductsOthersTypesController@index')->name('productsotherstypes');
-    Route::get('/productsotherstypes/{type}', 'ProductsOthersTypesController@edit');
+    Route::get('/productstravelling', 'ProductTravellingController@index')->name('products_travelling');
 
-    Route::get('/settings', 'SettingsController@index')->name('settings');
-    Route::post('/settings', 'SettingsController@store');
+    Route::post('/productstravelling', 'ProductTravellingController@store');
 
-    Route::get('/settings/stock', 'SettingsController@stockPrices')->name('stockPrices');
-    Route::post('/settings/stock', 'SettingsController@updatePrices');
+    Route::get('/productstravelling/accept/{product}', 'ProductTravellingController@accept');
 
-    Route::get('/settings/currencies', 'SettingsController@currencies')->name('currencies');
-    Route::post('/settings/currencies', 'CurrenciesController@store');
+    Route::get('/productsotherstypes', 'ProductOtherTypeController@index')->name('products_others_types');
+    Route::get('/productsotherstypes/{productOtherType}', 'ProductOtherTypeController@edit');
 
-    Route::get('/settings/currencies/{currency}', 'CurrenciesController@edit');
+    Route::get('/settings', 'SettingController@index')->name('settings');
+    Route::post('/settings', 'SettingController@store');
 
-    Route::get('/discounts', 'DiscountCodesController@index')->name('discounts');
+    Route::get('/settings/stock', 'SettingController@stockPrices')->name('stock_prices');
+    Route::post('/settings/stock', 'SettingController@updatePrices');
 
-    Route::get('/discounts/{discount}', 'DiscountCodesController@edit');
+    Route::get('/settings/currencies', 'SettingController@currencies')->name('currencies');
+    Route::post('/settings/currencies', 'CurrencyController@store');
 
-    Route::get('/setDiscount/{barcode}',  'SellingsController@setDiscount');
+    Route::get('/settings/currencies/{currency}', 'CurrencyController@edit');
 
-    Route::get('/sell/clearCart', 'SellingsController@clearCart')->name('clearCart');
+    Route::get('/discounts', 'DiscountCodeController@index')->name('discounts');
 
-    Route::get('/stones/sizes/{size}', 'StoneSizesController@edit');
+    Route::get('/discounts/{discountCode}', 'DiscountCodeController@edit');
 
-    Route::get('/stones/styles/{style}', 'StoneStylesController@edit');
+    Route::get('/setDiscount/{barcode}',  'SellingController@setDiscount');
 
-    Route::get('/stones/{stone}', 'StonesController@edit');
+    Route::get('/sell/clearCart', 'SellingController@clearCart')->name('clear_cart');
 
-    Route::get('/stones/contours/{contour}', 'StoneContoursController@edit');
+    Route::get('/stones/sizes/{stoneSize}', 'StoneSizeController@edit');
 
-    Route::get('/repairs/certificate/{id}', 'RepairsController@certificate');
+    Route::get('/stones/styles/{stoneStyle}', 'StoneStyleController@edit');
 
-    Route::get('/repairs/return/{repair}', 'RepairsController@return');
-    Route::get('/repairs/edit/{repair}', 'RepairsController@edit');
+    Route::get('/stones/{stone}', 'StoneController@edit');
+
+    Route::get('/stones/contours/{stoneContour}', 'StoneContourController@edit');
+
+    Route::get('/repairs/certificate/{barcode}', 'RepairController@certificate');
+
+    Route::get('/repairs/return/{repair}', 'RepairController@return');
+    Route::get('/repairs/edit/{repair}', 'RepairController@edit');
 });
 
 Route::group(['prefix' => 'ajax'], function() {
 
-    Route::post('/stores', 'StoresController@store');
-    Route::put('/stores/{store}', 'StoresController@update');
-    Route::get('/stores/{store}', 'StoresController@edit');
-    Route::post('/stores/delete/{store}', 'StoresController@destroy');
+    Route::post('/stores', 'StoreController@store');
+    Route::put('/stores/{store}', 'StoreController@update');
+    Route::get('/stores/{store}', 'StoreController@edit');
+    Route::post('/stores/delete/{store}', 'StoreController@destroy');
 
-    Route::post('/materials', 'MaterialsController@store');
-    Route::post('/materials/delete/{material}', 'MaterialsController@destroy');
+    Route::post('/materials', 'MaterialController@store');
+    Route::post('/materials/delete/{material}', 'MaterialController@destroy');
 
-    Route::post('/materialstypes', 'MaterialsTypeController@store');
-    Route::post('/materialstypes/delete/{material}', 'MaterialsTypeController@destroy');
+    Route::post('/materialstypes', 'MaterialTypeController@store');
+    Route::post('/materialstypes/delete/{materialType}', 'MaterialTypeController@destroy');
 
-    Route::post('/repairtypes', 'RepairTypesController@store');
+    Route::post('/repairtypes', 'RepairTypeController@store');
 
-    Route::post('/stones', 'StonesController@store');
-    Route::post('/stones/delete/{stone}', 'StonesController@destroy');
+    Route::post('/stones', 'StoneController@store');
+    Route::post('/stones/delete/{stone}', 'StoneController@destroy');
 
-    Route::post('/stones/sizes', 'StoneSizesController@store');
-    Route::get('/stones/sizes/{size}', 'StoneSizesController@edit');
+    Route::post('/stones/sizes', 'StoneSizeController@store');
+    Route::get('/stones/sizes/{stoneSize}', 'StoneSizeController@edit');
 
-    Route::post('/stones/styles', 'StoneStylesController@store');
-    Route::get('/stones/styles/{style}', 'StoneStylesController@edit');
+    Route::post('/stones/styles', 'StoneStyleController@store');
+    Route::get('/stones/styles/{stoneStyle}', 'StoneStyleController@edit');
 
-    Route::put('/stones/{stone}', 'StonesController@update');
-    Route::get('/stones/{stone}', 'StonesController@edit');
+    Route::put('/stones/{stone}', 'StoneController@update');
+    Route::get('/stones/{stone}', 'StoneController@edit');
 
-    Route::post('/stones/contours', 'StoneContoursController@store');
-    Route::get('/stones/contours/{contour}', 'StoneContoursController@edit');
+    Route::post('/stones/contours', 'StoneContourController@store');
+    Route::get('/stones/contours/{stoneContour}', 'StoneContourController@edit');
 
-    Route::post('/stones/sizes/delete/{size}', 'StoneSizesController@destroy');
-    Route::post('/stones/styles/delete/{style}', 'StoneStylesController@destroy');
-    Route::post('/stones/contours/delete/{contour}', 'StoneContoursController@destroy');
+    Route::post('/stones/sizes/delete/{stoneSize}', 'StoneSizeController@destroy');
+    Route::post('/stones/styles/delete/{stoneStyle}', 'StoneStyleController@destroy');
+    Route::post('/stones/contours/delete/{stoneContour}', 'StoneContourController@destroy');
 
-    Route::put('/stones/sizes/{size}', 'StoneSizesController@update');
-    Route::put('/stones/styles/{style}', 'StoneStylesController@update');
-    Route::put('/stones/contours/{contour}', 'StoneContoursController@update');
+    Route::put('/stones/sizes/{stoneSize}', 'StoneSizeController@update');
+    Route::put('/stones/styles/{stoneStyle}', 'StoneStyleController@update');
+    Route::put('/stones/contours/{stoneContour}', 'StoneContourController@update');
 
-    Route::post('/prices/{material}', 'PricesController@store');
-    Route::post('/prices/delete/{price}', 'PricesController@destroy');
-    Route::put('/prices/{price}', 'PricesController@update');
+    Route::post('/prices/{material}', 'PriceController@store');
+    Route::post('/prices/delete/{price}', 'PriceController@destroy');
+    Route::put('/prices/{price}', 'PriceController@update');
 
-    Route::post('/jewels', 'JewelsController@store');
-    Route::put('/jewels/{jewel}', 'JewelsController@update');
-    Route::post('/jewels/delete/{jewel}', 'JewelsController@destroy');
+    Route::post('/jewels', 'JewelController@store');
+    Route::put('/jewels/{jewel}', 'JewelController@update');
+    Route::post('/jewels/delete/{jewel}', 'JewelController@destroy');
 
-    Route::post('/models', 'ModelsController@store');
-    Route::put('/models/{model}', 'ModelsController@update');
-    Route::post('/models/delete/{model}', 'ModelsController@destroy');
+    Route::post('/models', 'ModelController@store');
+    Route::put('/models/{model}', 'ModelController@update');
+    Route::post('/models/delete/{model}', 'ModelController@destroy');
 
-    Route::post('/mquantity', 'MaterialsQuantityController@store');
-    Route::post('/mquantity/delete/{material}', 'MaterialsQuantityController@destroy');
+    Route::post('/mquantity', 'MaterialQuantityController@store');
+    Route::post('/mquantity/delete/{materialQuantity}', 'MaterialQuantityController@destroy');
 
-    Route::post('/mquantity/deletebymaterial/{material}', 'MaterialsQuantityController@deleteByMaterial');
+    Route::post('/mquantity/deletebymaterial/{material}', 'MaterialQuantityController@deleteByMaterial');
 
-    Route::post('/sendMaterial', 'MaterialsTravellingController@store');
+    Route::post('/sendMaterial', 'MaterialTravellingController@store');
 
-    Route::put('/mquantity/{material}', 'MaterialsQuantityController@update');
+    Route::put('/mquantity/{materialQuantity}', 'MaterialQuantityController@update');
     
-    Route::put('/materials/{material}', 'MaterialsController@update');
+    Route::put('/materials/{material}', 'MaterialController@update');
 
-    Route::put('/materialstypes/{material}', 'MaterialsTypeController@update');
+    Route::put('/materialstypes/{materialType}', 'MaterialTypeController@update');
 
     Route::put('/users/{user}', 'UserController@update');
 
     Route::post('/users', 'UserController@store');
     Route::post('/users/delete/{user}', 'UserController@destroy');
 
-    //Route::put('/users/substitutions/{user}', 'UsersubstitutionsController@store');
+    //Route::put('/users/substitutions/{user}', 'UserSubstitutionController@store');
 
-    Route::post('/repairs', 'RepairsController@store');
+    Route::post('/repairs', 'RepairController@store');
 
-    Route::get('/repairs/return/{repair}', 'RepairsController@return');
-    Route::put('/repairs/return/{repair}', 'RepairsController@returnRepair');
+    Route::get('/repairs/return/{barcode}', 'RepairController@return');
+    Route::put('/repairs/return/{barcode}', 'RepairController@returnRepair');
 
-    Route::get('/repairs/edit/{repair}', 'RepairsController@edit');
-    Route::put('/repairs/edit/{repair}', 'RepairsController@update');
+    Route::get('/repairs/edit/{barcode}', 'RepairController@edit');
+    Route::put('/repairs/edit/{barcode}', 'RepairController@update');
 
-    Route::get('/repairs/{barcode}', 'RepairsController@scan');
-    Route::get('/repairs/certificate/{id}', 'RepairsController@certificate');
-    Route::post('/repairs/delete/{repair}', 'RepairsController@destroy');
+    Route::get('/repairs/{barcode}', 'RepairController@scan');
+    Route::get('/repairs/certificate/{id}', 'RepairController@certificate');
+    Route::post('/repairs/delete/{repair}', 'RepairController@destroy');
 
-    Route::put('/repairtypes/{type}', 'RepairTypesController@update');
-    Route::post('/repairtypes/delete/{type}', 'RepairTypesController@destroy');
+    Route::put('/repairtypes/{repairType}', 'RepairTypeController@update');
+    Route::post('/repairtypes/delete/{repairType}', 'RepairTypeController@destroy');
 
-    Route::put('/repairs/{repair}', 'RepairsController@update');
+    Route::put('/repairs/{repair}', 'RepairController@update');
 
-    Route::post('/discounts', 'DiscountCodesController@store');
-    Route::put('/discounts/{discount}', 'DiscountCodesController@update');
+    Route::post('/discounts', 'DiscountCodeController@store');
+    Route::put('/discounts/{discountCode}', 'DiscountCodeController@update');
 
-    Route::get('/products/{model}', 'ProductsController@chainedSelects');
+    Route::get('/products/{model}', 'ProductController@chainedSelects');
 
-    Route::post('/products', 'ProductsController@store');
-    Route::post('/products/delete/{product}', 'ProductsController@destroy');
-    Route::put('/products/{id}', 'ProductsController@update');
+    Route::post('/products', 'ProductController@store');
+    Route::post('/products/delete/{product}', 'ProductController@destroy');
+    Route::put('/products/{product}', 'ProductController@update');
 
-    Route::post('/productsotherstypes', 'ProductsOthersTypesController@store');
-    Route::put('/productsotherstypes/{type}', 'ProductsOthersTypesController@update');
-    Route::post('/productsotherstypes/delete/{type}', 'ProductsOthersTypesController@destroy');
+    Route::post('/productstravelling', 'ProductTravellingController@store');
 
-    Route::post('/productsothers', 'ProductsOthersController@store');
-    Route::put('/productsothers/{product}', 'ProductsOthersController@update');
-    Route::post('/productsothers/delete/{product}', 'ProductsOthersController@destroy');
+    Route::post('/productstravelling/delete/{product}', 'ProductTravellingController@destroy');
 
-    Route::get('discounts/check/{barcode}', 'DiscountCodesController@check');
-    Route::post('discounts/delete/{discount}', 'DiscountCodesController@destroy');
+    Route::post('/productsotherstypes', 'ProductOtherTypeController@store');
+    Route::put('/productsotherstypes/{productOtherType}', 'ProductOtherTypeController@update');
+    Route::post('/productsotherstypes/delete/{productOtherType}', 'ProductOtherTypeController@destroy');
 
-    Route::post('/sell', 'SellingsController@sell')->name('sellScan');
-    Route::get('/sell/setDiscount/{barcode}',  'SellingsController@setDiscount')->name('addDiscount');
-    Route::get('/sellings/information', 'SellingsController@printInfo');
+    Route::post('/productsothers', 'ProductOtherController@store');
+    Route::put('/productsothers/{productOther}', 'ProductOtherController@update');
+    Route::post('/productsothers/delete/{productOther}', 'ProductOtherController@destroy');
 
-    Route::post('/sell/removeItem/{item}', 'SellingsController@removeItem');
+    Route::get('discounts/check/{barcode}', 'DiscountCodeController@check');
+    Route::post('discounts/delete/{discountCode}', 'DiscountCodeController@destroy');
 
-    Route::post('/sell/payment', 'PaymentsController@store');
+    Route::post('/sell', 'SellingController@sell')->name('sellScan');
+    Route::get('/setDiscount/{barcode}',  'SellingController@setDiscount')->name('add_discount');
+    Route::get('/removeDiscount/{name}',  'SellingController@removeDiscount')->name('remove_discount');
+    Route::post('/sendDiscount',  'SellingController@sendDiscount')->name('send_discount');
+    Route::get('/sellings/information', 'SellingController@printInfo');
 
-    Route::post('/settings/currencies', 'CurrenciesController@store');
-    Route::post('/settings/currencies/delete/{currency}', 'CurrenciesController@destroy');
-    Route::put('/settings/currencies/{currency}', 'CurrenciesController@update');
+    Route::post('/sell/removeItem/{item}', 'SellingController@removeItem');
 
-    Route::get('/getPrices/{material}', 'PricesController@getByMaterial');
+    Route::post('/sell/payment', 'PaymentController@store');
 
-    Route::post('/users/substitutions', 'UsersubstitutionsController@store');
+    Route::post('/settings/currencies', 'CurrencyController@store');
+    Route::post('/settings/currencies/delete/{currency}', 'CurrencyController@destroy');
+    Route::put('/settings/currencies/{currency}', 'CurrencyController@update');
 
-    Route::put('/users/substitutions/{substitution}', 'UsersubstitutionsController@update');
-    Route::post('/users/substitutions/delete/{substitution}', 'UsersubstitutionsController@destroy');
+    Route::get('/getPrices/{material}/{model}', 'PriceController@getByMaterial');
+
+    Route::post('/users/substitutions', 'UserSubstitutionController@store');
+
+    Route::put('/users/substitutions/{userSubstitution}', 'UserSubstitutionController@update');
+    Route::post('/users/substitutions/delete/{userSubstitution}', 'UserSubstitutionController@destroy');
 
     Route::post('/gallery/delete/{photo}', 'GalleryController@destroy');
 });
@@ -280,20 +296,25 @@ Route::group(['prefix' => 'ajax'], function() {
 /**
  * Online Store Routes
  */
-Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
-    Route::get('store', 'StoreController@index')->name('store');
+Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
+    Route::get('/', 'StoreController@index')->name('store');
+
+    Route::group(['prefix' => 'products'], function() {
+        Route::get('/', 'ProductController@index')->name('products');
+        Route::get('/{product}', 'ProductController@show')->name('single_product');
+    });
 });
 
 /**
  * !Note: Store routes for testing
  */
-Route::prefix('online')->group(function () {
+// Route::prefix('online')->group(function () {
 
-    Route::get('contact', function () {
-        return view('store.pages.contact');
-    });
+//     Route::get('contact', function () {
+//         return view('store.pages.contact');
+//     });
 
-    Route::get('product', function () {
-        return view('store.pages.products.index');
-    });
-});
+//     Route::get('product', function () {
+//         return view('store.pages.products.index');
+//     });
+// });

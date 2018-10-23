@@ -6,7 +6,7 @@
         </button>
         </div>
     
-    <form method="POST" name="sendUser" action="/users/substitutions/{{ $substitution->id }}">
+    <form method="POST" name="substitutions" data-type="edit" action="users/substitutions/{{ $substitution->id }}">
         <input name="_method" type="hidden" value="PUT">
         <div class="modal-body">    
             <div class="info-cont">
@@ -18,11 +18,11 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label>Потребител: </label>
-                    <select name="user" class="form-control">
+                    <select name="user_id" class="form-control">
                         <option value="">Избери потребител</option>
                 
                         @foreach($users as $user)
-                            <option value="{{ $user->id }}" @if($substitution->user_id == $user->id) selected @endif>{{ $user->name }} - {{ $user->store }}</option>
+                            <option value="{{ $user->id }}" @if($substitution->user_id == $user->id) selected @endif>{{ $user->name }} - {{ $user->store->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -33,7 +33,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label>Магазин: </label>
-                    <select name="store" class="form-control">
+                    <select name="store_id" class="form-control">
                         <option value="">Избер магазин</option>
                 
                         @foreach($stores as $store)
@@ -72,7 +72,7 @@
         
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-            <button type="submit" id="sendUserForm" class="edit-btn-modal btn btn-primary">Промени</button>
+            <button type="submit" id="sendUserForm" data-state="edit_state" class="edit-btn-modal btn btn-primary">Промени</button>
         </div>
     </form>
 </div>

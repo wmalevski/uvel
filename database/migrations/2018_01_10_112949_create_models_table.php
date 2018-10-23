@@ -16,12 +16,11 @@ class CreateModelsTable extends Migration
         Schema::create('models', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('jewel')->references('id')->on('jewels');
-            $table->integer('retail_price')->references('id')->on('prices');
-            $table->integer('wholesale_price')->references('id')->on('prices');
+            $table->integer('jewel_id')->unsigned();
             $table->float('weight');
             $table->integer('size');
             $table->float('workmanship');
+            $table->float('totalStones')->nullable();
             $table->float('price');
             $table->timestamps();
             $table->softDeletes();

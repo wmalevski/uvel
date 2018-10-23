@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use App\Stores;
+use App\Store;
 use App\Permission;
 use Response;
 use Bouncer;
@@ -23,7 +23,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        $stores = Stores::all();
+        $stores = Store::all();
         
         return \View::make('admin/users/index', array('users' => $users, 'stores' => $stores));
     }
@@ -34,20 +34,27 @@ class UserController extends Controller
      * @param  \App\User  $users
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $users, $user)
+    public function edit(User $user)
     {
-        $user = User::find($user);
-        $stores = Stores::all();
+        $stores = Store::all();
         
         return \View::make('admin/users/edit', array('user' => $user, 'stores' => $stores));
     }
 
-    public function update(Request $request, User $users, $user)
+    public function update(Request $request, User $user)
     {
-        $user = User::find($user);
+        $validator = Validator::make( $request->all(), [
+            'name' => 'required|string|max:255',
+            'role' => 'required',
+            'store_id' => 'required'
+         ]);
+        
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
         
         $user->name = $request->name;
-        $user->store = $request->store;
+        $user->store_id = $request->store_id;
         // $user->roles()->detach();
         // $user->assign($request->role);
 
@@ -67,15 +74,15 @@ class UserController extends Controller
         //     Bouncer::disallow($user)->to($ability);
         // }
 
-        foreach($request->permissions as $key => $role){
-            //Bouncer::allow($user)->to($role);
+        // foreach($request->permissions as $key => $role){
+        //     //Bouncer::allow($user)->to($role);
 
-            if($role == true){
-                Bouncer::allow($user)->to($key+1);
-            }else{
-                Bouncer::disallow($user)->to($key+1);
-            }
-        }
+        //     if($role == true){
+        //         Bouncer::allow($user)->to($key+1);
+        //     }else{
+        //         Bouncer::disallow($user)->to($key+1);
+        //     }
+        // }
 
         Bouncer::sync($user)->roles([$request->role]);
     
@@ -95,6 +102,8 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'role' => 'required',
+            'store_id' => 'required'
          ]);
         
         if ($validator->fails()) {
@@ -107,7 +116,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'store' => $request->store
+            'store_id' => $request->store_id
         ]);
 
         //$user->attachRole($request->role);
@@ -124,11 +133,15 @@ class UserController extends Controller
      * @param  \App\User  $stores
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $users, $user)
+    public function destroy(User $user)
     {
-        $user = User::find($user);
-        
         if($user){
+            foreach($user->discountCodes as $discountCode) {
+                if($discountCode->active == "yes") {
+                   $discountCode->active = "no";
+                   $discountCode->save();
+                }
+            }
             $user->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
         }

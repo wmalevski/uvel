@@ -6,7 +6,7 @@
     </button>
 </div>
 
-<form method="POST" name="edit" action="/users/{{ $user->id }}">
+<form method="POST" name="users" data-type="edit" action="users/{{ $user->id }}">
     <input name="_method" type="hidden" value="PUT">
     <div class="modal-body">    
         <div class="info-cont">
@@ -32,15 +32,14 @@
 
         <div class="form-group">
             <label>Магазин: </label>
-            <select name="store" class="form-control">
+            <select name="store_id" class="form-control">
                 <option value="">Избери магазин</option>
-        
                 @foreach($stores as $store)
-                    <option value="{{ $store->id }}" @if($user->store == $store->id) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
+                    <option value="{{ $store->id }}" @if($user->store_id == $store->id) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
                 @endforeach
             </select>
         </div>
-        <div class="form-group">
+        {{-- <div class="form-group">
             @foreach(Bouncer::ability()->get() as $permission)
             <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
                 <input type="checkbox" id="inputCall{{ $permission->id }}" 
@@ -50,11 +49,11 @@
                 </label>
             </div>
             @endforeach
-        </div>
+        </div> --}}
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-        <button type="submit" id="edit" class="edit-btn-modal btn btn-primary">Промени</button>
+        <button type="submit" id="edit" data-state="edit_state" class="action--state_button edit-btn-modal btn btn-primary">Промени</button>
     </div>
 </form>
 </div>

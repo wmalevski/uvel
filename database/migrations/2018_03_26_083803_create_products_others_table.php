@@ -16,11 +16,11 @@ class CreateProductsOthersTable extends Migration
         Schema::create('products_others', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('type')->references('id')->on('products_others_types');
+            $table->integer('type_id')->unsigned();
             $table->float('price');
             $table->integer('quantity');
             $table->string('barcode');
-            $table->integer('store')->references('id')->on('stores');
+            $table->integer('store_id')->unsigned();
             $table->string('code')->nullable();
             $table->timestamps();
         });

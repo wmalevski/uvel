@@ -6,16 +6,16 @@
         </button>
     </div>
 
-    <form method="POST" id="edit-stones-form" name="edit" action="/stones/{{ $stone->id }}">
+    <form method="POST" id="edit-stones-form" name="stones" data-type="edit" action="stones/{{ $stone->id }}">
         <input name="_method" type="hidden" value="PUT">
         <div class="modal-body">    
             <div class="info-cont">
             </div>
 
             {{ csrf_field() }}
-
+            
             <div class="form-group">
-                <select name="type" id="stone_type" class="form-control">
+                <select name="type" id="stone_type" data-calculateCarats-type class="form-control">
                     <option value="1" @if($stone->type == 1) selected @endif>Синтетичен</option>
                     <option value="2" @if($stone->type == 2) selected @endif>Естествен</option>
                 </select>
@@ -28,43 +28,46 @@
 
             <div class="form-group">
                 <label for="weight">Тегло: </label>
-                <input type="number" class="form-control" value="{{ $stone->weight }}" id="weight" name="weight" placeholder="Тегло:">
+                <div class="input-group">
+                    <input type="number" class="form-control weight" value="{{ $stone->weight }}" id="weight" data-calculateCarats-weight name="weight" placeholder="Тегло:">
+                    <span class="input-group-addon">гр.</span>
+                </div>
             </div>
         
             <div class="form-group">
                 <label for="carat">Карат: </label>
-                <input type="number" class="form-control" id="carat" value="{{ $stone->carat }}" value="0" name="carat" placeholder="Карат:" >
+                <input type="number" class="form-control carat" id="carat" value="{{ $stone->carat }}" value="0" data-calculateCarats-carat name="carat" placeholder="Карат:" readonly>
             </div>
         
             <div class="form-group">
                 <label>Размер: </label>
-                <select name="size" class="form-control">
+                <select name="size_id" class="form-control">
                     <option value="">Избер размер</option>
             
                     @foreach($stone_sizes as $size)
-                        <option value="{{ $size->id }}" @if($stone->size == $size->id) selected @endif>{{ $size->name }}</option>
+                        <option value="{{ $size->id }}" @if($stone->size_id == $size->id) selected @endif>{{ $size->name }}</option>
                     @endforeach
                 </select>
             </div>
 
             <div class="form-group">
                 <label>Контур: </label>
-                <select name="contour" class="form-control">
+                <select name="contour_id" class="form-control">
                     <option value="">Избери контур</option> 
                         
                     @foreach($stone_contours as $contour)
-                        <option value="{{ $contour->id }}" @if($stone->contour == $contour->id) selected @endif>{{ $contour->name }}</option>
+                        <option value="{{ $contour->id }}" @if($stone->contour_id == $contour->id) selected @endif>{{ $contour->name }}</option>
                     @endforeach
                 </select>
             </div>
 
             <div class="form-group">
                 <label>Стил: </label>
-                <select name="style" class="form-control">
+                <select name="style_id" class="form-control">
                     <option value="">Избери стил</option>
             
                     @foreach($stone_styles as $style)
-                        <option value="{{ $style->id }}" @if($stone->style == $style->id) selected @endif>{{ $style->name }}</option>
+                        <option value="{{ $style->id }}" @if($stone->style_id == $style->id) selected @endif>{{ $style->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -76,9 +79,23 @@
         
             <div class="form-group">
                 <label for="5">Цена: </label>
-                <input type="number" class="form-control" id="5" value="{{ $stone->price }}" name="price" placeholder="Цена:">
+                <div class="input-group">
+                    <input type="number" class="form-control" id="5" value="{{ $stone->price }}" name="price" placeholder="Цена:">
+                    <span class="input-group-addon">лв</span>
+                </div>
             </div>
-      
+            
+            <div class="form-group">
+                <label>Магазин: </label>
+                <select name="store_id" class="form-control">
+                    <option value="">Избери магазин</option>
+            
+                    @foreach($stores as $store)
+                        <option value="{{ $store->id }}" @if($store->id == $stone->store_id) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
+                    @endforeach
+                </select>
+            </div>
+
             <div class="drop-area" name="edit">
                 <input type="file" name="images" class="drop-area-input" id="fileElem-edit" multiple accept="image/*" >
                 <label class="button" for="fileElem-edit">Select some files</label>
@@ -98,7 +115,7 @@
 
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-            <button type="submit" class="edit-btn-modal btn btn-primary">Промени</button>
+            <button type="submit" data-state="edit_state" class="action--state_button edit-btn-modal btn btn-primary">Промени</button>
         </div>
         
     </form>

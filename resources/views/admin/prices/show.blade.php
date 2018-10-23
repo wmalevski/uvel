@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="addPrice" action="/prices/{{$material->id}}">
+            <form method="POST" name="prices" data-type="add" action="prices/{{$material->id}}">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>
@@ -23,7 +23,10 @@ aria-hidden="true">
                     
                         <div class="form-group">
                             <label for="2">Стойност: </label>
-                            <input type="number" class="form-control" id="2" name="price" placeholder="Цена:">
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="2" name="price" placeholder="Цена:">
+                                <span class="input-group-addon">лв / гр.</span>
+                            </div>
                         </div>
                     
                         <label>Тип: </label>
@@ -33,20 +36,19 @@ aria-hidden="true">
                             <option value="buy">Купува</option>
                             <option value="sell">Продава</option>
                         </select>
-                    
-                        <input type="hidden" name="material" value="{{ $material->id }}">
+                        <input type="hidden" name="material_id" value="{{ $material->id }}">
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" id="add" class="btn btn-primary  add-btn-modal">Добави</button>
+                    <button type="submit" id="add" data-state="add_state" class="action--state_button btn btn-primary  add-btn-modal">Добави</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="editPrice" role="dialog" aria-labelledby="editPrice"
+<div class="modal fade edit--modal_holder" id="editPrice" role="dialog" aria-labelledby="editPrice"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -56,7 +58,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/prices" name="editPrice">
+            <form method="POST" action="prices" name="editPrice">
                  
                 <div class="modal-body">    
                     <div class="info-cont">
@@ -78,16 +80,15 @@ aria-hidden="true">
 </div>
 
 
-<h4 class="c-grey-900 mT-10 mB-30">Цени за {{ App\Materials_type::withTrashed()->find($material->parent)->name }}
-    <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-toggle="modal" data-target="#addPrice">Добави</button>
+<h4 class="c-grey-900 mT-10 mB-30">Цени за {{ $material->parent->name }}
+    <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-toggle="modal" data-form-type="add" data-form="prices" data-target="#addPrice">Добави</button>
 </h4>
 <div class="row">
   <div class="col-md-12">
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
       <h4 class="c-grey-900 mB-20">Цени Купува</h4>
-
         @if(isset($prices)) 
-        <table class="table table-condensed" id="buy">
+        <table class="table table-condensed buy" id="buy">
             <tr>
                 <th width="46%">#</th>
                 <th width="18%">Име</th> 
@@ -111,7 +112,7 @@ aria-hidden="true">
         <h4 class="c-grey-900 mB-20">Цени Продава</h4>
   
           @if(isset($prices))
-          <table class="table table-condensed" id="sell">
+          <table class="table table-condensed sell" id="sell">
               <tr>
                   <th width="46%">#</th>
                   <th width="18%">Име</th> 

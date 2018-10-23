@@ -12,7 +12,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/users" name="addUser" autocomplete="off">
+            <form method="POST" action="users" name="users" data-type="add" autocomplete="off">
                  
                 <div class="modal-body">    
                     <div class="info-cont">
@@ -52,7 +52,7 @@ aria-hidden="true">
           
                     <div class="form-group">
                         <label>Магазин: </label>
-                        <select name="store" class="form-control">
+                        <select name="store_id" class="form-control">
                             <option value="">Избери магазин</option>
                     
                             @foreach($stores as $store)
@@ -64,14 +64,14 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" id="add" class="add-btn-modal btn btn-primary">Добави</button>
+                    <button type="submit" id="add" data-state="add_state" class="action--state_button add-btn-modal btn btn-primary">Добави</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="editUser" role="dialog" aria-labelledby="editUser" aria-hidden="true">
+<div class="modal fade edit--modal_holder" id="editUser" role="dialog" aria-labelledby="editUser" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             
@@ -91,7 +91,7 @@ aria-hidden="true">
 <div class="row">
     <div class="col-md-12">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
-        <h4 class="c-grey-900 mB-20">Потребители <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addUser">Добави</button></h4>
+        <h4 class="c-grey-900 mB-20">Потребители <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="users" data-toggle="modal" data-target="#addUser">Добави</button></h4>
         <p>Преглед на потребителите.</p>
         <table class="table tablesort">
           <thead>

@@ -5,7 +5,7 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<form method="POST" name="editDiscount" action="/discounts/{{ $discount->id }}">
+<form method="POST" name="discounts" data-type="edit" action="discounts/{{ $discount->id }}">
     <input name="_method" type="hidden" value="PUT">
     <div class="modal-body">
         <div class="info-cont">
@@ -14,7 +14,10 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="1">Отстъпка: </label>
-                <input type="text" class="form-control" id="1" name="discount" value="{{ $discount->discount }}" placeholder="Процент отстъпка: " min="0" max="100">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="1" name="discount" value="{{ $discount->discount }}" placeholder="Процент отстъпка: " min="0" max="100">
+                    <span class="input-group-addon">%</span>
+                </div>
             </div>
 
             <div class="form-group col-md-6">
@@ -32,8 +35,8 @@
 
         <div class="form-group">
             <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                <input type="checkbox" id="lifetime" name="lifetime" class="peer" @if($discount->lifetime == 'yes') checked @endif>
-                <label for="lifetime" class="peers peer-greed js-sb ai-c">
+                <input type="checkbox" id="lifetime_edit" name="lifetime" class="peer" @if($discount->lifetime == 'yes') checked @endif>
+                <label for="lifetime_edit" class="peers peer-greed js-sb ai-c">
                     <span class="peer peer-greed">Безсрочна</span>
                 </label>
             </div>
@@ -51,11 +54,11 @@
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="2">Потребител: </label>
-                <select name="user" class="form-control">
+                <select name="user_id" class="form-control">
                     <option value="">Избери</option>
 
                     @foreach($users as $user)
-                        <option value="{{ $user->id }}" @if($discount->user) @if($discount->user == $user->id) selected @endif @endif>{{ $user->name }} - {{ $user->roles->first()['title'] }}</option>
+                        <option value="{{ $user->id }}" @if($discount->user_id) @if($discount->user_id == $user->id) selected @endif @endif>{{ $user->name }} - {{ $user->roles->first()['title'] }}</option>
                     @endforeach
                 </select>
             </div>
@@ -65,7 +68,7 @@
 
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-        <button type="submit" id="edit" class="edit-btn-modal btn btn-primary">Промени</button>
+        <button type="submit" id="edit" data-state="edit_state" class="action--state_button btn btn-primary">Промени</button>
     </div>
 </form>
 </div>

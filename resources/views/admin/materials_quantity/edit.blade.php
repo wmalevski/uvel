@@ -6,7 +6,7 @@
         </button>
     </div>
     
-    <form method="POST" name="edit" action="/mquantity/{{ $material->id }}">
+    <form method="POST" name="materialsQuantity" data-type="edit" action="mquantity/{{ $material->id }}">
         <input name="_method" type="hidden" value="PUT">
         <div class="modal-body">    
                 <div class="info-cont">
@@ -16,11 +16,11 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label>Тип: </label>
-                    <select name="material" class="form-control">
+                    <select name="material_id" class="form-control">
                         <option value="">Избер материал</option>
                 
                         @foreach($types as $type)
-                            <option value="{{ $type->id }}" @if($type->id == $material->material) selected @endif>{{ App\Materials_type::withTrashed()->find($type->parent)->name }} - {{ $type->color }} - {{ $type->code }}</option>
+                            <option value="{{ $type->id }}" @if($type->id == $material->material_id) selected @endif>{{ $type->parent->name }} - {{ $type->color }} - {{ $type->code }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -28,17 +28,20 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="2">Количество: </label>
-                    <input type="number" class="form-control" id="2" value="{{ $material->quantity }}" name="quantity" placeholder="Количество:" min="1">
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="2" value="{{ $material->quantity }}" name="quantity" placeholder="Количество:" min="1">
+                        <span class="input-group-addon">гр.</span>
+                    </div>
                 </div>
             </div>
 
             <div class="form-group">
                 <label>Магазин: </label>
-                <select name="store" class="form-control">
+                <select name="store_id" class="form-control">
                     <option value="">Избери магазин</option>
             
                     @foreach($stores as $store)
-                        <option value="{{ $store->id }}" @if($store->id == $material->store) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
+                        <option value="{{ $store->id }}" @if($store->id == $material->store_id) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
                     @endforeach
                 </select>
             </div>
@@ -46,7 +49,7 @@
     
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-            <button type="submit" id="edit" class="edit-btn-modal btn btn-primary">Промени</button>
+            <button type="submit" id="edit" data-state="edit_state" class="action--state_button edit-btn-modal btn btn-primary">Промени</button>
         </div>
     </form>
     </div>

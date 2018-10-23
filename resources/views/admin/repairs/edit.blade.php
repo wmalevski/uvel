@@ -5,7 +5,7 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<form method="POST" action="/repairs/{{ $repair->barcode }}" name="fullEditRepair">
+<form method="POST" action="repairs/{{ $repair->barcode }}" name="repairs" data-type="edit">
     <input name="_method" type="hidden" value="PUT">
     <div class="modal-body">    
         <div class="info-cont">
@@ -27,7 +27,7 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputCity">Приемане</label>
-                    <div class="timepicker-input input-icon form-group">
+                    <div class="timepicker-input input-icon form-group date-recieved">
                         <div class="input-group">
                             <div class="input-group-addon bgc-white bd bdwR-0">
                                 <i class="ti-calendar"></i>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="inputZip">Срок</label>
-                    <div class="timepicker-input input-icon form-group">
+                    <div class="timepicker-input input-icon form-group date-returned">
                         <div class="input-group">
                             <div class="input-group-addon bgc-white bd bdwR-0">
                                 <i class="ti-calendar"></i>
@@ -56,22 +56,24 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label>Тип ремонт</label>
-                    <select name="type" class="form-control fill-field" data-fieldToFill="input[name='price']">
+                    <select name="type_id" class="form-control fill-field" data-fieldToFill="input[name='price']" data-repair-type>
                         <option value="">Избери</option>
 
                         @foreach($repairTypes as $repairType)
-                            <option value="{{ $repairType->id }}" data-price="{{ $repairType->price }}" @if($repair->type == $repairType->id) selected @endif>{{ $repairType->name }} - {{ $repairType->price }}</option>
+                            <option value="{{ $repairType->id }}" data-price="{{ $repairType->price }}" @if($repair->type->id == $repairType->id) selected @endif>{{ $repairType->name }} - {{ $repairType->price }}</option>
                         @endforeach
                     </select>
                 </div>
 
                 <div class="form-group col-md-6">
                     <label>Материал: </label>
-                    <select name="material" class="form-control">
+                    <select name="material_id" class="form-control" data-repair-material>
                         <option value="">Избер материал</option>
                 
                         @foreach($materials as $material)
-                            <option value="{{ $material->id }}" @if($repair->material == $material->id) selected @endif>@if($material->parent) {{ App\Materials_type::withTrashed()->find($material->parent)->name }} @endif - {{ $material->color }} - {{ $material->code }}</option>
+                            @if($material->pricesSell->first())
+                                <option data-price="{{ $material->pricesBuy->first()->price }}" value="{{ $material->id }}" @if($repair->material_id == $material->id) selected @endif>@if($material->parent) {{ $material->parent->name }} @endif - {{ $material->color }} - {{ $material->code }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
@@ -80,31 +82,47 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputPassword4">Тегло</label>
-                    <input type="number" class="form-control" name="weight" value="{{ $repair->weight }}" placeholder="Тегло на артикула" readonly>
+                    <div class="input-group">
+                        <input type="number" class="form-control" name="weight" value="{{ $repair->weight }}" placeholder="Тегло на артикула" data-repair-weightBefore readonly>
+                        <span class="input-group-addon">гр.</span>
+                    </div>
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="inputPassword4">Тегло</label>
-                    <input type="number" class="form-control" name="weight_after" value="{{ $repair->weight_after }}" placeholder="Тегло на артикула след ремонта">
+                    <label for="inputPassword4">Тегло след ремонта</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" name="weight_after" data-repair-weightAfter @if($repair->weight_after == '') value="{{ $repair->weight }}" @else value="{{ $repair->weight_after }}" @endif  placeholder="Тегло на артикула след ремонта">
+                        <span class="input-group-addon">гр.</span>
+                    </div>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputEmail4">Цена</label>
-                    <input type="number" class="form-control" name="price" value="{{ $repair->price }}" placeholder="Цена на ремонта" readonly>
+                    <div class="input-group">
+                        <input type="number" class="form-control" name="price" value="{{ $repair->price }}" placeholder="Цена на ремонта" data-repair-price readonly>
+                        <span class="input-group-addon">лв</span>
+                    </div>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="inputEmail4">Цена след ремонта</label>
-                    <input type="number" class="form-control" name="price_after" value="{{ $repair->price_after }}" placeholder="Цена на ремонта">
+                    <div class="input-group">
+                        <input type="number" class="form-control" name="price_after" data-repair-priceAfter @if($repair->price_after == '') value="{{ $repair->price }}" @else value="{{ $repair->price_after }}" @endif placeholder="Цена на ремонта">
+                        <span class="input-group-addon">лв</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                <input type="checkbox" id="inputCall1" name="status" class="peer" value="done">
-                <label for="inputCall1" class="peers peer-greed js-sb ai-c">
-                    <span class="peer peer-greed">Готов за връщане</span>
-                </label>
+            <div class="form-row">
+                <div class="form-group col-md-5">
+                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                        <input type="checkbox" id="inputCall1" name="status" class="peer" value="done">
+                        <label for="inputCall1" class="peers peer-greed js-sb ai-c">
+                            <span class="peer peer-greed">Готов за връщане</span>
+                        </label>
+                    </div>
+                </div>
             </div>
     </div>
 

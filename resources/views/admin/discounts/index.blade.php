@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="addDiscount" action="/discounts" autocomplete="off">
+            <form method="POST" name="discounts" data-type="add" action="discounts" autocomplete="off">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>
@@ -20,7 +20,10 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="1">Отстъпка: </label>
-                            <input type="number" class="form-control" id="1" name="discount" placeholder="Процент отстъпка: " min="0" max="100">
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="1" name="discount" placeholder="Процент отстъпка: " min="0" max="100">
+                                <span class="input-group-addon">%</span>
+                            </div>
                         </div>
 
                         <div class="form-group col-md-6">
@@ -38,8 +41,8 @@ aria-hidden="true">
 
                     <div class="form-group">
                         <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                            <input type="checkbox" id="lifetime" name="lifetime" class="peer">
-                            <label for="lifetime" class="peers peer-greed js-sb ai-c">
+                            <input type="checkbox" id="lifetime_add" name="lifetime" class="peer">
+                            <label for="lifetime_add" class="peers peer-greed js-sb ai-c">
                                 <span class="peer peer-greed">Безсрочна</span>
                             </label>
                         </div>
@@ -48,7 +51,7 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="2">Потребител: </label>
-                            <select name="user" class="form-control">
+                            <select name="user_id" class="form-control">
                                 <option value="">Избери</option>
 
                                 @foreach($users as $user)
@@ -62,14 +65,14 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" id="add" class="add-btn-modal btn btn-primary">Добави</button>
+                    <button type="submit" id="add" data-state="add_state" class="action--state_button add-btn-modal btn btn-primary">Добави</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="editDiscount" role="dialog" aria-labelledby="editDiscount" aria-hidden="true">
+<div class="modal fade edit--modal_holder" id="editDiscount" role="dialog" aria-labelledby="editDiscount" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             
@@ -81,7 +84,7 @@ aria-hidden="true">
 <div class="row">
     <div class="col-md-12">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
-        <h4 class="c-grey-900 mB-20">Отстъпки <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addDiscount">Добави</button></h4>
+        <h4 class="c-grey-900 mB-20">Отстъпки <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="discounts" data-toggle="modal" data-target="#addDiscount">Добави</button></h4>
         <p>Преглед на създадените отстъпки.</p>
         <table class="table table-condensed tablesort">
             <thead>
@@ -91,6 +94,7 @@ aria-hidden="true">
                     <th class="sort-false">Валидна до</th> 
                     <th>Статус</th>
                     <th class="sort-false">Потребител</th>
+                    <th>Използвана</th>
                     <th class="sort-false">Действия</th>
                 </tr>
             </thead>

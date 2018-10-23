@@ -1,22 +1,24 @@
 <tr data-id="{{ $product->id }}">
-    <td>{{ $product->code }}</td>
-    <td> @if($product->model) {{ App\Models::withTrashed()->find($product->model)->name }} @endif </td>
-    <td> @if($product->model) @if(App\Jewels::withTrashed()->find(App\Models::withTrashed()->find($product->model)->jewel)) {{ App\Jewels::find(App\Models::withTrashed()->find($product->model)->jewel)->name }} @endif @endif </td> 
-    <td> {{ App\Prices::withTrashed()->find($product->retail_price)->price }} </td> 
-    <td> {{ $product->weight }} </td>
-    <td> {{ (App\Prices::withTrashed()->find($product->retail_price)->price)*$product->weight }} </td>
-    <td>
-         {!! DNS1D::getBarcodeSVG($product->barcode, "EAN13",1,33,"black", true) !!} <br/> 
-        {{--  {!! '<img src="' . DNS1D::getBarcodePNG("4", "C39+",3,33,array(1,1,1), true) . '" alt="barcode"   />' !!}  --}}
-        {{--  {!! DNS1D::getBarcodePNGPath("4445645656", "PHARMA2T",3,33,array(255,255,0), true) !!}  --}}
-        {{--  {!! '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG("256874214568", "EAN13",1,33,array(1,1,1), true) . '" alt="barcode"   />' !!}  <br/>  --}}
-        {{--  {{ $product->barcode }}  --}}
-        {{--  {{ $product->barcode }}  --}}
+    <td class="thumbnail--tooltip">
+        {{ $product->code }}
+        <ul @if($product->photos) style="background-image: url({{ asset("uploads/products/" . $product->photos->first()['photo']) }});" @endif>
+        </ul>
     </td>
+    <td> @if($product->model) {{ $product->model->name }} @endif </td>
+    <td> @if($product->model) {{ $product->jewel->name }} @endif </td> 
+    <td> {{ $product->retailPrice->price }} </td> 
+    <td> {{ $product->weight }} </td>
+    <td> {{ $product->price }} </td>
+    {{-- <td> {{ ($product->retailPrice->price)*$product->weight }} </td> --}}
+    <td>
+        {!! DNS1D::getBarcodeSVG($product->barcode, "EAN13",1,33,"black", true) !!} <br/> {{ $product->barcode }}<br/> 
+    </td>
+
+    <td>@if($product->status == 'selling') <span class="badge bgc-deep-purple-50 c-deep-purple-700 p-10 lh-0 tt-c badge-pill">В продажба</span> @elseif($product->status == 'sold') <span class="badge bgc-orange-50 c-orange-700 p-10 lh-0 tt-c badge-pill">Продаден</span> @elseif($product->status == 'travelling') <span class="badge bgc-orange-50 c-orange-700 p-10 lh-0 tt-c badge-pill">На път</span> @else <span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">Наличен</span>  @endif</td> 
  
     <td>
         @can('edit-products')
-            <span data-url="products/{{$product->id}}" class="edit-btn" data-toggle="modal" data-target="#editProduct"><i class="c-brown-500 ti-pencil"></i></span> 
+            <span data-url="products/{{$product->id}}" class="edit-btn" data-form-type="edit" data-form="products" data-toggle="modal" data-target="#editProduct"><i class="c-brown-500 ti-pencil"></i></span> 
         @endcan
         <a href="products/print/{{$product->id}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a> 
         @can('delete-products')
@@ -24,23 +26,3 @@
         @endcan
     </td>
 </tr>
-
-{{-- <tr>
-    <th>камъни</th>
-    <td>
-        <table class="table table-condensed">
-            <tr>
-                <th>Тип</th>
-                <th>Брой</th>
-            </tr>
-
-            @foreach(App\Product_stones::withTrashed()->where('product', $product->id)->get() as $stone)
-                <tr>
-                    <td> @if(App\Stones::withTrashed()->find($stone->stone)) {{App\Stones::withTrashed()->find($stone->stone)->name}} @endif</td>
-                    <td>{{ $stone->amount }}</td>
-                </tr>
-            @endforeach
-        </table>
-        
-    </td>
-</tr> --}}

@@ -3,7 +3,7 @@
 @section('content')
 
 
-<div class="modal fade" id="editSubstitution" role="dialog" aria-labelledby="editSubstitution" aria-hidden="true">
+<div class="modal fade edit--modal_holder" id="editSubstitution" role="dialog" aria-labelledby="editSubstitution" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             
@@ -23,7 +23,7 @@
                 </button>
               </div>
             
-            <form method="POST" name="sendUser" action="/users/substitutions">
+            <form method="POST" name="substitutions" data-type="add" action="users/substitutions">
                 <div class="modal-body">    
                   <div class="info-cont">
                   </div>
@@ -34,11 +34,11 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Потребител: </label>
-                            <select name="user" class="form-control">
+                            <select name="user_id" class="form-control">
                                 <option value="">Избери потребител</option>
                         
                                 @foreach($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }} - {{ $user->store }}</option>
+                                    <option value="{{ $user->id }}">{{ $user->name }} - {{ $user->store->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -49,7 +49,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Магазин: </label>
-                            <select name="store" class="form-control">
+                            <select name="store_id" class="form-control">
                                 <option value="">Избер магазин</option>
                         
                                 @foreach($stores as $store)
@@ -79,7 +79,7 @@
                                 <div class="input-group-addon bgc-white bd bdwR-0">
                                     <i class="ti-calendar"></i>
                                 </div>
-                                <input name="dateTo" type="text" class="form-control bdc-grey-200 end-date" placeholder="Избери дата" data-provide="datepicker" data-date-autoclose="true" value="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" data-date-format="dd-mm-yyyy">
+                                <input name="dateTo" type="text" class="form-control bdc-grey-200 end-date" placeholder="Избери дата" data-provide="datepicker" data-date-autoclose="true" value="{{ Carbon\Carbon::parse(Carbon\Carbon::now()->addDay())->format('d-m-Y')}}" data-date-format="dd-mm-yyyy" data-date-start-date="{{ Carbon\Carbon::parse(Carbon\Carbon::now()->addDay())->format('d-m-Y')}}">
                             </div>
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                 </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" id="sendUserForm" class="add-btn-modal btn btn-primary">Изпрати</button>
+                    <button type="submit" id="sendUserForm" data-state="add_state" class="add-btn-modal btn btn-primary">Изпрати</button>
                   </div>
               </form>
         </div>
@@ -98,7 +98,7 @@
 <div class="row">
     <div class="col-md-12">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
-        <h4 class="c-grey-900 mB-20">Замествания <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#userSubstitution">Изпрати</button></h4>
+        <h4 class="c-grey-900 mB-20">Замествания <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="substitutions" data-toggle="modal" data-target="#userSubstitution">Изпрати</button></h4>
         <p>Преглед на текущи замествания.</p>
         <table id="user-substitute-active" class="table active">
           <thead>

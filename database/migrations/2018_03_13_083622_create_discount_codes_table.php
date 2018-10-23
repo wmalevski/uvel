@@ -16,7 +16,7 @@ class CreateDiscountCodesTable extends Migration
         Schema::create('discount_codes', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('discount');
-            $table->integer('user')->nullable();
+            $table->unsignedInteger('user_id')->nullable();
             $table->string('expires')->nullable();
             $table->enum('active', ['yes', 'no'])->default('yes');
             $table->enum('lifetime', ['yes', 'no'])->default('no');

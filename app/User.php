@@ -6,6 +6,9 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\DiscountCode;
+use App\UserSubstitution;
+use App\Store;
 
 class User extends Authenticatable
 {
@@ -19,7 +22,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'store'
+        'name', 'email', 'password', 'store_id'
     ];
 
     protected $dates = ['deleted_at'];
@@ -40,15 +43,25 @@ class User extends Authenticatable
 
     public function getStore()
     {
-        $substitution = Usersubstitutions::where([
+        $substitution = UserSubstitution::where([
             ['user_id', '=', $this->id],
             ['date_to', '>=', date("Y-m-d")]
         ])->first();
 
         if($substitution){
-            return $substitution->store_id;
+            return Store::find($substitution->store_id);
         }else{
             return $this->store;
         }
+    }
+
+    public function discountCodes()
+    {
+        return $this->hasMany('App\DiscountCode');
+    }
+
+    public function store()
+    {
+        return $this->belongsTo('App\Store')->withTrashed();
     }
 }

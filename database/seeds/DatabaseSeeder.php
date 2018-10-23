@@ -1,24 +1,25 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Stone_sizes;
-use App\Stone_styles;
-use App\Stone_contours;
-use App\Stores;
-use App\Materials;
-use App\Prices;
-use App\Stones;
-use App\Jewels;
+use App\StoneSize;
+use App\StoneStyle;
+use App\StoneContour;
+use App\Store;
+use App\Material;
+use App\Price;
+use App\Stone;
+use App\Jewel;
 use App\User;
-use App\Repair_types;
-use App\Currencies;
-use App\Products;
-use App\Models;
-use App\Discount_codes;
-use App\Products_others;
-use App\Products_others_types;
-use App\Repairs;
-use App\Materials_type;
+use App\RepairType;
+use App\Currency;
+use App\Product;
+use App\Model;
+use App\DiscountCode;
+use App\ProductOther;
+use App\ProductOtherType;
+use App\Repair;
+use App\MaterialQuantity;
+use App\MaterialType;
 
 class DatabaseSeeder extends Seeder
 {
@@ -144,11 +145,55 @@ class DatabaseSeeder extends Seeder
         Bouncer::allow($merchant)->to($sellingStatus);
         Bouncer::allow($merchant)->to($jewelStatus);
 
+        $stores = new Store();
+        $stores->name = 'Склад';
+        $stores->location = 'София'; 
+        $stores->phone = '0541587414178';
+        $stores->save();
+
+        for($i = 1; $i <= 5; $i++){
+            $stone_styles = new StoneStyle();
+            $stone_styles->name = 'Стил '.$i;
+            $stone_styles->save();
+
+            $stone_sizes = new StoneSize();
+            $stone_sizes->name = 'Размер '.$i;
+            $stone_sizes->save();
+
+            $stone_contour = new StoneContour();
+            $stone_contour->name = 'Контур '.$i;
+            $stone_contour->save();
+
+            $stores = new Store();
+            $stores->name = 'Магазин '.$i;
+            $stores->location = 'София'; 
+            $stores->phone = '0541587414178';
+            $stores->save();
+
+
+            $stone = new Stone();
+            $stone->name = 'Камък '.$i;
+            $stone->type = rand(1,2);
+            $stone->weight = rand(1,5);
+            $stone->carat = rand(1,5);
+            $stone->size_id = rand(1,1);
+            $stone->style_id = rand(1,1);
+            $stone->contour_id = rand(1,1);
+            $stone->store_id = 2;
+            $stone->amount = rand(1,20);
+            $stone->price = rand(20,45);
+            $stone->save();
+
+            $jewel = new Jewel();
+            $jewel->name = 'Бижу '.$i;
+            $jewel->save();
+        }
+
         $user = new User();
         $user->name = 'Admin';
         $user->email = 'admin@uvel.com';
         $user->password = bcrypt('administrator');
-        $user->store = 1;
+        $user->store_id = 2;
         $user->save();
 
         Bouncer::assign('admin')->to($user);
@@ -157,218 +202,182 @@ class DatabaseSeeder extends Seeder
         $merchant->name = 'Merchant';
         $merchant->email = 'merchant@uvel.com';
         $merchant->password = bcrypt('merchant');
-        $merchant->store = 2;
+        $merchant->store_id = 3;
         $merchant->save();
 
         Bouncer::assign('merchant')->to($merchant);
-
-        for($i = 1; $i <= 5; $i++){
-            $stone_styles = new Stone_styles();
-            $stone_styles->name = 'Стил '.$i;
-            $stone_styles->save();
-
-            $stone_sizes = new Stone_sizes();
-            $stone_sizes->name = 'Размер '.$i;
-            $stone_sizes->save();
-
-            $stone_contour = new Stone_contours();
-            $stone_contour->name = 'Контур '.$i;
-            $stone_contour->save();
-
-            $stores = new Stores();
-            $stores->name = 'Магазин '.$i;
-            $stores->location = 'София'; 
-            $stores->phone = '0541587414178';
-            $stores->save();
-
-
-            $stone = new Stones();
-            $stone->name = 'Камък '.$i;
-            $stone->type = rand(1,2);
-            $stone->weight = rand(1,5);
-            $stone->carat = rand(1,5);
-            $stone->size = rand(1,5);
-            $stone->style = rand(1,5);
-            $stone->contour = rand(1,5);
-            $stone->amount = rand(1,20);
-            $stone->price = rand(20,45);
-            $stone->save();
-
-            $jewel = new Jewels();
-            $jewel->name = 'Бижу '.$i;
-            $jewel->material = rand(1,2);
-            $jewel->save();
-        }
-
-        $material_type = new Materials_type();
+        $material_type = new MaterialType();
         $material_type->name = 'Злато';
         $material_type->save();
 
-        $material = new Materials();
+        $material = new Material();
         $material->name = 'Злато';
         $material->code = '525';
         $material->color = 'Жълто';
         $material->carat = '14';
-        $material->parent = 1;
+        $material->parent_id = 1;
         $material->stock_price = '24';
         $material->save();
 
-        $price = new Prices();
-        $price->material = $material->id;
+        $material_quantity = new MaterialQuantity();
+        $material_quantity->material_id = $material->id;
+        $material_quantity->quantity = 500;
+        $material_quantity->store_id = 2;
+        $material_quantity->save();
+
+        $price = new Price();
+        $price->material_id = $material->id;
         $price->slug = 'Купува 1';
         $price->price = '30';
         $price->type = 'buy';
         $price->save();
         
-        $price = new Prices();
-        $price->material = $material->id;
+        $price = new Price();
+        $price->material_id = $material->id;
         $price->slug = 'Продава 1';
         $price->price = '90';
         $price->type = 'sell';
         $price->save();
 
-        $material = new Materials();
+        $material = new Material();
         $material->name = 'Сребро';
         $material->code = '925';
         $material->color = 'Сив';
         $material->carat = '14';
-        $material->parent = 1;
+        $material->parent_id = 1;
         $material->stock_price = '24';
         $material->save();
 
-        $price = new Prices();
-        $price->material = $material->id;
+        $price = new Price();
+        $price->material_id = $material->id;
         $price->slug = 'Купува 1';
         $price->price = '20';
         $price->type = 'buy';
         $price->save();
         
-        $price = new Prices();
-        $price->material = $material->id;
+        $price = new Price();
+        $price->material_id = $material->id;
         $price->slug = 'Продава 1';
         $price->price = '70';
         $price->type = 'sell';
         $price->save();
 
-        $repairType = new Repair_types();
+        $repairType = new RepairType();
         $repairType->name = 'Залепяне на камък';
         $repairType->price = '30';
         $repairType->save();
 
-        $currency = new Currencies();
+        $currency = new Currency();
         $currency->name = 'GBP';
         $currency->currency = '0.44';
         $currency->save();
 
-        $currency = new Currencies();
+        $currency = new Currency();
         $currency->name = 'USD';
         $currency->currency = '0.63';
         $currency->save();
 
-        $currency = new Currencies();
+        $currency = new Currency();
         $currency->name = 'EUR';
         $currency->currency = '0.51';
         $currency->save();
 
-        $currency = new Currencies();
+        $currency = new Currency();
         $currency->name = 'BGN';
         $currency->currency = '1';
         $currency->default = 'yes';
         $currency->save();
         
-        $model = new Models();
-        $model->name = 'Модел 1';
-        $model->jewel = 1;
-        $model->retail_price = 2;
-        $model->wholesale_price = 4;
-        $model->weight = 56;
-        $model->size = 56;
-        $model->workmanship = 3920;
-        $model->price = 5040;
-        $model->save();
+        // $model = new Model();
+        // $model->name = 'Модел 1';
+        // $model->jewel = 1;
+        // $model->weight = 56;
+        // $model->size = 56;
+        // $model->workmanship = 3920;
+        // $model->price = 5040;
+        // $model->save();
 
-        $product = new Products();
-        $product->id = Uuid::generate()->string;
-        $product->name = 'Продукт 1';
-        $product->model = 1;
-        $product->jewel_type = 1;
-        $product->type = 1;
-        $product->retail_price = 2;
-        $product->wholesale_price = 4;
-        $product->weight = 56;
-        $product->size = 56;
-        $product->workmanship = 120;
-        $product->price = 210;
-        $product->code = 'PE0NM23K';
-        $product->barcode = 3807260069719;
-        $product->save();
+        // $product = new Products();
+        // $product->id = Uuid::generate()->string;
+        // $product->name = 'Продукт 1';
+        // $product->model = 1;
+        // $product->jewel_type = 1;
+        // $product->type = 1;
+        // $product->retail_price = 2;
+        // $product->weight = 56;
+        // $product->size = 56;
+        // $product->workmanship = 120;
+        // $product->price = 210;
+        // $product->code = 'PE0NM23K';
+        // $product->barcode = 3807260069719;
+        // $product->save();
 
-        $discount = new Discount_codes();
-        $discount->discount = 20;
-        $discount->lifetime = 'no';
-        $discount->code = '4RFI';
-        $discount->barcode = '3801863488922';
-        $discount->save();
+        // $discount = new DiscountCode();
+        // $discount->discount = 20;
+        // $discount->lifetime = 'no';
+        // $discount->code = '4RFI';
+        // $discount->barcode = '3801863488922';
+        // $discount->save();
 
-        $products_others_types = new Products_others_types();
-        $products_others_types->name = 'Кутия';
-        $products_others_types->save();
+        // $products_others_types = new ProductOtherType();
+        // $products_others_types->name = 'Кутия';
+        // $products_others_types->save();
 
-        $products_others = new Products_others();
-        $products_others->name = 'Синя кутия';
-        $products_others->type = 1;
-        $products_others->price = 0.10;
-        $products_others->quantity = 200;
-        $products_others->store = 1;
-        $products_others->barcode = 3808345766226;
-        $products_others->code = 'BWGKIDKA';
-        $products_others->save();
+        // $products_others = new ProductOther();
+        // $products_others->name = 'Синя кутия';
+        // $products_others->type = 1;
+        // $products_others->price = 0.10;
+        // $products_others->quantity = 200;
+        // $products_others->store = 1;
+        // $products_others->barcode = 3808345766226;
+        // $products_others->code = 'BWGKIDKA';
+        // $products_others->save();
 
 
 
-        $repair = new Repairs();
-        $repair->type = 1;
-        $repair->barcode = 3806510024218;
-        $repair->repair_description = 'sadsd';
-        $repair->deposit = 10;
-        $repair->price = 20;
-        $repair->weight = 2.00;
-        $repair->code = 'RGV3IZPN';
-        $repair->status = 'repairing';
-        $repair->date_recieved = '30-04-2018'; 
-        $repair->date_returned = '24-05-2018';
-        $repair->customer_phone = '862589845';
-        $repair->customer_name = 'George Vasilev';
-        $repair->save();
+        // $repair = new Repair();
+        // $repair->type = 1;
+        // $repair->barcode = 3806510024218;
+        // $repair->repair_description = 'sadsd';
+        // $repair->deposit = 10;
+        // $repair->price = 20;
+        // $repair->weight = 2.00;
+        // $repair->code = 'RGV3IZPN';
+        // $repair->status = 'repairing';
+        // $repair->date_recieved = '30-04-2018'; 
+        // $repair->date_returned = '24-05-2018';
+        // $repair->customer_phone = '862589845';
+        // $repair->customer_name = 'George Vasilev';
+        // $repair->save();
 
-        $repair = new Repairs();
-        $repair->type = 1;
-        $repair->barcode = 3805183846417;
-        $repair->repair_description = 'sadsd';
-        $repair->deposit = 10;
-        $repair->price = 20;
-        $repair->weight = 2.00;
-        $repair->code = 'RBPTA4YZ';
-        $repair->status = 'repairing';
-        $repair->date_recieved = '30-04-2018'; 
-        $repair->date_returned = '24-05-2018';
-        $repair->customer_phone = '862589845';
-        $repair->customer_name = 'George Vasilev';
-        $repair->save();
+        // $repair = new Repair();
+        // $repair->type = 1;
+        // $repair->barcode = 3805183846417;
+        // $repair->repair_description = 'sadsd';
+        // $repair->deposit = 10;
+        // $repair->price = 20;
+        // $repair->weight = 2.00;
+        // $repair->code = 'RBPTA4YZ';
+        // $repair->status = 'repairing';
+        // $repair->date_recieved = '30-04-2018'; 
+        // $repair->date_returned = '24-05-2018';
+        // $repair->customer_phone = '862589845';
+        // $repair->customer_name = 'George Vasilev';
+        // $repair->save();
 
-        $repair = new Repairs();
-        $repair->type = 1;
-        $repair->barcode = 3805926394014;
-        $repair->repair_description = 'sadsd';
-        $repair->deposit = 10;
-        $repair->price = 20;
-        $repair->weight = 2.00;
-        $repair->code = 'R8PAZKXM';
-        $repair->status = 'repairing';
-        $repair->date_recieved = '30-04-2018'; 
-        $repair->date_returned = '24-05-2018';
-        $repair->customer_phone = '862589845';
-        $repair->customer_name = 'George Vasilev';
-        $repair->save();
+        // $repair = new Repair();
+        // $repair->type = 1;
+        // $repair->barcode = 3805926394014;
+        // $repair->repair_description = 'sadsd';
+        // $repair->deposit = 10;
+        // $repair->price = 20;
+        // $repair->weight = 2.00;
+        // $repair->code = 'R8PAZKXM';
+        // $repair->status = 'repairing';
+        // $repair->date_recieved = '30-04-2018'; 
+        // $repair->date_returned = '24-05-2018';
+        // $repair->customer_phone = '862589845';
+        // $repair->customer_name = 'George Vasilev';
+        // $repair->save();
     }
 }

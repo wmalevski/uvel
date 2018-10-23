@@ -6,7 +6,7 @@
     </button>
 </div>
 
-<form method="POST" name="edit" action="/materials/{{ $material->id }}">
+<form method="POST" name="materials" data-type="edit" action="materials/{{ $material->id }}">
     <input name="_method" type="hidden" value="PUT">
     <div class="modal-body">
             
@@ -15,14 +15,16 @@
         {{ csrf_field() }}
 
         <div class="form-row">
-            <label>Наследява: </label>
-            <select name="parent" class="form-control">
-                <option value="">Избери материал: </option>
-        
-                @foreach($parents as $parent)
-                    <option value="{{ $parent->id }}" @if($parent->id == $material->id) selected @endif>{{ $parent->name }}</option>
-                @endforeach
-            </select>
+            <div class="form-group col-md-12">
+                <label>Наследява: </label>
+                <select name="parent_id" class="form-control">
+                    <option value="">Избери материал: </option>
+            
+                    @foreach($parents as $parent)
+                        <option value="{{ $parent->id }}" @if($parent->id == $material->parent->id) selected @endif>{{ $parent->name }}</option>
+                    @endforeach
+                </select>
+            </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-12">
@@ -46,7 +48,7 @@
 
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-        <button type="submit" id="edit" class="edit-btn-modal btn btn-primary">Промени</button>
+        <button type="submit" id="edit" data-state="edit_state" class="action--state_button edit-btn-modal btn btn-primary">Промени</button>
     </div>
 </form>
 </div>

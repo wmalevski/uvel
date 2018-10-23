@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="addMQuantity" action="/mquantity" autocomplete="off">
+            <form method="POST" data-type="add" name="materialsQuantity" action="mquantity" autocomplete="off">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>
@@ -20,25 +20,30 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label>Тип: </label>
-                            <select name="material" class="form-control">
+                            <select name="material_id" class="form-control">
                                 <option value="">Избери материал</option>
                         
                                 @foreach($types as $type)
-                                    <option value="{{ $type->id }}">@if($type->parent) {{ App\Materials_type::withTrashed()->find($type->parent)->name }} - {{ $type->color }} - {{ $type->code }} @endif</option>
+                            
+                                    <option value="{{ $type->id }}">@if($type->parent) {{ $type->parent->name }} - {{ $type->color }} - {{ $type->code }} @endif</option>
+                                }
                                 @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-12">
-                            <label for="2">Количество:(гр) </label>
-                            <input type="number" class="form-control" id="2" name="quantity" placeholder="Количество:" min="1">
+                            <label for="2">Количество:</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="2" name="quantity" placeholder="Количество:" min="1">
+                                <span class="input-group-addon">гр.</span>
+                            </div>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label>Магазин: </label>
-                        <select name="store" class="form-control">
+                        <select name="store_id" class="form-control">
                             <option value="">Избери магазин</option>
                     
                             @foreach($stores as $store)
@@ -54,14 +59,14 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" id="add" class="add-btn-modal btn btn-primary">Добави</button>
+                    <button type="submit" id="add" data-state="add_state" class="action--state_button add-btn-modal btn btn-primary">Добави</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="editMQuantity" role="dialog" aria-labelledby="editMQuantityLabel"
+<div class="modal fade edit--modal_holder" id="editMQuantity" role="dialog" aria-labelledby="editMQuantityLabel"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -75,7 +80,7 @@ aria-hidden="true">
     <div class="col-md-12">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
         <h4 class="c-grey-900 mB-20">Налични материали 
-            <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addMQuantity">Добави</button>
+            <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="materialsQuantity" data-toggle="modal" data-target="#addMQuantity">Добави</button>
         </h4>
         <p>Преглед на наличност.</p>
         <table class="table table-condensed">

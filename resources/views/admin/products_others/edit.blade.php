@@ -6,7 +6,7 @@
     </button>
 </div>
 
-    <form method="POST" name="edit" action="/productsothers/{{ $product->id }}">
+    <form method="POST" name="productsOthers" data-type="edit" action="productsothers/{{ $product->id }}">
         <input name="_method" type="hidden" value="PUT">
         <div class="modal-body">
 
@@ -21,23 +21,29 @@
         
             <div class="form-group">
                 <label>Тип: </label>
-                <select id="type " name="type" class="form-control">
+                <select id="type " name="type_id" class="form-control">
                     <option value="">Избери</option>
             
                     @foreach($types as $type)
-                        <option value="{{ $type->id }}" @if($type->id == $product->type) selected @endif>{{ $type->name }}</option>
+                        <option value="{{ $type->id }}" @if($type->id == $product->type_id) selected @endif>{{ $type->name }}</option>
                     @endforeach
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="1">Цена: </label>
-                <input type="text" class="form-control" id="price" value="{{ $product->price }}" name="price" placeholder="Цена на брой:">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="price" value="{{ $product->price }}" name="price" placeholder="Цена на брой:">
+                    <span class="input-group-addon">лв</span>
+                </div>
             </div>
 
             <div class="form-group">
                 <label for="1">Количество: </label>
-                <input type="number" min="0" class="form-control" id="quantity" value="{{ $product->quantity }}" name="quantity" placeholder="Налично количество:" readonly>
+                <div class="input-group">
+                    <input type="number" min="0" class="form-control" id="quantity" value="{{ $product->quantity }}" name="quantity" placeholder="Налично количество:" readonly>
+                    <span class="input-group-addon">бр.</span>
+                </div>
             </div>
 
             <div class="form-group">
@@ -50,16 +56,19 @@
 
             <div class="form-group">
                 <label for="1">Количество: </label>
-                <input type="number" min="0" class="form-control" id="quantity_after" name="quantity_after" placeholder="Допълнително количество:">
+                <div class="input-group">
+                    <input type="number" min="0" class="form-control" id="quantity_after" name="quantity_after" placeholder="Допълнително количество:">
+                    <span class="input-group-addon">бр.</span>
+                </div>
             </div>
 
-            div class="form-group">
+            <div class="form-group">
             <label>Магазин: </label>
-                <select id="store " name="store" class="form-control">
+                <select id="store" name="store_id" class="form-control">
                     <option value="">Избери</option>
             
                     @foreach($stores as $store)
-                        <option value="{{ $store->id }}" @if($product->store == $store->id) selected @endif>{{ $store->name }}</option>
+                        <option value="{{ $store->id }}" @if($product->store_id == $store->id) selected @endif>{{ $store->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -67,7 +76,7 @@
 
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-            <button type="submit" id="edit" class="edit-btn-modal btn btn-primary">Промени</button>
+            <button type="submit" id="edit" data-state="edit_state" class="action--state_button edit-btn-modal btn btn-primary">Промени</button>
         </div>
     </form>
 </div>

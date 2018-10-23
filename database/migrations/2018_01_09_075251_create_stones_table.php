@@ -19,9 +19,10 @@ class CreateStonesTable extends Migration
             $table->integer('type');
             $table->float('weight');
             $table->float('carat');
-            $table->integer('size')->nullable()->references('id')->on('stone_sizes');
-            $table->integer('style')->references('id')->on('stone_styles');
-            $table->integer('contour')->references('id')->on('stone_contours');
+            $table->unsignedInteger('size_id');
+            $table->unsignedInteger('style_id');
+            $table->unsignedInteger('contour_id');
+            $table->unsignedInteger('store_id');
             $table->integer('amount');
             $table->double('price', 12, 3);
             $table->timestamps();

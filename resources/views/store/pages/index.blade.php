@@ -154,12 +154,12 @@
                                         <h6 class="general-title">New Products</h6>
                                         <div class="home_products_wrapper">
                                             <div id="home_products">
-                                                @foreach ( $products as $key => $product ) 
+                                                @foreach ( $products->take(3) as $key => $product ) 
                                                     <div class="element no_full_width col-md-8 col-sm-8 not-animated" data-animate="fadeInUp" data-delay="{{ $key }}">
                                                         <ul class="row-container list-unstyled clearfix">
                                                             <li class="row-left">
-                                                            <a href="./product.html" class="container_item">
-                                                            <img src="{{ asset('store/images/demo_375x375.png') }}" class="img-responsive" alt="Curabitur cursus dignis">
+                                                            <a href="{{ route('single_product', ['product' => $product['id']])  }}" class="container_item">
+                                                            <img src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif" class="img-responsive" alt="{{ $product['name'] }}">
                                                             </a>
                                                             <div class="hbw">
                                                                 <span class="hoverBorderWrapper"></span>
@@ -186,7 +186,7 @@
                                                                 <form action="./product.html" method="post">
                                                                     <div class="hide clearfix">
                                                                         <select name="id">
-                                                                            <option selected="selected" value="5141875779">Default Title</option>
+                                                                            <option selected="selected" value="5141875779">{{ $product['name'] }}</option>
                                                                         </select>
                                                                     </div>
                                                                     <div class="effect-ajax-cart">
@@ -324,7 +324,7 @@
                                                 <div class="element no_full_width not-animated" data-animate="fadeInUp" data-delay="0">
                                                     <ul class="row-container list-unstyled clearfix">
                                                         <li class="row-left">
-                                                        <a href="./product.html" class="container_item">
+                                                        <a href="product/{{ $product['id'] }}" class="container_item">
                                                         <img src="{{ asset('store/images/demo_277x277.png') }}" class="img-responsive" alt="Curabitur cursus dignis">
                                                         <span class="sale_banner">
                                                         <span class="sale_text">Sale</span>
@@ -602,41 +602,41 @@
                                     <div id="partners-container" class="clearfix">
                                         <h6 class="general-title">Popular Brands</h6>
                                         <div id="partners">
-                                                        <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="150">
-                                                            <a class="animated" href="./collection.html">
-                                                            <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
-                                                            </a>
-                                                        </div>
-                                                        <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="300">
-                                                            <a class="animated" href="./collection.html">
-                                                            <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
-                                                            </a>
-                                                        </div>
-                                                        <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="450">
-                                                            <a class="animated" href="./collection.html">
-                                                            <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
-                                                            </a>
-                                                        </div>
-                                                        <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="600">
-                                                            <a class="animated" href="./collection.html">
-                                                            <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
-                                                            </a>
-                                                        </div>
-                                                        <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="750">
-                                                            <a class="animated" href="./collection.html">
-                                                            <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
-                                                            </a>
-                                                        </div>
-                                                        <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="900">
-                                                            <a class="animated" href="./collection.html">
-                                                            <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
-                                                            </a>
-                                                        </div>
-                                                        <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="1050">
-                                                            <a class="animated" href="./collection.html">
-                                                            <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
-                                                            </a>
-                                                        </div>
+                                            <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="150">
+                                                <a class="animated" href="./collection.html">
+                                                <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="300">
+                                                <a class="animated" href="./collection.html">
+                                                <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="450">
+                                                <a class="animated" href="./collection.html">
+                                                <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="600">
+                                                <a class="animated" href="./collection.html">
+                                                <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="750">
+                                                <a class="animated" href="./collection.html">
+                                                <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="900">
+                                                <a class="animated" href="./collection.html">
+                                                <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="1050">
+                                                <a class="animated" href="./collection.html">
+                                                <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
