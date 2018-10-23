@@ -22,8 +22,12 @@ class ProductController extends Controller
     }
 
     public function show(Product $product){
+        $products = Product::where([
+            ['status', '=', 'available']
+        ])->paginate(12);
+
         if($product){
-            return \View::make('store.pages.products.single', array('product' => $product));
+            return \View::make('store.pages.products.single', array('product' => $product, 'products' => $products));
         }
     }
 
