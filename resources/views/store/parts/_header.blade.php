@@ -66,8 +66,8 @@
         <div class="top-navigation">
             <ul class="list-inline">
                 <li class="top-logo">
-                    <a id="site-title" href="./index.html" title="Jewelry - HTML Template theme">          
-                    <img class="img-responsive" src="{{ asset('store/images/logo.png') }}" alt="Jewelry - HTML Template theme">          
+                    <a id="site-title" href="{{ route('store') }}" title="UVEL">          
+                    <img class="img-responsive" src="{{ asset('store/images/logo.png') }}" alt="UVEL">          
                     </a>
                 </li>
                 <li class="navigation">			
@@ -119,96 +119,101 @@
                                 <ul class="nav navbar-nav hoverMenuWrapper">
                                     <li class="nav-item active">
                                     <a href="{{ route('store') }}">
-                                    <span>Home</span>
+                                    <span>Начало</span>
                                     </a>
                                     </li>
-                                    <li class="dropdown mega-menu">
-                                    <a href="./collection.html" class="dropdown-toggle dropdown-link" data-toggle="dropdown">
-                                    <span>Collections</span>
-                                    <i class="fa fa-caret-down"></i>
-                                    <i class="sub-dropdown1 visible-sm visible-md visible-lg"></i>
-                                    <i class="sub-dropdown visible-sm visible-md visible-lg"></i>
-                                    </a>
-                                    <div class="megamenu-container megamenu-container-1 dropdown-menu banner-bottom mega-col-4" style="">
-                                        <ul class="sub-mega-menu">
-                                            <li>
-                                            <ul>
-                                                <li class="list-title">Collection Links</li>
-                                                <li class="list-unstyled li-sub-mega">
-                                                <a href="#">Dolorem Sed </a>
-                                                </li>
-                                                <li class="list-unstyled li-sub-mega">
-                                                <a href="#">Proident Nulla </a>
-                                                </li>
-                                                <li class="list-unstyled li-sub-mega">
-                                                <a href="#">Phasellus Leo <span class="megamenu-label hot-label">Hot</span>
-                                                </a>
-                                                </li>
-                                                <li class="list-unstyled li-sub-mega">
-                                                <a href="#">Tristique Amet <span class="megamenu-label feature-label">Featured</span>
-                                                </a>
-                                                </li>
-                                            </ul>
-                                            </li>
-                                            <li>
-                                            <ul>
-                                                <li class="list-title">Collection Links</li>
-                                                <li class="list-unstyled li-sub-mega">
-                                                <a href="#">Dolorem Sed </a>
-                                                </li>
-                                                <li class="list-unstyled li-sub-mega">
-                                                <a href="#">Proident Nulla <span class="megamenu-label new-label">New</span>
-                                                </a>
-                                                </li>
-                                                <li class="list-unstyled li-sub-mega">
-                                                <a href="#">Phasellus Leo </a>
-                                                </li>
-                                                <li class="list-unstyled li-sub-mega">
-                                                <a href="#">Tristique Amet </a>
-                                                </li>
-                                            </ul>
-                                            </li>
-                                            <li>
-                                            <ul>
-                                                <li class="list-title">Collection Links</li>
-                                                <li class="list-unstyled li-sub-mega">
-                                                <a href="#">Dolorem Sed </a>
-                                                </li>
-                                                <li class="list-unstyled li-sub-mega">
-                                                <a href="#">Proident Nulla </a>
-                                                </li>
-                                                <li class="list-unstyled li-sub-mega">
-                                                <a href="#">Phasellus Leo <span class="megamenu-label sale-label">Sale</span>
-                                                </a>
-                                                </li>
-                                                <li class="list-unstyled li-sub-mega">
-                                                <a href="#">Tristique Amet </a>
-                                                </li>
-                                            </ul>
-                                            </li>
-                                            <li>
-                                            <ul>
-                                                <li class="list-title">Collection Links</li>
-                                                <li class="list-unstyled li-sub-mega">
-                                                <a href="#">Dolorem Sed <span class="megamenu-label new-label">New</span>
-                                                </a>
-                                                </li>
-                                                <li class="list-unstyled li-sub-mega">
-                                                <a href="#">Proident Nulla </a>
-                                                </li>
-                                                <li class="list-unstyled li-sub-mega">
-                                                <a href="./product.html">Phasellus Leo </a>
-                                                </li>
-                                                <li class="list-unstyled li-sub-mega last">
-                                                <a href="./product.html">Tristique Amet <span class="megamenu-label hot-label">Hot</span>
-                                                </a>
-                                                </li>
-                                            </ul>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    <li class="nav-item active">
+                                        <a href="{{ route('products') }}">
+                                            <span>Продукти</span>
+                                        </a>
                                     </li>
-                                    <li class="dropdown mega-menu">
+                                    {{-- <li class="dropdown mega-menu">
+                                        <a href="./collection.html" class="dropdown-toggle dropdown-link" data-toggle="dropdown">
+                                        <span>Collections</span>
+                                        <i class="fa fa-caret-down"></i>
+                                        <i class="sub-dropdown1 visible-sm visible-md visible-lg"></i>
+                                        <i class="sub-dropdown visible-sm visible-md visible-lg"></i>
+                                        </a>
+                                        <div class="megamenu-container megamenu-container-1 dropdown-menu banner-bottom mega-col-4" style="">
+                                            <ul class="sub-mega-menu">
+                                                <li>
+                                                <ul>
+                                                    <li class="list-title">Collection Links</li>
+                                                    <li class="list-unstyled li-sub-mega">
+                                                    <a href="#">Dolorem Sed </a>
+                                                    </li>
+                                                    <li class="list-unstyled li-sub-mega">
+                                                    <a href="#">Proident Nulla </a>
+                                                    </li>
+                                                    <li class="list-unstyled li-sub-mega">
+                                                    <a href="#">Phasellus Leo <span class="megamenu-label hot-label">Hot</span>
+                                                    </a>
+                                                    </li>
+                                                    <li class="list-unstyled li-sub-mega">
+                                                    <a href="#">Tristique Amet <span class="megamenu-label feature-label">Featured</span>
+                                                    </a>
+                                                    </li>
+                                                </ul>
+                                                </li>
+                                                <li>
+                                                <ul>
+                                                    <li class="list-title">Collection Links</li>
+                                                    <li class="list-unstyled li-sub-mega">
+                                                    <a href="#">Dolorem Sed </a>
+                                                    </li>
+                                                    <li class="list-unstyled li-sub-mega">
+                                                    <a href="#">Proident Nulla <span class="megamenu-label new-label">New</span>
+                                                    </a>
+                                                    </li>
+                                                    <li class="list-unstyled li-sub-mega">
+                                                    <a href="#">Phasellus Leo </a>
+                                                    </li>
+                                                    <li class="list-unstyled li-sub-mega">
+                                                    <a href="#">Tristique Amet </a>
+                                                    </li>
+                                                </ul>
+                                                </li>
+                                                <li>
+                                                <ul>
+                                                    <li class="list-title">Collection Links</li>
+                                                    <li class="list-unstyled li-sub-mega">
+                                                    <a href="#">Dolorem Sed </a>
+                                                    </li>
+                                                    <li class="list-unstyled li-sub-mega">
+                                                    <a href="#">Proident Nulla </a>
+                                                    </li>
+                                                    <li class="list-unstyled li-sub-mega">
+                                                    <a href="#">Phasellus Leo <span class="megamenu-label sale-label">Sale</span>
+                                                    </a>
+                                                    </li>
+                                                    <li class="list-unstyled li-sub-mega">
+                                                    <a href="#">Tristique Amet </a>
+                                                    </li>
+                                                </ul>
+                                                </li>
+                                                <li>
+                                                <ul>
+                                                    <li class="list-title">Collection Links</li>
+                                                    <li class="list-unstyled li-sub-mega">
+                                                    <a href="#">Dolorem Sed <span class="megamenu-label new-label">New</span>
+                                                    </a>
+                                                    </li>
+                                                    <li class="list-unstyled li-sub-mega">
+                                                    <a href="#">Proident Nulla </a>
+                                                    </li>
+                                                    <li class="list-unstyled li-sub-mega">
+                                                    <a href="./product.html">Phasellus Leo </a>
+                                                    </li>
+                                                    <li class="list-unstyled li-sub-mega last">
+                                                    <a href="./product.html">Tristique Amet <span class="megamenu-label hot-label">Hot</span>
+                                                    </a>
+                                                    </li>
+                                                </ul>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li> --}}
+                                    {{-- <li class="dropdown mega-menu">
                                     <a href="./collection.html" class="dropdown-toggle dropdown-link" data-toggle="dropdown">
                                     <span>Pages</span>
                                     <i class="fa fa-caret-down"></i>
@@ -265,10 +270,10 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    </li>
+                                    </li> --}}
                                     <li class="nav-item dropdown">
                                     <a href="./blog-full.html" class="dropdown-toggle dropdown-link" data-toggle="dropdown">
-                                        <span>Blog</span>
+                                        <span>Блог</span>
                                         <i class="fa fa-caret-down"></i>
                                         <i class="sub-dropdown1 visible-sm visible-md visible-lg"></i>
                                         <i class="sub-dropdown visible-sm visible-md visible-lg"></i>
@@ -304,7 +309,7 @@
                                     </li>
                                     <li class="nav-item">
                                     <a href="./contact.html">
-                                    <span>Contact</span>
+                                    <span>Контакти</span>
                                     </a>
                                     </li>
                                 </ul>
@@ -323,8 +328,8 @@
                         </a>
                         <form id="header-search" class="search-form dropdown-menu" action="search.html" method="get">
                             <input type="hidden" name="type" value="product">
-                            <input type="text" name="q" value="" accesskey="4" autocomplete="off" placeholder="Search something...">
-                            <button type="submit" class="btn">Search</button>
+                            <input type="text" name="q" value="" accesskey="4" autocomplete="off" placeholder="Напиши нещо...">
+                            <button type="submit" class="btn">Търси</button>
                         </form>
                     </div>
                 </li>					

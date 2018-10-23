@@ -304,6 +304,8 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
         Route::get('/', 'ProductController@index')->name('products');
         Route::get('/{product}', 'ProductController@show')->name('single_product');
     });
+
+    Route::get('/cart/addItem/{item}', 'CartController@addItem');
 });
 
 //AJAX FOR STORE

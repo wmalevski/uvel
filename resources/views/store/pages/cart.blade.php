@@ -41,7 +41,7 @@
 													Продукт
 												</th>
 												<th>
-													Цвят
+													Цена
 												</th>
 												<th>
 													Количество
@@ -60,8 +60,8 @@
                                                     <td class="title text-left">
                                                         <ul class="list-inline">
                                                             <li class="image">
-                                                            <a href="./product.html">
-                                                            <img src="{{ asset("uploads/products/" . $item->attributes['photo']) }}" alt="{{ $item->attributes['name'] }}">
+                                                            <a href="{{ route('single_product', ['product' => $item->attributes['product_id']])  }}">
+                                                            <img src="{{ $item->attributes['photo'] }}" alt="{{ $item->attributes['name'] }}" width="150">
                                                             </a>
                                                             </li>
                                                             <li class="link">
@@ -72,16 +72,16 @@
                                                         </ul>
                                                     </td>
                                                     <td class="title-1">
-                                                        {{ $product->price }}
+                                                        {{ $item->price }} лв
                                                     </td>
                                                     <td>
                                                         <input class="form-control input-1 replace" maxlength="5" size="5" id="updates_3947646083" name="updates[]" value="{{ $item->quantity }}">
                                                     </td>
                                                     <td class="total title-1">
-                                                            {{ $product->price*$item->quantity }}
+                                                            {{ $item->price*$item->quantity }} лв
                                                     </td>
                                                     <td class="action">
-                                                        <button type="button" onclick="window.location='/cart/change?line=1&amp;quantity=0'"><i class="fa fa-times"></i>Remove</button>
+                                                        <button type="button" onclick="window.location='/cart/change?line=1&amp;quantity=0'"><i class="fa fa-times"></i>Изтрии</button>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -96,10 +96,10 @@
 													&nbsp;
 												</td>
 												<td class="update-quantities">
-													<button type="submit" id="update-cart" class="btn btn-2" name="update">Update Qty</button>
+													<button type="submit" id="update-cart" class="btn btn-2" name="update">Обнови количество</button>
 												</td>
 												<td class="subtotal title-1">
-													$1,600.00
+													{{ $subtotal }} лв
 												</td>
 												<td>
 													&nbsp;
@@ -111,27 +111,27 @@
 									</div>
 									<div class="clearfix">
 										<div id="checkout-proceed" class="last1 text-right">
-											<button class="btn" type="submit" id="checkout" name="checkout">Proceed to Checkout</button>
+											<button class="btn" type="submit" id="checkout" name="checkout">Към чекаут</button>
 										</div>
 									</div>
 									<div class="row">
 										<div id="checkout-addnote" class="col-md-24">
 											<div class="wrapper-title">
-												<span class="title-5">Add a note for the seller</span>
+												<span class="title-5">Допълнителна информация</span>
 											</div>
 											<textarea id="note" rows="8" class="form-control" name="note"></textarea>
 										</div>
 									</div>
 								</form>
-								<div id="shipping-calculator">
+								{{-- <div id="shipping-calculator">
 									<div class="row">
 										<div class="col-md-10">
 											<div class="wrapper-title">
-												<span class="title-5">Get shipping estimates</span>
+												<span class="title-5">Калкулиране на доставка</span>
 											</div>
 											<div class="clearfix">
 												<p class="">
-													<label for="address_country" class="control-label">Country</label>
+													<label for="address_country" class="control-label">Държава</label>
 													<select id="address_country" class="form-control" name="address[country]" data-default="United States">
 														<option value="Turkey" data-provinces="[]">Turkey</option>
 														<option value="---" data-provinces="[]">---</option>
@@ -445,16 +445,16 @@
 													</select>
 												</p>
 												<p class="">
-													<label for="address_zip" class="control-label">Zip/Postal Code</label>
+													<label for="address_zip" class="control-label">Пощенски код</label>
 													<input class="form-control" id="address_zip" name="address[zip]" type="text">
 												</p>
-												<button class="btn small get-rates">Calculate shipping</button>
+												<button class="btn small get-rates">Изчисли</button>
 											</div>
 										</div>
 										<div id="wrapper-response" class="col-md-14">
 										</div>
 									</div>
-								</div>  
+								</div>   --}}
 							</div>
 						</div>
 					</div>
