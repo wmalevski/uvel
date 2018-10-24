@@ -77,7 +77,7 @@
 															Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, ut aliquid ex ea commodi consequatur.
 														</p>
 													</div>
-													<div class="relative">
+													{{-- <div class="relative">
 														<ul class="list-unstyled">
 															<li class="tags">
 															<span>Tags :</span>
@@ -94,7 +94,7 @@
 															sale-off </a>
 															</li>
 														</ul>
-													</div>
+													</div> --}}
 												</div>          
 												<div id="product-info-right">     
 													<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="col-sm-24 group-variants">
@@ -107,7 +107,7 @@
 																  #product-select-option-0 { display: none; }
 																  #product-select-option-0 + .custom-style-select-box { display: none !important; }
 																</style>																
-																<div class="swatch color clearfix" data-option-index="0">
+																{{-- <div class="swatch color clearfix" data-option-index="0">
 																	<div class="header">
 																		Color
 																	</div>
@@ -147,10 +147,10 @@
 																		<img class="crossed-out" src="./assets/images/soldout.png" alt="">
 																		</label>
 																	</div>																	
-																</div>
+																</div> --}}
 																<div class="swatch clearfix" data-option-index="1">
 																	<div class="header">
-																		Size
+																		Размер
 																	</div>
 																	<div data-value="small" class="swatch-element small available">
 																		<input id="swatch-1-small" name="option-1" value="small" checked="checked" type="radio">
@@ -226,20 +226,20 @@
 															</div>
 														</form>
 														<div class="wls">
-															<a class="wish-list" href="./login.html"><i class="fa fa-heart"></i> Wish list</a>
+															<a class="wish-list" href="./login.html"><i class="fa fa-heart"></i> Добави в желани</a>
 															<span>|</span>
-															<a href="mailto:info@yourdomain.com"><i class="fa fa-envelope"></i> SEND EMAIL</a>
+															<a href="mailto:info@yourdomain.com"><i class="fa fa-envelope"></i> Изпрати по email</a>
 														</div>                                          
 													</div>                        
 													<ul id="tabs_detail" class="tabs-panel-detail hidden-xs hidden-sm">
 														<li class="first">
-															<h5><a href="#pop-one" class="fancybox">Measurements &amp; Specs</a></h5>
+															<h5><a href="#pop-one" class="fancybox">Информация за обяна</a></h5>
 														</li>
 														<li>
-															<h5><a href="#pop-two" class="fancybox">Shipping &amp; Returns</a></h5>
+															<h5><a href="#pop-two" class="fancybox">Информация за доставка</a></h5>
 														</li>
 														<li>
-															<h5><a href="#pop-three" class="fancybox">Size Charts</a></h5>
+															<h5><a href="#pop-three" class="fancybox">Таблица с размери</a></h5>
 														</li>
 													</ul>             
 													<div id="pop-one" style="display: none;">
@@ -274,7 +274,7 @@
 													</style>
 													<div class="spr-container">
 														<div class="spr-header">
-															<h2 class="spr-header-title">Customer Reviews</h2>
+															<h2 class="spr-header-title">Ревюта</h2>
 															<div class="spr-summary" itemscope="" itemtype="http://data-vocabulary.org/Review-aggregate">
 																<meta itemprop="itemreviewed" content="Donec aliquam ante non">
 																<meta itemprop="votes" content="1">
@@ -285,10 +285,10 @@
 																<i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i>
 																</span>
 																<span class="spr-summary-caption">
-																<span class="spr-summary-actions-togglereviews">Based on 1 review</span>
+																<span class="spr-summary-actions-togglereviews">Базирано на 1 ревю</span>
 																</span>
 																<span class="spr-summary-actions">
-																<a href="#" class="spr-summary-actions-newreview" onclick="SPR.toggleForm(1293236931);return false">Write a review</a>
+																<a href="#" class="spr-summary-actions-newreview" onclick="SPR.toggleForm(1293236931);return false">Напиши ревю</a>
 																</span>
 															</div>
 														</div>
@@ -296,7 +296,7 @@
 															<div class="spr-form" id="form_1293236931" style="display: none">
 																<form method="post" action="#" id="new-review-form_1293236931" class="new-review-form">
 																	<input type="hidden" name="review[rating]"><input type="hidden" name="product_id" value="1293236931">
-																	<h3 class="spr-form-title">Write a review</h3>
+																	<h3 class="spr-form-title">Напиши ревю</h3>
 																	<fieldset class="spr-form-contact">
 																		<div class="spr-form-contact-name">
 																			<label class="spr-form-label" for="review_author_1293236931">Name</label>
@@ -347,7 +347,7 @@
 																		</p>
 																	</div>
 																	<div class="spr-review-footer">
-																		<a href="#" class="spr-review-reportreview" onclick="SPR.reportReview(906174);return false" id="report_906174" data-msg="This review has been reported">Report as Inappropriate</a>
+																		<a href="#" class="spr-review-reportreview" onclick="SPR.reportReview(906174);return false" id="report_906174" data-msg="This review has been reported">Докладвай</a>
 																	</div>
 																</div>
 															</div>
