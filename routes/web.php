@@ -313,6 +313,8 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
 Route::group(['prefix' => 'ajax', 'namespace' => 'store'], function() {
     Route::get('/cart/addItem/{item}', 'CartController@addItem');
     Route::get('/cart/removeItem/{item}', 'CartController@removeItem');
+
+    Route::get('/filter', 'ProductController@filter');
 });
 
 /**
