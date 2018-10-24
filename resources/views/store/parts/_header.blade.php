@@ -9,12 +9,12 @@
             <ul class="text-right">
             <li class="customer-links hidden-xs">
                 <ul id="accounts" class="list-inline">
-                    <li class="my-account">
+                    {{-- <li class="my-account">
                         <a href="./account.html">My Account</a>
-                    </li>  
+                    </li>   --}}
                     <li class="login">    
                         <span id="loginButton" class="dropdown-toggle" data-toggle="dropdown">
-                            <a href="./login.html">Login</a>
+                            <a href="./login.html">Вход</a>
                             <i class="sub-dropdown1"></i>
                             <i class="sub-dropdown"></i>
                         </span>
@@ -24,18 +24,18 @@
                             <div id="bodyBox">
                                 <ul class="control-container customer-accounts list-unstyled">
                                     <li class="clearfix">
-                                        <label for="customer_email_box" class="control-label">Email Address <span class="req">*</span></label>
+                                        <label for="customer_email_box" class="control-label">Email <span class="req">*</span></label>
                                         <input type="email" value="" name="customer[email]" id="customer_email_box" class="form-control">
                                     </li>						 
                                     <li class="clearfix">
-                                        <label for="customer_password_box" class="control-label">Password <span class="req">*</span></label>
+                                        <label for="customer_password_box" class="control-label">Парола <span class="req">*</span></label>
                                         <input type="password" value="" name="customer[password]" id="customer_password_box" class="form-control password">
                                     </li>						  
                                     <li class="clearfix">
-                                        <a class="action btn btn-1" href="./login.html">Login</a>
+                                        <a class="action btn btn-1" href="./login.html">Вход</a>
                                     </li>
                                     <li class="clearfix">
-                                        <a class="action btn btn-1" href="./register.html">Create an account</a>
+                                        <a class="action btn btn-1" href="./register.html">Регистрирай се</a>
                                     </li>
                                 </ul>
                             </div>
@@ -44,7 +44,7 @@
                     </li>
                     <li>/</li>   
                     <li class="register">
-                        <a href="./register.html" id="customer_register_link">Create an account</a>
+                        <a href="./register.html" id="customer_register_link">Регистрирай се</a>
                     </li> 
                 </ul>
             </li>      
@@ -99,10 +99,10 @@
                                         </div>
                                         <ul class="customer dropdown-menu">
                                             <li class="logout">
-                                            <a href="#">Login</a>
+                                            <a href="#">Вход</a>
                                             </li>
                                             <li class="account last">
-                                            <a href="register.html">Register</a>
+                                            <a href="register.html">Регистрация</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -341,7 +341,7 @@
                                 <i class="sub-dropdown"></i>
                                 <div class="num-items-in-cart">
                                     <span class="icon">
-                                        Cart
+                                        Количка
                                         <span class="number">1</span>
                                     </span>
                                 </div>
@@ -359,16 +359,16 @@
                                                     <a href="./product.html">Product with left sidebar - black / small</a>
                                                 </div>
                                                 <div class="cart-price">
-                                                    $200.00<span class="x"> x </span>1
+                                                    200.00 лв<span class="x"> x </span>1
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="subtotal">
-                                        <span>Subtotal:</span><span class="cart-total-right">$200.00</span>
+                                        <span>Тотал:</span><span class="cart-total-right">200.00 лв</span>
                                     </div>
                                     <div class="action">
-                                        <button class="btn" onclick="window.location='./cart.html'">CHECKOUT</button><a class="btn btn-1" href="./cart.html">View Cart</a>
+                                        <button class="btn" onclick="window.location='./cart.html'">Чекаут</button><a class="btn btn-1" href="./cart.html">Виж количката</a>
                                     </div>
                                 </div>
                             </div>

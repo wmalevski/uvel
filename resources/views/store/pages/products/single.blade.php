@@ -69,12 +69,11 @@
 											<div id="product-header" class="clearfix">
 												<div id="product-info-left">
 													<div class="description">
-														<span>Product Descriptions</span>
+														<span>Описание</span>
 														<p>
-															Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis amet voluptas assumenda est, omnis dolor repellendus quis nostrum.
-														</p>
-														<p>
-															Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, ut aliquid ex ea commodi consequatur.
+															Модел: {{ $product->model->name }} <br/>
+															Бижу: {{ $product->jewel->name }} <br/>
+															Размер: {{ $product->model->size }}
 														</p>
 													</div>
 													{{-- <div class="relative">
@@ -165,7 +164,7 @@
 																		</label>
 																	</div>
 																</div>
-																<div class="variants-wrapper clearfix">
+																{{-- <div class="variants-wrapper clearfix">
 																	<div class="selector-wrapper">
 																		<label for="product-select-1293235843-option-0">Цвят</label>
 																		<div class="wrapper">
@@ -198,17 +197,17 @@
 																		<option value="3947646467">blue / medium</option>
 																		<option value="3947646531">white / medium</option>
 																	</select>
-																</div>
+																</div> --}}
 																<div class="quantity-wrapper clearfix">
 																	<label class="wrapper-title">Количество</label>
 																	<div class="wrapper">
 																		<input id="quantity" name="quantity" value="1" maxlength="5" size="5" class="item-quantity" type="text">
 																		<span class="qty-group">
 																		<span class="qty-wrapper">
-																		<span data-original-title="Increase" class="qty-up btooltip" data-toggle="tooltip" data-placement="top" title="" data-src="#quantity">
+																		<span data-original-title="Увеличи" class="qty-up btooltip" data-toggle="tooltip" data-placement="top" title="" data-src="#quantity">
 																		<i class="fa fa-caret-right"></i>
 																		</span>
-																		<span data-original-title="Decrease" class="qty-down btooltip" data-toggle="tooltip" data-placement="top" title="" data-src="#quantity">
+																		<span data-original-title="Намали" class="qty-down btooltip" data-toggle="tooltip" data-placement="top" title="" data-src="#quantity">
 																		<i class="fa fa-caret-left"></i>
 																		</span>
 																		</span>

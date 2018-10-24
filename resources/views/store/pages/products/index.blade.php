@@ -115,7 +115,7 @@
 																<!-- tags groupd 3 -->
 														</div>
 													</div>  
-													<div class="home-collection-wrapper sb-wrapper clearfix">
+													{{-- <div class="home-collection-wrapper sb-wrapper clearfix">
 														<h6 class="sb-title">Product Categories</h6>
 														<ul class="list-unstyled sb-content list-styled">
 															<li>
@@ -137,8 +137,8 @@
 															<a href="./collection-right.html"><span><i class="fa fa-circle"></i> Sample Collection - Right Slidebar</span><span class="collection-count"> (7)</span></a>
 															</li>
 														</ul>
-													</div>  
-													<div class="deal-product-wrapper sb-wrapper clearfix">
+													</div>   --}}
+													{{-- <div class="deal-product-wrapper sb-wrapper clearfix">
 														<div class="group_deal_products">
 															<div class="">
 																<div class="home_deal_fp">
@@ -251,8 +251,8 @@
 															</p>
 															</li>
 														</ul>
-													</div>  
-													<div class="sb-wrapper left-sample-block">
+													</div>   --}}
+													{{-- <div class="sb-wrapper left-sample-block">
 														<h6 class="sb-title">Product Vendors</h6>
 														<ul class="list-unstyled sb-content list-styled">
 															<li>
@@ -268,8 +268,8 @@
 															<i class="fa fa-circle"></i><a href="#" title="Vendor 4">Vendor 4</a>
 															</li>
 														</ul>
-													</div>  
-													<div class="sb-wrapper left-sample-block">
+													</div>   --}}
+													{{-- <div class="sb-wrapper left-sample-block">
 														<h6 class="sb-title">Product Types</h6>
 														<ul class="list-unstyled sb-content list-styled">
 															<li>
@@ -282,13 +282,13 @@
 															<i class="fa fa-circle"></i><a href="#" title="Sweaters Wear">Sweaters Wear</a>
 															</li>
 														</ul>
-													</div>
-													<div class="sb-item slidebar-banner">
+													</div> --}}
+													{{-- <div class="sb-item slidebar-banner">
 														<h6 class="sb-title">Promotion</h6>
 														<div class="">
 															<img src="./assets/images/demo_270x340.png" alt="">
 														</div>
-													</div>
+													</div> --}}
 													<!--End sb-item-->
 												</div><!--end group_sidebar-->
 											</div>								
@@ -298,10 +298,10 @@
 												<ul class="list-inline text-right">
 													<li class="grid_list">
 													<ul class="list-inline option-set hidden-xs" data-option-key="layoutMode">
-														<li data-original-title="Grid" data-option-value="fitRows" id="goGrid" class="goAction btooltip active" data-toggle="tooltip" data-placement="top" title="">
+														<li data-original-title="Грид" data-option-value="fitRows" id="goGrid" class="goAction btooltip active" data-toggle="tooltip" data-placement="top" title="">
 														<span></span>
 														</li>
-														<li data-original-title="List" data-option-value="straightDown" id="goList" class="goAction btooltip" data-toggle="tooltip" data-placement="top" title="">
+														<li data-original-title="Лист" data-option-value="straightDown" id="goList" class="goAction btooltip" data-toggle="tooltip" data-placement="top" title="">
 														<span></span>
 														</li>
 													</ul>
@@ -355,26 +355,28 @@
                                                             </div>
                                                             <div class="product-content-right">
                                                                 <div class="product-price">
-                                                                    <span class="price">{{ $product->price }}</span>
+                                                                    <span class="price">{{ $product->price }} лв</span>
                                                                 </div>
                                                             </div>
                                                             <div class="list-mode-description">
-                                                                 Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis amet voluptas assumenda est, omnis dolor repellendus quis nostrum. Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed...
+																 Модел: {{ $product->model->name }} <br/>
+																 Бижу: {{ $product->jewel->name }} <br/>
+																 Размер: {{ $product->model->size }}
                                                             </div>
                                                             <div class="hover-appear">
                                                                 <form action="#" method="post">
                                                                     <div class="effect-ajax-cart">
                                                                         <input name="quantity" value="1" type="hidden">
-                                                                        <button class="select-option" type="button" onclick="window.location.href='product.html'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
+                                                                        <button class="select-option" type="button" onclick="window.location.href='{{ route('single_product', ['product' => $product->id])  }}'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Преглед</span></button>
                                                                     </div>
                                                                 </form>
                                                                 <div class="product-ajax-qs hidden-xs hidden-sm">
                                                                     <div data-handle="curabitur-cursus-dignis" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
-                                                                        <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>
+                                                                        <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Бърз преглед</span>
                                                                         
                                                                     </div>
                                                                 </div>
-                                                                <a class="wish-list" href="./account.html" title="wish list"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>
+                                                                <a class="wish-list" href="./account.html" title="wish list"><i class="fa fa-heart"></i><span class="list-mode">Добави в желани</span></a>
                                                             </div>
                                                             </li>
                                                         </ul>
