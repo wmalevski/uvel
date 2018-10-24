@@ -44,17 +44,17 @@ class ProductController extends Controller
         $query = Product::select('*');
 
         if ($request->byStore) {
-            foreach($request->byStore as $store){
-                $query = $query->where('store_id', $store);
-            }
+            
+                $query = $query->whereIn('store_id', $request->byStore);
+            
         }
 
         if ($request->byJewel) {
-            $query = $query->where('jewel_id', $request->byJewel);
+            $query = $query->whereIn('jewel_id', $request->byJewel);
         }
 
         if ($request->byMaterial) {
-            $query = $query->where('material_id', $request->byMaterial);
+            $query = $query->whereIn('material_id', $request->byMaterial);
         }
 
         $products = $query->where('status', 'available')->orderBy('id', 'desc')->get();

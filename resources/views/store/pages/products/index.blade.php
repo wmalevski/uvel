@@ -82,7 +82,7 @@
 																</p>
 																<ul>
 																	@foreach($stores as $store)
-																		<li><a title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $store->name }}</a></li>
+																		<li><a title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $store->name }} ({{ count($store->products) }})</a></li>
 																	@endforeach
 																</ul>
 															</div>
@@ -95,7 +95,7 @@
 																	</p>
 																	<ul>
 																		@foreach($jewels as $jewel)
-																			<li><a title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $jewel->name }}</a></li>
+																			<li><a title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $jewel->name }} ({{ count($jewel->products) }})</a></li>
 																		@endforeach
 																	</ul>
 																</div>
@@ -108,7 +108,7 @@
 																	</p>
 																	<ul>
 																		@foreach($materials as $material)
-																			<li><a title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $material->name }}</a></li>
+																			<li><a title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $material->name }} ({{ count($material->quantity) }})</a></li>
 																		@endforeach
 																	</ul>
 																</div>
