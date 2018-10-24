@@ -146,8 +146,8 @@ class ProductController extends Controller
 
 
         $findModel = ModelOption::where([
-            ['material_id', '=', $request->material],
-            ['model_id', '=', $request->model]
+            ['material_id', '=', $request->material_id],
+            ['model_id', '=', $request->model_id]
         ])->get();
 
         if(!$findModel){

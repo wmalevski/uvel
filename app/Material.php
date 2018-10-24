@@ -38,4 +38,8 @@ class Material extends Model
     public function pricesSell(){
         return $this->hasMany('App\Price')->where('type', 'sell');
     }
+
+    public function products(){
+        return $this->hasManyThrough('App\Product', 'App\MaterialQuantity', 'material_id', 'material_id');
+    }
 }
