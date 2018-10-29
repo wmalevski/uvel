@@ -156,6 +156,13 @@ aria-hidden="true">
                             <span class="peer peer-greed">Добави като продукт</span>
                         </label>
                     </div>
+
+                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
+                        <input type="checkbox" id="website_visible" name="website_visible" class="peer" checked>
+                        <label for="website_visible" class="peers peer-greed js-sb ai-c">
+                            <span class="peer peer-greed">Показване в сайта</span>
+                        </label>
+                    </div>
                 </div>
 
                 <div class="modal-footer">

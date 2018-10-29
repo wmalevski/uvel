@@ -108,6 +108,13 @@ class ModelController extends Controller
         $model->workmanship = $request->workmanship;
         $model->price = $request->price;
         $model->totalStones =  $request->totalStones;
+
+        if($request->website_visible == 'true'){
+            $model->website_visible =  'yes';
+        }else{
+            $model->website_visible =  'no';
+        }
+
         $model->save();
 
         if($request->stones){
@@ -218,6 +225,12 @@ class ModelController extends Controller
             $next_ten = (ceil($total_sum/10))*10;
             $check_digit = $next_ten - $total_sum;
             $product->barcode = $digits . $check_digit;
+
+            if($request->website_visible == 'true'){
+                $product->website_visible =  'yes';
+            }else{
+                $product->website_visible =  'no';
+            }
             
             $product->save();
 
@@ -404,6 +417,12 @@ class ModelController extends Controller
         $model->weight = $request->weight;
         $model->totalStones =  $request->totalStones;
         $model->size = $request->size;
+
+        if($request->website_visible == 'true'){
+            $model->website_visible =  'yes';
+        }else{
+            $model->website_visible =  'no';
+        }
         
         $model->save();
 
