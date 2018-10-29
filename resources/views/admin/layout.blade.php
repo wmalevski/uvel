@@ -222,7 +222,7 @@
 
 
 
-              <li class="nav-item dropdown {{ Active::check('admin/products',true) }}">
+              <li class="nav-item dropdown {{ Active::check('admin/admin_products',true) }}">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                   <span class="icon-holder">
                     <i class="ti-package"></i>
@@ -234,7 +234,7 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a class="sidebar-link" href="{{ route('products') }}">Наличности</a>
+                    <a class="sidebar-link" href="{{ route('admin_products') }}">Наличности</a>
                   </li>
                   <li>
                     <a class="sidebar-link" href="{{ route('products_travelling') }}">На път</a>

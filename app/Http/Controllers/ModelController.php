@@ -248,6 +248,11 @@ class ModelController extends Controller
                 }
             }
 
+            $path = public_path('uploads/products/');
+        
+            File::makeDirectory($path, 0775, true, true);
+            Storage::disk('public')->makeDirectory('models', 0775, true);
+
             if($file_data){
                 foreach($file_data as $img){
                     $memi = substr($img, 5, strpos($img, ';')-5);
