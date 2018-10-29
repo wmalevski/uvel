@@ -53,85 +53,29 @@
                                         <h6 class="general-title">Popular Collections</h6>
                                         <div class="home_collections_wrapper">												
                                             <div id="home_collections">
-                                                            <div class="home_collections_item">
-                                                                <div class="home_collections_item_inner">
-                                                                    <div class="collection-details">
-                                                                        <a href="./collection.html" title="Browse our Bracelets">
-                                                                            <img src="{{ asset('store/images/demo_270x270.png') }}" alt="Bracelets">
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="hover-overlay">
-                                                                        <span class="col-name"><a href="./collection.html">Bracelets</a></span>
-                                                                        <div class="collection-action">
-                                                                            <a href="./collection.html">See the Collection</a>
-                                                                        </div>
-                                                                    </div>
+                                                @foreach($jewels as $jewel)
+                                                    <div class="home_collections_item">
+                                                        <div class="home_collections_item_inner">
+                                                            <div class="collection-details">
+                                                                <a href="online/products/byJewel={{ $jewel->id }}" title="Browse our Bracelets">
+                                                                    <img src="
+                                                                    {{-- @if($jewel->products) {{ asset("uploads/products/" . $jewel->products->first()->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif --}}
+                                                                    " alt="Bracelets">
+                                                                </a>
+                                                            </div>
+                                                            <div class="hover-overlay">
+                                                                <span class="col-name"><a href="online/products/byJewel={{ $jewel->id }}">{{ $jewel->name }}</a></span>
+                                                                <div class="collection-action">
+                                                                    <a href="online/products/byJewel={{ $jewel->id }}">Виж</a>
                                                                 </div>
                                                             </div>
-                                                            <div class="home_collections_item">
-                                                                <div class="home_collections_item_inner">
-                                                                    <div class="collection-details">
-                                                                        <a href="./collection.html" title="Browse our Earrings">
-                                                                        <img src="{{ asset('store/images/demo_270x270.png') }}" alt="Earrings">
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="hover-overlay">
-                                                                        <span class="col-name"><a href="./collection.html">Earrings</a></span>
-                                                                        <div class="collection-action">
-                                                                            <a href="./collection.html">See the Collection</a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="home_collections_item">
-                                                                <div class="home_collections_item_inner">
-                                                                    <div class="collection-details">
-                                                                        <a href="./collection.html" title="Browse our Necklaces">
-                                                                        <img src="{{ asset('store/images/demo_270x270.png') }}" alt="Necklaces">
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="hover-overlay">
-                                                                        <span class="col-name"><a href="./collection.html">Necklaces</a></span>
-                                                                        <div class="collection-action">
-                                                                            <a href="./collection.html">See the Collection</a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="home_collections_item">
-                                                                <div class="home_collections_item_inner">
-                                                                    <div class="collection-details">
-                                                                        <a href="./collection.html" title="Browse our Rings">
-                                                                        <img src="{{ asset('store/images/demo_270x270.png') }}" alt="Rings">
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="hover-overlay">
-                                                                        <span class="col-name"><a href="./collection.html">Rings</a></span>
-                                                                        <div class="collection-action">
-                                                                            <a href="./collection.html">See the Collection</a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="home_collections_item">
-                                                                <div class="home_collections_item_inner">
-                                                                    <div class="collection-details">
-                                                                        <a href="./collection.html" title="Browse our Bracelets">
-                                                                            <img src="{{ asset('store/images/demo_270x270.png') }}" alt="Bracelets">
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="hover-overlay">
-                                                                        <span class="col-name"><a href="./collection.html">Bracelets</a></span>
-                                                                        <div class="collection-action">
-                                                                            <a href="./collection.html">See the Collection</a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
                                                 </div>													
-                                            </div>
                                         </div>
                                     </div>
+                                </div>
                                     <script>
                                         $(document).ready(function() {
                                         $('.collection-details').hover(
