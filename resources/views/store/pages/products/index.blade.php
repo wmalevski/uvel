@@ -103,16 +103,36 @@
 
 															<!-- tags groupd 3 -->
 															<div class="tag-group" id="coll-filter-3">
-																	<p class="title">
-																		Материал
-																	</p>
-																	<ul>
-																		@foreach($materials as $material)
-																			<li><a title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $material->name }} ({{ count($material->products) }})</a></li>
-																		@endforeach
-																	</ul>
-																</div>
-																<!-- tags groupd 3 -->
+																<p class="title">
+																	Материал
+																</p>
+																<ul>
+																	@foreach($materials as $material)
+																		<li><a title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $material->name }} ({{ count($material->products) }})</a></li>
+																	@endforeach
+																</ul>
+															</div>
+															<!-- tags groupd 3 -->
+
+															<!-- tags groupd 3 -->
+															<div class="tag-group" id="coll-filter-3">
+																<p class="title">
+																	Размер
+																</p>
+																<input type="number" class="form-control" placeholder="Въведи размер">
+															</div>
+															<!-- tags groupd 3 -->
+
+															<!-- tags groupd 3 -->
+															<div class="tag-group" id="coll-filter-3">
+																<p class="title">
+																	Цена
+																</p>
+
+																<input type="number" class="form-control" placeholder="От">
+																<input type="number" class="form-control" placeholder="До">
+															</div>
+															<!-- tags groupd 3 -->
 														</div>
 													</div>  
 													{{-- <div class="home-collection-wrapper sb-wrapper clearfix">

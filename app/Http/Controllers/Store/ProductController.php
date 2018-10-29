@@ -43,10 +43,24 @@ class ProductController extends Controller
     public function filter(Request $request){
         $query = Product::select('*');
 
+        if ($request->priceFrom && $request->priceTo) {
+            $query = $query->whereBetween('price', [$request->priceFrom, $request->priceTo]);
+        } else if($request->priceFrom){
+            $query = $query->where('price', '>=', $request->priceFrom);
+        } else if($request->priceTo){
+            $query = $query->where('price', '<=', $request->priceTo);
+        }
+
+        if ($request->size) {
+            $query = $query->whereIn('size', $request->size);
+        }
+
+        if ($request->size) {
+            $query = $query->whereIn('size', $request->size);
+        }
+
         if ($request->byStore) {
-            
-                $query = $query->whereIn('store_id', $request->byStore);
-            
+            $query = $query->whereIn('store_id', $request->byStore);
         }
 
         if ($request->byJewel) {
