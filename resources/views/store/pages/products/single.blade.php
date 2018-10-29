@@ -76,6 +76,12 @@
 															Размер: {{ $product->model->size }}
 														</p>
 													</div>
+													<div class="description">
+														<span>Изработка</span>
+														<p>
+															{{ $product->weight }} гр. + {{ $product->workmanship }} лв.
+														</p>
+													</div>
 													{{-- <div class="relative">
 														<ul class="list-unstyled">
 															<li class="tags">
