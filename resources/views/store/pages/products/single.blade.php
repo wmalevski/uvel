@@ -76,6 +76,12 @@
 															Размер: {{ $product->model->size }}
 														</p>
 													</div>
+													<div class="description">
+														<span>Изработка</span>
+														<p>
+															{{ $product->weight }} гр. + {{ $product->workmanship }} лв.
+														</p>
+													</div>
 													{{-- <div class="relative">
 														<ul class="list-unstyled">
 															<li class="tags">
@@ -360,7 +366,7 @@
 									<h6 class="general-title text-left">You may also like the related products</h6>
 									<div id="prod-related-wrapper">
 										<div class="prod-related clearfix">
-                                            @foreach($products as $product)
+                                            @foreach($similarProducts as $product)
 											<div class="element no_full_width not-animated" data-animate="bounceIn" data-delay="0">
 												<ul class="row-container list-unstyled clearfix">
 													<li class="row-left">

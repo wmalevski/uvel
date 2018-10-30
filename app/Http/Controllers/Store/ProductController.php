@@ -7,6 +7,7 @@ use App\Material;
 use App\Jewel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -35,8 +36,11 @@ class ProductController extends Controller
             ['status', '=', 'available']
         ])->paginate(12);
 
+        $allProducts = Product::select('*')->where('jewel_id',$product->jewel_id )->whereNotIn('id', [$product->id]);
+        $similarProducts = $allProducts->orderBy(DB::raw('ABS(`price` - '.$product->price.')'))->take(5)->get();
+
         if($product){
-            return \View::make('store.pages.products.single', array('product' => $product, 'products' => $products));
+            return \View::make('store.pages.products.single', array('product' => $product, 'products' => $products, 'similarProducts' => $similarProducts));
         }
     }
 
