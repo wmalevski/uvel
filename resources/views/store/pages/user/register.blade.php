@@ -23,15 +23,24 @@
                         <div id="page-header" class="col-md-24">
                             <h1 id="page-title">Регистрация</h1> 
                         </div>
+
                         <div id="col-main" class="col-md-24 register-page clearfix">
+                            @if($errors->any())
+                                <ul class="alert alert-danger">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            @endif 
+
                             <form method="POST" action="{{ route('registerform') }}" id="create_customer" accept-charset="UTF-8">
                                 {{ csrf_field() }}
                                 <input value="create_customer" name="form_type" type="hidden"><input name="utf8" value="✓" type="hidden">
                                 <ul id="register-form" class="row list-unstyled">
                                     <li class="clearfix"></li>
                                     <li id="last_namef">
-                                    <label class="control-label" for="last_name">Име</label>
-                                    <input name="name" id="last_name" class="form-control " type="text">
+                                    <label class="control-label" for="name">Име</label>
+                                    <input name="name" id="name" class="form-control " type="text">
                                     </li>
                                     <li class="clearfix"></li>
                                     <li id="emailf" class="">
@@ -44,8 +53,8 @@
                                     <input value="" name="password" id="password" class="form-control password" type="password">
                                     </li>
                                     <li id="password_repear" class="">
-                                        <label class="control-label" for="password_repeat">Повтори паролата <span class="req">*</span></label>
-                                        <input value="" name="password_repeat" id="password_repeat" class="form-control password" type="password_repeat">
+                                        <label class="control-label" for="password_confirmation">Повтори паролата <span class="req">*</span></label>
+                                        <input value="" name="password_confirmation" id="password_confirmation" class="form-control password" type="password">
                                         </li>
                                     <li class="clearfix"></li>
                                     <li class="unpadding-top action-last">

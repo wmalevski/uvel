@@ -41,7 +41,8 @@ class UserController extends Controller
          ]);
         
         if ($validator->fails()) {
-            return Redirect::back()->withErrors(['errors' => $validator->getMessageBag()->toArray()]);
+            //var_dump($validator->getMessageBag()->toArray());
+            return Redirect::back()->withErrors($validator);
         }
 
         $user = User::create([
@@ -54,7 +55,7 @@ class UserController extends Controller
 
         auth()->login($user);
         
-        return redirect()->to('/');
+        return redirect()->to('/online');
     }
 
 }

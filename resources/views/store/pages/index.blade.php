@@ -57,7 +57,7 @@
                                                     <div class="home_collections_item">
                                                         <div class="home_collections_item_inner">
                                                             <div class="collection-details">
-                                                                <a href="online/products/byJewel={{ $jewel->id }}" title="Browse our Bracelets">
+                                                                <a href="online/products/?byJewel={{ $jewel->id }}" title="Browse our Bracelets">
                                                                     <img src="
                                                                     {{-- @if($jewel->products) {{ asset("uploads/products/" . $jewel->products->first()->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif --}}
                                                                     " alt="Bracelets">
@@ -66,7 +66,7 @@
                                                             <div class="hover-overlay">
                                                                 <span class="col-name"><a href="online/products/byJewel={{ $jewel->id }}">{{ $jewel->name }}</a></span>
                                                                 <div class="collection-action">
-                                                                    <a href="online/products/byJewel={{ $jewel->id }}">Виж</a>
+                                                                    <a href="online/products/?byJewel={{ $jewel->id }}">Виж</a>
                                                                 </div>
                                                             </div>
                                                         </div>

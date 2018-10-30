@@ -97,14 +97,24 @@
                                         <div class="dropdown-toggle" data-toggle="dropdown">
                                             <i class="fa fa-user"></i>
                                         </div>
+                                        @if (Auth::check())
+                                        
                                         <ul class="customer dropdown-menu">
                                             <li class="logout">
-                                            <a href="#">Вход</a>
-                                            </li>
-                                            <li class="account last">
-                                            <a href="register.html">Регистрация</a>
+                                                <a href="#">Профил</a>
                                             </li>
                                         </ul>
+                                        @else
+                                        <ul class="customer dropdown-menu">
+                                            <li class="logout">
+                                                <a href="#">Вход</a>
+                                            </li>
+                                            <li class="account last">
+                                                <a href="register.html">Регистрация</a>
+                                            </li>
+                                        </ul>
+                                        
+                                        @endif
                                     </div>
                                     </li>
                                     <li class="is-mobile-wl">
