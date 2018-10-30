@@ -212,7 +212,7 @@
               </a>
             </li>
             <li class="nav-item {{ Active::check('admin/models',true) }}">
-                <a class="sidebar-link" href="{{ route('models') }}">
+                <a class="sidebar-link" href="{{ route('admin_models') }}">
                   <span class="icon-holder">
                     <i class=" ti-blackboard"></i>
                   </span>

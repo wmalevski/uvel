@@ -102,7 +102,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/jewels/{jewel}', 'JewelController@edit');
 
-    Route::get('/models', 'ModelController@index')->name('models');
+    Route::get('/models', 'ModelController@index')->name('admin_models');
     Route::post('/models', 'ModelController@store');
 
     Route::get('/models/{model}', 'ModelController@edit');
