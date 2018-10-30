@@ -170,6 +170,13 @@
                         </div>
                     </div>
 
+                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
+                        <input type="checkbox" id="website_visible" name="website_visible" class="peer" checked>
+                        <label for="website_visible" class="peers peer-greed js-sb ai-c">
+                            <span class="peer peer-greed">Показване в сайта</span>
+                        </label>
+                    </div>
+
                     <div class="drop-area" name="add">
                         <input type="file" name="images" class="drop-area-input" id="fileElem-add" multiple accept="image/*" >
                         <label class="button" for="fileElem-add">Select some files</label>

@@ -204,6 +204,13 @@
                 </div>
             </div>
 
+            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
+                <input type="checkbox" id="website_visible" name="website_visible" class="peer" @if($product->website_visible == 'true') checked @endif>
+                <label for="website_visible" class="peers peer-greed js-sb ai-c">
+                    <span class="peer peer-greed">Показване в сайта</span>
+                </label>
+            </div>
+
             <div class="drop-area" name="edit">
                 <input type="file" name="images" class="drop-area-input" id="fileElem-edit" multiple accept="image/*" >
                 <label class="button" for="fileElem-edit">Select some files</label>

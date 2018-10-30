@@ -218,6 +218,13 @@
                 <img src="{{$photo['photo']}}" alt="" class="img-responsive" />
             </div>
         @endforeach 
+
+        <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
+            <input type="checkbox" id="website_visible" name="website_visible" class="peer" @if($model->website_visible == 'true') checked @endif>
+            <label for="website_visible" class="peers peer-greed js-sb ai-c">
+                <span class="peer peer-greed">Показване в сайта</span>
+            </label>
+        </div>
         </div>
 
     </div>

@@ -117,6 +117,13 @@ class ProductController extends Controller
         $bar = '380'.unique_number('products', 'barcode', 7).'1'; 
 
         $material->quantity = $material->quantity - $request->weight;
+
+        if($request->website_visible == 'true'){
+            $product->website_visible =  'yes';
+        }else{
+            $product->website_visible =  'no';
+        }
+
         $material->save();
 
         if($request->with_stones == 'false'){
@@ -369,6 +376,12 @@ class ProductController extends Controller
                 $product->weight_without_stones = 'no';
             } else{
                 $product->weight_without_stones = 'yes';
+            }
+
+            if($request->website_visible == 'true'){
+                $product->website_visible =  'yes';
+            }else{
+                $product->website_visible =  'no';
             }
     
             $product->save();

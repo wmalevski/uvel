@@ -21,6 +21,7 @@ class CreateModelsTable extends Migration
             $table->integer('size');
             $table->float('workmanship');
             $table->float('totalStones')->nullable();
+            $table->enum('website_visible', ['yes', 'no'])->default('yes');
             $table->float('price');
             $table->timestamps();
             $table->softDeletes();
