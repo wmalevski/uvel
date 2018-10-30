@@ -156,6 +156,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/repairs/return/{repair}', 'RepairController@return');
     Route::get('/repairs/edit/{repair}', 'RepairController@edit');
+
+    Route::get('/mailchimp', 'NewsletterController@index');
 });
 
 Route::group(['prefix' => 'ajax'], function() {
@@ -298,6 +300,9 @@ Route::group(['prefix' => 'ajax'], function() {
  */
 Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
     Route::get('/', 'StoreController@index')->name('store');
+
+    Route::post('/ajax/subscribe', 'SubscribeController@subscribe')->name('subscribe');
+    Route::get('/ajax/unsubscribe/{email}', 'SubscribeController@unsubscribe')->name('unsubscribe');
 
     //User Related
     Route::get('/register', 'UserController@create')->name('register');

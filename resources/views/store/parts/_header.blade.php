@@ -139,7 +139,7 @@
                                     </li>
 
                                     <li class="nav-item">
-                                        <a href="">
+                                        <a href="{{ route('models') }}">
                                             <span>По поръчка</span>
                                         </a>
                                     </li>

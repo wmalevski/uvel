@@ -4,10 +4,11 @@
         <div id="widget-newsletter">
             <div class="container">            
                 <div class="newsletter col-md-24">
-                <form action="http://codespot.us5.list-manage.com/subscribe/post?u=ed73bc2d2f8ae97778246702e&amp;id=c63b4d644d" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
-                    <span class="news-desc">We promise only send the good things</span>
+                <form action="{{ route('subscribe') }}" method="POST" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form">
+                        {{ csrf_field() }}
+                    <span class="news-desc">Обещаваме, че пращаме само най-доброто</span>
                     <div class="group_input">
-                    <input class="form-control" type="email" placeholder="Your Email Address" name="Email" id="email-input">
+                    <input class="form-control" type="email" placeholder="Вашият Email Адрес" name="email" id="email-input">
                     <div class="unpadding-top"><button class="btn btn-1" type="submit"><i class="fa fa-paper-plane"></i></button></div>
                     </div>              
                 </form>
