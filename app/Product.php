@@ -17,6 +17,7 @@ use App\ModelOption;
 use Illuminate\Http\File;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use App\MaterialQuantity;
 
 class Product extends Model
@@ -198,5 +199,9 @@ class Product extends Model
                 'pricebuy' => $default->material->material->pricesBuy->first()->price,
             );
             }
+        }
+        public function scopeOfSimilarPrice($query, $price)
+        {
+            return $query->orderBy(DB::raw('ABS(`price` - '.$price.')'));
         }
     }
