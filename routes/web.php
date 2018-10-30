@@ -298,11 +298,21 @@ Route::group(['prefix' => 'ajax'], function() {
  */
 Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
     Route::get('/', 'StoreController@index')->name('store');
+
+    //User Related
+    Route::get('/register', 'UserController@create')->name('register');
+    Route::post('/register', 'UserController@store')->name('registerform');
+
     Route::get('/cart', 'CartController@index')->name('cart');
     
     Route::group(['prefix' => 'products'], function() {
         Route::get('/', 'ProductController@index')->name('products');
         Route::get('/{product}', 'ProductController@show')->name('single_product');
+    });
+
+    Route::group(['prefix' => 'models'], function() {
+        Route::get('/', 'ModelController@index')->name('models');
+        Route::get('/{model}', 'ModelController@show')->name('single_model');
     });
 
     Route::get('/cart/addItem/{item}', 'CartController@addItem');
