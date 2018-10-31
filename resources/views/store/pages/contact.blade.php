@@ -9,9 +9,9 @@
                 <div itemprop="breadcrumb" class="container">
                     <div class="row">
                         <div class="col-md-24">
-                            <a href="/" class="homepage-link" title="Back to the frontpage">Home</a>
+                            <a href="/" class="homepage-link" title="Back to the frontpage">Начало</a>
                             <span>/</span>
-                            <span class="page-title">Contact</span>
+                            <span class="page-title">Контакти</span>
                         </div>
                     </div>
                 </div>
@@ -27,9 +27,24 @@
                 <div id="col-main" class="contact-page clearfix">
                     <div class="group-contact clearfix">
                         <div class="container">
+                            @if($errors->any())
+                                <ul class="alert alert-danger">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            @endif 
+
+                            @if(session()->has('success'))
+                                <div class="alert alert-success">
+                                    {{ session()->get('success') }}
+                                </div>
+                            @endif
+
                             <div class="row">
                                 <div class="left-block col-md-12">
-                                    <form method="post" action="/contact" class="contact-form" accept-charset="UTF-8">
+                                    <form method="post" action="contact" class="contact-form" accept-charset="UTF-8">  
+                                        {{ csrf_field() }}
                                         <input type="hidden" value="contact" name="form_type"><input type="hidden" name="utf8" value="✓">
                                         <ul id="contact-form" class="row list-unstyled">
                                             <li class="">

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Mail;
 
 class ContactController extends Controller
 {
@@ -19,6 +20,41 @@ class ContactController extends Controller
     public function index()
     {
         return \View::make('store.pages.contact');
+    }
+
+    public function store(Request $request){
+        $validator = Validator::make( $request->all(), [
+            'name' => 'required|string',
+            'email' => 'required|string|email|max:255',
+            'message' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator);
+        }
+
+        //Send email to support mail
+        $this->contactUSPost($request);
+        //return Redirect::back()->with('success', 'Съобщението ви беше изпратено успешно');
+    }
+
+    /** * Show the application dashboard. * * @return \Illuminate\Http\Response */
+    public function contactUSPost(Request $request) 
+    {
+        $this->validate($request, [ 'name' => 'required', 'email' => 'required|email', 'message' => 'required' ]);; 
+    
+        Mail::send('email',
+        array(
+            'name' => $request->name,
+            'email' => $request->email,
+            'user_message' => $request->message
+        ), function($message)
+    {
+        $message->from('galabin@rubberduck.xyz');
+        $message->to('galabin@rubberduck.xyz', 'Admin')->subject('Uvel Contact');
+    });
+    
+        return back()->with('success', 'Thanks for contacting us!'); 
     }
 
 }
