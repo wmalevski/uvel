@@ -167,6 +167,7 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/blog', 'BlogController@store');
     Route::put('/blog/{article}', 'BlogController@update');
+    Route::post('/blog/{article}', 'BlogController@destroy');
 
     Route::post('/stores', 'StoreController@store');
     Route::put('/stores/{store}', 'StoreController@update');
