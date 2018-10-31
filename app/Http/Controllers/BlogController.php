@@ -14,7 +14,9 @@ class BlogController extends Controller
      */
     public function index()
     {
-        //
+        $articles = Blog::all();
+        
+        return view('admin.blog.index', compact('articles'));
     }
 
     /**

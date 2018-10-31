@@ -113,6 +113,7 @@
             </div>
           </div>
         </div>
+
         <ul class="sidebar-menu scrollable pos-r">
           <li class="nav-item mT-30 {{ Active::check('admin') }}">
             <a class="sidebar-link" href="{{ route('admin') }}" default>
@@ -152,6 +153,7 @@
               </span>
               <span class="title">Отстъпки</span>
             </a>
+          </li>
           <li class="nav-item {{ Active::check('admin/stores',true) }}">
               <a class="sidebar-link" href="{{ route('stores') }}">
                 <span class="icon-holder">
@@ -357,6 +359,15 @@
               </li>
             </ul>
           </li>
+
+          <li class="nav-item {{ Active::check('admin/blog',true) }}">
+          <a class="sidebar-link" href="{{ route('admin_blog') }}">
+            <span class="icon-holder">
+              <i class=" ti-email"></i>
+            </span>
+            <span class="title">MailChimp</span>
+          </a>
+        </li>
           {{-- @endif --}}
           {{--  <li class="nav-item">
             <a class="sidebar-link" href="compose.html">

@@ -35,7 +35,7 @@ class ContactController extends Controller
 
         //Send email to support mail
         $this->contactUSPost($request);
-        //return Redirect::back()->with('success', 'Съобщението ви беше изпратено успешно');
+        return Redirect::back()->with('success', 'Съобщението ви беше изпратено успешно');
     }
 
     /** * Show the application dashboard. * * @return \Illuminate\Http\Response */
@@ -53,8 +53,6 @@ class ContactController extends Controller
         $message->from('galabin@rubberduck.xyz');
         $message->to('galabin@rubberduck.xyz', 'Admin')->subject('Uvel Contact');
     });
-    
-        return back()->with('success', 'Thanks for contacting us!'); 
     }
 
 }

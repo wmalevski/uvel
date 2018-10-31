@@ -22,6 +22,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function() {
     Route::get('/', 'DashboardController@index')->name('admin');
 
+    Route::get('/blog', 'BlogController@index')->name('admin_blog');
+    Route::post('/blog', 'BlogController@store');
+
     Route::get('/repairtypes', 'RepairTypeController@index')->name('repair_types');
     Route::post('/repairtypes', 'RepairTypeController@store');
     Route::get('/repairtypes/{repairType}', 'RepairTypeController@edit');
@@ -162,6 +165,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
 Route::group(['prefix' => 'ajax'], function() {
 
+    Route::post('/blog', 'BlogController@store');
+    Route::put('/blog/{article}', 'BlogController@update');
+
     Route::post('/stores', 'StoreController@store');
     Route::put('/stores/{store}', 'StoreController@update');
     Route::get('/stores/{store}', 'StoreController@edit');
@@ -300,6 +306,8 @@ Route::group(['prefix' => 'ajax'], function() {
  */
 Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
     Route::get('/', 'StoreController@index')->name('store');
+
+    Route::get('/', 'BlogController@index')->name('web_blog');
 
     Route::get('/contact', 'ContactController@index')->name('contactus');
     Route::post('/contact', 'ContactController@store');
