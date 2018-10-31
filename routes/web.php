@@ -301,6 +301,8 @@ Route::group(['prefix' => 'ajax'], function() {
 Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
     Route::get('/', 'StoreController@index')->name('store');
 
+    Route::get('/contact', 'ContactController@index')->name('contactus');
+
     Route::post('/ajax/subscribe', 'SubscribeController@subscribe')->name('subscribe');
     Route::get('/ajax/unsubscribe/{email}', 'SubscribeController@unsubscribe')->name('unsubscribe');
 

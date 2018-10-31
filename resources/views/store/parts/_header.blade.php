@@ -300,7 +300,7 @@
                                     </li>
 
                                     <li class="nav-item">
-                                        <a href="./contact.html">
+                                        <a href="{{ route('contactus') }}">
                                             <span>Контакти</span>
                                         </a>
                                     </li>

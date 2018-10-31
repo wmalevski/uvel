@@ -41,7 +41,6 @@ class UserController extends Controller
          ]);
         
         if ($validator->fails()) {
-            //var_dump($validator->getMessageBag()->toArray());
             return Redirect::back()->withErrors($validator);
         }
 
