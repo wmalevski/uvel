@@ -26,7 +26,17 @@ class BlogController extends Controller
      */
     public function create()
     {
-        //
+        $validator = Validator::make( $request->all(), [
+            'name' => 'required',
+            'content' => 'required',
+            'thumbnail' => 'required|image'
+        ]);
+
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
+        $currency = Currency::create($request->all());
     }
 
     /**

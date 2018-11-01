@@ -308,7 +308,10 @@ Route::group(['prefix' => 'ajax'], function() {
 Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
     Route::get('/', 'StoreController@index')->name('store');
 
-    Route::get('/', 'BlogController@index')->name('web_blog');
+    Route::group(['prefix' => 'blog'], function() {
+        Route::get('/', 'BlogController@index')->name('web_blog');
+        Route::get('/{article}', 'BlogController@show')->name('single_article');
+    });
 
     Route::get('/contact', 'ContactController@index')->name('contactus');
     Route::post('/contact', 'ContactController@store');
@@ -319,6 +322,8 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
     //User Related
     Route::get('/register', 'UserController@create')->name('register');
     Route::post('/register', 'UserController@store')->name('registerform');
+    Route::get('/login', 'UserController@login')->name('login');
+    Route::post('/login', 'UserController@userlogin')->name('userlogin');
 
     Route::get('/cart', 'CartController@index')->name('cart');
     

@@ -12,6 +12,11 @@
                     {{-- <li class="my-account">
                         <a href="./account.html">My Account</a>
                     </li>   --}}
+                    @auth
+                        Здравейте, {{ Auth::user()->name }}
+                    @endauth
+
+                    @guest
                     <li class="login">    
                         <span id="loginButton" class="dropdown-toggle" data-toggle="dropdown">
                             <a href="./login.html">Вход</a>
@@ -44,8 +49,9 @@
                     </li>
                     <li>/</li>   
                     <li class="register">
-                        <a href="./register.html" id="customer_register_link">Регистрирай се</a>
+                        <a href="{{ route('register') }}" id="customer_register_link">Регистрирай се</a>
                     </li> 
+                    @endguest
                 </ul>
             </li>      
             <li id="widget-social">
@@ -110,7 +116,7 @@
                                                 <a href="#">Вход</a>
                                             </li>
                                             <li class="account last">
-                                                <a href="register.html">Регистрация</a>
+                                                <a href="{{ route('register') }}">Регистрация</a>
                                             </li>
                                         </ul>
                                         

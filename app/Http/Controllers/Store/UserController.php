@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Store;
 use Response;
+use Auth;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Input;
 
 class UserController extends Controller
 {
@@ -55,6 +57,45 @@ class UserController extends Controller
         auth()->login($user);
         
         return redirect()->to('/online');
+    }
+
+    public function login()
+    {
+        return \View::make('store.pages.user.login');
+    }
+
+    public function userlogin()
+    {
+        $rules = array(
+            'email'    => 'required|email', 
+            'password' => 'required|alphaNum|min:3'
+        );
+        
+        $validator = Validator::make(Input::all(), $rules);
+        
+        if ($validator->fails()) {
+            return Redirect::to('login')
+                ->withErrors($validator) 
+                ->withInput(Input::except('password'));  
+        } else {
+            $userdata = array(
+                'email'     => Input::get('email'),
+                'password'  => Input::get('password')
+            );
+        
+            // attempt to do the login
+            if (Auth::attempt($userdata)) {
+                return redirect()->to('/online');
+        
+            } else {        
+                return Redirect::back()->withErrors(['credentials' => 'Грешно потребителско име или парола!']);
+            }
+        }
+    }
+
+    public function logout()
+    {
+
     }
 
 }

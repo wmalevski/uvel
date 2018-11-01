@@ -320,55 +320,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="home-partners">
-                        <div class="container">
-                            <div class="partners-logo row">
-                                <div class="col-md-24">
-                                    <div id="partners-container" class="clearfix">
-                                        <h6 class="general-title">Popular Brands</h6>
-                                        <div id="partners">
-                                            <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="150">
-                                                <a class="animated" href="./collection.html">
-                                                <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="300">
-                                                <a class="animated" href="./collection.html">
-                                                <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="450">
-                                                <a class="animated" href="./collection.html">
-                                                <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="600">
-                                                <a class="animated" href="./collection.html">
-                                                <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="750">
-                                                <a class="animated" href="./collection.html">
-                                                <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="900">
-                                                <a class="animated" href="./collection.html">
-                                                <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="1050">
-                                                <a class="animated" href="./collection.html">
-                                                <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                        </div>
                     </div>  				            
                 </div>
             </section>        
