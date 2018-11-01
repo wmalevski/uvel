@@ -360,8 +360,8 @@
             </ul>
           </li>
 
-          <li class="nav-item {{ Active::check('admin/blog',true) }}">
-          <a class="sidebar-link" href="{{ route('admin_blog') }}">
+          <li class="nav-item {{ Active::check('admin/mailchimp',true) }}">
+          <a class="sidebar-link" href="{{ route('mailchimp') }}">
             <span class="icon-holder">
               <i class=" ti-email"></i>
             </span>

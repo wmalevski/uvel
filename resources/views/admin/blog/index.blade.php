@@ -51,7 +51,7 @@ aria-hidden="true">
     </div>
 </div>
 
-<div class="modal fade edit--modal_holder" id="editJewel" role="dialog" aria-labelledby="editJewel"
+<div class="modal fade edit--modal_holder" id="editArticle" role="dialog" aria-labelledby="editArticle"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -63,7 +63,7 @@ aria-hidden="true">
 <div class="row">
   <div class="col-md-12">
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
-      <h4 class="c-grey-900 mB-20">Блог <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-form-type="add" data-form="jewels">Добави</button></h4>
+      <h4 class="c-grey-900 mB-20">Блог <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-form-type="add" data-form="Articles">Добави</button></h4>
       <p>Преглед на създадените новини.</p>
       <table class="table">
         <thead>
