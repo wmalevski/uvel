@@ -36,7 +36,11 @@ class BlogController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $currency = Currency::create($request->all());
+        $article = new Blog();
+        $articles->name = $request->name;
+        $articles->content = $request->content;
+        $articles->thumbnail = $request->thumbnail;
+        $articles->slug = slugify($request->name);
     }
 
     /**
