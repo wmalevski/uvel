@@ -54,7 +54,6 @@ aria-hidden="true">
           </tr>
         </thead>
         <tbody>
-            {{ count($subscribers['members']) }}
             @foreach($subscribers['members'] as $subscriber)
                 @include('admin.mailchimp.table')
             @endforeach

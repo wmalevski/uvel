@@ -23,6 +23,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/', 'DashboardController@index')->name('admin');
 
     Route::get('/blog', 'BlogController@index')->name('admin_blog');
+    Route::get('/blog/{article}', 'BlogController@edit');
     Route::post('/blog', 'BlogController@store');
 
     Route::get('/repairtypes', 'RepairTypeController@index')->name('repair_types');
@@ -165,10 +166,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
 Route::group(['prefix' => 'ajax'], function() {
 
-    Route::post('/blog', 'BlogController@store');
-    Route::put('/blog/{article}', 'BlogController@update');
-    Route::post('/blog/{article}', 'BlogController@destroy');
-
     Route::post('/stores', 'StoreController@store');
     Route::put('/stores/{store}', 'StoreController@update');
     Route::get('/stores/{store}', 'StoreController@edit');
@@ -190,6 +187,9 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/stones/styles', 'StoneStyleController@store');
     Route::get('/stones/styles/{stoneStyle}', 'StoneStyleController@edit');
+
+    Route::put('/blog/{article}', 'BlogController@update');
+    Route::post('/blog/{article}', 'BlogController@destroy');
 
     Route::put('/stones/{stone}', 'StoneController@update');
     Route::get('/stones/{stone}', 'StoneController@edit');

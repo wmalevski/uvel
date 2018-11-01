@@ -767,9 +767,24 @@
   <script type="text/javascript" src="{{ URL::asset('vendor.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('bundle.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('js/custom.js') }}"></script>
-  
-  
 
+  <!-- include summernote css/js -->
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
+    
+  
+  <script>
+    $(document).ready(function() {
+      $('#summernote').summernote({
+       height: 300,
+       popover: {
+         image: [],
+         link: [],
+         air: []
+       }
+     });
+});
+  </script>
   
   
   @yield('footer-scripts')

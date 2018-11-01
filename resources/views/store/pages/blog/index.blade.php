@@ -33,7 +33,7 @@
 														<div>
 															<div class="date">
 																<p>
-																	<small>June</small><span>30</span>
+																	<small>{{ $article->created_at->format('M') }}</small><span>{{ $article->created_at->format('d') }}</span>
 																</p>
 															</div>
 															<h4><a href="{{ route('single_article', ['product' => $article->id])  }}">{{$article->title}}</a></h4>
@@ -42,7 +42,7 @@
 															<ul class="list-inline">
 																<li><a href="./article.html">
 																<div style="text-align: left;">
-																	<img src="./assets/images/demo_370x247.png" alt="">
+																	<img src="{{ asset("uploads/blog/" . $article->thumbnail) }}" alt="">
 																</div>
 																</a></li>
 															</ul>

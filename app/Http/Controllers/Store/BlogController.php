@@ -19,4 +19,10 @@ class BlogController extends Controller
         return \View::make('store.pages.blog.index', array('articles' => $articles));
     }
 
+    public function show(Blog $article){
+        if($article){
+            return \View::make('store.pages.blog.single', array('article' => $article));
+        }
+    }
+
 }

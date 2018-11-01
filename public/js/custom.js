@@ -18,6 +18,11 @@ var uvel,
         token: $('meta[name="csrf-token"]').attr('content'),
         controllers: ['submitForm']
       },
+      blog: {
+        selector: '[name="blog"]',
+        controllers: [],
+        initialized: false
+      },
       discounts: {
         selector: '[name="discounts"]',
         controllers: [],
