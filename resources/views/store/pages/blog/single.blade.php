@@ -49,7 +49,7 @@
                                             </div>
                                             <footer class="article-extras clearfix">
                                             <ul class="post list-inline">
-                                                <li class="author">Jin Alkaid</li>
+                                                <li class="author">{{ $article->author()->name }}</li>
                                                 <li>/</li>
                                                 <li class="comment">
                                                 <a href="#">

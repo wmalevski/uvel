@@ -9,9 +9,9 @@
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
 							<div class="col-md-24">
-								<a href="./index.html" class="homepage-link" title="Back to the frontpage">Home</a>
+								<a href="./index.html" class="homepage-link" title="Back to the frontpage">Начало</a>
 								<span>/</span>
-								<span class="page-title">Collection Full Width</span>
+								<span class="page-title">Каталог с продукти</span>
 							</div>
 						</div>
 					</div>

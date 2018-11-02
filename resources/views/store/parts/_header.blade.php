@@ -334,7 +334,7 @@
                 <li class="umbrella hidden-xs">
                     <div id="umbrella" class="list-inline unmargin">
                         <div class="cart-link">
-                            <a href="./cart.html" class="dropdown-toggle dropdown-link" data-toggle="dropdown">
+                            <a href="{{ route('cart') }}" class="dropdown-toggle dropdown-link" data-toggle="dropdown">
                                 <i class="sub-dropdown1"></i>
                                 <i class="sub-dropdown"></i>
                                 <div class="num-items-in-cart">
@@ -366,7 +366,7 @@
                                         <span>Тотал:</span><span class="cart-total-right">200.00 лв</span>
                                     </div>
                                     <div class="action">
-                                        <button class="btn" onclick="window.location='./cart.html'">Чекаут</button><a class="btn btn-1" href="./cart.html">Виж количката</a>
+                                        <button class="btn" onclick="window.location='{{ route('cart') }}'">Чекаут</button><a class="btn btn-1" href="{{ route('cart') }}">Виж количката</a>
                                     </div>
                                 </div>
                             </div>

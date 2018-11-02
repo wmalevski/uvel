@@ -14,8 +14,24 @@
             {{ csrf_field() }}
     
             <div class="form-group">
-                <label for="1">Име: </label>
-                <input type="text" class="form-control" value="{{ $article->title }}" id="1" name="title" placeholder="Име:">
+                <div class="form-group col-md-12">
+                    <label for="1">Име: </label>
+                    <input type="text" class="form-control" value="{{ $article->title }}" id="1" name="title" placeholder="Име:">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="1">Описание: </label>
+                    <textarea class="form-control" name="excerpt" value="{{ $article->excerpt }}" rows="1"></textarea>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="1">Съдържание: </label>
+                    <textarea id="summernote" name="editordata" value="{{ $article->content }}"></textarea>
+                </div>
             </div>
         </div>
     

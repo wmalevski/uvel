@@ -65,6 +65,11 @@ class User extends Authenticatable
         return $this->belongsTo('App\Store')->withTrashed();
     }
 
+    public function blogs()
+    {
+        return $this->hasMany('App\Blog')->get();
+    }
+
     public function blogComments()
     {
         return $this->hasMany('App\BlogComment')->get();

@@ -20,4 +20,9 @@ class Blog extends Model
     {
         return $this->hasMany('App\BlogComment')->get();
     }
+
+    public function author()
+    {
+        return $this->belongsTo('App\User')->first();
+    }
 }

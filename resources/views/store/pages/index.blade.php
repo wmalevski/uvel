@@ -175,10 +175,10 @@
                     <div class="home-blog">
                         <div class="container">
                             <div class="home-promotion-blog row">
-                                <h6 class="general-title">Latest News</h6>
+                                <h6 class="general-title">Последни новини</h6>
                                 <div class="home-bottom_banner_wrapper col-md-12">
                                     <div id="home-bottom_banner" class="home-bottom_banner">
-                                        <a href="./collection.html"><img src="{{ asset('store/images/demo_570x415.png') }}" alt=""></a>
+                                     <a href="{{ route('single_article', ['product' => $articles->first()->slug.'-'.$articles->first()->id])  }}"><img src="{{ asset("uploads/blog/" . $articles->first()->thumbnail) }}" alt=""></a>
                                     </div>
                                 </div>
                                 <div class="home-blog-wrapper col-md-12">
