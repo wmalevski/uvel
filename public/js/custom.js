@@ -118,6 +118,11 @@ var uvel,
         controllers: ['addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'modelRequestInit', 'imageHandling'],
         initialized: false
       },
+      productsTravelling: {
+        selector: '[name="productsTravelling"]',
+        controllers: [],
+        initialized: false
+      },
       repairTypes: {
         selector: '[name="repairTypes"]',
         controllers: [],

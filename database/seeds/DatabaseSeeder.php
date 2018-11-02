@@ -145,6 +145,11 @@ class DatabaseSeeder extends Seeder
         Bouncer::allow($merchant)->to($sellingStatus);
         Bouncer::allow($merchant)->to($jewelStatus);
 
+        $stores = new Store();
+        $stores->name = 'Склад';
+        $stores->location = 'София'; 
+        $stores->phone = '0541587414178';
+        $stores->save();
 
         for($i = 1; $i <= 5; $i++){
             $stone_styles = new StoneStyle();
@@ -174,7 +179,7 @@ class DatabaseSeeder extends Seeder
             $stone->size_id = rand(1,1);
             $stone->style_id = rand(1,1);
             $stone->contour_id = rand(1,1);
-            $stone->store_id = 1;
+            $stone->store_id = 2;
             $stone->amount = rand(1,20);
             $stone->price = rand(20,45);
             $stone->save();
@@ -188,7 +193,7 @@ class DatabaseSeeder extends Seeder
         $user->name = 'Admin';
         $user->email = 'admin@uvel.com';
         $user->password = bcrypt('administrator');
-        $user->store_id = 1;
+        $user->store_id = 2;
         $user->save();
 
         Bouncer::assign('admin')->to($user);
@@ -197,7 +202,7 @@ class DatabaseSeeder extends Seeder
         $merchant->name = 'Merchant';
         $merchant->email = 'merchant@uvel.com';
         $merchant->password = bcrypt('merchant');
-        $merchant->store_id = 2;
+        $merchant->store_id = 3;
         $merchant->save();
 
         Bouncer::assign('merchant')->to($merchant);
@@ -217,7 +222,7 @@ class DatabaseSeeder extends Seeder
         $material_quantity = new MaterialQuantity();
         $material_quantity->material_id = $material->id;
         $material_quantity->quantity = 500;
-        $material_quantity->store_id = 1;
+        $material_quantity->store_id = 2;
         $material_quantity->save();
 
         $price = new Price();
