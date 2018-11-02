@@ -17,6 +17,7 @@ class CreateBlogsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('slug');
+            $table->longText('excerpt');
             $table->longText('content');
             $table->string('thumbnail');
             $table->integer('author_id')->unsigned();

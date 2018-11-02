@@ -53,6 +53,7 @@ class BlogController extends Controller
         $article = new Blog();
         $article->name = $request->name;
         $article->content = $request->content;
+        $article->excerpt = $request->excerpt;
         $article->thumbnail = $request->thumbnail;
         $article->slug = slugify($request->name);
         $article->save();

@@ -44,7 +44,7 @@
                                             </div>
                                             <div class="intro">
                                                 <p>
-                                                    {{ $article->content }}
+                                                    {!! $article->content !!}
                                                 </p>
                                             </div>
                                             <footer class="article-extras clearfix">
@@ -53,7 +53,7 @@
                                                 <li>/</li>
                                                 <li class="comment">
                                                 <a href="#">
-                                                <span>3</span> Comment </a>
+                                                <span>{{count($article->comments())}}</span> Коментара </a>
                                                 </li>
                                                 <li class="post-action hidden-xs">
                                                 <a class="btn btn-prev br" href="#" title="Previous Article"><i class="fa fa-chevron-left"></i></a>
@@ -61,12 +61,21 @@
                                                 </li>
                                             </ul>
                                             </footer>
-                                            <form method="post" action="/blogs/blogs/44831939-vel-illum-qui-dolorem-eum-fugiat/comments" id="article-44831939-comment-form" class="comment-form" accept-charset="UTF-8">
+                                            @if($errors->any())
+                                            <ul class="alert alert-danger">
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                        @auth
+                                        <form method="post" action="{{ route('article_comment', ['article' => $article->id])  }}" id="article-44831939-comment-form" class="comment-form" accept-charset="UTF-8">
+                                            {{ csrf_field() }}
                                                 <input value="new_comment" name="form_type" type="hidden"><input name="utf8" value="✓" type="hidden">
                                                 <div id="comment-form" class="comments">
-                                                    <h6 class="general-title">Leave a comment</h6>
+                                                    <h6 class="general-title">Оставете коментар</h6>
                                                     <ul class="contact-form row list-unstyled">
-                                                        <li class="col-md-24">
+                                                        {{-- <li class="col-md-24">
                                                         <label for="comment_author" class="control-label">Your name <span class="req">*</span></label>
                                                         <input id="comment_author" name="comment[author]" class="form-control" type="text">
                                                         </li>
@@ -74,67 +83,41 @@
                                                         <li class="col-md-24">
                                                         <label for="comment_email" class="control-label">Your email <span class="req">*</span></label>
                                                         <input id="comment_email" name="comment[email]" class="form-control" type="text">
-                                                        </li>
+                                                        </li> --}}
                                                         <li class="clearfix"></li>
                                                         <li class="col-md-24">
-                                                        <label for="comment_body" class="control-label">Your comment <span class="req">*</span></label>
-                                                        <textarea id="comment_body" name="comment[body]" cols="40" rows="5" class="form-control"></textarea>
+                                                        <label for="comment_body" class="control-label">Вашият коментар <span class="req">*</span></label>
+                                                        <textarea id="comment_body" name="comment" cols="40" rows="5" class="form-control"></textarea>
                                                         </li>
                                                         <li class="clearfix"></li>
                                                         <li class="col-md-24 unpadding-top unpadding-bottom">
-                                                        <button type="submit" id="comment-submit" class="btn btn-1 unmargin">Post Comment</button>
+                                                        <button type="submit" id="comment-submit" class="btn btn-1 unmargin">Добави</button>
                                                         </li>
                                                     </ul>
                                                 </div>
                                             </form>
+                                            @endauth
                                         </div>
                                     </div>
                                 </article>
                             </div>
                             <div id="comments" class="comments">
-                                <h6 class="title-comment">Comments (3)</h6>
-                                <div class="row">
+                                <h6 class="title-comment">Коментари ({{count($article->comments())}})</h6>
+                                @foreach($article->comments() as $comment)
+                                <div class1="row">
                                     <div class="comment-head clearfix">
                                         <div class="post">
-                                            <span class="author">Post by <span class="bold">Jin 01</span></span>
-                                            <span class="date">on 30 Jun, 2015</span>
+                                            <span class="author">Добавено от <span class="bold">{{ $comment->author()->name }}</span></span>
+                                            <span class="date">на {{ $article->created_at->format('d') }} {{ $article->created_at->format('M') }}, {{ $article->created_at->format('Y') }}</span>
                                         </div>
-                                        <div class="post-reply">
-                                            <button class="btn enable" onclick="window.location='#'" title="Add your thoughts">Reply</button>
-                                        </div>
+                                        
                                     </div>
                                     <div class="comment-content">
-                                        <p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo dolore voluptas nulla pariatur ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+                                        <p>{{ $comment->comment }}</p>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="comment-head clearfix">
-                                        <div class="post">
-                                            <span class="author">Post by <span class="bold">Jin 01</span></span>
-                                            <span class="date">on 30 Jun, 2015</span>
-                                        </div>
-                                        <div class="post-reply">
-                                            <button class="btn enable" onclick="window.location='#'" title="Add your thoughts">Reply</button>
-                                        </div>
-                                    </div>
-                                    <div class="comment-content">
-                                        <p>Shoe street style leather tote oversized sweatshirt A.P.C. Prada Saffiano crop slipper denim shorts spearmint. Braid skirt round sunglasses seam.</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="comment-head clearfix">
-                                        <div class="post">
-                                            <span class="author">Post by <span class="bold">Jin 01</span></span>
-                                            <span class="date">on 30 Jun, 2015</span>
-                                        </div>
-                                        <div class="post-reply">
-                                            <button class="btn enable" onclick="window.location='#'" title="Add your thoughts">Reply</button>
-                                        </div>
-                                    </div>
-                                    <div class="comment-content">
-                                        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-                                    </div>
-                                </div>
+                                <hr>
+                                @endforeach
                             </div>
                         </div> 
                     </div>

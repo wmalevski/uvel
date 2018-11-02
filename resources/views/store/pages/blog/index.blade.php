@@ -20,7 +20,7 @@
 						<div class="container">
 							<div class="row">
 								<div id="page-header" class="col-md-24">
-									<h1 id="page-title">Blog Grid 3 Columns</h1>
+									<h1 id="page-title">Блог</h1>
 								</div>
 								<div id="col-main" class="blog blog-page col-sm-24 col-md-24 blog-full-width blog-3-col ">
 									<div class="blog-content-wrapper">
@@ -40,7 +40,7 @@
 														</div>
 														<div class="blogs-image">
 															<ul class="list-inline">
-																<li><a href="./article.html">
+																<li><a href="{{ route('single_article', ['product' => $article->id])  }}">
 																<div style="text-align: left;">
 																	<img src="{{ asset("uploads/blog/" . $article->thumbnail) }}" alt="">
 																</div>
@@ -48,7 +48,7 @@
 															</ul>
 														</div>
 														<div class="intro">
-                                                            {{$article->content}}
+                                                            {{$article->excerpt}}
 														</div>
 														<ul class="post list-inline">
 															<li class="author">Jin Alkaid</li>

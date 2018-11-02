@@ -153,7 +153,7 @@
 																		</label>
 																	</div>																	
 																</div> --}}
-																<div class="swatch clearfix" data-option-index="1">
+																{{-- <div class="swatch clearfix" data-option-index="1">
 																	<div class="header">
 																		Размер
 																	</div>
@@ -169,7 +169,7 @@
 																		medium <img class="crossed-out" src="./assets/images/soldout.png" alt="">
 																		</label>
 																	</div>
-																</div>
+																</div> --}}
 																{{-- <div class="variants-wrapper clearfix">
 																	<div class="selector-wrapper">
 																		<label for="product-select-1293235843-option-0">Цвят</label>
@@ -298,7 +298,7 @@
 															</div>
 														</div>
 														<div class="spr-content">
-															<div class="spr-form" id="form_1293236931" style="display: none">
+															<div class="spr-form" id="form_1293236931">
 																<form method="post" action="#" id="new-review-form_1293236931" class="new-review-form">
 																	<input type="hidden" name="review[rating]"><input type="hidden" name="product_id" value="1293236931">
 																	<h3 class="spr-form-title">Напиши ревю</h3>
@@ -363,7 +363,7 @@
 								</div>         
 								<!-- Related Products -->
 								<section class="rel-container clearfix">  
-									<h6 class="general-title text-left">You may also like the related products</h6>
+									<h6 class="general-title text-left">Подобни продукти, които може да ви харесат</h6>
 									<div id="prod-related-wrapper">
 										<div class="prod-related clearfix">
                                             @foreach($similarProducts as $product)

@@ -1,6 +1,6 @@
 <footer id="footer">      
     <div id="footer-content">
-        <h6 class="general-title contact-footer-title">Newsletter</h6>  
+        <h6 class="general-title contact-footer-title">Абониране</h6>  
         <div id="widget-newsletter">
             <div class="container">            
                 <div class="newsletter col-md-24">
@@ -20,7 +20,7 @@
             <div class="container">
                 <div class="footer-link-list col-md-6">
                     <div class="group">
-                    <h5 class="general-title">About Us</h5>						
+                    <h5 class="general-title">За нас</h5>						
                     <ul class="list-unstyled list-styled">						  
                         <li class="list-unstyled">
                         <a href="./account.html">Store Locations</a>
@@ -39,7 +39,7 @@
                 </div>   
                 <div class="footer-link-list col-md-6">
                     <div class="group">
-                    <h5 class="general-title">Information</h5>						
+                    <h5 class="general-title">Информация</h5>						
                     <ul class="list-unstyled list-styled">						  
                         <li class="list-unstyled">
                         <a href="./account.html">Help &amp; FAQs</a>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="footer-link-list col-md-6">
                     <div class="group">
-                    <h5 class="general-title">Account</h5>						
+                    <h5 class="general-title">Акаунт</h5>						
                     <ul class="list-unstyled list-styled">						  
                         <li class="list-unstyled">
                         <a href="./account.html">Preferences</a>
@@ -77,7 +77,7 @@
                 </div>
                 <div class="footer-link-list col-md-6">
                     <div class="group">
-                    <h5 class="general-title">Customer</h5>						
+                    <h5 class="general-title">Клиенти</h5>						
                     <ul class="list-unstyled list-styled">						  
                         <li class="list-unstyled">
                             <a href="./search.html">Search Advanced</a>

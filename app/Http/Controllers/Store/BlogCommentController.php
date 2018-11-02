@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers\Store;
 use Auth;
+use Response;
 use App\BlogComment;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Input;
 
 class BlogCommentController extends Controller
 {
@@ -33,23 +38,25 @@ class BlogCommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $article)
     {
         $validator = Validator::make( $request->all(), [
             'comment' => 'required'
         ]);
 
         if ($validator->fails()) {
-            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+            return Redirect::back()->withErrors($validator);
         }
 
         $comment = new BlogComment();
         $comment->comment = $request->comment;
-        $comment->blog_id = $request->blog_id;
-        $comment->authod_id = Auth::user()->getId();
+        $comment->blog_id = $article;
+        $comment->author_id = Auth::user()->getId();
         $comment->save();
 
-        return Response::json(array('ID' => $comment->id, 'table' => View::make('store/blog/comment',array('comment'=>$comment))->render()));
+        return Redirect::back();
+
+        //return Response::json(array('ID' => $comment->id, 'table' => View::make('store/blog/comment',array('comment'=>$comment))->render()));
     }
 
     /**

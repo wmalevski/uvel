@@ -311,6 +311,8 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
     Route::group(['prefix' => 'blog'], function() {
         Route::get('/', 'BlogController@index')->name('web_blog');
         Route::get('/{article}', 'BlogController@show')->name('single_article');
+        Route::post('/{article}/comment', 'BlogCommentController@store')->name('article_comment');
+        Route::post('/{article}/{comment}/delete', 'BlogCommentController@destroy')->name('article_comment_delete');
     });
 
     Route::get('/contact', 'ContactController@index')->name('contactus');
@@ -324,6 +326,8 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
     Route::post('/register', 'UserController@store')->name('registerform');
     Route::get('/login', 'UserController@login')->name('login');
     Route::post('/login', 'UserController@userlogin')->name('userlogin');
+
+    Route::get('/blog', 'BlogController@index')->name('blog');
 
     Route::get('/cart', 'CartController@index')->name('cart');
     

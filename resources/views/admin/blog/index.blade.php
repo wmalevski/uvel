@@ -26,6 +26,13 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="1">Описание: </label>
+                            <textarea class="form-control" name="excerpt" rows="1"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="1">Съдържание: </label>
                             <textarea id="summernote" name="editordata"></textarea>
                         </div>
                     </div>
