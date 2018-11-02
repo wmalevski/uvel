@@ -86,9 +86,9 @@
                                         <input name="postcode" id="postcode" class="form-control " type="text">
                                     </li>
 
-                                    <li id="country" class="">
-                                        <label class="control-label" for="country">Държава <span class="req">*</span></label>
-                                        <input name="country" id="country" class="form-control " type="text">
+                                    <li id="phone" class="">
+                                        <label class="control-label" for="phone">Телефон <span class="req">*</span></label>
+                                        <input name="phone" id="phone" class="form-control " type="tel">
                                     </li>
                 
 

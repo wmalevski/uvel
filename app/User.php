@@ -23,7 +23,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'email', 'password', 'store_id',
-        'first_name', 'last_name', 'city', 'street', 'postcode', 'country', 'street_number'
+        'first_name', 'last_name', 'city', 'street', 'postcode', 'country', 'street_number', 'phone'
     ];
 
     protected $dates = ['deleted_at'];
