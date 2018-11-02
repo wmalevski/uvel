@@ -204,7 +204,7 @@
 																		<option value="3947646531">white / medium</option>
 																	</select>
 																</div> --}}
-																<div class="quantity-wrapper clearfix">
+																{{-- <div class="quantity-wrapper clearfix">
 																	<label class="wrapper-title">Количество</label>
 																	<div class="wrapper">
 																		<input id="quantity" name="quantity" value="1" maxlength="5" size="5" class="item-quantity" type="text">
@@ -219,7 +219,7 @@
 																		</span>
 																		</span>
 																	</div>
-																</div>
+																</div> --}}
 																<div id="purchase-1293235843">
 																	<div class="detail-price" itemprop="price">
                                                                         <span class="price">{{ $product->price }} лв</span>

@@ -39,7 +39,7 @@
                                 <ul id="register-form" class="row list-unstyled">
                                     <li class="clearfix"></li>
                                     <li id="last_namef">
-                                    <label class="control-label" for="name">Име</label>
+                                    <label class="control-label" for="name">Потребителско име</label>
                                     <input name="name" id="name" class="form-control " type="text">
                                     </li>
                                     <li class="clearfix"></li>
@@ -47,6 +47,51 @@
                                     <label class="control-label" for="email">Email <span class="req">*</span></label>
                                     <input name="email" id="email" class="form-control " type="email">
                                     </li>
+
+                                    <li id="first_name" class="">
+                                        <label class="control-label" for="first_name">Име <span class="req">*</span></label>
+                                        <input name="first_name" id="first_name" class="form-control " type="text">
+                                    </li>
+
+                                    <li id="last_name" class="">
+                                        <label class="control-label" for="last_name">Фамилия <span class="req">*</span></label>
+                                        <input name="email" id="last_name" class="form-control " type="text">
+                                    </li>
+
+                                    <li id="city" class="">
+                                            <label class="control-label" for="city">Град <span class="req">*</span></label>
+                                            <input name="city" id="city" class="form-control " type="text">
+                                        </li>
+
+                                        
+                                    <li id="street" class="">
+                                        <label class="control-label" for="street">Улица <span class="req">*</span></label>
+                                        <input name="street" id="street" class="form-control " type="text">
+                                    </li>
+
+                                            
+                                    <li id="street_number" class="">
+                                        <label class="control-label" for="street_number">Номер <span class="req">*</span></label>
+                                        <input name="street_number" id="street_number" class="form-control " type="text">
+                                    </li>
+
+                                                
+                                    <li id="country" class="">
+                                        <label class="control-label" for="country">Държава <span class="req">*</span></label>
+                                        <input name="country" id="country" class="form-control " type="text">
+                                    </li>
+
+                                    <li id="postcode" class="">
+                                        <label class="control-label" for="postcode">Пощенски код <span class="req">*</span></label>
+                                        <input name="postcode" id="postcode" class="form-control " type="text">
+                                    </li>
+
+                                    <li id="country" class="">
+                                        <label class="control-label" for="country">Държава <span class="req">*</span></label>
+                                        <input name="country" id="country" class="form-control " type="text">
+                                    </li>
+                
+
                                     <li class="clearfix"></li>
                                     <li id="passwordf" class="">
                                     <label class="control-label" for="password">Парола <span class="req">*</span></label>

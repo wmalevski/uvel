@@ -193,12 +193,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="home-blog-content col-md-20">
-                                                    <h4><a href="{{ route('single_article', ['product' => $articles->first()->slug])  }}">{{ $article->title }}</a></h4>
+                                                    <h4><a href="{{ route('single_article', ['product' => $article->slug])  }}">{{ $article->title }}</a></h4>
                                                     <ul class="list-inline">
                                                         <li class="author"><i class="fa fa-user"></i> {{$article->author()->name}}</li>
                                                         <li>/</li>
                                                         <li class="comment">
-                                                        <a href="{{ route('single_article', ['product' => $articles->first()->slug])  }}">
+                                                        <a href="{{ route('single_article', ['product' => $article->slug])  }}">
                                                         <span><i class="fa fa-pencil-square-o"></i> {{count($article->comments())}}</span> Comments </a>
                                                         </li>
                                                     </ul>
