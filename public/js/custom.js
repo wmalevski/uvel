@@ -20,7 +20,7 @@ var uvel,
       },
       blog: {
         selector: '[name="blog"]',
-        controllers: [],
+        controllers: ['imageHandling'],
         initialized: false
       },
       discounts: {
