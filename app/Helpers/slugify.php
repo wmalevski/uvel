@@ -116,7 +116,7 @@ if( ! function_exists('slugify') ){
         // Remove delimiter from ends
         $str = trim($str, $options['delimiter']);
 
-        $str = $this->transliterate_cyrilic($str);
+        $str = transliterate_cyrilic($str);
 
         return $options['lowercase'] ? mb_strtolower($str, 'UTF-8') : $str;
 

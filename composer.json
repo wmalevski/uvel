@@ -30,7 +30,8 @@
         ],
         "files": [
             "app/Helpers/string.php",
-            "app/Helpers/number.php"
+            "app/Helpers/number.php",
+            "app/Helpers/slugify.php"
         ],
         "psr-4": {
             "App\\": "app/"

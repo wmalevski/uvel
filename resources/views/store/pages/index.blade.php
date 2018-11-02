@@ -183,75 +183,31 @@
                                 </div>
                                 <div class="home-blog-wrapper col-md-12">
                                     <div id="home_blog" class="home-blog">
+                                        @foreach($articles as $article)
                                         <div class="home-blog-item row">
-                                            <div class="date col-md-4">
-                                                <div class="date_inner">
-                                                    <p>
-                                                        <small>July</small><span>08</span>
-                                                    </p>
+                                                <div class="date col-md-4">
+                                                    <div class="date_inner">
+                                                        <p>
+                                                            <small>{{ $article->created_at->format('M') }}</small><span>{{ $article->created_at->format('d') }}</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="home-blog-content col-md-20">
+                                                    <h4><a href="{{ route('single_article', ['product' => $articles->first()->slug])  }}">{{ $article->title }}</a></h4>
+                                                    <ul class="list-inline">
+                                                        <li class="author"><i class="fa fa-user"></i> {{$article->author()->name}}</li>
+                                                        <li>/</li>
+                                                        <li class="comment">
+                                                        <a href="{{ route('single_article', ['product' => $articles->first()->slug])  }}">
+                                                        <span><i class="fa fa-pencil-square-o"></i> {{count($article->comments())}}</span> Comments </a>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="intro">
+                                                        {{ $article->excerpt }}
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="home-blog-content col-md-20">
-                                                <h4><a href="./article-left.html">sample blog post with left slidebar</a></h4>
-                                                <ul class="list-inline">
-                                                    <li class="author"><i class="fa fa-user"></i> Jin Alkaid</li>
-                                                    <li>/</li>
-                                                    <li class="comment">
-                                                    <a href="./article-left">
-                                                    <span><i class="fa fa-pencil-square-o"></i> 0</span> Comments </a>
-                                                    </li>
-                                                </ul>
-                                                <div class="intro">
-                                                    Shoe street style leather tote oversized sweatshirt A.P.C. Prada Saffiano crop slipper denim shorts spearmint....
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="home-blog-item row">
-                                            <div class="date col-md-4">
-                                                <div class="date_inner">
-                                                    <p>
-                                                        <small>June</small><span>30</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="home-blog-content col-md-20">
-                                                <h4><a href="./article.html">vel illum qui dolorem eum fugiat</a></h4>
-                                                <ul class="list-inline">
-                                                    <li class="author"><i class="fa fa-user"></i> Jin Alkaid</li>
-                                                    <li>/</li>
-                                                    <li class="comment">
-                                                    <a href="./article.html">
-                                                    <span><i class="fa fa-pencil-square-o"></i> 1</span> Comment </a>
-                                                    </li>
-                                                </ul>
-                                                <div class="intro">
-                                                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem...
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="home-blog-item row">
-                                            <div class="date col-md-4">
-                                                <div class="date_inner">
-                                                    <p>
-                                                        <small>June</small><span>30</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="home-blog-content col-md-20">
-                                                <h4><a href="./article-right.html">sample blog post full width</a></h4>
-                                                <ul class="list-inline">
-                                                    <li class="author"><i class="fa fa-user"></i> Jin Alkaid</li>
-                                                    <li>/</li>
-                                                    <li class="comment">
-                                                    <a href="./article-right.html">
-                                                    <span><i class="fa fa-pencil-square-o"></i> 0</span> Comments </a>
-                                                    </li>
-                                                </ul>
-                                                <div class="intro">
-                                                    Shoe street style leather tote oversized sweatshirt A.P.C. Prada Saffiano crop slipper denim shorts spearmint....
-                                                </div>
-                                            </div>
-                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>

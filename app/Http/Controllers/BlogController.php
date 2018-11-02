@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use File;
+use Storage;
 use Response;
 use App\Blog;
 use Illuminate\Http\Request;
@@ -41,9 +42,10 @@ class BlogController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make( $request->all(), [
-            'name' => 'required',
+            'title' => 'required',
             'content' => 'required',
-            'thumbnail' => 'required|image'
+            'thumbnail' => 'required|image',
+            'excerpt' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -51,11 +53,14 @@ class BlogController extends Controller
         }
 
         $article = new Blog();
-        $article->name = $request->name;
+        $article->title = $request->title;
         $article->content = $request->content;
         $article->excerpt = $request->excerpt;
         $article->thumbnail = $request->thumbnail;
-        $article->slug = slugify($request->name);
+        $article->slug = slugify($request->title);
+        $article->save();
+
+        $article->slug = $article->slug.'-'.$article->id;
         $article->save();
 
         $path = public_path('uploads/blog/');

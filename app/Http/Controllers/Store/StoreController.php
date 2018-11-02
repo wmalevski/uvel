@@ -22,7 +22,7 @@ class StoreController extends Controller
 
         $jewels = Jewel::all();
 
-        $articles = Blog::all();
+        $articles = Blog::take(3)->get();
 
         return \View::make('store.pages.index', array('products' => $products, 'jewels' => $jewels, 'articles' => $articles));
     }

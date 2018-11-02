@@ -36,11 +36,11 @@
 																	<small>{{ $article->created_at->format('M') }}</small><span>{{ $article->created_at->format('d') }}</span>
 																</p>
 															</div>
-															<h4><a href="{{ route('single_article', ['product' => $article->id])  }}">{{$article->title}}</a></h4>
+															<h4><a href="{{ route('single_article', ['product' => $article->slug])  }}">{{$article->title}}</a></h4>
 														</div>
 														<div class="blogs-image">
 															<ul class="list-inline">
-																<li><a href="{{ route('single_article', ['product' => $article->id])  }}">
+																<li><a href="{{ route('single_article', ['product' => $article->slug])  }}">
 																<div style="text-align: left;">
 																	<img src="{{ asset("uploads/blog/" . $article->thumbnail) }}" alt="">
 																</div>
@@ -58,7 +58,7 @@
 															<span>2</span> Comment(s) </a>
 															</li>
 															<li class="post-action">
-															<a class="btn btn-1 enable hidden-xs" href="#" title="Add your thoughts">Post Comment</a>
+															<a class="btn btn-1 enable hidden-xs" href="{{ route('single_article', ['product' => $article->slug])  }}" title="Add your thoughts">Post Comment</a>
 															</li>
 														</ul>
 													</div>
