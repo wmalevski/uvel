@@ -176,11 +176,13 @@
                         <div class="container">
                             <div class="home-promotion-blog row">
                                 <h6 class="general-title">Последни новини</h6>
+                                @if(count($articles))
                                 <div class="home-bottom_banner_wrapper col-md-12">
                                     <div id="home-bottom_banner" class="home-bottom_banner">
                                      <a href="{{ route('single_article', ['product' => $articles->first()->slug.'-'.$articles->first()->id])  }}"><img src="{{ asset("uploads/blog/" . $articles->first()->thumbnail) }}" alt=""></a>
                                     </div>
                                 </div>
+                                @endif
                                 <div class="home-blog-wrapper col-md-12">
                                     <div id="home_blog" class="home-blog">
                                         @foreach($articles as $article)
