@@ -96,7 +96,7 @@ class ProductController extends Controller
         }
 
         if($product){
-            return \View::make('online/products/quickview', array('product' => $product ,'type' => $type));
+            return \View::make('store/pages/products/quickview', array('product' => $product ,'type' => $type));
         }
     }
 

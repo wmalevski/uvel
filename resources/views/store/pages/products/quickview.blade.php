@@ -41,7 +41,7 @@
                 </div> --}}
                 <form action="#" method="post" class="variants" id="quick-shop-product-actions" enctype="multipart/form-data">
                     <div id="quick-shop-price-container" class="detail-price">
-                        <span class="price_sale">{{ $product->price }}</span><span class="dash">/</span>
+                        <span class="price_sale">{{ $product->price }}лв.</span><span class="dash"></span>
                         {{-- <del class="price_compare">$300.00</del> --}}
                     </div>
                     @if($type != 'product')
