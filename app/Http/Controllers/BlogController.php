@@ -148,7 +148,7 @@ class BlogController extends Controller
             $article->thumbnail = $request->images[0];
         }
 
-        $article->slug = slugify($request->title);
+        $article->slug = $article->slug.'-'.$article->id;
         $article->save();
 
         $path = public_path('uploads/blog/');

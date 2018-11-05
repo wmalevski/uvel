@@ -45,7 +45,9 @@ class UserController extends Controller
             'postcode' => 'required',
             'city' => 'required',
             'country' => 'required',
-            'phone' => 'required'
+            'phone' => 'required',
+            'first_name',
+            'last_name'
          ]);
         
         if ($validator->fails()) {
@@ -56,6 +58,14 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'street' => $request->street,
+            'street_number' => $request->street_number,
+            'postcode' => $request->postcode,
+            'city' => $request->city,
+            'country' => $request->country,
+            'phone' => $request->phone
         ]);
 
         $user->assign('customer');
@@ -96,6 +106,14 @@ class UserController extends Controller
             } else {        
                 return Redirect::back()->withErrors(['credentials' => 'Грешно потребителско име или парола!']);
             }
+        }
+    }
+
+    public function edit()
+    {
+        $user = Auth::user();
+        if($user){
+            return \View::make('store.pages.user.settings', array('user' => $user));
         }
     }
 

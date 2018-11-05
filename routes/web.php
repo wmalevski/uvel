@@ -330,6 +330,9 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
     Route::get('/login', 'UserController@login')->name('login');
     Route::post('/login', 'UserController@userlogin')->name('userlogin');
 
+    Route::get('/settings', 'UserController@edit')->name('user_settings');
+    Route::post('/settings', 'UserController@update')->name('user_settings_update');
+
     Route::get('/blog', 'BlogController@index')->name('blog');
 
     Route::get('/cart', 'CartController@index')->name('cart');
