@@ -33,7 +33,7 @@
                                 </ul>
                             @endif 
 
-                            <form method="POST" action="{{ route('registerform') }}" id="create_customer" accept-charset="UTF-8">
+                            <form method="POST" action="{{ route('user_settings_update') }}" id="create_customer" accept-charset="UTF-8">
                                 {{ csrf_field() }}
                                 <input value="create_customer" name="form_type" type="hidden"><input name="utf8" value="✓" type="hidden">
                                 <ul id="register-form" class="row list-unstyled">
@@ -45,7 +45,7 @@
                                     <li class="clearfix"></li>
                                     <li id="emailf" class="">
                                     <label class="control-label" for="email">Email <span class="req">*</span></label>
-                                    <input name="email" id="email" class="form-control " value="{{ $user->email }}" type="email">
+                                    <input name="email" id="email" class="form-control " value="{{ $user->email }}" type="email" readonly>
                                     </li>
 
                                     <li id="first_name" class="">

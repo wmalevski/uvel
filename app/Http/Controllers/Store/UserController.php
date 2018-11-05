@@ -46,8 +46,8 @@ class UserController extends Controller
             'city' => 'required',
             'country' => 'required',
             'phone' => 'required',
-            'first_name',
-            'last_name'
+            'first_name' => 'required',
+            'last_name' => 'required' 
          ]);
         
         if ($validator->fails()) {
@@ -115,6 +115,39 @@ class UserController extends Controller
         if($user){
             return \View::make('store.pages.user.settings', array('user' => $user));
         }
+    }
+
+    public function update(Request $request)
+    {
+        $user = Auth::user();
+
+        $validator = Validator::make( $request->all(), [
+            'street' => 'required',
+            'street_number' => 'required',
+            'postcode' => 'required',
+            'city' => 'required',
+            'country' => 'required',
+            'phone' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required' 
+         ]);
+
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->city = $request->city;
+        $user->street = $request->street;
+        $user->street_number = $request->street_number;
+        $user->country = $request->country;
+        $user->phone = $request->phone;
+        $user->postcode = $request->postcode;
+
+        $user->save();
+        
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator);
+        }
+
+        return Redirect::back();
     }
 
     public function logout()
