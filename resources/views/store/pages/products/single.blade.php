@@ -402,7 +402,7 @@
 															</div>
 														</form>
 														<div class="product-ajax-qs hidden-xs hidden-sm">
-															<div data-handle="curabitur-cursus-dignis" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
+															<div data-handle="curabitur-cursus-dignis" data-barcode="{{ $product->barcode }}" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
 																<i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																	
 															</div>
 														</div>

@@ -139,7 +139,7 @@
                                                                     </div>
                                                                 </form>
                                                                 <div class="product-ajax-qs hidden-xs hidden-sm">
-                                                                    <div data-href="./ajax/_product-qs.html" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
+                                                                    <div data-href="./ajax/_product-qs.html" data-target="#quick-shop-modal" class="quick_shop" data-barcode="{{ $product->barcode }}" data-toggle="modal">
                                                                         <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																		
                                                                     </div>
                                                                 </div>
@@ -262,7 +262,7 @@
                                                                     </div>
                                                                 </form>
                                                                 <div class="product-ajax-qs hidden-xs hidden-sm">
-                                                                    <div data-href="./ajax/_product-qs.html" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
+                                                                    <div data-href="./ajax/_product-qs.html" data-target="#quick-shop-modal" class="quick_shop" data-barcode="{{ $product->barcode }}" data-toggle="modal">
                                                                         <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																		
                                                                     </div>
                                                                 </div>
