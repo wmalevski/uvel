@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use File;
 use Storage;
 use Response;
+use Auth;
 use App\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
@@ -44,7 +45,7 @@ class BlogController extends Controller
         $validator = Validator::make( $request->all(), [
             'title' => 'required',
             'content' => 'required',
-            'thumbnail' => 'required|image',
+            'images' => 'required',
             'excerpt' => 'required'
         ]);
 
@@ -56,7 +57,8 @@ class BlogController extends Controller
         $article->title = $request->title;
         $article->content = $request->content;
         $article->excerpt = $request->excerpt;
-        $article->thumbnail = $request->thumbnail;
+        $article->thumbnail = $request->images[0];
+        $article->author_id = Auth::user()->getId();
         $article->slug = slugify($request->title);
         $article->save();
 
@@ -130,19 +132,23 @@ class BlogController extends Controller
     public function update(Request $request, Blog $article)
     {
         $validator = Validator::make( $request->all(), [
-            'name' => 'required',
+            'title' => 'required',
             'content' => 'required',
-            'thumbnail' => 'required|image'
+            'excerpt' => 'required'
         ]);
 
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $article->name = $request->name;
+        $article->title = $request->title;
         $article->content = $request->content;
-        $article->thumbnail = $request->thumbnail;
-        $article->slug = slugify($request->name);
+
+        if($request->images){
+            $article->thumbnail = $request->images[0];
+        }
+
+        $article->slug = slugify($request->title);
         $article->save();
 
         $path = public_path('uploads/blog/');

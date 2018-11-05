@@ -13,24 +13,40 @@
                 </div>
             {{ csrf_field() }}
     
-            <div class="form-group">
+            <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="1">Име: </label>
-                    <input type="text" class="form-control" value="{{ $article->title }}" id="1" name="title" placeholder="Име:">
+                    <label for="1">Заглавие: </label>
+                    <input type="text" class="form-control" id="1" name="title" value="{{ $article->title }}" placeholder="Заглавие:">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="1">Описание: </label>
-                    <textarea class="form-control" name="excerpt" value="{{ $article->excerpt }}" rows="1"></textarea>
+                    <textarea class="form-control" name="excerpt" rows="1">{{ $article->excerpt }}</textarea>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="1">Съдържание: </label>
-                    <textarea id="summernote" name="editordata" value="{{ $article->content }}"></textarea>
+                    <textarea id="summernote" name="content">{!! $article->content !!}</textarea>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="1">Снимка: </label>
+                    <div class="drop-area" name="add">
+                        <input type="file" name="images" class="drop-area-input" id="fileElem-add" accept="image/*" >
+                        <label class="button" for="fileElem-add">Select some files</label>
+                        <div class="drop-area-gallery"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="uploaded-images-area">
+                <div class='image-wrapper'>
+                    <img src="{{ asset("uploads/blog/" . $article->thumbnail) }}" alt="" class="img-responsive" />
                 </div>
             </div>
         </div>

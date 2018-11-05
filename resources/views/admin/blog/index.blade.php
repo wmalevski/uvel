@@ -19,7 +19,7 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="1">Заглавие: </label>
-                            <input type="text" class="form-control" id="1" name="name" placeholder="Заглавие:">
+                            <input type="text" class="form-control" id="1" name="title" placeholder="Заглавие:">
                         </div>
                     </div>
 
@@ -33,7 +33,7 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="1">Съдържание: </label>
-                            <textarea id="summernote" name="editordata"></textarea>
+                            <textarea id="summernote" name="content"></textarea>
                         </div>
                     </div>
 
