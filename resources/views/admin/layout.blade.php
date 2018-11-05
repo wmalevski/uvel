@@ -162,6 +162,15 @@
                 <span class="title">Магазини</span>
               </a>
             </li>
+
+            <li class="nav-item {{ Active::check('admin/blog',true) }}">
+              <a class="sidebar-link" href="{{ route('admin_blog') }}">
+                <span class="icon-holder">
+                  <i class=" ti-pencil"></i>
+                </span>
+                <span class="title">Блог</span>
+              </a>
+            </li>
             <li class="nav-item {{ Active::check('admin/prices',true) }}">
                 <a class="sidebar-link" href="{{ route('prices') }}">
                   <span class="icon-holder">

@@ -336,6 +336,8 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
     Route::get('/blog', 'BlogController@index')->name('blog');
 
     Route::get('/cart', 'CartController@index')->name('cart');
+
+    Route::get('/custom_order', 'CustomOrderController@edit')->name('custom_order');
     
     Route::group(['prefix' => 'products'], function() {
         Route::get('/', 'ProductController@index')->name('products');
