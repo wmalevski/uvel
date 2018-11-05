@@ -1,9 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Store;
 
 use App\CustomOrder;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
+use Mail;
 
 class CustomOrderController extends Controller
 {
@@ -14,7 +18,7 @@ class CustomOrderController extends Controller
      */
     public function index()
     {
-        //
+        return \View::make('store.pages.orders.index');
     }
 
     /**
@@ -35,7 +39,17 @@ class CustomOrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make( $request->all(), [
+            'name' => 'required|string',
+            'email' => 'required|string|email|max:255',
+            'content' => 'required|string',
+            'phone' => 'required',
+            'city' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator);
+        }
     }
 
     /**

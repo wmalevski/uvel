@@ -43,12 +43,12 @@
 
                             <div class="row">
                                 <div class="left-block col-md-12">
-                                    <form method="post" action="contact" class="contact-form" accept-charset="UTF-8">  
+                                    <form method="post" action="{{ route('submit_custom_order') }}" class="contact-form" accept-charset="UTF-8">  
                                         {{ csrf_field() }}
                                         <input type="hidden" value="contact" name="form_type"><input type="hidden" name="utf8" value="✓">
                                         <ul id="contact-form" class="row list-unstyled">
                                             <li class="">
-                                            <h3>Можете да използвате формата за да поръчате продукт по ваши изисквания.</h3>
+                                            <h3>Можете да използвате формата за да поръчате продукт по ваши изисквания</h3>
                                             </li>
                                             <li class="">
                                             <label class="control-label" for="name">Вашето име</label>
@@ -59,21 +59,30 @@
                                             <label class="control-label" for="email">Вашият Email <span class="req">*</span></label>
                                             <input type="email" id="email" value="" class="form-control email" name="email">
                                             </li>
+                                            <li class="">
+                                                <label class="control-label" for="city">Град <span class="req">*</span></label>
+                                                <input type="text" id="city" value="" class="form-control email" name="city">
+                                            </li>
+
+                                            <li class="">
+                                                <label class="control-label" for="phone">Телефон <span class="req">*</span></label>
+                                                <input type="tel" id="phone" value="" class="form-control email" name="phone">
+                                            </li>
                                             <li class="clearfix"></li>
                                             <li class="">
-                                            <label class="control-label" for="message">Съобщение <span class="req">*</span></label>
-                                            <textarea id="message" rows="5" class="form-control" name="message"></textarea>
+                                                <label class="control-label" for="message">Описание <span class="req">*</span></label>
+                                                <textarea id="message" rows="5" class="form-control" name="content"></textarea>
                                             </li>
                                             <li class="clearfix"></li>
                                             <li class="unpadding-top">
-                                            <button type="submit" class="btn">Изпратете</button>
+                                                <button type="submit" class="btn">Изпратете запитване</button>
                                             </li>
                                         </ul>
                                     </form>
                                 </div>
                                 <div class="right-block contact-content col-md-12">
-                                    <h6 class="sb-title"><i class="fa fa-home"></i> Информация за контакти</h6>
-                                    <ul class="right-content">
+                                    <h6 class="sb-title"><i class="fa fa-home"></i> Информация за клиента</h6>
+                                    {{-- <ul class="right-content">
                                         <li class="title">
                                         <h6>Адрес на офисите</h6>
                                         </li>
@@ -84,8 +93,8 @@
                                         </li>
                                         <li class="phone">+84 0123456xxx</li>
                                         <li class="email"><i class="fa fa-envelope"></i> support@designshopify.com</li>
-                                    </ul>
-                                    <ul class="right-content">
+                                    </ul> --}}
+                                    {{-- <ul class="right-content">
                                         <li class="title">
                                         <h6>Последвайте ни в</h6>
                                         </li>
@@ -93,29 +102,9 @@
                                         <li class="twitter"><a href="#"><span class="fa-stack fa-lg btooltip" title="" data-original-title="Twitter"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-twitter fa-inverse fa-stack-1x"></i></span></a></li>
                                         <li class="google-plus"><a href="#"><span class="fa-stack fa-lg btooltip" title="" data-original-title="Google plus"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-google-plus fa-inverse fa-stack-1x"></i></span></a></li>
                                         <li class="pinterest"><a href="#"><span class="fa-stack fa-lg btooltip" title="" data-original-title="Pinterest"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-pinterest fa-inverse fa-stack-1x"></i></span></a></li>
-                                    </ul>
+                                    </ul> --}}
                                 </div>
                             </div>
-                        </div>
-                        <div id="contact_map_wrapper">
-                            <div id="contact_map" class="map"></div>
-                            <script>
-                            if(jQuery().gMap){
-                                if($('#contact_map').length){
-                                    $('#contact_map').gMap({
-                                    zoom: 17,
-                                    scrollwheel: false,
-                                    maptype: 'ROADMAP',
-                                    markers:[
-                                        {
-                                        address: '249 Ung Văn Khiêm, phường 25, Ho Chi Minh City, Vietnam',
-                                        html: '_address'
-                                        }
-                                    ]
-                                    });
-                                }
-                            }
-                            </script>
                         </div>
                     </div>
                 </div> 
