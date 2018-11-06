@@ -292,9 +292,9 @@
 																<span class="spr-summary-caption">
 																<span class="spr-summary-actions-togglereviews">Базирано на 1 ревю</span>
 																</span>
-																<span class="spr-summary-actions">
+																{{-- <span class="spr-summary-actions">
 																<a href="#" class="spr-summary-actions-newreview" onclick="SPR.toggleForm(1293236931);return false">Напиши ревю</a>
-																</span>
+																</span> --}}
 															</div>
 														</div>
 														<div class="spr-content">
@@ -302,19 +302,9 @@
 																<form method="post" action="#" id="new-review-form_1293236931" class="new-review-form">
 																	<input type="hidden" name="review[rating]"><input type="hidden" name="product_id" value="1293236931">
 																	<h3 class="spr-form-title">Напиши ревю</h3>
-																	<fieldset class="spr-form-contact">
-																		<div class="spr-form-contact-name">
-																			<label class="spr-form-label" for="review_author_1293236931">Name</label>
-																			<input class="spr-form-input spr-form-input-text " id="review_author_1293236931" type="text" name="review[author]" value="" placeholder="Enter your name">
-																		</div>
-																		<div class="spr-form-contact-email">
-																			<label class="spr-form-label" for="review_email_1293236931">Email</label>
-																			<input class="spr-form-input spr-form-input-email " id="review_email_1293236931" type="email" name="review[email]" value="" placeholder="john.smith@example.com">
-																		</div>
-																	</fieldset>
 																	<fieldset class="spr-form-review">
 																		<div class="spr-form-review-rating">
-																			<label class="spr-form-label">Rating</label>
+																			<label class="spr-form-label">Рейтинг</label>
 																			<div class="spr-form-input spr-starrating ">
 																				<a href="#" onclick="SPR.setRating(this);return false;" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="1">&nbsp;</a>
 																				<a href="#" onclick="SPR.setRating(this);return false;" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="2">&nbsp;</a>
@@ -324,18 +314,18 @@
 																			</div>
 																		</div>
 																		<div class="spr-form-review-title">
-																			<label class="spr-form-label" for="review_title_1293236931">Review Title</label>
-																			<input class="spr-form-input spr-form-input-text " id="review_title_1293236931" type="text" name="review[title]" value="" placeholder="Give your review a title">
+																			<label class="spr-form-label" for="review_title_1293236931">Заглавие</label>
+																			<input class="spr-form-input spr-form-input-text " id="review_title_1293236931" type="text" name="review[title]" value="" placeholder="Заглавие на ревюто">
 																		</div>
 																		<div class="spr-form-review-body">
-																			<label class="spr-form-label" for="review_body_1293236931">Body of Review <span class="spr-form-review-body-charactersremaining">(1500)</span></label>
+																			<label class="spr-form-label" for="review_body_1293236931">Описание <span class="spr-form-review-body-charactersremaining">(1500)</span></label>
 																			<div class="spr-form-input">
-																				<textarea class="spr-form-input spr-form-input-textarea " id="review_body_1293236931" data-product-id="1293236931" name="review[body]" rows="10" placeholder="Write your comments here"></textarea>																				
+																				<textarea class="spr-form-input spr-form-input-textarea " id="review_body_1293236931" data-product-id="1293236931" name="review[body]" rows="10" placeholder="Добавете вашият коментар за ревюто тук"></textarea>																				
 																			</div>
 																		</div>
 																	</fieldset>
 																	<fieldset class="spr-form-actions">
-																		<input type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary" value="Submit Review">
+																		<input type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary" value="Добави рейтинг">
 																	</fieldset>
 																</form>
 															</div>
