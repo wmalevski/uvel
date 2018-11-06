@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Store;
 
-use App\CustomOrder;
+use App\Review;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
-use Mail;
+use Auth;
 
-class CustomOrderController extends Controller
+class ReviewController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,7 @@ class CustomOrderController extends Controller
      */
     public function index()
     {
-        return \View::make('store.pages.orders.index');
+        //
     }
 
     /**
@@ -40,29 +40,39 @@ class CustomOrderController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make( $request->all(), [
-            'name' => 'required|string',
-            'email' => 'required|string|email|max:255',
-            'content' => 'required|string',
-            'phone' => 'required',
-            'city' => 'required'
+            'title' => 'required|string',
+            'content' => 'required|string|max:1500',
+            'rating' => 'required|integer',
+            'type'  => 'required|string'
         ]);
 
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator);
         }
 
-        $customOrder = CustomOrder::create($request->all());
-
-        return Redirect::back()->with('success', 'Съобщението ви беше изпратено успешно');
+        $review = new Review();
+        $review->title = $request->title;
+        $review->content = $request->content;
+        $review->rating = $request->rating;
+        $review->user_id = Auth::user()->getId();
+        
+        if($request->type == 'product') {
+            $review->product_id = $request->product_id;
+        }elseif($request->type == 'model') {
+            $review->model_id = $request->model_id;
+        }elseif($request->type == 'product_other') {
+            $review->product_others_id = $request->product_others_id;
+        }
+        $review->save();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\CustomOrder  $customOrder
+     * @param  \App\Reviews  $reviews
      * @return \Illuminate\Http\Response
      */
-    public function show(CustomOrder $customOrder)
+    public function show(Reviews $reviews)
     {
         //
     }
@@ -70,10 +80,10 @@ class CustomOrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\CustomOrder  $customOrder
+     * @param  \App\Reviews  $reviews
      * @return \Illuminate\Http\Response
      */
-    public function edit(CustomOrder $customOrder)
+    public function edit(Reviews $reviews)
     {
         //
     }
@@ -82,10 +92,10 @@ class CustomOrderController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\CustomOrder  $customOrder
+     * @param  \App\Reviews  $reviews
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CustomOrder $customOrder)
+    public function update(Request $request, Reviews $reviews)
     {
         //
     }
@@ -93,10 +103,10 @@ class CustomOrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\CustomOrder  $customOrder
+     * @param  \App\Reviews  $reviews
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CustomOrder $customOrder)
+    public function destroy(Reviews $reviews)
     {
         //
     }

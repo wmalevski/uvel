@@ -27,16 +27,16 @@
 									<meta itemprop="url" content="/products/donec-condime-fermentum">
 									<div id="product" class="content clearfix">      
 										<h1 id="page-title" class="text-center">
-                                            <span itemprop="name">{{ $product->name }}</span>
+                                            <span itemprop="name">{{ $model->name }}</span>
 										</h1>
 										<div id="product-image" class="product-image row ">     
 											<div id="detail-left-column" class="hidden-xs left-coloum col-sm-6 col-sm-6 fadeInRight not-animated" data-animate="fadeInRight">
 												<div id="gallery_main" class="product-image-thumb thumbs full_width ">
 													<ul class="slide-product-image">
-                                                        @foreach($product->photos as $image)
+                                                        @foreach($model->photos as $image)
                                                             <li class="image">
-                                                                <a href="{{ asset("uploads/products/" . $image->photo) }}" class="cloud-zoom-gallery active">
-                                                                <img src="{{ asset("uploads/products/" . $image->photo) }}" alt="{{ $product->name }}">
+                                                                <a href="{{ asset("uploads/models/" . $image->photo) }}" class="cloud-zoom-gallery active">
+                                                                <img src="{{ asset("uploads/models/" . $image->photo) }}" alt="{{ $model->name }}">
                                                                 </a>
                                                             </li>
                                                         @endforeach
@@ -44,14 +44,14 @@
 												</div>
 											</div>      
 											<div class="image featured col-smd-12 col-sm-12 fadeInUp not-animated" data-animate="fadeInUp"> 
-												<img src="{{ asset("uploads/products/" . $product->photos->first()['photo']) }}" alt="{{ $product->name }}">
+												<img src="{{ asset("uploads/models/" . $model->photos->first()['photo']) }}" alt="{{ $model->name }}">
 											</div>
 											<div id="gallery_main_mobile" class="visible-xs product-image-thumb thumbs mobile_full_width ">
 												<ul style="opacity: 0; display: block;" class="slide-product-image owl-carousel owl-theme">
-                                                    @foreach($product->photos as $image)
+                                                    @foreach($model->photos as $image)
                                                         <li class="image">
-                                                            <a href="{{ asset("uploads/products/" . $image->photo) }}" class="cloud-zoom-gallery active">
-                                                            <img src="{{ asset("uploads/products/" . $image->photo) }}" alt="{{ $product->name }}">
+                                                            <a href="{{ asset("uploads/models/" . $image->photo) }}" class="cloud-zoom-gallery active">
+                                                            <img src="{{ asset("uploads/models/" . $image->photo) }}" alt="{{ $model->name }}">
                                                             </a>
                                                         </li>
                                                     @endforeach
@@ -71,15 +71,15 @@
 													<div class="description">
 														<span>Описание</span>
 														<p>
-															Модел: {{ $product->model->name }} <br/>
-															Бижу: {{ $product->jewel->name }} <br/>
-															Размер: {{ $product->model->size }}
+															Модел: {{ $model->name }} <br/>
+															Бижу: {{ $model->jewel->name }} <br/>
+															Размер: {{ $model->size }}
 														</p>
 													</div>
 													<div class="description">
 														<span>Изработка</span>
 														<p>
-															{{ $product->weight }} гр. + {{ $product->workmanship }} лв.
+															{{ $model->weight }} гр. + {{ $model->workmanship }} лв.
 														</p>
 													</div>
 													{{-- <div class="relative">
@@ -114,11 +114,11 @@
 																</style>																
 																<div id="purchase-1293235843">
 																	<div class="detail-price" itemprop="price">
-                                                                        <span class="price">{{ $product->price }} лв</span>
+                                                                        <span class="price">{{ $model->price }} лв</span>
 																	</div>
 																</div>
 																<div class="others-bottom clearfix">
-																	<button id="add-to-cart" class="btn btn-1 add-to-cart" data-parent=".product-information" type="submit" name="add">Добави в количка</button>
+																	<a href="{{ route('order_model', ['model' => $model->id]) }}" id="add-to-cart" class="btn btn-1 add-to-cart" data-parent=".product-information" type="submit" name="add">Поръчай</a>
 																</div>
 															</div>
 														</form>
@@ -185,15 +185,14 @@
 																<span class="spr-summary-actions-togglereviews">Базирано на 1 ревю</span>
 																</span>
 																{{-- <span class="spr-summary-actions">
-																<a href="#" class="spr-summary-actions-newreview" onclick="SPR.toggleForm({{$product->id}});return false">Напиши ревю</a>
+																<a href="#" class="spr-summary-actions-newreview" onclick="SPR.toggleForm(1293236931);return false">Напиши ревю</a>
 																</span> --}}
 															</div>
 														</div>
 														<div class="spr-content">
-															<div class="spr-form" id="form_{{$product->id}}">
-																<form method="post" action="{{ route('product_review', ['product' => $product->id])  }}" id="new-review-form_{{$product->id}}" class="new-review-form">
-																	{{ csrf_field() }}
-																	<input type="hidden" name="rating" value="5">
+															<div class="spr-form" id="form_1293236931">
+																<form method="post" action="#" id="new-review-form_1293236931" class="new-review-form">
+																	<input type="hidden" name="review[rating]"><input type="hidden" name="product_id" value="1293236931">
 																	<h3 class="spr-form-title">Напиши ревю</h3>
 																	<fieldset class="spr-form-review">
 																		<div class="spr-form-review-rating">
@@ -207,24 +206,22 @@
 																			</div>
 																		</div>
 																		<div class="spr-form-review-title">
-																			<label class="spr-form-label" for="review_title_{{$product->id}}">Заглавие</label>
-																			<input class="spr-form-input spr-form-input-text " id="review_title_{{$product->id}}" type="text" name="title" value="" placeholder="Заглавие на ревюто">
+																			<label class="spr-form-label" for="review_title_1293236931">Заглавие</label>
+																			<input class="spr-form-input spr-form-input-text " id="review_title_1293236931" type="text" name="review[title]" value="" placeholder="Заглавие на ревюто">
 																		</div>
 																		<div class="spr-form-review-body">
-																			<label class="spr-form-label" for="review_body_{{$product->id}}">Описание <span class="spr-form-review-body-charactersremaining">(1500)</span></label>
+																			<label class="spr-form-label" for="review_body_1293236931">Описание <span class="spr-form-review-body-charactersremaining">(1500)</span></label>
 																			<div class="spr-form-input">
-																				<textarea class="spr-form-input spr-form-input-textarea " id="review_body_{{$product->id}}" data-product-id="{{$product->id}}" name="content" rows="10" placeholder="Добавете вашият коментар за ревюто тук"></textarea>																				
+																				<textarea class="spr-form-input spr-form-input-textarea " id="review_body_1293236931" data-product-id="1293236931" name="review[body]" rows="10" placeholder="Добавете вашият коментар за ревюто тук"></textarea>																				
 																			</div>
 																		</div>
 																	</fieldset>
 																	<fieldset class="spr-form-actions">
 																		<input type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary" value="Добави рейтинг">
 																	</fieldset>
-																	<input type="hidden" name="product_id" value="{{$product->id}}">
-																	<input type="hidden" name="type" value="product">
 																</form>
 															</div>
-															<div class="spr-reviews" id="reviews_{{$product->id}}">
+															<div class="spr-reviews" id="reviews_1293236931">
 																<div class="spr-review" id="spr-review-906174">
 																	<div class="spr-review-header">
 																		<span class="spr-starratings spr-review-header-starratings"><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
@@ -251,12 +248,12 @@
 									<h6 class="general-title text-left">Подобни продукти, които може да ви харесат</h6>
 									<div id="prod-related-wrapper">
 										<div class="prod-related clearfix">
-                                            @foreach($similarProducts as $product)
+                                            @foreach($similarModels as $model)
 											<div class="element no_full_width not-animated" data-animate="bounceIn" data-delay="0">
 												<ul class="row-container list-unstyled clearfix">
 													<li class="row-left">
-													<a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">
-													<img src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif" class="img-responsive" alt="Curabitur cursus dignis">
+													<a href="{{ route('single_product', ['product' => $model->id])  }}" class="container_item">
+													<img src="@if($model->photos) {{ asset("uploads/products/" . $model->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif" class="img-responsive" alt="Curabitur cursus dignis">
 													</a>
 													<div class="hbw">
 														<span class="hoverBorderWrapper"></span>
@@ -264,7 +261,7 @@
 													</li>
 													<li class="row-right parent-fly animMix">
 													<div class="product-content-left">
-                                                        <a class="title-5" href="{{ route('single_product', ['product' => $product->id])  }}">{{ $product->name }}</a>
+                                                        <a class="title-5" href="{{ route('single_product', ['model' => $model->id])  }}">{{ $model->name }}</a>
 														<span class="spr-badge" id="spr_badge_1293238211" data-rating="0.0">
 														<span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
 														<span class="spr-badge-caption">
@@ -273,7 +270,7 @@
 													</div>
 													<div class="product-content-right">
 														<div class="product-price">
-                                                        <span class="price">{{ $product->price }} лв</span>
+                                                        <span class="price">{{ $model->price }} лв</span>
 														</div>
 													</div>
 													<div class="list-mode-description">
@@ -287,7 +284,7 @@
 															</div>
 														</form>
 														<div class="product-ajax-qs hidden-xs hidden-sm">
-															<div data-handle="curabitur-cursus-dignis" data-barcode="{{ $product->barcode }}" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
+															<div data-handle="curabitur-cursus-dignis" data-barcode="{{ $model->barcode }}" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
 																<i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																	
 															</div>
 														</div>
