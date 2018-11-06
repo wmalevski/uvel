@@ -1,9 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Store;
-
+use Auth;
+use App\Model;
 use App\ModelOrder;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 class ModelOrderController extends Controller
 {

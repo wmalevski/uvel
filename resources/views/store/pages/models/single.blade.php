@@ -101,7 +101,20 @@
 														</ul>
 													</div> --}}
 												</div>          
-												<div id="product-info-right">     
+												<div id="product-info-right">    
+                                                    @if($errors->any())
+                                                        <ul class="alert alert-danger">
+                                                            @foreach ($errors->all() as $error)
+                                                                <li>{{ $error }}</li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @endif 
+                        
+                                                    @if(session()->has('success'))
+                                                        <div class="alert alert-success">
+                                                            {{ session()->get('success') }}
+                                                        </div>
+                                                    @endif 
 													<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="col-sm-24 group-variants">
 														<meta itemprop="priceCurrency" content="USD">              
 														<link itemprop="availability" href="http://schema.org/InStock">
@@ -118,7 +131,7 @@
 																	</div>
 																</div>
 																<div class="others-bottom clearfix">
-																	<a href="{{ route('order_model', ['model' => $model->id]) }}" id="add-to-cart" class="btn btn-1 add-to-cart" data-parent=".product-information" type="submit" name="add">Поръчай</a>
+																	<a href="{{ route('order_model', ['model' => $model->id]) }}" class="btn btn-1">Поръчай</a>
 																</div>
 															</div>
 														</form>
