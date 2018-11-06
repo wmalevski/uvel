@@ -156,7 +156,7 @@ class ModelController extends Controller
                 }
                 
 
-                $file_name = 'productimage_'.uniqid().time().'.'.$ext;
+                $file_name = 'modelimage_'.uniqid().time().'.'.$ext;
             
                 $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
                 file_put_contents(public_path('uploads/models/').$file_name, $data);
