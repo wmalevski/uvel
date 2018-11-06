@@ -61,9 +61,9 @@ class CustomOrderController extends Controller
      * @param  \App\CustomOrder  $customOrder
      * @return \Illuminate\Http\Response
      */
-    public function edit(CustomOrder $customOrder)
+    public function edit(CustomOrder $order)
     {
-        //
+        return \View::make('admin/orders/custom/edit',array('order'=>$order));
     }
 
     /**
@@ -73,9 +73,30 @@ class CustomOrderController extends Controller
      * @param  \App\CustomOrder  $customOrder
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CustomOrder $customOrder)
+    public function update(Request $request, CustomOrder $order)
     {
-        //
+        $validator = Validator::make( $request->all(), [
+            'name' => 'required|string',
+            'email' => 'required|string|email|max:255',
+            'content' => 'required|string',
+            'phone' => 'required',
+            'city' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator);
+        }
+
+        $order->name = $request->name;
+        $order->email = $request->email;
+        $order->content = $request->content;
+        $order->phone = $request->phone;
+        $order->city = $request->city;
+        $order->status = $request->status;
+        
+        $order->save();
+
+        return Response::json(array('ID' => $order->id, 'table' => View::make('admin/orders/custom/table',array('order'=>$order))->render()));
     }
 
     /**
