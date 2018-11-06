@@ -6,6 +6,7 @@ use Response;
 use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\ProductOther;
 
 class CartController extends Controller
 {
@@ -35,7 +36,24 @@ class CartController extends Controller
     public function addItem($item){
         $session_id = session()->getId();
 
-        $item = Product::where('barcode', $item)->first();
+        $product = Product::where('barcode', $item)->first();
+
+        if($product){
+            $item = $product;
+        }else{
+            $box = ProductOther::where('barcode', $item)->first();
+
+            if($box){
+                $item = $box;
+            }else{
+                $model = Model::where('barcode', $item)->first();
+
+                if($model){
+                    $item = $model;
+                    $item->price = 0;
+                }
+            }
+        }
 
         if($item){
             Cart::session($session_id)->add(array(
