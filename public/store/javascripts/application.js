@@ -460,3 +460,48 @@ this.widthRatio)+"px"})),"lens"==this.options.zoomType||"inner"==this.options.zo
 Object.create(k);a.init(b,this);d.data(this,"elevateZoom",a)})};d.fn.elevateZoom.options={zoomActivation:"hover",preloading:1,zoomLevel:1,scrollZoom:!1,scrollZoomIncrement:0.1,minZoomLevel:!1,maxZoomLevel:!1,easing:!1,easingAmount:12,lensSize:200,zoomWindowWidth:400,zoomWindowHeight:400,zoomWindowOffetx:0,zoomWindowOffety:0,zoomWindowPosition:1,zoomWindowBgColour:"#fff",lensFadeIn:!1,lensFadeOut:!1,debug:!1,zoomWindowFadeIn:!1,zoomWindowFadeOut:!1,zoomWindowAlwaysShow:!1,zoomTintFadeIn:!1,zoomTintFadeOut:!1,
 borderSize:4,showLens:!0,borderColour:"#888",lensBorderSize:1,lensBorderColour:"#000",lensShape:"square",zoomType:"window",containLensZoom:!1,lensColour:"white",lensOpacity:0.4,lenszoom:!1,tint:!1,tintColour:"#333",tintOpacity:0.4,gallery:!1,galleryActiveClass:"zoomGalleryActive",imageCrossfade:!1,constrainType:!1,constrainSize:!1,loadingIcon:!1,cursor:"default",responsive:!0,onComplete:d.noop,onZoomedImageLoaded:function(){},onImageSwap:d.noop,onImageSwapComplete:d.noop}})(jQuery,window,document);
 
+
+/* RUBBERDUCK FUNCTIONS
+================================================== */
+
+var uvelStore,
+    uvelStoreController = function() {
+        var $self = this,
+            window = $(window);
+
+        this.init = function() {
+        	var $quickViewTrigger = $('.quick_shop');
+
+            $self.quickviewAttach($quickViewTrigger);
+        };
+
+        this.quickviewAttach = function(quickViewTrigger) {
+	    	quickViewTrigger.on('click', function() {
+	        	var _this = $(this);
+	        	$self.quickviewOpen(_this);
+	    	})
+	    }
+
+	    this.quickviewOpen = function(currentPressedBtn) {
+	      var $this = currentPressedBtn,
+	          ajaxRequestLink = '/ajax/quickview/' + $this.attr('data-barcode');
+
+	    	$.ajax({
+	        	url: ajaxRequestLink,
+	        	success: function(resp) {
+	        		var modal = $this.parents().find('.edit--modal_holder .modal-content');
+
+	        		modal.html(resp);
+	        	}
+	    	})
+	    }
+    };
+
+$(function() {
+    if(!window.console) window.console = {};
+    if(!window.console.log) window.console.log = function () {};
+    if(!window.console.info) window.console.info = function () {};
+
+    uvelStore = new uvelStoreController();
+    uvelStore.init();
+});
