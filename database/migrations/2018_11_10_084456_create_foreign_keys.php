@@ -116,6 +116,27 @@ class CreateForeignKeys extends Migration {
 						->onDelete('cascade')
 						->onUpdate('cascade');
 		});
+
+		Schema::table('reviews', function (Blueprint $table) {
+			
+			$table->foreign('user_id')->references('id')->on('users')
+						->onDelete('cascade')
+						->onUpdate('cascade');
+
+			$table->foreign('product_id')->references('id')->on('products')
+						->onDelete('cascade')
+						->onUpdate('cascade');
+
+			$table->foreign('model_id')->references('id')->on('models')
+						->onDelete('cascade')
+						->onUpdate('cascade');
+
+			$table->foreign('product_others_id')->references('id')->on('products_others')
+						->onDelete('cascade')
+						->onUpdate('cascade');
+		});
+
+
 	}
 
 	public function down()
@@ -188,6 +209,17 @@ class CreateForeignKeys extends Migration {
 		Schema::table('blog_comments', function(Blueprint $table) {
 			$table->dropForeign('blog_comments_blog_id_foreign');
 			$table->dropColumn('blog_id');
+		});
+
+		Schema::table('reviews', function(Blueprint $table) {
+			$table->dropForeign('reviews_user_id_foreign');
+			$table->dropColumn('user_id');
+			$table->dropForeign('reviews_product_id_foreign');
+			$table->dropColumn('product_id');
+			$table->dropForeign('reviews_model_id_foreign');
+			$table->dropColumn('model_id');
+			$table->dropForeign('reviews_product_others_id_foreign');
+			$table->dropColumn('product_others_id');
 		});
 	}
 }

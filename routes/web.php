@@ -356,6 +356,9 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
     Route::group(['prefix' => 'products'], function() {
         Route::get('/', 'ProductController@index')->name('products');
         Route::get('/{product}', 'ProductController@show')->name('single_product');
+
+        Route::post('/{product}/review', 'ReviewController@store')->name('product_review');
+
     });
 
     Route::group(['prefix' => 'models'], function() {
@@ -364,6 +367,8 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
     });
 
     Route::get('/cart/addItem/{item}', 'CartController@addItem');
+
+
 });
 
 //AJAX FOR STORE

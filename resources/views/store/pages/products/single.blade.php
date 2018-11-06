@@ -185,14 +185,15 @@
 																<span class="spr-summary-actions-togglereviews">Базирано на 1 ревю</span>
 																</span>
 																{{-- <span class="spr-summary-actions">
-																<a href="#" class="spr-summary-actions-newreview" onclick="SPR.toggleForm(1293236931);return false">Напиши ревю</a>
+																<a href="#" class="spr-summary-actions-newreview" onclick="SPR.toggleForm({{$product->id}});return false">Напиши ревю</a>
 																</span> --}}
 															</div>
 														</div>
 														<div class="spr-content">
-															<div class="spr-form" id="form_1293236931">
-																<form method="post" action="#" id="new-review-form_1293236931" class="new-review-form">
-																	<input type="hidden" name="review[rating]"><input type="hidden" name="product_id" value="1293236931">
+															<div class="spr-form" id="form_{{$product->id}}">
+																<form method="post" action="{{ route('product_review', ['product' => $product->id])  }}" id="new-review-form_{{$product->id}}" class="new-review-form">
+																	{{ csrf_field() }}
+																	<input type="hidden" name="rating" value="5">
 																	<h3 class="spr-form-title">Напиши ревю</h3>
 																	<fieldset class="spr-form-review">
 																		<div class="spr-form-review-rating">
@@ -206,22 +207,24 @@
 																			</div>
 																		</div>
 																		<div class="spr-form-review-title">
-																			<label class="spr-form-label" for="review_title_1293236931">Заглавие</label>
-																			<input class="spr-form-input spr-form-input-text " id="review_title_1293236931" type="text" name="review[title]" value="" placeholder="Заглавие на ревюто">
+																			<label class="spr-form-label" for="review_title_{{$product->id}}">Заглавие</label>
+																			<input class="spr-form-input spr-form-input-text " id="review_title_{{$product->id}}" type="text" name="title" value="" placeholder="Заглавие на ревюто">
 																		</div>
 																		<div class="spr-form-review-body">
-																			<label class="spr-form-label" for="review_body_1293236931">Описание <span class="spr-form-review-body-charactersremaining">(1500)</span></label>
+																			<label class="spr-form-label" for="review_body_{{$product->id}}">Описание <span class="spr-form-review-body-charactersremaining">(1500)</span></label>
 																			<div class="spr-form-input">
-																				<textarea class="spr-form-input spr-form-input-textarea " id="review_body_1293236931" data-product-id="1293236931" name="review[body]" rows="10" placeholder="Добавете вашият коментар за ревюто тук"></textarea>																				
+																				<textarea class="spr-form-input spr-form-input-textarea " id="review_body_{{$product->id}}" data-product-id="{{$product->id}}" name="content" rows="10" placeholder="Добавете вашият коментар за ревюто тук"></textarea>																				
 																			</div>
 																		</div>
 																	</fieldset>
 																	<fieldset class="spr-form-actions">
 																		<input type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary" value="Добави рейтинг">
 																	</fieldset>
+																	<input type="hidden" name="product_id" value="{{$product->id}}">
+																	<input type="hidden" name="type" value="product">
 																</form>
 															</div>
-															<div class="spr-reviews" id="reviews_1293236931">
+															<div class="spr-reviews" id="reviews_{{$product->id}}">
 																<div class="spr-review" id="spr-review-906174">
 																	<div class="spr-review-header">
 																		<span class="spr-starratings spr-review-header-starratings"><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>

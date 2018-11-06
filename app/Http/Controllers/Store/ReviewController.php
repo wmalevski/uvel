@@ -1,11 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Store;
 
-use App\Reviews;
+use App\Review;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
+use Auth;
 
-class ReviewsController extends Controller
+class ReviewController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,7 +39,31 @@ class ReviewsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make( $request->all(), [
+            'title' => 'required|string',
+            'content' => 'required|string|max:1500',
+            'rating' => 'required|integer',
+            'type'  => 'required|string'
+        ]);
+
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator);
+        }
+
+        $review = new Review();
+        $review->title = $request->title;
+        $review->content = $request->content;
+        $review->rating = $request->rating;
+        $review->user_id = Auth::user()->getId();
+        
+        if($request->type == 'product') {
+            $review->product_id = $request->product_id;
+        }elseif($request->type == 'model') {
+            $review->model_id = $request->model_id;
+        }elseif($request->type == 'product_other') {
+            $review->product_others_id = $request->product_others_id;
+        }
+        $review->save();
     }
 
     /**
