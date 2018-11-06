@@ -118,7 +118,7 @@
 																	</div>
 																</div>
 																<div class="others-bottom clearfix">
-																	<button id="add-to-cart" class="btn btn-1 add-to-cart" data-parent=".product-information" type="submit" name="add">Добави в количка</button>
+																	<a href="{{ route('order_model', ['model' => $model->id]) }}" id="add-to-cart" class="btn btn-1 add-to-cart" data-parent=".product-information" type="submit" name="add">Поръчай</a>
 																</div>
 															</div>
 														</form>
