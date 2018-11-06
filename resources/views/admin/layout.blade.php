@@ -232,7 +232,7 @@
   
                     {{-- @if(Auth::user()->hasRole('admin')) --}}
                     <li>
-                      <a class="sidebar-link" href="{{ route('substitutions') }}">По готов модел</a>
+                      <a class="sidebar-link" href="{{ route('model_orders') }}">По готов модел</a>
                     </li>
                     {{-- @endif --}}
   
