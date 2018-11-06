@@ -15,6 +15,7 @@ class CustomOrder extends Model
         'phone',
         'email',
         'content',
+        'status'
     ];
 
     protected $table = 'custom_orders';

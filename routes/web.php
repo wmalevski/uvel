@@ -106,6 +106,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/jewels/{jewel}', 'JewelController@edit');
 
+    Route::get('/orders/custom', 'CustomOrderController@index')->name('custom_orders');
+
+    Route::get('/orders/custom/{order}', 'CustomOrderController@edit');
+
     Route::get('/models', 'ModelController@index')->name('admin_models');
     Route::post('/models', 'ModelController@store');
 

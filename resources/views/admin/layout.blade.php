@@ -157,7 +157,7 @@
           <li class="nav-item {{ Active::check('admin/stores',true) }}">
               <a class="sidebar-link" href="{{ route('stores') }}">
                 <span class="icon-holder">
-                  <i class=" ti-pencil"></i>
+                  <i class=" ti-location-arrow"></i>
                 </span>
                 <span class="title">Магазини</span>
               </a>
@@ -208,6 +208,31 @@
                     {{-- @if(Auth::user()->hasRole('admin')) --}}
                     <li>
                       <a class="sidebar-link" href="{{ route('substitutions') }}">Замествания</a>
+                    </li>
+                    {{-- @endif --}}
+  
+                  </ul>
+                </li>
+
+
+                <li class="nav-item dropdown {{ Active::check('admin/users',true) }}">
+                  <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                      <i class=" ti-truck"></i>
+                    </span>
+                    <span class="title">Поръчки</span>
+                    <span class="arrow">
+                      <i class="ti-angle-right"></i>
+                    </span>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a class="sidebar-link" href="{{ route('custom_orders') }}">По модел на клиента</a>
+                    </li>
+  
+                    {{-- @if(Auth::user()->hasRole('admin')) --}}
+                    <li>
+                      <a class="sidebar-link" href="{{ route('substitutions') }}">По готов модел</a>
                     </li>
                     {{-- @endif --}}
   

@@ -20,6 +20,8 @@ class CreateCustomOrdersTable extends Migration
             $table->string('phone');
             $table->string('content');
             $table->string('city');
+            $table->enum('status', ['pending', 'accepted', 'ready', 'delivered'])->default('pending');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

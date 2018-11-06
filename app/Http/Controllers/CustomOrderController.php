@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Store;
+namespace App\Http\Controllers;
 
 use App\CustomOrder;
 use Illuminate\Http\Request;
@@ -18,7 +18,9 @@ class CustomOrderController extends Controller
      */
     public function index()
     {
-        return \View::make('store.pages.orders.index');
+        $orders = CustomOrder::all();
+        
+        return view('admin.orders.custom.index', compact('orders'));
     }
 
     /**
@@ -39,21 +41,7 @@ class CustomOrderController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make( $request->all(), [
-            'name' => 'required|string',
-            'email' => 'required|string|email|max:255',
-            'content' => 'required|string',
-            'phone' => 'required',
-            'city' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            return Redirect::back()->withErrors($validator);
-        }
-
-        $customOrder = CustomOrder::create($request->all());
-
-        return Redirect::back()->with('success', 'Съобщението ви беше изпратено успешно');
+        
     }
 
     /**
