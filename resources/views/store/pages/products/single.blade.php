@@ -112,114 +112,6 @@
 																  #product-select-option-0 { display: none; }
 																  #product-select-option-0 + .custom-style-select-box { display: none !important; }
 																</style>																
-																{{-- <div class="swatch color clearfix" data-option-index="0">
-																	<div class="header">
-																		Color
-																	</div>
-																	<div data-value="black" class="swatch-element color black available">
-																		<div class="tooltip">
-																			black
-																		</div>
-																		<input id="swatch-0-black" name="option-0" value="black" checked="checked" type="radio">
-																		<label for="swatch-0-black" style="background-color: black; background-image: url(./assets/images/black.png)">
-																		<img class="crossed-out" src="./assets/images/soldout.png" alt="">
-																		</label>
-																	</div>
-																	<div data-value="red" class="swatch-element color red available">
-																		<div class="tooltip">
-																			red
-																		</div>
-																		<input id="swatch-0-red" name="option-0" value="red" type="radio">
-																		<label for="swatch-0-red" style="background-color: red; background-image: url(./assets/images/red.png)">
-																		<img class="crossed-out" src="./assets/images/soldout.png" alt="">
-																		</label>
-																	</div>
-																	<div data-value="white" class="swatch-element color white available">
-																		<div class="tooltip">
-																			white
-																		</div>
-																		<input id="swatch-0-white" name="option-0" value="white" type="radio">
-																		<label for="swatch-0-white" style="background-color: white; background-image: url(./assets/images/white.png)">
-																		<img class="crossed-out" src="./assets/images/soldout.png" alt="">
-																		</label>
-																	</div>
-																	<div data-value="blue" class="swatch-element color blue available">
-																		<div class="tooltip">
-																			blue
-																		</div>
-																		<input id="swatch-0-blue" name="option-0" value="blue" type="radio">
-																		<label for="swatch-0-blue" style="background-color: blue; background-image: url(./assets/images/blue.png)">
-																		<img class="crossed-out" src="./assets/images/soldout.png" alt="">
-																		</label>
-																	</div>																	
-																</div> --}}
-																<div class="swatch clearfix" data-option-index="1">
-																	<div class="header">
-																		Размер
-																	</div>
-																	<div data-value="small" class="swatch-element small available">
-																		<input id="swatch-1-small" name="option-1" value="small" checked="checked" type="radio">
-																		<label for="swatch-1-small">
-																		small <img class="crossed-out" src="./assets/images/soldout.png" alt="">
-																		</label>
-																	</div>
-																	<div data-value="medium" class="swatch-element medium available">
-																		<input id="swatch-1-medium" name="option-1" value="medium" type="radio">
-																		<label for="swatch-1-medium">
-																		medium <img class="crossed-out" src="./assets/images/soldout.png" alt="">
-																		</label>
-																	</div>
-																</div>
-																{{-- <div class="variants-wrapper clearfix">
-																	<div class="selector-wrapper">
-																		<label for="product-select-1293235843-option-0">Цвят</label>
-																		<div class="wrapper">
-																			<select style="z-index: 1000; position: absolute; opacity: 0; font-size: 15px;" id="product-select-1293235843-option-0" data-option="option1" class="single-option-selector">
-																				<option selected="selected" value="black">black</option>
-																				<option value="red">red</option>
-																				<option value="white">white</option>
-																				<option value="blue">blue</option>
-																			</select>
-																			<button style="display: block; overflow: hidden;" type="button" class="custom-style-select-box changed"><span style="width: 219px; display: inline-block;" class="custom-style-select-box-inner">black</span></button><i class="fa fa-caret-down"></i>
-																		</div>
-																	</div>
-																	<div class="selector-wrapper">
-																		<label for="product-select-1293235843-option-1">Размер</label>
-																		<div class="wrapper">
-																			<select style="z-index: 1000; position: absolute; opacity: 0; font-size: 15px;" id="product-select-1293235843-option-1" data-option="option2" class="single-option-selector">
-																				<option selected="selected" value="small">small</option>
-																				<option value="medium">medium</option>
-																			</select>
-																			<button style="display: block; overflow: hidden;" type="button" class="custom-style-select-box changed"><span style="width: 219px; display: inline-block;" class="custom-style-select-box-inner">small</span></button><i class="fa fa-caret-down"></i>
-																		</div>
-																	</div>
-																	<select id="product-select-1293235843" name="id" style="display: none;">
-																		<option selected="selected" value="3947646083">black / small</option>
-																		<option value="3947646147">red / small</option>
-																		<option value="3947646211">white / small</option>
-																		<option value="3947646275">blue / small</option>
-																		<option value="3947646339">black / medium</option>
-																		<option value="3947646403">red / medium</option>
-																		<option value="3947646467">blue / medium</option>
-																		<option value="3947646531">white / medium</option>
-																	</select>
-																</div> --}}
-																<div class="quantity-wrapper clearfix">
-																	<label class="wrapper-title">Количество</label>
-																	<div class="wrapper">
-																		<input id="quantity" name="quantity" value="1" maxlength="5" size="5" class="item-quantity" type="text">
-																		<span class="qty-group">
-																		<span class="qty-wrapper">
-																		<span data-original-title="Увеличи" class="qty-up btooltip" data-toggle="tooltip" data-placement="top" title="" data-src="#quantity">
-																		<i class="fa fa-caret-right"></i>
-																		</span>
-																		<span data-original-title="Намали" class="qty-down btooltip" data-toggle="tooltip" data-placement="top" title="" data-src="#quantity">
-																		<i class="fa fa-caret-left"></i>
-																		</span>
-																		</span>
-																		</span>
-																	</div>
-																</div>
 																<div id="purchase-1293235843">
 																	<div class="detail-price" itemprop="price">
                                                                         <span class="price">{{ $product->price }} лв</span>
@@ -292,29 +184,19 @@
 																<span class="spr-summary-caption">
 																<span class="spr-summary-actions-togglereviews">Базирано на 1 ревю</span>
 																</span>
-																<span class="spr-summary-actions">
+																{{-- <span class="spr-summary-actions">
 																<a href="#" class="spr-summary-actions-newreview" onclick="SPR.toggleForm(1293236931);return false">Напиши ревю</a>
-																</span>
+																</span> --}}
 															</div>
 														</div>
 														<div class="spr-content">
-															<div class="spr-form" id="form_1293236931" style="display: none">
+															<div class="spr-form" id="form_1293236931">
 																<form method="post" action="#" id="new-review-form_1293236931" class="new-review-form">
 																	<input type="hidden" name="review[rating]"><input type="hidden" name="product_id" value="1293236931">
 																	<h3 class="spr-form-title">Напиши ревю</h3>
-																	<fieldset class="spr-form-contact">
-																		<div class="spr-form-contact-name">
-																			<label class="spr-form-label" for="review_author_1293236931">Name</label>
-																			<input class="spr-form-input spr-form-input-text " id="review_author_1293236931" type="text" name="review[author]" value="" placeholder="Enter your name">
-																		</div>
-																		<div class="spr-form-contact-email">
-																			<label class="spr-form-label" for="review_email_1293236931">Email</label>
-																			<input class="spr-form-input spr-form-input-email " id="review_email_1293236931" type="email" name="review[email]" value="" placeholder="john.smith@example.com">
-																		</div>
-																	</fieldset>
 																	<fieldset class="spr-form-review">
 																		<div class="spr-form-review-rating">
-																			<label class="spr-form-label">Rating</label>
+																			<label class="spr-form-label">Рейтинг</label>
 																			<div class="spr-form-input spr-starrating ">
 																				<a href="#" onclick="SPR.setRating(this);return false;" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="1">&nbsp;</a>
 																				<a href="#" onclick="SPR.setRating(this);return false;" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="2">&nbsp;</a>
@@ -324,18 +206,18 @@
 																			</div>
 																		</div>
 																		<div class="spr-form-review-title">
-																			<label class="spr-form-label" for="review_title_1293236931">Review Title</label>
-																			<input class="spr-form-input spr-form-input-text " id="review_title_1293236931" type="text" name="review[title]" value="" placeholder="Give your review a title">
+																			<label class="spr-form-label" for="review_title_1293236931">Заглавие</label>
+																			<input class="spr-form-input spr-form-input-text " id="review_title_1293236931" type="text" name="review[title]" value="" placeholder="Заглавие на ревюто">
 																		</div>
 																		<div class="spr-form-review-body">
-																			<label class="spr-form-label" for="review_body_1293236931">Body of Review <span class="spr-form-review-body-charactersremaining">(1500)</span></label>
+																			<label class="spr-form-label" for="review_body_1293236931">Описание <span class="spr-form-review-body-charactersremaining">(1500)</span></label>
 																			<div class="spr-form-input">
-																				<textarea class="spr-form-input spr-form-input-textarea " id="review_body_1293236931" data-product-id="1293236931" name="review[body]" rows="10" placeholder="Write your comments here"></textarea>																				
+																				<textarea class="spr-form-input spr-form-input-textarea " id="review_body_1293236931" data-product-id="1293236931" name="review[body]" rows="10" placeholder="Добавете вашият коментар за ревюто тук"></textarea>																				
 																			</div>
 																		</div>
 																	</fieldset>
 																	<fieldset class="spr-form-actions">
-																		<input type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary" value="Submit Review">
+																		<input type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary" value="Добави рейтинг">
 																	</fieldset>
 																</form>
 															</div>
@@ -363,7 +245,7 @@
 								</div>         
 								<!-- Related Products -->
 								<section class="rel-container clearfix">  
-									<h6 class="general-title text-left">You may also like the related products</h6>
+									<h6 class="general-title text-left">Подобни продукти, които може да ви харесат</h6>
 									<div id="prod-related-wrapper">
 										<div class="prod-related clearfix">
                                             @foreach($similarProducts as $product)
@@ -402,7 +284,7 @@
 															</div>
 														</form>
 														<div class="product-ajax-qs hidden-xs hidden-sm">
-															<div data-handle="curabitur-cursus-dignis" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
+															<div data-handle="curabitur-cursus-dignis" data-barcode="{{ $product->barcode }}" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
 																<i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																	
 															</div>
 														</div>

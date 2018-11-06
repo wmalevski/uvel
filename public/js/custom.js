@@ -18,6 +18,11 @@ var uvel,
         token: $('meta[name="csrf-token"]').attr('content'),
         controllers: ['submitForm']
       },
+      blog: {
+        selector: '[name="blog"]',
+        controllers: ['imageHandling'],
+        initialized: false
+      },
       discounts: {
         selector: '[name="discounts"]',
         controllers: [],
@@ -548,6 +553,11 @@ var uvel,
 
       stoneRowsContainer.empty();
       imagesContainer.empty();
+
+      if (form.find('#summernote').length > 0) {
+        var noteEditors = form.find('.note-editable');
+        noteEditors.html('<p><br></p>');
+      }
     }
 
 
@@ -694,6 +704,17 @@ var uvel,
 
                 $self.materialPricesRequestBuilder(form, _this);
               }
+            }
+
+            if (modal.find('#summernote').length > 0) {
+              modal.find('#summernote').summernote({
+                height: 300,
+                popover: {
+                  image: [],
+                  link: [],
+                  air: []
+                }
+              });
             }
           }
         });

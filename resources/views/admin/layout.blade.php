@@ -113,6 +113,7 @@
             </div>
           </div>
         </div>
+
         <ul class="sidebar-menu scrollable pos-r">
           <li class="nav-item mT-30 {{ Active::check('admin') }}">
             <a class="sidebar-link" href="{{ route('admin') }}" default>
@@ -152,12 +153,22 @@
               </span>
               <span class="title">Отстъпки</span>
             </a>
+          </li>
           <li class="nav-item {{ Active::check('admin/stores',true) }}">
               <a class="sidebar-link" href="{{ route('stores') }}">
                 <span class="icon-holder">
-                  <i class=" ti-pencil"></i>
+                  <i class=" ti-location-arrow"></i>
                 </span>
                 <span class="title">Магазини</span>
+              </a>
+            </li>
+
+            <li class="nav-item {{ Active::check('admin/blog',true) }}">
+              <a class="sidebar-link" href="{{ route('admin_blog') }}">
+                <span class="icon-holder">
+                  <i class=" ti-pencil"></i>
+                </span>
+                <span class="title">Блог</span>
               </a>
             </li>
             <li class="nav-item {{ Active::check('admin/prices',true) }}">
@@ -202,6 +213,31 @@
   
                   </ul>
                 </li>
+
+
+                <li class="nav-item dropdown {{ Active::check('admin/users',true) }}">
+                  <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                      <i class=" ti-truck"></i>
+                    </span>
+                    <span class="title">Поръчки</span>
+                    <span class="arrow">
+                      <i class="ti-angle-right"></i>
+                    </span>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a class="sidebar-link" href="{{ route('custom_orders') }}">По модел на клиента</a>
+                    </li>
+  
+                    {{-- @if(Auth::user()->hasRole('admin')) --}}
+                    <li>
+                      <a class="sidebar-link" href="{{ route('substitutions') }}">По готов модел</a>
+                    </li>
+                    {{-- @endif --}}
+  
+                  </ul>
+                </li>
  
             <li class="nav-item {{ Active::check('admin/jewels',true) }}">
               <a class="sidebar-link" href="{{ route('jewels') }}">
@@ -212,7 +248,7 @@
               </a>
             </li>
             <li class="nav-item {{ Active::check('admin/models',true) }}">
-                <a class="sidebar-link" href="{{ route('models') }}">
+                <a class="sidebar-link" href="{{ route('admin_models') }}">
                   <span class="icon-holder">
                     <i class=" ti-blackboard"></i>
                   </span>
@@ -357,6 +393,15 @@
               </li>
             </ul>
           </li>
+
+          <li class="nav-item {{ Active::check('admin/mailchimp',true) }}">
+          <a class="sidebar-link" href="{{ route('mailchimp') }}">
+            <span class="icon-holder">
+              <i class=" ti-email"></i>
+            </span>
+            <span class="title">MailChimp</span>
+          </a>
+        </li>
           {{-- @endif --}}
           {{--  <li class="nav-item">
             <a class="sidebar-link" href="compose.html">
@@ -756,9 +801,24 @@
   <script type="text/javascript" src="{{ URL::asset('vendor.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('bundle.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('js/custom.js') }}"></script>
-  
-  
 
+  <!-- include summernote css/js -->
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
+    
+  
+  <script>
+    $(document).ready(function() {
+      $('#summernote').summernote({
+       height: 300,
+       popover: {
+         image: [],
+         link: [],
+         air: []
+       }
+     });
+});
+  </script>
   
   
   @yield('footer-scripts')

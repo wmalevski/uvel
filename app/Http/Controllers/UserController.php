@@ -55,34 +55,8 @@ class UserController extends Controller
         
         $user->name = $request->name;
         $user->store_id = $request->store_id;
-        // $user->roles()->detach();
-        // $user->assign($request->role);
-
-        // $user->detachRoles($user->roles);
-        // $user->roles()->attach([$request->role]);
-
-        // $user->retract( $user->roles->first()['title']);
-        // $user->assign($request->role);
 
         $user->save();
-
-        // foreach($request->permissions as $permision){
-        //     print_r($permision);
-        // }
-
-        // foreach($abilities as $ability){
-        //     Bouncer::disallow($user)->to($ability);
-        // }
-
-        // foreach($request->permissions as $key => $role){
-        //     //Bouncer::allow($user)->to($role);
-
-        //     if($role == true){
-        //         Bouncer::allow($user)->to($key+1);
-        //     }else{
-        //         Bouncer::disallow($user)->to($key+1);
-        //     }
-        // }
 
         Bouncer::sync($user)->roles([$request->role]);
     
@@ -110,17 +84,12 @@ class UserController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        //$user = User::create($request->all());
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'store_id' => $request->store_id
         ]);
-
-        //$user->attachRole($request->role);
-        //$user->roles()->attach([$request->role]);
 
         $user->assign($request->role);
         
@@ -142,6 +111,7 @@ class UserController extends Controller
                    $discountCode->save();
                 }
             }
+            
             $user->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
         }

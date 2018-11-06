@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Store;
 use App\Product;
+use App\ProductOther;
 use App\Store;
 use App\Material;
 use App\Jewel;
@@ -79,6 +80,24 @@ class ProductController extends Controller
 
         print_r(count($products));
         echo '<pre>'; print_r($products); echo '</pre>';
+    }
+
+    public function quickView($barcode)
+    {
+        $type = '';
+        $product = Product::where('barcode', $barcode)->first();
+        $productBox = ProductOther::where('barcode', $barcode)->first();
+
+        if($product){
+            $type = 'product';
+        }else{
+            $type = 'productBox';
+            $product = $productBox;
+        }
+
+        if($product){
+            return \View::make('store/pages/products/quickview', array('product' => $product ,'type' => $type));
+        }
     }
 
 }

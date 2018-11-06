@@ -12,6 +12,11 @@
                     {{-- <li class="my-account">
                         <a href="./account.html">My Account</a>
                     </li>   --}}
+                    @auth
+                        Здравейте, {{ Auth::user()->name }}
+                    @endauth
+
+                    @guest
                     <li class="login">    
                         <span id="loginButton" class="dropdown-toggle" data-toggle="dropdown">
                             <a href="./login.html">Вход</a>
@@ -44,8 +49,9 @@
                     </li>
                     <li>/</li>   
                     <li class="register">
-                        <a href="./register.html" id="customer_register_link">Регистрирай се</a>
+                        <a href="{{ route('register') }}" id="customer_register_link">Регистрирай се</a>
                     </li> 
+                    @endguest
                 </ul>
             </li>      
             <li id="widget-social">
@@ -97,14 +103,24 @@
                                         <div class="dropdown-toggle" data-toggle="dropdown">
                                             <i class="fa fa-user"></i>
                                         </div>
+                                        @if (Auth::check())
+                                        
                                         <ul class="customer dropdown-menu">
                                             <li class="logout">
-                                            <a href="#">Вход</a>
-                                            </li>
-                                            <li class="account last">
-                                            <a href="register.html">Регистрация</a>
+                                                <a href="#">Профил</a>
                                             </li>
                                         </ul>
+                                        @else
+                                        <ul class="customer dropdown-menu">
+                                            <li class="logout">
+                                                <a href="#">Вход</a>
+                                            </li>
+                                            <li class="account last">
+                                                <a href="{{ route('register') }}">Регистрация</a>
+                                            </li>
+                                        </ul>
+                                        
+                                        @endif
                                     </div>
                                     </li>
                                     <li class="is-mobile-wl">
@@ -118,13 +134,25 @@
                             <div class="collapse navbar-collapse">
                                 <ul class="nav navbar-nav hoverMenuWrapper">
                                     <li class="nav-item active">
-                                    <a href="{{ route('store') }}">
-                                    <span>Начало</span>
-                                    </a>
+                                        <a href="{{ route('store') }}">
+                                            <span>Начало</span>
+                                        </a>
                                     </li>
-                                    <li class="nav-item active">
+                                    <li class="nav-item">
                                         <a href="{{ route('products') }}">
-                                            <span>Продукти</span>
+                                            <span>Бижута</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a href="{{ route('models') }}">
+                                            <span>По поръчка</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a href="">
+                                            <span>По ваш модел</span>
                                         </a>
                                     </li>
                                     {{-- <li class="dropdown mega-menu">
@@ -271,46 +299,16 @@
                                         </ul>
                                     </div>
                                     </li> --}}
-                                    <li class="nav-item dropdown">
-                                    <a href="./blog-full.html" class="dropdown-toggle dropdown-link" data-toggle="dropdown">
-                                        <span>Блог</span>
-                                        <i class="fa fa-caret-down"></i>
-                                        <i class="sub-dropdown1 visible-sm visible-md visible-lg"></i>
-                                        <i class="sub-dropdown visible-sm visible-md visible-lg"></i>
-                                    </a>
-                                    <ul class="dropdown-menu">											
-                                        <li class=" dropdown li-sub-mega">
-                                            <a href="./blog-full.html" class="dropdown-toggle dropdown-link" data-toggle="dropdown">
-                                            <span>Blog grid 3 columns</span>
-                                            <i class="fa fa-angle-down"></i>
-                                            <i class="sub-dropdown1 visible-sm visible-md visible-lg"></i>
-                                            <i class="sub-dropdown visible-sm visible-md visible-lg"></i>
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                <li class="li-sub-mega">
-                                                    <a tabindex="-1" href="/abc">Blog Technology</a>
-                                                </li>
-                                                <li class="li-sub-mega">
-                                                    <a tabindex="-1" href="/def">Blog Sport</a>
-                                                </li>
-                                                <li class="li-sub-mega">
-                                                    <a tabindex="-1" href="/def">Blog Science</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class=""><a tabindex="-1" href="./blog-2-col.html">Blog grid 2 columns</a></li>
-                                        <li class=""><a tabindex="-1" href="./blog.html">Blog grid full width</a></li>
-                                        <li class=""><a tabindex="-1" href="./blog-left.html">Blog - left sidebar</a></li>
-                                        <li class=""><a tabindex="-1" href="./blog-right.html">Blog - right sidebar</a></li>
-                                        <li class=""><a tabindex="-1" href="./article.html">Post full width</a></li>
-                                        <li class=""><a tabindex="-1" href="./article-left.html"> Post - left sidebar</a></li>
-                                        <li class="last"><a tabindex="-1" href="./article-right.html">Post - right sidebar</a></li>
-                                    </ul>
-                                    </li>
                                     <li class="nav-item">
-                                    <a href="./contact.html">
-                                    <span>Контакти</span>
-                                    </a>
+                                        <a href="{{ route('blog') }}">
+                                            <span>Блог</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a href="{{ route('contactus') }}">
+                                            <span>Контакти</span>
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
@@ -336,7 +334,7 @@
                 <li class="umbrella hidden-xs">
                     <div id="umbrella" class="list-inline unmargin">
                         <div class="cart-link">
-                            <a href="./cart.html" class="dropdown-toggle dropdown-link" data-toggle="dropdown">
+                            <a href="{{ route('cart') }}" class="dropdown-toggle dropdown-link" data-toggle="dropdown">
                                 <i class="sub-dropdown1"></i>
                                 <i class="sub-dropdown"></i>
                                 <div class="num-items-in-cart">
@@ -368,7 +366,7 @@
                                         <span>Тотал:</span><span class="cart-total-right">200.00 лв</span>
                                     </div>
                                     <div class="action">
-                                        <button class="btn" onclick="window.location='./cart.html'">Чекаут</button><a class="btn btn-1" href="./cart.html">Виж количката</a>
+                                        <button class="btn" onclick="window.location='{{ route('cart') }}'">Чекаут</button><a class="btn btn-1" href="{{ route('cart') }}">Виж количката</a>
                                     </div>
                                 </div>
                             </div>

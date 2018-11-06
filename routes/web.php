@@ -22,6 +22,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function() {
     Route::get('/', 'DashboardController@index')->name('admin');
 
+    Route::get('/blog', 'BlogController@index')->name('admin_blog');
+    Route::get('/blog/{article}', 'BlogController@edit');
+    Route::post('/blog', 'BlogController@store');
+
     Route::get('/repairtypes', 'RepairTypeController@index')->name('repair_types');
     Route::post('/repairtypes', 'RepairTypeController@store');
     Route::get('/repairtypes/{repairType}', 'RepairTypeController@edit');
@@ -102,7 +106,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/jewels/{jewel}', 'JewelController@edit');
 
-    Route::get('/models', 'ModelController@index')->name('models');
+    Route::get('/orders/custom', 'CustomOrderController@index')->name('custom_orders');
+
+    Route::get('/orders/custom/{order}', 'CustomOrderController@edit');
+
+    Route::get('/models', 'ModelController@index')->name('admin_models');
     Route::post('/models', 'ModelController@store');
 
     Route::get('/models/{model}', 'ModelController@edit');
@@ -156,9 +164,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/repairs/return/{repair}', 'RepairController@return');
     Route::get('/repairs/edit/{repair}', 'RepairController@edit');
+
+    Route::get('/mailchimp', 'NewsletterController@index')->name('mailchimp');
 });
 
 Route::group(['prefix' => 'ajax'], function() {
+
+    Route::post('/blog', 'BlogController@store');
+    Route::post('/blog/delete/{blog}', 'BlogController@destroy');
 
     Route::post('/stores', 'StoreController@store');
     Route::put('/stores/{store}', 'StoreController@update');
@@ -181,6 +194,9 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/stones/styles', 'StoneStyleController@store');
     Route::get('/stones/styles/{stoneStyle}', 'StoneStyleController@edit');
+
+    Route::put('/blog/{article}', 'BlogController@update');
+    Route::post('/blog/{article}', 'BlogController@destroy');
 
     Route::put('/stones/{stone}', 'StoneController@update');
     Route::get('/stones/{stone}', 'StoneController@edit');
@@ -222,6 +238,8 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::put('/materialstypes/{materialType}', 'MaterialTypeController@update');
 
     Route::put('/users/{user}', 'UserController@update');
+
+    Route::put('/orders/custom/{order}', 'CustomOrderController@update');
 
     Route::post('/users', 'UserController@store');
     Route::post('/users/delete/{user}', 'UserController@destroy');
@@ -298,11 +316,44 @@ Route::group(['prefix' => 'ajax'], function() {
  */
 Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
     Route::get('/', 'StoreController@index')->name('store');
+
+    Route::group(['prefix' => 'blog'], function() {
+        Route::get('/', 'BlogController@index')->name('web_blog');
+        Route::get('/{article}', 'BlogController@show')->name('single_article');
+        Route::post('/{article}/comment', 'BlogCommentController@store')->name('article_comment');
+        Route::post('/{article}/{comment}/delete', 'BlogCommentController@destroy')->name('article_comment_delete');
+    });
+
+    Route::get('/contact', 'ContactController@index')->name('contactus');
+    Route::post('/contact', 'ContactController@store');
+
+    Route::post('/ajax/subscribe', 'SubscribeController@subscribe')->name('subscribe');
+    Route::get('/ajax/unsubscribe/{email}', 'SubscribeController@unsubscribe')->name('unsubscribe');
+
+    //User Related
+    Route::get('/register', 'UserController@create')->name('register');
+    Route::post('/register', 'UserController@store')->name('registerform');
+    Route::get('/login', 'UserController@login')->name('login');
+    Route::post('/login', 'UserController@userlogin')->name('userlogin');
+
+    Route::get('/settings', 'UserController@edit')->name('user_settings');
+    Route::post('/settings', 'UserController@update')->name('user_settings_update');
+
+    Route::get('/blog', 'BlogController@index')->name('blog');
+
     Route::get('/cart', 'CartController@index')->name('cart');
+
+    Route::get('/custom_order', 'CustomOrderController@index')->name('custom_order');
+    Route::post('/custom_order', 'CustomOrderController@store')->name('submit_custom_order');
     
     Route::group(['prefix' => 'products'], function() {
         Route::get('/', 'ProductController@index')->name('products');
         Route::get('/{product}', 'ProductController@show')->name('single_product');
+    });
+
+    Route::group(['prefix' => 'models'], function() {
+        Route::get('/', 'ModelController@index')->name('models');
+        Route::get('/{model}', 'ModelController@show')->name('single_model');
     });
 
     Route::get('/cart/addItem/{item}', 'CartController@addItem');
@@ -313,6 +364,8 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
 Route::group(['prefix' => 'ajax', 'namespace' => 'store'], function() {
     Route::get('/cart/addItem/{item}', 'CartController@addItem');
     Route::get('/cart/removeItem/{item}', 'CartController@removeItem');
+
+    Route::get('/quickview/{barcode}', 'ProductController@quickview');
 
     Route::get('/filter', 'ProductController@filter');
 });

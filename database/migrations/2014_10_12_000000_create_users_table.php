@@ -20,6 +20,13 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->integer('store_id')->unsigned()->nullable();
             $table->string('phone')->nullable();
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('city')->nullable();
+            $table->string('country')->nullable();
+            $table->string('street')->nullable();
+            $table->string('street_number')->nullable();
+            $table->string('postcode')->nullable();
             $table->integer('discount')->nullable();
             $table->rememberToken();
             $table->timestamps();

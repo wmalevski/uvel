@@ -57,7 +57,7 @@
                                                     <div class="home_collections_item">
                                                         <div class="home_collections_item_inner">
                                                             <div class="collection-details">
-                                                                <a href="online/products/byJewel={{ $jewel->id }}" title="Browse our Bracelets">
+                                                                <a href="online/products/?byJewel={{ $jewel->id }}" title="Browse our Bracelets">
                                                                     <img src="
                                                                     {{-- @if($jewel->products) {{ asset("uploads/products/" . $jewel->products->first()->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif --}}
                                                                     " alt="Bracelets">
@@ -66,7 +66,7 @@
                                                             <div class="hover-overlay">
                                                                 <span class="col-name"><a href="online/products/byJewel={{ $jewel->id }}">{{ $jewel->name }}</a></span>
                                                                 <div class="collection-action">
-                                                                    <a href="online/products/byJewel={{ $jewel->id }}">Виж</a>
+                                                                    <a href="online/products/?byJewel={{ $jewel->id }}">Виж</a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -139,7 +139,7 @@
                                                                     </div>
                                                                 </form>
                                                                 <div class="product-ajax-qs hidden-xs hidden-sm">
-                                                                    <div data-href="./ajax/_product-qs.html" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
+                                                                    <div data-href="./ajax/_product-qs.html" data-target="#quick-shop-modal" class="quick_shop" data-barcode="{{ $product->barcode }}" data-toggle="modal">
                                                                         <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																		
                                                                     </div>
                                                                 </div>
@@ -175,83 +175,41 @@
                     <div class="home-blog">
                         <div class="container">
                             <div class="home-promotion-blog row">
-                                <h6 class="general-title">Latest News</h6>
+                                <h6 class="general-title">Последни новини</h6>
+                                @if(count($articles))
                                 <div class="home-bottom_banner_wrapper col-md-12">
                                     <div id="home-bottom_banner" class="home-bottom_banner">
-                                        <a href="./collection.html"><img src="{{ asset('store/images/demo_570x415.png') }}" alt=""></a>
+                                     <a href="{{ route('single_article', ['product' => $articles->first()->slug.'-'.$articles->first()->id])  }}"><img src="{{ asset("uploads/blog/" . $articles->first()->thumbnail) }}" alt=""></a>
                                     </div>
                                 </div>
+                                @endif
                                 <div class="home-blog-wrapper col-md-12">
                                     <div id="home_blog" class="home-blog">
+                                        @foreach($articles as $article)
                                         <div class="home-blog-item row">
-                                            <div class="date col-md-4">
-                                                <div class="date_inner">
-                                                    <p>
-                                                        <small>July</small><span>08</span>
-                                                    </p>
+                                                <div class="date col-md-4">
+                                                    <div class="date_inner">
+                                                        <p>
+                                                            <small>{{ $article->created_at->format('M') }}</small><span>{{ $article->created_at->format('d') }}</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="home-blog-content col-md-20">
+                                                    <h4><a href="{{ route('single_article', ['product' => $article->slug])  }}">{{ $article->title }}</a></h4>
+                                                    <ul class="list-inline">
+                                                        <li class="author"><i class="fa fa-user"></i> {{$article->author()->name}}</li>
+                                                        <li>/</li>
+                                                        <li class="comment">
+                                                        <a href="{{ route('single_article', ['product' => $article->slug])  }}">
+                                                        <span><i class="fa fa-pencil-square-o"></i> {{count($article->comments())}}</span> Comments </a>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="intro">
+                                                        {{ $article->excerpt }}
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="home-blog-content col-md-20">
-                                                <h4><a href="./article-left.html">sample blog post with left slidebar</a></h4>
-                                                <ul class="list-inline">
-                                                    <li class="author"><i class="fa fa-user"></i> Jin Alkaid</li>
-                                                    <li>/</li>
-                                                    <li class="comment">
-                                                    <a href="./article-left">
-                                                    <span><i class="fa fa-pencil-square-o"></i> 0</span> Comments </a>
-                                                    </li>
-                                                </ul>
-                                                <div class="intro">
-                                                    Shoe street style leather tote oversized sweatshirt A.P.C. Prada Saffiano crop slipper denim shorts spearmint....
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="home-blog-item row">
-                                            <div class="date col-md-4">
-                                                <div class="date_inner">
-                                                    <p>
-                                                        <small>June</small><span>30</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="home-blog-content col-md-20">
-                                                <h4><a href="./article.html">vel illum qui dolorem eum fugiat</a></h4>
-                                                <ul class="list-inline">
-                                                    <li class="author"><i class="fa fa-user"></i> Jin Alkaid</li>
-                                                    <li>/</li>
-                                                    <li class="comment">
-                                                    <a href="./article.html">
-                                                    <span><i class="fa fa-pencil-square-o"></i> 1</span> Comment </a>
-                                                    </li>
-                                                </ul>
-                                                <div class="intro">
-                                                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem...
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="home-blog-item row">
-                                            <div class="date col-md-4">
-                                                <div class="date_inner">
-                                                    <p>
-                                                        <small>June</small><span>30</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="home-blog-content col-md-20">
-                                                <h4><a href="./article-right.html">sample blog post full width</a></h4>
-                                                <ul class="list-inline">
-                                                    <li class="author"><i class="fa fa-user"></i> Jin Alkaid</li>
-                                                    <li>/</li>
-                                                    <li class="comment">
-                                                    <a href="./article-right.html">
-                                                    <span><i class="fa fa-pencil-square-o"></i> 0</span> Comments </a>
-                                                    </li>
-                                                </ul>
-                                                <div class="intro">
-                                                    Shoe street style leather tote oversized sweatshirt A.P.C. Prada Saffiano crop slipper denim shorts spearmint....
-                                                </div>
-                                            </div>
-                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -304,7 +262,7 @@
                                                                     </div>
                                                                 </form>
                                                                 <div class="product-ajax-qs hidden-xs hidden-sm">
-                                                                    <div data-href="./ajax/_product-qs.html" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
+                                                                    <div data-href="./ajax/_product-qs.html" data-target="#quick-shop-modal" class="quick_shop" data-barcode="{{ $product->barcode }}" data-toggle="modal">
                                                                         <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																		
                                                                     </div>
                                                                 </div>
@@ -318,55 +276,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="home-partners">
-                        <div class="container">
-                            <div class="partners-logo row">
-                                <div class="col-md-24">
-                                    <div id="partners-container" class="clearfix">
-                                        <h6 class="general-title">Popular Brands</h6>
-                                        <div id="partners">
-                                            <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="150">
-                                                <a class="animated" href="./collection.html">
-                                                <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="300">
-                                                <a class="animated" href="./collection.html">
-                                                <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="450">
-                                                <a class="animated" href="./collection.html">
-                                                <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="600">
-                                                <a class="animated" href="./collection.html">
-                                                <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="750">
-                                                <a class="animated" href="./collection.html">
-                                                <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="900">
-                                                <a class="animated" href="./collection.html">
-                                                <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="logo text-center not-animated" data-animate="bounceIn" data-delay="1050">
-                                                <a class="animated" href="./collection.html">
-                                                <img class="pulse" src="{{ asset('store/images/demo_154x43.png') }}" alt="">
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="clearfix"></div>
                             </div>
                         </div>
                     </div>  				            

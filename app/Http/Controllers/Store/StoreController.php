@@ -5,6 +5,7 @@ use App\Product;
 use App\Jewel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Blog;
 
 class StoreController extends Controller
 {
@@ -21,7 +22,9 @@ class StoreController extends Controller
 
         $jewels = Jewel::all();
 
-        return \View::make('store.pages.index', array('products' => $products, 'jewels' => $jewels));
+        $articles = Blog::take(3)->get();
+
+        return \View::make('store.pages.index', array('products' => $products, 'jewels' => $jewels, 'articles' => $articles));
     }
 
 }

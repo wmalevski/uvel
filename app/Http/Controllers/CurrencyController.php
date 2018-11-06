@@ -41,7 +41,7 @@ class CurrencyController extends Controller
         $validator = Validator::make( $request->all(), [
             'name' => 'required',
             'currency' => 'numeric|between:0.1,100'
-         ]);
+        ]);
 
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
