@@ -142,6 +142,11 @@ var uvel,
         selector: '[name="custom_order"]',
         controllers: [],
         initialized: false
+      },
+      modelOrders: {
+        selector: '[name="model_order"]',
+        controllers: [],
+        initialized: false
       }
     };
 

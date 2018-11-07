@@ -30,7 +30,7 @@ aria-hidden="true">
         </thead>
         <tbody>
             @foreach($orders as $order)
-                @include('admin.orders.custom.table')
+                @include('admin.orders.model.table')
             @endforeach
         </tbody>
       </table>
