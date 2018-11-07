@@ -83,247 +83,247 @@ b=b.innerWidth()-b.height(99).innerWidth();a.remove();return b});if(f.support.fi
 /* #SmoothScroll v0.9.9
 ================================================== */
 function ssc_init() {
-    if (!document.body) return;
-    var e = document.body;
-    var t = document.documentElement;
-    var n = window.innerHeight;
-    var r = e.scrollHeight;
-    ssc_root = document.compatMode.indexOf("CSS") >= 0 ? t : e;
-    ssc_activeElement = e;
-    ssc_initdone = true;
-    if (top != self) {
-        ssc_frame = true
-    } else if (r > n && (e.offsetHeight <= n || t.offsetHeight <= n)) {
-        ssc_root.style.height = "auto";
-        if (ssc_root.offsetHeight <= n) {
-            var i = document.createElement("div");
-            i.style.clear = "both";
-            e.appendChild(i)
-        }
-    }
-    if (!ssc_fixedback) {
-        e.style.backgroundAttachment = "scroll";
-        t.style.backgroundAttachment = "scroll"
-    }
-    if (ssc_keyboardsupport) {
-        ssc_addEvent("keydown", ssc_keydown)
-    }
+	if (!document.body) return;
+	var e = document.body;
+	var t = document.documentElement;
+	var n = window.innerHeight;
+	var r = e.scrollHeight;
+	ssc_root = document.compatMode.indexOf("CSS") >= 0 ? t : e;
+	ssc_activeElement = e;
+	ssc_initdone = true;
+	if (top != self) {
+		ssc_frame = true
+	} else if (r > n && (e.offsetHeight <= n || t.offsetHeight <= n)) {
+		ssc_root.style.height = "auto";
+		if (ssc_root.offsetHeight <= n) {
+			var i = document.createElement("div");
+			i.style.clear = "both";
+			e.appendChild(i)
+		}
+	}
+	if (!ssc_fixedback) {
+		e.style.backgroundAttachment = "scroll";
+		t.style.backgroundAttachment = "scroll"
+	}
+	if (ssc_keyboardsupport) {
+		ssc_addEvent("keydown", ssc_keydown)
+	}
 }
 
 function ssc_scrollArray(e, t, n, r) {
-    r || (r = 1e3);
-    ssc_directionCheck(t, n);
-    ssc_que.push({
-        x: t,
-        y: n,
-        lastX: t < 0 ? .99 : -.99,
-        lastY: n < 0 ? .99 : -.99,
-        start: +(new Date)
-    });
-    if (ssc_pending) {
-        return
-    }
-    var i = function () {
-        var s = +(new Date);
-        var o = 0;
-        var u = 0;
-        for (var a = 0; a < ssc_que.length; a++) {
-            var f = ssc_que[a];
-            var l = s - f.start;
-            var c = l >= ssc_animtime;
-            var h = c ? 1 : l / ssc_animtime;
-            if (ssc_pulseAlgorithm) {
-                h = ssc_pulse(h)
-            }
-            var p = f.x * h - f.lastX >> 0;
-            var d = f.y * h - f.lastY >> 0;
-            o += p;
-            u += d;
-            f.lastX += p;
-            f.lastY += d;
-            if (c) {
-                ssc_que.splice(a, 1);
-                a--
-            }
-        }
-        if (t) {
-            var v = e.scrollLeft;
-            e.scrollLeft += o;
-            if (o && e.scrollLeft === v) {
-                t = 0
-            }
-        }
-        if (n) {
-            var m = e.scrollTop;
-            e.scrollTop += u;
-            if (u && e.scrollTop === m) {
-                n = 0
-            }
-        }
-        if (!t && !n) {
-            ssc_que = []
-        }
-        if (ssc_que.length) {
-            setTimeout(i, r / ssc_framerate + 1)
-        } else {
-            ssc_pending = false
-        }
-    };
-    setTimeout(i, 0);
-    ssc_pending = true
+	r || (r = 1e3);
+	ssc_directionCheck(t, n);
+	ssc_que.push({
+		x: t,
+		y: n,
+		lastX: t < 0 ? .99 : -.99,
+		lastY: n < 0 ? .99 : -.99,
+		start: +(new Date)
+	});
+	if (ssc_pending) {
+		return
+	}
+	var i = function () {
+		var s = +(new Date);
+		var o = 0;
+		var u = 0;
+		for (var a = 0; a < ssc_que.length; a++) {
+			var f = ssc_que[a];
+			var l = s - f.start;
+			var c = l >= ssc_animtime;
+			var h = c ? 1 : l / ssc_animtime;
+			if (ssc_pulseAlgorithm) {
+				h = ssc_pulse(h)
+			}
+			var p = f.x * h - f.lastX >> 0;
+			var d = f.y * h - f.lastY >> 0;
+			o += p;
+			u += d;
+			f.lastX += p;
+			f.lastY += d;
+			if (c) {
+				ssc_que.splice(a, 1);
+				a--
+			}
+		}
+		if (t) {
+			var v = e.scrollLeft;
+			e.scrollLeft += o;
+			if (o && e.scrollLeft === v) {
+				t = 0
+			}
+		}
+		if (n) {
+			var m = e.scrollTop;
+			e.scrollTop += u;
+			if (u && e.scrollTop === m) {
+				n = 0
+			}
+		}
+		if (!t && !n) {
+			ssc_que = []
+		}
+		if (ssc_que.length) {
+			setTimeout(i, r / ssc_framerate + 1)
+		} else {
+			ssc_pending = false
+		}
+	};
+	setTimeout(i, 0);
+	ssc_pending = true
 }
 
 function ssc_wheel(e) {
-    if (!ssc_initdone) {
-        ssc_init()
-    }
-    var t = e.target;
-    var n = ssc_overflowingAncestor(t);
-    if (!n || e.defaultPrevented || ssc_isNodeName(ssc_activeElement, "embed") || ssc_isNodeName(t, "embed") && /\.pdf/i.test(t.src)) {
-        return true
-    }
-    var r = e.wheelDeltaX || 0;
-    var i = e.wheelDeltaY || 0;
-    if (!r && !i) {
-        i = e.wheelDelta || 0
-    }
-    if (Math.abs(r) > 1.2) {
-        r *= ssc_stepsize / 120
-    }
-    if (Math.abs(i) > 1.2) {
-        i *= ssc_stepsize / 120
-    }
-    ssc_scrollArray(n, -r, -i);
-    e.preventDefault()
+	if (!ssc_initdone) {
+		ssc_init()
+	}
+	var t = e.target;
+	var n = ssc_overflowingAncestor(t);
+	if (!n || e.defaultPrevented || ssc_isNodeName(ssc_activeElement, "embed") || ssc_isNodeName(t, "embed") && /\.pdf/i.test(t.src)) {
+		return true
+	}
+	var r = e.wheelDeltaX || 0;
+	var i = e.wheelDeltaY || 0;
+	if (!r && !i) {
+		i = e.wheelDelta || 0
+	}
+	if (Math.abs(r) > 1.2) {
+		r *= ssc_stepsize / 120
+	}
+	if (Math.abs(i) > 1.2) {
+		i *= ssc_stepsize / 120
+	}
+	ssc_scrollArray(n, -r, -i);
+	e.preventDefault()
 }
 
 function ssc_keydown(e) {
-    var t = e.target;
-    var n = e.ctrlKey || e.altKey || e.metaKey;
-    if (/input|textarea|embed/i.test(t.nodeName) || t.isContentEditable || e.defaultPrevented || n) {
-        return true
-    }
-    if (ssc_isNodeName(t, "button") && e.keyCode === ssc_key.spacebar) {
-        return true
-    }
-    var r, i = 0,
-        s = 0;
-    var o = ssc_overflowingAncestor(ssc_activeElement);
-    var u = o.clientHeight;
-    if (o == document.body) {
-        u = window.innerHeight
-    }
-    switch (e.keyCode) {
-    case ssc_key.up:
-        s = -ssc_arrowscroll;
-        break;
-    case ssc_key.down:
-        s = ssc_arrowscroll;
-        break;
-    case ssc_key.spacebar:
-        r = e.shiftKey ? 1 : -1;
-        s = -r * u * .9;
-        break;
-    case ssc_key.pageup:
-        s = -u * .9;
-        break;
-    case ssc_key.pagedown:
-        s = u * .9;
-        break;
-    case ssc_key.home:
-        s = -o.scrollTop;
-        break;
-    case ssc_key.end:
-        var a = o.scrollHeight - o.scrollTop - u;
-        s = a > 0 ? a + 10 : 0;
-        break;
-    case ssc_key.left:
-        i = -ssc_arrowscroll;
-        break;
-    case ssc_key.right:
-        i = ssc_arrowscroll;
-        break;
-    default:
-        return true
-    }
-    ssc_scrollArray(o, i, s);
-    e.preventDefault()
+	var t = e.target;
+	var n = e.ctrlKey || e.altKey || e.metaKey;
+	if (/input|textarea|embed/i.test(t.nodeName) || t.isContentEditable || e.defaultPrevented || n) {
+		return true
+	}
+	if (ssc_isNodeName(t, "button") && e.keyCode === ssc_key.spacebar) {
+		return true
+	}
+	var r, i = 0,
+		s = 0;
+	var o = ssc_overflowingAncestor(ssc_activeElement);
+	var u = o.clientHeight;
+	if (o == document.body) {
+		u = window.innerHeight
+	}
+	switch (e.keyCode) {
+	case ssc_key.up:
+		s = -ssc_arrowscroll;
+		break;
+	case ssc_key.down:
+		s = ssc_arrowscroll;
+		break;
+	case ssc_key.spacebar:
+		r = e.shiftKey ? 1 : -1;
+		s = -r * u * .9;
+		break;
+	case ssc_key.pageup:
+		s = -u * .9;
+		break;
+	case ssc_key.pagedown:
+		s = u * .9;
+		break;
+	case ssc_key.home:
+		s = -o.scrollTop;
+		break;
+	case ssc_key.end:
+		var a = o.scrollHeight - o.scrollTop - u;
+		s = a > 0 ? a + 10 : 0;
+		break;
+	case ssc_key.left:
+		i = -ssc_arrowscroll;
+		break;
+	case ssc_key.right:
+		i = ssc_arrowscroll;
+		break;
+	default:
+		return true
+	}
+	ssc_scrollArray(o, i, s);
+	e.preventDefault()
 }
 
 function ssc_mousedown(e) {
-    ssc_activeElement = e.target
+	ssc_activeElement = e.target
 }
 
 function ssc_setCache(e, t) {
-    for (var n = e.length; n--;) ssc_cache[ssc_uniqueID(e[n])] = t;
-    return t
+	for (var n = e.length; n--;) ssc_cache[ssc_uniqueID(e[n])] = t;
+	return t
 }
 
 function ssc_overflowingAncestor(e) {
-    var t = [];
-    var n = ssc_root.scrollHeight;
-    do {
-        var r = ssc_cache[ssc_uniqueID(e)];
-        if (r) {
-            return ssc_setCache(t, r)
-        }
-        t.push(e);
-        if (n === e.scrollHeight) {
-            if (!ssc_frame || ssc_root.clientHeight + 10 < n) {
-                return ssc_setCache(t, document.body)
-            }
-        } else if (e.clientHeight + 10 < e.scrollHeight) {
-            overflow = getComputedStyle(e, "").getPropertyValue("overflow");
-            if (overflow === "scroll" || overflow === "auto") {
-                return ssc_setCache(t, e)
-            }
-        }
-    } while (e = e.parentNode)
+	var t = [];
+	var n = ssc_root.scrollHeight;
+	do {
+		var r = ssc_cache[ssc_uniqueID(e)];
+		if (r) {
+			return ssc_setCache(t, r)
+		}
+		t.push(e);
+		if (n === e.scrollHeight) {
+			if (!ssc_frame || ssc_root.clientHeight + 10 < n) {
+				return ssc_setCache(t, document.body)
+			}
+		} else if (e.clientHeight + 10 < e.scrollHeight) {
+			overflow = getComputedStyle(e, "").getPropertyValue("overflow");
+			if (overflow === "scroll" || overflow === "auto") {
+				return ssc_setCache(t, e)
+			}
+		}
+	} while (e = e.parentNode)
 }
 
 function ssc_addEvent(e, t, n) {
-    window.addEventListener(e, t, n || false)
+	window.addEventListener(e, t, n || false)
 }
 
 function ssc_removeEvent(e, t, n) {
-    window.removeEventListener(e, t, n || false)
+	window.removeEventListener(e, t, n || false)
 }
 
 function ssc_isNodeName(e, t) {
-    return e.nodeName.toLowerCase() === t.toLowerCase()
+	return e.nodeName.toLowerCase() === t.toLowerCase()
 }
 
 function ssc_directionCheck(e, t) {
-    e = e > 0 ? 1 : -1;
-    t = t > 0 ? 1 : -1;
-    if (ssc_direction.x !== e || ssc_direction.y !== t) {
-        ssc_direction.x = e;
-        ssc_direction.y = t;
-        ssc_que = []
-    }
+	e = e > 0 ? 1 : -1;
+	t = t > 0 ? 1 : -1;
+	if (ssc_direction.x !== e || ssc_direction.y !== t) {
+		ssc_direction.x = e;
+		ssc_direction.y = t;
+		ssc_que = []
+	}
 }
 
 function ssc_pulse_(e) {
-    var t, n, r;
-    e = e * ssc_pulseScale;
-    if (e < 1) {
-        t = e - (1 - Math.exp(-e))
-    } else {
-        n = Math.exp(-1);
-        e -= 1;
-        r = 1 - Math.exp(-e);
-        t = n + r * (1 - n)
-    }
-    return t * ssc_pulseNormalize
+	var t, n, r;
+	e = e * ssc_pulseScale;
+	if (e < 1) {
+		t = e - (1 - Math.exp(-e))
+	} else {
+		n = Math.exp(-1);
+		e -= 1;
+		r = 1 - Math.exp(-e);
+		t = n + r * (1 - n)
+	}
+	return t * ssc_pulseNormalize
 }
 
 function ssc_pulse(e) {
-    if (e >= 1) return 1;
-    if (e <= 0) return 0;
-    if (ssc_pulseNormalize == 1) {
-        ssc_pulseNormalize /= ssc_pulse_(1)
-    }
-    return ssc_pulse_(e)
+	if (e >= 1) return 1;
+	if (e <= 0) return 0;
+	if (ssc_pulseNormalize == 1) {
+		ssc_pulseNormalize /= ssc_pulse_(1)
+	}
+	return ssc_pulse_(e)
 }
 
 var ssc_framerate = 150;
@@ -336,8 +336,8 @@ var ssc_keyboardsupport = true;
 var ssc_arrowscroll = 50;
 var ssc_frame = false;
 var ssc_direction = {
-    x: 0,
-    y: 0
+	x: 0,
+	y: 0
 };
 
 var ssc_initdone = false;
@@ -345,15 +345,15 @@ var ssc_fixedback = true;
 var ssc_root = document.documentElement;
 var ssc_activeElement;
 var ssc_key = {
-    left: 37,
-    up: 38,
-    right: 39,
-    down: 40,
-    spacebar: 32,
-    pageup: 33,
-    pagedown: 34,
-    end: 35,
-    home: 36
+	left: 37,
+	up: 38,
+	right: 39,
+	down: 40,
+	spacebar: 32,
+	pageup: 33,
+	pagedown: 34,
+	end: 35,
+	home: 36
 };
 
 var ssc_que = [];
@@ -361,22 +361,22 @@ var ssc_pending = false;
 var ssc_cache = {};
 
 setInterval(function () {
-    ssc_cache = {}
+	ssc_cache = {}
 }, 10 * 1e3);
 
 var ssc_uniqueID = function () {
-    var e = 0;
-    return function (t) {
-        return t.ssc_uniqueID || (t.ssc_uniqueID = e++)
-    }
+	var e = 0;
+	return function (t) {
+		return t.ssc_uniqueID || (t.ssc_uniqueID = e++)
+	}
 }();
 
 var ischrome = /chrome/.test(navigator.userAgent.toLowerCase());
 
 if (ischrome) {
-    ssc_addEvent("mousedown", ssc_mousedown);
-    ssc_addEvent("mousewheel", ssc_wheel);
-    ssc_addEvent("load", ssc_init)
+	ssc_addEvent("mousedown", ssc_mousedown);
+	ssc_addEvent("mousewheel", ssc_wheel);
+	ssc_addEvent("load", ssc_init)
 }
   
 
@@ -465,43 +465,169 @@ borderSize:4,showLens:!0,borderColour:"#888",lensBorderSize:1,lensBorderColour:"
 ================================================== */
 
 var uvelStore,
-    uvelStoreController = function() {
-        var $self = this,
-            window = $(window);
+	uvelStoreController = function() {
+		var $self = this,
+				window = $(window);
 
-        this.init = function() {
-        	var $quickViewTrigger = $('.quick_shop');
+		this.init = function() {
+			var $quickViewTrigger = $('.quick_shop');
 
-            $self.quickviewAttach($quickViewTrigger);
-        };
+			$self.quickviewAttach($quickViewTrigger);
+			$self.imageHandling();
+		};
 
-        this.quickviewAttach = function(quickViewTrigger) {
-	    	quickViewTrigger.on('click', function() {
-	        	var _this = $(this);
-	        	$self.quickviewOpen(_this);
-	    	})
-	    }
+		this.imageHandling = function() {
+		  var uploadImagesTrigger = $('.drop-area-input'),
+			  	dropArea = $('.drop-area'),
+			  	deleteImagesTriggerDropArea = $('.drop-area-gallery .close');
 
-	    this.quickviewOpen = function(currentPressedBtn) {
-	      var $this = currentPressedBtn,
-	          ajaxRequestLink = '/ajax/quickview/' + $this.attr('data-barcode');
+		  uploadImagesTrigger.on('change', function(event) {
+				var _this = $(this);
+				$self.uploadImages(event);
+		  });
 
-	    	$.ajax({
-	        	url: ajaxRequestLink,
-	        	success: function(resp) {
-	        		var modal = $this.parents().find('.edit--modal_holder .modal-content');
+		  $self.dragNdropImages(dropArea);
 
-	        		modal.html(resp);
-	        	}
-	    	})
-	    }
-    };
+		  $self.deleteImagesDropArea(deleteImagesTriggerDropArea);
+		}
+
+		this.uploadImages = function(event) {
+      var files = event.target.files,
+          collectionFiles= [];
+     
+      for(var file of files) {
+        if(file.type == "image/svg+xml") {
+          alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
+        } else {
+          collectionFiles.push(file);
+        }
+      }
+
+      $self.appendImages(collectionFiles);
+    }
+
+    this.dragNdropImages = function(dropArea) {
+      $('html').on('dragover', function(event) {
+        event.preventDefault();
+      })
+
+      $('html').on('drop', function(event) {
+        event.preventDefault();
+      })
+
+      dropArea.on('dragenter', function(event) {
+        event.preventDefault();
+        var _this = $(event.currentTarget);
+
+        _this.addClass('dragging');
+        _this.children().css('pointer-events', 'none');
+      })
+
+      dropArea.on('dragleave', function(event) {
+        event.preventDefault();
+        var _this = $(event.currentTarget);
+
+        _this.removeClass('dragging');
+        _this.children().css('pointer-events', 'auto');
+      })
+
+      dropArea.on('drop', function(event) {
+        event.preventDefault();
+        var _this = $(event.currentTarget),
+            collectionFiles = [];
+
+        event.dataTransfer = event.originalEvent.dataTransfer;
+        _this.removeClass('dragging');
+        _this.children().css('pointer-events', 'auto');
+
+        if (event.dataTransfer.items) {
+          for (var i=0; i<event.dataTransfer.items.length; i++) {
+            var item = event.dataTransfer.items[i];
+
+            if (item.kind === 'file') {
+              var file = item.getAsFile();
+              if(file.type == "image/svg+xml") {
+                alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
+              } else {
+                collectionFiles.push(file);
+              }
+            }
+          }
+        } else {
+          for (var i=0; i<event.dataTransfer.files.length; i++) {
+            var file = event.dataTransfer.files[i];
+            if(file.type == "image/svg+xml") {
+              alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
+            } else {
+              collectionFiles.push(file);
+            }
+          }
+        }
+
+        $self.appendImages(collectionFiles);
+      })
+    }
+
+    this.appendImages = function(collectionFiles) {
+      var _instanceFiles = [];
+
+      collectionFiles.forEach(function(element) {
+        var reader = new FileReader();
+        reader.readAsDataURL(element);
+
+        reader.onloadend = function() {
+          var imageWrapper = document.createElement('div');
+          var closeBtn = document.createElement('div');
+          var img = document.createElement('img');
+
+          _instanceFiles.push(reader.result);   
+
+          imageWrapper.setAttribute("class", "image-wrapper");
+          closeBtn.setAttribute("class", "close");
+          closeBtn.innerHTML = '&#215;';
+          $self.deleteImagesDropArea($(closeBtn));       
+          
+          img.src = reader.result;
+          imageWrapper.append(closeBtn);
+          imageWrapper.append(img);
+          $('.drop-area-gallery').append(imageWrapper);
+        }
+      });
+    }
+
+    this.deleteImagesDropArea = function(deleteBtn) {
+      deleteBtn.on('click', function() {
+        $(this).parent('.image-wrapper').remove();
+      });
+    }
+
+		this.quickviewAttach = function(quickViewTrigger) {
+				quickViewTrigger.on('click', function() {
+						var _this = $(this);
+						$self.quickviewOpen(_this);
+				})
+			}
+
+			this.quickviewOpen = function(currentPressedBtn) {
+			  var $this = currentPressedBtn,
+				  ajaxRequestLink = '/ajax/quickview/' + $this.attr('data-barcode');
+
+				$.ajax({
+						url: ajaxRequestLink,
+						success: function(resp) {
+								var modal = $this.parents().find('.edit--modal_holder .modal-content');
+
+								modal.html(resp);
+						}
+				})
+			}
+	};
 
 $(function() {
-    if(!window.console) window.console = {};
-    if(!window.console.log) window.console.log = function () {};
-    if(!window.console.info) window.console.info = function () {};
+	if(!window.console) window.console = {};
+	if(!window.console.log) window.console.log = function () {};
+	if(!window.console.info) window.console.info = function () {};
 
-    uvelStore = new uvelStoreController();
-    uvelStore.init();
+	uvelStore = new uvelStoreController();
+	uvelStore.init();
 });
