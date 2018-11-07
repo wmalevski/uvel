@@ -74,6 +74,7 @@
                                                 <textarea id="message" rows="5" class="form-control" name="content"></textarea>
                                             </li>
                                             <li class="clearfix"></li>
+                                            {!! app('captcha')->display() !!}
                                             <li class="unpadding-top">
                                                 <button type="submit" class="btn">Изпратете запитване</button>
                                             </li>

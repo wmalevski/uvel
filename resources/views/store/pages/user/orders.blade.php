@@ -26,7 +26,37 @@
 
                         <div id="col-main" class="col-md-24 register-page clearfix">
                            <table class="table">
-                                
+                            <thead>
+                                <tr>
+                                  <th scope="col">Име</th> 
+                                  <th scope="col">Email</th> 
+                                  <th scope="col">Телефон</th> 
+                                  <th scope="col">Град</th> 
+                                  <th scope="col">Модел</th> 
+                                  <th scope="col">Дата</th>
+                                  <th scope="col">Статус</th> 
+                                </tr>
+                              </thead>
+                              <tbody>
+                                  @foreach($orders as $order)
+                                  <tr data-id="{{ $order->id }}">
+                                    <td>{{ $order->user->name }}</td> 
+                                    <td>{{ $order->user->email }}</td> 
+                                    <td>{{ $order->user->phone }}</td> 
+                                    <td>{{ $order->user->city }}</td> 
+                                    <td>{{ $order->model->name }}</td> 
+                                    <td>{{ $order->created_at }}</td> 
+                                    <td>@if($order->status == 'pending') 
+                                            <span class="badge bgc-deep-purple-50 c-deep-purple-700 p-10 lh-0 tt-c badge-pill">Очаква одобрение</span> 
+                                        @elseif($order->status == 'accepted') 
+                                            <span class="badge bgc-orange-50 c-orange-700 p-10 lh-0 tt-c badge-pill">Приет/В процес</span> 
+                                        @elseif($order->status == 'ready') 
+                                            <span class="badge bgc-orange-50 c-orange-700 p-10 lh-0 tt-c badge-pill">Върнат от работилница</span> 
+                                        @else 
+                                            <span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">Получен</span>  @endif</td> 
+                                </tr>
+                                  @endforeach
+                              </tbody>     
                            </table>
                         </div>   
                     </div>

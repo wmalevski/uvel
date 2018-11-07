@@ -351,6 +351,8 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
     Route::get('/custom_order', 'CustomOrderController@index')->name('custom_order');
     Route::post('/custom_order', 'CustomOrderController@store')->name('submit_custom_order');
 
+    Route::get('/model_orders/', 'ModelOrderController@index')->name('model_orders');
+
     Route::get('/model_order/{model}', 'ModelOrderController@store')->name('order_model');
     
     Route::group(['prefix' => 'products'], function() {

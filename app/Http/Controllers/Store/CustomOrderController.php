@@ -44,7 +44,8 @@ class CustomOrderController extends Controller
             'email' => 'required|string|email|max:255',
             'content' => 'required|string',
             'phone' => 'required',
-            'city' => 'required'
+            'city' => 'required',
+            'g-recaptcha-response' => 'required|captcha'
         ]);
 
         if ($validator->fails()) {

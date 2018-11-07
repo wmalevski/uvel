@@ -9,9 +9,10 @@
                     <span class="news-desc">Обещаваме, че пращаме само най-доброто</span>
                     <div class="group_input">
                     <input class="form-control" type="email" placeholder="Вашият Email Адрес" name="email" id="email-input">
-                    {!! NoCaptcha::display(['data-theme' => 'dark']) !!}
-                    <div class="unpadding-top"><button class="btn btn-1" type="submit"><i class="fa fa-paper-plane"></i></button></div>
-                    </div>              
+                    <div class="unpadding-top">
+                        <button class="btn btn-1" type="submit"><i class="fa fa-paper-plane"></i></button></div>
+                    </div>   
+                    {!! app('captcha')->display() !!}           
                 </form>
                 </div>						
             </div>
