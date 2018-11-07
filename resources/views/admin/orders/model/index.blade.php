@@ -24,13 +24,14 @@ aria-hidden="true">
             <th scope="col">Email</th> 
             <th scope="col">Телефон</th> 
             <th scope="col">Град</th> 
+            <th scope="col">Модел</th> 
             <th scope="col">Статус</th> 
             <th scope="col">Действия</th>
           </tr>
         </thead>
         <tbody>
             @foreach($orders as $order)
-                @include('admin.orders.custom.table')
+                @include('admin.orders.model.table')
             @endforeach
         </tbody>
       </table>
