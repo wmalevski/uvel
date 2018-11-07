@@ -110,6 +110,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/orders/custom/{order}', 'CustomOrderController@edit');
 
+    Route::get('/orders/model', 'ModelOrderController@index')->name('model_orders');
+    
+    Route::get('/orders/model/{order}', 'ModelOrderController@edit');
+
     Route::get('/models', 'ModelController@index')->name('admin_models');
     Route::post('/models', 'ModelController@store');
 
@@ -240,6 +244,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::put('/users/{user}', 'UserController@update');
 
     Route::put('/orders/custom/{order}', 'CustomOrderController@update');
+    Route::put('/orders/model/{order}', 'ModelOrderController@update');
 
     Route::post('/users', 'UserController@store');
     Route::post('/users/delete/{user}', 'UserController@destroy');
@@ -345,6 +350,8 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
 
     Route::get('/custom_order', 'CustomOrderController@index')->name('custom_order');
     Route::post('/custom_order', 'CustomOrderController@store')->name('submit_custom_order');
+
+    Route::get('/model_order/{model}', 'ModelOrderController@store')->name('order_model');
     
     Route::group(['prefix' => 'products'], function() {
         Route::get('/', 'ProductController@index')->name('products');

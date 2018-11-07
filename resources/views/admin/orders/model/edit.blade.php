@@ -6,7 +6,7 @@
         </button>
     </div>
     
-    <form method="POST" data-type="edit" name="custom_order" action="orders/custom/{{ $order->id }}">
+    <form method="POST" data-type="edit" name="model_order" action="orders/model/{{ $order->id }}">
         <input name="_method" type="hidden" value="PUT">
         <div class="modal-body">    
                 <div class="info-cont">
@@ -15,27 +15,38 @@
     
             <div class="form-group">
                 <label for="1">Име на клиент: </label>
-                <input type="text" class="form-control" value="{{ $order->name }}" id="1" name="name" placeholder="Име:">
+                <input type="text" class="form-control" value="{{ $order->user->name }}" id="1" name="name" placeholder="Име:" readonly>
             </div>
 
             <div class="form-group">
                 <label for="2">Email на клиент: </label>
-                <input type="email" class="form-control" value="{{ $order->email }}" id="2" name="email" placeholder="Email:">
+                <input type="email" class="form-control" value="{{ $order->user->email }}" id="2" name="email" placeholder="Email:" readonly>
             </div>
 
             <div class="form-group">
                 <label for="3">Телефон на клиент: </label>
-                <input type="tel" class="form-control" value="{{ $order->phone }}" id="3" name="phone" placeholder="Телефон:">
+                <input type="tel" class="form-control" value="{{ $order->user->phone }}" id="3" name="phone" placeholder="Телефон:">
             </div>
 
             <div class="form-group">
                 <label for="4">Град на клиент: </label>
-                <input type="text" class="form-control" value="{{ $order->city }}" id="4" name="city" placeholder="Град:">
+                <input type="text" class="form-control" value="{{ $order->user->city }}" id="4" name="city" placeholder="Град:">
+            </div>
+
+            <div class="form-group">
+                <label>Модел: </label>
+                <select id="model_select_edit" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model>
+                    <option value="">Избери</option>
+            
+                    @foreach($models as $model)
+                        <option value="{{ $model->id }}" data-jewel="{{ $model->jewel->id }}" @if($order->model_id == $model->id) selected @endif>{{ $model->name }}</option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="4">Описание на поръчката: </label>
-                <textarea class="form-control" name="content">{{ $order->content }}</textarea>
+                <textarea class="form-control" name="content">{{ $order->user->content }}</textarea>
             </div>
 
             <div class="form-row">

@@ -151,7 +151,7 @@
                                     </li>
 
                                     <li class="nav-item">
-                                        <a href="">
+                                        <a href="{{ route('custom_order') }}">
                                             <span>По ваш модел</span>
                                         </a>
                                     </li>

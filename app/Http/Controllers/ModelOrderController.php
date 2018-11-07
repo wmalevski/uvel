@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\CustomOrder;
+use App\Model;
+use App\ModelOrder;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Redirect;
 use Response;
-use Mail;
 
-class CustomOrderController extends Controller
+class ModelOrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,9 +19,9 @@ class CustomOrderController extends Controller
      */
     public function index()
     {
-        $orders = CustomOrder::all();
+        $orders = ModelOrder::all();
         
-        return view('admin.orders.custom.index', compact('orders'));
+        return view('admin.orders.model.index', compact('orders'));
     }
 
     /**
@@ -41,7 +40,7 @@ class CustomOrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $model)
     {
         
     }
@@ -49,10 +48,10 @@ class CustomOrderController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\CustomOrder  $customOrder
+     * @param  \App\ModelOrder  $modelOrder
      * @return \Illuminate\Http\Response
      */
-    public function show(CustomOrder $customOrder)
+    public function show(ModelOrder $modelOrder)
     {
         //
     }
@@ -60,40 +59,33 @@ class CustomOrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\CustomOrder  $customOrder
+     * @param  \App\ModelOrder  $modelOrder
      * @return \Illuminate\Http\Response
      */
-    public function edit(CustomOrder $order)
+    public function edit(ModelOrder $order)
     {
-        return \View::make('admin/orders/custom/edit',array('order'=>$order));
+        $models = Model::all();
+        return \View::make('admin/orders/model/edit',array('order'=>$order, 'models' => $models));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\CustomOrder  $customOrder
+     * @param  \App\ModelOrder  $modelOrder
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CustomOrder $order)
+    public function update(Request $request, ModelOrder $order)
     {
         $validator = Validator::make( $request->all(), [
-            'name' => 'required|string',
-            'email' => 'required|string|email|max:255',
-            'content' => 'required|string',
-            'phone' => 'required',
-            'city' => 'required'
+            'model_id' => 'required'
         ]);
 
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $order->name = $request->name;
-        $order->email = $request->email;
-        $order->content = $request->content;
-        $order->phone = $request->phone;
-        $order->city = $request->city;
+        $order->model_id = $request->model_id;
 
         if($request->status_accept == 'true'){
             $order->status = 'accepted';
@@ -105,16 +97,16 @@ class CustomOrderController extends Controller
         
         $order->save();
 
-        return Response::json(array('ID' => $order->id, 'table' => View::make('admin/orders/custom/table',array('order'=>$order))->render()));
+        return Response::json(array('ID' => $order->id, 'table' => View::make('admin/orders/model/table',array('order'=>$order))->render()));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\CustomOrder  $customOrder
+     * @param  \App\ModelOrder  $modelOrder
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CustomOrder $customOrder)
+    public function destroy(ModelOrder $modelOrder)
     {
         //
     }
