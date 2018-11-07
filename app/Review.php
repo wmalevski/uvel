@@ -23,4 +23,15 @@ class Review extends Model
 
     protected $dates = ['deleted_at'];
 
+    public function product() {
+        return $this->belongsTo('App\Product');
+    }
+
+    public function model() {
+        return $this->belongsTo('App\Model');
+    }
+
+    public function productOther() {
+        return $this->belongsTo('App\ProductOther');
+    }
 }

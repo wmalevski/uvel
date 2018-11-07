@@ -33,6 +33,7 @@ class ProductController extends Controller
     }
 
     public function show(Product $product){
+
         $products = Product::where([
             ['status', '=', 'available']
         ])->paginate(12);

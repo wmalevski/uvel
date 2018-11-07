@@ -26,4 +26,9 @@ class ProductOther extends Model
     {
         return $this->belongsTo('App\Store')->withTrashed();
     }
+
+    public function reviews() 
+    {
+        return $this->hasMany('App\Review');
+    }
 }

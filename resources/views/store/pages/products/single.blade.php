@@ -1,7 +1,6 @@
 @extends('store.layouts.app', ['bodyClass' => 'templateProduct'])
 
 @section('content')
-
 	<div id="content-wrapper-parent">
 		<div id="content-wrapper">  
 			<!-- Content -->
@@ -21,6 +20,23 @@
 				</div>         
 				<section class="content">
 					<div class="container">
+						<div class="row" style="margin-top: 20px;">
+							<div class="col-md-12">
+								@if($errors->any())
+									<ul class="alert alert-danger">
+										@foreach ($errors->all() as $error)
+											<li>{{ $error }}</li>
+										@endforeach
+									</ul>
+								@endif 
+
+								@if(session()->has('success'))
+									<div class="alert alert-success">
+										{{ session()->get('success') }}
+									</div>
+								@endif
+							</div>
+						</div>
 						<div class="row">              
 							<div id="col-main" class="product-page col-xs-24 col-sm-24 ">
 								<div itemscope="" itemtype="http://schema.org/Product">
@@ -160,89 +176,101 @@
 											</div>
 										</div>
 										<div id="shopify-product-reviews" data-id="1293236931">
-													<style scoped="">
-													  .spr-container {
-														padding: 24px;
-														border-color: #ECECEC;
-													  }
-													  .spr-review, .spr-form {
-														border-color: #ECECEC;
-													  }
-													</style>
-													<div class="spr-container">
-														<div class="spr-header">
-															<h2 class="spr-header-title">Ревюта</h2>
-															<div class="spr-summary" itemscope="" itemtype="http://data-vocabulary.org/Review-aggregate">
-																<meta itemprop="itemreviewed" content="Donec aliquam ante non">
-																<meta itemprop="votes" content="1">
-																<span itemprop="rating" itemscope="" itemtype="http://data-vocabulary.org/Rating" class="spr-starrating spr-summary-starrating">
-																<meta itemprop="average" content="4.0">
-																<meta itemprop="best" content="5">
-																<meta itemprop="worst" content="1">
-																<i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i>
-																</span>
-																<span class="spr-summary-caption">
-																<span class="spr-summary-actions-togglereviews">Базирано на 1 ревю</span>
-																</span>
-																{{-- <span class="spr-summary-actions">
-																<a href="#" class="spr-summary-actions-newreview" onclick="SPR.toggleForm({{$product->id}});return false">Напиши ревю</a>
-																</span> --}}
-															</div>
-														</div>
-														<div class="spr-content">
-															<div class="spr-form" id="form_{{$product->id}}">
-																<form method="post" action="{{ route('product_review', ['product' => $product->id])  }}" id="new-review-form_{{$product->id}}" class="new-review-form">
-																	{{ csrf_field() }}
-																	<input type="hidden" name="rating" value="5">
-																	<h3 class="spr-form-title">Напиши ревю</h3>
-																	<fieldset class="spr-form-review">
-																		<div class="spr-form-review-rating">
-																			<label class="spr-form-label">Рейтинг</label>
-																			<div class="spr-form-input spr-starrating ">
-																				<a href="#" onclick="SPR.setRating(this);return false;" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="1">&nbsp;</a>
-																				<a href="#" onclick="SPR.setRating(this);return false;" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="2">&nbsp;</a>
-																				<a href="#" onclick="SPR.setRating(this);return false;" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="3">&nbsp;</a>
-																				<a href="#" onclick="SPR.setRating(this);return false;" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="4">&nbsp;</a>
-																				<a href="#" onclick="SPR.setRating(this);return false;" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="5">&nbsp;</a>
-																			</div>
-																		</div>
-																		<div class="spr-form-review-title">
-																			<label class="spr-form-label" for="review_title_{{$product->id}}">Заглавие</label>
-																			<input class="spr-form-input spr-form-input-text " id="review_title_{{$product->id}}" type="text" name="title" value="" placeholder="Заглавие на ревюто">
-																		</div>
-																		<div class="spr-form-review-body">
-																			<label class="spr-form-label" for="review_body_{{$product->id}}">Описание <span class="spr-form-review-body-charactersremaining">(1500)</span></label>
-																			<div class="spr-form-input">
-																				<textarea class="spr-form-input spr-form-input-textarea " id="review_body_{{$product->id}}" data-product-id="{{$product->id}}" name="content" rows="10" placeholder="Добавете вашият коментар за ревюто тук"></textarea>																				
-																			</div>
-																		</div>
-																	</fieldset>
-																	<fieldset class="spr-form-actions">
-																		<input type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary" value="Добави рейтинг">
-																	</fieldset>
-																	<input type="hidden" name="product_id" value="{{$product->id}}">
-																	<input type="hidden" name="type" value="product">
-																</form>
-															</div>
-															<div class="spr-reviews" id="reviews_{{$product->id}}">
-																<div class="spr-review" id="spr-review-906174">
-																	<div class="spr-review-header">
-																		<span class="spr-starratings spr-review-header-starratings"><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
-																		<h3 class="spr-review-header-title">test</h3>
-																		<span class="spr-review-header-byline"><strong>test</strong> on <strong>Aug 10, 2015</strong></span>
-																	</div>
-																	<div class="spr-review-content">
-																		<p class="spr-review-content-body">
-																			test
-																		</p>
-																	</div>
-																	<div class="spr-review-footer">
-																		<a href="#" class="spr-review-reportreview" onclick="SPR.reportReview(906174);return false" id="report_906174" data-msg="This review has been reported">Докладвай</a>
+											<style scoped="">
+												.spr-container {
+												padding: 24px;
+												border-color: #ECECEC;
+												}
+												.spr-review, .spr-form {
+												border-color: #ECECEC;
+												}
+											</style>
+											<div class="spr-container">
+												<div class="spr-header">
+													<h2 class="spr-header-title">Ревюта</h2>
+													<div class="spr-summary" itemscope="" itemtype="http://data-vocabulary.org/Review-aggregate">
+														<meta itemprop="itemreviewed" content="Donec aliquam ante non">
+														<meta itemprop="votes" content="1">
+														<span itemprop="rating" itemscope="" itemtype="http://data-vocabulary.org/Rating" class="spr-starrating spr-summary-starrating">
+														<meta itemprop="average" content="4.0">
+														<meta itemprop="best" content="5">
+														<meta itemprop="worst" content="1">
+														<i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i>
+														</span>
+														<span class="spr-summary-caption">
+														<span class="spr-summary-actions-togglereviews">Базирано на 1 ревю</span>
+														</span>
+														{{-- <span class="spr-summary-actions">
+														<a href="#" class="spr-summary-actions-newreview" onclick="SPR.toggleForm({{$product->id}});return false">Напиши ревю</a>
+														</span> --}}
+													</div>
+												</div>
+												<div class="spr-content">
+													<div class="spr-form" id="form_{{$product->id}}">
+														<form method="post" action="{{ route('product_review', ['product' => $product->id])  }}" id="new-review-form_{{$product->id}}" class="new-review-form">
+															{{ csrf_field() }}
+															<input type="hidden" name="rating" value="5">
+															<h3 class="spr-form-title">Напиши ревю</h3>
+															<fieldset class="spr-form-review">
+																<div class="spr-form-review-rating">
+																	<label class="spr-form-label">Рейтинг</label>
+																	<div class="spr-form-input spr-starrating ">
+																		<a href="#" onclick="SPR.setRating(this);return false;" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="1">&nbsp;</a>
+																		<a href="#" onclick="SPR.setRating(this);return false;" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="2">&nbsp;</a>
+																		<a href="#" onclick="SPR.setRating(this);return false;" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="3">&nbsp;</a>
+																		<a href="#" onclick="SPR.setRating(this);return false;" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="4">&nbsp;</a>
+																		<a href="#" onclick="SPR.setRating(this);return false;" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="5">&nbsp;</a>
 																	</div>
 																</div>
-															</div>
-														</div>
+																<div class="spr-form-review-title">
+																	<label class="spr-form-label" for="review_title_{{$product->id}}">Заглавие</label>
+																	<input class="spr-form-input spr-form-input-text " id="review_title_{{$product->id}}" type="text" name="title" value="" placeholder="Заглавие на ревюто">
+																</div>
+																<div class="spr-form-review-body">
+																	<label class="spr-form-label" for="review_body_{{$product->id}}">Описание <span class="spr-form-review-body-charactersremaining">(1500)</span></label>
+																	<div class="spr-form-input">
+																		<textarea class="spr-form-input spr-form-input-textarea " id="review_body_{{$product->id}}" data-product-id="{{$product->id}}" name="content" rows="10" placeholder="Добавете вашият коментар за ревюто тук"></textarea>																				
+																	</div>
+																</div>
+															</fieldset>
+															<fieldset class="spr-form-actions">
+																<input type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary" value="Добави рейтинг">
+															</fieldset>
+															<input type="hidden" name="product_id" value="{{$product->id}}">
+															<input type="hidden" name="type" value="product">
+														</form>
 													</div>
+													<div class="spr-reviews" id="reviews_{{$product->id}}">
+														@foreach($product->reviews as $key => $review)
+															<div class="spr-review" id="spr-review-{{$key}}">
+																<div class="spr-review-header">
+																	<span class="spr-starratings spr-review-header-starratings">
+																		@for($i = 1; $i <= 5; $i++)
+																			@if($review->rating >= $i)
+																				<i class="spr-icon spr-icon-star" style=""></i>
+																			@elseif($review->rating < $i) 
+																				<i class="spr-icon spr-icon-star-empty" style=""></i>
+																			@endif																			
+																		@endfor																		
+																	</span>
+																	<h3 class="spr-review-header-title">{{$review->title}}</h3>
+																	<span class="spr-review-header-byline">
+																		<strong>{{Auth::user()->name}}</strong> on <strong>{{$review->created_at}}</strong>
+																	</span>
+																</div>
+																<div class="spr-review-content">
+																	<p class="spr-review-content-body">
+																		{{$review->content}}
+																	</p>
+																</div>
+																<div class="spr-review-footer">
+																	<a href="#" class="spr-review-reportreview" onclick="SPR.reportReview({{$key}});return false" id="report_{{$key}}" data-msg="This review has been reported">Докладвай</a>
+																</div>
+															</div>
+														@endforeach
+													</div>
+												</div>
+											</div>
 										</div>				
 									</div>
 								</div>         
