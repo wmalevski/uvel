@@ -40,4 +40,9 @@ class Model extends BaseModel
     {
         return $this->hasMany('App\Gallery');
     }
+
+    public function reviews() 
+    {
+        return $this->hasMany('App\Review');
+    }
 }

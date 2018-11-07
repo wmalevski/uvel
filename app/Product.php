@@ -65,6 +65,11 @@ class Product extends Model
         return $this->belongsTo('App\Price')->withTrashed();
     }
 
+    public function reviews() 
+    {
+        return $this->hasMany('App\Review');
+    }
+
     public function chainedSelects(Model $model){
         $materials = MaterialQuantity::curStore();
         $default = $model->options->where('default', 'yes')->first();

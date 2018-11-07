@@ -18,7 +18,6 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
@@ -64,6 +63,9 @@ class ReviewController extends Controller
             $review->product_others_id = $request->product_others_id;
         }
         $review->save();
+
+        return Redirect::back()->with('success', 'Съобщението ви беше изпратено успешно');
+
     }
 
     /**
