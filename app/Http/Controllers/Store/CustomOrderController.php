@@ -54,6 +54,21 @@ class CustomOrderController extends Controller
 
         $customOrder = CustomOrder::create($request->all());
 
+        //$to = explode(',', env('ADMIN_EMAILS'));
+
+        Mail::send('order',
+        array(
+            'name' => $request->name,
+            'email' => $request->email,
+            'city' => $request->city,
+            'phone' => $request->phone,
+            'content' => $request->content
+        ), function($message) {
+            $emails = ['galabin@rubberduck.xyz'];
+            $message->from('galabin@rubberduck.xyz');
+            $message->to($emails)->subject('Uvel Поръчка');
+        });
+
         return Redirect::back()->with('success', 'Съобщението ви беше изпратено успешно');
     }
 
