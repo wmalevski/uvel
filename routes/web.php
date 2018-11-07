@@ -368,7 +368,7 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
         Route::get('/{model}', 'ModelController@show')->name('single_model');
     });
 
-    Route::get('/cart/addItem/{item}', 'CartController@addItem');
+    Route::get('/cart/addItem/{item}/{quantity}', 'CartController@addItem');
 
 
 });
