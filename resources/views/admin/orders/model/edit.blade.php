@@ -6,7 +6,7 @@
         </button>
     </div>
     
-    <form method="POST" data-type="edit" name="custom_order" action="oders/model/{{ $order->id }}">
+    <form method="POST" data-type="edit" name="model_order" action="oders/model/{{ $order->id }}">
         <input name="_method" type="hidden" value="PUT">
         <div class="modal-body">    
                 <div class="info-cont">
