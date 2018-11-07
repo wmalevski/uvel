@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
+use Response;
 use Mail;
 
 class CustomOrderController extends Controller
@@ -84,7 +86,7 @@ class CustomOrderController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return Redirect::back()->withErrors($validator);
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
         $order->name = $request->name;
@@ -92,7 +94,14 @@ class CustomOrderController extends Controller
         $order->content = $request->content;
         $order->phone = $request->phone;
         $order->city = $request->city;
-        $order->status = $request->status;
+
+        if($request->status_accept == 'true'){
+            $order->status = 'accepted';
+        } else if($request->status_ready == 'true'){
+            $order->status = 'ready';
+        } else if($request->status_delivered == 'true'){
+            $order->status = 'delivered';
+        }
         
         $order->save();
 

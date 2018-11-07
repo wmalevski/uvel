@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Model;
 use App\ModelOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Redirect;
+use Response;
 
 class ModelOrderController extends Controller
 {
@@ -59,7 +64,8 @@ class ModelOrderController extends Controller
      */
     public function edit(ModelOrder $order)
     {
-        return \View::make('admin/orders/model/edit',array('order'=>$order));
+        $models = Model::all();
+        return \View::make('admin/orders/model/edit',array('order'=>$order, 'models' => $models));
     }
 
     /**
@@ -76,10 +82,18 @@ class ModelOrderController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return Redirect::back()->withErrors($validator);
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
         $order->model_id = $request->model_id;
+
+        if($request->status_accept == 'true'){
+            $order->status = 'accepted';
+        } else if($request->status_ready == 'true'){
+            $order->status = 'ready';
+        } else if($request->status_delivered == 'true'){
+            $order->status = 'delivered';
+        }
         
         $order->save();
 

@@ -6,7 +6,7 @@
         </button>
     </div>
     
-    <form method="POST" data-type="edit" name="custom_order" action="oders/custom/{{ $order->id }}">
+    <form method="POST" data-type="edit" name="custom_order" action="orders/custom/{{ $order->id }}">
         <input name="_method" type="hidden" value="PUT">
         <div class="modal-body">    
                 <div class="info-cont">
@@ -42,17 +42,17 @@
                 <div class="form-group col-md-5">
                     <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
                         @if($order->status == 'pending')
-                            <input type="checkbox" id="inputCall1" name="status" class="peer" value="accepted">
+                            <input type="checkbox" id="inputCall1" name="status_accept" class="peer">
                             <label for="inputCall1" class="peers peer-greed js-sb ai-c">
                                 <span class="peer peer-greed">Приемане</span>
                             </label>
                         @elseif($order->status == 'accepted')
-                            <input type="checkbox" id="inputCall1" name="status" class="peer" value="ready">
+                            <input type="checkbox" id="inputCall1" name="status_ready" class="peer">
                             <label for="inputCall1" class="peers peer-greed js-sb ai-c">
                                 <span class="peer peer-greed">Готов за предаване</span>
                             </label>
                         @elseif($order->status == 'ready')
-                            <input type="checkbox" id="inputCall1" name="status" class="peer" value="delivered">
+                            <input type="checkbox" id="inputCall1" name="status_delivered" class="peer" value="delivered">
                             <label for="inputCall1" class="peers peer-greed js-sb ai-c">
                                 <span class="peer peer-greed">Получен</span>
                             </label>
