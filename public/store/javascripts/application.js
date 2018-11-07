@@ -470,10 +470,12 @@ var uvelStore,
 				window = $(window);
 
 		this.init = function() {
-			var $quickViewTrigger = $('.quick_shop');
+			var $quickViewTrigger = $('.quick_shop'),
+					$subscribeTrigger = $('form[name="mc-embedded-subscribe-form"] button[type="submit"]');
 
 			$self.quickviewAttach($quickViewTrigger);
 			$self.imageHandling();
+			$self.subscribeAttach($subscribeTrigger);
 		};
 
 		this.imageHandling = function() {
@@ -602,25 +604,56 @@ var uvelStore,
     }
 
 		this.quickviewAttach = function(quickViewTrigger) {
-				quickViewTrigger.on('click', function() {
-						var _this = $(this);
-						$self.quickviewOpen(_this);
-				})
-			}
+			quickViewTrigger.on('click', function() {
+				var _this = $(this);
+				$self.quickviewOpen(_this);
+			})
+		}
 
-			this.quickviewOpen = function(currentPressedBtn) {
-			  var $this = currentPressedBtn,
-				  ajaxRequestLink = '/ajax/quickview/' + $this.attr('data-barcode');
+		this.quickviewOpen = function(currentPressedBtn) {
+		  var $this = currentPressedBtn,
+			  	ajaxRequestLink = '/ajax/quickview/' + $this.attr('data-barcode');
 
-				$.ajax({
-						url: ajaxRequestLink,
-						success: function(resp) {
-								var modal = $this.parents().find('.edit--modal_holder .modal-content');
+			$.ajax({
+				url: ajaxRequestLink,
+				success: function(resp) {
+					var modal = $this.parents().find('.edit--modal_holder .modal-content');
 
-								modal.html(resp);
-						}
-				})
-			}
+					modal.html(resp);
+				}
+			})
+		}
+
+		this.subscribeAttach = function(subscribeTrigger) {
+			subscribeTrigger.on('click', function(e) {
+				e.preventDefault();
+				var _this = $(this);
+				$self.subscribe(_this);
+			})
+		}
+
+		this.subscribe = function(subscribeBtn) {
+			var _this = subscribeBtn,
+					form = _this.closest('form'),
+					ajaxRequestLink = form.attr('action'),
+					mail = form.find('input[name="email"]').val(),
+					data = {token: $('meta[name="csrf-token"]').attr('content')};
+
+			data.email = mail;
+
+			$.ajax({
+				method: "POST",
+				url: ajaxRequestLink,
+				dataType: "json",
+				data: data,
+				success: function(resp) {
+					// body...
+				},
+				error: function(err) {
+					// body...
+				}
+			})
+		}
 	};
 
 $(function() {
