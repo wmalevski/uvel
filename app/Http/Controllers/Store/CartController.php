@@ -33,7 +33,7 @@ class CartController extends Controller
         return \View::make('store.pages.cart', array('items' => $items, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity));
     }
 
-    public function addItem($item, $quantity){
+    public function addItem($item, $quantity = 1){
         $session_id = session()->getId();
 
         $product = Product::where('barcode', $item)->first();
