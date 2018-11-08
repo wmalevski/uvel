@@ -209,4 +209,12 @@ class Product extends Model
         {
             return $query->orderBy(DB::raw('ABS(`price` - '.$price.')'));
         }
+
+        public function getSimilarProductAvgRating($product) {
+            $productTotalRating = 0;
+            foreach($product->reviews as $review) {
+                $productTotalRating = $productTotalRating + $review->rating;
+            }
+            return $productAvgRating = $productTotalRating/count($product->reviews);
+        }
     }
