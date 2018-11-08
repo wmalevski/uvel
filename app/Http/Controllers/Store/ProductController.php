@@ -41,15 +41,9 @@ class ProductController extends Controller
 
         $allProducts = Product::select('*')->where('jewel_id',$product->jewel_id )->whereNotIn('id', [$product->id]);
         $similarProducts = $allProducts->orderBy(DB::raw('ABS(`price` - '.$product->price.')'))->take(5)->get();
-
-        $productTotalRating = 0;
-        foreach($product->reviews as $review) {
-            $productTotalRating = $productTotalRating + $review->rating;
-        }
-        $productAvgRating = $productTotalRating/count($product->reviews);
         
         if($product){
-            return \View::make('store.pages.products.single', array('product' => $product, 'products' => $products, 'similarProducts' => $similarProducts, 'productAvgRating' => $productAvgRating));
+            return \View::make('store.pages.products.single', array('product' => $product, 'products' => $products, 'similarProducts' => $similarProducts, 'productAvgRating' => $product->getSimilarProductAvgRating($product)));
         }
     }
 
