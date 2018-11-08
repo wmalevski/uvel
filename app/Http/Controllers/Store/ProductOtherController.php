@@ -12,22 +12,20 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\User;
+use App\Http\Controllers\Store\ProductOtherController;
 
-class ProductController extends Controller
+class ProductOtherController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $products = Product::where([
-            ['status', '=', 'available']
+        $products = ProductOther::where([
+            ['quantity', '!=', 0]
         ])->paginate(12);
-
-        $products = new Product();
-        $products = $list->filterProducts($request, $products);
 
         $stores = Store::all()->except(1);
 
@@ -39,27 +37,26 @@ class ProductController extends Controller
 
         $jewels = Jewel::all();
 
-        return \View::make('store.pages.products.index', array('products' => $products, 'stores' => $stores, 'materials' => $materials, 'jewels' => $jewels, 'productothertypes' => $productothertypes, 'materialTypes' => $materialTypes));
+        return \View::make('store.pages.productsothers.index', array('products' => $products, 'stores' => $stores, 'materials' => $materials, 'jewels' => $jewels, 'productothertypes' => $productothertypes, 'materialTypes' => $materialTypes));
     }
 
-    public function show(Product $product){
+    public function show(ProductOther $product){
+        $productothertypes = ProductOtherType::all();
 
-        $products = Product::where([
-            ['status', '=', 'available']
-        ])->paginate(12);
+        $products = ProductOther::paginate(12);
 
         $materialTypes = MaterialType::all();
 
-        $allProducts = Product::select('*')->where('jewel_id',$product->jewel_id )->whereNotIn('id', [$product->id]);
+        $allProducts = ProductOther::select('*')->where('type_id',$product->type_id )->whereNotIn('id', [$product->id]);
         $similarProducts = $allProducts->orderBy(DB::raw('ABS(`price` - '.$product->price.')'))->take(5)->get();
         
         if($product){
-            return \View::make('store.pages.products.single', array('materialTypes' => $materialTypes, 'product' => $product, 'products' => $products, 'similarProducts' => $similarProducts, 'productAvgRating' => $product->getSimilarProductAvgRating($product)));
+            return \View::make('store.pages.productsothers.single', array('productothertypes' => $productothertypes, 'materialTypes' => $materialTypes, 'product' => $product, 'products' => $products, 'similarProducts' => $similarProducts, 'productAvgRating' => $product->getSimilarProductAvgRating($product)));
         }
     }
 
     public function filter(Request $request){
-        $query = Product::select('*');
+        $query = ProductOther::select('*');
 
         if ($request->priceFrom && $request->priceTo) {
             $query = $query->whereBetween('price', [$request->priceFrom, $request->priceTo]);
@@ -67,6 +64,10 @@ class ProductController extends Controller
             $query = $query->where('price', '>=', $request->priceFrom);
         } else if($request->priceTo){
             $query = $query->where('price', '<=', $request->priceTo);
+        }
+
+        if ($request->byType) {
+            $query = $query->whereIn('type_id', $request->byType);
         }
 
         if ($request->size) {
@@ -112,4 +113,5 @@ class ProductController extends Controller
             return \View::make('store/pages/products/quickview', array('product' => $product ,'type' => $type));
         }
     }
+
 }

@@ -46,6 +46,17 @@ aria-hidden="true">
 															<h6 class="sb-title">Филтри</h6>
 															<div class="tag-group" id="coll-filter-3">
 																<p class="title">
+																	Тип
+																</p>
+																<ul>
+																	@foreach($productothertypes as $type)
+																		<li><a title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $type->name }} </a></li>
+																	@endforeach
+																</ul>
+															</div>
+
+															<div class="tag-group" id="coll-filter-3">
+																<p class="title">
 																	Налично в
 																</p>
 																<ul>
@@ -56,31 +67,6 @@ aria-hidden="true">
 															</div>
 															<!-- tags groupd 3 -->
 
-															<!-- tags groupd 3 -->
-															<div class="tag-group" id="coll-filter-3">
-																	<p class="title">
-																		Вид бижу
-																	</p>
-																	<ul>
-																		@foreach($jewels as $jewel)
-																			<li><a title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $jewel->name }} ({{ count($jewel->products) }})</a></li>
-																		@endforeach
-																	</ul>
-																</div>
-																<!-- tags groupd 3 -->
-
-															<!-- tags groupd 3 -->
-															<div class="tag-group" id="coll-filter-3">
-																<p class="title">
-																	Материал
-																</p>
-																<ul>
-																	@foreach($materials as $material)
-																		<li><a title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $material->name }} ({{ count($material->products) }})</a></li>
-																	@endforeach
-																</ul>
-															</div>
-															<!-- tags groupd 3 -->
 
 															<!-- tags groupd 3 -->
 															<div class="tag-group" id="coll-filter-3">
@@ -151,7 +137,7 @@ aria-hidden="true">
                                                     <li class="element first no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}">
                                                         <ul class="row-container list-unstyled clearfix">
                                                             <li class="row-left">
-                                                            <a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">
+                                                            <a href="{{ route('single_product_other', ['product' => $product->id])  }}" class="container_item">
                                                             <img src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif" class="img-responsive" alt="{{ $product->name }}">
                                                             </a>
                                                             <div class="hbw">
@@ -160,7 +146,7 @@ aria-hidden="true">
                                                             </li>
                                                             <li class="row-right parent-fly animMix">
                                                             <div class="product-content-left">
-                                                                <a class="title-5" href="{{ route('single_product', ['product' => $product->id])  }}">{{ $product->name }}</a>
+                                                                <a class="title-5" href="{{ route('single_product_other', ['product' => $product->id])  }}">{{ $product->name }}</a>
                                                                 <span class="spr-badge" id="spr_badge_12932382113" data-rating="0.0">
                                                                 <span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
                                                                 <span class="spr-badge-caption">
@@ -173,9 +159,9 @@ aria-hidden="true">
                                                                 </div>
                                                             </div>
                                                             <div class="list-mode-description">
-																 Модел: {{ $product->model->name }} <br/>
+																 {{-- Модел: {{ $product->model->name }} <br/>
 																 Бижу: {{ $product->jewel->name }} <br/>
-																 Размер: {{ $product->model->size }}
+																 Размер: {{ $product->model->size }} --}}
                                                             </div>
                                                             <div class="hover-appear">
                                                                 <form action="#" method="post">

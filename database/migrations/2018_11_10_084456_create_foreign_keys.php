@@ -131,7 +131,7 @@ class CreateForeignKeys extends Migration {
 						->onDelete('cascade')
 						->onUpdate('cascade');
 
-			$table->foreign('product_others_id')->references('id')->on('products_others')
+			$table->foreign('product_other_id')->references('id')->on('products_others')
 						->onDelete('cascade')
 						->onUpdate('cascade');
 		});
