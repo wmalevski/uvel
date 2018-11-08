@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Store;
 use App\Product;
 use App\Jewel;
+use App\Material;
+use App\MaterialType;
+use App\ProductOtherType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Blog;
@@ -20,11 +23,17 @@ class StoreController extends Controller
             ['status', '=', 'available']
         ])->get();
 
+        $productothertypes = ProductOtherType::all();
+
+        $materialsTypes = MaterialType::all();
+
         $jewels = Jewel::all();
 
         $articles = Blog::take(3)->get();
 
-        return \View::make('store.pages.index', array('products' => $products, 'jewels' => $jewels, 'articles' => $articles));
+        //dd($productothertypes);
+
+        return \View::make('store.pages.index', array('products' => $products, 'jewels' => $jewels, 'articles' => $articles, 'materialTypes' => $materialsTypes, 'productothertypes' => $productothertypes));
     }
 
 }

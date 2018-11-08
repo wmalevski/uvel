@@ -111,11 +111,23 @@
                                             <span>Начало</span>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('products') }}">
-                                            <span>Бижута</span>
-                                        </a>
-                                    </li>
+                                    <li class="nav-item dropdown">
+										<a href="{{ route('products') }}" class="dropdown-toggle dropdown-link" data-toggle="dropdown">
+										<span>Бижута</span>
+										<i class="fa fa-caret-down"></i>
+										<i class="sub-dropdown1 visible-sm visible-md visible-lg"></i>
+										<i class="sub-dropdown visible-sm visible-md visible-lg"></i>
+										</a>
+										<ul class="dropdown-menu" style="display: none;">
+                                            @foreach($materialTypes as $material)
+                                                <li class=""><a tabindex="-1" href="{{ route('products') }}?byMaterial={{ $material->id }}">{{ $material->name }}</a></li>
+                                            @endforeach
+
+                                            @foreach($productothertypes as $type)
+                                                <li class=""><a tabindex="-1" href="{{ route('productsothers') }}?byType={{ $type->id }}">{{ $type->name }}</a></li>
+                                            @endforeach
+										</ul>
+									</li>
 
                                     <li class="nav-item">
                                         <a href="{{ route('models') }}">
