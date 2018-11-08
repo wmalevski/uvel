@@ -212,9 +212,11 @@ class Product extends Model
 
         public function getSimilarProductAvgRating($product) {
             $productTotalRating = 0;
-            foreach($product->reviews as $review) {
-                $productTotalRating = $productTotalRating + $review->rating;
+            if(count($product->reviews)){
+                foreach($product->reviews as $review) {
+                    $productTotalRating = $productTotalRating + $review->rating;
+                }
+                return $productAvgRating = $productTotalRating/count($product->reviews);
             }
-            return $productAvgRating = $productTotalRating/count($product->reviews);
         }
     }
