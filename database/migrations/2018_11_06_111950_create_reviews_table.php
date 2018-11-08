@@ -21,7 +21,7 @@ class CreateReviewsTable extends Migration
             $table->integer('user_id')->unsigned()->nullable();
             $table->integer('product_id')->unsigned()->nullable();
             $table->integer('model_id')->unsigned()->nullable();
-            $table->integer('product_others_id')->unsigned()->nullable();
+            $table->integer('product_other_id')->unsigned()->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

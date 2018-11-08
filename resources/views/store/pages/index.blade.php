@@ -50,7 +50,7 @@
                             <div class="group_home_collections row">
                                 <div class="col-md-24">
                                     <div class="home_collections">
-                                        <h6 class="general-title">Popular Collections</h6>
+                                        <h6 class="general-title">Популярни</h6>
                                         <div class="home_collections_wrapper">												
                                             <div id="home_collections">
                                                 @foreach($jewels as $jewel)
@@ -95,7 +95,7 @@
                             <div class="group_home_products row">
                                 <div class="col-md-24">
                                     <div class="home_products">
-                                        <h6 class="general-title">New Products</h6>
+                                        <h6 class="general-title">Нови продукти</h6>
                                         <div class="home_products_wrapper">
                                             <div id="home_products">
                                                 @foreach ( $products->take(3) as $key => $product ) 
@@ -156,7 +156,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="home-banner-wrapper">
+                    {{-- <div class="home-banner-wrapper">
                         <div class="container">
                             <div id="home-banner" class="text-center clearfix">
                                 <img class="pulse img-banner-caption" src="./assets/images/demo_230x235.png" alt="">
@@ -171,7 +171,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="home-blog">
                         <div class="container">
                             <div class="home-promotion-blog row">
@@ -220,7 +220,7 @@
                             <div class="group_featured_products row">
                                 <div class="col-md-24">
                                     <div class="home_fp">
-                                        <h6 class="general-title">Featured Products</h6>
+                                        <h6 class="general-title">Още продукти</h6>
                                         <div class="home_fp_wrapper">
                                             <div id="home_fp">  
                                                 @foreach ( $products->take(10) as $key => $product ) 					

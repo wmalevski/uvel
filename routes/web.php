@@ -360,7 +360,11 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
         Route::get('/{product}', 'ProductController@show')->name('single_product');
 
         Route::post('/{product}/review', 'ReviewController@store')->name('product_review');
+    });
 
+    Route::group(['prefix' => 'productsothers'], function() {
+        Route::get('/', 'ProductOtherController@index')->name('productsothers');
+        Route::get('/{product}', 'ProductOtherController@show')->name('single_product_other');
     });
 
     Route::group(['prefix' => 'models'], function() {

@@ -5,9 +5,6 @@ namespace App;
 use App\Jewel;
 use App\Price;
 use App\Model;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Response;
 use App\Stone;
 use App\StoneStyle;
 use App\StoneContour;
@@ -18,7 +15,10 @@ use Illuminate\Http\File;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\MaterialQuantity;
+use Response;
 
 class Product extends Model
 {
@@ -218,5 +218,38 @@ class Product extends Model
                 }
                 return $productAvgRating = $productTotalRating/count($product->reviews);
             }
+        }
+
+        public function filterProducts(Request $request ,$query){
+            //dd($request, $query);
+            if ($request->priceFrom && $request->priceTo) {
+                $query = $query->whereBetween('price', [$request->priceFrom, $request->priceTo]);
+            } else if($request->priceFrom){
+                $query = $query->where('price', '>=', $request->priceFrom);
+            } else if($request->priceTo){
+                $query = $query->where('price', '<=', $request->priceTo);
+            }
+    
+            if ($request->size) {
+                $query = $query->whereIn('size', $request->size);
+            }
+    
+            if ($request->size) {
+                $query = $query->whereIn('size', $request->size);
+            }
+    
+            if ($request->byStore) {
+                $query = $query->whereIn('store_id', $request->byStore);
+            }
+    
+            if ($request->byJewel) {
+                $query = $query->whereIn('jewel_id', $request->byJewel);
+            }
+    
+            if ($request->byMaterial) {
+                $query = $query->whereIn('material_id', $request->byMaterial);
+            }
+
+            return $query;
         }
     }
