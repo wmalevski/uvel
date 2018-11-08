@@ -637,9 +637,12 @@ var uvelStore,
 					form = _this.closest('form'),
 					ajaxRequestLink = form.attr('action'),
 					mail = form.find('input[name="email"]').val(),
+					captchaInput = form.find('[name="g-recaptcha-response"]'),
+					captcha = captchaInput.val(),
 					data = {token: $('meta[name="csrf-token"]').attr('content')};
 
 			data.email = mail;
+			data["g-recaptcha-response"] = captcha;
 
 			$.ajax({
 				method: "POST",

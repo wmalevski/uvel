@@ -136,3 +136,12 @@ div.jGrowl div.jGrowl-closer:hover{color:#a07936;}
     border: 1px solid #a07936;
     outline: none !important;
 }
+
+.g-recaptcha {
+	margin-top: 10px;
+	text-align: center;
+}
+
+.g-recaptcha > div {
+	display: inline-block;
+}
