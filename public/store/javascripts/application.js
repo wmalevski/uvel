@@ -650,12 +650,55 @@ var uvelStore,
 				dataType: "json",
 				data: data,
 				success: function(resp) {
-					// body...
+					$self.subscribeSuccess(resp);
 				},
 				error: function(err) {
-					// body...
+					$self.subscribeError(err);
 				}
 			})
+		}
+
+		this.subscribeSuccess = function(response) {
+			var messageContainer = $('<div class="subscribe-message success"></div>'),
+					message = response.success;
+
+			messageContainer.append(message);
+			$('body').append(messageContainer);
+			$self.showMessage(messageContainer);
+		}
+
+		this.subscribeError = function(response) {
+			var messageContainer = $('<div class="subscribe-message error"></div>'),
+					errors = JSON.parse(response.responseText).errors,
+					messages = '';
+
+			Object.keys(errors).forEach(function(key) {
+				var message = errors[key][0];
+
+				messages += message +'<br>';
+			})
+
+			messageContainer.append(messages);
+			$('body').append(messageContainer);
+			$self.showMessage(messageContainer);
+		}
+
+		this.showMessage = function(message) {
+			var timeToStay = 5000,
+					navi = $('.top-navigation'),
+					header = $('header'),
+					naviHeight = navi.outerHeight();
+
+			if (header.hasClass('affix')) {
+				message.css('top', naviHeight);
+			}
+
+			message.slideDown('fast');
+			setTimeout(function() {
+				message.slideUp('fast', function() {
+					message.remove();
+				})
+			}, timeToStay)
 		}
 	};
 
