@@ -73,7 +73,16 @@
                                                 <label class="control-label" for="message">Описание <span class="req">*</span></label>
                                                 <textarea id="message" rows="5" class="form-control" name="content"></textarea>
                                             </li>
+                                            <li>
+                                                <label class="control-label">Снимки</label>
+                                                <div class="drop-area" name="add">
+                                                    <input type="file" name="images" class="drop-area-input" id="fileElem-add" accept="image/*" >
+                                                    <label class="button" for="fileElem-add">Качи снимка</label>
+                                                    <div class="drop-area-gallery"></div>
+                                                </div>
+                                            </li>
                                             <li class="clearfix"></li>
+                                            {!! app('captcha')->display() !!}
                                             <li class="unpadding-top">
                                                 <button type="submit" class="btn">Изпратете запитване</button>
                                             </li>

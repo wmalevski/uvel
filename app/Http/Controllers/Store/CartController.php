@@ -33,25 +33,34 @@ class CartController extends Controller
         return \View::make('store.pages.cart', array('items' => $items, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity));
     }
 
-    public function addItem($item){
+    public function addItem($item, $quantity = 1){
         $session_id = session()->getId();
 
         $product = Product::where('barcode', $item)->first();
+        $type = '';
+        $itemQuantity = 1;
 
         if($product){
             $item = $product;
+            $type = 'product';
         }else{
             $box = ProductOther::where('barcode', $item)->first();
-
+            
             if($box){
                 $item = $box;
+                $type = 'product';
             }else{
                 $model = Model::where('barcode', $item)->first();
 
                 if($model){
                     $item = $model;
                     $item->price = 0;
+                    $type = 'model';
                 }
+            }
+
+            if($type == 'box'){
+                $itemQuantity = $quantity;
             }
         }
 
@@ -60,7 +69,7 @@ class CartController extends Controller
                 'id' => $item->barcode,
                 'name' => $item->name,
                 'price' => $item->price,
-                'quantity' => 1,
+                'quantity' => $itemQuantity,
                 'attributes' => array(
                     'weight' => $item->weight,
                     'price' => $item->price,

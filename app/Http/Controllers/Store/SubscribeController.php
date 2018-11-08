@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\JsonResponse;
 
 class SubscribeController extends Controller
 {
@@ -28,11 +29,12 @@ class SubscribeController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return Redirect::back()->withErrors($validator);
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
         Newsletter::subscribe($request->email);
-        echo 'You have subscribed successfully!';
+        //echo 'You have subscribed successfully!';
+        return Response::json(array('success' => 'Успешно се абонирахте!'));
     }
 
     public function unsubscribe($email)
