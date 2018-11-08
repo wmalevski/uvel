@@ -190,16 +190,26 @@
 													<h2 class="spr-header-title">Ревюта</h2>
 													<div class="spr-summary" itemscope="" itemtype="http://data-vocabulary.org/Review-aggregate">
 														<meta itemprop="itemreviewed" content="Donec aliquam ante non">
-														<meta itemprop="votes" content="1">
+														<meta itemprop="votes" content="{{count($product->reviews)}}">
 														<span itemprop="rating" itemscope="" itemtype="http://data-vocabulary.org/Rating" class="spr-starrating spr-summary-starrating">
-														<meta itemprop="average" content="4.0">
-														<meta itemprop="best" content="5">
-														<meta itemprop="worst" content="1">
-														<i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i>
+															<meta itemprop="average" content="{{$productAvgRating}}">
+															<meta itemprop="best" content="5">
+															<meta itemprop="worst" content="1">
+															@for($i = 1; $i <= 5; $i++)
+																@if(round($productAvgRating) >= $i)
+																	<i class="spr-icon spr-icon-star" style=""></i>
+																@elseif(round($productAvgRating) < $i) 
+																	<i class="spr-icon spr-icon-star-empty" style=""></i>
+																@endif																			
+															@endfor
 														</span>
+														@if(count($product->reviews) >= 1)
 														<span class="spr-summary-caption">
-														<span class="spr-summary-actions-togglereviews">Базирано на 1 ревю</span>
+															<span class="spr-summary-actions-togglereviews">
+																Базирано на {{count($product->reviews)}} @if(count($product->reviews) == 1) ревю @else ревюта - {{$productAvgRating}}/5 @endif
+															</span>
 														</span>
+														@endif
 														{{-- <span class="spr-summary-actions">
 														<a href="#" class="spr-summary-actions-newreview" onclick="SPR.toggleForm({{$product->id}});return false">Напиши ревю</a>
 														</span> --}}
@@ -255,7 +265,7 @@
 																	</span>
 																	<h3 class="spr-review-header-title">{{$review->title}}</h3>
 																	<span class="spr-review-header-byline">
-																		<strong>{{Auth::user()->name}}</strong> on <strong>{{$review->created_at}}</strong>
+																		<strong>{{$review->user->name}}</strong> on <strong>{{$review->created_at}}</strong>
 																	</span>
 																</div>
 																<div class="spr-review-content">

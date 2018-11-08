@@ -9,6 +9,7 @@ use App\Jewel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use App\User;
 
 class ProductController extends Controller
 {
@@ -41,8 +42,14 @@ class ProductController extends Controller
         $allProducts = Product::select('*')->where('jewel_id',$product->jewel_id )->whereNotIn('id', [$product->id]);
         $similarProducts = $allProducts->orderBy(DB::raw('ABS(`price` - '.$product->price.')'))->take(5)->get();
 
+        $productTotalRating = 0;
+        foreach($product->reviews as $review) {
+            $productTotalRating = $productTotalRating + $review->rating;
+        }
+        $productAvgRating = $productTotalRating/count($product->reviews);
+        
         if($product){
-            return \View::make('store.pages.products.single', array('product' => $product, 'products' => $products, 'similarProducts' => $similarProducts));
+            return \View::make('store.pages.products.single', array('product' => $product, 'products' => $products, 'similarProducts' => $similarProducts, 'productAvgRating' => $productAvgRating));
         }
     }
 
