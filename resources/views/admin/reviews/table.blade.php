@@ -12,6 +12,7 @@
         @endif
     </td>
     <td>
+        <a href="reviews/{{$review->id}}"><i class="c-brown-500 ti-star"></i></a>        
         <span data-url="reviews/delete/{{$review->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></span>
     </td>
 </tr>

@@ -51,7 +51,7 @@ class ReviewController extends Controller
      */
     public function show(Review $review)
     {
-        //
+        return \View::make('admin/reviews/show', array('review' => $review));
     }
 
     /**
