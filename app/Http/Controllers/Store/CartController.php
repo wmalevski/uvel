@@ -6,6 +6,8 @@ use Response;
 use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Srmklive\PayPal\Services\ExpressCheckout;
+use Srmklive\PayPal\Services\AdaptivePayments;
 use App\ProductOther;
 
 class CartController extends BaseController
@@ -88,6 +90,16 @@ class CartController extends BaseController
         }else{
             return Response::json(array('success' => true, 'not_found' => 'The item is not found'));
         }
+    }
+
+    public function pay(){
+        $provider = new ExpressCheckout;      // To use express checkout.
+       // $provider = new AdaptivePayments; 
+
+        $provider = PayPal::setProvider('express_checkout');      // To use express checkout(used by default).
+        //$provider = PayPal::setProvider('adaptive_payments');     // To use adaptive payments.
+
+        $provider->setCurrency('EUR')->setExpressCheckout($data);
     }
 
     public function removeItem($item){
