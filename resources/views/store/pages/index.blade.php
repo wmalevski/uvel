@@ -65,7 +65,7 @@
                                                                 </a>
                                                             </div>
                                                             <div class="hover-overlay">
-                                                                <span class="col-name"><a href="online/products/byMaterial={{ $material->id }}">{{ $material->name }}</a></span>
+                                                                <span class="col-name"><a href="online/products/?byMaterial={{ $material->id }}">{{ $material->name }}</a></span>
                                                                 <div class="collection-action">
                                                                     <a href="online/products/?byMaterial={{ $material->id }}">Виж</a>
                                                                 </div>
@@ -83,6 +83,7 @@
                                                                     @if($type->productOther->first()->products->first()->images) 
                                                                     {{ asset("uploads/products/" . $material->materials->first()->products->first()->images->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif
                                                                     " alt="Bracelets"> --}}
+                                                                    <img src="{{ asset('store/images/demo_375x375.png') }}" class="img-responsive" alt="{{ $type->name }}">
                                                                 </a>
                                                             </div>
                                                             <div class="hover-overlay">
