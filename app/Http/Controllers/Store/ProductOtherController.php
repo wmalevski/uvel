@@ -21,11 +21,14 @@ class ProductOtherController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $products = ProductOther::where([
             ['quantity', '!=', 0]
         ])->paginate(12);
+
+        $products_new = new ProductOther();
+        $products = $products_new->filterProducts($request, $products);
 
         $stores = Store::all()->except(1);
 

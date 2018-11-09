@@ -53,20 +53,42 @@
                                         <h6 class="general-title">Популярни</h6>
                                         <div class="home_collections_wrapper">												
                                             <div id="home_collections">
-                                                @foreach($jewels as $jewel)
+                                                @foreach($materialTypes as $material)
                                                     <div class="home_collections_item">
                                                         <div class="home_collections_item_inner">
                                                             <div class="collection-details">
-                                                                <a href="online/products/?byJewel={{ $jewel->id }}" title="Browse our Bracelets">
-                                                                    <img src="
-                                                                    {{-- @if($jewel->products) {{ asset("uploads/products/" . $jewel->products->first()->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif --}}
-                                                                    " alt="Bracelets">
+                                                                <a href="online/products/?byMaterial={{ $material->id }}" title="Browse our Bracelets">
+                                                                        <img src="
+                                                                        @if($material->materials->first()->products->first()->images) 
+                                                                        {{ asset("uploads/products/" . $material->materials->first()->products->first()->images->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif
+                                                                        " alt="Bracelets">
                                                                 </a>
                                                             </div>
                                                             <div class="hover-overlay">
-                                                                <span class="col-name"><a href="online/products/byJewel={{ $jewel->id }}">{{ $jewel->name }}</a></span>
+                                                                <span class="col-name"><a href="online/products/byMaterial={{ $material->id }}">{{ $material->name }}</a></span>
                                                                 <div class="collection-action">
-                                                                    <a href="online/products/?byJewel={{ $jewel->id }}">Виж</a>
+                                                                    <a href="online/products/?byMaterial={{ $material->id }}">Виж</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+
+                                                @foreach($productothertypes as $type)
+                                                    <div class="home_collections_item">
+                                                        <div class="home_collections_item_inner">
+                                                            <div class="collection-details">
+                                                                <a href="online/productsothers/?byType={{ $type->id }}" title="Browse our Bracelets">
+                                                                    {{-- <img src="
+                                                                    @if($type->productOther->first()->products->first()->images) 
+                                                                    {{ asset("uploads/products/" . $material->materials->first()->products->first()->images->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif
+                                                                    " alt="Bracelets"> --}}
+                                                                </a>
+                                                            </div>
+                                                            <div class="hover-overlay">
+                                                                <span class="col-name"><a href="online/productsothers/byType={{ $type->id }}">{{ $type->name }}</a></span>
+                                                                <div class="collection-action">
+                                                                    <a href="online/productsothers/?byType={{ $type->id }}">Виж</a>
                                                                 </div>
                                                             </div>
                                                         </div>

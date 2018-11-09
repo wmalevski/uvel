@@ -230,12 +230,8 @@ class Product extends Model
                 $query = $query->where('price', '<=', $request->priceTo);
             }
     
-            if ($request->size) {
-                $query = $query->whereIn('size', $request->size);
-            }
-    
-            if ($request->size) {
-                $query = $query->whereIn('size', $request->size);
+            if ($request->bySize) {
+                $query = $query->whereIn('size', $request->bySize);
             }
     
             if ($request->byStore) {

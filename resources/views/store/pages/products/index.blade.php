@@ -42,7 +42,7 @@ aria-hidden="true">
 												<div class="group_sidebar">
 													<div class="sb-wrapper">
 														<!-- filter tags group -->
-														<div class="filter-tag-group">
+														<div class="filter-tag-group" data-url="ajax/filter/">
 															<h6 class="sb-title">Филтри</h6>
 															<div class="tag-group" id="coll-filter-3">
 																<p class="title">
@@ -50,7 +50,7 @@ aria-hidden="true">
 																</p>
 																<ul>
 																	@foreach($stores as $store)
-																		<li><a title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $store->name }} ({{ count($store->products) }})</a></li>
+																		<li><a title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox" data-id="{{ $store->id }}"></span> {{ $store->name }} ({{ count($store->products) }})</a></li>
 																	@endforeach
 																</ul>
 															</div>
@@ -63,7 +63,7 @@ aria-hidden="true">
 																	</p>
 																	<ul>
 																		@foreach($jewels as $jewel)
-																			<li><a title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $jewel->name }} ({{ count($jewel->products) }})</a></li>
+																			<li><a title="Narrow selection to products matching tag Under $100" href="#" data-id="{{ $jewel->id }}"><span class="fe-checkbox"></span> {{ $jewel->name }} ({{ count($jewel->products) }})</a></li>
 																		@endforeach
 																	</ul>
 																</div>
@@ -76,7 +76,7 @@ aria-hidden="true">
 																</p>
 																<ul>
 																	@foreach($materials as $material)
-																		<li><a title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $material->name }} ({{ count($material->products) }})</a></li>
+																		<li><a title="Narrow selection to products matching tag Under $100" href="#" data-id="{{ $material->id }}"><span class="fe-checkbox"></span> {{ $material->name }} ({{ count($material->products) }})</a></li>
 																	@endforeach
 																</ul>
 															</div>
