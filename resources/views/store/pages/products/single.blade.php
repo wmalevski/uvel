@@ -175,6 +175,7 @@
 												</div>
 											</div>
 										</div>
+										@if(Auth::check())
 										<div id="shopify-product-reviews" data-id="{{$product->id}}">
 											<style scoped="">
 												.spr-container {
@@ -281,7 +282,8 @@
 													</div>
 												</div>
 											</div>
-										</div>				
+										</div>			
+										@endif	
 									</div>
 								</div>         
 								<!-- Related Products -->
