@@ -175,6 +175,7 @@
 												</div>
 											</div>
 										</div>
+										@if(Auth::check())
 										<div id="shopify-product-reviews" data-id="{{$product->id}}">
 											<style scoped="">
 												.spr-container {
@@ -273,15 +274,13 @@
 																		{{$review->content}}
 																	</p>
 																</div>
-																<div class="spr-review-footer">
-																	<a href="#" class="spr-review-reportreview" onclick="SPR.reportReview({{$key}});return false" id="report_{{$key}}" data-msg="This review has been reported">Докладвай</a>
-																</div>
 															</div>
 														@endforeach
 													</div>
 												</div>
 											</div>
-										</div>				
+										</div>			
+										@endif	
 									</div>
 								</div>         
 								<!-- Related Products -->
