@@ -173,6 +173,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/reviews', 'ReviewController@index')->name('reviews');
     Route::get('/reviews/{review}', 'ReviewController@show')->name('show_review');
+    Route::post('/reviews/delete/{review}', 'ReviewController@destroy')->name('destroy_review');
+
 
 });
 
@@ -318,6 +320,9 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/users/substitutions/delete/{userSubstitution}', 'UserSubstitutionController@destroy');
 
     Route::post('/gallery/delete/{photo}', 'GalleryController@destroy');
+
+    Route::post('/reviews/delete/{review}', 'ReviewController@destroy')->name('destroy_review');
+
 });
 
 /**

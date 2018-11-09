@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Auth;
+use Response;
 
 class ReviewController extends Controller
 {
@@ -85,6 +86,9 @@ class ReviewController extends Controller
      */
     public function destroy(Review $review)
     {
-        //
+        if($review){
+            $review->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));  
+        }
     }
 }
