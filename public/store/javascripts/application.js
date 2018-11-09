@@ -467,15 +467,17 @@ borderSize:4,showLens:!0,borderColour:"#888",lensBorderSize:1,lensBorderColour:"
 var uvelStore,
 	uvelStoreController = function() {
 		var $self = this,
-				window = $(window);
+				$window = $(window);
 
 		this.init = function() {
 			var $quickViewTrigger = $('.quick_shop'),
-					$subscribeTrigger = $('form[name="mc-embedded-subscribe-form"] button[type="submit"]');
+					$subscribeTrigger = $('form[name="mc-embedded-subscribe-form"] button[type="submit"]'),
+					$filterTrigger = $('.filter-tag-group .tag-group li');
 
 			$self.quickviewAttach($quickViewTrigger);
 			$self.imageHandling();
 			$self.subscribeAttach($subscribeTrigger);
+			$self.filterAttach($filterTrigger);
 		};
 
 		this.imageHandling = function() {
@@ -636,7 +638,8 @@ var uvelStore,
 			var _this = subscribeBtn,
 					form = _this.closest('form'),
 					ajaxRequestLink = form.attr('action'),
-					mail = form.find('input[name="email"]').val(),
+					mailInput = form.find('input[name="email"]'),
+					mail = mailInput.val(),
 					captchaInput = form.find('[name="g-recaptcha-response"]'),
 					captcha = captchaInput.val(),
 					data = {token: $('meta[name="csrf-token"]').attr('content')};
@@ -651,6 +654,7 @@ var uvelStore,
 				data: data,
 				success: function(resp) {
 					$self.subscribeSuccess(resp);
+					mailInput.val('');
 				},
 				error: function(err) {
 					$self.subscribeError(err);
@@ -699,6 +703,33 @@ var uvelStore,
 					message.remove();
 				})
 			}, timeToStay)
+		}
+
+		this.filterAttach = function(filterBtn) {
+			filterBtn.on('click', function(e) {
+				e.preventDefault();
+
+				var _this = $(this);
+				$self.filter(_this);
+			})
+		}
+
+		this.filter = function(filterBtn) {
+			var _this = filterBtn,
+					filterForm = _this.closest('.filter-tag-group'),
+					formUrl = filterForm.attr('data-url'),
+					baseUrl = window.location.origin + '/';
+
+			$.ajax({
+				method: 'GET',
+				url: baseUrl + formUrl + '?byJewel[]=' + _this.find('a').attr('data-id'),
+				success: function(resp) {
+					console.log(resp);
+				},
+				error: function(err) {
+					console.log(err);
+				}
+			})
 		}
 	};
 
