@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Http\Controllers\Store\ProductOtherController;
 
-class ProductOtherController extends Controller
+class ProductOtherController extends BaseController
 {
     /**
      * Display a listing of the resource.

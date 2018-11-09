@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Store;
 use Newsletter;
 use Response;
+use App\MaterialType;
+use App\ProductOtherType;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -10,7 +12,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Mail;
 
-class ContactController extends Controller
+class ContactController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -19,6 +21,7 @@ class ContactController extends Controller
      */
     public function index()
     {
+
         return \View::make('store.pages.contact');
     }
 

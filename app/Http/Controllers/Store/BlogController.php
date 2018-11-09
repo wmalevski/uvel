@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Store;
 use App\Blog;
+use App\MaterialType;
+use App\ProductOtherType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class BlogController extends Controller
+class BlogController extends BaseController
 {
     /**
      * Display a listing of the resource.

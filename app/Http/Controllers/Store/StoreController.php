@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Blog;
 
-class StoreController extends Controller
+class StoreController extends BaseController
 {
     /**
      * Display a listing of the resource.

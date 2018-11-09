@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\ProductOther;
 
-class CartController extends Controller
+class CartController extends BaseController
 {
     /**
      * Display a listing of the resource.

@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
-class ModelController extends Controller
+class ModelController extends BaseController
 {
     /**
      * Display a listing of the resource.

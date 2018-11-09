@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Mail;
 
-class CustomOrderController extends Controller
+class CustomOrderController extends BaseController
 {
     /**
      * Display a listing of the resource.

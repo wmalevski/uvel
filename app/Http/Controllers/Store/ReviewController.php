@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Auth;
 
-class ReviewController extends Controller
+class ReviewController extends BaseController
 {
     /**
      * Display a listing of the resource.
