@@ -220,6 +220,16 @@ class Product extends Model
             }
         }
 
+        public function listSimilarProductAvgRatingStars($product) {
+            for($i = 1; $i <= 5; $i++){
+                if($this->getSimilarProductAvgRating($product) >= $i){
+                    echo '<i class="spr-icon spr-icon-star" style=""></i>';
+                }elseif($product->getSimilarProductAvgRating($product) < $i){
+                    echo'<i class="spr-icon spr-icon-star-empty" style=""></i>';
+                }   																		
+            }
+        }
+
         public function filterProducts(Request $request ,$query){
             //dd($request, $query);
             if ($request->priceFrom && $request->priceTo) {

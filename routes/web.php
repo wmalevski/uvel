@@ -175,6 +175,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/reviews/{review}', 'ReviewController@show')->name('show_review');
     Route::post('/reviews/delete/{review}', 'ReviewController@destroy')->name('destroy_review');
 
+    Route::get('/reviews/product/{product}', 'ReviewController@index')->name('show_product_reviews');
 
 });
 
