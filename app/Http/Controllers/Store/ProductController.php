@@ -66,8 +66,13 @@ class ProductController extends BaseController
 
         $products = $query->where('status', 'available')->orderBy('id', 'desc')->get();
 
-        print_r(count($products));
-        echo '<pre>'; print_r($products); echo '</pre>';
+        $response = '';
+        foreach($products as $product){
+            $response .= \View::make('store/pages/products/ajax', array('product' => $product));
+        }
+
+        return $response;
+
     }
 
     public function quickView($barcode)
