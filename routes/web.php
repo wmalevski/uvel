@@ -389,7 +389,7 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
 //AJAX FOR STORE
 
 Route::group(['prefix' => 'ajax', 'namespace' => 'store'], function() {
-    Route::get('/cart/addItem/{item}', 'CartController@addItem');
+    Route::get('/cart/addItem/{item}/{quantity}', 'CartController@addItem');
     Route::get('/cart/removeItem/{item}', 'CartController@removeItem');
 
     Route::get('/quickview/{barcode}', 'ProductController@quickview');

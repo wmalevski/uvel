@@ -74,28 +74,48 @@
                                                     </div>
                                                 @endforeach
 
-                                                @foreach($productothertypes as $type)
-                                                    <div class="home_collections_item">
+                                                
+                                                <div class="home_collections_item">
+                                                    <div class="home_collections_item_inner">
+                                                        <div class="collection-details">
+                                                            <a href="{{ route('models') }}" title="Browse our Bracelets">
+                                                                {{-- <img src="
+                                                                @if($type->productOther->first()->products->first()->images) 
+                                                                {{ asset("uploads/products/" . $material->materials->first()->products->first()->images->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif
+                                                                " alt="Bracelets"> --}}
+                                                                <img src="{{ asset('store/images/demo_375x375.png') }}" class="img-responsive" alt="По поръчка">
+                                                            </a>
+                                                        </div>
+                                                        <div class="hover-overlay">
+                                                            <span class="col-name"><a href="{{ route('models') }}">По поръчка</a></span>
+                                                            <div class="collection-action">
+                                                                <a href="{{ route('models') }}">Виж</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="home_collections_item">
                                                         <div class="home_collections_item_inner">
                                                             <div class="collection-details">
-                                                                <a href="online/productsothers/?byType={{ $type->id }}" title="Browse our Bracelets">
+                                                                <a href="{{ route('custom_order') }}" title="Browse our Bracelets">
                                                                     {{-- <img src="
                                                                     @if($type->productOther->first()->products->first()->images) 
                                                                     {{ asset("uploads/products/" . $material->materials->first()->products->first()->images->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif
                                                                     " alt="Bracelets"> --}}
-                                                                    <img src="{{ asset('store/images/demo_375x375.png') }}" class="img-responsive" alt="{{ $type->name }}">
+                                                                    <img src="{{ asset('store/images/demo_375x375.png') }}" class="img-responsive" alt="По поръчка">
                                                                 </a>
                                                             </div>
                                                             <div class="hover-overlay">
-                                                                <span class="col-name"><a href="online/productsothers/byType={{ $type->id }}">{{ $type->name }}</a></span>
+                                                                <span class="col-name"><a href="{{ route('custom_order') }}">По ваш модел</a></span>
                                                                 <div class="collection-action">
-                                                                    <a href="online/productsothers/?byType={{ $type->id }}">Виж</a>
+                                                                    <a href="{{ route('custom_order') }}">Виж</a>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                @endforeach
-                                                </div>													
+                                                
+                                            </div>													
                                         </div>
                                     </div>
                                 </div>
