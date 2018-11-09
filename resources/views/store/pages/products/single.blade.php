@@ -175,7 +175,7 @@
 												</div>
 											</div>
 										</div>
-										<div id="shopify-product-reviews" data-id="1293236931">
+										<div id="shopify-product-reviews" data-id="{{$product->id}}">
 											<style scoped="">
 												.spr-container {
 												padding: 24px;
@@ -186,6 +186,7 @@
 												}
 											</style>
 											<div class="spr-container">
+											@if(count($product->reviews) >= 1)
 												<div class="spr-header">
 													<h2 class="spr-header-title">Ревюта</h2>
 													<div class="spr-summary" itemscope="" itemtype="http://data-vocabulary.org/Review-aggregate">
@@ -202,19 +203,18 @@
 																	<i class="spr-icon spr-icon-star-empty" style=""></i>
 																@endif																			
 															@endfor
-														</span>
-														@if(count($product->reviews) >= 1)
+														</span>														
 														<span class="spr-summary-caption">
 															<span class="spr-summary-actions-togglereviews">
 																Базирано на {{count($product->reviews)}} @if(count($product->reviews) == 1) ревю @else ревюта - {{$productAvgRating}}/5 @endif
 															</span>
-														</span>
-														@endif
+														</span>													
 														{{-- <span class="spr-summary-actions">
 														<a href="#" class="spr-summary-actions-newreview" onclick="SPR.toggleForm({{$product->id}});return false">Напиши ревю</a>
 														</span> --}}
 													</div>
 												</div>
+												@endif
 												<div class="spr-content">
 													<div class="spr-form" id="form_{{$product->id}}">
 														<form method="post" action="{{ route('product_review', ['product' => $product->id])  }}" id="new-review-form_{{$product->id}}" class="new-review-form">
@@ -234,7 +234,7 @@
 																</div>
 																<div class="spr-form-review-title">
 																	<label class="spr-form-label" for="review_title_{{$product->id}}">Заглавие</label>
-																	<input class="spr-form-input spr-form-input-text " id="review_title_{{$product->id}}" type="text" name="title" value="" placeholder="Заглавие на ревюто">
+																	<input class="spr-form-input spr-form-input-text " id="review_title_{{$product->id}}" type="text" name="title" value="" placeholder="Заглавие на ревюто" autocomplete="off">
 																</div>
 																<div class="spr-form-review-body">
 																	<label class="spr-form-label" for="review_body_{{$product->id}}">Описание <span class="spr-form-review-body-charactersremaining">(1500)</span></label>
@@ -303,7 +303,7 @@
 													<li class="row-right parent-fly animMix">
 													<div class="product-content-left">
                                                         <a class="title-5" href="{{ route('single_product', ['product' => $product->id])  }}">{{ $product->name }}</a>
-														<span class="spr-badge" id="spr_badge_{{$product->id}}" data-rating="0.0">
+														<span class="spr-badge" id="spr_badge_{{$product->id}}" data-rating="{{$product->getSimilarProductAvgRating($product)}}">
 															<span class="spr-starrating spr-badge-starrating">
 																@for($i = 1; $i <= 5; $i++)
 																	@if($product->getSimilarProductAvgRating($product) >= $i)
@@ -328,7 +328,7 @@
 														<form action="#" method="post">
 															<div class="effect-ajax-cart">
 																<input name="quantity" value="1" type="hidden">
-																<button class="select-option" type="button" onclick="window.location.href='product.html'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
+																<button class="select-option" type="button" onclick="window.location.href='{{ route('single_product', ['product' => $product->id]) }}'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
 															</div>
 														</form>
 														<div class="product-ajax-qs hidden-xs hidden-sm">

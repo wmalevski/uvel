@@ -275,6 +275,9 @@
                   <li>
                     <a class="sidebar-link" href="{{ route('products_travelling') }}">На път</a>
                   </li>
+                  <li>
+                    <a class="sidebar-link" href="{{ route('reviews') }}">Ревюта</a>
+                  </li>
                 </ul>
               </li>
 

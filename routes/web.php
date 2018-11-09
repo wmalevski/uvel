@@ -170,6 +170,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/repairs/edit/{repair}', 'RepairController@edit');
 
     Route::get('/mailchimp', 'NewsletterController@index')->name('mailchimp');
+
+    Route::get('/reviews', 'ReviewController@index')->name('reviews');
+    Route::get('/reviews/{review}', 'ReviewController@show')->name('show_review');
+
 });
 
 Route::group(['prefix' => 'ajax'], function() {
