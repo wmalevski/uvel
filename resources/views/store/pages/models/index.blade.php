@@ -139,7 +139,7 @@
 										</div>
 										<div id="sandBox-wrapper" class="group-product-item row collection-full">
 											<ul id="sandBox" class="list-unstyled">
-                                                @foreach($models as $model)
+												@foreach($models as $model)
                                                     <li class="element first no_full_width" data-alpha="{{ $model->name }}" data-price="{{ $model->price }}">
                                                         <ul class="row-container list-unstyled clearfix">
                                                             <li class="row-left">
