@@ -26,8 +26,8 @@ class ProductController extends BaseController
             ['status', '=', 'available']
         ])->paginate(12);
 
-        $products = new Product();
-        $products = $list->filterProducts($request, $products);
+        $products_new = new Product();
+        $products = $products_new->filterProducts($request, $products);
 
         $stores = Store::all()->except(1);
 
@@ -61,33 +61,8 @@ class ProductController extends BaseController
     public function filter(Request $request){
         $query = Product::select('*');
 
-        if ($request->priceFrom && $request->priceTo) {
-            $query = $query->whereBetween('price', [$request->priceFrom, $request->priceTo]);
-        } else if($request->priceFrom){
-            $query = $query->where('price', '>=', $request->priceFrom);
-        } else if($request->priceTo){
-            $query = $query->where('price', '<=', $request->priceTo);
-        }
-
-        if ($request->size) {
-            $query = $query->whereIn('size', $request->size);
-        }
-
-        if ($request->size) {
-            $query = $query->whereIn('size', $request->size);
-        }
-
-        if ($request->byStore) {
-            $query = $query->whereIn('store_id', $request->byStore);
-        }
-
-        if ($request->byJewel) {
-            $query = $query->whereIn('jewel_id', $request->byJewel);
-        }
-
-        if ($request->byMaterial) {
-            $query = $query->whereIn('material_id', $request->byMaterial);
-        }
+        $products_new = new Product();
+        $products = $products_new->filterProducts($request, $query);
 
         $products = $query->where('status', 'available')->orderBy('id', 'desc')->get();
 
