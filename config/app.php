@@ -179,7 +179,8 @@ return [
         Pyaesone17\ActiveState\ActiveStateServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
         Darryldecode\Cart\CartServiceProvider::class,
-        App\Providers\CartCustomConditionServiceProvider::class
+        App\Providers\CartCustomConditionServiceProvider::class,
+        Srmklive\PayPal\Providers\PayPalServiceProvider::class
     ],
 
     /*
@@ -231,7 +232,8 @@ return [
         'Active' => Pyaesone17\ActiveState\ActiveFacade::class,
         'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
         'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
-        'Cart' => Darryldecode\Cart\Facades\CartFacade::class
+        'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
+        'PayPal' => Srmklive\PayPal\Facades\PayPal::class
     ],
 
 ];
