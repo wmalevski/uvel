@@ -161,8 +161,10 @@ aria-hidden="true">
                                                             <li class="row-right parent-fly animMix">
                                                             <div class="product-content-left">
                                                                 <a class="title-5" href="{{ route('single_product', ['product' => $product->id])  }}">{{ $product->name }}</a>
-                                                                <span class="spr-badge" id="spr_badge_12932382113" data-rating="0.0">
-                                                                <span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
+                                                                <span class="spr-badge" id="spr_badge_12932382113" data-rating="{{$product->getSimilarProductAvgRating($product)}}">
+                                                                <span class="spr-starrating spr-badge-starrating">
+																	{{$product->listSimilarProductAvgRatingStars($product)}}
+																</span>
                                                                 <span class="spr-badge-caption">
                                                                 No reviews </span>
                                                                 </span>

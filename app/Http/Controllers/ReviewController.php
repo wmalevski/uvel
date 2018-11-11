@@ -17,10 +17,19 @@ class ReviewController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($product = null, $model = null, $products_other = null)
     {
-        $reviews = Review::all();
+        if($product){
+            $reviews = Review::where('product_id', $product)->get();
+        } elseif($model){
+            $reviews = Review::where('model_id', $model)->get();
+        } elseif($products_other){
+            $reviews = Review::where('product_others_id', $products_other)->get();
+        } else{
+            $reviews = Review::all();
+        }
         return \View::make('admin/reviews/index', array('reviews' => $reviews));
+
     }
 
     /**

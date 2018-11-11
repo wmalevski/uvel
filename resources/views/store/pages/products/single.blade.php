@@ -175,6 +175,7 @@
 												</div>
 											</div>
 										</div>
+										@if(Auth::check())
 										<div id="shopify-product-reviews" data-id="{{$product->id}}">
 											<style scoped="">
 												.spr-container {
@@ -273,15 +274,13 @@
 																		{{$review->content}}
 																	</p>
 																</div>
-																<div class="spr-review-footer">
-																	<a href="#" class="spr-review-reportreview" onclick="SPR.reportReview({{$key}});return false" id="report_{{$key}}" data-msg="This review has been reported">Докладвай</a>
-																</div>
 															</div>
 														@endforeach
 													</div>
 												</div>
 											</div>
-										</div>				
+										</div>			
+										@endif	
 									</div>
 								</div>         
 								<!-- Related Products -->
@@ -305,13 +304,7 @@
                                                         <a class="title-5" href="{{ route('single_product', ['product' => $product->id])  }}">{{ $product->name }}</a>
 														<span class="spr-badge" id="spr_badge_{{$product->id}}" data-rating="{{$product->getSimilarProductAvgRating($product)}}">
 															<span class="spr-starrating spr-badge-starrating">
-																@for($i = 1; $i <= 5; $i++)
-																	@if($product->getSimilarProductAvgRating($product) >= $i)
-																		<i class="spr-icon spr-icon-star" style=""></i>
-																	@elseif($product->getSimilarProductAvgRating($product) < $i) 
-																		<i class="spr-icon spr-icon-star-empty" style=""></i>
-																	@endif																			
-																@endfor
+																{{$product->listSimilarProductAvgRatingStars($product)}}
 															</span>
 															<span class="spr-badge-caption">No reviews</span>
 														</span>
