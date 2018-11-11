@@ -50,7 +50,7 @@ aria-hidden="true">
 																</p>
 																<ul>
 																	@foreach($stores as $store)
-																		<li><a title="Narrow selection to products matching tag Under $100" data-id="{{ $store->id }}" href="#"><span class="fe-checkbox"></span> {{ $store->name }} ({{ count($store->products) }})</a></li>
+																		<li><a title="Narrow selection to products matching tag Under $100" data-id="byStore[]={{ $store->id }}" href="#"><span class="fe-checkbox"></span> {{ $store->name }} ({{ count($store->products) }})</a></li>
 																	@endforeach
 																</ul>
 															</div>
@@ -63,7 +63,7 @@ aria-hidden="true">
 																	</p>
 																	<ul>
 																		@foreach($jewels as $jewel)
-																			<li><a title="Narrow selection to products matching tag Under $100" href="#" data-id="{{ $jewel->id }}"><span class="fe-checkbox"></span> {{ $jewel->name }} ({{ count($jewel->products) }})</a></li>
+																			<li><a title="Narrow selection to products matching tag Under $100" href="#" data-id="byJewel[]={{ $jewel->id }}"><span class="fe-checkbox"></span> {{ $jewel->name }} ({{ count($jewel->products) }})</a></li>
 																		@endforeach
 																	</ul>
 																</div>
@@ -76,7 +76,7 @@ aria-hidden="true">
 																</p>
 																<ul>
 																	@foreach($materials as $material)
-																		<li><a title="Narrow selection to products matching tag Under $100" href="#" data-id="{{ $material->id }}"><span class="fe-checkbox"></span> {{ $material->name }} ({{ count($material->products) }})</a></li>
+																		<li><a title="Narrow selection to products matching tag Under $100" href="#" data-id="byMaterial[]={{ $material->id }}"><span class="fe-checkbox"></span> {{ $material->name }} ({{ count($material->products) }})</a></li>
 																	@endforeach
 																</ul>
 															</div>
@@ -87,7 +87,7 @@ aria-hidden="true">
 																<p class="title">
 																	Размер
 																</p>
-																<input type="number" class="form-control" placeholder="Въведи размер">
+																<input type="number" class="form-control" placeholder="Въведи размер" data-id="bySize[]=">
 															</div>
 															<!-- tags groupd 3 -->
 
@@ -97,8 +97,8 @@ aria-hidden="true">
 																	Цена
 																</p>
 
-																<input type="number" class="form-control" placeholder="От">
-																<input type="number" class="form-control" placeholder="До">
+																<input type="number" class="form-control" placeholder="От" data-id="priceFrom[]=">
+																<input type="number" class="form-control" placeholder="До" data-id="priceTo[]=">
 															</div>
 															<!-- tags groupd 3 -->
 														</div>

@@ -472,12 +472,14 @@ var uvelStore,
 		this.init = function() {
 			var $quickViewTrigger = $('.quick_shop'),
 					$subscribeTrigger = $('form[name="mc-embedded-subscribe-form"] button[type="submit"]'),
-					$filterTrigger = $('.filter-tag-group .tag-group li');
+					$filterTrigger = $('.filter-tag-group .tag-group li'),
+					$filterInputTrigger = $('.filter-tag-group .tag-group input');
 
 			$self.quickviewAttach($quickViewTrigger);
 			$self.imageHandling();
 			$self.subscribeAttach($subscribeTrigger);
 			$self.filterAttach($filterTrigger);
+			$self.filterInputAttach($filterInputTrigger);
 		};
 
 		this.imageHandling = function() {
@@ -714,17 +716,66 @@ var uvelStore,
 			})
 		}
 
+		this.filterInputAttach = function(filterInput) {
+			filterInput.on('change', function() {
+				var _this = $(this);
+				$self.filter(_this);
+			})
+		}
+
 		this.filter = function(filterBtn) {
 			var _this = filterBtn,
 					filterForm = _this.closest('.filter-tag-group'),
 					formUrl = filterForm.attr('data-url'),
-					baseUrl = window.location.origin + '/';
+					baseUrl = window.location.origin + '/',
+					ajaxURL = baseUrl + formUrl,
+					productsContainer = $('#sandBox');
+
+			if (_this.is('input') && _this.val() !== '' && _this.val() != 0) {
+				_this.addClass('selected');
+			} else if (_this.is('input')) {
+				_this.removeClass('selected');
+			} else {
+				_this.toggleClass('selected');
+			}
+
+			var filterBtns = filterForm.find('.tag-group').find('li.selected');
+
+			var filterInputs = filterForm.find('.tag-group').find('input.selected');
+
+			Array.prototype.push.apply(filterBtns, filterInputs);
+
+			for (var i=0; i < filterBtns.length; i++) {
+				if (i == 0) {
+					ajaxURL += '?';
+				}
+
+				var btn = $(filterBtns[i]);
+
+				if (btn.is('input')) {
+					ajaxURL += btn.attr('data-id') + btn.val().toString();
+				} else {
+					ajaxURL += btn.find('a').attr('data-id')
+				}
+
+				if (i < filterBtns.length - 1) {
+					ajaxURL += '&'
+				}
+			}
 
 			$.ajax({
 				method: 'GET',
-				url: baseUrl + formUrl + '?byJewel[]=' + _this.find('a').attr('data-id'),
+				url: ajaxURL,
 				success: function(resp) {
-					console.log(resp);
+					productsContainer.animate({
+						opacity: 0
+					}, 400, function() {
+						productsContainer.html(resp);
+					});
+
+					productsContainer.animate({
+						opacity: 1
+					}, 400)
 				},
 				error: function(err) {
 					console.log(err);

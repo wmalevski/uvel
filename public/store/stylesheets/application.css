@@ -163,3 +163,8 @@ div.jGrowl div.jGrowl-closer:hover{color:#a07936;}
 	background: indianred;
 	color: darkred;
 }
+
+.filter-tag-group .tag-group ul li.selected a {
+	font-weight: bold !important;
+	color: #a07936 !important;
+}
