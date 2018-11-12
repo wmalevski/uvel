@@ -157,7 +157,7 @@
                                                             </li>
                                                             <li class="row-right parent-fly animMix">
                                                             <div class="product-content-left">
-                                                                <a class="title-5" href="./product.html">{{ $product['name'] }}</a>
+                                                                <a class="title-5" href="{{route('single_product', ['product' => $product]) }}">{{ $product['name'] }}</a>
                                                                 <span class="spr-badge" id="spr_badge_12932396193" data-rating="{{$product->getProductAvgRating($product)}}">
                                                                 @if($product->getProductAvgRating($product) > 0)    
                                                                     <span class="spr-starrating spr-badge-starrating">
@@ -289,7 +289,7 @@
                                                         </li>
                                                         <li class="row-right parent-fly animMix">
                                                             <div class="product-content-left">
-                                                                <a class="title-5" href="./product.html">{{ $product->name }}</a>
+                                                                <a class="title-5" href="{{route('single_product', ['product' => $product]) }}">{{ $product->name }}</a>
                                                                 <span class="spr-badge" id="spr_badge_1293238211" data-rating="{{$product->getProductAvgRating($product)}}">
                                                                 @if($product->getProductAvgRating($product) > 0)
                                                                     <span class="spr-starrating spr-badge-starrating">

@@ -70,6 +70,15 @@ class ProductController extends Controller
             return redirect()->route('admin_products')->with('success', 'Съобщението ви беше изпратено успешно');
         }
     }
+
+    /**
+     * Show all product review
+     */
+    public function showReview(Review $review)
+    {
+        return \View::make('admin.products_reviews.show', array('review' => $review));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
