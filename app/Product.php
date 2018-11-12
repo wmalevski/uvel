@@ -231,7 +231,6 @@ class Product extends Model
         }
 
         public function filterProducts(Request $request ,$query){
-            //dd($request, $query);
             if ($request->priceFrom && $request->priceTo) {
                 $query = $query->whereBetween('price', [$request->priceFrom, $request->priceTo]);
             } else if($request->priceFrom){
