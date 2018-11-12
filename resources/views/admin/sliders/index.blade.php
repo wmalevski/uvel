@@ -13,7 +13,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" id="add-slides-form" action="slider" name="slides" data-type="add" autocomplete="off">
+            <form method="POST" id="add-slides-form" action="slides" name="slides" data-type="add" autocomplete="off">
                 <div class="modal-body">    
                     <div class="info-cont">
                     </div>
