@@ -329,7 +329,7 @@
                                     </span>
                                 </div>
                             </a>
-                            <div id="cart-info" class="dropdown-menu" style="display: none;">
+                            {{-- <div id="cart-info" class="dropdown-menu" style="display: none;">
                                 <div id="cart-content">
                                     <div class="items control-container">
                                         <div class="row items-wrapper">
@@ -354,7 +354,7 @@
                                         <button class="btn" onclick="window.location='{{ route('cart') }}'">Чекаут</button><a class="btn btn-1" href="{{ route('cart') }}">Виж количката</a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </li>		  		 
