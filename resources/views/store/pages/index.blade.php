@@ -58,10 +58,12 @@
                                                         <div class="home_collections_item_inner">
                                                             <div class="collection-details">
                                                                 <a href="online/products/?byMaterial={{ $material->id }}" title="Browse our Bracelets">
-                                                                        <img src="
-                                                                        @if(count($material->materials->first()->products)) 
-                                                                        {{ asset("uploads/products/" . $material->materials->first()->products->first()->images->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif
-                                                                        " alt="Bracelets">
+                                                                
+                                                                <img src="
+                                                                        @if(count($material->materials->first()->products))
+                                                                            @if(count($material->materials->first()->products->first()->images))         
+                                                                        {{ asset("uploads/products/" . $material->materials->first()->products->first()->images->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif @endif
+                                                                        " alt="">
                                                                 </a>
                                                             </div>
                                                             <div class="hover-overlay">
