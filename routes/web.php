@@ -59,6 +59,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/stones/{stone}', 'StoneController@edit');
 
+    Route::get('/slides', 'SliderController@index')->name('slides');
+    Route::post('/slides', 'SliderController@store');
+
+    Route::get('/slides/{slide}', 'SliderController@edit');
+
     Route::get('/stores', 'StoreController@index')->name('stores');
     Route::post('/stores', 'StoreController@store');
     Route::get('/stores/info/{store}', 'StoreController@show');
@@ -180,6 +185,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 });
 
 Route::group(['prefix' => 'ajax'], function() {
+
+    Route::post('/slides', 'SliderController@store');
+    Route::post('/slides/delete/{slide}', 'SliderController@destroy');
 
     Route::post('/blog', 'BlogController@store');
     Route::post('/blog/delete/{blog}', 'BlogController@destroy');
