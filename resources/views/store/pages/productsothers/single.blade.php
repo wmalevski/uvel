@@ -196,13 +196,13 @@
 														<meta itemprop="itemreviewed" content="Donec aliquam ante non">
 														<meta itemprop="votes" content="{{count($product->reviews)}}">
 														<span itemprop="rating" itemscope="" itemtype="http://data-vocabulary.org/Rating" class="spr-starrating spr-summary-starrating">
-															<meta itemprop="average" content="{{$productAvgRating}}">
+															<meta itemprop="average" content="{{$product->getProductOtherAvgRating($product)}}">
 															<meta itemprop="best" content="5">
 															<meta itemprop="worst" content="1">
 															@for($i = 1; $i <= 5; $i++)
-																@if(round($productAvgRating) >= $i)
+																@if(round($product->getProductOtherAvgRating($product)) >= $i)
 																	<i class="spr-icon spr-icon-star" style=""></i>
-																@elseif(round($productAvgRating) < $i) 
+																@elseif(round($product->getProductOtherAvgRating($product)) < $i) 
 																	<i class="spr-icon spr-icon-star-empty" style=""></i>
 																@endif																			
 															@endfor
@@ -210,7 +210,7 @@
 														@if(count($product->reviews) >= 1)
 														<span class="spr-summary-caption">
 															<span class="spr-summary-actions-togglereviews">
-																Базирано на {{count($product->reviews)}} @if(count($product->reviews) == 1) ревю @else ревюта - {{$productAvgRating}}/5 @endif
+																Базирано на {{count($product->reviews)}} @if(count($product->reviews) == 1) ревю @else ревюта - {{$product->getProductOtherAvgRating($product)}}/5 @endif
 															</span>
 														</span>
 														@endif
@@ -250,8 +250,8 @@
 															<fieldset class="spr-form-actions">
 																<input type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary" value="Добави рейтинг">
 															</fieldset>
-															<input type="hidden" name="product_id" value="{{$product->id}}">
-															<input type="hidden" name="type" value="product">
+															<input type="hidden" name="product_others_id" value="{{$product->id}}">
+															<input type="hidden" name="type" value="product_other">
 														</form>
 													</div>
 													<div class="spr-reviews" id="reviews_{{$product->id}}">
@@ -306,18 +306,15 @@
 													</li>
 													<li class="row-right parent-fly animMix">
 													<div class="product-content-left">
-                                                        <a class="title-5" href="{{ route('single_product', ['product' => $product->id])  }}">{{ $product->name }}</a>
-														<span class="spr-badge" id="spr_badge_{{$product->id}}" data-rating="0.0">
+                                                        <a class="title-5" href="{{ route('single_product_other', ['product' => $product->id])  }}">{{ $product->name }}</a>
+														<span class="spr-badge" id="spr_badge_{{$product->id}}" data-rating="{{$product->getProductOtherAvgRating($product)}}">
+														@if($product->getProductOtherAvgRating($product) > 0)	
 															<span class="spr-starrating spr-badge-starrating">
-																@for($i = 1; $i <= 5; $i++)
-																	@if($product->getSimilarProductAvgRating($product) >= $i)
-																		<i class="spr-icon spr-icon-star" style=""></i>
-																	@elseif($product->getSimilarProductAvgRating($product) < $i) 
-																		<i class="spr-icon spr-icon-star-empty" style=""></i>
-																	@endif																			
-																@endfor
+																{{$product->listProductOtherAvgRatingStars($product)}}
 															</span>
-															<span class="spr-badge-caption">No reviews</span>
+														@else
+															<span class="spr-badge-caption" style="display: block;">No reviews</span>
+														@endif
 														</span>
 													</div>
 													<div class="product-content-right">

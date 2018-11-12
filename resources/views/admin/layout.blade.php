@@ -256,7 +256,14 @@
                 </a>
               </li>
 
-
+              <li class="nav-item {{ Active::check('admin/reviews',true) }}">
+                <a class="sidebar-link" href="{{ route('reviews') }}">
+                  <span class="icon-holder">
+                    <i class="ti-archive"></i>
+                  </span>
+                  <span class="title">Ревюта</span>
+                </a>
+              </li>
 
               <li class="nav-item dropdown {{ Active::check('admin/admin_products',true) }}">
                 <a class="dropdown-toggle" href="javascript:void(0);">
@@ -274,9 +281,6 @@
                   </li>
                   <li>
                     <a class="sidebar-link" href="{{ route('products_travelling') }}">На път</a>
-                  </li>
-                  <li>
-                    <a class="sidebar-link" href="{{ route('reviews') }}">Ревюта</a>
                   </li>
                 </ul>
               </li>

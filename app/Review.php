@@ -36,26 +36,6 @@ class Review extends Model
     }
 
     public function productOther() {
-        return $this->belongsTo('App\ProductOther');
-    }
-
-    public function getSimilarProductAvgRating($product) {
-        $productTotalRating = 0;
-        if(count($product->reviews)){
-            foreach($product->reviews as $review) {
-                $productTotalRating = $productTotalRating + $review->rating;
-            }
-            return $productAvgRating = $productTotalRating/count($product->reviews);
-        }
-    }
-
-    public function listSimilarProductAvgRatingStars($product) {
-        for($i = 1; $i <= 5; $i++){
-            if($this->getSimilarProductAvgRating($product) >= $i){
-                echo '<i class="spr-icon spr-icon-star" style=""></i>';
-            }elseif($product->getSimilarProductAvgRating($product) < $i){
-                echo'<i class="spr-icon spr-icon-star-empty" style=""></i>';
-            }   																		
-        }
+        return $this->belongsTo('App\ProductOther', 'product_others_id');
     }
 }

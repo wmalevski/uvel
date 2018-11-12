@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-md-12">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
-        <h4 class="c-grey-900 mB-20">Ревюта</h4>
+        <h4 class="c-grey-900 mB-20">Ревюта на {{$reviews->first()->product->name}}</h4>
         <p>Преглед на създадените ревюта.</p>
         <table class="table table-condensed tablesort">
             <thead>
@@ -18,7 +18,7 @@
             </thead>
             <tbody>
                 @foreach($reviews as $review) 
-                    @include('admin.reviews.table')
+                    @include('admin.products_reviews.table')
                 @endforeach
             </tbody>
         </table>

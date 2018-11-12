@@ -29,7 +29,7 @@ class ProductOther extends Model
 
     public function reviews() 
     {
-        return $this->hasMany('App\Review');
+        return $this->hasMany('App\Review', 'product_others_id');
     }
 
     public function getSimilarProductAvgRating($product) {
@@ -60,5 +60,25 @@ class ProductOther extends Model
         }
 
         return $query;
+    }
+
+    public function getProductOtherAvgRating($product_other) {
+        $productOtherTotalRating = 0;
+        if(count($product_other->reviews)){
+            foreach($product_other->reviews as $review) {
+                $productOtherTotalRating = $productOtherTotalRating + $review->rating;
+            }
+            return $productOtherAvgRating = $productOtherTotalRating/count($product_other->reviews);
+        }
+    }
+
+    public function listProductOtherAvgRatingStars($product_other) {
+        for($i = 1; $i <= 5; $i++){
+            if($this->getProductOtherAvgRating($product_other) >= $i){
+                echo '<i class="spr-icon spr-icon-star" style=""></i>';
+            }elseif($this->getProductOtherAvgRating($product_other) < $i){
+                echo'<i class="spr-icon spr-icon-star-empty" style=""></i>';
+            }   																		
+        }
     }
 }
