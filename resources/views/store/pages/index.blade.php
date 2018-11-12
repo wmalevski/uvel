@@ -158,12 +158,14 @@
                                                             <li class="row-right parent-fly animMix">
                                                             <div class="product-content-left">
                                                                 <a class="title-5" href="./product.html">{{ $product['name'] }}</a>
-                                                                <span class="spr-badge" id="spr_badge_12932396193" data-rating="{{$product->getSimilarProductAvgRating($product)}}">
-                                                                <span class="spr-starrating spr-badge-starrating">
-                                                                    {{$product->listSimilarProductAvgRatingStars($product)}}
-                                                                </span>
-                                                                <span class="spr-badge-caption">
-                                                                No reviews </span>
+                                                                <span class="spr-badge" id="spr_badge_12932396193" data-rating="{{$product->getProductAvgRating($product)}}">
+                                                                @if($product->getProductAvgRating($product) > 0)    
+                                                                    <span class="spr-starrating spr-badge-starrating">
+                                                                        {{$product->listProductAvgRatingStars($product)}}
+                                                                    </span>
+                                                                @else
+                                                                    <span class="spr-badge-caption" style="display:block;">No reviews </span>
+                                                                @endif
                                                                 </span>
                                                             </div>
                                                             <div class="product-content-right">
@@ -288,12 +290,14 @@
                                                         <li class="row-right parent-fly animMix">
                                                             <div class="product-content-left">
                                                                 <a class="title-5" href="./product.html">{{ $product->name }}</a>
-                                                                <span class="spr-badge" id="spr_badge_1293238211" data-rating="{{$product->getSimilarProductAvgRating($product)}}">
-                                                                <span class="spr-starrating spr-badge-starrating">
-                                                                    {{$product->listSimilarProductAvgRatingStars($product)}}
-                                                                </span>
-                                                                <span class="spr-badge-caption">
-                                                                No reviews </span>
+                                                                <span class="spr-badge" id="spr_badge_1293238211" data-rating="{{$product->getProductAvgRating($product)}}">
+                                                                @if($product->getProductAvgRating($product) > 0)
+                                                                    <span class="spr-starrating spr-badge-starrating">
+                                                                        {{$product->listProductAvgRatingStars($product)}}
+                                                                    </span>
+                                                                @else
+                                                                    <span class="spr-badge-caption" style="display:block;">No reviews </span>
+                                                                @endif
                                                                 </span>
                                                             </div>
                                                             <div class="product-content-right">
