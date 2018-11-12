@@ -36,6 +36,6 @@ class Review extends Model
     }
 
     public function productOther() {
-        return $this->belongsTo('App\ProductOther');
+        return $this->belongsTo('App\ProductOther', 'product_others_id');
     }
 }
