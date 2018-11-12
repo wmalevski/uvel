@@ -4,23 +4,23 @@
 <div id="content-wrapper-parent">
     <div id="content-wrapper">  
         <!-- Main Slideshow -->
+        @if(count($slides))
         <div class="home-slider-wrapper clearfix">
             <div class="camera_wrap" id="home-slider">
-                <div data-src="{{ asset('store/images/demo_1920x900.png') }}">
-                    <div class="camera_caption camera_title_1 fadeIn">
-                        <a href="./collection.html" style="color:#010101;">Live the moment</a>
+                @foreach($slides as $slide)
+                    <div data-src="{{ asset("uploads/slides/".$slide->photo) }}">
+                        <div class="camera_caption camera_title_1 fadeIn">
+                            <a href="{{ $slide->button_link }}" style="color:#010101;">{{ $slide->title }}</a>
+                        </div>
+                        <div class="camera_caption camera_caption_1 fadeIn" style="color: rgb(1, 1, 1);">
+                            {{ $slide->content }}
+                        </div>
+                        <div class="camera_cta_1">
+                            <a href="{{ $slide->button_link }}" class="btn">{{ $slide->button_text }}</a>
+                        </div>
                     </div>
-                    <div class="camera_caption camera_caption_1 fadeIn" style="color: rgb(1, 1, 1);">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    </div>
-                    <div class="camera_caption camera_image-caption_1 moveFromLeft">
-                        <img src="{{ asset('store/images/demo_734x90.png') }}" alt="image_caption">
-                    </div>
-                    <div class="camera_cta_1">
-                        <a href="./collection.html" class="btn">See Collection</a>
-                    </div>
-                </div>
-                <div data-src="{{ asset('store/images/demo_1920x900.png') }}">
+                @endforeach
+                {{-- <div data-src="{{ asset('store/images/demo_1920x900.png') }}">
                     <div class="camera_caption camera_title_2 moveFromLeft">
                         <a href="./collection.html" style="color:#666666;">Love’s embrace</a>
                     </div>
@@ -38,9 +38,10 @@
                     <div class="camera_cta_1">
                         <a href="./collection.html" class="btn">See Collection</a>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div> 
+        @endif
         <!-- Content -->
         <div id="content" class="clearfix">                       
             <section class="content">  

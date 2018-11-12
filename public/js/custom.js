@@ -147,6 +147,11 @@ var uvel,
         selector: '[name="model_order"]',
         controllers: [],
         initialized: false
+      },
+      sliders: {
+        selector: '[name="slides"]',
+        controllers: ['imageHandling'],
+        initialized: false
       }
     };
 
