@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Response;
 use App\Slider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\View;
 
 class SliderController extends Controller
 {
