@@ -302,10 +302,10 @@
 													<li class="row-right parent-fly animMix">
 													<div class="product-content-left">
                                                         <a class="title-5" href="{{ route('single_product', ['product' => $product->id])  }}">{{ $product->name }}</a>
-														<span class="spr-badge" id="spr_badge_{{$product->id}}" data-rating="{{$product->getSimilarProductAvgRating($product)}}">
-															@if($product->getSimilarProductAvgRating($product) > 0)
+														<span class="spr-badge" id="spr_badge_{{$product->id}}" data-rating="{{$product->getProductAvgRating($product)}}">
+															@if($product->getProductAvgRating($product) > 0)
 																<span class="spr-starrating spr-badge-starrating">
-																	{{$product->listSimilarProductAvgRatingStars($product)}}
+																	{{$product->listProductAvgRatingStars($product)}}
 																</span>
 															@else
 																<span class="spr-badge-caption">No reviews</span>

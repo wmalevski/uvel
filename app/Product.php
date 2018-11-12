@@ -210,7 +210,7 @@ class Product extends Model
             return $query->orderBy(DB::raw('ABS(`price` - '.$price.')'));
         }
 
-        public function getSimilarProductAvgRating($product) {
+        public function getProductAvgRating($product) {
             $productTotalRating = 0;
             if(count($product->reviews)){
                 foreach($product->reviews as $review) {
@@ -220,11 +220,11 @@ class Product extends Model
             }
         }
 
-        public function listSimilarProductAvgRatingStars($product) {
+        public function listProductAvgRatingStars($product) {
             for($i = 1; $i <= 5; $i++){
-                if($this->getSimilarProductAvgRating($product) >= $i){
+                if($this->getProductAvgRating($product) >= $i){
                     echo '<i class="spr-icon spr-icon-star" style=""></i>';
-                }elseif($product->getSimilarProductAvgRating($product) < $i){
+                }elseif($product->getProductAvgRating($product) < $i){
                     echo'<i class="spr-icon spr-icon-star-empty" style=""></i>';
                 }   																		
             }
