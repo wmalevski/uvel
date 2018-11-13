@@ -121,7 +121,30 @@
 											</div>
 											<textarea id="note" rows="8" class="form-control" name="note"></textarea>
 										</div>
+
+										@if ($message = Session::get('success'))
+											<div class="w3-panel w3-green w3-display-container">
+												<span onclick="this.parentElement.style.display='none'"
+														class="w3-button w3-green w3-large w3-display-topright">&times;</span>
+												<p>{!! $message !!}</p>
+											</div>
+											<?php Session::forget('success');?>
+											@endif
+										@if ($message = Session::get('error'))
+											<div class="w3-panel w3-red w3-display-container">
+												<span onclick="this.parentElement.style.display='none'"
+														class="w3-button w3-red w3-large w3-display-topright">&times;</span>
+												<p>{!! $message !!}</p>
+											</div>
+											<?php Session::forget('error');?>
+										@endif
 									</div>
+								</form>
+
+								<form class="w3-container w3-display-middle w3-card-4 " method="POST" id="payment-form"  action="{{ route('paypal_pay') }}">
+									{{ csrf_field() }}
+									<input class="w3-input w3-border" name="amount" value="{{ $subtotal }}" type="text"></p>      
+									<button class="w3-btn w3-blue">Pay with PayPal</button></p>
 								</form>
 								{{-- <div id="shipping-calculator">
 									<div class="row">
