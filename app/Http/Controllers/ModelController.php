@@ -7,6 +7,7 @@ use App\Jewel;
 use App\Price;
 use App\Stone;
 use App\ModelStone;
+use App\Review;
 use App\Product;
 use App\ProductStone;
 use App\Material;
@@ -16,6 +17,7 @@ use App\Gallery;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\JsonResponse;
 use Response;
 use Illuminate\Support\Facades\View;
@@ -296,6 +298,22 @@ class ModelController extends Controller
         }
 
         return Response::json(array('success' => View::make('admin/models/table',array('model'=>$model))->render()));
+    }
+
+     /**
+     * Display all reviews
+     */
+    public function showReviews()
+    {
+        $reviews = Review::where([
+            ['model_id', '!=', '']
+        ])->get();
+
+        if (count($reviews)) {
+            return \View::make('admin.models_reviews.index', array('reviews'=>$reviews));
+        } else {
+            return redirect()->route('models')->with('success', 'Съобщението ви беше изпратено успешно');
+        }
     }
 
     /**

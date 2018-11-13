@@ -72,14 +72,6 @@ class ProductController extends Controller
     }
 
     /**
-     * Show product review
-     */
-    public function showReview(Review $review)
-    {
-        return \View::make('admin.products_reviews.show', array('review' => $review));
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

@@ -9,6 +9,7 @@ use App\ProductOtherType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\JsonResponse;
 use Response;
 
@@ -104,14 +105,6 @@ class ProductOtherController extends Controller
         } else {
             return redirect()->route('products_others')->with('success', 'Съобщението ви беше изпратено успешно');
         }
-    }
-
-    /**
-     * Show product review
-     */
-    public function showReview(Review $review)
-    {
-        return \View::make('admin.products_others_reviews.show', array('review' => $review));
     }
 
     /**

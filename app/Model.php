@@ -46,7 +46,7 @@ class Model extends BaseModel
         return $this->hasMany('App\Review');
     }
 
-    public function getSimilarModelAvgRating($model) {
+    public function getModelAvgRating($model) {
         $modelTotalRating = 0;
         if(count($model->reviews)){
             foreach($model->reviews as $review) {
@@ -56,11 +56,11 @@ class Model extends BaseModel
         }
     }
 
-    public function listSimilarModelAvgRatingStars($model) {
+    public function listModelAvgRatingStars($model) {
         for($i = 1; $i <= 5; $i++){
-            if($this->getSimilarModelAvgRating($model) >= $i){
+            if($this->getModelAvgRating($model) >= $i){
                 echo '<i class="spr-icon spr-icon-star" style=""></i>';
-            }elseif($model->getSimilarModelAvgRating($model) < $i){
+            }elseif($this->getModelAvgRating($model) < $i){
                 echo'<i class="spr-icon spr-icon-star-empty" style=""></i>';
             }   																		
         }

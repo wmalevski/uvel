@@ -185,24 +185,27 @@
 											<div class="spr-container">
 												<div class="spr-header">
 													<h2 class="spr-header-title">Ревюта</h2>
-													<div class="spr-summary" itemscope="" itemtype="http://data-vocabulary.org/Review-aggregate">
-														<meta itemprop="itemreviewed" content="Donec aliquam ante non">
-														<meta itemprop="votes" content="{{count($model->reviews)}}">
-														<span itemprop="rating" itemscope="" itemtype="http://data-vocabulary.org/Rating" class="spr-starrating spr-summary-starrating">
-															<meta itemprop="average" content="{{$model->getSimilarModelAvgRating($model)}}">
-															<meta itemprop="best" content="5">
-															<meta itemprop="worst" content="1">
-															{{$model->listSimilarModelAvgRatingStars($model)}}
-														</span>
-														<span class="spr-summary-caption">
-														<span class="spr-summary-actions-togglereviews">
-															Базирано на {{count($model->reviews)}} @if(count($model->reviews) == 1) ревю @else ревюта - {{$model->getSimilarProductAvgRating($model)}}/5 @endif
-														</span>
-														</span>
-														{{-- <span class="spr-summary-actions">
-														<a href="#" class="spr-summary-actions-newreview" onclick="SPR.toggleForm(1293236931);return false">Напиши ревю</a>
-														</span> --}}
-													</div>
+													@if($model->getModelAvgRating($model) > 0)
+														<div class="spr-summary" itemscope="" itemtype="http://data-vocabulary.org/Review-aggregate">
+															<meta itemprop="itemreviewed" content="Donec aliquam ante non">
+															<meta itemprop="votes" content="{{count($model->reviews)}}">
+															<span itemprop="rating" itemscope="" itemtype="http://data-vocabulary.org/Rating" class="spr-starrating spr-summary-starrating">
+																<meta itemprop="average" content="{{$model->getModelAvgRating($model)}}">
+																<meta itemprop="best" content="5">
+																<meta itemprop="worst" content="1">
+																{{$model->listModelAvgRatingStars($model)}}
+															</span>
+															
+															<span class="spr-summary-caption">															
+																<span class="spr-summary-actions-togglereviews">
+																	Базирано на {{count($model->reviews)}} @if(count($model->reviews) == 1) ревю @else ревюта - {{$model->getModelAvgRating($model)}}/5 @endif
+																</span>
+															</span>
+															{{-- <span class="spr-summary-actions">
+															<a href="#" class="spr-summary-actions-newreview" onclick="SPR.toggleForm(1293236931);return false">Напиши ревю</a>
+															</span> --}}
+														</div>
+													@endif
 												</div>
 												<div class="spr-content">
 													<div class="spr-form" id="form_1293236931">
@@ -289,7 +292,7 @@
                                                         <a class="title-5" href="{{ route('single_model', ['model' => $model->id])  }}">{{ $model->name }}</a>
 														<span class="spr-badge" id="spr_badge_1293238211" data-rating="0.0">
 														<span class="spr-starrating spr-badge-starrating">
-															{{$model->listSimilarModelAvgRatingStars($model)}}
+															{{$model->listModelAvgRatingStars($model)}}
 														</span>
 														<span class="spr-badge-caption">
 														No reviews </span>
