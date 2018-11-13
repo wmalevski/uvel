@@ -396,10 +396,10 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
     Route::get('/cart/addItem/{item}/{quantity}', 'CartController@addItem');
 
     // route for processing payment
-    Route::post('/cart/pay/paypal', 'PaymentController@payWithpaypal')->name('paypal_pay');
+    Route::post('/cart/pay/paypal', 'PayController@payWithpaypal')->name('paypal_pay');
     // route for check status of the payment
 
-    Route::get('/cart/pay/status', 'PaymentController@getPaymentStatus')->name('paypal_status');;
+    Route::get('/cart/pay/status', 'PayController@getPaymentStatus')->name('paypal_status');;
 });
 
 //AJAX FOR STORE
