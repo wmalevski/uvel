@@ -247,13 +247,25 @@
                 <span class="title">Бижута</span>
               </a>
             </li>
-            <li class="nav-item {{ Active::check('admin/models',true) }}">
-                <a class="sidebar-link" href="{{ route('admin_models') }}">
+
+              <li class="nav-item dropdown {{ Active::check('admin/models',true) }}">
+                <a class="dropdown-toggle" href="javascript:void(0);">
                   <span class="icon-holder">
-                    <i class=" ti-blackboard"></i>
+                    <i class="ti-blackboard"></i>
                   </span>
                   <span class="title">Модели</span>
+                  <span class="arrow">
+                    <i class="ti-angle-right"></i>
+                  </span>
                 </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="sidebar-link" href="{{ route('admin_models') }}">Наличности</a>
+                  </li>
+                  <li>
+                    <a class="sidebar-link" href="{{ route('custom_orders') }}">Ревюта</a>
+                  </li>
+                </ul>
               </li>
 
               <li class="nav-item {{ Active::check('admin/reviews',true) }}">
