@@ -76,6 +76,7 @@ aria-hidden="true">
             <th scope="col">Заглавие</th> 
             <th scope="col">Кратко описание</th>
             <th scope="col">Бутон</th> 
+            <th scope="col">Бутон линк</th> 
             <th class="sort-false" scope="col">Действия</th>
           </tr>
         </thead>

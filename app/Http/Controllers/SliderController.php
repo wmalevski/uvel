@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use File;
 use Response;
+use Storage;
 use App\Slider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -42,7 +44,7 @@ class SliderController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make( $request->all(), [
-            'photo' => 'required',
+            'images' => 'required',
          ]);
 
         if ($validator->fails()) {
@@ -52,30 +54,32 @@ class SliderController extends Controller
         
         $slider = Slider::create($request->all());
 
-        $path = public_path('uploads/sliders/');
+        $path = public_path('uploads/slides/');
         
         File::makeDirectory($path, 0775, true, true);
-        Storage::disk('public')->makeDirectory('sliders', 0775, true);
+        Storage::disk('public')->makeDirectory('slides', 0775, true);
 
         $file_data = $request->input('images'); 
         if($file_data){
             foreach($file_data as $img){
-                $file_name = 'productimage_'.uniqid().time().'.png';
+                $file_name = 'slideimage_'.uniqid().time().'.png';
                 $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                file_put_contents(public_path('uploads/sliders/').$file_name, $data);
+                file_put_contents(public_path('uploads/slides/').$file_name, $data);
 
-                Storage::disk('public')->put('sliders/'.$file_name, file_get_contents(public_path('uploads/sliders/').$file_name));
+                Storage::disk('public')->put('sliders/'.$file_name, file_get_contents(public_path('uploads/slides/').$file_name));
 
-                $photo = new Gallery();
-                $photo->photo = $file_name;
-                $photo->slider_id = $slider->id;
-                $photo->table = 'sliders';
+                // $photo = new Gallery();
+                $slider->photo = $file_name;
+                $slider->save();
 
-                $photo->save();
+                // $photo->slider_id = $slider->id;
+                // $photo->table = 'sliders';
+
+                // $photo->save();
             }
         }
 
-        return Response::json(array('success' => View::make('admin/sliders/table',array('slider'=>$slider))->render()));
+        return Response::json(array('success' => View::make('admin/sliders/table',array('slide'=>$slider))->render()));
     }
 
     /**
@@ -120,6 +124,9 @@ class SliderController extends Controller
      */
     public function destroy(Slider $slider)
     {
-        //
+        if($slider){
+            $slider->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }

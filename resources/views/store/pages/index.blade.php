@@ -279,9 +279,7 @@
                                                         <li class="row-left">
                                                         <a href="product/{{ $product['id'] }}" class="container_item">
                                                         <img src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif" class="img-responsive" alt="Curabitur cursus dignis">
-                                                        <span class="sale_banner">
-                                                        <span class="sale_text">Sale</span>
-                                                        </span>
+                                                       
                                                         </a>
                                                         <div class="hbw">
                                                             <span class="hoverBorderWrapper"></span>
@@ -302,7 +300,7 @@
                                                             </div>
                                                             <div class="product-content-right">
                                                                 <div class="product-price">
-                                                                    <span class="price">{{ $product->price }}</span>
+                                                                    <span class="price">{{ $product->price }} лв</span>
                                                                 </div>
                                                             </div>
                                                             <div class="list-mode-description">
