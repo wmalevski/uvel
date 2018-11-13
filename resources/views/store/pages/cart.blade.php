@@ -143,7 +143,7 @@
 
 								<form class="w3-container w3-display-middle w3-card-4 " method="POST" id="payment-form"  action="{{ route('paypal_pay') }}">
 									{{ csrf_field() }}
-									<input class="w3-input w3-border" name="amount" value="{{ $subtotal }}" type="text"></p>      
+									<input class="w3-input w3-border" name="amount" value="{{ $subtotal }}" type="hidden"></p>      
 									<button class="w3-btn w3-blue">Pay with PayPal</button></p>
 								</form>
 								{{-- <div id="shipping-calculator">
