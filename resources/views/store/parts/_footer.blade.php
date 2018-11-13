@@ -25,17 +25,14 @@
                     <h5 class="general-title">За нас</h5>						
                     <ul class="list-unstyled list-styled">						  
                         <li class="list-unstyled">
-                        <a href="./account.html">Store Locations</a>
+                        <a href="./account.html">Гарация</a>
                         </li>						  
                         <li class="list-unstyled">
-                        <a href="./account.html">Whosesalers</a>
+                        <a href="./account.html">Цени</a>
                         </li>						  
                         <li class="list-unstyled">
-                        <a href="./account.html">Map Site</a>
-                        </li>						  
-                        <li class="list-unstyled">
-                        <a href="./account.html">Contact Us</a>
-                        </li>						  
+                        <a href="./account.html">Контакт</a>
+                        </li>						  						  
                     </ul>
                     </div>
                 </div>   
@@ -44,13 +41,13 @@
                     <h5 class="general-title">Информация</h5>						
                     <ul class="list-unstyled list-styled">						  
                         <li class="list-unstyled">
-                        <a href="./account.html">Help &amp; FAQs</a>
+                        <a href="./account.html">Магазини</a>
                         </li>						  
                         <li class="list-unstyled">
-                        <a href="./account.html">Advance Search</a>
+                        <a href="./account.html">Политика за поверителност</a>
                         </li>						  
                         <li class="list-unstyled">
-                        <a href="./account.html">Gift Cards</a>
+                        <a href="./account.html"Карта на сайта</a>
                         </li>						  
                         <li class="list-unstyled">
                         <a href="./account.html">Shop By Brands</a>
@@ -63,13 +60,13 @@
                     <h5 class="general-title">Акаунт</h5>						
                     <ul class="list-unstyled list-styled">						  
                         <li class="list-unstyled">
-                        <a href="./account.html">Preferences</a>
+                        <a href="./account.html">Преференции</a>
                         </li>						  
                         <li class="list-unstyled">
-                        <a href="./account.html">Order History</a>
+                        <a href="./account.html">История на поръчките</a>
                         </li>						  
                         <li class="list-unstyled">
-                        <a href="./account.html">Cart Page</a>
+                        <a href="./account.html">Логин</a>
                         </li>						  
                         <li class="list-unstyled">
                         <a href="./account.html">Sign In</a>
