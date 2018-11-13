@@ -305,6 +305,9 @@
                   <li>
                     <a class="sidebar-link" href="{{ route('products_others_types') }}">Типове</a>
                   </li>
+                  <li>
+                    <a class="sidebar-link" href="{{ route('show_products_others_reviews') }}">Ревюта</a>
+                  </li>
                 </ul>
               </li>
 

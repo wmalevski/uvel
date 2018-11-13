@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Store;
+use App\Review;
 use App\ProductOther;
 use App\ProductOtherType;
 use Illuminate\Http\Request;
@@ -87,6 +88,30 @@ class ProductOtherController extends Controller
         $product->save();
 
         return Response::json(array('success' => View::make('admin/products_others/table',array('product'=>$product))->render()));
+    }
+
+    /**
+     * Display all reviews
+     */
+    public function showReviews()
+    {
+        $reviews = Review::where([
+            ['product_others_id', '!=', '']
+        ])->get();
+
+        if (count($reviews)) {
+            return \View::make('admin.products_others_reviews.index', array('reviews'=>$reviews));
+        } else {
+            return redirect()->route('products_others')->with('success', 'Съобщението ви беше изпратено успешно');
+        }
+    }
+
+    /**
+     * Show product review
+     */
+    public function showReview(Review $review)
+    {
+        return \View::make('admin.products_others_reviews.show', array('review' => $review));
     }
 
     /**

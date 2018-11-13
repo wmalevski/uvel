@@ -185,6 +185,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/products/reviews/all', 'ProductController@showReviews')->name('products_reviews');
     Route::get('/products/reviews/{review}', 'ProductController@showReview')->name('show_product_review');
 
+    Route::get('/productsothers/reviews/all', 'ProductOtherController@showReviews')->name('show_products_others_reviews');
+    Route::get('/productsothers/reviews/{review}', 'ProductOtherController@showReview')->name('show_product_other_review');
+
+
 });
 
 Route::group(['prefix' => 'ajax'], function() {
