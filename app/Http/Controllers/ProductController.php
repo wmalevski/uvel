@@ -72,7 +72,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Show all product review
+     * Show product review
      */
     public function showReview(Review $review)
     {
