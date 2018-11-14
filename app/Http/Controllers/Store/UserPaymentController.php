@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Store;
 use App\UserPayment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\PaypalPay;
 
 class UserPaymentController extends Controller
 {
@@ -36,7 +37,16 @@ class UserPaymentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $payment = new UserPayment();
+
+        if($request->payment_method == 'delivery'){
+
+        } else if ($request->payment_method == 'paypal'){
+            $pay = new PaypalPay();
+            return $pay->payWithpaypal($request);
+        } else if ($request->payment_method == 'borika'){
+            
+        }
     }
 
     /**
