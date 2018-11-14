@@ -263,7 +263,7 @@
                     <a class="sidebar-link" href="{{ route('admin_models') }}">Наличности</a>
                   </li>
                   <li>
-                    <a class="sidebar-link" href="{{ route('custom_orders') }}">Ревюта</a>
+                    <a class="sidebar-link" href="{{ route('show_model_reviews') }}">Ревюта</a>
                   </li>
                 </ul>
               </li>

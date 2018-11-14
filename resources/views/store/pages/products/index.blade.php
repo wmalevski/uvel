@@ -194,14 +194,14 @@ aria-hidden="true">
                                                                         
                                                                     </div>
                                                                 </div>
-                                                                <a class="wish-list" href="./account.html" title="wish list"><i class="fa fa-heart"></i><span class="list-mode">Добави в желани</span></a>
+																<a class="wish-list" href="#" title="wish list">
+																	<i class="fa fa-heart"></i><span class="list-mode">Добави в желани</span>
+																</a>
                                                             </div>
                                                             </li>
                                                         </ul>
                                                     </li>
                                                 @endforeach
-												
-												
 													</ul>
 												</li>												
                                             </ul>

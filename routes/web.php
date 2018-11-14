@@ -185,6 +185,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/products/reviews/all', 'ProductController@showReviews')->name('products_reviews');
     Route::get('/productsothers/reviews/all', 'ProductOtherController@showReviews')->name('show_products_others_reviews');
     Route::get('/models/reviews/all', 'ModelController@showReviews')->name('show_model_reviews');
+
 });
 
 Route::group(['prefix' => 'ajax'], function() {
@@ -400,6 +401,9 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
     // route for check status of the payment
 
     Route::get('/cart/pay/status', 'PayController@getPaymentStatus')->name('paypal_status');;
+
+    Route::get('/account', 'AccountController@index')->name('user_account');
+
 });
 
 //AJAX FOR STORE

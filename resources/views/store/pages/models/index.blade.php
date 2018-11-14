@@ -153,10 +153,10 @@
                                                             <li class="row-right parent-fly animMix">
                                                             <div class="product-content-left">
                                                                 <a class="title-5" href="{{ route('single_model', ['model' => $model->id])  }}">{{ $model->name }}</a>
-                                                                <span class="spr-badge" id="spr_badge_12932382113" data-rating="{{$model->getSimilarModelAvgRating($model)}}">
+                                                                <span class="spr-badge" id="spr_badge_12932382113" data-rating="{{$model->getModelAvgRating($model)}}">
 																@if(count($model->reviews) > 0)
 																	<span class="spr-starrating spr-badge-starrating">
-																		{{$model->listSimilarModelAvgRatingStars($model)}}
+																		{{$model->listModelAvgRatingStars($model)}}
 																	</span>
 																@else
 																	<span class="spr-badge-caption" style="display:block;">No reviews</span>
