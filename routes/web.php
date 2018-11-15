@@ -406,6 +406,8 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
     Route::post('/cart', 'UserPaymentController@store')->name('pay_order');
 
     Route::get('/wishlist', 'WishListController@index')->name('wishlist');
+
+    Route::get('/wishlist/delete/{wishList}', 'WishListController@destroy')->name('destroy_wishlist_item');
     
 });
 

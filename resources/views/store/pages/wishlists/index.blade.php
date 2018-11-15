@@ -27,6 +27,11 @@
                             <div class="page page-wishlist">
                                 <div class="table-cart">
                                     <div class="wrap-table">
+                                        @if(session()->has('success'))
+                                            <div class="alert alert-success">
+                                                {{ session()->get('success') }}
+                                            </div>
+                                        @endif
                                         <table class="cart-items haft-border">
                                             <thead>
                                                 <tr class="top-labels">
@@ -44,7 +49,7 @@
                                                                 <li class="image">
                                                                     <a class="image text-left" href="{{$wishListItem->checkWishListItemType($wishListItem)['url']}}">
                                                                         @if ($wishListItem->product_id)
-                                                                            <img src="@if($wishListItem->product->photos) {{ asset("uploads/models/" . $wishListItem->product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif" class="img-responsive" alt="{{ $wishListItem->product->name }}">
+                                                                            <img src="@if($wishListItem->product->photos) {{ asset("uploads/products/" . $wishListItem->product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif" class="img-responsive" alt="{{ $wishListItem->product->name }}">
                                                                         @elseif ($wishListItem->model_id)
                                                                             <img src="@if($wishListItem->model->photos) {{ asset("uploads/models/" . $wishListItem->model->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif" class="img-responsive" alt="{{ $wishListItem->model->name }}">
                                                                         @endif
@@ -61,12 +66,7 @@
                                                             {{$wishListItem->checkWishListItemType($wishListItem)['item']->price}} лв.
                                                         </td>
                                                         <td class="action">
-                                                            <form method="post" action="/contact" class="contact-form" accept-charset="UTF-8">
-                                                                <input type="hidden" value="customer" name="form_type"><input type="hidden" name="utf8" value="✓">
-                                                                <input type="hidden" name="contact[email]" value="abc@gmail.com">
-                                                                <input type="hidden" name="contact[tags]" value="x1293232771">
-                                                                <button type="submit"><i class="fa fa-times"></i></button>
-                                                            </form>
+                                                        <a href="wishlist/delete/{{$wishListItem->id}}" class="delete-btn"><i class="fa fa-times"></i></a>
                                                         </td>
                                                         <td>
                                                             <form action="./cart.html" method="post">
