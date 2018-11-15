@@ -81,7 +81,7 @@
                                                             {{ $item->price*$item->quantity }} лв
                                                     </td>
                                                     <td class="action">
-                                                        <button type="button" onclick="window.location='/cart/change?line=1&amp;quantity=0'"><i class="fa fa-times"></i>Изтрии</button>
+                                                        <button type="button" onclick="window.location='/cart/change?line=1&amp;quantity=0'"><i class="fa fa-times"></i>Изтрий</button>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -138,6 +138,26 @@
 											</div>
 											<?php Session::forget('error');?>
 										@endif
+									</div>
+								</form>
+
+								<form>
+									<div class="form-row">
+										<div class="form-group col-md-4">
+											<label>Име:</label>
+											<input type="text" name="first_name">
+										</div>
+										<div class="form-group col-md-4">
+											<label>Фамилия:</label>
+											<input type="text" name="last_name">
+										</div>
+										<div class="form-group col-md-4">
+											<label>Телефон:</label>
+											<input type="tel" name="phone">
+										</div>
+									</div>
+									<div class="form-row">
+										<div></div>
 									</div>
 								</form>
 
