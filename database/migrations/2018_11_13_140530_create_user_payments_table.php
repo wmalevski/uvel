@@ -22,6 +22,7 @@ class CreateUserPaymentsTable extends Migration
             $table->integer('shipping_address')->nullable();
             $table->float('price');
             $table->text('information')->nullable();
+            $table->enum('status', ['cancelled', 'approved']);
             $table->timestamps();
         });
     }

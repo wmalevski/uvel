@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Store;
 
 use App\UserPayment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Controller;
 use App\PaypalPay;
 use App\Model;
@@ -56,29 +57,32 @@ class UserPaymentController extends Controller
             $items[] = $item;
         });
 
-        $payment = new UserPayment();
-        $payment->shipping_method = $request->shipping_method;
-        $payment->payment_method = $request->payment_method;
-        $payment->user_id = Auth::user()->getId();
-        $payment->price = $request->amount;
-        $payment->information = $request->information;
+        $user_info = [
+            'user_id' => Auth::user()->getId(),
+            'shipping_method' => $request->shipping_method,
+            'payment_method' => $request->payment_method,
+            'information' => $request->information,
+            'payment_id' => $payment->id
+        ];
 
-        if($request->shipping_method == 'ekont'){
-            $payment->ekont_address = $request->ekont_address;
-        } else if($request->shipping_method == 'store'){
-            $payment->store_id = $request->store_id;
-        }
+        Session::push('cart_info', $user_info);
 
-        if($request->payment_method == 'on_delivery'){
+        // $payment = new UserPayment();
+        // $payment->shipping_method = $request->shipping_method;
+        // $payment->payment_method = $request->payment_method;
+        // $payment->user_id = Auth::user()->getId();
+        // $payment->price = $request->amount;
+        // $payment->information = $request->information;
 
-        } else if ($request->payment_method == 'paypal'){
-            $pay = new PaypalPay();
-            return $pay->payWithpaypal($request);
-        } else if ($request->payment_method == 'borika'){
-            
-        }
+        // if($request->shipping_method == 'ekont'){
+        //     $payment->ekont_address = $request->ekont_address;
+        // } else if($request->shipping_method == 'store'){
+        //     $payment->store_id = $request->store_id;
+        // }
 
-        $payment->save();
+        // $payment->status = 'approved';
+
+        // $payment->save();
 
         foreach($items as $item){
             $selling = new UserPaymentProduct();
@@ -100,14 +104,7 @@ class UserPaymentController extends Controller
         
         foreach(Cart::session($userId)->getContent() as $item)
         {
-            if($item['attributes']->type == 'model'){
-                $model = Model::find($item->id);
-
-                if($model){
-                    $model->status = 'returned';
-                    $model->save();
-                }
-            } else if($item['attributes']->type == 'product'){
+            if($item['attributes']->type == 'product'){
                 $product = Product::find($item->id);
 
                 if($product){
@@ -119,10 +116,31 @@ class UserPaymentController extends Controller
             }
         }
 
-        Cart::clear();
-        Cart::clearCartConditions();
-        Cart::session($userId)->clear();
-        Cart::session($userId)->clearCartConditions();
+        if($request->payment_method == 'on_delivery'){
+            Cart::clear();
+            Cart::clearCartConditions();
+            Cart::session($userId)->clear();
+            Cart::session($userId)->clearCartConditions();
+
+            echo 'iztriti';
+        } else if ($request->payment_method == 'paypal'){
+            $pay = new PaypalPay();
+
+            $user_info = [
+                'user_id' => Auth::user()->getId(),
+                'shipping_method' => $request->shipping_method,
+                'payment_method' => $request->payment_method,
+                'information' => $request->information,
+                'payment_id' => $payment->id
+            ];
+
+            Session::push('cart_info', $user_info);
+
+            return $pay->payWithpaypal($request);
+
+        } else if ($request->payment_method == 'borika'){
+            
+        }
     }
 
     /**

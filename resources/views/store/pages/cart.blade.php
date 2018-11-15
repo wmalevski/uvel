@@ -85,7 +85,7 @@
 															@endif
                                                     </td>
                                                     <td class="action">
-                                                        <button type="button" onclick="window.location='/cart/change?line=1&amp;quantity=0'"><i class="fa fa-times"></i>Изтрии</button>
+                                                        <button type="button" onclick="window.location='/cart/change?line=1&amp;quantity=0'"><i class="fa fa-times"></i>Изтрий</button>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -167,12 +167,18 @@
 									Плати с PayPal<br/>
 
 									Плати с дебитна карта
+   
 
-									<input class="w3-input w3-border" name="amount" value="{{ $subtotal }}" type="hidden"></p>      
-									<input type="hidden" name="payment_method" value="on_delivery">
 									<input type="hidden" name="shipping_method" value="store">
-									<input class="w3-btn w3-blue" type="submit" value="Плати"></p>
+									{{ csrf_field() }}
+									<input class="w3-input w3-border" name="amount" value="{{ $subtotal }}" type="hidden">      
+									<input type="hidden" name="payment_method" value="on_delivery">
+									<input class="w3-btn w3-blue" type="submit" value="Плати">
 								</form>
+								{{
+									print_r(Session::get('cart_info'))
+								}}
+								{{session('cart_info.2.shipping_method')}}
 								{{-- <div id="shipping-calculator">
 									<div class="row">
 										<div class="col-md-10">

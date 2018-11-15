@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Store;
 use Cart;
+use Auth;
 use Response;
 use App\Store;
 use App\Product;
+use App\Model;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -29,7 +31,7 @@ class CartController extends BaseController
      */
     public function index()
     {
-        $session_id = session()->getId();
+        $session_id = Auth::user()->getId();
 
         $total = round(Cart::session($session_id)->getTotal(),2);
         $subtotal = round(Cart::session($session_id)->getSubTotal(),2);
@@ -51,7 +53,7 @@ class CartController extends BaseController
     }
 
     public function addItem($item, $quantity = 1){
-        $session_id = session()->getId();
+        $session_id = Auth::user()->getId();
 
         $product = Product::where([
             ['barcode', '=', $item],
@@ -75,14 +77,6 @@ class CartController extends BaseController
             if($box){
                 $item = $box;
                 $type = 'product';
-            }else{
-                $model = Model::where('barcode', $item)->first();
-
-                if($model){
-                    $item = $model;
-                    $item->price = 0;
-                    $type = 'model';
-                }
             }
 
             if($type == 'box'){
@@ -90,7 +84,7 @@ class CartController extends BaseController
             }
         }
 
-        if($item){
+        if($type != ''){
             Cart::session($session_id)->add(array(
                 'id' => $item->barcode,
                 'name' => $item->name,
