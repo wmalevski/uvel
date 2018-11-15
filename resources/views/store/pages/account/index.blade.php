@@ -33,19 +33,22 @@
 											<div class="info">
 												<i class="fa fa-user"></i>
 												<span class="address-group">
-												<span class="author">Jin Alkaid</span>
-												<span class="email">jin@gmail.com</span>
+												<span class="author">{{Auth::user()->name}}</span>
+												<span class="email">{{Auth::user()->email}}</span>
 												</span>
 											</div>
 											<div class="address">
 												<span class="address-group">
-												<span class="address1">Ung Van Khiem, Ho Chi Minh city, Vietnam<span class="phone-number"></span></span>
+												<span class="address1">
+													{{Auth::user()->street}} {{Auth::user()->street_number}}<br>{{Auth::user()->country}}
+													<span class="phone-number">{{Auth::user()->phone}}</span>
+												</span>
 												</span>
 											</div>
 											</address>
 											</li>
 											<li>
-											<button class="btn btn-1" id="view_address" onclick="window.location='address.html'">Manager Address (1)</button>
+											<button class="btn btn-1" id="view_address" onclick="window.location='{{route('user_settings')}}'">Настройки</button>
 											</li>
 										</ul>
 									</div>
