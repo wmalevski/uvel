@@ -404,6 +404,8 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
 
     Route::get('/account', 'AccountController@index')->name('user_account');
     Route::post('/cart', 'UserPaymentController@store')->name('pay_order');
+
+    Route::get('/wishlist', 'WishListController@index')->name('wishlist');
     
 });
 

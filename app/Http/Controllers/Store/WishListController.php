@@ -20,7 +20,10 @@ class WishListController extends BaseController
      */
     public function index()
     {
-        //
+        $wishList = WishList::where([['user_id', '=', Auth::user()->getId()]])->get();
+
+        return \View::make('store.pages.wishlists.index', array('wishList' => $wishList));
+
     }
 
     /**
