@@ -46,6 +46,11 @@ class Model extends BaseModel
         return $this->hasMany('App\Review');
     }
 
+    public function wishLists() 
+    {
+        return $this->hasMany('App\WishList');
+    }
+
     public function getModelAvgRating($model) {
         $modelTotalRating = 0;
         if(count($model->reviews)){

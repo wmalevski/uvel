@@ -136,6 +136,24 @@ class CreateForeignKeys extends Migration {
 						->onUpdate('cascade');
 		});
 
+		Schema::table('wish_lists', function (Blueprint $table) {
+			
+			$table->foreign('user_id')->references('id')->on('users')
+						->onDelete('cascade')
+						->onUpdate('cascade');
+
+			$table->foreign('product_id')->references('id')->on('products')
+						->onDelete('cascade')
+						->onUpdate('cascade');
+
+			$table->foreign('model_id')->references('id')->on('models')
+						->onDelete('cascade')
+						->onUpdate('cascade');
+
+			$table->foreign('product_others_id')->references('id')->on('products_others')
+						->onDelete('cascade')
+						->onUpdate('cascade');
+		});
 
 	}
 
@@ -219,6 +237,17 @@ class CreateForeignKeys extends Migration {
 			$table->dropForeign('reviews_model_id_foreign');
 			$table->dropColumn('model_id');
 			$table->dropForeign('reviews_product_others_id_foreign');
+			$table->dropColumn('product_others_id');
+		});
+
+		Schema::table('wish_lists', function(Blueprint $table) {
+			$table->dropForeign('wish_lists_user_id_foreign');
+			$table->dropColumn('user_id');
+			$table->dropForeign('wish_lists_product_id_foreign');
+			$table->dropColumn('product_id');
+			$table->dropForeign('wish_lists_model_id_foreign');
+			$table->dropColumn('model_id');
+			$table->dropForeign('wish_lists_product_others_id_foreign');
 			$table->dropColumn('product_others_id');
 		});
 	}

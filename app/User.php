@@ -80,4 +80,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Review');
     }
+
+    public function wishLists() 
+    {
+        return $this->hasMany('App\WishList');
+    }
 }

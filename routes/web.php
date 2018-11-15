@@ -415,6 +415,9 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'store'], function() {
     Route::get('/quickview/{barcode}', 'ProductController@quickview');
 
     Route::get('/filter', 'ProductController@filter');
+
+    Route::post('/wishlists/store', 'WishListController@store')->name('wishlists_store');
+
 });
 
 /**
