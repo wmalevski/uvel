@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Store;
 
-use App\UserPayment;
+use App\Review;
+use App\WishList;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\PaypalPay;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
+use Auth;
+use Response;
 
-class UserPaymentController extends Controller
+class WishListController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -37,25 +41,29 @@ class UserPaymentController extends Controller
      */
     public function store(Request $request)
     {
-        $payment = new UserPayment();
-
-        if($request->payment_method == 'delivery'){
-
-        } else if ($request->payment_method == 'paypal'){
-            $pay = new PaypalPay();
-            return $pay->payWithpaypal($request);
-        } else if ($request->payment_method == 'borika'){
-            
+        $wishList = new WishList();
+        $wishList->user_id = Auth::user()->getId();
+        
+        if ($request->type == 'product') {
+            $wishList->product_id = $request->product_id;
+        } elseif ($request->type == 'model') {
+            $wishList->model_id = $request->model_id;
+        } elseif ($request->type == 'product_other') {
+            $wishList->product_others_id = $request->product_others_id;
         }
+        $wishList->save();
+
+        return Response::json(array('success' => 'Продуктът беше запазен успешно'));
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\UserPayment  $userPayment
+     * @param  \App\WishList  $wishList
      * @return \Illuminate\Http\Response
      */
-    public function show(UserPayment $userPayment)
+    public function show(WishList $wishList)
     {
         //
     }
@@ -63,10 +71,10 @@ class UserPaymentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\UserPayment  $userPayment
+     * @param  \App\WishList  $wishList
      * @return \Illuminate\Http\Response
      */
-    public function edit(UserPayment $userPayment)
+    public function edit(WishList $wishList)
     {
         //
     }
@@ -75,10 +83,10 @@ class UserPaymentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\UserPayment  $userPayment
+     * @param  \App\WishList  $wishList
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, UserPayment $userPayment)
+    public function update(Request $request, WishList $wishList)
     {
         //
     }
@@ -86,10 +94,10 @@ class UserPaymentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\UserPayment  $userPayment
+     * @param  \App\WishList  $wishList
      * @return \Illuminate\Http\Response
      */
-    public function destroy(UserPayment $userPayment)
+    public function destroy(WishList $wishList)
     {
         //
     }

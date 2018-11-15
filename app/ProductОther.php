@@ -32,6 +32,11 @@ class ProductOther extends Model
         return $this->hasMany('App\Review', 'product_others_id');
     }
 
+    public function wishLists() 
+    {
+        return $this->hasMany('App\WishList');
+    }
+    
     public function getSimilarProductAvgRating($product) {
         $productTotalRating = 0;
         if(count($product->reviews)){

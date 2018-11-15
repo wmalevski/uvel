@@ -70,6 +70,11 @@ class Product extends Model
         return $this->hasMany('App\Review');
     }
 
+    public function wishLists() 
+    {
+        return $this->hasMany('App\WishList');
+    }
+    
     public function chainedSelects(Model $model){
         $materials = MaterialQuantity::curStore();
         $default = $model->options->where('default', 'yes')->first();
