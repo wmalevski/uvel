@@ -119,7 +119,9 @@ class PaypalPay extends Model
     
                 if ($result->getState() == 'approved') {
                     \Session::put('success', 'Payment success');
-                    return Session::get('cart_info');
+                    
+                    $payment = new UserPayment();
+                    return $payment->storePayment();
                 }
     
                 \Session::put('error', 'Payment failed');
