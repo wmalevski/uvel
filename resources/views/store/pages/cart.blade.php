@@ -199,6 +199,17 @@
 											<input type="text" name="">
 										</div>
 									</div>
+									<div class="form-row payment-method">
+										<div>Начин на плащане:</div>
+										<div class="form-goroup">
+											<input type="radio" name="paymentMethod" id="payment_borika">
+											<label for="payment_borika">Борика</label>
+											<input type="radio" name="paymentMethod" id="payment_paypal">
+											<label for="payment_paypal">PayPal</label>
+											<input type="radio" name="paymentMethod" id="payment_delivery">
+											<label for="payment_delivery">При доставка</label>
+										</div>
+									</div>
 								</form>
 
 								<form class="w3-container w3-display-middle w3-card-4 " method="POST" id="payment-form"  action="{{ route('pay_order') }}">

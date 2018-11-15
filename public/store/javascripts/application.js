@@ -797,7 +797,8 @@ var uvelStore,
 					form = _this.closest('form'),
 					id = _this.attr('id'),
 					toHide = form.find('.shipping-method'),
-					toShow = form.find('.'+id);
+					toShow = form.find('.'+id),
+					paymentMethod = form.find('.payment-method');
 
 			toHide.slideUp('fast');
 			toHide.animate({
@@ -808,6 +809,12 @@ var uvelStore,
 			toShow.animate({
 				'opacity': 1
 			}, 400)
+
+			if (id == 'shipping_address') {
+				paymentMethod.slideDown('fast');
+			} else {
+				paymentMethod.slideUp('fast');
+			}
 		}
 	};
 
