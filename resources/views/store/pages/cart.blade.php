@@ -160,11 +160,11 @@
 										<div>Начин на получаване</div>
 										<hr>
 										<div class="form-goroup">
-											<input type="radio" name="shippingMethod" id="shipping_shop">
+											<input type="radio" name="shippingMethod" id="shipping_shop" data-method="store">
 											<label for="shipping_shop">От магазин</label>
 										</div>
 										<div class="form-goroup">
-											<input type="radio" name="shippingMethod" id="shipping_address">
+											<input type="radio" name="shippingMethod" id="shipping_address" data-method="ekont">
 											<label for="shipping_address">Доставка чрез Еконт</label>
 										</div>
 									</div>
@@ -202,11 +202,11 @@
 									<div class="form-row payment-method">
 										<div>Начин на плащане:</div>
 										<div class="form-goroup">
-											<input type="radio" name="paymentMethod" id="payment_borika">
+											<input type="radio" name="paymentMethod" id="payment_borika" data-method="borika">
 											<label for="payment_borika">Борика</label>
-											<input type="radio" name="paymentMethod" id="payment_paypal">
+											<input type="radio" name="paymentMethod" id="payment_paypal" data-method="paypal">
 											<label for="payment_paypal">PayPal</label>
-											<input type="radio" name="paymentMethod" id="payment_delivery">
+											<input type="radio" name="paymentMethod" id="payment_delivery" data-method="on_delivery">
 											<label for="payment_delivery">При доставка</label>
 										</div>
 									</div>
@@ -215,7 +215,8 @@
 								<form class="w3-container w3-display-middle w3-card-4 " method="POST" id="payment-form"  action="{{ route('pay_order') }}">
 									{{ csrf_field() }}
 									<input class="w3-input w3-border" name="amount" value="{{ $subtotal }}" type="hidden">      
-									<input type="hidden" name="payment_method" value="paypal">
+									<input type="hidden" name="payment_method">
+									<input type="hidden" name="shipping_method">
 									<input class="w3-btn w3-blue" type="submit" value="Плати">
 								</form>
 								{{-- <div id="shipping-calculator">
