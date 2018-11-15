@@ -10,15 +10,21 @@ use App\MaterialType;
 use App\Jewel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
 use App\User;
+use Auth;
 
 class AccountController extends BaseController
 {
-    
+
     public function index()
     {
-        return \View::make('store.pages.account.index');
+        if (Auth::check()) {
+            return \View::make('store.pages.account.index');
+        } else {
+            return redirect()->route('login');
+        }
 
     }
 }
