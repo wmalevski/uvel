@@ -473,13 +473,15 @@ var uvelStore,
 			var $quickViewTrigger = $('.quick_shop'),
 					$subscribeTrigger = $('form[name="mc-embedded-subscribe-form"] button[type="submit"]'),
 					$filterTrigger = $('.filter-tag-group .tag-group li'),
-					$filterInputTrigger = $('.filter-tag-group .tag-group input');
+					$filterInputTrigger = $('.filter-tag-group .tag-group input'),
+					$shippingMethodTrigger = $('[name="shippingMethod"]');
 
 			$self.quickviewAttach($quickViewTrigger);
 			$self.imageHandling();
 			$self.subscribeAttach($subscribeTrigger);
 			$self.filterAttach($filterTrigger);
 			$self.filterInputAttach($filterInputTrigger);
+			$self.shippingMethodAttach($shippingMethodTrigger);
 		};
 
 		this.imageHandling = function() {
@@ -781,6 +783,31 @@ var uvelStore,
 					console.log(err);
 				}
 			})
+		}
+
+		this.shippingMethodAttach = function(shippingMethodTrigger) {
+			shippingMethodTrigger.on('change', function() {
+				var _this = $(this);
+				$self.shippingMethodSelect(_this);
+			})
+		}
+
+		this.shippingMethodSelect = function(shippingMethodInput) {
+			var _this = shippingMethodInput,
+					form = _this.closest('form'),
+					id = _this.attr('id'),
+					toHide = form.find('.shipping-method'),
+					toShow = form.find('.'+id);
+
+			toHide.slideUp('fast');
+			toHide.animate({
+				'opacity': 0
+			}, 400)
+
+			toShow.slideDown('fast');
+			toShow.animate({
+				'opacity': 1
+			}, 400)
 		}
 	};
 

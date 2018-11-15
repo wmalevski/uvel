@@ -168,3 +168,15 @@ div.jGrowl div.jGrowl-closer:hover{color:#a07936;}
 	font-weight: bold !important;
 	color: #a07936 !important;
 }
+
+/* Cart */
+
+.shipping-method {
+	display:none;
+}
+
+/*.shipping-method.active {
+	visibility: visible;
+	opacity: 1;
+	max-height: 1000px;
+}*/

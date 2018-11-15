@@ -142,22 +142,62 @@
 								</form>
 
 								<form>
-									<div class="form-row">
-										<div class="form-group col-md-4">
+									<!-- <div class="form-row">
+										<div class="form-group col-sm-8">
 											<label>Име:</label>
 											<input type="text" name="first_name">
 										</div>
-										<div class="form-group col-md-4">
+										<div class="form-group col-sm-8">
 											<label>Фамилия:</label>
 											<input type="text" name="last_name">
 										</div>
-										<div class="form-group col-md-4">
+										<div class="form-group col-sm-8">
 											<label>Телефон:</label>
 											<input type="tel" name="phone">
 										</div>
-									</div>
+									</div> -->
 									<div class="form-row">
-										<div></div>
+										<div>Начин на получаване</div>
+										<hr>
+										<div class="form-goroup">
+											<input type="radio" name="shippingMethod" id="shipping_shop">
+											<label for="shipping_shop">От магазин</label>
+										</div>
+										<div class="form-goroup">
+											<input type="radio" name="shippingMethod" id="shipping_address">
+											<label for="shipping_address">Доставка чрез Еконт</label>
+										</div>
+									</div>
+									<div class="form-row shipping-method shipping_shop">
+										<div class="form-group">
+											<label>Моля изберете магазин:</label>
+											<select>
+												<option value="1">Mагазин 1</option>
+												<option value="2">Mагазин 2</option>
+												<option value="3">Mагазин 3</option>
+												<option value="4">Mагазин 4</option>
+												<option value="5">Mагазин 5</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-row shipping-method shipping_address">
+										<label>Въведете данни за доставка:</label>
+										<div class="form-group">
+											<label>Област:</label>
+											<input type="text" name="">
+										</div>
+										<div class="form-group">
+											<label>Община:</label>
+											<input type="text" name="">
+										</div>
+										<div class="form-group">
+											<label>Град / Село:</label>
+											<input type="text" name="">
+										</div>
+										<div class="form-group">
+											<label>Адрес:</label>
+											<input type="text" name="">
+										</div>
 									</div>
 								</form>
 
