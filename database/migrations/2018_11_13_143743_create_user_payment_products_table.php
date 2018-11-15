@@ -19,6 +19,9 @@ class CreateUserPaymentProductsTable extends Migration
             $table->integer('product_other_id')->unsigned()->nullable(); 
             $table->integer('model_id')->unsigned()->nullable(); 
             $table->integer('quantity');
+            $table->integer('payment_id')->unsigned(); 
+            $table->float('weight')->nullable();
+            $table->float('price');
             $table->timestamps();
         });
     }

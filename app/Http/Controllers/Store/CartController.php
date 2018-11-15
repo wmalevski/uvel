@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Store;
 use Cart;
 use Response;
+use App\Store;
 use App\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -35,6 +36,9 @@ class CartController extends BaseController
         $quantity = Cart::session($session_id)->getTotalQuantity();
         $materialTypes = MaterialType::all();
         $productothertypes = ProductOtherType::all();
+        $stores = Store::where([
+            ['id' , '!=', 1]
+        ])->get();
         
         $items = [];
         
@@ -43,21 +47,30 @@ class CartController extends BaseController
             $items[] = $item;
         });
 
-        return \View::make('store.pages.cart', array('items' => $items, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'materialTypes' => $materialTypes, 'productothertypes' => $productothertypes));
+        return \View::make('store.pages.cart', array('items' => $items, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'materialTypes' => $materialTypes, 'productothertypes' => $productothertypes, 'stores' => $stores));
     }
 
     public function addItem($item, $quantity = 1){
         $session_id = session()->getId();
 
-        $product = Product::where('barcode', $item)->first();
+        $product = Product::where([
+            ['barcode', '=', $item],
+            ['status', '=', 'available']
+        ])->first();
         $type = '';
         $itemQuantity = 1;
 
         if($product){
             $item = $product;
             $type = 'product';
+
+            $product->status = 'selling';
+            $product->save();
         }else{
-            $box = ProductOther::where('barcode', $item)->first();
+            $box = ProductOther::where([
+                ['barcode', '=', $item],
+                ['quantity', '>=', $quantity]
+            ])->first();
             
             if($box){
                 $item = $box;

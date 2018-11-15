@@ -17,11 +17,11 @@ class CreateUserPaymentsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable();
             $table->enum('shipping_method', ['store', 'ekont']);
-            $table->enum('payment_method', ['paypal', 'borika', 'delivery']);
+            $table->enum('payment_method', ['paypal', 'borika', 'on_delivery']);
             $table->integer('store_id')->unsigned()->nullable();
             $table->integer('shipping_address')->nullable();
             $table->float('price');
-            $table->text('information');
+            $table->text('information')->nullable();
             $table->timestamps();
         });
     }

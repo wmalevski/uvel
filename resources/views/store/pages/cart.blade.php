@@ -24,7 +24,7 @@
 								<h1 id="page-title">Кошница</h1>
 							</div>
 							<div id="col-main" class="col-md-24 cart-page content">
-								<form action="/cart" method="post" id="cartform" class="clearfix">
+								<form action="{{ route('pay_order') }}" method="post" id="cartform" class="clearfix">
 									<div class="row table-cart">
 										<div class="wrap-table">
 											<table class="cart-items haft-border">
@@ -72,13 +72,17 @@
                                                         </ul>
                                                     </td>
                                                     <td class="title-1">
-                                                        {{ $item->price }} лв
+														@if(count($items))
+															{{ $item->price }} лв
+														@endif
                                                     </td>
                                                     <td>
                                                         <input class="form-control input-1 replace" maxlength="5" size="5" id="updates_3947646083" name="updates[]" value="{{ $item->quantity }}">
                                                     </td>
                                                     <td class="total title-1">
-                                                            {{ $item->price*$item->quantity }} лв
+															@if(count($items))
+																{{ $item->price*$item->quantity }} лв
+															@endif
                                                     </td>
                                                     <td class="action">
                                                         <button type="button" onclick="window.location='/cart/change?line=1&amp;quantity=0'"><i class="fa fa-times"></i>Изтрии</button>
@@ -96,7 +100,11 @@
 													&nbsp;
 												</td>
 												<td class="update-quantities">
-													<button type="submit" id="update-cart" class="btn btn-2" name="update">Обнови количество</button>
+													@if(count($items))
+														<button type="submit" id="update-cart" class="btn btn-2" name="update">Обнови количество</button>
+														@else 
+														Нямате продукти в количката.
+													@endif
 												</td>
 												<td class="subtotal title-1">
 													{{ $subtotal }} лв
@@ -109,17 +117,12 @@
 											</table>
 										</div>
 									</div>
-									<div class="clearfix">
-										<div id="checkout-proceed" class="last1 text-right">
-											<button class="btn" type="submit" id="checkout" name="checkout">Към чекаут</button>
-										</div>
-									</div>
 									<div class="row">
 										<div id="checkout-addnote" class="col-md-24">
 											<div class="wrapper-title">
 												<span class="title-5">Допълнителна информация</span>
 											</div>
-											<textarea id="note" rows="8" class="form-control" name="note"></textarea>
+											<textarea id="note" rows="8" class="form-control" name="information"></textarea>
 										</div>
 
 										@if ($message = Session::get('success'))
@@ -139,12 +142,35 @@
 											<?php Session::forget('error');?>
 										@endif
 									</div>
-								</form>
 
-								<form class="w3-container w3-display-middle w3-card-4 " method="POST" id="payment-form"  action="{{ route('pay_order') }}">
 									{{ csrf_field() }}
+									<h3>Начин на доставка</h3>
+									<div class="row">
+									Вземи от магазин:<br/>
+										<select name="store">
+											<option>Избери магазин</option>
+											@foreach($stores as $store)
+												<option value="{{ $store->id }}">{{ $store->name }}</option>
+											@endforeach
+										</select>
+									</div>
+
+									<div class="row">
+										Чрез Еконт<br/>
+										Адрес на доставка/офис на Еконт:
+										<textarea id="note" rows="2" class="form-control" name="ekont_address"></textarea>
+									</div>
+
+									<h3>Начин на плащане</h3>
+									Наложен платеж<br/>
+
+									Плати с PayPal<br/>
+
+									Плати с дебитна карта
+
 									<input class="w3-input w3-border" name="amount" value="{{ $subtotal }}" type="hidden"></p>      
-									<input type="hidden" name="payment_method" value="paypal">
+									<input type="hidden" name="payment_method" value="on_delivery">
+									<input type="hidden" name="shipping_method" value="store">
 									<input class="w3-btn w3-blue" type="submit" value="Плати"></p>
 								</form>
 								{{-- <div id="shipping-calculator">
