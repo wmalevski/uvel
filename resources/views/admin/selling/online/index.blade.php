@@ -10,20 +10,17 @@
             <table class="table table-condensed tablesort">
                 <thead>
                     <tr>
-                        <th>Магазин</th>
-                        <th>Дата</th>
-                        <th>Сума</th>
+                        <th>Потребител</th>
+                        <th>Метод на доставка</th>
                         <th>Метод на плащане</th>
-                        <th>Фискален бон</th>
-                        <th>Разписка</th>
-                        <th>Сертификат</th>
-                        <th>Обслужващ</th>
+                        <th>Цена</th>
+                        <th>Дата</th>
                         <th>Още</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($payments as $payment)
-                        @include('admin.payments.table')
+                    @foreach($sellings as $selling)
+                        @include('admin.selling.online.table')
                     @endforeach
                 </tbody>
             </table>
