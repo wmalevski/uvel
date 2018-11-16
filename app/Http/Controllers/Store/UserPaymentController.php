@@ -43,26 +43,29 @@ class UserPaymentController extends Controller
      */
     public function store(Request $request)
     {
-        $user_info = [
-            'user_id' => Auth::user()->getId(),
-            'shipping_method' => $request->shipping_method,
-            'payment_method' => $request->payment_method,
-            'information' => $request->information,
-            'store_id' => $request->store_id,
-            'еkont_address' => $request->ekont_address
-        ];
-
-        Session::push('cart_info', $user_info);
-
-        if($request->payment_method == 'on_delivery'){
-            $payment = new UserPayment();
-            return $payment->storePayment();
-
-        } else if ($request->payment_method == 'paypal'){
-            $pay = new PaypalPay();
-            return $pay->payWithpaypal($request);
-        } else if ($request->payment_method == 'borika'){
-            
+        if($request->amount > 0){
+            session()->forget('cart_info');
+            $user_info = [
+                'user_id' => Auth::user()->getId(),
+                'shipping_method' => $request->shipping_method,
+                'payment_method' => $request->payment_method,
+                'information' => $request->information,
+                'store_id' => $request->store_id,
+                'еkont_address' => $request->ekont_address
+            ];
+    
+            Session::push('cart_info', $user_info);
+    
+            if($request->payment_method == 'on_delivery'){
+                $payment = new UserPayment();
+                return $payment->storePayment();
+    
+            } else if ($request->payment_method == 'paypal'){
+                $pay = new PaypalPay();
+                return $pay->payWithpaypal($request);
+            } else if ($request->payment_method == 'borika'){
+                
+            }
         }
     }
 

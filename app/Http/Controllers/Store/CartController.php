@@ -76,7 +76,7 @@ class CartController extends BaseController
             
             if($box){
                 $item = $box;
-                $type = 'product';
+                $type = 'box';
             }
 
             if($type == 'box'){
@@ -95,7 +95,6 @@ class CartController extends BaseController
                     'price' => $item->price,
                     'name' => $item->name,
                     'product_id' => $item->id,
-                    'photo' => asset("uploads/products/" . $item->photos->first()['photo']),
                     'type' => 'product'
                 )
             ));

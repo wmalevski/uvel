@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\UserPayment;
 use App\Model;
 use App\ModelOrder;
+use App\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
@@ -46,13 +47,13 @@ class OnlineSellingsController extends Controller
         
     }
 
-    /**
+    /**UserPayment
      * Display the specified resource.
      *
      * @param  \App\ModelOrder  $modelOrder
      * @return \Illuminate\Http\Response
      */
-    public function show(ModelOrder $modelOrder)
+    public function show(UserPayment $modelOrder)
     {
         //
     }
@@ -63,20 +64,20 @@ class OnlineSellingsController extends Controller
      * @param  \App\ModelOrder  $modelOrder
      * @return \Illuminate\Http\Response
      */
-    public function edit(ModelOrder $order)
+    public function edit(UserPayment $order)
     {
-        $models = Model::all();
-        return \View::make('admin/orders/model/edit',array('order'=>$order, 'models' => $models));
+        $stores = Store::all();
+        eturn \View::make('admin/selling/online/edit', array('selling' => $selling, 'stores' => $stores));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ModelOrder  $modelOrder
+     * @param  \App\UserPayment  $modelOrder
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ModelOrder $order)
+    public function update(Request $request, UserPayment $order)
     {
         $validator = Validator::make( $request->all(), [
             'model_id' => 'required'

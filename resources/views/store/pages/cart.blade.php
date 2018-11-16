@@ -61,7 +61,7 @@
                                                         <ul class="list-inline">
                                                             <li class="image">
                                                             <a href="{{ route('single_product', ['product' => $item->attributes['product_id']])  }}">
-                                                            <img src="{{ $item->attributes['photo'] }}" alt="{{ $item->attributes['name'] }}" width="150">
+                                                            {{-- <img src="{{ $item->attributes['photo'] }}" alt="{{ $item->attributes['name'] }}" width="150"> --}}
                                                             </a>
                                                             </li>
                                                             <li class="link">
@@ -161,7 +161,7 @@
 										<textarea id="note" rows="2" class="form-control" name="ekont_address"></textarea>
 									</div>
 								</form>
-								<form>
+								<form method="post">
 									<!-- <div class="form-row">
 										<div class="form-group col-sm-8">
 											<label>Име:</label>
@@ -240,8 +240,8 @@
    
 									{{ csrf_field() }}
 									<input class="w3-input w3-border" name="amount" value="{{ $subtotal }}" type="hidden">      
-									<input type="hidden" name="payment_method" value="paypal">
-									<input type="hidden" name="shipping_method">
+									<input type="hidden" name="payment_method" value="on_delivery">
+									<input type="hidden" name="shipping_method" value="store">
 									<input class="w3-btn w3-blue" type="submit" value="Плати">
 								</form>
 								{{
