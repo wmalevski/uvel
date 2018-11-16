@@ -35,17 +35,18 @@ class UserPayment extends Model
             $payment = new UserPayment();
             $payment->shipping_method = session('cart_info.0.shipping_method');
             $payment->payment_method = session('cart_info.0.payment_method');
+            $payment->shipping_address = session('cart_info.0.shipping_address');
             $payment->user_id = Auth::user()->getId();
             $payment->price = $subtotal;
             $payment->information = session('cart_info.0.information');
 
             if(session('cart_info.0.shipping_method') == 'ekont'){
-                $payment->ekont_address = session('cart_info.0.ekont_address');
+                $payment->shipping_address = session('cart_info.0.shipping_address');
             } else if(session('cart_info.0.shipping_method') == 'store'){
                 $payment->store_id = session('cart_info.0.store_id');
             }
 
-            $payment->status = 'approved';
+            $payment->status = 'waiting_user';
 
             $payment->save();
 
@@ -63,8 +64,6 @@ class UserPayment extends Model
                 } elseif($item['attributes']->type == 'box'){
                     $selling->product_other_id = $item->id;
                 }
-
-                $selling->status = 'waiting_user';
 
                 $selling->save();
             }
@@ -89,7 +88,7 @@ class UserPayment extends Model
             Cart::session($session_id)->clearCartConditions();
 
             session()->forget('cart_info');
-            return 'ei sladyr';
+            return Redirect::back()->with('success', 'Нямате продукти в количката!');
         }else{
             return Redirect::back()->with('error', 'Нямате продукти в количката!');
         }

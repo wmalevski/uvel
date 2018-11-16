@@ -64,10 +64,10 @@ class OnlineSellingsController extends Controller
      * @param  \App\ModelOrder  $modelOrder
      * @return \Illuminate\Http\Response
      */
-    public function edit(UserPayment $order)
+    public function edit(UserPayment $selling)
     {
         $stores = Store::all();
-        eturn \View::make('admin/selling/online/edit', array('selling' => $selling, 'stores' => $stores));
+        return \View::make('admin/selling/online/edit', array('selling' => $selling, 'stores' => $stores));
     }
 
     /**

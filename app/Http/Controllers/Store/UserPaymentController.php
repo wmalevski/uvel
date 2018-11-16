@@ -51,7 +51,7 @@ class UserPaymentController extends Controller
                 'payment_method' => $request->payment_method,
                 'information' => $request->information,
                 'store_id' => $request->store_id,
-                'еkont_address' => $request->ekont_address
+                'shipping_address' => $request->shipping_address
             ];
     
             Session::push('cart_info', $user_info);
