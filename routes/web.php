@@ -211,6 +211,9 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/repairtypes', 'RepairTypeController@store');
 
+    Route::get('/selling/online/{selling}', 'OnlineSellingsController@edit');
+    Route::post('/selling/online/{selling}', 'OnlineSellingsController@update');
+
     Route::post('/stones', 'StoneController@store');
     Route::post('/stones/delete/{stone}', 'StoneController@destroy');
 

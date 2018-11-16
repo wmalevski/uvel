@@ -61,7 +61,7 @@
                                                         <ul class="list-inline">
                                                             <li class="image">
                                                             <a href="{{ route('single_product', ['product' => $item->attributes['product_id']])  }}">
-                                                            <img src="{{ $item->attributes['photo'] }}" alt="{{ $item->attributes['name'] }}" width="150">
+                                                            {{-- <img src="{{ $item->attributes['photo'] }}" alt="{{ $item->attributes['name'] }}" width="150"> --}}
                                                             </a>
                                                             </li>
                                                             <li class="link">
