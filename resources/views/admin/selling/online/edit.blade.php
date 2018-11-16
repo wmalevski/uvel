@@ -13,18 +13,33 @@
         
                 {{ csrf_field() }}  
                             
-                {{-- <div class="form-row">
+                <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="inputEmail4">Име</label>
-                        <input type="text" class="form-control" name="customer_name" value="{{ $repair->customer_name }}" placeholder="Име на клиент">
+                        Име на клиент: {{ $selling->user->first_name }} - {{ $selling->user->last_name }}
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="inputPassword4">Телефон</label>
-                        <input type="text" class="form-control" name="customer_phone" value="{{ $repair->customer_phone }}" placeholder="Телефон на клиента">
+                        Телефон: {{ $selling->user->phone }}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        Начин на плащане: @if($selling->payment_method == 'on_delivery')
+                        Наложен платеж
+                    @elseif($selling->payment_method == 'paypal') 
+                        Paypal
+                    @endif
+                    </div>
+                    <div class="form-group col-md-6">
+                        Начин на получаване: @if($selling->shipping_method == 'ekont')
+                        Еконт
+                    @elseif($selling->shipping_method == 'store') 
+                        Взимане от магазин ({{ $selling->store->name }})
+                    @endif
                     </div>
                 </div>
         
-                    <div class="form-row">
+                    {{-- <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="inputCity">Приемане</label>
                             <div class="timepicker-input input-icon form-group date-recieved">
@@ -77,44 +92,27 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
         
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="inputPassword4">Тегло</label>
-                            <div class="input-group">
-                                <input type="number" class="form-control" name="weight" value="{{ $repair->weight }}" placeholder="Тегло на артикула" data-repair-weightBefore readonly>
-                                <span class="input-group-addon">гр.</span>
-                            </div>
-                        </div>
         
-                        <div class="form-group col-md-6">
-                            <label for="inputPassword4">Тегло след ремонта</label>
-                            <div class="input-group">
-                                <input type="number" class="form-control" name="weight_after" data-repair-weightAfter @if($repair->weight_after == '') value="{{ $repair->weight }}" @else value="{{ $repair->weight_after }}" @endif  placeholder="Тегло на артикула след ремонта">
-                                <span class="input-group-addon">гр.</span>
-                            </div>
-                        </div>
-                    </div>
-        
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
+                    {{-- <div class="form-row">
+                        <div class="form-group col-md-23">
                             <label for="inputEmail4">Цена</label>
                             <div class="input-group">
-                                <input type="number" class="form-control" name="price" value="{{ $repair->price }}" placeholder="Цена на ремонта" data-repair-price readonly>
+                                <input type="number" class="form-control" name="price" value="{{ $selling->price }}" placeholder="Цена на ремонта" data-repair-price readonly>
                                 <span class="input-group-addon">лв</span>
                             </div>
                         </div>
-                        <div class="form-group col-md-6">
+                        {{-- <div class="form-group col-md-6">
                             <label for="inputEmail4">Цена след ремонта</label>
                             <div class="input-group">
                                 <input type="number" class="form-control" name="price_after" data-repair-priceAfter @if($repair->price_after == '') value="{{ $repair->price }}" @else value="{{ $repair->price_after }}" @endif placeholder="Цена на ремонта">
                                 <span class="input-group-addon">лв</span>
                             </div>
-                        </div>
-                    </div>
+                        </div> --}}
+                    {{-- </div> --}} 
         
-                    <div class="form-row">
+                    {{-- <div class="form-row">
                         <div class="form-group col-md-5">
                             <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
                                 <input type="checkbox" id="inputCall1" name="status" class="peer" value="done">
