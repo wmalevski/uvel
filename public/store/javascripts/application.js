@@ -816,11 +816,9 @@ var uvelStore,
 				'opacity': 1
 			}, 400)
 
-			if (id == 'shipping_address') {
-				paymentMethod.slideDown('fast');
-			} else {
-				paymentMethod.slideUp('fast');
+			paymentMethod.slideDown('fast');
 
+			if (id == 'shipping_shop') {
 				var deliveryPaymentInput = form.find('#payment_delivery');
 
 				deliveryPaymentInput.prop('checked', true);
