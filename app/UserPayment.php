@@ -86,4 +86,12 @@ class UserPayment extends Model
 
         return 'ei sladyr';
     }
+
+    public function user() {
+        return $this->belongsTo('App\User');
+    }
+
+    public function store() {
+        return $this->belongsTo('App\Store');
+    }
 }

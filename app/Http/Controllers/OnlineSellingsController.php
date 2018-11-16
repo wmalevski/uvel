@@ -22,7 +22,7 @@ class OnlineSellingsController extends Controller
     {
         $sellings = UserPayment::all();
         
-        return view('admin.selling.online.index', compact('orders'));
+        return view('admin.selling.online.index', compact('sellings'));
     }
 
     /**
