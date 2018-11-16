@@ -143,7 +143,6 @@
 										@endif
 									</div>
 
-<<<<<<< HEAD
 									{{ csrf_field() }}
 									<h3>Начин на доставка</h3>
 									<div class="row">
@@ -160,7 +159,8 @@
 										Чрез Еконт<br/>
 										Адрес на доставка/офис на Еконт:
 										<textarea id="note" rows="2" class="form-control" name="ekont_address"></textarea>
-=======
+									</div>
+								</form>
 								<form>
 									<!-- <div class="form-row">
 										<div class="form-group col-sm-8">
@@ -229,7 +229,6 @@
 											<input type="radio" name="paymentMethod" id="payment_delivery" data-method="on_delivery">
 											<label for="payment_delivery">При доставка</label>
 										</div>
->>>>>>> b90c925140ec24e24056864644d5dbdc73fea29f
 									</div>
 
 									<h3>Начин на плащане</h3>
