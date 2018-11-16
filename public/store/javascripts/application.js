@@ -820,6 +820,11 @@ var uvelStore,
 				paymentMethod.slideDown('fast');
 			} else {
 				paymentMethod.slideUp('fast');
+
+				var deliveryPaymentInput = form.find('#payment_delivery');
+
+				deliveryPaymentInput.prop('checked', true);
+				$self.paymentMethodChange(deliveryPaymentInput);
 			}
 		}
 
