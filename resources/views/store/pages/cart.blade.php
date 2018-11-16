@@ -149,9 +149,9 @@
 										<hr>
 										<div class="form-goroup">
 											<input type="radio" class="cart-radio" name="shippingMethod" id="shipping_shop" data-method="store">
-											<label for="shipping_shop">Вземи от магазин</label>
+											<label for="shipping_shop"><i class="fas fa-store"></i> Вземи от магазин</label>
 											<input type="radio" class="cart-radio" name="shippingMethod" id="shipping_address" data-method="ekont">
-											<label for="shipping_address">Доставка чрез Еконт</label>
+											<label for="shipping_address"><i class="fas fa-truck"></i> Доставка чрез Еконт</label>
 										</div>
 									</div>
 									<div class="form-row shipping-method shipping_shop">
@@ -190,11 +190,11 @@
 										<hr>
 										<div class="form-goroup">
 											<input type="radio" class="cart-radio" name="paymentMethod" id="payment_borika" data-method="borika">
-											<label for="payment_borika">С карта</label>
+											<label for="payment_borika"><i class="far fa-credit-card"></i> С карта</label>
 											<input type="radio" class="cart-radio" name="paymentMethod" id="payment_paypal" data-method="paypal">
 											<label for="payment_paypal"><i class="fab fa-paypal"></i> PayPal</label>
 											<input type="radio" class="cart-radio" name="paymentMethod" id="payment_delivery" data-method="on_delivery">
-											<label for="payment_delivery">При доставка</label>
+											<label for="payment_delivery"><i class="far fa-money-bill-alt"></i> При доставка</label>
 										</div>
 									</div>
 
