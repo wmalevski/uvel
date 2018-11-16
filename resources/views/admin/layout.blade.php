@@ -143,6 +143,10 @@
                 <a class="sidebar-link" href="{{ route('payments') }}">Завършени</a>
               </li>
 
+              <li>
+                <a class="sidebar-link" href="{{ route('online_selling') }}">Онлайн магазин</a>
+              </li>
+
             </ul>
           </li>
 

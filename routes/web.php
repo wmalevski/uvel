@@ -37,6 +37,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/selling', 'SellingController@index')->name('selling');
     Route::post('/selling', 'SellingController@store');
 
+    Route::get('/selling/online', 'OnlineSellingsController@index')->name('online_selling');
+
     Route::get('/stones/sizes', 'StoneSizeController@index')->name('sizes');
     Route::post('/stones/sizes', 'StoneSizeController@store');
 
@@ -363,12 +365,7 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
     Route::get('/login', 'UserController@login')->name('login');
     Route::post('/login', 'UserController@userlogin')->name('userlogin');
 
-    Route::get('/settings', 'UserController@edit')->name('user_settings');
-    Route::post('/settings', 'UserController@update')->name('user_settings_update');
-
     Route::get('/blog', 'BlogController@index')->name('blog');
-
-    Route::get('/cart', 'CartController@index')->name('cart');
 
     Route::get('/custom_order', 'CustomOrderController@index')->name('custom_order');
     Route::post('/custom_order', 'CustomOrderController@store')->name('submit_custom_order');
@@ -392,23 +389,24 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
     Route::group(['prefix' => 'models'], function() {
         Route::get('/', 'ModelController@index')->name('models');
         Route::get('/{model}', 'ModelController@show')->name('single_model');
-    });
+    });    
+});
 
-    Route::get('/cart/addItem/{item}/{quantity}', 'CartController@addItem');
-
-    // route for processing payment
-    Route::post('/cart/pay/paypal', 'PayController@pay')->name('paypal_pay');
-    // route for check status of the payment
-
-    Route::get('/cart/pay/status', 'PayController@getPaymentStatus')->name('paypal_status');;
-
-    Route::get('/account', 'AccountController@index')->name('user_account');
+Route::group(['prefix' => 'online', 'namespace' => 'store', 'middleware' => 'auth'], function() {
+    Route::get('/cart', 'CartController@index')->name('cart');
     Route::post('/cart', 'UserPaymentController@store')->name('pay_order');
+    Route::get('/cart/addItem/{item}/{quantity}', 'CartController@addItem');
+    Route::post('/cart/pay/paypal', 'PayController@pay')->name('paypal_pay');
+    Route::get('/cart/pay/status', 'PayController@getPaymentStatus')->name('paypal_status');;
+    
+    Route::get('/account', 'AccountController@index')->name('user_account');
 
     Route::get('/wishlist', 'WishListController@index')->name('wishlist');
-
     Route::get('/wishlist/delete/{wishList}', 'WishListController@destroy')->name('destroy_wishlist_item');
-    
+
+    Route::get('/settings', 'UserController@edit')->name('user_settings');
+    Route::post('/settings', 'UserController@update')->name('user_settings_update');
+
 });
 
 //AJAX FOR STORE

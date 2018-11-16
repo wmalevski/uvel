@@ -143,6 +143,7 @@
 										@endif
 									</div>
 
+<<<<<<< HEAD
 									{{ csrf_field() }}
 									<h3>Начин на доставка</h3>
 									<div class="row">
@@ -159,6 +160,76 @@
 										Чрез Еконт<br/>
 										Адрес на доставка/офис на Еконт:
 										<textarea id="note" rows="2" class="form-control" name="ekont_address"></textarea>
+=======
+								<form>
+									<!-- <div class="form-row">
+										<div class="form-group col-sm-8">
+											<label>Име:</label>
+											<input type="text" name="first_name">
+										</div>
+										<div class="form-group col-sm-8">
+											<label>Фамилия:</label>
+											<input type="text" name="last_name">
+										</div>
+										<div class="form-group col-sm-8">
+											<label>Телефон:</label>
+											<input type="tel" name="phone">
+										</div>
+									</div> -->
+									<div class="form-row">
+										<div>Начин на получаване</div>
+										<hr>
+										<div class="form-goroup">
+											<input type="radio" name="shippingMethod" id="shipping_shop" data-method="store">
+											<label for="shipping_shop">От магазин</label>
+										</div>
+										<div class="form-goroup">
+											<input type="radio" name="shippingMethod" id="shipping_address" data-method="ekont">
+											<label for="shipping_address">Доставка чрез Еконт</label>
+										</div>
+									</div>
+									<div class="form-row shipping-method shipping_shop">
+										<div class="form-group">
+											<label>Моля изберете магазин:</label>
+											<select>
+												<option value="1">Mагазин 1</option>
+												<option value="2">Mагазин 2</option>
+												<option value="3">Mагазин 3</option>
+												<option value="4">Mагазин 4</option>
+												<option value="5">Mагазин 5</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-row shipping-method shipping_address">
+										<label>Въведете данни за доставка:</label>
+										<div class="form-group">
+											<label>Област:</label>
+											<input type="text" name="">
+										</div>
+										<div class="form-group">
+											<label>Община:</label>
+											<input type="text" name="">
+										</div>
+										<div class="form-group">
+											<label>Град / Село:</label>
+											<input type="text" name="">
+										</div>
+										<div class="form-group">
+											<label>Адрес:</label>
+											<input type="text" name="">
+										</div>
+									</div>
+									<div class="form-row payment-method">
+										<div>Начин на плащане:</div>
+										<div class="form-goroup">
+											<input type="radio" name="paymentMethod" id="payment_borika" data-method="borika">
+											<label for="payment_borika">Борика</label>
+											<input type="radio" name="paymentMethod" id="payment_paypal" data-method="paypal">
+											<label for="payment_paypal">PayPal</label>
+											<input type="radio" name="paymentMethod" id="payment_delivery" data-method="on_delivery">
+											<label for="payment_delivery">При доставка</label>
+										</div>
+>>>>>>> b90c925140ec24e24056864644d5dbdc73fea29f
 									</div>
 
 									<h3>Начин на плащане</h3>
@@ -168,11 +239,10 @@
 
 									Плати с дебитна карта
    
-
-									<input type="hidden" name="shipping_method" value="store">
 									{{ csrf_field() }}
 									<input class="w3-input w3-border" name="amount" value="{{ $subtotal }}" type="hidden">      
-									<input type="hidden" name="payment_method" value="on_delivery">
+									<input type="hidden" name="payment_method" value="paypal">
+									<input type="hidden" name="shipping_method">
 									<input class="w3-btn w3-blue" type="submit" value="Плати">
 								</form>
 								{{

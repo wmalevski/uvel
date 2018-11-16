@@ -48,9 +48,8 @@ class UserPaymentController extends Controller
             'shipping_method' => $request->shipping_method,
             'payment_method' => $request->payment_method,
             'information' => $request->information,
-            'payment_id' => $payment->id,
             'store_id' => $request->store_id,
-            'еkont_address' => $requet->ekont_address
+            'еkont_address' => $request->ekont_address
         ];
 
         Session::push('cart_info', $user_info);
@@ -58,7 +57,7 @@ class UserPaymentController extends Controller
         if($request->payment_method == 'on_delivery'){
             $payment = new UserPayment();
             return $payment->storePayment();
-            
+
         } else if ($request->payment_method == 'paypal'){
             $pay = new PaypalPay();
             return $pay->payWithpaypal($request);

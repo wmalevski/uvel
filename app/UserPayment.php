@@ -18,7 +18,7 @@ class UserPayment extends Model
 {
     public function storePayment(){
         $session_id = Auth::user()->getId();
-        
+        $userId = Auth::user()->getId();
         $total = round(Cart::session($session_id)->getTotal(),2);
         $subtotal = round(Cart::session($session_id)->getSubTotal(),2);
         $quantity = Cart::session($session_id)->getTotalQuantity();
@@ -78,6 +78,11 @@ class UserPayment extends Model
 
             }
         }
+
+        Cart::clear();
+        Cart::clearCartConditions();
+        Cart::session($session_id)->clear();
+        Cart::session($session_id)->clearCartConditions();
 
         return 'ei sladyr';
     }
