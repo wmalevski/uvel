@@ -171,10 +171,55 @@ div.jGrowl div.jGrowl-closer:hover{color:#a07936;}
 
 /* Cart */
 
+.cart-radio {
+	display: none;
+}
+
+.cart-radio + label {
+	padding: 0 25px;
+	border: 1px solid #dedede;
+    border-radius: 5px;
+    background: #ffffff;
+    cursor: pointer;
+	font-size: 15px;
+	text-align: center;
+    color: #8f8f8f;
+    font-weight: 500;
+    font-family: 'Lato', sans-serif;
+    height: 34px;
+    line-height: 32px;
+    transition: .2s ease-in;
+}
+
+.cart-radio + label:hover, .cart-radio + label:focus, .cart-radio:checked + label {
+    background: #a07936;
+    border: 1px solid #a07936;
+    color: #ffffff;
+    outline: none !important;
+}
+
 .shipping-method {
 	display:none;
 }
 
+.shipping-method label {
+	display: block;
+}
+
+.shipping-method input, .shipping-method select {
+	width: 40%;
+}
+
 .payment-method {
 	display: none;
+}
+
+#cartform .form-row {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+#cartform .form-row > hr {
+	margin-top: 5px;
+	margin-bottom: 15px;
 }

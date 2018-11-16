@@ -64,6 +64,8 @@ class UserPayment extends Model
                     $selling->product_other_id = $item->id;
                 }
 
+                $selling->status = 'waiting_user';
+
                 $selling->save();
             }
             
