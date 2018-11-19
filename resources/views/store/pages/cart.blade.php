@@ -102,8 +102,7 @@
 												<td class="update-quantities">
 													@if(count($items))
 														<button type="submit" id="update-cart" class="btn btn-2" name="update">Обнови количество</button>
-														@else 
-														Нямате продукти в количката.
+														
 													@endif
 												</td>
 												<td class="subtotal title-1">
@@ -157,7 +156,7 @@
 									<div class="form-row shipping-method shipping_shop">
 										<div class="form-group">
 											<label>Моля изберете магазин:</label>
-											<select>
+											<select name="store_id">
 												<option>Избери магазин</option>
 												@foreach($stores as $store)
 													<option value="{{ $store->id }}">{{ $store->name }}</option>

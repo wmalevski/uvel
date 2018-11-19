@@ -6,6 +6,7 @@ use App\UserPayment;
 use App\Model;
 use App\ModelOrder;
 use App\Store;
+use App\UserPaymentProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
@@ -67,7 +68,8 @@ class OnlineSellingsController extends Controller
     public function edit(UserPayment $selling)
     {
         $stores = Store::all();
-        return \View::make('admin/selling/online/edit', array('selling' => $selling, 'stores' => $stores));
+        $products = UserPaymentProduct::where('payment_id', $selling->id)->get();
+        return \View::make('admin/selling/online/edit', array('selling' => $selling, 'stores' => $stores, 'products' => $products));
     }
 
     /**
@@ -77,29 +79,12 @@ class OnlineSellingsController extends Controller
      * @param  \App\UserPayment  $modelOrder
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, UserPayment $order)
+    public function update(Request $request, UserPayment $selling)
     {
-        $validator = Validator::make( $request->all(), [
-            'model_id' => 'required'
-        ]);
+        $selling->status = 'done';
+        $selling->save();
 
-        if ($validator->fails()) {
-            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
-        }
-
-        $order->model_id = $request->model_id;
-
-        if($request->status_accept == 'true'){
-            $order->status = 'accepted';
-        } else if($request->status_ready == 'true'){
-            $order->status = 'ready';
-        } else if($request->status_delivered == 'true'){
-            $order->status = 'delivered';
-        }
-        
-        $order->save();
-
-        return Response::json(array('ID' => $order->id, 'table' => View::make('admin/orders/model/table',array('order'=>$order))->render()));
+        return Response::json(array('ID' => $selling->id, 'table' => View::make('admin/selling/online/table',array('selling'=>$selling))->render()));
     }
 
     /**
