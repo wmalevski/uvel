@@ -79,6 +79,7 @@
 															@elseif($selling->shipping_method == 'store') 
 																Взимане от магазин
 															@endif
+														</td>
 														<td>
 															@if($selling->payment_method == 'on_delivery')
 																Наложен платеж
