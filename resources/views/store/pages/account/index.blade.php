@@ -60,78 +60,44 @@
 									<span class="mini-line"></span>
 									<div class="row wrap-table">
 										<table class="table-hover">
-										<thead>
-										<tr>
-											<th class="order_number">
-												Order
-											</th>
-											<th class="date">
-												Date
-											</th>
-											<th class="payment_status">
-												Payment Status
-											</th>
-											<th class="fulfillment_status">
-												Fulfillment Status
-											</th>
-											<th class="total">
-												Total
-											</th>
-										</tr>
-										</thead>
-										<tbody>
-										<tr class="odd ">
-											<td>
-												<a href="#" title="">#1001</a>
-											</td>
-											<td>
-												<span class="note">Oct, 30 2015</span>
-											</td>
-											<td>
-												<span class="status_authorized">authorized</span>
-											</td>
-											<td>
-												<span class="status_unfulfilled">unfulfilled</span>
-											</td>
-											<td>
-												<span class="total">$668.00</span>
-											</td>
-										</tr>
-										<tr class="odd ">
-											<td>
-												<a href="#" title="">#1002</a>
-											</td>
-											<td>
-												<span class="note">Oct, 30 2015</span>
-											</td>
-											<td>
-												<span class="status_authorized">authorized</span>
-											</td>
-											<td>
-												<span class="status_unfulfilled">unfulfilled</span>
-											</td>
-											<td>
-												<span class="total">$668.00</span>
-											</td>
-										</tr>
-										<tr class="odd ">
-											<td>
-												<a href="#" title="">#1003</a>
-											</td>
-											<td>
-												<span class="note">Oct, 30 2015</span>
-											</td>
-											<td>
-												<span class="status_authorized">authorized</span>
-											</td>
-											<td>
-												<span class="status_unfulfilled">unfulfilled</span>
-											</td>
-											<td>
-												<span class="total">$668.00</span>
-											</td>
-										</tr>
-										</tbody>
+											<thead>
+												<tr>
+													<th>Метод на доставка</th>
+													<th>Метод на плащане</th>
+													<th>Цена</th>
+													<th>Дата</th>
+													<th>Статус</th>
+												</tr>
+											</thead>
+
+											<tbody>
+												@foreach($sellings as $selling)
+													<tr data-id="{{ $selling->id }}">
+														<td>
+															@if($selling->shipping_method == 'ekont')
+																Еконт
+															@elseif($selling->shipping_method == 'store') 
+																Взимане от магазин
+															@endif
+														<td>
+															@if($selling->payment_method == 'on_delivery')
+																Наложен платеж
+															@elseif($selling->payment_method == 'paypal') 
+																Paypal
+															@endif
+														</td> 
+														<td>{{ $selling->price }}лв.</td> 
+														<td>{{ $selling->created_at }}</td> 
+														<td>
+															@if($selling->status == 'waiting_user')
+																Очаква изпращане/вземане
+															@elseif($selling->status == 'done')
+																Приключена
+															@endif
+														</td>
+													</tr>
+												@endforeach
+											</tbody>
 										</table>
 									</div>
 								</div>

@@ -427,6 +427,8 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'store'], function() {
 
     Route::post('/wishlists/store', 'WishListController@store')->name('wishlists_store');
 
+    Route::get('/cart/setDiscount/{barcode}',  'CartController@setDiscount')->name('add_discount');
+
 });
 
 /**

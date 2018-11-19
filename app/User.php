@@ -85,4 +85,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\WishList');
     }
+
+    public function sellings()
+    {
+        return $this->hasMany('App\UserPayment');
+    }
 }
