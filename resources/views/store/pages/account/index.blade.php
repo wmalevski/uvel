@@ -9,9 +9,9 @@
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
 							<div class="col-md-24">
-								<a href="./index.html" class="homepage-link" title="Back to the frontpage">Home</a>
+								<a href="./index.html" class="homepage-link" title="Back to the frontpage">Начало</a>
 								<span>/</span>
-								<span class="page-title">My Account</span>
+								<span class="page-title">Профил</span>
 							</div>
 						</div>
 					</div>
@@ -20,12 +20,12 @@
 					<div class="container">
 						<div class="row">
 							<div id="page-header" class="col-md-24">
-								<h1 id="page-title">My Account</h1> 
+								<h1 id="page-title">Моят профил</h1> 
 							</div>
 							<div class="col-sm-6 col-md-6 sidebar">
 								<div class="group_sidebar">
 									<div class="row sb-wrapper unpadding-top">
-										<h6 class="sb-title">Account Details</h6>
+										<h6 class="sb-title">Информация</h6>
 										<span class="mini-line"></span>
 										<ul id="customer_detail" class="list-unstyled sb-content">
 											<li>
@@ -56,7 +56,7 @@
 							</div>
 							<div id="col-main" class="account-page col-sm-18 col-md-18 clearfix">
 								<div id="customer_orders">
-									<h6 class="sb-title">Order history</h6>
+									<h6 class="sb-title">История на покупки</h6>
 									<span class="mini-line"></span>
 									<div class="row wrap-table">
 										<table class="table-hover">
