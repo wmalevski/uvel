@@ -484,6 +484,7 @@ var uvelStore,
 			$self.filterInputAttach($filterInputTrigger);
 			$self.shippingMethodAttach($shippingMethodTrigger);
 			$self.paymentMethodAttach($paymentMethodTrigger);
+			$self.submitCustomOrder();
 		};
 
 		this.imageHandling = function() {
@@ -839,6 +840,67 @@ var uvelStore,
 					method = _this.attr('data-method');
 
 			hiddenPaymentInput.val(method);
+		}
+
+		this.submitCustomOrder = function() {
+			var form = $('form.customOrder-form'),
+					submitButton = form.find('[type="submit"]');
+
+			submitButton.on('click', function(e) {
+				e.preventDefault();
+
+				var _this = $(this),
+						inputFields = form.find('select , input, textarea');
+
+				$self.getFormFields(form, inputFields);
+			})
+		}
+
+		this.getFormFields = function(form, inputFields) {
+			var ajaxRequestLink = form.attr('action'),
+					data = {_token : $('meta[name="csrf-token"]').attr('content')},
+					imageCollection = [];
+
+			inputFields.each(function(index, element) {
+        var _this = element,
+            inputType = _this.type,
+            dataKey = _this.name,
+            dataKeyValue = _this.value,
+            imagesInputFieldExists = dataKey == 'images' ? true : false;
+
+        data[dataKey] = dataKeyValue;
+
+        if(imagesInputFieldExists) {
+          var imagesHolder = $('.drop-area-gallery .image-wrapper img');
+
+          imagesHolder.each(function(index , element) {
+            var _imgSource = element.getAttribute('src');
+
+            imageCollection.push(_imgSource);
+          });
+
+          data.images = imageCollection;
+        }
+      });
+
+      $self.sendCustomOrderForm(form, ajaxRequestLink, data);
+		}
+
+		this.sendCustomOrderForm = function(form, ajaxRequestLink, data) {
+			var requestUrl =  ajaxRequestLink;
+
+      $.ajax({
+        method: "POST",
+        url: requestUrl,
+        dataType: "json",
+        data: data,
+        success: function(response) {
+          // success function here
+        },
+        error: function(err) {
+          // error function here
+        }
+      });
 		}
 	};
 
