@@ -197,7 +197,7 @@
 											<input type="radio" class="cart-radio" name="paymentMethod" id="payment_paypal" data-method="paypal">
 											<label for="payment_paypal"><i class="fab fa-paypal"></i> PayPal</label>
 											<input type="radio" class="cart-radio" name="paymentMethod" id="payment_delivery" data-method="on_delivery">
-											<label for="payment_delivery"><i class="far fa-money-bill-alt"></i> При доставка</label>
+											<label for="payment_delivery"><i class="far fa-money-bill-alt"></i> При получаване</label>
 										</div>
 									</div>
 
