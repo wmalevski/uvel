@@ -46,7 +46,13 @@ class UserPayment extends Model
                 $payment->store_id = session('cart_info.0.store_id');
             }
 
-            $payment->status = 'waiting_user';
+            if($payment->payment_method == 'paypal' && $payment->shipping_method == 'ekont'){
+                $payment->status = 'done';
+            }else{
+                $payment->status = 'waiting_user';
+            }
+
+           
 
             $payment->save();
 
@@ -74,11 +80,21 @@ class UserPayment extends Model
                     $product = Product::find($item->id);
 
                     if($product){
-                        $product->status = 'sold';
+                        if($payment->payment_method == 'paypal' && $payment->shipping_method == 'ekont'){
+                            $product->status = 'sold';
+                        } else{
+                            $payment->status = 'reserved';
+                        }
+                        
                         $product->save();
                     }
                 } else if($item['attributes']->type == 'box'){
+                    $box = ProductOther::find($item->id);
 
+                    if($box){
+                        $box->quantity = $box->quantity-$quantity;
+                        $box->save();
+                    }
                 }
             }
 

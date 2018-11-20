@@ -76,6 +76,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     //Route::put('/stores/{store}', 'StoreController@update');
 
     Route::get('/selling/online/{selling}', 'OnlineSellingsController@edit');
+    Route::put('/selling/online/{selling}', 'nlineSellingsController@update');
 
     Route::get('/nomenclatures', 'NomenclaturesController@index')->name('nomenclatures');
     Route::post('/nomenclatures', 'NomenclaturesController@store');
@@ -214,7 +215,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/repairtypes', 'RepairTypeController@store');
 
     Route::get('/selling/online/{selling}', 'OnlineSellingsController@edit');
-    Route::post('/selling/online/{selling}', 'OnlineSellingsController@update');
+    Route::put('/selling/online/{selling}', 'OnlineSellingsController@update');
 
     Route::post('/stones', 'StoneController@store');
     Route::post('/stones/delete/{stone}', 'StoneController@destroy');
@@ -425,6 +426,8 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'store'], function() {
     Route::get('/filter', 'ProductController@filter');
 
     Route::post('/wishlists/store', 'WishListController@store')->name('wishlists_store');
+
+    Route::get('/cart/setDiscount/{barcode}',  'CartController@setDiscount')->name('add_discount');
 
 });
 

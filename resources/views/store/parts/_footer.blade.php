@@ -48,10 +48,7 @@
                         </li>						  
                         <li class="list-unstyled">
                         <a href="./account.html"Карта на сайта</a>
-                        </li>						  
-                        <li class="list-unstyled">
-                        <a href="./account.html">Shop By Brands</a>
-                        </li>						  
+                        </li>						  					  
                     </ul>
                     </div>
                 </div>
@@ -67,10 +64,7 @@
                         </li>						  
                         <li class="list-unstyled">
                         <a href="./account.html">Логин</a>
-                        </li>						  
-                        <li class="list-unstyled">
-                        <a href="./account.html">Sign In</a>
-                        </li>						  
+                        </li>						  					  
                     </ul>
                     </div>
                 </div>

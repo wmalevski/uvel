@@ -38,6 +38,37 @@
                     @endif
                     </div>
                 </div>
+
+                <div class="form-row">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Баркод</th>
+                                    <th scope="col">Брой</th>
+                                    <th scope="col">Тегло</th>
+                                    <th scope="col">Цена</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($products as $product)
+                                    <tr>
+                                        <th scope="row">
+                                            @if($product->product_id)
+                                                {{ $product->product_id }}
+                                            @elseif($product->product_other_id)
+                                                {{ $product->product_other_id }}
+                                            @elseif($product->model_id)
+                                                {{ $product->model_id }}
+                                            @endif
+                                        </th>
+                                        <td>{{ $product->quantity }}</td>
+                                        <td>{{ $product->weight }}</td>
+                                        <td>{{ $product->price }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                </div>
         
                     {{-- <div class="form-row">
                         <div class="form-group col-md-6">
@@ -126,7 +157,7 @@
         
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                <button type="submit" id="edit" class="edit-btn-modal btn btn-primary">Промени</button>
+                <button type="submit" id="edit" class="edit-btn-modal btn btn-primary">Предай и приключи</button>
             </div>
         </form>
         </div>

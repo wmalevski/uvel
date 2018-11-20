@@ -6,10 +6,17 @@ use App\UserPayment;
 use App\Model;
 use App\ModelOrder;
 use App\Store;
+use App\DiscountCode;
+use Auth;
+use Cart;
+use App\UserPaymentProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Redirect;
+use \Darryldecode\Cart\CartCondition as CartCondition;
+use \Darryldecode\Cart\Helpers\Helpers as Helpers;
 use Response;
 
 class OnlineSellingsController extends Controller
@@ -67,7 +74,8 @@ class OnlineSellingsController extends Controller
     public function edit(UserPayment $selling)
     {
         $stores = Store::all();
-        return \View::make('admin/selling/online/edit', array('selling' => $selling, 'stores' => $stores));
+        $products = UserPaymentProduct::where('payment_id', $selling->id)->get();
+        return \View::make('admin/selling/online/edit', array('selling' => $selling, 'stores' => $stores, 'products' => $products));
     }
 
     /**
@@ -77,29 +85,12 @@ class OnlineSellingsController extends Controller
      * @param  \App\UserPayment  $modelOrder
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, UserPayment $order)
+    public function update(Request $request, UserPayment $selling)
     {
-        $validator = Validator::make( $request->all(), [
-            'model_id' => 'required'
-        ]);
+        $selling->status = 'done';
+        $selling->save();
 
-        if ($validator->fails()) {
-            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
-        }
-
-        $order->model_id = $request->model_id;
-
-        if($request->status_accept == 'true'){
-            $order->status = 'accepted';
-        } else if($request->status_ready == 'true'){
-            $order->status = 'ready';
-        } else if($request->status_delivered == 'true'){
-            $order->status = 'delivered';
-        }
-        
-        $order->save();
-
-        return Response::json(array('ID' => $order->id, 'table' => View::make('admin/orders/model/table',array('order'=>$order))->render()));
+        return Response::json(array('ID' => $selling->id, 'table' => View::make('admin/selling/online/table',array('selling'=>$selling))->render()));
     }
 
     /**
@@ -111,5 +102,65 @@ class OnlineSellingsController extends Controller
     public function destroy(ModelOrder $modelOrder)
     {
         //
+    }
+
+    public function setDiscount(Request $request, $barcode){
+        
+        $userId = Auth::user()->getId(); 
+
+        if(strlen($barcode) == 13){
+            $discount = new DiscountCode;
+            $result = json_encode($discount->check($barcode));
+
+            if($result == 'true'){
+                $card = DiscountCode::where('barcode', $barcode)->first();
+                $setDiscount = $card->discount;
+            }
+        }else{
+            $result = false;
+            $setDiscount = $barcode;
+        }
+        
+
+        if(isset($setDiscount)){
+            $condition = new CartCustomCondition(array(
+                'name' => $setDiscount,
+                'type' => 'discount',
+                'target' => 'subtotal',
+                'value' => '-'.$setDiscount.'%',
+                'attributes' => array(
+                    'discount_id' => $setDiscount,
+                    'description' => 'Value added tax',
+                    'more_data' => 'more data here'
+                )
+            ));
+
+            Cart::condition($condition);
+            Cart::session($userId)->condition($condition);
+
+            $total = round(Cart::session($userId)->getTotal(),2);
+            $subtotal = round(Cart::session($userId)->getSubTotal(),2);
+            $subTotal = round(Cart::session(Auth::user()->getId())->getSubTotal(),2);
+            $cartConditions = Cart::session($userId)->getConditions();
+            $conds = array();
+            $priceCon = 0;
+    
+            if(count($cartConditions) > 0){
+                foreach(Cart::session(Auth::user()->getId())->getConditions() as $cc){
+                    $priceCon += $cc->getCalculatedValue($subTotal);
+                }
+            } else{
+                $priceCon = 0;
+            }
+
+            foreach($cartConditions as $key => $condition){
+                $conds[$key]['value'] = $condition->getValue();
+                $conds[$key]['attributes'] = $condition->getAttributes();
+            }
+
+            $dds = round($subTotal - ($subTotal/1.2), 2);
+
+            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon, 'dds' => $dds));  
+        } 
     }
 }

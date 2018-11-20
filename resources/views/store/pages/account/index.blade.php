@@ -9,9 +9,9 @@
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
 							<div class="col-md-24">
-								<a href="./index.html" class="homepage-link" title="Back to the frontpage">Home</a>
+								<a href="./index.html" class="homepage-link" title="Back to the frontpage">Начало</a>
 								<span>/</span>
-								<span class="page-title">My Account</span>
+								<span class="page-title">Профил</span>
 							</div>
 						</div>
 					</div>
@@ -20,12 +20,12 @@
 					<div class="container">
 						<div class="row">
 							<div id="page-header" class="col-md-24">
-								<h1 id="page-title">My Account</h1> 
+								<h1 id="page-title">Моят профил</h1> 
 							</div>
 							<div class="col-sm-6 col-md-6 sidebar">
 								<div class="group_sidebar">
 									<div class="row sb-wrapper unpadding-top">
-										<h6 class="sb-title">Account Details</h6>
+										<h6 class="sb-title">Информация</h6>
 										<span class="mini-line"></span>
 										<ul id="customer_detail" class="list-unstyled sb-content">
 											<li>
@@ -56,82 +56,49 @@
 							</div>
 							<div id="col-main" class="account-page col-sm-18 col-md-18 clearfix">
 								<div id="customer_orders">
-									<h6 class="sb-title">Order history</h6>
+									<h6 class="sb-title">История на покупки</h6>
 									<span class="mini-line"></span>
 									<div class="row wrap-table">
 										<table class="table-hover">
-										<thead>
-										<tr>
-											<th class="order_number">
-												Order
-											</th>
-											<th class="date">
-												Date
-											</th>
-											<th class="payment_status">
-												Payment Status
-											</th>
-											<th class="fulfillment_status">
-												Fulfillment Status
-											</th>
-											<th class="total">
-												Total
-											</th>
-										</tr>
-										</thead>
-										<tbody>
-										<tr class="odd ">
-											<td>
-												<a href="#" title="">#1001</a>
-											</td>
-											<td>
-												<span class="note">Oct, 30 2015</span>
-											</td>
-											<td>
-												<span class="status_authorized">authorized</span>
-											</td>
-											<td>
-												<span class="status_unfulfilled">unfulfilled</span>
-											</td>
-											<td>
-												<span class="total">$668.00</span>
-											</td>
-										</tr>
-										<tr class="odd ">
-											<td>
-												<a href="#" title="">#1002</a>
-											</td>
-											<td>
-												<span class="note">Oct, 30 2015</span>
-											</td>
-											<td>
-												<span class="status_authorized">authorized</span>
-											</td>
-											<td>
-												<span class="status_unfulfilled">unfulfilled</span>
-											</td>
-											<td>
-												<span class="total">$668.00</span>
-											</td>
-										</tr>
-										<tr class="odd ">
-											<td>
-												<a href="#" title="">#1003</a>
-											</td>
-											<td>
-												<span class="note">Oct, 30 2015</span>
-											</td>
-											<td>
-												<span class="status_authorized">authorized</span>
-											</td>
-											<td>
-												<span class="status_unfulfilled">unfulfilled</span>
-											</td>
-											<td>
-												<span class="total">$668.00</span>
-											</td>
-										</tr>
-										</tbody>
+											<thead>
+												<tr>
+													<th>Метод на доставка</th>
+													<th>Метод на плащане</th>
+													<th>Цена</th>
+													<th>Дата</th>
+													<th>Статус</th>
+												</tr>
+											</thead>
+
+											<tbody>
+												@foreach($sellings as $selling)
+													<tr data-id="{{ $selling->id }}">
+														<td>
+															@if($selling->shipping_method == 'ekont')
+																Еконт
+															@elseif($selling->shipping_method == 'store') 
+																Взимане от магазин
+															@endif
+														</td>
+														<td>
+															@if($selling->payment_method == 'on_delivery')
+																Наложен платеж
+															@elseif($selling->payment_method == 'paypal') 
+																Paypal
+															@endif
+														</td> 
+														<td>{{ $selling->price }}лв.</td> 
+														<td>{{ $selling->created_at }}</td> 
+														<td>
+															@if($selling->status == 'waiting_user')
+																Очаква изпращане/вземане
+															@elseif($selling->status == 'done')
+																Приключена
+															@endif
+														</td>
+													</tr>
+												@endforeach
+											</tbody>
 										</table>
 									</div>
 								</div>

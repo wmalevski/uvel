@@ -66,7 +66,7 @@ class CartController extends BaseController
             $item = $product;
             $type = 'product';
 
-            $product->status = 'selling';
+            $product->status = 'reserved';
             $product->save();
         }else{
             $box = ProductOther::where([
@@ -75,6 +75,8 @@ class CartController extends BaseController
             ])->first();
             
             if($box){
+                // $box->quantity = $box->quantity-$quantity;
+                // $box->save();
                 $item = $box;
                 $type = 'box';
             }

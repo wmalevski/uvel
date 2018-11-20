@@ -21,7 +21,9 @@ class AccountController extends BaseController
     public function index()
     {
         if (Auth::check()) {
-            return \View::make('store.pages.account.index');
+            $sellings = Auth::user()->sellings;
+
+            return \View::make('store.pages.account.index', array('sellings' => $sellings));
         } else {
             return redirect()->route('login');
         }
