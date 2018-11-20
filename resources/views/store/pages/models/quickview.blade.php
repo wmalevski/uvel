@@ -9,12 +9,12 @@
             <div class="col-md-12 product-image">
                 <div id="quick-shop-image" class="product-image-wrapper">
 
-                    <a class="main-image"><img class="img-zoom img-responsive image-fly" src="@if($product->photos){{ asset("uploads/products/" . $product->photos->first()['photo']) }}@endif" alt=""/></a>
+                    <a class="main-image"><img class="img-zoom img-responsive image-fly" src="@if($product->photos){{ asset("uploads/models/" . $product->photos->first()['photo']) }}@endif" alt=""/></a>
 
                     <div id="gallery_main_qs" class="product-image-thumb">
                         @if($product->photos)
                             @foreach($product->photos as $image)
-                                <a class="image-thumb active" href="{{ asset("uploads/products/" . $image->photo) }}" data-image="{{ asset("uploads/products/" . $image->photo) }}" data-zoom-image="{{ asset("uploads/products/" . $image->photo) }}"><img src="{{ asset("uploads/products/" . $image->photo) }}" alt=""/></a>
+                                <a class="image-thumb active" href="{{ asset("uploads/models/" . $image->photo) }}" data-image="{{ asset("uploads/models/" . $image->photo) }}" data-zoom-image="{{ asset("uploads/models/" . $image->photo) }}"><img src="{{ asset("uploads/models/" . $image->photo) }}" alt=""/></a>
                             @endforeach
                         @endif
                     </div>	
@@ -25,9 +25,9 @@
                 <div id="quick-shop-infomation" class="description">
                     <div id="quick-shop-description" class="text-left">
                         <p>
-                            Модел: {{ $product->model->name }} <br/>
+                            Модел: {{ $product->name }} <br/>
                             Бижу: {{ $product->jewel->name }} <br/>
-                            Размер: {{ $product->model->size }}
+                            Размер: {{ $product->size }}
                         </p>
                     </div>
                 </div>

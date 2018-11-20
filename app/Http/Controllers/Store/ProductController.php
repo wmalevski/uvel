@@ -75,21 +75,10 @@ class ProductController extends BaseController
 
     }
 
-    public function quickView($barcode)
+    public function quickView(Product $product)
     {
-        $type = '';
-        $product = Product::where('barcode', $barcode)->first();
-        $productBox = ProductOther::where('barcode', $barcode)->first();
-
         if($product){
-            $type = 'product';
-        }else{
-            $type = 'productBox';
-            $product = $productBox;
-        }
-
-        if($product){
-            return \View::make('store/pages/products/quickview', array('product' => $product ,'type' => $type));
+            return \View::make('store/pages/products/quickview', array('product' => $product));
         }
     }
 }
