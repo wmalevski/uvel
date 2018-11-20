@@ -181,7 +181,7 @@
                                                                     </div>
                                                                 </form>
                                                                 <div class="product-ajax-qs hidden-xs hidden-sm">
-                                                                    <div data-handle="curabitur-cursus-dignis" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal" data-id="{{ $model->id }}">
+                                                                    <div data-handle="curabitur-cursus-dignis" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal" data-url="models/{{ $model->id }}/">
                                                                         <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Бърз преглед</span>
                                                                         
                                                                     </div>
