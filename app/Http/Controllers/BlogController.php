@@ -24,6 +24,15 @@ class BlogController extends Controller
         return view('admin.blog.index', compact('articles'));
     }
 
+    public function getTranslatedBlogs($locale)
+    {
+        app()->setLocale($locale);
+
+        $articles = Blog::all();
+
+        return view('admin.blog.index', compact('articles'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -54,15 +63,20 @@ class BlogController extends Controller
         }
 
         $article = new Blog();
-        $article->title = $request->title;
-        $article->content = $request->content;
-        $article->excerpt = $request->excerpt;
         $article->thumbnail = $request->images[0];
         $article->author_id = Auth::user()->getId();
-        $article->slug = slugify($request->title);
+        $article->slug = slugify($request->title['bg']);
+        $article->save();
+        
+        $article->slug = $article->slug.'-'.$article->id;
         $article->save();
 
-        $article->slug = $article->slug.'-'.$article->id;
+        foreach (config('translatable.locales') as $locale => $language) {
+            $article->translateOrNew($locale)->title = $request->title[$locale];
+            $article->translateOrNew($locale)->excerpt = $request->excerpt[$locale];
+            $article->translateOrNew($locale)->content = $request->content[$locale];
+        }
+
         $article->save();
 
         $path = public_path('uploads/blog/');
@@ -192,10 +206,10 @@ class BlogController extends Controller
      * @param  \App\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Blog $article)
+    public function destroy(Blog $blog)
     {
-        if($article){
-            $article->delete();
+        if($blog){
+            $blog->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
         }
     }

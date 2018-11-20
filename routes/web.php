@@ -23,6 +23,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/', 'DashboardController@index')->name('admin');
 
     Route::get('/blog', 'BlogController@index')->name('admin_blog');
+    Route::get('/blog/ln/{language}', 'BlogController@getTranslatedBlogs')->name('translated_admin_blog');
     Route::get('/blog/{article}', 'BlogController@edit');
     Route::post('/blog', 'BlogController@store');
 
