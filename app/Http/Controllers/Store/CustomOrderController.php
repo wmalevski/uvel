@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\JsonResponse;
+use Response;
 use File;
 use Storage;
 use Mail;
@@ -53,7 +55,7 @@ class CustomOrderController extends BaseController
         ]);
 
         if ($validator->fails()) {
-            return Redirect::back()->withErrors($validator);
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
         $customOrder = CustomOrder::create($request->all());
@@ -106,7 +108,7 @@ class CustomOrderController extends BaseController
             $message->to($emails)->subject('Uvel Поръчка');
         });
 
-        return Redirect::back()->with('success', 'Съобщението ви беше изпратено успешно');
+        return Response::json(array('success' => 'Поръчката ви беше изпратено успешно'));
     }
 
     /**

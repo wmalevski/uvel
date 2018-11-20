@@ -77,7 +77,11 @@
 														@endif
                                                     </td>
                                                     <td>
-                                                        <input class="form-control input-1 replace" maxlength="5" size="5" id="updates_3947646083" name="updates[]" value="{{ $item->quantity }}">
+														@if($item->attributes['type'] != 'product')
+															<input class="form-control input-1 replace" maxlength="5" size="5" id="updates_3947646083" name="updates[]" value="{{ $item->quantity }}">
+														@else 
+														1
+															@endif
                                                     </td>
                                                     <td class="total title-1">
 															@if(count($items))
@@ -207,10 +211,6 @@
 									<input type="hidden" name="shipping_method">
 									<input class="w3-btn w3-blue" type="submit" value="Плати">
 								</form>
-								{{-- {{
-									print_r(Session::get('cart_info'))
-								}}
-								{{session('cart_info.2.shipping_method')}} --}}
 							</div>
 						</div>
 					</div>
