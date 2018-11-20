@@ -421,7 +421,9 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'store'], function() {
     Route::get('/cart/addItem/{item}/{quantity}', 'CartController@addItem');
     Route::get('/cart/removeItem/{item}', 'CartController@removeItem');
 
-    Route::get('/quickview/{barcode}', 'ProductController@quickview');
+    Route::get('/products/{product}/quickview/', 'ProductController@quickview');
+    Route::get('/productsothers/{productsothers}/quickview/', 'ProductOtherController@quickview');
+    Route::get('/models/{model}/quickview/', 'ModelController@quickview');
 
     Route::get('/filter', 'ProductController@filter');
 

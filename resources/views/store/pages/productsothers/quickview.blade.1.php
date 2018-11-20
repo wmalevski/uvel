@@ -25,9 +25,8 @@
                 <div id="quick-shop-infomation" class="description">
                     <div id="quick-shop-description" class="text-left">
                         <p>
-                            Модел: {{ $product->model->name }} <br/>
-                            Бижу: {{ $product->jewel->name }} <br/>
-                            Размер: {{ $product->model->size }}
+                            Име: {{ $product->name }} <br/>
+                            Тип: {{ $product->type->name }} <br/>
                         </p>
                     </div>
                 </div>
@@ -44,9 +43,26 @@
                     </div> --}}
                     <form action="#" method="post" class="variants" id="quick-shop-product-actions" enctype="multipart/form-data">
                         <div id="quick-shop-price-container" class="detail-price">
-                            <span class="price_sale">{{ $product->price }}лв.</span><span class="dash"></span>
-                            {{-- <del class="price_compare">$300.00</del> --}}
+                            <span class="price_sale">{{ $product->price }}лв.</span>
                         </div>
+                        
+                            <div class="quantity-wrapper clearfix">
+                                <label class="wrapper-title">Количество</label>
+                                <div class="wrapper">
+                                    <input type="text" id="qs-quantity" size="5" class="item-quantity" name="quantity" value="1">
+                                    <span class="qty-group">
+                                    <span class="qty-wrapper">
+                                    <span class="qty-up" title="Increase" data-src="#qs-quantity">
+                                    <i class="fa fa-plus"></i>
+                                    </span>
+                                    <span class="qty-down" title="Decrease" data-src="#qs-quantity">
+                                    <i class="fa fa-minus"></i>
+                                    </span>
+                                    </span>
+                                    </span>
+                                </div>
+                            </div>
+                        
                         <div class="others-bottom">
                             <input id="quick-shop-add" class="btn small add-to-cart" type="submit" name="add" value="Добави в количката" style="opacity: 1;">
                         </div>
