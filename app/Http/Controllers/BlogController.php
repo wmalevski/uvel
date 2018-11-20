@@ -24,15 +24,6 @@ class BlogController extends Controller
         return view('admin.blog.index', compact('articles'));
     }
 
-    public function getTranslatedBlogs($locale)
-    {
-        app()->setLocale($locale);
-
-        $articles = Blog::all();
-
-        return view('admin.blog.index', compact('articles'));
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -52,10 +43,10 @@ class BlogController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make( $request->all(), [
-            'title' => 'required',
-            'content' => 'required',
+            'title.*' => 'required',
+            'content.*' => 'required',
             'images' => 'required',
-            'excerpt' => 'required'
+            'excerpt.*' => 'required'
         ]);
 
         if ($validator->fails()) {

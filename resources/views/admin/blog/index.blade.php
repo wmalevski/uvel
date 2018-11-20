@@ -17,10 +17,10 @@ aria-hidden="true">
                     </div>
                     {{ csrf_field() }}
                     <!-- Nav tabs -->
-                    <ul id="blog_lng" class="nav nav-tabs" role="tablist">
+                    <ul id="blog_lng_edit" class="nav nav-tabs" role="tablist">
                         @foreach(config('translatable.locales') as $locale => $language)
                             <li role="presentation" class="@if($loop->first)active @endif">
-                                <a href="#{{$locale}}" aria-controls="{{$locale}}" role="tab" data-toggle="tab">{{$language}}</a>
+                                <a href="#{{$locale}}_edit" aria-controls="{{$locale}}" role="tab" data-toggle="tab">{{$language}}</a>
                             </li>
                         @endforeach
                     </ul>
@@ -28,7 +28,7 @@ aria-hidden="true">
                     <!-- Tab panes -->
                     <div class="tab-content">
                         @foreach(config('translatable.locales') as $locale => $language)
-                            <div role="tabpanel" class="tab-pane @if($loop->first)active @endif" id="{{$locale}}">
+                            <div role="tabpanel" class="tab-pane @if($loop->first)active @endif" id="{{$locale}}_edit">
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label for="1">Заглавие: </label>
@@ -79,17 +79,6 @@ aria-hidden="true">
         <div class="modal-content">
             
         </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <ul class="nav nav-pills">
-            @foreach(config('translatable.locales') as $locale => $language)
-                <li role="presentation" class="active">
-                    <a href="{{route('translated_admin_blog', ['locale' => $locale])}}">{{$language}}</a>|
-                </li>
-            @endforeach
-        </ul>
     </div>
 </div>
 <div class="row">

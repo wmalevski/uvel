@@ -846,6 +846,12 @@
          air: []
        }
      });
+
+     $('body').on('click', '#blog_lng_edit a', function (e) {
+      e.preventDefault();
+      console.log('clicked');
+      $(this).tab('show');
+    })
 });
   </script>
   
