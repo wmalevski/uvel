@@ -28,7 +28,7 @@ class CreateProductsTable extends Migration
             $table->float('price');
             $table->string('code')->nullable();
             $table->string('barcode');
-            $table->enum('status', ['available', 'selling', 'travelling', 'sold'])->default('available');
+            $table->enum('status', ['available', 'selling', 'travelling', 'reserved', 'sold'])->default('available');
             $table->enum('weight_without_stones', ['yes', 'no'])->default('no');
             $table->enum('website_visible', ['yes', 'no'])->default('yes');
             $table->integer('store_id')->unsigned();

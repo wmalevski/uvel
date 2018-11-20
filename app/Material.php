@@ -42,4 +42,8 @@ class Material extends Model
     public function products(){
         return $this->hasManyThrough('App\Product', 'App\MaterialQuantity', 'material_id', 'material_id');
     }
+
+    public function productsOnline(){
+        return $this->hasManyThrough('App\Product', 'App\MaterialQuantity', 'material_id', 'material_id')->where('status', 'available');
+    }
 }

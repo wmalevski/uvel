@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Store;
 
 use App\CustomOrder;
+use App\Gallery;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use File;
+use Storage;
 use Mail;
+use Auth;
 
 class CustomOrderController extends BaseController
 {
@@ -53,6 +57,39 @@ class CustomOrderController extends BaseController
         }
 
         $customOrder = CustomOrder::create($request->all());
+
+        $path = public_path('uploads/orders/');
+        
+        File::makeDirectory($path, 0775, true, true);
+        Storage::disk('public')->makeDirectory('orders', 0775, true);
+
+        $file_data = $request->input('images'); 
+        if($file_data){
+            foreach($file_data as $img){
+                $memi = substr($img, 5, strpos($img, ';')-5);
+                
+                $extension = explode('/',$memi);
+                if($extension[1] == "svg+xml"){
+                    $ext = 'png';
+                }else{
+                    $ext = $extension[1];
+                }
+                
+
+                $file_name = 'orderimage_'.uniqid().time().'.'.$ext;
+
+                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                file_put_contents(public_path('uploads/orders/').$file_name, $data);
+
+                Storage::disk('public')->put('orders/'.$file_name, file_get_contents(public_path('uploads/orders/').$file_name));
+
+                $photo = new Gallery();
+                $photo->photo = $file_name;
+                $photo->custom_order_id = $customOrder->id;
+                $photo->table = 'orders';
+                $photo->save();
+            }
+        }
 
         //$to = explode(',', env('ADMIN_EMAILS'));
 

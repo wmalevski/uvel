@@ -28,4 +28,9 @@ class PayController extends Controller
         
        return PaypalPay($request);
     }
+
+    public function getPaymentStatus(){
+        $test = new PaypalPay();
+        return $test->getPaymentStatus();
+    }
 }

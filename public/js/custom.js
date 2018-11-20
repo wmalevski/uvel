@@ -152,6 +152,11 @@ var uvel,
         selector: '[name="slides"]',
         controllers: ['imageHandling'],
         initialized: false
+      },
+      editPayments: {
+        selector: '[name="editPayments"]',
+        controllers: [],
+        initialized: false
       }
     };
 

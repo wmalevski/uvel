@@ -20,6 +20,10 @@ class Jewel extends Model
     	return $this->hasMany('App\Product');
     }
 
+    public function productsOnline() {
+    	return $this->hasMany('App\Product')->where('status', 'available');
+    }
+
     public function models() {
     	return $this->hasMany('App\Model');
     }

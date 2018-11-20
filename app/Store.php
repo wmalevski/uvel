@@ -33,6 +33,11 @@ class Store extends Model
         return $this->hasMany('App\Product');
     }
 
+    public function productsOnline()
+    {
+        return $this->hasMany('App\Product')->where('status', 'available');
+    }
+
     public function productsOther()
     {
         return $this->hasMany('App\ProductOther');

@@ -4,8 +4,15 @@ namespace App\Http\Controllers\Store;
 
 use App\UserPayment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Controller;
 use App\PaypalPay;
+use App\Model;
+use App\ProductOther;
+use App\Product;
+use App\UserPaymentProduct;
+use Auth;
+use Cart;
 
 class UserPaymentController extends Controller
 {
@@ -37,15 +44,29 @@ class UserPaymentController extends Controller
      */
     public function store(Request $request)
     {
-        $payment = new UserPayment();
-
-        if($request->payment_method == 'delivery'){
-
-        } else if ($request->payment_method == 'paypal'){
-            $pay = new PaypalPay();
-            return $pay->payWithpaypal($request);
-        } else if ($request->payment_method == 'borika'){
-            
+        if($request->amount > 0){
+            session()->forget('cart_info');
+            $user_info = [
+                'user_id' => Auth::user()->getId(),
+                'shipping_method' => $request->shipping_method,
+                'payment_method' => $request->payment_method,
+                'information' => $request->information,
+                'store_id' => $request->store_id,
+                'shipping_address' => $request->city.', '.$request->postcode.', '.$request->street.', '.$request->street_number
+            ];
+    
+            Session::push('cart_info', $user_info);
+    
+            if($request->payment_method == 'on_delivery'){
+                $payment = new UserPayment();
+                return $payment->storePayment();
+    
+            } else if ($request->payment_method == 'paypal'){
+                $pay = new PaypalPay();
+                return $pay->payWithpaypal($request);
+            } else if ($request->payment_method == 'borika'){
+                
+            }
         }
     }
 
