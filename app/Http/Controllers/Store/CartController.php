@@ -97,7 +97,7 @@ class CartController extends BaseController
                     'price' => $item->price,
                     'name' => $item->name,
                     'product_id' => $item->id,
-                    'type' => 'product'
+                    'type' => $type
                 )
             ));
 

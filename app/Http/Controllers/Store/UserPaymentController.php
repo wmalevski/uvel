@@ -13,6 +13,7 @@ use App\Product;
 use App\UserPaymentProduct;
 use Auth;
 use Cart;
+
 class UserPaymentController extends Controller
 {
     /**
@@ -51,7 +52,7 @@ class UserPaymentController extends Controller
                 'payment_method' => $request->payment_method,
                 'information' => $request->information,
                 'store_id' => $request->store_id,
-                'shipping_address' => $request->shipping_address
+                'shipping_address' => $request->city.', '.$request->postcode.', '.$request->street.', '.$request->street_number
             ];
     
             Session::push('cart_info', $user_info);

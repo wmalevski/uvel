@@ -19,7 +19,7 @@ class CreateUserPaymentsTable extends Migration
             $table->enum('shipping_method', ['store', 'ekont']);
             $table->enum('payment_method', ['paypal', 'borika', 'on_delivery']);
             $table->integer('store_id')->unsigned()->nullable();
-            $table->integer('shipping_address')->nullable();
+            $table->string('shipping_address')->nullable();
             $table->float('price');
             $table->text('information')->nullable();
             $table->enum('status', ['waiting_user', 'done'])->default('waiting_user');
