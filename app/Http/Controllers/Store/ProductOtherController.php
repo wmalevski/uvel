@@ -95,8 +95,8 @@ class ProductOtherController extends BaseController
 
         $products = $query->where('status', 'available')->orderBy('id', 'desc')->get();
 
-        print_r(count($products));
-        echo '<pre>'; print_r($products); echo '</pre>';
+        //print_r(count($products));
+        //echo '<pre>'; print_r($products); echo '</pre>';
     }
 
     public function quickView(ProductOther $product)

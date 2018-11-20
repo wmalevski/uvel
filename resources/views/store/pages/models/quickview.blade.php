@@ -9,11 +9,11 @@
             <div class="col-md-12 product-image">
                 <div id="quick-shop-image" class="product-image-wrapper">
 
-                    <a class="main-image"><img class="img-zoom img-responsive image-fly" src="@if($product->photos){{ asset("uploads/models/" . $product->photos->first()['photo']) }}@endif" alt=""/></a>
+                    <a class="main-image"><img class="img-zoom img-responsive image-fly" src="@if($model->photos){{ asset("uploads/models/" . $model->photos->first()['photo']) }}@endif" alt=""/></a>
 
                     <div id="gallery_main_qs" class="product-image-thumb">
-                        @if($product->photos)
-                            @foreach($product->photos as $image)
+                        @if($model->photos)
+                            @foreach($model->photos as $image)
                                 <a class="image-thumb active" href="{{ asset("uploads/models/" . $image->photo) }}" data-image="{{ asset("uploads/models/" . $image->photo) }}" data-zoom-image="{{ asset("uploads/models/" . $image->photo) }}"><img src="{{ asset("uploads/models/" . $image->photo) }}" alt=""/></a>
                             @endforeach
                         @endif
@@ -21,13 +21,13 @@
                 </div>
             </div>
             <div class="col-md-12 product-information">
-                <h1 id="quick-shop-title"><span> <a href="/products/curabitur-cursus-dignis">{{ $product->name }}</a></span></h1>
+                <h1 id="quick-shop-title"><span> <a href="/products/curabitur-cursus-dignis">{{ $model->name }}</a></span></h1>
                 <div id="quick-shop-infomation" class="description">
                     <div id="quick-shop-description" class="text-left">
                         <p>
-                            Модел: {{ $product->name }} <br/>
-                            Бижу: {{ $product->jewel->name }} <br/>
-                            Размер: {{ $product->size }}
+                            Модел: {{ $model->name }} <br/>
+                            Бижу: {{ $model->jewel->name }} <br/>
+                            Размер: {{ $model->size }}
                         </p>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                     </div> --}}
                     <form action="#" method="post" class="variants" id="quick-shop-product-actions" enctype="multipart/form-data">
                         <div id="quick-shop-price-container" class="detail-price">
-                            <span class="price_sale">{{ $product->price }}лв.</span><span class="dash"></span>
+                            <span class="price_sale">{{ $model->price }}лв.</span><span class="dash"></span>
                             {{-- <del class="price_compare">$300.00</del> --}}
                         </div>
                         <div class="others-bottom">

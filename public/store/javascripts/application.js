@@ -621,7 +621,7 @@ var uvelStore,
 
 		this.quickviewOpen = function(currentPressedBtn) {
 		  var $this = currentPressedBtn,
-			  	ajaxRequestLink = '/ajax/quickview/' + $this.attr('data-barcode');
+			  	ajaxRequestLink = '/ajax/' + $this.attr('data-url') + 'quickview';
 
 			$.ajax({
 				url: ajaxRequestLink,
