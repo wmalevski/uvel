@@ -137,17 +137,22 @@ class BlogController extends Controller
     public function update(Request $request, Blog $article)
     {
         $validator = Validator::make( $request->all(), [
-            'title' => 'required',
-            'content' => 'required',
-            'excerpt' => 'required'
+            'title.*' => 'required',
+            'content.*' => 'required',
+            'excerpt.*' => 'required'
         ]);
 
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $article->title = $request->title;
-        $article->content = $request->content;
+        foreach (config('translatable.locales') as $locale => $language) {
+            $article->translateOrNew($locale)->title = $request->title[$locale];
+            $article->translateOrNew($locale)->excerpt = $request->excerpt[$locale];
+            $article->translateOrNew($locale)->content = $request->content[$locale];
+        }
+
+        $article->save();
 
         if($request->images){
             $article->thumbnail = $request->images[0];
