@@ -8,7 +8,7 @@ Breadcrumbs::register('store', function ($breadcrumbs) {
 // Home > About
 Breadcrumbs::register('web_blog', function ($breadcrumbs) {
     $breadcrumbs->parent('store');
-    $breadcrumbs->push('Блог', route('blog'));
+    $breadcrumbs->push('Блог', route('translated_articles', ['locale', app()->getLocale()]));
 });
 
 Breadcrumbs::register('contactus', function ($breadcrumbs) {

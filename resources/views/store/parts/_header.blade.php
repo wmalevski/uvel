@@ -285,7 +285,7 @@
                                     </div>
                                     </li> --}}
                                     <li class="nav-item">
-                                        <a href="{{ route('blog', ['locale'=>app()->getLocale()]) }}">
+                                        <a href="{{ route('translated_articles', ['locale'=>app()->getLocale()]) }}">
                                             <span>Блог</span>
                                         </a>
                                     </li>

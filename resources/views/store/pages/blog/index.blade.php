@@ -25,7 +25,7 @@
 								</div>
 								<div class="col-md-12">
 								@foreach(config('translatable.locales') as $locale => $language)
-									<a href="{{route('blog', ['locale'=>$locale])}}">
+									<a href="{{route('translated_articles', ['locale'=>$locale])}}">
 										<span>
 											{{$language}}
 											@if($loop->last) @else | @endif

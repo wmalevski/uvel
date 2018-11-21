@@ -354,7 +354,7 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
 
     Route::group(['prefix' => 'blog'], function() {
         Route::get('/{article}', 'BlogController@show')->name('single_article');
-        Route::get('/lg/{locale}', 'BlogController@index')->name('blog');
+        Route::get('/lg/{locale}', 'BlogController@index')->name('translated_articles');
         Route::get('/lg/{locale}/{article}', 'BlogController@show')->name('single_translated_article');
         Route::post('/{article}/comment', 'BlogCommentController@store')->name('article_comment');
         Route::post('/{article}/{comment}/delete', 'BlogCommentController@destroy')->name('article_comment_delete');
