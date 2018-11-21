@@ -387,7 +387,7 @@ Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
     });  
 });
 
-Route::group(['prefix' => 'online',  'namespace' => 'store', 'middleware' => 'auth'], function() {
+Route::group(['prefix' => 'online',  'namespace' => 'Store', 'middleware' => 'auth'], function() {
     Route::get('/cart', 'CartController@index')->name('cart');
     Route::post('/cart', 'UserPaymentController@store')->name('pay_order');
     Route::get('/cart/addItem/{item}/{quantity}', 'CartController@addItem');
@@ -415,7 +415,7 @@ Route::group(['prefix' => 'online',  'namespace' => 'store', 'middleware' => 'au
 
 //AJAX FOR STORE
 
-Route::group(['prefix' => 'ajax', 'namespace' => 'store'], function() {
+Route::group(['prefix' => 'ajax', 'namespace' => 'Store'], function() {
     Route::get('/cart/addItem/{item}/{quantity}', 'CartController@addItem');
     Route::get('/cart/removeItem/{item}', 'CartController@removeItem');
 
