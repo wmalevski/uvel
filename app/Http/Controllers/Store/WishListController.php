@@ -54,6 +54,7 @@ class WishListController extends BaseController
         } elseif ($request->type == 'product_other') {
             $wishList->product_others_id = $request->product_others_id;
         }
+        
         $wishList->save();
 
         return Response::json(array('success' => 'Продуктът беше запазен успешно'));
