@@ -475,7 +475,8 @@ var uvelStore,
 					$filterTrigger = $('.filter-tag-group .tag-group li'),
 					$filterInputTrigger = $('.filter-tag-group .tag-group input'),
 					$shippingMethodTrigger = $('[name="shippingMethod"]'),
-					$paymentMethodTrigger = $('[name="paymentMethod"]');
+					$paymentMethodTrigger = $('[name="paymentMethod"]'),
+					$addDiscountTrigger = $('.cart-applyDiscount');
 
 			$self.quickviewAttach($quickViewTrigger);
 			$self.imageHandling();
@@ -484,6 +485,7 @@ var uvelStore,
 			$self.filterInputAttach($filterInputTrigger);
 			$self.shippingMethodAttach($shippingMethodTrigger);
 			$self.paymentMethodAttach($paymentMethodTrigger);
+			$self.addDiscountAttach($addDiscountTrigger);
 			$self.submitCustomOrder();
 		};
 
@@ -781,6 +783,32 @@ var uvelStore,
 					productsContainer.animate({
 						opacity: 1
 					}, 400)
+				},
+				error: function(err) {
+					console.log(err);
+				}
+			})
+		}
+
+		this.addDiscountAttach = function(addDiscountBtn) {
+			addDiscountBtn.on('click', function() {
+				var _this = $(this);
+				$self.addDiscount(_this);
+			})
+		}
+
+		this.addDiscount = function(addDiscountBtn) {
+			var _this = addDiscountBtn,
+					discountInput = $('#discountCard'),
+					barcode = discountInput.val(),
+					_path = _this.attr('data-url'),
+					ajaxURL = _path + barcode;
+
+			$.ajax({
+				method: 'GET',
+				url: ajaxURL,
+				success: function(resp) {
+					console.log(resp);
 				},
 				error: function(err) {
 					console.log(err);

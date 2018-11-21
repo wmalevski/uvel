@@ -120,11 +120,10 @@
 											</table>
 										</div>
 									</div>
-									<div class="row">
+									<div class="row form-row">
+										<label>Допълнителна информация</label>
+										<hr>
 										<div id="checkout-addnote" class="col-md-24">
-											<div class="wrapper-title">
-												<span class="title-5">Допълнителна информация</span>
-											</div>
 											<textarea id="note" rows="8" class="form-control" name="information"></textarea>
 										</div>
 
@@ -147,18 +146,34 @@
 									</div>
 
 									{{ csrf_field() }}
-									<div class="form-row">
+									<div class="form-row row">
+										<label>Карта за отстъпка</label>
+										<hr>
+										<div class="form-group col-xs-24 col-sm-12">
+											<label>Въведете номер на карта:</label>
+											<div class="input-group">
+							                    <input type="number" id="discountCard" class="form-control" name="discount"  placeholder="Баркод">
+							                    <span class="input-group-addon"><i class="fas fa-barcode"></i></span>
+							                </div>
+										</div>
+										<div class="col-xs-24">
+											<div class="cart-btn cart-applyDiscount" data-url="/online/cart/addDiscount/">
+												<span class="btn-text">Приложи отстъпка</span>
+											</div>
+										</div>
+									</div>
+									<div class="form-row row">
 										<label>Начин на получаване</label>
 										<hr>
-										<div class="form-goroup">
+										<div class="form-goroup col-xs-24">
 											<input type="radio" class="cart-radio" name="shippingMethod" id="shipping_shop" data-method="store">
 											<label for="shipping_shop"><i class="fas fa-store"></i> Вземи от магазин</label>
 											<input type="radio" class="cart-radio" name="shippingMethod" id="shipping_address" data-method="ekont">
 											<label for="shipping_address"><i class="fas fa-truck"></i> Доставка чрез Еконт</label>
 										</div>
 									</div>
-									<div class="form-row shipping-method shipping_shop">
-										<div class="form-group">
+									<div class="form-row row shipping-method shipping_shop">
+										<div class="form-group col-xs-24">
 											<label>Моля изберете магазин:</label>
 											<select name="store_id">
 												<option>Избери магазин</option>
@@ -168,34 +183,34 @@
 											</select>
 										</div>
 									</div>
-									<div class="form-row shipping-method shipping_address">
+									<div class="form-row row shipping-method shipping_address">
 										<label>Данни за доставка</label>
 										<hr>
-										<div class="form-group">
+										<div class="form-group col-xs-24">
 											<label>Град:</label>
 											<input type="text" name="city" value="{{ Auth::user()->city }}">
 										</div>
-										<div class="form-group">
+										<div class="form-group col-xs-24">
 											<label>Улица:</label>
 											<input type="text" name="street" value="{{ Auth::user()->street }}">
 										</div>
-										<div class="form-group">
+										<div class="form-group col-xs-24">
 											<label>Номер:</label>
 											<input type="text" name="street_number" value="{{ Auth::user()->street_number }}">
 										</div>
-										<div class="form-group">
+										<div class="form-group col-xs-24">
 											<label>Пощенски код:</label>
 											<input type="text" name="postcode" value="{{ Auth::user()->postcode }}">
 										</div>
-										<div class="form-group">
+										<div class="form-group col-xs-24">
 											<label>Телефон за връзка:</label>
 											<input type="text" name="phone" value="{{ Auth::user()->phone }}">
 										</div>
 									</div>
-									<div class="form-row payment-method">
+									<div class="form-row row payment-method">
 										<label>Начин на плащане</label>
 										<hr>
-										<div class="form-goroup">
+										<div class="form-goroup col-xs-24">
 											<input type="radio" class="cart-radio" name="paymentMethod" id="payment_borika" data-method="borika">
 											<label for="payment_borika"><i class="far fa-credit-card"></i> С карта</label>
 											<input type="radio" class="cart-radio" name="paymentMethod" id="payment_paypal" data-method="paypal">
