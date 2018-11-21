@@ -9,11 +9,7 @@
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
 							<div class="col-md-24">
-								<a href="./index.html" class="homepage-link" title="Back to the frontpage">Home</a>
-								<span>/</span>
-								<a href="./collection.html" title="">Bracelets</a>
-								<span>/</span>
-								<span class="page-title">Donec condime fermentum</span>
+								{{ Breadcrumbs::render('single_product', $product) }}
 							</div>
 						</div>
 					</div>

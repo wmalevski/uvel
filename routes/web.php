@@ -353,7 +353,7 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
     Route::get('/', 'StoreController@index')->name('store');
 
     Route::group(['prefix' => 'blog'], function() {
-        Route::get('/', 'BlogController@index')->name('web_blog');
+        Route::get('/', 'BlogController@index');
         Route::get('/{article}', 'BlogController@show')->name('single_article');
         Route::post('/{article}/comment', 'BlogCommentController@store')->name('article_comment');
         Route::post('/{article}/{comment}/delete', 'BlogCommentController@destroy')->name('article_comment_delete');
@@ -383,7 +383,6 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
     Route::group(['prefix' => 'products'], function() {
         Route::get('/', 'ProductController@index')->name('products');
         Route::get('/{product}', 'ProductController@show')->name('single_product');
-
         Route::post('/{product}/review', 'ReviewController@store')->name('product_review');
     });
 
@@ -398,7 +397,7 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
     });    
 });
 
-Route::group(['prefix' => 'online', 'namespace' => 'store', 'middleware' => 'auth'], function() {
+Route::group(['prefix' => 'online',  'namespace' => 'store', 'middleware' => 'auth'], function() {
     Route::get('/cart', 'CartController@index')->name('cart');
     Route::post('/cart', 'UserPaymentController@store')->name('pay_order');
     Route::get('/cart/addItem/{item}/{quantity}', 'CartController@addItem');
