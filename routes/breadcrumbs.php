@@ -21,6 +21,26 @@ Breadcrumbs::register('cart', function ($breadcrumbs) {
     $breadcrumbs->push('Количка', route('cart'));
 });
 
+Breadcrumbs::register('register', function ($breadcrumbs) {
+    $breadcrumbs->parent('store');
+    $breadcrumbs->push('Регистрация', route('register'));
+});
+
+Breadcrumbs::register('settings', function ($breadcrumbs) {
+    $breadcrumbs->parent('store');
+    $breadcrumbs->push('Настройки', route('settings'));
+});
+
+// Breadcrumbs::register('user_model_orders', function ($breadcrumbs) {
+//     $breadcrumbs->parent('store');
+//     $breadcrumbs->push('Поръчки', route('user_model_orders'));
+// });
+
+Breadcrumbs::register('login', function ($breadcrumbs) {
+    $breadcrumbs->parent('store');
+    $breadcrumbs->push('Вход в системата', route('login'));
+});
+
 Breadcrumbs::register('custom_order', function ($breadcrumbs) {
     $breadcrumbs->parent('store');
     $breadcrumbs->push('Поръчка по модел на клиента', route('custom_order'));
