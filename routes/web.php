@@ -349,7 +349,7 @@ Route::group(['prefix' => 'ajax'], function() {
 /**
  * Online Store Routes
  */
-Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
+Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
     Route::get('/', 'StoreController@index')->name('store');
 
     Route::group(['prefix' => 'blog'], function() {
