@@ -23,6 +23,16 @@
 								<div id="page-header" class="col-md-24">
 									<h1 id="page-title">Блог</h1>
 								</div>
+								<div class="col-md-12">
+								@foreach(config('translatable.locales') as $locale => $language)
+									<a href="{{route('translated_articles', ['locale'=>$locale])}}">
+										<span>
+											{{$language}}
+											@if($loop->last) @else | @endif
+										</span>
+									</a>
+								@endforeach
+								</div>
 								<div id="col-main" class="blog blog-page col-sm-24 col-md-24 blog-full-width blog-3-col ">
 									<div class="blog-content-wrapper">
                                         @foreach($articles as $article)
@@ -37,15 +47,21 @@
 																	<small>{{ $article->created_at->format('M') }}</small><span>{{ $article->created_at->format('d') }}</span>
 																</p>
 															</div>
-															<h4><a href="{{ route('single_article', ['product' => $article->slug])  }}">{{$article->title}}</a></h4>
+															<h4>
+																<a href="{{ route('single_translated_article', ['locale'=>$lng, 'product' => $article->slug])  }}">{{$article->title}}</a>
+															</h4>
 														</div>
 														<div class="blogs-image">
 															<ul class="list-inline">
-																<li><a href="{{ route('single_article', ['product' => $article->slug])  }}">
-																<div style="text-align: left;">
-																	<img src="{{ asset("uploads/blog/" . $article->thumbnail) }}" alt="">
-																</div>
-																</a></li>
+																<li>
+																	@if(!empty($lng))
+																	<a href="{{ route('single_translated_article', ['locale'=>$lng, 'product' => $article->slug])  }}">
+																		<div style="text-align: left;">
+																			<img src="{{ asset("uploads/blog/" . $article->thumbnail) }}" alt="">
+																		</div>
+																	</a>
+																	@endif
+																</li>
 															</ul>
 														</div>
 														<div class="intro">
@@ -59,7 +75,7 @@
 															<span>2</span> Comment(s) </a>
 															</li>
 															<li class="post-action">
-															<a class="btn btn-1 enable hidden-xs" href="{{ route('single_article', ['product' => $article->slug])  }}" title="Add your thoughts">Post Comment</a>
+															<a class="btn btn-1 enable hidden-xs" href="{{ route('single_translated_article', ['locale'=>$lng, 'product' => $article->slug]) }}" title="Add your thoughts">Post Comment</a>
 															</li>
 														</ul>
 													</div>

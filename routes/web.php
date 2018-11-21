@@ -353,8 +353,9 @@ Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
     Route::get('/', 'StoreController@index')->name('store');
 
     Route::group(['prefix' => 'blog'], function() {
-        Route::get('/', 'BlogController@index');
         Route::get('/{article}', 'BlogController@show')->name('single_article');
+        Route::get('/lg/{locale}', 'BlogController@index')->name('translated_articles');
+        Route::get('/lg/{locale}/{article}', 'BlogController@show')->name('single_translated_article');
         Route::post('/{article}/comment', 'BlogCommentController@store')->name('article_comment');
         Route::post('/{article}/{comment}/delete', 'BlogCommentController@destroy')->name('article_comment_delete');
     });
@@ -370,8 +371,6 @@ Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
     Route::post('/register', 'UserController@store')->name('registerform');
     Route::get('/login', 'UserController@login')->name('login');
     Route::post('/login', 'UserController@userlogin')->name('userlogin');
-
-    Route::get('/blog', 'BlogController@index')->name('blog');
 
     Route::get('/custom_order', 'CustomOrderController@index')->name('custom_order');
     Route::post('/custom_order', 'CustomOrderController@store')->name('submit_custom_order');
