@@ -9,9 +9,7 @@
                 <div itemprop="breadcrumb" class="container">
                     <div class="row">
                         <div class="col-md-24">
-                            <a href="/" class="homepage-link" title="Back to the frontpage">Начало</a>
-                            <span>/</span>
-                            <span class="page-title">Поръчка по модел на клиента</span>
+                            {{ Breadcrumbs::render('custom_order') }}
                         </div>
                     </div>
                 </div>

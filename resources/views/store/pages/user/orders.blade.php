@@ -10,9 +10,7 @@
                 <div itemprop="breadcrumb" class="container">
                     <div class="row">
                         <div class="col-md-24">
-                            <a href="./index.html" class="homepage-link" title="Back to the frontpage">Начало</a>
-                            <span>/</span>
-                            <span class="page-title">Поръчки</span>
+                            {{ Breadcrumbs::render('model_orders') }}
                         </div>
                     </div>
                 </div>

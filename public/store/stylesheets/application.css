@@ -175,8 +175,8 @@ div.jGrowl div.jGrowl-closer:hover{color:#a07936;}
 	display: none;
 }
 
-.cart-radio + label {
-	padding: 0 25px;
+.cart-radio + label, .cart-btn, #cartform [type="submit"] {
+	padding: 0 15px;
 	border: 1px solid #dedede;
     border-radius: 5px;
     background: #ffffff;
@@ -191,11 +191,19 @@ div.jGrowl div.jGrowl-closer:hover{color:#a07936;}
     transition: .2s ease-in;
 }
 
-.cart-radio + label:hover, .cart-radio + label:focus, .cart-radio:checked + label {
+.cart-radio + label:hover, .cart-radio + label:focus, .cart-radio:checked + label, .cart-btn:hover, .cart-btn:focus, #cartform [type="submit"]:hover, #cartform [type="submit"]:focus {
     background: #a07936;
     border: 1px solid #a07936;
     color: #ffffff;
     outline: none !important;
+}
+
+.cart-radio + label i, .cart-btn i, #cartform [type="submit"] i {
+	margin-right: 6px;
+}
+
+.cart-btn {
+	display: inline-block;
 }
 
 .shipping-method {
@@ -222,4 +230,9 @@ div.jGrowl div.jGrowl-closer:hover{color:#a07936;}
 #cartform .form-row > hr {
 	margin-top: 5px;
 	margin-bottom: 15px;
+}
+
+#checkout-addnote {
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
 }

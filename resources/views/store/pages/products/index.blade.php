@@ -17,9 +17,7 @@ aria-hidden="true">
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
 							<div class="col-md-24">
-								<a href="./index.html" class="homepage-link" title="Back to the frontpage">Начало</a>
-								<span>/</span>
-								<span class="page-title">Каталог с продукти</span>
+								{{ Breadcrumbs::render('products') }}
 							</div>
 						</div>
 					</div>

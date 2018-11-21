@@ -374,30 +374,20 @@ Route::group(['prefix' => 'online', 'namespace' => 'store'], function() {
 
     Route::get('/custom_order', 'CustomOrderController@index')->name('custom_order');
     Route::post('/custom_order', 'CustomOrderController@store')->name('submit_custom_order');
-
-    Route::get('/model_orders/', 'ModelOrderController@index')->name('model_orders');
-
-    Route::get('/model_order/{model}', 'ModelOrderController@store')->name('order_model');
     
     Route::group(['prefix' => 'products'], function() {
         Route::get('/', 'ProductController@index')->name('products');
         Route::get('/{product}', 'ProductController@show')->name('single_product');
-
         Route::post('/{product}/review', 'ReviewController@store')->name('product_review');
     });
 
     Route::group(['prefix' => 'productsothers'], function() {
         Route::get('/', 'ProductOtherController@index')->name('productsothers');
         Route::get('/{product}', 'ProductOtherController@show')->name('single_product_other');
-    });
-
-    Route::group(['prefix' => 'models'], function() {
-        Route::get('/', 'ModelController@index')->name('models');
-        Route::get('/{model}', 'ModelController@show')->name('single_model');
-    });    
+    });  
 });
 
-Route::group(['prefix' => 'online', 'namespace' => 'store', 'middleware' => 'auth'], function() {
+Route::group(['prefix' => 'online',  'namespace' => 'store', 'middleware' => 'auth'], function() {
     Route::get('/cart', 'CartController@index')->name('cart');
     Route::post('/cart', 'UserPaymentController@store')->name('pay_order');
     Route::get('/cart/addItem/{item}/{quantity}', 'CartController@addItem');
@@ -411,6 +401,15 @@ Route::group(['prefix' => 'online', 'namespace' => 'store', 'middleware' => 'aut
 
     Route::get('/settings', 'UserController@edit')->name('user_settings');
     Route::post('/settings', 'UserController@update')->name('user_settings_update');
+
+    Route::group(['prefix' => 'models'], function() {
+        Route::get('/', 'ModelController@index')->name('models');
+        Route::get('/{model}', 'ModelController@show')->name('single_model');
+    });  
+    
+    Route::get('/model_orders/', 'ModelOrderController@index')->name('model_orders');
+
+    Route::get('/model_order/{model}', 'ModelOrderController@store')->name('order_model');
 
 });
 

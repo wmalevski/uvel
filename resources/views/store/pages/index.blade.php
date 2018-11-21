@@ -136,6 +136,7 @@
                                 </div>
                             </div>
                     </div>
+                    @if(count($products))
                     <div class="home-newproduct">
                         <div class="container">
                             <div class="group_home_products row">
@@ -206,6 +207,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                     {{-- <div class="home-banner-wrapper">
                         <div class="container">
                             <div id="home-banner" class="text-center clearfix">
@@ -222,6 +224,7 @@
                             </div>
                         </div>
                     </div> --}}
+                    @if(count($articles))
                     <div class="home-blog">
                         <div class="container">
                             <div class="home-promotion-blog row">
@@ -265,6 +268,9 @@
                             </div>
                         </div>
                     </div>
+                    @endif
+
+                    @if(count($products))
                     <div class="home-feature">
                         <div class="container">
                             <div class="group_featured_products row">
@@ -330,7 +336,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>  				            
+                    </div> 
+                    @endif 				            
                 </div>
             </section>        
         </div>
