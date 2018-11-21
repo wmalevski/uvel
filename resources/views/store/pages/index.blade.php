@@ -229,7 +229,7 @@
                                 @if(count($articles))
                                 <div class="home-bottom_banner_wrapper col-md-12">
                                     <div id="home-bottom_banner" class="home-bottom_banner">
-                                     <a href="{{ route('single_article', ['product' => $articles->first()->slug.'-'.$articles->first()->id])  }}"><img src="{{ asset("uploads/blog/" . $articles->first()->thumbnail) }}" alt=""></a>
+                                     <a href="{{ route('single_translated_article', ['locale'=>app()->getLocale(), 'product' => $articles->first()->slug])  }}"><img src="{{ asset("uploads/blog/" . $articles->first()->thumbnail) }}" alt=""></a>
                                     </div>
                                 </div>
                                 @endif
@@ -245,12 +245,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="home-blog-content col-md-20">
-                                                    <h4><a href="{{ route('single_article', ['product' => $article->slug])  }}">{{ $article->title }}</a></h4>
+                                                    <h4><a href="{{ route('single_translated_article', ['locale'=>app()->getLocale(), 'product' => $article->slug])  }}">{{ $article->title }}</a></h4>
                                                     <ul class="list-inline">
                                                         <li class="author"><i class="fa fa-user"></i> {{$article->author()->name}}</li>
                                                         <li>/</li>
                                                         <li class="comment">
-                                                        <a href="{{ route('single_article', ['product' => $article->slug])  }}">
+                                                        <a href="{{ route('single_translated_article', ['locale'=>app()->getLocale(), 'product' => $article->slug])  }}">
                                                         <span><i class="fa fa-pencil-square-o"></i> {{count($article->comments())}}</span> Comments </a>
                                                         </li>
                                                     </ul>
