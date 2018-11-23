@@ -37,7 +37,7 @@ return [
     | you can specify what default should be used here.
     |
     */
-    'locale' => null,
+    'locale' => 'bg',
 
     /*
     |--------------------------------------------------------------------------
@@ -74,7 +74,7 @@ return [
     | set it to false.
     |
     */
-    'fallback_locale' => 'bg',
+    'fallback_locale' => 'en',
 
     /*
     |--------------------------------------------------------------------------

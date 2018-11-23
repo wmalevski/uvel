@@ -3,7 +3,7 @@
     <div class="container">
         <div class="top row">
         <div class="col-md-6 phone-shopping">
-            <span>PHONE SHOPING (01) 123 456 UJ</span>
+            <span>За поръчки 08786248579</span>
         </div>
         <div class="col-md-18">
             <ul class="text-right">
@@ -14,6 +14,9 @@
                     </li>   --}}
                     @auth
                         Здравейте, {{ Auth::user()->name }}
+                        <li class="login">    
+                            <a href="{{ route('logout') }}" id="customer_register_link">Изход</a>
+                        </li>
                     @endauth
 
                     @guest
@@ -299,7 +302,7 @@
                             </div>
                         </div>
                     </nav>
-                </li>		  
+                {{-- </li>		  
                 <li class="top-search hidden-xs">
                     <div class="header-search">
                         <a href="#">
@@ -315,7 +318,7 @@
                             <button type="submit" class="btn">Търси</button>
                         </form>
                     </div>
-                </li>					
+                </li>					 --}}
                 <li class="umbrella hidden-xs">
                     <div id="umbrella" class="list-inline unmargin">
                         <div class="cart-link">
@@ -325,7 +328,13 @@
                                 <div class="num-items-in-cart">
                                     <span class="icon">
                                         Количка
-                                        <span class="number">1</span>
+                                    <span class="number">
+                                        @if(Auth::check())
+                                            {{ Cart::session(Auth::user()->getId())->getTotalQuantity() }}
+                                        @else 
+                                            0
+                                        @endif
+                                    </span>
                                     </span>
                                 </div>
                             </a>
@@ -358,13 +367,13 @@
                         </div>
                     </div>
                 </li>		  		 
-                <li class="mobile-search visible-xs">
+                {{-- <li class="mobile-search visible-xs">
                     <form id="mobile-search" class="search-form" action="search.html" method="get">
                         <input type="hidden" name="type" value="product">
                         <input type="text" class="" name="q" value="" accesskey="4" autocomplete="off" placeholder="Search something...">
                         <button type="submit" class="search-submit" title="search"><i class="fa fa-search"></i></button>
                     </form>
-                </li>		  
+                </li>		   --}}
             </ul>
         </div>
         <!--End Navigation-->

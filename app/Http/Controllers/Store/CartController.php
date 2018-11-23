@@ -114,6 +114,13 @@ class CartController extends BaseController
         $stores = Store::where([
             ['id' , '!=', 1]
         ])->get();
+
+        if(Auth::check()){
+            $countitems = Cart::session($session_id)->getTotalQuantity();
+      
+          }else{
+              $countitems = 0;
+          }
         
         $items = [];
         
@@ -122,7 +129,7 @@ class CartController extends BaseController
             $items[] = $item;
         });
 
-        return \View::make('store.pages.cart', array('items' => $items, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'materialTypes' => $materialTypes, 'productothertypes' => $productothertypes, 'stores' => $stores));
+        return \View::make('store.pages.cart', array('items' => $items, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'materialTypes' => $materialTypes, 'productothertypes' => $productothertypes, 'stores' => $stores, 'countitems' => $countitems));
     }
 
     public function addItem($item, $quantity = 1){

@@ -142,7 +142,7 @@
 													</div>                        
 													<ul id="tabs_detail" class="tabs-panel-detail hidden-xs hidden-sm">
 														<li class="first">
-															<h5><a href="#pop-one" class="fancybox">Информация за обяна</a></h5>
+															<h5><a href="#pop-one" class="fancybox">Информация за обмяна</a></h5>
 														</li>
 														<li>
 															<h5><a href="#pop-two" class="fancybox">Информация за доставка</a></h5>

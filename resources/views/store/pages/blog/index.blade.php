@@ -24,6 +24,7 @@
 									<h1 id="page-title">Блог</h1>
 								</div>
 								<div class="col-md-12">
+									{{dd(config('translatable.locales'))}}
 								@foreach(config('translatable.locales') as $locale => $language)
 									<a href="{{route('translated_articles', ['locale'=>$locale])}}">
 										<span>

@@ -371,6 +371,7 @@ Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
     Route::post('/register', 'UserController@store')->name('registerform');
     Route::get('/login', 'UserController@login')->name('login');
     Route::post('/login', 'UserController@userlogin')->name('userlogin');
+    Route::get('/logout', 'UserController@logout')->name('logout');
 
     Route::get('/custom_order', 'CustomOrderController@index')->name('custom_order');
     Route::post('/custom_order', 'CustomOrderController@store')->name('submit_custom_order');

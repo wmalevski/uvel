@@ -155,7 +155,7 @@ class UserController extends BaseController
     public function logout()
     {
         Auth::logout();
-        return Redirect::to('login');
+        return Redirect::route('store');
     }
-
+ВВВ
 }

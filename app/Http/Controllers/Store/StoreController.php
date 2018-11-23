@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Store;
+use Auth;
+use Cart;
 use App\Product;
 use App\Jewel;
 use App\Material;
@@ -9,7 +11,7 @@ use App\ProductOtherType;
 use App\Slider;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Blog;
+use App\Blog;;
 
 class StoreController extends BaseController
 {

@@ -92,7 +92,7 @@
         <div class="footer-content footer-content-bottom clearfix">
             <div class="container">
                 <div class="copyright col-md-12">
-                    © 2015 <a href="./about-us.html">Jewelry - HTML template</a>. All Rights Reserved.
+                    © 2018 <a href="./about-us.html">Uvel</a>. Всички права запазени!
                 </div>
                 <div id="widget-payment" class="col-md-12">
                     <ul id="payments" class="list-inline animated">
