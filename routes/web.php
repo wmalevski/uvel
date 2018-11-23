@@ -392,8 +392,9 @@ Route::group(['prefix' => 'online',  'namespace' => 'Store', 'middleware' => 'au
     Route::post('/cart', 'UserPaymentController@store')->name('pay_order');
     Route::get('/cart/addItem/{item}/{quantity}', 'CartController@addItem');
     Route::post('/cart/pay/paypal', 'PayController@pay')->name('paypal_pay');
-    Route::get('/cart/pay/status', 'PayController@getPaymentStatus')->name('paypal_status');;
-    
+    Route::get('/cart/pay/status', 'PayController@getPaymentStatus')->name('paypal_status');
+    Route::get('/cart/addDiscount/{barcode}', 'PayController@setDiscount')->name('add_discount');
+
     Route::get('/account', 'AccountController@index')->name('user_account');
 
     Route::get('/wishlist', 'WishListController@index')->name('wishlist');

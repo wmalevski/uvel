@@ -68,11 +68,11 @@
                                                             {{$article->excerpt}}
 														</div>
 														<ul class="post list-inline">
-															<li class="author">Jin Alkaid</li>
+															<li class="author">{{ $article->author()->name }}</li>
 															<li>/</li>
 															<li class="comment">
 															<a href="/#">
-															<span>2</span> Comment(s) </a>
+															<span>{{count($article->comments())}}</span> Коментара(s) </a>
 															</li>
 															<li class="post-action">
 															<a class="btn btn-1 enable hidden-xs" href="{{ route('single_translated_article', ['locale'=>$lng, 'product' => $article->slug]) }}" title="Add your thoughts">Post Comment</a>

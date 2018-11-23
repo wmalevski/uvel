@@ -96,19 +96,19 @@
 											<tfoot>
 											<tr class="bottom-summary">
 												<td>
-													&nbsp;
+													<td class="subtotal title-1">
+														{{ $subtotal }} лв
+													</td>
 												</td>
 												<td>
-													&nbsp;
-												</td>
-												<td class="update-quantities">
 													@if(count($items))
 														<button type="submit" id="update-cart" class="btn btn-2" name="update">Обнови количество</button>
-														
+													
 													@endif
 												</td>
+
 												<td class="subtotal title-1">
-													{{ $subtotal }} лв
+													{{ $total }} лв
 												</td>
 												<td>
 													&nbsp;
