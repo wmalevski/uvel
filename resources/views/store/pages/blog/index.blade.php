@@ -24,15 +24,14 @@
 									<h1 id="page-title">Блог</h1>
 								</div>
 								<div class="col-md-12">
-									{{dd(config('translatable.locales'))}}
-								@foreach(config('translatable.locales') as $locale => $language)
-									<a href="{{route('translated_articles', ['locale'=>$locale])}}">
-										<span>
-											{{$language}}
-											@if($loop->last) @else | @endif
-										</span>
-									</a>
-								@endforeach
+									@foreach(config('translatable.locales') as $locale => $language)
+										<a href="{{route('translated_articles', ['locale'=>$locale])}}">
+											<span>
+												{{$language}}
+												@if($loop->last) @else | @endif
+											</span>
+										</a>
+									@endforeach
 								</div>
 								<div id="col-main" class="blog blog-page col-sm-24 col-md-24 blog-full-width blog-3-col ">
 									<div class="blog-content-wrapper">
