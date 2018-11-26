@@ -183,7 +183,7 @@
                         <div class="form-group col-md-12">
                             <label for="grossWeight">Описание:</label>
                             <div class="input-group"> 
-                                <textarea class="form-control" name="notes" id="notes" placeholder="Описание на поръчката"></textarea>
+                                <textarea class="form-control" name="content" id="notes" placeholder="Описание на поръчката"></textarea>
                             </div>
                         </div>
                     </div>
@@ -194,7 +194,7 @@
                         <div class="form-group col-md-4">
                             <label for="grossWeight">Материал:</label>
                             <div class="input-group"> 
-                                <input type="text" class="form-control" name="material" id="material" placeholder="Въведете материал:">
+                                <input type="text" class="form-control" name="given_material_id" id="material" placeholder="Въведете материал:">
                             </div>
                         </div>
 
@@ -208,7 +208,7 @@
                         <div class="form-group col-md-4">
                             <label for="grossWeight">Стойност:</label>
                             <div class="input-group"> 
-                                <input type="number" class="form-control" name="quantity" id="quantity" value="0">
+                                <input type="number" class="form-control" name="calculated_price" id="calculated_price" value="0">
                             </div>
                         </div>
                     </div>
@@ -217,14 +217,14 @@
                         <div class="form-group col-md-6">
                             <label for="grossWeight">Касова група:</label>
                             <div class="input-group"> 
-                                <input type="text" class="form-control" name="group" id="material" placeholder="Изберете касова група:">
+                                <input type="text" class="form-control" name="safe_group" id="safe_group" placeholder="Изберете касова група:">
                             </div>
                         </div>
 
                         <div class="form-group col-md-6">
                             <label for="grossWeight">Капаро:</label>
                             <div class="input-group"> 
-                                <input type="number" class="form-control" name="kaparo" id="quantity" placeholder="0">
+                                <input type="number" class="form-control" name="deposit" id="deposit" placeholder="0">
                             </div>
                         </div>
                     </div>
