@@ -123,9 +123,6 @@ class PayController extends Controller
                 $card = DiscountCode::where('barcode', $barcode)->first();
                 $setDiscount = $card->discount;
             }
-        }else{
-            $result = false;
-            $setDiscount = $barcode;
         }
         
 

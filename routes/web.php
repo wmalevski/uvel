@@ -120,7 +120,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/orders/custom/{order}', 'CustomOrderController@edit');
 
-    Route::get('/orders/model', 'ModelOrderController@index')->name('model_orders');
+    Route::get('/orders/model', 'ModelOrderController@index')->name('model_orders_web');
     
     Route::get('/orders/model/{order}', 'ModelOrderController@edit');
 
