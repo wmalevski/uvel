@@ -165,6 +165,8 @@ class PayController extends Controller
             $dds = round($subTotal - ($subTotal/1.2), 2);
 
             return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon, 'dds' => $dds));  
-        } 
+        } else{
+            return Response::json(array('success' => true));  
+        }
     }
 }
