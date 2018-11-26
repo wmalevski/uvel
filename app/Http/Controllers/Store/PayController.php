@@ -166,7 +166,7 @@ class PayController extends Controller
 
             return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon, 'dds' => $dds));  
         } else{
-            return Response::json(array('success' => true));  
+            return Response::json(array('success' => false));  
         }
     }
 }
