@@ -163,7 +163,7 @@ aria-hidden="true">
                                                                 <span class="spr-badge" id="spr_badge_12932382113" data-rating="{{$product->getProductAvgRating($product)}}">
 																	@if(count($product->reviews) > 0)
 																		<span class="spr-starrating spr-badge-starrating">
-																			{{$product->listSimilarProductAvgRatingStars($product)}}
+																			{{$product->listProductAvgRatingStars($product)}}
 																		</span>
 																	@else
 																		<span class="spr-badge-caption" style="display:block;">No reviews</span>
