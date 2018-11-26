@@ -42,6 +42,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/stones/contours', 'StoneContourController@index')->name('contours');
     Route::post('/stones/contours', 'StoneContourController@store');
 
+    Route::get('/orders', 'OrderController@index')->name('orders');
+
     //Route::get('/users/substitution/{user}', 'UserSubstitutionController@show');
 
     Route::get('/users/substitutions', 'UserSubstitutionController@index')->name('substitutions');
