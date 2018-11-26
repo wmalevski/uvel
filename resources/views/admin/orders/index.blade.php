@@ -188,6 +188,49 @@
                         </div>
                     </div>
 
+                    <strong>Даден материал:</strong><br/>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="grossWeight">Материал:</label>
+                            <div class="input-group"> 
+                                <input type="text" class="form-control" name="material" id="material" placeholder="Въведете материал:">
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="grossWeight">Количество:</label>
+                            <div class="input-group"> 
+                                <input type="number" class="form-control" name="quantity" id="quantity" value="1">
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="grossWeight">Стойност:</label>
+                            <div class="input-group"> 
+                                <input type="number" class="form-control" name="quantity" id="quantity" value="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="grossWeight">Касова група:</label>
+                            <div class="input-group"> 
+                                <input type="text" class="form-control" name="group" id="material" placeholder="Изберете касова група:">
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="grossWeight">Капаро:</label>
+                            <div class="input-group"> 
+                                <input type="number" class="form-control" name="kaparo" id="quantity" placeholder="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="action--state_button add-btn-modal btn btn-primary">Ръчно пускане на фискален бон</button>
+
                     {{-- <div class="drop-area" name="add">
                         <input type="file" name="images" class="drop-area-input" id="fileElem-add" multiple accept="image/*" >
                         <label class="button" for="fileElem-add">Select some files</label>
@@ -199,7 +242,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" id="add" data-state="add_state" class="action--state_button add-btn-modal btn btn-primary">Добави</button>
+                    <button type="submit" id="add" data-state="add_state" class="action--state_button add-btn-modal btn btn-primary">Създай поръчка</button>
                 </div>
             </form>
         </div>
