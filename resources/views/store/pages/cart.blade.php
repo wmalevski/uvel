@@ -147,6 +147,12 @@
 									<div class="form-row row">
 										<label>Карта за отстъпка</label>
 										<hr>
+										@foreach($conditions as $condition)
+                                        
+											<span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">{{ $condition->getValue() }}</span> 
+											<span data-url="/ajax/removeDiscount/{{ $condition->getName() }}" data-sell-removeDiscount class="discount-remove badge bgc-red-50 c-red-700 p-10 lh-0 tt-c badge-pill"><i class="c-brown-500 ti-close"></i></span> <br/>
+											
+										@endforeach
 										<div class="form-group col-xs-24 col-sm-12">
 											<label>Въведете номер на карта:</label>
 											<div class="input-group">

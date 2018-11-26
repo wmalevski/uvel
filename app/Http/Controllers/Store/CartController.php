@@ -110,6 +110,7 @@ class CartController extends BaseController
         $subtotal = round(Cart::session($session_id)->getSubTotal(),2);
         $quantity = Cart::session($session_id)->getTotalQuantity();
         $materialTypes = MaterialType::all();
+        $cartConditions = Cart::session($session_id)->getConditions();
         $productothertypes = ProductOtherType::all();
         $stores = Store::where([
             ['id' , '!=', 1]
@@ -129,7 +130,7 @@ class CartController extends BaseController
             $items[] = $item;
         });
 
-        return \View::make('store.pages.cart', array('items' => $items, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'materialTypes' => $materialTypes, 'productothertypes' => $productothertypes, 'stores' => $stores, 'countitems' => $countitems));
+        return \View::make('store.pages.cart', array('items' => $items, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'materialTypes' => $materialTypes, 'productothertypes' => $productothertypes, 'stores' => $stores, 'countitems' => $countitems, 'conditions' => $cartConditions));
     }
 
     public function addItem($item, $quantity = 1){
