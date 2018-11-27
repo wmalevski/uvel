@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\DailyReport;
+use App\Payment;
 use App\Dashboard;
 use App\UserSubstitution;
 use App\DiscountCode;
@@ -101,6 +104,16 @@ class DashboardController extends Controller
         $condition = Cart::getConditions('discount');
         $priceCon = 0;
 
+        $allSold = Payment::where('method', 'cash')->whereDate('created_at', Carbon::today())->sum('given');
+        $todayReport = DailyReport::whereDate('created_at', Carbon::today())->get();
+        
+        if(count($todayReport)){
+            $todayReport = 'true';
+        }else{
+            $todayReport = 'false';
+        }
+        //To add kaparo from the orders when branches are merged
+
         if(count($cartConditions) > 0){
             foreach(Cart::session(Auth::user()->getId())->getConditions() as $cc){
                 $priceCon += $cc->getCalculatedValue($subTotal);
@@ -133,7 +146,7 @@ class DashboardController extends Controller
 
         $dds = round($subTotal - ($subTotal/1.2), 2);
 
-        return \View::make('admin/selling/index', array('items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'priceCon' => $priceCon, 'dds' => $dds));
+        return \View::make('admin/selling/index', array('items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'priceCon' => $priceCon, 'dds' => $dds, 'allSold' => $allSold, 'todayReport' => $todayReport));
     }
 
     /**

@@ -146,7 +146,12 @@ aria-hidden="true">
 <div class="row">
     <div class="col-md-12">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
-            <h4 class="c-grey-900 mB-20">Продажби <a href="{{ route('clear_cart') }}" class="btn btn-primary">Изчисти продажбата</a></h4>
+            <h4 class="c-grey-900 mB-20">Продажби 
+                <a href="{{ route('clear_cart') }}" class="btn btn-primary">Изчисти продажбата</a>
+                @if($todayReport == 'false')
+                    <a href="#" class="btn btn-primary">Пусни дневен отчет</a>
+                @endif
+            </h4>
 
             <form id="selling-form" data-scan="{{ route('sellScan') }}">
                 <div class="row gap-20 masonry pos-r">

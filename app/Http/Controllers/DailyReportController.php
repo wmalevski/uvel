@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\DailyReport;
+use App\Payment;
 use Illuminate\Http\Request;
 
 class DailyReportController extends Controller
@@ -35,7 +37,19 @@ class DailyReportController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $allSold = Payment::where([
+            ['method', '=', 'cash']
+        ])->whereDate('created_at', Carbon::today())->sum('given');
+
+        //$todayReport = DailyReport::whereDate('created_at', Carbon::today())->get();
+
+        $report = new DailyReport();
+        $report->safe_amount = $request->safe_amount;
+        $report->calculated_price = $allSold;
+        $report->store_id = Auth::user()->getStore();
+        $report->user_id = Auth::user()->getId();
+        $report->save();
+        
     }
 
     /**
