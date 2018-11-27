@@ -162,6 +162,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/expensetypes', 'ExpenseTypeController@index');
 
     Route::get('/dailyreports', 'DailyReportController@index');
+
+    Route::get('/safe', 'SafeController@index');
 });
 
 Route::group(['prefix' => 'ajax'], function() {
