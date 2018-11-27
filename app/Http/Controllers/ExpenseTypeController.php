@@ -14,7 +14,9 @@ class ExpenseTypeController extends Controller
      */
     public function index()
     {
-        //
+        $exprenseTypes  = ExpenseType::all();
+        
+        return view('admin.expense_types.index', compact('exprenseTypes'));
     }
 
     /**

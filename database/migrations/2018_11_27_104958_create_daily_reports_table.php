@@ -27,7 +27,7 @@ class CreateDailyReportsTable extends Migration
      * Reverse the migrations.
      *
      * @return void
-     */
+     */ 
     public function down()
     {
         Schema::dropIfExists('daily_reports');

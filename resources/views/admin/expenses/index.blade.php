@@ -19,7 +19,11 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="1">Основание: </label>
-                            <input type="text" class="form-control" id="1" name="type_id" placeholder="Основание:">
+                            <select id="pay-currency" name="type_id" class="form-control" data-calculatePayment-currency>
+                                @foreach($expenses_types as $type)
+                                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
@@ -33,16 +37,18 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="1">Валута: </label>
-                            <input type="number" class="form-control" id="1" name="currency_id" placeholder="Валута:">
+                            <select id="pay-currency" name="currency_id" class="form-control" data-calculatePayment-currency>
+                                @foreach($currencies as $currency)
+                                    <option value="{{ $currency->id }}" data-default="{{$currency->default }}" data-currency="{{ $currency->currency }}" @if($currency->default == "yes") selected @endif >{{ $currency->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="1">Пояснение: </label>
-                            <textarea class="form-control" placeholder="Кратко пояснение">
-
-                            </textarea>
+                            <textarea class="form-control" placeholder="Кратко пояснение"></textarea>
                         </div>
                     </div>
                 </div>
@@ -75,13 +81,14 @@ aria-hidden="true">
           <tr>
             <th scope="col">Основание</th> 
             <th scope="col">Сума</th> 
+            <th scope="col">Магазин </th> 
             <th scope="col">Валута</th> 
             <th scope="col">Пояснение</th> 
             <th scope="col">Действия</th>
           </tr>
         </thead>
         <tbody>
-            @foreach($expenses as $type)
+            @foreach($expenses as $expense)
                 @include('admin.expenses.table')
             @endforeach
         </tbody>

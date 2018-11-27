@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Expenses;
+use App\Expense;
+use App\ExpenseType;
+use App\Currency;
+
 use Illuminate\Http\Request;
 
-class ExpensesController extends Controller
+class ExpenseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +17,11 @@ class ExpensesController extends Controller
      */
     public function index()
     {
-        //
+        $expenses = Expense::all();
+        $expenses_types = ExpenseType::all();
+        $currencies = Currency::all();
+
+        return view('admin.expenses.index', compact('expenses', 'expenses_types', 'currencies'));
     }
 
     /**
@@ -44,7 +51,7 @@ class ExpensesController extends Controller
      * @param  \App\Expenses  $expenses
      * @return \Illuminate\Http\Response
      */
-    public function show(Expenses $expenses)
+    public function show(Expense $expenses)
     {
         //
     }
@@ -52,10 +59,10 @@ class ExpensesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Expenses  $expenses
+     * @param  \App\Expense  $expenses
      * @return \Illuminate\Http\Response
      */
-    public function edit(Expenses $expenses)
+    public function edit(Expense $expenses)
     {
         //
     }
@@ -67,7 +74,7 @@ class ExpensesController extends Controller
      * @param  \App\Expenses  $expenses
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Expenses $expenses)
+    public function update(Request $request, Expense $expenses)
     {
         //
     }
@@ -78,7 +85,7 @@ class ExpensesController extends Controller
      * @param  \App\Expenses  $expenses
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Expenses $expenses)
+    public function destroy(Expense $expenses)
     {
         //
     }
