@@ -15,6 +15,10 @@ class CreateDailyReportsTable extends Migration
     {
         Schema::create('daily_reports', function (Blueprint $table) {
             $table->increments('id');
+            $table->float('safe_amount');
+            $table->float('calculated_price');
+            $table->integer('store_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->timestamps();
         });
     }
