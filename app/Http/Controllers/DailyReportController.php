@@ -39,10 +39,9 @@ class DailyReportController extends Controller
     public function store(Request $request)
     {
         $allSold = Payment::where([
-            ['method', '=', 'cash']
+            ['method', '=', 'cash'],
+            ['store', '=', Auth::user()->getStore()]
         ])->whereDate('created_at', Carbon::today())->sum('given');
-
-        //$todayReport = DailyReport::whereDate('created_at', Carbon::today())->get();
 
         $report = new DailyReport();
         $report->safe_amount = $request->safe_amount;
