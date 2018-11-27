@@ -10,6 +10,7 @@ use App\History;
 use App\Repair;
 use App\Product;
 use App\PaymentDiscount;
+use App\ProductOther;
 use Response;
 use Auth;
 use Cart;
@@ -139,11 +140,14 @@ class PaymentController extends Controller
                 $selling->payment_id = $payment->id;
 
                 if($item['attributes']->type == 'repair'){
-                    $selling->repair_id = $item->id;
+                    $repair = Repair::where('barcode', $item->id)->first();
+                    $selling->repair_id = $repair->id;
                 } elseif($item['attributes']->type == 'product'){
-                    $selling->product_id = $item->id;
+                    $product = Product::where('barcode', $item->id)->first();
+                    $selling->product_id = $product->id;
                 } elseif($item['attributes']->type == 'box'){
-                    $selling->product_other_id = $item->id;
+                    $box = ProductOther::where('barcode', $item->id)->first();
+                    $selling->product_other_id = $box->id;
                 }
 
                 $selling->save();
@@ -152,21 +156,26 @@ class PaymentController extends Controller
             foreach(Cart::session($userId)->getContent() as $item)
             {
                 if($item['attributes']->type == 'repair'){
-                    $repair = Repair::find($item->id);
+                    $repair = Repair::where('barcode', $item->id)->first();
 
                     if($repair){
                         $repair->status = 'returned';
                         $repair->save();
                     }
                 } else if($item['attributes']->type == 'product'){
-                    $product = Product::find($item->id);
+                    $product = Product::where('barcode', $item->id)->first();
 
                     if($product){
                         $product->status = 'sold';
                         $product->save();
                     }
                 } else if($item['attributes']->type == 'box'){
+                    $productOther = ProductOther::where('barcode', $item->id)->first();
 
+                    if($productOther){
+                        $productOther->quantity = $productOther->quantity - $item->quantity;
+                        $productOther->save();
+                    }
                 }
             };
 
