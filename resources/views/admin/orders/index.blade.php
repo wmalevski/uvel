@@ -212,6 +212,7 @@
                             </div>
                         </div>
                     </div>
+                    <button class="action--state_button add-btn-modal btn btn-primary">Добави друг</button><br/>
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
