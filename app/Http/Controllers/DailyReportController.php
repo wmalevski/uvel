@@ -51,7 +51,13 @@ class DailyReportController extends Controller
         $report->user_id = Auth::user()->getId();
         $report->save();
 
-        return Response::json(array('success' => 'Успешно направихте дневен отчет!'));
+        if($allSold < $request->safe_amount){
+            return Response::json(array('success' => 'Въведената сума не съвпата с тази в системата! Моля опитайте пак или се свържете с администратор!'));
+        }else if($allSold == $request->save_amount){
+            return Response::json(array('success' => 'Успешно направихте дневен отчет!'));
+        }else{
+            return Response::json(array('success' => 'Въведената сума не съвпата с тази в системата! Моля опитайте пак или се свържете с администратор!'));
+        }
     }
 
     /**
