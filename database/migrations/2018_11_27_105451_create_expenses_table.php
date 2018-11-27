@@ -18,6 +18,8 @@ class CreateExpensesTable extends Migration
             $table->integer('type_id')->unsigned();
             $table->float('amount');
             $table->integer('currency_id')->unsigned();
+            $table->integer('user_id')->unsigned();
+            $table->integer('store_id')->unsigned();
             $table->text('additional_info');
             $table->timestamps();
         });
