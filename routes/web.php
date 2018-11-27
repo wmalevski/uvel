@@ -156,9 +156,25 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/repairs/return/{repair}', 'RepairController@return');
     Route::get('/repairs/edit/{repair}', 'RepairController@edit');
+
+    Route::get('/expenses', 'ExpenseController@index');
+
+    Route::get('/expensetypes', 'ExpenseTypeController@index');
+
+    Route::get('/dailyreports', 'DailyReportController@index');
 });
 
 Route::group(['prefix' => 'ajax'], function() {
+
+    Route::post('/expenses', 'ExpenseController@store');
+    Route::put('/expenses/{expense}', 'ExpenseController@update');
+    Route::post('/expenses/delete/{expense}', 'ExpenseController@destroy');
+
+    Route::post('/dailyreports', 'DailyReportController@store');
+
+    Route::post('/expensetypes', 'ExpenseController@store');
+    Route::put('/expensetypes/{expensetype}', 'ExpenseController@update');
+    Route::post('/expensetypes/delete/{expensetype}', 'ExpenseController@destroy');
 
     Route::post('/stores', 'StoreController@store');
     Route::put('/stores/{store}', 'StoreController@update');
