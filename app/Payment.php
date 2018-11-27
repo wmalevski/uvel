@@ -15,7 +15,8 @@ class Payment extends Model
         'reciept',
         'ticket',
         'price',
-        'given'
+        'given',
+        'store_id'
     ];
 
     protected $table = 'payments';

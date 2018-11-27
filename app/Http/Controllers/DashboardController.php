@@ -104,8 +104,12 @@ class DashboardController extends Controller
         $condition = Cart::getConditions('discount');
         $priceCon = 0;
 
-        $allSold = Payment::where('method', 'cash')->whereDate('created_at', Carbon::today())->sum('given');
-        $todayReport = DailyReport::whereDate('created_at', Carbon::today())->get();
+        $allSold = Payment::where([
+            ['method', '=', 'cash'],
+            ['store_id', '=', Auth::user()->getStore()]
+        ])->whereDate('created_at', Carbon::today())->sum('given');
+            
+        $todayReport = DailyReport::where('store_id', Auth::user()->getStore())->whereDate('created_at', Carbon::today())->get();
         
         if(count($todayReport)){
             $todayReport = 'true';
