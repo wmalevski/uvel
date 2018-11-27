@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\DailyReport;
 use App\Payment;
 use Illuminate\Http\Request;
+use Response;
 
 class DailyReportController extends Controller
 {
@@ -49,7 +50,8 @@ class DailyReportController extends Controller
         $report->store_id = Auth::user()->getStore();
         $report->user_id = Auth::user()->getId();
         $report->save();
-        
+
+        return Response::json(array('success' => 'Успешно направихте дневен отчет!'));
     }
 
     /**
