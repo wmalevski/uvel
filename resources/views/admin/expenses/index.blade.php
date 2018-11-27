@@ -6,27 +6,43 @@ aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Добавяне на вид разход</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Добавяне на разход</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="expensetypes" data-type="add" action="expensetypes" autocomplete="off">
+            <form method="POST" name="expensetypes" data-type="add" action="expense" autocomplete="off">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>
                     {{ csrf_field() }}
                     <div class="form-row">
                         <div class="form-group col-md-12">
-                            <label for="1">Име: </label>
-                            <input type="text" class="form-control" id="1" name="name" placeholder="Име:">
+                            <label for="1">Основание: </label>
+                            <input type="text" class="form-control" id="1" name="type_id" placeholder="Основание:">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group col-md-12">
-                            <label for="1">Име: </label>
-                            <input type="number" class="form-control" id="1" name="name" placeholder="Име:">
+                            <label for="1">Сума: </label>
+                            <input type="number" class="form-control" id="1" name="amount" placeholder="Сума:">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="1">Валута: </label>
+                            <input type="number" class="form-control" id="1" name="currency_id" placeholder="Валута:">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="1">Пояснение: </label>
+                            <textarea class="form-control" placeholder="Кратко пояснение">
+
+                            </textarea>
                         </div>
                     </div>
                 </div>
@@ -40,7 +56,7 @@ aria-hidden="true">
     </div>
 </div>
 
-<div class="modal fade edit--modal_holder" id="editExprenseType" role="dialog" aria-labelledby="editExprenseType"
+<div class="modal fade edit--modal_holder" id="editExprense" role="dialog" aria-labelledby="editExprense"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
