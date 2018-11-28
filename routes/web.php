@@ -162,6 +162,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/expensetypes', 'ExpenseTypeController@index');
 
     Route::get('/dailyreports', 'DailyReportController@index');
+    Route::get('/dailyreports/{report}', 'DailyReportController@edit');
 
     Route::get('/safe', 'SafeController@index');
 });

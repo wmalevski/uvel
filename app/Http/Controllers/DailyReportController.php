@@ -17,7 +17,8 @@ class DailyReportController extends Controller
      */
     public function index()
     {
-        $dailyReports = DailyReport::whereDate('created_at', Carbon::today())->get();
+        // $dailyReports = DailyReport::whereDate('created_at', Carbon::today())->get();
+        $dailyReports = DailyReport::all();
         
         return view('admin.daily_reports.index', compact('dailyReports'));
     }
@@ -92,7 +93,20 @@ class DailyReportController extends Controller
      */
     public function update(Request $request, DailyReport $report)
     {
-        //
+        $validator = Validator::make( $request->all(), [
+            'safe_amount' => 'required',
+            'calculated_price' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
+        $report->safe_amount = $request->safe_amount;
+        $report->calculated_price = $request->calculated_price;
+        $report->save();
+
+        return Response::json(array('ID' => $jewel->id, 'table' => View::make('admin/daily_reports/table',array('report'=>$report))->render()));
     }
 
     /**
