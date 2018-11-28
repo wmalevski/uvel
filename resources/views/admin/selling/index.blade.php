@@ -32,6 +32,39 @@ aria-hidden="true">
 </div>
 
 
+<div class="modal fade" id="dailyReport"   role="dialog" aria-labelledby="dailyReportLabel"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Пускане на дневен отчет</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" name="dailyReport" data-type="add" action="dailyreports" autocomplete="off">
+                <div class="modal-body">
+                    <div class="info-cont">
+                    </div>
+                    {{ csrf_field() }}
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="1">Пари в касата: </label>
+                            <input type="number" class="form-control" id="1" name="name" placeholder="Въведете колко пари има в касата:">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+                    <button type="submit" data-state="add_state" class="action--state_button add-btn-modal btn btn-primary">Пусни отчет</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <div class="modal fade payment-modal" id="paymentModal" role="dialog" aria-labelledby="paymentModal"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -149,7 +182,8 @@ aria-hidden="true">
             <h4 class="c-grey-900 mB-20">Продажби 
                 <a href="{{ route('clear_cart') }}" class="btn btn-primary">Изчисти продажбата</a>
                 @if($todayReport == 'false')
-                    <a href="#" class="btn btn-primary">Пусни дневен отчет</a>
+                    <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#dailyReport" data-form-type="add" data-form="dailyReport">Пусни дневен отчет</button>
+                    {{-- {{$allSold}} --}}
                 @endif
             </h4>
 
