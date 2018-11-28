@@ -17,7 +17,9 @@ class DailyReportController extends Controller
      */
     public function index()
     {
-        //
+        $dailyReports = DailyReport::whereDate('created_at', Carbon::today())->get();
+        
+        return view('admin.daily_reports.index', compact('dailyReports'));
     }
 
     /**
