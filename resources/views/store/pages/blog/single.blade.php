@@ -9,11 +9,8 @@
                 <div itemprop="breadcrumb" class="container">
                     <div class="row">
                         <div class="col-md-24">
-                            <a href="./index.html" class="homepage-link" title="Back to the frontpage">Начало</a>							
-                            <span>/</span>
-                            <a href="./blog.html" title="">Блог</a>
-                            <span>/</span>
-                            <span class="page-title">{{ $article->title }}</span>
+                                {{-- {{ Breadcrumbs::render('single_translated_article', $article) }} --}}
+                            {{ Breadcrumbs::render('web_blog', app()->getLocale(), $article) }}
                         </div>
                     </div>
                 </div>

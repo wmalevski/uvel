@@ -11,6 +11,11 @@ Breadcrumbs::register('web_blog', function ($breadcrumbs) {
     $breadcrumbs->push('Блог', route('translated_articles', ['locale', app()->getLocale()]));
 });
 
+Breadcrumbs::register('single_translated_article', function ($breadcrumbs, $article) {
+    $breadcrumbs->parent('web_blog');
+    $breadcrumbs->push($article->name, route('single_translated_article', ['locale', app()->getLocale()]));
+});
+
 Breadcrumbs::register('contactus', function ($breadcrumbs) {
     $breadcrumbs->parent('store');
     $breadcrumbs->push('Контакти', route('contactus'));

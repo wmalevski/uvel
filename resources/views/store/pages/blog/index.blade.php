@@ -10,9 +10,6 @@
 							<div class="row">
 								<div class="col-md-24">
 									{{ Breadcrumbs::render('web_blog') }}
-									{{-- <a href="./index.html" class="homepage-link" title="Back to the frontpage">Home</a>								
-									<span>/</span>
-									<span class="page-title">Блог</span> --}}
 								</div>
 							</div>
 						</div>
