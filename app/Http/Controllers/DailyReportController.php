@@ -67,7 +67,7 @@ class DailyReportController extends Controller
      * @param  \App\DailyReport  $dailyReport
      * @return \Illuminate\Http\Response
      */
-    public function show(DailyReport $dailyReport)
+    public function show(DailyReport $report)
     {
         //
     }
@@ -78,9 +78,9 @@ class DailyReportController extends Controller
      * @param  \App\DailyReport  $dailyReport
      * @return \Illuminate\Http\Response
      */
-    public function edit(DailyReport $dailyReport)
+    public function edit(DailyReport $report)
     {
-        //
+        return \View::make('admin/daily_reports/edit',array('report'=>$report));
     }
 
     /**
@@ -90,7 +90,7 @@ class DailyReportController extends Controller
      * @param  \App\DailyReport  $dailyReport
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DailyReport $dailyReport)
+    public function update(Request $request, DailyReport $report)
     {
         //
     }
@@ -101,8 +101,12 @@ class DailyReportController extends Controller
      * @param  \App\DailyReport  $dailyReport
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DailyReport $dailyReport)
+    public function destroy(DailyReport $report)
     {
-        //
+        if($report){
+            
+            $report->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }
