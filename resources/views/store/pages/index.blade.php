@@ -254,7 +254,7 @@
                                                         <li>/</li>
                                                         <li class="comment">
                                                         <a href="{{ route('single_translated_article', ['locale'=>app()->getLocale(), 'product' => $article->slug])  }}">
-                                                        <span><i class="fa fa-pencil-square-o"></i> {{count($article->comments())}}</span> Comments </a>
+                                                        <span><i class="fa fa-pencil-square-o"></i> {{count($article->comments())}}</span> @if(count($article->comments()) == 1) Коментар @else Коментарa @endif </a>
                                                         </li>
                                                     </ul>
                                                     <div class="intro">

@@ -24,6 +24,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/blog', 'BlogController@index')->name('admin_blog');
     Route::get('/blog/{article}', 'BlogController@edit');
+    Route::get('/blog/{article}/comments', 'BlogController@showComments');
     Route::post('/blog', 'BlogController@store');
 
     Route::get('/repairtypes', 'RepairTypeController@index')->name('repair_types');
@@ -343,6 +344,8 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/gallery/delete/{photo}', 'GalleryController@destroy');
 
     Route::post('/reviews/delete/{review}', 'ReviewController@destroy')->name('destroy_review');
+
+    Route::post('/blog/{article}/comments/delete/{comment}', 'BlogCommentController@destroy');
 
 });
 

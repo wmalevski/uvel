@@ -71,11 +71,11 @@
 																<li class="author">{{ $article->author()->name }}</li>
 																<li>/</li>
 																<li class="comment">
-																<a href="/#">
-																<span>{{count($article->comments())}}</span> Коментара(s) </a>
+																<a href="{{ route('single_translated_article', ['locale'=>$lng, 'product' => $article->slug])  }}">
+																<span>{{count($article->comments())}}</span> @if(count($article->comments()) == 1) Коментар @else Коментарa @endif </a>
 																</li>
 																<li class="post-action">
-																<a class="btn btn-1 enable hidden-xs" href="{{ route('single_translated_article', ['locale'=>$lng, 'product' => $article->slug]) }}" title="Add your thoughts">Post Comment</a>
+																<a class="btn btn-1 enable hidden-xs" href="{{ route('single_translated_article', ['locale'=>$lng, 'product' => $article->slug]) }}" title="Add your thoughts">Напиши коментар</a>
 																</li>
 															</ul>
 														</div>
