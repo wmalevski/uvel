@@ -51,10 +51,12 @@ class DailyReportController extends Controller
         $report->save();
 
         if($allSold < $request->safe_amount){
+            return Response::json(['errors' => ['using' => ['Вече имате добавена наличност от този материал, можете да я редактирате..']]], 401);
             return Response::json(array('success' => 'Въведената сума не съвпата с тази в системата! Моля опитайте пак или се свържете с администратор!'));
         }else if($allSold == $request->save_amount){
             return Response::json(array('success' => 'Успешно направихте дневен отчет!'));
         }else{
+            return Response::json(['errors' => ['using' => ['Вече имате добавена наличност от този материал, можете да я редактирате..']]], 401);
             return Response::json(array('success' => 'Въведената сума не съвпата с тази в системата! Моля опитайте пак или се свържете с администратор!'));
         }
     }
