@@ -10,7 +10,7 @@
                     <div class="row">
                         <div class="col-md-24">
                                 {{-- {{ Breadcrumbs::render('single_translated_article', $article) }} --}}
-                            {{ Breadcrumbs::render('web_blog', app()->getLocale(), $article) }}
+                            {{ Breadcrumbs::render('single_translated_article', $article) }}
                         </div>
                     </div>
                 </div>

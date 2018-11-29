@@ -13,7 +13,7 @@ Breadcrumbs::register('web_blog', function ($breadcrumbs) {
 
 Breadcrumbs::register('single_translated_article', function ($breadcrumbs, $article) {
     $breadcrumbs->parent('web_blog');
-    $breadcrumbs->push($article->name, route('single_translated_article', ['locale', app()->getLocale()]));
+    $breadcrumbs->push($article->title, route('single_translated_article', ['locale' => app()->getLocale(), 'article' => $article->id]));
 });
 
 Breadcrumbs::register('contactus', function ($breadcrumbs) {
