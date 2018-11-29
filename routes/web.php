@@ -24,6 +24,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/blog', 'BlogController@index')->name('admin_blog');
     Route::get('/blog/{article}', 'BlogController@edit');
+    Route::get('/blog/{article}/comments', 'BlogController@showComments');
     Route::post('/blog', 'BlogController@store');
 
     Route::get('/repairtypes', 'RepairTypeController@index')->name('repair_types');
@@ -344,6 +345,8 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/reviews/delete/{review}', 'ReviewController@destroy')->name('destroy_review');
 
+    Route::post('/blog/{article}/comments/delete/{comment}', 'BlogCommentController@destroy');
+
 });
 
 /**
@@ -386,6 +389,13 @@ Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
         Route::get('/', 'ProductOtherController@index')->name('productsothers');
         Route::get('/{product}', 'ProductOtherController@show')->name('single_product_other');
     });  
+
+    Route::group(['prefix' => 'models'], function() {
+        Route::get('/', 'ModelController@index')->name('models');
+        Route::get('/{model}', 'ModelController@show')->name('single_model');
+    });  
+    
+    Route::get('/model_orders/', 'ModelOrderController@index')->name('model_orders');
 });
 
 Route::group(['prefix' => 'online',  'namespace' => 'Store', 'middleware' => 'auth'], function() {
@@ -404,13 +414,6 @@ Route::group(['prefix' => 'online',  'namespace' => 'Store', 'middleware' => 'au
 
     Route::get('/settings', 'UserController@edit')->name('user_settings');
     Route::post('/settings', 'UserController@update')->name('user_settings_update');
-
-    Route::group(['prefix' => 'models'], function() {
-        Route::get('/', 'ModelController@index')->name('models');
-        Route::get('/{model}', 'ModelController@show')->name('single_model');
-    });  
-    
-    Route::get('/model_orders/', 'ModelOrderController@index')->name('model_orders');
 
     Route::get('/model_order/{model}', 'ModelOrderController@store')->name('order_model');
 

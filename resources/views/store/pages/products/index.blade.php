@@ -74,7 +74,7 @@ aria-hidden="true">
 																</p>
 																<ul>
 																	@foreach($materials as $material)
-																		<li><a title="Narrow selection to products matching tag Under $100" href="#" data-id="byMaterial[]={{ $material->id }}"><span class="fe-checkbox"></span> {{ $material->name }} ({{ count($material->productsOnline) }})</a></li>
+																		<li><a title="Narrow selection to products matching tag Under $100" href="#" data-id="byMaterial[]={{ $material->id }}"><span class="fe-checkbox"></span> {{ $material->parent->name }} ({{ $material->color }}) ({{ count($material->productsOnline) }})</a></li>
 
 																	@endforeach
 																</ul>

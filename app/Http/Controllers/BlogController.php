@@ -9,6 +9,7 @@ use App\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
+use App\BlogComment;
 
 class BlogController extends Controller
 {
@@ -208,5 +209,12 @@ class BlogController extends Controller
             $blog->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
         }
+    }
+
+    public function showComments(Blog $article)
+    {
+        $comments = $article->comments();
+
+        return view('admin.blog.comments.index', compact('comments'));
     }
 }

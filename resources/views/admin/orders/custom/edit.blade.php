@@ -62,6 +62,15 @@
                     </div>
                 </div>
             </div>
+
+            <div class="uploaded-images-area">
+                @foreach($basephotos as $photo)
+                    <div class='image-wrapper'>
+                        <img src="{{$photo['photo']}}" alt="" class="img-responsive" />
+                    </div>
+                @endforeach 
+            </div>
+
         </div>
     
         <div class="modal-footer">

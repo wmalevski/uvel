@@ -254,7 +254,7 @@
                                                         <li>/</li>
                                                         <li class="comment">
                                                         <a href="{{ route('single_translated_article', ['locale'=>app()->getLocale(), 'product' => $article->slug])  }}">
-                                                        <span><i class="fa fa-pencil-square-o"></i> {{count($article->comments())}}</span> Comments </a>
+                                                        <span><i class="fa fa-pencil-square-o"></i> {{count($article->comments())}}</span> @if(count($article->comments()) == 1) Коментар @else Коментарa @endif </a>
                                                         </li>
                                                     </ul>
                                                     <div class="intro">
@@ -283,7 +283,7 @@
                                                 <div class="element no_full_width not-animated" data-animate="fadeInUp" data-delay="0">
                                                     <ul class="row-container list-unstyled clearfix">
                                                         <li class="row-left">
-                                                        <a href="product/{{ $product['id'] }}" class="container_item">
+                                                        <a href="{{route('single_product', ['product' => $product]) }}" class="container_item">
                                                         <img src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif" class="img-responsive" alt="Curabitur cursus dignis">
                                                        
                                                         </a>

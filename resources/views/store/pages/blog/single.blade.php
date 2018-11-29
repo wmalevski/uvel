@@ -9,11 +9,8 @@
                 <div itemprop="breadcrumb" class="container">
                     <div class="row">
                         <div class="col-md-24">
-                            <a href="./index.html" class="homepage-link" title="Back to the frontpage">Начало</a>							
-                            <span>/</span>
-                            <a href="./blog.html" title="">Блог</a>
-                            <span>/</span>
-                            <span class="page-title">{{ $article->title }}</span>
+                                {{-- {{ Breadcrumbs::render('single_translated_article', $article) }} --}}
+                            {{ Breadcrumbs::render('single_translated_article', $article) }}
                         </div>
                     </div>
                 </div>
@@ -108,7 +105,7 @@
                                     <div class="comment-head clearfix">
                                         <div class="post">
                                             <span class="author">Добавено от <span class="bold">{{ $comment->author()->name }}</span></span>
-                                            <span class="date">на {{ $article->created_at->format('d') }} {{ $article->created_at->format('M') }}, {{ $article->created_at->format('Y') }}</span>
+                                            <span class="date">на {{ $comment->created_at->format('d') }} {{ $comment->created_at->format('M') }}, {{ $comment->created_at->format('Y') }}</span>
                                         </div>
                                         
                                     </div>

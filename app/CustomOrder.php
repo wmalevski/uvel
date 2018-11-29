@@ -20,4 +20,9 @@ class CustomOrder extends Model
 
     protected $table = 'custom_orders';
     protected $dates = ['deleted_at'];
+
+    public function photos()
+    {
+        return $this->hasMany('App\Gallery');
+    }
 }

@@ -262,7 +262,7 @@
 																	</span>
 																	<h3 class="spr-review-header-title">{{$review->title}}</h3>
 																	<span class="spr-review-header-byline">
-																		<strong>{{$review->user->name}}</strong> on <strong>{{$review->created_at}}</strong>
+																		<strong>{{$review->user->name}}</strong> на <strong>{{ $review->created_at->format('d') }} {{ $review->created_at->format('M') }}, {{ $review->created_at->format('Y') }}</strong>
 																	</span>
 																</div>
 																<div class="spr-review-content">
