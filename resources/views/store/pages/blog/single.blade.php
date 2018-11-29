@@ -105,7 +105,7 @@
                                     <div class="comment-head clearfix">
                                         <div class="post">
                                             <span class="author">Добавено от <span class="bold">{{ $comment->author()->name }}</span></span>
-                                            <span class="date">на {{ $article->created_at->format('d') }} {{ $article->created_at->format('M') }}, {{ $article->created_at->format('Y') }}</span>
+                                            <span class="date">на {{ $comment->created_at->format('d') }} {{ $comment->created_at->format('M') }}, {{ $comment->created_at->format('Y') }}</span>
                                         </div>
                                         
                                     </div>

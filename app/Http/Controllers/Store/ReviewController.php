@@ -64,7 +64,7 @@ class ReviewController extends BaseController
         }
         $review->save();
 
-        return Redirect::back()->with('success', 'Съобщението ви беше изпратено успешно');
+        return Redirect::back()->with('success', 'Ревюто ви беше изпратено успешно');
 
     }
 

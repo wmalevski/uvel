@@ -83,13 +83,17 @@
                                         
                                         <ul class="customer dropdown-menu">
                                             <li class="logout">
-                                                <a href="#">Профил</a>
+                                                <a href="{{ route('user_account') }}">Профил</a>
                                             </li>
+                                            <li class="logout">
+                                                <a href="{{ route('logout') }}">Изход</a>
+                                            </li>
+                                            
                                         </ul>
                                         @else
                                         <ul class="customer dropdown-menu">
                                             <li class="logout">
-                                                <a href="#">Вход</a>
+                                                <a href="{{ route('login') }}">Вход</a>
                                             </li>
                                             <li class="account last">
                                                 <a href="{{ route('register') }}">Регистрация</a>
@@ -99,11 +103,13 @@
                                         @endif
                                     </div>
                                     </li>
-                                    <li class="is-mobile-wl">
-                                    <a href="#"><i class="fa fa-heart"></i></a>
-                                    </li>
+                                    @if (Auth::check())
+                                        <li class="is-mobile-wl">
+                                        <a href="{{ route('wishlist') }}"><i class="fa fa-heart"></i></a>
+                                        </li>
+                                    @endif
                                     <li class="is-mobile-cart">
-                                    <a href="#"><i class="fa fa-shopping-cart"></i></a>
+                                    <a href="{{ route('cart') }}"><i class="fa fa-shopping-cart"></i></a>
                                     </li>
                                 </ul>
                             </div>

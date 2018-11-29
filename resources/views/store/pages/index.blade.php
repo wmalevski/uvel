@@ -283,7 +283,7 @@
                                                 <div class="element no_full_width not-animated" data-animate="fadeInUp" data-delay="0">
                                                     <ul class="row-container list-unstyled clearfix">
                                                         <li class="row-left">
-                                                        <a href="product/{{ $product['id'] }}" class="container_item">
+                                                        <a href="{{route('single_product', ['product' => $product]) }}" class="container_item">
                                                         <img src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif" class="img-responsive" alt="Curabitur cursus dignis">
                                                        
                                                         </a>
