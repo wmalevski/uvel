@@ -852,7 +852,7 @@ var uvelStore,
           var newDiscount = 
           '<div class="col-xs-24">' +
           '<span class="discount discount-label">'+label+'</span>' +
-          '<span data-url="/ajax/removeDiscount/'+discountID+'"  class="discount discount-remove">' +
+          '<span data-url="/ajax/removeDiscount/'+discountID+'" class="discount discount-remove">' +
           '<i class="fas fa-times"></i>' +
           '</span>' +
           '</div>';
@@ -993,10 +993,21 @@ var uvelStore,
         dataType: "json",
         data: data,
         success: function(response) {
-          // success function here
+          var message = response.success;
+
+          $self.ajaxReturnMessage(message, 'success');
         },
         error: function(err) {
-          // error function here
+          var errors = JSON.parse(err.responseText).errors,
+          		messages = '';
+
+          for (var key in errors) {
+          	var message = errors[key][0];
+
+          	messages += message + '<br>';
+          }
+
+          $self.ajaxReturnMessage(messages, 'error');
         }
       });
 		}
