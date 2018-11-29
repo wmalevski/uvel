@@ -112,10 +112,22 @@ class CreateForeignKeys extends Migration {
 
 		Schema::table('corporate_partners', function (Blueprint $table) {
 			
+			$table->foreign('user_id')->references('id')->on('users')
+						->onDelete('cascade')
+						->onUpdate('cascade');
+		});
+
+		Schema::table('corporate_partner_materials', function (Blueprint $table) {
+			
+			$table->foreign('corporate_partner_id')->references('id')->on('corporate_partners')
+						->onDelete('cascade')
+						->onUpdate('cascade');
+
 			$table->foreign('material_id')->references('id')->on('materials')
 						->onDelete('cascade')
 						->onUpdate('cascade');
 		});
+
 	}
 
 	public function down()
@@ -186,7 +198,14 @@ class CreateForeignKeys extends Migration {
 		});
 
 		Schema::table('corporate_partners', function(Blueprint $table) {
-			$table->dropForeign('users_material_id_foreign');
+			$table->dropForeign('corporate_partners_user_id_foreign');
+			$table->dropColumn('user_id');
+		});
+		
+		Schema::table('corporate_partner_materials', function(Blueprint $table) {
+			$table->dropForeign('corporate_partner_materials_corporate_partner_id_foreign');
+			$table->dropColumn('corporate_partner_id');
+			$table->dropForeign('corporate_partner_materials_material_id_foreign');
 			$table->dropColumn('material_id');
 		});
 	}
