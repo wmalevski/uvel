@@ -99,10 +99,10 @@ class BlogCommentController extends Controller
      * @param  \App\BlogComment  $blogComment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BlogComment $blogComment)
+    public function destroy(BlogComment $comment)
     {
-        if($blogComment){
-            $blogComment->delete();
+        if($comment){
+            $comment->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
         }
     }

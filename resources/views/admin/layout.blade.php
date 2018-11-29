@@ -786,7 +786,7 @@
                   </a>
                 </li>  --}}
                 <li>
-                  <a href="{{ route('logout') }}"
+                  <a href="{{ route('admin_logout') }}"
                   onclick="event.preventDefault();
                            document.getElementById('logout-form').submit();" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
                     <i class="ti-power-off mR-10"></i>
@@ -819,7 +819,7 @@
       </footer>
     </div>
   </div>
-  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+  <form id="logout-form" action="{{ route('admin_logout') }}" method="POST" style="display: none;">
     {{ csrf_field() }}
   </form>
 

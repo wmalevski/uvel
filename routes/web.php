@@ -191,10 +191,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/products/reviews/all', 'ProductController@showReviews')->name('products_reviews');
     Route::get('/productsothers/reviews/all', 'ProductOtherController@showReviews')->name('show_products_others_reviews');
     Route::get('/models/reviews/all', 'ModelController@showReviews')->name('show_model_reviews');
+    Route::post('/logout', 'UserController@logout')->name('admin_logout');
 
 });
 
 Route::group(['prefix' => 'ajax'], function() {
+
+    Route::post('/blog/{article}/{comment}/delete', 'BlogCommentController@destroy');
 
     Route::post('/slides', 'SliderController@store');
     Route::post('/slides/delete/{slide}', 'SliderController@destroy');
@@ -354,6 +357,7 @@ Route::group(['prefix' => 'ajax'], function() {
  */
 Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
     Route::get('/', 'StoreController@index')->name('store');
+    Route::post('/blog/{article}/comments/delete/{comment}', 'BlogCommentController@destroy');
 
     Route::group(['prefix' => 'blog'], function() {
         Route::get('/{article}', 'BlogController@show')->name('single_article');

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Auth;
 use App\User;
 use App\Store;
 use App\Permission;
@@ -115,5 +115,11 @@ class UserController extends Controller
             $user->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
         }
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return Redirect::route('store');
     }
 }

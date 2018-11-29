@@ -5,7 +5,6 @@ use File;
 use Storage;
 use Response;
 use Auth;
-use App\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
@@ -50,7 +49,7 @@ class BlogCommentController extends Controller
      * @param  \App\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function show(Blog $blog)
+    public function show(BlogComment $comment)
     {
         //
     }
@@ -61,7 +60,7 @@ class BlogCommentController extends Controller
      * @param  \App\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function edit(Blog $article)
+    public function edit(BlogComment $comment)
     {
  
     }
@@ -73,7 +72,7 @@ class BlogCommentController extends Controller
      * @param  \App\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Blog $article)
+    public function update(Request $request, BlogComment $comment)
     {
         
     }
@@ -84,9 +83,8 @@ class BlogCommentController extends Controller
      * @param  \App\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function destroy($comment)
+    public function destroy(BlogComment $comment)
     {
-        $comment = BlogComment::find($comment);
         if($comment){
             $comment->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
