@@ -476,7 +476,9 @@ var uvelStore,
 					$filterInputTrigger = $('.filter-tag-group .tag-group input'),
 					$shippingMethodTrigger = $('[name="shippingMethod"]'),
 					$paymentMethodTrigger = $('[name="paymentMethod"]'),
-					$addDiscountTrigger = $('.cart-applyDiscount');
+					$discountCradInput = $('#discountCard'),
+					$addDiscountTrigger = $('.cart-applyDiscount'),
+					$removeDiscountTrigger = $('.discount-remove');
 
 			$self.quickviewAttach($quickViewTrigger);
 			$self.imageHandling();
@@ -487,6 +489,8 @@ var uvelStore,
 			$self.paymentMethodAttach($paymentMethodTrigger);
 			$self.addDiscountAttach($addDiscountTrigger);
 			$self.submitCustomOrder();
+			$self.removeDiscountAttach($removeDiscountTrigger);
+			$self.discountEnter($discountCradInput);
 		};
 
 		this.imageHandling = function() {
@@ -662,36 +666,31 @@ var uvelStore,
 				dataType: "json",
 				data: data,
 				success: function(resp) {
-					$self.subscribeSuccess(resp);
+					var message = resp.success;
+
+					$self.ajaxReturnMessage(message, 'success');
 					mailInput.val('');
 				},
 				error: function(err) {
-					$self.subscribeError(err);
+					var errors = JSON.parse(err.responseText).errors,
+							messages = '';
+
+					Object.keys(errors).forEach(function(key) {
+						var message = errors[key][0];
+
+						messages += message +'<br>';
+					})
+
+					$self.ajaxReturnMessage(messages, 'error');
 				}
 			})
 		}
 
-		this.subscribeSuccess = function(response) {
-			var messageContainer = $('<div class="subscribe-message success"></div>'),
-					message = response.success;
+		this.ajaxReturnMessage = function(message, type) {
+			var messageContainer = $('<div class="info-message"></div>');
 
+			messageContainer.addClass(type);
 			messageContainer.append(message);
-			$('body').append(messageContainer);
-			$self.showMessage(messageContainer);
-		}
-
-		this.subscribeError = function(response) {
-			var messageContainer = $('<div class="subscribe-message error"></div>'),
-					errors = JSON.parse(response.responseText).errors,
-					messages = '';
-
-			Object.keys(errors).forEach(function(key) {
-				var message = errors[key][0];
-
-				messages += message +'<br>';
-			})
-
-			messageContainer.append(messages);
 			$('body').append(messageContainer);
 			$self.showMessage(messageContainer);
 		}
@@ -804,16 +803,87 @@ var uvelStore,
 					_path = _this.attr('data-url'),
 					ajaxURL = _path + barcode;
 
+			discountInput.val('');
+
 			$.ajax({
 				method: 'GET',
 				url: ajaxURL,
 				success: function(resp) {
-					console.log(resp);
-				},
-				error: function(err) {
-					console.log(err);
+					$self.dicountResponseHandler(resp)
 				}
 			})
+		}
+
+		this.removeDiscountAttach = function(removeBtn) {
+			removeBtn.on('click', function() {
+				var _this = $(this);
+				$self.removeDiscount(_this);
+			})
+		}
+
+		this.removeDiscount = function(removeBtn) {
+			var ajaxUrl = removeBtn.attr('data-url');
+
+			$.ajax({
+				method: 'GET',
+				url: ajaxUrl,
+				success: function(resp) {
+					$self.dicountResponseHandler(resp);
+				}
+			})
+		}
+
+		this.dicountResponseHandler = function(response) {
+			var success = response.success;
+
+			if (success) {
+				var discountContainer = $('.discount-container'),
+						discounts = response.condition,
+        		newFields = '',
+        		total = response.total,
+        		totalDisplay = $('.subtotal')[$('.subtotal').length - 1];
+
+        for (var key in discounts) {
+          var discount = discounts[key],
+              discountAmount = key,
+              label = discount.value,
+              discountID = discount.attributes.discount_id;
+
+          var newDiscount = 
+          '<div class="col-xs-24">' +
+          '<span class="discount discount-label">'+label+'</span>' +
+          '<span data-url="/ajax/removeDiscount/'+discountID+'"  class="discount discount-remove">' +
+          '<i class="fas fa-times"></i>' +
+          '</span>' +
+          '</div>';
+
+          newFields += newDiscount;
+        }
+
+        discountContainer.html(newFields);
+
+        var removeDiscountTrigger = $('.discount-remove');
+    		$self.removeDiscountAttach(removeDiscountTrigger);
+
+    		$(totalDisplay).html(total + ' лв');
+			} else {
+				var message = "Системата не открива карта за отстъпка с такъв номер."
+
+				$self.ajaxReturnMessage(message, 'error');
+			}
+		}
+
+		this.discountEnter = function(discountInput) {
+			var _this = discountInput,
+					applyBtn = $('.cart-applyDiscount');
+
+			_this.on('keypress', function(event) {
+        if (event.which == 13) {
+          event.preventDefault();
+          applyBtn.click();
+          _this.blur();
+        }
+      })
 		}
 
 		this.shippingMethodAttach = function(shippingMethodTrigger) {

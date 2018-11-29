@@ -145,16 +145,18 @@
 
 									{{ csrf_field() }}
 									<div class="form-row row">
-										<label>Карта за отстъпка</label>
+										<label>Отстъпки</label>
 										<hr>
-										@foreach($conditions as $condition)
-                                        
-											<span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">{{ $condition->getValue() }}</span> 
-											<span data-url="/ajax/removeDiscount/{{ $condition->getName() }}" data-sell-removeDiscount class="discount-remove badge bgc-red-50 c-red-700 p-10 lh-0 tt-c badge-pill"><i class="c-brown-500 ti-close"></i></span> <br/>
-											
-										@endforeach
+										<div class="discount-container">
+											@foreach($conditions as $condition)
+	                                        <div class="col-xs-24">
+												<span class="discount discount-label">{{ $condition->getValue() }}</span> 
+												<span data-url="/ajax/removeDiscount/{{ $condition->getName() }}"  class="discount discount-remove"><i class="fas fa-times"></i></span>
+											</div>	
+											@endforeach
+										</div>
 										<div class="form-group col-xs-24 col-sm-12">
-											<label>Въведете номер на карта:</label>
+											<label>Въведете номер на карта за отстъпка:</label>
 											<div class="input-group">
 							                    <input type="number" id="discountCard" class="form-control" name="discount"  placeholder="Баркод">
 							                    <span class="input-group-addon"><i class="fas fa-barcode"></i></span>

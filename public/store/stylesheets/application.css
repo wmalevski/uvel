@@ -146,7 +146,7 @@ div.jGrowl div.jGrowl-closer:hover{color:#a07936;}
 	display: inline-block;
 }
 
-.subscribe-message {
+.info-message {
 	display: none;
 	position: fixed;
     top: 0;
@@ -154,12 +154,12 @@ div.jGrowl div.jGrowl-closer:hover{color:#a07936;}
     padding: 20px 10%;
 }
 
-.subscribe-message.success {
+.info-message.success {
 	background: lightgreen;
 	color: darkgreen;
 }
 
-.subscribe-message.error {
+.info-message.error {
 	background: indianred;
 	color: darkred;
 }
@@ -235,4 +235,25 @@ div.jGrowl div.jGrowl-closer:hover{color:#a07936;}
 #checkout-addnote {
 	margin-top: 0 !important;
 	margin-bottom: 0 !important;
+}
+
+.discount {
+	display: inline-block;
+    min-width: 10px;
+    padding: 5px 13px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    white-space: nowrap;
+    text-align: center;
+    background-color: #a07936;
+    border-radius: 5px;
+}
+
+.discount.discount-remove {
+	margin-left: 5px;
+	border-radius: 18px;
+    background-color: rosybrown;
+    cursor: pointer;
 }
