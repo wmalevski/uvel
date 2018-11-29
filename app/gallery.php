@@ -34,6 +34,11 @@ class Gallery extends Model
         return $this->hasOne('App\Stones', 'stone_id');
     }
 
+    public function custom_order()
+    {
+        return $this->hasOne('App\CustomOrder', 'custom_order_id');
+    }
+
     
     public function destroyWithPath(Gallery $photo){
         unlink(public_path('uploads/'.$photo->table.'/').$photo->photo);

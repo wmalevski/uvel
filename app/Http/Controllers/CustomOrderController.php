@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\View;
 use Gallery;
 use Response;
 use Mail;
+use File;
+use Storage;
 
 class CustomOrderController extends Controller
 {
@@ -66,7 +68,32 @@ class CustomOrderController extends Controller
      */
     public function edit(CustomOrder $order)
     {
-        return \View::make('admin/orders/custom/edit',array('order'=>$order));
+        $photos = $order->photos()->get();
+        $pass_photos = array();
+        
+        foreach($photos as $photo){
+            $url =  Storage::get('public/orders/'.$photo->photo);
+            $ext_url = Storage::url('public/orders/'.$photo->photo);
+            
+            $info = pathinfo($ext_url);
+            
+            $image_name =  basename($ext_url,'.'.$info['extension']);
+            
+            $base64 = base64_encode($url);
+
+            if($info['extension'] == "svg"){
+                $ext = "png";
+            }else{
+                $ext = $info['extension'];
+            }
+
+            $pass_photos[] = [
+                'id' => $photo->id,
+                'photo' => 'data:image/'.$ext.';base64,'.$base64
+            ];
+        }
+
+        return \View::make('admin/orders/custom/edit',array('order'=>$order, 'basephotos' => $pass_photos));
     }
 
     /**
