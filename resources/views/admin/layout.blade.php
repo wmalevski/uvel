@@ -152,14 +152,35 @@
               </span>
               <span class="title">Отстъпки</span>
             </a>
-          <li class="nav-item {{ Active::check('admin/stores',true) }}">
-              <a class="sidebar-link" href="{{ route('stores') }}">
+
+
+            <li class="nav-item dropdown {{ Active::check('admin/stores',true) }}">
+              <a class="dropdown-toggle" href="javascript:void(0);">
                 <span class="icon-holder">
-                  <i class=" ti-pencil"></i>
+                  <i class="ti-folder"></i>
                 </span>
                 <span class="title">Магазини</span>
+                <span class="arrow">
+                  <i class="ti-angle-right"></i>
+                </span>
               </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="sidebar-link" href="{{ route('stores') }}">Магазини</a>
+                </li>
+                <li>
+                  <a class="sidebar-link" href="{{ route('daily_reports') }}">Дневни отчети</a>
+                </li>
+                <li>
+                  <a class="sidebar-link" href="{{ route('expenses') }}">Разходи</a>
+                </li>
+                <li>
+                  <a class="sidebar-link" href="{{ route('expenses_types') }}">Типове разходи</a>
+                </li>
+              </ul>
             </li>
+
+
             <li class="nav-item {{ Active::check('admin/prices',true) }}">
                 <a class="sidebar-link" href="{{ route('prices') }}">
                   <span class="icon-holder">
