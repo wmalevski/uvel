@@ -197,7 +197,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
 Route::group(['prefix' => 'ajax'], function() {
 
-    Route::post('/blog/{article}/{comment}/delete', 'BlogCommentController@destroy');
+    //Route::post('/blog/{article}/{comment}/delete', 'BlogCommentController@destroy');
 
     Route::post('/slides', 'SliderController@store');
     Route::post('/slides/delete/{slide}', 'SliderController@destroy');
@@ -348,7 +348,7 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/reviews/delete/{review}', 'ReviewController@destroy')->name('destroy_review');
 
-    Route::post('/blog/{article}/comments/delete/{comment}', 'BlogCommentController@destroy');
+    Route::post('/blog/comments/{comment}/delete', 'BlogCommentController@destroy');
 
 });
 
