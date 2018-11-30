@@ -143,6 +143,12 @@ return [
         'comment' => 'Коментар',
         'content' => 'Описание',
         'city' => 'Град',
+        'street' => 'Улица',
+        'street_number' => 'Номер',
+        'postcode' => 'Пощенски код',
+        'country' => 'Държава',
+        'first_name' => 'Име',
+        'last_name' => 'Фамилия',
 
         //Repairs
         'customer_name' => 'Име на клиент',

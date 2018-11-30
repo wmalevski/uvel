@@ -130,14 +130,12 @@ aria-hidden="true">
 													</div>
 													<div id="sortBox" class="control-container dropdown-menu">
 														<ul id="sortForm" class="list-unstyled option-set text-left list-styled" data-option-key="sortBy">
-															<li class="sort" data-option-value="manual">Featured</li>
-															<li class="sort" data-option-value="price-ascending" data-order="asc">Price: Low to High</li>
-															<li class="sort" data-option-value="price-descending" data-order="desc">Price: High to Low</li>
-															<li class="sort" data-option-value="title-ascending" data-order="asc">A-Z</li>
-															<li class="sort" data-option-value="title-descending" data-order="desc">Z-A</li>
-															<li class="sort" data-option-value="created-ascending" data-order="asc">Oldest to Newest</li>
-															<li class="sort" data-option-value="created-descending" data-order="desc">Newest to Oldest</li>
-															<li class="sort" data-option-value="best-selling">Best Selling</li>
+															<li class="sort" data-option-value="price-ascending" data-order="asc">Цена: Ниска към Висока</li>
+															<li class="sort" data-option-value="price-descending" data-order="desc">Цена: Висока към Ниска</li>
+															<li class="sort" data-option-value="title-ascending" data-order="asc">А-Я</li>
+															<li class="sort" data-option-value="title-descending" data-order="desc">Я-А</li>
+															<li class="sort" data-option-value="created-ascending" data-order="asc">Стари към нови</li>
+															<li class="sort" data-option-value="created-descending" data-order="desc">Нови към стари</li>
 														</ul>
 													</div>
 													</li>
