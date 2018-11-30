@@ -123,7 +123,7 @@ aria-hidden="true">
 													<div id="sortButtonWarper" class="dropdown-toggle" data-toggle="dropdown">
 														<strong class="title-6">Подреди</strong>
 														<button id="sortButton">
-														<span class="name">Featured</span><i class="fa fa-caret-down"></i>
+															<span class="name">Най-нови</span><i class="fa fa-caret-down"></i>
 														</button>
 														<i class="sub-dropdown1"></i>
 														<i class="sub-dropdown"></i>
