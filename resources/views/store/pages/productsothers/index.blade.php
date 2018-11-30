@@ -157,9 +157,9 @@ aria-hidden="true">
 																		<span class="spr-badge-caption" style="display:block;">Няма ревюта</span>
 																	@endif
 																</span>
-                                                                <span class="spr-badge-caption">
+                                                                {{-- <span class="spr-badge-caption">
                                                                 No reviews </span>
-                                                                </span>
+                                                                </span> --}}
                                                             </div>
                                                             <div class="product-content-right">
                                                                 <div class="product-price">

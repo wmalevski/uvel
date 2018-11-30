@@ -138,6 +138,11 @@ return [
         'style' => 'Стил',
         'contour' => 'Контур',
         'currency ' => 'Курс',
+        'g-recaptcha-response' => 'за валидация',
+        'message' => 'Съобщение',
+        'comment' => 'Коментар',
+        'content' => 'Описание',
+        'city' => 'Град',
 
         //Repairs
         'customer_name' => 'Име на клиент',
