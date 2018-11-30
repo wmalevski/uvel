@@ -170,7 +170,7 @@ aria-hidden="true">
 																			{{$product->listProductAvgRatingStars($product)}}
 																		</span>
 																	@else
-																		<span class="spr-badge-caption" style="display:block;">No reviews</span>
+																		<span class="spr-badge-caption" style="display:block;">Няма ревюта</span>
 																	@endif
                                                                 </span>
                                                             </div>
