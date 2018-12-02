@@ -480,7 +480,8 @@ var uvelStore,
 					$addDiscountTrigger = $('.cart-applyDiscount'),
 					$removeDiscountTrigger = $('.discount-remove'),
 					$addToCartTrigger = $('.add-to-cart'),
-					$removeFromCartTrigger = $('.remove-from-cart');
+					$removeFromCartTrigger = $('.remove-from-cart'),
+					$updateCartQuantityTrigger = $('.update-cart-quantity');
 
 			$self.quickviewAttach($quickViewTrigger);
 			$self.imageHandling();
@@ -495,6 +496,7 @@ var uvelStore,
 			$self.discountEnter($discountCradInput);
 			$self.addToCartAttach($addToCartTrigger);
 			$self.removeFromCartAttach($removeFromCartTrigger);
+			$self.updateCartQuantityAttach($updateCartQuantityTrigger);
 		};
 
 		this.imageHandling = function() {
@@ -993,6 +995,28 @@ var uvelStore,
 		this.removeFromCart = function(rmvBtn) {
 			var _this = rmvBtn,
 					ajaxURL = _this.attr('data-url');
+
+			$.ajax({
+				method: "GET",
+				url: ajaxURL,
+				success: function(resp) {
+					// body...
+				}
+			})
+		}
+
+		this.updateCartQuantityAttach = function(quantityInput) {
+			quantityInput.on('change', function(){
+				var _this = $(this);
+				$self.updateCartQuantity(_this);
+			})
+		}
+
+		this.updateCartQuantity = function(quantityInput) {
+			var _this = quantityInput,
+					baseUrl = _this.attr('data-url'),
+					quantity = _this.val(),
+					ajaxURL = baseUrl + quantity;
 
 			$.ajax({
 				method: "GET",

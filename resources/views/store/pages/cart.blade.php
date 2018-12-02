@@ -76,7 +76,7 @@
                                                     </td>
                                                     <td>
 														@if($item->attributes['type'] != 'product')
-															<input class="form-control input-1 replace" maxlength="5" size="5" id="updates_3947646083" name="updates[]" value="{{ $item->quantity }}">
+															<input class="form-control input-1 replace update-cart-quantity" maxlength="5" size="5" id="updates_3947646083" data-url="/online/ajax/cart/addItem/{item}/" name="updates[]" value="{{ $item->quantity }}">
 														@else 
 														1
 															@endif
