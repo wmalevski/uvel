@@ -803,8 +803,6 @@ var uvelStore,
 					_path = _this.attr('data-url'),
 					ajaxURL = _path + barcode;
 
-			discountInput.val('');
-
 			$.ajax({
 				method: 'GET',
 				url: ajaxURL,
@@ -838,6 +836,7 @@ var uvelStore,
 
 			if (success) {
 				var discountContainer = $('.discount-container'),
+						discountInput = $('#discountCard'),
 						discounts = response.condition,
         		newFields = '',
         		total = response.total,
@@ -866,6 +865,8 @@ var uvelStore,
     		$self.removeDiscountAttach(removeDiscountTrigger);
 
     		$(totalDisplay).html(total + ' лв');
+
+    		discountInput.val('');
 			} else {
 				var message = "Системата не открива карта за отстъпка с такъв номер."
 
