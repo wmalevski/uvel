@@ -186,7 +186,7 @@
                                                                     </div>
                                                                     <div class="effect-ajax-cart">
                                                                         <input type="hidden" name="quantity" value="1">
-                                                                        <button class="add-to-cart" type="submit" name="add"><i class="fa fa-shopping-cart"></i><span class="list-mode">Add to Cart</span></button>
+                                                                        <button class="add-to-cart" type="submit" name="add" data-url="ajax/cart/addItem/{item}/1"><i class="fa fa-shopping-cart"></i><span class="list-mode">Add to Cart</span></button>
                                                                     </div>
                                                                 </form>
                                                                 <div class="product-ajax-qs hidden-xs hidden-sm">

@@ -134,7 +134,7 @@
 																	</div>
 																</div>
 																<div class="others-bottom clearfix">
-																	<button id="add-to-cart" class="btn btn-1 add-to-cart" data-parent=".product-information" type="submit" name="add">Добави в количка</button>
+																	<button id="add-to-cart" class="btn btn-1 add-to-cart" data-parent=".product-information" type="submit" name="add" data-url="ajax/cart/addItem/{item}/1">Добави в количка</button>
 																</div>
 															</div>
 														</form>
