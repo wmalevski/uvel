@@ -87,7 +87,7 @@
 															@endif
                                                     </td>
                                                     <td class="action">
-                                                        <button type="button" onclick="window.location='/cart/change?line=1&amp;quantity=0'"><i class="fa fa-times"></i>Изтрий</button>
+                                                        <button type="button" onclick="window.location='/cart/change?line=1&amp;quantity=0'" class="remove-from-cart" data-url="/online/ajax/cart/removeItem/{item}"><i class="fa fa-times"></i>Изтрий</button>
                                                     </td>
                                                 </tr>
                                             @endforeach

@@ -64,7 +64,7 @@
                                 </div>
                             
                             <div class="others-bottom">
-                                <input id="quick-shop-add" class="btn small add-to-cart" type="submit" name="add" value="Добави в количката" data-url="ajax/cart/addItem/{item}/1" style="opacity: 1;">
+                                <input id="quick-shop-add" class="btn small add-to-cart" type="submit" name="add" value="Добави в количката" data-url="/online/ajax/cart/addItem/{item}/1" style="opacity: 1;">
                             </div>
                         </form>
                     </div>

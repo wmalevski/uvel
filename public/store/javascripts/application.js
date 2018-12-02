@@ -479,7 +479,8 @@ var uvelStore,
 					$discountCradInput = $('#discountCard'),
 					$addDiscountTrigger = $('.cart-applyDiscount'),
 					$removeDiscountTrigger = $('.discount-remove'),
-					$addToCartTrigger = $('.add-to-cart');
+					$addToCartTrigger = $('.add-to-cart'),
+					$removeFromCartTrigger = $('.remove-from-cart');
 
 			$self.quickviewAttach($quickViewTrigger);
 			$self.imageHandling();
@@ -493,6 +494,7 @@ var uvelStore,
 			$self.removeDiscountAttach($removeDiscountTrigger);
 			$self.discountEnter($discountCradInput);
 			$self.addToCartAttach($addToCartTrigger);
+			$self.removeFromCartAttach($removeFromCartTrigger);
 		};
 
 		this.imageHandling = function() {
@@ -968,6 +970,28 @@ var uvelStore,
 
 		this.addToCart = function(addToCartBtn) {
 			var _this = addToCartBtn,
+					ajaxURL = _this.attr('data-url');
+
+			$.ajax({
+				method: "GET",
+				url: ajaxURL,
+				success: function(resp) {
+					// body...
+				}
+			})
+		}
+
+		this.removeFromCartAttach = function(rmvBtn) {
+			rmvBtn.on('click', function(e) {
+				e.preventDefault();
+
+				var _this = $(this);
+				$self.removeFromCart(_this);
+			})
+		}
+
+		this.removeFromCart = function(rmvBtn) {
+			var _this = rmvBtn,
 					ajaxURL = _this.attr('data-url');
 
 			$.ajax({
