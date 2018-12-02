@@ -157,9 +157,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/repairs/return/{repair}', 'RepairController@return');
     Route::get('/repairs/edit/{repair}', 'RepairController@edit');
 
-    Route::get('/expenses', 'ExpenseController@index');
+    Route::get('/expenses', 'ExpenseController@index')->name('expenses');    
 
-    Route::get('/expensetypes', 'ExpenseTypeController@index');
+    Route::get('/expensetypes', 'ExpenseTypeController@index')->name('expenses_types');    
 
     Route::get('/dailyreports', 'DailyReportController@index')->name('daily_reports');    
     Route::get('/dailyreports/{report}', 'DailyReportController@edit');
