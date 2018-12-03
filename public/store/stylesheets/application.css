@@ -171,6 +171,10 @@ div.jGrowl div.jGrowl-closer:hover{color:#a07936;}
 
 /* Cart */
 
+#update-cart {
+	display: none;
+}
+
 .cart-radio {
 	display: none;
 }

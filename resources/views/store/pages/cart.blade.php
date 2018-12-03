@@ -69,15 +69,14 @@
                                                             </li>
                                                         </ul>
                                                     </td>
-                                                    <td class="title-1">
+                                                    <td class="price-item title-1">
 														@if(count($items))
 															{{ $item->price }} лв
 														@endif
                                                     </td>
                                                     <td>
 														@if($item->attributes['type'] != 'product')
-															<input class="form-control input-1 replace update-cart-quantity" maxlength="5" size="5" id="updates_3947646083" data-url="{{ route('CartUpdateItem', ['item' => $item->id, 'quantity' => '']) }}/" name="updates[]" value="{{ $item->quantity }}">
-															<button type="submit" id="update-cart" class="btn btn-2" name="update">Обнови количество</button>
+															<input class="form-control input-1 replace update-cart-quantity" maxlength="5" size="5" id="updates_3947646083" data-url="{{ route('CartUpdateItem', ['item' => $item->id, 'quantity' => '']) }}/" name="updates[]" type="number" value="{{ $item->quantity }}">
 														@else 
 														1
 															@endif
@@ -101,11 +100,11 @@
 														{{ $subtotal }} лв
 													</td>
 												</td>
-												{{-- <td>
+												<td>
 													@if(count($items))
 														<button type="submit" id="update-cart" class="btn btn-2" name="update">Обнови количество</button>
 													@endif
-												</td> --}}
+												</td>
 
 												<td class="subtotal title-1">
 													{{ $total }} лв

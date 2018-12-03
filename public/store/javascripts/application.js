@@ -990,10 +990,19 @@ var uvelStore,
 				method: "GET",
 				url: ajaxURL,
 				success: function(resp) {
-					var cartNum = $('.cart-link span.number'),
-							quantity = resp.quantity;
+					var success = resp.success;
 
-					cartNum.html(quantity);
+					if (success) {
+						var cartNum = $('.cart-link span.number'),
+								quantity = resp.quantity,
+								message = 'Продукта беше успешно добавен в количката!';
+
+						cartNum.html(quantity);
+
+						$self.ajaxReturnMessage(message, 'success');
+					} else {
+						var message = 'Трябва да влезете в системата'
+					}
 				}
 			})
 		}
@@ -1042,10 +1051,18 @@ var uvelStore,
 				var _this = $(this);
 				$self.updateCartQuantity(_this);
 			})
+
+			$self.updateQuantityEnterPress(quantityInput);
 		}
 
 		this.updateCartQuantity = function(quantityInput) {
 			var _this = quantityInput,
+					row = _this.closest('tr'),
+					pricePerItemHolder = row.find('.price-item'),
+					priceWithQunatityHolder = row.find('.total'),
+					cartNum = $('.cart-link span.number'),
+					subtotalContainer = $($('.bottom-summary .subtotal')[0]),
+					totalContainer = $($('.bottom-summary .subtotal')[1]),
 					baseUrl = _this.attr('data-url'),
 					quantity = _this.val(),
 					ajaxURL = baseUrl + quantity;
@@ -1054,9 +1071,30 @@ var uvelStore,
 				method: "GET",
 				url: ajaxURL,
 				success: function(resp) {
-					// body...
+					var quantity = resp.quantity,
+							subtotal = resp.subtotal,
+							pricePerItem = resp.price,
+							total = resp.total,
+							priceWithQunatity = resp.priceWithQuantity;
+
+					cartNum.html(quantity);
+					subtotalContainer.html(subtotal + ' лв');
+					totalContainer.html(total + ' лв');
+					pricePerItemHolder.html(pricePerItem + ' лв');
+					priceWithQunatityHolder.html(priceWithQunatity + ' лв');
 				}
 			})
+		}
+
+		this.updateQuantityEnterPress = function(quantityInput) {
+			var _this = quantityInput;
+
+			_this.on('keypress', function(event) {
+        if (event.which == 13) {
+          event.preventDefault();
+          _this.blur();
+        }
+      })
 		}
 
 		this.addToWishlistAttach = function(addToWishBtn) {
