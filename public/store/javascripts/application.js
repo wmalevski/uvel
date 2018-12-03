@@ -999,9 +999,19 @@ var uvelStore,
 
 						cartNum.html(quantity);
 
-						$self.ajaxReturnMessage(message, 'success');
+						if (_this.closest('.modal').length > 0) {
+							// show success message for modal
+						} else {
+							$self.ajaxReturnMessage(message, 'success');
+						}
 					} else {
-						var message = 'Трябва да влезете в системата'
+						var message = 'Трябва да влезете в системата';
+
+						if (_this.closest('.modal').length > 0) {
+							// show error message for modal
+						} else {
+							$self.ajaxReturnMessage(message, 'error');
+						}
 					}
 				}
 			})
