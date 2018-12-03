@@ -46,19 +46,24 @@ class WishListController extends BaseController
     {
         $wishList = new WishList();
         $wishList->user_id = Auth::user()->getId();
-        
-        if ($type == 'product') {
-            $wishList->product_id = $item;
-        } elseif ($type == 'model') {
-            $wishList->model_id = $item;
-        } elseif ($type == 'product_other') {
-            $wishList->product_others_id = $item;
+
+        $check = WishList::where('product_id', $item)->orWhere('model_id', $item)->orWhere('product_others_id', $item)->first();
+
+        if(!$check){
+            if ($type == 'product') {
+                $wishList->product_id = $item;
+            } elseif ($type == 'model') {
+                $wishList->model_id = $item;
+            } elseif ($type == 'product_other') {
+                $wishList->product_others_id = $item;
+            }
+            
+            $wishList->save();
+
+            return Response::json(array('success' => 'Продуктът беше запазен успешно!'));
+        }else{
+            return Response::json(array('success' => 'Този продукт вече го имате запазен!'));
         }
-        
-        $wishList->save();
-
-        return Response::json(array('success' => 'Продуктът беше запазен успешно'));
-
     }
 
     /**
