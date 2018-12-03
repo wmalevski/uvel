@@ -64,7 +64,7 @@
                                 </div>
                             
                             <div class="others-bottom">
-                                <input id="quick-shop-add" class="btn small add-to-cart" type="submit" name="add" value="Добави в количката" data-url="{{ route('CartAddItem', ['item' => $product->barcode, 'quantity' => 1]) }}" style="opacity: 1;">
+                                <input id="quick-shop-add" class="btn small add-to-cart productsothers" type="submit" name="add" value="Добави в количката" data-url="{{ route('CartAddItem', ['item' => $product->barcode, 'quantity' => '']) }}" style="opacity: 1;">
                             </div>
                         </form>
                     </div>

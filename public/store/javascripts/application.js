@@ -481,7 +481,8 @@ var uvelStore,
 					$removeDiscountTrigger = $('.discount-remove'),
 					$addToCartTrigger = $('.add-to-cart'),
 					$removeFromCartTrigger = $('.remove-from-cart'),
-					$updateCartQuantityTrigger = $('.update-cart-quantity');
+					$updateCartQuantityTrigger = $('.update-cart-quantity'),
+					$addToWishTrigger = $('.wish-list');
 
 			$self.quickviewAttach($quickViewTrigger);
 			$self.imageHandling();
@@ -497,6 +498,7 @@ var uvelStore,
 			$self.addToCartAttach($addToCartTrigger);
 			$self.removeFromCartAttach($removeFromCartTrigger);
 			$self.updateCartQuantityAttach($updateCartQuantityTrigger);
+			$self.addToWishlistAttach($addToWishTrigger);
 		};
 
 		this.imageHandling = function() {
@@ -641,6 +643,9 @@ var uvelStore,
 					var modal = $this.parents().find('.edit--modal_holder .modal-content');
 
 					modal.html(resp);
+
+					var addToCartTrigger = modal.find('.add-to-cart');
+					$self.addToCartAttach(addToCartTrigger);
 				}
 			})
 		}
@@ -974,11 +979,18 @@ var uvelStore,
 			var _this = addToCartBtn,
 					ajaxURL = _this.attr('data-url');
 
+			if (_this.hasClass('productsothers')) {
+				ajaxURL += '/' + _this.closest('form').find('.item-quantity').val()
+			}
+
 			$.ajax({
 				method: "GET",
 				url: ajaxURL,
 				success: function(resp) {
-					// body...
+					var cartNum = $('.cart-link span.number'),
+							quantity = resp.quantity;
+
+					cartNum.html(quantity);
 				}
 			})
 		}
@@ -1023,6 +1035,30 @@ var uvelStore,
 				url: ajaxURL,
 				success: function(resp) {
 					// body...
+				}
+			})
+		}
+
+		this.addToWishlistAttach = function(addToWishBtn) {
+			addToWishBtn.on('click', function(e) {
+				e.preventDefault();
+
+				var _this = $(this);
+				$self.addToWishlist(_this);
+			})
+		}
+
+		this.addToWishlist = function(addToWishBtn) {
+			var _this = addToWishBtn,
+					ajaxURL = _this.attr('data-url');
+
+			$.ajax({
+				method: "POST",
+				url: ajaxURL,
+				success: function(resp) {
+					var message = resp.success;
+
+					$self.ajaxReturnMessage(message, 'success');
 				}
 			})
 		}

@@ -87,7 +87,7 @@
 															@endif
                                                     </td>
                                                     <td class="action">
-                                                        <button type="button" onclick="window.location='/cart/change?line=1&amp;quantity=0'" class="remove-from-cart" data-url="{{ route('CartRemoveItem', ['item' => $item->id]) }}"><i class="fa fa-times"></i>Изтрий</button>
+                                                        <button type="button" class="remove-from-cart" data-url="{{ route('CartRemoveItem', ['item' => $item->id]) }}"><i class="fa fa-times"></i>Изтрий</button>
                                                     </td>
                                                 </tr>
                                             @endforeach
