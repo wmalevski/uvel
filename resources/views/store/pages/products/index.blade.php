@@ -194,7 +194,7 @@ aria-hidden="true">
                                                                         
                                                                     </div>
                                                                 </div>
-																<a class="wish-list" href="#" title="wish list">
+																<a class="wish-list" href="#" title="wish list" {{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}>
 																	<i class="fa fa-heart"></i><span class="list-mode">Добави в желани</span>
 																</a>
                                                             </div>

@@ -130,12 +130,12 @@
 																	</div>
 																</div>
 																<div class="others-bottom clearfix">
-																	<button id="add-to-cart" class="btn btn-1 add-to-cart" data-url="/online/ajax/cart/addItem/{item}/1" data-parent=".product-information" type="submit" name="add">Добави в количка</button>
+																	<button id="add-to-cart" class="btn btn-1 add-to-cart" data-url="{{ route('CartAddItem', ['item' => $product->barcode, 'quantity' => 1]) }}" data-parent=".product-information" type="submit" name="add">Добави в количка</button>
 																</div>
 															</div>
 														</form>
 														<div class="wls">
-															<a class="wish-list" href="./login.html"><i class="fa fa-heart"></i> Добави в желани</a>
+														<a class="wish-list" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}"><i class="fa fa-heart"></i> Добави в желани</a>
 															<span>|</span>
 															<a href="mailto:info@yourdomain.com"><i class="fa fa-envelope"></i> Изпрати по email</a>
 														</div>                                          
@@ -328,7 +328,7 @@
 																<i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																	
 															</div>
 														</div>
-														<a class="wish-list" href="./account.html" title="wish list"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>
+														<a class="wish-list" href="#" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}" title="wish list"><i class="fa fa-heart"></i><span class="list-mode">Добави в желани</span></a>
 													</div>
 													</li>
 												</ul>

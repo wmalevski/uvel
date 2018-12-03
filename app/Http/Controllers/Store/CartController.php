@@ -147,7 +147,7 @@ class CartController extends BaseController
             $item = $product;
             $type = 'product';
 
-            $product->status = 'reserved';
+            $product->status = 'selling';
             $product->save();
         }else{
             $box = ProductOther::where([
@@ -188,7 +188,49 @@ class CartController extends BaseController
 
             return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity));
         }else{
-            return Response::json(array('success' => true, 'not_found' => 'The item is not found'));
+            return Response::json(array('success' => true, 'not_found' => 'Продукта не е намерен!'));
+        }
+    }
+
+
+    public function removeItem($item){
+        $userId = Auth::user()->getId(); 
+        //dd($item);
+        $remove = Cart::session($userId)->remove($item);
+
+        $total = round(Cart::session($userId)->getTotal(),2);
+        $subtotal = round(Cart::session($userId)->getSubTotal(),2);
+        $quantity = Cart::session($userId)->getTotalQuantity();
+
+        $items = [];
+        
+        Cart::session($userId)->getContent()->each(function($singleitem) use (&$items)
+        {
+            $items[] = $singleitem;
+        });
+
+        $table = '';
+        foreach($items as $singleitem){
+            $table .= View::make('admin/selling/table',array('item'=>$singleitem))->render();
+
+            
+            $product = Product::where('barcode', $singleitem->id)->first();
+            $product_box = ProductOther::where('barcode', $singleitem->id)->first();
+            $repair = Repair::where('barcode', $singleitem->id)->first();
+
+            if($product){
+                $product->status = 'available';
+                $product->save();
+            }else if($product_box){
+                $product_box->quantity = $product_box->quantity+$singleitem->quantity;
+                $product_box->save();
+            }
+        }
+
+        $dds = round($subtotal - ($subtotal/1.2), 2);
+
+        if($remove){
+            return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'dds' => $dds));  
         }
     }
 

@@ -186,15 +186,15 @@
                                                                     </div>
                                                                     <div class="effect-ajax-cart">
                                                                         <input type="hidden" name="quantity" value="1">
-                                                                        <button class="add-to-cart" type="submit" name="add" data-url="/online/ajax/cart/addItem/{item}/1"><i class="fa fa-shopping-cart"></i><span class="list-mode">Add to Cart</span></button>
+                                                                    <button class="add-to-cart" type="submit" name="add" data-url="{{ route('CartAddItem', ['item' => $product->barcode, 'quantity' => 1]) }}"><i class="fa fa-shopping-cart"></i><span class="list-mode">Добави в количка</span></button>
                                                                     </div>
                                                                 </form>
                                                                 <div class="product-ajax-qs hidden-xs hidden-sm">
                                                                     <div data-href="./ajax/_product-qs.html" data-target="#quick-shop-modal" class="quick_shop" data-barcode="{{ $product->barcode }}" data-toggle="modal">
-                                                                        <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																		
+                                                                        <i class="fa fa-eye" title="Бърз преглед"></i><span class="list-mode">Бърз преглед</span>																		
                                                                     </div>
                                                                 </div>
-                                                                <a class="wish-list" href="./account.html" title="wish list"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>
+                                                                <a class="wish-list" href="#" title="wish list" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}"><i class="fa fa-heart"></i><span class="list-mode">Добави в желани</span></a>
                                                             </div>
                                                             </li>
                                                         </ul>
@@ -321,10 +321,10 @@
                                                                 </form>
                                                                 <div class="product-ajax-qs hidden-xs hidden-sm">
                                                                     <div data-href="./ajax/_product-qs.html" data-target="#quick-shop-modal" class="quick_shop" data-barcode="{{ $product->barcode }}" data-toggle="modal">
-                                                                        <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																		
+                                                                        <i class="fa fa-eye" title="Бърз преглед"></i><span class="list-mode">Бърз преглед</span>																		
                                                                     </div>
                                                                 </div>
-                                                                <a class="wish-list" href="./account.html" title="wish list"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>
+                                                                <a class="wish-list" href="#" title="wish list" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}"><i class="fa fa-heart"></i><span class="list-mode">Добави в желани</span></a>
                                                             </div>
                                                         </li>
                                                     </ul>

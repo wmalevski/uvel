@@ -42,17 +42,17 @@ class WishListController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $type, $item)
     {
         $wishList = new WishList();
         $wishList->user_id = Auth::user()->getId();
         
-        if ($request->type == 'product') {
-            $wishList->product_id = $request->product_id;
-        } elseif ($request->type == 'model') {
-            $wishList->model_id = $request->model_id;
-        } elseif ($request->type == 'product_other') {
-            $wishList->product_others_id = $request->product_others_id;
+        if ($type == 'product') {
+            $wishList->product_id = $item;
+        } elseif ($type == 'model') {
+            $wishList->model_id = $item;
+        } elseif ($type == 'product_other') {
+            $wishList->product_others_id = $item;
         }
         
         $wishList->save();

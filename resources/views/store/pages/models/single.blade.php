@@ -132,7 +132,7 @@
 															</div>
 														</form>
 														<div class="wls">
-															<a class="wish-list" href="./login.html"><i class="fa fa-heart"></i> Добави в желани</a>
+															<a class="wish-list" href="#" data-url="{{ route('wishlists_store', ['type' => 'model', 'item' => $model->id]) }}"><i class="fa fa-heart"></i> Добави в желани</a>
 															<span>|</span>
 															<a href="mailto:info@yourdomain.com"><i class="fa fa-envelope"></i> Изпрати по email</a>
 														</div>                                          
@@ -311,10 +311,10 @@
 														</form>
 														<div class="product-ajax-qs hidden-xs hidden-sm">
 															<div data-handle="curabitur-cursus-dignis" data-barcode="{{ $model->barcode }}" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
-																<i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																	
+																<i class="fa fa-eye" title="Бърз преглед"></i><span class="list-mode">Бърз преглед</span>																	
 															</div>
 														</div>
-														<a class="wish-list" href="./account.html" title="wish list"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>
+														<a class="wish-list" href="#" title="wish list" data-url="{{ route('wishlists_store', ['type' => 'model', 'item' => $model->id]) }}"><i class="fa fa-heart"></i><span class="list-mode">Добави в желани</span></a>
 													</div>
 													</li>
 												</ul>

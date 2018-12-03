@@ -77,7 +77,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     //Route::put('/stores/{store}', 'StoreController@update');
 
     Route::get('/selling/online/{selling}', 'OnlineSellingsController@edit');
-    Route::put('/selling/online/{selling}', 'nlineSellingsController@update');
+    Route::put('/selling/online/{selling}', 'OnlineSellingsController@update');
 
     Route::get('/nomenclatures', 'NomenclaturesController@index')->name('nomenclatures');
     Route::post('/nomenclatures', 'NomenclaturesController@store');
@@ -405,7 +405,7 @@ Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
 Route::group(['prefix' => 'online',  'namespace' => 'Store', 'middleware' => 'auth'], function() {
     Route::get('/cart', 'CartController@index')->name('cart');
     Route::post('/cart', 'UserPaymentController@store')->name('pay_order');
-    Route::get('/cart/addItem/{item}/{quantity}', 'CartController@addItem');
+    Route::get('/cart/addItem/{item}/{quantity}', 'CartController@addItem')->name('CartAddItem');
     Route::post('/cart/pay/paypal', 'PayController@pay')->name('paypal_pay');
     Route::get('/cart/pay/status', 'PayController@getPaymentStatus')->name('paypal_status');
     Route::get('/cart/addDiscount/{barcode}', 'PayController@setDiscount')->name('add_discount');
@@ -426,8 +426,8 @@ Route::group(['prefix' => 'online',  'namespace' => 'Store', 'middleware' => 'au
 //AJAX FOR STORE
 
 Route::group(['prefix' => 'ajax', 'namespace' => 'Store'], function() {
-    Route::get('/cart/addItem/{item}/{quantity}', 'CartController@addItem');
-    Route::get('/cart/removeItem/{item}', 'CartController@removeItem');
+    //Route::get('/cart/addItem/{item}/{quantity}', 'CartController@addItem');
+    Route::get('/cart/removeItem/{item}', 'CartController@removeItem')->name('CartRemoveItem');
 
     Route::get('/products/{product}/quickview/', 'ProductController@quickview');
     Route::get('/productsothers/{product}/quickview/', 'ProductOtherController@quickview');
@@ -435,7 +435,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Store'], function() {
 
     Route::get('/filter', 'ProductController@filter');
 
-    Route::post('/wishlists/store', 'WishListController@store')->name('wishlists_store');
+    Route::post('/wishlists/store/{type}/{item}', 'WishListController@store')->name('wishlists_store');
 
     Route::get('/cart/setDiscount/{barcode}',  'CartController@setDiscount')->name('add_discount');
 

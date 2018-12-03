@@ -127,19 +127,35 @@
 																  label[for="product-select-option-0"] { display: none; }
 																  #product-select-option-0 { display: none; }
 																  #product-select-option-0 + .custom-style-select-box { display: none !important; }
-																</style>																
+																</style>
+																<div class="quantity-wrapper clearfix">
+																	<label class="wrapper-title">Количество</label>
+																	<div class="wrapper">
+																		<input id="quantity" name="quantity" value="1" maxlength="5" size="5" class="item-quantity" type="text">
+																		<span class="qty-group">
+																		<span class="qty-wrapper">
+																		<span data-original-title="Увеличи" class="qty-up btooltip" data-toggle="tooltip" data-placement="top" title="" data-src="#quantity">
+																		<i class="fa fa-caret-right"></i>
+																		</span>
+																		<span data-original-title="Намали" class="qty-down btooltip" data-toggle="tooltip" data-placement="top" title="" data-src="#quantity">
+																		<i class="fa fa-caret-left"></i>
+																		</span>
+																		</span>
+																		</span>
+																	</div>
+																</div>																
 																<div id="purchase-1293235843">
 																	<div class="detail-price" itemprop="price">
                                                                         <span class="price">{{ $product->price }} лв</span>
 																	</div>
 																</div>
 																<div class="others-bottom clearfix">
-																	<button id="add-to-cart" class="btn btn-1 add-to-cart" data-parent=".product-information" type="submit" name="add" data-url="/online/ajax/cart/addItem/{item}/1">Добави в количка</button>
+																	<button id="add-to-cart" class="btn btn-1 add-to-cart" data-parent=".product-information" type="submit" name="add" data-url="{{ route('CartAddItem', ['item' => $product->barcode, 'quantity' => 1]) }}">Добави в количка</button>
 																</div>
 															</div>
 														</form>
 														<div class="wls">
-															<a class="wish-list" href="./login.html"><i class="fa fa-heart"></i> Добави в желани</a>
+															<a class="wish-list" href="#" data-url="{{ route('wishlists_store', ['type' => 'product_other', 'item' => $product->id]) }}"><i class="fa fa-heart"></i> Добави в желани</a>
 															<span>|</span>
 															<a href="mailto:info@yourdomain.com"><i class="fa fa-envelope"></i> Изпрати по email</a>
 														</div>                                          
@@ -333,7 +349,7 @@
 																<i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																	
 															</div>
 														</div>
-														<a class="wish-list" href="./account.html" title="wish list"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>
+														<a class="wish-list" href="#" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}" title="wish list"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>
 													</div>
 													</li>
 												</ul>
