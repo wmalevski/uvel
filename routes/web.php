@@ -421,7 +421,7 @@ Route::group(['prefix' => 'online',  'namespace' => 'Store', 'middleware' => 'au
 
     Route::get('/model_order/{model}', 'ModelOrderController@store')->name('order_model');
 
-    Route::get('/cart/updateItem/{item}/{quantity}', 'CartController@updateItem')->name('CartUpdateItem');
+    //Route::get('/cart/updateItem/{item}/{quantity}', 'CartController@updateItem')->name('CartUpdateItem');
 
 });
 

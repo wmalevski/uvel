@@ -76,7 +76,7 @@
                                                     </td>
                                                     <td>
 														@if($item->attributes['type'] != 'product')
-															<input class="form-control input-1 replace update-cart-quantity" maxlength="5" size="5" id="updates_3947646083" data-url="/online/ajax/cart/updateItem/{{$item->id}}/" name="updates[]" value="{{ $item->quantity }}">
+															<input class="form-control input-1 replace update-cart-quantity" maxlength="5" size="5" id="updates_3947646083" data-url="{{ route('CartUpdateItem', ['item' => $item->id, 'quantity' => '']) }}/" name="updates[]" value="{{ $item->quantity }}">
 															<button type="submit" id="update-cart" class="btn btn-2" name="update">Обнови количество</button>
 														@else 
 														1
@@ -103,12 +103,7 @@
 												</td>
 												{{-- <td>
 													@if(count($items))
-<<<<<<< HEAD
 														<button type="submit" id="update-cart" class="btn btn-2" name="update">Обнови количество</button>
-=======
-														<button type="submit" id="update-cart" class="update-cart btn btn-2" name="update">Обнови количество</button>
-													
->>>>>>> d272d6e85adab71785410dc1632a03ac03e40716
 													@endif
 												</td> --}}
 
