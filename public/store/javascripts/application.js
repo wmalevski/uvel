@@ -1006,13 +1006,24 @@ var uvelStore,
 
 		this.removeFromCart = function(rmvBtn) {
 			var _this = rmvBtn,
+					row = _this.closest('tr'),
 					ajaxURL = _this.attr('data-url');
 
 			$.ajax({
 				method: "GET",
 				url: ajaxURL,
 				success: function(resp) {
-					// body...
+					var cartNum = $('.cart-link span.number'),
+							subtotalContainer = $($('.bottom-summary .subtotal')[0]),
+							totalContainer = $($('.bottom-summary .subtotal')[1]),
+							quantity = resp.quantity,
+							subtotal = resp.subtotal,
+							total = resp.total;
+
+					cartNum.html(quantity);
+					row.remove();
+					subtotalContainer.html(subtotal + ' лв');
+					totalContainer.html(total + ' лв');
 				}
 			})
 		}
