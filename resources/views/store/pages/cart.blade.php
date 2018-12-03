@@ -102,7 +102,7 @@
 												</td>
 												<td>
 													@if(count($items))
-														<button type="submit" id="update-cart" class="btn btn-2" name="update">Обнови количество</button>
+														<button type="submit" id="update-cart" class="update-cart btn btn-2" name="update">Обнови количество</button>
 													
 													@endif
 												</td>

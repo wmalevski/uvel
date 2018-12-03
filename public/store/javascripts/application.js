@@ -851,7 +851,9 @@ var uvelStore,
 						discounts = response.condition,
         		newFields = '',
         		total = response.total,
-        		totalDisplay = $('.subtotal')[$('.subtotal').length - 1];
+        		subtotal = response.subtotal,
+        		subtotalDisplay = $($('.bottom-summary .subtotal')[0]),
+						totalDisplay = $($('.bottom-summary .subtotal')[1]);
 
         for (var key in discounts) {
           var discount = discounts[key],
@@ -875,7 +877,8 @@ var uvelStore,
         var removeDiscountTrigger = $('.discount-remove');
     		$self.removeDiscountAttach(removeDiscountTrigger);
 
-    		$(totalDisplay).html(total + ' лв');
+    		totalDisplay.html(total + ' лв');
+    		subtotalDisplay.html(subtotal + 'лв');
 
     		discountInput.val('');
 			} else {
@@ -1007,6 +1010,8 @@ var uvelStore,
 		this.removeFromCart = function(rmvBtn) {
 			var _this = rmvBtn,
 					row = _this.closest('tr'),
+					table = _this.closest('table'),
+					updateCartBtn = table.find('.update-cart'),
 					ajaxURL = _this.attr('data-url');
 
 			$.ajax({
@@ -1024,6 +1029,10 @@ var uvelStore,
 					row.remove();
 					subtotalContainer.html(subtotal + ' лв');
 					totalContainer.html(total + ' лв');
+
+					if (table.find('tbody').find('tr').length == 0) {
+						updateCartBtn.hide();
+					}
 				}
 			})
 		}
