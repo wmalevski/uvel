@@ -103,7 +103,12 @@
 												</td>
 												{{-- <td>
 													@if(count($items))
+<<<<<<< HEAD
 														<button type="submit" id="update-cart" class="btn btn-2" name="update">Обнови количество</button>
+=======
+														<button type="submit" id="update-cart" class="update-cart btn btn-2" name="update">Обнови количество</button>
+													
+>>>>>>> d272d6e85adab71785410dc1632a03ac03e40716
 													@endif
 												</td> --}}
 
