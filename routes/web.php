@@ -421,6 +421,8 @@ Route::group(['prefix' => 'online',  'namespace' => 'Store', 'middleware' => 'au
 
     Route::get('/model_order/{model}', 'ModelOrderController@store')->name('order_model');
 
+    Route::get('/cart/updateItem/{item}/{quantity}', 'CartController@updateItem')->name('CartUpdateItem');
+
 });
 
 //AJAX FOR STORE
@@ -428,6 +430,7 @@ Route::group(['prefix' => 'online',  'namespace' => 'Store', 'middleware' => 'au
 Route::group(['prefix' => 'ajax', 'namespace' => 'Store'], function() {
     //Route::get('/cart/addItem/{item}/{quantity}', 'CartController@addItem');
     Route::get('/cart/removeItem/{item}', 'CartController@removeItem')->name('CartRemoveItem');
+    Route::get('/cart/updateItem/{item}/{quantity}', 'CartController@updateItem')->name('CartUpdateItem');
 
     Route::get('/products/{product}/quickview/', 'ProductController@quickview');
     Route::get('/productsothers/{product}/quickview/', 'ProductOtherController@quickview');

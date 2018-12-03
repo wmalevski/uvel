@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Store;
 use Cart;
 use Auth;
+use View;
 use Response;
 use App\Store;
 use App\Product;
 use App\Model;
+use App\Repair;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -186,9 +188,9 @@ class CartController extends BaseController
             $subtotal = round(Cart::session($session_id)->getSubTotal(),2);
             $quantity = Cart::session($session_id)->getTotalQuantity();
 
-            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity));
+            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'message' => 'Продукта беше успешно добавен в количката!'));
         }else{
-            return Response::json(array('success' => true, 'not_found' => 'Продукта не е намерен!'));
+            return Response::json(array('success' => false, 'not_found' => 'Продукта не е намерен!'));
         }
     }
 
@@ -196,11 +198,6 @@ class CartController extends BaseController
     public function removeItem($item){
         $userId = Auth::user()->getId(); 
         //dd($item);
-        $remove = Cart::session($userId)->remove($item);
-
-        $total = round(Cart::session($userId)->getTotal(),2);
-        $subtotal = round(Cart::session($userId)->getSubTotal(),2);
-        $quantity = Cart::session($userId)->getTotalQuantity();
 
         $items = [];
         
@@ -217,20 +214,47 @@ class CartController extends BaseController
             $product = Product::where('barcode', $singleitem->id)->first();
             $product_box = ProductOther::where('barcode', $singleitem->id)->first();
             $repair = Repair::where('barcode', $singleitem->id)->first();
-
+            
             if($product){
                 $product->status = 'available';
                 $product->save();
             }else if($product_box){
-                $product_box->quantity = $product_box->quantity+$singleitem->quantity;
+                //$product_box->quantity = $product_box->quantity+$singleitem->quantity;
                 $product_box->save();
             }
         }
+
+        $remove = Cart::session($userId)->remove($item);
+        
+        $total = round(Cart::session($userId)->getTotal(),2);
+        $subtotal = round(Cart::session($userId)->getSubTotal(),2);
+        $quantity = Cart::session($userId)->getTotalQuantity();
 
         $dds = round($subtotal - ($subtotal/1.2), 2);
 
         if($remove){
             return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'dds' => $dds));  
+        }
+    }
+
+    public function updateItem($item, $quantity){
+        $userId = Auth::user()->getId(); 
+        
+        if($quantity > 1){
+            Cart::session($userId)->update($item, array(
+                'quantity' => array(
+                    'relative' => false,
+                    'value' => $quantity
+                ),
+            ));
+
+            $item = Cart::session($userId)->get($item);
+
+            $price = $item->price;
+            $priceWithQuantity = $item->price*$item->quantity;
+            $total = round(Cart::session($userId)->getTotal(),2);
+
+            return Response::json(array('success' => true, 'itemID' => $item->id, 'total' => $total, 'price' => $price, 'quantity' => $quantity, 'priceWithQuantity' => $priceWithQuantity));
         }
     }
 
