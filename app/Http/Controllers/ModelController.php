@@ -110,6 +110,7 @@ class ModelController extends Controller
         $model->workmanship = $request->workmanship;
         $model->price = $request->price;
         $model->totalStones =  $request->totalStones;
+        $model->code = 'M'.unique_random('models', 'code', 7);
 
         if($request->website_visible == 'true'){
             $model->website_visible =  'yes';

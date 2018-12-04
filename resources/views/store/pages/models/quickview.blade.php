@@ -48,7 +48,7 @@
                             {{-- <del class="price_compare">$300.00</del> --}}
                         </div>
                         <div class="others-bottom">
-                            <input id="quick-shop-add" class="btn small add-to-cart" type="submit" name="add" value="Добави в количката" data-url="{{ route('CartAddItem', ['item' => $model->barcode, 'quantity' => 1]) }}" style="opacity: 1;">
+                            <a href="{{ route('order_model', ['model' => $model->id]) }}" class="btn btn-1">Поръчай</a>
                         </div>
                     </form>
                 </div>

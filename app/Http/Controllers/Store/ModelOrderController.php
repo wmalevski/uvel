@@ -49,9 +49,9 @@ class ModelOrderController extends BaseController
             $order->user_id = Auth::user()->getId();
             $order->save();
 
-            return Redirect::back()->with('success', 'Поръчката беше изпратена успешно. Можете да следите найният статус в страницата с поръчки във вашият профил!');
+            return Response::json(array('success' => 'Поръчката беше изпратена успешно. Можете да следите найният статус в страницата с поръчки във вашият профил!'),401);
         }else{
-            return Redirect::back()->with('error', 'Този модел не беше намерен в системата. Моля опитайте по-късно!');
+            return Response::json(array('error' => 'Този модел не беше намерен в системата. Моля опитайте по-късно!'), 401);
         }
     }
 

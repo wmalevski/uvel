@@ -240,7 +240,7 @@ class CartController extends BaseController
     public function updateItem($item, $quantity){
         $userId = Auth::user()->getId(); 
         
-        if($quantity > 1){
+        if($quantity > 0){
             Cart::session($userId)->update($item, array(
                 'quantity' => array(
                     'relative' => false,

@@ -158,7 +158,9 @@ aria-hidden="true">
                                                             </li>
                                                             <li class="row-right parent-fly animMix">
                                                             <div class="product-content-left">
-                                                                <a class="title-5" href="{{ route('single_model', ['model' => $model->id])  }}">{{ $model->name }}</a>
+																<a class="title-5" href="{{ route('single_model', ['model' => $model->id])  }}">{{ $model->name }}</a>
+																No: {{ $model->code }}<br/>
+																{{ $model->weight }}гр.
                                                                 <span class="spr-badge" id="spr_badge_12932382113" data-rating="{{$model->getModelAvgRating($model)}}">
 																@if(count($model->reviews) > 0)
 																	<span class="spr-starrating spr-badge-starrating">
@@ -174,11 +176,7 @@ aria-hidden="true">
                                                                     <span class="price">{{ $model->price }} лв</span>
                                                                 </div>
                                                             </div>
-                                                            <div class="list-mode-description">
-																 Модел: {{ $model->name }} <br/>
-																 Бижу: {{ $model->jewel->name }} <br/>
-																 Размер: {{ $model->size }}
-                                                            </div>
+                                                            
                                                             <div class="hover-appear">
                                                                 <form action="#" method="post">
                                                                     <div class="effect-ajax-cart">

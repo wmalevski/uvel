@@ -23,6 +23,7 @@ class CreateModelsTable extends Migration
             $table->float('totalStones')->nullable();
             $table->enum('website_visible', ['yes', 'no'])->default('yes');
             $table->float('price');
+            $table->string('code');
             $table->timestamps();
             $table->softDeletes();
         });

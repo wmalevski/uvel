@@ -77,7 +77,7 @@ class UserPayment extends Model
             foreach(Cart::session($userId)->getContent() as $item)
             {
                 if($item['attributes']->type == 'product'){
-                    $product = Product::find($item->id);
+                    $product = Product::where('barcode', $item->id)->first();
 
                     if($product){
                         if($payment->payment_method == 'paypal' && $payment->shipping_method == 'ekont'){
@@ -89,7 +89,7 @@ class UserPayment extends Model
                         $product->save();
                     }
                 } else if($item['attributes']->type == 'box'){
-                    $box = ProductOther::find($item->id);
+                    $box = ProductOther::where('barcode', $item->id)->first();
 
                     if($box){
                         $box->quantity = $box->quantity-$quantity;

@@ -53,9 +53,9 @@ class Handler extends ExceptionHandler
         return parent::render($request, $exception);
     }
 
-    protected function unauthenticated($request, AuthenticationException $exception)
-    {
-       return Response::json(array('message' => 'Трябва да влезнете в системата!'), 401);
+    // protected function unauthenticated($request, AuthenticationException $exception)
+    // {
+    //    return Response::json(array('message' => 'Трябва да влезнете в системата!'), 401);
 
-    }
+    // }
 }
