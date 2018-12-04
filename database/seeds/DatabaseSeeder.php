@@ -111,7 +111,13 @@ class DatabaseSeeder extends Seeder
             'title' => 'Изтриване на готово изделие',
         ]);
 
+        $seeingExpenses = Bouncer::ability()->create([
+            'name' => 'seeing-expenses',
+            'title' => 'Виждане на разходи в касата',
+        ]);
+
         //Admin permissions
+        Bouncer::allow($admin)->to($seeingExpenses);
         Bouncer::allow($admin)->to($sellingProducts);
         Bouncer::allow($admin)->to($manageOrders);
         Bouncer::allow($admin)->to($manageRepairs);
