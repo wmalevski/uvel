@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Store;
 use Auth;
+use Response;
 use App\Model;
 use App\ModelOrder;
 use Illuminate\Http\Request;
