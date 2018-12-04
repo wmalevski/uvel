@@ -96,7 +96,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="contact_map_wrapper">
+                        {{-- <div id="contact_map_wrapper">
                             <div id="contact_map" class="map"></div>
                             <script>
                             if(jQuery().gMap){
@@ -104,7 +104,7 @@
                                     $('#contact_map').gMap({
                                     zoom: 17,
                                     scrollwheel: false,
-                                    maptype: 'ROADMAP',
+                                    maptype: 'ROADM AP',
                                     markers:[
                                         {
                                         address: '249 Ung Văn Khiêm, phường 25, Ho Chi Minh City, Vietnam',
@@ -115,7 +115,7 @@
                                 }
                             }
                             </script>
-                        </div>
+                        </div> --}}
                     </div>
                 </div> 
             </section>        

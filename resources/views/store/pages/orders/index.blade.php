@@ -89,7 +89,7 @@
                                 </div>
                                 <div class="right-block contact-content col-md-12">
                                     <h6 class="sb-title"><i class="fa fa-home"></i> Информация за клиента</h6>
-                                    {{-- <ul class="right-content">
+                                    <ul class="right-content">
                                         <li class="title">
                                         <h6>Адрес на офисите</h6>
                                         </li>
@@ -100,8 +100,8 @@
                                         </li>
                                         <li class="phone">+84 0123456xxx</li>
                                         <li class="email"><i class="fa fa-envelope"></i> support@designshopify.com</li>
-                                    </ul> --}}
-                                    {{-- <ul class="right-content">
+                                    </ul>
+                                    <ul class="right-content">
                                         <li class="title">
                                         <h6>Последвайте ни в</h6>
                                         </li>
@@ -109,7 +109,7 @@
                                         <li class="twitter"><a href="#"><span class="fa-stack fa-lg btooltip" title="" data-original-title="Twitter"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-twitter fa-inverse fa-stack-1x"></i></span></a></li>
                                         <li class="google-plus"><a href="#"><span class="fa-stack fa-lg btooltip" title="" data-original-title="Google plus"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-google-plus fa-inverse fa-stack-1x"></i></span></a></li>
                                         <li class="pinterest"><a href="#"><span class="fa-stack fa-lg btooltip" title="" data-original-title="Pinterest"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-pinterest fa-inverse fa-stack-1x"></i></span></a></li>
-                                    </ul> --}}
+                                    </ul>
                                 </div>
                             </div>
                         </div>

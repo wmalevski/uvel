@@ -9,6 +9,7 @@ use App\Material;
 use App\MaterialType;
 use App\ProductOtherType;
 use App\Slider;
+use App\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Blog;;
@@ -26,6 +27,8 @@ class StoreController extends BaseController
             ['status', '=', 'available']
         ])->get();
 
+        $models = Model::all();
+
         $productothertypes = ProductOtherType::all();
 
         $materialsTypes = MaterialType::all();
@@ -37,7 +40,7 @@ class StoreController extends BaseController
         $slides = Slider::all();
         //dd($productothertypes);
 
-        return \View::make('store.pages.index', array('products' => $products, 'jewels' => $jewels, 'articles' => $articles, 'materialTypes' => $materialsTypes, 'productothertypes' => $productothertypes, 'slides' => $slides));
+        return \View::make('store.pages.index', array('products' => $products, 'jewels' => $jewels, 'articles' => $articles, 'materialTypes' => $materialsTypes, 'productothertypes' => $productothertypes, 'slides' => $slides, 'models' => $models));
     }
 
 }

@@ -82,11 +82,11 @@
                                                     <div class="home_collections_item_inner">
                                                         <div class="collection-details">
                                                             <a href="{{ route('models') }}" title="Browse our Bracelets">
-                                                                {{-- <img src="
-                                                                @if($type->productOther->first()->products->first()->images) 
-                                                                {{ asset("uploads/products/" . $material->materials->first()->products->first()->images->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif
-                                                                " alt="Bracelets"> --}}
-                                                                <img src="{{ asset('store/images/demo_375x375.png') }}" class="img-responsive" alt="По поръчка">
+                                                                <img src="
+                                                                @if($models->first()->photos) 
+                                                                {{ asset("uploads/models/" . $models->first()->photos->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif
+                                                                " alt="По поръчка">
+                                                                {{-- <img src="{{ asset('store/images/demo_375x375.png') }}" class="img-responsive" alt="По поръчка"> --}}
                                                             </a>
                                                         </div>
                                                         <div class="hover-overlay">
@@ -102,11 +102,10 @@
                                                         <div class="home_collections_item_inner">
                                                             <div class="collection-details">
                                                                 <a href="{{ route('custom_order') }}" title="Browse our Bracelets">
-                                                                    {{-- <img src="
-                                                                    @if($type->productOther->first()->products->first()->images) 
-                                                                    {{ asset("uploads/products/" . $material->materials->first()->products->first()->images->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif
-                                                                    " alt="Bracelets"> --}}
-                                                                    <img src="{{ asset('store/images/demo_375x375.png') }}" class="img-responsive" alt="По поръчка">
+                                                                    <img src="
+                                                                    @if($models->first()->photos) 
+                                                                    {{ asset("uploads/models/" . $models->first()->photos->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif
+                                                                    " alt="По ваш модел">
                                                                 </a>
                                                             </div>
                                                             <div class="hover-overlay">
