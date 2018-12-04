@@ -31,7 +31,7 @@ class CreateOrdersTable extends Migration
             $table->enum('status', ['available', 'selling', 'travelling', 'sold'])->default('available');
             $table->enum('weight_without_stones', ['yes', 'no'])->default('no');
             $table->integer('store_id')->unsigned();
-            $table->enum('status', ['accepted', 'ready'])->default('accepted');
+            //$table->enum('status', ['accepted', 'ready'])->default('accepted');
             $table->integer('quantity')->default(1);
             $table->text('content')->nullable();
             $table->integer('safe_group')->nullable();
