@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\DailyReport;
 use App\Payment;
+use App\Expense;
 use Illuminate\Http\Request;
 use Response;
 
@@ -43,7 +44,11 @@ class DailyReportController extends Controller
     {
         $allSold = Payment::where([
             ['method', '=', 'cash'],
-            ['store', '=', Auth::user()->getStore()]
+            ['store_id', '=', Auth::user()->getStore()]
+        ])->whereDate('created_at', Carbon::today())->sum('given');
+
+        $expenses = Expense::where([
+            ['store_id', '=', Auth::user()->getStore()]
         ])->whereDate('created_at', Carbon::today())->sum('given');
 
         $report = new DailyReport();
@@ -53,9 +58,9 @@ class DailyReportController extends Controller
         $report->user_id = Auth::user()->getId();
         $report->save();
 
-        if($allSold < $request->safe_amount){
+        if($allSold < ($request->safe_amount - $expenses)){
             return Response::json(['errors' => ['using' => ['Въведената сума не съвпата с тази в системата! Моля опитайте пак или се свържете с администратор!']]], 401);
-        }else if($allSold == $request->save_amount){
+        }else if($allSold == ($request->save_amount - $expenses)){
             return Response::json(array('success' => 'Успешно направихте дневен отчет!'));
         }else{
             return Response::json(['errors' => ['using' => ['Въведената сума не съвпата с тази в системата! Моля опитайте пак или се свържете с администратор!']]], 401);

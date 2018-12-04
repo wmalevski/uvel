@@ -359,13 +359,24 @@
             </ul>
           </li>
 
-          <li class="nav-item {{ Active::check('admin/daily_reports',true) }}">
-            <a class="sidebar-link" href="{{ route('daily_reports') }}">
+          <li class="nav-item dropdown {{ Active::check('admin/daily_reports',true) }}">
+            <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
-                <i class=" ti-blackboard"></i>
+                <i class=" ti-slice"></i>
               </span>
-              <span class="title">Дневни отчети</span>
+              <span class="title">Отчети</span>
+              <span class="arrow">
+                <i class="ti-angle-right"></i>
+              </span>
             </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="sidebar-link" href="{{ route('daily_reports') }}">Дневни</a>
+              </li>
+              <li>
+                <a class="sidebar-link" href="{{ route('expenses') }}">Разходи</a>
+              </li>
+            </ul>
           </li>
 
           <li class="nav-item dropdown {{ Active::check('admin/settings',true) }}">
