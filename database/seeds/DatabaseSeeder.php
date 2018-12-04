@@ -198,14 +198,14 @@ class DatabaseSeeder extends Seeder
 
         Bouncer::assign('admin')->to($user);
 
-        $merchant = new User();
-        $merchant->name = 'Merchant';
-        $merchant->email = 'merchant@uvel.com';
-        $merchant->password = bcrypt('merchant');
-        $merchant->store_id = 3;
-        $merchant->save();
+        $manager = new User();
+        $manager->name = 'Manager';
+        $manager->email = 'manager@uvel.com';
+        $manager->password = bcrypt('manager');
+        $manager->store_id = 3;
+        $manager->save();
 
-        Bouncer::assign('merchant')->to($merchant);
+        Bouncer::assign('manager')->to($manager);
         $material_type = new MaterialType();
         $material_type->name = 'Злато';
         $material_type->save();
