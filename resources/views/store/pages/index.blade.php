@@ -277,7 +277,7 @@
                                                                         </div>
                                                                     </form>
                                                                     <div class="product-ajax-qs hidden-xs hidden-sm">
-                                                                        <div data-href="./ajax/_product-qs.html" data-target="#quick-shop-modal" class="quick_shop" data-barcode="{{ $product->barcode }}" data-toggle="modal">
+                                                                        <div data-href="./ajax/_product-qs.html" data-target="#quick-shop-modal" class="quick_shop" data-barcode="{{ $product->barcode }}" data-url="products/{{ $product->id }}/" data-toggle="modal">
                                                                             <i class="fa fa-eye" title="Бърз преглед"></i><span class="list-mode">Бърз преглед</span>																		
                                                                         </div>
                                                                     </div>
@@ -296,7 +296,7 @@
                         </div> 
                     @endforeach    
 
-                    
+
                     @if(count($articles))
                     <div class="home-blog">
                         <div class="container">
