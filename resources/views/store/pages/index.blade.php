@@ -83,8 +83,9 @@
                                                         <div class="collection-details">
                                                             <a href="{{ route('models') }}" title="Browse our Bracelets">
                                                                 <img src="
+                                                                @if(count($models))
                                                                 @if($models->first()->photos) 
-                                                                {{ asset("uploads/models/" . $models->first()->photos->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif
+                                                                {{ asset("uploads/models/" . $models->first()->photos->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif @endif
                                                                 " alt="По поръчка">
                                                                 {{-- <img src="{{ asset('store/images/demo_375x375.png') }}" class="img-responsive" alt="По поръчка"> --}}
                                                             </a>
@@ -103,8 +104,9 @@
                                                             <div class="collection-details">
                                                                 <a href="{{ route('custom_order') }}" title="Browse our Bracelets">
                                                                     <img src="
+                                                                    @if(count($models))
                                                                     @if($models->first()->photos) 
-                                                                    {{ asset("uploads/models/" . $models->first()->photos->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif
+                                                                    {{ asset("uploads/models/" . $models->first()->photos->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif @endif
                                                                     " alt="По ваш модел">
                                                                 </a>
                                                             </div>
