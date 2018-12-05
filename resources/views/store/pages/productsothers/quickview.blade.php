@@ -25,8 +25,7 @@
                     <div id="quick-shop-infomation" class="description">
                         <div id="quick-shop-description" class="text-left">
                             <p>
-                                Име: {{ $product->name }} <br/>
-                                Тип: {{ $product->type->name }} <br/>
+                                No: {{ $product->code }}
                             </p>
                         </div>
                     </div>

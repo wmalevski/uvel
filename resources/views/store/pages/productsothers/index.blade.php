@@ -144,7 +144,8 @@ aria-hidden="true">
                                                             </li>
                                                             <li class="row-right parent-fly animMix">
                                                             <div class="product-content-left">
-                                                                <a class="title-5" href="{{ route('single_product_other', ['product' => $product->id])  }}">{{ $product->name }}</a>
+																<a class="title-5" href="{{ route('single_product_other', ['product' => $product->id])  }}">{{ $product->name }}</a><br/>
+																No: {{ $product->code }}
                                                                 <span class="spr-badge" id="spr_badge_12932382113" data-rating="0.0">
                                                                 <span class="spr-starrating spr-badge-starrating">
 																	@if(count($product->reviews) > 0)
@@ -165,9 +166,8 @@ aria-hidden="true">
                                                                 </div>
                                                             </div>
                                                             <div class="list-mode-description">
-																 {{-- Модел: {{ $product->model->name }} <br/>
-																 Бижу: {{ $product->jewel->name }} <br/>
-																 Размер: {{ $product->model->size }} --}}
+																No: {{ $product->code }} <br/>
+														 
                                                             </div>
                                                             <div class="hover-appear">
                                                                 <form action="#" method="post">
