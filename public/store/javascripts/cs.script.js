@@ -369,9 +369,9 @@ function handleCarousel(){
   }
   
   /* Handle Featured Products */
-  if($('#home_fp').length){
-    imagesLoaded('#home_fp', function() {
-      $("#home_fp").owlCarousel({
+  if($('.home_fp').length){
+    imagesLoaded('.home_fp', function() {
+      $(".home_fp2").owlCarousel({
         navigation : true,
         pagination: false,
         autoPlay: true,

@@ -137,7 +137,7 @@
                                 </div>
                             </div>
                     </div>
-                    @if(count($products))
+                    {{-- @if(count($products))
                     <div class="home-newproduct">
                         <div class="container">
                             <div class="group_home_products row">
@@ -208,7 +208,7 @@
                             </div>
                         </div>
                     </div>
-                    @endif
+                    @endif --}}
                     {{-- <div class="home-banner-wrapper">
                         <div class="container">
                             <div id="home-banner" class="text-center clearfix">
@@ -225,6 +225,78 @@
                             </div>
                         </div>
                     </div> --}}
+
+                    @foreach($materials as $material)
+                    <div class="home-feature">
+                            <div class="container">
+                                <div class="group_featured_products row">
+                                    <div class="col-md-24">
+                                        <div class="home_fp">
+                                        <h6 class="general-title">Последни от {{ $material->parent->name }}</h6>
+                                            <div class="home_fp_wrapper">
+                                                <div class="home_fp2">  
+                                                    @foreach ( $material->products->take(10) as $key => $product ) 					
+                                                    <div class="element no_full_width not-animated" data-animate="fadeInUp" data-delay="0">
+                                                        <ul class="row-container list-unstyled clearfix">
+                                                            <li class="row-left">
+                                                            <a href="{{route('single_product', ['product' => $product]) }}" class="container_item">
+                                                            <img src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif" class="img-responsive" alt="Curabitur cursus dignis">
+                                                           
+                                                            </a>
+                                                            <div class="hbw">
+                                                                <span class="hoverBorderWrapper"></span>
+                                                            </div>
+                                                            </li>
+                                                            <li class="row-right parent-fly animMix">
+                                                                <div class="product-content-left">
+                                                                    <a class="title-5" href="{{route('single_product', ['product' => $product]) }}">{{ $product->name }}</a>
+                                                                    <span class="spr-badge" id="spr_badge_1293238211" data-rating="{{$product->getProductAvgRating($product)}}">
+                                                                    @if($product->getProductAvgRating($product) > 0)
+                                                                        <span class="spr-starrating spr-badge-starrating">
+                                                                            {{$product->listProductAvgRatingStars($product)}}
+                                                                        </span>
+                                                                    @else
+                                                                        <span class="spr-badge-caption" style="display:block;">Няма ревюта </span>
+                                                                    @endif
+                                                                    </span>
+                                                                </div>
+                                                                <div class="product-content-right">
+                                                                    <div class="product-price">
+                                                                        <span class="price">{{ $product->price }} лв</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="list-mode-description">
+                                                                        No: {{ $product->code }} <br/>
+                                                                        {{ $product->weight }}гр. <br/>
+                                                                </div>
+                                                                <div class="hover-appear">
+                                                                    <form action="./product.html" method="post">
+                                                                        <div class="effect-ajax-cart">
+                                                                            <input type="hidden" name="quantity" value="1">
+                                                                            <button class="select-option" type="button" onclick="window.location.href='product.html'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
+                                                                        </div>
+                                                                    </form>
+                                                                    <div class="product-ajax-qs hidden-xs hidden-sm">
+                                                                        <div data-href="./ajax/_product-qs.html" data-target="#quick-shop-modal" class="quick_shop" data-barcode="{{ $product->barcode }}" data-toggle="modal">
+                                                                            <i class="fa fa-eye" title="Бърз преглед"></i><span class="list-mode">Бърз преглед</span>																		
+                                                                        </div>
+                                                                    </div>
+                                                                    <a class="wish-list" href="#" title="wish list" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}"><i class="fa fa-heart"></i><span class="list-mode">Добави в желани</span></a>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    @endforeach														  			  			
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                    @endforeach    
+
+                    
                     @if(count($articles))
                     <div class="home-blog">
                         <div class="container">
@@ -270,75 +342,6 @@
                         </div>
                     </div>
                     @endif
-
-                    @if(count($products))
-                    <div class="home-feature">
-                        <div class="container">
-                            <div class="group_featured_products row">
-                                <div class="col-md-24">
-                                    <div class="home_fp">
-                                        <h6 class="general-title">Още продукти</h6>
-                                        <div class="home_fp_wrapper">
-                                            <div id="home_fp">  
-                                                @foreach ( $products->take(10) as $key => $product ) 					
-                                                <div class="element no_full_width not-animated" data-animate="fadeInUp" data-delay="0">
-                                                    <ul class="row-container list-unstyled clearfix">
-                                                        <li class="row-left">
-                                                        <a href="{{route('single_product', ['product' => $product]) }}" class="container_item">
-                                                        <img src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif" class="img-responsive" alt="Curabitur cursus dignis">
-                                                       
-                                                        </a>
-                                                        <div class="hbw">
-                                                            <span class="hoverBorderWrapper"></span>
-                                                        </div>
-                                                        </li>
-                                                        <li class="row-right parent-fly animMix">
-                                                            <div class="product-content-left">
-                                                                <a class="title-5" href="{{route('single_product', ['product' => $product]) }}">{{ $product->name }}</a>
-                                                                <span class="spr-badge" id="spr_badge_1293238211" data-rating="{{$product->getProductAvgRating($product)}}">
-                                                                @if($product->getProductAvgRating($product) > 0)
-                                                                    <span class="spr-starrating spr-badge-starrating">
-                                                                        {{$product->listProductAvgRatingStars($product)}}
-                                                                    </span>
-                                                                @else
-                                                                    <span class="spr-badge-caption" style="display:block;">Няма ревюта </span>
-                                                                @endif
-                                                                </span>
-                                                            </div>
-                                                            <div class="product-content-right">
-                                                                <div class="product-price">
-                                                                    <span class="price">{{ $product->price }} лв</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="list-mode-description">
-                                                                    Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis amet voluptas assumenda est, omnis dolor repellendus quis nostrum. Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed...
-                                                            </div>
-                                                            <div class="hover-appear">
-                                                                <form action="./product.html" method="post">
-                                                                    <div class="effect-ajax-cart">
-                                                                        <input type="hidden" name="quantity" value="1">
-                                                                        <button class="select-option" type="button" onclick="window.location.href='product.html'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
-                                                                    </div>
-                                                                </form>
-                                                                <div class="product-ajax-qs hidden-xs hidden-sm">
-                                                                    <div data-href="./ajax/_product-qs.html" data-target="#quick-shop-modal" class="quick_shop" data-barcode="{{ $product->barcode }}" data-toggle="modal">
-                                                                        <i class="fa fa-eye" title="Бърз преглед"></i><span class="list-mode">Бърз преглед</span>																		
-                                                                    </div>
-                                                                </div>
-                                                                <a class="wish-list" href="#" title="wish list" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}"><i class="fa fa-heart"></i><span class="list-mode">Добави в желани</span></a>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                @endforeach														  			  			
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> 
-                    @endif 				            
                 </div>
             </section>        
         </div>
