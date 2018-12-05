@@ -436,7 +436,9 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Store'], function() {
     Route::get('/productsothers/{product}/quickview/', 'ProductOtherController@quickview');
     Route::get('/models/{model}/quickview/', 'ModelController@quickview');
 
-    Route::get('/filter', 'ProductController@filter');
+    Route::get('/filter/products', 'ProductController@filter');
+
+    Route::get('/filter/productsothers', 'ProductOtherController@filter');
 
     Route::post('/wishlists/store/{type}/{item}', 'WishListController@store')->name('wishlists_store');
 

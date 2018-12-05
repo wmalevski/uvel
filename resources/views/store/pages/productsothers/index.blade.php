@@ -40,7 +40,7 @@ aria-hidden="true">
 												<div class="group_sidebar">
 													<div class="sb-wrapper">
 														<!-- filter tags group -->
-														<div class="filter-tag-group">
+														<div class="filter-tag-group" data-url="ajax/filter/productsothers">
 															<h6 class="sb-title">Филтри</h6>
 															<div class="tag-group" id="coll-filter-3">
 																<p class="title">
