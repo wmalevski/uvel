@@ -22,6 +22,7 @@ class CreateGalleriesTable extends Migration
             $table->integer('article_id')->nullable()->unsigned();
             $table->integer('slider_id')->nullable()->unsigned();
             $table->integer('custom_order_id')->nullable()->unsigned();
+            $table->integer('product_other_id')->nullable()->unsigned();
             $table->string('table');
             $table->timestamps();
             $table->softDeletes();
