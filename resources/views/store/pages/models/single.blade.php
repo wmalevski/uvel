@@ -123,7 +123,8 @@
 																</style>																
 																<div id="purchase-1293235843">
 																	<div class="detail-price" itemprop="price">
-                                                                        <span class="price">{{ $model->price }} лв</span>
+																		<span class="price">{{ $model->price }} лв</span>
+																		*Цената е с включено ДДС.
 																	</div>
 																</div>
 																<div class="others-bottom clearfix">
@@ -296,7 +297,8 @@
 													</div>
 													<div class="product-content-right">
 														<div class="product-price">
-                                                        <span class="price">{{ $model->price }} лв</span>
+														<span class="price">{{ $model->price }} лв</span>
+														*Цената е с включено ДДС.
 														</div>
 													</div>
 													<div class="list-mode-description">

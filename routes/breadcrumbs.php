@@ -71,6 +71,11 @@ Breadcrumbs::register('productsothers', function ($breadcrumbs) {
     $breadcrumbs->push('Каталог с продукти', route('productsothers'));
 });
 
+Breadcrumbs::register('wishlist', function ($breadcrumbs) {
+    $breadcrumbs->parent('store');
+    $breadcrumbs->push('Желани продукти', route('wishlist'));
+});
+
 Breadcrumbs::register('single_product', function ($breadcrumbs, $product) {
     $breadcrumbs->parent('products');
     $breadcrumbs->push($product->name, route('single_product', $product->id));

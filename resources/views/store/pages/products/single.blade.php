@@ -126,7 +126,8 @@
 																</style>																
 																<div id="purchase-1293235843">
 																	<div class="detail-price" itemprop="price">
-                                                                        <span class="price">{{ $product->price }} лв</span>
+																		<span class="price">{{ $product->price }} лв</span>
+																		*Цената е с включено ДДС.
 																	</div>
 																</div>
 																<div class="others-bottom clearfix">
