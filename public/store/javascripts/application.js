@@ -303,24 +303,6 @@ function ssc_directionCheck(e, t) {
 	}
 }
 
-function setRating(e, r) {
-	e.preventDefault();
-
-	let rating = r.dataset.value;
-	let stars = document.querySelectorAll('.spr-form-review .spr-icon-star');
-	$('[name="rating"]').attr('value', rating);
-
-	//UPDATE STARS
-	for (let i=0; i<stars.length; i++) {
-		console.log(i)
-		if (i<rating)
-			stars[i].classList.remove('spr-icon-star-empty')
-		else
-			stars[i].classList.add('spr-icon-star-empty')
-	}
-
-}
-
 function ssc_pulse_(e) {
 	var t, n, r;
 	e = e * ssc_pulseScale;
@@ -497,7 +479,7 @@ var uvelStore,
 					$discountCradInput = $('#discountCard'),
 					$addDiscountTrigger = $('.cart-applyDiscount'),
 					$removeDiscountTrigger = $('.discount-remove'),
-					$addToCartTrigger = $('.add-to-cart'),
+					$addToCartTrigger = $('.add_to_cart'),
 					$removeFromCartTrigger = $('.remove-from-cart'),
 					$updateCartQuantityTrigger = $('.update-cart-quantity'),
 					$addToWishTrigger = $('.wish-list');
@@ -518,6 +500,7 @@ var uvelStore,
 			$self.updateCartQuantityAttach($updateCartQuantityTrigger);
 			$self.addToWishlistAttach($addToWishTrigger);
 			$self.reviewWordCount();
+			$self.setRating();
 		};
 
 		this.reviewWordCount = function() {
@@ -525,6 +508,80 @@ var uvelStore,
 				let l = this.value.trim().split('').length;
 				$(`[for="${this.id}"] span`).text(`(${1500 - l})`);
 			});
+		}
+
+		this.setRating = function() {
+			let current_selected = 0,
+				temp_selected = 0,
+				prev_selected = 0,
+				remove_interval,
+				stars = document.querySelectorAll('.spr-form-review .spr-icon-star');
+			
+			$('a.spr-icon-star').on('click', function(e) {
+				e.preventDefault();
+				prev_selected = current_selected;
+				current_selected = Number(this.dataset.value);
+				
+				$('[name="rating"]').attr('value', current_selected); //set rating value
+				handle_stars(current_selected);
+			});
+
+			$('a.spr-icon-star').on('mouseover', function(e) {
+				temp_selected = Number(this.dataset.value);
+				handle_stars(temp_selected);
+				
+			});
+
+			$('a.spr-icon-star').on('mouseout', function(e) {
+				if (temp_selected != current_selected)
+					remove_interval = setInterval(a(), 50);
+			});
+
+			
+
+			let a = function remove_stars() {
+				let state = temp_selected > current_selected ? true:false,
+					target = state? temp_selected - current_selected: current_selected - temp_selected,
+					current = 0;
+					
+				return function() {
+					if (state) {
+						stars[temp_selected-1 - current].classList.add('spr-icon-star-empty');
+						current++;
+						
+						if (current == target) {
+							current = 0;
+							clearInterval(remove_interval);
+							remove_interval = null;
+						}
+
+						return current;
+					}
+					else {
+						stars[temp_selected + current].classList.remove('spr-icon-star-empty');
+						current++;
+
+						if (current == target) {
+							current = 0;
+							clearInterval(remove_interval);
+							remove_interval = null;
+						}
+					}
+				};
+
+			}
+
+			function handle_stars(value) {
+				clearInterval(remove_interval);
+				remove_interval = null;
+				
+				for (let i=0; i< stars.length; i++) {
+					if (i < value)
+						stars[i].classList.remove('spr-icon-star-empty')
+					else
+						stars[i].classList.add('spr-icon-star-empty')
+				}	
+			}
 		}
 
 		this.imageHandling = function() {
@@ -670,7 +727,7 @@ var uvelStore,
 
 					modal.html(resp);
 
-					var addToCartTrigger = modal.find('.add-to-cart');
+					var addToCartTrigger = modal.find('.add_to_cart');
 					$self.addToCartAttach(addToCartTrigger);
 				}
 			})
@@ -1019,6 +1076,7 @@ var uvelStore,
 					var success = resp.success;
 
 					if (success) {
+						
 						var cartNum = $('.cart-link span.number'),
 								quantity = resp.quantity,
 								message = 'Продукта беше успешно добавен в количката!';
@@ -1027,6 +1085,7 @@ var uvelStore,
 
 						if (_this.closest('.modal').length > 0) {
 							// show success message for modal
+							$self.ajaxReturnMessage(message, 'success');
 						} else {
 							$self.ajaxReturnMessage(message, 'success');
 						}
@@ -1035,6 +1094,7 @@ var uvelStore,
 
 						if (_this.closest('.modal').length > 0) {
 							// show error message for modal
+							$self.ajaxReturnMessage(message, 'error');
 						} else {
 							$self.ajaxReturnMessage(message, 'error');
 						}

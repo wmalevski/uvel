@@ -214,11 +214,11 @@
 														<div class="spr-form-review-rating">
 															<label class="spr-form-label">Рейтинг</label>
 															<div class="spr-form-input spr-starrating ">
-																<a href="#" onclick="setRating(event, this)" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="1">&nbsp;</a>
-																<a href="#" onclick="setRating(event, this)" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="2">&nbsp;</a>
-																<a href="#" onclick="setRating(event, this)" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="3">&nbsp;</a>
-																<a href="#" onclick="setRating(event, this)" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="4">&nbsp;</a>
-																<a href="#" onclick="setRating(event, this)" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="5">&nbsp;</a>
+																<a href="#" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="1">&nbsp;</a>
+																<a href="#" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="2">&nbsp;</a>
+																<a href="#" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="3">&nbsp;</a>
+																<a href="#" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="4">&nbsp;</a>
+																<a href="#" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="5">&nbsp;</a>
 															</div>
 														</div>
 														<div class="spr-form-review-title">
