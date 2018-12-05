@@ -30,9 +30,7 @@
                 </div>
             </div>
             <div class="list-mode-description">
-                 {{-- Модел: {{ $product->model->name }} <br/>
-                 Бижу: {{ $product->jewel->name }} <br/>
-                 Размер: {{ $product->model->size }} --}}
+                    No: {{ $product->code }} <br/>
             </div>
             <div class="hover-appear">
                 <form action="#" method="post">

@@ -190,7 +190,7 @@ class CartController extends BaseController
 
             return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'message' => 'Продукта беше успешно добавен в количката!'));
         }else{
-            return Response::json(array('success' => false, 'not_found' => 'Продукта не е намерен!'));
+            return Response::json(array('success' => false, 'message' => 'Продукта не е намерен!'));
         }
     }
 

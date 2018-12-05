@@ -40,64 +40,43 @@ aria-hidden="true">
 												<div class="group_sidebar">
 													<div class="sb-wrapper">
 														<!-- filter tags group -->
-														<div class="filter-tag-group">
+														<div class="filter-tag-group" data-url="ajax/filter/models">
 															<h6 class="sb-title">Филтри</h6>
-															<div class="tag-group" id="coll-filter-3">
-																<p class="title">
-																	Налично в
-																</p>
-																<ul>
-																	@foreach($stores as $store)
-																		<li><a title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $store->name }} ({{ count($store->products) }})</a></li>
-																	@endforeach
-																</ul>
-															</div>
-															<!-- tags groupd 3 -->
 
-															<!-- tags groupd 3 -->
-															<div class="tag-group" id="coll-filter-3">
+																<!-- tags groupd 3 -->
+	
+																<!-- tags groupd 3 -->
+																<div class="tag-group" id="coll-filter-3">
+																		<p class="title">
+																			Вид бижу
+																		</p>
+																		<ul>
+																			@foreach($jewels as $jewel)
+																				<li><a title="Narrow selection to products matching tag Under $100" href="#" data-id="byJewel[]={{ $jewel->id }}"><span class="fe-checkbox"></span> {{ $jewel->name }} ({{ count($jewel->productsOnline) }})</a></li>
+																			@endforeach
+																		</ul>
+																	</div>
+																	<!-- tags groupd 3 -->
+
+																<!-- tags groupd 3 -->
+																<div class="tag-group" id="coll-filter-3">
 																	<p class="title">
-																		Вид бижу
+																		Размер
 																	</p>
-																	<ul>
-																		@foreach($jewels as $jewel)
-																			<li><a title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $jewel->name }} ({{ count($jewel->products) }})</a></li>
-																		@endforeach
-																	</ul>
+																	<input type="number" class="form-control" placeholder="Въведи размер" data-id="bySize[]=">
 																</div>
 																<!-- tags groupd 3 -->
-
-															<!-- tags groupd 3 -->
-															<div class="tag-group" id="coll-filter-3">
-																<p class="title">
-																	Материал
-																</p>
-																<ul>
-																	@foreach($materials as $material)
-																		<li><a title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $material->name }} ({{ count($material->products) }})</a></li>
-																	@endforeach
-																</ul>
-															</div>
-															<!-- tags groupd 3 -->
-
-															<!-- tags groupd 3 -->
-															<div class="tag-group" id="coll-filter-3">
-																<p class="title">
-																	Размер
-																</p>
-																<input type="number" class="form-control" placeholder="Въведи размер">
-															</div>
-															<!-- tags groupd 3 -->
-
-															<!-- tags groupd 3 -->
-															<div class="tag-group" id="coll-filter-3">
-																<p class="title">
-																	Цена
-																</p>
-
-																<input type="number" class="form-control" placeholder="От">
-																<input type="number" class="form-control" placeholder="До">
-															</div>
+	
+																<!-- tags groupd 3 -->
+																<div class="tag-group" id="coll-filter-3">
+																	<p class="title">
+																		Цена
+																	</p>
+	
+																	<input type="number" class="form-control" placeholder="От" data-id="priceFrom[]=">
+																	<input type="number" class="form-control" placeholder="До" data-id="priceTo[]=">
+																</div>
+																<!-- tags groupd 3 -->
 															<!-- tags groupd 3 -->
 														</div>
 													</div>  

@@ -440,6 +440,8 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Store'], function() {
 
     Route::get('/filter/productsothers', 'ProductOtherController@filter');
 
+    Route::get('/filter/models', 'ModelController@filter');
+
     Route::post('/wishlists/store/{type}/{item}', 'WishListController@store')->name('wishlists_store');
 
     Route::get('/cart/setDiscount/{barcode}',  'CartController@setDiscount')->name('add_discount');
