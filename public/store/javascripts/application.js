@@ -303,6 +303,24 @@ function ssc_directionCheck(e, t) {
 	}
 }
 
+function setRating(e, r) {
+	e.preventDefault();
+
+	let rating = r.dataset.value;
+	let stars = document.querySelectorAll('.spr-form-review .spr-icon-star');
+	$('[name="rating"]').attr('value', rating);
+
+	//UPDATE STARS
+	for (let i=0; i<stars.length; i++) {
+		console.log(i)
+		if (i<rating)
+			stars[i].classList.remove('spr-icon-star-empty')
+		else
+			stars[i].classList.add('spr-icon-star-empty')
+	}
+
+}
+
 function ssc_pulse_(e) {
 	var t, n, r;
 	e = e * ssc_pulseScale;
@@ -499,7 +517,15 @@ var uvelStore,
 			$self.removeFromCartAttach($removeFromCartTrigger);
 			$self.updateCartQuantityAttach($updateCartQuantityTrigger);
 			$self.addToWishlistAttach($addToWishTrigger);
+			$self.reviewWordCount();
 		};
+
+		this.reviewWordCount = function() {
+			$('.spr-form-input-textarea').keyup(function() {
+				let l = this.value.trim().split('').length;
+				$(`[for="${this.id}"] span`).text(`(${1500 - l})`);
+			});
+		}
 
 		this.imageHandling = function() {
 		  var uploadImagesTrigger = $('.drop-area-input'),
