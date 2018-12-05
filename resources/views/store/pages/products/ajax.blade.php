@@ -41,10 +41,10 @@
                     </div>
                 </form>
                 <div class="product-ajax-qs hidden-xs hidden-sm">
-                    <div data-handle="curabitur-cursus-dignis" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal" data-barcode="{{ $product->barcode }}">
-                        <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Бърз преглед</span>
-                        
-                    </div>
+                        <div data-handle="curabitur-cursus-dignis" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal" data-url="products/{{ $product->id }}/">
+                            <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Бърз преглед</span>
+                            
+                        </div>
                 </div>
                 <a class="wish-list" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}" href="#" title="wish list"><i class="fa fa-heart"></i><span class="list-mode">Добави в желани</span></a>
             </div>
