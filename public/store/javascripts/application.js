@@ -1223,56 +1223,55 @@ var uvelStore,
 					imageCollection = [];
 
 			inputFields.each(function(index, element) {
-        var _this = element,
-            inputType = _this.type,
-            dataKey = _this.name,
-            dataKeyValue = _this.value,
-            imagesInputFieldExists = dataKey == 'images' ? true : false;
+			var _this = element,
+				inputType = _this.type,
+				dataKey = _this.name,
+				dataKeyValue = _this.value,
+				imagesInputFieldExists = dataKey == 'images' ? true : false;
 
-        data[dataKey] = dataKeyValue;
+				data[dataKey] = dataKeyValue;
 
-        if(imagesInputFieldExists) {
-          var imagesHolder = $('.drop-area-gallery .image-wrapper img');
+				if(imagesInputFieldExists) {
+				var imagesHolder = $('.drop-area-gallery .image-wrapper img');
 
-          imagesHolder.each(function(index , element) {
-            var _imgSource = element.getAttribute('src');
+				imagesHolder.each(function(index , element) {
+					var _imgSource = element.getAttribute('src');
 
-            imageCollection.push(_imgSource);
-          });
+					imageCollection.push(_imgSource);
+				});
 
-          data.images = imageCollection;
-        }
-      });
+				data.images = imageCollection;
+				}
+			});
 
-      $self.sendCustomOrderForm(form, ajaxRequestLink, data);
+			$self.sendCustomOrderForm(form, ajaxRequestLink, data);
 		}
 
 		this.sendCustomOrderForm = function(form, ajaxRequestLink, data) {
 			var requestUrl =  ajaxRequestLink;
+			$.ajax({
+				method: "POST",
+				url: requestUrl,
+				dataType: "json",
+				data: data,
+				success: function(response) {
+				var message = response.success;
 
-      $.ajax({
-        method: "POST",
-        url: requestUrl,
-        dataType: "json",
-        data: data,
-        success: function(response) {
-          var message = response.success;
+				$self.ajaxReturnMessage(message, 'success');
+				},
+				error: function(err) {
+				var errors = JSON.parse(err.responseText).errors,
+						messages = '';
 
-          $self.ajaxReturnMessage(message, 'success');
-        },
-        error: function(err) {
-          var errors = JSON.parse(err.responseText).errors,
-          		messages = '';
+				for (var key in errors) {
+					var message = errors[key][0];
 
-          for (var key in errors) {
-          	var message = errors[key][0];
+					messages += message + '<br>';
+				}
 
-          	messages += message + '<br>';
-          }
-
-          $self.ajaxReturnMessage(messages, 'error');
-        }
-      });
+				$self.ajaxReturnMessage(messages, 'error');
+				}
+			});
 		}
 	};
 

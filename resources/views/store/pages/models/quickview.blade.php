@@ -48,7 +48,7 @@
                             {{-- <del class="price_compare">$300.00</del> --}}
                         </div>
                         <div class="others-bottom">
-                            <a href="{{ route('order_model', ['model' => $model->id]) }}" class="btn btn-1">Поръчай</a>
+                            <a data-url="{{ route('order_model', ['model' => $model->id]) }}" class="btn btn-1">Поръчай</a>
                         </div>
                     </form>
                 </div>
