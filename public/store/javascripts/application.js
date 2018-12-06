@@ -482,7 +482,8 @@ var uvelStore,
 					$addToCartTrigger = $('.add_to_cart'),
 					$removeFromCartTrigger = $('.remove-from-cart'),
 					$updateCartQuantityTrigger = $('.update-cart-quantity'),
-					$addToWishTrigger = $('.wish-list');
+					$addToWishTrigger = $('.wish-list'),
+					$orderProductTrigger = $('.order_product');
 
 			$self.quickviewAttach($quickViewTrigger);
 			$self.imageHandling();
@@ -501,6 +502,7 @@ var uvelStore,
 			$self.addToWishlistAttach($addToWishTrigger);
 			$self.reviewWordCount();
 			$self.setRating();
+			$self.orderProductAttach($orderProductTrigger);
 		};
 
 		this.reviewWordCount = function() {
@@ -513,13 +515,11 @@ var uvelStore,
 		this.setRating = function() {
 			let current_selected = 0,
 				temp_selected = 0,
-				prev_selected = 0,
 				remove_interval,
 				stars = document.querySelectorAll('.spr-form-review .spr-icon-star');
 			
 			$('a.spr-icon-star').on('click', function(e) {
 				e.preventDefault();
-				prev_selected = current_selected;
 				current_selected = Number(this.dataset.value);
 				
 				$('[name="rating"]').attr('value', current_selected); //set rating value
@@ -536,8 +536,6 @@ var uvelStore,
 				if (temp_selected != current_selected)
 					remove_interval = setInterval(a(), 50);
 			});
-
-			
 
 			let a = function remove_stars() {
 				let state = temp_selected > current_selected ? true:false,
@@ -568,7 +566,6 @@ var uvelStore,
 						}
 					}
 				};
-
 			}
 
 			function handle_stars(value) {
@@ -724,11 +721,17 @@ var uvelStore,
 				url: ajaxRequestLink,
 				success: function(resp) {
 					var modal = $this.parents().find('.edit--modal_holder .modal-content');
-
 					modal.html(resp);
-
+					
 					var addToCartTrigger = modal.find('.add_to_cart');
-					$self.addToCartAttach(addToCartTrigger);
+					let orderProductTrigger = modal.find('.order_product');
+
+					if (addToCartTrigger.length > 0)
+						$self.addToCartAttach(addToCartTrigger);
+					else
+						$self.orderProductAttach(orderProductTrigger);
+					
+					
 				}
 			})
 		}
@@ -1101,6 +1104,34 @@ var uvelStore,
 					}
 				}
 			})
+		}
+
+		this.orderProductAttach = function(orderBtn) {
+			orderBtn.on('click', function(e) {
+				e.preventDefault();
+
+				let _this = $(this);
+				$self.orderProduct(_this);
+			});
+		}
+
+		this.orderProduct = function(orderBtn) {
+			let _this = orderBtn,
+					ajaxURL = _this.attr('data-url');
+			$.ajax({
+				method: "GET",
+				url: ajaxURL,
+				success: function(resp) {
+					let success = resp.success;
+
+					if (success) {
+						$self.ajaxReturnMessage(success, 'success');
+					}
+					else {
+						$self.ajaxReturnMessage(resp.error, 'error');
+					}
+				}
+			});
 		}
 
 		this.removeFromCartAttach = function(rmvBtn) {

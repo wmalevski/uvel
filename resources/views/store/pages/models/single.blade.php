@@ -128,7 +128,7 @@
 																	</div>
 																</div>
 																<div class="others-bottom clearfix">
-																	<a href="{{ route('order_model', ['model' => $model->id]) }}" class="btn btn-1">Поръчай</a>
+																	<a data-url="{{ route('order_model', ['model' => $model->id]) }}" class="order_product btn btn-1">Поръчай</a>
 																</div>
 															</div>
 														</form>
