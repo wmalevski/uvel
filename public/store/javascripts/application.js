@@ -529,22 +529,15 @@ var uvelStore,
 				list_items.detach().appendTo(list);
 
 				function sort() {
-					let selector;
-
-					if (method == 'price')
-						selector = 'price'
-					else if (method == 'title')
-						selector = 'alpha'
-
 					return function(a,b) {
 						let an,bn;
-						if (selector == 'price') {
-							an = parseInt(a.dataset[selector]),
-							bn = parseInt(b.dataset[selector]);
+						if (method == 'price') {
+							an = parseInt(a.dataset.price),
+							bn = parseInt(b.dataset.price);
 						}
-						else {
-							an = a.dataset[selector].toLowerCase(),
-							bn = b.dataset[selector].toLowerCase();
+						else if (method == 'title') {
+							an = a.dataset.alpha.toLowerCase(),
+							bn = b.dataset.alpha.toLowerCase();
 						}
 
 						if (order == 'asc') {
