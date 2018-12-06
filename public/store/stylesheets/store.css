@@ -72,14 +72,9 @@
     padding: 0px;
 }
 
-#collection-content #page-header {
-    padding: 0 15px;
-}
-
 #contact-form .g-recaptcha {
     text-align: left;
 }
-
 
 /* fix for text container under the image in products */
 .element ul li.row-right .product-content-left {
@@ -112,14 +107,64 @@
     z-index: 1050 !important;
 }
 
+
+/* content padding */
+
+.left-block, .right-block {
+    padding: 0;
+}
+
+.col-md-24 {
+    padding: 0;
+}
+
+.col-xs-24 {
+    padding: 0;
+}
+
+header .phone-shopping {
+    padding-left: 0;
+}
+
+header .col-md-18 {
+    padding-right: 0;
+}
+
+.row {
+    margin: 0;
+}
+
+#prodcoll {
+    padding: 0;
+}
+
+#col-main {
+    padding: 0;
+}
+
+.contact-content {
+    padding: 0;
+}
+
+/* BTN TEXT OVERFLOW */
+.btn {
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 /* MEDIA QUERIES */
 @media (max-width: 767px) {
     .sidebar {
         display: block !important;
     }
 
-    #col-main #options {
-        float: left;
+    #options .list-inline {
+        text-align: left;
+    }
+
+    #options .sortBy {
+        padding-left: 0;
     }
 }
 
