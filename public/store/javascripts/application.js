@@ -483,7 +483,8 @@ var uvelStore,
 					$removeFromCartTrigger = $('.remove-from-cart'),
 					$updateCartQuantityTrigger = $('.update-cart-quantity'),
 					$addToWishTrigger = $('.wish-list'),
-					$orderProductTrigger = $('.order_product');
+					$orderProductTrigger = $('.order_product'),
+					$sortTrigger = $('.sort');
 
 			$self.quickviewAttach($quickViewTrigger);
 			$self.imageHandling();
@@ -503,6 +504,7 @@ var uvelStore,
 			$self.reviewWordCount();
 			$self.setRating();
 			$self.orderProductAttach($orderProductTrigger);
+			$self.attachSort($sortTrigger);
 		};
 
 		this.reviewWordCount = function() {
@@ -510,6 +512,56 @@ var uvelStore,
 				let l = this.value.trim().split('').length;
 				$(`[for="${this.id}"] span`).text(`(${1500 - l})`);
 			});
+		}
+
+		this.attachSort = function(trigger) {
+			trigger.on('click', sortList);
+
+			let list = $('#sandBox'),
+				list_items = list.children('li');
+			
+			function sortList() {
+				let method = this.dataset.optionValue.split('-')[0],
+					order = this.dataset.order;
+				
+				list_items.sort(sort());
+
+				list_items.detach().appendTo(list);
+
+				function sort() {
+					let selector;
+
+					if (method == 'price')
+						selector = 'price'
+					else if (method == 'title')
+						selector = 'alpha'
+
+					return function(a,b) {
+						let an,bn;
+						if (selector == 'price') {
+							an = parseInt(a.dataset[selector]),
+							bn = parseInt(b.dataset[selector]);
+						}
+						else {
+							an = a.dataset[selector].toLowerCase(),
+							bn = b.dataset[selector].toLowerCase();
+						}
+
+						if (order == 'asc') {
+							if (an>bn)
+								return 1;
+							else 
+								return -1;
+						}
+						else {
+							if (an>bn)
+								return -1;
+							else
+								return 1;
+						}
+					}
+				}
+			};
 		}
 
 		this.setRating = function() {
