@@ -38,13 +38,13 @@
 												<div class="row">
 													<div class="article-content col-md-24">
 														<div class="article-content-inner">
-															<div>
+															<div class="blogs-header">
 																<div class="date">
 																	<p>
 																		<small>{{ $article->created_at->format('M') }}</small><span>{{ $article->created_at->format('d') }}</span>
 																	</p>
 																</div>
-																<h4>
+																<h4 class="article-title">
 																	<a href="{{ route('single_translated_article', ['locale'=>$lng, 'product' => $article->slug])  }}">{{$article->title}}</a>
 																</h4>
 															</div>

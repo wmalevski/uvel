@@ -1,0 +1,114 @@
+/* https://trello.com/c/ceK5wKsm/18-blog */
+.blogs {
+	padding: 15px;
+}
+
+.blogs-item .article-title {
+	width: 100%;
+	margin: 15px 0;
+	padding: 0;
+}
+
+.blogs-item .blogs-image {
+	margin-top: 0;
+	margin-bottom: 15px;
+}
+
+/* https://trello.com/c/Hnox7toE/25-product-alignments */
+/* List alignment */
+#sandBox .element.full_width {
+	height: 200px;
+}
+
+#sandBox .element.full_width .row-container {
+	height: 100%;
+}
+
+#sandBox .element.full_width .row-left {
+	height: 100%;
+}
+
+#sandBox .element.full_width .row-left .img-responsive {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+/* Grid alignment */
+#sandBox .element.no_full_width .row-container .row-left {
+	height: 200px;
+}
+
+#sandBox .element.no_full_width .row-container .row-right {
+	height: 130px;
+}
+
+#sandBox .element.no_full_width .row-container .product-content-left {
+	padding: 20px;
+}
+
+#sandBox .element.no_full_width .row-left .container_item {
+	position: relative;
+	height: 100%;
+}
+
+#sandBox .element.no_full_width .row-left .img-responsive {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+#sandBox .element.no_full_width .hover-appear {
+	margin-bottom: 130px;
+}
+
+/* https://trello.com/c/wsV8ng5r/26-newsletter-mobile */
+@media (max-width: 600px) {
+	#widget-newsletter .newsletter .group_input {
+		width: 100%;
+		height: 100%;
+	}
+
+	#widget-newsletter .newsletter .form-control {
+		width: 100%;
+	}
+
+	#footer .footer-content-top {
+		padding: 0;
+	}
+
+	#footer .footer-content-top .container {
+		padding: 0;
+	}
+
+	#footer .footer-content-top .container .footer-link-list {
+		margin: 0;
+		padding: 20px;
+	}
+}
+
+/* https://trello.com/c/YTyf8goi/6-%D0%BA%D0%BE%D0%BD%D1%82%D0%B0%D0%BA%D1%82%D0%B8 */
+.contact-page .row {
+	margin: 0;
+}
+
+.contact-page .row .col-md-12 {
+	padding-left: 0;
+	padding-right: 15px;
+}
+
+.contact-page #message {
+	min-height: 150px;
+	max-height: 500px;
+	resize: vertical;
+}
+
+.contact-page .g-recaptcha {
+	text-align: start;
+}
+
+.contact-page .contact-content .title {
+	margin-bottom: 30px;
+}

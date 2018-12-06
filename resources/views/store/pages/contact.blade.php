@@ -2,9 +2,9 @@
 
 @section('content')
 <div id="content-wrapper-parent">
-    <div id="content-wrapper">   
+    <div id="content-wrapper">
         <!-- Content -->
-        <div id="content" class="clearfix">                
+        <div id="content" class="clearfix">
             <div id="breadcrumb" class="breadcrumb">
                 <div itemprop="breadcrumb" class="container">
                     <div class="row">
@@ -13,8 +13,8 @@
                         </div>
                     </div>
                 </div>
-            </div>               
-            <section class="content">    
+            </div>
+            <section class="content">
                 <div class="container">
                     <div class="row">
                         <div id="page-header">
@@ -31,7 +31,7 @@
                                         <li>{{ $error }}</li>
                                     @endforeach
                                 </ul>
-                            @endif 
+                            @endif
 
                             @if(session()->has('success'))
                                 <div class="alert alert-success">
@@ -41,7 +41,7 @@
 
                             <div class="row">
                                 <div class="left-block col-md-12">
-                                    <form method="post" action="contact" class="contact-form" accept-charset="UTF-8">  
+                                    <form method="post" action="contact" class="contact-form" accept-charset="UTF-8">
                                         {{ csrf_field() }}
                                         <input type="hidden" value="contact" name="form_type"><input type="hidden" name="utf8" value="✓">
                                         <ul id="contact-form" class="row list-unstyled">
@@ -49,7 +49,7 @@
                                             <h3>Напишете ни нещо</h3>
                                             </li>
                                             <li class="">
-                                            <label class="control-label" for="name">Вашето име</label>
+                                            <label class="control-label" for="name">Вашето име <span class="req">*</span></label>
                                             <input type="text" id="name" value="" class="form-control" name="name">
                                             </li>
                                             <li class="clearfix"></li>
@@ -117,8 +117,8 @@
                             </script>
                         </div> --}}
                     </div>
-                </div> 
-            </section>        
+                </div>
+            </section>
         </div>
     </div>
 </div>
