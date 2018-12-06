@@ -53,7 +53,7 @@ class CustomOrderController extends BaseController
             'content' => 'required|string',
             'phone' => 'required',
             'city' => 'required',
-            
+            'g-recaptcha-response' => 'required|captcha'
         ]);
 
         if ($validator->fails()) {
@@ -117,6 +117,7 @@ class CustomOrderController extends BaseController
 
         Mail::send('order',
         array(
+            'ID' => $customOrder->id,
             'name' => $request->name,
             'email' => $request->email,
             'city' => $request->city,
