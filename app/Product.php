@@ -236,30 +236,31 @@ class Product extends Model
         }
 
         public function filterProducts(Request $request ,$query){
-            if ($request->priceFrom && $request->priceTo) {
-                $query = $query->whereBetween('price', [$request->priceFrom, $request->priceTo]);
-            } else if($request->priceFrom){
-                $query = $query->where('price', '>=', $request->priceFrom);
-            } else if($request->priceTo){
-                $query = $query->where('price', '<=', $request->priceTo);
-            }
+            $query = Product::where(function($query) use ($request){
+                if ($request->priceFrom && $request->priceTo) {
+                    $query->whereBetween('price', [$request->priceFrom, $request->priceTo]);
+                } else if($request->priceFrom){
+                    $query->where('price', '>=', $request->priceFrom);
+                } else if($request->priceTo){
+                    $query->where('price', '<=', $request->priceTo);
+                }
     
-            if ($request->bySize) {
-                $query = $query->whereIn('size', $request->bySize);
-            }
-    
-            if ($request->byStore) {
-                $query = $query->whereIn('store_id', $request->byStore);
-            }
-    
-            if ($request->byJewel) {
-                $query = $query->whereIn('jewel_id', $request->byJewel);
-            }
-    
-            if ($request->byMaterial) {
-                $query = $query->whereIn('material_id', $request->byMaterial);
-            }
-
+                if ($request->bySize) {
+                    $query->whereIn('size', $request->bySize);
+                }
+        
+                if ($request->byStore) {
+                    $query->whereIn('store_id', $request->byStore);
+                }
+        
+                if ($request->byJewel) {
+                    $query->whereIn('jewel_id', $request->byJewel);
+                }
+        
+                if ($request->byMaterial) {
+                    $query->whereIn('material_id', $request->byMaterial);
+                }
+            })->where('status', 'available')->paginate(12);
             return $query;
         }
     }

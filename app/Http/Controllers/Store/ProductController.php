@@ -64,8 +64,6 @@ class ProductController extends BaseController
         $products_new = new Product();
         $products = $products_new->filterProducts($request, $query);
 
-        $products = $query->where('status', 'available')->orderBy('id', 'desc')->get();
-
         $response = '';
         foreach($products as $product){
             $response .= \View::make('store/pages/products/ajax', array('product' => $product));

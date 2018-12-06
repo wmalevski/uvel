@@ -74,29 +74,31 @@ class Model extends BaseModel
     }
 
     public function filterModels(Request $request ,$query){
-        if ($request->priceFrom && $request->priceTo) {
-            $query = $query->whereBetween('price', [$request->priceFrom, $request->priceTo]);
-        } else if($request->priceFrom){
-            $query = $query->where('price', '>=', $request->priceFrom);
-        } else if($request->priceTo){
-            $query = $query->where('price', '<=', $request->priceTo);
-        }
+        $query = Model::where(function($query) use ($request){
+            if ($request->priceFrom && $request->priceTo) {
+                $query = $query->whereBetween('price', [$request->priceFrom, $request->priceTo]);
+            } else if($request->priceFrom){
+                $query = $query->where('price', '>=', $request->priceFrom);
+            } else if($request->priceTo){
+                $query = $query->where('price', '<=', $request->priceTo);
+            }
 
-        if ($request->bySize) {
-            $query = $query->whereIn('size', $request->bySize);
-        }
+            if ($request->bySize) {
+                $query = $query->whereIn('size', $request->bySize);
+            }
 
-        if ($request->byStore) {
-            $query = $query->whereIn('store_id', $request->byStore);
-        }
+            if ($request->byStore) {
+                $query = $query->whereIn('store_id', $request->byStore);
+            }
 
-        if ($request->byJewel) {
-            $query = $query->whereIn('jewel_id', $request->byJewel);
-        }
+            if ($request->byJewel) {
+                $query = $query->whereIn('jewel_id', $request->byJewel);
+            }
 
-        if ($request->byMaterial) {
-            $query = $query->whereIn('material_id', $request->byMaterial);
-        }
+            if ($request->byMaterial) {
+                $query = $query->whereIn('material_id', $request->byMaterial);
+            }
+        })->paginate(12);
 
         return $query;
     }

@@ -52,8 +52,6 @@ class ModelController extends BaseController
         $products_new = new Model();
         $products = $products_new->filterModels($request, $query);
 
-        $products = $query->orderBy('id', 'desc')->get();
-
         $response = '';
         foreach($products as $product){
             $response .= \View::make('store/pages/models/ajax', array('model' => $product));

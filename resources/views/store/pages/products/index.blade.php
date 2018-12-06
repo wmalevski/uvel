@@ -204,7 +204,8 @@ aria-hidden="true">
                                                 @endforeach
 													</ul>
 												</li>												
-                                            </ul>
+											</ul>
+											{{ $products->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
                                             {{-- {{ $products->links() }} --}}
 										</div>
 									</div>  									
