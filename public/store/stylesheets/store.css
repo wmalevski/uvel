@@ -109,6 +109,10 @@
 
 
 /* content padding */
+#accounts {
+    position: relative;
+    left: -15px;
+}
 
 .left-block, .right-block {
     padding: 0;
@@ -143,7 +147,7 @@ header .col-md-18 {
 }
 
 .contact-content {
-    padding: 0;
+    padding: 0 15px;
 }
 
 /* BTN TEXT OVERFLOW */
@@ -153,7 +157,22 @@ header .col-md-18 {
     text-overflow: ellipsis;
 }
 
+/* add_to_cart icon */
+.add_to_cart .fa-shopping-cart {
+    line-height: 50px;
+}
+
+.add_to_cart .fa-shopping-cart {
+    color: #000;
+}
+
 /* MEDIA QUERIES */
+@media (max-width: 991px) {
+    .contact-content {
+        padding: 0;
+    }
+}
+
 @media (max-width: 767px) {
     .sidebar {
         display: block !important;
@@ -165,6 +184,10 @@ header .col-md-18 {
 
     #options .sortBy {
         padding-left: 0;
+    }
+
+    .dropdown-menu {
+        padding: 0px 25px !important;
     }
 }
 
