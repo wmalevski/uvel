@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\User;
+use Illuminate\Support\Facades\Input;
 
 class ProductController extends BaseController
 {
@@ -68,6 +69,9 @@ class ProductController extends BaseController
         foreach($products as $product){
             $response .= \View::make('store/pages/products/ajax', array('product' => $product));
         }
+
+        $products->setPath('');
+        $response .= $products->appends(Input::except('page'))->links();
 
         return $response;
 

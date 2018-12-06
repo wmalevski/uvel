@@ -124,6 +124,7 @@ class ProductController extends Controller
         $product->model_id = $request->model_id;
         $product->jewel_id = $request->jewel_id;
         $product->material_id = $request->material_id;
+        $product->material_type_id = $material->material_id;
         $product->weight = $request->weight;
         $product->gross_weight = $request->gross_weight;
         $product->retail_price_id = $request->retail_price_id;

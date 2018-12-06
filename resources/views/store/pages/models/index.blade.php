@@ -177,7 +177,7 @@ aria-hidden="true">
 													</ul>
 												</li>												
                                             </ul>
-                                            {{ $models->links() }}
+                                            {{ $models->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
 										</div>
 									</div>  									
 								</div>

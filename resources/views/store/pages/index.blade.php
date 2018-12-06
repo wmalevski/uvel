@@ -66,7 +66,7 @@ aria-hidden="true">
                                                     <div class="home_collections_item">
                                                         <div class="home_collections_item_inner">
                                                             <div class="collection-details">
-                                                                <a href="online/products/?byMaterial={{ $material->id }}" title="Browse our Bracelets">
+                                                                <a href="online/products/?byMaterial[]={{ $material->id }}" title="Browse our Bracelets">
                                                                 
                                                                 <img src="
                                                                         @if(count($material->materials->first()->products))
@@ -76,9 +76,9 @@ aria-hidden="true">
                                                                 </a>
                                                             </div>
                                                             <div class="hover-overlay">
-                                                                <span class="col-name"><a href="online/products/?byMaterial={{ $material->id }}">{{ $material->name }}</a></span>
+                                                                <span class="col-name"><a href="online/products/?byMaterial[]={{ $material->id }}">{{ $material->name }}</a></span>
                                                                 <div class="collection-action">
-                                                                    <a href="online/products/?byMaterial={{ $material->id }}">Виж</a>
+                                                                    <a href="online/products/?byMaterial[]={{ $material->id }}">Виж</a>
                                                                 </div>
                                                             </div>
                                                         </div>

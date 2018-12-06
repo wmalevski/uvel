@@ -33,7 +33,8 @@ class Product extends Model
         'size',
         'workmanship',
         'price',
-        'code'
+        'code',
+        'material_type_id'
     ];
 
     protected $dates = ['deleted_at'];
@@ -258,7 +259,7 @@ class Product extends Model
                 }
         
                 if ($request->byMaterial) {
-                    $query->whereIn('material_id', $request->byMaterial);
+                    $query->whereIn('material_type_id', $request->byMaterial);
                 }
             })->where('status', 'available')->paginate(12);
             return $query;
