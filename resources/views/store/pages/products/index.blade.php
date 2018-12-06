@@ -145,7 +145,7 @@ aria-hidden="true">
 										<div id="sandBox-wrapper" class="group-product-item row collection-full">
 											<ul id="sandBox" class="list-unstyled">
                                                 @foreach($products as $product)
-                                                    <li class="element first no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}" data-title="{{ $product->name }}" data-created="{{ $product->created_at }}">
+                                                    <li class="element first no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}" data-title="{{ $product->name }}" data-created="{{ $product->id }}">
                                                         <ul class="row-container list-unstyled clearfix">
                                                             <li class="row-left">
                                                             <a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">

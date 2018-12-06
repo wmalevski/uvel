@@ -80,7 +80,7 @@
                                                 </div>
                                             </li>
                                             <li class="clearfix"></li>
-                                            {!! app('captcha')->display() !!}
+                                            @captcha    
                                             <li class="unpadding-top">
                                                 <button type="submit" class="btn">Изпратете запитване</button>
                                             </li>

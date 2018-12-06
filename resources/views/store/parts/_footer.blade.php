@@ -12,7 +12,7 @@
                     <div class="unpadding-top">
                         <button class="btn btn-1" type="submit"><i class="fa fa-paper-plane"></i></button></div>
                     </div>   
-                    {!! app('captcha')->display() !!}           
+                    @captcha      
                 </form>
                 </div>						
             </div>

@@ -123,7 +123,7 @@ aria-hidden="true">
 										<div id="sandBox-wrapper" class="group-product-item row collection-full">
 											<ul id="sandBox" class="list-unstyled">
 												@foreach($models as $model)
-                                                    <li class="element first no_full_width" data-alpha="{{ $model->name }}" data-price="{{ $model->price }}" data-title="{{ $model->name }}" data-created="{{ $model->created_at }}">
+                                                    <li class="element first no_full_width" data-alpha="{{ $model->name }}" data-price="{{ $model->price }}" data-title="{{ $model->name }}" data-created="{{ $model->id }}">
                                                         <ul class="row-container list-unstyled clearfix">
                                                             <li class="row-left">
                                                             <a href="{{ route('single_model', ['model' => $model->id])  }}" class="container_item">

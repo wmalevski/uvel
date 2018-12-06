@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Store;
 
 use App\CustomOrder;
 use App\Gallery;
+use App\InfoMails;
+use App\InfoPhones;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
@@ -51,7 +53,7 @@ class CustomOrderController extends BaseController
             'content' => 'required|string',
             'phone' => 'required',
             'city' => 'required',
-            'g-recaptcha-response' => 'required|captcha'
+            
         ]);
 
         if ($validator->fails()) {
@@ -93,7 +95,25 @@ class CustomOrderController extends BaseController
             }
         }
 
-        //$to = explode(',', env('ADMIN_EMAILS'));
+        $sendTo = [];
+        $emails = InfoMails::all();
+        foreach($emails as $email){
+            $sendTo[] = $email->email;
+        }
+
+        $phoneTo = [];
+        $phones = InfoPhones::all();
+        foreach($phones as $phone){
+            $phoneTo[] = $phone->phone;
+            //mail(''.$phone->phone.'@sms.telenor.bg","Направена поръчка','','From:info@uvel.bg');
+
+            Mail::send('ordersms',['phone' => $phone], function ($m) use ($phone) {
+                $m->from('hello@app.com', 'info@uvel.bg');
+    
+                $m->to($phone->phone.'@sms.telenor.bg', 'Uvel')->subject('Направена поръчка!');
+            });
+
+        }
 
         Mail::send('order',
         array(
@@ -102,10 +122,9 @@ class CustomOrderController extends BaseController
             'city' => $request->city,
             'phone' => $request->phone,
             'content' => $request->content
-        ), function($message) {
-            $emails = ['galabin@rubberduck.xyz'];
+        ), function($message) use ($sendTo) {
             $message->from('galabin@rubberduck.xyz');
-            $message->to($emails)->subject('Uvel Поръчка');
+            $message->to($sendTo)->subject('Uvel Поръчка');
         });
 
         return Response::json(array('success' => 'Поръчката ви беше изпратено успешно'));
