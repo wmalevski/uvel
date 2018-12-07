@@ -205,6 +205,12 @@ Route::group(['prefix' => 'ajax'], function() {
 
     //Route::post('/blog/{article}/{comment}/delete', 'BlogCommentController@destroy');
 
+    Route::post('/infophones', 'InfoPhoneController@store');
+    Route::post('/infophones/delete/{phone}', 'InfoPhoneController@destroy');
+
+    Route::post('/infoemails', 'InfoEmailController@store');
+    Route::post('/infoemails/delete/{phone}', 'InfoEmailController@destroy');
+
     Route::post('/slides', 'SliderController@store');
     Route::post('/slides/delete/{slide}', 'SliderController@destroy');
 
