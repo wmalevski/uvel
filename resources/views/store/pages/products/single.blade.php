@@ -131,7 +131,7 @@
 																	</div>
 																</div>
 																<div class="others-bottom clearfix">
-																	<button id="add-to-cart" class="btn btn-1 add_to_cart" data-url="{{ route('CartAddItem', ['item' => $product->barcode, 'quantity' => 1]) }}" data-parent=".product-information" type="submit" name="add">Добави в количка</button>
+																	<button id="add-to-cart" class="btn btn-1 add-to-cart" data-url="{{ route('CartAddItem', ['item' => $product->barcode, 'quantity' => 1]) }}" data-parent=".product-information" type="submit" name="add">Добави в количка</button>
 																</div>
 															</div>
 														</form>

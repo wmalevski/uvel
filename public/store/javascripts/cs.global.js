@@ -12,7 +12,7 @@ var GLOBAL = {
       searchPlaceholder();
 
 
-      $('.add-to-cart').bind( 'click', addToCart );
+      //$('.add-to-cart').bind( 'click', addToCart );
     }
   },
 

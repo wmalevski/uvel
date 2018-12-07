@@ -187,7 +187,7 @@
                                                                     </div>
                                                                     <div class="effect-ajax-cart">
                                                                         <input type="hidden" name="quantity" value="1">
-                                                                    <button class="add_to_cart" type="submit" name="add" data-url="{{ route('CartAddItem', ['item' => $product->barcode, 'quantity' => 1]) }}"><i class="fa fa-shopping-cart"></i><span class="list-mode">Добави в количка</span></button>
+                                                                    <button class="add-to-cart" type="submit" name="add" data-url="{{ route('CartAddItem', ['item' => $product->barcode, 'quantity' => 1]) }}"><i class="fa fa-shopping-cart"></i><span class="list-mode">Добави в количка</span></button>
                                                                     </div>
                                                                 </form>
                                                                 <div class="product-ajax-qs hidden-xs hidden-sm">

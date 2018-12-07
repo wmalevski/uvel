@@ -479,7 +479,7 @@ var uvelStore,
 					$discountCradInput = $('#discountCard'),
 					$addDiscountTrigger = $('.cart-applyDiscount'),
 					$removeDiscountTrigger = $('.discount-remove'),
-					$addToCartTrigger = $('.add_to_cart'),
+					$addToCartTrigger = $('.add-to-cart'),
 					$removeFromCartTrigger = $('.remove-from-cart'),
 					$updateCartQuantityTrigger = $('.update-cart-quantity'),
 					$addToWishTrigger = $('.wish-list'),
@@ -502,122 +502,126 @@ var uvelStore,
 			$self.updateCartQuantityAttach($updateCartQuantityTrigger);
 			$self.addToWishlistAttach($addToWishTrigger);
 			$self.reviewWordCount();
-			$self.setRating();
+			$self.setReviewRating();
 			$self.orderProductAttach($orderProductTrigger);
-			$self.attachSort($sortTrigger);
+			$self.sortMethodAttach($sortTrigger);
 		};
 
 		this.reviewWordCount = function() {
 			$('.spr-form-input-textarea').keyup(function() {
-				let l = this.value.trim().split('').length;
-				$(`[for="${this.id}"] span`).text(`(${1500 - l})`);
+				var l = this.value.trim().split('').length;
+				$('[for="' + this.id + '"] span').text('(' + (1500 - l) + ')');
 			});
 		}
 
-		this.attachSort = function(trigger) {
+		this.sortMethodAttach = function(trigger) {
 			trigger.on('click', sortList);
 
-			let list = $('#sandBox'),
-				list_items = list.children('li');
+			var list = $('#sandBox'),
+				listItems = list.children('li');
 			
 			function sortList() {
-				let method = this.dataset.optionValue.split('-')[0],
+				var method = this.dataset.optionValue.split('-')[0],
 					order = this.dataset.order;
 				
-				list_items.sort(sort());
+				listItems.sort(function(a,b) {
+					var an, bn;
 
-				list_items.detach().appendTo(list);
+					if (method == 'price') {
+						an = parseInt(a.dataset.price),
+						bn = parseInt(b.dataset.price);
+					}
+					else if (method == 'title') {
+						an = a.dataset.alpha.toLowerCase(),
+						bn = b.dataset.alpha.toLowerCase();
+					}
 
-				function sort() {
-					return function(a,b) {
-						let an,bn;
-						if (method == 'price') {
-							an = parseInt(a.dataset.price),
-							bn = parseInt(b.dataset.price);
-						}
-						else if (method == 'title') {
-							an = a.dataset.alpha.toLowerCase(),
-							bn = b.dataset.alpha.toLowerCase();
-						}
-
-						if (order == 'asc') {
-							if (an>bn)
-								return 1;
-							else 
-								return -1;
+					if (order == 'asc') {
+						if (an>bn) {
+							return 1;
 						}
 						else {
-							if (an>bn)
-								return -1;
-							else
-								return 1;
+							return -1;
+						}
+							
+					}
+					else {
+						if (an>bn) {
+							return -1;
+						}
+						else {
+							return 1;
 						}
 					}
-				}
+				});
+
+				listItems.detach().appendTo(list);
+
 			};
 		}
 
-		this.setRating = function() {
-			let current_selected = 0,
-				temp_selected = 0,
-				remove_interval,
-				stars = document.querySelectorAll('.spr-form-review .spr-icon-star');
-			
-			$('a.spr-icon-star').on('click', function(e) {
+		this.setReviewRating = function() {
+			var currentSelected = 0,
+				tempSelected = 0,
+				removeInterval,
+				stars = $('.spr-form-review .spr-icon-star');
+
+			stars.on('click', function(e) {
 				e.preventDefault();
-				current_selected = Number(this.dataset.value);
+				currentSelected = Number(this.dataset.value);
 				
-				$('[name="rating"]').attr('value', current_selected); //set rating value
-				handle_stars(current_selected);
+				$('[name="rating"]').attr('value', currentSelected);
+				handleStars(currentSelected);
 			});
 
 			$('a.spr-icon-star').on('mouseover', function(e) {
-				temp_selected = Number(this.dataset.value);
-				handle_stars(temp_selected);
-				
+				tempSelected = Number(this.dataset.value);
+				handleStars(tempSelected);
 			});
 
 			$('a.spr-icon-star').on('mouseout', function(e) {
-				if (temp_selected != current_selected)
-					remove_interval = setInterval(a(), 50);
+				if (tempSelected != currentSelected)
+					removeInterval = setInterval(undoStars(), 50);
 			});
 
-			let a = function remove_stars() {
-				let state = temp_selected > current_selected ? true:false,
-					target = state? temp_selected - current_selected: current_selected - temp_selected,
+			function undoStars() {
+				var state = tempSelected > currentSelected,
+					target = state ? tempSelected - currentSelected : currentSelected - tempSelected,
 					current = 0;
 					
 				return function() {
 					if (state) {
-						stars[temp_selected-1 - current].classList.add('spr-icon-star-empty');
+						stars[tempSelected - 1 - current].classList.add('spr-icon-star-empty');
 						current++;
 						
 						if (current == target) {
 							current = 0;
-							clearInterval(remove_interval);
-							remove_interval = null;
+							clearInterval(removeInterval);
+							removeInterval = null;
 						}
 
 						return current;
 					}
 					else {
-						stars[temp_selected + current].classList.remove('spr-icon-star-empty');
+						stars[tempSelected + current].classList.remove('spr-icon-star-empty');
 						current++;
 
 						if (current == target) {
 							current = 0;
-							clearInterval(remove_interval);
-							remove_interval = null;
+							clearInterval(removeInterval);
+							removeInterval = null;
 						}
+
+						return current;
 					}
 				};
 			}
 
-			function handle_stars(value) {
-				clearInterval(remove_interval);
-				remove_interval = null;
+			function handleStars(value) {
+				clearInterval(removeInterval);
+				removeInterval = null;
 				
-				for (let i=0; i< stars.length; i++) {
+				for (var i = 0; i < stars.length; i++) {
 					if (i < value)
 						stars[i].classList.remove('spr-icon-star-empty')
 					else
@@ -642,19 +646,19 @@ var uvelStore,
 		}
 
 		this.uploadImages = function(event) {
-      var files = event.target.files,
-          collectionFiles= [];
-     
-      for(var file of files) {
-        if(file.type == "image/svg+xml") {
-          alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
-        } else {
-          collectionFiles.push(file);
-        }
-      }
+			var files = event.target.files,
+				collectionFiles= [];
+			
+			for(var file of files) {
+				if(file.type == "image/svg+xml") {
+				alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
+				} else {
+				collectionFiles.push(file);
+				}
+      		}
 
-      $self.appendImages(collectionFiles);
-    }
+      		$self.appendImages(collectionFiles);
+    	}
 
     this.dragNdropImages = function(dropArea) {
       $('html').on('dragover', function(event) {
@@ -768,8 +772,8 @@ var uvelStore,
 					var modal = $this.parents().find('.edit--modal_holder .modal-content');
 					modal.html(resp);
 					
-					var addToCartTrigger = modal.find('.add_to_cart');
-					let orderProductTrigger = modal.find('.order_product');
+					var addToCartTrigger = modal.find('.add-to-cart');
+					var orderProductTrigger = modal.find('.order_product');
 
 					if (addToCartTrigger.length > 0)
 						$self.addToCartAttach(addToCartTrigger);
@@ -1155,19 +1159,20 @@ var uvelStore,
 			orderBtn.on('click', function(e) {
 				e.preventDefault();
 
-				let _this = $(this);
-				$self.orderProduct(_this);
+				var $this = $(this);
+				$self.orderProduct($this);
 			});
 		}
 
 		this.orderProduct = function(orderBtn) {
-			let _this = orderBtn,
+			var _this = orderBtn,
 					ajaxURL = _this.attr('data-url');
+			
 			$.ajax({
 				method: "GET",
 				url: ajaxURL,
 				success: function(resp) {
-					let success = resp.success;
+					var success = resp.success;
 
 					if (success) {
 						$self.ajaxReturnMessage(success, 'success');
@@ -1177,14 +1182,15 @@ var uvelStore,
 					}
 				}
 			});
+			
 		}
 
 		this.removeFromCartAttach = function(rmvBtn) {
 			rmvBtn.on('click', function(e) {
 				e.preventDefault();
 
-				var _this = $(this);
-				$self.removeFromCart(_this);
+				var $this = $(this);
+				$self.removeFromCart($this);
 			})
 		}
 
@@ -1220,8 +1226,8 @@ var uvelStore,
 
 		this.updateCartQuantityAttach = function(quantityInput) {
 			quantityInput.on('change', function(){
-				var _this = $(this);
-				$self.updateCartQuantity(_this);
+				var $this = $(this);
+				$self.updateCartQuantity($this);
 			})
 
 			$self.updateQuantityEnterPress(quantityInput);
@@ -1303,7 +1309,7 @@ var uvelStore,
 				inputType = _this.type,
 				dataKey = _this.name,
 				dataKeyValue = _this.value,
-				imagesInputFieldExists = dataKey == 'images' ? true : false;
+				imagesInputFieldExists = dataKey == 'images';
 
 				data[dataKey] = dataKeyValue;
 

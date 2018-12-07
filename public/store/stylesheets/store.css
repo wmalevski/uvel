@@ -47,7 +47,7 @@
 }
 
 /* add to cart btn and price span fix */
-.add_to_cart:focus {
+.add-to-cart:focus {
     color: #fff !important;
 }
 
@@ -150,6 +150,10 @@ header .col-md-18 {
     padding: 0 15px;
 }
 
+.collection-page {
+    padding-left: 15px !important;
+}
+
 /* BTN TEXT OVERFLOW */
 .btn {
     white-space: nowrap; 
@@ -157,13 +161,18 @@ header .col-md-18 {
     text-overflow: ellipsis;
 }
 
-/* add_to_cart icon */
-.add_to_cart .fa-shopping-cart {
+/* add-to-cart icon */
+.add-to-cart .fa-shopping-cart {
     line-height: 50px;
 }
 
-.add_to_cart .fa-shopping-cart {
+.add-to-cart .fa-shopping-cart {
     color: #000;
+}
+
+.news-desc {
+    display: block;
+    line-height: 1;
 }
 
 /* MEDIA QUERIES */
@@ -188,6 +197,10 @@ header .col-md-18 {
 
     .dropdown-menu {
         padding: 0px 25px !important;
+    }
+
+    .collection-page {
+        padding-left: 0px !important;
     }
 }
 
