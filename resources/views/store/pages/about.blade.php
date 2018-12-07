@@ -9,7 +9,7 @@
                 <div itemprop="breadcrumb" class="container">
                     <div class="row">
                         <div class="col-md-24">
-                            {{ Breadcrumbs::render('contactus') }}
+                            {{ Breadcrumbs::render('about') }}
                         </div>
                     </div>
                 </div>

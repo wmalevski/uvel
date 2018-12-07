@@ -36,6 +36,26 @@ Breadcrumbs::register('settings', function ($breadcrumbs) {
     $breadcrumbs->push('Настройки', route('settings'));
 });
 
+Breadcrumbs::register('prices', function ($breadcrumbs) {
+    $breadcrumbs->parent('store');
+    $breadcrumbs->push('Цени', route('storePrices'));
+});
+
+Breadcrumbs::register('warranty', function ($breadcrumbs) {
+    $breadcrumbs->parent('store');
+    $breadcrumbs->push('Гаранция', route('warranty'));
+});
+
+Breadcrumbs::register('about', function ($breadcrumbs) {
+    $breadcrumbs->parent('store');
+    $breadcrumbs->push('История', route('about'));
+});
+
+Breadcrumbs::register('howtoorder', function ($breadcrumbs) {
+    $breadcrumbs->parent('store');
+    $breadcrumbs->push('Как да поръчате', route('howtoorder'));
+});
+
 // Breadcrumbs::register('user_model_orders', function ($breadcrumbs) {
 //     $breadcrumbs->parent('store');
 //     $breadcrumbs->push('Поръчки', route('user_model_orders'));
