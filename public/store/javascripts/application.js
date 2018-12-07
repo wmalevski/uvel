@@ -636,7 +636,7 @@ var uvelStore,
 			  	deleteImagesTriggerDropArea = $('.drop-area-gallery .close');
 
 		  uploadImagesTrigger.on('change', function(event) {
-				var _this = $(this);
+				var $this = $(this);
 				$self.uploadImages(event);
 		  });
 
@@ -757,8 +757,8 @@ var uvelStore,
 
 		this.quickviewAttach = function(quickViewTrigger) {
 			quickViewTrigger.on('click', function() {
-				var _this = $(this);
-				$self.quickviewOpen(_this);
+				var $this = $(this);
+				$self.quickviewOpen($this);
 			})
 		}
 
@@ -788,8 +788,8 @@ var uvelStore,
 		this.subscribeAttach = function(subscribeTrigger) {
 			subscribeTrigger.on('click', function(e) {
 				e.preventDefault();
-				var _this = $(this);
-				$self.subscribe(_this);
+				var $this = $(this);
+				$self.subscribe($this);
 			})
 		}
 
@@ -863,15 +863,15 @@ var uvelStore,
 			filterBtn.on('click', function(e) {
 				e.preventDefault();
 
-				var _this = $(this);
-				$self.filter(_this);
+				var $this = $(this);
+				$self.filter($this);
 			})
 		}
 
 		this.filterInputAttach = function(filterInput) {
 			filterInput.on('change', function() {
-				var _this = $(this);
-				$self.filter(_this);
+				var $this = $(this);
+				$self.filter($this);
 			})
 		}
 
@@ -937,8 +937,8 @@ var uvelStore,
 
 		this.addDiscountAttach = function(addDiscountBtn) {
 			addDiscountBtn.on('click', function() {
-				var _this = $(this);
-				$self.addDiscount(_this);
+				var $this = $(this);
+				$self.addDiscount($this);
 			})
 		}
 
@@ -960,8 +960,8 @@ var uvelStore,
 
 		this.removeDiscountAttach = function(removeBtn) {
 			removeBtn.on('click', function() {
-				var _this = $(this);
-				$self.removeDiscount(_this);
+				var $this = $(this);
+				$self.removeDiscount($this);
 			})
 		}
 
@@ -1038,8 +1038,8 @@ var uvelStore,
 
 		this.shippingMethodAttach = function(shippingMethodTrigger) {
 			shippingMethodTrigger.on('change', function() {
-				var _this = $(this);
-				$self.shippingMethodSelect(_this);
+				var $this = $(this);
+				$self.shippingMethodSelect($this);
 			})
 		}
 
@@ -1077,8 +1077,8 @@ var uvelStore,
 
 		this.paymentMethodAttach = function(paymentMethodTrigger) {
 			paymentMethodTrigger.on('change', function() {
-				var _this = $(this);
-				$self.paymentMethodChange(_this);
+				var $this = $(this);
+				$self.paymentMethodChange($this);
 			})
 		}
 
@@ -1097,7 +1097,7 @@ var uvelStore,
 			submitButton.on('click', function(e) {
 				e.preventDefault();
 
-				var _this = $(this),
+				var $this = $(this),
 						inputFields = form.find('select , input, textarea');
 
 				$self.getFormFields(form, inputFields);
@@ -1108,8 +1108,8 @@ var uvelStore,
 			addToCartBtn.on('click', function(e) {
 				e.preventDefault();
 
-				var _this = $(this);
-				$self.addToCart(_this);
+				var $this = $(this);
+				$self.addToCart($this);
 			})
 		}
 
@@ -1279,8 +1279,8 @@ var uvelStore,
 			addToWishBtn.on('click', function(e) {
 				e.preventDefault();
 
-				var _this = $(this);
-				$self.addToWishlist(_this);
+				var $this = $(this);
+				$self.addToWishlist($this);
 			})
 		}
 
