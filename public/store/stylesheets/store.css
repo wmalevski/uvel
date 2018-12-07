@@ -111,7 +111,7 @@
 /* content padding */
 #accounts {
     position: relative;
-    left: -15px;
+    left: -16px;
 }
 
 .left-block, .right-block {
@@ -147,11 +147,11 @@ header .col-md-18 {
 }
 
 .contact-content {
-    padding: 0 15px;
+    padding: 0 16px;
 }
 
 .collection-page {
-    padding-left: 15px !important;
+    padding-left: 16px !important;
 }
 
 /* BTN TEXT OVERFLOW */
@@ -206,7 +206,7 @@ header .col-md-18 {
 
 @media (max-width: 320px) {
     .navbar-toggle { 
-        padding-left: 15px;
-        padding-right: 15px;
+        padding-left: 16px;
+        padding-right: 16px;
     }
 }

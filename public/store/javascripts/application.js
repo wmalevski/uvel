@@ -504,7 +504,7 @@ var uvelStore,
 			$self.reviewWordCount();
 			$self.setReviewRating();
 			$self.orderProductAttach($orderProductTrigger);
-			$self.sortMethodAttach($sortTrigger);
+			$self.sortProductsAttach($sortTrigger);
 		};
 
 		this.reviewWordCount = function() {
@@ -514,29 +514,29 @@ var uvelStore,
 			});
 		}
 
-		this.sortMethodAttach = function(trigger) {
-			trigger.on('click', sortList);
+		this.sortProductsAttach = function(trigger) {
+			trigger.on('click', sortProducts);
 
-			var list = $('#sandBox'),
-				listItems = list.children('li');
+			var productsList = $('#sandBox'),
+				products = productsList.children('li');
 			
-			function sortList() {
-				var method = this.dataset.optionValue.split('-')[0],
-					order = this.dataset.order;
+			function sortProducts() {
+				var sortMethod = this.dataset.optionValue.split('-')[0],
+					sortOrder = this.dataset.order;
 				
-				listItems.sort(function(a,b) {
+				products.sort(function(a,b) {
 					var an, bn;
 
-					if (method == 'price') {
+					if (sortMethod == 'price') {
 						an = parseInt(a.dataset.price),
 						bn = parseInt(b.dataset.price);
 					}
-					else if (method == 'title') {
+					else if (sortMethod == 'title') {
 						an = a.dataset.alpha.toLowerCase(),
 						bn = b.dataset.alpha.toLowerCase();
 					}
 
-					if (order == 'asc') {
+					if (sortOrder == 'asc') {
 						if (an>bn) {
 							return 1;
 						}
@@ -555,7 +555,7 @@ var uvelStore,
 					}
 				});
 
-				listItems.detach().appendTo(list);
+				products.detach().appendTo(productsList);
 
 			};
 		}
@@ -574,12 +574,12 @@ var uvelStore,
 				handleStars(currentSelected);
 			});
 
-			$('a.spr-icon-star').on('mouseover', function(e) {
+			stars.on('mouseover', function() {
 				tempSelected = Number(this.dataset.value);
 				handleStars(tempSelected);
 			});
 
-			$('a.spr-icon-star').on('mouseout', function(e) {
+			stars.on('mouseout', function() {
 				if (tempSelected != currentSelected)
 					removeInterval = setInterval(undoStars(), 50);
 			});
@@ -777,6 +777,7 @@ var uvelStore,
 					else {
 						$self.orderProductAttach(orderProductTrigger);
 					}
+
 				}
 			});
 		}
@@ -1132,7 +1133,6 @@ var uvelStore,
 						cartNum.html(quantity);
 
 						if (_this.closest('.modal').length > 0) {
-							// show success message for modal
 							$self.ajaxReturnMessage(message, 'success');
 						} else {
 							$self.ajaxReturnMessage(message, 'success');
@@ -1141,7 +1141,6 @@ var uvelStore,
 						var message = 'Трябва да влезете в системата';
 
 						if (_this.closest('.modal').length > 0) {
-							// show error message for modal
 							$self.ajaxReturnMessage(message, 'error');
 						} else {
 							$self.ajaxReturnMessage(message, 'error');
