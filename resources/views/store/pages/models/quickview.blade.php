@@ -25,9 +25,9 @@
                 <div id="quick-shop-infomation" class="description">
                     <div id="quick-shop-description" class="text-left">
                         <p>
-                            Модел: {{ $model->name }} <br/>
-                            Бижу: {{ $model->jewel->name }} <br/>
-                            Размер: {{ $model->size }}
+                                No: {{ $model->code }}<br/>
+                                {{ $model->weight }}гр. <br/>
+                                
                         </p>
                     </div>
                 </div>

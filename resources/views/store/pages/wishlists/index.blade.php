@@ -9,9 +9,7 @@
                 <div itemprop="breadcrumb" class="container">
                     <div class="row">
                         <div class="col-md-24">
-                            <a href="./index.html" class="homepage-link" title="Back to the frontpage">Home</a>
-                            <span>/</span>
-                            <span class="page-title">Wishlist Page</span>
+                            {{ Breadcrumbs::render('wishlist') }}
                         </div>
                     </div>
                 </div>
@@ -38,7 +36,6 @@
                                                     <th class="text-left">Продукти</th>
                                                     <th>Цена</th>
                                                     <th>Премахни</th>
-                                                    <th>Добави в количка</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -68,18 +65,11 @@
                                                         <td class="action">
                                                         <a href="wishlist/delete/{{$wishListItem->id}}" class="delete-btn"><i class="fa fa-times"></i></a>
                                                         </td>
-                                                        <td>
-                                                            <form action="./cart.html" method="post">
-                                                                <input type="hidden" name="id" value="3947639491">
-                                                                <a class="btn" href="./products.html">ADD TO CART</a>
-                                                            </form>
-                                                        </td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
                                     </div>
-                                    <a class="control-label" href="mailto:?subject=http://designshopify.com">Share my wish list via email</a>
                                 </div>
                             </div>
                             <!-- /#col-main -->

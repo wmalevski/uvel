@@ -87,17 +87,15 @@
 													<div class="description">
 														<span>Описание</span>
 														<p>
-															{{-- Модел: {{ $product->model->name }} <br/>
-															Бижу: {{ $product->jewel->name }} <br/>
-															Размер: {{ $product->model->size }} --}}
+															No: {{ $product->code }}
 														</p>
 													</div>
-													<div class="description">
+													{{-- <div class="description">
 														<span>Изработка</span>
 														<p>
-															{{-- {{ $product->weight }} гр. + {{ $product->workmanship }} лв. --}}
+															{{-- {{ $product->weight }} гр. + {{ $product->workmanship }} лв.
 														</p>
-													</div>
+													</div> --}}
 													{{-- <div class="relative">
 														<ul class="list-unstyled">
 															<li class="tags">
@@ -146,7 +144,8 @@
 																</div>																
 																<div id="purchase-1293235843">
 																	<div class="detail-price" itemprop="price">
-                                                                        <span class="price">{{ $product->price }} лв</span>
+																		<span class="price">{{ $product->price }} лв</span>
+																		*Цената е с включено ДДС.
 																	</div>
 																</div>
 																<div class="others-bottom clearfix">
@@ -331,7 +330,8 @@
 													</div>
 													<div class="product-content-right">
 														<div class="product-price">
-                                                        <span class="price">{{ $product->price }} лв</span>
+														<span class="price">{{ $product->price }} лв</span>
+														*Цената е с включено ДДС.
 														</div>
 													</div>
 													<div class="list-mode-description">

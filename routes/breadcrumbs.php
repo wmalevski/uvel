@@ -36,6 +36,26 @@ Breadcrumbs::register('settings', function ($breadcrumbs) {
     $breadcrumbs->push('Настройки', route('settings'));
 });
 
+Breadcrumbs::register('prices', function ($breadcrumbs) {
+    $breadcrumbs->parent('store');
+    $breadcrumbs->push('Цени', route('storePrices'));
+});
+
+Breadcrumbs::register('warranty', function ($breadcrumbs) {
+    $breadcrumbs->parent('store');
+    $breadcrumbs->push('Гаранция', route('warranty'));
+});
+
+Breadcrumbs::register('about', function ($breadcrumbs) {
+    $breadcrumbs->parent('store');
+    $breadcrumbs->push('История', route('about'));
+});
+
+Breadcrumbs::register('howtoorder', function ($breadcrumbs) {
+    $breadcrumbs->parent('store');
+    $breadcrumbs->push('Как да поръчате', route('howtoorder'));
+});
+
 // Breadcrumbs::register('user_model_orders', function ($breadcrumbs) {
 //     $breadcrumbs->parent('store');
 //     $breadcrumbs->push('Поръчки', route('user_model_orders'));
@@ -71,6 +91,11 @@ Breadcrumbs::register('productsothers', function ($breadcrumbs) {
     $breadcrumbs->push('Каталог с продукти', route('productsothers'));
 });
 
+Breadcrumbs::register('wishlist', function ($breadcrumbs) {
+    $breadcrumbs->parent('store');
+    $breadcrumbs->push('Желани продукти', route('wishlist'));
+});
+
 Breadcrumbs::register('single_product', function ($breadcrumbs, $product) {
     $breadcrumbs->parent('products');
     $breadcrumbs->push($product->name, route('single_product', $product->id));
@@ -85,21 +110,3 @@ Breadcrumbs::register('single_model', function ($breadcrumbs, $model) {
     $breadcrumbs->parent('models');
     $breadcrumbs->push($model->name, route('single_model', $model->id));
 });
-
-// // Home > Blog
-// Breadcrumbs::register('blog', function ($breadcrumbs) {
-//     $breadcrumbs->parent('home');
-//     $breadcrumbs->push('Blog', route('blog'));
-// });
-
-// // Home > Blog > [Category]
-// Breadcrumbs::register('category', function ($breadcrumbs, $category) {
-//     $breadcrumbs->parent('blog');
-//     $breadcrumbs->push($category->title, route('category', $category->id));
-// });
-
-// // Home > Blog > [Category] > [Post]
-// Breadcrumbs::register('post', function ($breadcrumbs, $post) {
-//     $breadcrumbs->parent('category', $post->category);
-//     $breadcrumbs->push($post->title, route('post', $post));
-// });

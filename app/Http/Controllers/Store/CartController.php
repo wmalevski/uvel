@@ -107,7 +107,7 @@ class CartController extends BaseController
     public function index()
     {
         $session_id = Auth::user()->getId();
-
+        
         $total = round(Cart::session($session_id)->getTotal(),2);
         $subtotal = round(Cart::session($session_id)->getSubTotal(),2);
         $quantity = Cart::session($session_id)->getTotalQuantity();
@@ -190,7 +190,7 @@ class CartController extends BaseController
 
             return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'message' => 'Продукта беше успешно добавен в количката!'));
         }else{
-            return Response::json(array('success' => false, 'not_found' => 'Продукта не е намерен!'));
+            return Response::json(array('success' => false, 'message' => 'Продукта не е намерен!'));
         }
     }
 

@@ -48,21 +48,23 @@ class ProductOther extends Model
     }
 
     public function filterProducts($request ,$query){
-        if ($request->priceFrom && $request->priceTo) {
-            $query = $query->whereBetween('price', [$request->priceFrom, $request->priceTo]);
-        } else if($request->priceFrom){
-            $query = $query->where('price', '>=', $request->priceFrom);
-        } else if($request->priceTo){
-            $query = $query->where('price', '<=', $request->priceTo);
-        }
+        $query = ProductOther::where(function($query) use ($request){
+            if ($request->priceFrom && $request->priceTo) {
+                $query = $query->whereBetween('price', [$request->priceFrom, $request->priceTo]);
+            } else if($request->priceFrom){
+                $query = $query->where('price', '>=', $request->priceFrom);
+            } else if($request->priceTo){
+                $query = $query->where('price', '<=', $request->priceTo);
+            }
 
-        if ($request->byStore) {
-            $query = $query->whereIn('store_id', $request->byStore);
-        }
+            if ($request->byStore) {
+                $query = $query->whereIn('store_id', $request->byStore);
+            }
 
-        if ($request->byType) {
-            $query = $query->whereIn('type_id', $request->byType);
-        }
+            if ($request->byType) {
+                $query = $query->whereIn('type_id', $request->byType);
+            }
+        })->where('status', 'available')->paginate(12);
 
         return $query;
     }

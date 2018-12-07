@@ -7,7 +7,7 @@ use App\ProductOther;
 use App\Store;
 use App\Material;
 use App\Jewel;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request as Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
@@ -49,38 +49,15 @@ class ModelController extends BaseController
     public function filter(Request $request){
         $query = Model::select('*');
 
-        if ($request->priceFrom && $request->priceTo) {
-            $query = $query->whereBetween('price', [$request->priceFrom, $request->priceTo]);
-        } else if($request->priceFrom){
-            $query = $query->where('price', '>=', $request->priceFrom);
-        } else if($request->priceTo){
-            $query = $query->where('price', '<=', $request->priceTo);
+        $products_new = new Model();
+        $products = $products_new->filterModels($request, $query);
+
+        $response = '';
+        foreach($products as $product){
+            $response .= \View::make('store/pages/models/ajax', array('model' => $product));
         }
 
-        if ($request->size) {
-            $query = $query->whereIn('size', $request->size);
-        }
-
-        if ($request->size) {
-            $query = $query->whereIn('size', $request->size);
-        }
-
-        if ($request->byStore) {
-            $query = $query->whereIn('store_id', $request->byStore);
-        }
-
-        if ($request->byJewel) {
-            $query = $query->whereIn('jewel_id', $request->byJewel);
-        }
-
-        if ($request->byMaterial) {
-            $query = $query->whereIn('material_id', $request->byMaterial);
-        }
-
-        $models = $query->orderBy('id', 'desc')->get();
-
-        print_r(count($models));
-        echo '<pre>'; print_r($models); echo '</pre>';
+        return $response;
     }
 
     public function quickView(Model $model)

@@ -61,42 +61,16 @@ class ProductOtherController extends BaseController
     public function filter(Request $request){
         $query = ProductOther::select('*');
 
-        if ($request->priceFrom && $request->priceTo) {
-            $query = $query->whereBetween('price', [$request->priceFrom, $request->priceTo]);
-        } else if($request->priceFrom){
-            $query = $query->where('price', '>=', $request->priceFrom);
-        } else if($request->priceTo){
-            $query = $query->where('price', '<=', $request->priceTo);
+        $products_new = new ProductOther();
+        $products = $products_new->filterProducts($request, $query);
+
+        $response = '';
+        foreach($products as $product){
+            $response .= \View::make('store/pages/productsothers/ajax', array('product' => $product));
         }
 
-        if ($request->byType) {
-            $query = $query->whereIn('type_id', $request->byType);
-        }
+        return $response;
 
-        if ($request->size) {
-            $query = $query->whereIn('size', $request->size);
-        }
-
-        if ($request->size) {
-            $query = $query->whereIn('size', $request->size);
-        }
-
-        if ($request->byStore) {
-            $query = $query->whereIn('store_id', $request->byStore);
-        }
-
-        if ($request->byJewel) {
-            $query = $query->whereIn('jewel_id', $request->byJewel);
-        }
-
-        if ($request->byMaterial) {
-            $query = $query->whereIn('material_id', $request->byMaterial);
-        }
-
-        $products = $query->where('status', 'available')->orderBy('id', 'desc')->get();
-
-        //print_r(count($products));
-        //echo '<pre>'; print_r($products); echo '</pre>';
     }
 
     public function quickView(ProductOther $product)

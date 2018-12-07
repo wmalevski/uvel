@@ -129,11 +129,11 @@
 										</a>
 										<ul class="dropdown-menu" style="display: none;">
                                             @foreach($materialTypes as $material)
-                                                <li class=""><a tabindex="-1" href="{{ route('products') }}?byMaterial={{ $material->id }}">{{ $material->name }}</a></li>
+                                                <li class=""><a tabindex="-1" href="{{ route('products') }}?byMaterial[]={{ $material->id }}">{{ $material->name }}</a></li>
                                             @endforeach
 
                                             @foreach($productothertypes as $type)
-                                                <li class=""><a tabindex="-1" href="{{ route('productsothers') }}?byType={{ $type->id }}">{{ $type->name }}</a></li>
+                                                <li class=""><a tabindex="-1" href="{{ route('productsothers') }}?byType[]={{ $type->id }}">{{ $type->name }}</a></li>
                                             @endforeach
 										</ul>
 									</li>

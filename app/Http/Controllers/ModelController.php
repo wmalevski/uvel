@@ -201,12 +201,15 @@ class ModelController extends Controller
                 ['default', '=', 'yes']
             ])->first();
 
+            $material = MaterialQuantity::withTrashed()->find($default->material_id);
+
             $product = new Product();
             $product->name = $request->name;
             $product->model_id = $model->id;
             $product->jewel_id= $request->jewel_id;
             $product->weight = $request->weight;
             $product->material_id = $default->material_id;
+            $product->material_type_id = $material->material_id;
             $product->retail_price_id = $default->retail_price_id;
             $product->size = $request->size;
             $product->workmanship = $request->workmanship;

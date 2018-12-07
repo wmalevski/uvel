@@ -49,7 +49,7 @@
                                             <h3>Можете да използвате формата за да поръчате продукт по ваши изисквания</h3>
                                             </li>
                                             <li class="">
-                                            <label class="control-label" for="name">Вашето име</label>
+                                            <label class="control-label" for="name">Вашето име <span class="req">*</span></label>
                                             <input type="text" id="name" value="" class="form-control" name="name">
                                             </li>
                                             <li class="clearfix"></li>
@@ -80,7 +80,7 @@
                                                 </div>
                                             </li>
                                             <li class="clearfix"></li>
-                                            {!! app('captcha')->display() !!}
+                                            @captcha    
                                             <li class="unpadding-top">
                                                 <button type="submit" class="btn">Изпратете запитване</button>
                                             </li>

@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->integer('model_id')->unsigned();
             $table->integer('material_id')->unsigned();
+            $table->integer('material_type_id')->unsigned();
             $table->integer('jewel_id')->unsigned();
             $table->integer('type')->default(1);
             $table->float('weight');

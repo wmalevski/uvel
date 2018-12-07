@@ -12,7 +12,13 @@
             <div class="product-content-left">
                 <a class="title-5" href="{{ route('single_product', ['product' => $product->id])  }}">{{ $product->name }}</a>
                 <span class="spr-badge" id="spr_badge_12932382113" data-rating="0.0">
-                <span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
+                <span class="spr-starrating spr-badge-starrating">@if(count($product->reviews) > 0)
+                        <span class="spr-starrating spr-badge-starrating">
+                            {{$product->listProductOtherAvgRatingStars($product)}}
+                        </span>
+                    @else
+                        <span class="spr-badge-caption" style="display:block;">Няма ревюта</span>
+                    @endif</span>
                 <span class="spr-badge-caption">
                 No reviews </span>
                 </span>
@@ -35,10 +41,10 @@
                     </div>
                 </form>
                 <div class="product-ajax-qs hidden-xs hidden-sm">
-                    <div data-handle="curabitur-cursus-dignis" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal" data-barcode="{{ $product->barcode }}">
-                        <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Бърз преглед</span>
-                        
-                    </div>
+                        <div data-handle="curabitur-cursus-dignis" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal" data-url="products/{{ $product->id }}/">
+                            <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Бърз преглед</span>
+                            
+                        </div>
                 </div>
                 <a class="wish-list" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}" href="#" title="wish list"><i class="fa fa-heart"></i><span class="list-mode">Добави в желани</span></a>
             </div>

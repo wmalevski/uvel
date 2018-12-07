@@ -31,7 +31,7 @@ class StoreController extends BaseController
 
         $productothertypes = ProductOtherType::all();
 
-        $materialsTypes = MaterialType::all();
+        $materials = Material::groupBy('parent_id')->get();
 
         $jewels = Jewel::all();
 
@@ -40,7 +40,7 @@ class StoreController extends BaseController
         $slides = Slider::all();
         //dd($productothertypes);
 
-        return \View::make('store.pages.index', array('products' => $products, 'jewels' => $jewels, 'articles' => $articles, 'materialTypes' => $materialsTypes, 'productothertypes' => $productothertypes, 'slides' => $slides, 'models' => $models));
+        return \View::make('store.pages.index', array('products' => $products, 'jewels' => $jewels, 'articles' => $articles, 'materials' => $materials, 'productothertypes' => $productothertypes, 'slides' => $slides, 'models' => $models));
     }
 
 }
