@@ -509,8 +509,8 @@ var uvelStore,
 
 		this.reviewWordCount = function() {
 			$('.spr-form-input-textarea').keyup(function() {
-				var l = this.value.trim().split('').length;
-				$('[for="' + this.id + '"] span').text('(' + (1500 - l) + ')');
+				var textLength = this.value.trim().split('').length;
+				$('[for="' + this.id + '"] span').text('(' + (1500 - textLength) + ')');
 			});
 		}
 
@@ -524,20 +524,20 @@ var uvelStore,
 				var sortMethod = this.dataset.optionValue.split('-')[0],
 					sortOrder = this.dataset.order;
 				
-				products.sort(function(a,b) {
-					var an, bn;
+				products.sort(function(firstItem, secondItem) {
+					var firstItemValue, secondItemValue;
 
 					if (sortMethod == 'price') {
-						an = parseInt(a.dataset.price),
-						bn = parseInt(b.dataset.price);
+						firstItemValue = parseInt(firstItem.dataset.price),
+						secondItemValue = parseInt(secondItem.dataset.price);
 					}
 					else if (sortMethod == 'title') {
-						an = a.dataset.alpha.toLowerCase(),
-						bn = b.dataset.alpha.toLowerCase();
+						firstItemValue = firstItem.dataset.alpha.toLowerCase(),
+						secondItemValue = secondItem.dataset.alpha.toLowerCase();
 					}
 
 					if (sortOrder == 'asc') {
-						if (an>bn) {
+						if (firstItemValue>secondItemValue) {
 							return 1;
 						}
 						else {
@@ -546,7 +546,7 @@ var uvelStore,
 							
 					}
 					else {
-						if (an>bn) {
+						if (firstItemValue>secondItemValue) {
 							return -1;
 						}
 						else {
@@ -589,7 +589,7 @@ var uvelStore,
 					target = state ? tempSelected - currentSelected : currentSelected - tempSelected,
 					current = 0;
 				
-				function checkInterval() {
+				function checkCurrent() {
 					current++;
 
 					if (current == target) {
@@ -602,12 +602,12 @@ var uvelStore,
 				return function() {
 					if (state) {
 						stars[tempSelected - 1 - current].classList.add('spr-icon-star-empty');
-						checkInterval();
+						checkCurrent();
 						return current;
 					}
 					else {
 						stars[tempSelected + current].classList.remove('spr-icon-star-empty');
-						checkInterval();
+						checkCurrent();
 						return current;
 					}
 				};
