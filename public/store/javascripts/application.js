@@ -588,30 +588,26 @@ var uvelStore,
 				var state = tempSelected > currentSelected,
 					target = state ? tempSelected - currentSelected : currentSelected - tempSelected,
 					current = 0;
+				
+				function checkInterval() {
+					current++;
 					
+					if (current == target) {
+						current = 0;
+						clearInterval(removeInterval);
+						removeInterval = null;
+					}
+				}
+
 				return function() {
 					if (state) {
 						stars[tempSelected - 1 - current].classList.add('spr-icon-star-empty');
-						current++;
-						
-						if (current == target) {
-							current = 0;
-							clearInterval(removeInterval);
-							removeInterval = null;
-						}
-
+						checkInterval();
 						return current;
 					}
 					else {
 						stars[tempSelected + current].classList.remove('spr-icon-star-empty');
-						current++;
-
-						if (current == target) {
-							current = 0;
-							clearInterval(removeInterval);
-							removeInterval = null;
-						}
-
+						checkInterval();
 						return current;
 					}
 				};
