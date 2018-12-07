@@ -379,6 +379,11 @@ Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
         Route::post('/{article}/{comment}/delete', 'BlogCommentController@destroy')->name('article_comment_delete');
     });
 
+    Route::get('/prices', 'StorePricesController@index')->name('storePrices');
+    Route::get('/warranty', 'WarrantyController@index')->name('warranty');
+    Route::get('/howtoorder', 'HowToOrderController@index')->name('howtoorder');
+    Route::get('/about', 'AboutController@index')->name('about');
+
     Route::get('/contact', 'ContactController@index')->name('contactus');
     Route::post('/contact', 'ContactController@store');
 
