@@ -144,7 +144,6 @@ aria-hidden="true">
 										</div>
 										<div id="sandBox-wrapper" class="group-product-item row collection-full">
 											<ul id="sandBox" class="list-unstyled">
-<<<<<<< HEAD
 												@foreach($products as $product)
 												<li class="element first no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}">
 													<ul class="row-container list-unstyled clearfix">
@@ -157,21 +156,6 @@ aria-hidden="true">
 														<!-- Row Right -->
 														<li class="row-right parent-fly animMix">
 															<div class="product-content-left">
-=======
-                                                @foreach($products as $product)
-                                                    <li class="element first no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}" data-title="{{ $product->name }}" data-created="{{ $product->id }}">
-                                                        <ul class="row-container list-unstyled clearfix">
-                                                            <li class="row-left">
-                                                            <a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">
-                                                            <img src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif" class="img-responsive" alt="{{ $product->name }}">
-                                                            </a>
-                                                            <div class="hbw">
-                                                                <span class="hoverBorderWrapper"></span>
-                                                            </div>
-                                                            </li>
-                                                            <li class="row-right parent-fly animMix">
-                                                            <div class="product-content-left">
->>>>>>> b5344111d935ddf6b94a52a0229dbc611308a21b
 																<a class="title-5" href="{{ route('single_product', ['product' => $product->id])  }}">{{ $product->name }}</a>
 																<div class="">
 																	No: {{ $product->code }} <br/>
@@ -196,7 +180,6 @@ aria-hidden="true">
 															<div class="list-mode-description">
 																No: {{ $product->code }} <br/>
 																{{ $product->weight }}гр. <br/>
-<<<<<<< HEAD
 															</div>
 															--}}
 														<div class="hover-appear">
@@ -228,35 +211,6 @@ aria-hidden="true">
 												</li>
 											</ul>
 											{{-- {{ $products->links() }} --}}
-=======
-                                                            </div> --}}
-                                                            <div class="hover-appear">
-                                                                <form action="#" method="post">
-                                                                    <div class="effect-ajax-cart">
-                                                                        <input name="quantity" value="1" type="hidden">
-                                                                        <button class="select-option" type="button" onclick="window.location.href='{{ route('single_product', ['product' => $product->id])  }}'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Преглед</span></button>
-                                                                    </div>
-                                                                </form>
-                                                                <div class="product-ajax-qs hidden-xs hidden-sm">
-                                                                    <div data-handle="curabitur-cursus-dignis" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal" data-url="products/{{ $product->id }}/">
-                                                                        <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Бърз преглед</span>
-                                                                        
-                                                                    </div>
-                                                                </div>
-																<a class="wish-list" href="#" title="wish list" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
-																	<i class="fa fa-heart"></i><span class="list-mode">Добави в желани</span>
-																</a>
-                                                            </div>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                @endforeach
-													</ul>
-												</li>												
-											</ul>
-											{{ $products->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
-                                            {{-- {{ $products->links() }} --}}
->>>>>>> b5344111d935ddf6b94a52a0229dbc611308a21b
 										</div>
 									</div>
 								</div>
