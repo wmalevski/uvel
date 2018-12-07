@@ -174,7 +174,8 @@ return [
         Pyaesone17\ActiveState\ActiveStateServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
         Darryldecode\Cart\CartServiceProvider::class,
-        App\Providers\CartCustomConditionServiceProvider::class
+        App\Providers\CartCustomConditionServiceProvider::class,
+        AlbertCht\InvisibleReCaptcha\InvisibleReCaptchaServiceProvider::class,
     ],
 
     /*

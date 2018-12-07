@@ -40,7 +40,7 @@ aria-hidden="true">
 												<div class="group_sidebar">
 													<div class="sb-wrapper">
 														<!-- filter tags group -->
-														<div class="filter-tag-group">
+														<div class="filter-tag-group" data-url="ajax/filter/productsothers">
 															<h6 class="sb-title">Филтри</h6>
 															<div class="tag-group" id="coll-filter-3">
 																<p class="title">
@@ -105,26 +105,24 @@ aria-hidden="true">
 													</ul>
 													</li>
 													<li class="sortBy">
-													<div id="sortButtonWarper" class="dropdown-toggle" data-toggle="dropdown">
-														<strong class="title-6">Подреди</strong>
-														<button id="sortButton">
-														<span class="name">Featured</span><i class="fa fa-caret-down"></i>
-														</button>
-														<i class="sub-dropdown1"></i>
-														<i class="sub-dropdown"></i>
-													</div>
-													<div id="sortBox" class="control-container dropdown-menu">
-														<ul id="sortForm" class="list-unstyled option-set text-left list-styled" data-option-key="sortBy">
-															<li class="sort" data-option-value="manual">Featured</li>
-															<li class="sort" data-option-value="price-ascending" data-order="asc">Price: Low to High</li>
-															<li class="sort" data-option-value="price-descending" data-order="desc">Price: High to Low</li>
-															<li class="sort" data-option-value="title-ascending" data-order="asc">A-Z</li>
-															<li class="sort" data-option-value="title-descending" data-order="desc">Z-A</li>
-															<li class="sort" data-option-value="created-ascending" data-order="asc">Oldest to Newest</li>
-															<li class="sort" data-option-value="created-descending" data-order="desc">Newest to Oldest</li>
-															<li class="sort" data-option-value="best-selling">Best Selling</li>
-														</ul>
-													</div>
+														<div id="sortButtonWarper" class="dropdown-toggle" data-toggle="dropdown">
+															<strong class="title-6">Подреди</strong>
+															<button id="sortButton">
+															<span class="name">Най-нови</span><i class="fa fa-caret-down"></i>
+															</button>
+															<i class="sub-dropdown1"></i>
+															<i class="sub-dropdown"></i>
+														</div>
+														<div id="sortBox" class="control-container dropdown-menu">
+															<ul id="sortForm" class="list-unstyled option-set text-left list-styled" data-option-key="sortBy">
+																<li class="sort" data-option-value="price" data-order="asc">Цена: Ниска към Висока</li>
+																<li class="sort" data-option-value="price" data-order="desc">Цена: Висока към Ниска</li>
+																<li class="sort" data-option-value="title" data-order="asc">А-Я</li>
+																<li class="sort" data-option-value="title" data-order="desc">Я-А</li>
+																<li class="sort" data-option-value="created" data-order="asc">Стари към нови</li>
+																<li class="sort" data-option-value="created" data-order="desc">Нови към стари</li>
+															</ul>
+														</div>
 													</li>
 												</ul>
 											</div>
@@ -132,7 +130,7 @@ aria-hidden="true">
 										<div id="sandBox-wrapper" class="group-product-item row collection-full">
 											<ul id="sandBox" class="list-unstyled">
                                                 @foreach($products as $product)
-                                                    <li class="element first no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}">
+                                                    <li class="element first no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}" data-title="{{ $product->name }}" data-created="{{ $product->id }}">
                                                         <ul class="row-container list-unstyled clearfix">
                                                             <li class="row-left">
                                                             <a href="{{ route('single_product_other', ['product' => $product->id])  }}" class="container_item">
@@ -193,7 +191,7 @@ aria-hidden="true">
 													</ul>
 												</li>												
                                             </ul>
-                                            {{-- {{ $products->links() }} --}}
+                                            {{ $products->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
 										</div>
 									</div>  									
 								</div>

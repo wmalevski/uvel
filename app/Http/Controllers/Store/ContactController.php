@@ -53,10 +53,10 @@ class ContactController extends BaseController
             'email' => $request->email,
             'user_message' => $request->message
         ), function($message)
-    {
-        $message->from('galabin@rubberduck.xyz');
-        $message->to('galabin@rubberduck.xyz', 'Admin')->subject('Uvel Contact');
-    });
+        {
+            $message->from('galabin@rubberduck.xyz');
+            $message->to('galabin@rubberduck.xyz', 'Admin')->subject('Uvel Contact');
+        });
     }
 
 }

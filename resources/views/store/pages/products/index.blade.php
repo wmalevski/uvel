@@ -40,7 +40,7 @@ aria-hidden="true">
 												<div class="group_sidebar">
 													<div class="sb-wrapper">
 														<!-- filter tags group -->
-														<div class="filter-tag-group" data-url="ajax/filter/">
+														<div class="filter-tag-group" data-url="ajax/filter/products">
 															<h6 class="sb-title">Филтри</h6>
 															<div class="tag-group" id="coll-filter-3">
 																<p class="title">
@@ -130,12 +130,12 @@ aria-hidden="true">
 													</div>
 													<div id="sortBox" class="control-container dropdown-menu">
 														<ul id="sortForm" class="list-unstyled option-set text-left list-styled" data-option-key="sortBy">
-															<li class="sort" data-option-value="price-ascending" data-order="asc">Цена: Ниска към Висока</li>
-															<li class="sort" data-option-value="price-descending" data-order="desc">Цена: Висока към Ниска</li>
-															<li class="sort" data-option-value="title-ascending" data-order="asc">А-Я</li>
-															<li class="sort" data-option-value="title-descending" data-order="desc">Я-А</li>
-															<li class="sort" data-option-value="created-ascending" data-order="asc">Стари към нови</li>
-															<li class="sort" data-option-value="created-descending" data-order="desc">Нови към стари</li>
+															<li class="sort" data-option-value="price" data-order="asc">Цена: Ниска към Висока</li>
+															<li class="sort" data-option-value="price" data-order="desc">Цена: Висока към Ниска</li>
+															<li class="sort" data-option-value="title" data-order="asc">А-Я</li>
+															<li class="sort" data-option-value="title" data-order="desc">Я-А</li>
+															<li class="sort" data-option-value="created" data-order="asc">Стари към нови</li>
+															<li class="sort" data-option-value="created" data-order="desc">Нови към стари</li>
 														</ul>
 													</div>
 													</li>
@@ -145,7 +145,7 @@ aria-hidden="true">
 										<div id="sandBox-wrapper" class="group-product-item row collection-full">
 											<ul id="sandBox" class="list-unstyled">
                                                 @foreach($products as $product)
-                                                    <li class="element first no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}">
+                                                    <li class="element first no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}" data-title="{{ $product->name }}" data-created="{{ $product->id }}">
                                                         <ul class="row-container list-unstyled clearfix">
                                                             <li class="row-left">
                                                             <a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">
@@ -204,7 +204,8 @@ aria-hidden="true">
                                                 @endforeach
 													</ul>
 												</li>												
-                                            </ul>
+											</ul>
+											{{ $products->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
                                             {{-- {{ $products->links() }} --}}
 										</div>
 									</div>  									

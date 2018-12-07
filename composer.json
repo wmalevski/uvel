@@ -6,9 +6,10 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
-        "buzz/laravel-google-captcha": "^2.1",
+        "albertcht/invisible-recaptcha": "^1.8",
         "darryldecode/cart": "~3.0",
         "davejamesmiller/laravel-breadcrumbs": "4.x",
+        "dimsav/laravel-translatable": "8.1",
         "fideloper/proxy": "~3.3",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
@@ -17,8 +18,7 @@
         "pyaesone17/active-state": "1.1.1",
         "silber/bouncer": "v1.0.0-rc.1",
         "spatie/laravel-newsletter": "^4.2",
-        "webpatser/laravel-uuid": "3.0",
-        "dimsav/laravel-translatable": "8.1"
+        "webpatser/laravel-uuid": "3.0"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

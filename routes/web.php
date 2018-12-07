@@ -22,6 +22,12 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function() {
     Route::get('/', 'DashboardController@index')->name('admin');
 
+    Route::get('/infoemails', 'InfoMailController@index')->name('info_emails');
+    Route::get('/infoemails/{email}', 'InfoMailController@edit');
+
+    Route::get('/infophones', 'InfoPhoneController@index')->name('info_phones');
+    Route::get('/infophones/{phone}', 'InfoPhoneController@edit');
+
     Route::get('/blog', 'BlogController@index')->name('admin_blog');
     Route::get('/blog/{article}', 'BlogController@edit');
     Route::get('/blog/{article}/comments', 'BlogController@showComments');
@@ -198,6 +204,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 Route::group(['prefix' => 'ajax'], function() {
 
     //Route::post('/blog/{article}/{comment}/delete', 'BlogCommentController@destroy');
+
+    Route::post('/infophones', 'InfoPhoneController@store');
+    Route::post('/infophones/delete/{phone}', 'InfoPhoneController@destroy');
+
+    Route::post('/infoemails', 'InfoEmailController@store');
+    Route::post('/infoemails/delete/{phone}', 'InfoEmailController@destroy');
 
     Route::post('/slides', 'SliderController@store');
     Route::post('/slides/delete/{slide}', 'SliderController@destroy');
@@ -436,7 +448,11 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Store'], function() {
     Route::get('/productsothers/{product}/quickview/', 'ProductOtherController@quickview');
     Route::get('/models/{model}/quickview/', 'ModelController@quickview');
 
-    Route::get('/filter', 'ProductController@filter');
+    Route::get('/filter/products', 'ProductController@filter');
+
+    Route::get('/filter/productsothers', 'ProductOtherController@filter');
+
+    Route::get('/filter/models', 'ModelController@filter');
 
     Route::post('/wishlists/store/{type}/{item}', 'WishListController@store')->name('wishlists_store');
 
