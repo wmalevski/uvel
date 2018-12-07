@@ -591,7 +591,7 @@ var uvelStore,
 				
 				function checkInterval() {
 					current++;
-					
+
 					if (current == target) {
 						current = 0;
 						clearInterval(removeInterval);
@@ -771,10 +771,13 @@ var uvelStore,
 					var addToCartTrigger = modal.find('.add-to-cart');
 					var orderProductTrigger = modal.find('.order_product');
 
-					if (addToCartTrigger.length > 0)
+					if (addToCartTrigger.length > 0) {
 						$self.addToCartAttach(addToCartTrigger);
-					else
+					}	
+					else {
 						$self.orderProductAttach(orderProductTrigger);
+					}
+						
 					
 					
 				}
