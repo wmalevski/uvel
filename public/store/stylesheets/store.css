@@ -175,6 +175,22 @@ header .col-md-18 {
     line-height: 1;
 }
 
+#gallery_main_qs {
+    display: none;
+}
+
+.modal-body {
+    opacity: 0 !important;
+    transition: opacity 300ms ease-out;
+    transition-delay: 1500ms;
+    max-height: 500px;
+    height: 500px;
+}
+
+.in .modal-body {
+    opacity: 1 !important;
+}
+
 /* MEDIA QUERIES */
 @media (max-width: 991px) {
     .contact-content {

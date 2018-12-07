@@ -768,6 +768,8 @@ var uvelStore,
 					var modal = $this.parents().find('.edit--modal_holder .modal-content');
 					modal.html(resp);
 					
+					quickviewCarousel();
+
 					var addToCartTrigger = modal.find('.add-to-cart');
 					var orderProductTrigger = modal.find('.order_product');
 
@@ -780,6 +782,32 @@ var uvelStore,
 
 				}
 			});
+
+			function quickviewCarousel() {
+				if ($('#gallery_main_qs').length) {
+					imagesLoaded('#gallery_main_qs', function() {
+						$("#gallery_main_qs").owlCarousel({
+							navigation : true,
+							pagination: false,
+							autoPlay: true,
+							stopOnHover: true,
+							items: 4,
+							itemsDesktop : [1199,4],
+							itemsDesktopSmall : [979,3],
+							itemsTablet: [768,3],
+							itemsTabletSmall: [540,2],
+							itemsMobile : [360,1],
+							scrollPerPage: true,
+							navigationText: ['<span class="btooltip" title="Previous"></span>', '<span class="btooltip" title="Next"></span>'],
+							afterInit: function(elem){
+								if(touch == false){
+									elem.find('.btooltip').tooltip();
+								}
+							}
+						});
+					});
+				}
+			}
 		}
 
 		this.subscribeAttach = function(subscribeTrigger) {
