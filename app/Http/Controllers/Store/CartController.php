@@ -107,7 +107,7 @@ class CartController extends BaseController
     public function index()
     {
         $session_id = Auth::user()->getId();
-
+        
         $total = round(Cart::session($session_id)->getTotal(),2);
         $subtotal = round(Cart::session($session_id)->getSubTotal(),2);
         $quantity = Cart::session($session_id)->getTotalQuantity();

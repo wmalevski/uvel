@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class InfoPhones extends Model
+class InfoPhone extends Model
 {
     protected $fillable = [
         'phone',

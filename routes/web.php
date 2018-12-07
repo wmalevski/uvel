@@ -22,6 +22,12 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function() {
     Route::get('/', 'DashboardController@index')->name('admin');
 
+    Route::get('/infoemails', 'InfoMailController@index')->name('info_emails');
+    Route::get('/infoemails/{email}', 'InfoMailController@edit');
+
+    Route::get('/infophones', 'InfoPhoneController@index')->name('info_phones');
+    Route::get('/infophones/{phone}', 'InfoPhoneController@edit');
+
     Route::get('/blog', 'BlogController@index')->name('admin_blog');
     Route::get('/blog/{article}', 'BlogController@edit');
     Route::get('/blog/{article}/comments', 'BlogController@showComments');
