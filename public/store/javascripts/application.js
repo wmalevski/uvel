@@ -777,11 +777,8 @@ var uvelStore,
 					else {
 						$self.orderProductAttach(orderProductTrigger);
 					}
-						
-					
-					
 				}
-			})
+			});
 		}
 
 		this.subscribeAttach = function(subscribeTrigger) {
