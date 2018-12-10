@@ -378,7 +378,7 @@ if (ischrome) {
 	ssc_addEvent("mousewheel", ssc_wheel);
 	ssc_addEvent("load", ssc_init)
 }
-  
+
 
 /* #jQuery appear
 ================================================== */
@@ -519,7 +519,7 @@ var uvelStore,
 		this.uploadImages = function(event) {
       var files = event.target.files,
           collectionFiles= [];
-     
+
       for(var file of files) {
         if(file.type == "image/svg+xml") {
           alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
@@ -605,13 +605,13 @@ var uvelStore,
           var closeBtn = document.createElement('div');
           var img = document.createElement('img');
 
-          _instanceFiles.push(reader.result);   
+          _instanceFiles.push(reader.result);
 
           imageWrapper.setAttribute("class", "image-wrapper");
           closeBtn.setAttribute("class", "close");
           closeBtn.innerHTML = '&#215;';
-          $self.deleteImagesDropArea($(closeBtn));       
-          
+          $self.deleteImagesDropArea($(closeBtn));
+
           img.src = reader.result;
           imageWrapper.append(closeBtn);
           imageWrapper.append(img);
@@ -861,7 +861,7 @@ var uvelStore,
               label = discount.value,
               discountID = discount.attributes.discount_id;
 
-          var newDiscount = 
+          var newDiscount =
           '<div class="col-xs-24">' +
           '<span class="discount discount-label">'+label+'</span>' +
           '<span data-url="/ajax/removeDiscount/'+discountID+'" class="discount discount-remove">' +

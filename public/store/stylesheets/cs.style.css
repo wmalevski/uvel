@@ -839,11 +839,10 @@ table{border:1px solid #ebebeb;}
 .blogs .post li.author,
 .blogs .blogs-item ul li.comment a{padding-left:0;font-size:11px;font-family:'Lato', sans-serif;color:#000000;font-weight:400;text-transform:uppercase;}
 .blogs .post li.author{padding-right:0;font-weight:bold;}
-.blogs .article-content{margin-bottom:44px;}
-.blogs.last .article-content .article-content-inner{border-bottom:0;}
-.blogs .article-content .article-content-inner a{font-size:26px;font-family:'Belleza', sans-serif;color:#a07936;font-weight:400;text-transform:capitalize;line-height:30px;display:block;}
-.blogs .article-content .article-content-inner a img{width:100%;}
-.blogs .article-content .article-content-inner a:hover img{opacity:0.5;-ms-filter:"progid: DXImageTransform.Microsoft.Alpha(Opacity=50)";filter:alpha(opacity=50);}
+.blogs.last .article-content {border-bottom:0;}
+.blogs .article-content a{font-size:26px;font-family:'Belleza', sans-serif;color:#a07936;font-weight:400;text-transform:capitalize;line-height:30px;display:block;}
+.blogs .article-content a img{width:100%;}
+.blogs .article-content a:hover img{opacity:0.5;-ms-filter:"progid: DXImageTransform.Microsoft.Alpha(Opacity=50)";filter:alpha(opacity=50);}
 .blogs .article-content .post-action a{font-size:12px;font-family:'Lato', sans-serif;color:#8f8f8f;font-weight:700;text-transform:uppercase;}
 .article-content div{display:table;width:100%;}
 .article-content div#comment-form{width:80%;text-align:center;margin:0 auto;}
@@ -1345,14 +1344,14 @@ ul#price-table{display:block;width:100%;height:auto;margin-top:40px;}
 	left: 100%;
 	width: 30px;
 	top:0;
-	height: 0;	
-	padding-bottom: 0;	
+	height: 0;
+	padding-bottom: 0;
 }
 .top-navigation .navigation .nav .nav-item.dropdown  .dropdown-menu > .dropdown > .dropdown-menu{
 	display: block !important;
 	top: 0;
 	left: 100%;
-	margin-left: 25px;	
+	margin-left: 25px;
 }
 @media(min-width: 1200px){
 	.top-navigation .navigation .nav .nav-item.dropdown  .dropdown-menu > .dropdown > .dropdown-menu{
@@ -1364,25 +1363,25 @@ ul#price-table{display:block;width:100%;height:auto;margin-top:40px;}
 		-moz-transition: all 0.3s ease;
 		-o-transition: all 0.3s ease;
 		-ms-transition: all 0.3s ease;
-		transition: all 0.3s ease; 
+		transition: all 0.3s ease;
 	}
-	.top-navigation .navigation .nav .nav-item.dropdown  .dropdown-menu > .dropdown:hover .dropdown-menu{	
+	.top-navigation .navigation .nav .nav-item.dropdown  .dropdown-menu > .dropdown:hover .dropdown-menu{
 		-ms-transform: scale(1,1); /* IE 9 */
 		-webkit-transform: scale(1,1); /* Chrome, Safari, Opera */
-		transform: scale(1,1);	
-	}	
-	.nav-item.dropdown  > .dropdown-menu{		
+		transform: scale(1,1);
+	}
+	.nav-item.dropdown  > .dropdown-menu{
 		margin-left: -60px;
 	}
-	
+
 }
 @media(max-width: 991px){
-	.nav-item.dropdown  > .dropdown-menu{		
+	.nav-item.dropdown  > .dropdown-menu{
 		margin-left: -60px;
 	}
 	.top-navigation .navigation .nav .nav-item.dropdown .dropdown-menu > .dropdown > .dropdown-menu{
 		width: 160px !important;
 		padding-left: 15px !important;
 		padding-right: 15px !important;
-	}	
+	}
 }
