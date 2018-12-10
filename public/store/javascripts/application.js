@@ -505,12 +505,24 @@ var uvelStore,
 			$self.setReviewRating();
 			$self.orderProductAttach($orderProductTrigger);
 			$self.sortProductsAttach($sortTrigger);
+			$self.quickViewImageSwap();
 		};
 
 		this.reviewWordCount = function() {
 			$('.spr-form-input-textarea').keyup(function() {
 				var textLength = this.value.trim().split('').length;
 				$('[for="' + this.id + '"] span').text('(' + (1500 - textLength) + ')');
+			});
+		}
+
+		this.quickViewImageSwap = function() {
+			$('.modal').on('click', '.image-thumb', function(e) {
+				e.preventDefault();
+				var mainImage = $('.main-image img');
+
+				if (mainImage.attr('src') != this.dataset.image) {
+					mainImage.attr('src', this.dataset.image);
+				}
 			});
 		}
 
@@ -523,7 +535,7 @@ var uvelStore,
 			function sortProducts() {
 				var sortMethod = this.dataset.optionValue.split('-')[0],
 					sortOrder = this.dataset.order;
-				
+
 				products.sort(function(firstItem, secondItem) {
 					var firstItemValue, secondItemValue;
 
@@ -535,6 +547,10 @@ var uvelStore,
 						firstItemValue = firstItem.dataset.alpha.toLowerCase(),
 						secondItemValue = secondItem.dataset.alpha.toLowerCase();
 					}
+					else if (sortMethod == 'created') {
+						firstItemValue = parseInt(firstItem.dataset.id),
+						secondItemValue = parseInt(secondItem.dataset.id);
+					}
 
 					if (sortOrder == 'asc') {
 						if (firstItemValue>secondItemValue) {
@@ -542,8 +558,7 @@ var uvelStore,
 						}
 						else {
 							return -1;
-						}
-							
+						}				
 					}
 					else {
 						if (firstItemValue>secondItemValue) {
@@ -657,98 +672,99 @@ var uvelStore,
     	}
 
     this.dragNdropImages = function(dropArea) {
-      $('html').on('dragover', function(event) {
-        event.preventDefault();
-      })
+      	$('html').on('dragover', function(event) {
+        	event.preventDefault();
+      	})
 
-      $('html').on('drop', function(event) {
-        event.preventDefault();
-      })
+      	$('html').on('drop', function(event) {
+        	event.preventDefault();
+      	})
 
-      dropArea.on('dragenter', function(event) {
-        event.preventDefault();
-        var _this = $(event.currentTarget);
+      	dropArea.on('dragenter', function(event) {
+    		event.preventDefault();
+        	var _this = $(event.currentTarget);
 
-        _this.addClass('dragging');
-        _this.children().css('pointer-events', 'none');
-      })
+        	_this.addClass('dragging');
+        	_this.children().css('pointer-events', 'none');
+      	})
 
-      dropArea.on('dragleave', function(event) {
-        event.preventDefault();
-        var _this = $(event.currentTarget);
+      	dropArea.on('dragleave', function(event) {
+        	event.preventDefault();
+        	var _this = $(event.currentTarget);
 
-        _this.removeClass('dragging');
-        _this.children().css('pointer-events', 'auto');
-      })
+        	_this.removeClass('dragging');
+        	_this.children().css('pointer-events', 'auto');
+      	})
 
-      dropArea.on('drop', function(event) {
-        event.preventDefault();
-        var _this = $(event.currentTarget),
-            collectionFiles = [];
+      	dropArea.on('drop', function(event) {
+        	event.preventDefault();
+        	var _this = $(event.currentTarget),
+            	collectionFiles = [];
 
-        event.dataTransfer = event.originalEvent.dataTransfer;
-        _this.removeClass('dragging');
-        _this.children().css('pointer-events', 'auto');
+			event.dataTransfer = event.originalEvent.dataTransfer;
+			_this.removeClass('dragging');
+			_this.children().css('pointer-events', 'auto');
 
-        if (event.dataTransfer.items) {
-          for (var i=0; i<event.dataTransfer.items.length; i++) {
-            var item = event.dataTransfer.items[i];
+			if (event.dataTransfer.items) {
+				for (var i=0; i<event.dataTransfer.items.length; i++) {
+					var item = event.dataTransfer.items[i];
 
-            if (item.kind === 'file') {
-              var file = item.getAsFile();
-              if(file.type == "image/svg+xml") {
-                alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
-              } else {
-                collectionFiles.push(file);
-              }
-            }
-          }
-        } else {
-          for (var i=0; i<event.dataTransfer.files.length; i++) {
-            var file = event.dataTransfer.files[i];
-            if(file.type == "image/svg+xml") {
-              alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
-            } else {
-              collectionFiles.push(file);
-            }
-          }
-        }
+					if (item.kind === 'file') {
+						var file = item.getAsFile();
+						if(file.type == "image/svg+xml") {
+							alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
+						} else {
+							collectionFiles.push(file);
+						}
+					}
+				}
+			} 
+			else {
+				for (var i=0; i<event.dataTransfer.files.length; i++) {
+					var file = event.dataTransfer.files[i];
+					if(file.type == "image/svg+xml") {
+						alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
+					} else {
+						collectionFiles.push(file);
+					}
+				}
+			}
 
-        $self.appendImages(collectionFiles);
-      })
+        	$self.appendImages(collectionFiles);
+      	})
     }
 
     this.appendImages = function(collectionFiles) {
-      var _instanceFiles = [];
+      	var _instanceFiles = [];
 
-      collectionFiles.forEach(function(element) {
-        var reader = new FileReader();
-        reader.readAsDataURL(element);
+      	collectionFiles.forEach(function(element) {
+			var reader = new FileReader();
+			reader.readAsDataURL(element);
 
-        reader.onloadend = function() {
-          var imageWrapper = document.createElement('div');
-          var closeBtn = document.createElement('div');
-          var img = document.createElement('img');
+			reader.onloadend = function() {
+				var imageWrapper = document.createElement('div');
+				var closeBtn = document.createElement('div');
+				var img = document.createElement('img');
 
-          _instanceFiles.push(reader.result);
+				_instanceFiles.push(reader.result);
 
-          imageWrapper.setAttribute("class", "image-wrapper");
-          closeBtn.setAttribute("class", "close");
-          closeBtn.innerHTML = '&#215;';
-          $self.deleteImagesDropArea($(closeBtn));
+				imageWrapper.setAttribute("class", "image-wrapper");
+				closeBtn.setAttribute("class", "close");
+				closeBtn.innerHTML = '&#215;';
+				$self.deleteImagesDropArea($(closeBtn));
 
-          img.src = reader.result;
-          imageWrapper.append(closeBtn);
-          imageWrapper.append(img);
-          $('.drop-area-gallery').append(imageWrapper);
-        }
-      });
+				img.src = reader.result;
+				imageWrapper.append(closeBtn);
+				imageWrapper.append(img);
+				$('.drop-area-gallery').append(imageWrapper);
+			}
+      	});
     }
 
     this.deleteImagesDropArea = function(deleteBtn) {
-      deleteBtn.on('click', function() {
-        $(this).parent('.image-wrapper').remove();
-      });
+      	deleteBtn.on('click', function() {
+        	$(this).parent('.image-wrapper').remove();
+      	});
     }
 
 		this.quickviewAttach = function(quickViewTrigger) {
@@ -798,12 +814,7 @@ var uvelStore,
 							itemsTabletSmall: [540,2],
 							itemsMobile : [360,1],
 							scrollPerPage: true,
-							navigationText: ['<span class="btooltip" title="Previous"></span>', '<span class="btooltip" title="Next"></span>'],
-							afterInit: function(elem){
-								if(touch == false){
-									elem.find('.btooltip').tooltip();
-								}
-							}
+							navigationText: ['<span class="btooltip" title="Previous"></span>', '<span class="btooltip" title="Next"></span>']
 						});
 					});
 				}
@@ -1015,32 +1026,32 @@ var uvelStore,
         		subtotalDisplay = $($('.bottom-summary .subtotal')[0]),
 						totalDisplay = $($('.bottom-summary .subtotal')[1]);
 
-        for (var key in discounts) {
-          var discount = discounts[key],
-              discountAmount = key,
-              label = discount.value,
-              discountID = discount.attributes.discount_id;
+				for (var key in discounts) {
+					var discount = discounts[key],
+						discountAmount = key,
+						label = discount.value,
+						discountID = discount.attributes.discount_id;
 
-          var newDiscount =
-          '<div class="col-xs-24">' +
-          '<span class="discount discount-label">'+label+'</span>' +
-          '<span data-url="/ajax/removeDiscount/'+discountID+'" class="discount discount-remove">' +
-          '<i class="fas fa-times"></i>' +
-          '</span>' +
-          '</div>';
+					var newDiscount =
+						'<div class="col-xs-24">' +
+						'<span class="discount discount-label">'+label+'</span>' +
+						'<span data-url="/ajax/removeDiscount/'+discountID+'" class="discount discount-remove">' +
+						'<i class="fas fa-times"></i>' +
+						'</span>' +
+						'</div>';
 
-          newFields += newDiscount;
-        }
+					newFields += newDiscount;
+				}
 
-        discountContainer.html(newFields);
+        		discountContainer.html(newFields);
 
-        var removeDiscountTrigger = $('.discount-remove');
-    		$self.removeDiscountAttach(removeDiscountTrigger);
+				var removeDiscountTrigger = $('.discount-remove');
+					$self.removeDiscountAttach(removeDiscountTrigger);
 
-    		totalDisplay.html(total + ' лв');
-    		subtotalDisplay.html(subtotal + 'лв');
+					totalDisplay.html(total + ' лв');
+					subtotalDisplay.html(subtotal + 'лв');
 
-    		discountInput.val('');
+					discountInput.val('');
 			} else {
 				var message = "Системата не открива карта за отстъпка с такъв номер."
 
@@ -1053,12 +1064,12 @@ var uvelStore,
 					applyBtn = $('.cart-applyDiscount');
 
 			_this.on('keypress', function(event) {
-        if (event.which == 13) {
-          event.preventDefault();
-          applyBtn.click();
-          _this.blur();
-        }
-      })
+				if (event.which == 13) {
+					event.preventDefault();
+					applyBtn.click();
+					_this.blur();
+				}
+      		})
 		}
 
 		this.shippingMethodAttach = function(shippingMethodTrigger) {
@@ -1109,21 +1120,21 @@ var uvelStore,
 
 		this.paymentMethodChange = function(paymentInput) {
 			var _this = paymentInput,
-					hiddenPaymentInput = $('[type="hidden"][name="payment_method"]'),
-					method = _this.attr('data-method');
+				hiddenPaymentInput = $('[type="hidden"][name="payment_method"]'),
+				method = _this.attr('data-method');
 
 			hiddenPaymentInput.val(method);
 		}
 
 		this.submitCustomOrder = function() {
 			var form = $('form.customOrder-form'),
-					submitButton = form.find('[type="submit"]');
+				submitButton = form.find('[type="submit"]');
 
 			submitButton.on('click', function(e) {
 				e.preventDefault();
 
 				var $this = $(this),
-						inputFields = form.find('select , input, textarea');
+					inputFields = form.find('select , input, textarea');
 
 				$self.getFormFields(form, inputFields);
 			})
@@ -1152,8 +1163,7 @@ var uvelStore,
 				success: function(resp) {
 					var success = resp.success;
 
-					if (success) {
-						
+					if (success) {				
 						var cartNum = $('.cart-link span.number'),
 								quantity = resp.quantity,
 								message = 'Продукта беше успешно добавен в количката!';
@@ -1189,7 +1199,7 @@ var uvelStore,
 
 		this.orderProduct = function(orderBtn) {
 			var _this = orderBtn,
-					ajaxURL = _this.attr('data-url');
+				ajaxURL = _this.attr('data-url');
 			
 			$.ajax({
 				method: "GET",
@@ -1219,21 +1229,21 @@ var uvelStore,
 
 		this.removeFromCart = function(rmvBtn) {
 			var _this = rmvBtn,
-					row = _this.closest('tr'),
-					table = _this.closest('table'),
-					updateCartBtn = table.find('.update-cart'),
-					ajaxURL = _this.attr('data-url');
+				row = _this.closest('tr'),
+				table = _this.closest('table'),
+				updateCartBtn = table.find('.update-cart'),
+				ajaxURL = _this.attr('data-url');
 
 			$.ajax({
 				method: "GET",
 				url: ajaxURL,
 				success: function(resp) {
 					var cartNum = $('.cart-link span.number'),
-							subtotalContainer = $($('.bottom-summary .subtotal')[0]),
-							totalContainer = $($('.bottom-summary .subtotal')[1]),
-							quantity = resp.quantity,
-							subtotal = resp.subtotal,
-							total = resp.total;
+						subtotalContainer = $($('.bottom-summary .subtotal')[0]),
+						totalContainer = $($('.bottom-summary .subtotal')[1]),
+						quantity = resp.quantity,
+						subtotal = resp.subtotal,
+						total = resp.total;
 
 					cartNum.html(quantity);
 					row.remove();
@@ -1258,25 +1268,25 @@ var uvelStore,
 
 		this.updateCartQuantity = function(quantityInput) {
 			var _this = quantityInput,
-					row = _this.closest('tr'),
-					pricePerItemHolder = row.find('.price-item'),
-					priceWithQunatityHolder = row.find('.total'),
-					cartNum = $('.cart-link span.number'),
-					subtotalContainer = $($('.bottom-summary .subtotal')[0]),
-					totalContainer = $($('.bottom-summary .subtotal')[1]),
-					baseUrl = _this.attr('data-url'),
-					quantity = _this.val(),
-					ajaxURL = baseUrl + quantity;
+				row = _this.closest('tr'),
+				pricePerItemHolder = row.find('.price-item'),
+				priceWithQunatityHolder = row.find('.total'),
+				cartNum = $('.cart-link span.number'),
+				subtotalContainer = $($('.bottom-summary .subtotal')[0]),
+				totalContainer = $($('.bottom-summary .subtotal')[1]),
+				baseUrl = _this.attr('data-url'),
+				quantity = _this.val(),
+				ajaxURL = baseUrl + quantity;
 
 			$.ajax({
 				method: "GET",
 				url: ajaxURL,
 				success: function(resp) {
 					var quantity = resp.quantity,
-							subtotal = resp.subtotal,
-							pricePerItem = resp.price,
-							total = resp.total,
-							priceWithQunatity = resp.priceWithQuantity;
+						subtotal = resp.subtotal,
+						pricePerItem = resp.price,
+						total = resp.total,
+						priceWithQunatity = resp.priceWithQuantity;
 
 					cartNum.html(quantity);
 					subtotalContainer.html(subtotal + ' лв');
@@ -1291,11 +1301,11 @@ var uvelStore,
 			var _this = quantityInput;
 
 			_this.on('keypress', function(event) {
-        if (event.which == 13) {
-          event.preventDefault();
-          _this.blur();
-        }
-      })
+				if (event.which == 13) {
+					event.preventDefault();
+					_this.blur();
+				}
+      		})
 		}
 
 		this.addToWishlistAttach = function(addToWishBtn) {
@@ -1309,7 +1319,7 @@ var uvelStore,
 
 		this.addToWishlist = function(addToWishBtn) {
 			var _this = addToWishBtn,
-					ajaxURL = _this.attr('data-url');
+				ajaxURL = _this.attr('data-url');
 
 			$.ajax({
 				method: "POST",
@@ -1328,24 +1338,23 @@ var uvelStore,
 					imageCollection = [];
 
 			inputFields.each(function(index, element) {
-			var _this = element,
-				inputType = _this.type,
-				dataKey = _this.name,
-				dataKeyValue = _this.value,
-				imagesInputFieldExists = dataKey == 'images';
+				var _this = element,
+					inputType = _this.type,
+					dataKey = _this.name,
+					dataKeyValue = _this.value,
+					imagesInputFieldExists = dataKey == 'images';
 
 				data[dataKey] = dataKeyValue;
 
 				if(imagesInputFieldExists) {
-				var imagesHolder = $('.drop-area-gallery .image-wrapper img');
+					var imagesHolder = $('.drop-area-gallery .image-wrapper img');
 
-				imagesHolder.each(function(index , element) {
-					var _imgSource = element.getAttribute('src');
+					imagesHolder.each(function(index , element) {
+						var _imgSource = element.getAttribute('src');
+						imageCollection.push(_imgSource);
+					});
 
-					imageCollection.push(_imgSource);
-				});
-
-				data.images = imageCollection;
+					data.images = imageCollection;
 				}
 			});
 
@@ -1365,16 +1374,16 @@ var uvelStore,
 				$self.ajaxReturnMessage(message, 'success');
 				},
 				error: function(err) {
-				var errors = JSON.parse(err.responseText).errors,
-						messages = '';
+					var errors = JSON.parse(err.responseText).errors,
+							messages = '';
 
-				for (var key in errors) {
-					var message = errors[key][0];
+					for (var key in errors) {
+						var message = errors[key][0];
 
-					messages += message + '<br>';
-				}
+						messages += message + '<br>';
+					}
 
-				$self.ajaxReturnMessage(messages, 'error');
+					$self.ajaxReturnMessage(messages, 'error');
 				}
 			});
 		}

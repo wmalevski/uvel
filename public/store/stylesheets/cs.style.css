@@ -201,8 +201,6 @@ header#top.affix #umbrella .cart-link:after{margin-top:17px;}
 .home-slider-wrapper .camera_cta_1 a:hover,
 .home-slider-wrapper .camera_cta_2 a:hover,
 .home-slider-wrapper .camera_cta_3 a:hover{color:#ffffff;border-color:#a07936;background:#a07936;}
-.camera_prev > span{background:url(../images/skins.png) no-repeat 0 0;height:150px;width:35px;}
-.camera_next > span{background:url(../images/skins.png) no-repeat -1790px 0;height:150px;width:35px;}
 .camera_prev,
 .camera_next{background:none;top:50%;width:auto;margin-top:-70px;}
 .camera_prev{padding-left:50px;}

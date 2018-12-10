@@ -181,14 +181,16 @@ header .col-md-18 {
 
 .modal-body {
     opacity: 0 !important;
-    transition: opacity 300ms ease-out;
-    transition-delay: 1500ms;
-    max-height: 500px;
-    height: 500px;
+    transition: opacity 300ms ease-out 300ms;
+    min-height: 500px;
 }
 
 .in .modal-body {
     opacity: 1 !important;
+}
+
+.image-thumb img:hover {
+    cursor: pointer !important;
 }
 
 /* MEDIA QUERIES */
