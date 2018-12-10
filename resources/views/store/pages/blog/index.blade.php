@@ -53,12 +53,14 @@
 													</div>
 													<div class="article-title-container">
 														<h4 class="article-title">
-															<a href="{{ route('single_translated_article', ['locale'=>$lng, 'product' => $article->slug])  }}">{{$article->title}}</a>
+															<a href="{{ route('single_translated_article', ['locale'=>$lng, 'product' => $article->slug])  }}">
+																{{ str_limit($article->title, 40) }}
+															</a>
 														</h4>
 													</div>
 												</div>
 												<div class="intro">
-													{{$article->excerpt}}
+													{{ str_limit($article->excerpt, 220) }}
 												</div>
 												<ul class="post list-inline">
 													<li class="author">{{ $article->author()->name }}</li>

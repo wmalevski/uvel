@@ -329,7 +329,7 @@ aria-hidden="true">
                                                     </div>
                                                 </div>
                                                 <div class="home-blog-content col-md-20">
-                                                    <h4><a href="{{ route('single_translated_article', ['locale'=>app()->getLocale(), 'product' => $article->slug])  }}">{{ $article->title }}</a></h4>
+                                                    <h4><a href="{{ route('single_translated_article', ['locale'=>app()->getLocale(), 'product' => $article->slug])  }}">{{ str_limit($article->title, 40) }}</a></h4>
                                                     <ul class="list-inline">
                                                         <li class="author"><i class="fa fa-user"></i> {{$article->author()->name}}</li>
                                                         <li>/</li>
@@ -339,7 +339,7 @@ aria-hidden="true">
                                                         </li>
                                                     </ul>
                                                     <div class="intro">
-                                                        {{ $article->excerpt }}
+                                                            {{ str_limit($article->excerpt, 220) }}
                                                     </div>
                                                 </div>
                                             </div>
