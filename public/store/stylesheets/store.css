@@ -181,8 +181,7 @@ header .col-md-18 {
 
 .modal-body {
     opacity: 0 !important;
-    transition: opacity 300ms ease-out;
-    transition-delay: 300ms;
+    transition: opacity 300ms ease-out 300ms;
     min-height: 500px;
 }
 
