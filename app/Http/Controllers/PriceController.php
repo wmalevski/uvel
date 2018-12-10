@@ -148,7 +148,7 @@ class PriceController extends Controller
             //['default', '=', 'yes']
         ])->first();
 
-        $mat = MaterialQuantity::find($material);
+        $mat = MaterialQuantity::where('material_id', $material)->first();
 
         $retail_prices = Price::where(
             [
