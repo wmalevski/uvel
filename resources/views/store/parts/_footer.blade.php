@@ -63,7 +63,7 @@
                         <a href="./account.html">История на поръчките</a>
                         </li>						  
                         <li class="list-unstyled">
-                        <a href="./account.html">Логин</a>
+                        <a href="{{ route('login') }}">Логин</a>
                         </li>						  					  
                     </ul>
                     </div>

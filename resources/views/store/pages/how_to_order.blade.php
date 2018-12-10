@@ -46,11 +46,11 @@
                                         </li>
                                         <li class="address">
                                         <p>
-                                            249 Ung Van Khiem Street, Binh Thanh Dist, HCM city
+                                            София, бул. "Княгиня Мария Луиза" 125
                                         </p>
-                                        </li>
-                                        <li class="phone">+84 0123456xxx</li>
-                                        <li class="email"><i class="fa fa-envelope"></i> support@designshopify.com</li>
+                                        </li><br/>
+                                        <li class="phone">+359 888 770 160</li><br/>
+                                        <li class="email"><i class="fa fa-envelope"></i> uvelgold@gmail.com </li>
                                     </ul>
                                     <ul class="right-content">
                                         <li class="title">
