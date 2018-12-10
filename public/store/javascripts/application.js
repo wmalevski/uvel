@@ -519,7 +519,7 @@ var uvelStore,
 			$('.modal').on('click', '.image-thumb', function(e) {
 				e.preventDefault();
 				var mainImage = $('.main-image img');
-				
+
 				if (mainImage.attr('src') != this.dataset.image) {
 					mainImage.attr('src', this.dataset.image);
 				}
@@ -535,7 +535,7 @@ var uvelStore,
 			function sortProducts() {
 				var sortMethod = this.dataset.optionValue.split('-')[0],
 					sortOrder = this.dataset.order;
-				
+
 				products.sort(function(firstItem, secondItem) {
 					var firstItemValue, secondItemValue;
 
@@ -546,6 +546,10 @@ var uvelStore,
 					else if (sortMethod == 'title') {
 						firstItemValue = firstItem.dataset.alpha.toLowerCase(),
 						secondItemValue = secondItem.dataset.alpha.toLowerCase();
+					}
+					else if (sortMethod == 'created') {
+						firstItemValue = parseInt(firstItem.dataset.id),
+						secondItemValue = parseInt(secondItem.dataset.id);
 					}
 
 					if (sortOrder == 'asc') {
