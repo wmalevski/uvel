@@ -2,73 +2,55 @@
 
 @section('content')
 <div id="content-wrapper-parent">
-    <div id="content-wrapper">
+    <div id="content-wrapper">   
         <!-- Content -->
-        <div id="content" class="clearfix">
+        <div id="content" class="clearfix">                
             <div id="breadcrumb" class="breadcrumb">
                 <div itemprop="breadcrumb" class="container">
                     <div class="row">
                         <div class="col-md-24">
-                            {{ Breadcrumbs::render('contactus') }}
+                            {{ Breadcrumbs::render('prices') }}
                         </div>
                     </div>
                 </div>
-            </div>
-            <section class="content">
+            </div>               
+            <section class="content">    
                 <div class="container">
                     <div class="row">
                         <div id="page-header">
-                            <h1 id="page-title">Контакти</h1>
+                            <h1 id="page-title">Цени</h1>
                         </div>
                     </div>
                 </div>
                 <div id="col-main" class="contact-page clearfix">
                     <div class="group-contact clearfix">
                         <div class="container">
-                            @if($errors->any())
-                                <ul class="alert alert-danger">
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            @endif
-
-                            @if(session()->has('success'))
-                                <div class="alert alert-success">
-                                    {{ session()->get('success') }}
-                                </div>
-                            @endif
-
                             <div class="row">
                                 <div class="left-block col-md-12">
-                                    <form method="post" action="contact" class="contact-form" accept-charset="UTF-8">
-                                        {{ csrf_field() }}
-                                        <input type="hidden" value="contact" name="form_type"><input type="hidden" name="utf8" value="✓">
-                                        <ul id="contact-form" class="row list-unstyled">
-                                            <li class="">
-                                            <h3>Напишете ни нещо</h3>
-                                            </li>
-                                            <li class="">
-                                            <label class="control-label" for="name">Вашето име <span class="req">*</span></label>
-                                            <input type="text" id="name" value="" class="form-control" name="name">
-                                            </li>
-                                            <li class="clearfix"></li>
-                                            <li class="">
-                                            <label class="control-label" for="email">Вашият Email <span class="req">*</span></label>
-                                            <input type="email" id="email" value="" class="form-control email" name="email">
-                                            </li>
-                                            <li class="clearfix"></li>
-                                            <li class="">
-                                            <label class="control-label" for="message">Съобщение <span class="req">*</span></label>
-                                            <textarea id="message" rows="5" class="form-control" name="message"></textarea>
-                                            </li>
-                                            <li class="clearfix"></li>
-                                            @captcha
-                                            <li class="unpadding-top">
-                                            <button type="submit" class="btn">Изпратете</button>
-                                            </li>
-                                        </ul>
-                                    </form>
+                                    <p>ОБРАБОТЕНО ЗЛАТО 14 карата (585)-средна цена : 68-78 лв/гр .</p>
+                                    
+                                    <p>Единичната цена на всяко бижу зависи от сложността на изработката</p>
+                                    
+                                    
+                                        <p>ОБМЯНА: грам за грам + доплащане на изработката</p>
+                                    
+                                            <p>СРЕДНА ИЗРАБОТКА : 24лв/гр</p>
+                                    
+                                    
+                                                <p>"UVEL" продава ЧИСТО ТЕГЛО на златото</p>
+                                    
+                                                    <p>Теглото на всички камъни е подвадено от грамажа на изделията</p>
+                                    
+                                    
+                                                        <p>ИЗКУПУВАНЕ на злато(материал) = 38 лв/гр</p>
+                                    
+                                                            <p>Цени на международни борси: www.kitco.com</p>
+                                    
+                                    
+                                                                <p>Цени на ремонти тук</p>
+                                    
+                                    
+                                                                    <p>UVEL дава 1 година гаранция!</p>
                                 </div>
                                 <div class="right-block contact-content col-md-12">
                                     <h6 class="sb-title"><i class="fa fa-home"></i> Информация за контакти</h6>
@@ -117,8 +99,8 @@
                             </script>
                         </div> --}}
                     </div>
-                </div>
-            </section>
+                </div> 
+            </section>        
         </div>
     </div>
 </div>

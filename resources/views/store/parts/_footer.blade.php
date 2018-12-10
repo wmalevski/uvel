@@ -25,13 +25,13 @@
                     <h5 class="general-title">За нас</h5>						
                     <ul class="list-unstyled list-styled">						  
                         <li class="list-unstyled">
-                        <a href="./account.html">Гарация</a>
+                        <a href="{{ route('warranty') }}">Гарация</a>
                         </li>						  
                         <li class="list-unstyled">
-                        <a href="./account.html">Цени</a>
+                        <a href="{{ route('storePrices') }}">Цени</a>
                         </li>						  
                         <li class="list-unstyled">
-                        <a href="./account.html">Контакт</a>
+                        <a href="{{ route('contactus') }}">Контакт</a>
                         </li>						  						  
                     </ul>
                     </div>
@@ -63,7 +63,7 @@
                         <a href="./account.html">История на поръчките</a>
                         </li>						  
                         <li class="list-unstyled">
-                        <a href="./account.html">Логин</a>
+                        <a href="{{ route('login') }}">Логин</a>
                         </li>						  					  
                     </ul>
                     </div>

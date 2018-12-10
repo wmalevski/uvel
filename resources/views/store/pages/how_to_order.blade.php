@@ -2,73 +2,41 @@
 
 @section('content')
 <div id="content-wrapper-parent">
-    <div id="content-wrapper">
+    <div id="content-wrapper">   
         <!-- Content -->
-        <div id="content" class="clearfix">
+        <div id="content" class="clearfix">                
             <div id="breadcrumb" class="breadcrumb">
                 <div itemprop="breadcrumb" class="container">
                     <div class="row">
                         <div class="col-md-24">
-                            {{ Breadcrumbs::render('contactus') }}
+                            {{ Breadcrumbs::render('howtoorder') }}
                         </div>
                     </div>
                 </div>
-            </div>
-            <section class="content">
+            </div>               
+            <section class="content">    
                 <div class="container">
                     <div class="row">
                         <div id="page-header">
-                            <h1 id="page-title">Контакти</h1>
+                            <h1 id="page-title">Поръчка на бижу</h1>
                         </div>
                     </div>
                 </div>
                 <div id="col-main" class="contact-page clearfix">
                     <div class="group-contact clearfix">
                         <div class="container">
-                            @if($errors->any())
-                                <ul class="alert alert-danger">
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            @endif
-
-                            @if(session()->has('success'))
-                                <div class="alert alert-success">
-                                    {{ session()->get('success') }}
-                                </div>
-                            @endif
-
                             <div class="row">
                                 <div class="left-block col-md-12">
-                                    <form method="post" action="contact" class="contact-form" accept-charset="UTF-8">
-                                        {{ csrf_field() }}
-                                        <input type="hidden" value="contact" name="form_type"><input type="hidden" name="utf8" value="✓">
-                                        <ul id="contact-form" class="row list-unstyled">
-                                            <li class="">
-                                            <h3>Напишете ни нещо</h3>
-                                            </li>
-                                            <li class="">
-                                            <label class="control-label" for="name">Вашето име <span class="req">*</span></label>
-                                            <input type="text" id="name" value="" class="form-control" name="name">
-                                            </li>
-                                            <li class="clearfix"></li>
-                                            <li class="">
-                                            <label class="control-label" for="email">Вашият Email <span class="req">*</span></label>
-                                            <input type="email" id="email" value="" class="form-control email" name="email">
-                                            </li>
-                                            <li class="clearfix"></li>
-                                            <li class="">
-                                            <label class="control-label" for="message">Съобщение <span class="req">*</span></label>
-                                            <textarea id="message" rows="5" class="form-control" name="message"></textarea>
-                                            </li>
-                                            <li class="clearfix"></li>
-                                            @captcha
-                                            <li class="unpadding-top">
-                                            <button type="submit" class="btn">Изпратете</button>
-                                            </li>
-                                        </ul>
-                                    </form>
+                                    <p>1. Кликнете върху снимката на избраното бижу за увеличен изглед.</p>
+                                        <p>2. Натиснете надпис ПОРЪЧАЙ или ДОБАВИ В КОШНИЦА.</p>
+                                            <p>3. Направете регистрация, ако нямате отпреди и продължете към форма за поръчка.</p>
+                                                <p>4. Попълнете задължителните полета на формата.</p>
+                                                    <p>5. Изпратете формата.</p>
+                                                        <p>6. Излиза потвърдителен надпис за успешно изпращане.</p>
+                                                            <p>7. С Вас ще се свърже служител на фирмата за лично потвърждение на поръчката.</p>
+                                                                <p>8. Поръчката ще бъде изпратена по куриер с/у наложен платеж или взета от наш обект, според Вашето желание.</p>
+                                    
+                                                                    <p>Фирма "UVEL" ще Ви върне парите, ако не сме удовлетворили всички Ваши изисквания!</p>
                                 </div>
                                 <div class="right-block contact-content col-md-12">
                                     <h6 class="sb-title"><i class="fa fa-home"></i> Информация за контакти</h6>
@@ -117,8 +85,8 @@
                             </script>
                         </div> --}}
                     </div>
-                </div>
-            </section>
+                </div> 
+            </section>        
         </div>
     </div>
 </div>

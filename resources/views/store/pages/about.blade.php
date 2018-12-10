@@ -2,73 +2,41 @@
 
 @section('content')
 <div id="content-wrapper-parent">
-    <div id="content-wrapper">
+    <div id="content-wrapper">   
         <!-- Content -->
-        <div id="content" class="clearfix">
+        <div id="content" class="clearfix">                
             <div id="breadcrumb" class="breadcrumb">
                 <div itemprop="breadcrumb" class="container">
                     <div class="row">
                         <div class="col-md-24">
-                            {{ Breadcrumbs::render('contactus') }}
+                            {{ Breadcrumbs::render('about') }}
                         </div>
                     </div>
                 </div>
-            </div>
-            <section class="content">
+            </div>               
+            <section class="content">    
                 <div class="container">
                     <div class="row">
                         <div id="page-header">
-                            <h1 id="page-title">Контакти</h1>
+                            <h1 id="page-title">История</h1>
                         </div>
                     </div>
                 </div>
                 <div id="col-main" class="contact-page clearfix">
                     <div class="group-contact clearfix">
                         <div class="container">
-                            @if($errors->any())
-                                <ul class="alert alert-danger">
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            @endif
-
-                            @if(session()->has('success'))
-                                <div class="alert alert-success">
-                                    {{ session()->get('success') }}
-                                </div>
-                            @endif
-
                             <div class="row">
                                 <div class="left-block col-md-12">
-                                    <form method="post" action="contact" class="contact-form" accept-charset="UTF-8">
-                                        {{ csrf_field() }}
-                                        <input type="hidden" value="contact" name="form_type"><input type="hidden" name="utf8" value="✓">
-                                        <ul id="contact-form" class="row list-unstyled">
-                                            <li class="">
-                                            <h3>Напишете ни нещо</h3>
-                                            </li>
-                                            <li class="">
-                                            <label class="control-label" for="name">Вашето име <span class="req">*</span></label>
-                                            <input type="text" id="name" value="" class="form-control" name="name">
-                                            </li>
-                                            <li class="clearfix"></li>
-                                            <li class="">
-                                            <label class="control-label" for="email">Вашият Email <span class="req">*</span></label>
-                                            <input type="email" id="email" value="" class="form-control email" name="email">
-                                            </li>
-                                            <li class="clearfix"></li>
-                                            <li class="">
-                                            <label class="control-label" for="message">Съобщение <span class="req">*</span></label>
-                                            <textarea id="message" rows="5" class="form-control" name="message"></textarea>
-                                            </li>
-                                            <li class="clearfix"></li>
-                                            @captcha
-                                            <li class="unpadding-top">
-                                            <button type="submit" class="btn">Изпратете</button>
-                                            </li>
-                                        </ul>
-                                    </form>
+                                    
+                                    
+                                    <p>Бижутерска къща "UVEL" е семейна фирма, основана през 1990г. в гр.Пазарджик, като продължение на десетилетните златарски и часовникарски традиции на местната фамилия Дечеви.</p>
+
+                                    <p>Притежава собствена работилница с пълен производствен цикъл, два фирмени магазина в град Пазарджик , един в град София и зарежда търговци от цялата страна и чужбина.</p>
+
+                                        <p>Изпълнявала е специални поръчки за бижутерски вериги от Лондон и Париж.</p>
+
+                                            <p>Фирмата се управлява от двама братя Емил Дечев и Владимир Дечев.</p>
+                                     
                                 </div>
                                 <div class="right-block contact-content col-md-12">
                                     <h6 class="sb-title"><i class="fa fa-home"></i> Информация за контакти</h6>
@@ -117,8 +85,8 @@
                             </script>
                         </div> --}}
                     </div>
-                </div>
-            </section>
+                </div> 
+            </section>        
         </div>
     </div>
 </div>

@@ -52,10 +52,6 @@
                                                 <a href="#">
                                                 <span>{{count($article->comments())}}</span> Коментара </a>
                                                 </li>
-                                                <li class="post-action hidden-xs">
-                                                <a class="btn btn-prev br" href="#" title="Previous Article"><i class="fa fa-chevron-left"></i></a>
-                                                <a class="btn btn-next" href="#" title="Next Article"><i class="fa fa-chevron-right"></i></a>
-                                                </li>
                                             </ul>
                                             </footer>
                                             @if($errors->any())
