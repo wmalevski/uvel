@@ -254,39 +254,47 @@ class PaymentController extends Controller
     }
 
     public function filter(Request $request){
-        if($request->date_from && $request->date_to){
-            $payments = Payment::where(
-                'created_at', '>=', date('Y-m-d', strtotime($request->date_from)),
-                'date_to', '<', date('Y-m-d', strtotime($request->date_to))
-            );
-        }else if($request->date_from){
-            //dd(date('Y-m-d', strtotime($request->date_from)));
-            $payments = Payment::where(
-                'created_at', '>=', date('Y-m-d', strtotime($request->date_from))
-            );
-        }else if($request->date_to){
-            $payments = Payment::where(
-                'date_to', '<', date('Y-m-d', strtotime($request->date_to))
-            );
-        }
+        //$payments = Payment::all();
 
-        if(isset($payments)){
-            $date_from = Input::get('date_from'); 
-            $date_to = Input::get('date_to'); 
-            
+        $payments = Payment::where(function($payments) use ($request){
+            if ($request->date_from && $request->date_to) {
+                $payments->whereBetween('created_at', [$request->date_from, $request->date_to]);
+            } else if($request->date_from){
+                $payments->where('created_at', '>=', $request->date_from);
+            } else if($request->date_to){
+                $payments->where('created_at', '<=', $request->date_to);
+            }
+
+            if ($request->by_number) {
+                $payments->where('product_id', $request->by_number)->orWhere('repair_id', $request->by_number)->orWhere('product_other_id', $request->by_number);
+            }
+
+            //for model? use join?
+            if ($request->by_model) {
+                $payments->whereHas('sellings', function($q) use ($request){
+                    $q->where('id', '>=', $request->by_model);
+                });
+                dd($payments->get());
+            }
+
+
             if(!Bouncer::is(Auth::user())->an('admin')){
-                $payments->where('store_id', Auth::user()->getStore()->id)->paginate(15);
-            }else{
-                $payments = $payments->paginate(15);
+                $payments->where('store_id', Auth::user()->getStore()->id);
             }
-        }else{
-            if(Bouncer::is(Auth::user())->an('admin')){
-                $payments = Payment::paginate(15);
-            }else{
-                $payments = Payment::where('store_id', Auth::user()->getStore()->id)->paginate(15);
-            }
+        })->paginate(12);
+
+        if(Input::get('date_from')){
+            $date_from = Input::get('date_from');
         }
 
-        return view('admin.payments.index', compact('payments', 'date_from', 'date_to'));
+        if(Input::get('date_to')){
+            $date_to = Input::get('date_to');
+        }
+
+        if(Input::get('by_number')){
+            $by_number = Input::get('by_number');
+        }
+
+        return view('admin.payments.index', compact('payments', 'date_from', 'date_to', 'by_number'));
     }
 }
