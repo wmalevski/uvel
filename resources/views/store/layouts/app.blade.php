@@ -33,6 +33,8 @@
 	<link href="{{ asset('store/stylesheets/cs.media.3x.css') }}" rel="stylesheet" type="text/css" media="all">
 	<link href="{{ asset('store/stylesheets/spr.css') }}" rel="stylesheet" type="text/css" media="all">
 	<link href="{{ asset('store/stylesheets/addthis.css') }}" rel="stylesheet" type="text/css" media="all">
+    <link href="{{ asset('store/stylesheets/store.css') }}" rel="stylesheet" type="text/css" media="all">
+	
 	<link href="{{ asset('store/stylesheets/custom.css') }}" rel="stylesheet" type="text/css" media="all">
     
 	<!-- JavaScript -->

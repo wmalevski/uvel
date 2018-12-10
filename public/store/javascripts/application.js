@@ -482,7 +482,9 @@ var uvelStore,
 					$addToCartTrigger = $('.add-to-cart'),
 					$removeFromCartTrigger = $('.remove-from-cart'),
 					$updateCartQuantityTrigger = $('.update-cart-quantity'),
-					$addToWishTrigger = $('.wish-list');
+					$addToWishTrigger = $('.wish-list'),
+					$orderProductTrigger = $('.order_product'),
+					$sortTrigger = $('.sort');
 
 			$self.quickviewAttach($quickViewTrigger);
 			$self.imageHandling();
@@ -499,7 +501,130 @@ var uvelStore,
 			$self.removeFromCartAttach($removeFromCartTrigger);
 			$self.updateCartQuantityAttach($updateCartQuantityTrigger);
 			$self.addToWishlistAttach($addToWishTrigger);
+			$self.reviewWordCount();
+			$self.setReviewRating();
+			$self.orderProductAttach($orderProductTrigger);
+			$self.sortProductsAttach($sortTrigger);
 		};
+
+		this.reviewWordCount = function() {
+			$('.spr-form-input-textarea').keyup(function() {
+				var textLength = this.value.trim().split('').length;
+				$('[for="' + this.id + '"] span').text('(' + (1500 - textLength) + ')');
+			});
+		}
+
+		this.sortProductsAttach = function(trigger) {
+			trigger.on('click', sortProducts);
+
+			var productsList = $('#sandBox'),
+				products = productsList.children('li');
+			
+			function sortProducts() {
+				var sortMethod = this.dataset.optionValue.split('-')[0],
+					sortOrder = this.dataset.order;
+				
+				products.sort(function(firstItem, secondItem) {
+					var firstItemValue, secondItemValue;
+
+					if (sortMethod == 'price') {
+						firstItemValue = parseInt(firstItem.dataset.price),
+						secondItemValue = parseInt(secondItem.dataset.price);
+					}
+					else if (sortMethod == 'title') {
+						firstItemValue = firstItem.dataset.alpha.toLowerCase(),
+						secondItemValue = secondItem.dataset.alpha.toLowerCase();
+					}
+
+					if (sortOrder == 'asc') {
+						if (firstItemValue>secondItemValue) {
+							return 1;
+						}
+						else {
+							return -1;
+						}
+							
+					}
+					else {
+						if (firstItemValue>secondItemValue) {
+							return -1;
+						}
+						else {
+							return 1;
+						}
+					}
+				});
+
+				products.detach().appendTo(productsList);
+
+			};
+		}
+
+		this.setReviewRating = function() {
+			var currentSelected = 0,
+				tempSelected = 0,
+				removeInterval,
+				stars = $('.spr-form-review .spr-icon-star');
+
+			stars.on('click', function(e) {
+				e.preventDefault();
+				currentSelected = Number(this.dataset.value);
+				
+				$('[name="rating"]').attr('value', currentSelected);
+				handleStars(currentSelected);
+			});
+
+			stars.on('mouseover', function() {
+				tempSelected = Number(this.dataset.value);
+				handleStars(tempSelected);
+			});
+
+			stars.on('mouseout', function() {
+				if (tempSelected != currentSelected)
+					removeInterval = setInterval(undoStars(), 50);
+			});
+
+			function undoStars() {
+				var state = tempSelected > currentSelected,
+					target = state ? tempSelected - currentSelected : currentSelected - tempSelected,
+					current = 0;
+				
+				function checkCurrent() {
+					current++;
+
+					if (current == target) {
+						current = 0;
+						clearInterval(removeInterval);
+						removeInterval = null;
+					}
+				}
+
+				return function() {
+					if (state) {
+						stars[tempSelected - 1 - current].classList.add('spr-icon-star-empty');
+						checkCurrent();
+						return current;
+					}
+					else {
+						stars[tempSelected + current].classList.remove('spr-icon-star-empty');
+						checkCurrent();
+						return current;
+					}
+				};
+			}
+
+			function handleStars(value) {
+				clearInterval(removeInterval);
+				removeInterval = null;
+				
+				for (var i = 0; i < stars.length; i++) {
+					if (i < value)
+						stars[i].classList.remove('spr-icon-star-empty')
+					else
+						stars[i].classList.add('spr-icon-star-empty')
+				}	
+			}
+		}
 
 		this.imageHandling = function() {
 		  var uploadImagesTrigger = $('.drop-area-input'),
@@ -507,7 +632,7 @@ var uvelStore,
 			  	deleteImagesTriggerDropArea = $('.drop-area-gallery .close');
 
 		  uploadImagesTrigger.on('change', function(event) {
-				var _this = $(this);
+				var $this = $(this);
 				$self.uploadImages(event);
 		  });
 
@@ -517,19 +642,19 @@ var uvelStore,
 		}
 
 		this.uploadImages = function(event) {
-      var files = event.target.files,
-          collectionFiles= [];
+			var files = event.target.files,
+				collectionFiles= [];
+			
+			for(var file of files) {
+				if(file.type == "image/svg+xml") {
+				alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
+				} else {
+				collectionFiles.push(file);
+				}
+      		}
 
-      for(var file of files) {
-        if(file.type == "image/svg+xml") {
-          alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
-        } else {
-          collectionFiles.push(file);
-        }
-      }
-
-      $self.appendImages(collectionFiles);
-    }
+      		$self.appendImages(collectionFiles);
+    	}
 
     this.dragNdropImages = function(dropArea) {
       $('html').on('dragover', function(event) {
@@ -628,8 +753,8 @@ var uvelStore,
 
 		this.quickviewAttach = function(quickViewTrigger) {
 			quickViewTrigger.on('click', function() {
-				var _this = $(this);
-				$self.quickviewOpen(_this);
+				var $this = $(this);
+				$self.quickviewOpen($this);
 			})
 		}
 
@@ -641,20 +766,55 @@ var uvelStore,
 				url: ajaxRequestLink,
 				success: function(resp) {
 					var modal = $this.parents().find('.edit--modal_holder .modal-content');
-
 					modal.html(resp);
+					
+					quickviewCarousel();
 
 					var addToCartTrigger = modal.find('.add-to-cart');
-					$self.addToCartAttach(addToCartTrigger);
+					var orderProductTrigger = modal.find('.order_product');
+
+					if (addToCartTrigger.length > 0) {
+						$self.addToCartAttach(addToCartTrigger);
+					}	
+					else {
+						$self.orderProductAttach(orderProductTrigger);
+					}
+
 				}
-			})
+			});
+
+			function quickviewCarousel() {
+				if ($('#gallery_main_qs').length) {
+					imagesLoaded('#gallery_main_qs', function() {
+						$("#gallery_main_qs").owlCarousel({
+							navigation : true,
+							pagination: false,
+							autoPlay: true,
+							stopOnHover: true,
+							items: 4,
+							itemsDesktop : [1199,4],
+							itemsDesktopSmall : [979,3],
+							itemsTablet: [768,3],
+							itemsTabletSmall: [540,2],
+							itemsMobile : [360,1],
+							scrollPerPage: true,
+							navigationText: ['<span class="btooltip" title="Previous"></span>', '<span class="btooltip" title="Next"></span>'],
+							afterInit: function(elem){
+								if(touch == false){
+									elem.find('.btooltip').tooltip();
+								}
+							}
+						});
+					});
+				}
+			}
 		}
 
 		this.subscribeAttach = function(subscribeTrigger) {
 			subscribeTrigger.on('click', function(e) {
 				e.preventDefault();
-				var _this = $(this);
-				$self.subscribe(_this);
+				var $this = $(this);
+				$self.subscribe($this);
 			})
 		}
 
@@ -728,15 +888,15 @@ var uvelStore,
 			filterBtn.on('click', function(e) {
 				e.preventDefault();
 
-				var _this = $(this);
-				$self.filter(_this);
+				var $this = $(this);
+				$self.filter($this);
 			})
 		}
 
 		this.filterInputAttach = function(filterInput) {
 			filterInput.on('change', function() {
-				var _this = $(this);
-				$self.filter(_this);
+				var $this = $(this);
+				$self.filter($this);
 			})
 		}
 
@@ -802,8 +962,8 @@ var uvelStore,
 
 		this.addDiscountAttach = function(addDiscountBtn) {
 			addDiscountBtn.on('click', function() {
-				var _this = $(this);
-				$self.addDiscount(_this);
+				var $this = $(this);
+				$self.addDiscount($this);
 			})
 		}
 
@@ -825,8 +985,8 @@ var uvelStore,
 
 		this.removeDiscountAttach = function(removeBtn) {
 			removeBtn.on('click', function() {
-				var _this = $(this);
-				$self.removeDiscount(_this);
+				var $this = $(this);
+				$self.removeDiscount($this);
 			})
 		}
 
@@ -903,8 +1063,8 @@ var uvelStore,
 
 		this.shippingMethodAttach = function(shippingMethodTrigger) {
 			shippingMethodTrigger.on('change', function() {
-				var _this = $(this);
-				$self.shippingMethodSelect(_this);
+				var $this = $(this);
+				$self.shippingMethodSelect($this);
 			})
 		}
 
@@ -942,8 +1102,8 @@ var uvelStore,
 
 		this.paymentMethodAttach = function(paymentMethodTrigger) {
 			paymentMethodTrigger.on('change', function() {
-				var _this = $(this);
-				$self.paymentMethodChange(_this);
+				var $this = $(this);
+				$self.paymentMethodChange($this);
 			})
 		}
 
@@ -962,7 +1122,7 @@ var uvelStore,
 			submitButton.on('click', function(e) {
 				e.preventDefault();
 
-				var _this = $(this),
+				var $this = $(this),
 						inputFields = form.find('select , input, textarea');
 
 				$self.getFormFields(form, inputFields);
@@ -973,8 +1133,8 @@ var uvelStore,
 			addToCartBtn.on('click', function(e) {
 				e.preventDefault();
 
-				var _this = $(this);
-				$self.addToCart(_this);
+				var $this = $(this);
+				$self.addToCart($this);
 			})
 		}
 
@@ -993,6 +1153,7 @@ var uvelStore,
 					var success = resp.success;
 
 					if (success) {
+						
 						var cartNum = $('.cart-link span.number'),
 								quantity = resp.quantity,
 								message = 'Продукта беше успешно добавен в количката!';
@@ -1000,7 +1161,7 @@ var uvelStore,
 						cartNum.html(quantity);
 
 						if (_this.closest('.modal').length > 0) {
-							// show success message for modal
+							$self.ajaxReturnMessage(message, 'success');
 						} else {
 							$self.ajaxReturnMessage(message, 'success');
 						}
@@ -1008,7 +1169,7 @@ var uvelStore,
 						var message = 'Трябва да влезете в системата';
 
 						if (_this.closest('.modal').length > 0) {
-							// show error message for modal
+							$self.ajaxReturnMessage(message, 'error');
 						} else {
 							$self.ajaxReturnMessage(message, 'error');
 						}
@@ -1017,12 +1178,42 @@ var uvelStore,
 			})
 		}
 
+		this.orderProductAttach = function(orderBtn) {
+			orderBtn.on('click', function(e) {
+				e.preventDefault();
+
+				var $this = $(this);
+				$self.orderProduct($this);
+			});
+		}
+
+		this.orderProduct = function(orderBtn) {
+			var _this = orderBtn,
+					ajaxURL = _this.attr('data-url');
+			
+			$.ajax({
+				method: "GET",
+				url: ajaxURL,
+				success: function(resp) {
+					var success = resp.success;
+
+					if (success) {
+						$self.ajaxReturnMessage(success, 'success');
+					}
+					else {
+						$self.ajaxReturnMessage(resp.error, 'error');
+					}
+				}
+			});
+			
+		}
+
 		this.removeFromCartAttach = function(rmvBtn) {
 			rmvBtn.on('click', function(e) {
 				e.preventDefault();
 
-				var _this = $(this);
-				$self.removeFromCart(_this);
+				var $this = $(this);
+				$self.removeFromCart($this);
 			})
 		}
 
@@ -1058,8 +1249,8 @@ var uvelStore,
 
 		this.updateCartQuantityAttach = function(quantityInput) {
 			quantityInput.on('change', function(){
-				var _this = $(this);
-				$self.updateCartQuantity(_this);
+				var $this = $(this);
+				$self.updateCartQuantity($this);
 			})
 
 			$self.updateQuantityEnterPress(quantityInput);
@@ -1111,8 +1302,8 @@ var uvelStore,
 			addToWishBtn.on('click', function(e) {
 				e.preventDefault();
 
-				var _this = $(this);
-				$self.addToWishlist(_this);
+				var $this = $(this);
+				$self.addToWishlist($this);
 			})
 		}
 
@@ -1137,56 +1328,55 @@ var uvelStore,
 					imageCollection = [];
 
 			inputFields.each(function(index, element) {
-        var _this = element,
-            inputType = _this.type,
-            dataKey = _this.name,
-            dataKeyValue = _this.value,
-            imagesInputFieldExists = dataKey == 'images' ? true : false;
+			var _this = element,
+				inputType = _this.type,
+				dataKey = _this.name,
+				dataKeyValue = _this.value,
+				imagesInputFieldExists = dataKey == 'images';
 
-        data[dataKey] = dataKeyValue;
+				data[dataKey] = dataKeyValue;
 
-        if(imagesInputFieldExists) {
-          var imagesHolder = $('.drop-area-gallery .image-wrapper img');
+				if(imagesInputFieldExists) {
+				var imagesHolder = $('.drop-area-gallery .image-wrapper img');
 
-          imagesHolder.each(function(index , element) {
-            var _imgSource = element.getAttribute('src');
+				imagesHolder.each(function(index , element) {
+					var _imgSource = element.getAttribute('src');
 
-            imageCollection.push(_imgSource);
-          });
+					imageCollection.push(_imgSource);
+				});
 
-          data.images = imageCollection;
-        }
-      });
+				data.images = imageCollection;
+				}
+			});
 
-      $self.sendCustomOrderForm(form, ajaxRequestLink, data);
+			$self.sendCustomOrderForm(form, ajaxRequestLink, data);
 		}
 
 		this.sendCustomOrderForm = function(form, ajaxRequestLink, data) {
 			var requestUrl =  ajaxRequestLink;
+			$.ajax({
+				method: "POST",
+				url: requestUrl,
+				dataType: "json",
+				data: data,
+				success: function(response) {
+				var message = response.success;
 
-      $.ajax({
-        method: "POST",
-        url: requestUrl,
-        dataType: "json",
-        data: data,
-        success: function(response) {
-          var message = response.success;
+				$self.ajaxReturnMessage(message, 'success');
+				},
+				error: function(err) {
+				var errors = JSON.parse(err.responseText).errors,
+						messages = '';
 
-          $self.ajaxReturnMessage(message, 'success');
-        },
-        error: function(err) {
-          var errors = JSON.parse(err.responseText).errors,
-          		messages = '';
+				for (var key in errors) {
+					var message = errors[key][0];
 
-          for (var key in errors) {
-          	var message = errors[key][0];
+					messages += message + '<br>';
+				}
 
-          	messages += message + '<br>';
-          }
-
-          $self.ajaxReturnMessage(messages, 'error');
-        }
-      });
+				$self.ajaxReturnMessage(messages, 'error');
+				}
+			});
 		}
 	};
 
