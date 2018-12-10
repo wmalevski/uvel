@@ -118,12 +118,12 @@
 }
 
 /* https://trello.com/c/cb6CMaLc/46-%D0%B1%D0%BB%D0%BE%D0%B3-%D1%81%D1%82%D0%B0%D1%82%D0%B8%D1%8F-%D1%81-%D0%B4%D1%8A%D0%BB%D0%B3%D0%BE-%D0%B8%D0%BC%D0%B5 */
-.blog-page .title-container {
-	margin-bottom: 16px;
-}
-
 .blog-page .blogs-image {
 	height: 300px;
+}
+
+.blog-page .post {
+	margin: 0;
 }
 
 .blog-page .blogs-image a {
@@ -151,8 +151,7 @@
 .blog-page .article-title-container {
 	display: inline-block;
 	width: 80%;
-	height: 100px;
-	overflow: hidden;
+	height: 80px;
 	vertical-align: top;
 }
 
@@ -166,7 +165,8 @@
 
 .blog-page .blogs-item .intro {
 	display: block;
-	height: 100px;
+	height: 120px;
+	margin-bottom: 16px;
 	overflow: hidden;
 }
 
