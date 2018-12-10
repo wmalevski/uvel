@@ -145,7 +145,7 @@ aria-hidden="true">
 										<div id="sandBox-wrapper" class="group-product-item row collection-full">
 											<ul id="sandBox" class="list-unstyled">
 												@foreach($products as $product)
-												<li class="element first no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}">
+												<li class="element first no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}" data-id="{{$product->id}}">
 													<ul class="row-container list-unstyled clearfix">
 														<!-- Row Left -->
 														<li class="row-left">
