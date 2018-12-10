@@ -33,13 +33,10 @@
 	<link href="{{ asset('store/stylesheets/cs.media.3x.css') }}" rel="stylesheet" type="text/css" media="all">
 	<link href="{{ asset('store/stylesheets/spr.css') }}" rel="stylesheet" type="text/css" media="all">
 	<link href="{{ asset('store/stylesheets/addthis.css') }}" rel="stylesheet" type="text/css" media="all">
-<<<<<<< HEAD
     <link href="{{ asset('store/stylesheets/store.css') }}" rel="stylesheet" type="text/css" media="all">
 	
-=======
 	<link href="{{ asset('store/stylesheets/custom.css') }}" rel="stylesheet" type="text/css" media="all">
     
->>>>>>> 7acaecd2bb492cb8da1cde6c2f0c1965f33f0e54
 	<!-- JavaScript -->
 	<script src="{{ asset('store/javascripts/jquery-1.9.1.min.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('store/javascripts/jquery.imagesloaded.min.js') }}" type="text/javascript"></script>
