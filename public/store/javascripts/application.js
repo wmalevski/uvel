@@ -505,12 +505,24 @@ var uvelStore,
 			$self.setReviewRating();
 			$self.orderProductAttach($orderProductTrigger);
 			$self.sortProductsAttach($sortTrigger);
+			$self.quickViewImageSwap();
 		};
 
 		this.reviewWordCount = function() {
 			$('.spr-form-input-textarea').keyup(function() {
 				var textLength = this.value.trim().split('').length;
 				$('[for="' + this.id + '"] span').text('(' + (1500 - textLength) + ')');
+			});
+		}
+
+		this.quickViewImageSwap = function() {
+			$('.modal').on('click', '.image-thumb', function(e) {
+				e.preventDefault();
+				var mainImage = $('.main-image img');
+				
+				if (mainImage.attr('src') != this.dataset.image) {
+					mainImage.attr('src', this.dataset.image);
+				}
 			});
 		}
 
@@ -798,12 +810,7 @@ var uvelStore,
 							itemsTabletSmall: [540,2],
 							itemsMobile : [360,1],
 							scrollPerPage: true,
-							navigationText: ['<span class="btooltip" title="Previous"></span>', '<span class="btooltip" title="Next"></span>'],
-							afterInit: function(elem){
-								if(touch == false){
-									elem.find('.btooltip').tooltip();
-								}
-							}
+							navigationText: ['<span class="btooltip" title="Previous"></span>', '<span class="btooltip" title="Next"></span>']
 						});
 					});
 				}
