@@ -5,54 +5,56 @@
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            
+
         </div>
     </div>
 </div>
 <div id="content-wrapper-parent">
-    <div id="content-wrapper">  
+    <div id="content-wrapper">
         <!-- Main Slideshow -->
         @if(count($slides))
         <div class="home-slider-wrapper clearfix">
-            <div class="camera_wrap" id="home-slider">
-                @foreach($slides as $slide)
-                    <div data-src="{{ asset("uploads/slides/".$slide->photo) }}">
-                        <div class="camera_caption camera_title_1 fadeIn">
-                            <a href="{{ $slide->button_link }}" style="color:#010101;">{{ $slide->title }}</a>
-                        </div>
-                        <div class="camera_caption camera_caption_1 fadeIn" style="color: rgb(1, 1, 1);">
-                            {{ $slide->content }}
-                        </div>
-                        <div class="camera_cta_1">
-                            <a href="{{ $slide->button_link }}" class="btn">{{ $slide->button_text }}</a>
-                        </div>
-                    </div>
-                @endforeach
-                {{-- <div data-src="{{ asset('store/images/demo_1920x900.png') }}">
-                    <div class="camera_caption camera_title_2 moveFromLeft">
-                        <a href="./collection.html" style="color:#666666;">Love’s embrace</a>
-                    </div>
-                    <div class="camera_caption camera_image-caption_2 moveFromLeft" style="visibility: hidden;">
-                        <img src="{{ asset('store/images/demo_770x185.png') }}" alt="image_caption">
-                    </div>
-                    <div class="camera_cta_1">
-                        <a href="./collection.html" class="btn">See Collection</a>
-                    </div>
-                </div>
-                <div data-src="{{ asset('store/images/demo_1920x900.png') }}">
-                    <div class="camera_caption camera_image-caption_3 moveFromLeft">
-                        <img src="{{ asset('store/images/demo_462x162.png') }}" alt="image_caption">
-                    </div>
-                    <div class="camera_cta_1">
-                        <a href="./collection.html" class="btn">See Collection</a>
-                    </div>
-                </div> --}}
-            </div>
-        </div> 
+					<div class="camera_wrap" id="home-slider">
+							@foreach($slides as $slide)
+							<div data-src="{{ asset("uploads/slides/".$slide->photo) }}">
+								<div class="camera_caption camera_title_1 fadeIn">
+									<a href="{{ $slide->button_link }}" style="color:#010101;">{{ $slide->title }}</a>
+								</div>
+								<div class="camera_caption camera_caption_1 fadeIn" style="color: rgb(1, 1, 1);">
+									{{ $slide->content }}
+								</div>
+								<div class="camera_cta_1">
+									<a href="{{ $slide->button_link }}" class="btn">{{ $slide->button_text }}</a>
+								</div>
+							</div>
+							@endforeach
+							{{--
+							<div data-src="{{ asset('store/images/demo_1920x900.png') }}">
+								<div class="camera_caption camera_title_2 moveFromLeft">
+									<a href="./collection.html" style="color:#666666;">Love’s embrace</a>
+								</div>
+								<div class="camera_caption camera_image-caption_2 moveFromLeft" style="visibility: hidden;">
+									<img src="{{ asset('store/images/demo_770x185.png') }}" alt="image_caption">
+								</div>
+								<div class="camera_cta_1">
+									<a href="./collection.html" class="btn">See Collection</a>
+								</div>
+							</div>
+							<div data-src="{{ asset('store/images/demo_1920x900.png') }}">
+								<div class="camera_caption camera_image-caption_3 moveFromLeft">
+									<img src="{{ asset('store/images/demo_462x162.png') }}" alt="image_caption">
+								</div>
+								<div class="camera_cta_1">
+									<a href="./collection.html" class="btn">See Collection</a>
+								</div>
+							</div>
+							--}}
+					</div>
+        </div>
         @endif
         <!-- Content -->
-        <div id="content" class="clearfix">                       
-            <section class="content">  
+        <div id="content" class="clearfix">
+            <section class="content">
                 <div id="col-main" class="clearfix">
                     <div class="home-popular-collections">
                         <div class="container">
@@ -60,17 +62,17 @@ aria-hidden="true">
                                 <div class="col-md-24">
                                     <div class="home_collections">
                                         <h6 class="general-title">Популярни</h6>
-                                        <div class="home_collections_wrapper">												
+                                        <div class="home_collections_wrapper">
                                             <div id="home_collections">
                                                 @foreach($materialTypes as $material)
                                                     <div class="home_collections_item">
                                                         <div class="home_collections_item_inner">
                                                             <div class="collection-details">
                                                                 <a href="online/products/?byMaterial[]={{ $material->id }}" title="Browse our Bracelets">
-                                                                
+
                                                                 <img src="
                                                                         @if(count($material->materials->first()->products))
-                                                                            @if(count($material->materials->first()->products->first()->images))         
+                                                                            @if(count($material->materials->first()->products->first()->images))
                                                                         {{ asset("uploads/products/" . $material->materials->first()->products->first()->images->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif @endif
                                                                         " alt="">
                                                                 </a>
@@ -85,14 +87,14 @@ aria-hidden="true">
                                                     </div>
                                                 @endforeach
 
-                                                
+
                                                 <div class="home_collections_item">
                                                     <div class="home_collections_item_inner">
                                                         <div class="collection-details">
                                                             <a href="{{ route('models') }}" title="Browse our Bracelets">
                                                                 <img src="
                                                                 @if(count($models))
-                                                                @if($models->first()->photos) 
+                                                                @if($models->first()->photos)
                                                                 {{ asset("uploads/models/" . $models->first()->photos->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif @endif
                                                                 " alt="По поръчка">
                                                                 {{-- <img src="{{ asset('store/images/demo_375x375.png') }}" class="img-responsive" alt="По поръчка"> --}}
@@ -113,7 +115,7 @@ aria-hidden="true">
                                                                 <a href="{{ route('custom_order') }}" title="Browse our Bracelets">
                                                                     <img src="
                                                                     @if(count($models))
-                                                                    @if($models->first()->photos) 
+                                                                    @if($models->first()->photos)
                                                                     {{ asset("uploads/models/" . $models->first()->photos->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif @endif
                                                                     " alt="По ваш модел">
                                                                 </a>
@@ -126,8 +128,8 @@ aria-hidden="true">
                                                             </div>
                                                         </div>
                                                     </div>
-                                                
-                                            </div>													
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -154,7 +156,7 @@ aria-hidden="true">
                                         <h6 class="general-title">Нови продукти</h6>
                                         <div class="home_products_wrapper">
                                             <div id="home_products">
-                                                @foreach ( $products->take(3) as $key => $product ) 
+                                                @foreach ( $products->take(3) as $key => $product )
                                                     <div class="element no_full_width col-md-8 col-sm-8 not-animated" data-animate="fadeInUp" data-delay="{{ $key }}">
                                                         <ul class="row-container list-unstyled clearfix">
                                                             <li class="row-left">
@@ -169,7 +171,7 @@ aria-hidden="true">
                                                             <div class="product-content-left">
                                                                 <a class="title-5" href="{{route('single_product', ['product' => $product]) }}">{{ $product['name'] }}</a>
                                                                 <span class="spr-badge" id="spr_badge_12932396193" data-rating="{{$product->getProductAvgRating($product)}}">
-                                                                @if($product->getProductAvgRating($product) > 0)    
+                                                                @if($product->getProductAvgRating($product) > 0)
                                                                     <span class="spr-starrating spr-badge-starrating">
                                                                         {{$product->listProductAvgRatingStars($product)}}
                                                                     </span>
@@ -200,7 +202,7 @@ aria-hidden="true">
                                                                 </form>
                                                                 <div class="product-ajax-qs hidden-xs hidden-sm">
                                                                     <div data-href="./ajax/_product-qs.html" data-target="#quick-shop-modal" class="quick_shop" data-barcode="{{ $product->barcode }}" data-toggle="modal">
-                                                                        <i class="fa fa-eye" title="Бърз преглед"></i><span class="list-mode">Бърз преглед</span>																		
+                                                                        <i class="fa fa-eye" title="Бърз преглед"></i><span class="list-mode">Бърз преглед</span>
                                                                     </div>
                                                                 </div>
                                                                 <a class="wish-list" href="#" title="wish list" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}"><i class="fa fa-heart"></i><span class="list-mode">Добави в желани</span></a>
@@ -208,7 +210,7 @@ aria-hidden="true">
                                                             </li>
                                                         </ul>
                                                     </div>
-                                                @endforeach               
+                                                @endforeach
                                             </div>
                                         </div>
                                     </div>
@@ -242,14 +244,14 @@ aria-hidden="true">
                                         <div class="home_fp">
                                         <h6 class="general-title">Последни от {{ $material->parent->name }}</h6>
                                             <div class="home_fp_wrapper">
-                                                <div class="home_fp2">  
-                                                    @foreach ( $material->products->take(10) as $key => $product ) 					
+                                                <div class="home_fp2">
+                                                    @foreach ( $material->products->take(10) as $key => $product )
                                                     <div class="element no_full_width not-animated" data-animate="fadeInUp" data-delay="0">
                                                         <ul class="row-container list-unstyled clearfix">
                                                             <li class="row-left">
                                                             <a href="{{route('single_product', ['product' => $product]) }}" class="container_item">
                                                             <img src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif" class="img-responsive" alt="Curabitur cursus dignis">
-                                                           
+
                                                             </a>
                                                             <div class="hbw">
                                                                 <span class="hoverBorderWrapper"></span>
@@ -286,7 +288,7 @@ aria-hidden="true">
                                                                     </form>
                                                                     <div class="product-ajax-qs hidden-xs hidden-sm">
                                                                         <div data-href="./ajax/_product-qs.html" data-target="#quick-shop-modal" class="quick_shop" data-barcode="{{ $product->barcode }}" data-url="products/{{ $product->id }}/" data-toggle="modal">
-                                                                            <i class="fa fa-eye" title="Бърз преглед"></i><span class="list-mode">Бърз преглед</span>																		
+                                                                            <i class="fa fa-eye" title="Бърз преглед"></i><span class="list-mode">Бърз преглед</span>
                                                                         </div>
                                                                     </div>
                                                                     <a class="wish-list" href="#" title="wish list" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}"><i class="fa fa-heart"></i><span class="list-mode">Добави в желани</span></a>
@@ -294,15 +296,15 @@ aria-hidden="true">
                                                             </li>
                                                         </ul>
                                                     </div>
-                                                    @endforeach														  			  			
+                                                    @endforeach
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div> 
-                    @endforeach    
+                        </div>
+                    @endforeach
 
 
                     @if(count($articles))
@@ -351,7 +353,7 @@ aria-hidden="true">
                     </div>
                     @endif
                 </div>
-            </section>        
+            </section>
         </div>
     </div>
 </div>
