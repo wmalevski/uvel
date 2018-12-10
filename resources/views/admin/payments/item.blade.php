@@ -33,7 +33,6 @@
             Без сертификат
         @endif
     </td>
-
     <td>{{ $payment->user->name }}</td>
     <td>Виж отстъпки 
         <!-- @foreach($payment->discounts as $discount)

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use App\Payment;
 use App\Selling;
@@ -10,9 +11,11 @@ use App\History;
 use App\Repair;
 use App\Product;
 use App\PaymentDiscount;
+use App\ProductOther;
 use Response;
 use Auth;
 use Cart;
+use Bouncer;
 
 class PaymentController extends Controller
 {
@@ -23,7 +26,12 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        $payments = Payment::all();
+        if(Bouncer::is(Auth::user())->an('admin')){
+            $payments = Payment::all();
+        }else{
+            $payments = Payment::where('store_id', Auth::user()->getStore()->id);
+        }
+        
         
         return view('admin.payments.index', compact('payments'));
     }
@@ -69,6 +77,7 @@ class PaymentController extends Controller
             $payment->given = $request->given_sum;
             $payment->info = $request->info;
             $payment->user_id = $userId;
+            $payment->store_id = Auth::user()->getStore()->id;
 
 
             if($request->pay_method == 'false'){
@@ -139,11 +148,14 @@ class PaymentController extends Controller
                 $selling->payment_id = $payment->id;
 
                 if($item['attributes']->type == 'repair'){
-                    $selling->repair_id = $item->id;
+                    $repair = Repair::where('barcode', $item->id)->first();
+                    $selling->repair_id = $repair->id;
                 } elseif($item['attributes']->type == 'product'){
-                    $selling->product_id = $item->id;
+                    $product = Product::where('barcode', $item->id)->first();
+                    $selling->product_id = $product->id;
                 } elseif($item['attributes']->type == 'box'){
-                    $selling->product_other_id = $item->id;
+                    $box = ProductOther::where('barcode', $item->id)->first();
+                    $selling->product_other_id = $box->id;
                 }
 
                 $selling->save();
@@ -152,14 +164,14 @@ class PaymentController extends Controller
             foreach(Cart::session($userId)->getContent() as $item)
             {
                 if($item['attributes']->type == 'repair'){
-                    $repair = Repair::find($item->id);
+                    $repair = Repair::where('barcode', $item->id)->first();
 
                     if($repair){
                         $repair->status = 'returned';
                         $repair->save();
                     }
                 } else if($item['attributes']->type == 'product'){
-                    $product = Product::find($item->id);
+                    $product = Product::where('barcode', $item->id)->first();
 
                     if($product){
                         $product->status = 'sold';
@@ -239,5 +251,42 @@ class PaymentController extends Controller
     public function destroy(Payment $payment)
     {
         //
+    }
+
+    public function filter(Request $request){
+        if($request->date_from && $request->date_to){
+            $payments = Payment::where(
+                'created_at', '>=', date('Y-m-d', strtotime($request->date_from)),
+                'date_to', '<', date('Y-m-d', strtotime($request->date_to))
+            );
+        }else if($request->date_from){
+            //dd(date('Y-m-d', strtotime($request->date_from)));
+            $payments = Payment::where(
+                'created_at', '>=', date('Y-m-d', strtotime($request->date_from))
+            );
+        }else if($request->date_to){
+            $payments = Payment::where(
+                'date_to', '<', date('Y-m-d', strtotime($request->date_to))
+            );
+        }
+
+        if(isset($payments)){
+            $date_from = Input::get('date_from'); 
+            $date_to = Input::get('date_to'); 
+            
+            if(!Bouncer::is(Auth::user())->an('admin')){
+                $payments->where('store_id', Auth::user()->getStore()->id)->get();
+            }else{
+                $payments = $payments->get();
+            }
+        }else{
+            if(Bouncer::is(Auth::user())->an('admin')){
+                $payments = Payment::all();
+            }else{
+                $payments = Payment::where('store_id', Auth::user()->getStore()->id);
+            }
+        }
+
+        return view('admin.payments.index', compact('payments', 'date_from', 'date_to'));
     }
 }

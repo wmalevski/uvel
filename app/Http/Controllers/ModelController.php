@@ -202,7 +202,7 @@ class ModelController extends Controller
             $product->workmanship = $request->workmanship;
             $product->price = $request->price;
             $product->code = 'P'.unique_random('products', 'code', 7);
-            $product->store_id = 1;
+            $product->store_id = Auth::user()->getStore()->id;
             $bar = '380'.unique_number('products', 'barcode', 7).'1'; 
             
             $digits =(string)$bar;
