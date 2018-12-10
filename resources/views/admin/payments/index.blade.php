@@ -27,7 +27,7 @@
                         <th>Разписка</th>
                         <th>Сертификат</th>
                         <th>Обслужващ</th>
-                        <th>Още</th>
+                        <th class="sort-false">Още</th>
                     </tr>
                 </thead>
                 <tbody>

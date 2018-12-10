@@ -27,9 +27,9 @@ class PaymentController extends Controller
     public function index()
     {
         if(Bouncer::is(Auth::user())->an('admin')){
-            $payments = Payment::all();
+            $payments = Payment::paginate(15);
         }else{
-            $payments = Payment::where('store_id', Auth::user()->getStore()->id);
+            $payments = Payment::where('store_id', Auth::user()->getStore()->id)->paginate(15);
         }
         
         
@@ -275,15 +275,15 @@ class PaymentController extends Controller
             $date_to = Input::get('date_to'); 
             
             if(!Bouncer::is(Auth::user())->an('admin')){
-                $payments->where('store_id', Auth::user()->getStore()->id)->get();
+                $payments->where('store_id', Auth::user()->getStore()->id)->paginate(15);
             }else{
-                $payments = $payments->get();
+                $payments = $payments->paginate(15);
             }
         }else{
             if(Bouncer::is(Auth::user())->an('admin')){
-                $payments = Payment::all();
+                $payments = Payment::paginate(15);
             }else{
-                $payments = Payment::where('store_id', Auth::user()->getStore()->id);
+                $payments = Payment::where('store_id', Auth::user()->getStore()->id)->paginate(15);
             }
         }
 
