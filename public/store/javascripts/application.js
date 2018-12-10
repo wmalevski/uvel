@@ -642,7 +642,6 @@ var uvelStore,
 		}
 
 		this.uploadImages = function(event) {
-<<<<<<< HEAD
 			var files = event.target.files,
 				collectionFiles= [];
 			
@@ -653,18 +652,6 @@ var uvelStore,
 				collectionFiles.push(file);
 				}
       		}
-=======
-      var files = event.target.files,
-          collectionFiles= [];
-
-      for(var file of files) {
-        if(file.type == "image/svg+xml") {
-          alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
-        } else {
-          collectionFiles.push(file);
-        }
-      }
->>>>>>> 7acaecd2bb492cb8da1cde6c2f0c1965f33f0e54
 
       		$self.appendImages(collectionFiles);
     	}
