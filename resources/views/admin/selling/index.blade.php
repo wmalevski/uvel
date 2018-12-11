@@ -42,7 +42,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="dailyReport" data-type="add" action="dailyreports" autocomplete="off">
+            <form name="dailyReport" data-scan="/ajax/dailyreports" autocomplete="off">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>

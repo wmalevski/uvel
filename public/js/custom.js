@@ -132,6 +132,11 @@ var uvel,
         selector: '[name="repairs"]',
         controllers: ['fillRepairPrice', 'calculateRepairAfterPriceInit', 'calculateRepairAfterPrice', 'focusDatePicker'],
         initialized: false
+      },
+      dailyReport: {
+        selector: '[name="dailyReport"]',
+        controllers: ['dailyReportAttach'],
+        initialized: false
       }
     };
 
@@ -169,6 +174,27 @@ var uvel,
       $self.addCardDiscount($addCardDiscountTrigger);
       $self.travellingMaterialsState($travelingMaterialsStateBtns);
       $self.enterPressBehaviour($inputCollection);
+    }
+
+    this.dailyReportAttach = function() {
+      var form =  $('form[name="dailyReport"');
+      var dailyReportTrigger = form.find('button[type="submit"]');
+
+      dailyReportTrigger.on('click', function(e) {
+        e.preventDefault();
+        var ajaxUrl = form[0].dataset.scan;
+        
+        $.ajax({
+          method: "POST",
+          url: ajaxUrl,
+          success: function(resp) {
+            $self.formSuccessHandler(form, 'dailyReport', resp);
+          },
+          error: function(err) {
+            $self.formsErrorHandler(err, form);
+          }
+        });
+      });
     }
 
     this.openForm = function(openFormTrigger) {
@@ -654,6 +680,9 @@ var uvel,
       } else if (formType == 'images') {
         message = resp.success;
       }
+      else if (formType == 'dailyReport') {
+        message = resp.success;
+      }
 
       successMessage.html(message);
 
@@ -661,6 +690,11 @@ var uvel,
       
       setTimeout(function() {
         form.find('.modal-body .info-cont .alert-success').remove();
+
+        if (formType == 'dailyReport') {
+          $('button[data-target="#dailyReport"]').remove();
+        }
+
       }, messageStayingTime);
 
       if (formType == 'add') {    
