@@ -400,10 +400,11 @@ class SellingController extends Controller
                 $card = DiscountCode::where('barcode', $barcode)->first();
                 $setDiscount = $card->discount;
             }
-        }else{
-            $result = false;
-            $setDiscount = $barcode;
         }
+        //else{
+        //     $result = false;
+        //     $setDiscount = $barcode;
+        // }
         
 
         if(isset($setDiscount)){
@@ -413,7 +414,7 @@ class SellingController extends Controller
                 'target' => 'subtotal',
                 'value' => '-'.$setDiscount.'%',
                 'attributes' => array(
-                    'discount_id' => $setDiscount,
+                    'discount_id' => $card->id,
                     'description' => 'Value added tax',
                     'more_data' => 'more data here'
                 )
@@ -489,7 +490,7 @@ class SellingController extends Controller
             'target' => 'subtotal',
             'value' => '-'.$request->discount.'%',
             'attributes' => array(
-                'discount_id' => $request->discount,
+                'discount' => $request->discount,
                 'description' => $request->description,
                 'more_data' => 'more data here'
             ),

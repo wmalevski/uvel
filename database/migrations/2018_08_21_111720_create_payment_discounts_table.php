@@ -15,7 +15,8 @@ class CreatePaymentDiscountsTable extends Migration
     {
         Schema::create('payment_discounts', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('discount_code_id');
+            $table->integer('discount_code_id')->nullable();
+            $table->integer('discount')->nullable();
             $table->integer('payment_id');
             $table->timestamps();
         });

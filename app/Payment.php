@@ -31,4 +31,9 @@ class Payment extends Model
     public function sellings(){
         return $this->hasMany('App\Selling');
     }
+
+    public function productSellings(){
+        return $this->hasManyThrough('App\Selling', 'App\Product', 'id', 'product_id');
+    }
+
 }

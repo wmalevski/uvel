@@ -24,9 +24,12 @@
             <table class="table table-condensed tablesort">
                 <thead>
                     <tr>
+                        <th>Уникален номер</th>
                         <th>Магазин</th>
                         <th>Дата</th>
+                        <th>Модел</th>
                         <th>Сума</th>
+                        <th>Отстъпка</th>
                         <th>Метод на плащане</th>
                         <th>Фискален бон</th>
                         <th>Разписка</th>
@@ -41,6 +44,9 @@
                     @endforeach
                 </tbody>
             </table>
+
+            {{ $payments->links() }}
+            Намерени {{ $payments->count() }} резултата
         </div>
     </div>
 </div>

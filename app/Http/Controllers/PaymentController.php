@@ -73,6 +73,7 @@ class PaymentController extends Controller
 
             $payment = new Payment();
             $payment->currency_id = $request->pay_currency;
+            $payment->fullPrice = Cart::session($userId)->getSubTotal();
             $payment->price = $request->wanted_sum;
             $payment->given = $request->given_sum;
             $payment->info = $request->info;
@@ -115,7 +116,12 @@ class PaymentController extends Controller
                 if($condition->getName() != 'ДДС')
                 {
                     $discount = new PaymentDiscount();
-                    $discount->discount_code_id = $condition->getAttributes()['discount_id'];
+                    if(isset($condition->getAttributes()['discount_id'])){
+                        $discount->discount_code_id = $condition->getAttributes()['discount_id'];
+                    }else{
+                        $discount->discount = $condition->getAttributes()['discount'];
+                    }
+                    
                     $discount->payment_id = $paymentID;
                     $discount->save();
 
@@ -126,7 +132,12 @@ class PaymentController extends Controller
                     $history->subaction = 'used'; 
                     $history->user_id = Auth::user()->getId();
                     $history->table = 'discount_codes';
-                    $history->discount_id = $condition->getAttributes()['discount_id'];
+
+                    if(isset($condition->getAttributes()['discount_id'])){
+                        $history->discount_id = $condition->getAttributes()['discount_id'];
+                    }else{
+                        $history->discount = $condition->getAttributes()['discount'];
+                    }
 
                     $history->save();
                 }
@@ -254,9 +265,8 @@ class PaymentController extends Controller
     }
 
     public function filter(Request $request){
-        //$payments = Payment::all();
-
-        $payments = Payment::where(function($payments) use ($request){
+        $payments = Payment::with('productSellings')->where(function($payments) use ($request){
+            
             if ($request->date_from && $request->date_to) {
                 $payments->whereBetween('created_at', [$request->date_from, $request->date_to]);
             } else if($request->date_from){
@@ -266,22 +276,30 @@ class PaymentController extends Controller
             }
 
             if ($request->by_number) {
-                $payments->where('product_id', $request->by_number)->orWhere('repair_id', $request->by_number)->orWhere('product_other_id', $request->by_number);
+                //$payments->where('product_id', $request->by_number)->orWhere('repair_id', $request->by_number)->orWhere('product_other_id', $request->by_number);
+                $payments->where('id', $request->by_number);
             }
 
             //for model? use join?
-            if ($request->by_model) {
-                $payments->whereHas('sellings', function($q) use ($request){
-                    $q->where('id', '>=', $request->by_model);
-                });
-                dd($payments->get());
-            }
+            
+                // $payments->whereHas('sellings', function($q) use ($request){
+                //     $q->where('id', '>=', $request->by_model);
+                // });
+                // dd($payments->get());
 
 
             if(!Bouncer::is(Auth::user())->an('admin')){
                 $payments->where('store_id', Auth::user()->getStore()->id);
             }
-        })->paginate(12);
+        });
+
+        if ($request->by_model) {
+            $payments->join('sellings', 'payments.id', '=', 'sellings.payment_id')
+            ->join('products', 'sellings.product_id', '=', 'products.id')
+            ->where('products.name', '=', $request->by_model);
+        }
+
+        $payments = $payments->paginate(12);
 
         if(Input::get('date_from')){
             $date_from = Input::get('date_from');

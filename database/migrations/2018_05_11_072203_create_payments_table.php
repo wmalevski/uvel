@@ -22,6 +22,7 @@ class CreatePaymentsTable extends Migration
             $table->enum('certificate', ['yes', 'no']);
             $table->float('price');
             $table->float('given')->nullable();
+            $table->float('fullPrice')->nullable();
             $table->enum('type', ['sell', 'repair', 'order']);
             $table->integer('discount_code_id')->nullable();
             $table->text('info')->nullable();

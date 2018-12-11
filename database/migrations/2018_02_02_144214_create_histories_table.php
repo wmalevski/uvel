@@ -51,6 +51,7 @@ class CreateHistoriesTable extends Migration
             $table->integer('payment_id')->nullable();
             $table->integer('selling_id')->nullable();
             $table->integer('discount_id')->nullable();
+            $table->integer('discount')->nullable();
             $table->integer('repair_id')->nullable();
             $table->integer('transfer_id')->nullable();
             $table->integer('material_travelling_id')->nullable();

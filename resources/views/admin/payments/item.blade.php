@@ -1,7 +1,20 @@
 <tr data-id="{{ $payment->id }}">
+    <td>{{ $payment->id }}</td> 
     <td>{{ $payment->user->getStore()->name }}</td> 
     <td>{{ $payment->created_at }}</td> 
+    <td>
+        @foreach($payment->sellings as $selling)
+            @if($selling->product_id != '')
+                {{ $selling->product->name }}
+            @elseif($selling->repair_id != '')
+                {{ $selling->product->name }}
+            @elseif($selling->product_other_id != '')
+                {{ $selling->product->customer_name }}
+            @endif
+        @endforeach
+    </td> 
     <td>{{ $payment->price }}</td> 
+    <td> {{ $payment->fullPrice-$payment->price }}    </td>
     <td>
         @if($payment->method == 'cash')
             Кеш
@@ -34,25 +47,6 @@
         @endif
     </td>
     <td>{{ $payment->user->name }}</td>
-    <td>Виж отстъпки 
-        @foreach($payment->discounts as $discount)
-            @if($discount->discount)
-                {{ $discount->discount }}%
-            @else
-                {{ $discount->discount }}%
-            @endif
-            {{ $discount->discount->discount }}% 
-        @endforeach                                                                
-        <br/> 
-        Виж артикули <br/>
-        @foreach($payment->sellings as $selling)
-            @if($selling->product_id != '')
-                {{ $selling->product->name }}
-            @elseif($selling->repair_id != '')
-                {{ $selling->product->name }}
-            @elseif($selling->product_other_id != '')
-                {{ $selling->product->customer_name }}
-            @endif
-        @endforeach
-        <br/>Допълнителна информация {{ $payment->info }}</td>
+    <td>                                                        
+        Допълнителна информация {{ $payment->info }}</td>
 </tr>

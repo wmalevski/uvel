@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PaymentDiscount extends Model
 {
-    public function discount(){
+    public function discountCode(){
         return $this->belongsTo('App\DiscountCode');
     }
 }
