@@ -27,6 +27,16 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label>Сканирай продукт: </label>
+                                <input type="text" class="form-control size" id="product_barcode" name="product_barcode" placeholder="Сканирай баркод на продукт:">
+                            </div>
+                            <div class="col-12">
+                                <hr>
+                            </div>
+                        </div>
                     
                     <div class="form-row">
                         <div class="form-group col-md-6">
