@@ -194,6 +194,7 @@
 
 @media (max-width: 400px) {
 	.home-slider-wrapper .camera_prev, .home-slider-wrapper .camera_next {
+		opacity: 1 !important;
 		margin: 0;
 	}
 
