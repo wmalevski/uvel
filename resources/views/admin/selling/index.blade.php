@@ -11,15 +11,15 @@ aria-hidden="true">
                 </button>
             </div>
             <form method="POST" action="repairs" name="fullEditRepair">
-                 
-                <div class="modal-body">    
+
+                <div class="modal-body">
                     <div class="info-cont">
                     </div>
 
-                    {{ csrf_field() }}  
-                                
+                    {{ csrf_field() }}
 
-                    
+
+
                 </div>
 
                 <div class="modal-footer">
@@ -43,12 +43,12 @@ aria-hidden="true">
                 </button>
             </div>
             <form method="POST" action="sell/payment" name="selling" data-type="sell">
-                 
-                <div class="modal-body">    
+
+                <div class="modal-body">
                     <div class="info-cont">
                     </div>
 
-                    {{ csrf_field() }}  
+                    {{ csrf_field() }}
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
@@ -58,7 +58,7 @@ aria-hidden="true">
                             <input class="form-control" id="wanted-sum" type="number" name="wanted_sum" data-calculatePayment-wanted readonly>
                         </div>
                     </div>
-                                
+
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="given-sum">Дадена сума</label>
@@ -264,10 +264,10 @@ aria-hidden="true">
                             <label for="subTotal" class="col-sm-9 control-label">Отстъпки:<br/>
                                 <span class="discount--label-holder">
                                     @foreach($conditions as $condition)
-                                        
-                                        <span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">{{ $condition->getValue() }}</span> 
+
+                                        <span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">{{ $condition->getValue() }}</span>
                                         <span data-url="/ajax/removeDiscount/{{ $condition->getName() }}" data-sell-removeDiscount class="discount-remove badge bgc-red-50 c-red-700 p-10 lh-0 tt-c badge-pill"><i class="c-brown-500 ti-close"></i></span> <br/>
-                                        
+
                                     @endforeach
                                 </span>
                             </label>
