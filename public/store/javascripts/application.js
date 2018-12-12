@@ -530,9 +530,11 @@ var uvelStore,
 			trigger.on('click', sortProducts);
 
 			var productsList = $('#sandBox'),
-				products = productsList.children('li');
+				products;
 			
 			function sortProducts() {
+				products = productsList.children('li');
+				
 				var sortMethod = this.dataset.optionValue.split('-')[0],
 					sortOrder = this.dataset.order;
 
@@ -959,6 +961,7 @@ var uvelStore,
 						opacity: 0
 					}, 400, function() {
 						productsContainer.html(resp);
+						$self.quickviewAttach($('.quick_shop'));
 					});
 
 					productsContainer.animate({

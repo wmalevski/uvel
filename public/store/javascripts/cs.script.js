@@ -581,7 +581,7 @@ function handleGridList(){
     $('#goList').on(clickEv, function(e){
       $(this).parent().find('li').removeClass('active');
       $(this).addClass('active');
-      
+      console.log('list');
       $('#sandBox .element').removeClass('no_full_width');
       $('#sandBox .element').addClass('full_width');
       $('#sandBox .element .row-left').addClass('col-md-8');
@@ -589,7 +589,7 @@ function handleGridList(){
       $('#sandBox .element .row-right').addClass('col-md-16');
       //$('#sandBox .element .row-right').addClass('col-sm-16');
       
-      $('#sandBox').isotope('reLayout');
+      //$('#sandBox').isotope('reLayout');  isotope error in console
       if(clickEv == 'touchstart'){
       $(this).click();
       return true;
@@ -602,7 +602,7 @@ function handleGridList(){
     $('#goGrid').on(clickEv, function(e){
       $(this).parent().find('li').removeClass('active');
       $(this).addClass('active');
-      
+      console.log('grid')
       $('#sandBox .element').removeClass('full_width');
       $('#sandBox .element').addClass('no_full_width');
       $('#sandBox .element .row-left').removeClass('col-md-8');
@@ -610,7 +610,7 @@ function handleGridList(){
       $('#sandBox .element .row-right').removeClass('col-md-16');
       //$('#sandBox .element .row-right').removeClass('col-sm-16');
       
-      $('#sandBox').isotope('reLayout');
+      //$('#sandBox').isotope('reLayout');  isotope error in console
       if(clickEv == 'touchstart'){
       $(this).click();
       return true;
@@ -727,7 +727,7 @@ function handleSidebar(){
 function handleSortBy(){
   if($('#sortForm li.sort').length){
     $('#sortForm li.sort').click(function(){
-      
+
       var button = $('#sortButton');
       var box = $('#sortBox');
       
