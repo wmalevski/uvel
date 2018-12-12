@@ -40,6 +40,7 @@ class OrderController extends Controller
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::all();
         $stores = Store::all();
+        $mats = MaterialQuantity::currentStore();
 
         $pass_stones = array();
         
@@ -52,7 +53,20 @@ class OrderController extends Controller
             ];
         }
 
-        return \View::make('admin/orders/index', array('orders' => $orders, 'stores' => $stores ,'products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials->scopeCurrentStore(), 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
+        $pass_materials = array();
+        
+        foreach($mats as $material){
+            if($material->material->pricesBuy->first()){
+                $pass_materials[] = [
+                    'value' => $material->id,
+                    'label' => $material->material->parent->name.' - '. $material->material->color.  ' - '  .$material->material->carat,
+                    'pricebuy' => $material->material->pricesBuy->first()->price,
+                    'material' => $material->material->id
+                ];
+            }
+        }
+
+        return \View::make('admin/orders/index', array('materials' => $materials, 'orders' => $orders, 'stores' => $stores ,'products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials->scopeCurrentStore(), 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
     }
 
     /**

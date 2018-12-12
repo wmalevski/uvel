@@ -204,7 +204,15 @@
                         <div class="form-group col-md-4">
                             <label for="grossWeight">Материал:</label>
                             <div class="input-group"> 
-                                <input type="text" class="form-control" name="given_material_id" id="material" placeholder="Въведете материал:">
+                                <select id="material_type" name="material_id[]" data-calculatePrice-material class="material_type form-control calculate">
+                                    <option value="">Избери</option>
+                            
+                                    @foreach($materials as $material)
+                                        @if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
+                                            <option value="{{ $material->id }}" data-material="{{ $material->material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
