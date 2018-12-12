@@ -135,7 +135,7 @@ var uvel,
 			},
 			orders: {
 				selector: '[name="orders"]',
-        controllers: ['addStonesInit', 'addAnother', 'manualReceipt'],
+        controllers: ['addStonesInit', 'addAnother', 'manualReceipt', 'modelRequestInit'],
         initialized: false
 			}
     };
@@ -1187,9 +1187,14 @@ var uvel,
       }
 
       if (formName == 'products') {
+				debugger;
         var modelId = form.find('[data-calculatePrice-model] option:selected').val();
         requestLink += '/' + modelId;
-      } else {
+			} else if (formName == 'orders') {
+				// tuk noviq kod za Orders
+				var modelId = form.find('[data-calculatePrice-model] option:selected').val();
+        requestLink += '/' + modelId;
+			} else {
         requestLink += '/0';
       }
 
@@ -1228,6 +1233,7 @@ var uvel,
     }
 
     this.modelRequestInit = function(form) {
+			/* Селектора (падащо меню) който ще прави рекуест */
       var modelRequestTrigger = form.find('[data-calculatePrice-model]');
 
       modelRequestTrigger.on('change', function() {
@@ -1244,33 +1250,67 @@ var uvel,
       });
     }
 
+		/* При избор на модел от падащото меню се прави тази заявка */
     this.modelRequest = function(form) {
-      var ajaxUrl = window.location.origin + '/ajax/products/',
-          modelId = form.find('[data-calculatePrice-model]').val();
+			debugger;
+			/** URL-то според зависи коя форма е */
+
+			/**
+			 * В момента на Orders урл-то си го взима от селект менюто,
+			 * обаче на Products урл-то е на самата форма а не на селектора
+			 */
+			var selectMenu = form.find('[data-calculatePrice-model]');
+
+      var ajaxUrl = window.location.origin + '/' + selectMenu.attr('url');
+			var modelId = selectMenu.val();
+
+
 
       var requestLink = ajaxUrl + modelId;
-
+			debugger;
       $self.ajaxFn('GET' , requestLink , $self.modelRequestResponseHandler, '', form);
     }
 
     this.modelRequestResponseHandler = function(response, form) {
-      $self.fillMaterials(response, form);
-      $self.fillJewel(response, form);
-      $self.fillStones(response, form);
-      $self.calculateStones(form);
-      $self.fillSize(response, form);
+			debugger;
+			/* Borislav 12.12.2018 */
+			// tuka sega da ima nqkakvo razgrani4avane dali requesta idva za Products form-ata, ili za Orders form-ata
+			// v byde6te moje da ima i drugi form-i koito da poluva4at toq response
+
+			// proverka kakva e formata za if
+
+			$self.fillMaterials(response.materials, form);
+      $self.fillJewel(response.jewels_types, form);
+      $self.fillStones(response.stones, form);
+      $self.fillSize(response.size, form);
       $self.fillWeight(response, form);
-      $self.fillFinalPrice(response, form);
-      $self.fillWorkmanshipPrice(response, form);
-      $self.fillPhotos(response, form);
+      $self.fillFinalPrice(response.price, form);
+			$self.fillWorkmanshipPrice(response.workmanship, form);
+
+			$self.calculateStones(form);
+
       if ($('[data-calculatePrice-withStones]').is(':checked')) {
         $self.calculatePrice(form);
       }
+
+			/* Form specific properties */
+			if (form[0].name == 'products') {
+				debugger
+				$self.fillPhotos(response.photos, form);
+
+			} else if (form[0].name == 'orders') {
+				debugger
+
+			} else {
+				debugger
+				// ???
+			}
+
+
     }
 
-    this.fillMaterials = function(response, form) {
+    this.fillMaterials = function(materials, form) {
       var materialHolder = form.find('[data-calculatePrice-material]'),
-          materials = response.materials,
           chooseOpt = '<option value="0">Избери</option>';
 
       materialHolder.empty();
@@ -1292,11 +1332,11 @@ var uvel,
       $self.materialPricesRequestBuilder(form, materialHolder);
     }
 
-    this.fillJewel = function(response, form) {
+    this.fillJewel = function(jewelsTypes, form) {
       var jewelHolder = form.find('[data-modelFilled-jewel]'),
           selected;
 
-      response.jewels_types.forEach(function(jewel) {
+			jewelsTypes.forEach(function(jewel) {
         if (jewel.selected) {
           selected = jewel.value;
         }
@@ -1305,9 +1345,8 @@ var uvel,
       jewelHolder.val(selected);
     }
 
-    this.fillStones = function(response, form) {
-      var stones = response.stones;
-          stonesHolder = form.find('.model_stones');
+    this.fillStones = function(stones, form) {
+      var stonesHolder = form.find('.model_stones');
 
       stonesHolder.empty();
 
@@ -1317,6 +1356,8 @@ var uvel,
     }
 
     this.fillWeight = function(response, form) {
+			debugger
+			// kakvo e tva weight * 1
       var netWeightHolder = form.find('[data-calculatePrice-netWeight]'),
           grossWeightHolder = form.find('[data-calculatePrice-grossWeight]'),
           weight = response.weight * 1,
@@ -1341,30 +1382,23 @@ var uvel,
       grossWeightHolder.val(weight);
     }
 
-    this.fillSize = function(response, form) {
-      var sizeHolder = form.find('[data-modelFilld-size]'),
-          size = response.size;
-
+    this.fillSize = function(size, form) {
+      var sizeHolder = form.find('[data-modelFilld-size]');
       sizeHolder.val(size);
     }
 
-    this.fillFinalPrice = function(response, form) {
-      var finalHolder = form.find('[data-calculatePrice-final]'),
-          price = response.price;
-
+    this.fillFinalPrice = function(price, form) {
+      var finalHolder = form.find('[data-calculatePrice-final]');
       finalHolder.val(price);
     }
 
-    this.fillWorkmanshipPrice = function(response, form) {
-      var workmanshipHolder = form.find('[data-calculatePrice-worksmanship]'),
-          price = response.workmanship;
-
-      workmanshipHolder.val(price);
+    this.fillWorkmanshipPrice = function(workmanshipPrice, form) {
+      var workmanshipHolder = form.find('[data-calculatePrice-worksmanship]');
+      workmanshipHolder.val(workmanshipPrice);
     }
 
-    this.fillPhotos = function(response, form) {
-      var dropAreaGalleryHolder = form.find('.drop-area-gallery'),
-          photos = response.photos;
+    this.fillPhotos = function(photos, form) {
+      var dropAreaGalleryHolder = form.find('.drop-area-gallery');
 
       dropAreaGalleryHolder.empty();
 
