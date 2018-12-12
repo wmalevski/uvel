@@ -235,7 +235,7 @@
 						<div class="form-group col-md-6">
 							<label for="grossWeight">Капаро:</label>
 							<div class="input-group">
-									<input type="number" class="form-control" name="deposit" id="deposit" placeholder="0">
+									<input type="number" class="form-control" name="earnest" id="earnest" placeholder="0">
 							</div>
 						</div>
 					</div>

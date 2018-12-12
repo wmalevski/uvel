@@ -102,12 +102,17 @@ class OrderController extends Controller
             'size' => 'required|numeric|between:0.1,10000',
             'workmanship' => 'required|numeric|between:0.1,500000',
             'price' => 'required|numeric|between:0.1,500000',
-            'store_id' => 'required|numeric'
+            'store_id' => 'required|numeric',
+            'earnest' => 'required|numeric',
+            'safe_group' => 'required|numeric',
         ]); 
 
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
+
+
+        //ADDDDDDDDDDD SCRIPT FOR EXCHANGE WITH MATERIALS
 
         $material = MaterialQuantity::withTrashed()->find($request->material_id);
         
@@ -117,48 +122,49 @@ class OrderController extends Controller
 
         $model = Model::find($request->model_id);
         
-        $product = new Product();
-        $product->name = $model->name;
-        $product->model_id = $request->model_id;
-        $product->jewel_id = $request->jewel_id;
-        $product->material_id = $request->material_id;
-        $product->weight = $request->weight;
-        $product->gross_weight = $request->gross_weight;
-        $product->retail_price_id = $request->retail_price_id;
-        $product->size = $request->size;
-        $product->workmanship = $request->workmanship;
-        $product->price = $request->price;
-        $product->code = 'P'.unique_random('products', 'code', 7);
-        $product->store_id = $request->store_id;
-        $bar = '380'.unique_number('products', 'barcode', 7).'1'; 
+        $order = new Order();
+        $order->name = $model->name;
+        $order->model_id = $request->model_id;
+        $order->jewel_id = $request->jewel_id;
+        $order->material_id = $request->material_id;
+        $order->weight = $request->weight;
+        $order->gross_weight = $request->gross_weight;
+        $order->retail_price_id = $request->retail_price_id;
+        $order->size = $request->size;
+        $order->workmanship = $request->workmanship;
+        $order->price = $request->price;
+        //$order->code = 'P'.unique_random('products', 'code', 7);
+        $order->store_id = $request->store_id;
+        //$bar = '380'.unique_number('products', 'barcode', 7).'1'; 
+        $order->earnest = $request->earnest;
 
         $material->quantity = $material->quantity - $request->weight;
         $material->save();
 
         if($request->with_stones == 'false'){
-            $product->weight_without_stones = 'no';
+            $order->weight_without_stones = 'no';
         } else{
-            $product->weight_without_stones = 'yes';
+            $order->weight_without_stones = 'yes';
         }
 
-        $digits =(string)$bar;
-        // 1. Add the values of the digits in the even-numbered positions: 2, 4, 6, etc.
-        $even_sum = $digits{1} + $digits{3} + $digits{5} + $digits{7} + $digits{9} + $digits{11};
-        // 2. Multiply this result by 3.
-        $even_sum_three = $even_sum * 3;
-        // 3. Add the values of the digits in the odd-numbered positions: 1, 3, 5, etc.
-        $odd_sum = $digits{0} + $digits{2} + $digits{4} + $digits{6} + $digits{8} + $digits{10};
-        // 4. Sum the results of steps 2 and 3.
-        $total_sum = $even_sum_three + $odd_sum;
-        // 5. The check character is the smallest number which, when added to the result in step 4,  produces a multiple of 10.
-        $next_ten = (ceil($total_sum/10))*10;
-        $check_digit = $next_ten - $total_sum;
-        $product->barcode = $digits . $check_digit;
+        // $digits =(string)$bar;
+        // // 1. Add the values of the digits in the even-numbered positions: 2, 4, 6, etc.
+        // $even_sum = $digits{1} + $digits{3} + $digits{5} + $digits{7} + $digits{9} + $digits{11};
+        // // 2. Multiply this result by 3.
+        // $even_sum_three = $even_sum * 3;
+        // // 3. Add the values of the digits in the odd-numbered positions: 1, 3, 5, etc.
+        // $odd_sum = $digits{0} + $digits{2} + $digits{4} + $digits{6} + $digits{8} + $digits{10};
+        // // 4. Sum the results of steps 2 and 3.
+        // $total_sum = $even_sum_three + $odd_sum;
+        // // 5. The check character is the smallest number which, when added to the result in step 4,  produces a multiple of 10.
+        // $next_ten = (ceil($total_sum/10))*10;
+        // $check_digit = $next_ten - $total_sum;
+        // $product->barcode = $digits . $check_digit;
 
-        $path = public_path('uploads/products/');
+        //$path = public_path('uploads/products/');
         
-        File::makeDirectory($path, 0775, true, true);
-        Storage::disk('public')->makeDirectory('products', 0775, true);
+        // File::makeDirectory($path, 0775, true, true);
+        // Storage::disk('public')->makeDirectory('products', 0775, true);
 
 
         $findModel = ModelOption::where([
