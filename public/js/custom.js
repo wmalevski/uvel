@@ -281,7 +281,7 @@ var uvel,
             'quantity' : productsAmount,
             'amount_check' : moreProductsChecked,
             'type_repair' : typeRepair
-          }
+          };
         }
 
         $self.ajaxFn("POST", ajaxUrl, $self.numberSend, dataSend, '', '');
@@ -325,8 +325,7 @@ var uvel,
 
         if (_this.is(':checked')) {
           amountInput.removeAttr('readonly');
-        }
-        else {
+        } else {
           amountInput.attr('readonly', 'readonly');
           amountInput.val('1');
         }
@@ -351,7 +350,7 @@ var uvel,
         if (discountAmount > 0) {
           var ajaxUrl = _url + discountUrl;
 
-          $self.ajaxFn("POST", ajaxUrl, $self.discountSuccess, dataSend, '', '');
+          $self.ajaxFn('POST', ajaxUrl, $self.discountSuccess, dataSend, '', '');
         }
       });
     }
@@ -367,7 +366,7 @@ var uvel,
         if (discountBarcode.length == 13) {
           var ajaxUrl = _url + discountUrl + discountBarcode;
 
-          $self.ajaxFn("GET", ajaxUrl, $self.discountSuccess, '', '', '');
+          $self.ajaxFn('GET', ajaxUrl, $self.discountSuccess, '', '', '');
           _this.val('');
         }
       })
