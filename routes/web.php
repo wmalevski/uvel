@@ -162,9 +162,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
 Route::group(['prefix' => 'ajax'], function() {
 
-    Route::get('/orders/getProductInfo/{product}', 'OrderController@getProductInfo');
+    Route::get('/orders/getProductInfo/{product}', 'OrderController@getProductInfo')->name('getProductInfo');
 
-    Route::get('/orders/getModelInfo/{model}', 'OrderController@getModelInfo');
+    Route::get('/orders/getModelInfo/{model}', 'OrderController@getModelInfo')->name('getModelInfo');
 
     Route::post('/stores', 'StoreController@store');
     Route::put('/stores/{store}', 'StoreController@update');

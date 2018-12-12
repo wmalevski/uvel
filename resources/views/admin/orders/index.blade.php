@@ -28,9 +28,21 @@
 					</div>
 
 					<div class="form-row">
+						<div class="form-group col-md-12">
+							<label for="weight">Сканирай продукт: </label>
+							<div class="input-group">
+								<input type="text" url="ajax/orders/getProductInfo/" class="form-control" id="calculate_product" name="product_id" placeholder="Сканирай продукт:">
+							</div>
+						</div>
+						<div class="col-12">
+								<hr>
+						</div>
+					</div>
+
+					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label>Модел: </label>
-							<select id="model_select" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model>
+							<select id="model_select" url="ajax/orders/getModelInfo/" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model>
 								<option value="">Избери</option>
 								@foreach($models as $model)
 									<option value="{{ $model->id }}" data-jewel="{{ $model->jewel->id }}">{{ $model->name }}</option>
