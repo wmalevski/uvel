@@ -482,4 +482,20 @@ class OrderController extends Controller
             }
         }
     }
+
+    public function getProductInfo($product){
+        if($product){
+            $product = Product::where('barcode', $product)->first();
+            if($product){
+                return $product->chainedSelects($product->model);
+            }
+        }
+    }
+
+    public function getModelInfo(Request $request, Model $model){
+        if($model){
+            $product = new Product;
+            return $product->chainedSelects($model);
+        }
+    }
 }
