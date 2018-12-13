@@ -260,7 +260,7 @@
 	</div>
 </div>
 
-<div class="modal fade edit--modal_holder" id="editProduct" role="dialog" aria-labelledby="editProductLabel"
+<div class="modal fade edit--modal_holder" id="editOrder" role="dialog" aria-labelledby="editOrderLabel"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -280,14 +280,13 @@ aria-hidden="true">
             <th class="sort-false">Цена на дребно</th>
             <th class="sort-false">Тегло</th>
             <th>Цена</th>
-            <th class="sort-false">Баркод</th>
             <th>Статус</th>
             <th class="sort-false">Действия</th>
         </tr>
     </thead>
     <tbody>
-        @foreach($products as $product)
-            @include('admin.products.table')
+        @foreach($orders as $order)
+            @include('admin.orders.table')
         @endforeach
     </tbody>
 </table>
