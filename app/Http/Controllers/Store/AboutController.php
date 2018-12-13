@@ -11,6 +11,6 @@ class AboutController extends BaseController
      */
     public function index()
     {
-        return \View::make('store.pages.about');
+        return \View::make('store.pages.about_us');
     }
 }

@@ -48,7 +48,7 @@ Breadcrumbs::register('warranty', function ($breadcrumbs) {
 
 Breadcrumbs::register('about', function ($breadcrumbs) {
     $breadcrumbs->parent('store');
-    $breadcrumbs->push('История', route('about'));
+    $breadcrumbs->push('За Нас', route('about'));
 });
 
 Breadcrumbs::register('howtoorder', function ($breadcrumbs) {
