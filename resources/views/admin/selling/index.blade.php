@@ -82,23 +82,29 @@ aria-hidden="true">
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label for="">Вид</label>
-                                    <select id="" name="" class="form-control">
-                                        <!-- ADD TYPE OPTIONS -->
+                                    <select id="material_type" name="material_id[]" data-calculatePrice-material class="material_type form-control calculate">
+                                        <option value="">Избери</option>
+                                
+                                        @foreach($materials as $material)
+                                            @if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
+                                                <option value="{{ $material->id }}" data-material="{{ $material->material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
+                                            @endif
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="">Грамаж</label>
-                                    <input type="number" id="" class="form-control" value="0" name="" placeholder="">
+                                    <input type="number" id="" class="form-control" value="0" name="weight[]" placeholder="">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="">Цена на грамаж</label>
-                                    <select id="" name="" class="form-control">
+                                    <select id="" name="material_price[]" class="form-control">
                                         <!-- ADD PRICE OPTIONS -->
                                     </select>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="">Стойност на м.</label>
-                                    <input type="number" id="" class="form-control" value="0" name="" placeholder="">
+                                    <input type="number" id="" class="form-control" value="0" name="calculated_material[]" placeholder="">
                                 </div>
 
                                 <div class="form-group col-md-1">

@@ -18,6 +18,7 @@ use Response;
 use App\ProductOther;
 use \Darryldecode\Cart\CartCondition as CartCondition;
 use \Darryldecode\Cart\Helpers\Helpers as Helpers;
+use App\MaterialQuantity;
 
 Class CartCustomCondition extends CartCondition {
     public function apply($totalOrSubTotalOrPrice, $conditionValue){
@@ -107,6 +108,8 @@ class SellingController extends Controller
         $condition = Cart::getConditions('discount');
         $priceCon = 0;
 
+        $materials = MaterialQuantity::currentStore();
+
         if(count($cartConditions) > 0){
             foreach(Cart::session(Auth::user()->getId())->getConditions() as $cc){
                 $priceCon += $cc->getCalculatedValue($subTotal);
@@ -123,7 +126,7 @@ class SellingController extends Controller
 
         $dds = round($subTotal - ($subTotal/1.2), 2);
         
-        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds));
+        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials));
     }
 
     /**
