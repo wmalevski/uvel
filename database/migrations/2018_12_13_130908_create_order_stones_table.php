@@ -15,6 +15,11 @@ class CreateOrderStonesTable extends Migration
     {
         Schema::create('order_stones', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('order_id')->unsigned();
+            $table->integer('stone_id')->unsigned();
+            $table->integer('amount');
+            $table->integer('weight');
+            $table->enum('flow', ['yes', 'no'])->default('no');
             $table->timestamps();
         });
     }

@@ -22,6 +22,7 @@ use App\Material;
 use App\Store;
 use App\MaterialQuantity;
 use Storage;
+use App\OrderStone;
 use Auth;
 
 class OrderController extends Controller
@@ -292,8 +293,8 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        if($product){
-            $product_stones = ProductStone::where('product_id', $product)->get();
+        if($order){
+            $order_stones = OrderStone::where('order_id', $order)->get();
             $models = Model::all();
             $jewels = Jewel::all();
             $prices = Price::where('type', 'sell')->get();
@@ -301,8 +302,8 @@ class OrderController extends Controller
     
             $photos = Gallery::where(
                 [
-                    ['table', '=', 'products'],
-                    ['product_id', '=', $product->id]
+                    ['table', '=', 'orders'],
+                    ['order_id', '=', $order->id]
                 ]
             )->get();
 
@@ -321,7 +322,7 @@ class OrderController extends Controller
                 return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
             }
 
-            $currentMaterial = MaterialQuantity::withTrashed()->find($product->material);
+            $currentMaterial = MaterialQuantity::withTrashed()->find($order->material);
 
             if($request->material != $order->material){
                 $newMaterial = MaterialQuantity::withTrashed()->find($request->material);
