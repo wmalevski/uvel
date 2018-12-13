@@ -58,7 +58,64 @@ aria-hidden="true">
                             <input class="form-control" id="wanted-sum" type="number" name="wanted_sum" data-calculatePayment-wanted readonly>
                         </div>
                     </div>
-                                
+
+                    <div class="form-row">
+                        <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                            <input type="checkbox" id="exchange" class="exchange-method" name="exchange_method" class="peer" data-exchange-trigger>
+                            <label for="exchange" class="peers peer-greed js-sb ai-c">
+                                <span class="peer peer-greed">Обмяна</span>
+                            </label>
+                        </div>    
+                    </div>
+
+                    <div id="exchange-row"> <!-- SHOW HIDE DEPENDING ON OBMQNA CHECKBOX -->
+                        <div class="exhange-row-controllers form-row">
+                            <div class="form-group col-md-8">
+                                <span>Даден материал</span>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <button type="button" class="btn btn-primary" data-newExchangeField-trigger>Добави</button>
+                            </div>
+                        </div>
+
+                        <div class="exchange-row-fields form-row">
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="">Вид</label>
+                                    <select id="" name="" class="form-control">
+                                        <!-- ADD TYPE OPTIONS -->
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="">Грамаж</label>
+                                    <input type="number" id="" class="form-control" value="0" name="" placeholder="">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="">Цена на грамаж</label>
+                                    <select id="" name="" class="form-control">
+                                        <!-- ADD PRICE OPTIONS -->
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="">Стойност на м.</label>
+                                    <input type="number" id="" class="form-control" value="0" name="" placeholder="">
+                                </div>
+
+                                <div class="form-group col-md-1">
+                                    <span class="delete-material remove_field" data-exchangeRowRemove-trigger=""><i class="c-brown-500 ti-trash"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="exchange-row-total form-row">
+                            <div class="form-group col-md-8">
+                                <label for="given-sum">Дължима сума</label>
+                                <input type="number" id="" class="form-control" value="0" name="" placeholder="Дължима сума" readonly>
+                            </div>
+                        </div>
+
+                       
+                    </div>          
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="given-sum">Дадена сума</label>

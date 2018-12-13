@@ -1396,7 +1396,42 @@ var uvel,
     this.paymentInitializer = function(form) {
       var calculateTrigger = form.find('[data-calculatePayment-given]'),
           currencyChangeTrigger = form.find('[data-calculatePayment-currency]'),
-          methodChangeTrigger = form.find('[data-calculatePayment-method]');
+          methodChangeTrigger = form.find('[data-calculatePayment-method]'),
+          exchangeTrigger = form.find('[data-exchange-trigger]'),
+          newExchangeFieldTrigger = form.find('[data-newExchangeField-trigger]'),
+          newExchangeField = form.find('.exchange-row-fields').html(),
+          exchangeRow = form.find('#exchange-row');
+
+
+          
+      exchangeTrigger.on('change', function() {
+        //HANDLE EXHCHANGE FIELD APPEREANCE 
+        if (!this.checked) {
+          exchangeRow.animate({
+            opacity: 0,
+          }, 500, function() {
+            exchangeRow.css('display', 'none');
+          });
+        }
+        else {
+          exchangeRow.css('display', 'block');
+          exchangeRow.animate({
+            opacity: 1,
+          }, 500);
+        }
+      });
+
+      newExchangeFieldTrigger.on('click', function() {
+        //HANDLE NEW EXCHANGE FIELDS
+        $('.exchange-row-fields').prepend(newExchangeField);
+      });
+
+      //HANDLE ROW REMOVAL
+      exchangeRow.on('click', '[data-exchangeRowRemove-trigger]', function(e) {
+        $(this).parent().parent().remove();
+      });
+
+
 
       calculateTrigger.on('change', function() {
         $self.calculatePaymentInit(form);
@@ -1410,6 +1445,7 @@ var uvel,
         var _this = $(this);
         $self.paymentMethodChange(form, _this);
       });
+
     }
 
     this.getWantedSum = function(form) {
