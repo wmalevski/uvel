@@ -107,9 +107,10 @@
 	text-align: start;
 }
 
-.contact-page .contact-content .title {
-	margin-bottom: 30px;
+.contact-page .right-content.social li {
+	display: inline-block;
 }
+
 
 /* https://trello.com/c/sQ8jcrBM/17-home-page-categories */
 .home-popular-collections .owl-item .hover-overlay {
