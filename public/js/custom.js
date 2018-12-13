@@ -1261,6 +1261,13 @@ var uvel,
     this.modelRequestResponseHandler = function(response, form) {
 
 			// data-current-model-id //
+			var modelIds = [];
+			response.models.forEach(function(model) {
+				modelIds.push(model.id);
+			});
+			$(form).attr('data-current-model-ids', modelIds);
+			debugger;
+
 
 
 			/* Borislav 12.12.2018 */
