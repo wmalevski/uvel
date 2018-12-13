@@ -272,7 +272,7 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        $product_stones = $product->stones;
+        $order_stones = $order->stones;
         $models = Model::all();
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
@@ -280,38 +280,7 @@ class OrderController extends Controller
         $materials = MaterialQuantity::all();
         $stores = Store::all();
 
-        $photos = Gallery::where(
-            [
-                ['table', '=', 'products'],
-                ['product_id', '=', $product->id]
-            ]
-        )->get();
-
-        $pass_photos = array();
-
-        foreach($photos as $photo){
-            $url =  Storage::get('public/products/'.$photo->photo);
-            $ext_url = Storage::url('public/products/'.$photo->photo);
-            
-            $info = pathinfo($ext_url);
-            
-            $image_name =  basename($ext_url,'.'.$info['extension']);
-            
-            $base64 = base64_encode($url);
-
-            if($info['extension'] == "svg"){
-                $ext = "png";
-            }else{
-                $ext = $info['extension'];
-            }
-
-            $pass_photos[] = [
-                'id' => $photo->id,
-                'photo' => 'data:image/'.$ext.';base64,'.$base64
-            ];
-        }
-
-        return \View::make('admin/orders/edit', array('stores' => $stores ,'photos' => $photos, 'product_stones' => $product_stones, 'product' => $product, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials, 'basephotos' => $pass_photos));
+        return \View::make('admin/orders/edit', array('stores' => $stores , 'order_stones' => $order_stones, 'order' => $order, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials));
     }
 
     /**
@@ -354,121 +323,105 @@ class OrderController extends Controller
 
             $currentMaterial = MaterialQuantity::withTrashed()->find($product->material);
 
-            if($request->material != $product->material){
+            if($request->material != $order->material){
                 $newMaterial = MaterialQuantity::withTrashed()->find($request->material);
 
                 if($newMaterial->quantity < $request->weight){
                     return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
                 }
 
-                $currentMaterial->quantity = $currentMaterial->quantity + $product->weight;
+                $currentMaterial->quantity = $currentMaterial->quantity + $order->weight;
                 $currentMaterial->save();
 
                 $newMaterial->quantity = $newMaterial->quantity - $request->weight;
                 $newMaterial->save();
 
-            }else if($request->weight != $product->weight){
+            }else if($request->weight != $order->weight){
                 if($currentMaterial->quantity < $request->weight){
                     return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
                 }
 
-                $newQuantity = $product->weight - $request->weight;
+                $newQuantity = $order->weight - $request->weight;
                 $currentMaterial->quantity = $currentMaterial->quantity + $newQuantity;
                 $currentMaterial->save();
 
             }
     
-            $product->model_id = $request->model_id;
-            $product->jewel_id = $request->jewel_id;
-            $product->weight = $request->weight;
-            $product->gross_weight = $request->gross_weight;
-            $product->retail_price_id = $request->retail_price_id;
-            $product->size = $request->size;
-            $product->workmanship = $request->workmanship;
-            $product->price = $request->price;
-            $product->store_id = $request->store_id;
+            $order->model_id = $request->model_id;
+            $order->jewel_id = $request->jewel_id;
+            $order->weight = $request->weight;
+            $order->gross_weight = $request->gross_weight;
+            $order->retail_price_id = $request->retail_price_id;
+            $order->size = $request->size;
+            $order->workmanship = $request->workmanship;
+            $order->price = $request->price;
+            $order->store_id = $request->store_id;
 
             if($request->with_stones == 'false'){
-                $product->weight_without_stones = 'no';
+                $order->weight_without_stones = 'no';
             } else{
-                $product->weight_without_stones = 'yes';
+                $order->weight_without_stones = 'yes';
             }
     
-            $product->save();
+            $order->save();
 
-            $path = public_path('uploads/products/');
+            // $path = public_path('uploads/products/');
             
-            File::makeDirectory($path, 0775, true, true);
+            // File::makeDirectory($path, 0775, true, true);
     
-            $file_data = $request->input('images'); 
-            if($file_data){
-                foreach($file_data as $img){
-                    $memi = substr($img, 5, strpos($img, ';')-5);
+            // $file_data = $request->input('images'); 
+            // if($file_data){
+            //     foreach($file_data as $img){
+            //         $memi = substr($img, 5, strpos($img, ';')-5);
                     
-                    $extension = explode('/',$memi);
+            //         $extension = explode('/',$memi);
         
-                    if($extension[1] == "svg+xml"){
-                        $ext = 'png';
-                    }else{
-                        $ext = $extension[1];
-                    }
+            //         if($extension[1] == "svg+xml"){
+            //             $ext = 'png';
+            //         }else{
+            //             $ext = $extension[1];
+            //         }
                     
         
-                    $file_name = 'productimage_'.uniqid().time().'.'.$ext;
+            //         $file_name = 'productimage_'.uniqid().time().'.'.$ext;
                     
-                    $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                    file_put_contents(public_path('uploads/products/').$file_name, $data);
+            //         $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+            //         file_put_contents(public_path('uploads/products/').$file_name, $data);
 
-                    Storage::disk('public')->put('products/'.$file_name, file_get_contents(public_path('uploads/products/').$file_name));
+            //         Storage::disk('public')->put('products/'.$file_name, file_get_contents(public_path('uploads/products/').$file_name));
         
-                    $photo = new Gallery();
-                    $photo->photo = $file_name;
-                    $photo->product_id = $product->id;
-                    $photo->table = 'products';
+            //         $photo = new Gallery();
+            //         $photo->photo = $file_name;
+            //         $photo->product_id = $product->id;
+            //         $photo->table = 'products';
         
-                    $photo->save();
-                }
-            }
+            //         $photo->save();
+            //     }
+            // }
 
-            $deleteStones = ProductStone::where('product_id', $product->id)->delete();
+            $deleteStones = OrderStone::where('order_id', $order->id)->delete();
     
             if($request->stones){
                 foreach($request->stones as $key => $stone){
                     if($stone) {
-                        $product_stones = new ProductStone();
-                        $product_stones->product_id = $product->id;
-                        $product_stones->model_id = $request->model_id;
-                        $product_stones->stone_id = $stone;
-                        $product_stones->amount = $request->stone_amount[$key];
-                        $product_stones->weight = $request->stone_weight[$key];
+                        $order_stones = new OrderStone();
+                        $order_stones->product_id = $product->id;
+                        $order_stones->model_id = $request->model_id;
+                        $order_stones->stone_id = $stone;
+                        $order_stones->amount = $request->stone_amount[$key];
+                        $order_stones->weight = $request->stone_weight[$key];
                         if($request->stone_flow[$key] == 'true'){
-                            $product_stones->flow = 'yes';
+                            $order_stones->flow = 'yes';
                         }else{
-                            $product_stones->flow = 'no';
+                            $order_stones->flow = 'no';
                         }
-                        $product_stones->save();
+                        $order_stones->save();
                     }
                 }
             }
 
-            $product_photos = Gallery::where(
-                [
-                    ['table', '=', 'products'],
-                    ['product_id', '=', $product->id]
-                ]
-            )->get();
-    
-            $photosHtml = '';
-            
-            foreach($product_photos as $photo){
-                $photosHtml .= '
-                    <div class="image-wrapper">
-                    <div class="close"><span data-url="gallery/delete/'.$photo->id.'">&#215;</span></div>
-                    <img src="'.asset("uploads/products/" . $photo->photo).'" alt="" class="img-responsive" />
-                </div>';
-            }
-
-            return Response::json(array('table' => View::make('admin/products/table',array('product' => $product))->render(), 'photos' => $photosHtml, 'ID' => $product->id));
+         
+            return Response::json(array('table' => View::make('admin/orders/table',array('order' => $order))->render(), 'ID' => $product->id));
         }  
     }
 
