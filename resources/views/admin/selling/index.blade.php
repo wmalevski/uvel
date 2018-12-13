@@ -116,8 +116,8 @@ aria-hidden="true">
                         </div>
 
                         <div class="exchange-row-total form-row">
-                            <div class="form-group col-md-8">
-                                <label for="given-sum">Дължима сума</label>
+                            <div class="form-group col-md-6">
+                                <label for="given-sum">Сума от материали</label>
                                 <input type="number" id="" class="form-control" value="0" name="exchangeRows-total" placeholder="Дължима сума" data-exchangeRows-total readonly>
                             </div>
                         </div>

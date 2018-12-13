@@ -1401,9 +1401,11 @@ var uvel,
           newExchangeFieldTrigger = form.find('[data-newExchangeField-trigger]'),
           newExchangeField = form.find('.exchange-row-fields').html(),
           exchangeRow = form.find('#exchange-row');
-
-
-          
+      
+      //SET INITIAL WANTED PAYMENT
+      var wantedPayment = document.querySelector('[data-calculatepayment-wanted]');
+          wantedPayment.dataset.initial = wantedPayment.value;
+      
       exchangeTrigger.on('change', function() {
         if (!this.checked) {
           exchangeRow.animate({
@@ -1423,7 +1425,7 @@ var uvel,
       newExchangeFieldTrigger.on('click', function() {
         $('.exchange-row-fields').prepend(newExchangeField);
       });
-      
+
       exchangeRow.on('click', '[data-exchangeRowRemove-trigger]', function() {
         $(this).parent().parent().remove();
 
@@ -1439,8 +1441,14 @@ var uvel,
         }
       });
 
-      exchangeRow.on('change', '[data-weight]', function(e) {
-        $self.calculateExchangeRow($(this));
+      exchangeRow.on('change', '[data-weight]', function() {
+        $this = $(this);
+        
+        if ($this.val().length > 1) {
+          $this.val($this.val().replace(/^0+/, '')); //checks for numbers like 05, 005;
+        }
+
+        $self.calculateExchangeRow($this);
       });
 
       exchangeRow.on('change', '[data-calculateprice-retail]', function() {
@@ -1476,6 +1484,7 @@ var uvel,
 
     this.calculateExchangeRowTotal = function(selector) {
       var exchangeRows = document.querySelectorAll(selector),
+          wantedPayment = document.querySelector('[data-calculatepayment-wanted]'),
           total = 0;
 
       for (var i = 0;i < exchangeRows.length; i++) {
@@ -1483,6 +1492,8 @@ var uvel,
       }
 
       document.querySelector('[data-exchangeRows-total]').value = total;
+      wantedPayment.value = wantedPayment.dataset.initial - total;
+
     }
 
     this.getWantedSum = function(form) {
@@ -1492,6 +1503,8 @@ var uvel,
 
       var newWanted = Math.round((wantedValue * selectedCurrency) * 100) / 100;
       wantedHolder.val(newWanted);
+
+      $self.calculateExchangeRowTotal('[data-calculateprice-final]');
     }
 
     this.calculatePaymentInit = function(form) {
