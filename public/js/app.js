@@ -8313,7 +8313,6 @@
             t.find(".tooltip-inner")[this.options.html ? "html" : "text"](e), t.removeClass("fade in top bottom left right")
         }, n.prototype.hide = function (e) {
             function r() {
-							debugger;
                 "in" != i.hoverState && o.detach(), i.$element && i.$element.removeAttr("aria-describedby").trigger("hidden.bs." + i.type), e && e()
             }
             var i = this,
