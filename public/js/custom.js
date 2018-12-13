@@ -1405,11 +1405,10 @@ var uvel,
 
           
       exchangeTrigger.on('change', function() {
-        //HANDLE EXHCHANGE FIELD APPEREANCE 
         if (!this.checked) {
           exchangeRow.animate({
             opacity: 0,
-          }, 500, function() {
+          }, 300, function() {
             exchangeRow.css('display', 'none');
           });
         }
@@ -1417,22 +1416,37 @@ var uvel,
           exchangeRow.css('display', 'block');
           exchangeRow.animate({
             opacity: 1,
-          }, 500);
+          }, 300);
         }
       });
 
       newExchangeFieldTrigger.on('click', function() {
-        //HANDLE NEW EXCHANGE FIELDS
         $('.exchange-row-fields').prepend(newExchangeField);
       });
-
-      //HANDLE ROW REMOVAL
-      exchangeRow.on('click', '[data-exchangeRowRemove-trigger]', function(e) {
+      
+      exchangeRow.on('click', '[data-exchangeRowRemove-trigger]', function() {
         $(this).parent().parent().remove();
+
+        return $self.calculateExchangeRowTotal('[data-calculateprice-final]');
       });
 
+      exchangeRow.on('change', '[data-calculateprice-material]', function() {
+        var materialType = $('option:selected', this).attr('data-material'),
+            ajaxUrl = '/ajax/getPrices/' + materialType + '/0';
+        
+        if (materialType !== undefined) {
+          $self.ajaxFn('GET' , ajaxUrl , $self.materialPricesResponseHandler, '', form, $(this));
+        }
+      });
 
+      exchangeRow.on('change', '[data-weight]', function(e) {
+        $self.calculateExchangeRow($(this));
+      });
 
+      exchangeRow.on('change', '[data-calculateprice-retail]', function() {
+        $self.calculateExchangeRow($(this));
+      });
+      
       calculateTrigger.on('change', function() {
         $self.calculatePaymentInit(form);
       });
@@ -1446,6 +1460,29 @@ var uvel,
         $self.paymentMethodChange(form, _this);
       });
 
+    }
+
+    this.calculateExchangeRow = function($this) {
+      var weight = $this.closest('.form-row').find('[data-weight]').val(),
+          price = $this.closest('.form-row').find('[data-calculateprice-retail] :selected')[0].dataset.price,
+          total = $this.closest('.form-row').find('[data-calculateprice-final]');
+
+      if (weight >= 0) {
+        total.val(weight * price || 0);
+      }
+
+      return $self.calculateExchangeRowTotal('[data-calculateprice-final]');
+    }
+
+    this.calculateExchangeRowTotal = function(selector) {
+      var exchangeRows = document.querySelectorAll(selector),
+          total = 0;
+
+      for (var i = 0;i < exchangeRows.length; i++) {
+        total += parseFloat(exchangeRows[i].value);
+      }
+
+      document.querySelector('[data-exchangeRows-total]').value = total;
     }
 
     this.getWantedSum = function(form) {

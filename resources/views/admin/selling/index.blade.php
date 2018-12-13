@@ -68,7 +68,7 @@ aria-hidden="true">
                         </div>    
                     </div>
 
-                    <div id="exchange-row"> <!-- SHOW HIDE DEPENDING ON OBMQNA CHECKBOX -->
+                    <div id="exchange-row"> <!-- SHOW HIDE DEPENDING ON EXCHANGE CHECKBOX -->
                         <div class="exhange-row-controllers form-row">
                             <div class="form-group col-md-8">
                                 <span>Даден материал</span>
@@ -82,7 +82,7 @@ aria-hidden="true">
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label for="">Вид</label>
-                                    <select id="material_type" name="material_id[]" data-calculatePrice-material class="material_type form-control calculate">
+                                    <select id="material_type" name="material_id[]" data-calculateprice-material class="material_type form-control calculate">
                                         <option value="">Избери</option>
                                 
                                         @foreach($materials as $material)
@@ -90,21 +90,23 @@ aria-hidden="true">
                                                 <option value="{{ $material->id }}" data-material="{{ $material->material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
                                             @endif
                                         @endforeach
+
                                     </select>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="">Грамаж</label>
-                                    <input type="number" id="" class="form-control" value="0" name="weight[]" placeholder="">
+                                    <input type="number" id="" class="form-control" value="0" name="weight[]" placeholder="" data-weight>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="">Цена на грамаж</label>
-                                    <select id="" name="material_price[]" class="form-control">
-                                        <!-- ADD PRICE OPTIONS -->
+                                    <!-- AUTO GENERATED FROM JS -->
+                                    <select id="retail_prices" name="retail_price_id[]" class="form-control calculate prices-filled retail-price" data-calculateprice-retail disabled>
+                                        <option value="0">Избери</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="">Стойност на м.</label>
-                                    <input type="number" id="" class="form-control" value="0" name="calculated_material[]" placeholder="">
+                                    <input type="number" id="" class="form-control" value="0" name="calculated_material[]" placeholder="" data-calculateprice-final readonly>
                                 </div>
 
                                 <div class="form-group col-md-1">
@@ -116,7 +118,7 @@ aria-hidden="true">
                         <div class="exchange-row-total form-row">
                             <div class="form-group col-md-8">
                                 <label for="given-sum">Дължима сума</label>
-                                <input type="number" id="" class="form-control" value="0" name="" placeholder="Дължима сума" readonly>
+                                <input type="number" id="" class="form-control" value="0" name="exchangeRows-total" placeholder="Дължима сума" data-exchangeRows-total readonly>
                             </div>
                         </div>
 
