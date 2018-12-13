@@ -24,4 +24,24 @@ class Order extends Model
     ];
 
     protected $table = 'orders';
+
+    public function model()
+    {
+        return $this->belongsTo('App\Model');
+    }
+
+    public function product()
+    {
+        return $this->belongsTo('App\Product');
+    }
+
+    public function jewel()
+    {
+        return $this->belongsTo('App\Jewel');
+    }
+
+    public function retailPrice()
+    {
+        return $this->belongsTo('App\Price')->withTrashed();
+    }
 }

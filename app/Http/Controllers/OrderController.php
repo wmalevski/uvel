@@ -103,8 +103,8 @@ class OrderController extends Controller
             'workmanship' => 'required|numeric|between:0.1,500000',
             'price' => 'required|numeric|between:0.1,500000',
             'store_id' => 'required|numeric',
-            'earnest' => 'required|numeric',
-            'safe_group' => 'required|numeric',
+            'earnest' => 'numeric|nullable',
+            'safe_group' => 'numeric|nullable',
         ]); 
 
         if ($validator->fails()) {
@@ -123,9 +123,10 @@ class OrderController extends Controller
         $model = Model::find($request->model_id);
         
         $order = new Order();
-        $order->name = $model->name;
+        //$order->name = $model->name;
         $order->model_id = $request->model_id;
         $order->jewel_id = $request->jewel_id;
+        $order->product_id = $request->product_id;
         $order->material_id = $request->material_id;
         $order->weight = $request->weight;
         $order->gross_weight = $request->gross_weight;
@@ -138,8 +139,8 @@ class OrderController extends Controller
         //$bar = '380'.unique_number('products', 'barcode', 7).'1'; 
         $order->earnest = $request->earnest;
 
-        $material->quantity = $material->quantity - $request->weight;
-        $material->save();
+        // $material->quantity = $material->quantity - $request->weight;
+        // $material->save();
 
         if($request->with_stones == 'false'){
             $order->weight_without_stones = 'no';
@@ -199,57 +200,57 @@ class OrderController extends Controller
 
         if($request->stones){
             if($stoneQuantity == 1){
-                $product->save();
+                $order->save();
                 foreach($request->stones as $key => $stone){
                     if($stone) {
-                        $product_stones = new ProductStone();
-                        $product_stones->product_id = $product->id;
-                        $product_stones->model_id = $request->model_id;
-                        $product_stones->stone_id = $stone;
-                        $product_stones->amount = $request->stone_amount[$key];
-                        $product_stones->weight = $request->stone_weight[$key];
+                        $order_stones = new OrderStone();
+                        $order_stones->order_id = $order->id;
+                        $order_stones->model_id = $request->model_id;
+                        $order_stones->stone_id = $stone;
+                        $order_stones->amount = $request->stone_amount[$key];
+                        $order_stones->weight = $request->stone_weight[$key];
                         if($request->stone_flow[$key] == 'true'){
-                            $product_stones->flow = 'yes';
+                            $order_stones->flow = 'yes';
                         }else{
-                            $product_stones->flow = 'no';
+                            $order_stones->flow = 'no';
                         }
-                        $product_stones->save();
+                        $order_stones->save();
                     }
                 }
             }
         }else{
-            $product->save();
+            $order->save();
         }
 
-        $file_data = $request->input('images'); 
-        if($file_data){
-            foreach($file_data as $img){
-                $memi = substr($img, 5, strpos($img, ';')-5);
+        // $file_data = $request->input('images'); 
+        // if($file_data){
+        //     foreach($file_data as $img){
+        //         $memi = substr($img, 5, strpos($img, ';')-5);
                 
-                $extension = explode('/',$memi);
-                if($extension[1] == "svg+xml"){
-                    $ext = 'png';
-                }else{
-                    $ext = $extension[1];
-                }
+        //         $extension = explode('/',$memi);
+        //         if($extension[1] == "svg+xml"){
+        //             $ext = 'png';
+        //         }else{
+        //             $ext = $extension[1];
+        //         }
                 
 
-                $file_name = 'productimage_'.uniqid().time().'.'.$ext;
+        //         $file_name = 'productimage_'.uniqid().time().'.'.$ext;
 
-                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                file_put_contents(public_path('uploads/products/').$file_name, $data);
+        //         $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+        //         file_put_contents(public_path('uploads/products/').$file_name, $data);
 
-                Storage::disk('public')->put('products/'.$file_name, file_get_contents(public_path('uploads/products/').$file_name));
+        //         Storage::disk('public')->put('products/'.$file_name, file_get_contents(public_path('uploads/products/').$file_name));
 
-                $photo = new Gallery();
-                $photo->photo = $file_name;
-                $photo->product_id = $product->id;
-                $photo->table = 'products';
-                $photo->save();
-            }
-        }
+        //         $photo = new Gallery();
+        //         $photo->photo = $file_name;
+        //         $photo->product_id = $product->id;
+        //         $photo->table = 'products';
+        //         $photo->save();
+        //     }
+        // }
         
-        return Response::json(array('success' => View::make('admin/orders/table',array('product'=>$product, 'order' => $order))->render()));
+        return Response::json(array('success' => View::make('admin/orders/table',array('order' => $order))->render()));
     }
 
     /**
@@ -258,7 +259,7 @@ class OrderController extends Controller
      * @param  \App\Product  $products
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $products)
+    public function show(Order $order)
     {
         //
     }
