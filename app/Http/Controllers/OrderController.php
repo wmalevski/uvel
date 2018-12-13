@@ -300,12 +300,12 @@ class OrderController extends Controller
             $prices = Price::where('type', 'sell')->get();
             $stones = Stone::all();
     
-            $photos = Gallery::where(
-                [
-                    ['table', '=', 'orders'],
-                    ['order_id', '=', $order->id]
-                ]
-            )->get();
+            // $photos = Gallery::where(
+            //     [
+            //         ['table', '=', 'orders'],
+            //         ['order_id', '=', $order->id]
+            //     ]
+            // )->get();
 
             $validator = Validator::make( $request->all(), [
                 'jewel_id' => 'required',
@@ -356,6 +356,8 @@ class OrderController extends Controller
             $order->size = $request->size;
             $order->workmanship = $request->workmanship;
             $order->price = $request->price;
+            $order->store_id = $request->store_id;
+            $order->earnest = $request->earnest;
             $order->store_id = $request->store_id;
 
             if($request->with_stones == 'false'){
@@ -422,7 +424,7 @@ class OrderController extends Controller
             }
 
          
-            return Response::json(array('table' => View::make('admin/orders/table',array('order' => $order))->render(), 'ID' => $product->id));
+            return Response::json(array('table' => View::make('admin/orders/table',array('order' => $order))->render(), 'ID' => $order->id));
         }  
     }
 

@@ -72,6 +72,7 @@ class Product extends Model
             $jewels = Jewel::all();
             $model_stones = $model->stones;
             $model_photos = $model->photos;
+            $models = Model::all();
             
             if($default){
                 $retail_prices = $default->material->material->pricesBuy; 
@@ -121,6 +122,22 @@ class Product extends Model
                     'flow' => $stone->flow,
                     'type' => $stone->type,
                     'price' => $stone->price
+                ];
+            }
+
+            $pass_models = array();
+
+            foreach($models as $modelp){
+                if($model->id == $modelp->id){
+                    $selected = true;
+                }else{
+                    $selected = false;
+                }
+
+                $pass_models[] =[
+                    'value' => $modelp->id,
+                    'label' => $modelp->name,
+                    'selected' => $selected
                 ];
             }
 
@@ -196,6 +213,7 @@ class Product extends Model
                 'materials' => $pass_materials,
                 'photos' => $pass_photos,
                 'pricebuy' => $default->material->material->pricesBuy->first()->price,
+                'models' => $models
             );
             }
         }
