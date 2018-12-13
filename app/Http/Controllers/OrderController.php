@@ -22,6 +22,7 @@ use App\Material;
 use App\Store;
 use App\MaterialQuantity;
 use Storage;
+use App\OrderStone;
 use Auth;
 
 class OrderController extends Controller
@@ -292,19 +293,19 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        if($product){
-            $product_stones = ProductStone::where('product_id', $product)->get();
+        if($order){
+            $order_stones = OrderStone::where('order_id', $order)->get();
             $models = Model::all();
             $jewels = Jewel::all();
             $prices = Price::where('type', 'sell')->get();
             $stones = Stone::all();
     
-            $photos = Gallery::where(
-                [
-                    ['table', '=', 'products'],
-                    ['product_id', '=', $product->id]
-                ]
-            )->get();
+            // $photos = Gallery::where(
+            //     [
+            //         ['table', '=', 'orders'],
+            //         ['order_id', '=', $order->id]
+            //     ]
+            // )->get();
 
             $validator = Validator::make( $request->all(), [
                 'jewel_id' => 'required',
@@ -321,7 +322,7 @@ class OrderController extends Controller
                 return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
             }
 
-            $currentMaterial = MaterialQuantity::withTrashed()->find($product->material);
+            $currentMaterial = MaterialQuantity::withTrashed()->find($order->material);
 
             if($request->material != $order->material){
                 $newMaterial = MaterialQuantity::withTrashed()->find($request->material);
@@ -355,6 +356,8 @@ class OrderController extends Controller
             $order->size = $request->size;
             $order->workmanship = $request->workmanship;
             $order->price = $request->price;
+            $order->store_id = $request->store_id;
+            $order->earnest = $request->earnest;
             $order->store_id = $request->store_id;
 
             if($request->with_stones == 'false'){
@@ -421,7 +424,7 @@ class OrderController extends Controller
             }
 
          
-            return Response::json(array('table' => View::make('admin/orders/table',array('order' => $order))->render(), 'ID' => $product->id));
+            return Response::json(array('table' => View::make('admin/orders/table',array('order' => $order))->render(), 'ID' => $order->id));
         }  
     }
 
