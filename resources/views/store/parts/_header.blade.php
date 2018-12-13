@@ -122,7 +122,7 @@
                                     </li>
                                     <li class="nav-item dropdown">
 										<a href="{{ route('products') }}" class="dropdown-toggle dropdown-link" data-toggle="dropdown">
-										<span>Бижута</span>
+										<span>Налични Бижута</span>
 										<i class="fa fa-caret-down"></i>
 										<i class="sub-dropdown1 visible-sm visible-md visible-lg"></i>
 										<i class="sub-dropdown visible-sm visible-md visible-lg"></i>
