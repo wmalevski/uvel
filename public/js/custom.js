@@ -135,7 +135,7 @@ var uvel,
 			},
 			orders: {
 				selector: '[name="orders"]',
-        controllers: ['addStonesInit', 'addAnother', 'manualReceipt', 'modelRequestInit'],
+        controllers: ['addStonesInit', 'addAnother', 'manualReceipt', 'modelRequestInit', 'barcodeInput'],
         initialized: false
 			}
     };
@@ -448,6 +448,7 @@ var uvel,
     }
 
     this.submitForm = function(form) {
+			debugger;
       var submitButton = form.find('[type="submit"]'),
           ajaxRequestLink = $self.buildAjaxRequestLink('submitForm', form.attr('action')),
           formType = form.attr('data-type');
@@ -554,10 +555,9 @@ var uvel,
       imagesContainer.empty();
     }
 
-
     this.sendFormRequest = function(form, ajaxRequestLink, formType, data) {
 			var requestUrl =  ajaxRequestLink;
-
+			debugger;
 			$.ajax({
 				method: "POST",
 				url: requestUrl,
@@ -1167,6 +1167,7 @@ var uvel,
     }
 
     this.materialPricesRequestBuilder = function(form, _this) {
+			debugger;
       var ajaxUrl = window.location.origin + '/ajax/getPrices/',
           materialType = _this.find(':selected').val(),
           materialAttribute = _this.find(':selected').attr('data-material'),
@@ -1192,6 +1193,7 @@ var uvel,
         requestLink += '/' + modelId;
 			} else if (formName == 'orders') {
 				// tuk noviq kod za Orders
+				debugger;
 				var modelId = form.find('[data-calculatePrice-model] option:selected').val();
         requestLink += '/' + modelId;
 			} else {
@@ -1251,28 +1253,22 @@ var uvel,
     }
 
 		/* При избор на модел от падащото меню се прави тази заявка */
-    this.modelRequest = function(form) {
-			debugger;
-			/** URL-то според зависи коя форма е */
-
-			/**
-			 * В момента на Orders урл-то си го взима от селект менюто,
-			 * обаче на Products урл-то е на самата форма а не на селектора
-			 */
+		this.modelRequest = function (form) {
 			var selectMenu = form.find('[data-calculatePrice-model]');
-
-      var ajaxUrl = window.location.origin + '/' + selectMenu.attr('url');
+			var ajaxUrl = window.location.origin + '/' + selectMenu.attr('url');
 			var modelId = selectMenu.val();
 
-
-
-      var requestLink = ajaxUrl + modelId;
+			var requestLink = ajaxUrl + modelId;
 			debugger;
-      $self.ajaxFn('GET' , requestLink , $self.modelRequestResponseHandler, '', form);
+			$self.ajaxFn('GET', requestLink, $self.modelRequestResponseHandler, '', form);
     }
 
     this.modelRequestResponseHandler = function(response, form) {
 			debugger;
+
+			// data-current-model-id //
+
+
 			/* Borislav 12.12.2018 */
 			// tuka sega da ima nqkakvo razgrani4avane dali requesta idva za Products form-ata, ili za Orders form-ata
 			// v byde6te moje da ima i drugi form-i koito da poluva4at toq response
@@ -1551,6 +1547,7 @@ var uvel,
 		}
 
 		/* Borislav 11.12.2018 */
+		// TODO
 		this.manualReceipt = function(form) {
 			var btnManualReceipt = form.find('[data-manual-receipt]');
 
@@ -1558,6 +1555,22 @@ var uvel,
 				event.preventDefault();
 				var manualReceipt = form.find('')
       });
+		}
+
+		this.barcodeInput = function(form) {
+			var barcodeInput = form.find('#calculate_product');
+
+			barcodeInput.on('input', function(event) {
+				if (event.currentTarget.value.length >= 13) {
+					// TODO possible bug with window.location.origin, to be tested with different url-s
+					var urlOrigin = window.location.origin,
+							inputUrl = event.currentTarget.attributes.url.value,
+							inputValue = event.currentTarget.value;
+
+					var ajaxUrl = urlOrigin + '/' + inputUrl + inputValue;
+					$self.ajaxFn('GET', ajaxUrl, $self.modelRequestResponseHandler, '', form);
+				}
+			})
 		}
 
 		this.addAnother = function(form) {
@@ -1807,6 +1820,7 @@ var uvel,
             path = _this.attr('data-url'),
             ajaxUrl = urlTaken[0] + '//' + urlTaken[2] + '/ajax/' + path;
 
+				debugger;
         $self.ajaxFn('GET', ajaxUrl, $self.barcodeProcessReturnResponse,'','',_this);
       })
     }
@@ -1847,7 +1861,7 @@ var uvel,
           token = $self.formsConfig.globalSettings.token;
 
       xhttp.open(method, url, true);
-
+debugger
       xhttp.onreadystatechange = function () {
         if(this.readyState == 4 && this.status == 200) {
           if($self.IsJsonString(this.responseText)){
