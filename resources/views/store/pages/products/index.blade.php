@@ -12,7 +12,7 @@ aria-hidden="true">
 <div id="content-wrapper-parent">
 		<div id="content-wrapper">
 			<!-- Content -->
-			<div id="content" class="clearfix">
+			<div id="content" class="catalog clearfix">
 				<div id="breadcrumb" class="breadcrumb">
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
