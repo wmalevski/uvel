@@ -20,47 +20,44 @@
         
         <div class="footer-content footer-content-top clearfix">
             <div class="container">
-                <div class="footer-link-list col-md-6">
+                <div class="footer-link-list col-md-8">
                     <div class="group">
                     <h5 class="general-title">За нас</h5>						
-                    <ul class="list-unstyled list-styled">						  
-                        <li class="list-unstyled">
-                        <a href="{{ route('warranty') }}">Гарация</a>
-                        </li>						  
-                        <li class="list-unstyled">
-                        <a href="{{ route('storePrices') }}">Цени</a>
-                        </li>						  
+                    <ul class="list-unstyled list-styled">						  						  
                         <li class="list-unstyled">
                         <a href="{{ route('contactus') }}">Контакт</a>
-                        </li>						  						  
+                        </li>	
+                        <li class="list-unstyled">
+                        <a href="{{ route('about') }}">За нас</a>
+                        </li>							  						  
                     </ul>
                     </div>
                 </div>   
-                <div class="footer-link-list col-md-6">
+                <div class="footer-link-list col-md-8">
                     <div class="group">
                     <h5 class="general-title">Информация</h5>						
                     <ul class="list-unstyled list-styled">						  
                         <li class="list-unstyled">
-                        <a href="./account.html">Магазини</a>
+                        <a href="{{ route('stores') }}">Магазини</a>
                         </li>						  
                         <li class="list-unstyled">
                         <a href="./account.html">Политика за поверителност</a>
                         </li>						  
                         <li class="list-unstyled">
-                        <a href="./account.html"Карта на сайта</a>
+                        <a href="./account.html">Карта на сайта</a>
                         </li>						  					  
                     </ul>
                     </div>
                 </div>
-                <div class="footer-link-list col-md-6">
+                <div class="footer-link-list col-md-8">
                     <div class="group">
                     <h5 class="general-title">Акаунт</h5>						
                     <ul class="list-unstyled list-styled">						  
                         <li class="list-unstyled">
-                        <a href="./account.html">Преференции</a>
+                        <a href="{{ route('user_settings') }}">Преференции</a>
                         </li>						  
                         <li class="list-unstyled">
-                        <a href="./account.html">История на поръчките</a>
+                        <a href="{{ route('user_account') }}">История на поръчките</a>
                         </li>						  
                         <li class="list-unstyled">
                         <a href="{{ route('login') }}">Логин</a>
@@ -68,25 +65,6 @@
                     </ul>
                     </div>
                 </div>
-                <div class="footer-link-list col-md-6">
-                    <div class="group">
-                    <h5 class="general-title">Клиенти</h5>						
-                    <ul class="list-unstyled list-styled">						  
-                        <li class="list-unstyled">
-                            <a href="./search.html">Search Advanced</a>
-                        </li>						  
-                        <li class="list-unstyled">
-                            <a href="#">Return Policy</a>
-                        </li>						  
-                        <li class="list-unstyled">
-                            <a href="#">Privacy Policy</a>
-                        </li>						  
-                        <li class="list-unstyled">
-                            <a href="#">Help &amp; Contact</a>
-                        </li>						  
-                    </ul>
-                    </div>
-                </div>   
             </div>
         </div>
         <div class="footer-content footer-content-bottom clearfix">

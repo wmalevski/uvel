@@ -31,6 +31,11 @@ Breadcrumbs::register('register', function ($breadcrumbs) {
     $breadcrumbs->push('Регистрация', route('register'));
 });
 
+Breadcrumbs::register('stores', function ($breadcrumbs) {
+    $breadcrumbs->parent('store');
+    $breadcrumbs->push('Магазини', route('stores'));
+});
+
 Breadcrumbs::register('settings', function ($breadcrumbs) {
     $breadcrumbs->parent('store');
     $breadcrumbs->push('Настройки', route('settings'));
