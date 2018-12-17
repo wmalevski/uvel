@@ -52,17 +52,14 @@
                                             <label class="control-label" for="name">Вашето име <span class="req">*</span></label>
                                             <input type="text" id="name" value="" class="form-control" name="name">
                                             </li>
-                                            <li class="clearfix"></li>
                                             <li class="">
                                             <label class="control-label" for="email">Вашият Email <span class="req">*</span></label>
                                             <input type="email" id="email" value="" class="form-control email" name="email">
                                             </li>
-                                            <li class="clearfix"></li>
                                             <li class="">
                                             <label class="control-label" for="message">Съобщение <span class="req">*</span></label>
                                             <textarea id="message" rows="5" class="form-control" name="message"></textarea>
                                             </li>
-                                            <li class="clearfix"></li>
                                             @captcha
                                             <li class="unpadding-top">
                                             <button type="submit" class="btn">Изпратете</button>
