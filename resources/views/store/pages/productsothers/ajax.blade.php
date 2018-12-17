@@ -1,4 +1,4 @@
-<li class="element first no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}">
+<li class="element first @if($listType == 'goList') full_width @else no_full_width @endif" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}">
         <ul class="row-container list-unstyled clearfix">
             <li class="row-left">
             <a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">

@@ -66,7 +66,7 @@ class ProductOtherController extends BaseController
 
         $response = '';
         foreach($products as $product){
-            $response .= \View::make('store/pages/productsothers/ajax', array('product' => $product));
+            $response .= \View::make('store/pages/productsothers/ajax', array('product' => $product, 'listType' => $request->listType));
         }
 
         return $response;

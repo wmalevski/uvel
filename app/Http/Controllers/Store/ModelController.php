@@ -54,7 +54,7 @@ class ModelController extends BaseController
 
         $response = '';
         foreach($products as $product){
-            $response .= \View::make('store/pages/models/ajax', array('model' => $product));
+            $response .= \View::make('store/pages/models/ajax', array('model' => $product, 'listType' => $request->listType));
         }
 
         return $response;
