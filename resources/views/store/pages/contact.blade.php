@@ -75,12 +75,17 @@
 																		<i class="fa fa-home"></i>
 																		Информация за контакти
 																	</h6>
-																	<ul class="right-content">
+																	<ul class="right-content contact">
 																			<li class="title">
 																				<h6>Адрес на офисите</h6>
 																			</li>
-																			<li class="address">София, бул. "Княгиня Мария Луиза" 125</li>
-																			<li class="phone">+359 888 770 160</li>
+																			<li class="address">
+																				<i class="fa fa-map-marker"></i>
+																				София, бул. "Княгиня Мария Луиза" 125
+																			</li>
+																			<li class="phone">
+																				<i class="fa fa-phone"></i>
+																				+359 888 770 160</li>
 																			<li class="email">
 																				<i class="fa fa-envelope"></i>
 																				uvelgold@gmail.com

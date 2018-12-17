@@ -111,6 +111,12 @@
 	display: inline-block;
 }
 
+.contact-page .right-content.contact .fa {
+	display: inline-block;
+	width: 15px;
+	text-align: center;
+}
+
 
 
 /* https://trello.com/c/sQ8jcrBM/17-home-page-categories */
