@@ -282,3 +282,48 @@
 .page-wishlist .wishlist-item .remove .fa-times {
 	font-size: 24px;
 }
+
+/* https://trello.com/c/uWoK8eCN/55-product-view-desktop */
+.view-product .alert {
+	text-align: center;
+	font-size: 16px;
+}
+
+/* https://trello.com/c/iVKpDXGt/54-product-view-mobile */
+@media (max-width: 480px) {
+	.view-product #page-title {
+		margin: 0 0 25px 0;
+	}
+
+	.view-product #product .image {
+		padding: 0;
+	}
+
+	.view-product #product .slide-product-image {
+		margin: 0;
+	}
+
+	.view-product #product .owl-item {
+		padding: 15px 0 0 0;
+	}
+
+	.view-product #product #detail-right-column {
+		padding: 0;
+	}
+
+	.view-product #add-to-cart {
+		width: 100% !important;
+	}
+
+	.view-product .spr-button {
+		width: 100%;
+	}
+}
+
+
+
+
+
+
+
+

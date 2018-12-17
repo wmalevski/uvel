@@ -2,9 +2,9 @@
 
 @section('content')
 	<div id="content-wrapper-parent">
-		<div id="content-wrapper">  
+		<div id="content-wrapper">
 			<!-- Content -->
-			<div id="content" class="clearfix">        
+			<div id="content" class="clearfix">
 				<div id="breadcrumb" class="breadcrumb">
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
@@ -13,7 +13,7 @@
 							</div>
 						</div>
 					</div>
-				</div>         
+				</div>
 				<section class="content">
 					<div class="container">
 						<div class="row" style="margin-top: 20px;">
@@ -24,7 +24,7 @@
 											<li>{{ $error }}</li>
 										@endforeach
 									</ul>
-								@endif 
+								@endif
 
 								@if(session()->has('success'))
 									<div class="alert alert-success">
@@ -33,15 +33,15 @@
 								@endif
 							</div>
 						</div>
-						<div class="row">              
+						<div class="row">
 							<div id="col-main" class="product-page col-xs-24 col-sm-24 ">
 								<div itemscope="" itemtype="http://schema.org/Product">
 									<meta itemprop="url" content="/products/donec-condime-fermentum">
-									<div id="product" class="content clearfix">      
+									<div id="product" class="content clearfix">
 										<h1 id="page-title" class="text-center">
                                             <span itemprop="name">{{ $product->name }}</span>
 										</h1>
-										<div id="product-image" class="product-image row ">     
+										<div id="product-image" class="product-image row ">
 											<div id="detail-left-column" class="hidden-xs left-coloum col-sm-6 col-sm-6 fadeInRight not-animated" data-animate="fadeInRight">
 												<div id="gallery_main" class="product-image-thumb thumbs full_width ">
 													<ul class="slide-product-image">
@@ -56,13 +56,13 @@
 														@endif
 													</ul>
 												</div>
-											</div>      
-											<div class="image featured col-smd-12 col-sm-12 fadeInUp not-animated" data-animate="fadeInUp"> 
+											</div>
+											<div class="image featured col-smd-12 col-sm-12 fadeInUp not-animated" data-animate="fadeInUp">
 												@if($product->photos) <img src="{{ asset("uploads/products/" . $product->photos->first()['photo']) }}" alt="{{ $product->name }}"> @endif
 											</div>
 											<div id="gallery_main_mobile" class="visible-xs product-image-thumb thumbs mobile_full_width ">
 												<ul style="opacity: 0; display: block;" class="slide-product-image owl-carousel owl-theme">
-													@if($product->photos) 
+													@if($product->photos)
 														@foreach($product->photos as $image)
 															<li class="image">
 																<a href="{{ asset("uploads/products/" . $image->photo) }}" class="cloud-zoom-gallery active">
@@ -72,16 +72,16 @@
 														@endforeach
 													@endif
 												</ul>
-											</div>        
+											</div>
 											<div id="detail-right-column" class="right-coloum col-sm-6 fadeInLeft not-animated" data-animate="fadeInLeft">
 												<div class="addthis_sharing_toolbox" data-url="#" data-title="Donec aliquam ante non | Jewelry - HTML Template">
 													<div id="atstbx" class="at-share-tbx-element addthis_32x32_style addthis-smartlayers addthis-animated at4-show">
 														<a class="at-share-btn at-svc-facebook"><span class="at4-icon aticon-facebook" title="Facebook"></span></a><a class="at-share-btn at-svc-twitter"><span class="at4-icon aticon-twitter" title="Twitter"></span></a><a class="at-share-btn at-svc-email"><span class="at4-icon aticon-email" title="Email"></span></a><a class="at-share-btn at-svc-print"><span class="at4-icon aticon-print" title="Print"></span></a><a class="at-share-btn at-svc-compact"><span class="at4-icon aticon-compact" title="More"></span></a>
 													</div>
 												</div>
-											</div>      
+											</div>
 										</div>
-										<div id="product-information" class="product-information row text-center ">        
+										<div id="product-information" class="product-information row text-center ">
 											<div id="product-header" class="clearfix">
 												<div id="product-info-left">
 													<div class="description">
@@ -114,10 +114,10 @@
 															</li>
 														</ul>
 													</div> --}}
-												</div>          
-												<div id="product-info-right">     
+												</div>
+												<div id="product-info-right">
 													<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="col-sm-24 group-variants">
-														<meta itemprop="priceCurrency" content="USD">              
+														<meta itemprop="priceCurrency" content="USD">
 														<link itemprop="availability" href="http://schema.org/InStock">
 														<form action="./cart.html" method="post" class="variants" id="product-actions">
 															<div id="product-actions-1293235843" class="options clearfix">
@@ -141,7 +141,7 @@
 																		</span>
 																		</span>
 																	</div>
-																</div>																
+																</div>
 																<div id="purchase-1293235843">
 																	<div class="detail-price" itemprop="price">
 																		<span class="price">{{ $product->price }} лв</span>
@@ -157,8 +157,8 @@
 															<a class="wish-list" href="#" data-url="{{ route('wishlists_store', ['type' => 'product_other', 'item' => $product->id]) }}"><i class="fa fa-heart"></i> Добави в желани</a>
 															<span>|</span>
 															<a href="mailto:info@yourdomain.com"><i class="fa fa-envelope"></i> Изпрати по email</a>
-														</div>                                          
-													</div>                        
+														</div>
+													</div>
 													<ul id="tabs_detail" class="tabs-panel-detail hidden-xs hidden-sm">
 														<li class="first">
 															<h5><a href="#pop-one" class="fancybox">Информация за обмяна</a></h5>
@@ -169,7 +169,7 @@
 														<li>
 															<h5><a href="#pop-three" class="fancybox">Таблица с размери</a></h5>
 														</li>
-													</ul>             
+													</ul>
 													<div id="pop-one" style="display: none;">
 														<img src="./assets/images/demo_870x580.png" alt="">
 													</div>
@@ -186,7 +186,7 @@
 													</div>
 													<div id="pop-three" style="display: none;">
 														<img src="./assets/images/demo_870x580.png" alt="">
-													</div>                
+													</div>
 												</div>
 											</div>
 										</div>
@@ -213,9 +213,9 @@
 															@for($i = 1; $i <= 5; $i++)
 																@if(round($product->getProductOtherAvgRating($product)) >= $i)
 																	<i class="spr-icon spr-icon-star" style=""></i>
-																@elseif(round($product->getProductOtherAvgRating($product)) < $i) 
+																@elseif(round($product->getProductOtherAvgRating($product)) < $i)
 																	<i class="spr-icon spr-icon-star-empty" style=""></i>
-																@endif																			
+																@endif
 															@endfor
 														</span>
 														@if(count($product->reviews) >= 1)
@@ -254,7 +254,7 @@
 																<div class="spr-form-review-body">
 																	<label class="spr-form-label" for="review_body_{{$product->id}}">Описание <span class="spr-form-review-body-charactersremaining">(1500)</span></label>
 																	<div class="spr-form-input">
-																		<textarea class="spr-form-input spr-form-input-textarea " id="review_body_{{$product->id}}" data-product-id="{{$product->id}}" name="content" rows="10" placeholder="Добавете вашият коментар за ревюто тук"></textarea>																				
+																		<textarea class="spr-form-input spr-form-input-textarea " id="review_body_{{$product->id}}" data-product-id="{{$product->id}}" name="content" rows="10" placeholder="Добавете вашият коментар за ревюто тук"></textarea>
 																	</div>
 																</div>
 															</fieldset>
@@ -273,10 +273,10 @@
 																		@for($i = 1; $i <= 5; $i++)
 																			@if($review->rating >= $i)
 																				<i class="spr-icon spr-icon-star" style=""></i>
-																			@elseif($review->rating < $i) 
+																			@elseif($review->rating < $i)
 																				<i class="spr-icon spr-icon-star-empty" style=""></i>
-																			@endif																			
-																		@endfor																		
+																			@endif
+																		@endfor
 																	</span>
 																	<h3 class="spr-review-header-title">{{$review->title}}</h3>
 																	<span class="spr-review-header-byline">
@@ -296,11 +296,11 @@
 													</div>
 												</div>
 											</div>
-										</div>				
+										</div>
 									</div>
-								</div>         
+								</div>
 								<!-- Related Products -->
-								<section class="rel-container clearfix">  
+								<section class="rel-container clearfix">
 									<h6 class="general-title text-left">Подобни продукти, които може да ви харесат</h6>
 									<div id="prod-related-wrapper">
 										<div class="prod-related clearfix">
@@ -319,7 +319,7 @@
 													<div class="product-content-left">
                                                         <a class="title-5" href="{{ route('single_product_other', ['product' => $product->id])  }}">{{ $product->name }}</a>
 														<span class="spr-badge" id="spr_badge_{{$product->id}}" data-rating="{{$product->getProductOtherAvgRating($product)}}">
-														@if($product->getProductOtherAvgRating($product) > 0)	
+														@if($product->getProductOtherAvgRating($product) > 0)
 															<span class="spr-starrating spr-badge-starrating">
 																{{$product->listProductOtherAvgRatingStars($product)}}
 															</span>
@@ -346,7 +346,7 @@
 														</form>
 														<div class="product-ajax-qs hidden-xs hidden-sm">
 															<div data-handle="curabitur-cursus-dignis" data-barcode="{{ $product->barcode }}" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
-																<i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																	
+																<i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>
 															</div>
 														</div>
 														<a class="wish-list" href="#" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}" title="wish list"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>
@@ -355,15 +355,15 @@
 												</ul>
                                             </div>
                                             @endforeach
-										</div>	
-									</div>										
+										</div>
+									</div>
 								</section>
 							</div>
 						</div>
 					</div>
-				</section>	
+				</section>
 			</div>
 	    </div>
-	</div>  
-	
+	</div>
+
 @endsection
