@@ -15,12 +15,12 @@
 						</div>
 					</div>
 					<section class="content">
-						<div class="container">
+						<div class="blog-container container">
 							<div class="row">
 								<div id="page-header" class="col-md-24">
 									<h1 id="page-title">Блог</h1>
 								</div>
-								<div class="col-md-12">
+								<div class="col-md-12 lang">
 									@foreach(config('translatable.locales') as $locale => $language)
 										<a href="{{route('translated_articles', ['locale'=>$locale])}}">
 											<span>
@@ -37,20 +37,15 @@
 											<article class="blogs-item article-content">
 												<div class="blogs-image">
 													@if(!empty($lng))
-													<a href="{{ route('single_translated_article', ['locale'=>$lng, 'product' => $article->slug])  }}">
-														<img src="{{ asset("uploads/blog/" . $article->thumbnail) }}" >
+													<a
+														href="{{ route('single_translated_article', ['locale'=>$lng, 'product' => $article->slug])  }}"
+														style="background-image: url('{{ asset("uploads/blog/".$article->thumbnail) }}')">
+														<!--<img src="{{ asset("uploads/blog/" . $article->thumbnail) }}" >-->
 													</a>
 													@endif
 												</div>
 												<div class="title-container">
-													<div class="date-container">
-														<div class="date">
-															<p>
-																<small>{{ $article->created_at->format('M') }}</small>
-																<span>{{ $article->created_at->format('d') }}</span>
-															</p>
-														</div>
-													</div>
+
 													<div class="article-title-container">
 														<h4 class="article-title">
 															<a href="{{ route('single_translated_article', ['locale'=>$lng, 'product' => $article->slug])  }}">
@@ -58,13 +53,21 @@
 															</a>
 														</h4>
 													</div>
+
+													<div class="author-container">
+														<li class="author">{{ $article->author()->name }}</li>
+														<div class="date-container">
+															<i class="far fa-clock"></i>
+															<span>{{ $article->created_at->format('M') }}</span>
+															<span>{{ $article->created_at->format('d') }}</span>
+														</div>
+													</div>
+
 												</div>
 												<div class="intro">
 													{{ str_limit($article->excerpt, 220) }}
 												</div>
 												<ul class="post list-inline">
-													<li class="author">{{ $article->author()->name }}</li>
-													<li>/</li>
 													<li class="comment">
 													<a href="{{ route('single_translated_article', ['locale'=>$lng, 'product' => $article->slug])  }}">
 														<span>{{count($article->comments())}}</span>

@@ -130,6 +130,7 @@
 	height: 300px;
 }
 
+
 .blog-page .post {
 	margin: 0;
 }
@@ -138,6 +139,8 @@
 	position: relative;
 	height: 100%;
 	overflow: hidden;
+	background-size: cover;
+	background-position: center center;
 }
 
 .blog-page .blogs-image img {
@@ -147,9 +150,25 @@
 	transform: translate(-50%, -50%);
 }
 
-.blog-page .date-container {
+.blog-page .author-container {
+	width: auto;
+	margin-bottom: 10px;
+}
+
+.blog-page .author-container .author {
 	display: inline-block;
-	width: 20%;
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+.blog-page .blogs-item .comment {
+	margin: 0;
+	padding: 0;
+}
+
+.blog-page .author-container .date-container {
+	display: inline-block;
+	width: auto;
 }
 
 .blog-page .article-title a {
@@ -157,8 +176,6 @@
 }
 
 .blog-page .article-title-container {
-	display: inline-block;
-	width: 80%;
 	height: 80px;
 	vertical-align: top;
 }
@@ -177,6 +194,12 @@
 	margin-bottom: 16px;
 	overflow: hidden;
 }
+
+.blog-container .lang {
+	margin: 0;
+	padding: 0;
+}
+
 
 /* https://trello.com/c/SGjOXvcD/35-homepage-mobile */
 .home-slider-wrapper .camera_prev span, .home-slider-wrapper .camera_next span {
