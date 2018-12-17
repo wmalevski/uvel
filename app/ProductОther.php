@@ -64,7 +64,7 @@ class ProductOther extends Model
             if ($request->byType) {
                 $query = $query->whereIn('type_id', $request->byType);
             }
-        })->where('status', 'available')->paginate(12);
+        })->where('quantity', '>' , 0)->paginate(12);
 
         return $query;
     }

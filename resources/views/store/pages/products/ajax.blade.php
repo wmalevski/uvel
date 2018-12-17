@@ -4,6 +4,10 @@
             <a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">
             <img src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif" class="img-responsive" alt="{{ $product->name }}">
             </a>
+            <div class="">
+                    No: {{ $product->code }} <br/>
+                    {{ $product->weight }}гр. <br/>
+                </div>
             <div class="hbw">
                 <span class="hoverBorderWrapper"></span>
             </div>
@@ -11,17 +15,19 @@
             <li class="row-right parent-fly animMix">
             <div class="product-content-left">
                 <a class="title-5" href="{{ route('single_product', ['product' => $product->id])  }}">{{ $product->name }}</a>
-                <span class="spr-badge" id="spr_badge_12932382113" data-rating="0.0">
-                <span class="spr-starrating spr-badge-starrating">@if(count($product->reviews) > 0)
-                        <span class="spr-starrating spr-badge-starrating">
-                            {{$product->listProductOtherAvgRatingStars($product)}}
+                <div class="">
+                        No: {{ $product->code }} <br/>
+                        {{ $product->weight }}гр. <br/>
+                    </div>
+                    <span class="spr-badge" id="spr_badge_12932382113" data-rating="{{$product->getProductAvgRating($product)}}">
+                            @if(count($product->reviews) > 0)
+                                <span class="spr-starrating spr-badge-starrating">
+                                    {{$product->listProductAvgRatingStars($product)}}
+                                </span>
+                            @else
+                                <span class="spr-badge-caption" style="display:block;">Няма ревюта</span>
+                            @endif
                         </span>
-                    @else
-                        <span class="spr-badge-caption" style="display:block;">Няма ревюта</span>
-                    @endif</span>
-                <span class="spr-badge-caption">
-                No reviews </span>
-                </span>
             </div>
             <div class="product-content-right">
                 <div class="product-price">

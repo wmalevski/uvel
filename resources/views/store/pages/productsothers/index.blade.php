@@ -144,7 +144,6 @@ aria-hidden="true">
                                                             <div class="product-content-left">
 																<a class="title-5" href="{{ route('single_product_other', ['product' => $product->id])  }}">{{ $product->name }}</a><br/>
 																No: {{ $product->code }}
-                                                                <span class="spr-badge" id="spr_badge_12932382113" data-rating="0.0">
                                                                 <span class="spr-starrating spr-badge-starrating">
 																	@if(count($product->reviews) > 0)
 																		<span class="spr-starrating spr-badge-starrating">
@@ -164,7 +163,7 @@ aria-hidden="true">
                                                                 </div>
                                                             </div>
                                                             <div class="list-mode-description">
-																No: {{ $product->code }} <br/>
+																
 														 
                                                             </div>
                                                             <div class="hover-appear">
