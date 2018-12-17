@@ -13,6 +13,7 @@ use App\PaymentDiscount;
 use Response;
 use Auth;
 use Cart;
+use App\ExchangeMaterial;
 
 class PaymentController extends Controller
 {
@@ -50,12 +51,12 @@ class PaymentController extends Controller
         
 
         //Store the payment
-        if($request->given_sum >= $request->wanted_sum){
+        if(($request->given_sum >= $request->wanted_sum)){
             $userId = Auth::user()->getId();
 
             //Check if the given sum is more or equal to the wanted sum
             $validator = Validator::make( $request->all(), [
-                'wanted_sum' => 'required|numeric|between:0,1000000000',
+                // 'wanted_sum' => 'required|numeric|between:0,1000000000',
                 'given_sum'  => 'required|numeric|between:0,10000000',
             ]);
     
@@ -168,7 +169,23 @@ class PaymentController extends Controller
                 } else if($item['attributes']->type == 'box'){
 
                 }
-            };
+            }
+
+            if($request->exchange_method == 'true'){
+                if($request->material_id){
+                    foreach($request->material_id as $key => $material){
+                        if($material){
+                            $exchange_material = new ExchangeMaterial();
+                            $exchange_material->material_id = $material;
+                            $exchange_material->payment_id = $paymentID;
+                            $exchange_material->weight = $request->weight[$key];
+                            $exchange_material->retail_price_id = $request->retail_price_id[$key];
+
+                            $exchange_material->save();
+                        }
+                    }
+                }
+            }
 
             //Store the notification
             $history = new History();
@@ -189,8 +206,11 @@ class PaymentController extends Controller
             return Response::json(array('success' => 'Успешно продадено!'));
 
         }else{
+
             return Response::json(['errors' => ['more_money' => ['Магазинера трябва да приеме сума равна или по-голяма от дължимата сума.']]], 401);
         }
+
+        // if($request->exchange_method == 'true')
 
         //Add to safe   
         //On hold for next sprint

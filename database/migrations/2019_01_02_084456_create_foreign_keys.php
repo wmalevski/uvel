@@ -109,10 +109,43 @@ class CreateForeignKeys extends Migration {
 						->onDelete('cascade')
 						->onUpdate('cascade');
 		});
+
+		Schema::table('exchange_materials', function (Blueprint $table) {
+			
+			$table->foreign('material_id')->references('id')->on('materials_quantities')
+						->onDelete('cascade')
+						->onUpdate('cascade');
+
+			$table->foreign('retail_price_id')->references('id')->on('prices')
+						->onDelete('cascade')
+						->onUpdate('cascade');
+
+			$table->foreign('payment_id')->references('id')->on('payments')
+						->onDelete('cascade')
+						->onUpdate('cascade');
+
+			// $table->foreign('order_id')->references('id')->on('orders')
+			// 			->onDelete('cascade')
+			// 			->onUpdate('cascade');
+		});
 	}
 
 	public function down()
 	{
+
+		Schema::table('exchange_materials', function(Blueprint $table) {
+			$table->dropForeign('exchange_materials_material_id_foreign');
+			$table->dropForeign('exchange_materials_retail_price_id_foreign');
+			$table->dropForeign('exchange_materials_payment_id_foreign');
+			// $table->dropForeign('exchange_materials_order_id_foreign');
+
+			$table->dropColumn('material_id');
+			$table->dropColumn('retail_price_id');
+			$table->dropColumn('payment_id');
+			// $table->dropColumn('order_id');
+		});
+
+
 		Schema::table('users', function(Blueprint $table) {
 			$table->dropForeign('users_store_id_foreign');
 			$table->dropColumn('store_id');
