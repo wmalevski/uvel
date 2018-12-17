@@ -530,9 +530,11 @@ var uvelStore,
 			trigger.on('click', sortProducts);
 
 			var productsList = $('#sandBox'),
-				products = productsList.children('li');
+				products;
 			
 			function sortProducts() {
+				products = productsList.children('li');
+				
 				var sortMethod = this.dataset.optionValue.split('-')[0],
 					sortOrder = this.dataset.order;
 
@@ -917,7 +919,8 @@ var uvelStore,
 					formUrl = filterForm.attr('data-url'),
 					baseUrl = window.location.origin + '/',
 					ajaxURL = baseUrl + formUrl,
-					productsContainer = $('#sandBox');
+					productsContainer = $('#sandBox'),
+					listType = document.querySelector('.option-set .active').id;
 
 			if (_this.is('input') && _this.val() !== '' && _this.val() != 0) {
 				_this.addClass('selected');
@@ -951,6 +954,8 @@ var uvelStore,
 				}
 			}
 
+			ajaxURL += '&' + 'listType=' + listType;
+
 			$.ajax({
 				method: 'GET',
 				url: ajaxURL,
@@ -959,6 +964,7 @@ var uvelStore,
 						opacity: 0
 					}, 400, function() {
 						productsContainer.html(resp);
+						$self.quickviewAttach($('.quick_shop'));
 					});
 
 					productsContainer.animate({
