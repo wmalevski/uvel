@@ -581,7 +581,7 @@ function handleGridList(){
     $('#goList').on(clickEv, function(e){
       $(this).parent().find('li').removeClass('active');
       $(this).addClass('active');
-      console.log('list');
+
       $('#sandBox .element').removeClass('no_full_width');
       $('#sandBox .element').addClass('full_width');
       $('#sandBox .element .row-left').addClass('col-md-8');
@@ -602,7 +602,7 @@ function handleGridList(){
     $('#goGrid').on(clickEv, function(e){
       $(this).parent().find('li').removeClass('active');
       $(this).addClass('active');
-      console.log('grid')
+
       $('#sandBox .element').removeClass('full_width');
       $('#sandBox .element').addClass('no_full_width');
       $('#sandBox .element .row-left').removeClass('col-md-8');

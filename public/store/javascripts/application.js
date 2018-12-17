@@ -919,7 +919,8 @@ var uvelStore,
 					formUrl = filterForm.attr('data-url'),
 					baseUrl = window.location.origin + '/',
 					ajaxURL = baseUrl + formUrl,
-					productsContainer = $('#sandBox');
+					productsContainer = $('#sandBox'),
+					listType = document.querySelector('.option-set .active').id;
 
 			if (_this.is('input') && _this.val() !== '' && _this.val() != 0) {
 				_this.addClass('selected');
@@ -952,6 +953,8 @@ var uvelStore,
 					ajaxURL += '&'
 				}
 			}
+
+			ajaxURL += '&' + 'listType=' + listType;
 
 			$.ajax({
 				method: 'GET',
