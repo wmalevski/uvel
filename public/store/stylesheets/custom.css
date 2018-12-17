@@ -117,8 +117,6 @@
 	text-align: center;
 }
 
-
-
 /* https://trello.com/c/sQ8jcrBM/17-home-page-categories */
 .home-popular-collections .owl-item .hover-overlay {
 	background-color: white;
@@ -129,7 +127,6 @@
 .blog-page .blogs-image {
 	height: 300px;
 }
-
 
 .blog-page .post {
 	margin: 0;
@@ -200,9 +197,9 @@
 	padding: 0;
 }
 
-
 /* https://trello.com/c/SGjOXvcD/35-homepage-mobile */
-.home-slider-wrapper .camera_prev span, .home-slider-wrapper .camera_next span {
+.home-slider-wrapper .camera_prev span,
+.home-slider-wrapper .camera_next span {
 	display: block;
 	width: 100px;
 	height: 100px;
@@ -224,12 +221,14 @@
 }
 
 @media (max-width: 400px) {
-	.home-slider-wrapper .camera_prev, .home-slider-wrapper .camera_next {
+	.home-slider-wrapper .camera_prev,
+	.home-slider-wrapper .camera_next {
 		opacity: 1 !important;
 		margin: 0;
 	}
 
-	.home-slider-wrapper .camera_prev span, .home-slider-wrapper .camera_next span {
+	.home-slider-wrapper .camera_prev span,
+	.home-slider-wrapper .camera_next span {
 		width: 50px;
 		height: 50px;
 	}
@@ -358,9 +357,15 @@
 	height: 100%;
 }
 
+/* https://trello.com/c/NXX5NfdK/51-home-page */
+#home_blog .home-blog-content ul > li {
+	vertical-align: top;
+}
 
-
-
-
-
-
+#home_blog .home-blog-content h4 > a {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: block;
+	line-height: 24px;
+}
