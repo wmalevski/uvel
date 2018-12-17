@@ -213,3 +213,72 @@
 		right: 0;
 	}
 }
+
+/* https://trello.com/c/jQl43NCJ/30-wish-list-cart-mobile */
+.page-wishlist .wishlist-item {
+	position: relative;
+	height: 200px;
+	border: 1px solid #ebebeb;
+}
+
+.page-wishlist .wishlist-item .image {
+	display: inline-block;
+	position: relative;
+	width: 30%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.page-wishlist .wishlist-item .image img {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100%;
+}
+
+.page-wishlist .wishlist-item .link {
+	display: inline-block;
+	width: 30%;
+	height: 100%;
+	text-align: center;
+	vertical-align: top;
+}
+
+.page-wishlist .wishlist-item .link p {
+	height: 100%;
+	margin: 0;
+	padding: 25% 0 0 0;
+}
+
+.page-wishlist .wishlist-item .price {
+	display: inline-block;
+	width: 30%;
+	height: 100%;
+	text-align: center;
+	vertical-align: top;
+}
+
+.page-wishlist .wishlist-item .price p {
+	margin: 0;
+	padding: 25% 0 0 0;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.page-wishlist .wishlist-item .remove {
+	display: inline-block;
+	width: 5%;
+	height: 100%;
+	text-align: center;
+	vertical-align: top;
+}
+
+.page-wishlist .wishlist-item .remove p {
+	margin: 150% 0 0 0;
+	padding: 0;
+}
+
+.page-wishlist .wishlist-item .remove .fa-times {
+	font-size: 24px;
+}
