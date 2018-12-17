@@ -1,6 +1,6 @@
 <li class="element first @if($listType == 'goList') full_width @else no_full_width @endif" data-alpha="{{ $model->name }}" data-price="{{ $model->price }}">
         <ul class="row-container list-unstyled clearfix">
-            <li class="row-left">
+            <li class="row-left @if($listType == 'goList') col-md-8 @endif">
             <a href="{{ route('single_model', ['model' => $model->id])  }}" class="container_item">
             <img src="@if($model->photos) {{ asset("uploads/models/" . $model->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif" class="img-responsive" alt="{{ $model->name }}">
             </a>
@@ -8,7 +8,7 @@
                 <span class="hoverBorderWrapper"></span>
             </div>
             </li>
-            <li class="row-right parent-fly animMix">
+            <li class="row-right parent-fly animMix @if($listType == 'goList') col-md-16 @endif">
             <div class="product-content-left">
                 <a class="title-5" href="{{ route('single_model', ['model' => $model->id])  }}">{{ $model->name }}</a>
                 No: {{ $model->code }}<br/>

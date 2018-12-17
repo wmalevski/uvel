@@ -162,10 +162,7 @@ aria-hidden="true">
                                                                     <span class="price">{{ $product->price }} лв</span>
                                                                 </div>
                                                             </div>
-                                                            <div class="list-mode-description">
-																
-														 
-                                                            </div>
+
                                                             <div class="hover-appear">
                                                                 <form action="#" method="post">
                                                                     <div class="effect-ajax-cart">

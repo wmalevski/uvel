@@ -471,7 +471,7 @@ var uvelStore,
 
 		this.init = function() {
 			var $quickViewTrigger = $('.quick_shop'),
-					$subscribeTrigger = $('form[name="mc-embedded-subscribe-form"] button[type="submit"]'),
+					//$subscribeTrigger = $('form[name="mc-embedded-subscribe-form"] button[type="submit"]'),
 					$filterTrigger = $('.filter-tag-group .tag-group li'),
 					$filterInputTrigger = $('.filter-tag-group .tag-group input'),
 					$shippingMethodTrigger = $('[name="shippingMethod"]'),
@@ -488,7 +488,7 @@ var uvelStore,
 
 			$self.quickviewAttach($quickViewTrigger);
 			$self.imageHandling();
-			$self.subscribeAttach($subscribeTrigger);
+			//$self.subscribeAttach($subscribeTrigger);
 			$self.filterAttach($filterTrigger);
 			$self.filterInputAttach($filterInputTrigger);
 			$self.shippingMethodAttach($shippingMethodTrigger);
