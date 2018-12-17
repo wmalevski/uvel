@@ -931,12 +931,12 @@ var uvelStore,
 			}
 
 			var filterBtns = filterForm.find('.tag-group').find('li.selected');
-
+			
 			var filterInputs = filterForm.find('.tag-group').find('input.selected');
 
 			Array.prototype.push.apply(filterBtns, filterInputs);
 
-			for (var i=0; i < filterBtns.length; i++) {
+		for (var i=0; i < filterBtns.length; i++) {
 				if (i == 0) {
 					ajaxURL += '?';
 				}
@@ -947,6 +947,7 @@ var uvelStore,
 					ajaxURL += btn.attr('data-id') + btn.val().toString();
 				} else {
 					ajaxURL += btn.find('a').attr('data-id')
+					//console.log(btn.find('a').attr('data-id'))
 				}
 
 				if (i < filterBtns.length - 1) {
@@ -954,7 +955,13 @@ var uvelStore,
 				}
 			}
 
-			ajaxURL += '&' + 'listType=' + listType;
+			if (filterBtns.length == 0) {	
+				ajaxURL += '?' + 'listType=' + listType;
+				console.log(ajaxURL)
+			}
+			else {
+				ajaxURL += '&' + 'listType=' + listType;
+			}
 
 			$.ajax({
 				method: 'GET',
@@ -972,7 +979,7 @@ var uvelStore,
 					}, 400)
 				},
 				error: function(err) {
-					console.log(err);
+					//console.log(err);
 				}
 			})
 		}
@@ -1182,8 +1189,8 @@ var uvelStore,
 							$self.ajaxReturnMessage(message, 'success');
 						}
 					} else {
-						var message = 'Трябва да влезете в системата';
-
+						var message = resp.error;
+						
 						if (_this.closest('.modal').length > 0) {
 							$self.ajaxReturnMessage(message, 'error');
 						} else {
