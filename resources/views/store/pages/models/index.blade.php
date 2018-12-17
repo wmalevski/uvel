@@ -158,12 +158,12 @@ aria-hidden="true">
                                                                 <form action="#" method="post">
                                                                     <div class="effect-ajax-cart">
                                                                         <input name="quantity" value="1" type="hidden">
-                                                                        <button class="select-option" type="button" onclick="window.location.href='{{ route('single_model', ['model' => $model->id])  }}'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Преглед</span></button>
+                                                                        <button class="select-option" type="button" onclick="window.location.href='{{ route('single_model', ['model' => $model->id])  }}'"><i class="fa fa-th-list" title="Преглед"></i><span class="list-mode">Преглед</span></button>
                                                                     </div>
                                                                 </form>
                                                                 <div class="product-ajax-qs hidden-xs hidden-sm">
                                                                     <div data-handle="curabitur-cursus-dignis" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal" data-url="models/{{ $model->id }}/">
-                                                                        <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Бърз преглед</span>
+                                                                        <i class="fa fa-eye" title="Бърз Преглед"></i><span class="list-mode">Бърз преглед</span>
 
                                                                     </div>
                                                                 </div>

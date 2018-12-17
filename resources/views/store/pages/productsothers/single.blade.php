@@ -341,15 +341,15 @@
 														<form action="#" method="post">
 															<div class="effect-ajax-cart">
 																<input name="quantity" value="1" type="hidden">
-																<button class="select-option" type="button" onclick="window.location.href='product.html'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
+																<button class="select-option" type="button" onclick="window.location.href='product.html'"><i class="fa fa-th-list" title="Преглед"></i><span class="list-mode">Select Option</span></button>
 															</div>
 														</form>
 														<div class="product-ajax-qs hidden-xs hidden-sm">
 															<div data-handle="curabitur-cursus-dignis" data-barcode="{{ $product->barcode }}" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
-																<i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																	
+																<i class="fa fa-eye" title="Бърз Преглед"></i><span class="list-mode">Бърз Преглед</span>																	
 															</div>
 														</div>
-														<a class="wish-list" href="#" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}" title="wish list"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>
+														<a class="wish-list" href="#" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}" title="Наблюдавани"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>
 													</div>
 													</li>
 												</ul>

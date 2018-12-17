@@ -947,7 +947,6 @@ var uvelStore,
 					ajaxURL += btn.attr('data-id') + btn.val().toString();
 				} else {
 					ajaxURL += btn.find('a').attr('data-id')
-					//console.log(btn.find('a').attr('data-id'))
 				}
 
 				if (i < filterBtns.length - 1) {
@@ -957,7 +956,6 @@ var uvelStore,
 
 			if (filterBtns.length == 0) {	
 				ajaxURL += '?' + 'listType=' + listType;
-				console.log(ajaxURL)
 			}
 			else {
 				ajaxURL += '&' + 'listType=' + listType;
@@ -979,7 +977,7 @@ var uvelStore,
 					}, 400)
 				},
 				error: function(err) {
-					//console.log(err);
+					console.log(err);
 				}
 			})
 		}
@@ -1190,7 +1188,7 @@ var uvelStore,
 						}
 					} else {
 						var message = resp.error;
-						
+
 						if (_this.closest('.modal').length > 0) {
 							$self.ajaxReturnMessage(message, 'error');
 						} else {

@@ -1,5 +1,7 @@
 /* STORE CUSTOM STYLES */
-    
+body {
+    overflow-x: hidden;
+}  
 /* selected check box */
 .selected .fe-checkbox {
     background-image: url(../images/fancybox_overlay.png) !important;
@@ -47,14 +49,9 @@
 }
 
 /* add to cart btn and price span fix */
-.add-to-cart:focus {
-    color: #fff !important;
-}
-
 .detail-price span {
     text-transform: lowercase !important;
 }
-
 
 /* newsletter fix */
 #widget-newsletter .newsletter .group_input {
@@ -196,6 +193,16 @@ header .col-md-18 {
 .col-md-16 .hover-appear {
     padding-left: 16px !important;
 }
+
+.info-message {
+    text-align: center;
+}
+
+.modal-dialog {
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+}
+
 
 /* MEDIA QUERIES */
 @media (max-width: 991px) {
