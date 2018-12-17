@@ -48,7 +48,7 @@ aria-hidden="true">
 																</p>
 																<ul>
 																	@foreach($productothertypes as $type)
-																		<li><a title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $type->name }} </a></li>
+																		<li><a data-id="byType[]={{ $type->id }}" title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $type->name }} </a></li>
 																	@endforeach
 																</ul>
 															</div>
@@ -59,7 +59,7 @@ aria-hidden="true">
 																</p>
 																<ul>
 																	@foreach($stores as $store)
-																		<li><a title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $store->name }} ({{ count($store->products) }})</a></li>
+																		<li><a data-id="byStore[]={{ $store->id }}" title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $store->name }} ({{ count($store->productsOther) }})</a></li>
 																	@endforeach
 																</ul>
 															</div>
