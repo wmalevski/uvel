@@ -8256,7 +8256,7 @@
                 if (e.isDefaultPrevented() || !r) return;
                 var i = this,
                     o = this.tip(),
-                    a = this.getUID(this.type);
+										a = this.getUID(this.type);
                 this.setContent(), o.attr("id", a), this.$element.attr("aria-describedby", a), this.options.animation && o.addClass("fade");
                 var s = "function" == typeof this.options.placement ? this.options.placement.call(this, o[0], this.$element[0]) : this.options.placement,
                     u = /\s?auto?\s?/i,

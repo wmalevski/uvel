@@ -1,44 +1,34 @@
-<li class="element first no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}" data-id="{{$product->id}}">
+<li class="element first @if($listType == 'goList') full_width @else no_full_width @endif" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}">
         <ul class="row-container list-unstyled clearfix">
-            <li class="row-left">
+            <li class="row-left @if($listType == 'goList') col-md-8 @endif">
             <a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">
             <img src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif" class="img-responsive" alt="{{ $product->name }}">
             </a>
-            <div class="">
-                    No: {{ $product->code }} <br/>
-                    {{ $product->weight }}гр. <br/>
-                </div>
             <div class="hbw">
                 <span class="hoverBorderWrapper"></span>
             </div>
             </li>
-            <li class="row-right parent-fly animMix">
+            <li class="row-right parent-fly animMix @if($listType == 'goList') col-md-16 @endif">
             <div class="product-content-left">
                 <a class="title-5" href="{{ route('single_product', ['product' => $product->id])  }}">{{ $product->name }}</a>
-                <div class="">
-                        No: {{ $product->code }} <br/>
-                        {{ $product->weight }}гр. <br/>
-                    </div>
-                    <span class="spr-badge" id="spr_badge_12932382113" data-rating="{{$product->getProductAvgRating($product)}}">
-                            @if(count($product->reviews) > 0)
-                                <span class="spr-starrating spr-badge-starrating">
-                                    {{$product->listProductAvgRatingStars($product)}}
-                                </span>
-                            @else
-                                <span class="spr-badge-caption" style="display:block;">Няма ревюта</span>
-                            @endif
-                        </span>
+                No: {{ $product->code }}<br/>
+                {{ $product->weight }}гр.
+                <span class="spr-badge" id="spr_badge_12932382113" data-rating="{{$product->getProductAvgRating($product)}}">
+                @if(count($product->reviews) > 0)
+                    <span class="spr-starrating spr-badge-starrating">
+                        {{$product->listproductAvgRatingStars($product)}}
+                    </span>
+                @else
+                    <span class="spr-badge-caption" style="display:block;">Няма ревюта</span>
+                @endif
+                </span>		
             </div>
             <div class="product-content-right">
                 <div class="product-price">
                     <span class="price">{{ $product->price }} лв</span>
                 </div>
             </div>
-            <div class="list-mode-description">
-                 Модел: {{ $product->model->name }} <br/>
-                 Бижу: {{ $product->jewel->name }} <br/>
-                 Размер: {{ $product->model->size }}
-            </div>
+            
             <div class="hover-appear">
                 <form action="#" method="post">
                     <div class="effect-ajax-cart">
@@ -47,12 +37,20 @@
                     </div>
                 </form>
                 <div class="product-ajax-qs hidden-xs hidden-sm">
+<<<<<<< HEAD
                         <div data-handle="curabitur-cursus-dignis" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal" data-url="products/{{ $product->id }}/">
                             <i class="fa fa-eye" title="Бърз Преглед"></i><span class="list-mode">Бърз преглед</span>
                             
                         </div>
                 </div>
                 <a class="wish-list" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}" href="#" title="Наблюдавани"><i class="fa fa-heart"></i><span class="list-mode">Добави в желани</span></a>
+=======
+                    <div data-handle="curabitur-cursus-dignis" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal" data-url="products/{{ $product->id }}/">
+                        <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Бърз преглед</span>
+                        
+                    </div>
+                </div>
+>>>>>>> 0e5c08f9458f6902f3befabb76b5781c4c1d59f6
             </div>
             </li>
         </ul>

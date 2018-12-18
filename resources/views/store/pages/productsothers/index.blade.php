@@ -5,14 +5,14 @@
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            
+
         </div>
     </div>
 </div>
 <div id="content-wrapper-parent">
-		<div id="content-wrapper">  
+		<div id="content-wrapper">
 			<!-- Content -->
-			<div id="content" class="clearfix">                
+			<div id="content" class="clearfix">
 				<div id="breadcrumb" class="breadcrumb">
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
@@ -22,20 +22,20 @@ aria-hidden="true">
 						</div>
 					</div>
 				</div>
-                
+
 				<section class="content">
 					<div class="container">
-						<div class="row"> 
+						<div class="row">
 							<div id="collection-content">
 								<div id="page-header">
 									<h1 id="page-title">Продукти</h1>
 								</div>
-								<div class="collection-warper col-sm-24 clearfix"> 
+								<div class="collection-warper col-sm-24 clearfix">
 									<div class="collection-panner">
 										<img src="./assets/images/demo_1170x420.png" class="img-responsive" alt="">
 									</div>
 								</div>
-								<div class="collection-main-content">	
+								<div class="collection-main-content">
 										<div id="prodcoll" class="col-sm-6 col-md-6 sidebar hidden-xs">
 												<div class="group_sidebar">
 													<div class="sb-wrapper">
@@ -48,7 +48,7 @@ aria-hidden="true">
 																</p>
 																<ul>
 																	@foreach($productothertypes as $type)
-																		<li><a title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $type->name }} </a></li>
+																		<li><a data-id="byType[]={{ $type->id }}" title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $type->name }} </a></li>
 																	@endforeach
 																</ul>
 															</div>
@@ -59,7 +59,7 @@ aria-hidden="true">
 																</p>
 																<ul>
 																	@foreach($stores as $store)
-																		<li><a title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $store->name }} ({{ count($store->products) }})</a></li>
+																		<li><a data-id="byStore[]={{ $store->id }}" title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $store->name }} ({{ count($store->productsOther) }})</a></li>
 																	@endforeach
 																</ul>
 															</div>
@@ -86,10 +86,10 @@ aria-hidden="true">
 															</div>
 															<!-- tags groupd 3 -->
 														</div>
-													</div>  
-												
+													</div>
+
 												</div><!--end group_sidebar-->
-											</div>								
+											</div>
 									<div id="col-main" class="collection collection-page col-sm-18 col-md-18 no_full_width have-left-slidebar">
 										<div class="container-nav clearfix">
 											<div id="options" class="container-nav clearfix">
@@ -163,8 +163,8 @@ aria-hidden="true">
                                                                 </div>
                                                             </div>
                                                             <div class="list-mode-description">
-																
-														 
+																No: {{ $product->code }} <br/>
+
                                                             </div>
                                                             <div class="hover-appear">
                                                                 <form action="#" method="post">
@@ -175,8 +175,13 @@ aria-hidden="true">
                                                                 </form>
                                                                 <div class="product-ajax-qs hidden-xs hidden-sm">
                                                                     <div data-handle="curabitur-cursus-dignis" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal" data-url="productsothers/{{ $product->id }}/">
+<<<<<<< HEAD
                                                                         <i class="fa fa-eye" title="Бърз Преглед"></i><span class="list-mode">Бърз преглед</span>
                                                                         
+=======
+                                                                        <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Бърз преглед</span>
+
+>>>>>>> 0e5c08f9458f6902f3befabb76b5781c4c1d59f6
                                                                     </div>
                                                                 </div>
                                                                 <a class="wish-list" href="#" data-url="{{ route('wishlists_store', ['type' => 'product_other', 'item' => $product->id]) }}" title="Наблюдавани"><i class="fa fa-heart"></i><span class="list-mode">Добави в желани</span></a>
@@ -185,19 +190,19 @@ aria-hidden="true">
                                                         </ul>
                                                     </li>
                                                 @endforeach
-												
-												
+
+
 													</ul>
-												</li>												
+												</li>
                                             </ul>
                                             {{ $products->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
 										</div>
-									</div>  									
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</section>        
+				</section>
       </div>
     </div>
 @endsection

@@ -107,8 +107,14 @@
 	text-align: start;
 }
 
-.contact-page .contact-content .title {
-	margin-bottom: 30px;
+.contact-page .right-content.social li {
+	display: inline-block;
+}
+
+.contact-page .right-content.contact .fa {
+	display: inline-block;
+	width: 16px;
+	text-align: center;
 }
 
 /* https://trello.com/c/sQ8jcrBM/17-home-page-categories */
@@ -130,6 +136,8 @@
 	position: relative;
 	height: 100%;
 	overflow: hidden;
+	background-size: cover;
+	background-position: center center;
 }
 
 .blog-page .blogs-image img {
@@ -139,9 +147,25 @@
 	transform: translate(-50%, -50%);
 }
 
-.blog-page .date-container {
+.blog-page .author-container {
+	width: auto;
+	margin-bottom: 10px;
+}
+
+.blog-page .author-container .author {
 	display: inline-block;
-	width: 20%;
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+.blog-page .blogs-item .comment {
+	margin: 0;
+	padding: 0;
+}
+
+.blog-page .author-container .date-container {
+	display: inline-block;
+	width: auto;
 }
 
 .blog-page .article-title a {
@@ -149,8 +173,6 @@
 }
 
 .blog-page .article-title-container {
-	display: inline-block;
-	width: 80%;
 	height: 80px;
 	vertical-align: top;
 }
@@ -170,8 +192,14 @@
 	overflow: hidden;
 }
 
+.blog-container .lang {
+	margin: 0;
+	padding: 0;
+}
+
 /* https://trello.com/c/SGjOXvcD/35-homepage-mobile */
-.home-slider-wrapper .camera_prev span, .home-slider-wrapper .camera_next span {
+.home-slider-wrapper .camera_prev span,
+.home-slider-wrapper .camera_next span {
 	display: block;
 	width: 100px;
 	height: 100px;
@@ -193,12 +221,14 @@
 }
 
 @media (max-width: 400px) {
-	.home-slider-wrapper .camera_prev, .home-slider-wrapper .camera_next {
+	.home-slider-wrapper .camera_prev,
+	.home-slider-wrapper .camera_next {
 		opacity: 1 !important;
 		margin: 0;
 	}
 
-	.home-slider-wrapper .camera_prev span, .home-slider-wrapper .camera_next span {
+	.home-slider-wrapper .camera_prev span,
+	.home-slider-wrapper .camera_next span {
 		width: 50px;
 		height: 50px;
 	}
@@ -210,4 +240,136 @@
 	.home-slider-wrapper .camera_next span {
 		right: 0;
 	}
+}
+
+/* https://trello.com/c/jQl43NCJ/30-wish-list-cart-mobile */
+.page-wishlist .wishlist-item {
+	position: relative;
+	height: 200px;
+	border: 1px solid #ebebeb;
+}
+
+.page-wishlist .wishlist-item .image {
+	display: inline-block;
+	position: relative;
+	width: 30%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.page-wishlist .wishlist-item .image img {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100%;
+}
+
+.page-wishlist .wishlist-item .link {
+	display: inline-block;
+	width: 30%;
+	height: 100%;
+	text-align: center;
+	vertical-align: top;
+}
+
+.page-wishlist .wishlist-item .link p {
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	margin: 0;
+}
+
+.page-wishlist .wishlist-item .price {
+	display: inline-block;
+	width: 30%;
+	height: 100%;
+	text-align: center;
+	vertical-align: top;
+}
+
+.page-wishlist .wishlist-item .price p {
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	margin: 0;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.page-wishlist .wishlist-item .remove {
+	display: inline-block;
+	width: 5%;
+	height: 100%;
+	text-align: center;
+	vertical-align: top;
+}
+
+.page-wishlist .wishlist-item .remove p {
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.page-wishlist .wishlist-item .remove .fa-times {
+	font-size: 24px;
+}
+
+/* https://trello.com/c/uWoK8eCN/55-product-view-desktop */
+.view-product .alert {
+	text-align: center;
+	font-size: 16px;
+}
+
+/* https://trello.com/c/iVKpDXGt/54-product-view-mobile */
+@media (max-width: 480px) {
+	.view-product #page-title {
+		margin: 0 0 24px 0;
+	}
+
+	.view-product #product .image {
+		padding: 0;
+	}
+
+	.view-product #product .slide-product-image {
+		margin: 0;
+	}
+
+	.view-product #product .owl-item {
+		padding: 16px 0 0 0;
+	}
+
+	.view-product #product #detail-right-column {
+		padding: 0;
+	}
+
+	.view-product #add-to-cart {
+		width: 100% !important;
+	}
+
+	.view-product .spr-button {
+		width: 100%;
+	}
+}
+
+/* https://trello.com/c/L5WbFG3w/53-%D0%B1%D0%B8%D0%B6%D1%83%D1%82%D0%B0-%D0%BF%D0%BE-%D0%BF%D0%BE%D1%80%D1%8A%D1%87%D0%BA%D0%B0-ipad-view */
+.catalog #options {
+	margin: 0 0 20px 0;
+}
+
+.catalog .element.no_full_width .row-container {
+	height: 100%;
+}
+
+/* https://trello.com/c/NXX5NfdK/51-home-page */
+#home_blog .home-blog-content ul > li {
+	vertical-align: top;
+}
+
+#home_blog .home-blog-content h4 > a {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: block;
+	line-height: 24px;
 }
