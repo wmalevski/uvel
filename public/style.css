@@ -1,4 +1,12 @@
 /* todo: fix styles */
+#blog_lng_edit li:first-child {
+  margin-right: 10px;
+}
+
+#blog_lng_edit .active {
+  font-weight: bold;
+}
+
 input[readonly] {
   pointer-events: none;
 }

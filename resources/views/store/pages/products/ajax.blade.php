@@ -33,15 +33,24 @@
                 <form action="#" method="post">
                     <div class="effect-ajax-cart">
                         <input name="quantity" value="1" type="hidden">
-                        <button class="select-option" type="button" onclick="window.location.href='{{ route('single_product', ['product' => $product->id])  }}'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Преглед</span></button>
+                        <button class="select-option" type="button" onclick="window.location.href='{{ route('single_product', ['product' => $product->id])  }}'"><i class="fa fa-th-list" title="Преглед"></i><span class="list-mode">Преглед</span></button>
                     </div>
                 </form>
                 <div class="product-ajax-qs hidden-xs hidden-sm">
+<<<<<<< HEAD
+                        <div data-handle="curabitur-cursus-dignis" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal" data-url="products/{{ $product->id }}/">
+                            <i class="fa fa-eye" title="Бърз Преглед"></i><span class="list-mode">Бърз преглед</span>
+                            
+                        </div>
+                </div>
+                <a class="wish-list" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}" href="#" title="Наблюдавани"><i class="fa fa-heart"></i><span class="list-mode">Добави в желани</span></a>
+=======
                     <div data-handle="curabitur-cursus-dignis" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal" data-url="products/{{ $product->id }}/">
                         <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Бърз преглед</span>
                         
                     </div>
                 </div>
+>>>>>>> 0e5c08f9458f6902f3befabb76b5781c4c1d59f6
             </div>
             </li>
         </ul>

@@ -222,7 +222,7 @@ aria-hidden="true">
                                                                         <i class="fa fa-eye" title="Бърз преглед"></i><span class="list-mode">Бърз преглед</span>
                                                                     </div>
                                                                 </div>
-                                                                <a class="wish-list" href="#" title="wish list" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}"><i class="fa fa-heart"></i><span class="list-mode">Добави в желани</span></a>
+                                                                <a class="wish-list" href="#" title="Наблюдавани" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}"><i class="fa fa-heart"></i><span class="list-mode">Добави в желани</span></a>
                                                             </div>
                                                             </li>
                                                         </ul>
@@ -300,7 +300,7 @@ aria-hidden="true">
                                                                     <form action="./product.html" method="post">
                                                                         <div class="effect-ajax-cart">
                                                                             <input type="hidden" name="quantity" value="1">
-                                                                            <button class="select-option" type="button" onclick="window.location.href='product.html'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
+                                                                            <button class="select-option" type="button" onclick="window.location.href='product.html'"><i class="fa fa-th-list" title="Преглед"></i><span class="list-mode">Select Option</span></button>
                                                                         </div>
                                                                     </form>
                                                                     <div class="product-ajax-qs hidden-xs hidden-sm">
@@ -308,7 +308,7 @@ aria-hidden="true">
                                                                             <i class="fa fa-eye" title="Бърз преглед"></i><span class="list-mode">Бърз преглед</span>
                                                                         </div>
                                                                     </div>
-                                                                    <a class="wish-list" href="#" title="wish list" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}"><i class="fa fa-heart"></i><span class="list-mode">Добави в желани</span></a>
+                                                                    <a class="wish-list" href="#" title="Наблюдавани" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}"><i class="fa fa-heart"></i><span class="list-mode">Добави в желани</span></a>
                                                                 </div>
                                                             </li>
                                                         </ul>
