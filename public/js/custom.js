@@ -1136,7 +1136,6 @@ var uvel,
 
     this.materialPricesRequestAttach = function(collection, form) {
       collection.on('change', function(){
-
         $self.materialPricesRequestBuilder(form, $(this));
       })
     }
@@ -1167,7 +1166,7 @@ var uvel,
 			} else if (formName == 'orders') {
 				// tuk noviq kod za Orders
 				debugger;
-				var modelId = form.find('[data-calculatePrice-model] option:selected').val();
+				var modelId = form.find('[data-calculateprice-model] option:selected').val();
 				requestLink += '/' + modelId;
 			} else {
 				requestLink += '/0';
@@ -1237,16 +1236,15 @@ var uvel,
     }
 
 		this.modelRequestResponseHandler = function (response, form) {
-			debugger;
-			/*
-			var modelIds = [];
-			response.models.forEach(function (model) {
-				modelIds.push(model.id);
-			});
-			$(form).attr('data-current-model-ids', modelIds);
-			*/
-
-			// da selektira modela deto e s true
+			/* Form specific properties */
+			if (form[0].name == 'products') {
+				$self.fillPhotos(response.photos, form);
+			} else if (form[0].name == 'orders') {
+				$self.fillModels(response.models, form);
+			}
+			if ($('[data-calculatePrice-withStones]').is(':checked')) {
+				$self.calculatePrice(form);
+			}
 
 			$self.fillMaterials(response.materials, form);
 			$self.fillJewel(response.jewels_types, form);
@@ -1256,20 +1254,21 @@ var uvel,
 			$self.fillFinalPrice(response.price, form);
 			$self.fillWorkmanshipPrice(response.workmanship, form);
 			$self.calculateStones(form);
+		}
 
-			if ($('[data-calculatePrice-withStones]').is(':checked')) {
-				$self.calculatePrice(form);
-			}
+		this.fillModels = function (models, form) {
+			var modelElement = form.find('[data-calculateprice-model]');
+			modelElement.html('<option value="0">Избери</option>');
 
-			/* Form specific properties */
-			if (form[0].name == 'products') {
-				$self.fillPhotos(response.photos, form);
+			models.forEach(function (model) {
+				var selected = model.selected ? 'selected' : '';
+				var option = '<option value="' +
+					model.value + '" ' +
+					selected + '>' +
+					model.label + '</option>';
 
-			}/* else if (form[0].name == 'orders') {
-
-			} else {
-				// ???
-			}*/
+				modelElement.append(option);
+			});
 		}
 
 		this.fillMaterials = function (materials, form) {
@@ -1567,27 +1566,25 @@ var uvel,
     this.dragNdropImages = function(dropArea, form) {
       $('html').on('dragover', function(event) {
         event.preventDefault();
-      })
+      });
 
       $('html').on('drop', function(event) {
         event.preventDefault();
-      })
+      });
 
       dropArea.on('dragenter', function(event) {
         event.preventDefault();
         var _this = $(event.currentTarget);
-
         _this.addClass('dragging');
         _this.children().css('pointer-events', 'none');
-      })
+      });
 
       dropArea.on('dragleave', function(event) {
         event.preventDefault();
         var _this = $(event.currentTarget);
-
         _this.removeClass('dragging');
         _this.children().css('pointer-events', 'auto');
-      })
+      });
 
       dropArea.on('drop', function(event) {
         event.preventDefault();
@@ -1647,7 +1644,6 @@ var uvel,
       collectionFiles.forEach(function(element) {
         var reader = new FileReader();
         reader.readAsDataURL(element);
-
         reader.onloadend = function() {
           var imageWrapper = document.createElement('div');
           var closeBtn = document.createElement('div');
