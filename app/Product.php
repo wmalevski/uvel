@@ -213,7 +213,7 @@ class Product extends Model
                 'materials' => $pass_materials,
                 'photos' => $pass_photos,
                 'pricebuy' => $default->material->material->pricesBuy->first()->price,
-                'models' => $models
+                'models' => $pass_models
             );
             }
         }

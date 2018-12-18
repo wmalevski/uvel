@@ -436,13 +436,9 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        if($product){
-            if($product->status != 'selling'){
-                $product->delete();
-                return Response::json(array('success' => 'Успешно изтрито!'));
-            }else{
-                return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
-            }
+        if($order){
+            $order->delete();
+            return Response::json(array('success' => 'Успешно изтрито!'));
         }
     }
 
