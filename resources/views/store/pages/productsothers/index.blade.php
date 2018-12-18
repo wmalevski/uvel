@@ -175,13 +175,8 @@ aria-hidden="true">
                                                                 </form>
                                                                 <div class="product-ajax-qs hidden-xs hidden-sm">
                                                                     <div data-handle="curabitur-cursus-dignis" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal" data-url="productsothers/{{ $product->id }}/">
-<<<<<<< HEAD
                                                                         <i class="fa fa-eye" title="Бърз Преглед"></i><span class="list-mode">Бърз преглед</span>
                                                                         
-=======
-                                                                        <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Бърз преглед</span>
-
->>>>>>> 0e5c08f9458f6902f3befabb76b5781c4c1d59f6
                                                                     </div>
                                                                 </div>
                                                                 <a class="wish-list" href="#" data-url="{{ route('wishlists_store', ['type' => 'product_other', 'item' => $product->id]) }}" title="Наблюдавани"><i class="fa fa-heart"></i><span class="list-mode">Добави в желани</span></a>

@@ -346,11 +346,7 @@
 														</form>
 														<div class="product-ajax-qs hidden-xs hidden-sm">
 															<div data-handle="curabitur-cursus-dignis" data-barcode="{{ $product->barcode }}" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
-<<<<<<< HEAD
 																<i class="fa fa-eye" title="Бърз Преглед"></i><span class="list-mode">Бърз Преглед</span>																	
-=======
-																<i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>
->>>>>>> 0e5c08f9458f6902f3befabb76b5781c4c1d59f6
 															</div>
 														</div>
 														<a class="wish-list" href="#" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}" title="Наблюдавани"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>
