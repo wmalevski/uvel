@@ -589,7 +589,7 @@ function handleGridList(){
       $('#sandBox .element .row-right').addClass('col-md-16');
       //$('#sandBox .element .row-right').addClass('col-sm-16');
 
-      $('#sandBox').isotope('reLayout');
+      //$('#sandBox').isotope('reLayout');  isotope error in console
       if(clickEv == 'touchstart'){
       $(this).click();
       return true;
@@ -610,7 +610,7 @@ function handleGridList(){
       $('#sandBox .element .row-right').removeClass('col-md-16');
       //$('#sandBox .element .row-right').removeClass('col-sm-16');
 
-      $('#sandBox').isotope('reLayout');
+      //$('#sandBox').isotope('reLayout');  isotope error in console
       if(clickEv == 'touchstart'){
       $(this).click();
       return true;

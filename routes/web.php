@@ -383,12 +383,13 @@ Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
     Route::get('/warranty', 'WarrantyController@index')->name('warranty');
     Route::get('/howtoorder', 'HowToOrderController@index')->name('howtoorder');
     Route::get('/about', 'AboutController@index')->name('about');
+    Route::get('/stores', 'ListStoresController@index')->name('stores');
 
     Route::get('/contact', 'ContactController@index')->name('contactus');
     Route::post('/contact', 'ContactController@store');
 
-    Route::post('/ajax/subscribe', 'SubscribeController@subscribe')->name('subscribe');
-    Route::get('/ajax/unsubscribe/{email}', 'SubscribeController@unsubscribe')->name('unsubscribe');
+    Route::post('/subscribe', 'SubscribeController@subscribe')->name('subscribe');
+    Route::get('/unsubscribe/{email}', 'SubscribeController@unsubscribe')->name('unsubscribe');
 
     //User Related
     Route::get('/register', 'UserController@create')->name('register');

@@ -16,10 +16,25 @@
                 </div>
             </div>                
             <section class="content">
+                   
                 <div class="container">
+                        
+
+                    <div class="row" style="margin-top: 20px;">
+							<div class="col-md-12">
+                                    @if($errors->any())
+                                    <ul class="alert alert-danger">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+							</div>
+                        </div>
+                        
                     <div class="row">
                         <div id="page-header" class="col-md-24">
-                            <h1 id="page-title" class="large">{{ $article->title }}</h1>
+                            <h1 id="page-title" class="large">{{ $article->translate($lng)->title }}</h1>
                         </div>
                         <div id="col-main" class="blog article-page col-xs-24 col-sm-24 ">
                             <div class="article">
@@ -32,7 +47,7 @@
                                                         <small>{{ $article->created_at->format('M') }}</small><span>{{ $article->created_at->format('d') }}</span>
                                                     </p>
                                                 </div>
-                                                <h4 class="blog-title">{{ $article->title }}</h4>
+                                                <h4 class="blog-title">{{ $article->translate($lng)->title }}</h4>
                                             </div>
                                             <div class="blogs-image">
                                                 <ul class="list-inline">
@@ -41,7 +56,7 @@
                                             </div>
                                             <div class="intro">
                                                 <p>
-                                                    {!! $article->content !!}
+                                                    {!! $article->translate($lng)->content !!}
                                                 </p>
                                             </div>
                                             <footer class="article-extras clearfix">
@@ -54,13 +69,7 @@
                                                 </li>
                                             </ul>
                                             </footer>
-                                            @if($errors->any())
-                                            <ul class="alert alert-danger">
-                                                @foreach ($errors->all() as $error)
-                                                    <li>{{ $error }}</li>
-                                                @endforeach
-                                            </ul>
-                                        @endif
+                                           
                                         @auth
                                         <form method="post" action="{{ route('article_comment', ['article' => $article->id])  }}" id="article-44831939-comment-form" class="comment-form" accept-charset="UTF-8">
                                             {{ csrf_field() }}

@@ -31,7 +31,7 @@ class BlogController extends BaseController
 
         $article = Blog::where('slug', $article)->first();
         if ($article) {
-            return \View::make('store.pages.blog.single', array('article' => $article));
+            return \View::make('store.pages.blog.single', array('article' => $article, 'lng' => $locale));
         }
     }
 

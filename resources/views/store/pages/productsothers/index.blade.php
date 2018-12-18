@@ -48,7 +48,7 @@ aria-hidden="true">
 																</p>
 																<ul>
 																	@foreach($productothertypes as $type)
-																		<li><a title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $type->name }} </a></li>
+																		<li><a data-id="byType[]={{ $type->id }}" title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $type->name }} </a></li>
 																	@endforeach
 																</ul>
 															</div>
@@ -59,7 +59,7 @@ aria-hidden="true">
 																</p>
 																<ul>
 																	@foreach($stores as $store)
-																		<li><a title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $store->name }} ({{ count($store->products) }})</a></li>
+																		<li><a data-id="byStore[]={{ $store->id }}" title="Narrow selection to products matching tag Under $100" href="#"><span class="fe-checkbox"></span> {{ $store->name }} ({{ count($store->productsOther) }})</a></li>
 																	@endforeach
 																</ul>
 															</div>
@@ -144,7 +144,6 @@ aria-hidden="true">
                                                             <div class="product-content-left">
 																<a class="title-5" href="{{ route('single_product_other', ['product' => $product->id])  }}">{{ $product->name }}</a><br/>
 																No: {{ $product->code }}
-                                                                <span class="spr-badge" id="spr_badge_12932382113" data-rating="0.0">
                                                                 <span class="spr-starrating spr-badge-starrating">
 																	@if(count($product->reviews) > 0)
 																		<span class="spr-starrating spr-badge-starrating">

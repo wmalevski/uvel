@@ -1,6 +1,6 @@
-<li class="element first no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}">
+<li class="element first @if($listType == 'goList') full_width @else no_full_width @endif" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}">
         <ul class="row-container list-unstyled clearfix">
-            <li class="row-left">
+            <li class="row-left @if($listType == 'goList') col-md-8 @endif">
             <a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">
             <img src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif" class="img-responsive" alt="{{ $product->name }}">
             </a>
@@ -8,11 +8,10 @@
                 <span class="hoverBorderWrapper"></span>
             </div>
             </li>
-            <li class="row-right parent-fly animMix">
+            <li class="row-right parent-fly animMix @if($listType == 'goList') col-md-16 @endif">
             <div class="product-content-left">
                 <a class="title-5" href="{{ route('single_product', ['product' => $product->id])  }}">{{ $product->name }}</a><br/>
                 No: {{ $product->code }}
-                <span class="spr-badge" id="spr_badge_12932382113" data-rating="0.0">
                 <span class="spr-starrating spr-badge-starrating">@if(count($product->reviews) > 0)
                         <span class="spr-starrating spr-badge-starrating">
                             {{$product->listProductOtherAvgRatingStars($product)}}
@@ -20,17 +19,11 @@
                     @else
                         <span class="spr-badge-caption" style="display:block;">Няма ревюта</span>
                     @endif</span>
-                <span class="spr-badge-caption">
-                No reviews </span>
-                </span>
             </div>
             <div class="product-content-right">
                 <div class="product-price">
                     <span class="price">{{ $product->price }} лв</span>
                 </div>
-            </div>
-            <div class="list-mode-description">
-                    No: {{ $product->code }} <br/>
             </div>
             <div class="hover-appear">
                 <form action="#" method="post">

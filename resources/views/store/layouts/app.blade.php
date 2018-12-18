@@ -66,5 +66,6 @@
     @include('store.parts._footer')
     
 <script src="{{ asset('store/javascripts/cs.global.js') }}" type="text/javascript"></script>
+<input type="hidden" id="captcha_key" value="{{ env('INVISIBLE_RECAPTCHA_SITEKEY') }} ">
 </body>
 </html>

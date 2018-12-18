@@ -67,7 +67,7 @@ class ProductController extends BaseController
 
         $response = '';
         foreach($products as $product){
-            $response .= \View::make('store/pages/products/ajax', array('product' => $product));
+            $response .= \View::make('store/pages/products/ajax', array('product' => $product, 'listType' => $request->listType));
         }
 
         $products->setPath('');

@@ -193,6 +193,10 @@ header .col-md-18 {
     cursor: pointer !important;
 }
 
+.col-md-16 .hover-appear {
+    padding-left: 16px !important;
+}
+
 /* MEDIA QUERIES */
 @media (max-width: 991px) {
     .contact-content {

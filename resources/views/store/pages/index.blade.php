@@ -11,6 +11,23 @@ aria-hidden="true">
 </div>
 <div id="content-wrapper-parent">
     <div id="content-wrapper">
+            <div class="row" @if(!count($slides)) style="padding-top: 110px;" @endif>
+                    <div class="col-md-24">
+                        @if($errors->any())
+                            <ul class="alert alert-danger">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        @endif 
+
+                        @if(session()->has('success'))
+                            <div class="alert alert-success">
+                                {{ session()->get('success') }}
+                            </div>
+                        @endif
+                    </div>
+                </div>
         <!-- Main Slideshow -->
         @if(count($slides))
         <div class="home-slider-wrapper clearfix">

@@ -30,18 +30,17 @@ class SubscribeController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+            return Redirect::back()->withErrors($validator);
         }
 
         Newsletter::subscribe($request->email);
-        //echo 'You have subscribed successfully!';
-        return Response::json(array('success' => 'Успешно се абонирахте!'));
+        return Redirect::back()->with('success', 'Успешно се абонирахте!');
     }
 
     public function unsubscribe($email)
     {
         Newsletter::unsubscribe($email);
-        echo 'You have unsubscribed successfully!';
+        return Redirect::back()->with('success', 'Успешно си махнахте абонирането!');
     }
 
 
