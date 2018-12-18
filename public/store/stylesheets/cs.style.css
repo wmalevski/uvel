@@ -418,7 +418,6 @@ button:focus{outline:none !important;}
 .control-label{font-size:15px;font-family:'Lato', sans-serif;color:#202020;font-weight:400;}
 .control-label span{font-weight:700;}
 .unpadding-top button{margin-top:15px;padding:0 25px;}
-.contact-page .group-contact{}
 #contact_map_wrapper{max-width:100%;}
 #contact_map{height:600px;margin-left:-10px;margin-top:5px;}
 #contact-form h3{margin-top:0;}
@@ -429,7 +428,6 @@ button:focus{outline:none !important;}
 #contact-form li:first-child{padding-top:0;}
 .contact-page .right-block .title h6{border-bottom:none;padding-bottom:0;margin-bottom:10px;}
 .contact-page i.fa{margin-right:10px;}
-.contact-page ul.right-content > li{display:inline-block;*display:block;zoom:1;width:auto;}
 .contact-page ul.right-content > li.title{display:block;width:100%;}
 .contact-page ul.right-content li.facebook i.fa-circle{color:#385eab;}
 .contact-page ul.right-content li.twitter i.fa-circle{color:#3dacd1;}
