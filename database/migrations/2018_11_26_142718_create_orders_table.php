@@ -25,10 +25,10 @@ class CreateOrdersTable extends Migration
             $table->integer('size');
             $table->float('workmanship');
             $table->float('price');
-            $table->enum('status', ['accepted', 'ready', 'travelling', 'done'])->default('accepted');
+            $table->enum('status', ['accepted', 'ready', 'done'])->default('accepted');
             $table->enum('weight_without_stones', ['yes', 'no'])->default('no');
             $table->integer('store_id')->unsigned();
-            $table->integer('quantity')->default(1);
+            $table->integer('quantity');
             $table->text('content')->nullable();
             $table->integer('safe_group')->nullable();
             $table->integer('earnest')->nullable();

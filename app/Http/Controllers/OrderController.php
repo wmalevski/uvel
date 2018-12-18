@@ -23,6 +23,7 @@ use App\Store;
 use App\MaterialQuantity;
 use Storage;
 use App\OrderStone;
+use App\ProductTravelling;
 use Auth;
 
 class OrderController extends Controller
@@ -106,6 +107,7 @@ class OrderController extends Controller
             'store_id' => 'required|numeric',
             'earnest' => 'numeric|nullable',
             'safe_group' => 'numeric|nullable',
+            'quantity' => 'required'
         ]); 
 
         if ($validator->fails()) {
@@ -139,6 +141,7 @@ class OrderController extends Controller
         $order->store_id = $request->store_id;
         //$bar = '380'.unique_number('products', 'barcode', 7).'1'; 
         $order->earnest = $request->earnest;
+        $order->quantity = $request->quantity;
 
         // $material->quantity = $material->quantity - $request->weight;
         // $material->save();
@@ -315,7 +318,8 @@ class OrderController extends Controller
                 'size' => 'required|numeric|between:0.1,10000',
                 'workmanship' => 'required|numeric|between:0.1,500000',
                 'price' => 'required|numeric|between:0.1,500000',
-                'store_id' => 'required|numeric'
+                'store_id' => 'required|numeric',
+                'quantity' => 'required|numeric|min:1'
             ]); 
     
             if ($validator->fails()) {
@@ -359,11 +363,27 @@ class OrderController extends Controller
             $order->store_id = $request->store_id;
             $order->earnest = $request->earnest;
             $order->store_id = $request->store_id;
+            $order->quantity = $request->quantity;
 
             if($request->with_stones == 'false'){
                 $order->weight_without_stones = 'no';
             } else{
                 $order->weight_without_stones = 'yes';
+            }
+
+            if($request->status == 'true'){
+                $order->status = 'ready';
+
+                for($i=0;$i<=$request->quantity;$i++){
+                    $product = new Product();
+                    $product->store($request);
+
+                    $request->store_to_id = $request->store_id;
+                    $request->product_id = $product->id;
+
+                    $productTravelling = new ProductTravelling();
+                    $productTravelling->store($request);
+                }
             }
     
             $order->save();
@@ -408,7 +428,7 @@ class OrderController extends Controller
                 foreach($request->stones as $key => $stone){
                     if($stone) {
                         $order_stones = new OrderStone();
-                        $order_stones->product_id = $product->id;
+                        $order_stones->product_id = $order->id;
                         $order_stones->model_id = $request->model_id;
                         $order_stones->stone_id = $stone;
                         $order_stones->amount = $request->stone_amount[$key];
