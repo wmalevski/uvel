@@ -1485,6 +1485,7 @@ var uvel,
     this.calculateExchangeRowTotal = function(selector) {
       var exchangeRows = document.querySelectorAll(selector),
           wantedPayment = document.querySelector('[data-calculatepayment-wanted]'),
+          cart_total = parseFloat(document.querySelector('[data-calculatepayment-total]').value),
           total = 0;
 
       for (var i = 0;i < exchangeRows.length; i++) {
@@ -1492,7 +1493,7 @@ var uvel,
       }
 
       document.querySelector('[data-exchangeRows-total]').value = total;
-      wantedPayment.value = wantedPayment.dataset.initial - total;
+      wantedPayment.value = cart_total - total;
 
     }
 
