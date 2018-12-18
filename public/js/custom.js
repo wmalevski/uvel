@@ -1165,41 +1165,45 @@ var uvel,
       })
     }
 
-    this.materialPricesRequestBuilder = function(form, _this) {
-      var ajaxUrl = window.location.origin + '/ajax/getPrices/',
-          materialType = _this.find(':selected').val(),
-          materialAttribute = _this.find(':selected').attr('data-material'),
-          pricesFilled = _this.closest('.form-row').find('.prices-filled'),
-          requestLink = ajaxUrl + materialAttribute,
-          formName = form.attr('name');
+		this.materialPricesRequestBuilder = function (form, _this) {
+			var ajaxUrl = window.location.origin + '/ajax/getPrices/',
+				materialType = _this.find(':selected').val(),
+				materialAttribute = _this.find(':selected').attr('data-material'),
+				pricesFilled = _this.closest('.form-row').find('.prices-filled'),
+				requestLink = ajaxUrl + materialAttribute,
+				formName = form.attr('name');
 
-      if(materialType == 0) {
-        pricesFilled.val('0');
-        pricesFilled.attr('disabled', true);
+			if (materialType == 0) {
+				pricesFilled.val('0');
+				pricesFilled.attr('disabled', true);
 
-        if (formName == 'products' || _this.closest('.form-row').find('[data-calculatePrice-default]').is(':checked')) {
-          form.find('[data-calculatePrice-worksmanship]').val(0);
-          form.find('[data-calculatePrice-final]').val(0);
-        }
+				if (formName == 'products' || _this.closest('.form-row').find('[data-calculatePrice-default]').is(':checked')) {
+					form.find('[data-calculatePrice-worksmanship]').val(0);
+					form.find('[data-calculatePrice-final]').val(0);
+				}
 
-        return;
-      }
+				return;
+			}
 
-      if (formName == 'products') {
-        var modelId = form.find('[data-calculatePrice-model] option:selected').val();
-        requestLink += '/' + modelId;
+			if (formName == 'products') {
+				var modelId = form.find('[data-calculatePrice-model] option:selected').val();
+				requestLink += '/' + modelId;
 			} else if (formName == 'orders') {
 				// tuk noviq kod za Orders
+				debugger;
 				var modelId = form.find('[data-calculatePrice-model] option:selected').val();
-        requestLink += '/' + modelId;
+				requestLink += '/'/* + modelId*/;
 			} else {
-        requestLink += '/0';
-      }
+				requestLink += '/0';
+			}
 
-      if (materialAttribute !== undefined) {
-        $self.ajaxFn('GET' , requestLink , $self.materialPricesResponseHandler, '', form, _this);
-      }
-    }
+			if (materialAttribute !== undefined) {
+				/* Borislav 18.12.2018 */
+				// tuk pravi zaqvkata za get prices
+				debugger;
+				$self.ajaxFn('GET', requestLink, $self.materialPricesResponseHandler, '', form, _this);
+			}
+		}
 
     this.materialPricesResponseHandler = function(response, form, _this) {
       var retailPrices = response.retail_prices,
@@ -1258,37 +1262,26 @@ var uvel,
 			$self.ajaxFn('GET', requestLink, $self.modelRequestResponseHandler, '', form);
     }
 
-    this.modelRequestResponseHandler = function(response, form) {
-
-			// data-current-model-id //
+		this.modelRequestResponseHandler = function (response, form) {
+			debugger;
 			var modelIds = [];
-			response.models.forEach(function(model) {
+			response.models.forEach(function (model) {
 				modelIds.push(model.id);
 			});
 			$(form).attr('data-current-model-ids', modelIds);
-			debugger;
-
-
-
-			/* Borislav 12.12.2018 */
-			// tuka sega da ima nqkakvo razgrani4avane dali requesta idva za Products form-ata, ili za Orders form-ata
-			// v byde6te moje da ima i drugi form-i koito da poluva4at toq response
-
-			// proverka kakva e formata za if
 
 			$self.fillMaterials(response.materials, form);
-      $self.fillJewel(response.jewels_types, form);
-      $self.fillStones(response.stones, form);
-      $self.fillSize(response.size, form);
-      $self.fillWeight(response, form);
-      $self.fillFinalPrice(response.price, form);
+			$self.fillJewel(response.jewels_types, form);
+			$self.fillStones(response.stones, form);
+			$self.fillSize(response.size, form);
+			$self.fillWeight(response, form);
+			$self.fillFinalPrice(response.price, form);
 			$self.fillWorkmanshipPrice(response.workmanship, form);
-
 			$self.calculateStones(form);
 
-      if ($('[data-calculatePrice-withStones]').is(':checked')) {
-        $self.calculatePrice(form);
-      }
+			if ($('[data-calculatePrice-withStones]').is(':checked')) {
+				$self.calculatePrice(form);
+			}
 
 			/* Form specific properties */
 			if (form[0].name == 'products') {
@@ -1299,32 +1292,28 @@ var uvel,
 			} else {
 				// ???
 			}
+		}
 
+		this.fillMaterials = function (materials, form) {
+			var materialHolder = form.find('[data-calculatePrice-material]');
+			materialHolder.html('<option value="0">Избери</option>');
 
-    }
+			materials.forEach(function (material) {
+				var selected = material.selected ? 'selected' : '';
 
-    this.fillMaterials = function(materials, form) {
-      var materialHolder = form.find('[data-calculatePrice-material]'),
-          chooseOpt = '<option value="0">Избери</option>';
+				var option = '<option value="' +
+					material.value + '" data-material="' +
+					material.dataMaterial + '" data-pricebuy="' +
+					material.priceBuy + '" ' +
+					selected + '>' +
+					material.label + '</option>';
 
-      materialHolder.empty();
-      materialHolder.append(chooseOpt);
+				materialHolder.append(option);
+				materialHolder.attr('disabled', false);
+			});
 
-      materials.forEach(function(material) {
-        var value = material.value,
-            dataMaterial = material.dataMaterial,
-            priceBuy = material.priceBuy,
-            label = material.label,
-            selected = material.selected ? 'selected' : '';
-
-        var option = '<option value="'+value+'" data-material="'+dataMaterial+'" data-pricebuy="'+priceBuy+'" '+selected+'>'+label+'</option>'
-
-        materialHolder.append(option);
-        materialHolder.attr('disabled', false);
-      });
-
-      $self.materialPricesRequestBuilder(form, materialHolder);
-    }
+			$self.materialPricesRequestBuilder(form, materialHolder);
+		}
 
     this.fillJewel = function(jewelsTypes, form) {
       var jewelHolder = form.find('[data-modelFilled-jewel]'),
