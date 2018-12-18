@@ -11,15 +11,10 @@ aria-hidden="true">
                 </button>
             </div>
             <form method="POST" action="repairs" name="fullEditRepair">
-                 
                 <div class="modal-body">    
                     <div class="info-cont">
                     </div>
-
                     {{ csrf_field() }}  
-                                
-
-                    
                 </div>
 
                 <div class="modal-footer">
@@ -78,7 +73,7 @@ aria-hidden="true">
                             </div>
                         </div>
 
-                        <div class="exchange-row-fields form-row">
+                                                       <div class="exchange-row-fields form-row">
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label for="">Вид</label>
@@ -87,7 +82,7 @@ aria-hidden="true">
                                 
                                         @foreach($materials as $material)
                                             @if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
-                                                <option value="{{ $material->id }}" data-material="{{ $material->material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
+                                                <option value="{{ $material->id }}" data-carat="{{ $material->material->carat }}" data-material="{{ $material->material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
                                             @endif
                                         @endforeach
 

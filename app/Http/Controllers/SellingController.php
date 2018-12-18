@@ -248,9 +248,21 @@ class SellingController extends Controller
                 if($type == "product"){
                     $item->status = 'selling';
                     $item->save();
+
+                    //check if carates are 14k
+                    $item_material = $item->material->material;
+                    if($item_material->carat != '14'){
+                        $calculated_weight = floor(($item_material->carat/14*$item->weight) * 100) / 100;
+                    }else{
+                        $calculated_weight = $item->weight;
+                    }
+
+
                 } else if($type == 'repair'){
                     $item->status = 'returning';
                     $item->save();
+
+                    $calculated_weight = '';
                 }           
             }
         }else{
@@ -273,6 +285,8 @@ class SellingController extends Controller
             
             $item->quantity = $item->quantity-$request->quantity;
             $item->save();
+
+            $calculated_weight = '';
            }
         }
 
@@ -308,7 +322,8 @@ class SellingController extends Controller
                         'quantity' => $request->quantity,
                         'attributes' => array(
                             'weight' => $item->weight,
-                            'type' => $type
+                            'type' => $type,
+                            'calculated_weight' => $calculated_weight
                         )
                     ));
                 }
