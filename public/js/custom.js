@@ -448,7 +448,6 @@ var uvel,
     }
 
     this.submitForm = function(form) {
-			debugger;
       var submitButton = form.find('[type="submit"]'),
           ajaxRequestLink = $self.buildAjaxRequestLink('submitForm', form.attr('action')),
           formType = form.attr('data-type');
@@ -557,7 +556,7 @@ var uvel,
 
     this.sendFormRequest = function(form, ajaxRequestLink, formType, data) {
 			var requestUrl =  ajaxRequestLink;
-			debugger;
+
 			$.ajax({
 				method: "POST",
 				url: requestUrl,
@@ -1167,7 +1166,6 @@ var uvel,
     }
 
     this.materialPricesRequestBuilder = function(form, _this) {
-			debugger;
       var ajaxUrl = window.location.origin + '/ajax/getPrices/',
           materialType = _this.find(':selected').val(),
           materialAttribute = _this.find(':selected').attr('data-material'),
@@ -1188,12 +1186,10 @@ var uvel,
       }
 
       if (formName == 'products') {
-				debugger;
         var modelId = form.find('[data-calculatePrice-model] option:selected').val();
         requestLink += '/' + modelId;
 			} else if (formName == 'orders') {
 				// tuk noviq kod za Orders
-				debugger;
 				var modelId = form.find('[data-calculatePrice-model] option:selected').val();
         requestLink += '/' + modelId;
 			} else {
@@ -1259,14 +1255,19 @@ var uvel,
 			var modelId = selectMenu.val();
 
 			var requestLink = ajaxUrl + modelId;
-			debugger;
 			$self.ajaxFn('GET', requestLink, $self.modelRequestResponseHandler, '', form);
     }
 
     this.modelRequestResponseHandler = function(response, form) {
-			debugger;
 
 			// data-current-model-id //
+			var modelIds = [];
+			response.models.forEach(function(model) {
+				modelIds.push(model.id);
+			});
+			$(form).attr('data-current-model-ids', modelIds);
+			debugger;
+
 
 
 			/* Borislav 12.12.2018 */
@@ -1291,14 +1292,11 @@ var uvel,
 
 			/* Form specific properties */
 			if (form[0].name == 'products') {
-				debugger
 				$self.fillPhotos(response.photos, form);
 
 			} else if (form[0].name == 'orders') {
-				debugger
 
 			} else {
-				debugger
 				// ???
 			}
 
@@ -1352,7 +1350,6 @@ var uvel,
     }
 
     this.fillWeight = function(response, form) {
-			debugger
 			// kakvo e tva weight * 1
       var netWeightHolder = form.find('[data-calculatePrice-netWeight]'),
           grossWeightHolder = form.find('[data-calculatePrice-grossWeight]'),
@@ -1820,7 +1817,6 @@ var uvel,
             path = _this.attr('data-url'),
             ajaxUrl = urlTaken[0] + '//' + urlTaken[2] + '/ajax/' + path;
 
-				debugger;
         $self.ajaxFn('GET', ajaxUrl, $self.barcodeProcessReturnResponse,'','',_this);
       })
     }
@@ -1861,7 +1857,6 @@ var uvel,
           token = $self.formsConfig.globalSettings.token;
 
       xhttp.open(method, url, true);
-debugger
       xhttp.onreadystatechange = function () {
         if(this.readyState == 4 && this.status == 200) {
           if($self.IsJsonString(this.responseText)){
