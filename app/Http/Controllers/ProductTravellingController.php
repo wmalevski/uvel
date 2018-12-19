@@ -48,7 +48,13 @@ class ProductTravellingController extends Controller
     public function store(Request $request)
     {
         $productTravelling = new ProductTravelling();
-        return $productTravelling->store($request);
+        $productTravelling = $productTravelling->store($request, 'JSON');
+
+        if(isset($productTravelling->id)){
+            return Response::json(array('success' => View::make('admin/products_travelling/table', array('product' => $travel, 'proID' => $travel->id))->render()));
+        }else{
+            return $productTravelling;
+        }
     }
 
     public function accept($product){

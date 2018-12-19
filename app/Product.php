@@ -4,7 +4,7 @@ namespace App;
 
 use App\Jewel;
 use App\Price;
-use App\Model;
+use App\Model as DefModel;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Response;
@@ -20,8 +20,9 @@ use Illuminate\Support\Facades\Storage;
 use App\MaterialQuantity;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use Illuminate\Database\Eloquent\Model as BaseModel;
 
-class Product extends Model
+class Product extends BaseModel
 {
     use SoftDeletes;
 
@@ -34,7 +35,8 @@ class Product extends Model
         'size',
         'workmanship',
         'price',
-        'code'
+        'code',
+        'model_id'
     ];
 
     protected $dates = ['deleted_at'];
@@ -220,7 +222,8 @@ class Product extends Model
             }
         }
 
-        public function store($request){
+        public function store($request, $responseType = 'JSON'){
+            //dd($request);
             $validator = Validator::make( $request->all(), [
                 'jewel_id' => 'required',
                 'material_id' => 'required',
@@ -234,19 +237,27 @@ class Product extends Model
             ]); 
     
             if ($validator->fails()) {
-                return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+                if($responseType == 'JSON'){
+                    return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+                }else{
+                    return array('errors' => $validator->errors());
+                }
             }
     
             $material = MaterialQuantity::withTrashed()->find($request->material_id);
             
             if($material->quantity < $request->weight){
-                return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
+                if($responseType == 'JSON'){
+                    return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
+                }else{
+                    return array('errors' => array('using' => ['Няма достатъчна наличност от този материал.']));
+                }
+                
             }
-            
-            $model = Model::withTrashed()->find($request->model_id);
-            
+
+            $findModel = DefModel::find($request->model_id);
             $product = new Product();
-            $product->name = $model->name;
+            $product->name = $findModel->name;
             $product->model_id = $request->model_id;
             $product->jewel_id = $request->jewel_id;
             $product->material_id = $request->material_id;
@@ -310,7 +321,12 @@ class Product extends Model
                         $checkStone = Stone::find($stone);
                         if($checkStone->amount < $request->stone_amount[$key]){
                             $stoneQuantity = 0;
-                            return Response::json(['errors' => ['stone_weight' => ['Няма достатъчна наличност от този камък.']]], 401);
+                            if($responseType == 'JSON'){
+                                return Response::json(['errors' => ['stone_weight' => ['Няма достатъчна наличност от този камък.']]], 401);
+                            }else{
+                                return array('errors' => array('stone_weight' => ['Няма достатъчна наличност от този камък.']));
+                            }
+                            
                         }
                 
                         $checkStone->amount = $checkStone->amount - $request->stone_amount[$key];
@@ -318,10 +334,11 @@ class Product extends Model
                     }
                 }
             }
+
+            $product->save();
     
             if($request->stones){
                 if($stoneQuantity == 1){
-                    $product->save();
                     foreach($request->stones as $key => $stone){
                         if($stone) {
                             $product_stones = new ProductStone();
@@ -339,8 +356,6 @@ class Product extends Model
                         }
                     }
                 }
-            }else{
-                $product->save();
             }
     
             $file_data = $request->input('images'); 
@@ -370,7 +385,8 @@ class Product extends Model
                     $photo->save();
                 }
             }
+
+             return $product;
             
-            return Response::json(array('success' => View::make('admin/products/table',array('product'=>$product))->render()));
         }
     }

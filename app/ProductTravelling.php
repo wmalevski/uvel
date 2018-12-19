@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model as BaseModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
@@ -14,9 +14,9 @@ use Response;
 use Redirect;
 use Auth;
 
-class ProductTravelling extends Model
+class ProductTravelling extends BaseModel
 {
-    public function store($request)
+    public function store($request, $responseType = 'JSON')
     {
         $validator = Validator::make( $request->all(), [
             'product_id' => 'required',
@@ -24,20 +24,34 @@ class ProductTravelling extends Model
         ]);
 
         if ($validator->fails()) {
-            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+            if($responseType == 'JSON'){
+                return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+            }else{
+                return array('errors' => $validator->errors());
+            }
         }
 
         $check = Product::find($request->product_id);
 
+        if($request->store_from_id){
+            $store_from = $request->store_from_id;
+        }else{
+            $store_from = Auth::user()->getStore()->id;
+        }
+
         if($check){
-            if($check->store_id == $request->store_to_id){
-                return Response::json(['errors' => array('quantity' => ['Не може да изпращате материал към същият магазин'])], 401);
+            if($store_from == $request->store_to_id){
+                if($responseType == 'JSON'){
+                    return Response::json(['errors' => array('quantity' => ['Не може да изпращате бижу към същият магазин'])], 401);  
+                }else{
+                    return array('errors' => array('quantity' => ['Не може да изпращате бижу към същият магазин']));
+                }
             }
         }
 
         $travel = new ProductTravelling();
         $travel->product_id = $request->product_id;
-        $travel->store_from_id = Auth::user()->getStore()->id;
+        $travel->store_from_id = $store_from;
         $travel->store_to_id  = $request->store_to_id;
         $travel->date_sent = new \DateTime();
         $travel->user_sent = Auth::user()->getId();
@@ -58,6 +72,6 @@ class ProductTravelling extends Model
 
         // $history->save();
 
-        return Response::json(array('success' => View::make('admin/products_travelling/table', array('product' => $travel, 'proID' => $travel->id))->render()));
+        return $product;
     }
 }

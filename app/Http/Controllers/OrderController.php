@@ -372,20 +372,28 @@ class OrderController extends Controller
             }
 
             if($request->status == 'true'){
-                $order->status = 'ready';
-
                 for($i=0;$i<=$request->quantity;$i++){
                     $product = new Product();
-                    $product->store($request);
+                    $productResponse = $product->store($request, 'array');
 
-                    $request->store_to_id = $request->store_id;
-                    $request->product_id = $product->id;
+                    if($productResponse['errors']){
+                        return Response::json(['errors' => $productResponse['errors']], 401);
+                    }
+
+                    $request->request->add(['store_to_id' => $request->store_id]);
+                    $request->request->add(['product_id' => $product->id]);
+                    $request->request->add(['store_from_id' => 1]);
 
                     $productTravelling = new ProductTravelling();
-                    $productTravelling->store($request);
+                    $productTravellingResponse = $productTravelling->store($request, 'array');        
+                    
+                    if($productTravellingResponse['errors']){
+                        return Response::json(['errors' => $productTravellingResponse['errors']], 401);
+                    }
                 }
             }
     
+            $order->status = 'ready';
             $order->save();
 
             // $path = public_path('uploads/products/');

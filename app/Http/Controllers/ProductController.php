@@ -77,7 +77,14 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $product = new Product();
-        return $product->store($request);
+        $product = $product->store($request, 'JSON');
+        
+        if(isset($product->id)){
+            return Response::json(array('success' => View::make('admin/products/table',array('product'=>$product))->render()));
+        }else{
+            return $product;
+        }
+        
     }
 
     /**
