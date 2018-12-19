@@ -1,3 +1,18 @@
+/* Common rules */
+.img-fill {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	max-height: 100%;
+	transform: translate(-50%, -50%) !important;
+}
+
+.img-fill-container {
+	position: relative;
+	height: 100%;
+	overflow: hidden;
+}
+
 /* https://trello.com/c/ceK5wKsm/18-blog */
 .blogs {
 	padding: 16px;
@@ -25,17 +40,6 @@
 
 #sandBox .element.full_width .row-left {
 	height: 100%;
-}
-
-#sandBox .element .row-left .product-image {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	width: 100%;
-	height: 100%;
-	background-size: cover;
-	background-position: center center;
 }
 
 /* Grid alignment */
@@ -128,21 +132,6 @@
 
 .blog-page .post {
 	margin: 0;
-}
-
-.blog-page .blogs-image a {
-	position: relative;
-	height: 100%;
-	overflow: hidden;
-	background-size: cover;
-	background-position: center center;
-}
-
-.blog-page .blogs-image img {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
 }
 
 .blog-page .author-container {
@@ -247,20 +236,19 @@
 	border: 1px solid #ebebeb;
 }
 
-.page-wishlist .wishlist-item .image {
+.page-wishlist .wishlist-item .image-container {
 	display: inline-block;
 	position: relative;
 	width: 30%;
 	height: 100%;
-	overflow: hidden;
+	border-right: 1px solid #ebebeb;
 }
 
-.page-wishlist .wishlist-item .image img {
+.page-wishlist .wishlist-item .image {
 	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
 	width: 100%;
+	height: 100%;
+	border-right: 1px solid #ebebeb;
 }
 
 .page-wishlist .wishlist-item .link {
@@ -373,16 +361,55 @@
 }
 
 /* https://trello.com/c/QvOX0vZB/56-shopping-cart */
+.cart-page .item {
+	margin: 0;
+	padding: 0;
+	border-bottom: 1px solid #ebebeb;
+}
+
+.cart-page .item .list-inline {
+	position: relative;
+}
+
+.cart-page .item .link {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.cart-page .item td {
+	vertical-align: middle;
+}
+
+.cart-page .item .price-item{
+	border: 0;
+}
+
+.cart-page .item .title, .cart-page .item .link {
+	margin: 0;
+	padding: 0;
+}
+
+.cart-page .item .link {
+	margin-left: 20px;
+}
+
 .cart-page .item .image {
 	position: relative;
 	width: 200px;
-	height: 200px;
+	height: 150px;
+	margin: 0;
+	padding: 0;
 }
 
 .cart-page .item .cart-item-image {
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	background-size: cover;
-	background-position: center center;
+}
+
+.cart-page textarea {
+	resize: vertical;
+	min-height: 200px;
+	max-height: 400px;
 }

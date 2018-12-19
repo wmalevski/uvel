@@ -48,15 +48,10 @@
 														<ul class="list-inline">
 															<li class="image">
 
-																<a href="{{ route('single_product', ['product' => $item->attributes['product_id']])  }}"
-																	class="cart-item-image"
-																	style="background-image: url(https://www.qsl.net/g4aon/images/vertical.jpg)">
+																<a class="cart-item-image img-fill-container" href="{{ route('single_product', ['product' => $item->attributes['product_id']])  }}">
 																	{{-- <img src="{{ $item->attributes['photo'] }}" alt="{{ $item->attributes['name'] }}" width="150"> --}}
-																	<!--
-																	<img src="https://www.qsl.net/g4aon/images/vertical.jpg" alt="{{ $item->attributes['name'] }}" width="150">
-																	-->
+																	<img class="img-fill" src="https://www.qsl.net/g4aon/images/vertical.jpg" alt="{{ $item->attributes['name'] }}" width="150">
 																</a>
-
 
 															</li>
 															<li class="link">

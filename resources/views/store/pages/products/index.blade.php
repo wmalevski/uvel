@@ -148,12 +148,10 @@ aria-hidden="true">
 												<li class="element first no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}" data-id="{{$product->id}}">
 													<ul class="row-container list-unstyled clearfix">
 														<li class="row-left">
-															<a href="{{ route('single_product', ['product' => $product->id])  }}"
-																class="product-image"
-																style="background-image: url(
-																	@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }}
+															<a href="{{ route('single_product', ['product' => $product->id])  }}" class="product-image">
+																	<img class="img-fill" src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }}
 																	@else {{ asset('store/images/demo_375x375.png') }}
-																	@endif)">
+																	@endif">
 															</a>
 														</li>
 														<li class="row-right parent-fly animMix">
