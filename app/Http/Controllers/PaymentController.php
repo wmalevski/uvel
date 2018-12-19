@@ -164,6 +164,11 @@ class PaymentController extends Controller
                     if($product){
                         $product->status = 'sold';
                         $product->save();
+
+                        // if($product->order){
+                        //     $product->order->status = 'done';
+                        //     $product->order->save();
+                        // }
                     }
                 } else if($item['attributes']->type == 'box'){
 
