@@ -1,6 +1,6 @@
 <header id="top" class="clearfix">
     <!--top-->
-    <div class="container">
+    <div class="container top">
         <div class="top row">
         <div class="col-md-6 phone-shopping">
             <span>За поръчки 08786248579</span>
@@ -14,29 +14,29 @@
                     </li>   --}}
                     @auth
                         Здравейте, {{ Auth::user()->name }}
-                        <li class="login">    
+                        <li class="login">
                             <a href="{{ route('logout') }}" id="customer_register_link">Изход</a>
                         </li>
                     @endauth
 
                     @guest
-                    <li class="login">    
+                    <li class="login">
                             <a href="{{ route('login') }}" id="customer_register_link">Вход</a>
                     </li>
-                    <li>/</li>   
+                    <li>/</li>
                     <li class="register">
                         <a href="{{ route('register') }}" id="customer_register_link">Регистрирай се</a>
-                    </li> 
+                    </li>
                     @endguest
                 </ul>
-            </li>      
+            </li>
             <li id="widget-social">
-                <ul class="list-inline">            
+                <ul class="list-inline">
                 <li><a target="_blank" href="#" class="btooltip swing" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a></li>
-                <li><a target="_blank" href="#" class="btooltip swing" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a></li>                        
-                <li><a target="_blank" href="#" class="btooltip swing" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Pinterest"><i class="fa fa-pinterest"></i></a></li>           
+                <li><a target="_blank" href="#" class="btooltip swing" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a></li>
+                <li><a target="_blank" href="#" class="btooltip swing" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Pinterest"><i class="fa fa-pinterest"></i></a></li>
                 </ul>
-            </li>        
+            </li>
             </ul>
         </div>
         </div>
@@ -44,15 +44,15 @@
     <!--End top-->
     <div class="line"></div>
     <!-- Navigation -->
-    <div class="container">
+    <div class="container bottom">
         <div class="top-navigation">
             <ul class="list-inline">
                 <li class="top-logo">
-                    <a id="site-title" href="{{ route('store') }}" title="UVEL">          
-                    <img class="img-responsive" src="{{ asset('store/images/logo.png') }}" alt="UVEL">          
+                    <a id="site-title" href="{{ route('store') }}" title="UVEL">
+                    <img class="img-responsive" src="{{ asset('store/images/logo.png') }}" alt="UVEL">
                     </a>
                 </li>
-                <li class="navigation">			
+                <li class="navigation">
                     <nav class="navbar">
                         <div class="clearfix">
                             <div class="navbar-header">
@@ -80,7 +80,7 @@
                                             <i class="fa fa-user"></i>
                                         </div>
                                         @if (Auth::check())
-                                        
+
                                         <ul class="customer dropdown-menu">
                                             <li class="logout">
                                                 <a href="{{ route('user_account') }}">Профил</a>
@@ -88,7 +88,7 @@
                                             <li class="logout">
                                                 <a href="{{ route('logout') }}">Изход</a>
                                             </li>
-                                            
+
                                         </ul>
                                         @else
                                         <ul class="customer dropdown-menu">
@@ -99,7 +99,7 @@
                                                 <a href="{{ route('register') }}">Регистрация</a>
                                             </li>
                                         </ul>
-                                        
+
                                         @endif
                                     </div>
                                     </li>
@@ -308,7 +308,7 @@
                             </div>
                         </div>
                     </nav>
-                {{-- </li>		  
+                {{-- </li>
                 <li class="top-search hidden-xs">
                     <div class="header-search">
                         <a href="#">
@@ -337,7 +337,7 @@
                                     <span class="number">
                                         @if(Auth::check())
                                             {{ Cart::session(Auth::user()->getId())->getTotalQuantity() }}
-                                        @else 
+                                        @else
                                             0
                                         @endif
                                     </span>
@@ -372,7 +372,7 @@
                             </div> --}}
                         </div>
                     </div>
-                </li>		  		 
+                </li>
                 {{-- <li class="mobile-search visible-xs">
                     <form id="mobile-search" class="search-form" action="search.html" method="get">
                         <input type="hidden" name="type" value="product">

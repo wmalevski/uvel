@@ -13,6 +13,22 @@
 	overflow: hidden;
 }
 
+li.element {
+	list-style-type: none;
+}
+
+/* Header visible */
+header .container.top {
+	height: 40px;
+	transition: all 0.3s;
+}
+
+/* Header hidden */
+header.affix .container.top {
+	margin-top: -40px;
+}
+
+
 /* https://trello.com/c/ceK5wKsm/18-blog */
 .blogs {
 	padding: 16px;
@@ -43,25 +59,25 @@
 }
 
 /* Grid alignment */
-#sandBox .element.no_full_width .row-container .row-left {
+.element.no_full_width .row-container .row-left {
 	position: relative;
 	height: 200px;
 }
 
-#sandBox .element.no_full_width .row-container .row-right {
+.element.no_full_width .row-container .row-right {
 	height: 130px;
 }
 
-#sandBox .element.no_full_width .row-container .product-content-left {
+.element.no_full_width .row-container .product-content-left {
 	padding: 20px;
 }
 
-#sandBox .element.no_full_width .row-left .container_item {
+.element.no_full_width .row-left .container_item {
 	position: relative;
 	height: 100%;
 }
 
-#sandBox .element.no_full_width .hover-appear {
+.element.no_full_width .hover-appear {
 	margin-bottom: 130px;
 }
 
@@ -413,3 +429,6 @@
 	min-height: 200px;
 	max-height: 400px;
 }
+
+/* https://trello.com/c/ycVaXFFS/58-menu */
+
