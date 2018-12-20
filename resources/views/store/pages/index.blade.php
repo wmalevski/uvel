@@ -4,9 +4,7 @@
 <div class="modal fade edit--modal_holder" id="quick-shop-modal" role="dialog" aria-labelledby="quick-shop-modal"
  aria-hidden="true">
 	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-
-		</div>
+		<div class="modal-content"></div>
 	</div>
 </div>
 <div id="content-wrapper-parent">
@@ -87,11 +85,10 @@
 														<div class="collection-details">
 															<a href="online/products/?byMaterial[]={{ $material->id }}" title="Browse our Bracelets">
 
-																<img src="
-                                                                        @if(count($material->materials->first()->products))
-                                                                            @if(count($material->materials->first()->products->first()->images))
-                                                                        {{ asset("uploads/products/" . $material->materials->first()->products->first()->images->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif @endif
-                                                                        "
+																<img src="@if(count($material->materials->first()->products))
+                                          @if(count($material->materials->first()->products->first()->images))
+                                          {{ asset("uploads/products/" . $material->materials->first()->products->first()->images->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }}
+																					@endif @endif"
 																 alt="">
 															</a>
 														</div>
