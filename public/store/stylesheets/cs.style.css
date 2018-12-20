@@ -2,8 +2,6 @@ input:-moz-placeholder,
 textarea:-moz-placeholder{font-style:normal;}
 input::-moz-placeholder,
 textarea::-moz-placeholder{font-style:normal;}
-input:-ms-input-placeholder,
-textarea:-ms-input-placeholder{}
 input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder{font-style:normal;}
 @media print{a:after{content:'';}
@@ -87,7 +85,6 @@ header#top.affix #umbrella .cart-link:after{margin-top:17px;}
 .top-navigation nav.navbar{position:static;}
 #top nav.navbar li .dropdown-menu.megamenu-container-1{min-height:490px;position:absolute;right:0;left:auto;min-width:780px;}
 #top nav.navbar li .dropdown-menu.megamenu-container-2{position:absolute;right:0;left:auto;min-width:480px;}
-#top nav.navbar li .dropdown-menu.megamenu-container-3{min-height:;}
 #top nav.navbar .dropdown-menu.megamenu-container .container{width:100% !important;}
 #top nav.navbar .megamenu-label{color:#fff;text-transform:uppercase;font-size:9px;width:29px;height:29px;padding:8px;vertical-align:10px;}
 #top nav.navbar .megamenu-label.new-label{background:url(../images/bkg_new.png) no-repeat center 5px;background-color:transparent;width:32px;height:29px;padding:1px 6px;position:absolute;top:0;right:0;margin-top:-20px;margin-right:-27px;}
@@ -351,7 +348,7 @@ a,
 .partners-logo .owl-theme .owl-controls .owl-next{margin-top:-20px !important;}
 .home-promotion-wrapper{padding-right:20px;}
 .home-bottom_banner a{display:block;}
-.home-bottom_banner a:hover img{opacity:0.5;-ms-filter:"progid: DXImageTransform.Microsoft.Alpha(Opacity=50)";filter:alpha(opacity=50);transition:ease all 0.5s;-moz-transition:ease all 0.5s;-webkit-transition:ease all 0.5s;-0-transition:ease all 0.5s;}
+.home-bottom_banner a:hover img{opacity:0.5;-ms-filter:"progid: DXImageTransform.Microsoft.Alpha(Opacity=50)";filter:alpha(opacity=50);transition:ease all 0.5s;-moz-transition:ease all 0.5s;-webkit-transition:ease all 0.5s;transition:ease all 0.5s;}
 .home-blog-wrapper{padding-left:20px;}
 #home_blog .home-blog-item{margin:1px 0 25px;}
 #home_blog .home-blog-item:last-child{margin-bottom:0;}
@@ -1243,7 +1240,6 @@ ul#price-table{display:block;width:100%;height:auto;margin-top:40px;}
 #product-information .quantity-wrapper span.qty-group span.qty-up,
 #product-information .quantity-wrapper span.qty-group span.qty-down,
 .product-information #quick-shop-container .quantity-wrapper .wrapper span.qty-down{line-height:38px\9 !important;border:none\9 !important;}
-#product-actions .selector-wrapper div.wrapper i.fa{}
 #product-information .quantity-wrapper span.qty-group span.qty-up{left:56%\9 !important;}
 #product-information .quantity-wrapper span.qty-group span.qty-down{left:40%\9;}
 .product-information #quick-shop-container .quantity-wrapper .wrapper span.qty-up{left:60%\9;}

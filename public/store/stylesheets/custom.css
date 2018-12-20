@@ -338,12 +338,28 @@ header.affix .container.top {
 	padding: 0;
 }
 
-/* https://trello.com/c/iVKpDXGt/54-product-view-mobile */
+
 @media (max-width: 480px) {
-	.view-product #page-title {
-		margin: 0 0 24px 0;
+	.product-page .at-svc-facebook {
+		margin-left: -10px;
 	}
 
+	.product-page #product-information .description p {
+		font-size: 12px;
+	}
+
+	.product-page #product-information .wls {
+		text-align: center;
+	}
+
+	.product-page #product-information .wls a {
+		font-size: 12px;
+	}
+}
+
+
+/* https://trello.com/c/iVKpDXGt/54-product-view-mobile */
+@media (max-width: 480px) {
 	.view-product #product .image {
 		padding: 0;
 	}

@@ -25,13 +25,6 @@
 								<div class="row table-cart">
 									<div class="wrap-table">
 										<table class="cart-items haft-border">
-											<colgroup>
-												<col class="checkout-image">
-												<col class="checkout-info">
-												<col class="checkout-price">
-												<col class="checkout-quantity">
-												<col class="checkout-totals">
-											</colgroup>
 											<thead>
 												<tr class="top-labels">
 													<th>Продукт</th>
@@ -61,41 +54,50 @@
 															</li>
 														</ul>
 													</td>
+
 													<td class="price-item title-1">
-														@if(count($items))
-														{{ $item->price }} лв
-														@endif
+														<p>
+															@if(count($items))
+															{{ $item->price }} лв
+															@endif
+														</p>
 													</td>
+
 													<td>
-														@if($item->attributes['type'] != 'product')
-														<input class="form-control input-1 replace update-cart-quantity" maxlength="5" size="5" id="updates_3947646083"
-														 data-url="{{ route('CartUpdateItem', ['item' => $item->id, 'quantity' => '']) }}/" name="updates[]" type="number"
-														 value="{{ $item->quantity }}">
-														@else
-														1
-														@endif
+														<p>
+															@if($item->attributes['type'] != 'product')
+															<input class="form-control input-1 replace update-cart-quantity" maxlength="5" size="5" id="updates_3947646083"
+															data-url="{{ route('CartUpdateItem', ['item' => $item->id, 'quantity' => '']) }}/" name="updates[]" type="number"
+															value="{{ $item->quantity }}">
+															@else
+															1
+															@endif
+														</p>
 													</td>
+
 													<td class="total title-1">
-														@if(count($items))
-														{{ $item->price*$item->quantity }} лв
-														@endif
+														<p>
+															@if(count($items))
+															{{ $item->price*$item->quantity }} лв
+															@endif
+														</p>
 													</td>
+
 													<td class="action">
 														<button type="button" class="remove-from-cart" data-url="{{ route('CartRemoveItem', ['item' => $item->id]) }}">
 															<i class="fa fa-times"></i>
 															Изтрий
 														</button>
 													</td>
+
 												</tr>
 												@endforeach
 
 											</tbody>
 											<tfoot>
 												<tr class="bottom-summary">
-													<td>
-														<td class="subtotal title-1">
-															{{ $subtotal }} лв
-														</td>
+													<td class="subtotal title-1">
+														{{ $subtotal }} лв
 													</td>
 													<td>
 														@if(count($items))
