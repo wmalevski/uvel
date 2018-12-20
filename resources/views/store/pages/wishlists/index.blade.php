@@ -28,15 +28,15 @@
 						@foreach($wishList as $wishListItem)
 						<div class="wishlist-item">
 
-							<div class="image">
+							<div class="image-container">
 								<a href="{{$wishListItem->checkWishListItemType($wishListItem)['url']}}">
 									@if ($wishListItem->product_id)
-										<img src="@if($wishListItem->product->photos) {{ asset("uploads/products/" . $wishListItem->product->photos->first()['photo']) }}
+										<img class="img-fill" src="@if($wishListItem->product->photos) {{ asset("uploads/products/" . $wishListItem->product->photos->first()['photo']) }}
 									@else {{ asset('store/images/demo_375x375.png') }}
 									@endif"
 									class="img-responsive" alt="{{ $wishListItem->product->name }}">
 									@elseif ($wishListItem->model_id)
-										<img src="@if($wishListItem->model->photos) {{ asset("uploads/models/" . $wishListItem->model->photos->first()['photo']) }}
+										<img class="img-fill" src="@if($wishListItem->model->photos) {{ asset("uploads/models/" . $wishListItem->model->photos->first()['photo']) }}
 									@else {{ asset('store/images/demo_375x375.png') }}
 									@endif" class="img-responsive" alt="{{ $wishListItem->model->name }}">
 									@endif

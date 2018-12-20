@@ -119,7 +119,8 @@ return [
     'attributes' => [
         //Global
         'name' => 'Име',
-        'slug' => 'Име',
+				'slug' => 'Име',
+				'title' => 'Заглавие',
         'material' => 'Материал',
         'discount' => 'Отстъпка',
         'location' => 'Адрес',

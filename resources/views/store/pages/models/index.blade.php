@@ -44,7 +44,7 @@ aria-hidden="true">
 															<h6 class="sb-title">Филтри</h6>
 
 																<!-- tags groupd 3 -->
-	
+
 																<!-- tags groupd 3 -->
 																<div class="tag-group" id="coll-filter-3">
 																		<p class="title">
@@ -66,13 +66,13 @@ aria-hidden="true">
 																	<input type="number" class="form-control" placeholder="Въведи размер" data-id="bySize[]=">
 																</div>
 																<!-- tags groupd 3 -->
-	
+
 																<!-- tags groupd 3 -->
 																<div class="tag-group" id="coll-filter-3">
 																	<p class="title">
 																		Цена
 																	</p>
-	
+
 																	<input type="number" class="form-control" placeholder="От" data-id="priceFrom[]=">
 																	<input type="number" class="form-control" placeholder="До" data-id="priceTo[]=">
 																</div>

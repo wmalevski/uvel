@@ -1,3 +1,34 @@
+/* Common rules */
+.img-fill {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) !important;
+	max-height: 100%;
+}
+
+.img-fill-container {
+	position: relative;
+	height: 100%;
+	overflow: hidden;
+}
+
+li.element {
+	list-style-type: none;
+}
+
+/* Header visible */
+header .container.top {
+	height: 40px;
+	transition: all 0.3s;
+}
+
+/* Header hidden */
+header.affix .container.top {
+	margin-top: -40px;
+}
+
+
 /* https://trello.com/c/ceK5wKsm/18-blog */
 .blogs {
 	padding: 16px;
@@ -27,39 +58,26 @@
 	height: 100%;
 }
 
-#sandBox .element.full_width .row-left .img-responsive {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-}
-
 /* Grid alignment */
-#sandBox .element.no_full_width .row-container .row-left {
+.element.no_full_width .row-container .row-left {
+	position: relative;
 	height: 200px;
 }
 
-#sandBox .element.no_full_width .row-container .row-right {
+.element.no_full_width .row-container .row-right {
 	height: 130px;
 }
 
-#sandBox .element.no_full_width .row-container .product-content-left {
+.element.no_full_width .row-container .product-content-left {
 	padding: 20px;
 }
 
-#sandBox .element.no_full_width .row-left .container_item {
+.element.no_full_width .row-left .container_item {
 	position: relative;
 	height: 100%;
 }
 
-#sandBox .element.no_full_width .row-left .img-responsive {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-}
-
-#sandBox .element.no_full_width .hover-appear {
+.element.no_full_width .hover-appear {
 	margin-bottom: 130px;
 }
 
@@ -79,12 +97,17 @@
 	}
 
 	#footer .footer-content-top .container {
-		padding: 0;
+		padding: 20px 0;
 	}
 
 	#footer .footer-content-top .container .footer-link-list {
 		margin: 0;
-		padding: 20px;
+		padding-left: 20px;
+	}
+
+	#footer .general-title {
+		font-size: 14px;
+		font-weight: bold;
 	}
 }
 
@@ -130,21 +153,6 @@
 
 .blog-page .post {
 	margin: 0;
-}
-
-.blog-page .blogs-image a {
-	position: relative;
-	height: 100%;
-	overflow: hidden;
-	background-size: cover;
-	background-position: center center;
-}
-
-.blog-page .blogs-image img {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
 }
 
 .blog-page .author-container {
@@ -224,7 +232,9 @@
 	.home-slider-wrapper .camera_prev,
 	.home-slider-wrapper .camera_next {
 		opacity: 1 !important;
+		transform: scale(0.8);
 		margin: 0;
+		padding: 20px;
 	}
 
 	.home-slider-wrapper .camera_prev span,
@@ -249,20 +259,19 @@
 	border: 1px solid #ebebeb;
 }
 
-.page-wishlist .wishlist-item .image {
+.page-wishlist .wishlist-item .image-container {
 	display: inline-block;
 	position: relative;
 	width: 30%;
 	height: 100%;
-	overflow: hidden;
+	border-right: 1px solid #ebebeb;
 }
 
-.page-wishlist .wishlist-item .image img {
+.page-wishlist .wishlist-item .image {
 	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
 	width: 100%;
+	height: 100%;
+	border-right: 1px solid #ebebeb;
 }
 
 .page-wishlist .wishlist-item .link {
@@ -317,8 +326,16 @@
 
 /* https://trello.com/c/uWoK8eCN/55-product-view-desktop */
 .view-product .alert {
-	text-align: center;
+	width: 50%;
 	font-size: 16px;
+}
+
+.product-page #product-information .detail-price {
+	margin-top: 0;
+}
+
+.product-page #product-information #product-info-left {
+	padding: 0;
 }
 
 /* https://trello.com/c/iVKpDXGt/54-product-view-mobile */
@@ -372,4 +389,67 @@
 	text-overflow: ellipsis;
 	display: block;
 	line-height: 24px;
+}
+
+/* https://trello.com/c/QvOX0vZB/56-shopping-cart */
+.cart-page .item {
+	margin: 0;
+	padding: 0;
+	border-bottom: 1px solid #ebebeb;
+}
+
+.cart-page .item .list-inline {
+	position: relative;
+}
+
+.cart-page .item .link {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.cart-page .item td {
+	vertical-align: middle;
+}
+
+.cart-page .item .price-item{
+	border: 0;
+}
+
+.cart-page .item .title, .cart-page .item .link {
+	margin: 0;
+	padding: 0;
+}
+
+.cart-page .item .link {
+	margin-left: 20px;
+}
+
+.cart-page .item .image {
+	position: relative;
+	width: 200px;
+	height: 150px;
+	margin: 0;
+	padding: 0;
+}
+
+.cart-page .item .cart-item-image {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+.cart-page textarea {
+	resize: vertical;
+	min-height: 200px;
+	max-height: 400px;
+}
+
+/* https://trello.com/c/URQQ9OsS/60-wish-list-hover */
+.product-page .wls a {
+	cursor: pointer;
+}
+
+.product-page .wls a:hover {
+	opacity: 0.5;
 }

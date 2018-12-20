@@ -35,15 +35,20 @@
 										@foreach($articles as $article)
 										<div class="blogs col-sm-8 col-md-8 clearfix">
 											<article class="blogs-item article-content">
+
+
+
 												<div class="blogs-image">
 													@if(!empty($lng))
-													<a
-														href="{{ route('single_translated_article', ['locale'=>$lng, 'product' => $article->slug])  }}"
-														style="background-image: url('{{ asset("uploads/blog/".$article->thumbnail) }}')">
-														<!--<img src="{{ asset("uploads/blog/" . $article->thumbnail) }}" >-->
+													<a class="img-fill-container" href="{{ route('single_translated_article', ['locale'=>$lng, 'product' => $article->slug])  }}">
+														<img class="img-fill" src="{{ asset("uploads/blog/" . $article->thumbnail) }}">
 													</a>
 													@endif
 												</div>
+
+
+
+
 												<div class="title-container">
 
 													<div class="article-title-container">
