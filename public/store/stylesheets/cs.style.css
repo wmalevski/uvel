@@ -499,7 +499,9 @@ button.close{color:#ffffff;text-shadow:none;opacity:1;-ms-filter:"progid: DXImag
 .collection-page.no_full_width.have-left-slidebar{float:right;}
 .allcollections-page h6.general-title{margin-top:0;margin-bottom:30px;}
 #content #product.content{padding-bottom:0;background-color:#f7f7f7;}
+/*
 #shopify-product-reviews{padding:50px 0 0 !important;}
+*/
 #shopify-product-reviews h2{text-align:left;}
 #shopify-product-reviews .spr-summary-actions{display:inline-block;float:right;margin-top:-22px;}
 #shopify-product-reviews .spr-summary-actions a{float:right;border:1px solid #dedede;border-radius:5px;background:#ffffff;color:#8f8f8f;padding:6px 16px;text-transform:uppercase;font-weight:500;font-family:'Belleza', sans-serif;}
