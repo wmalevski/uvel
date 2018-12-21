@@ -58,6 +58,18 @@ header.affix .container.top {
 	height: 100%;
 }
 
+.home_fp .owl-item {
+	height: 300px;
+}
+
+.home_fp .element {
+	height: 100%;
+}
+
+.element.no_full_width .row-container {
+	height: 100%;
+}
+
 /* Grid alignment */
 .element.no_full_width .row-container .row-left {
 	position: relative;
@@ -459,6 +471,14 @@ header.affix .container.top {
 	resize: vertical;
 	min-height: 200px;
 	max-height: 400px;
+}
+
+.cart-page .top-labels:first-child p {
+	margin: 0;
+	padding: 0 16px 0 0;
+	font-size: inherit;
+	font-weight: inherit;
+	text-align: right;
 }
 
 /* https://trello.com/c/URQQ9OsS/60-wish-list-hover */

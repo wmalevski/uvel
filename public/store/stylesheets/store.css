@@ -1,7 +1,7 @@
 /* STORE CUSTOM STYLES */
 body {
     overflow-x: hidden;
-}  
+}
 /* selected check box */
 .selected .fe-checkbox {
     background-image: url(../images/fancybox_overlay.png) !important;
@@ -153,7 +153,7 @@ header .col-md-18 {
 
 /* BTN TEXT OVERFLOW */
 .btn {
-    white-space: nowrap; 
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -234,7 +234,7 @@ header .col-md-18 {
 }
 
 @media (max-width: 320px) {
-    .navbar-toggle { 
+    .navbar-toggle {
         padding-left: 16px;
         padding-right: 16px;
     }

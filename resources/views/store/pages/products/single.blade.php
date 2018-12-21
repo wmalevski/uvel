@@ -234,8 +234,10 @@
 													</span>
 													<span class="spr-summary-caption">
 														<span class="spr-summary-actions-togglereviews">
-															Базирано на {{count($product->reviews)}} @if(count($product->reviews) == 1) ревю @else ревюта -
-															{{$productAvgRating}}/5 @endif
+															({{$productAvgRating}}/5 )
+															Базирано на {{count($product->reviews)}}
+															@if(count($product->reviews) == 1) ревю @else ревюта
+															@endif
 														</span>
 													</span>
 													{{-- <span class="spr-summary-actions">

@@ -27,7 +27,7 @@
 										<table class="cart-items haft-border">
 											<thead>
 												<tr class="top-labels">
-													<th>Продукт</th>
+													<th><p>Продукт</p></th>
 													<th>Цена</th>
 													<th>Количество</th>
 													<th>Тотал</th>
@@ -96,6 +96,7 @@
 											</tbody>
 											<tfoot>
 												<tr class="bottom-summary">
+													<th>&nbsp;</th>
 													<td class="subtotal title-1">
 														{{ $subtotal }} лв
 													</td>
