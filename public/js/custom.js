@@ -129,6 +129,11 @@ var uvel,
 				selector: '[name="orders"]',
         controllers: ['addStonesInit', 'addAnother', 'manualReceipt', 'modelRequestInit', 'barcodeInput'],
         initialized: false
+			},
+			productsTravelling: {
+				selector: '[name="productsTravelling"]',
+        controllers: ['productName'],
+        initialized: false
 			}
     };
 
@@ -1771,7 +1776,7 @@ var uvel,
       modal.css('display', 'none');
       $('.modal-backdrop').remove();
       $('body').removeClass('modal-open');
-    }
+		}
 
     this.ajaxFn = function(method, url, callback, dataSend, elements, currentPressedBtn) {
       var xhttp = new XMLHttpRequest(),
@@ -1868,7 +1873,29 @@ var uvel,
 
         ajaxFn('GET',ajaxUrl,printBtnSuccess,'','','');
       }
-    }
+		}
+
+		this.productName = function(form) {
+			debugger;
+			var input = $('[data-product-name]'),
+				dropdown = $('#productNameDropdown'),
+				dropdownItems = $('#productNameDropdown .dropdown-item');
+
+			input.on('focusin', function() {
+				dropdown.removeClass('hidden');
+			});
+
+			input.on('focusout', function() {
+				dropdown.addClass('hidden');
+			});
+
+			dropdownItems.on('click', function(event) {
+				debugger;
+				var target = event.currentTarget;
+			});
+
+			// tuka da se sloji pada6toto pod inputa
+		}
   }
 
 $(function () {
