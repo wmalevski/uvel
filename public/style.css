@@ -130,7 +130,7 @@ p {
   cursor: pointer;
   background-color: rgba(30, 150, 243, 0.4);
   -webkit-transition: 0.5s;
-  transition: all 0.3s linear;  
+  transition: all 0.3s linear;
 }
 
 .image-wrapper .close a{
@@ -156,7 +156,7 @@ p {
 
 .image-wrapper:nth-child(3n){
   margin-right: 0px;
-} 
+}
 
 .uploaded-images-area  img,
 .uploaded-images-area .image-wrapper{
@@ -261,6 +261,7 @@ textarea {
 }
 
 .thumbnail--tooltip ul {
+	top: 80%;
   left: 80%;
   width: 170px;
   height: 170px;
@@ -286,3 +287,18 @@ textarea {
   bottom: 100%;
   right: 0;
 } */
+
+.admin-product-image {
+	display: inline-block;
+	width: 60px;
+	height: 60px;
+}
+
+.admin-product-name {
+	display: inline-block;
+	width: 50%;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	vertical-align: top;
+}
