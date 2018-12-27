@@ -15,15 +15,18 @@
 					<div class="info-cont"></div>
 					{{ csrf_field() }}
 					<div id="success-container"></div>
+
+
 					<div class="form-row">
 						<div class="form-group col-md-12">
 							<label>Тип: </label>
 
+
 							<!-- тука това нека да е празно поле с dropdown, и при писане да се филтрира -->
-							<input type="text" class="form-control" data-product-name placeholder="Продукт">
+							<input id="inputProductName" class="form-control" type="text" data-product-name data-product-id placeholder="Продукт">
 							<div id="productNameDropdown" class="dropdown-menu hidden">
 								@foreach($products as $product)
-								<a id="{{ $product->id }}" class="dropdown-item" href="#">{{ $product->name }}</a>
+								<li id="{{ $product->id }}" class="dropdown-item" data-name="{{ $product->name }}">{{ $product->name }}</li>
 								@endforeach
 							</div>
 
@@ -46,6 +49,7 @@
 
 						</div>
 					</div>
+
 					<div class="form-row">
 						<div class="form-group col-md-12">
 							<label for="3">Магазин: </label>

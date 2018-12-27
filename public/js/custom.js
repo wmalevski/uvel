@@ -1875,26 +1875,56 @@ var uvel,
       }
 		}
 
-		this.productName = function(form) {
-			debugger;
+		this.productName = function (form) {
 			var input = $('[data-product-name]'),
 				dropdown = $('#productNameDropdown'),
-				dropdownItems = $('#productNameDropdown .dropdown-item');
+				dropdownItems = $('#productNameDropdown .dropdown-item'),
+				modalWindow = $('#sendProduct .modal-content');
 
-			input.on('focusin', function() {
+			input.on('focusin', function () {
 				dropdown.removeClass('hidden');
 			});
 
-			input.on('focusout', function() {
+			modalWindow.on('click', function(event) {
+				// Check if click is outside Product Name input or dropdown menu,
+				// so the dropdown can be closed
+				var target = event.target;
+				if (!target.classList.contains('dropdown-item') && target.id != 'inputProductName') {
+					dropdown.addClass('hidden');
+					if (!input.attr('data-product-id')) {
+						input.val('');
+					}
+				}
+			});
+
+			dropdownItems.on('click', function (event) {
+				var optionId = event.currentTarget.id,
+					optionText = event.currentTarget.innerText;
+
 				dropdown.addClass('hidden');
+				input.val(optionText);
+				input.attr('data-product-id', optionId);
 			});
 
-			dropdownItems.on('click', function(event) {
-				debugger;
-				var target = event.currentTarget;
+			input.on('input', function (event) {
+				var inputText = event.currentTarget.value.trim();
+				var filterAttributes = [
+					'data-name'
+				];
+				// Loops through all dropdown items based on input text, and shows only those witch matching letters
+				dropdownItems.filter(function () {
+					var match = '';
+					for (var filterAttr of filterAttributes) {
+						match = this.attributes[filterAttr].value.toLowerCase().indexOf(inputText.toLowerCase()) > -1;
+						if (match) {
+							break;
+						} else {
+							$(this).hide();
+						}
+					}
+					return match;
+				}).show();
 			});
-
-			// tuka da se sloji pada6toto pod inputa
 		}
   }
 

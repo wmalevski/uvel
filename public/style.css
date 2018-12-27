@@ -156,8 +156,6 @@ p {
   vertical-align: middle;
 }
 
-
-
 .uploaded-images-area {
   margin-top: 20px;
 }
@@ -264,18 +262,6 @@ textarea {
   left: 0;
   min-width: 400px;
   transform: translateX(-100%) translateY(-100%);
-}
-
-
-#sendProduct .dropdown-menu.hidden {
-	display: none;
-}
-
-#sendProduct .dropdown-menu {
-	display: inline-block;
-	width: 100%;
-	overflow-y: scroll;
-	height: 200px;
 }
 
 
