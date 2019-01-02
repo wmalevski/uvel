@@ -171,6 +171,7 @@
 											</li>
 											@endforeach
 										</ul>
+										<!-- Paginator -->
 										{{ $models->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
 									</div>
 								</div>

@@ -70,17 +70,12 @@ body {
 }
 
 #contact-form .g-recaptcha {
-    text-align: left;
-}
-
-/* fix for text container under the image in products */
-.element ul li.row-right .product-content-left {
-    padding: 10px 20px !important;
+	text-align: left;
 }
 
 .element .row-left .hbw {
-    position: relative;
-    margin: 0 !important;
+	position: relative;
+	margin: 0 !important;
 }
 
 .hoverBorderWrapper {
@@ -188,10 +183,6 @@ header .col-md-18 {
 
 .image-thumb img:hover {
     cursor: pointer !important;
-}
-
-.col-md-16 .hover-appear {
-    padding-left: 16px !important;
 }
 
 .info-message {

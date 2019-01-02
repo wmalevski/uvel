@@ -527,48 +527,48 @@ var uvelStore,
 	}
 
 	this.sortProductsAttach = function (trigger) {
-		trigger.on('click', sortProducts);
+		trigger.on('click', this.sortProducts);
+		// initial sort from newest to oldest
+		var option = $('[data-option-value="created"][data-order="desc"]');
+		option.trigger('click');
+	}
 
+	this.sortProducts = function () {
 		var productsList = $('#sandBox'),
-			products;
+			products = productsList.children('li'),
+			sortMethod = this.dataset.optionValue.split('-')[0],
+			sortOrder = this.dataset.order;
 
-		function sortProducts() {
-			products = productsList.children('li');
+		products.sort(function (firstItem, secondItem) {
+			var firstItemValue, secondItemValue;
 
-			var sortMethod = this.dataset.optionValue.split('-')[0],
-				sortOrder = this.dataset.order;
+			if (sortMethod == 'price') {
+				firstItemValue = parseInt(firstItem.dataset.price);
+				secondItemValue = parseInt(secondItem.dataset.price);
+			} else if (sortMethod == 'title') {
+				firstItemValue = firstItem.dataset.alpha.toLowerCase();
+				secondItemValue = secondItem.dataset.alpha.toLowerCase();
+			} else if (sortMethod == 'created') {
+				firstItemValue = parseInt(firstItem.dataset.id);
+				secondItemValue = parseInt(secondItem.dataset.id);
+			}
 
-			products.sort(function (firstItem, secondItem) {
-				var firstItemValue, secondItemValue;
-
-				if (sortMethod == 'price') {
-					firstItemValue = parseInt(firstItem.dataset.price);
-					secondItemValue = parseInt(secondItem.dataset.price);
-				} else if (sortMethod == 'title') {
-					firstItemValue = firstItem.dataset.alpha.toLowerCase();
-					secondItemValue = secondItem.dataset.alpha.toLowerCase();
-				} else if (sortMethod == 'created') {
-					firstItemValue = parseInt(firstItem.dataset.id);
-					secondItemValue = parseInt(secondItem.dataset.id);
-				}
-
-				if (sortOrder == 'asc') {
-					if (firstItemValue > secondItemValue) {
-						return 1;
-					} else {
-						return -1;
-					}
+			if (sortOrder == 'asc') {
+				if (firstItemValue > secondItemValue) {
+					return 1;
 				} else {
-					if (firstItemValue > secondItemValue) {
-						return -1;
-					} else {
-						return 1;
-					}
+					return -1;
 				}
-			});
+			} else {
+				if (firstItemValue > secondItemValue) {
+					return -1;
+				} else {
+					return 1;
+				}
+			}
+		});
 
-			products.detach().appendTo(productsList);
-		};
+		products.detach().appendTo(productsList);
 	}
 
 	this.setReviewRating = function () {

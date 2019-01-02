@@ -80,8 +80,9 @@ header.affix .container.top {
 	height: 130px;
 }
 
-.element.no_full_width .row-container .product-content-left {
-	padding: 20px;
+.element.no_full_width .row-container .product-content-left,
+.element.no_full_width .row-container .product-content-right {
+	padding: 10px !important;
 }
 
 .element.no_full_width .row-left .container_item {
@@ -481,4 +482,13 @@ header.affix .container.top {
 	opacity: 0.5;
 }
 
+#products .hover-appear .select-option {
+	margin: 0;
+	padding: 0;
+}
+
+#products .hover-appear .list-mode {
+	font-size: 15px;
+	font-weight: bold;
+}
 
