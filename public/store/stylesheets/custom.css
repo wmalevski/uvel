@@ -1,4 +1,35 @@
 /* Common rules */
+header#top {
+	position: fixed;
+	width: 100%;
+	z-index: 1;
+	transition: all 0.5s;
+}
+
+header#top .line {
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+	width: 100%;
+	height: 1px;
+}
+
+header#top.affix {
+	z-index: 1;
+	background-color: #f7f7f7;
+}
+
+header#top.affix .top-other,
+header#top.affix .navbar {
+	min-height: 40px;
+}
+
+header#top.affix #umbrella .cart-link:after {
+	margin-top: 17px;
+}
+
+#breadcrumb {
+	margin-top: 100px;
+}
+
 .img-fill {
 	position: absolute;
 	top: 50%;

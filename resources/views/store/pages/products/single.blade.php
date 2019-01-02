@@ -103,7 +103,7 @@
 													</p>
 												</div>
 												<div class="description">
-													<span>Изработка</span>
+													<span>Обмяна</span>
 													<p>
 														{{ $product->weight }} гр. + {{ $product->workmanship }} лв.
 													</p>
