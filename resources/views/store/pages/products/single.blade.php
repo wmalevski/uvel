@@ -3,7 +3,6 @@
 @section('content')
 <div id="content-wrapper-parent">
 	<div id="content-wrapper">
-		<!-- Content -->
 		<div id="content" class="view-product clearfix">
 			<div id="breadcrumb" class="breadcrumb">
 				<div itemprop="breadcrumb" class="container">
@@ -226,11 +225,13 @@
 														<meta itemprop="average" content="{{$productAvgRating}}">
 														<meta itemprop="best" content="5">
 														<meta itemprop="worst" content="1">
-														@for($i = 1; $i <= 5; $i++) @if(round($productAvgRating)>= $i)
-															<i class="spr-icon spr-icon-star" style=""></i>
-															@elseif(round($productAvgRating) < $i) <i class="spr-icon spr-icon-star-empty" style=""></i>
-																@endif
-																@endfor
+														@for($i = 1; $i <= 5; $i++)
+															@if(round($productAvgRating)>= $i)
+																<i class="spr-icon spr-icon-star" style=""></i>
+															@elseif(round($productAvgRating) < $i)
+																<i class="spr-icon spr-icon-star-empty" style=""></i>
+															@endif
+														@endfor
 													</span>
 													<span class="spr-summary-caption">
 														<span class="spr-summary-actions-togglereviews">
@@ -255,9 +256,10 @@
 														<input type="hidden" name="rating" value="5">
 														<h3 class="spr-form-title">Напиши ревю</h3>
 														<fieldset class="spr-form-review">
+
 															<div class="spr-form-review-rating">
 																<label class="spr-form-label">Рейтинг</label>
-																<div class="spr-form-input spr-starrating ">
+																<div class="spr-form-input spr-starrating">
 																	<a href="#" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="1">&nbsp;</a>
 																	<a href="#" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="2">&nbsp;</a>
 																	<a href="#" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="3">&nbsp;</a>
@@ -265,50 +267,54 @@
 																	<a href="#" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="5">&nbsp;</a>
 																</div>
 															</div>
-															<div class="spr-form-review-title">
-																<label class="spr-form-label" for="review_title_{{$product->id}}">Заглавие</label>
-																<input class="spr-form-input spr-form-input-text " id="review_title_{{$product->id}}" type="text" name="title"
-																 value="" placeholder="Заглавие на ревюто" autocomplete="off">
-															</div>
+
 															<div class="spr-form-review-body">
-																<label class="spr-form-label" for="review_body_{{$product->id}}">Описание <span class="spr-form-review-body-charactersremaining">(1500)</span></label>
+																<label class="spr-form-label" for="review_body_{{$product->id}}">
+																	Коментар
+																	<span class="spr-form-review-body-charactersremaining">(1500)</span>
+																</label>
 																<div class="spr-form-input">
 																	<textarea class="spr-form-input spr-form-input-textarea " id="review_body_{{$product->id}}"
-																	 data-product-id="{{$product->id}}" name="content" rows="10" placeholder="Добавете вашият коментар за ревюто тук"></textarea>
+																	 data-product-id="{{$product->id}}" name="content" rows="10" placeholder="Добавете вашият коментар"></textarea>
 																</div>
 															</div>
+
 														</fieldset>
 														<fieldset class="spr-form-actions">
-															<input type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary" value="Добави рейтинг">
+															<input id="btnSubmitReview" type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary" disabled value="Добави рейтинг">
 														</fieldset>
 														<input type="hidden" name="product_id" value="{{$product->id}}">
 														<input type="hidden" name="type" value="product">
 													</form>
 												</div>
 												<div class="spr-reviews" id="reviews_{{$product->id}}">
+
 													@foreach($product->reviews as $key => $review)
 													<div class="spr-review" id="spr-review-{{$key}}">
+
 														<div class="spr-review-header">
 															<span class="spr-starratings spr-review-header-starratings">
-																@for($i = 1; $i <= 5; $i++) @if($review->rating >= $i)
-																	<i class="spr-icon spr-icon-star" style=""></i>
-																	@elseif($review->rating < $i) <i class="spr-icon spr-icon-star-empty" style=""></i>
-																		@endif
-																		@endfor
+																@for($i = 1; $i <= 5; $i++)
+																	<i class="spr-icon spr-icon-star"></i>
+																@endfor
 															</span>
-															<h3 class="spr-review-header-title">{{$review->title}}</h3>
+															<h3 class="spr-review-header-title">{{$review->user->name}}</h3>
 															<span class="spr-review-header-byline">
-																<strong>{{$review->user->name}}</strong> на <strong>{{ $review->created_at->format('d') }} {{
-																	$review->created_at->format('M') }}, {{ $review->created_at->format('Y') }}</strong>
+																<strong>
+																	{{ $review->created_at->format('d') }} {{ $review->created_at->format('M') }}, {{ $review->created_at->format('Y') }}
+																</strong>
 															</span>
 														</div>
+
 														<div class="spr-review-content">
 															<p class="spr-review-content-body">
 																{{$review->content}}
 															</p>
 														</div>
+
 													</div>
 													@endforeach
+
 												</div>
 											</div>
 										</div>

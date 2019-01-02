@@ -93,7 +93,6 @@ header.affix .container.top {
 	margin-bottom: 130px;
 }
 
-/* https://trello.com/c/wsV8ng5r/26-newsletter-mobile */
 @media (max-width: 600px) {
 	#widget-newsletter .newsletter .group_input {
 		width: 100%;
@@ -123,7 +122,6 @@ header.affix .container.top {
 	}
 }
 
-/* https://trello.com/c/YTyf8goi/6-%D0%BA%D0%BE%D0%BD%D1%82%D0%B0%D0%BA%D1%82%D0%B8 */
 .contact-page .row {
 	margin: 0;
 }
@@ -152,13 +150,11 @@ header.affix .container.top {
 	text-align: center;
 }
 
-/* https://trello.com/c/sQ8jcrBM/17-home-page-categories */
 .home-popular-collections .owl-item .hover-overlay {
 	background-color: white;
 	opacity: 0.7;
 }
 
-/* https://trello.com/c/cb6CMaLc/46-%D0%B1%D0%BB%D0%BE%D0%B3-%D1%81%D1%82%D0%B0%D1%82%D0%B8%D1%8F-%D1%81-%D0%B4%D1%8A%D0%BB%D0%B3%D0%BE-%D0%B8%D0%BC%D0%B5 */
 .blog-page .blogs-image {
 	height: 300px;
 }
@@ -217,7 +213,6 @@ header.affix .container.top {
 	padding: 0;
 }
 
-/* https://trello.com/c/SGjOXvcD/35-homepage-mobile */
 .home-slider-wrapper .camera_prev span,
 .home-slider-wrapper .camera_next span {
 	display: block;
@@ -264,7 +259,6 @@ header.affix .container.top {
 	}
 }
 
-/* https://trello.com/c/jQl43NCJ/30-wish-list-cart-mobile */
 .page-wishlist .wishlist-item {
 	position: relative;
 	height: 200px;
@@ -336,10 +330,13 @@ header.affix .container.top {
 	font-size: 24px;
 }
 
-/* https://trello.com/c/uWoK8eCN/55-product-view-desktop */
 .view-product .alert {
 	width: 50%;
 	font-size: 16px;
+}
+
+.view-product .spr-form .spr-icon {
+	font-size: 24px !important;
 }
 
 .product-page #product-information .detail-price {
@@ -369,8 +366,6 @@ header.affix .container.top {
 	}
 }
 
-
-/* https://trello.com/c/iVKpDXGt/54-product-view-mobile */
 @media (max-width: 480px) {
 	.view-product #product .image {
 		padding: 0;
@@ -397,7 +392,6 @@ header.affix .container.top {
 	}
 }
 
-/* https://trello.com/c/L5WbFG3w/53-%D0%B1%D0%B8%D0%B6%D1%83%D1%82%D0%B0-%D0%BF%D0%BE-%D0%BF%D0%BE%D1%80%D1%8A%D1%87%D0%BA%D0%B0-ipad-view */
 .catalog #options {
 	margin: 0 0 20px 0;
 }
@@ -406,7 +400,6 @@ header.affix .container.top {
 	height: 100%;
 }
 
-/* https://trello.com/c/NXX5NfdK/51-home-page */
 #home_blog .home-blog-content ul > li {
 	vertical-align: top;
 }
@@ -419,7 +412,6 @@ header.affix .container.top {
 	line-height: 24px;
 }
 
-/* https://trello.com/c/QvOX0vZB/56-shopping-cart */
 .cart-page .item {
 	margin: 0;
 	padding: 0;
@@ -481,7 +473,6 @@ header.affix .container.top {
 	text-align: right;
 }
 
-/* https://trello.com/c/URQQ9OsS/60-wish-list-hover */
 .product-page .wls a {
 	cursor: pointer;
 }
@@ -489,3 +480,5 @@ header.affix .container.top {
 .product-page .wls a:hover {
 	opacity: 0.5;
 }
+
+

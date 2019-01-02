@@ -511,7 +511,7 @@ button.close{color:#ffffff;text-shadow:none;opacity:1;-ms-filter:"progid: DXImag
 #shopify-product-reviews .spr-form input.button{padding:0 24px;}
 #shopify-product-reviews .spr-review-reportreview{font-size:15px;text-transform:uppercase;font-weight:400;font-family:'Belleza', sans-serif;}
 #shopify-product-reviews .spr-icon.spr-icon-star-empty,
-#shopify-product-reviews .spr-icon.spr-icon-star{color:#a07936;width:15px;height:18px;text-align:center;}
+#shopify-product-reviews .spr-icon.spr-icon-star{color:#a07936;width:40px;height:40px;}
 #shopify-product-reviews .spr-content{text-align:center;}
 #shopify-product-reviews .spr-review{padding:20px 0 5px;}
 #shopify-product-reviews .spr-review-header-byline{margin:18px 0 25px 0;font-size:15px;font-weight:400;}
