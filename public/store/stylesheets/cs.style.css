@@ -1354,9 +1354,8 @@ ul#price-table{display:block;width:100%;height:auto;margin-top:40px;}
 		transform: scale(1,1);
 	}
 	.nav-item.dropdown  > .dropdown-menu{
-		margin-left: -60px;
+		margin-left: 20px;
 	}
-
 }
 @media(max-width: 991px){
 	.nav-item.dropdown  > .dropdown-menu{
