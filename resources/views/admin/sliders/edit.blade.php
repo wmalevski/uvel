@@ -6,7 +6,7 @@
     </button>
 </div>
 <form method="POST" id="edit-slides-form" action="slides/{{  }}" name="slides" data-type="edit" autocomplete="off">
-    <div class="modal-body">    
+    <div class="modal-body">
         <div class="info-cont">
         </div>
         {{ csrf_field() }}
@@ -16,7 +16,7 @@
             <label class="button" for="fileElem-edit">Select some files</label>
             <div class="drop-area-gallery"></div>
         </div>
-        
+
         <div class="form-group">
             <label for="1">Заглавие: </label>
             <input type="text" class="form-control" id="1" name="title" placeholder="Заглавие:">
@@ -34,7 +34,7 @@
 
         <div class="form-group">
             <label for="4">Линк на бутона: </label>
-            <input type="text" class="form-control" id="4" name="button_link" placeholder="Кратко описание:">
+            <input type="text" class="form-control" id="4" name="button_link" placeholder="Линк на бутона:">
         </div>
     </div>
 
