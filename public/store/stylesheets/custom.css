@@ -1,33 +1,74 @@
 /* Common rules */
-header#top {
-	position: fixed;
-	width: 100%;
-	z-index: 1;
-	transition: all 0.5s;
+@media (min-width:768px) {
+	header {
+		position: fixed;
+		width: 100%;
+		z-index: 1;
+		transition: all 0.3s;
+	}
+
+	#breadcrumb {
+		margin-top: 100px;
+	}
 }
 
-header#top .line {
+@media (max-width: 1024px) {
+	header .nav-item {
+		padding: 0 10px 0 0;
+	}
+
+	header .top-logo {
+		float: none !important;
+	}
+
+	header .top-navigation li {
+		display: inline-block !important;
+	}
+
+	header .top-navigation .navigation {
+		width: auto !important;
+	}
+
+	header .top-navigation .navbar-nav {
+		position: fixed;
+	}
+
+	header .top-navigation .umbrella {
+		margin-top: 22px !important;
+		padding: 0;
+	}
+}
+
+@media (min-width: 1026px) {
+	header .top-navigation .umbrella {
+		padding: 4px 15px 6px 15px;
+	}
+}
+
+@media (max-width: 767px) {
+	header .top-navigation .umbrella {
+		display: none !important;
+	}
+}
+
+header .line {
 	border-top: 1px solid rgba(0, 0, 0, 0.1);
 	width: 100%;
 	height: 1px;
 }
 
-header#top.affix {
+header.affix {
 	z-index: 1;
 	background-color: #f7f7f7;
 }
 
-header#top.affix .top-other,
-header#top.affix .navbar {
+header.affix .top-other,
+header.affix .navbar {
 	min-height: 40px;
 }
 
-header#top.affix #umbrella .cart-link:after {
+header.affix #umbrella .cart-link:after {
 	margin-top: 17px;
-}
-
-#breadcrumb {
-	margin-top: 100px;
 }
 
 .img-fill {

@@ -79,6 +79,7 @@
 										<h6 class="general-title">Популярни</h6>
 										<div class="home_collections_wrapper">
 											<div id="home_collections">
+
 												@foreach($materialTypes as $material)
 												<div class="home_collections_item">
 													<div class="home_collections_item_inner">
@@ -93,7 +94,11 @@
 															</a>
 														</div>
 														<div class="hover-overlay">
-															<span class="col-name"><a href="online/products/?byMaterial[]={{ $material->id }}">{{ $material->name }}</a></span>
+															<span class="col-name">
+																<a href="online/products/?byMaterial[]={{ $material->id }}">
+																	{{ $material->name }}
+																</a>
+															</span>
 															<div class="collection-action">
 																<a href="online/products/?byMaterial[]={{ $material->id }}">Виж</a>
 															</div>
@@ -102,7 +107,6 @@
 												</div>
 												@endforeach
 
-
 												<div class="home_collections_item">
 													<div class="home_collections_item_inner">
 														<div class="collection-details">
@@ -110,7 +114,7 @@
 																<img src="@if(count($models))
 																	@if($models->first()->photos)
 																	{{ asset("uploads/models/" . $models->first()->photos->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif @endif"
-																	alt="По поръчка">
+																 alt="По поръчка">
 																{{-- <img src="{{ asset('store/images/demo_375x375.png') }}" class="img-responsive" alt="По поръчка">
 																--}}
 															</a>
@@ -131,7 +135,7 @@
 																<img src="@if(count($models))
 																	@if($models->first()->photos)
 																	{{ asset("uploads/models/" . $models->first()->photos->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif @endif"
-																	alt="По ваш модел">
+																 alt="По ваш модел">
 															</a>
 														</div>
 														<div class="hover-overlay">
@@ -147,20 +151,11 @@
 										</div>
 									</div>
 								</div>
-								<script>
-									$(document).ready(function() {
-										$('.collection-details').hover(
-												function() {
-												$(this).parent().addClass("collection-hovered");
-												},
-												function() {
-												$(this).parent().removeClass("collection-hovered");
-												});
-										});
-								</script>
 							</div>
 						</div>
 					</div>
+
+					<!-- Нови продукти -->
 					{{-- @if(count($products))
 					<div class="home-newproduct">
 						<div class="container">
@@ -205,15 +200,6 @@
 																</div>
 															</div>
 
-															<!--
-															<div class="list-mode-description">
-																Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime
-																placeat facere possimus, omnis amet voluptas assumenda est, omnis dolor repellendus quis nostrum.
-																Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et
-																neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed...
-															</div>
-															-->
-
 															<div class="hover-appear">
 																<form action="./product.html" method="post">
 																	<div class="hide clearfix">
@@ -250,22 +236,6 @@
 						</div>
 					</div>
 					@endif --}}
-					{{-- <div class="home-banner-wrapper">
-						<div class="container">
-							<div id="home-banner" class="text-center clearfix">
-								<img class="pulse img-banner-caption" src="./assets/images/demo_230x235.png" alt="">
-								<div class="home-banner-caption">
-									<p>
-										Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<br>
-										Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-									</p>
-								</div>
-								<div class="home-banner-action">
-									<a href="./collection.html">Shop Now</a>
-								</div>
-							</div>
-						</div>
-					</div> --}}
 
 					@foreach($materials as $material)
 					<div class="home-feature">
@@ -276,60 +246,63 @@
 										<h6 class="general-title">Последни от {{ $material->parent->name }}</h6>
 										<div class="home_fp_wrapper">
 											<div class="home_fp2">
+
 												@foreach ( $material->products->take(10) as $key => $product )
-												<li class="element first no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}" data-id="{{$product->id}}">
-	<ul class="row-container list-unstyled clearfix">
-		<li class="row-left">
-			<a href="{{ route('single_product', ['product' => $product->id])  }}" class="product-image">
-				<img class="img-fill" src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }}
-					@else {{ asset('store/images/demo_375x375.png') }}
-					@endif">
-			</a>
-		</li>
-		<li class="row-right parent-fly animMix">
-			<div class="product-content-left">
-				<a class="title-5" href="{{ route('single_product', ['product' => $product->id])  }}">{{ $product->name }}</a>
-				<span class="spr-badge" id="spr_badge_12932382113" data-rating="{{$product->getProductAvgRating($product)}}">
-					@if(count($product->reviews) > 0)
-					<span class="spr-starrating spr-badge-starrating">
-						{{$product->listProductAvgRatingStars($product)}}
-					</span>
-					@else
-					<span class="spr-badge-caption" style="display:block;">Няма ревюта</span>
-					@endif
-				</span>
-			</div>
-			<div class="product-content-right">
-				<div class="product-price">
-					<span class="price">{{ $product->price }} лв</span>
-				</div>
-			</div>
-			<div class="hover-appear">
-				<form action="#" method="post">
-					<div class="effect-ajax-cart">
-						<input name="quantity" value="1" type="hidden">
-						<button class="select-option" type="button" onclick="window.location.href='{{ route('single_product', ['product' => $product->id])  }}'">
-							<i class="fa fa-th-list" title="Преглед"></i>
-							<span class="list-mode">Преглед</span>
-						</button>
-					</div>
-				</form>
-				<div class="product-ajax-qs hidden-xs hidden-sm">
-					<div data-handle="curabitur-cursus-dignis" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal"
-					 data-url="products/{{ $product->id }}/">
-						<i class="fa fa-eye" title="Бърз Преглед"></i>
-						<span class="list-mode">Бърз преглед</span>
-					</div>
-				</div>
-				<a class="wish-list" href="#" title="Наблюдавани" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
-					<i class="fa fa-heart"></i>
-					<span class="list-mode">Добави в желани</span>
-				</a>
-			</div>
-		</li>
-	</ul>
-</li>
+												<li class="element first no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}"
+												 data-id="{{$product->id}}">
+													<ul class="row-container list-unstyled clearfix">
+														<li class="row-left">
+															<a href="{{ route('single_product', ['product' => $product->id])  }}" class="product-image">
+																<img class="img-fill" src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }}
+																	@else {{ asset('store/images/demo_375x375.png') }}
+																	@endif">
+															</a>
+														</li>
+														<li class="row-right parent-fly animMix">
+															<div class="product-content-left">
+																<a class="title-5" href="{{ route('single_product', ['product' => $product->id])  }}">
+																	{{ $product->name }}
+																</a>
+																<span class="spr-badge" id="spr_badge_12932382113" data-rating="{{$product->getProductAvgRating($product)}}">
+																	<span class="spr-starrating spr-badge-starrating">
+																		{{$product->listProductAvgRatingStars($product)}}
+																	</span>
+																</span>
+															</div>
+															<div class="product-content-right">
+																<div class="product-price">
+																	<span class="price">
+																		{{ $product->price }} лв
+																	</span>
+																</div>
+															</div>
+															<div class="hover-appear">
+																<form action="#" method="post">
+																	<div class="effect-ajax-cart">
+																		<input name="quantity" value="1" type="hidden">
+																		<button class="select-option" type="button" onclick="window.location.href='{{ route('single_product', ['product' => $product->id])  }}'">
+																			<i class="fa fa-th-list" title="Преглед"></i>
+																			<span class="list-mode">Преглед</span>
+																		</button>
+																	</div>
+																</form>
+																<div class="product-ajax-qs hidden-xs hidden-sm">
+																	<div data-handle="curabitur-cursus-dignis" data-target="#quick-shop-modal" class="quick_shop"
+																	 data-toggle="modal" data-url="products/{{ $product->id }}/">
+																		<i class="fa fa-eye" title="Бърз Преглед"></i>
+																		<span class="list-mode">Бърз преглед</span>
+																	</div>
+																</div>
+																<a class="wish-list" href="#" title="Наблюдавани" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
+																	<i class="fa fa-heart"></i>
+																	<span class="list-mode">Добави в желани</span>
+																</a>
+															</div>
+														</li>
+													</ul>
+												</li>
 												@endforeach
+
 											</div>
 										</div>
 									</div>
@@ -338,7 +311,6 @@
 						</div>
 					</div>
 					@endforeach
-
 
 					@if(count($articles))
 					<div class="home-blog">

@@ -263,18 +263,18 @@
 		<script>
 			function addaffix(scr) {
 				if ($(window).innerWidth() >= 1024) {
-					if (scr > $('#top').innerHeight()) {
-						if (!$('#top').hasClass('affix')) {
-							$('#top').addClass('affix').addClass('animated');
+					if (scr > $('header').innerHeight()) {
+						if (!$('header').hasClass('affix')) {
+							$('header').addClass('affix').addClass('animated');
 						}
 					} else {
-						if ($('#top').hasClass('affix')) {
-							$('#top').prev().remove();
-							$('#top').removeClass('affix').removeClass('animated');
+						if ($('header').hasClass('affix')) {
+							$('header').prev().remove();
+							$('header').removeClass('affix').removeClass('animated');
 						}
 					}
 				} else {
-					$('#top').removeClass('affix');
+					$('header').removeClass('affix');
 				}
 			}
 			$(window).scroll(function () {
