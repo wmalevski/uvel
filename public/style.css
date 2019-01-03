@@ -264,6 +264,15 @@ textarea {
   transform: translateX(-100%) translateY(-100%);
 }
 
+.search-inputs {
+	border-bottom: 3px solid #e9ecef;
+}
+
+.search-inputs th {
+	margin: 0 !important;
+	padding: 10px !important;
+}
+
 
 /* .stones--tooltip ul:before {
   content: '';
