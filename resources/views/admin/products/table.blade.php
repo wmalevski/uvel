@@ -1,7 +1,7 @@
 <tr class="filterable-element"
 	data-id="{{ $product->id }}"
 	data-code="{{ $product->code }}"
-	data-model="{{ $product->model }}"
+	data-model="{{ $product->model->name }}"
 	data-type="{{ $product->jewel->name }}"
 	data-retail-price="{{ $product->retailPrice->price }}"
 	data-weight="{{ $product->weight }}"

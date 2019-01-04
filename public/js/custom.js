@@ -1910,23 +1910,11 @@ var uvel,
 				var filterAttributes = [
 					'data-name'
 				];
-				// Loops through all dropdown items based on input text, and shows only those witch matching letters
-				dropdownItems.filter(function () {
-					var match;
-					for (var filterAttr of filterAttributes) {
-						match = this.attributes[filterAttr].value.toLowerCase().indexOf(inputText.toLowerCase()) > -1;
-						if (match) {
-							break;
-						} else {
-							$(this).hide();
-						}
-					}
-					return match;
-				}).show();
+				$self.filterElementsByAttribute(inputText, dropdownItems, filterAttributes);
 			});
 		}
 
-		// Currently used in Models and Products pages
+		// Currently used in Admin->Models and Admin->Products pages
 		this.setInputFilters = function () {
 			var inputs = $('.filter-input');
 			var btnClearFilters = $('.btn-clear-filters');
@@ -1986,10 +1974,8 @@ var uvel,
 
 $(function () {
   if (!window.console) window.console = {};
-  if (!window.console.log) window.console.log = function () {
-  };
-  if (!window.console.info) window.console.info = function () {
-  };
+  if (!window.console.log) window.console.log = function () {};
+  if (!window.console.info) window.console.info = function () {};
 
   uvel = new uvelController();
   uvel.init();
