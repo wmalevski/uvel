@@ -112,7 +112,7 @@ var uvel,
       },
       products: {
         selector: '[name="products"]',
-        controllers: ['addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'modelRequestInit', 'imageHandling'],
+        controllers: ['storeSelectInit', 'addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'modelRequestInit', 'imageHandling'],
         initialized: false
       },
       productsTravelling: {
@@ -1726,7 +1726,17 @@ var uvel,
         var form = currentPressedBtn.closest('form');
         $self.formsErrorHandler(data, form);
       }
-    }
+		}
+
+		this.storeSelectInit = function() {
+			var storeSelect = $('.store-select');
+			storeSelect.on('change', function () {
+				// TODO
+				// da se proveri kakvo izpra6ta kym backenda, poneje pri obiknoven select i deselect, elementa vinagi si ima prop checked
+				debugger;
+				$('#website_visible').prop('checked', false);
+			});
+		}
 
     this.returnRepairBtnAction = function(returnRepairBtn) {
       returnRepairBtn.on('click', function() {
