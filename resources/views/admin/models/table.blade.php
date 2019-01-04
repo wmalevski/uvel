@@ -1,4 +1,4 @@
-<tr class="model-element"
+<tr class="filterable-element"
 	data-id="{{ $model->id }}"
 	data-name="{{ $model->name }}"
 	data-type="{{ $model->jewel->name }}"

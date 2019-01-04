@@ -169,7 +169,7 @@ var uvel,
       $self.addCardDiscount($addCardDiscountTrigger);
       $self.travellingMaterialsState($travelingMaterialsStateBtns);
 			$self.enterPressBehaviour($inputCollection);
-			$self.setModelsPageEvents();
+			$self.setInputFilters();
     }
 
     this.openForm = function(openFormTrigger) {
@@ -1926,10 +1926,11 @@ var uvel,
 			});
 		}
 
-		this.setModelsPageEvents = function () {
-			var inputs = $('.models-filter-input');
-			var btnClearFilters = $('#btnClearModelFilters');
-			var modelElements = $('.model-element');
+		// Currently used in Models and Products pages
+		this.setInputFilters = function () {
+			var inputs = $('.filter-input');
+			var btnClearFilters = $('.btn-clear-filters');
+			var filterableElements = $('.filterable-element');
 
 			inputs.on('input', function (event) {
 				// First check the current input, then all others
@@ -1937,10 +1938,10 @@ var uvel,
 				var filterAttributes = [
 					event.currentTarget.dataset.searchAttribute
 				];
-				$self.filterElementsByAttribute(inputText, modelElements, filterAttributes);
+				$self.filterElementsByAttribute(inputText, filterableElements, filterAttributes);
 
 				// After the current input is checked, search only through the visible elements
-				var visibleModelElements = $('.model-element:visible');
+				var visibleElements = $('.filterable-element:visible');
 
 				// Check other inputs, without the current one
 				for (var i = 0; i < inputs.length; i++) {
@@ -1951,14 +1952,14 @@ var uvel,
 						var filterAttributes = [
 							input.dataset.searchAttribute
 						];
-						$self.filterElementsByAttribute(inputText, visibleModelElements, filterAttributes);
+						$self.filterElementsByAttribute(inputText, visibleElements, filterAttributes);
 					}
 				}
 			});
 
 			btnClearFilters.on('click', function() {
 				inputs.val('');
-				var elements = $('.model-element');
+				var elements = $('.filterable-element');
 				elements.show();
 			});
 		}
