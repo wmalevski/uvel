@@ -207,21 +207,26 @@
 
 	<tr class="search-inputs">
 		<th>
-			<input class="form-control" type="text" placeholder="Търси по име">
+			<input class="models-filter-input form-control" type="text" data-search-attribute="data-name" placeholder="Търси по име">
 		</th>
 		<th>
-			<input class="form-control" type="text" placeholder="Търси по вид">
+			<input class="models-filter-input form-control" type="text" data-search-attribute="data-type" placeholder="Търси по вид">
 		</th>
 		<th>
-			<input class="form-control" type="text" placeholder="Търси по тегло">
+			<input class="models-filter-input form-control" type="number" data-search-attribute="data-weight" placeholder="Търси по тегло">
 		</th>
 		<th>
-			<input class="form-control" type="text" placeholder="Търси по изработка">
+			<input class="models-filter-input form-control" type="number" data-search-attribute="data-workmanship" placeholder="Търси по изработка">
 		</th>
 		<th>
-			<input class="form-control" type="text" placeholder="Търси по цена">
+			<input class="models-filter-input form-control" type="number" data-search-attribute="data-price" placeholder="Търси по цена">
 		</th>
-		<th></th>
+		<th>
+			<button id="btnClearModelFilters" type="button" class="btn btn-primary">
+				<strong>X</strong>
+				Изчисти филтри
+			</button>
+		</th>
 		<th></th>
 	</tr>
 

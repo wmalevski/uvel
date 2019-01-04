@@ -155,7 +155,7 @@ var uvel,
           $addCardDiscountTrigger = $('[data-sell-discountCard]'),
           $travelingMaterialsStateBtns = $('[data-travelstate]'),
           $inputCollection = $('input'),
-          $removeDiscountTrigger = $('[data-sell-removeDiscount]');
+					$removeDiscountTrigger = $('[data-sell-removeDiscount]');
 
       $self.openForm($openFormTrigger);
       $self.deleteRow($deleteRowTrigger);
@@ -168,7 +168,8 @@ var uvel,
       $self.removeDiscountAttach($removeDiscountTrigger);
       $self.addCardDiscount($addCardDiscountTrigger);
       $self.travellingMaterialsState($travelingMaterialsStateBtns);
-      $self.enterPressBehaviour($inputCollection);
+			$self.enterPressBehaviour($inputCollection);
+			$self.setModelsPageEvents();
     }
 
     this.openForm = function(openFormTrigger) {
@@ -204,7 +205,6 @@ var uvel,
       inputs.on('keypress', function(event) {
         if (event.which == 13) {
           var _this = $(this);
-
           event.preventDefault();
           _this.trigger('change');
           _this.blur();
@@ -215,9 +215,9 @@ var uvel,
     this.deleteRow = function(deleteRowTrigger) {
       deleteRowTrigger.on('click', function() {
         var _this = $(this),
-            ajaxRequestLink = _this.hasClass('cart') ? _this.attr('data-url') : $self.buildAjaxRequestLink('deleteRow', _this.attr('data-url'));
+          ajaxRequestLink = _this.hasClass('cart') ? _this.attr('data-url') : $self.buildAjaxRequestLink('deleteRow', _this.attr('data-url'));
 
-        if (confirm("Сигурен ли сте, че искате да изтриете записа?")) {
+        if (confirm('Сигурен ли сте, че искате да изтриете записа?')) {
           $.ajax({
             method: 'POST',
             url: ajaxRequestLink,
@@ -254,13 +254,13 @@ var uvel,
     this.addNumber = function(addNumberTrigger) {
       addNumberTrigger.on('change', function() {
         var _this = $(this),
-            sellingForm = _this.closest('form'),
-            number = _this.val(),
-            moreProductsChecked = sellingForm.find('[data-sell-moreProducts]').is(':checked'),
-            productsAmount = Number(sellingForm.find('[data-sell-productsAmount]').val()),
-            typeRepair = sellingForm.find('[data-sell-repair]').is(':checked'),
-            ajaxUrl = sellingForm.attr('data-scan'),
-            dataSend;
+					sellingForm = _this.closest('form'),
+					number = _this.val(),
+					moreProductsChecked = sellingForm.find('[data-sell-moreProducts]').is(':checked'),
+					productsAmount = Number(sellingForm.find('[data-sell-productsAmount]').val()),
+					typeRepair = sellingForm.find('[data-sell-repair]').is(':checked'),
+					ajaxUrl = sellingForm.attr('data-scan'),
+					dataSend;
 
         if (_this[0].hasAttribute('data-sell-catalogNumber')) {
           dataSend = {
@@ -290,18 +290,16 @@ var uvel,
 
       if(success) {
         shoppingTable.find('tbody').html(html);
-
         $self.cartSumsPopulate(response);
-
         var deleteRowTrigger = $('.delete-btn');
         $self.deleteRow(deleteRowTrigger);
       } else {
         var errors = response.errors,
-            stayingTime = 3000;
+          stayingTime = 3000;
 
         for (var key in errors) {
           var error = errors[key],
-              errorDiv = $('<div class="alert alert-danger table-alert"></div>');
+            errorDiv = $('<div class="alert alert-danger table-alert"></div>');
 
           errorDiv.append(error);
           $('#mainContent').prepend(errorDiv);
@@ -789,8 +787,8 @@ var uvel,
         e.preventDefault();
 
         var buttonState = $(this).attr('data-travelstate'),
-            row = $(this).parents('tr[data-id]'),
-            buttonStateRowId = row.attr('data-id');
+					row = $(this).parents('tr[data-id]'),
+					buttonStateRowId = row.attr('data-id');
 
         $.ajax({
           method: 'POST',
@@ -832,7 +830,11 @@ var uvel,
         '<option value="0">Избери</option>'
 
 			materialsData.forEach(function (option) {
-				newFields += '<option value=' + option.value + ' data-pricebuy=' + option.pricebuy + ' data-material=' + option.material + '>' + option.label + '</option>';
+				newFields += '<option value=' +
+					option.value + ' data-pricebuy=' +
+					option.pricebuy + ' data-material=' +
+					option.material + '>' +
+					option.label + '</option>';
 			});
 
       newFields +=
@@ -898,7 +900,6 @@ var uvel,
           forFlowCollection = $('.stone-flow');
 
       $self.giveElementsIds(forFlowCollection);
-
       addStoneTrigger.on('click', function() {
         $self.addStone(form);
       });
@@ -924,10 +925,8 @@ var uvel,
 					var option = stonesData[i],
 						selected = '';
 
-					if (stone) {
-						if (stone.value == option.value) {
-							selected = 'selected';
-						}
+					if (stone && stone.value == option.value) {
+						selected = 'selected';
 					}
 
 					newFields += '<option value=' +
@@ -1130,7 +1129,7 @@ var uvel,
     this.materialPricesRequestAttach = function(collection, form) {
       collection.on('change', function(){
         $self.materialPricesRequestBuilder(form, $(this));
-      })
+      });
     }
 
 		this.materialPricesRequestBuilder = function (form, _this) {
@@ -1913,7 +1912,7 @@ var uvel,
 				];
 				// Loops through all dropdown items based on input text, and shows only those witch matching letters
 				dropdownItems.filter(function () {
-					var match = '';
+					var match;
 					for (var filterAttr of filterAttributes) {
 						match = this.attributes[filterAttr].value.toLowerCase().indexOf(inputText.toLowerCase()) > -1;
 						if (match) {
@@ -1925,6 +1924,62 @@ var uvel,
 					return match;
 				}).show();
 			});
+		}
+
+		this.setModelsPageEvents = function () {
+			var inputs = $('.models-filter-input');
+			var btnClearFilters = $('#btnClearModelFilters');
+			var modelElements = $('.model-element');
+
+			inputs.on('input', function (event) {
+				// First check the current input, then all others
+				var inputText = event.currentTarget.value.trim();
+				var filterAttributes = [
+					event.currentTarget.dataset.searchAttribute
+				];
+				$self.filterElementsByAttribute(inputText, modelElements, filterAttributes);
+
+				// After the current input is checked, search only through the visible elements
+				var visibleModelElements = $('.model-element:visible');
+
+				// Check other inputs, without the current one
+				for (var i = 0; i < inputs.length; i++) {
+					var input = inputs[i];
+					// Current input is already checked, ignore it
+					if (input != event.currentTarget && input.value != '') {
+						var inputText = input.value.trim();
+						var filterAttributes = [
+							input.dataset.searchAttribute
+						];
+						$self.filterElementsByAttribute(inputText, visibleModelElements, filterAttributes);
+					}
+				}
+			});
+
+			btnClearFilters.on('click', function() {
+				inputs.val('');
+				var elements = $('.model-element');
+				elements.show();
+			});
+		}
+
+		// Filter elements by a given data-attributes to search through
+		// text - the text from the input field
+		// elements - array of the elements to be filtered
+		// filterAttributes - array with the attributes to be searched for
+		this.filterElementsByAttribute = function (text, elements, filterAttributes) {
+			elements.filter(function () {
+				var match;
+				for (var filterAttr of filterAttributes) {
+					match = this.attributes[filterAttr].value.toLowerCase().indexOf(text.toLowerCase()) > -1;
+					if (match) {
+						break;
+					} else {
+						$(this).hide();
+					}
+				}
+				return match;
+			}).show();
 		}
   }
 
