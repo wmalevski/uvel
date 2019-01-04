@@ -107,12 +107,7 @@ var uvel,
       },
       products: {
         selector: '[name="products"]',
-        controllers: ['addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'modelRequestInit', 'imageHandling'],
-        initialized: false
-      },
-      productsTravelling: {
-        selector: '[name="productsTravelling"]',
-        controllers: [],
+        controllers: ['nameFieldSearch', 'addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'modelRequestInit', 'imageHandling'],
         initialized: false
       },
       repairTypes: {
@@ -132,7 +127,7 @@ var uvel,
 			},
 			productsTravelling: {
 				selector: '[name="productsTravelling"]',
-        controllers: ['productName'],
+        controllers: ['nameFieldSearch'],
         initialized: false
 			}
     };
@@ -1874,24 +1869,26 @@ var uvel,
       }
 		}
 
-		this.productName = function (form) {
-			var input = $('[data-product-name]'),
-				dropdown = $('#productNameDropdown'),
-				dropdownItems = $('#productNameDropdown .dropdown-item'),
-				modalWindow = $('#sendProduct .modal-content');
+		// Used in Admin->Products Travelling and Admin->Products
+		this.nameFieldSearch = function (form) {
+			var input = $('.input-search'),
+				dropdown = $(form).find('.dropdown-menu'),
+				dropdownItems = $(form).find('.dropdown-item'),
+				modalWindow = $('.modal-content:visible');
 
 			input.on('focusin', function () {
 				dropdown.removeClass('hidden');
 			});
 
 			modalWindow.on('click', function(event) {
-				// Check if click is outside Product Name input or dropdown menu,
+				// Check if click is outside input or the dropdown menu
 				// so the dropdown can be closed
 				var target = event.target;
-				if (!target.classList.contains('dropdown-item') && target.id != 'inputProductName') {
+				if (!target.classList.contains('input-search') && !target.classList.contains('dropdown-item')) {
 					dropdown.addClass('hidden');
-					if (!input.attr('data-product-id')) {
-						input.val('');
+					// reset the input field text, if it was edited without selecting new option from the dropdown
+					if (input.attr('data-product-name') && input.val() != input.attr('data-product-name')) {
+						input.val(input.attr('data-product-name'));
 					}
 				}
 			});
@@ -1903,6 +1900,7 @@ var uvel,
 				dropdown.addClass('hidden');
 				input.val(optionText);
 				input.attr('data-product-id', optionId);
+				input.attr('data-product-name', optionText);
 			});
 
 			input.on('input', function (event) {

@@ -5,7 +5,9 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="addProductLabel">Добавяне на продукт</h5>
+				<h5 class="modal-title" id="addProductLabel">
+					Добавяне на продукт
+				</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -28,6 +30,21 @@
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label>Модел: </label>
+
+
+
+
+							<input class="form-control input-search" type="text" data-product-name data-product-id placeholder="Модел">
+							<div class="dropdown-menu hidden">
+								@foreach($models as $model)
+								<li id="{{ $model->id }}" class="dropdown-item" data-name="{{ $model->name }}" data-jewel="{{ $model->jewel->id }}">
+									{{ $model->name }}
+								</li>
+								@endforeach
+							</div>
+
+							<!--
+							{{--
 							<select id="model_select" url="ajax/products/" name="model_id" class="model-select form-control model-filled"
 							 data-calculatePrice-model>
 								<option value="">
@@ -39,6 +56,11 @@
 								</option>
 								@endforeach
 							</select>
+							--}}
+							-->
+
+
+
 						</div>
 						<div class="form-group col-md-6">
 							<label>Вид: </label>

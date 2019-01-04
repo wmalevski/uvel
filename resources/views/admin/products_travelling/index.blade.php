@@ -21,12 +21,12 @@
 						<div class="form-group col-md-12">
 							<label>Тип: </label>
 
-
-							<!-- тука това нека да е празно поле с dropdown, и при писане да се филтрира -->
-							<input id="inputProductName" class="form-control" type="text" data-product-name data-product-id placeholder="Продукт">
-							<div id="productNameDropdown" class="dropdown-menu hidden">
+							<input class="form-control input-search" type="text" data-product-name data-product-id placeholder="Продукт">
+							<div class="dropdown-menu hidden">
 								@foreach($products as $product)
-								<li id="{{ $product->id }}" class="dropdown-item" data-name="{{ $product->name }}">{{ $product->name }}</li>
+								<li id="{{ $product->id }}" class="dropdown-item" data-name="{{ $product->name }}">
+									{{ $product->name }}
+								</li>
 								@endforeach
 							</div>
 
@@ -45,8 +45,6 @@
 							-->
 
 
-
-
 						</div>
 					</div>
 
@@ -55,13 +53,12 @@
 							<label for="3">Магазин: </label>
 							<select name="store_to_id" class="form-control">
 								<option value="">Избери магазин</option>
-
 								@foreach($stores as $store)
-								@if($store->id != Auth::user()->getStore()->id)
-								<option value="{{ $store->id }}">
-									{{ $store->name }} - {{ $store->location }}
-								</option>
-								@endif
+									@if($store->id != Auth::user()->getStore()->id)
+									<option value="{{ $store->id }}">
+										{{ $store->name }} - {{ $store->location }}
+									</option>
+									@endif
 								@endforeach
 							</select>
 						</div>

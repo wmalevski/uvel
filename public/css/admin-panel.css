@@ -1,8 +1,8 @@
-#sendProduct .dropdown-menu.hidden {
+.modal-content .dropdown-menu.hidden {
 	display: none;
 }
 
-#sendProduct .dropdown-menu {
+.modal-content .dropdown-menu {
 	position: absolute;
 	display: inline-block;
 	width: 100%;
@@ -10,14 +10,14 @@
 	height: 200px;
 }
 
-#sendProduct #productNameDropdown .dropdown-item {
+.modal-content .dropdown-menu .dropdown-item {
 	padding: 10px;
 }
 
-#sendProduct #productNameDropdown .dropdown-item:hover {
+.modal-content .dropdown-menu .dropdown-item:hover {
 	cursor: pointer;
 }
 
-#sendProduct #inputProductName {
+.modal-content .input-search {
 	padding-left: 10px;
 }
