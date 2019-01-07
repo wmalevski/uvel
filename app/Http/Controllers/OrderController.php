@@ -289,6 +289,7 @@ class OrderController extends Controller
     public function edit(Order $order)
     {
         $order_stones = $order->stones;
+        $order_materials = $order->materials;
         $models = Model::all();
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
