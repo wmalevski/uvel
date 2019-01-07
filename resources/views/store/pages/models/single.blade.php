@@ -44,19 +44,33 @@
 											</div>
 											<div id="gallery_main_mobile" class="visible-xs product-image-thumb thumbs mobile_full_width ">
 												<ul style="opacity: 0; display: block;" class="slide-product-image owl-carousel owl-theme">
-                                                    @foreach($model->photos as $image)
-                                                        <li class="image">
-                                                            <a href="{{ asset("uploads/models/" . $image->photo) }}" class="cloud-zoom-gallery active">
-                                                            <img src="{{ asset("uploads/models/" . $image->photo) }}" alt="{{ $model->name }}">
-                                                            </a>
-                                                        </li>
-                                                    @endforeach
+													@foreach($model->photos as $image)
+													<li class="image">
+														<a href="{{ asset("uploads/models/" . $image->photo) }}" class="cloud-zoom-gallery active">
+														<img src="{{ asset("uploads/models/" . $image->photo) }}" alt="{{ $model->name }}">
+														</a>
+													</li>
+													@endforeach
 												</ul>
 											</div>
 											<div id="detail-right-column" class="right-coloum col-sm-6 fadeInLeft not-animated" data-animate="fadeInLeft">
 												<div class="addthis_sharing_toolbox" data-url="#" data-title="Donec aliquam ante non | Jewelry - HTML Template">
 													<div id="atstbx" class="at-share-tbx-element addthis_32x32_style addthis-smartlayers addthis-animated at4-show">
-														<a class="at-share-btn at-svc-facebook"><span class="at4-icon aticon-facebook" title="Facebook"></span></a><a class="at-share-btn at-svc-twitter"><span class="at4-icon aticon-twitter" title="Twitter"></span></a><a class="at-share-btn at-svc-email"><span class="at4-icon aticon-email" title="Email"></span></a><a class="at-share-btn at-svc-print"><span class="at4-icon aticon-print" title="Print"></span></a><a class="at-share-btn at-svc-compact"><span class="at4-icon aticon-compact" title="More"></span></a>
+														<a class="at-share-btn at-svc-facebook">
+															<span class="at4-icon aticon-facebook" title="Facebook"></span>
+														</a>
+														<a class="at-share-btn at-svc-twitter">
+															<span class="at4-icon aticon-twitter" title="Twitter"></span>
+														</a>
+														<a class="at-share-btn at-svc-email">
+															<span class="at4-icon aticon-email" title="Email"></span>
+														</a>
+														<a class="at-share-btn at-svc-print">
+															<span class="at4-icon aticon-print" title="Print"></span>
+														</a>
+														<a class="at-share-btn at-svc-compact">
+															<span class="at4-icon aticon-compact" title="More"></span>
+														</a>
 													</div>
 												</div>
 											</div>

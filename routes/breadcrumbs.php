@@ -87,8 +87,8 @@ Breadcrumbs::register('models', function ($breadcrumbs) {
 });
 
 Breadcrumbs::register('products', function ($breadcrumbs) {
-    $breadcrumbs->parent('store');
-    $breadcrumbs->push('Каталог с продукти', route('products'));
+		$breadcrumbs->parent('store');
+    $breadcrumbs->push('Налични бижута', route('products'));
 });
 
 Breadcrumbs::register('productsothers', function ($breadcrumbs) {

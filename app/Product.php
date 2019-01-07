@@ -66,53 +66,53 @@ class Product extends Model
         return $this->belongsTo('App\Price')->withTrashed();
     }
 
-    public function reviews() 
+    public function reviews()
     {
         return $this->hasMany('App\Review');
     }
 
-    public function wishLists() 
+    public function wishLists()
     {
         return $this->hasMany('App\WishList');
     }
-    
+
     public function chainedSelects(Model $model){
         $materials = MaterialQuantity::curStore();
         $default = $model->options->where('default', 'yes')->first();
-        
+
         if($model){
             $jewels = Jewel::all();
             $model_stones = $model->stones;
             $model_photos = $model->photos;
-            
+
             if($default){
-                $retail_prices = $default->material->material->pricesBuy; 
-        
+                $retail_prices = $default->material->material->pricesBuy;
+
                 $pass_jewels = array();
-                
+
                 foreach($jewels as $jewel){
                     if($jewel->id == $model->jewel_id){
                         $selected = true;
                     }else{
                         $selected = false;
                     }
-    
+
                     $pass_jewels[] = (object)[
                         'value' => $jewel->id,
                         'label' => $jewel->name,
                         'selected' => $selected
                     ];
                 }
-        
+
                 $prices_retail = array();
-                
+
                 foreach($retail_prices as $price){
                     if($price->id == $default->retail_price_id){
                         $selected = true;
                     }else{
                         $selected = false;
                     }
-    
+
                     $prices_retail[] = (object)[
                         'value' => $price->id,
                         'label' => $price->slug.' - '.$price->price.'лв',
@@ -123,7 +123,7 @@ class Product extends Model
             }
 
             $pass_stones = array();
-            
+
             foreach($model_stones as $stone){
                 $pass_stones[] = [
                     'value' => $stone->id,
@@ -138,7 +138,7 @@ class Product extends Model
 
 
             $pass_materials = array();
-            
+
             foreach($materials as $material){
                 if($material->material->pricesBuy){
                     if($default){
@@ -150,8 +150,8 @@ class Product extends Model
                     }else{
                         $selected = false;
                     }
-                    
-    
+
+
                     //BE: Use materials quantity, not MATERIAL TYPE! Do it after merging.
                     $pass_materials[] = (object)[
                         'value' => $material->id,
@@ -166,7 +166,7 @@ class Product extends Model
             $pass_photos = array();
 
             $pass_stones = array();
-            
+
             foreach($model_stones as $stone){
                 $pass_stones[] = [
                     'value' => $stone->stone->id,
@@ -184,11 +184,11 @@ class Product extends Model
             foreach($model_photos as $photo){
                 $url =  Storage::get('public/models/'.$photo->photo);
                 $ext_url = Storage::url('public/models/'.$photo->photo);
-                
+
                 $info = pathinfo($ext_url);
-                
+
                 $image_name =  basename($ext_url,'.'.$info['extension']);
-                
+
                 $base64 = base64_encode($url);
 
                 $pass_photos[] = [
@@ -196,9 +196,9 @@ class Product extends Model
                     'base64' => 'data:image/'.$info['extension'].';base64,'.$base64
                 ];
             }
-    
+
             return array(
-                'retail_prices' => $prices_retail, 
+                'retail_prices' => $prices_retail,
                 'jewels_types' => $pass_jewels,
                 'stones' => $pass_stones,
                 'weight' => $model->weight,
@@ -229,10 +229,10 @@ class Product extends Model
         public function listProductAvgRatingStars($product) {
             for($i = 1; $i <= 5; $i++){
                 if($this->getProductAvgRating($product) >= $i){
-                    echo '<i class="spr-icon spr-icon-star" style=""></i>';
+                    echo '<i class="spr-icon spr-icon-star"></i>';
                 }elseif($product->getProductAvgRating($product) < $i){
-                    echo'<i class="spr-icon spr-icon-star-empty" style=""></i>';
-                }   																		
+                    echo'<i class="spr-icon spr-icon-star-empty"></i>';
+                }
             }
         }
 
@@ -245,19 +245,19 @@ class Product extends Model
                 } else if($request->priceTo){
                     $query->where('price', '<=', $request->priceTo);
                 }
-    
+
                 if ($request->bySize) {
                     $query->whereIn('size', $request->bySize);
                 }
-        
+
                 if ($request->byStore) {
                     $query->whereIn('store_id', $request->byStore);
                 }
-        
+
                 if ($request->byJewel) {
                     $query->whereIn('jewel_id', $request->byJewel);
                 }
-        
+
                 if ($request->byMaterial) {
                     $query->whereIn('material_type_id', $request->byMaterial);
                 }

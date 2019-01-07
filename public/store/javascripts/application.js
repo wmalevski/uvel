@@ -467,291 +467,284 @@ borderSize:4,showLens:!0,borderColour:"#888",lensBorderSize:1,lensBorderColour:"
 var uvelStore,
 	uvelStoreController = function() {
 		var $self = this,
-				$window = $(window);
+			$window = $(window);
 
-		this.init = function() {
-			var $quickViewTrigger = $('.quick_shop'),
-					//$subscribeTrigger = $('form[name="mc-embedded-subscribe-form"] button[type="submit"]'),
-					$filterTrigger = $('.filter-tag-group .tag-group li'),
-					$filterInputTrigger = $('.filter-tag-group .tag-group input'),
-					$shippingMethodTrigger = $('[name="shippingMethod"]'),
-					$paymentMethodTrigger = $('[name="paymentMethod"]'),
-					$discountCradInput = $('#discountCard'),
-					$addDiscountTrigger = $('.cart-applyDiscount'),
-					$removeDiscountTrigger = $('.discount-remove'),
-					$addToCartTrigger = $('.add-to-cart'),
-					$removeFromCartTrigger = $('.remove-from-cart'),
-					$updateCartQuantityTrigger = $('.update-cart-quantity'),
-					$addToWishTrigger = $('.wish-list'),
-					$orderProductTrigger = $('.order_product'),
-					$sortTrigger = $('.sort');
+	this.init = function() {
+		var $quickViewTrigger = $('.quick_shop'),
+			//$subscribeTrigger = $('form[name="mc-embedded-subscribe-form"] button[type="submit"]'),
+			$filterTrigger = $('.filter-tag-group .tag-group li'),
+			$filterInputTrigger = $('.filter-tag-group .tag-group input'),
+			$shippingMethodTrigger = $('[name="shippingMethod"]'),
+			$paymentMethodTrigger = $('[name="paymentMethod"]'),
+			$discountCradInput = $('#discountCard'),
+			$addDiscountTrigger = $('.cart-applyDiscount'),
+			$removeDiscountTrigger = $('.discount-remove'),
+			$addToCartTrigger = $('.add-to-cart'),
+			$removeFromCartTrigger = $('.remove-from-cart'),
+			$updateCartQuantityTrigger = $('.update-cart-quantity'),
+			$addToWishTrigger = $('.wish-list'),
+			$orderProductTrigger = $('.order_product'),
+			$sortTrigger = $('.sort');
 
-			$self.quickviewAttach($quickViewTrigger);
-			$self.imageHandling();
-			//$self.subscribeAttach($subscribeTrigger);
-			$self.filterAttach($filterTrigger);
-			$self.filterInputAttach($filterInputTrigger);
-			$self.shippingMethodAttach($shippingMethodTrigger);
-			$self.paymentMethodAttach($paymentMethodTrigger);
-			$self.addDiscountAttach($addDiscountTrigger);
-			$self.submitCustomOrder();
-			$self.removeDiscountAttach($removeDiscountTrigger);
-			$self.discountEnter($discountCradInput);
-			$self.addToCartAttach($addToCartTrigger);
-			$self.removeFromCartAttach($removeFromCartTrigger);
-			$self.updateCartQuantityAttach($updateCartQuantityTrigger);
-			$self.addToWishlistAttach($addToWishTrigger);
-			$self.reviewWordCount();
-			$self.setReviewRating();
-			$self.orderProductAttach($orderProductTrigger);
-			$self.sortProductsAttach($sortTrigger);
-			$self.quickViewImageSwap();
-		};
+		$self.quickviewAttach($quickViewTrigger);
+		$self.imageHandling();
+		//$self.subscribeAttach($subscribeTrigger);
+		$self.filterAttach($filterTrigger);
+		$self.filterInputAttach($filterInputTrigger);
+		$self.shippingMethodAttach($shippingMethodTrigger);
+		$self.paymentMethodAttach($paymentMethodTrigger);
+		$self.addDiscountAttach($addDiscountTrigger);
+		$self.submitCustomOrder();
+		$self.removeDiscountAttach($removeDiscountTrigger);
+		$self.discountEnter($discountCradInput);
+		$self.addToCartAttach($addToCartTrigger);
+		$self.removeFromCartAttach($removeFromCartTrigger);
+		$self.updateCartQuantityAttach($updateCartQuantityTrigger);
+		$self.addToWishlistAttach($addToWishTrigger);
+		$self.reviewWordCount();
+		$self.setReviewRating();
+		$self.orderProductAttach($orderProductTrigger);
+		$self.sortProductsAttach($sortTrigger);
+		$self.quickViewImageSwap();
+	};
 
-		this.reviewWordCount = function() {
-			$('.spr-form-input-textarea').keyup(function() {
-				var textLength = this.value.trim().split('').length;
-				$('[for="' + this.id + '"] span').text('(' + (1500 - textLength) + ')');
-			});
-		}
+	this.reviewWordCount = function () {
+		$('.spr-form-input-textarea').keyup(function () {
+			var textLength = this.value.trim().split('').length;
+			$('[for="' + this.id + '"] span').text('(' + (1500 - textLength) + ')');
+		});
+	}
 
-		this.quickViewImageSwap = function() {
-			$('.modal').on('click', '.image-thumb', function(e) {
-				e.preventDefault();
-				var mainImage = $('.main-image img');
+	this.quickViewImageSwap = function () {
+		$('.modal').on('click', '.image-thumb', function (e) {
+			e.preventDefault();
+			var mainImage = $('.main-image img');
 
-				if (mainImage.attr('src') != this.dataset.image) {
-					mainImage.attr('src', this.dataset.image);
+			if (mainImage.attr('src') != this.dataset.image) {
+				mainImage.attr('src', this.dataset.image);
+			}
+		});
+	}
+
+	this.sortProductsAttach = function (trigger) {
+		trigger.on('click', this.sortProducts);
+		// initial sort from newest to oldest
+		var option = $('[data-option-value="created"][data-order="desc"]');
+		option.trigger('click');
+	}
+
+	this.sortProducts = function () {
+		var productsList = $('#sandBox'),
+			products = productsList.children('li'),
+			sortMethod = this.dataset.optionValue.split('-')[0],
+			sortOrder = this.dataset.order;
+
+		products.sort(function (firstItem, secondItem) {
+			var firstItemValue, secondItemValue;
+
+			if (sortMethod == 'price') {
+				firstItemValue = parseInt(firstItem.dataset.price);
+				secondItemValue = parseInt(secondItem.dataset.price);
+			} else if (sortMethod == 'title') {
+				firstItemValue = firstItem.dataset.alpha.toLowerCase();
+				secondItemValue = secondItem.dataset.alpha.toLowerCase();
+			} else if (sortMethod == 'created') {
+				firstItemValue = parseInt(firstItem.dataset.id);
+				secondItemValue = parseInt(secondItem.dataset.id);
+			}
+
+			if (sortOrder == 'asc') {
+				if (firstItemValue > secondItemValue) {
+					return 1;
+				} else {
+					return -1;
 				}
-			});
-		}
+			} else {
+				if (firstItemValue > secondItemValue) {
+					return -1;
+				} else {
+					return 1;
+				}
+			}
+		});
 
-		this.sortProductsAttach = function(trigger) {
-			trigger.on('click', sortProducts);
+		products.detach().appendTo(productsList);
+	}
 
-			var productsList = $('#sandBox'),
-				products;
-			
-			function sortProducts() {
-				products = productsList.children('li');
-				
-				var sortMethod = this.dataset.optionValue.split('-')[0],
-					sortOrder = this.dataset.order;
+	this.setReviewRating = function () {
+		var currentSelected = 0,
+			tempSelected = 0,
+			removeInterval,
+			stars = $('.spr-form-review .spr-icon-star');
 
-				products.sort(function(firstItem, secondItem) {
-					var firstItemValue, secondItemValue;
+		stars.on('click', function (e) {
+			e.preventDefault();
+			currentSelected = Number(this.dataset.value);
 
-					if (sortMethod == 'price') {
-						firstItemValue = parseInt(firstItem.dataset.price),
-						secondItemValue = parseInt(secondItem.dataset.price);
-					}
-					else if (sortMethod == 'title') {
-						firstItemValue = firstItem.dataset.alpha.toLowerCase(),
-						secondItemValue = secondItem.dataset.alpha.toLowerCase();
-					}
-					else if (sortMethod == 'created') {
-						firstItemValue = parseInt(firstItem.dataset.id),
-						secondItemValue = parseInt(secondItem.dataset.id);
-					}
+			$('[name="rating"]').attr('value', currentSelected);
+			$('#btnSubmitReview').attr('disabled', false);
+			handleStars(currentSelected);
+		});
 
-					if (sortOrder == 'asc') {
-						if (firstItemValue>secondItemValue) {
-							return 1;
-						}
-						else {
-							return -1;
-						}				
-					}
-					else {
-						if (firstItemValue>secondItemValue) {
-							return -1;
-						}
-						else {
-							return 1;
-						}
-					}
-				});
+		stars.on('mouseover', function () {
+			tempSelected = Number(this.dataset.value);
+			handleStars(tempSelected);
+		});
 
-				products.detach().appendTo(productsList);
+		stars.on('mouseout', function () {
+			if (tempSelected != currentSelected) {
+				removeInterval = setInterval(undoStars(), 50);
+			}
+		});
 
+		function undoStars() {
+			var state = tempSelected > currentSelected,
+				target = state ? tempSelected - currentSelected : currentSelected - tempSelected,
+				current = 0;
+
+			function checkCurrent() {
+				current++;
+
+				if (current == target) {
+					current = 0;
+					clearInterval(removeInterval);
+					removeInterval = null;
+				}
+			}
+
+			return function () {
+				if (state) {
+					stars[tempSelected - 1 - current].classList.add('spr-icon-star-empty');
+					checkCurrent();
+					return current;
+				} else {
+					stars[tempSelected + current].classList.remove('spr-icon-star-empty');
+					checkCurrent();
+					return current;
+				}
 			};
 		}
 
-		this.setReviewRating = function() {
-			var currentSelected = 0,
-				tempSelected = 0,
-				removeInterval,
-				stars = $('.spr-form-review .spr-icon-star');
+		function handleStars(value) {
+			clearInterval(removeInterval);
+			removeInterval = null;
 
-			stars.on('click', function(e) {
-				e.preventDefault();
-				currentSelected = Number(this.dataset.value);
-				
-				$('[name="rating"]').attr('value', currentSelected);
-				handleStars(currentSelected);
-			});
-
-			stars.on('mouseover', function() {
-				tempSelected = Number(this.dataset.value);
-				handleStars(tempSelected);
-			});
-
-			stars.on('mouseout', function() {
-				if (tempSelected != currentSelected)
-					removeInterval = setInterval(undoStars(), 50);
-			});
-
-			function undoStars() {
-				var state = tempSelected > currentSelected,
-					target = state ? tempSelected - currentSelected : currentSelected - tempSelected,
-					current = 0;
-				
-				function checkCurrent() {
-					current++;
-
-					if (current == target) {
-						current = 0;
-						clearInterval(removeInterval);
-						removeInterval = null;
-					}
-				}
-
-				return function() {
-					if (state) {
-						stars[tempSelected - 1 - current].classList.add('spr-icon-star-empty');
-						checkCurrent();
-						return current;
-					}
-					else {
-						stars[tempSelected + current].classList.remove('spr-icon-star-empty');
-						checkCurrent();
-						return current;
-					}
-				};
-			}
-
-			function handleStars(value) {
-				clearInterval(removeInterval);
-				removeInterval = null;
-				
-				for (var i = 0; i < stars.length; i++) {
-					if (i < value)
-						stars[i].classList.remove('spr-icon-star-empty')
-					else
-						stars[i].classList.add('spr-icon-star-empty')
-				}	
-			}
-		}
-
-		this.imageHandling = function() {
-		  var uploadImagesTrigger = $('.drop-area-input'),
-			  	dropArea = $('.drop-area'),
-			  	deleteImagesTriggerDropArea = $('.drop-area-gallery .close');
-
-		  uploadImagesTrigger.on('change', function(event) {
-				var $this = $(this);
-				$self.uploadImages(event);
-		  });
-
-		  $self.dragNdropImages(dropArea);
-
-		  $self.deleteImagesDropArea(deleteImagesTriggerDropArea);
-		}
-
-		this.uploadImages = function(event) {
-			var files = event.target.files,
-				collectionFiles= [];
-			
-			for(var file of files) {
-				if(file.type == "image/svg+xml") {
-				alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
+			for (var i = 0; i < stars.length; i++) {
+				if (i < value) {
+					stars[i].classList.remove('spr-icon-star-empty');
 				} else {
-				collectionFiles.push(file);
+					stars[i].classList.add('spr-icon-star-empty');
 				}
-      		}
+			}
+		}
+	}
 
-      		$self.appendImages(collectionFiles);
-    	}
+	this.imageHandling = function () {
+		var uploadImagesTrigger = $('.drop-area-input'),
+			dropArea = $('.drop-area'),
+			deleteImagesTriggerDropArea = $('.drop-area-gallery .close');
 
-    this.dragNdropImages = function(dropArea) {
-      	$('html').on('dragover', function(event) {
-        	event.preventDefault();
-      	})
+		uploadImagesTrigger.on('change', function (event) {
+			$self.uploadImages(event);
+		});
 
-      	$('html').on('drop', function(event) {
-        	event.preventDefault();
-      	})
+		$self.dragNdropImages(dropArea);
+		$self.deleteImagesDropArea(deleteImagesTriggerDropArea);
+	}
 
-      	dropArea.on('dragenter', function(event) {
-    		event.preventDefault();
-        	var _this = $(event.currentTarget);
+	this.uploadImages = function (event) {
+		var files = event.target.files,
+			collectionFiles = [];
 
-        	_this.addClass('dragging');
-        	_this.children().css('pointer-events', 'none');
-      	})
+		for (var file of files) {
+			if (file.type == 'image/svg+xml') {
+				alert('Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif');
+			} else {
+				collectionFiles.push(file);
+			}
+		}
 
-      	dropArea.on('dragleave', function(event) {
-        	event.preventDefault();
-        	var _this = $(event.currentTarget);
+		$self.appendImages(collectionFiles);
+	}
 
-        	_this.removeClass('dragging');
-        	_this.children().css('pointer-events', 'auto');
-      	})
+	this.dragNdropImages = function (dropArea) {
+		$('html').on('dragover', function (event) {
+			event.preventDefault();
+		});
 
-      	dropArea.on('drop', function(event) {
-        	event.preventDefault();
-        	var _this = $(event.currentTarget),
-            	collectionFiles = [];
+		$('html').on('drop', function (event) {
+			event.preventDefault();
+		});
+
+		dropArea.on('dragenter', function (event) {
+			event.preventDefault();
+			var _this = $(event.currentTarget);
+
+			_this.addClass('dragging');
+			_this.children().css('pointer-events', 'none');
+		});
+
+		dropArea.on('dragleave', function (event) {
+			event.preventDefault();
+			var _this = $(event.currentTarget);
+
+			_this.removeClass('dragging');
+			_this.children().css('pointer-events', 'auto');
+		});
+
+		dropArea.on('drop', function (event) {
+			event.preventDefault();
+			var _this = $(event.currentTarget),
+				collectionFiles = [];
 
 			event.dataTransfer = event.originalEvent.dataTransfer;
 			_this.removeClass('dragging');
 			_this.children().css('pointer-events', 'auto');
 
 			if (event.dataTransfer.items) {
-				for (var i=0; i<event.dataTransfer.items.length; i++) {
+				for (var i = 0; i < event.dataTransfer.items.length; i++) {
 					var item = event.dataTransfer.items[i];
 
 					if (item.kind === 'file') {
 						var file = item.getAsFile();
-						if(file.type == "image/svg+xml") {
-							alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
+						if (file.type == 'image/svg+xml') {
+							alert('Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif');
 						} else {
 							collectionFiles.push(file);
 						}
 					}
 				}
-			} 
-			else {
-				for (var i=0; i<event.dataTransfer.files.length; i++) {
+			} else {
+				for (var i = 0; i < event.dataTransfer.files.length; i++) {
 					var file = event.dataTransfer.files[i];
-					if(file.type == "image/svg+xml") {
-						alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
+					if (file.type == "image/svg+xml") {
+						alert('Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif');
 					} else {
 						collectionFiles.push(file);
 					}
 				}
 			}
 
-        	$self.appendImages(collectionFiles);
-      	})
-    }
+			$self.appendImages(collectionFiles);
+		});
+	}
 
-    this.appendImages = function(collectionFiles) {
-      	var _instanceFiles = [];
+	this.appendImages = function (collectionFiles) {
+		var _instanceFiles = [];
 
-      	collectionFiles.forEach(function(element) {
+		collectionFiles.forEach(function (element) {
 			var reader = new FileReader();
 			reader.readAsDataURL(element);
 
-			reader.onloadend = function() {
+			reader.onloadend = function () {
 				var imageWrapper = document.createElement('div');
 				var closeBtn = document.createElement('div');
 				var img = document.createElement('img');
 
 				_instanceFiles.push(reader.result);
 
-				imageWrapper.setAttribute("class", "image-wrapper");
-				closeBtn.setAttribute("class", "close");
+				imageWrapper.setAttribute('class', 'image-wrapper');
+				closeBtn.setAttribute('class', 'close');
 				closeBtn.innerHTML = '&#215;';
 				$self.deleteImagesDropArea($(closeBtn));
 
@@ -760,645 +753,610 @@ var uvelStore,
 				imageWrapper.append(img);
 				$('.drop-area-gallery').append(imageWrapper);
 			}
-      	});
-    }
+		});
+	}
 
-    this.deleteImagesDropArea = function(deleteBtn) {
-      	deleteBtn.on('click', function() {
-        	$(this).parent('.image-wrapper').remove();
-      	});
-    }
+	this.deleteImagesDropArea = function (deleteBtn) {
+		deleteBtn.on('click', function () {
+			$(this).parent('.image-wrapper').remove();
+		});
+	}
 
-		this.quickviewAttach = function(quickViewTrigger) {
-			quickViewTrigger.on('click', function() {
-				var $this = $(this);
-				$self.quickviewOpen($this);
-			})
-		}
+	this.quickviewAttach = function (quickViewTrigger) {
+		quickViewTrigger.on('click', function () {
+			$self.quickviewOpen($(this));
+		})
+	}
 
-		this.quickviewOpen = function(currentPressedBtn) {
-		  var $this = currentPressedBtn,
-			  	ajaxRequestLink = '/ajax/' + $this.attr('data-url') + 'quickview';
+	this.quickviewOpen = function (currentPressedBtn) {
+		var $this = currentPressedBtn,
+			ajaxRequestLink = '/ajax/' + $this.attr('data-url') + 'quickview';
 
-			$.ajax({
-				url: ajaxRequestLink,
-				success: function(resp) {
-					var modal = $this.parents().find('.edit--modal_holder .modal-content');
-					modal.html(resp);
-					
-					quickviewCarousel();
+		$.ajax({
+			url: ajaxRequestLink,
+			success: function (response) {
+				var modal = $this.parents().find('.edit--modal_holder .modal-content');
+				modal.html(response);
 
-					var addToCartTrigger = modal.find('.add-to-cart');
-					var orderProductTrigger = modal.find('.order_product');
+				quickviewCarousel();
 
-					if (addToCartTrigger.length > 0) {
-						$self.addToCartAttach(addToCartTrigger);
-					}	
-					else {
-						$self.orderProductAttach(orderProductTrigger);
-					}
+				var addToCartTrigger = modal.find('.add-to-cart');
+				var orderProductTrigger = modal.find('.order_product');
 
-				}
-			});
-
-			function quickviewCarousel() {
-				if ($('#gallery_main_qs').length) {
-					imagesLoaded('#gallery_main_qs', function() {
-						$("#gallery_main_qs").owlCarousel({
-							navigation : true,
-							pagination: false,
-							autoPlay: true,
-							stopOnHover: true,
-							items: 4,
-							itemsDesktop : [1199,4],
-							itemsDesktopSmall : [979,3],
-							itemsTablet: [768,3],
-							itemsTabletSmall: [540,2],
-							itemsMobile : [360,1],
-							scrollPerPage: true,
-							navigationText: ['<span class="btooltip" title="Previous"></span>', '<span class="btooltip" title="Next"></span>']
-						});
-					});
-				}
-			}
-		}
-
-		this.subscribeAttach = function(subscribeTrigger) {
-			subscribeTrigger.on('click', function(e) {
-				e.preventDefault();
-				var $this = $(this);
-				$self.subscribe($this);
-			})
-		}
-
-		this.subscribe = function(subscribeBtn) {
-			var _this = subscribeBtn,
-					form = _this.closest('form'),
-					ajaxRequestLink = form.attr('action'),
-					mailInput = form.find('input[name="email"]'),
-					mail = mailInput.val(),
-					captchaInput = form.find('[name="g-recaptcha-response"]'),
-					captcha = captchaInput.val(),
-					data = {token: $('meta[name="csrf-token"]').attr('content')};
-
-			data.email = mail;
-			data["g-recaptcha-response"] = captcha;
-
-			$.ajax({
-				method: "POST",
-				url: ajaxRequestLink,
-				dataType: "json",
-				data: data,
-				success: function(resp) {
-					var message = resp.success;
-
-					$self.ajaxReturnMessage(message, 'success');
-					mailInput.val('');
-				},
-				error: function(err) {
-					var errors = JSON.parse(err.responseText).errors,
-							messages = '';
-
-					Object.keys(errors).forEach(function(key) {
-						var message = errors[key][0];
-
-						messages += message +'<br>';
-					})
-
-					$self.ajaxReturnMessage(messages, 'error');
-				}
-			})
-		}
-
-		this.ajaxReturnMessage = function(message, type) {
-			var messageContainer = $('<div class="info-message"></div>');
-
-			messageContainer.addClass(type);
-			messageContainer.append(message);
-			$('body').append(messageContainer);
-			$self.showMessage(messageContainer);
-		}
-
-		this.showMessage = function(message) {
-			var timeToStay = 5000,
-					navi = $('.top-navigation'),
-					header = $('header'),
-					naviHeight = navi.outerHeight();
-
-			if (header.hasClass('affix')) {
-				message.css('top', naviHeight);
-			}
-
-			message.slideDown('fast');
-			setTimeout(function() {
-				message.slideUp('fast', function() {
-					message.remove();
-				})
-			}, timeToStay)
-		}
-
-		this.filterAttach = function(filterBtn) {
-			filterBtn.on('click', function(e) {
-				e.preventDefault();
-
-				var $this = $(this);
-				$self.filter($this);
-			})
-		}
-
-		this.filterInputAttach = function(filterInput) {
-			filterInput.on('change', function() {
-				var $this = $(this);
-				$self.filter($this);
-			})
-		}
-
-		this.filter = function(filterBtn) {
-			var _this = filterBtn,
-					filterForm = _this.closest('.filter-tag-group'),
-					formUrl = filterForm.attr('data-url'),
-					baseUrl = window.location.origin + '/',
-					ajaxURL = baseUrl + formUrl,
-					productsContainer = $('#sandBox'),
-					listType = document.querySelector('.option-set .active').id;
-
-			if (_this.is('input') && _this.val() !== '' && _this.val() != 0) {
-				_this.addClass('selected');
-			} else if (_this.is('input')) {
-				_this.removeClass('selected');
-			} else {
-				_this.toggleClass('selected');
-			}
-
-			var filterBtns = filterForm.find('.tag-group').find('li.selected');
-			
-			var filterInputs = filterForm.find('.tag-group').find('input.selected');
-
-			Array.prototype.push.apply(filterBtns, filterInputs);
-
-		for (var i=0; i < filterBtns.length; i++) {
-				if (i == 0) {
-					ajaxURL += '?';
-				}
-
-				var btn = $(filterBtns[i]);
-
-				if (btn.is('input')) {
-					ajaxURL += btn.attr('data-id') + btn.val().toString();
+				if (addToCartTrigger.length > 0) {
+					$self.addToCartAttach(addToCartTrigger);
 				} else {
-					ajaxURL += btn.find('a').attr('data-id')
-				}
-
-				if (i < filterBtns.length - 1) {
-					ajaxURL += '&'
+					$self.orderProductAttach(orderProductTrigger);
 				}
 			}
+		});
 
-			if (filterBtns.length == 0) {	
-				ajaxURL += '?' + 'listType=' + listType;
-			}
-			else {
-				ajaxURL += '&' + 'listType=' + listType;
-			}
-
-			$.ajax({
-				method: 'GET',
-				url: ajaxURL,
-				success: function(resp) {
-					productsContainer.animate({
-						opacity: 0
-					}, 400, function() {
-						productsContainer.html(resp);
-						$self.quickviewAttach($('.quick_shop'));
+		function quickviewCarousel() {
+			if ($('#gallery_main_qs').length) {
+				imagesLoaded('#gallery_main_qs', function () {
+					$('#gallery_main_qs').owlCarousel({
+						navigation: true,
+						pagination: false,
+						autoPlay: true,
+						stopOnHover: true,
+						items: 4,
+						itemsDesktop: [1199, 4],
+						itemsDesktopSmall: [979, 3],
+						itemsTablet: [768, 3],
+						itemsTabletSmall: [540, 2],
+						itemsMobile: [360, 1],
+						scrollPerPage: true,
+						navigationText: ['<span class="btooltip" title="Previous"></span>', '<span class="btooltip" title="Next"></span>']
 					});
-
-					productsContainer.animate({
-						opacity: 1
-					}, 400)
-				},
-				error: function(err) {
-					console.log(err);
-				}
-			})
-		}
-
-		this.addDiscountAttach = function(addDiscountBtn) {
-			addDiscountBtn.on('click', function() {
-				var $this = $(this);
-				$self.addDiscount($this);
-			})
-		}
-
-		this.addDiscount = function(addDiscountBtn) {
-			var _this = addDiscountBtn,
-					discountInput = $('#discountCard'),
-					barcode = discountInput.val(),
-					_path = _this.attr('data-url'),
-					ajaxURL = _path + barcode;
-
-			$.ajax({
-				method: 'GET',
-				url: ajaxURL,
-				success: function(resp) {
-					$self.dicountResponseHandler(resp)
-				}
-			})
-		}
-
-		this.removeDiscountAttach = function(removeBtn) {
-			removeBtn.on('click', function() {
-				var $this = $(this);
-				$self.removeDiscount($this);
-			})
-		}
-
-		this.removeDiscount = function(removeBtn) {
-			var ajaxUrl = removeBtn.attr('data-url');
-
-			$.ajax({
-				method: 'GET',
-				url: ajaxUrl,
-				success: function(resp) {
-					$self.dicountResponseHandler(resp);
-				}
-			})
-		}
-
-		this.dicountResponseHandler = function(response) {
-			var success = response.success;
-
-			if (success) {
-				var discountContainer = $('.discount-container'),
-						discountInput = $('#discountCard'),
-						discounts = response.condition,
-        		newFields = '',
-        		total = response.total,
-        		subtotal = response.subtotal,
-        		subtotalDisplay = $($('.bottom-summary .subtotal')[0]),
-						totalDisplay = $($('.bottom-summary .subtotal')[1]);
-
-				for (var key in discounts) {
-					var discount = discounts[key],
-						discountAmount = key,
-						label = discount.value,
-						discountID = discount.attributes.discount_id;
-
-					var newDiscount =
-						'<div class="col-xs-24">' +
-						'<span class="discount discount-label">'+label+'</span>' +
-						'<span data-url="/ajax/removeDiscount/'+discountID+'" class="discount discount-remove">' +
-						'<i class="fas fa-times"></i>' +
-						'</span>' +
-						'</div>';
-
-					newFields += newDiscount;
-				}
-
-        		discountContainer.html(newFields);
-
-				var removeDiscountTrigger = $('.discount-remove');
-					$self.removeDiscountAttach(removeDiscountTrigger);
-
-					totalDisplay.html(total + ' лв');
-					subtotalDisplay.html(subtotal + 'лв');
-
-					discountInput.val('');
-			} else {
-				var message = "Системата не открива карта за отстъпка с такъв номер."
-
-				$self.ajaxReturnMessage(message, 'error');
+				});
 			}
 		}
+	}
 
-		this.discountEnter = function(discountInput) {
-			var _this = discountInput,
-					applyBtn = $('.cart-applyDiscount');
+	this.subscribeAttach = function (subscribeTrigger) {
+		subscribeTrigger.on('click', function (e) {
+			e.preventDefault();
+			$self.subscribe($(this));
+		})
+	}
 
-			_this.on('keypress', function(event) {
-				if (event.which == 13) {
-					event.preventDefault();
-					applyBtn.click();
-					_this.blur();
-				}
-      		})
-		}
+	this.subscribe = function (subscribeBtn) {
+		var _this = subscribeBtn,
+			form = _this.closest('form'),
+			ajaxRequestLink = form.attr('action'),
+			mailInput = form.find('input[name="email"]'),
+			mail = mailInput.val(),
+			captchaInput = form.find('[name="g-recaptcha-response"]'),
+			captcha = captchaInput.val(),
+			data = {
+				token: $('meta[name="csrf-token"]').attr('content')
+			};
 
-		this.shippingMethodAttach = function(shippingMethodTrigger) {
-			shippingMethodTrigger.on('change', function() {
-				var $this = $(this);
-				$self.shippingMethodSelect($this);
-			})
-		}
+		data.email = mail;
+		data['g-recaptcha-response'] = captcha;
 
-		this.shippingMethodSelect = function(shippingMethodInput) {
-			var _this = shippingMethodInput,
-					form = _this.closest('form'),
-					id = _this.attr('id'),
-					toHide = form.find('.shipping-method'),
-					toShow = form.find('.'+id),
-					paymentMethod = form.find('.payment-method'),
-					hiddenShippingInput = $('[type="hidden"][name="shipping_method"]'),
-					method = _this.attr('data-method');
-
-			hiddenShippingInput.val(method);
-
-			toHide.slideUp('fast');
-			toHide.animate({
-				'opacity': 0
-			}, 400)
-
-			toShow.slideDown('fast');
-			toShow.animate({
-				'opacity': 1
-			}, 400)
-
-			paymentMethod.slideDown('fast');
-
-			if (id == 'shipping_shop') {
-				var deliveryPaymentInput = form.find('#payment_delivery');
-
-				deliveryPaymentInput.prop('checked', true);
-				$self.paymentMethodChange(deliveryPaymentInput);
-			}
-		}
-
-		this.paymentMethodAttach = function(paymentMethodTrigger) {
-			paymentMethodTrigger.on('change', function() {
-				var $this = $(this);
-				$self.paymentMethodChange($this);
-			})
-		}
-
-		this.paymentMethodChange = function(paymentInput) {
-			var _this = paymentInput,
-				hiddenPaymentInput = $('[type="hidden"][name="payment_method"]'),
-				method = _this.attr('data-method');
-
-			hiddenPaymentInput.val(method);
-		}
-
-		this.submitCustomOrder = function() {
-			var form = $('form.customOrder-form'),
-				submitButton = form.find('[type="submit"]');
-
-			submitButton.on('click', function(e) {
-				e.preventDefault();
-
-				var $this = $(this),
-					inputFields = form.find('select , input, textarea');
-
-				$self.getFormFields(form, inputFields);
-			})
-		}
-
-		this.addToCartAttach = function(addToCartBtn) {
-			addToCartBtn.on('click', function(e) {
-				e.preventDefault();
-
-				var $this = $(this);
-				$self.addToCart($this);
-			})
-		}
-
-		this.addToCart = function(addToCartBtn) {
-			var _this = addToCartBtn,
-					ajaxURL = _this.attr('data-url');
-
-			if (_this.hasClass('productsothers')) {
-				ajaxURL += '/' + _this.closest('form').find('.item-quantity').val()
-			}
-
-			$.ajax({
-				method: "GET",
-				url: ajaxURL,
-				success: function(resp) {
-					var success = resp.success;
-
-					if (success) {				
-						var cartNum = $('.cart-link span.number'),
-								quantity = resp.quantity,
-								message = 'Продукта беше успешно добавен в количката!';
-
-						cartNum.html(quantity);
-
-						if (_this.closest('.modal').length > 0) {
-							$self.ajaxReturnMessage(message, 'success');
-						} else {
-							$self.ajaxReturnMessage(message, 'success');
-						}
-					} else {
-						var message = resp.error;
-
-						if (_this.closest('.modal').length > 0) {
-							$self.ajaxReturnMessage(message, 'error');
-						} else {
-							$self.ajaxReturnMessage(message, 'error');
-						}
-					}
-				}
-			})
-		}
-
-		this.orderProductAttach = function(orderBtn) {
-			orderBtn.on('click', function(e) {
-				e.preventDefault();
-
-				var $this = $(this);
-				$self.orderProduct($this);
-			});
-		}
-
-		this.orderProduct = function(orderBtn) {
-			var _this = orderBtn,
-				ajaxURL = _this.attr('data-url');
-			
-			$.ajax({
-				method: "GET",
-				url: ajaxURL,
-				success: function(resp) {
-					var success = resp.success;
-
-					if (success) {
-						$self.ajaxReturnMessage(success, 'success');
-					}
-					else {
-						$self.ajaxReturnMessage(resp.error, 'error');
-					}
-				}
-			});
-			
-		}
-
-		this.removeFromCartAttach = function(rmvBtn) {
-			rmvBtn.on('click', function(e) {
-				e.preventDefault();
-
-				var $this = $(this);
-				$self.removeFromCart($this);
-			})
-		}
-
-		this.removeFromCart = function(rmvBtn) {
-			var _this = rmvBtn,
-				row = _this.closest('tr'),
-				table = _this.closest('table'),
-				updateCartBtn = table.find('.update-cart'),
-				ajaxURL = _this.attr('data-url');
-
-			$.ajax({
-				method: "GET",
-				url: ajaxURL,
-				success: function(resp) {
-					var cartNum = $('.cart-link span.number'),
-						subtotalContainer = $($('.bottom-summary .subtotal')[0]),
-						totalContainer = $($('.bottom-summary .subtotal')[1]),
-						quantity = resp.quantity,
-						subtotal = resp.subtotal,
-						total = resp.total;
-
-					cartNum.html(quantity);
-					row.remove();
-					subtotalContainer.html(subtotal + ' лв');
-					totalContainer.html(total + ' лв');
-
-					if (table.find('tbody').find('tr').length == 0) {
-						updateCartBtn.hide();
-					}
-				}
-			})
-		}
-
-		this.updateCartQuantityAttach = function(quantityInput) {
-			quantityInput.on('change', function(){
-				var $this = $(this);
-				$self.updateCartQuantity($this);
-			})
-
-			$self.updateQuantityEnterPress(quantityInput);
-		}
-
-		this.updateCartQuantity = function(quantityInput) {
-			var _this = quantityInput,
-				row = _this.closest('tr'),
-				pricePerItemHolder = row.find('.price-item'),
-				priceWithQunatityHolder = row.find('.total'),
-				cartNum = $('.cart-link span.number'),
-				subtotalContainer = $($('.bottom-summary .subtotal')[0]),
-				totalContainer = $($('.bottom-summary .subtotal')[1]),
-				baseUrl = _this.attr('data-url'),
-				quantity = _this.val(),
-				ajaxURL = baseUrl + quantity;
-
-			$.ajax({
-				method: "GET",
-				url: ajaxURL,
-				success: function(resp) {
-					var quantity = resp.quantity,
-						subtotal = resp.subtotal,
-						pricePerItem = resp.price,
-						total = resp.total,
-						priceWithQunatity = resp.priceWithQuantity;
-
-					cartNum.html(quantity);
-					subtotalContainer.html(subtotal + ' лв');
-					totalContainer.html(total + ' лв');
-					pricePerItemHolder.html(pricePerItem + ' лв');
-					priceWithQunatityHolder.html(priceWithQunatity + ' лв');
-				}
-			})
-		}
-
-		this.updateQuantityEnterPress = function(quantityInput) {
-			var _this = quantityInput;
-
-			_this.on('keypress', function(event) {
-				if (event.which == 13) {
-					event.preventDefault();
-					_this.blur();
-				}
-      		})
-		}
-
-		this.addToWishlistAttach = function(addToWishBtn) {
-			addToWishBtn.on('click', function(e) {
-				e.preventDefault();
-
-				var $this = $(this);
-				$self.addToWishlist($this);
-			})
-		}
-
-		this.addToWishlist = function(addToWishBtn) {
-			var _this = addToWishBtn,
-				ajaxURL = _this.attr('data-url');
-
-			$.ajax({
-				method: "POST",
-				url: ajaxURL,
-				success: function(resp) {
-					var message = resp.success;
-
-					$self.ajaxReturnMessage(message, 'success');
-				}
-			})
-		}
-
-		this.getFormFields = function(form, inputFields) {
-			var ajaxRequestLink = form.attr('action'),
-					data = {_token : $('meta[name="csrf-token"]').attr('content')},
-					imageCollection = [];
-
-			inputFields.each(function(index, element) {
-				var _this = element,
-					inputType = _this.type,
-					dataKey = _this.name,
-					dataKeyValue = _this.value,
-					imagesInputFieldExists = dataKey == 'images';
-
-				data[dataKey] = dataKeyValue;
-
-				if(imagesInputFieldExists) {
-					var imagesHolder = $('.drop-area-gallery .image-wrapper img');
-
-					imagesHolder.each(function(index , element) {
-						var _imgSource = element.getAttribute('src');
-						imageCollection.push(_imgSource);
-					});
-
-					data.images = imageCollection;
-				}
-			});
-
-			$self.sendCustomOrderForm(form, ajaxRequestLink, data);
-		}
-
-		this.sendCustomOrderForm = function(form, ajaxRequestLink, data) {
-			var requestUrl =  ajaxRequestLink;
-			$.ajax({
-				method: "POST",
-				url: requestUrl,
-				dataType: "json",
-				data: data,
-				success: function(response) {
-				var message = response.success;
-
+		$.ajax({
+			method: 'POST',
+			url: ajaxRequestLink,
+			dataType: 'json',
+			data: data,
+			success: function (resp) {
+				var message = resp.success;
 				$self.ajaxReturnMessage(message, 'success');
-				},
-				error: function(err) {
-					var errors = JSON.parse(err.responseText).errors,
-							messages = '';
+				mailInput.val('');
+			},
+			error: function (err) {
+				var errors = JSON.parse(err.responseText).errors,
+					messages = '';
 
-					for (var key in errors) {
-						var message = errors[key][0];
+				Object.keys(errors).forEach(function (key) {
+					var message = errors[key][0];
+					messages += message + '<br>';
+				});
 
-						messages += message + '<br>';
-					}
+				$self.ajaxReturnMessage(messages, 'error');
+			}
+		})
+	}
 
-					$self.ajaxReturnMessage(messages, 'error');
-				}
-			});
+	this.ajaxReturnMessage = function (message, type) {
+		var messageContainer = $('<div class="info-message"></div>');
+
+		messageContainer.addClass(type);
+		messageContainer.append(message);
+		$('body').append(messageContainer);
+		$self.showMessage(messageContainer);
+	}
+
+	this.showMessage = function (message) {
+		var timeToStay = 5000,
+			navi = $('.top-navigation'),
+			header = $('header'),
+			naviHeight = navi.outerHeight();
+
+		if (header.hasClass('affix')) {
+			message.css('top', naviHeight);
 		}
-	};
+
+		message.slideDown('fast');
+		setTimeout(function () {
+			message.slideUp('fast', function () {
+				message.remove();
+			})
+		}, timeToStay)
+	}
+
+	this.filterAttach = function (filterBtn) {
+		filterBtn.on('click', function (e) {
+			e.preventDefault();
+			$self.filter($(this));
+		})
+	}
+
+	this.filterInputAttach = function (filterInput) {
+		filterInput.on('change', function () {
+			$self.filter($(this));
+		})
+	}
+
+	this.filter = function (filterBtn) {
+		var _this = filterBtn,
+			filterForm = _this.closest('.filter-tag-group'),
+			formUrl = filterForm.attr('data-url'),
+			baseUrl = window.location.origin + '/',
+			ajaxURL = baseUrl + formUrl,
+			productsContainer = $('#sandBox'),
+			listType = document.querySelector('.option-set .active').id;
+
+		if (_this.is('input') && _this.val() !== '' && _this.val() != 0) {
+			_this.addClass('selected');
+		} else if (_this.is('input')) {
+			_this.removeClass('selected');
+		} else {
+			_this.toggleClass('selected');
+		}
+
+		var filterBtns = filterForm.find('.tag-group').find('li.selected');
+
+		var filterInputs = filterForm.find('.tag-group').find('input.selected');
+
+		Array.prototype.push.apply(filterBtns, filterInputs);
+
+		for (var i = 0; i < filterBtns.length; i++) {
+			if (i == 0) {
+				ajaxURL += '?';
+			}
+
+			var btn = $(filterBtns[i]);
+
+			if (btn.is('input')) {
+				ajaxURL += btn.attr('data-id') + btn.val().toString();
+			} else {
+				ajaxURL += btn.find('a').attr('data-id')
+			}
+
+			if (i < filterBtns.length - 1) {
+				ajaxURL += '&'
+			}
+		}
+
+		if (filterBtns.length == 0) {
+			ajaxURL += '?' + 'listType=' + listType;
+		} else {
+			ajaxURL += '&' + 'listType=' + listType;
+		}
+
+		$.ajax({
+			method: 'GET',
+			url: ajaxURL,
+			success: function (resp) {
+				productsContainer.animate({
+					opacity: 0
+				}, 400, function () {
+					productsContainer.html(resp);
+					$self.quickviewAttach($('.quick_shop'));
+				});
+
+				productsContainer.animate({
+					opacity: 1
+				}, 400)
+			},
+			error: function (err) {
+				console.log(err);
+			}
+		})
+	}
+
+	this.addDiscountAttach = function (addDiscountBtn) {
+		addDiscountBtn.on('click', function () {
+			$self.addDiscount($(this));
+		})
+	}
+
+	this.addDiscount = function (addDiscountBtn) {
+		var _this = addDiscountBtn,
+			discountInput = $('#discountCard'),
+			barcode = discountInput.val(),
+			_path = _this.attr('data-url'),
+			ajaxURL = _path + barcode;
+
+		$.ajax({
+			method: 'GET',
+			url: ajaxURL,
+			success: function (response) {
+				$self.dicountResponseHandler(response)
+			}
+		})
+	}
+
+	this.removeDiscountAttach = function (removeBtn) {
+		removeBtn.on('click', function () {
+			$self.removeDiscount($(this));
+		})
+	}
+
+	this.removeDiscount = function (removeBtn) {
+		var ajaxUrl = removeBtn.attr('data-url');
+
+		$.ajax({
+			method: 'GET',
+			url: ajaxUrl,
+			success: function (response) {
+				$self.dicountResponseHandler(response);
+			}
+		})
+	}
+
+	this.dicountResponseHandler = function (response) {
+		var success = response.success;
+
+		if (success) {
+			var discountContainer = $('.discount-container'),
+				discountInput = $('#discountCard'),
+				discounts = response.condition,
+				newFields = '',
+				total = response.total,
+				subtotal = response.subtotal,
+				subtotalDisplay = $($('.bottom-summary .subtotal')[0]),
+				totalDisplay = $($('.bottom-summary .subtotal')[1]);
+
+			for (var key in discounts) {
+				var discount = discounts[key],
+					discountAmount = key,
+					label = discount.value,
+					discountID = discount.attributes.discount_id;
+
+				var newDiscount =
+					'<div class="col-xs-24">' +
+					'<span class="discount discount-label">' + label + '</span>' +
+					'<span data-url="/ajax/removeDiscount/' + discountID + '" class="discount discount-remove">' +
+					'<i class="fas fa-times"></i>' +
+					'</span>' +
+					'</div>';
+
+				newFields += newDiscount;
+			}
+
+			discountContainer.html(newFields);
+
+			var removeDiscountTrigger = $('.discount-remove');
+			$self.removeDiscountAttach(removeDiscountTrigger);
+
+			totalDisplay.html(total + ' лв');
+			subtotalDisplay.html(subtotal + 'лв');
+
+			discountInput.val('');
+		} else {
+			$self.ajaxReturnMessage('Системата не открива карта за отстъпка с такъв номер.', 'error');
+		}
+	}
+
+	this.discountEnter = function (discountInput) {
+		var _this = discountInput,
+			applyBtn = $('.cart-applyDiscount');
+
+		_this.on('keypress', function (event) {
+			if (event.which == 13) {
+				event.preventDefault();
+				applyBtn.click();
+				_this.blur();
+			}
+		})
+	}
+
+	this.shippingMethodAttach = function (shippingMethodTrigger) {
+		shippingMethodTrigger.on('change', function () {
+			$self.shippingMethodSelect($(this));
+		})
+	}
+
+	this.shippingMethodSelect = function (shippingMethodInput) {
+		var _this = shippingMethodInput,
+			form = _this.closest('form'),
+			id = _this.attr('id'),
+			toHide = form.find('.shipping-method'),
+			toShow = form.find('.' + id),
+			paymentMethod = form.find('.payment-method'),
+			hiddenShippingInput = $('[type="hidden"][name="shipping_method"]'),
+			method = _this.attr('data-method');
+
+		hiddenShippingInput.val(method);
+
+		toHide.slideUp('fast');
+		toHide.animate({
+			'opacity': 0
+		}, 400)
+
+		toShow.slideDown('fast');
+		toShow.animate({
+			'opacity': 1
+		}, 400)
+
+		paymentMethod.slideDown('fast');
+
+		if (id == 'shipping_shop') {
+			var deliveryPaymentInput = form.find('#payment_delivery');
+			deliveryPaymentInput.prop('checked', true);
+			$self.paymentMethodChange(deliveryPaymentInput);
+		}
+	}
+
+	this.paymentMethodAttach = function (paymentMethodTrigger) {
+		paymentMethodTrigger.on('change', function () {
+			$self.paymentMethodChange($(this));
+		})
+	}
+
+	this.paymentMethodChange = function (paymentInput) {
+		var hiddenPaymentInput = $('[type="hidden"][name="payment_method"]'),
+			method = paymentInput.attr('data-method');
+
+		hiddenPaymentInput.val(method);
+	}
+
+	this.submitCustomOrder = function () {
+		var form = $('form.customOrder-form'),
+			submitButton = form.find('[type="submit"]');
+
+		submitButton.on('click', function (e) {
+			e.preventDefault();
+			var inputFields = form.find('select , input, textarea');
+			$self.getFormFields(form, inputFields);
+		})
+	}
+
+	this.addToCartAttach = function (addToCartBtn) {
+		addToCartBtn.on('click', function (e) {
+			e.preventDefault();
+			$self.addToCart($(this));
+		})
+	}
+
+	this.addToCart = function (addToCartBtn) {
+		var _this = addToCartBtn,
+			ajaxURL = _this.attr('data-url');
+
+		if (_this.hasClass('productsothers')) {
+			ajaxURL += '/' + _this.closest('form').find('.item-quantity').val()
+		}
+
+		$.ajax({
+			method: 'GET',
+			url: ajaxURL,
+			success: function (response) {
+				if (response.success) {
+					var cartNum = $('.cart-link span.number'),
+						quantity = response.quantity,
+						message = 'Продукта беше успешно добавен в количката!';
+
+					cartNum.html(quantity);
+
+					if (_this.closest('.modal').length > 0) {
+						$self.ajaxReturnMessage(message, 'success');
+					} else {
+						$self.ajaxReturnMessage(message, 'success');
+					}
+				} else {
+					if (_this.closest('.modal').length > 0) {
+						$self.ajaxReturnMessage(response.error, 'error');
+					} else {
+						$self.ajaxReturnMessage(response.error, 'error');
+					}
+				}
+			}
+		})
+	}
+
+	this.orderProductAttach = function (orderBtn) {
+		orderBtn.on('click', function (e) {
+			e.preventDefault();
+			debugger;
+			// test if it works without jquery
+			$self.orderProduct($(this));
+		});
+	}
+
+	this.orderProduct = function (orderBtn) {
+		var ajaxURL = orderBtn.attr('data-url');
+
+		$.ajax({
+			method: 'GET',
+			url: ajaxURL,
+			success: function (response) {
+				if (response.success) {
+					$self.ajaxReturnMessage(response.success, 'success');
+				} else {
+					$self.ajaxReturnMessage(response.error, 'error');
+				}
+			}
+		});
+
+	}
+
+	this.removeFromCartAttach = function (removeBtn) {
+		removeBtn.on('click', function (e) {
+			e.preventDefault();
+			debugger;
+			// test if it works without jquery
+			$self.removeFromCart($(this));
+		})
+	}
+
+	this.removeFromCart = function (rmvBtn) {
+		var _this = rmvBtn,
+			row = _this.closest('tr'),
+			table = _this.closest('table'),
+			updateCartBtn = table.find('.update-cart'),
+			ajaxURL = _this.attr('data-url');
+
+		$.ajax({
+			method: 'GET',
+			url: ajaxURL,
+			success: function (resp) {
+				var cartNum = $('.cart-link span.number'),
+					subtotalContainer = $($('.bottom-summary .subtotal')[0]),
+					totalContainer = $($('.bottom-summary .subtotal')[1]),
+					quantity = resp.quantity,
+					subtotal = resp.subtotal,
+					total = resp.total;
+
+				cartNum.html(quantity);
+				row.remove();
+				subtotalContainer.html(subtotal + ' лв');
+				totalContainer.html(total + ' лв');
+
+				if (table.find('tbody').find('tr').length == 0) {
+					updateCartBtn.hide();
+				}
+			}
+		})
+	}
+
+	this.updateCartQuantityAttach = function (quantityInput) {
+		quantityInput.on('change', function () {
+			$self.updateCartQuantity($(this));
+		});
+
+		$self.updateQuantityEnterPress(quantityInput);
+	}
+
+	this.updateCartQuantity = function (quantityInput) {
+		var _this = quantityInput,
+			row = _this.closest('tr'),
+			pricePerItemHolder = row.find('.price-item'),
+			priceWithQunatityHolder = row.find('.total'),
+			cartNum = $('.cart-link span.number'),
+			subtotalContainer = $($('.bottom-summary .subtotal')[0]),
+			totalContainer = $($('.bottom-summary .subtotal')[1]),
+			baseUrl = _this.attr('data-url'),
+			quantity = _this.val(),
+			ajaxURL = baseUrl + quantity;
+
+		$.ajax({
+			method: "GET",
+			url: ajaxURL,
+			success: function (resp) {
+				var quantity = resp.quantity,
+					subtotal = resp.subtotal,
+					pricePerItem = resp.price,
+					total = resp.total,
+					priceWithQunatity = resp.priceWithQuantity;
+
+				cartNum.html(quantity);
+				subtotalContainer.html(subtotal + ' лв');
+				totalContainer.html(total + ' лв');
+				pricePerItemHolder.html(pricePerItem + ' лв');
+				priceWithQunatityHolder.html(priceWithQunatity + ' лв');
+			}
+		})
+	}
+
+	this.updateQuantityEnterPress = function (quantityInput) {
+		quantityInput.on('keypress', function (event) {
+			if (event.which == 13) {
+				event.preventDefault();
+				quantityInput.blur();
+			}
+		})
+	}
+
+	this.addToWishlistAttach = function (addToWishBtn) {
+		addToWishBtn.on('click', function (e) {
+			e.preventDefault();
+			$self.addToWishlist($(this));
+		})
+	}
+
+	this.addToWishlist = function (addToWishBtn) {
+		var _this = addToWishBtn,
+			ajaxURL = _this.attr('data-url');
+
+		$.ajax({
+			method: "POST",
+			url: ajaxURL,
+			success: function (resp) {
+				var message = resp.success;
+				$self.ajaxReturnMessage(message, 'success');
+			}
+		})
+	}
+
+	this.getFormFields = function (form, inputFields) {
+		var ajaxRequestLink = form.attr('action'),
+			data = {
+				_token: $('meta[name="csrf-token"]').attr('content')
+			},
+			imageCollection = [];
+
+		inputFields.each(function (index, element) {
+			var _this = element,
+				inputType = _this.type,
+				dataKey = _this.name,
+				dataKeyValue = _this.value,
+				imagesInputFieldExists = dataKey == 'images';
+
+			data[dataKey] = dataKeyValue;
+
+			if (imagesInputFieldExists) {
+				var imagesHolder = $('.drop-area-gallery .image-wrapper img');
+
+				imagesHolder.each(function (index, element) {
+					var _imgSource = element.getAttribute('src');
+					imageCollection.push(_imgSource);
+				});
+
+				data.images = imageCollection;
+			}
+		});
+
+		$self.sendCustomOrderForm(form, ajaxRequestLink, data);
+	}
+
+	this.sendCustomOrderForm = function (form, ajaxRequestLink, data) {
+		var requestUrl = ajaxRequestLink;
+		$.ajax({
+			method: 'POST',
+			url: requestUrl,
+			dataType: 'json',
+			data: data,
+			success: function (response) {
+				var message = response.success;
+				$self.ajaxReturnMessage(message, 'success');
+			},
+			error: function (err) {
+				var errors = JSON.parse(err.responseText).errors,
+					messages = '';
+
+				for (var key in errors) {
+					var message = errors[key][0];
+					messages += message + '<br>';
+				}
+
+				$self.ajaxReturnMessage(messages, 'error');
+			}
+		});
+	}
+};
 
 $(function() {
 	if(!window.console) window.console = {};
