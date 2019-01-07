@@ -219,7 +219,7 @@
                 </li>
 
 
-                <li class="nav-item dropdown {{ Active::check('admin/users',true) }}">
+                <li class="nav-item dropdown {{ Active::check('admin/orders',true) }}">
                   <a class="dropdown-toggle" href="javascript:void(0);">
                     <span class="icon-holder">
                       <i class=" ti-truck"></i>
