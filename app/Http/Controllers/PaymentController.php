@@ -14,6 +14,7 @@ use Response;
 use Auth;
 use Cart;
 use App\ExchangeMaterial;
+use App\MaterialQuantity;
 
 class PaymentController extends Controller
 {
@@ -46,10 +47,7 @@ class PaymentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //Store the selling
-        
-
+    {       
         //Store the payment
         if(($request->given_sum >= $request->wanted_sum)){
             $userId = Auth::user()->getId();
@@ -182,6 +180,13 @@ class PaymentController extends Controller
                             $exchange_material->retail_price_id = $request->retail_price_id[$key];
 
                             $exchange_material->save();
+
+                            $material_quantity = MaterialQuantity::find($material);
+
+                            if($material_quantity){
+                                $material_quantity->quantity = $material_quantity->quantity+$exchange_material->weight;
+                                $material_quantity->save();
+                            }
                         }
                     }
                 }
