@@ -19,7 +19,7 @@ class CreateExchangeMaterialsTable extends Migration
             $table->integer('retail_price_id')->unsigned();
             $table->float('weight');
             $table->integer('payment_id')->unsigned()->nullable();
-            $table->integer('order_od')->unsigned()->nullable();
+            $table->integer('order_id')->unsigned()->nullable();
             $table->timestamps();
         });
     }
