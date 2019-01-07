@@ -17,7 +17,7 @@ var uvel,
       },
       discounts: {
         selector: '[name="discounts"]',
-        controllers: [],
+        controllers: ['lifetimeDiscount'],
         initialized: false
       },
       jewels: {
@@ -1726,6 +1726,18 @@ var uvel,
         var form = currentPressedBtn.closest('form');
         $self.formsErrorHandler(data, form);
       }
+		}
+
+		this.lifetimeDiscount = function(form) {
+			var lifetimeSelect = form.find('#lifetime_add');
+			lifetimeSelect.on('change', function (event) {
+				var isSelected = event.currentTarget.checked;
+				if (isSelected) {
+					form.find('[name="date_expires"]').attr('readonly', true);
+				} else {
+					form.find('[name="date_expires"]').attr('readonly', false);
+				}
+			});
 		}
 
 		this.storeSelectInit = function() {
