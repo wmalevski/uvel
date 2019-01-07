@@ -5,14 +5,6 @@ var uvel,
       $body = $('body'),
       currentPressedBtn;
 
-   /**********************************************
-    *                                            *
-    *                                            *
-    *   MEGA GIGANT COMMENT FOR THE REFACTORING  *
-    *                                            *
-    *                                            *
-    **********************************************/
-
     this.formsConfig = {
       globalSettings: {
         token: $('meta[name="csrf-token"]').attr('content'),
@@ -115,12 +107,7 @@ var uvel,
       },
       products: {
         selector: '[name="products"]',
-        controllers: ['addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'modelRequestInit', 'imageHandling'],
-        initialized: false
-      },
-      productsTravelling: {
-        selector: '[name="productsTravelling"]',
-        controllers: [],
+        controllers: ['nameFieldSearch', 'addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'modelRequestInit', 'imageHandling'],
         initialized: false
       },
       repairTypes: {
@@ -136,6 +123,11 @@ var uvel,
 			orders: {
 				selector: '[name="orders"]',
         controllers: ['addStonesInit', 'addAnother', 'manualReceipt', 'modelRequestInit', 'barcodeInput'],
+        initialized: false
+			},
+			productsTravelling: {
+				selector: '[name="productsTravelling"]',
+        controllers: ['nameFieldSearch'],
         initialized: false
 			}
     };
@@ -158,7 +150,7 @@ var uvel,
           $addCardDiscountTrigger = $('[data-sell-discountCard]'),
           $travelingMaterialsStateBtns = $('[data-travelstate]'),
           $inputCollection = $('input'),
-          $removeDiscountTrigger = $('[data-sell-removeDiscount]');
+					$removeDiscountTrigger = $('[data-sell-removeDiscount]');
 
       $self.openForm($openFormTrigger);
       $self.deleteRow($deleteRowTrigger);
@@ -171,7 +163,8 @@ var uvel,
       $self.removeDiscountAttach($removeDiscountTrigger);
       $self.addCardDiscount($addCardDiscountTrigger);
       $self.travellingMaterialsState($travelingMaterialsStateBtns);
-      $self.enterPressBehaviour($inputCollection);
+			$self.enterPressBehaviour($inputCollection);
+			$self.setInputFilters();
     }
 
     this.openForm = function(openFormTrigger) {
@@ -207,7 +200,6 @@ var uvel,
       inputs.on('keypress', function(event) {
         if (event.which == 13) {
           var _this = $(this);
-
           event.preventDefault();
           _this.trigger('change');
           _this.blur();
@@ -218,11 +210,11 @@ var uvel,
     this.deleteRow = function(deleteRowTrigger) {
       deleteRowTrigger.on('click', function() {
         var _this = $(this),
-            ajaxRequestLink = _this.hasClass('cart') ? _this.attr('data-url') : $self.buildAjaxRequestLink('deleteRow', _this.attr('data-url'));
+          ajaxRequestLink = _this.hasClass('cart') ? _this.attr('data-url') : $self.buildAjaxRequestLink('deleteRow', _this.attr('data-url'));
 
-        if (confirm("Сигурен ли сте, че искате да изтриете записа?")) {
+        if (confirm('Сигурен ли сте, че искате да изтриете записа?')) {
           $.ajax({
-            method: "POST",
+            method: 'POST',
             url: ajaxRequestLink,
             success: function(response) {
               if (_this.hasClass('cart')) {
@@ -257,13 +249,13 @@ var uvel,
     this.addNumber = function(addNumberTrigger) {
       addNumberTrigger.on('change', function() {
         var _this = $(this),
-            sellingForm = _this.closest('form'),
-            number = _this.val(),
-            moreProductsChecked = sellingForm.find('[data-sell-moreProducts]').is(':checked'),
-            productsAmount = Number(sellingForm.find('[data-sell-productsAmount]').val()),
-            typeRepair = sellingForm.find('[data-sell-repair]').is(':checked'),
-            ajaxUrl = sellingForm.attr('data-scan'),
-            dataSend;
+					sellingForm = _this.closest('form'),
+					number = _this.val(),
+					moreProductsChecked = sellingForm.find('[data-sell-moreProducts]').is(':checked'),
+					productsAmount = Number(sellingForm.find('[data-sell-productsAmount]').val()),
+					typeRepair = sellingForm.find('[data-sell-repair]').is(':checked'),
+					ajaxUrl = sellingForm.attr('data-scan'),
+					dataSend;
 
         if (_this[0].hasAttribute('data-sell-catalogNumber')) {
           dataSend = {
@@ -281,7 +273,7 @@ var uvel,
           };
         }
 
-        $self.ajaxFn("POST", ajaxUrl, $self.numberSend, dataSend, '', '');
+        $self.ajaxFn('POST', ajaxUrl, $self.numberSend, dataSend, '', '');
         _this.val('');
       })
     }
@@ -293,18 +285,16 @@ var uvel,
 
       if(success) {
         shoppingTable.find('tbody').html(html);
-
         $self.cartSumsPopulate(response);
-
         var deleteRowTrigger = $('.delete-btn');
         $self.deleteRow(deleteRowTrigger);
       } else {
         var errors = response.errors,
-            stayingTime = 3000;
+          stayingTime = 3000;
 
         for (var key in errors) {
           var error = errors[key],
-              errorDiv = $('<div class="alert alert-danger table-alert"></div>');
+            errorDiv = $('<div class="alert alert-danger table-alert"></div>');
 
           errorDiv.append(error);
           $('#mainContent').prepend(errorDiv);
@@ -318,38 +308,36 @@ var uvel,
     this.sellMoreProducts = function (sellMoreProductsTrigger) {
       sellMoreProductsTrigger.on('change', function() {
         var amountInput = $('[data-sell-productsAmount]');
-
         if ($(this).is(':checked')) {
           amountInput.removeAttr('readonly');
         } else {
           amountInput.attr('readonly', 'readonly');
           amountInput.val('1');
         }
-      })
-    }
-
-    this.addDiscount = function(addDiscountTrigger) {
-      addDiscountTrigger.on('click', function(e) {
-        e.preventDefault();
-        var _this = $(this),
-            discountInput = _this.closest('form').find('[data-sell-discount]'),
-            discountAmount = Number(discountInput.val()),
-            description = _this.closest('form').find('[data-sell-description]').val(),
-            urlTaken = window.location.href.split('/'),
-            _url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/',
-            discountUrl = _this.attr('data-url'),
-            dataSend = {
-              'discount' : discountAmount,
-              'description' : description
-            };
-
-        if (discountAmount > 0) {
-          var ajaxUrl = _url + discountUrl;
-
-          $self.ajaxFn('POST', ajaxUrl, $self.discountSuccess, dataSend, '', '');
-        }
       });
     }
+
+		this.addDiscount = function (addDiscountTrigger) {
+			addDiscountTrigger.on('click', function (e) {
+				e.preventDefault();
+				var _this = $(this),
+					discountInput = _this.closest('form').find('[data-sell-discount]'),
+					discountAmount = Number(discountInput.val()),
+					description = _this.closest('form').find('[data-sell-description]').val(),
+					urlTaken = window.location.href.split('/'),
+					_url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/',
+					discountUrl = _this.attr('data-url'),
+					dataSend = {
+						'discount': discountAmount,
+						'description': description
+					};
+
+				if (discountAmount > 0) {
+					var ajaxUrl = _url + discountUrl;
+					$self.ajaxFn('POST', ajaxUrl, $self.discountSuccess, dataSend, '', '');
+				}
+			});
+		}
 
     this.addCardDiscount = function(addCardDiscountTrigger) {
       addCardDiscountTrigger.on('change', function() {
@@ -416,7 +404,7 @@ var uvel,
 
     this.removeDiscount = function(btn) {
       var ajaxUrl = btn.attr('data-url');
-      $self.ajaxFn("GET", ajaxUrl, $self.discountSuccess, '', '', '');
+      $self.ajaxFn('GET', ajaxUrl, $self.discountSuccess, '', '', '');
     }
 
     this.initializeForm = function(formSettings, formType) {
@@ -454,7 +442,7 @@ var uvel,
           imageCollection = [];
 
       if (formType == 'edit') {
-        data._method = "PUT";
+        data._method = 'PUT';
       }
 
       inputFields.each(function(index, element) {
@@ -479,8 +467,8 @@ var uvel,
           var imagesHolder = $('.drop-area-gallery .image-wrapper img');
 
           imagesHolder.each(function(index , element) {
-            var _imgSource = element.getAttribute('src');
-            imageCollection.push(_imgSource);
+            var imgSource = element.getAttribute('src');
+            imageCollection.push(imgSource);
           });
 
           data.images = imageCollection;
@@ -491,6 +479,7 @@ var uvel,
     }
 
     this.clearForm = function(form) {
+			// wtf is this selector
       var textInputs = form.find('input[type="text"]:not(.not-clear), input[type="number"]:not(.not-clear), input[type="password"]:not(.not-clear), input[type="email"]:not(.not-clear), textarea:not(.not-clear)'),
           checksAndRadios = form.find('input[type="checkbox"]:not(.not-clear), input[type="radio"]:not(.not-clear)'),
           checksAndRadiosNotToClear = form.find('input[type="checkbox"].not-clear, input[type="radio"].not-clear'),
@@ -525,7 +514,8 @@ var uvel,
         }
       }
 
-      if (form.attr('name') == 'models') {                          // removes all material rows except the first one
+      if (form.attr('name') == 'models') {
+				// removes all material rows except the first one
         var materials = materialsContainer.children('.form-row');
         for (var i = 1; i < materials.length; i++) {
           var materialRow = $(materials[i]);
@@ -541,9 +531,9 @@ var uvel,
 			var requestUrl =  ajaxRequestLink;
 
 			$.ajax({
-				method: "POST",
+				method: 'POST',
 				url: requestUrl,
-				dataType: "json",
+				dataType: 'json',
 				data: data,
 				success: function(response) {
 					if (formType == 'add') {
@@ -566,7 +556,6 @@ var uvel,
     this.formsErrorHandler = function(err , form) {
         var errorObject = form.find('[data-repair-scan]').length > 0 ? err.errors : err.responseJSON.errors,
             errorMessagesHolder = $('<div class="error--messages_holder"></div>');
-
 
         for(var key in errorObject) {
           var messageError = $('<div class="alert alert-danger"></div>');
@@ -627,16 +616,15 @@ var uvel,
         $('.error--messages_holder').remove();
       }
 
-      var messageStayingTime = 2000,   // How long te message will be shown on the screen
-          successMessage = $('<div class="alert alert-success"></div>'),
+      var successMessage = $('<div class="alert alert-success"></div>'),
           message;
 
       if (formType == 'add') {
-        message = "Добавихте успешно записа!";
+        message = 'Добавихте успешно записа!';
       } else if (formType == 'edit') {
-        message = "Редактирахте успешно записа!";
+        message = 'Редактирахте успешно записа!';
       } else if (formType == 'sell') {
-        message = "Извършихте успешно плащане!";
+        message = 'Извършихте успешно плащане!';
       } else if (formType == 'images') {
         message = resp.success;
       }
@@ -647,7 +635,7 @@ var uvel,
 
       setTimeout(function() {
         form.find('.modal-body .info-cont .alert-success').remove();
-      }, messageStayingTime);
+      }, 2000); // How long te message will be shown on the screen
 
       if (formType == 'add') {
         $self.clearForm(form);
@@ -668,10 +656,9 @@ var uvel,
 
         $.ajax({
           url: ajaxRequestLink,
-          success: function(resp) {
+          success: function(response) {
             var modal = currentButton.parents().find('.edit--modal_holder .modal-content');
-
-            modal.html(resp);
+            modal.html(response);
             // $self.initializeSelect(_this.parents().find('select'));
             if (modal.find('[data-calculatePrice-material]').length > 0 && modal.closest('#editProduct').length > 0) {
               for (var i = 0; i < modal.find('[data-calculatePrice-material]').length; i++) {
@@ -733,7 +720,7 @@ var uvel,
       }
 
       var successMessage = $('<div class="alert alert-success"></div>');
-      successMessage.html("Редактирахте успешно записа!");
+      successMessage.html('Редактирахте успешно записа!');
 
       form.find('.modal-body .info-cont').append(successMessage);
 
@@ -744,47 +731,47 @@ var uvel,
 
     // FUNCTION THAT BUILDS THE AJAX REQUEST LINK
 
-    this.buildAjaxRequestLink = function(type, path) {
-      var prefix;
+		this.buildAjaxRequestLink = function (type, path) {
+			var prefix;
 
-			switch(type) {
-        case 'requestForm' :
-          prefix = '/admin/';
-            break
-        case 'submitForm' :
-        case 'deleteRow' :
-        case 'print':
-          prefix = '/ajax/';
-            break;
-      }
+			switch (type) {
+				case 'requestForm':
+					prefix = '/admin/';
+					break;
+				case 'submitForm':
+				case 'deleteRow':
+				case 'print':
+					prefix = '/ajax/';
+					break;
+			}
 
-      return  prefix + path;
-    }
+			return prefix + path;
+		}
 
     this.print = function(btn) {
       btn.on('click', function(e) {
         e.preventDefault();
         var ajaxRequestLink = $self.buildAjaxRequestLink('print', $(this).attr('href'));
         $self.handlePrintResponse(ajaxRequestLink);
-      })
+      });
     }
 
     this.handlePrintResponse = function(ajaxRequestLink) {
       $.ajax({
-        type: "GET",
+        type: 'GET',
         url : ajaxRequestLink,
-        success: function(resp) {
-          if (resp.html) {
-            var toPrint = resp.html,
-                node = document.createElement("div"),
+        success: function(response) {
+          if (response.html) {
+            var toPrint = response.html,
+                node = document.createElement('div'),
                 printElement = document.body.appendChild(node);
 
-            printElement.classList.add("to-print");
+            printElement.classList.add('to-print');
             printElement.innerHTML = toPrint;
-            document.body.classList.add("print-mode");
+            document.body.classList.add('print-mode');
             window.print();
             document.body.removeChild(node);
-            document.body.classList.remove("print-mode")
+            document.body.classList.remove('print-mode')
           }
         }
       });
@@ -795,11 +782,11 @@ var uvel,
         e.preventDefault();
 
         var buttonState = $(this).attr('data-travelstate'),
-            row = $(this).parents('tr[data-id]'),
-            buttonStateRowId = row.attr('data-id');
+					row = $(this).parents('tr[data-id]'),
+					buttonStateRowId = row.attr('data-id');
 
         $.ajax({
-          method: "POST",
+          method: 'POST',
           url: '/ajax/materials/' + buttonState + '/' + buttonStateRowId,
           success: function(response) {
             row.replaceWith(response.success);
@@ -812,7 +799,7 @@ var uvel,
       var addMaterialsTrigger = form.find('[data-addMaterials-add]');
       var defaultBtnsCollection = $('.default_material');
 
-      $self.giveElemntsIds(defaultBtnsCollection);
+      $self.giveElementsIds(defaultBtnsCollection);
 
       addMaterialsTrigger.on('click', function() {
         $self.addMaterials(form);
@@ -837,9 +824,13 @@ var uvel,
         '<select id="material_type" name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material>' +
         '<option value="0">Избери</option>'
 
-      materialsData.forEach(function (option) {
-        newFields += '<option value='+option.value+' data-pricebuy='+option.pricebuy+' data-material='+option.material+'>'+option.label+'</option>';
-      })
+			materialsData.forEach(function (option) {
+				newFields += '<option value=' +
+					option.value + ' data-pricebuy=' +
+					option.pricebuy + ' data-material=' +
+					option.material + '>' +
+					option.label + '</option>';
+			});
 
       newFields +=
         '</select>' +
@@ -864,7 +855,7 @@ var uvel,
       materialsWrapper.append(newRow);
 
       var defaultBtnsCollection = $('.default_material');
-      $self.giveElemntsIds(defaultBtnsCollection);
+      $self.giveElementsIds(defaultBtnsCollection);
 
       var newRemoveTrigger = $(newRow).find('[data-removeMaterials-remove]');
       $self.removeMaterialsAttach(newRemoveTrigger);
@@ -884,11 +875,11 @@ var uvel,
     this.removeMaterialsAttach = function(collection) {
       collection.on('click', function() {
         $self.removeMaterials($(this));
-      })
+      });
     }
 
     this.removeMaterials = function(_this) {
-      var errorMessage = "Материалът, който искате да премахнете е избран за материал по подразбиране и не може да бъде изтрит.",
+      var errorMessage = 'Материалът, който искате да премахнете е избран за материал по подразбиране и не може да бъде изтрит.',
           materialRow = _this.closest('.form-row'),
           isDefault = materialRow.find('[data-calculateprice-default]').is(':checked');
 
@@ -903,8 +894,7 @@ var uvel,
       var addStoneTrigger = form.find('[data-addStone-add]'),
           forFlowCollection = $('.stone-flow');
 
-      $self.giveElemntsIds(forFlowCollection);
-
+      $self.giveElementsIds(forFlowCollection);
       addStoneTrigger.on('click', function() {
         $self.addStone(form);
       });
@@ -930,10 +920,8 @@ var uvel,
 					var option = stonesData[i],
 						selected = '';
 
-					if (stone) {
-						if (stone.value == option.value) {
-							selected = 'selected';
-						}
+					if (stone && stone.value == option.value) {
+						selected = 'selected';
 					}
 
 					newFields += '<option value=' +
@@ -977,7 +965,7 @@ var uvel,
 				stonesWrapper.append(fieldsHolder);
 
 				var forFlowCollection = $('.stone-flow');
-				$self.giveElemntsIds(forFlowCollection);
+				$self.giveElementsIds(forFlowCollection);
 
 				var newRemoveTrigger = $(fieldsHolder).find('[data-removeStone-remove]');
 				$self.removeStoneAttach(newRemoveTrigger, form);
@@ -1002,7 +990,7 @@ var uvel,
     }
 
     this.removeStone = function(_this, form) {
-      _this.closest(".form-row").remove();
+      _this.closest('.form-row').remove();
       $self.calculateStones(form);
       $self.calculatePrice(form);
     }
@@ -1043,21 +1031,21 @@ var uvel,
 			totalNode.val(currentTotal);
 		}
 
-    this.giveElemntsIds = function(collection) {
-      for (i=0; i<collection.length; i++) {
-        var el = collection[i],
-            setBtnId;
+		this.giveElementsIds = function (collection) {
+			for (i = 0; i < collection.length; i++) {
+				var element = collection[i],
+					setBtnId;
 
-        if ($(el).hasClass('default_material')) {
-          setBtnId = 'material_' + String(i+1);
-        } else if($(el).hasClass('stone-flow')) {
-          setBtnId = 'stoneFlow_' + String(i+1);
-        }
+				if ($(element).hasClass('default_material')) {
+					setBtnId = 'material_' + String(i + 1);
+				} else if ($(element).hasClass('stone-flow')) {
+					setBtnId = 'stoneFlow_' + String(i + 1);
+				}
 
-        el.setAttribute('id', setBtnId);
-        el.nextElementSibling.setAttribute('for', setBtnId);
-      }
-    }
+				element.setAttribute('id', setBtnId);
+				element.nextElementSibling.setAttribute('for', setBtnId);
+			}
+		}
 
     this.calculatePriceInit = function(form) {
       var calculatePriceTrigger = form.find('[data-calculatePrice-retail], [data-calculatePrice-default], [data-calculatePrice-netWeight], [data-calculatePrice-withStones], [data-calculateStones-weight], [data-calculatePrice-stone], [data-calculateStones-amount]');
@@ -1072,7 +1060,6 @@ var uvel,
 
     this.calculatePriceHandler = function(form, _this) {
       var row = _this.closest('.form-row');
-
       if (row.find('[data-calculatePrice-default]:checked').length > 0 || row.find('[data-calculatePrice-netWeight]').length > 0 || form.attr('name') == 'products' || _this.closest('.model_stones').length > 0) {
         $self.calculatePrice(form);
       }
@@ -1137,7 +1124,7 @@ var uvel,
     this.materialPricesRequestAttach = function(collection, form) {
       collection.on('change', function(){
         $self.materialPricesRequestBuilder(form, $(this));
-      })
+      });
     }
 
 		this.materialPricesRequestBuilder = function (form, _this) {
@@ -1164,8 +1151,6 @@ var uvel,
 				var modelId = form.find('[data-calculatePrice-model] option:selected').val();
 				requestLink += '/' + modelId;
 			} else if (formName == 'orders') {
-				// tuk noviq kod za Orders
-				debugger;
 				var modelId = form.find('[data-calculateprice-model] option:selected').val();
 				requestLink += '/' + modelId;
 			} else {
@@ -1173,9 +1158,6 @@ var uvel,
 			}
 
 			if (materialAttribute !== undefined) {
-				/* Borislav 18.12.2018 */
-				// tuk pravi zaqvkata za get prices
-				debugger;
 				$self.ajaxFn('GET', requestLink, $self.materialPricesResponseHandler, '', form, _this);
 			}
 		}
@@ -1210,7 +1192,6 @@ var uvel,
     this.modelRequestInit = function(form) {
 			/* Селектора (падащо меню) който ще прави рекуест */
       var modelRequestTrigger = form.find('[data-calculatePrice-model]');
-
       modelRequestTrigger.on('change', function() {
         var _this = $(this);
 
@@ -1218,7 +1199,6 @@ var uvel,
           $self.modelRequest(form);
         } else {
           var collection = form.find('[data-calculatePrice-material], [data-calculatePrice-retail]');
-
           collection.val('0');
           collection.attr('disabled', 'disabled');
         }
@@ -1230,7 +1210,6 @@ var uvel,
 			var selectMenu = form.find('[data-calculatePrice-model]');
 			var ajaxUrl = window.location.origin + '/' + selectMenu.attr('url');
 			var modelId = selectMenu.val();
-
 			var requestLink = ajaxUrl + modelId;
 			$self.ajaxFn('GET', requestLink, $self.modelRequestResponseHandler, '', form);
     }
@@ -1292,16 +1271,15 @@ var uvel,
 		}
 
     this.fillJewel = function(jewelsTypes, form) {
-      var jewelHolder = form.find('[data-modelFilled-jewel]'),
-          selected;
+      var selected;
 
 			jewelsTypes.forEach(function(jewel) {
         if (jewel.selected) {
           selected = jewel.value;
         }
-      })
+      });
 
-      jewelHolder.val(selected);
+      form.find('[data-modelFilled-jewel]').val(selected);
     }
 
     this.fillStones = function(stones, form) {
@@ -1378,10 +1356,8 @@ var uvel,
 		}
 
     this.getWantedSumInit = function(form) {
-      $self.getWantedSum(form);
-
+			$self.getWantedSum(form);
       var getWantedTrigger = $('[data-selling-payment]');
-
       getWantedTrigger.on('click', function() {
         $self.getWantedSum(form);
       })
@@ -1423,7 +1399,6 @@ var uvel,
 
     this.calculatePayment = function(form, givenSum, wantedSum) {
       var returnHolder = form.find('[data-calculatePayment-return]');
-
       var returnSum = Math.round((givenSum - wantedSum) * 100) / 100;
       returnHolder.val(returnSum);
     }
@@ -1469,7 +1444,6 @@ var uvel,
 
     this.calculateCaratsInitializer = function(form) {
       var calculateCaratTrigger = form.find('[data-calculateCarats-weight], [data-calculateCarats-type]');
-
       calculateCaratTrigger.on('change', function() {
         $self.calculateCarats(form)
       });
@@ -1499,7 +1473,6 @@ var uvel,
       });
 
       $self.dragNdropImages(dropArea, form);
-
       $self.deleteImagesDropArea(deleteImagesTriggerDropArea);
       $self.deleteImagesUploadArea(deleteImagesTriggerUploadArea, form);
 		}
@@ -1511,7 +1484,7 @@ var uvel,
 
       btnManualReceipt.on('click', function() {
 				event.preventDefault();
-				var manualReceipt = form.find('')
+				var manualReceipt = form.find('');
       });
 		}
 
@@ -1586,41 +1559,41 @@ var uvel,
         _this.children().css('pointer-events', 'auto');
       });
 
-      dropArea.on('drop', function(event) {
-        event.preventDefault();
-        var _this = $(event.currentTarget),
-            collectionFiles = [];
+			dropArea.on('drop', function (event) {
+				event.preventDefault();
+				var _this = $(event.currentTarget),
+					collectionFiles = [];
 
-        event.dataTransfer = event.originalEvent.dataTransfer;
-        _this.removeClass('dragging');
-        _this.children().css('pointer-events', 'auto');
+				event.dataTransfer = event.originalEvent.dataTransfer;
+				_this.removeClass('dragging');
+				_this.children().css('pointer-events', 'auto');
 
-        if (event.dataTransfer.items) {
-          for (var i=0; i<event.dataTransfer.items.length; i++) {
-            var item = event.dataTransfer.items[i];
+				if (event.dataTransfer.items) {
+					for (var i = 0; i < event.dataTransfer.items.length; i++) {
+						var item = event.dataTransfer.items[i];
 
-            if (item.kind === 'file') {
-              var file = item.getAsFile();
-              if(file.type == "image/svg+xml") {
-                alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
-              } else {
-                collectionFiles.push(file);
-              }
-            }
-          }
-        } else {
-          for (var i=0; i<event.dataTransfer.files.length; i++) {
-            var file = event.dataTransfer.files[i];
-            if(file.type == "image/svg+xml") {
-              alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
-            } else {
-              collectionFiles.push(file);
-            }
-          }
-        }
+						if (item.kind === 'file') {
+							var file = item.getAsFile();
+							if (file.type == "image/svg+xml") {
+								alert('Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif');
+							} else {
+								collectionFiles.push(file);
+							}
+						}
+					}
+				} else {
+					for (var i = 0; i < event.dataTransfer.files.length; i++) {
+						var file = event.dataTransfer.files[i];
+						if (file.type == 'image/svg+xml') {
+							alert('Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif');
+						} else {
+							collectionFiles.push(file);
+						}
+					}
+				}
 
-        $self.appendImages(collectionFiles, form);
-      })
+				$self.appendImages(collectionFiles, form);
+			});
     }
 
     this.uploadImages = function(event, form) {
@@ -1797,7 +1770,7 @@ var uvel,
       modal.css('display', 'none');
       $('.modal-backdrop').remove();
       $('body').removeClass('modal-open');
-    }
+		}
 
     this.ajaxFn = function(method, url, callback, dataSend, elements, currentPressedBtn) {
       var xhttp = new XMLHttpRequest(),
@@ -1822,7 +1795,7 @@ var uvel,
       xhttp.setRequestHeader('Content-Type', 'application/json');
       xhttp.setRequestHeader('X-CSRF-TOKEN', token);
 
-      if(method === "GET") {
+      if(method === 'GET') {
         xhttp.send();
       } else {
         xhttp.send(JSON.stringify(dataSend));
@@ -1837,14 +1810,6 @@ var uvel,
       }
       return true;
     }
-
-    /*********************************************
-    *                                            *
-    *                                            *
-    *   MEGA GIGANT COMMENT FOR THE REFACTORING  *
-    *                                            *
-    *                                            *
-    *********************************************/
 
     /*
       INITIALIZING SELECT2 IN THE ADD FORM , BECAUSE WHEN EDIT BUTTON IS CLICKED , THE SELECT2 IN ADDMODEL DESTROYS ITSELF.
@@ -1900,17 +1865,115 @@ var uvel,
         var certificateId = e.target.getAttribute('data-repair-id');
         var ajaxUrl = url + '/certificate/' + certificateId;
 
-        ajaxFn("GET",ajaxUrl,printBtnSuccess,'','','');
+        ajaxFn('GET',ajaxUrl,printBtnSuccess,'','','');
       }
-    }
+		}
+
+		// Used in Admin->Products Travelling and Admin->Products
+		this.nameFieldSearch = function (form) {
+			var input = $('.input-search'),
+				dropdown = $(form).find('.dropdown-menu'),
+				dropdownItems = $(form).find('.dropdown-item'),
+				modalWindow = $('.modal-content:visible');
+
+			input.on('focusin', function () {
+				dropdown.removeClass('hidden');
+			});
+
+			modalWindow.on('click', function(event) {
+				// Check if click is outside input or the dropdown menu
+				// so the dropdown can be closed
+				var target = event.target;
+				if (!target.classList.contains('input-search') && !target.classList.contains('dropdown-item')) {
+					dropdown.addClass('hidden');
+					// reset the input field text, if it was edited without selecting new option from the dropdown
+					if (input.attr('data-product-name') && input.val() != input.attr('data-product-name')) {
+						input.val(input.attr('data-product-name'));
+					}
+				}
+			});
+
+			dropdownItems.on('click', function (event) {
+				var optionId = event.currentTarget.id,
+					optionText = event.currentTarget.innerText;
+
+				dropdown.addClass('hidden');
+				input.val(optionText);
+				input.attr('data-product-id', optionId);
+				input.attr('data-product-name', optionText);
+			});
+
+			input.on('input', function (event) {
+				var inputText = event.currentTarget.value.trim();
+				var filterAttributes = [
+					'data-name'
+				];
+				$self.filterElementsByAttribute(inputText, dropdownItems, filterAttributes);
+			});
+		}
+
+		// Currently used in Admin->Models and Admin->Products pages
+		this.setInputFilters = function () {
+			var inputs = $('.filter-input');
+			var btnClearFilters = $('.btn-clear-filters');
+			var filterableElements = $('.filterable-element');
+
+			inputs.on('input', function (event) {
+				// First check the current input, then all others
+				var inputText = event.currentTarget.value.trim();
+				var filterAttributes = [
+					event.currentTarget.dataset.searchAttribute
+				];
+				$self.filterElementsByAttribute(inputText, filterableElements, filterAttributes);
+
+				// After the current input is checked, search only through the visible elements
+				var visibleElements = $('.filterable-element:visible');
+
+				// Check other inputs, without the current one
+				for (var i = 0; i < inputs.length; i++) {
+					var input = inputs[i];
+					// Current input is already checked, ignore it
+					if (input != event.currentTarget && input.value != '') {
+						var inputText = input.value.trim();
+						var filterAttributes = [
+							input.dataset.searchAttribute
+						];
+						$self.filterElementsByAttribute(inputText, visibleElements, filterAttributes);
+					}
+				}
+			});
+
+			btnClearFilters.on('click', function() {
+				inputs.val('');
+				var elements = $('.filterable-element');
+				elements.show();
+			});
+		}
+
+		// Filter elements by a given data-attributes to search through
+		// text - the text from the input field
+		// elements - array of the elements to be filtered
+		// filterAttributes - array with the attributes to be searched for
+		this.filterElementsByAttribute = function (text, elements, filterAttributes) {
+			elements.filter(function () {
+				var match;
+				for (var filterAttr of filterAttributes) {
+					match = this.attributes[filterAttr].value.toLowerCase().indexOf(text.toLowerCase()) > -1;
+					if (match) {
+						break;
+					} else {
+						$(this).hide();
+					}
+				}
+				return match;
+			}).show();
+		}
   }
 
 $(function () {
   if (!window.console) window.console = {};
-  if (!window.console.log) window.console.log = function () {
-  };
-  if (!window.console.info) window.console.info = function () {
-  };
+  if (!window.console.log) window.console.log = function () {};
+  if (!window.console.info) window.console.info = function () {};
 
   uvel = new uvelController();
   uvel.init();

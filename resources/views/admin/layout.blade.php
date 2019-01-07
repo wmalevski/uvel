@@ -65,10 +65,11 @@
       }
     }
 
-  </style>
+	</style>
+	<link href="{{ URL::asset('../css/admin-panel.css') }}" rel="stylesheet">
   <link href="{{ URL::asset('style.css') }}" rel="stylesheet">
   <link href="{{ URL::asset('select2.min.css') }}" rel="stylesheet">
-  
+
 </head>
 
 <body class="app">
@@ -168,7 +169,7 @@
                   <span class="title">Цени</span>
                 </a>
               </li>
-{{-- 
+{{--
               <li class="nav-item {{ Active::check('admin/users',true) }}">
                   <a class="sidebar-link" href="{{ route('users') }}">
                     <span class="icon-holder">
@@ -193,16 +194,16 @@
                     <li>
                       <a class="sidebar-link" href="{{ route('users') }}">Потребители</a>
                     </li>
-  
+
                     {{-- @if(Auth::user()->hasRole('admin')) --}}
                     <li>
                       <a class="sidebar-link" href="{{ route('substitutions') }}">Замествания</a>
                     </li>
                     {{-- @endif --}}
-  
+
                   </ul>
                 </li>
- 
+
             <li class="nav-item {{ Active::check('admin/jewels',true) }}">
               <a class="sidebar-link" href="{{ route('jewels') }}">
                 <span class="icon-holder">
@@ -525,7 +526,7 @@
               <input class="form-control" type="text" placeholder="Search...">
             </li> --}}
             {{-- <li>
-                {{ App\User::find(Auth::user()->id)->store->name }} 
+                {{ App\User::find(Auth::user()->id)->store->name }}
             </li> --}}
           </ul>
           <ul class="nav-right">
@@ -749,18 +750,18 @@
     {{ csrf_field() }}
   </form>
 
-                
+
   <script type="text/javascript" src="{{ URL::asset('js/jquery-3.1.1.min.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('js/select2.min.js') }}"></script>
-  <script type="text/javascript" src="{{ URL::asset('js/bootstrap.min.js') }}"></script>  
+  <script type="text/javascript" src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('vendor.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('bundle.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('js/custom.js') }}"></script>
-  
-  
 
-  
-  
+
+
+
+
   @yield('footer-scripts')
 </body>
 </html>
