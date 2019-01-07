@@ -116,8 +116,7 @@
 						</div>
 					</div>
 
-					<div class="form-row model_stones">
-					</div>
+					<div class="form-row model_stones"></div>
 
 					<div class="form-row">
 						<div class="form-group col-md-5">
@@ -199,7 +198,7 @@
 
 					<strong>Даден материал:</strong><br/>
 
-					<div class="form-row">
+					<div class="form-row given-material">
 						<div class="form-group col-md-4">
 							<label for="grossWeight">Материал:</label>
 							<div class="input-group">

@@ -1506,33 +1506,22 @@ var uvel,
 
 		this.addAnother = function(form) {
 			var addAnother = form.find('#btnAddAnother');
-
 			addAnother.on('click', function(event) {
 				event.preventDefault();
-				/* empty array brackets in "name" properties are needed for the ajax request */
-				var fields =
-					'<div class="form-row">' +
-						'<div class="form-group col-md-4">' +
-							'<label for="grossWeight">Материал:</label>' +
-							'<div class="input-group">' +
-								'<input type="text" class="form-control mat-material" name="given_material_id[]" placeholder="Въведете материал:">' +
-							'</div>' +
-						'</div>' +
-						'<div class="form-group col-md-4">' +
-							'<label for="grossWeight">Количество:</label>' +
-							'<div class="input-group">' +
-								'<input type="number" class="form-control mat-quantity" name="mat_quantity[]" value="1">' +
-							'</div>' +
-						'</div>' +
-						'<div class="form-group col-md-4">' +
-							'<label for="grossWeight">Стойност:</label>' +
-							'<div class="input-group">' +
-								'<input type="number" class="form-control mat-calculated-price" name="calculated_price[]" value="0">' +
-							'</div>' +
-						'</div>' +
-					'</div>';
+				// Copy the given materials first element
+				// .outerHTML does not copy the elements values, so they are manually set
+				var givenMaterialsFirstElement = $('.form-row.given-material').first()[0],
+					firstMaterialId = $(givenMaterialsFirstElement).find('.mat-material').val(),
+					firstMaterialQuantity = $(givenMaterialsFirstElement).find('.mat-quantity').val(),
+					firstMaterialPrice = $(givenMaterialsFirstElement).find('.mat-calculated-price').val();
 
-				$(fields).insertBefore(this);
+				var givenMaterialsNewElement = givenMaterialsFirstElement;
+				// .val() does not set the inputs inner text
+				$(givenMaterialsNewElement).find('.mat-material').attr('value', firstMaterialId);
+				$(givenMaterialsNewElement).find('.mat-quantity').attr('value', firstMaterialQuantity);
+				$(givenMaterialsNewElement).find('.mat-calculated-price').attr('value', firstMaterialPrice);
+
+				$(givenMaterialsNewElement.outerHTML).insertBefore(this);
 			});
 		}
 
