@@ -8,6 +8,8 @@
 	data-price="{{ $product->price }}"
 	data-barcode="{{ $product->barcode }}">
 
+	{{$product->order}}
+
 	<td class="thumbnail--tooltip">
 		{{ $product->code }}
 		<ul @if($product->photos) style="background-image: url({{ asset("uploads/products/" .

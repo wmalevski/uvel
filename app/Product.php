@@ -67,6 +67,11 @@ class Product extends BaseModel
     {
         return $this->belongsTo('App\Price')->withTrashed();
     }
+    
+    public function order()
+    {
+        return $this->belongsTo('App\OrderItem');
+    }
 
     public function chainedSelects(Model $model){
         $materials = MaterialQuantity::curStore();
