@@ -536,6 +536,8 @@ var uvel,
 				dataType: 'json',
 				data: data,
 				success: function(response) {
+					// scroll to top of form window
+					document.getElementsByClassName('modal-content')[0].scrollIntoView();
 					if (formType == 'add') {
 						$self.appendResponseToTable(response, form);
 					} else if (formType == 'edit') {
@@ -545,6 +547,8 @@ var uvel,
 					$self.formSuccessHandler(form, formType);
 				},
 				error: function(err) {
+					// scroll to top of form window
+					document.getElementsByClassName('modal-content')[0].scrollIntoView();
 					$self.formsErrorHandler(err, form);
 				}
 			});
