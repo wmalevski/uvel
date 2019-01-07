@@ -114,9 +114,6 @@ class OrderController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-
-        //ADDDDDDDDDDD SCRIPT FOR EXCHANGE WITH MATERIALS
-
         $material = MaterialQuantity::withTrashed()->find($request->material_id);
         
         if($material->quantity < $request->weight){
@@ -199,6 +196,13 @@ class OrderController extends Controller
                     $checkStone->amount = $checkStone->amount - $request->stone_amount[$key];
                     $checkStone->save();
                 }
+            }
+        }
+
+        //saving exchange materials
+        if($request->material_id){
+            foreach($material_id as $material){
+
             }
         }
 
