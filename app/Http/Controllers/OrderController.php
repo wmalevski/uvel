@@ -23,6 +23,7 @@ use App\Store;
 use App\MaterialQuantity;
 use Storage;
 use App\OrderStone;
+use App\ProductTravelling;
 use Auth;
 
 class OrderController extends Controller
@@ -67,7 +68,7 @@ class OrderController extends Controller
             }
         }
 
-        return \View::make('admin/orders/index', array('materials' => $materials, 'orders' => $orders, 'stores' => $stores ,'products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials->scopeCurrentStore(), 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
+        return \View::make('admin/orders/index', array('mats' => $mats, 'materials' => $materials, 'orders' => $orders, 'stores' => $stores ,'products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials->scopeCurrentStore(), 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
     }
 
     /**
@@ -106,14 +107,12 @@ class OrderController extends Controller
             'store_id' => 'required|numeric',
             'earnest' => 'numeric|nullable',
             'safe_group' => 'numeric|nullable',
+            'quantity' => 'required'
         ]); 
 
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
-
-
-        //ADDDDDDDDDDD SCRIPT FOR EXCHANGE WITH MATERIALS
 
         $material = MaterialQuantity::withTrashed()->find($request->material_id);
         
@@ -139,6 +138,7 @@ class OrderController extends Controller
         $order->store_id = $request->store_id;
         //$bar = '380'.unique_number('products', 'barcode', 7).'1'; 
         $order->earnest = $request->earnest;
+        $order->quantity = $request->quantity;
 
         // $material->quantity = $material->quantity - $request->weight;
         // $material->save();
@@ -197,6 +197,21 @@ class OrderController extends Controller
                     $checkStone->save();
                 }
             }
+        }
+
+        //saving exchange materials, need to merge branch 32 for migrations
+        if($request->material_id){
+            // foreach($request->material_id as $key => $material){
+            //     if($material){
+            //         $exchange_material = new ExchangeMaterial();
+            //         $exchange_material->material_id = $material;
+            //         $exchange_material->payment_id = $paymentID;
+            //         $exchange_material->weight = $request->weight[$key];
+            //         $exchange_material->retail_price_id = $request->retail_price_id[$key];
+
+            //         $exchange_material->save();
+            //     }
+            // }
         }
 
         if($request->stones){
@@ -315,7 +330,8 @@ class OrderController extends Controller
                 'size' => 'required|numeric|between:0.1,10000',
                 'workmanship' => 'required|numeric|between:0.1,500000',
                 'price' => 'required|numeric|between:0.1,500000',
-                'store_id' => 'required|numeric'
+                'store_id' => 'required|numeric',
+                'quantity' => 'required|numeric|min:1'
             ]); 
     
             if ($validator->fails()) {
@@ -359,13 +375,37 @@ class OrderController extends Controller
             $order->store_id = $request->store_id;
             $order->earnest = $request->earnest;
             $order->store_id = $request->store_id;
+            $order->quantity = $request->quantity;
 
             if($request->with_stones == 'false'){
                 $order->weight_without_stones = 'no';
             } else{
                 $order->weight_without_stones = 'yes';
             }
+
+            if($request->status == 'true'){
+                for($i=0;$i<=$request->quantity;$i++){
+                    $product = new Product();
+                    $productResponse = $product->store($request, 'array');
+
+                    if($productResponse['errors']){
+                        return Response::json(['errors' => $productResponse['errors']], 401);
+                    }
+
+                    $request->request->add(['store_to_id' => $request->store_id]);
+                    $request->request->add(['product_id' => $product->id]);
+                    $request->request->add(['store_from_id' => 1]);
+
+                    $productTravelling = new ProductTravelling();
+                    $productTravellingResponse = $productTravelling->store($request, 'array');        
+                    
+                    if($productTravellingResponse['errors']){
+                        return Response::json(['errors' => $productTravellingResponse['errors']], 401);
+                    }
+                }
+            }
     
+            $order->status = 'ready';
             $order->save();
 
             // $path = public_path('uploads/products/');
@@ -408,7 +448,7 @@ class OrderController extends Controller
                 foreach($request->stones as $key => $stone){
                     if($stone) {
                         $order_stones = new OrderStone();
-                        $order_stones->product_id = $product->id;
+                        $order_stones->product_id = $order->id;
                         $order_stones->model_id = $request->model_id;
                         $order_stones->stone_id = $stone;
                         $order_stones->amount = $request->stone_amount[$key];
