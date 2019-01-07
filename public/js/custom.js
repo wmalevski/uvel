@@ -1195,10 +1195,9 @@ var uvel,
 
     this.modelRequestInit = function(form) {
 			/* Селектора (падащо меню) който ще прави рекуест */
-      var modelRequestTrigger = form.find('[data-calculatePrice-model]');
-      modelRequestTrigger.on('change', function() {
+      var modelRequestTrigger = form.find('.input-search');
+      modelRequestTrigger.on('input', function() {
         var _this = $(this);
-
         if (_this.find('option:selected').val() !== '0' && _this.find('option:selected').val() !== '') {
           $self.modelRequest(form);
         } else {
@@ -1211,9 +1210,9 @@ var uvel,
 
 		/* При избор на модел от падащото меню се прави тази заявка */
 		this.modelRequest = function (form) {
-			var selectMenu = form.find('[data-calculatePrice-model]');
-			var ajaxUrl = window.location.origin + '/' + selectMenu.attr('url');
-			var modelId = selectMenu.val();
+			var inputModel = form.find('.input-search');
+			var ajaxUrl = window.location.origin + '/' + inputModel.attr('data-url');
+			var modelId = inputModel.attr('data-product-id');
 			var requestLink = ajaxUrl + modelId;
 			$self.ajaxFn('GET', requestLink, $self.modelRequestResponseHandler, '', form);
     }
