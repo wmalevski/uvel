@@ -199,11 +199,19 @@ class OrderController extends Controller
             }
         }
 
-        //saving exchange materials
+        //saving exchange materials, need to merge branch 32 for migrations
         if($request->material_id){
-            foreach($material_id as $material){
+            // foreach($request->material_id as $key => $material){
+            //     if($material){
+            //         $exchange_material = new ExchangeMaterial();
+            //         $exchange_material->material_id = $material;
+            //         $exchange_material->payment_id = $paymentID;
+            //         $exchange_material->weight = $request->weight[$key];
+            //         $exchange_material->retail_price_id = $request->retail_price_id[$key];
 
-            }
+            //         $exchange_material->save();
+            //     }
+            // }
         }
 
         if($request->stones){
