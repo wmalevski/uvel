@@ -1,0 +1,23 @@
+.modal-content .dropdown-menu.hidden {
+	display: none;
+}
+
+.modal-content .dropdown-menu {
+	position: absolute;
+	display: inline-block;
+	width: 100%;
+	overflow-y: auto;
+	height: 200px;
+}
+
+.modal-content .dropdown-menu .dropdown-item {
+	padding: 10px;
+}
+
+.modal-content .dropdown-menu .dropdown-item:hover {
+	cursor: pointer;
+}
+
+.modal-content .input-search {
+	padding-left: 10px;
+}
