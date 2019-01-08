@@ -137,22 +137,9 @@ header.affix .container.top {
 	height: 100%;
 }
 
-.element.no_full_width .row-container {
-	height: 100%;
-}
-
 /* Grid alignment */
 .element.no_full_width .row-container .row-left {
-	position: relative;
 	height: 200px;
-}
-
-.element.no_full_width .row-container .row-right {
-	height: 130px;
-}
-
-.element.no_full_width .row-container .product-content-left, .element.no_full_width .row-container .product-content-right {
-	padding: 10px !important;
 }
 
 .element.no_full_width .row-left .container_item {
@@ -160,8 +147,8 @@ header.affix .container.top {
 	height: 100%;
 }
 
-.element.no_full_width .hover-appear {
-	margin-bottom: 130px;
+.element.no_full_width .row-container .product-content-left, .element.no_full_width .row-container .product-content-right {
+	padding: 10px !important;
 }
 
 @media (max-width: 600px) {

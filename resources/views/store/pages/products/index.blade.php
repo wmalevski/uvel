@@ -147,10 +147,88 @@
 								</div>
 								<div id="sandBox-wrapper" class="group-product-item row collection-full">
 									<ul id="sandBox" class="list-unstyled">
+
 										@foreach($products as $product)
-										<li class="element first no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}"
-											data-id="{{$product->id}}">
+										<li class="element no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}" data-id="{{$product->id}}">
 											<ul class="row-container list-unstyled clearfix">
+
+												<li class="row-left">
+													<a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">
+														<img class="img-fill" src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }}
+														@else {{ asset('store/images/demo_375x375.png') }}
+														@endif">
+													</a>
+													<div class="hbw">
+														<span class="hoverBorderWrapper"></span>
+													</div>
+												</li>
+
+												<li class="row-right parent-fly animMix">
+
+													<div class="product-content-left">
+														<a class="title-5" href="{{ route('single_product', ['product' => $product->id])  }}">
+															{{ $product->name }}
+														</a>
+														<div>
+															No: {{ $product->barcode }}
+															<br/>
+															{{ $product->weight }}гр.
+														</div>
+														<div>
+															MAGAZIN: {{ $product->store_id }}
+														</div>
+														<span class="spr-badge" id="spr_badge_1293239619454" data-rating="0.0">
+															<span class="spr-starrating spr-badge-starrating">
+																{{$product->listProductAvgRatingStars($product)}}
+															</span>
+														</span>
+													</div>
+
+													<div class="product-content-right">
+														<div class="product-price">
+															<span class="price">
+																{{ $product->price }} лв
+															</span>
+														</div>
+													</div>
+
+													<div class="hover-appear">
+														<form action="#" method="post">
+															<div class="effect-ajax-cart">
+																<input name="quantity" value="1" type="hidden">
+																<button class="select-option" type="button" onclick="window.location.href='{{ route('single_product', ['product' => $product->id])  }}'">
+																	<i class="fa fa-th-list" title="Преглед"></i>
+																	<span class="list-mode">
+																		Преглед
+																	</span>
+																</button>
+															</div>
+														</form>
+														<div class="product-ajax-qs hidden-xs hidden-sm">
+															<div data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal" data-url="products/{{ $product->id }}/">
+																<i class="fa fa-eye" title="Бърз Преглед"></i>
+																<span class="list-mode">
+																	Бърз преглед
+																</span>
+															</div>
+														</div>
+														<a class="wish-list" href="#" title="Наблюдавани" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
+															<i class="fa fa-heart"></i>
+															<span class="list-mode">
+																Добави в желани
+															</span>
+														</a>
+													</div>
+												</li>
+											</ul>
+										</li>
+
+										<!--
+											OLD ELEMENT
+											{{--
+										<li class="element first no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}" data-id="{{$product->id}}">
+											<ul class="row-container list-unstyled clearfix">
+
 												<li class="row-left">
 													<a href="{{ route('single_product', ['product' => $product->id])  }}" class="product-image">
 														<img class="img-fill" src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }}
@@ -158,7 +236,9 @@
 															@endif">
 													</a>
 												</li>
+
 												<li class="row-right parent-fly animMix">
+
 													<div class="product-content-left">
 														<a class="title-5" href="{{ route('single_product', ['product' => $product->id])  }}">
 															{{ $product->name }}
@@ -177,17 +257,13 @@
 															</span>
 														</span>
 													</div>
+
 													<div class="product-content-right">
 														<div class="product-price">
 															<span class="price">{{ $product->price }} лв</span>
 														</div>
 													</div>
-													{{--
-													<div class="list-mode-description">
-														No: {{ $product->code }} <br />
-														{{ $product->weight }}гр. <br />
-													</div>
-													--}}
+
 													<div class="hover-appear">
 														<form action="#" method="post">
 															<div class="effect-ajax-cart">
@@ -199,20 +275,24 @@
 															</div>
 														</form>
 														<div class="product-ajax-qs hidden-xs hidden-sm">
-															<div data-handle="curabitur-cursus-dignis" data-target="#quick-shop-modal" class="quick_shop"
-																data-toggle="modal" data-url="products/{{ $product->id }}/">
+															<div data-handle="curabitur-cursus-dignis" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal" data-url="products/{{ $product->id }}/">
 																<i class="fa fa-eye" title="Бърз Преглед"></i>
 																<span class="list-mode">Бърз преглед</span>
 															</div>
 														</div>
 														<a class="wish-list" href="#" title="Наблюдавани" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
 															<i class="fa fa-heart"></i>
-															<span class="list-mode">Добави в желани</span>
+															<span class="list-mode">
+																Добави в желани
+															</span>
 														</a>
 													</div>
 												</li>
 											</ul>
 										</li>
+										--}}
+										-->
+
 										@endforeach
 									</ul>
 									<!-- Paginator -->
