@@ -144,65 +144,77 @@
               </li>
 
             </ul>
-          </li>
+					</li>
 
-          <li class="nav-item {{ Active::check('admin/discounts',true) }}">
-            <a class="sidebar-link" href="{{ route('discounts') }}">
-              <span class="icon-holder">
-                <i class=" ti-money"></i>
-              </span>
-              <span class="title">Отстъпки</span>
-            </a>
-          <li class="nav-item {{ Active::check('admin/stores',true) }}">
-              <a class="sidebar-link" href="{{ route('stores') }}">
-                <span class="icon-holder">
-                  <i class=" ti-pencil"></i>
-                </span>
-                <span class="title">Магазини</span>
-              </a>
-            </li>
-            <li class="nav-item {{ Active::check('admin/prices',true) }}">
-                <a class="sidebar-link" href="{{ route('prices') }}">
-                  <span class="icon-holder">
-                    <i class=" ti-money"></i>
-                  </span>
-                  <span class="title">Цени</span>
-                </a>
-              </li>
-{{--
-              <li class="nav-item {{ Active::check('admin/users',true) }}">
-                  <a class="sidebar-link" href="{{ route('users') }}">
-                    <span class="icon-holder">
-                      <i class=" ti-user"></i>
-                    </span>
-                    <span class="title">Потребители</span>
-                  </a>
-                </li> --}}
+					<li class="nav-item {{ Active::check('admin/orders',true) }}">
+						<a class="sidebar-link" href="{{ route('orders') }}">
+							<span class="icon-holder">
+								<i class="ti-clipboard"></i>
+							</span>
+							<span class="title">Поръчки</span>
+						</a>
+					</li>
+
+					<li class="nav-item {{ Active::check('admin/discounts',true) }}">
+						<a class="sidebar-link" href="{{ route('discounts') }}">
+							<span class="icon-holder">
+								<i class=" ti-money"></i>
+							</span>
+							<span class="title">Отстъпки</span>
+						</a>
+					</li>
+
+					<li class="nav-item {{ Active::check('admin/stores',true) }}">
+						<a class="sidebar-link" href="{{ route('stores') }}">
+							<span class="icon-holder">
+								<i class=" ti-pencil"></i>
+							</span>
+							<span class="title">Магазини</span>
+						</a>
+					</li>
+
+					<li class="nav-item {{ Active::check('admin/prices',true) }}">
+						<a class="sidebar-link" href="{{ route('prices') }}">
+							<span class="icon-holder">
+								<i class=" ti-money"></i>
+							</span>
+							<span class="title">Цени</span>
+						</a>
+					</li>
+					{{--
+					<li class="nav-item {{ Active::check('admin/users',true) }}">
+							<a class="sidebar-link" href="{{ route('users') }}">
+								<span class="icon-holder">
+									<i class=" ti-user"></i>
+								</span>
+								<span class="title">Потребители</span>
+							</a>
+						</li> --}}
 
 
-                <li class="nav-item dropdown {{ Active::check('admin/users',true) }}">
-                  <a class="dropdown-toggle" href="javascript:void(0);">
-                    <span class="icon-holder">
-                      <i class=" ti-user"></i>
-                    </span>
-                    <span class="title">Потребители</span>
-                    <span class="arrow">
-                      <i class="ti-angle-right"></i>
-                    </span>
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a class="sidebar-link" href="{{ route('users') }}">Потребители</a>
-                    </li>
+						<li class="nav-item dropdown {{ Active::check('admin/users',true) }}">
+							<a class="dropdown-toggle" href="javascript:void(0);">
+								<span class="icon-holder">
+									<i class=" ti-user"></i>
+								</span>
+								<span class="title">Потребители</span>
+								<span class="arrow">
+									<i class="ti-angle-right"></i>
+								</span>
+							</a>
+							<ul class="dropdown-menu">
+								<li>
+									<a class="sidebar-link" href="{{ route('users') }}">Потребители</a>
+								</li>
 
-                    {{-- @if(Auth::user()->hasRole('admin')) --}}
-                    <li>
-                      <a class="sidebar-link" href="{{ route('substitutions') }}">Замествания</a>
-                    </li>
-                    {{-- @endif --}}
+								{{-- @if(Auth::user()->hasRole('admin')) --}}
+								<li>
+									<a class="sidebar-link" href="{{ route('substitutions') }}">Замествания</a>
+								</li>
+								{{-- @endif --}}
 
-                  </ul>
-                </li>
+							</ul>
+						</li>
 
             <li class="nav-item {{ Active::check('admin/jewels',true) }}">
               <a class="sidebar-link" href="{{ route('jewels') }}">

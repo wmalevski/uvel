@@ -1186,7 +1186,6 @@ var uvel,
 
     this.modelRequestInit = function(form) {
 			/* Селектора (падащо меню) който ще прави рекуест */
-			debugger;
 			var modelRequestTrigger = form.find('.input-search');
       modelRequestTrigger.on('input', function() {
         var _this = $(this);
