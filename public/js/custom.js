@@ -1195,7 +1195,7 @@ var uvel,
 
     this.modelRequestInit = function(form) {
 			/* Селектора (падащо меню) който ще прави рекуест */
-      var modelRequestTrigger = form.find('.input-search');
+			var modelRequestTrigger = form.find('.input-search');
       modelRequestTrigger.on('input', function() {
         var _this = $(this);
         if (_this.find('option:selected').val() !== '0' && _this.find('option:selected').val() !== '') {
@@ -1893,6 +1893,8 @@ var uvel,
 				input.val(optionText);
 				input.attr('data-product-id', optionId);
 				input.attr('data-product-name', optionText);
+				// triggers the input event on the search input, so the ajax request is made
+				$('.input-search').trigger('input');
 			});
 
 			input.on('input', function (event) {
