@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\CorporatePartnerMaterial;
+use App\PartnerMaterial;
 use Illuminate\Http\Request;
 
-class CorporatePartnerMaterialController extends Controller
+class PartnerMaterialController extends Controller
 {
     /**
      * Display a listing of the resource.

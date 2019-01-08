@@ -50,6 +50,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/users', 'UserController@index')->name('users');
     Route::get('/users/{user}', 'UserController@edit');
 
+    Route::get('/partners', 'PartnerController@index')->name('partners');
+
     Route::get('/stones', 'StoneController@index')->name('stones');
     Route::post('/stones', 'StoneController@store');
 

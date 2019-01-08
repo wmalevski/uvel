@@ -64,4 +64,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Store')->withTrashed();
     }
+
+    public function partnerInfo()
+    {
+        return $this->belongsTo('App\Partner')->withTrashed();
+    }
 }

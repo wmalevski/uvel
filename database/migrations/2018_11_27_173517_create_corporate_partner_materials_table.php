@@ -17,6 +17,7 @@ class CreateCorporatePartnerMaterialsTable extends Migration
             $table->increments('id');
             $table->integer('corporate_partner_id')->unsigned();
             $table->integer('material_id')->unsigned();
+            $table->integer('quantity');
             $table->timestamps();
         });
     }

@@ -16,8 +16,8 @@ class CreateCorporatePartnersTable extends Migration
         Schema::create('corporate_partners', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->string('unique_code')->unique();
-            $table->float('money');
+            //$table->string('unique_code')->unique();
+            $table->float('money')->default(0);
             $table->timestamps();
         });
     }
