@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Partner;
 use App\PartnerMaterial;
 use Illuminate\Http\Request;
 
@@ -12,9 +13,15 @@ class PartnerMaterialController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($partner)
     {
-        //
+        $partner = Partner::find($partner);
+
+        if($partner){
+            $materials = $partner->materials;
+
+            return \View::make('admin/partner_materials/index', array('materials' => $materials, 'partner' => $partner));
+        }
     }
 
     /**
