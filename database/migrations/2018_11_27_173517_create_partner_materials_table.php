@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCorporatePartnersTable extends Migration
+class CreatePartnerMaterialsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateCorporatePartnersTable extends Migration
      */
     public function up()
     {
-        Schema::create('corporate_partners', function (Blueprint $table) {
+        Schema::create('partner_materials', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
-            //$table->string('unique_code')->unique();
-            $table->float('money')->default(0);
+            $table->integer('partner_id')->unsigned();
+            $table->integer('material_id')->unsigned();
+            $table->integer('quantity');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateCorporatePartnersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('corporate_partners');
+        Schema::dropIfExists('partner_materials');
     }
 }

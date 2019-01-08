@@ -110,16 +110,16 @@ class CreateForeignKeys extends Migration {
 						->onUpdate('cascade');
 		});
 
-		Schema::table('corporate_partners', function (Blueprint $table) {
+		Schema::table('partners', function (Blueprint $table) {
 			
 			$table->foreign('user_id')->references('id')->on('users')
 						->onDelete('cascade')
 						->onUpdate('cascade');
 		});
 
-		Schema::table('corporate_partner_materials', function (Blueprint $table) {
+		Schema::table('partner_materials', function (Blueprint $table) {
 			
-			$table->foreign('corporate_partner_id')->references('id')->on('corporate_partners')
+			$table->foreign('partner_id')->references('id')->on('partners')
 						->onDelete('cascade')
 						->onUpdate('cascade');
 
@@ -197,15 +197,15 @@ class CreateForeignKeys extends Migration {
 			$table->dropColumn('type_id');
 		});
 
-		Schema::table('corporate_partners', function(Blueprint $table) {
-			$table->dropForeign('corporate_partners_user_id_foreign');
+		Schema::table('partners', function(Blueprint $table) {
+			$table->dropForeign('partners_user_id_foreign');
 			$table->dropColumn('user_id');
 		});
 		
-		Schema::table('corporate_partner_materials', function(Blueprint $table) {
-			$table->dropForeign('corporate_partner_materials_corporate_partner_id_foreign');
-			$table->dropColumn('corporate_partner_id');
-			$table->dropForeign('corporate_partner_materials_material_id_foreign');
+		Schema::table('partner_materials', function(Blueprint $table) {
+			$table->dropForeign('partner_materials_partner_id_foreign');
+			$table->dropColumn('partner_id');
+			$table->dropForeign('partner_materials_material_id_foreign');
 			$table->dropColumn('material_id');
 		});
 	}
