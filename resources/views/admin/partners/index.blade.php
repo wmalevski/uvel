@@ -101,7 +101,8 @@ aria-hidden="true">
               {{-- <th class="sort-false" scope="col">Email</th>
               <th scope="col">Вид</th>
               <th scope="col">Магазин</th>
-              <th class="sort-false" scope="col">Действия</th> --}}
+              --}}
+              <th class="sort-false" scope="col">Действия</th>
             </tr>
           </thead>
           <tbody>
