@@ -3,7 +3,6 @@
 @section('content')
 <div id="content-wrapper-parent">
 	<div id="content-wrapper">
-		<!-- Content -->
 		<div id="content" class="clearfix">
 			<div id="breadcrumb" class="breadcrumb">
 				<div itemprop="breadcrumb" class="container">
@@ -41,7 +40,8 @@
 
 							<div class="row">
 								<div class="left-block col-md-12">
-									<form method="post" action="{{ route('submit_custom_order') }}" class="contact-form customOrder-form" accept-charset="UTF-8">
+									<form method="post" action="{{ route('submit_custom_order') }}" class="contact-form customOrder-form"
+									 accept-charset="UTF-8">
 										{{ csrf_field() }}
 										<input type="hidden" value="contact" name="form_type">
 										<input type="hidden" name="utf8" value="✓">

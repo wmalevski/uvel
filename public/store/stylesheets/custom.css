@@ -99,6 +99,48 @@ header.affix .container.top {
 	margin-top: -40px;
 }
 
+/* Home page */
+@media (max-width: 1024px) {
+	.home_fp .owl-buttons {
+		display: none;
+	}
+}
+
+.home_fp .owl-buttons .owl-prev,
+.home_fp .owl-buttons .owl-next {
+	top: 40%;
+	width: 100px;
+	height: 100px;
+	margin: 0 !important;
+	padding: 0 !important;
+	background: none !important;
+	position: absolute;
+}
+
+.home_fp .owl-buttons .owl-prev span,
+.home_fp .owl-buttons .owl-next span {
+	display: block;
+	width: 50px;
+	height: 50px;
+	border-top: 1px solid gray;
+	border-right: 1px solid gray;
+}
+
+.home_fp .owl-buttons .owl-prev {
+	left: -50px;
+}
+
+.home_fp .owl-buttons .owl-prev span {
+	transform: rotate(-135deg);
+}
+
+.home_fp .owl-buttons .owl-next {
+	right: -100px;
+}
+
+.home_fp .owl-buttons .owl-next span {
+	transform: rotate(45deg);
+}
 
 /* https://trello.com/c/ceK5wKsm/18-blog */
 .blogs {
@@ -126,14 +168,6 @@ header.affix .container.top {
 }
 
 #sandBox .element.full_width .row-left {
-	height: 100%;
-}
-
-.home_fp .owl-item {
-	height: 300px;
-}
-
-.home_fp .element {
 	height: 100%;
 }
 
