@@ -64,10 +64,10 @@
 														<div class="collection-details">
 															<a href="online/products/?byMaterial[]={{ $material->id }}">
 
-																<img src="@if(count($material->materials->first()->products))
+																<img src="@if(count($material->materials)) @if(count($material->materials->first()->products))
                                           @if(count($material->materials->first()->products->first()->images))
                                           {{ asset("uploads/products/" . $material->materials->first()->products->first()->images->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }}
-																					@endif @endif"
+																					@endif @endif @endif"
 																 alt="">
 															</a>
 														</div>
