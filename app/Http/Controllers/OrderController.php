@@ -339,7 +339,7 @@ class OrderController extends Controller
                 return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
             }
 
-            $currentMaterial = MaterialQuantity::withTrashed()->find($order->material);
+            $currentMaterial = MaterialQuantity::withTrashed()->find($order->material_id);
 
             if($request->material != $order->material){
                 $newMaterial = MaterialQuantity::withTrashed()->find($request->material);
@@ -387,7 +387,7 @@ class OrderController extends Controller
             $order->save();
 
             if($request->status == 'true'){
-                for($i=0;$i<=$request->quantity;$i++){
+                for($i=1;$i<=$request->quantity;$i++){
                     $product = new Product();
 
                     $request->merge([
