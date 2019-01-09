@@ -133,39 +133,53 @@
 													<link itemprop="availability" href="http://schema.org/InStock">
 													<form action="./cart.html" method="post" class="variants" id="product-actions">
 														<div id="product-actions-1293235843" class="options clearfix">
-															<style scoped>
-																label[for="product-select-option-0"] { display: none; }
-																  #product-select-option-0 { display: none; }
-																  #product-select-option-0 + .custom-style-select-box { display: none !important; }
-																</style>
 															<div id="purchase-1293235843">
 																<div class="detail-price" itemprop="price">
-																	<span class="price">{{ $product->price }} лв</span>
+																	<span class="price">
+																		{{ $product->price }} лв
+																	</span>
 																	*Цената е с включено ДДС.
 																</div>
 															</div>
 															<div class="others-bottom clearfix">
 																<button id="add-to-cart" class="btn btn-1 add-to-cart" data-url="{{ route('CartAddItem', ['item' => $product->barcode, 'quantity' => 1]) }}"
-																 data-parent=".product-information" type="submit" name="add">Добави в количка</button>
+																 data-parent=".product-information" type="submit" name="add">
+																 Добави в количка
+																</button>
 															</div>
 														</div>
 													</form>
 													<div class="wls">
-														<a class="wish-list" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}"><i
-															 class="fa fa-heart"></i> Добави в желани</a>
+														<a class="wish-list" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
+															<i class="fa fa-heart"></i> Добави в желани</a>
 														<span>|</span>
-														<a href="mailto:info@yourdomain.com"><i class="fa fa-envelope"></i> Изпрати по email</a>
+														<a href="mailto:info@yourdomain.com">
+															<i class="fa fa-envelope"></i>
+															Изпрати по email
+														</a>
 													</div>
 												</div>
 												<ul id="tabs_detail" class="tabs-panel-detail hidden-xs hidden-sm">
 													<li class="first">
-														<h5><a href="#pop-one" class="fancybox">Информация за обмяна</a></h5>
+														<h5>
+															<a href="#pop-one" class="fancybox">
+																Информация за обмяна
+															</a>
+														</h5>
 													</li>
 													<li>
-														<h5><a href="#pop-two" class="fancybox">Информация за доставка</a></h5>
+														<h5>
+															<a href="#pop-two" class="fancybox">
+																Информация за доставка
+															</a>
+														</h5>
 													</li>
 													<li>
-														<h5><a href="#pop-three" class="fancybox">Таблица с размери</a></h5>
+														<h5>
+															<a href="#pop-three" class="fancybox">
+																Таблица с размери
+															</a>
+														</h5>
 													</li>
 												</ul>
 												<div id="pop-one" style="display: none;">
@@ -197,23 +211,11 @@
 														use, all weights will be rounded up to the next full pound.
 													</p>
 												</div>
-												<div id="pop-three" style="display: none;">
-													<img src="./assets/images/demo_870x580.png" alt="">
-												</div>
 											</div>
 										</div>
 									</div>
 									@if(Auth::check())
 									<div id="shopify-product-reviews" data-id="{{$product->id}}">
-										<style scoped="">
-											.spr-container {
-												padding: 24px;
-												border-color: #ECECEC;
-												}
-												.spr-review, .spr-form {
-												border-color: #ECECEC;
-												}
-											</style>
 										<div class="spr-container">
 											@if(count($product->reviews) >= 1)
 											<div class="spr-header">
@@ -225,13 +227,11 @@
 														<meta itemprop="average" content="{{$productAvgRating}}">
 														<meta itemprop="best" content="5">
 														<meta itemprop="worst" content="1">
-														@for($i = 1; $i <= 5; $i++)
-															@if(round($productAvgRating)>= $i)
-																<i class="spr-icon spr-icon-star" style=""></i>
-															@elseif(round($productAvgRating) < $i)
-																<i class="spr-icon spr-icon-star-empty" style=""></i>
-															@endif
-														@endfor
+														@for($i = 1; $i <= 5; $i++) @if(round($productAvgRating)>= $i)
+															<i class="spr-icon spr-icon-star" style=""></i>
+															@elseif(round($productAvgRating) < $i) <i class="spr-icon spr-icon-star-empty" style=""></i>
+																@endif
+																@endfor
 													</span>
 													<span class="spr-summary-caption">
 														<span class="spr-summary-actions-togglereviews">
@@ -256,7 +256,6 @@
 														<input type="hidden" name="rating" value="5">
 														<h3 class="spr-form-title">Напиши ревю</h3>
 														<fieldset class="spr-form-review">
-
 															<div class="spr-form-review-rating">
 																<label class="spr-form-label">Рейтинг</label>
 																<div class="spr-form-input spr-starrating">
@@ -281,7 +280,8 @@
 
 														</fieldset>
 														<fieldset class="spr-form-actions">
-															<input id="btnSubmitReview" type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary" disabled value="Добави рейтинг">
+															<input id="btnSubmitReview" type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary"
+															 disabled value="Добави рейтинг">
 														</fieldset>
 														<input type="hidden" name="product_id" value="{{$product->id}}">
 														<input type="hidden" name="type" value="product">
@@ -291,7 +291,6 @@
 
 													@foreach($product->reviews as $key => $review)
 													<div class="spr-review" id="spr-review-{{$key}}">
-
 														<div class="spr-review-header">
 															<span class="spr-starratings spr-review-header-starratings">
 																@for($i = 1; $i <= 5; $i++)
@@ -375,11 +374,18 @@
 														<div class="product-ajax-qs hidden-xs hidden-sm">
 															<div data-handle="curabitur-cursus-dignis" data-barcode="{{ $product->barcode }}" data-target="#quick-shop-modal"
 															 class="quick_shop" data-toggle="modal">
-																<i class="fa fa-eye" title="Бърз Преглед"></i><span class="list-mode">Бърз Преглед</span>
+																<i class="fa fa-eye" title="Бърз Преглед"></i>
+																<span class="list-mode">
+																	Бърз Преглед
+																</span>
 															</div>
 														</div>
-														<a class="wish-list" href="#" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}"
-														 title="Наблюдавани"><i class="fa fa-heart"></i><span class="list-mode">Добави в желани</span></a>
+														<a class="wish-list" href="#" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}" title="Наблюдавани">
+														 <i class="fa fa-heart"></i>
+														 <span class="list-mode">
+															 Добави в желани
+															</span>
+														</a>
 													</div>
 												</li>
 											</ul>

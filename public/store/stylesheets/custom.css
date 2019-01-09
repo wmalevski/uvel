@@ -142,6 +142,13 @@ header.affix .container.top {
 	transform: rotate(45deg);
 }
 
+/* Product page */
+.product-page .spr-form {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
 /* https://trello.com/c/ceK5wKsm/18-blog */
 .blogs {
 	padding: 16px;
