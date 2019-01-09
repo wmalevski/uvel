@@ -150,6 +150,31 @@ header.affix .container.top {
 	border: 0;
 }
 
+/* Blog article page */
+.article-page textarea {
+	width: 100%;
+	min-height: 100px;
+	max-height: 300px;
+	margin: 20px 0;
+	padding: 10px;
+	font-size: 16px;
+	resize: vertical;
+}
+.article-page .comment {
+	padding-left: 10px;
+	border-left: 1px solid gray;
+}
+
+.article-page .comment .author,
+.article-page .comment .date {
+	display: block;
+}
+
+.article-page .blog-article-title {
+	margin-bottom: 20px;
+}
+
+
 /* https://trello.com/c/ceK5wKsm/18-blog */
 .blogs {
 	padding: 16px;
@@ -337,7 +362,6 @@ header.affix .container.top {
 }
 
 @media (max-width: 400px) {
-
 	.home-slider-wrapper .camera_prev,
 	.home-slider-wrapper .camera_next {
 		opacity: 1 !important;
@@ -502,11 +526,11 @@ header.affix .container.top {
 	height: 100%;
 }
 
-#home_blog .home-blog-content ul>li {
+#home_blog .home-blog-content ul > li {
 	vertical-align: top;
 }
 
-#home_blog .home-blog-content h4>a {
+#home_blog .home-blog-content h4 > a {
 	display: block;
 	display: block;
 	overflow: hidden;

@@ -849,15 +849,7 @@ table{border:1px solid #ebebeb;}
 .blogs .blogs-item ul li.comment{padding-right:0;display:inline-block;*display:inline;zoom:1;}
 .sidebar .blogs-item h4{margin-bottom:0;margin-top:0;text-transform:capitalize;}
 .sidebar .blogs-item ul.post{padding-top:10px;padding-bottom:10px;}
-form.comment-form{margin-top:20px;}
 #comment-form h2{margin-top:40px;}
-#comments{margin-top:53px;}
-#comments .mini-line{margin-bottom:25px;}
-#comments .comment-head,
-#comments .comment-content,
-#comments .post-reply{margin-left:15px;margin-right:15px;}
-#comments .comment-content{margin-bottom:25px;}
-#comments .post-reply{margin-bottom:35px;float:right;}
 #comment-form .alert{margin-left:0;margin-right:0;}
 #comment-form .contact-form{margin-bottom:0;}
 #comments .post{margin-bottom:10px;font-size:11px;font-family:'Lato', sans-serif;font-weight:400;color:#202020;text-transform:uppercase;}
