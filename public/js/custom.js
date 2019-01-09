@@ -194,10 +194,10 @@ var uvel,
 
     this.openFormAction = function(currentPressedBtn, data) {
       var $this = currentPressedBtn,
-          timeToOpenModal = 1000, //time which takes for modals to open
-          openedForm = $this.attr('data-form'),
-          formType = $this.attr('data-form-type'),
-          formSettings = $self.formsConfig[openedForm];
+				timeToOpenModal = 1000, //time which takes for modals to open
+				openedForm = $this.attr('data-form'),
+				formType = $this.attr('data-form-type'),
+				formSettings = $self.formsConfig[openedForm];
 
       if (formType == 'edit') {
         $self.appendingEditFormToTheModal($this, data);
@@ -231,7 +231,7 @@ var uvel,
     this.deleteRow = function(deleteRowTrigger) {
       deleteRowTrigger.on('click', function() {
         var _this = $(this),
-            ajaxRequestLink = _this.hasClass('cart') ? _this.attr('data-url') : $self.buildAjaxRequestLink('deleteRow', _this.attr('data-url'));
+					ajaxRequestLink = _this.hasClass('cart') ? _this.attr('data-url') : $self.buildAjaxRequestLink('deleteRow', _this.attr('data-url'));
 
         if (confirm('Сигурен ли сте, че искате да изтриете записа?')) {
           $.ajax({
@@ -360,7 +360,6 @@ var uvel,
 
         if (discountAmount > 0) {
           var ajaxUrl = _url + discountUrl;
-
           $self.ajaxFn('POST', ajaxUrl, $self.discountSuccess, dataSend, '', '');
         }
       });
@@ -1730,18 +1729,16 @@ var uvel,
 
 		this.lifetimeDiscount = function(form) {
 			var lifetimeSelect = form.find('#lifetime_add');
+
 			lifetimeSelect.on('change', function (event) {
 				var isSelected = event.currentTarget.checked;
-				if (isSelected) {
-					form.find('[name="date_expires"]').attr('readonly', true);
-				} else {
-					form.find('[name="date_expires"]').attr('readonly', false);
-				}
+				form.find('[name="date_expires"]').attr('readonly', isSelected);
 			});
 		}
 
 		this.storeSelectInit = function() {
 			var storeSelect = $('.store-select');
+
 			storeSelect.on('change', function () {
 				// TODO
 				// da se proveri kakvo izpra6ta kym backenda, poneje pri obiknoven select i deselect, elementa vinagi si ima prop checked
