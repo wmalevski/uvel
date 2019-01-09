@@ -45,8 +45,8 @@ class Order extends Model
         return $this->belongsTo('App\Price')->withTrashed();
     }
 
-    public function materials()
-    {
-        return $this->hasMany('App\ExchangeMaterial', 'order_id');
-    }
+    // public function materials()
+    // {
+    //     return $this->hasMany('App\ExchangeMaterial', 'order_id');
+    // }
 }
