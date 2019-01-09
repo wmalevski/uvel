@@ -62,7 +62,8 @@ header.affix {
 	background-color: #f7f7f7;
 }
 
-header.affix .top-other, header.affix .navbar {
+header.affix .top-other,
+header.affix .navbar {
 	min-height: 40px;
 }
 
@@ -99,6 +100,55 @@ header.affix .container.top {
 	margin-top: -40px;
 }
 
+/* Home page */
+@media (max-width: 1024px) {
+	.home_fp .owl-buttons {
+		display: none;
+	}
+}
+
+.home_fp .owl-buttons .owl-prev,
+.home_fp .owl-buttons .owl-next {
+	position: absolute;
+	top: 40%;
+	width: 100px;
+	height: 100px;
+	margin: 0 !important;
+	padding: 0 !important;
+	background: none !important;
+}
+
+.home_fp .owl-buttons .owl-prev span,
+.home_fp .owl-buttons .owl-next span {
+	display: block;
+	width: 50px;
+	height: 50px;
+	border-top: 1px solid gray;
+	border-right: 1px solid gray;
+}
+
+.home_fp .owl-buttons .owl-prev {
+	left: -50px;
+}
+
+.home_fp .owl-buttons .owl-prev span {
+	transform: rotate(-135deg);
+}
+
+.home_fp .owl-buttons .owl-next {
+	right: -100px;
+}
+
+.home_fp .owl-buttons .owl-next span {
+	transform: rotate(45deg);
+}
+
+/* Product page */
+.product-page .spr-form {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
 
 /* https://trello.com/c/ceK5wKsm/18-blog */
 .blogs {
@@ -129,30 +179,9 @@ header.affix .container.top {
 	height: 100%;
 }
 
-.home_fp .owl-item {
-	height: 300px;
-}
-
-.home_fp .element {
-	height: 100%;
-}
-
-.element.no_full_width .row-container {
-	height: 100%;
-}
-
 /* Grid alignment */
 .element.no_full_width .row-container .row-left {
-	position: relative;
 	height: 200px;
-}
-
-.element.no_full_width .row-container .row-right {
-	height: 130px;
-}
-
-.element.no_full_width .row-container .product-content-left, .element.no_full_width .row-container .product-content-right {
-	padding: 10px !important;
 }
 
 .element.no_full_width .row-left .container_item {
@@ -160,8 +189,9 @@ header.affix .container.top {
 	height: 100%;
 }
 
-.element.no_full_width .hover-appear {
-	margin-bottom: 130px;
+.element.no_full_width .row-container .product-content-left,
+.element.no_full_width .row-container .product-content-right {
+	padding: 10px !important;
 }
 
 @media (max-width: 600px) {
@@ -284,7 +314,8 @@ header.affix .container.top {
 	padding: 0;
 }
 
-.home-slider-wrapper .camera_prev span, .home-slider-wrapper .camera_next span {
+.home-slider-wrapper .camera_prev span,
+.home-slider-wrapper .camera_next span {
 	display: block;
 	width: 100px;
 	height: 100px;
@@ -306,14 +337,17 @@ header.affix .container.top {
 }
 
 @media (max-width: 400px) {
-	.home-slider-wrapper .camera_prev, .home-slider-wrapper .camera_next {
+
+	.home-slider-wrapper .camera_prev,
+	.home-slider-wrapper .camera_next {
 		opacity: 1 !important;
 		transform: scale(0.8);
 		margin: 0;
 		padding: 20px;
 	}
 
-	.home-slider-wrapper .camera_prev span, .home-slider-wrapper .camera_next span {
+	.home-slider-wrapper .camera_prev span,
+	.home-slider-wrapper .camera_next span {
 		width: 50px;
 		height: 50px;
 	}
@@ -468,11 +502,11 @@ header.affix .container.top {
 	height: 100%;
 }
 
-#home_blog .home-blog-content ul > li {
+#home_blog .home-blog-content ul>li {
 	vertical-align: top;
 }
 
-#home_blog .home-blog-content h4 > a {
+#home_blog .home-blog-content h4>a {
 	display: block;
 	display: block;
 	overflow: hidden;
@@ -505,7 +539,8 @@ header.affix .container.top {
 	border: 0;
 }
 
-.cart-page .item .title, .cart-page .item .link {
+.cart-page .item .title,
+.cart-page .item .link {
 	margin: 0;
 	padding: 0;
 }

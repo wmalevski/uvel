@@ -232,27 +232,41 @@
 											<div class="home_fp2">
 
 												@foreach ( $material->products->take(10) as $key => $product )
-												<li class="element first no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}"
-												 data-id="{{$product->id}}">
+												<li class="element no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}" data-id="{{$product->id}}">
 													<ul class="row-container list-unstyled clearfix">
+
 														<li class="row-left">
-															<a href="{{ route('single_product', ['product' => $product->id])  }}" class="product-image">
+															<a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">
 																<img class="img-fill" src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }}
-																	@else {{ asset('store/images/demo_375x375.png') }}
-																	@endif">
+																@else {{ asset('store/images/demo_375x375.png') }}
+																@endif">
 															</a>
+															<div class="hbw">
+																<span class="hoverBorderWrapper"></span>
+															</div>
 														</li>
+
 														<li class="row-right parent-fly animMix">
+
 															<div class="product-content-left">
 																<a class="title-5" href="{{ route('single_product', ['product' => $product->id])  }}">
 																	{{ $product->name }}
 																</a>
-																<span class="spr-badge" id="spr_badge_12932382113" data-rating="{{$product->getProductAvgRating($product)}}">
+																<div>
+																	No: {{ $product->barcode }}
+																	<br/>
+																	{{ $product->weight }}гр.
+																</div>
+																<div>
+																	MAGAZIN: {{ $product->store_id }}
+																</div>
+																<span class="spr-badge" id="spr_badge_1293239619454" data-rating="0.0">
 																	<span class="spr-starrating spr-badge-starrating">
 																		{{$product->listProductAvgRatingStars($product)}}
 																	</span>
 																</span>
 															</div>
+
 															<div class="product-content-right">
 																<div class="product-price">
 																	<span class="price">
@@ -260,26 +274,32 @@
 																	</span>
 																</div>
 															</div>
+
 															<div class="hover-appear">
 																<form action="#" method="post">
 																	<div class="effect-ajax-cart">
 																		<input name="quantity" value="1" type="hidden">
 																		<button class="select-option" type="button" onclick="window.location.href='{{ route('single_product', ['product' => $product->id])  }}'">
 																			<i class="fa fa-th-list" title="Преглед"></i>
-																			<span class="list-mode">Преглед</span>
+																			<span class="list-mode">
+																				Преглед
+																			</span>
 																		</button>
 																	</div>
 																</form>
 																<div class="product-ajax-qs hidden-xs hidden-sm">
-																	<div data-handle="curabitur-cursus-dignis" data-target="#quick-shop-modal" class="quick_shop"
-																	 data-toggle="modal" data-url="products/{{ $product->id }}/">
+																	<div data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal" data-url="products/{{ $product->id }}/">
 																		<i class="fa fa-eye" title="Бърз Преглед"></i>
-																		<span class="list-mode">Бърз преглед</span>
+																		<span class="list-mode">
+																			Бърз преглед
+																		</span>
 																	</div>
 																</div>
 																<a class="wish-list" href="#" title="Наблюдавани" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
 																	<i class="fa fa-heart"></i>
-																	<span class="list-mode">Добави в желани</span>
+																	<span class="list-mode">
+																		Добави в желани
+																	</span>
 																</a>
 															</div>
 														</li>

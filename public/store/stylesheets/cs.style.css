@@ -316,16 +316,8 @@ a,
 .owl-theme .owl-controls .owl-page span{background:transparent;border:1px solid #505050;opacity:1;-ms-filter:"progid: DXImageTransform.Microsoft.Alpha(Opacity=100)";filter:alpha(opacity=100);}
 .owl-theme .owl-controls .owl-page.active span{background:#505050;cursor:text;}
 .owl-theme .owl-controls .owl-page span:hover{background:#505050;}
-.owl-theme .owl-controls .owl-prev,
-.owl-theme .owl-controls .owl-next{position:absolute;top:50%;margin-top:-35px !important;}
 #home_collections.owl-theme .owl-controls .owl-prev,
 #home_collections.owl-theme .owl-controls .owl-next{margin-top:-40px !important;}
-.owl-theme .owl-controls .owl-buttons > div.owl-prev{left:0;padding:11px 19px;margin:10px;width:45px;height:45px;border-radius:0;}
-.owl-theme .owl-controls .owl-buttons > div.owl-next{right:0;width:45px;height:45px;border-radius:0;padding:11px 19px;}
-.owl-theme .owl-controls .owl-buttons > div.owl-next span{background-position:100% 0;}
-.owl-theme .owl-controls .owl-buttons > div span{background-color:transparent;background-image:url(../images/icon_slider.png);background-repeat:no-repeat;display:block;width:5px;height:21px;}
-.owl-theme .owl-controls .owl-buttons .owl-prev > div span{background-position:0 0;}
-.owl-theme .owl-controls .owl-buttons > div.owl-prev .prev-slide{background:url(../images/icon_pre_slider.png) no-repeat 0 0;width:10px;height:42px;display:block;}
 #prod-related-wrapper .owl-theme .owl-controls .owl-buttons > div.owl-prev{left:5px;}
 #prod-related-wrapper .owl-theme .owl-controls .owl-buttons > div.owl-next{right:10px;}
 #gallery_main_qs.owl-theme .owl-controls .owl-buttons > div.owl-next{background-position:100%;right:-6px;}
@@ -1140,7 +1132,6 @@ h3#quick-shop-title{margin-top:0;}
 #quick-shop-variants-container .selector-wrapper select,
 #quick-shop-variants-container .selector-wrapper button{width:280px;}
 #quick-shop-image .owl-controls{top:-30px;right:-3px;}
-.owl-theme .owl-controls .owl-buttons > div{background:#fff;opacity:0.5;-ms-filter:"progid: DXImageTransform.Microsoft.Alpha(Opacity=50)";filter:alpha(opacity=50);width:32px;height:42px;}
 #quick-shop-variants-container .wrapper{position:relative;width:280px;}
 #quick-shop-container .custom-style-select-box-inner{width:280px !important;}
 #quick-shop-variants-container i.fa{position:absolute;right:0;top:0;}
