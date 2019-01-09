@@ -17,8 +17,13 @@
                     {{ csrf_field() }}
                     <div id="success-container"></div>
                     <div class="form-row">
-                        <div class="form-group col-md-12">
-                            <label>Тип: </label>
+                        <div class="form-group col-md-6">
+                            <label>Сканирай: </label>
+                            <input type="text" class="form-control" name="product_barcode" placeholder="Сканирай продукт">
+                        </div>
+
+                        <div class="form-group col-md-6">
+                        <label>Избери: </label>
                             <select name="product_id" class="form-control">
                                 <option value="">Избер продукт</option>
                         
@@ -29,6 +34,26 @@
                                 @endforeach
                             </select>
                         </div>
+                    </div>
+                    <div class="form-row">
+                        <table class="table repair-records-table tablesort">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Баркод</th>
+                                    <th scope="col">Име</th>
+                                    <th scope="col">Грамаж</th>
+                                    <th scope="col">Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-id="1">
+                                    <td>2135972458723</td>
+                                    <td>Златен пръстен</td>
+                                    <td>20гр</td> 
+                                    <td><span data-url="#" class="delete-btn"><i class="c-brown-500 ti-trash"></i></span> </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-12">

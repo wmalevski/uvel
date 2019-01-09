@@ -90,6 +90,24 @@ class ProductTravellingController extends Controller
         return Response::json(array('success' => View::make('admin/products_travelling/table', array('product' => $travel, 'proID' => $travel->id))->render()));
     }
 
+    public function addByScan($product){
+        $item = Product::where('barcode', $product)->first();
+
+        if($item){
+            $pass_item = (object)[
+                'id' => $item->id,
+                'name' => $item->name,
+                'weight' => $item->weight,
+                'barcode' => $item->barcode
+            ];
+
+            return Response::json(array(
+                'item' => $pass_item));
+        }else{
+            return Response::json(['errors' => ['not_found' => ['Продукта не може да бъде намерен.']]], 401);
+        }
+    }
+
     public function accept($product){
         $travel = ProductTravelling::findOrFail($product);
         $product = Product::find($travel->product_id);
