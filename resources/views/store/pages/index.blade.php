@@ -90,7 +90,7 @@
 														<div class="collection-details">
 															<a href="{{ route('models') }}">
 																<img src="@if(count($models))
-																	@if($models->first()->photos)
+																	@if(count($models->first()->photos))
 																	{{ asset("uploads/models/" . $models->first()->photos->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif @endif"
 																 alt="По поръчка">
 															</a>
@@ -109,7 +109,7 @@
 														<div class="collection-details">
 															<a href="{{ route('custom_order') }}">
 																<img src="@if(count($models))
-																	@if($models->first()->photos)
+																	@if(count($models->first()->photos))
 																	{{ asset("uploads/models/" . $models->first()->photos->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif @endif"
 																 alt="По ваш модел">
 															</a>
