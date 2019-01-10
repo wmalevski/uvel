@@ -21,6 +21,8 @@ class CreateMaterialsTable extends Migration
             $table->integer('carat')->nullable();
             $table->float('stock_price');
             $table->integer('parent_id')->unsigned();
+            $table->enum('for_buy', ['yes', 'no'])->default('yes');
+            $table->enum('for_exchange', ['yes', 'no'])->default('no');
             $table->timestamps();
             $table->softDeletes();
         });

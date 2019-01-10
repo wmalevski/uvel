@@ -372,3 +372,9 @@ aria-hidden="true">
     </div>
 </div>
 @endsection
+
+@section('footer-scripts')
+<script id="stones_data" type="application/json">
+    {!!  $jsMaterials !!}
+</script>
+@endsection

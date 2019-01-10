@@ -60,6 +60,22 @@ class MaterialController extends Controller
 
         $material = Material::create($request->all());
 
+        $material = Material::find($material->id);
+        
+        if($request->for_buy == 'false'){
+            $material->for_buy = 'no';
+        } else{
+            $material->for_buy = 'yes';
+        }
+
+        if($request->for_exchange == 'false'){
+            $material->for_exchange = 'no';
+        } else{
+            $material->for_exchange = 'yes';
+        }
+
+        $material->save();
+
         return Response::json(array('success' => View::make('admin/materials/table',array('material'=>$material))->render()));
     }
 

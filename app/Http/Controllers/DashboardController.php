@@ -104,6 +104,18 @@ class DashboardController extends Controller
 
         $materials = MaterialQuantity::currentStore();
 
+        $pass_materials = array();
+
+        foreach($materials as $material){
+            $pass_materials[] = [
+                'label' => $material->material->parent->name.' - '.$material->material->color.' - '.$material->material->carat,
+                'value' => $material->id,
+                'price' => $material->material->pricesBuy->first()->price,
+                'for_buy'  => $material->material->for_buy,
+                'for_exchange' => $material->material->for_exchange
+            ];
+        }
+
         if(count($cartConditions) > 0){
             foreach(Cart::session(Auth::user()->getId())->getConditions() as $cc){
                 $priceCon += $cc->getCalculatedValue($subTotal);
@@ -136,7 +148,7 @@ class DashboardController extends Controller
 
         $dds = round($subTotal - ($subTotal/1.2), 2);
 
-        return \View::make('admin/selling/index', array('items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'priceCon' => $priceCon, 'dds' => $dds, 'materials' => $materials));
+        return \View::make('admin/selling/index', array('items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'priceCon' => $priceCon, 'dds' => $dds, 'materials' => $materials, 'jsMaterials' =>  json_encode($pass_materials, JSON_UNESCAPED_SLASHES )));
     }
 
     /**
