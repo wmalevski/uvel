@@ -64,18 +64,20 @@ class ProductTravellingController extends Controller
             }
         }
 
-        $travel = new ProductTravelling();
-        $travel->product_id = $request->product_id;
-        $travel->store_from_id = Auth::user()->getStore()->id;
-        $travel->store_to_id  = $request->store_to_id;
-        $travel->date_sent = new \DateTime();
-        $travel->user_sent = Auth::user()->getId();
+        foreach($request_product_id as $product){
+            $travel = new ProductTravelling();
+            $travel->product_id = $product;
+            $travel->store_from_id = Auth::user()->getStore()->id;
+            $travel->store_to_id  = $request->store_to_id;
+            $travel->date_sent = new \DateTime();
+            $travel->user_sent = Auth::user()->getId();
 
-        $travel->save();
+            $travel->save();
 
-        $product = Product::find($request->product_id);
-        $product->status = 'travelling';
-        $product->save();
+            $product = Product::find($product);
+            $product->status = 'travelling';
+            $product->save();
+        }
 
 
         // $history = new History();
