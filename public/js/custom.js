@@ -140,17 +140,17 @@ var uvel,
 
 		this.attachInitialEvents = function () {
 			var $openFormTrigger = $('[data-form]:not([data-repair-scan])'),
-				$deleteRowTrigger = $('.delete-btn'),
-				$printTrigger = $('.print-btn'),
-				$barcodeProcessRepairTrigger = $('[data-repair-scan]'),
-				$returnRepairBtn = $('[data-repair-return]'),
-				$addNumberTrigger = $('[data-sell-catalogNumber], [data-sell-barcode]'),
-				$sellMoreProductsTrigger = $('[data-sell-moreProducts]'),
-				$addDiscountTrigger = $('[data-sell-discountApply]'),
-				$addCardDiscountTrigger = $('[data-sell-discountCard]'),
-				$travelingMaterialsStateBtns = $('[data-travelstate]'),
-				$inputCollection = $('input'),
-				$removeDiscountTrigger = $('[data-sell-removeDiscount]');
+					$deleteRowTrigger = $('.delete-btn'),
+					$printTrigger = $('.print-btn'),
+					$barcodeProcessRepairTrigger = $('[data-repair-scan]'),
+					$returnRepairBtn = $('[data-repair-return]'),
+					$addNumberTrigger = $('[data-sell-catalogNumber], [data-sell-barcode]'),
+					$sellMoreProductsTrigger = $('[data-sell-moreProducts]'),
+					$addDiscountTrigger = $('[data-sell-discountApply]'),
+					$addCardDiscountTrigger = $('[data-sell-discountCard]'),
+					$travelingMaterialsStateBtns = $('[data-travelstate]'),
+					$inputCollection = $('input'),
+					$removeDiscountTrigger = $('[data-sell-removeDiscount]');
 
 			$self.openForm($openFormTrigger);
 			$self.deleteRow($deleteRowTrigger);
