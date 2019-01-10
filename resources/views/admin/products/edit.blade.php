@@ -198,7 +198,7 @@
                         <option value="">Избери магазин</option>
                 
                         @foreach($stores as $store)
-                            <option value="{{ $store->id }}" @if($store->id == $material->store_id) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
+                            <option value="{{ $store->id }}" @if($store->id == $product->store_id) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
                         @endforeach
                     </select>
                 </div>
