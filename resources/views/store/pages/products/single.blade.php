@@ -38,7 +38,9 @@
 								<meta itemprop="url" content="/products/donec-condime-fermentum">
 								<div id="product" class="content clearfix">
 									<h1 id="page-title" class="text-center">
-										<span itemprop="name">{{ $product->name }}</span>
+										<span itemprop="name">
+											{{ $product->name }}
+										</span>
 									</h1>
 									<div id="product-image" class="product-image row ">
 										<div id="detail-left-column" class="hidden-xs left-coloum col-sm-6 col-sm-6 fadeInRight not-animated"
@@ -48,7 +50,7 @@
 													@foreach($product->photos as $image)
 													<li class="image">
 														<a href="{{ asset("uploads/products/" . $image->photo) }}" class="cloud-zoom-gallery active">
-															<img src="{{ asset("uploads/products/" . $image->photo) }}" alt="{{ $product->name }}">
+															<img alt="{{ $product->name }}" src="{{ asset("uploads/products/" . $image->photo) }}" alt="{{ $product->name }}">
 														</a>
 													</li>
 													@endforeach
@@ -331,8 +333,8 @@
 											<ul class="row-container list-unstyled clearfix">
 												<li class="row-left">
 													<a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">
-														<img src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif"
-														 class="img-responsive">
+														<img class="img-responsive" alt="{{ $product->name }}"
+														src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif">
 													</a>
 													<div class="hbw">
 														<span class="hoverBorderWrapper"></span>
@@ -340,8 +342,9 @@
 												</li>
 												<li class="row-right parent-fly animMix">
 													<div class="product-content-left">
-														<a class="title-5" href="{{ route('single_product', ['product' => $product->id])  }}">{{ $product->name
-															}}</a>
+														<a class="title-5" href="{{ route('single_product', ['product' => $product->id])  }}">
+															{{ $product->name }}
+														</a>
 														<span class="spr-badge" id="spr_badge_{{$product->id}}" data-rating="{{$product->getProductAvgRating($product)}}">
 															@if($product->getProductAvgRating($product) > 0)
 															<span class="spr-starrating spr-badge-starrating">
