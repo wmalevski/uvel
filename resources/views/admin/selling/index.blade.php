@@ -73,9 +73,9 @@ aria-hidden="true">
                             </div>
                         </div>
 
-                                                       <div class="exchange-row-fields form-row">
+                        <div class="exchange-row-fields">
                             <div class="form-row">
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-5">
                                     <label for="">Вид</label>
                                     <select id="material_type" name="material_id[]" data-calculateprice-material class="material_type form-control calculate">
                                         <option value="">Избери</option>
@@ -88,21 +88,17 @@ aria-hidden="true">
 
                                     </select>
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-5">
                                     <label for="">Грамаж</label>
                                     <input type="number" id="" class="form-control" value="0" name="weight[]" placeholder="" data-weight>
                                 </div>
-                                <div class="form-group col-md-4">
+                                {{-- <div class="form-group col-md-4">
                                     <label for="">Цена на грамаж</label>
                                     <!-- AUTO GENERATED FROM JS -->
                                     <select id="retail_prices" name="retail_price_id[]" class="form-control calculate prices-filled retail-price" data-calculateprice-retail disabled>
                                         <option value="0">Избери</option>
                                     </select>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="">Стойност на м.</label>
-                                    <input type="number" id="" class="form-control" value="0" name="calculated_material[]" placeholder="" data-calculateprice-final readonly>
-                                </div>
+                                </div> --}}
 
                                 <div class="form-group col-md-1">
                                     <span class="delete-material remove_field" data-exchangeRowRemove-trigger=""><i class="c-brown-500 ti-trash"></i></span>
@@ -114,6 +110,16 @@ aria-hidden="true">
                             <div class="form-group col-md-6">
                                 <label for="given-sum">Сума от материали</label>
                                 <input type="number" id="" class="form-control" value="0" name="exchangeRows-total" placeholder="Дължима сума" data-exchangeRows-total readonly>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="given-sum">Цена на грамаж</label>
+                                <select name="calculating_price" class="form-control">
+                                    <option value="0">Избери</option>
+                                    @foreach($materials->first()->material->pricesBuy as $price)
+                                        <option value="{{ $price->id }}" data-defaultPrice="{{ $material->material->pricesBuy->first()->price }}" data-price="{{ $price->price }}">{{ $price->slug }} - {{ $price->price }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
