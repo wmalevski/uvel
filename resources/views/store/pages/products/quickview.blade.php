@@ -7,7 +7,7 @@
 			<div class="col-md-12 product-image">
 				<div id="quick-shop-image" class="product-image-wrapper">
 
-					<a class="main-image">
+					<a class="main-image" href="{{ route('single_product', ['product' => $product->id])  }}">
 						<img class="img-zoom img-responsive image-fly" alt="{{ $product->model->name }}"
 							src="@if($product->photos){{ asset("uploads/products/" . $product->photos->first()['photo']) }}@endif"/>
 					</a>

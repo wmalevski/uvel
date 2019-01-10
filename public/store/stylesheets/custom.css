@@ -1,7 +1,7 @@
 /* Header visible */
 header .container.top {
 	height: 40px;
-	transition: all 0.3s;
+	transition: margin-top 0.3s;
 }
 
 /* Header hidden */
@@ -14,7 +14,7 @@ header.affix .container.top {
 		position: fixed;
 		z-index: 1;
 		width: 100%;
-		transition: all 0.3s;
+		transition: margin-top 0.3s;
 	}
 
 	#breadcrumb {
@@ -353,7 +353,6 @@ li.element {
 	border: solid white;
 	border-width: 1px 0 0 1px;
 	background: none;
-	transition: all 0.3s ease-in-out;
 	box-shadow: -1px -1px #888888;
 }
 

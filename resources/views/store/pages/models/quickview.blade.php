@@ -6,7 +6,7 @@
 		<div class="row">
 			<div class="col-md-12 product-image">
 				<div id="quick-shop-image" class="product-image-wrapper">
-					<a class="main-image">
+					<a class="main-image" href="{{ route('single_model', ['model' => $model->id])  }}">
 						<img class="img-zoom img-responsive image-fly" alt="{{ $model->name }}"
 						 src="@if($model->photos){{ asset("uploads/models/" . $model->photos->first()['photo']) }}@endif"/>
 					</a>
@@ -49,9 +49,7 @@
 						{{-- <del class="price_compare">$300.00</del> --}}
 					</div>
 					<div class="others-bottom">
-						<a data-url="{{ route('order_model', ['model' => $model->id]) }}" class="order_product btn btn-1">
-							Поръчай
-						</a>
+					<input id="quick-shop-add" class="btn small add-to-cart" type="submit" name="add" value="Поръчай" data-url="{{ route('order_model', ['model' => $model->id]) }}">
 					</div>
 				</div>
 			</div>
