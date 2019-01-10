@@ -199,4 +199,21 @@ class Product extends Model
             );
             }
         }
+
+        public function search($term){
+            $results = Product::where('name', 'LIKE', "%$term%")->get();
+
+            $pass_products = array();
+
+            foreach($results as $product){
+                $pass_products[] = [
+                    'value' => $product->id,
+                    'label' => $product->name,
+                    'barcode' => $product->barcode,
+                    'weight' => $product->weight
+                ];
+            }
+
+            return $pass_products;
+        }
     }

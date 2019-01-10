@@ -158,6 +158,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/repairs/return/{repair}', 'RepairController@return');
     Route::get('/repairs/edit/{repair}', 'RepairController@edit');
+
+    Route::get('/search/models/{term}', 'ModelController@search');
+
+    Route::get('/search/products/{term}', 'ProductController@search');
 });
 
 Route::group(['prefix' => 'ajax'], function() {

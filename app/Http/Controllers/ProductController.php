@@ -68,6 +68,13 @@ class ProductController extends Controller
         return $product->chainedSelects($model);
     }
 
+    public function search($term){
+        $product = new Product();
+        $search = $product->search($term);
+
+        return json_encode($search, JSON_UNESCAPED_SLASHES );
+    }
+
     /**
      * Store a newly created resource in storage.
      *
