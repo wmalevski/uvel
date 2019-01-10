@@ -309,7 +309,7 @@
 												<ul class="row-container list-unstyled clearfix">
 													<li class="row-left">
 													<a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">
-													<img src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif" class="img-responsive" alt="Curabitur cursus dignis">
+													<img src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif" class="img-responsive">
 													</a>
 													<div class="hbw">
 														<span class="hoverBorderWrapper"></span>
@@ -345,8 +345,8 @@
 															</div>
 														</form>
 														<div class="product-ajax-qs hidden-xs hidden-sm">
-															<div data-handle="curabitur-cursus-dignis" data-barcode="{{ $product->barcode }}" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
-																<i class="fa fa-eye" title="Бърз Преглед"></i><span class="list-mode">Бърз Преглед</span>																	
+															<div data-barcode="{{ $product->barcode }}" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
+																<i class="fa fa-eye" title="Бърз Преглед"></i><span class="list-mode">Бърз Преглед</span>
 															</div>
 														</div>
 														<a class="wish-list" href="#" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}" title="Наблюдавани"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>

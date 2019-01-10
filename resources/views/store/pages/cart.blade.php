@@ -36,7 +36,7 @@
 											</thead>
 											<tbody>
 												@foreach($items as $item)
-												<tr class="item donec-condime-fermentum">
+												<tr class="item">
 													<td class="title text-left">
 														<ul class="list-inline">
 															<li class="image">

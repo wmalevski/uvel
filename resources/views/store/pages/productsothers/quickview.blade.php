@@ -8,20 +8,20 @@
             <div class="row">
                 <div class="col-md-12 product-image">
                     <div id="quick-shop-image" class="product-image-wrapper">
-    
+
                         <a class="main-image"><img class="img-zoom img-responsive image-fly" src="@if($product->photos){{ asset("uploads/products/" . $product->photos->first()['photo']) }}@endif" alt=""/></a>
-    
+
                         <div id="gallery_main_qs" class="product-image-thumb">
                             @if($product->photos)
                                 @foreach($product->photos as $image)
                                     <a class="image-thumb active" href="{{ asset("uploads/products/" . $image->photo) }}" data-image="{{ asset("uploads/products/" . $image->photo) }}" data-zoom-image="{{ asset("uploads/products/" . $image->photo) }}"><img src="{{ asset("uploads/products/" . $image->photo) }}" alt=""/></a>
                                 @endforeach
                             @endif
-                        </div>	
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-12 product-information">
-                    <h1 id="quick-shop-title"><span> <a href="/products/curabitur-cursus-dignis">{{ $product->name }}</a></span></h1>
+                    <h1 id="quick-shop-title"><span> <a href="#">{{ $product->name }}</a></span></h1>
                     <div id="quick-shop-infomation" class="description">
                         <div id="quick-shop-description" class="text-left">
                             <p>
@@ -44,7 +44,7 @@
                             <div id="quick-shop-price-container" class="detail-price">
                                 <span class="price_sale">{{ $product->price }}лв.</span>
                             </div>
-                            
+
                                 <div class="quantity-wrapper clearfix">
                                     <label class="wrapper-title">Количество</label>
                                     <div class="wrapper">
@@ -61,7 +61,7 @@
                                         </span>
                                     </div>
                                 </div>
-                            
+
                             <div class="others-bottom">
                                 <input id="quick-shop-add" class="btn small add-to-cart productsothers" type="submit" name="add" value="Добави в количката" data-url="{{ route('CartAddItem', ['item' => $product->barcode, 'quantity' => '']) }}" style="opacity: 1;">
                             </div>

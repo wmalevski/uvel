@@ -17,11 +17,14 @@
                                 <a class="image-thumb active" href="{{ asset("uploads/products/" . $image->photo) }}" data-image="{{ asset("uploads/products/" . $image->photo) }}" data-zoom-image="{{ asset("uploads/products/" . $image->photo) }}"><img src="{{ asset("uploads/products/" . $image->photo) }}" alt=""/></a>
                             @endforeach
                         @endif
-                    </div>	
+                    </div>
                 </div>
             </div>
             <div class="col-md-12 product-information">
-                <h1 id="quick-shop-title"><span> <a href="/products/curabitur-cursus-dignis">{{ $product->name }}</a></span></h1>
+                <h1 id="quick-shop-title">
+								<span>
+									<a href="#">{{ $product->name }}</a>
+								</span></h1>
                 <div id="quick-shop-infomation" class="description">
                     <div id="quick-shop-description" class="text-left">
                         <p>
