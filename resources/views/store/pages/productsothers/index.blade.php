@@ -24,29 +24,31 @@
 					<div class="row">
 						<div id="collection-content">
 							<div id="page-header">
-								<h1 id="page-title">Продукти</h1>
-							</div>
-							<div class="collection-warper col-sm-24 clearfix">
-								<div class="collection-panner">
-									<img src="./assets/images/demo_1170x420.png" class="img-responsive" alt="">
-								</div>
+								<h1 id="page-title">
+									Продукти
+								</h1>
 							</div>
 							<div class="collection-main-content">
 								<div id="prodcoll" class="col-sm-6 col-md-6 sidebar hidden-xs">
 									<div class="group_sidebar">
 										<div class="sb-wrapper">
-											<!-- filter tags group -->
+
 											<div class="filter-tag-group" data-url="ajax/filter/productsothers">
-												<h6 class="sb-title">Филтри</h6>
-												<div class="tag-group" id="coll-filter-3">
+												<h6 class="sb-title">
+													Филтри
+												</h6>
+												<div id="coll-filter-3" class="tag-group">
 													<p class="title">
 														Тип
 													</p>
 													<ul>
 														@foreach($productothertypes as $type)
 														<li>
-														<a data-id="byType[]={{ $type->id }}" title="Narrow selection to products matching tag Under $100"
-															 href="#"><span class="fe-checkbox"></span> {{ $type->name }} </a></li>
+															<a data-id="byType[]={{ $type->id }}" href="#">
+																<span class="fe-checkbox"></span>
+																{{ $type->name }}
+															</a>
+														</li>
 														@endforeach
 													</ul>
 												</div>
@@ -57,38 +59,35 @@
 													</p>
 													<ul>
 														@foreach($stores as $store)
-														<li><a data-id="byStore[]={{ $store->id }}" title="Narrow selection to products matching tag Under $100"
-															 href="#"><span class="fe-checkbox"></span> {{ $store->name }} ({{ count($store->productsOther) }})</a></li>
+														<li>
+															<a data-id="byStore[]={{ $store->id }}" title="Narrow selection to products matching tag Under $100"
+															 href="#">
+																<span class="fe-checkbox"></span>
+																{{ $store->name }} ({{ count($store->productsOther) }})
+															</a>
+														</li>
 														@endforeach
 													</ul>
 												</div>
-												<!-- tags groupd 3 -->
 
-
-												<!-- tags groupd 3 -->
 												<div class="tag-group" id="coll-filter-3">
 													<p class="title">
 														Размер
 													</p>
 													<input type="number" class="form-control" placeholder="Въведи размер">
 												</div>
-												<!-- tags groupd 3 -->
 
-												<!-- tags groupd 3 -->
 												<div class="tag-group" id="coll-filter-3">
 													<p class="title">
 														Цена
 													</p>
-
 													<input type="number" class="form-control" placeholder="От">
 													<input type="number" class="form-control" placeholder="До">
 												</div>
-												<!-- tags groupd 3 -->
 											</div>
 										</div>
 
 									</div>
-									<!--end group_sidebar-->
 								</div>
 								<div id="col-main" class="collection collection-page col-sm-18 col-md-18 no_full_width have-left-slidebar">
 									<div class="container-nav clearfix">
@@ -108,9 +107,14 @@
 												</li>
 												<li class="sortBy">
 													<div id="sortButtonWarper" class="dropdown-toggle" data-toggle="dropdown">
-														<strong class="title-6">Подреди</strong>
+														<strong class="title-6">
+															Подреди
+														</strong>
 														<button id="sortButton">
-															<span class="name">Най-нови</span><i class="fa fa-caret-down"></i>
+															<span class="name">
+																Най-нови
+															</span>
+															<i class="fa fa-caret-down"></i>
 														</button>
 														<i class="sub-dropdown1"></i>
 														<i class="sub-dropdown"></i>
@@ -146,19 +150,20 @@
 													</li>
 													<li class="row-right parent-fly animMix">
 														<div class="product-content-left">
-															<a class="title-5" href="{{ route('single_product_other', ['product' => $product->id])  }}">{{
-																$product->name }}</a><br />
+															<a class="title-5" href="{{ route('single_product_other', ['product' => $product->id])  }}">
+																{{ $product->name }}
+															</a>
+															<br/>
 															No: {{ $product->code }}
+															<br/>
 															<span class="spr-starrating spr-badge-starrating">
-																<span class="spr-starrating spr-badge-starrating">
-																	{{$product->listProductOtherAvgRatingStars($product)}}
-																</span>
+																{{$product->listProductOtherAvgRatingStars($product)}}
 															</span>
 														</div>
 														<div class="product-content-right">
 															<div class="product-price">
 																<span class="price">
-																{{ $product->price }} лв
+																	{{ $product->price }} лв
 																</span>
 															</div>
 														</div>
@@ -172,13 +177,14 @@
 																	<input name="quantity" value="1" type="hidden">
 																	<button class="select-option" type="button" onclick="window.location.href='{{ route('single_product', ['product' => $product->id])  }}'">
 																		<i class="fa fa-th-list" title="Преглед"></i>
-																		<span class="list-mode">Преглед</span>
+																		<span class="list-mode">
+																			Преглед
+																		</span>
 																	</button>
 																</div>
 															</form>
 															<div class="product-ajax-qs hidden-xs hidden-sm">
-																<div data-target="#quick-shop-modal" class="quick_shop"
-																 data-toggle="modal" data-url="productsothers/{{ $product->id }}/">
+																<div data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal" data-url="productsothers/{{ $product->id }}/">
 																	<i class="fa fa-eye" title="Бърз Преглед"></i>
 																	<span class="list-mode">
 																		Бърз преглед
@@ -187,18 +193,16 @@
 															</div>
 															<a class="wish-list" href="#" data-url="{{ route('wishlists_store', ['type' => 'product_other', 'item' => $product->id]) }}"
 															 title="Наблюдавани">
-															 <i class="fa fa-heart"></i>
-															 <span class="list-mode">
-															 	Добави в желани
-															 </span>
+																<i class="fa fa-heart"></i>
+																<span class="list-mode">
+																	Добави в желани
+																</span>
 															</a>
 														</div>
 													</li>
 												</ul>
 											</li>
 											@endforeach
-										</ul>
-										</li>
 										</ul>
 										{{ $products->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
 									</div>

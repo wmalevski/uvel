@@ -26,11 +26,6 @@
 						<div id="page-header">
 							<h1 id="page-title">Продукти</h1>
 						</div>
-						<div class="collection-warper col-sm-24 clearfix">
-							<div class="collection-panner">
-								<img src="./assets/images/demo_1170x420.png" class="img-responsive" alt="">
-							</div>
-						</div>
 						<div class="collection-main-content">
 							<div id="prodcoll" class="col-sm-6 col-md-6 sidebar hidden-xs">
 								<div class="group_sidebar">

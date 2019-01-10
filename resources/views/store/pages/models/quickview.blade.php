@@ -49,7 +49,9 @@
 						{{-- <del class="price_compare">$300.00</del> --}}
 					</div>
 					<div class="others-bottom">
-					<input id="quick-shop-add" class="btn small add-to-cart" type="submit" name="add" value="Поръчай" data-url="{{ route('order_model', ['model' => $model->id]) }}">
+						<button id="quick-shop-add" class="btn small add-to-cart" type="submit" data-url="{{ route('order_model', ['model' => $model->id]) }}">
+							Поръчай
+						</button>
 					</div>
 				</div>
 			</div>

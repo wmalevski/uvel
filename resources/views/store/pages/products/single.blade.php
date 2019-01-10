@@ -72,7 +72,7 @@
 											</ul>
 										</div>
 										<div id="detail-right-column" class="right-coloum col-sm-6 fadeInLeft not-animated" data-animate="fadeInLeft">
-											<div class="addthis_sharing_toolbox" data-url="#" data-title="Donec aliquam ante non | Jewelry - HTML Template">
+											<div class="addthis_sharing_toolbox" data-url="#">
 												<div id="atstbx" class="at-share-tbx-element addthis_32x32_style addthis-smartlayers addthis-animated at4-show">
 													<a class="at-share-btn at-svc-facebook">
 														<span class="at4-icon aticon-facebook" title="Facebook"></span>
