@@ -1,4 +1,14 @@
-/* Common rules */
+/* Header visible */
+header .container.top {
+	height: 40px;
+	transition: all 0.3s;
+}
+
+/* Header hidden */
+header.affix .container.top {
+	margin-top: -40px;
+}
+
 @media (min-width:768px) {
 	header {
 		position: fixed;
@@ -12,7 +22,7 @@
 	}
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1080px) {
 	header .nav-item {
 		padding: 0 10px 0 0;
 	}
@@ -91,15 +101,9 @@ li.element {
 	list-style-type: none;
 }
 
-/* Header visible */
-header .container.top {
-	height: 40px;
-	transition: all 0.3s;
-}
-
-/* Header hidden */
-header.affix .container.top {
-	margin-top: -40px;
+/* Quick view modal */
+#quick-shop-modal .close {
+	border-radius: 0 4px 0 6px;
 }
 
 /* Home page */
