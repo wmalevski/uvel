@@ -1457,9 +1457,9 @@ var uvel,
 
     this.imageHandling = function(form) {
       var uploadImagesTrigger = form.find('.drop-area-input'),
-				dropArea = form.find('.drop-area'),
-				deleteImagesTriggerDropArea = form.find('.drop-area-gallery .close'),
-				deleteImagesTriggerUploadArea = form.find('.uploaded-images-area .close');
+          dropArea = form.find('.drop-area'),
+          deleteImagesTriggerDropArea = form.find('.drop-area-gallery .close'),
+          deleteImagesTriggerUploadArea = form.find('.uploaded-images-area .close');
 
       uploadImagesTrigger.on('change', function(event) {
         $self.uploadImages(event, form);
