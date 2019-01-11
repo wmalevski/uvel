@@ -210,7 +210,7 @@ var uvel,
     this.deleteRow = function(deleteRowTrigger) {
       deleteRowTrigger.on('click', function() {
         var _this = $(this),
-          ajaxRequestLink = _this.hasClass('cart') ? _this.attr('data-url') : $self.buildAjaxRequestLink('deleteRow', _this.attr('data-url'));
+            ajaxRequestLink = _this.hasClass('cart') ? _this.attr('data-url') : $self.buildAjaxRequestLink('deleteRow', _this.attr('data-url'));
 
         if (confirm('Сигурен ли сте, че искате да изтриете записа?')) {
           $.ajax({
@@ -290,7 +290,7 @@ var uvel,
         $self.deleteRow(deleteRowTrigger);
       } else {
         var errors = response.errors,
-          stayingTime = 3000;
+            stayingTime = 3000;
 
         for (var key in errors) {
           var error = errors[key],
@@ -361,15 +361,15 @@ var uvel,
 
       if (response.success) {
         var discounts = response.condition,
-          newFields = '';
+            newFields = '';
 
         for (key in discounts) {
           var discount = discounts[key];
 
           var newDiscount = '<span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">' +
-            discount.value + '</span><span data-url="/ajax/removeDiscount/' +
-            discount.attributes.discount_id + '" data-sell-removeDiscount class="discount-remove badge bgc-red-50 c-red-700 p-10 lh-0 tt-c badge-pill">' +
-            '<i class="c-brown-500 ti-close"></i></span><br/>';
+              discount.value + '</span><span data-url="/ajax/removeDiscount/' +
+              discount.attributes.discount_id + '" data-sell-removeDiscount class="discount-remove badge bgc-red-50 c-red-700 p-10 lh-0 tt-c badge-pill">' +
+              '<i class="c-brown-500 ti-close"></i></span><br/>';
 
           newFields += newDiscount;
         }
@@ -479,7 +479,6 @@ var uvel,
     }
 
     this.clearForm = function(form) {
-      // wtf is this selector
       var textInputs = form.find('input[type="text"]:not(.not-clear), input[type="number"]:not(.not-clear), input[type="password"]:not(.not-clear), input[type="email"]:not(.not-clear), textarea:not(.not-clear)'),
           checksAndRadios = form.find('input[type="checkbox"]:not(.not-clear), input[type="radio"]:not(.not-clear)'),
           checksAndRadiosNotToClear = form.find('input[type="checkbox"].not-clear, input[type="radio"].not-clear'),
@@ -660,7 +659,7 @@ var uvel,
             if (modal.find('[data-calculatePrice-material]').length > 0 && modal.closest('#editProduct').length > 0) {
               for (var i = 0; i < modal.find('[data-calculatePrice-material]').length; i++) {
                 var _this = $(modal.find('[data-calculatePrice-material]')[i]),
-                    form = _this.closest('form');
+                  form = _this.closest('form');
 
                 $self.materialPricesRequestBuilder(form, _this);
               }
@@ -692,9 +691,9 @@ var uvel,
       }
 
       var editBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .edit-btn'),
-        deleteBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .delete-btn'),
-        printBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .print-btn'),
-        returnRepairBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] [data-repair-return]');
+          deleteBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .delete-btn'),
+          printBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .print-btn'),
+          returnRepairBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] [data-repair-return]');
 
       $self.openForm(editBtn);
       $self.deleteRow(deleteBtn);
@@ -779,8 +778,8 @@ var uvel,
         e.preventDefault();
 
         var buttonState = $(this).attr('data-travelstate'),
-          row = $(this).parents('tr[data-id]'),
-          buttonStateRowId = row.attr('data-id');
+            row = $(this).parents('tr[data-id]'),
+            buttonStateRowId = row.attr('data-id');
 
         $.ajax({
           method: 'POST',
@@ -1100,7 +1099,7 @@ var uvel,
       if (sellPrice && buyPrice && netWeight) {
         if (!isWeightWithStones) {
           var worksmanShipPrice = Math.round(((sellPrice - buyPrice) * netWeight) * 100) / 100,
-              productPrice = Math.round(((sellPrice * netWeight) + naturalStonesPrice) * 100) / 100;
+            productPrice = Math.round(((sellPrice * netWeight) + naturalStonesPrice) * 100) / 100;
         } else if (isWeightWithStones) {
           var worksmanShipPrice = Math.round(((sellPrice - buyPrice) * grossWeight) * 100) / 100,
             productPrice = Math.round(((sellPrice * grossWeight) + naturalStonesPrice) * 100) / 100;
@@ -1159,7 +1158,7 @@ var uvel,
 
     this.materialPricesResponseHandler = function(response, form, _this) {
       var retailPrices = response.retail_prices,
-        retaiPriceFilled = _this.closest('.form-row').find('[data-calculatePrice-retail]');
+          retaiPriceFilled = _this.closest('.form-row').find('[data-calculatePrice-retail]');
 
       $self.fillPrices(retaiPriceFilled, retailPrices, form);
     }
@@ -1172,11 +1171,11 @@ var uvel,
       prices.forEach(function (price) {
         var selected = price.selected ? 'selected' : '';
         var option = '<option value="' +
-            price.id + '" data-material="' +
-            price.material + '" data-price="' +
-            price.price + '" ' +
-            selected + '>' +
-            price.slug + '</option>';
+          price.id + '" data-material="' +
+          price.material + '" data-price="' +
+          price.price + '" ' +
+          selected + '>' +
+          price.slug + '</option>';
 
         element.append(option);
       });
@@ -1237,9 +1236,9 @@ var uvel,
       models.forEach(function (model) {
         var selected = model.selected ? 'selected' : '';
         var option = '<option value="' +
-            model.value + '" ' +
-            selected + '>' +
-            model.label + '</option>';
+          model.value + '" ' +
+          selected + '>' +
+          model.label + '</option>';
 
         modelElement.append(option);
       });
@@ -1501,13 +1500,14 @@ var uvel,
         // Copy the given materials first element
         // .outerHTML does not copy the elements values, so they are manually set
         var $givenMaterialsFirstElement = $('.form-row.given-material').first(),
-          firstMaterialId = $givenMaterialsFirstElement.find('.mat-material').val(),
-          firstMaterialQuantity = $givenMaterialsFirstElement.find('.mat-quantity').val(),
-          firstMaterialPrice = $givenMaterialsFirstElement.find('.mat-calculated-price').val();
+            firstMaterialId = $givenMaterialsFirstElement.find('.mat-material').val(),
+            firstMaterialQuantity = $givenMaterialsFirstElement.find('.mat-quantity').val(),
+            firstMaterialPrice = $givenMaterialsFirstElement.find('.mat-calculated-price').val();
 
         // TODO
         // use jquery.clone()
         // https://api.jquery.com/clone/
+
         var givenMaterialsNewElement = $givenMaterialsFirstElement.clone();
         // .val() does not set the inputs inner text
         $(givenMaterialsNewElement).find('.mat-material').attr('value', firstMaterialId);
@@ -1839,10 +1839,10 @@ var uvel,
       });
 
       function printCertificate(e) {
-        var urlTaken = window.location.href.split('/');
-        var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs';
-        var certificateId = e.target.getAttribute('data-repair-id');
-        var ajaxUrl = url + '/certificate/' + certificateId;
+        var urlTaken = window.location.href.split('/'),
+            url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs',
+            certificateId = e.target.getAttribute('data-repair-id'),
+            ajaxUrl = url + '/certificate/' + certificateId;
 
         ajaxFn('GET',ajaxUrl,printBtnSuccess,'','','');
       }
