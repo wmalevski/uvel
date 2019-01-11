@@ -150,7 +150,7 @@ var uvel,
           $addCardDiscountTrigger = $('[data-sell-discountCard]'),
           $travelingMaterialsStateBtns = $('[data-travelstate]'),
           $inputCollection = $('input'),
-          $removeDiscountTrigger = $('[data-sell-removeDiscount]');
+					$removeDiscountTrigger = $('[data-sell-removeDiscount]');
 
       $self.openForm($openFormTrigger);
       $self.deleteRow($deleteRowTrigger);
@@ -249,7 +249,7 @@ var uvel,
     this.addNumber = function(addNumberTrigger) {
       addNumberTrigger.on('change', function() {
         var _this = $(this),
-            sellingForm = _this.closest('form'),
+        sellingForm = _this.closest('form'),
             number = _this.val(),
             moreProductsChecked = sellingForm.find('[data-sell-moreProducts]').is(':checked'),
             productsAmount = Number(sellingForm.find('[data-sell-productsAmount]').val()),
