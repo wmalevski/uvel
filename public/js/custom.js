@@ -1473,10 +1473,8 @@ var uvel,
       $self.dragNdropImages(dropArea, form);
       $self.deleteImagesDropArea(deleteImagesTriggerDropArea);
       $self.deleteImagesUploadArea(deleteImagesTriggerUploadArea, form);
-		}
+    }
 
-		/* Borislav 11.12.2018 */
-		// TODO
 		this.manualReceipt = function(form) {
 			var btnManualReceipt = form.find('[data-manual-receipt]');
       btnManualReceipt.on('click', function() {
