@@ -229,8 +229,8 @@ var uvel,
 
               for (var key in errors) {
                 var errorText = errors[key][0],
-									errorDiv = document.createElement('div'),
-									table = _this.closest('table');
+                    errorDiv = document.createElement('div'),
+                    table = _this.closest('table');
 
                 errorDiv.innerHTML = errorText;
                 $(errorDiv).addClass('alert alert-danger table-alert');
