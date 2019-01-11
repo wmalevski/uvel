@@ -237,24 +237,17 @@
             <strong>Даден материал:</strong><br/>
 
             <div class="form-row">
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-6">
                     <label for="grossWeight">Материал:</label>
                     <div class="input-group">
                         <input type="text" class="form-control mat-material" name="given_material_id[]" placeholder="Въведете материал:">
                     </div>
                 </div>
 
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-6">
                     <label for="grossWeight">Количество:</label>
                     <div class="input-group">
                         <input type="number" class="form-control mat-quantity" name="mat_quantity[]" value="1">
-                    </div>
-                </div>
-
-                <div class="form-group col-md-4">
-                    <label for="grossWeight">Стойност:</label>
-                    <div class="input-group">
-                        <input type="number" class="form-control mat-calculated-price" name="calculated_price[]" value="0">
                     </div>
                 </div>
             </div>
@@ -262,14 +255,7 @@
             <button id="btnAddAnother" class="action--state_button add-btn-modal btn btn-primary">Добави друг</button><br/>
 
             <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="grossWeight">Касова група:</label>
-                    <div class="input-group">
-                            <input type="text" class="form-control" name="safe_group" id="safe_group" placeholder="Изберете касова група:">
-                    </div>
-                </div>
-
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-12">
                     <label for="grossWeight">Капаро:</label>
                     <div class="input-group">
                             <input type="number" class="form-control" name="earnest" id="earnest" placeholder="0">
@@ -280,7 +266,7 @@
             <div class="form-row">
                 <div class="form-group col-md-5">
                     <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                        <input type="checkbox" id="inputCall1" name="status" class="peer" value="ready">
+                        <input type="checkbox" id="inputCall1" name="status" class="peer" value="ready" @if($order->status == 'ready') checked @endif>
                         <label for="inputCall1" class="peers peer-greed js-sb ai-c">
                             <span class="peer peer-greed">Готов за връщане</span>
                         </label>

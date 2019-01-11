@@ -289,6 +289,7 @@ class OrderController extends Controller
     public function edit(Order $order)
     {
         $order_stones = $order->stones;
+        $order_materials = $order->materials;
         $models = Model::all();
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
@@ -338,7 +339,7 @@ class OrderController extends Controller
                 return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
             }
 
-            $currentMaterial = MaterialQuantity::withTrashed()->find($order->material);
+            $currentMaterial = MaterialQuantity::withTrashed()->find($order->material_id);
 
             if($request->material != $order->material){
                 $newMaterial = MaterialQuantity::withTrashed()->find($request->material);
@@ -383,9 +384,17 @@ class OrderController extends Controller
                 $order->weight_without_stones = 'yes';
             }
 
+            $order->save();
+
             if($request->status == 'true'){
-                for($i=0;$i<=$request->quantity;$i++){
+                for($i=1;$i<=$request->quantity;$i++){
                     $product = new Product();
+
+                    $request->merge([
+                        'weight' => $order->weight/$order->quantity,
+                        'status' => 'travelling'
+                    ]);
+
                     $productResponse = $product->store($request, 'array');
 
                     if($productResponse['errors']){
@@ -393,7 +402,7 @@ class OrderController extends Controller
                     }
 
                     $request->request->add(['store_to_id' => $request->store_id]);
-                    $request->request->add(['product_id' => $product->id]);
+                    $request->request->add(['product_id' => $productResponse->id]);
                     $request->request->add(['store_from_id' => 1]);
 
                     $productTravelling = new ProductTravelling();
@@ -405,8 +414,10 @@ class OrderController extends Controller
                 }
             }
     
+            $order = Order::find($order->id);
             $order->status = 'ready';
             $order->save();
+            
 
             // $path = public_path('uploads/products/');
             
