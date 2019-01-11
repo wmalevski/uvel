@@ -34,66 +34,14 @@ class PartnerController extends Controller
      * @param  \App\User  $users
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(Partner $partner)
     {
-        // $stores = Store::all();
-        
-        // return \View::make('admin/users/edit', array('user' => $user, 'stores' => $stores));
+        return \View::make('admin/partners/edit', array('partner' => $partner));
     }
 
     public function update(Request $request, User $user)
     {
-        // $validator = Validator::make( $request->all(), [
-        //     'name' => 'required|string|max:255',
-        //     'role' => 'required',
-        //     'store_id' => 'required'
-        //  ]);
-        
-        // if ($validator->fails()) {
-        //     return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
-        // }
-        
-        // $user->name = $request->name;
-        // $user->store_id = $request->store_id;
 
-
-
-
-
-
-
-        // $user->roles()->detach();
-        // $user->assign($request->role);
-
-        // $user->detachRoles($user->roles);
-        // $user->roles()->attach([$request->role]);
-
-        // $user->retract( $user->roles->first()['title']);
-        // $user->assign($request->role);
-
-        //$user->save();
-
-        // foreach($request->permissions as $permision){
-        //     print_r($permision);
-        // }
-
-        // foreach($abilities as $ability){
-        //     Bouncer::disallow($user)->to($ability);
-        // }
-
-        // foreach($request->permissions as $key => $role){
-        //     //Bouncer::allow($user)->to($role);
-
-        //     if($role == true){
-        //         Bouncer::allow($user)->to($key+1);
-        //     }else{
-        //         Bouncer::disallow($user)->to($key+1);
-        //     }
-        // }
-
-        // Bouncer::sync($user)->roles([$request->role]);
-    
-        // return Response::json(array('ID' => $user->id, 'table' => View::make('admin/users/table',array('user'=>$user))->render()));
     }
 
     /**

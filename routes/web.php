@@ -51,6 +51,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/users/{user}', 'UserController@edit');
 
     Route::get('/partners', 'PartnerController@index')->name('partners');
+    Route::get('/partners/{user}', 'PartnerController@edit');
 
     Route::get('/partnermaterials/{partner}', 'PartnerMaterialController@index')->name('partner_materials');
 

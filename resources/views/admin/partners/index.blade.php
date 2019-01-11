@@ -79,14 +79,15 @@ aria-hidden="true">
         </div>
     </div>
 </div>
+--}}
+<div class="modal fade edit--modal_holder" id="editPartner" tabindex="-1"  role="dialog" aria-labelledby="editPartner">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            
 
-<div class="modal fade" id="userSubstitution" role="dialog" aria-labelledby="editUserSubstitution" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      
+        </div>
     </div>
-  </div>
-</div> --}}
+</div>
 
 <div class="row">
     <div class="col-md-12">
