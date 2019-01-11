@@ -197,7 +197,7 @@
 
 					<div class="form-row">
 						<div class="form-group col-md-4">
-							<label for="grossWeight">Брой:</label>
+							<label for="grossWeight">Бройка:</label>
 							<div class="input-group">
 								<input type="number" class="form-control" name="quantity" id="quantity" value="1" >
 							</div>
