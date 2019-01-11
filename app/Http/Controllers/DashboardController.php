@@ -107,13 +107,16 @@ class DashboardController extends Controller
         $pass_materials = array();
 
         foreach($materials as $material){
-            $pass_materials[] = [
-                'label' => $material->material->parent->name.' - '.$material->material->color.' - '.$material->material->carat,
-                'value' => $material->id,
-                'price' => $material->material->pricesBuy->first()->price,
-                'for_buy'  => $material->material->for_buy,
-                'for_exchange' => $material->material->for_exchange
-            ];
+            if(count($material->material->pricesBuy)){
+                $pass_materials[] = [
+                    'label' => $material->material->parent->name.' - '.$material->material->color.' - '.$material->material->carat,
+                    'value' => $material->id,
+                    'price' => $material->material->pricesBuy->first()->price,
+                    'for_buy'  => $material->material->for_buy,
+                    'for_exchange' => $material->material->for_exchange,
+                    'carat_transform' => $material->material->carat_transform
+                ];
+            }
         }
 
         if(count($cartConditions) > 0){

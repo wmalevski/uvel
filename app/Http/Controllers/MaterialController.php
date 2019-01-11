@@ -74,6 +74,12 @@ class MaterialController extends Controller
             $material->for_exchange = 'yes';
         }
 
+        if($request->carat_transform == 'false'){
+            $material->carat_transform = 'no';
+        } else{
+            $material->carat_transform = 'yes';
+        }
+
         $material->save();
 
         return Response::json(array('success' => View::make('admin/materials/table',array('material'=>$material))->render()));
@@ -127,6 +133,24 @@ class MaterialController extends Controller
         $material->color = $request->color;
         $material->carat = $request->carat;
         $material->parent_id = $request->parent_id;
+
+        if($request->for_buy == 'false'){
+            $material->for_buy = 'no';
+        } else{
+            $material->for_buy = 'yes';
+        }
+
+        if($request->for_exchange == 'false'){
+            $material->for_exchange = 'no';
+        } else{
+            $material->for_exchange = 'yes';
+        }
+
+        if($request->carat_transform == 'false'){
+            $material->carat_transform = 'no';
+        } else{
+            $material->carat_transform = 'yes';
+        }
         
         $material->save();
 

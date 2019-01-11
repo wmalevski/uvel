@@ -66,6 +66,17 @@
                     </div>
                 </div>
             </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                        <input type="checkbox" id="carat_transform" name="carat_transform" class="peer" @if($material->carat_transform == 'yes') checked @endif>
+                        <label for="carat_transform" class="peers peer-greed js-sb ai-c">
+                            <span class="peer peer-greed">Преобразуване на карати</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
     </div>
 
     <div class="modal-footer">

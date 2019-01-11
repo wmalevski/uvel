@@ -116,9 +116,11 @@ aria-hidden="true">
                                 <label for="given-sum">Цена на грамаж</label>
                                 <select name="calculating_price" class="form-control">
                                     <option value="0">Избери</option>
+                                    @if($materials->first()->material->pricesBuy->first())
                                     @foreach($materials->first()->material->pricesBuy as $price)
-                                        <option value="{{ $price->id }}" data-defaultPrice="{{ $material->material->pricesBuy->first()->price }}" data-price="{{ $price->price }}">{{ $price->slug }} - {{ $price->price }}</option>
+                                        <option value="{{ $price->id }}" data-defaultPrice="{{ $materials->first()->material->pricesBuy->first()->price }}" data-price="{{ $price->price }}">{{ $price->slug }} - {{ $price->price }}</option>
                                     @endforeach
+                                    @endif
                                 </select>
                             </div>
                         </div>

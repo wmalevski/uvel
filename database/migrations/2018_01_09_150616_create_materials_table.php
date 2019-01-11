@@ -23,6 +23,7 @@ class CreateMaterialsTable extends Migration
             $table->integer('parent_id')->unsigned();
             $table->enum('for_buy', ['yes', 'no'])->default('yes');
             $table->enum('for_exchange', ['yes', 'no'])->default('no');
+            $table->enum('carat_transform', ['yes', 'no'])->default('yes');
             $table->timestamps();
             $table->softDeletes();
         });
