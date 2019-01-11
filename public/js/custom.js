@@ -140,17 +140,17 @@ var uvel,
 
     this.attachInitialEvents = function () {
       var $openFormTrigger = $('[data-form]:not([data-repair-scan])'),
-				$deleteRowTrigger = $('.delete-btn'),
-				$printTrigger = $('.print-btn'),
-				$barcodeProcessRepairTrigger = $('[data-repair-scan]'),
-				$returnRepairBtn = $('[data-repair-return]'),
-				$addNumberTrigger = $('[data-sell-catalogNumber], [data-sell-barcode]'),
-				$sellMoreProductsTrigger = $('[data-sell-moreProducts]'),
-				$addDiscountTrigger = $('[data-sell-discountApply]'),
-				$addCardDiscountTrigger = $('[data-sell-discountCard]'),
-				$travelingMaterialsStateBtns = $('[data-travelstate]'),
-				$inputCollection = $('input'),
-				$removeDiscountTrigger = $('[data-sell-removeDiscount]');
+          $deleteRowTrigger = $('.delete-btn'),
+          $printTrigger = $('.print-btn'),
+          $barcodeProcessRepairTrigger = $('[data-repair-scan]'),
+          $returnRepairBtn = $('[data-repair-return]'),
+          $addNumberTrigger = $('[data-sell-catalogNumber], [data-sell-barcode]'),
+          $sellMoreProductsTrigger = $('[data-sell-moreProducts]'),
+          $addDiscountTrigger = $('[data-sell-discountApply]'),
+          $addCardDiscountTrigger = $('[data-sell-discountCard]'),
+          $travelingMaterialsStateBtns = $('[data-travelstate]'),
+          $inputCollection = $('input'),
+          $removeDiscountTrigger = $('[data-sell-removeDiscount]');
 
       $self.openForm($openFormTrigger);
       $self.deleteRow($deleteRowTrigger);
@@ -175,10 +175,10 @@ var uvel,
 
     this.openFormAction = function(currentPressedBtn, data) {
       var $this = currentPressedBtn,
-				timeToOpenModal = 1000, //time which takes for modals to open
-				openedForm = $this.attr('data-form'),
-				formType = $this.attr('data-form-type'),
-				formSettings = $self.formsConfig[openedForm];
+          timeToOpenModal = 1000, //time which takes for modals to open
+          openedForm = $this.attr('data-form'),
+          formType = $this.attr('data-form-type'),
+          formSettings = $self.formsConfig[openedForm];
 
       if (formType == 'edit') {
         $self.appendingEditFormToTheModal($this, data);
@@ -249,13 +249,13 @@ var uvel,
     this.addNumber = function(addNumberTrigger) {
       addNumberTrigger.on('change', function() {
         var _this = $(this),
-					sellingForm = _this.closest('form'),
-					number = _this.val(),
-					moreProductsChecked = sellingForm.find('[data-sell-moreProducts]').is(':checked'),
-					productsAmount = Number(sellingForm.find('[data-sell-productsAmount]').val()),
-					typeRepair = sellingForm.find('[data-sell-repair]').is(':checked'),
-					ajaxUrl = sellingForm.attr('data-scan'),
-					dataSend;
+            sellingForm = _this.closest('form'),
+            number = _this.val(),
+            moreProductsChecked = sellingForm.find('[data-sell-moreProducts]').is(':checked'),
+            productsAmount = Number(sellingForm.find('[data-sell-productsAmount]').val()),
+            typeRepair = sellingForm.find('[data-sell-repair]').is(':checked'),
+            ajaxUrl = sellingForm.attr('data-scan'),
+            dataSend;
 
         if (_this[0].hasAttribute('data-sell-catalogNumber')) {
           dataSend = {
