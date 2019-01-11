@@ -25,7 +25,7 @@
 			<div class="col-md-12 product-information">
 				<h1 id="quick-shop-title">
 					<span>
-						<a href="#">
+						<a href="{{ route('single_product_other', ['product' => $product->id])  }}">
 							{{ $product->name }}
 						</a>
 					</span>
