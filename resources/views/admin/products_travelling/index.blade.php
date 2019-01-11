@@ -28,7 +28,7 @@
                                 <option value="">Избер продукт</option>
                         
                                 @foreach($products as $product)
-                                    <option value="{{ $product->id }}">
+                                    <option value="{{ $product->id }}" data-barcode="{{ $product->barcode }}" data-weight="{{ $product->weight }}">
                                        {{ $product->name }}
                                     </option>
                                 @endforeach
