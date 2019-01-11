@@ -13,7 +13,6 @@
             <div class="info-cont">
             </div>
             {{ csrf_field() }}
-
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
@@ -40,7 +39,6 @@
                     <label>Вид: </label>
                     <select id="jewel_edit" name="jewel_id" class="form-control jewels_types" data-modelFilled-jewel disabled>
                         <option value="">Избери</option>
-
                         @foreach($jewels as $jewel)
                         <option @if($product->jewel_id == $jewel->id) selected @endif value="{{ $jewel->id }}">{{ $jewel->name }}</option>
                         @endforeach
@@ -56,7 +54,6 @@
                     <label>Материал: </label>
                     <select id="material_edit" name="material_id" class="material_type form-control calculate" data-calculatePrice-material>
                         <option value="">Избери</option>
-
                         @foreach($materials as $material)
                             @if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
                                 <option value="{{ $material->id }}" data-material="{{ $material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}" @if($material->id == $product->material_id) selected @endif>{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
@@ -68,7 +65,6 @@
                     <label>Цена: </label>
                     <select id="retail_price_edit" name="retail_price_id" class="form-control  calculate prices-filled retail-price retail_prices" data-calculatePrice-retail>
                         <option value="">Избери</option>
-
                         @foreach($prices->where('type', 'sell') as $price)
                     <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}" @if($product->retail_price_id == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
                         @endforeach
