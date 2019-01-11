@@ -14,7 +14,7 @@ class Stone extends Model
     use SoftDeletes;
     
     protected $fillable = [
-        'name',
+        'nomenclature',
         'type',
         'weight',
         'carat',
@@ -72,5 +72,10 @@ class Stone extends Model
     public function photos()
     {
         return $this->hasMany('App\Gallery');
+    }
+
+    public function nomenclature()
+    {
+        return $this->belongsTo('App\Nomenclature');
     }
 }

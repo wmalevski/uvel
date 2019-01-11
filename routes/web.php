@@ -64,8 +64,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/stores/{store}', 'StoreController@edit');
     //Route::put('/stores/{store}', 'StoreController@update');
 
-    Route::get('/nomenclatures', 'NomenclaturesController@index')->name('nomenclatures');
-    Route::post('/nomenclatures', 'NomenclaturesController@store');
+    Route::get('/nomenclatures', 'NomenclatureController@index')->name('nomenclatures');
+    Route::post('/nomenclatures', 'NomenclatureController@store');
+
+    Route::get('/nomenclatures/{nomenclature}', 'NomenclatureController@edit');
+    Route::put('/nomenclatures/{nomenclature}', 'NomenclatureController@update');
 
     Route::get('/materials', 'MaterialController@index')->name('materials');
     Route::post('/materials', 'MaterialController@store');
@@ -164,6 +167,10 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::put('/stores/{store}', 'StoreController@update');
     Route::get('/stores/{store}', 'StoreController@edit');
     Route::post('/stores/delete/{store}', 'StoreController@destroy');
+
+    Route::get('/nomenclatures/{nomenclature}', 'NomenclatureController@edit');
+    Route::put('/nomenclatures/{nomenclature}', 'NomenclatureController@update');
+    Route::post('/nomenclatureс/delete/{nomenclature}', 'NomenclatureController@destroy');
 
     Route::post('/materials', 'MaterialController@store');
     Route::post('/materials/delete/{material}', 'MaterialController@destroy');
