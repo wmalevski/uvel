@@ -280,8 +280,8 @@ var uvel,
 
     this.numberSend = function(response) {
       var success = response.success,
-				html = response.table,
-				shoppingTable = $('#shopping-table');
+          html = response.table,
+          shoppingTable = $('#shopping-table');
 
       if(success) {
         shoppingTable.find('tbody').html(html);
@@ -294,7 +294,7 @@ var uvel,
 
         for (var key in errors) {
           var error = errors[key],
-            errorDiv = $('<div class="alert alert-danger table-alert"></div>');
+              errorDiv = $('<div class="alert alert-danger table-alert"></div>');
 
           errorDiv.append(error);
           $('#mainContent').prepend(errorDiv);
@@ -321,16 +321,16 @@ var uvel,
 			addDiscountTrigger.on('click', function (e) {
 				e.preventDefault();
 				var _this = $(this),
-					discountInput = _this.closest('form').find('[data-sell-discount]'),
-					discountAmount = Number(discountInput.val()),
-					description = _this.closest('form').find('[data-sell-description]').val(),
-					urlTaken = window.location.href.split('/'),
-					_url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/',
-					discountUrl = _this.attr('data-url'),
-					dataSend = {
-						'discount': discountAmount,
-						'description': description
-					};
+            discountInput = _this.closest('form').find('[data-sell-discount]'),
+            discountAmount = Number(discountInput.val()),
+            description = _this.closest('form').find('[data-sell-description]').val(),
+            urlTaken = window.location.href.split('/'),
+            _url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/',
+            discountUrl = _this.attr('data-url'),
+            dataSend = {
+              'discount': discountAmount,
+              'description': description
+            };
 
 				if (discountAmount > 0) {
 					var ajaxUrl = _url + discountUrl;
@@ -342,10 +342,10 @@ var uvel,
     this.addCardDiscount = function(addCardDiscountTrigger) {
       addCardDiscountTrigger.on('change', function() {
         var _this = $(this),
-					discountBarcode = _this.val(),
-					urlTaken = window.location.href.split('/'),
-					_url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/',
-					discountUrl = _this.attr('data-url');
+            discountBarcode = _this.val(),
+            urlTaken = window.location.href.split('/'),
+            _url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/',
+            discountUrl = _this.attr('data-url');
 
         if (discountBarcode.length == 13) {
           var ajaxUrl = _url + discountUrl + discountBarcode;
@@ -383,9 +383,9 @@ var uvel,
 
     this.cartSumsPopulate = function(response) {
       var subTotalInput = $('[data-sell-subTotal]'),
-				discountDisplay = $('[data-sell-discountDisplay]'),
-				totalInput = $('[data-calculatePayment-total]'),
-				taxInput = $('[data-sell-tax]');
+          discountDisplay = $('[data-sell-discountDisplay]'),
+          totalInput = $('[data-calculatePayment-total]'),
+          taxInput = $('[data-sell-tax]');
 
       subTotalInput.val(response.subtotal);
       totalInput.val(response.total);
@@ -447,9 +447,9 @@ var uvel,
 
       inputFields.each(function(index, element) {
         var inputType = element.type,
-					dataKey = element.name,
-					dataKeyValue = element.value,
-					imagesInputFieldExists = dataKey == 'images' ? true : false;
+            dataKey = element.name,
+            dataKeyValue = element.value,
+            imagesInputFieldExists = dataKey == 'images' ? true : false;
 
         if((inputType == 'radio' || inputType == 'checkbox') && dataKey.indexOf('[]') !== -1) {
           dataKey = dataKey.replace('[]', '');
@@ -598,11 +598,11 @@ var uvel,
       table.append(responseHTML);
 
       var $openFormTriggers = table.find('[data-form]'),
-				$deleteRowTiggers = table.find('.delete-btn'),
-				$printTriggers = table.find('.print-btn'),
-				newRowFormTrigger = $($openFormTriggers[$openFormTriggers.length - 1]),
-				newDeleteRowTrigger = $($deleteRowTiggers[$deleteRowTiggers.length - 1]),
-				newPrintTrigger = $($printTriggers[$printTriggers.length - 1]);
+          $deleteRowTiggers = table.find('.delete-btn'),
+          $printTriggers = table.find('.print-btn'),
+          newRowFormTrigger = $($openFormTriggers[$openFormTriggers.length - 1]),
+          newDeleteRowTrigger = $($deleteRowTiggers[$deleteRowTiggers.length - 1]),
+          newPrintTrigger = $($printTriggers[$printTriggers.length - 1]);
 
       $self.openForm(newRowFormTrigger);
       $self.deleteRow(newDeleteRowTrigger);
@@ -674,10 +674,10 @@ var uvel,
 
     this.replaceResponseRowToTheTable = function(form , response) {
       var replaceRowHTML = response.table,
-				rowId = response.ID,
-				rowToChange = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]'),
-				iscurrentlyActive = rowToChange.closest('table').hasClass('active'),
-				isCurrentlyBuy = rowToChange.closest('table').hasClass('buy');
+          rowId = response.ID,
+          rowToChange = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]'),
+          iscurrentlyActive = rowToChange.closest('table').hasClass('active'),
+          isCurrentlyBuy = rowToChange.closest('table').hasClass('buy');
 
       if (response.place == 'active' && !iscurrentlyActive) {
         $self.moveRowToTheTable(rowToChange, form.parents('.main-content').find('table.active tbody'), replaceRowHTML);
@@ -897,12 +897,12 @@ var uvel,
 
 		this.addStone = function (form, stone) {
 			var stonesWrapper = form.find('.model_stones'),
-				fields = stonesWrapper.find('.fields'),
-				stonesData = stone || $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null,
-				maxFields = 10,
-				amount = stone ? stone.amount : '',
-				weight = stone ? stone.weight : '',
-				flow = stone && stone.flow == 'yes' ? 'checked' : '';
+          fields = stonesWrapper.find('.fields'),
+          stonesData = stone || $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null,
+          maxFields = 10,
+          amount = stone ? stone.amount : '',
+          weight = stone ? stone.weight : '',
+          flow = stone && stone.flow == 'yes' ? 'checked' : '';
 
 			if (fields.length < maxFields) {
 				var fieldsHolder = document.createElement('div');
@@ -1062,17 +1062,17 @@ var uvel,
 
     this.calculatePrice = function(form) {
       var workmanshipHolder = form.find('[data-calculatePrice-worksmanship]'),
-				grossWeightHolder = form.find('[data-calculatePrice-grossWeight]'),
-				stones = form.find('.model_stones .fields'),
-				finalHolder = form.find('[data-calculatePrice-final]'),
-				defaultMaterialRow = form.find('[data-calculatePrice-default]:checked').closest('.form-row'),
-				sellPrice = form.attr('name') == 'products' ? form.find('[data-calculatePrice-retail] :selected').attr('data-price')*1 : defaultMaterialRow.find('[data-calculatePrice-retail] :selected').attr('data-price')*1,
-				buyPrice = form.attr('name') == 'products' ? form.find('[data-calculatePrice-material] :selected').attr('data-pricebuy')*1 : defaultMaterialRow.find('[data-calculatePrice-material] :selected').attr('data-pricebuy')*1,
-				netWeight = form.find('[data-calculatePrice-netWeight]').val()*1,
-				grossWeight = 0,
-				isWeightWithStones = $('[data-calculatePrice-withStones]').is(':checked'),
-				naturalStonesPrice = 0,
-				synthStonesWeight = 0;
+          grossWeightHolder = form.find('[data-calculatePrice-grossWeight]'),
+          stones = form.find('.model_stones .fields'),
+          finalHolder = form.find('[data-calculatePrice-final]'),
+          defaultMaterialRow = form.find('[data-calculatePrice-default]:checked').closest('.form-row'),
+          sellPrice = form.attr('name') == 'products' ? form.find('[data-calculatePrice-retail] :selected').attr('data-price')*1 : defaultMaterialRow.find('[data-calculatePrice-retail] :selected').attr('data-price')*1,
+          buyPrice = form.attr('name') == 'products' ? form.find('[data-calculatePrice-material] :selected').attr('data-pricebuy')*1 : defaultMaterialRow.find('[data-calculatePrice-material] :selected').attr('data-pricebuy')*1,
+          netWeight = form.find('[data-calculatePrice-netWeight]').val()*1,
+          grossWeight = 0,
+          isWeightWithStones = $('[data-calculatePrice-withStones]').is(':checked'),
+          naturalStonesPrice = 0,
+          synthStonesWeight = 0;
 
       for (var i=0; i<stones.length; i++) {
         var stoneRow = $(stones[i]),
@@ -1470,8 +1470,6 @@ var uvel,
       $self.deleteImagesUploadArea(deleteImagesTriggerUploadArea, form);
 		}
 
-		/* Borislav 11.12.2018 */
-		// TODO
 		this.manualReceipt = function(form) {
 			var btnManualReceipt = form.find('[data-manual-receipt]');
       btnManualReceipt.on('click', function() {
@@ -1658,12 +1656,12 @@ var uvel,
     this.calculateRepairAfterPrice = function(form) {
       if (form.attr('data-type') == 'edit') {
         var repairPrice = form.find('[data-repair-type] :selected').attr('data-price') * 1,
-					materialPrice = form.find('[data-repair-material] :selected').attr('data-price') * 1,
-					weightBefore = form.find('[data-repair-weightBefore]').val(),
-					weightAfter = form.find('[data-repair-weightAfter]').val(),
-					weightDifference = weightAfter < weightBefore ? 0 : weightAfter - weightBefore,
-					priceAfter,
-					priceAfetrHolder = form.find('[data-repair-priceAfter]');
+            materialPrice = form.find('[data-repair-material] :selected').attr('data-price') * 1,
+            weightBefore = form.find('[data-repair-weightBefore]').val(),
+            weightAfter = form.find('[data-repair-weightAfter]').val(),
+            weightDifference = weightAfter < weightBefore ? 0 : weightAfter - weightBefore,
+            priceAfter,
+            priceAfetrHolder = form.find('[data-repair-priceAfter]');
 
         priceAfter = repairPrice + (weightDifference * materialPrice);
         priceAfter = Math.round(priceAfter * 100) / 100;
