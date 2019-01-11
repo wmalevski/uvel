@@ -161,13 +161,9 @@
 															<div class="product-content-left">
 																<a class="title-5" href="{{route('single_product', ['product' => $product]) }}">{{ $product['name'] }}</a>
 																<span class="spr-badge" id="spr_badge_12932396193" data-rating="{{$product->getProductAvgRating($product)}}">
-																	@if($product->getProductAvgRating($product) > 0)
 																	<span class="spr-starrating spr-badge-starrating">
 																		{{$product->listProductAvgRatingStars($product)}}
 																	</span>
-																	@else
-																	<span class="spr-badge-caption" style="display:block;">Няма ревюта </span>
-																	@endif
 																</span>
 															</div>
 

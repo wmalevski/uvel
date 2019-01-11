@@ -3,8 +3,8 @@
 	<ul class="row-container list-unstyled clearfix">
 		<li class="row-left @if($listType == 'goList') col-md-8 @endif">
 			<a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">
-				<img src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif"
-				 class="img-responsive" alt="{{ $product->name }}">
+				<img class="img-responsive" alt="{{ $product->name }}"
+				 src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif">
 			</a>
 			<div class="hbw">
 				<span class="hoverBorderWrapper"></span>
@@ -13,16 +13,13 @@
 		<li class="row-right parent-fly animMix @if($listType == 'goList') col-md-16 @endif">
 			<div class="product-content-left">
 				<a class="title-5" href="{{ route('single_product', ['product' => $product->id])  }}">{{ $product->name }}</a>
-				No: {{ $product->code }}<br />
+				No: {{ $product->code }}
+				<br />
 				{{ $product->weight }}гр.
-				<span class="spr-badge" id="spr_badge_12932382113" data-rating="{{$product->getProductAvgRating($product)}}">
-					@if(count($product->reviews) > 0)
+				<span class="spr-badge" data-rating="{{$product->getProductAvgRating($product)}}">
 					<span class="spr-starrating spr-badge-starrating">
 						{{$product->listproductAvgRatingStars($product)}}
 					</span>
-					@else
-					<span class="spr-badge-caption" style="display:block;">Няма ревюта</span>
-					@endif
 				</span>
 			</div>
 			<div class="product-content-right">
@@ -42,7 +39,7 @@
 					</div>
 				</form>
 				<div class="product-ajax-qs hidden-xs hidden-sm">
-					<div data-handle="curabitur-cursus-dignis" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal"
+					<div data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal"
 					 data-url="products/{{ $product->id }}/">
 						<i class="fa fa-eye" title="Бърз Преглед"></i>
 						<span class="list-mode">Бърз преглед</span>
