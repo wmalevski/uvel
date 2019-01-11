@@ -39,9 +39,21 @@ class PartnerController extends Controller
         return \View::make('admin/partners/edit', array('partner' => $partner));
     }
 
-    public function update(Request $request, User $user)
+    public function update(Request $request, Partner $partner)
     {
+        $validator = Validator::make( $request->all(), [
+            'money' => 'required',
+        ]);
+        
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
 
+        $partner->money = $request->money;
+        
+        $partner->save();
+        
+        return Response::json(array('ID' => $partner->id, 'table' => View::make('admin/partners/table', array('partner' => $partner))->render()));
     }
 
     /**

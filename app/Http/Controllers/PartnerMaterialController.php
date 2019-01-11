@@ -48,10 +48,10 @@ class PartnerMaterialController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\CorporatePartnerMaterial  $corporatePartnerMaterial
+     * @param  \App\PartnerMaterial  $PartnerMaterial
      * @return \Illuminate\Http\Response
      */
-    public function show(CorporatePartnerMaterial $corporatePartnerMaterial)
+    public function show(PartnerMaterial $PartnerMaterial)
     {
         //
     }
@@ -59,33 +59,45 @@ class PartnerMaterialController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\CorporatePartnerMaterial  $corporatePartnerMaterial
+     * @param  \App\PartnerMaterial  $PartnerMaterial
      * @return \Illuminate\Http\Response
      */
-    public function edit(CorporatePartnerMaterial $corporatePartnerMaterial)
+    public function edit(Partner $partner, PartnerMaterial $material)
     {
-        //
+        return \View::make('admin/partner_materials/edit', array('material' => $material,'partner' => $partner));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\CorporatePartnerMaterial  $corporatePartnerMaterial
+     * @param  \App\PartnerMaterial  $PartnerMaterial
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CorporatePartnerMaterial $corporatePartnerMaterial)
+    public function update(Request $request, PartnerMaterial $material, Partner $partner)
     {
-        //
+        $validator = Validator::make( $request->all(), [
+            'quantity' => 'required',
+        ]);
+        
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
+        $material->quantity = $request->quantity;
+        
+        $material->save();
+        
+        return Response::json(array('ID' => $material->id, 'table' => View::make('admin/partner_materials/table', array('partner' => $partner, 'material' => $material))->render()));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\CorporatePartnerMaterial  $corporatePartnerMaterial
+     * @param  \App\PartnerMaterial  $PartnerMaterial
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CorporatePartnerMaterial $corporatePartnerMaterial)
+    public function destroy(PartnerMaterial $PartnerMaterial)
     {
         //
     }
