@@ -19,7 +19,7 @@
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-								<input type="checkbox" id="weightWithStones" name="with_stones" class="peer " data-calculatePrice-withStones>
+								<input type="checkbox" id="weightWithStones" name="with_stones" class="peer" data-calculatePrice-withStones>
 								<label for="weightWithStones" class="peers peer-greed js-sb ai-c">
 									<span class="peer peer-greed">Тегло с камъни</span>
 								</label>
@@ -215,7 +215,7 @@
 
 					<strong>Даден материал:</strong><br/>
 
-					<div class="form-row">
+					<div class="form-row given-material">
 						<div class="form-group col-md-4">
 								<label for="">Вид</label>
 								<select id="material_type" name="material_id[]" data-calculateprice-material class="material_type form-control calculate">

@@ -54,7 +54,7 @@
 
 							<div class="form-group col-md-6">
 								<label>Цена:</label>
-								<select id="retail_prices" name="retail_price_id[]" class="form-control calculate prices-filled retail-price "
+								<select id="retail_prices" name="retail_price_id[]" class="form-control calculate prices-filled retail-price"
 								 data-calculatePrice-retail disabled>
 									<option value="">Избери</option>
 								</select>
@@ -62,7 +62,7 @@
 
 							<div class="form-group col-md-12">
 								<div class="radio radio-info">
-									<input type="radio" class="default_material  not-clear" id="" name="default_material[]"
+									<input type="radio" class="default_material not-clear" id="" name="default_material[]"
 									 data-calculatePrice-default checked>
 									<label for="">Материал по подразбиране</label>
 								</div>
@@ -86,7 +86,7 @@
 						<div class="form-group col-md-6 weight-holder">
 							<label for="weight">Нетно тегло: </label>
 							<div class="input-group">
-								<input type="number" class="form-control  calculate" id="weight" name="weight" data-calculatePrice-netWeight
+								<input type="number" class="form-control calculate" id="weight" name="weight" data-calculatePrice-netWeight
 								 placeholder="Тегло:">
 								<span class="input-group-addon">гр</span>
 							</div>

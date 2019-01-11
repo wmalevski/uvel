@@ -1042,7 +1042,7 @@ var uvel,
 			}
 		}
 
-		this.calculatePriceInit = function (form) {
+		this.calculatePriceInit = function(form) {
 			var calculatePriceTrigger = form.find('[data-calculatePrice-retail], [data-calculatePrice-default], [data-calculatePrice-netWeight], [data-calculatePrice-withStones], [data-calculateStones-weight], [data-calculatePrice-stone], [data-calculateStones-amount]');
 			$self.calculatePriceAttach(calculatePriceTrigger, form);
 		}
@@ -1186,7 +1186,8 @@ var uvel,
 
     this.modelRequestInit = function(form) {
 			/* Селектора (падащо меню) който ще прави рекуест */
-			var modelRequestTrigger = form.find('.input-search');
+      var modelRequestTrigger = form.find('.input-search');
+
       modelRequestTrigger.on('input', function() {
         var _this = $(this);
         if (_this.find('option:selected').val() !== '0' && _this.find('option:selected').val() !== '') {
@@ -1499,12 +1500,15 @@ var uvel,
 				event.preventDefault();
 				// Copy the given materials first element
 				// .outerHTML does not copy the elements values, so they are manually set
-				var givenMaterialsFirstElement = $('.form-row.given-material').first()[0],
-					firstMaterialId = $(givenMaterialsFirstElement).find('.mat-material').val(),
-					firstMaterialQuantity = $(givenMaterialsFirstElement).find('.mat-quantity').val(),
-					firstMaterialPrice = $(givenMaterialsFirstElement).find('.mat-calculated-price').val();
+				var $givenMaterialsFirstElement = $('.form-row.given-material').first(),
+					firstMaterialId = $givenMaterialsFirstElement.find('.mat-material').val(),
+					firstMaterialQuantity = $givenMaterialsFirstElement.find('.mat-quantity').val(),
+					firstMaterialPrice = $givenMaterialsFirstElement.find('.mat-calculated-price').val();
 
-				var givenMaterialsNewElement = givenMaterialsFirstElement;
+        // TODO
+        // use jquery.clone()
+        // https://api.jquery.com/clone/
+				var givenMaterialsNewElement = $givenMaterialsFirstElement.clone();
 				// .val() does not set the inputs inner text
 				$(givenMaterialsNewElement).find('.mat-material').attr('value', firstMaterialId);
 				$(givenMaterialsNewElement).find('.mat-quantity').attr('value', firstMaterialQuantity);
