@@ -1502,6 +1502,7 @@ var uvel,
 
 		this.addAnother = function(form) {
 			var addAnother = form.find('#btnAddAnother');
+
 			addAnother.on('click', function(event) {
 				event.preventDefault();
 				// Copy the given materials first element
