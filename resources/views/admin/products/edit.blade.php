@@ -16,7 +16,7 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                        <input type="checkbox" id="weightWithStones_edit" name="with_stones" class="peer " data-calculatePrice-withStones @if($product->weight_without_stones == 'yes') checked @endif >
+                        <input type="checkbox" id="weightWithStones_edit" name="with_stones" class="peer" data-calculatePrice-withStones @if($product->weight_without_stones == 'yes') checked @endif >
                         <label for="weightWithStones_edit" class="peers peer-greed js-sb ai-c">
                             <span class="peer peer-greed">Тегло с камъни</span>
                         </label>
@@ -63,7 +63,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label>Цена: </label>
-                    <select id="retail_price_edit" name="retail_price_id" class="form-control  calculate prices-filled retail-price retail_prices" data-calculatePrice-retail>
+                    <select id="retail_price_edit" name="retail_price_id" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail>
                         <option value="">Избери</option>
                         @foreach($prices->where('type', 'sell') as $price)
                     <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}" @if($product->retail_price_id == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
@@ -73,7 +73,7 @@
                 <div class="form-group col-md-3 weight-holder weight-holder-edit">
                     <label for="weight_edit">Нетно тегло: </label>
                     <div class="input-group">
-                        <input type="text" class="form-control weight calculate " id="weight_edit" value="{{ $product->weight }}" name="weight" data-calculatePrice-netWeight placeholder="Тегло:" min="1" max="10000">
+                        <input type="text" class="form-control weight calculate" id="weight_edit" value="{{ $product->weight }}" name="weight" data-calculatePrice-netWeight placeholder="Тегло:" min="1" max="10000">
                         <span class="input-group-addon">гр</span>
                     </div>
                 </div>

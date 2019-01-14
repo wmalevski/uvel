@@ -104,7 +104,7 @@
 
 						<div class="form-group col-md-6">
 							<label>Цена: </label>
-							<select id="retail_prices" name="retail_price_id" class="form-control calculate  prices-filled retail-price retail_prices" data-calculatePrice-retail disabled>
+							<select id="retail_prices" name="retail_price_id" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail disabled>
 								<option value="">Избери</option>
 
 								@foreach($prices->where('type', 'sell') as $price)
@@ -115,7 +115,7 @@
 						<div class="form-group col-md-3 weight-holder">
 							<label for="weight">Нетно тегло: </label>
 							<div class="input-group">
-								<input type="text" class="form-control weight calculate " id="weight" name="weight" data-calculatePrice-netWeight placeholder="Тегло:" min="1" max="10000">
+								<input type="text" class="form-control weight calculate" id="weight" name="weight" data-calculatePrice-netWeight placeholder="Тегло:" min="1" max="10000">
 								<span class="input-group-addon">гр</span>
 							</div>
 						</div>

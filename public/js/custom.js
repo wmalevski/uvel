@@ -659,7 +659,7 @@ var uvel,
             if (modal.find('[data-calculatePrice-material]').length > 0 && modal.closest('#editProduct').length > 0) {
               for (var i = 0; i < modal.find('[data-calculatePrice-material]').length; i++) {
                 var _this = $(modal.find('[data-calculatePrice-material]')[i]),
-                  form = _this.closest('form');
+                    form = _this.closest('form');
 
                 $self.materialPricesRequestBuilder(form, _this);
               }
@@ -908,7 +908,7 @@ var uvel,
         fieldsHolder.classList.add('form-row', 'fields');
 
         var newFields = '<div class="form-group col-md-6"><label>Камък:</label>' +
-          '<select name="stones[]" class="form-control" data-calculatePrice-stone>';
+            '<select name="stones[]" class="form-control" data-calculatePrice-stone>';
 
         for (var i = 0; i < stonesData.length; i++) {
           var option = stonesData[i],
@@ -1099,10 +1099,10 @@ var uvel,
       if (sellPrice && buyPrice && netWeight) {
         if (!isWeightWithStones) {
           var worksmanShipPrice = Math.round(((sellPrice - buyPrice) * netWeight) * 100) / 100,
-            productPrice = Math.round(((sellPrice * netWeight) + naturalStonesPrice) * 100) / 100;
+              productPrice = Math.round(((sellPrice * netWeight) + naturalStonesPrice) * 100) / 100;
         } else if (isWeightWithStones) {
           var worksmanShipPrice = Math.round(((sellPrice - buyPrice) * grossWeight) * 100) / 100,
-            productPrice = Math.round(((sellPrice * grossWeight) + naturalStonesPrice) * 100) / 100;
+              productPrice = Math.round(((sellPrice * grossWeight) + naturalStonesPrice) * 100) / 100;
         }
 
         workmanshipHolder.val(worksmanShipPrice);
@@ -1171,11 +1171,11 @@ var uvel,
       prices.forEach(function (price) {
         var selected = price.selected ? 'selected' : '';
         var option = '<option value="' +
-          price.id + '" data-material="' +
-          price.material + '" data-price="' +
-          price.price + '" ' +
-          selected + '>' +
-          price.slug + '</option>';
+            price.id + '" data-material="' +
+            price.material + '" data-price="' +
+            price.price + '" ' +
+            selected + '>' +
+            price.slug + '</option>';
 
         element.append(option);
       });
@@ -1201,10 +1201,11 @@ var uvel,
 
     /* При избор на модел от падащото меню се прави тази заявка */
     this.modelRequest = function (form) {
-      var inputModel = form.find('.input-search');
-      var ajaxUrl = window.location.origin + '/' + inputModel.attr('data-url');
-      var modelId = inputModel.attr('data-product-id');
-      var requestLink = ajaxUrl + modelId;
+      var inputModel = form.find('.input-search'),
+          ajaxUrl = window.location.origin + '/' + inputModel.attr('data-url'),
+          modelId = inputModel.attr('data-product-id'),
+          requestLink = ajaxUrl + modelId;
+
       $self.ajaxFn('GET', requestLink, $self.modelRequestResponseHandler, '', form);
     }
 
@@ -1236,9 +1237,9 @@ var uvel,
       models.forEach(function (model) {
         var selected = model.selected ? 'selected' : '';
         var option = '<option value="' +
-          model.value + '" ' +
-          selected + '>' +
-          model.label + '</option>';
+            model.value + '" ' +
+            selected + '>' +
+            model.label + '</option>';
 
         modelElement.append(option);
       });
@@ -1895,9 +1896,9 @@ var uvel,
 
     // Currently used in Admin->Models and Admin->Products pages
     this.setInputFilters = function () {
-      var inputs = $('.filter-input');
-      var btnClearFilters = $('.btn-clear-filters');
-      var filterableElements = $('.filterable-element');
+      var inputs = $('.filter-input'),
+          btnClearFilters = $('.btn-clear-filters'),
+          filterableElements = $('.filterable-element');
 
       inputs.on('input', function (event) {
         // First check the current input, then all others
