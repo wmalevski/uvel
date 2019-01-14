@@ -1839,14 +1839,14 @@ var uvel,
     this.initializeSelect = function (select, selectCallback) {
       //var select = form.find('select');
       // TODO check if passed parameters are needed in other branches
-      /*
+
       select.select2({
         templateResult: $self.addSelect2CustomAttributes,
         templateSelection: $self.addSelect2CustomAttributes
       });
-      */
 
-      select.select2();
+
+      //select.select2();
       select.on('select2:select', selectCallback);
     }
 
@@ -1860,14 +1860,11 @@ var uvel,
         }
       });
 
-      var select = form.find('#productSelector');
-      $self.initializeSelect(select, $self.productTravellingProductSelected);
-/*
-      var btnSubmit = form.find('#add');
-      btnSubmit.on('click', function (event) {
-        event.preventDefault();
-        debugger;
-      });*/
+      var selectProduct = form.find('#productSelector'),
+          selectStore = form.find('#storeSelector');
+
+      $self.initializeSelect(selectProduct, $self.productTravellingProductSelected);
+      $self.initializeSelect(selectStore);
     }
 
     this.productTravellingProductSelected = function (event) {
@@ -1891,6 +1888,8 @@ var uvel,
           weight + ' гр</td><td><span data-url="#" class="delete-btn">' +
           '<i class="c-brown-500 ti-trash"></i></span></td></tr>';
 
+
+      $('productSelector').attr('')
       $('#foundProduct').append(productElement);
     }
 
