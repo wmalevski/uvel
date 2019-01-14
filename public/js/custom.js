@@ -185,7 +185,7 @@ var uvel,
           weight = 0,
           carat;
 
-      for (var i=0; i<materials.length; i++) {
+      for (var i = 0; i < materials.length; i++) {
         carat = parseFloat(materials[i].querySelector('[data-carat]').dataset.carat);
         weight += (carat/14) * parseFloat(materials[i].querySelector('[data-weight]').dataset.weight);
       }
@@ -1429,8 +1429,7 @@ var uvel,
       exchangeTrigger.on('change', function() {
         if (!this.checked) {
           $self.hideExchangeRow();
-        }
-        else {
+        } else {
           $self.showExchangeRow(exchangeRow, newExchangeField);
         }
       });
@@ -1487,8 +1486,7 @@ var uvel,
           if (calculationType == 'for_buy') {
             calculationPrice.disabled = true;
             paymentGiven.disabled = true;
-          }
-          else {
+          } else {
             calculationPrice.disabled = false;
             paymentGiven.disabled = false;
           }
@@ -1504,14 +1502,13 @@ var uvel,
         opacity: 1,
       }, 300, function() {
           $self.addNewExchangeField(field);
-
       });
     }
 
     this.removeExchangeRows = function() {
       var exchangeRows = document.querySelectorAll('.exchange-row-fields .form-row');
 
-      for (var i=0; i<exchangeRows.length; i++) {
+      for (var i = 0; i < exchangeRows.length; i++) {
         exchangeRows[i].remove();
       }
 
@@ -1541,7 +1538,7 @@ var uvel,
           materialHolder = materials[materials.length - 1],
           materialsData = $('#materials_data').length > 0 ? JSON.parse($('#materials_data').html()) : null;
           
-        for (var i=0; i<materialsData.length; i++) {
+        for (var i = 0; i < materialsData.length; i++) {
             if (materialsData[i][type] == 'yes') {
               addMaterial(materialsData[i]);
             }
@@ -1590,14 +1587,12 @@ var uvel,
         if (transform == 'yes') {
           carat = parseFloat(materialPrice.attr('data-carat'));
           convertedWeight = Number( ((carat/14) * weight.val()).toFixed(2)); 
-        }
-        else {
+        } else {
           convertedWeight = parseFloat(weight.val());
         }
         
         weight.attr('data-weight', convertedWeight);
-      }
-      else {
+      } else {
         weight.attr('data-weight', convertedWeight);
       }
 
@@ -1618,12 +1613,11 @@ var uvel,
           notConvertedPrice,
           notConvertedWeight;
       
-      for (var i=0; i<materials.length; i++) {
+      for (var i = 0; i < materials.length; i++) {
         
         if (materials[i].closest('.form-row').querySelector('[data-calculateprice-material]').selectedOptions[0].dataset.transform == 'yes') {
           weightConverted += parseFloat(materials[i].querySelector('[data-weight]').dataset.weight) || 0;
-        }
-        else {
+        } else {
           notConvertedPrice = parseFloat(materials[i].querySelector('[data-calculateprice-material]').selectedOptions[0].dataset.pricebuy);
           notConvertedWeight = parseFloat(materials[i].querySelector('[data-weight]').dataset.weight);
 
@@ -1634,8 +1628,7 @@ var uvel,
       if (weightConverted > expectedMaterial && calculationType == 'for_exchange') {
         aboveExpected = weightConverted - expectedMaterial;
         total = (((weightConverted - aboveExpected) * defaultPrice ) + (aboveExpected * selectedPrice)) * selectedCurrency;
-      }
-      else {
+      } else {
         total = (weightConverted * defaultPrice) * selectedCurrency;
       }
 
@@ -1668,8 +1661,7 @@ var uvel,
 
       if (wantedSum > 0) {
         returnSum = Number((givenSum + exchangeSum - wantedSum).toFixed(2));
-      }
-      else {
+      } else {
         returnSum = Number(exchangeSum.toFixed(2));
       }
 
@@ -1681,8 +1673,7 @@ var uvel,
       
       if (document.querySelectorAll('.exchange-row-fields .form-row').length > 0) {
         $self.calculateExchangeMaterialTotal();
-      }
-      else {
+      } else {
         $self.calculatePaymentInit(form);
       }
     }
