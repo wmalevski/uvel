@@ -175,8 +175,24 @@ var uvel,
       openFormTrigger.on('click', function() {
         var _this = $(this);
         $self.openFormAction(_this);
+
       });
     };
+
+    this.calculateExpectedMaterial = function() {
+      //ПРEОБРАЗУВА МАТЕРИАЛА В 14 КАРАТА
+      var materialHolder = document.querySelector('[data-expectedMaterial]'),
+          materials = document.querySelectorAll('[data-saleProduct]'),
+          weight = 0,
+          carat;
+
+      for (var i=0; i<materials.length; i++) {
+        carat = parseFloat(materials[i].querySelector('[data-carat]').dataset.carat);
+        weight += (carat/14) * parseFloat(materials[i].querySelector('[data-weight]').dataset.weight);
+      }
+
+      materialHolder.dataset.expectedmaterial = Number(weight.toFixed(2)) || 0;
+    }
 
     this.openFormAction = function(currentPressedBtn, data) {
       var $this = currentPressedBtn,
@@ -189,10 +205,15 @@ var uvel,
         $self.appendingEditFormToTheModal($this, data);
       }
 
+      if (formType == 'sell') {
+        $self.calculateExpectedMaterial('[data-saleProduct]', 'expectedmaterial');
+        $self.lockPaymentControllers();
+      }
+
       //TODO: ASK BOBI VVVV
 
       setTimeout(function() {
-        if ((formType == 'add' || formType == 'sell') && !formSettings.initialized) {
+        if ((formType == 'add') || (formType == 'sell') && !formSettings.initialized) {
           $self.initializeForm(formSettings, formType);
           formSettings.initialized = true;
         } else if (formType == 'edit') {
@@ -225,6 +246,7 @@ var uvel,
             success: function(resp) {
               if (_this.hasClass('cart')) {
                 $self.cartSumsPopulate(resp);
+                $self.calculateExpectedMaterial('[data-saleProduct]', 'expectedmaterial');
               }
 
               _this.parents('tr').remove();
@@ -1401,58 +1423,36 @@ var uvel,
           newExchangeFieldTrigger = form.find('[data-newExchangeField-trigger]'),
           newExchangeField = form.find('.exchange-row-fields').html(),
           exchangeRow = form.find('#exchange-row');
+
+      //CLEAR EXCHANGE ROWS
+      document.querySelector('.exchange-row-fields').innerHTML = '';
       
-      //SET INITIAL WANTED PAYMENT
-      var wantedPayment = document.querySelector('[data-calculatepayment-wanted]');
-          wantedPayment.dataset.initial = wantedPayment.value;
-      
+      //ADD EVENT LISTENER FOR CLOSING PAYMENT MODAL
+      $('#paymentModal').on('click', $self.closePayments);
+
       exchangeTrigger.on('change', function() {
         if (!this.checked) {
-          exchangeRow.animate({
-            opacity: 0,
-          }, 300, function() {
-            exchangeRow.css('display', 'none');
-          });
+          $self.hideExchangeRow();
         }
         else {
-          exchangeRow.css('display', 'block');
-          exchangeRow.animate({
-            opacity: 1,
-          }, 300);
+          $self.showExchangeRow(exchangeRow, newExchangeField);
         }
       });
 
       newExchangeFieldTrigger.on('click', function() {
-        $('.exchange-row-fields').prepend(newExchangeField);
+        $self.addNewExchangeField(newExchangeField);
       });
 
-      exchangeRow.on('click', '[data-exchangeRowRemove-trigger]', function() {
-        $(this).parent().parent().remove();
-
-        return $self.calculateExchangeRowTotal('[data-calculateprice-final]');
-      });
+      exchangeRow.on('click', '[data-exchangeRowRemove-trigger]', $self.removeSingleExchangeRow);
 
       exchangeRow.on('change', '[data-calculateprice-material]', function() {
-        var materialType = $('option:selected', this).attr('data-material'),
-            ajaxUrl = '/ajax/getPrices/' + materialType + '/0';
-        
-        if (materialType !== undefined) {
-          $self.ajaxFn('GET' , ajaxUrl , $self.materialPricesResponseHandler, '', form, $(this));
-        }
+        $self.exchangeMaterialCaratConvert($(this).closest('.form-row'));
       });
 
-      exchangeRow.on('change', '[data-weight]', function() {
-        $this = $(this);
-        
-        if ($this.val().length > 1) {
-          $this.val($this.val().replace(/^0+/, '')); //checks for numbers like 05, 005;
-        }
+      exchangeRow.on('change', '[data-weight]', $self.setExchangeMaterialWeight);
 
-        $self.calculateExchangeRow($this);
-      });
-
-      exchangeRow.on('change', '[data-calculateprice-retail]', function() {
-        $self.calculateExchangeRow($(this));
+      exchangeRow.on('change', '[name="calculating_price"]', function() {
+        $self.calculateExchangeMaterialTotal();
       });
       
       calculateTrigger.on('change', function() {
@@ -1467,34 +1467,188 @@ var uvel,
         var _this = $(this);
         $self.paymentMethodChange(form, _this);
       });
-
     }
 
-    this.calculateExchangeRow = function($this) {
-      var weight = $this.closest('.form-row').find('[data-weight]').val(),
-          price = $this.closest('.form-row').find('[data-calculateprice-retail] :selected')[0].dataset.price,
-          total = $this.closest('.form-row').find('[data-calculateprice-final]');
+    this.hideExchangeRow = function() {
+      var row = $('#exchange-row');
 
-      if (weight >= 0) {
-        total.val(weight * price || 0);
-      }
+      row.animate({
+        opacity: 0,
+      }, 300, function() {
+        row.css('display', 'none');
 
-      return $self.calculateExchangeRowTotal('[data-calculateprice-final]');
+        $self.removeExchangeRows();
+        document.querySelector('#exchange').checked = false;
+        $self.calculatePaymentInit($('[name="selling"]'));
+      });
     }
 
-    this.calculateExchangeRowTotal = function(selector) {
-      var exchangeRows = document.querySelectorAll(selector),
-          wantedPayment = document.querySelector('[data-calculatepayment-wanted]'),
-          cart_total = parseFloat(document.querySelector('[data-calculatepayment-total]').value),
-          total = 0;
+    this.lockPaymentControllers = function() {
+      var calculationType = document.querySelector('#shopping-table tbody').children.length > 0 ? 'for_exchange' : 'for_buy',
+          calculationPrice = document.querySelector('[name="calculating_price"]');
+          paymentGiven = document.querySelector('[data-calculatepayment-given]');
 
-      for (var i = 0;i < exchangeRows.length; i++) {
-        total += parseFloat(exchangeRows[i].value);
+          //REMOVE THE ABILITY TO CHOOSE DIFFERENT PRICE
+          if (calculationType == 'for_buy') {
+            calculationPrice.disabled = true;
+            paymentGiven.disabled = true;
+          }
+          else {
+            calculationPrice.disabled = false;
+            paymentGiven.disabled = false;
+          }
+
+          paymentGiven.value = 0;
+          calculationPrice.selectedIndex = 0;
+    }
+
+    this.showExchangeRow = function(row, field) {
+      row.css('display', 'block');
+
+      row.animate({
+        opacity: 1,
+      }, 300, function() {
+          $self.addNewExchangeField(field);
+
+      });
+    }
+
+    this.removeExchangeRows = function() {
+      var exchangeRows = document.querySelectorAll('.exchange-row-fields .form-row');
+
+      for (var i=0; i<exchangeRows.length; i++) {
+        exchangeRows[i].remove();
       }
 
-      document.querySelector('[data-exchangeRows-total]').value = total;
-      wantedPayment.value = cart_total - total;
+      document.querySelector('[data-exchangerows-total]').value = 0;
+    }
 
+    this.removeSingleExchangeRow = function() {      
+      $(this).parent().parent().remove();
+        
+      if ($('.exchange-row-fields .form-row').length == 0) {
+        $self.hideExchangeRow();
+      }
+
+      $self.calculateExchangeMaterialTotal();
+    }
+
+    this.addNewExchangeField = function(field) {
+      var populateType = document.querySelector('#shopping-table tbody').children.length > 0 ? 'for_exchange' : 'for_buy';
+
+      document.querySelector('.exchange-row-fields').insertAdjacentHTML('beforeend', field);
+     
+      $self.populateExchangeMaterials(populateType); 
+    }
+
+    this.populateExchangeMaterials = function(type) {
+      var materials = document.querySelectorAll('[data-calculateprice-material]'),
+          materialHolder = materials[materials.length - 1],
+          materialsData = $('#materials_data').length > 0 ? JSON.parse($('#materials_data').html()) : null;
+          
+        for (var i=0; i<materialsData.length; i++) {
+            if (materialsData[i][type] == 'yes') {
+              addMaterial(materialsData[i]);
+            }
+        }
+
+      function addMaterial(material) {
+        var option = document.createElement("option");
+        
+        option.text = material.label;
+        option.dataset.pricebuy = material.price;
+        option.dataset.carat = material.carat;
+        option.dataset.transform = material.carat_transform;
+        option.value = material.value;
+
+        materialHolder.add(option);
+      }
+    }
+
+    this.closePayments = function(e) {
+
+      if (e.target.id == 'paymentModal' || e.target.parentElement.classList.contains('close')) {
+        $self.hideExchangeRow();
+        document.querySelector('[data-calculatepayment-return]').value = '';
+        document.querySelector('[data-calculatepayment-given]').value = 0;
+      }
+    }
+
+    this.setExchangeMaterialWeight = function() {
+      var $this = $(this),
+          weight = $this.val().replace(/^0+/, '');
+          
+      $this.val(weight); 
+      $this.attr('value', weight);
+
+      $self.exchangeMaterialCaratConvert($this.closest('.form-row'));
+    }
+
+    this.exchangeMaterialCaratConvert = function(row) {
+      var transform = row.find('[data-calculateprice-material] :selected').attr('data-transform'),
+          weight = row.find('[data-weight]'),
+          materialPrice = row.find('[data-calculateprice-material] :selected'),
+          carat,
+          convertedWeight = 0;
+      
+      if (materialPrice.val() > 0 && weight.val() > 0) {
+        //CONVERT TO 14 CARATS
+        if (transform == 'yes') {
+          carat = parseFloat(materialPrice.attr('data-carat'));
+          convertedWeight = Number( ((carat/14) * weight.val()).toFixed(2)); 
+        }
+        else {
+          convertedWeight = parseFloat(weight.val());
+        }
+        
+        weight.attr('data-weight', convertedWeight);
+      }
+      else {
+        weight.attr('data-weight', convertedWeight);
+      }
+
+      $self.calculateExchangeMaterialTotal();
+    }
+
+    this.calculateExchangeMaterialTotal = function() {
+      var calculationType = document.querySelector('#shopping-table tbody').children.length > 0 ? 'for_exchange' : 'for_buy',
+          materials = document.querySelectorAll('.exchange-row-fields .form-row'),
+          expectedMaterial = parseFloat(document.querySelector('[data-expectedMaterial]').dataset.expectedmaterial),
+          weightConverted = 0,
+          weightNotConvertedSum = 0,
+          aboveExpected = 0,
+          defaultPrice = parseFloat(document.querySelector('[data-defaultprice]').dataset.defaultprice),
+          selectedPrice = parseFloat(document.querySelector('[name="calculating_price"]').selectedOptions[0].dataset.price) || defaultPrice,
+          selectedCurrency = parseFloat(document.querySelector('[data-calculatepayment-currency]').selectedOptions[0].dataset.currency),
+          total = 0,
+          notConvertedPrice,
+          notConvertedWeight;
+      
+      for (var i=0; i<materials.length; i++) {
+        
+        if (materials[i].closest('.form-row').querySelector('[data-calculateprice-material]').selectedOptions[0].dataset.transform == 'yes') {
+          weightConverted += parseFloat(materials[i].querySelector('[data-weight]').dataset.weight) || 0;
+        }
+        else {
+          notConvertedPrice = parseFloat(materials[i].querySelector('[data-calculateprice-material]').selectedOptions[0].dataset.pricebuy);
+          notConvertedWeight = parseFloat(materials[i].querySelector('[data-weight]').dataset.weight);
+
+          weightNotConvertedSum += notConvertedPrice * notConvertedWeight;
+        }
+      }
+      
+      if (weightConverted > expectedMaterial && calculationType == 'for_exchange') {
+        aboveExpected = weightConverted - expectedMaterial;
+        total = (((weightConverted - aboveExpected) * defaultPrice ) + (aboveExpected * selectedPrice)) * selectedCurrency;
+      }
+      else {
+        total = (weightConverted * defaultPrice) * selectedCurrency;
+      }
+
+      total += weightNotConvertedSum * selectedCurrency;
+      document.querySelector('[data-exchangerows-total]').value = Number(total.toFixed(2));
+
+      return $self.calculatePaymentInit($('[name="selling"]'));
     }
 
     this.getWantedSum = function(form) {
@@ -1502,29 +1656,41 @@ var uvel,
           wantedValue = $('[data-calculatePayment-total]').val(),
           selectedCurrency = form.find('[data-calculatePayment-currency] :selected').attr('data-currency');
 
-      var newWanted = Math.round((wantedValue * selectedCurrency) * 100) / 100;
+      var newWanted = Number((wantedValue * selectedCurrency).toFixed(2));
       wantedHolder.val(newWanted);
-
-      $self.calculateExchangeRowTotal('[data-calculateprice-final]');
     }
 
     this.calculatePaymentInit = function(form) {
-      var givenSum = form.find('[data-calculatePayment-given]').val(),
-          wantedSum = form.find('[data-calculatePayment-wanted]').val();
-
-      $self.calculatePayment(form, givenSum, wantedSum);
+      var givenSum = parseFloat(form.find('[data-calculatePayment-given]').val()) || 0,
+          wantedSum = parseFloat(form.find('[data-calculatePayment-wanted]').val()),
+          exchangeSum = parseFloat($('[data-exchangerows-total]').val()) || 0;
+      
+      $self.calculatePayment(form, givenSum, wantedSum, exchangeSum);
     }
 
-    this.calculatePayment = function(form, givenSum, wantedSum) {
-      var returnHolder = form.find('[data-calculatePayment-return]');
+    this.calculatePayment = function(form, givenSum, wantedSum, exchangeSum) {
+      var returnHolder = form.find('[data-calculatePayment-return]'),
+          returnSum;
 
-      var returnSum = Math.round((givenSum - wantedSum) * 100) / 100;
+      if (wantedSum > 0) {
+        returnSum = Number((givenSum + exchangeSum - wantedSum).toFixed(2));
+      }
+      else {
+        returnSum = Number(exchangeSum.toFixed(2));
+      }
+
       returnHolder.val(returnSum);
     }
 
     this.paymentCurrencyChange = function(form) {
       $self.getWantedSum(form);
-      $self.calculatePaymentInit(form);
+      
+      if (document.querySelectorAll('.exchange-row-fields .form-row').length > 0) {
+        $self.calculateExchangeMaterialTotal();
+      }
+      else {
+        $self.calculatePaymentInit(form);
+      }
     }
 
     this.paymentMethodChange = function(form, _this) {

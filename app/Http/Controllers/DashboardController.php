@@ -114,7 +114,8 @@ class DashboardController extends Controller
                     'price' => $material->material->pricesBuy->first()->price,
                     'for_buy'  => $material->material->for_buy,
                     'for_exchange' => $material->material->for_exchange,
-                    'carat_transform' => $material->material->carat_transform
+                    'carat_transform' => $material->material->carat_transform,
+                    'carat' => $material->material->carat
                 ];
             }
         }
