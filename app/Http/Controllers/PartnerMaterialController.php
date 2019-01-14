@@ -74,7 +74,7 @@ class PartnerMaterialController extends Controller
      * @param  \App\PartnerMaterial  $PartnerMaterial
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PartnerMaterial $material, Partner $partner)
+    public function update(Partner $partner, PartnerMaterial $material, Request $request)
     {
         $validator = Validator::make( $request->all(), [
             'quantity' => 'required',
