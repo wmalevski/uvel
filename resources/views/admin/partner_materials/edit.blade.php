@@ -5,7 +5,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <form method="POST" action="{{ $partner->id }}/{{ $material->id }}" name="partnermaterials" data-type="edit">
+    <form method="POST" action="partnermaterials/{{ $partner->id }}/{{ $material->id }}" name="partnermaterials" data-type="edit">
         <input name="_method" type="hidden" value="PUT">
         <div class="modal-body">    
             <div class="info-cont">
