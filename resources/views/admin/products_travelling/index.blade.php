@@ -5,7 +5,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="sendProductLabel">Изпращане на продуцт</h5>
+                <h5 class="modal-title" id="sendProductLabel">Изпращане на продукт</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -19,16 +19,16 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label>Сканирай: </label>
-                            <input type="text" class="form-control" name="product_barcode" placeholder="Сканирай продукт">
+                            <input id="inputBarcodeScan" type="text" class="form-control" name="product_barcode" placeholder="Сканирай продукт" data-url="ajax/productstravelling/addByScan/">
                         </div>
 
                         <div class="form-group col-md-6">
                         <label>Избери: </label>
-                            <select name="product_id" class="form-control">
+                            <select id="productSelector" name="product_id" class="form-control" data-url="ajax/productstravelling/addByScan/">
                                 <option value="">Избер продукт</option>
-                        
+
                                 @foreach($products as $product)
-                                    <option value="{{ $product->id }}" data-barcode="{{ $product->barcode }}" data-weight="{{ $product->weight }}">
+                                    <option value="{{ $product->id }}" data-product-id="{{ $product->id }}" data-barcode="{{ $product->barcode }}" data-weight="{{ $product->weight }}">
                                        {{ $product->name }}
                                     </option>
                                 @endforeach
@@ -45,14 +45,7 @@
                                     <th scope="col">Действия</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr data-id="1">
-                                    <td>2135972458723</td>
-                                    <td>Златен пръстен</td>
-                                    <td>20гр</td> 
-                                    <td><span data-url="#" class="delete-btn"><i class="c-brown-500 ti-trash"></i></span> </td>
-                                </tr>
-                            </tbody>
+                            <tbody id="foundProduct"></tbody>
                         </table>
                     </div>
                     <div class="form-row">
@@ -60,7 +53,7 @@
                             <label for="3">Магазин: </label>
                             <select name="store_to_id" class="form-control">
                                 <option value="">Избери магазин</option>
-                        
+
                                 @foreach($stores as $store)
                                     @if($store->id != Auth::user()->getStore()->id)
                                         <option value="{{ $store->id }}">
@@ -94,14 +87,14 @@
               <p>Преглед на пътуващите продукти.</p>
               <table class="table table-condensed">
                   <tr>
-                      <th>Продукт</th> 
+                      <th>Продукт</th>
                       <th>Изпратен на</th>
-                      <th>От магазин</th> 
-                      <th>До магазин</th> 
-                      <th>Статус</th> 
-                      <th></th> 
+                      <th>От магазин</th>
+                      <th>До магазин</th>
+                      <th>Статус</th>
+                      <th></th>
                   </tr>
-                  
+
                   @foreach($travelling as $product)
                       @include('admin.products_travelling.table')
                   @endforeach

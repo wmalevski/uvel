@@ -120,7 +120,7 @@ var uvel,
       },
       productsTravelling: {
         selector: '[name="productsTravelling"]',
-        controllers: ['initializeSelect'],
+        controllers: ['productTravellingInit'],
         initialized: false
       },
       repairTypes: {
@@ -1267,8 +1267,7 @@ var uvel,
           materials = response.materials,
           chooseOpt = '<option value="0">Избери</option>';
 
-      materialHolder.empty();
-      materialHolder.append(chooseOpt);
+      materialHolder.html(chooseOpt);
 
       materials.forEach(function(material) {
         var value = material.value,
@@ -1427,9 +1426,9 @@ var uvel,
     }
 
     this.calculatePayment = function(form, givenSum, wantedSum) {
-      var returnHolder = form.find('[data-calculatePayment-return]');
+      var returnHolder = form.find('[data-calculatePayment-return]'),
+          returnSum = Math.round((givenSum - wantedSum) * 100) / 100;
 
-      var returnSum = Math.round((givenSum - wantedSum) * 100) / 100;
       returnHolder.val(returnSum);
     }
 
@@ -1800,14 +1799,6 @@ var uvel,
       return true;
     }
 
-    /*********************************************
-    *                                            *
-    *                                            *
-    *   MEGA GIGANT COMMENT FOR THE REFACTORING  *
-    *                                            *
-    *                                            *
-    *********************************************/
-
     /*
       INITIALIZING SELECT2 IN THE ADD FORM , BECAUSE WHEN EDIT BUTTON IS CLICKED , THE SELECT2 IN ADDMODEL DESTROYS ITSELF.
     */
@@ -1832,6 +1823,7 @@ var uvel,
           'data-retail': $(data.element).attr('data-retail') || 0,
           'data-material': $(data.element).attr('data-material') || 0,
           'data-barcode': $(data.element).attr('data-barcode') || 0,
+          'data-product-id': $(data.element).attr('data-product-id') || 0
         });
       }
 
@@ -1842,12 +1834,55 @@ var uvel,
       FUNCTION THAT INITIALIZES THE SELECT 2 PLUGIN
     */
 
-    this.initializeSelect = function (form) {
-			var select = form.find('select');
+    this.initializeSelect = function (form, selectCallback) {
+      var select = form.find('select');
+      // TODO check if passed parameters are needed in other branches
+      /*
       select.select2({
         templateResult: $self.addSelect2CustomAttributes,
         templateSelection: $self.addSelect2CustomAttributes
       });
+      */
+
+      select.select2();
+      select.on('select2:select', selectCallback);
+    }
+
+    this.productTravellingInit = function (form) {
+      $('#inputBarcodeScan').on('input', function (event) {
+        var text = event.target.value;
+        if (text.length >= 13) {
+          var ajaxUrl = window.location.origin + '/' + this.dataset.url + text;
+
+          $self.ajaxFn('GET', ajaxUrl, $self.productTravellingAjaxResponse);
+        }
+      });
+      $self.initializeSelect(form, $self.productTravellingProductSelected);
+    }
+
+    this.productTravellingProductSelected = function (event) {
+      var data = event.params.data.element.dataset,
+          ajax = $('#productSelector').attr('data-url'),
+          ajaxUrl = window.location.origin + '/' + ajax + data.barcode;
+
+      $self.ajaxFn('GET', ajaxUrl, $self.productTravellingAjaxResponse);
+    }
+
+    this.productTravellingAjaxResponse = function (response) {
+      var name = response.item.name,
+          weight = response.item.weight,
+          id = response.item.id,
+          barcode = response.item.barcode;
+
+      var productElement = '<tr data-id="' +
+          id + '"><td>' +
+          barcode + '</td><td>' +
+          name + '</td><td>' +
+          weight + ' гр</td><td><span data-url="#" class="delete-btn">' +
+          '<i class="c-brown-500 ti-trash"></i></span></td></tr>';
+
+      $('#foundProduct').html(productElement);
+      $('#inputBarcodeScan').val(barcode);
     }
 
     this.checkAllForms = function(currentPressedBtn) {
