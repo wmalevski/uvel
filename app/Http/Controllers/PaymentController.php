@@ -177,14 +177,15 @@ class PaymentController extends Controller
                             $exchange_material->material_id = $material;
                             $exchange_material->payment_id = $paymentID;
                             $exchange_material->weight = $request->weight[$key];
-                            $exchange_material->retail_price_id = $request->retail_price_id[$key];
+                            $exchange_material->sum_price = $request->exchangeRows_total;
+                            $exchange_material->additional_price = $request->calculating_price;
 
                             $exchange_material->save();
 
                             $material_quantity = MaterialQuantity::find($material);
 
                             if($material_quantity){
-                                $material_quantity->quantity = $material_quantity->quantity+$exchange_material->weight;
+                                $material_quantity->quantity = $material_quantity->quantity+$request->weight[$key];
                                 $material_quantity->save();
                             }
                         }
@@ -214,11 +215,6 @@ class PaymentController extends Controller
 
             return Response::json(['errors' => ['more_money' => ['Магазинера трябва да приеме сума равна или по-голяма от дължимата сума.']]], 401);
         }
-
-        // if($request->exchange_method == 'true')
-
-        //Add to safe   
-        //On hold for next sprint
     }
 
     /**

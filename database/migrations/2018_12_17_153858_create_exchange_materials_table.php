@@ -16,7 +16,8 @@ class CreateExchangeMaterialsTable extends Migration
         Schema::create('exchange_materials', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('material_id')->unsigned();
-            $table->integer('retail_price_id')->unsigned();
+            $table->float('sum_price');
+            $table->float('additional_price');
             $table->float('weight');
             $table->integer('payment_id')->unsigned()->nullable();
             $table->integer('order_id')->unsigned()->nullable();
