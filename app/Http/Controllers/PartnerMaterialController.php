@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use App\Partner;
 use App\PartnerMaterial;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
+use Response;
 
 class PartnerMaterialController extends Controller
 {
