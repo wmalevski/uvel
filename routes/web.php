@@ -166,6 +166,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
 Route::group(['prefix' => 'ajax'], function() {
 
+    Route::post('/partners/{partner}', 'PartnerController@update');
+    Route::post('/partnermaterials/{partner}/{material}', 'PartnerMaterialController@update');
+
     Route::post('/stores', 'StoreController@store');
     Route::put('/stores/{store}', 'StoreController@update');
     Route::get('/stores/{store}', 'StoreController@edit');
