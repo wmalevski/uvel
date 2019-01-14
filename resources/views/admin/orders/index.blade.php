@@ -41,13 +41,29 @@
 
 					<div class="form-row">
 						<div class="form-group col-md-6">
-							<label>Модел: </label>
+							<label>Модел:</label>
+
+							<input class="form-control input-search" type="text" data-url="ajax/products/" data-product-name data-product-id placeholder="Модел">
+							<div class="dropdown-menu hidden">
+								@foreach($models as $model)
+								<li id="{{ $model->id }}" class="dropdown-item" data-name="{{ $model->name }}" data-jewel="{{ $model->jewel->id }}">
+									{{ $model->name }}
+								</li>
+								@endforeach
+							</div>
+
+							<!--
+							{{--
 							<select id="model_select" url="ajax/orders/getModelInfo/" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model>
 								<option value="">Избери</option>
 								@foreach($models as $model)
 									<option value="{{ $model->id }}" data-jewel="{{ $model->jewel->id }}">{{ $model->name }}</option>
 								@endforeach
 							</select>
+							--}}
+							-->
+
+
 						</div>
 						<div class="form-group col-md-6">
 							<label>Вид: </label>
@@ -199,17 +215,27 @@
 
 					<strong>Даден материал:</strong><br/>
 
-					<div class="form-row">
-						<div class="form-group col-md-6">
-							<label for="">Вид</label>
-							<select id="material_type" name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate">
-								<option value="">Избери</option>
-						
-								@foreach($mats as $material)
-									@if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
-										<option value="{{ $material->id }}" data-carat="{{ $material->material->carat }}" data-material="{{ $material->material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
-									@endif
-								@endforeach
+					<div class="form-row given-material">
+						<div class="form-group col-md-4">
+								<label for="">Вид</label>
+								<select id="material_type" name="material_id[]" data-calculateprice-material class="material_type form-control calculate">
+									<option value="">Избери</option>
+
+									@foreach($mats as $material)
+										@if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
+											<option value="{{ $material->id }}" data-carat="{{ $material->material->carat }}" data-material="{{ $material->material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
+										@endif
+									@endforeach
+
+								</select>
+							</div>
+
+						{{-- <div class="form-group col-md-4">
+							<label for="grossWeight">Материал:</label>
+							<div class="input-group">
+								<input type="text" class="form-control mat-material" name="given_material_id[]" placeholder="Въведете материал:">
+							</div>
+						</div> --}}
 
 							</select>
 						</div>

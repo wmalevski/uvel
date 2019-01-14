@@ -29,12 +29,9 @@
 
 					<div class="form-row">
 						<div class="form-group col-md-6">
-							<label>Модел: </label>
+							<label>Модел:</label>
 
-
-
-
-							<input class="form-control input-search" type="text" data-product-name data-product-id placeholder="Модел">
+							<input class="form-control input-search" type="text" data-url="ajax/products/" data-product-name data-product-id placeholder="Модел">
 							<div class="dropdown-menu hidden">
 								@foreach($models as $model)
 								<li id="{{ $model->id }}" class="dropdown-item" data-name="{{ $model->name }}" data-jewel="{{ $model->jewel->id }}">

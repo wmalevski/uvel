@@ -124,7 +124,7 @@
             </a>
           </li>
 
-          <li class="nav-item dropdown {{ Active::check('admin/payments',true) }}">
+          <li class="nav-item dropdown {{ Active::check('admin/selling',true) }}">
             <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
                 <i class="ti-shopping-cart"></i>
@@ -221,8 +221,6 @@
                 </a>
               </li>
 
-
-
               <li class="nav-item dropdown {{ Active::check('admin/products',true) }}">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                   <span class="icon-holder">
@@ -263,10 +261,10 @@
                 </ul>
               </li>
 
-              <li class="nav-item dropdown {{ Active::check('admin/materials',true) }}">
+              <li class="nav-item dropdown {{ Active::check('admin/materialstypes',true) }}">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                   <span class="icon-holder">
-                    <i class=" ti-magnet"></i>
+                    <i class="ti-magnet"></i>
                   </span>
                   <span class="title">Материали</span>
                   <span class="arrow">
