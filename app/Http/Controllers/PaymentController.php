@@ -212,7 +212,6 @@ class PaymentController extends Controller
             return Response::json(array('success' => 'Успешно продадено!'));
 
         }else{
-
             return Response::json(['errors' => ['more_money' => ['Магазинера трябва да приеме сума равна или по-голяма от дължимата сума.']]], 401);
         }
     }
