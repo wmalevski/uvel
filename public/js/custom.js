@@ -180,7 +180,6 @@ var uvel,
     };
 
     this.calculateExpectedMaterial = function() {
-      //ПРEОБРАЗУВА МАТЕРИАЛА В 14 КАРАТА
       var materialHolder = document.querySelector('[data-expectedMaterial]'),
           materials = document.querySelectorAll('[data-saleProduct]'),
           weight = 0,
@@ -1424,10 +1423,7 @@ var uvel,
           newExchangeField = form.find('.exchange-row-fields').html(),
           exchangeRow = form.find('#exchange-row');
 
-      //CLEAR EXCHANGE ROWS
       document.querySelector('.exchange-row-fields').innerHTML = '';
-      
-      //ADD EVENT LISTENER FOR CLOSING PAYMENT MODAL
       $('#paymentModal').on('click', $self.closePayments);
 
       exchangeTrigger.on('change', function() {
@@ -1488,7 +1484,6 @@ var uvel,
           calculationPrice = document.querySelector('[name="calculating_price"]');
           paymentGiven = document.querySelector('[data-calculatepayment-given]');
 
-          //REMOVE THE ABILITY TO CHOOSE DIFFERENT PRICE
           if (calculationType == 'for_buy') {
             calculationPrice.disabled = true;
             paymentGiven.disabled = true;
@@ -1592,7 +1587,6 @@ var uvel,
           convertedWeight = 0;
       
       if (materialPrice.val() > 0 && weight.val() > 0) {
-        //CONVERT TO 14 CARATS
         if (transform == 'yes') {
           carat = parseFloat(materialPrice.attr('data-carat'));
           convertedWeight = Number( ((carat/14) * weight.val()).toFixed(2)); 
