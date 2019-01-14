@@ -180,17 +180,17 @@ var uvel,
     };
 
     this.calculateExpectedMaterial = function() {
-      var materialHolder = document.querySelector('[data-expectedMaterial]'),
+      var materialHolder = document.querySelector('[data-expected-material]'),
           materials = document.querySelectorAll('[data-saleProduct]'),
-          weight = 0,
-          carat;
+          totalWeight = 0;
 
       for (var i = 0; i < materials.length; i++) {
-        carat = parseFloat(materials[i].querySelector('[data-carat]').dataset.carat);
-        weight += (carat/14) * parseFloat(materials[i].querySelector('[data-weight]').dataset.weight);
+        var materialCarat = Number(materials[i].querySelector('[data-carat]').dataset.carat);
+        var materialWeight = parseFloat(materials[i].querySelector('[data-weight]').dataset.weight);
+        totalWeight += (materialCarat/14) * materialWeight;
       }
 
-      materialHolder.dataset.expectedmaterial = Number(weight.toFixed(2)) || 0;
+      materialHolder.dataset.expectedMaterial = Number(totalWeight.toFixed(2)) || 0;
     }
 
     this.openFormAction = function(currentPressedBtn, data) {
@@ -205,7 +205,7 @@ var uvel,
       }
 
       if (formType == 'sell') {
-        $self.calculateExpectedMaterial('[data-saleProduct]', 'expectedmaterial');
+        $self.calculateExpectedMaterial('[data-saleProduct]', 'expecteMaterial');
         $self.lockPaymentControllers();
       }
 
@@ -245,7 +245,7 @@ var uvel,
             success: function(resp) {
               if (_this.hasClass('cart')) {
                 $self.cartSumsPopulate(resp);
-                $self.calculateExpectedMaterial('[data-saleProduct]', 'expectedmaterial');
+                $self.calculateExpectedMaterial('[data-saleProduct]', 'expectedMaterial');
               }
 
               _this.parents('tr').remove();
@@ -1555,6 +1555,8 @@ var uvel,
 
         materialHolder.add(option);
       }
+
+      //TODO - CHECK THIS AFTER SELECT 2 IMPLEMENTATION
     }
 
     this.closePayments = function(e) {
@@ -1602,7 +1604,7 @@ var uvel,
     this.calculateExchangeMaterialTotal = function() {
       var calculationType = document.querySelector('#shopping-table tbody').children.length > 0 ? 'for_exchange' : 'for_buy',
           materials = document.querySelectorAll('.exchange-row-fields .form-row'),
-          expectedMaterial = parseFloat(document.querySelector('[data-expectedMaterial]').dataset.expectedmaterial),
+          expectedMaterial = parseFloat(document.querySelector('[data-expected-material]').dataset.expectedMaterial),
           weightConverted = 0,
           weightNotConvertedSum = 0,
           aboveExpected = 0,

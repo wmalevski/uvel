@@ -66,7 +66,7 @@ aria-hidden="true">
                     <div id="exchange-row"> <!-- SHOW HIDE DEPENDING ON EXCHANGE CHECKBOX -->
                         <div class="exhange-row-controllers form-row">
                             <div class="form-group col-md-8">
-                                <span data-expectedMaterial='0' data-givenMaterial='0'>Даден материал</span>
+                                <span data-expected-material='0'>Даден материал</span>
                             </div>
                             <div class="form-group col-md-4">
                                 <button type="button" class="btn btn-primary" data-newExchangeField-trigger>Добави</button>
