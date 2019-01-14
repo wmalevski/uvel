@@ -446,6 +446,8 @@ var uvel,
           ajaxRequestLink = $self.buildAjaxRequestLink('submitForm', form.attr('action')),
           formType = form.attr('data-type');
 
+      debugger;
+
       submitButton.click(function(e) {
         e.preventDefault();
         var _this = $(this),
@@ -1834,8 +1836,8 @@ var uvel,
       FUNCTION THAT INITIALIZES THE SELECT 2 PLUGIN
     */
 
-    this.initializeSelect = function (form, selectCallback) {
-      var select = form.find('select');
+    this.initializeSelect = function (select, selectCallback) {
+      //var select = form.find('select');
       // TODO check if passed parameters are needed in other branches
       /*
       select.select2({
@@ -1857,7 +1859,15 @@ var uvel,
           $self.ajaxFn('GET', ajaxUrl, $self.productTravellingAjaxResponse);
         }
       });
-      $self.initializeSelect(form, $self.productTravellingProductSelected);
+
+      var select = form.find('#productSelector');
+      $self.initializeSelect(select, $self.productTravellingProductSelected);
+/*
+      var btnSubmit = form.find('#add');
+      btnSubmit.on('click', function (event) {
+        event.preventDefault();
+        debugger;
+      });*/
     }
 
     this.productTravellingProductSelected = function (event) {
@@ -1881,8 +1891,7 @@ var uvel,
           weight + ' гр</td><td><span data-url="#" class="delete-btn">' +
           '<i class="c-brown-500 ti-trash"></i></span></td></tr>';
 
-      $('#foundProduct').html(productElement);
-      $('#inputBarcodeScan').val(barcode);
+      $('#foundProduct').append(productElement);
     }
 
     this.checkAllForms = function(currentPressedBtn) {
