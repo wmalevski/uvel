@@ -1800,10 +1800,7 @@ var uvel,
           'data-price': $(data.element).attr('data-price') || 0,
           'data-pricebuy': $(data.element).attr('data-pricebuy') || 0,
           'data-retail': $(data.element).attr('data-retail') || 0,
-          'data-material': $(data.element).attr('data-material') || 0,
-          'data-barcode': $(data.element).attr('data-barcode') || 0,
-          'data-product-id': $(data.element).attr('data-product-id') || 0,
-          'data-model-id': $(data.element).attr('data-model-id') || 0
+          'data-material': $(data.element).attr('data-material') || 0
         });
       }
 
