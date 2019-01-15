@@ -246,6 +246,10 @@ class SellingController extends Controller
                 }
 
                 $type = "product";
+
+                // if($item->order){
+                //     $checkOrder = 
+                // } 
             }
 
             if($item){

@@ -42,6 +42,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/stones/contours', 'StoneContourController@index')->name('contours');
     Route::post('/stones/contours', 'StoneContourController@store');
 
+    Route::get('/orders', 'OrderController@index')->name('orders');
+
     //Route::get('/users/substitution/{user}', 'UserSubstitutionController@show');
 
     Route::get('/users/substitutions', 'UserSubstitutionController@index')->name('substitutions');
@@ -162,9 +164,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/repairs/return/{repair}', 'RepairController@return');
     Route::get('/repairs/edit/{repair}', 'RepairController@edit');
+
+    Route::get('/orders/{order}', 'OrderController@edit');
 });
 
 Route::group(['prefix' => 'ajax'], function() {
+    Route::post('/orders', 'OrderController@store');
+    Route::put('/orders/{order}', 'OrderController@update');
+    Route::get('/orders/getProductInfo/{product}', 'OrderController@getProductInfo')->name('getProductInfo');
+    Route::get('/orders/getModelInfo/{model}', 'OrderController@getModelInfo')->name('getModelInfo');
+    Route::post('/orders/delete/{order}', 'OrderController@destroy');
 
     Route::put('/partners/{partner}', 'PartnerController@update');
     Route::put('/partnermaterials/{partner}/{material}', 'PartnerMaterialController@update');

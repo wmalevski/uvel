@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProductsTable extends Migration
+class CreateOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,27 +13,26 @@ class CreateProductsTable extends Migration
      */
     public function up()
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->integer('product_id')->unsigned()->nullable();
             $table->integer('model_id')->unsigned();
             $table->integer('material_id')->unsigned();
             $table->integer('jewel_id')->unsigned();
-            $table->integer('type')->default(1);
             $table->float('weight');
             $table->float('gross_weight');
             $table->integer('retail_price_id')->unsigned();
             $table->integer('size');
             $table->float('workmanship');
             $table->float('price');
-            $table->string('code')->nullable();
-            $table->string('barcode');
-            $table->enum('status', ['available', 'selling', 'travelling', 'sold'])->default('available');
+            $table->enum('status', ['accepted', 'ready', 'done'])->default('accepted');
             $table->enum('weight_without_stones', ['yes', 'no'])->default('no');
             $table->integer('store_id')->unsigned();
-            $table->integer('order_id')->unsigned()->nullable();
+            $table->integer('quantity');
+            $table->text('content')->nullable();
+            $table->integer('safe_group')->nullable();
+            $table->integer('earnest')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -44,6 +43,6 @@ class CreateProductsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('orders');
     }
 }
