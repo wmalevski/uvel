@@ -122,7 +122,7 @@ var uvel,
       },
       orders: {
         selector: '[name="orders"]',
-        controllers: ['nameFieldSearch', 'addStonesInit', 'addAnother', 'manualReceipt', 'modelRequestInit', 'barcodeInput'],
+        controllers: ['initializeSelect', 'addStonesInit', 'addAnother', 'manualReceipt', 'modelRequestInit', 'barcodeInput'],
         initialized: false
       },
       productsTravelling: {
@@ -134,7 +134,7 @@ var uvel,
 
     this.init = function () {
       $self.attachInitialEvents();
-      // $self.initializeSelect($('select'));
+      $self.initializeSelect($('select'));
       // $self.checkAllForms();
     };
 
@@ -445,13 +445,13 @@ var uvel,
         data._method = 'PUT';
       }
 
-      inputFields.each(function(index, element) {
+      inputFields.each(function (index, element) {
         var inputType = element.type,
             dataKey = element.name,
             dataKeyValue = element.value,
             imagesInputFieldExists = dataKey == 'images' ? true : false;
 
-        if((inputType == 'radio' || inputType == 'checkbox') && dataKey.indexOf('[]') !== -1) {
+        if ((inputType == 'radio' || inputType == 'checkbox') && dataKey.indexOf('[]') !== -1) {
           dataKey = dataKey.replace('[]', '');
           (data[dataKey] = data[dataKey] || []).push($(element).is(':checked'));
         } else if (inputType == 'radio' || inputType == 'checkbox') {
@@ -463,10 +463,10 @@ var uvel,
           data[dataKey] = dataKeyValue;
         }
 
-        if(imagesInputFieldExists) {
+        if (imagesInputFieldExists) {
           var imagesHolder = $('.drop-area-gallery .image-wrapper img');
 
-          imagesHolder.each(function(index , element) {
+          imagesHolder.each(function (index, element) {
             var imgSource = element.getAttribute('src');
             imageCollection.push(imgSource);
           });
@@ -475,6 +475,7 @@ var uvel,
         }
       });
 
+      debugger;
       $self.sendFormRequest(form, ajaxRequestLink, formType, data);
     }
 
@@ -1184,7 +1185,6 @@ var uvel,
     }
 
     this.modelRequestInit = function(form) {
-      /* Селектора (падащо меню) който ще прави рекуест */
       var modelRequestTrigger = form.find('.input-search');
 
       modelRequestTrigger.on('input', function() {
@@ -1199,7 +1199,6 @@ var uvel,
       });
     }
 
-    /* При избор на модел от падащото меню се прави тази заявка */
     this.modelRequest = function (form) {
       var inputModel = form.find('.input-search'),
           ajaxUrl = window.location.origin + '/' + inputModel.attr('data-url'),
@@ -1496,20 +1495,19 @@ var uvel,
 
     this.addAnother = function(form) {
       var addAnother = form.find('#btnAddAnother');
-      addAnother.on('click', function(event) {
+      // TODO
+      // use jquery.clone()
+      // https://api.jquery.com/clone/
+      addAnother.on('click', function (event) {
         event.preventDefault();
         // Copy the given materials first element
         // .outerHTML does not copy the elements values, so they are manually set
-        var $givenMaterialsFirstElement = $('.form-row.given-material').first(),
-            firstMaterialId = $givenMaterialsFirstElement.find('.mat-material').val(),
-            firstMaterialQuantity = $givenMaterialsFirstElement.find('.mat-quantity').val(),
-            firstMaterialPrice = $givenMaterialsFirstElement.find('.mat-calculated-price').val();
+        var givenMaterialsFirstElement = $('.form-row.given-material').first()[0],
+            firstMaterialId = $(givenMaterialsFirstElement).find('.mat-material').val(),
+            firstMaterialQuantity = $(givenMaterialsFirstElement).find('.mat-quantity').val(),
+            firstMaterialPrice = $(givenMaterialsFirstElement).find('.mat-calculated-price').val();
 
-        // TODO
-        // use jquery.clone()
-        // https://api.jquery.com/clone/
-
-        var givenMaterialsNewElement = $givenMaterialsFirstElement.clone();
+        var givenMaterialsNewElement = givenMaterialsFirstElement;
         // .val() does not set the inputs inner text
         $(givenMaterialsNewElement).find('.mat-material').attr('value', firstMaterialId);
         $(givenMaterialsNewElement).find('.mat-quantity').attr('value', firstMaterialQuantity);
@@ -1517,6 +1515,7 @@ var uvel,
 
         $(givenMaterialsNewElement.outerHTML).insertBefore(this);
       });
+
     }
 
     this.dragNdropImages = function(dropArea, form) {

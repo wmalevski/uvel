@@ -19,7 +19,7 @@
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-								<input type="checkbox" id="weightWithStones" name="with_stones" class="peer" data-calculatePrice-withStones>
+								<input type="checkbox" id="weightWithStones" name="with_stones" class="peer " data-calculatePrice-withStones>
 								<label for="weightWithStones" class="peers peer-greed js-sb ai-c">
 									<span class="peer peer-greed">Тегло с камъни</span>
 								</label>
@@ -43,6 +43,8 @@
 						<div class="form-group col-md-6">
 							<label>Модел:</label>
 
+							<!--
+							{{--
 							<input class="form-control input-search" type="text" data-url="ajax/products/" data-product-name data-product-id placeholder="Модел">
 							<div class="dropdown-menu hidden">
 								@foreach($models as $model)
@@ -51,18 +53,15 @@
 								</li>
 								@endforeach
 							</div>
+							--}}
+							-->
 
-							<!--
-							{{--
 							<select id="model_select" url="ajax/orders/getModelInfo/" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model>
 								<option value="">Избери</option>
 								@foreach($models as $model)
 									<option value="{{ $model->id }}" data-jewel="{{ $model->jewel->id }}">{{ $model->name }}</option>
 								@endforeach
 							</select>
-							--}}
-							-->
-
 
 						</div>
 						<div class="form-group col-md-6">
@@ -104,7 +103,7 @@
 
 						<div class="form-group col-md-6">
 							<label>Цена: </label>
-							<select id="retail_prices" name="retail_price_id" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail disabled>
+							<select id="retail_prices" name="retail_price_id" class="form-control calculate  prices-filled retail-price retail_prices" data-calculatePrice-retail disabled>
 								<option value="">Избери</option>
 
 								@foreach($prices->where('type', 'sell') as $price)
@@ -115,7 +114,7 @@
 						<div class="form-group col-md-3 weight-holder">
 							<label for="weight">Нетно тегло: </label>
 							<div class="input-group">
-								<input type="text" class="form-control weight calculate" id="weight" name="weight" data-calculatePrice-netWeight placeholder="Тегло:" min="1" max="10000">
+								<input type="text" class="form-control weight calculate " id="weight" name="weight" data-calculatePrice-netWeight placeholder="Тегло:" min="1" max="10000">
 								<span class="input-group-addon">гр</span>
 							</div>
 						</div>
@@ -132,8 +131,7 @@
 						</div>
 					</div>
 
-					<div class="form-row model_stones">
-					</div>
+					<div class="form-row model_stones"></div>
 
 					<div class="form-row">
 						<div class="form-group col-md-5">
@@ -197,7 +195,7 @@
 
 					<div class="form-row">
 						<div class="form-group col-md-4">
-							<label for="grossWeight">Бройка:</label>
+							<label for="grossWeight">Брой:</label>
 							<div class="input-group">
 								<input type="number" class="form-control" name="quantity" id="quantity" value="1" >
 							</div>
@@ -218,7 +216,7 @@
 					<div class="form-row given-material">
 						<div class="form-group col-md-4">
 								<label for="">Вид</label>
-								<select id="material_type" name="material_id[]" data-calculateprice-material class="material_type form-control calculate">
+								<select id="material_type" name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate">
 									<option value="">Избери</option>
 
 									@foreach($mats as $material)
@@ -237,13 +235,17 @@
 							</div>
 						</div> --}}
 
-							</select>
-						</div>
-
-						<div class="form-group col-md-6">
+						<div class="form-group col-md-4">
 							<label for="grossWeight">Количество:</label>
 							<div class="input-group">
-								<input type="number" class="form-control mat-quantity" name="mat_quantity[]" placeholder="0">
+								<input type="number" class="form-control mat-quantity" name="mat_quantity[]" value="1">
+							</div>
+						</div>
+
+						<div class="form-group col-md-4">
+							<label for="grossWeight">Стойност:</label>
+							<div class="input-group">
+								<input type="number" class="form-control mat-calculated-price" name="calculated_price[]" value="0">
 							</div>
 						</div>
 					</div>
@@ -251,7 +253,14 @@
 					<button id="btnAddAnother" class="action--state_button add-btn-modal btn btn-primary">Добави друг</button><br/>
 
 					<div class="form-row">
-						<div class="form-group col-md-12">
+						<div class="form-group col-md-6">
+							<label for="grossWeight">Касова група:</label>
+							<div class="input-group">
+									<input type="text" class="form-control" name="safe_group" id="safe_group" placeholder="Изберете касова група:">
+							</div>
+						</div>
+
+						<div class="form-group col-md-6">
 							<label for="grossWeight">Капаро:</label>
 							<div class="input-group">
 									<input type="number" class="form-control" name="earnest" id="earnest" placeholder="0">
