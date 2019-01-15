@@ -1483,7 +1483,7 @@ var uvel,
 
     this.onOrdersFormSelect = function (event) {
       var currentSelect = event.currentTarget,
-          form = $('#formOrders'),
+          form = $('form[name="orders"]'),
           ajaxUrl = currentSelect.attributes.url.value,
           selectedModelId = currentSelect.selectedOptions[0].dataset.modelId,
           ajaxUrl = window.location.origin + '/' + ajaxUrl + selectedModelId;
@@ -1814,13 +1814,7 @@ var uvel,
       FUNCTION THAT INITIALIZES THE SELECT 2 PLUGIN
     */
 
-    this.initializeSelect = function (select, selectCallback) {
-      /* TODO needs checking with other branches
-      select.select2({
-        //templateResult: $self.addSelect2CustomAttributes
-        //templateSelection: $self.addSelect2CustomAttributes
-      });
-      */
+    this.initializeSelect = function(select, selectCallback) {
       select.select2();
       // callback for when an option in selected
       select.on('select2:select', selectCallback);
