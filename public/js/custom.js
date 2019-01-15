@@ -122,7 +122,7 @@ var uvel,
       },
       orders: {
         selector: '[name="orders"]',
-        controllers: ['initOrdersForm', 'addStonesInit', 'addAnother', 'manualReceipt', 'barcodeInput'],
+        controllers: ['ordersModelSelectInit', 'addStonesInit', 'addAnother', 'manualReceipt', 'barcodeInput'],
         initialized: false
       },
       productsTravelling: {
@@ -134,7 +134,7 @@ var uvel,
 
     this.init = function () {
       $self.attachInitialEvents();
-      $self.initializeSelect($('select'));
+      // $self.initializeSelect($('select'));
       // $self.checkAllForms();
     };
 
@@ -1475,47 +1475,32 @@ var uvel,
       })
     }
 
-    this.initOrdersForm = function () {
-      $('#model_select').on('select2:select', $self.onOrdersFormSelect);
+    this.ordersModelSelectInit = function (form) {
+      var modelSelect = form.find('#model_select');
+
+      $self.initializeSelect(modelSelect, $self.onOrdersFormSelect);
     }
 
     this.onOrdersFormSelect = function (event) {
-      var currentSelect = event.currentTarget;
-      if (currentSelect.id == 'model_select') {
-        var form = $('#formOrders'),
-            ajaxUrl = currentSelect.attributes.url.value,
-            selectedModelId = currentSelect.selectedOptions[0].dataset.modelId,
-            ajaxUrl = window.location.origin + '/' + ajaxUrl + selectedModelId;
+      var currentSelect = event.currentTarget,
+          form = $('#formOrders'),
+          ajaxUrl = currentSelect.attributes.url.value,
+          selectedModelId = currentSelect.selectedOptions[0].dataset.modelId,
+          ajaxUrl = window.location.origin + '/' + ajaxUrl + selectedModelId;
 
-        $self.ajaxFn('GET', ajaxUrl, $self.modelRequestResponseHandler, '', form);
-      }
+      $self.ajaxFn('GET', ajaxUrl, $self.modelRequestResponseHandler, '', form);
+
     }
 
     this.addAnother = function(form) {
       var addAnother = form.find('#btnAddAnother');
-      // TODO
-      // use jquery.clone()
-      // https://api.jquery.com/clone/
-      addAnother.on('click', function (event) {
+
+      addAnother.on('click', function(event) {
         event.preventDefault();
-        // Copy the given materials first element
-        // .outerHTML does not copy the elements values, so they are manually set
-        var $givenMaterialsFirstElement = $('.form-row.given-material').first(),
-            firstMaterialId = $givenMaterialsFirstElement.find('.mat-material').val(),
-            firstMaterialQuantity = $givenMaterialsFirstElement.find('.mat-quantity').val(),
-            firstMaterialPrice = $givenMaterialsFirstElement.find('.mat-calculated-price').val();
 
-        // TODO
-        // use jquery.clone()
-        // https://api.jquery.com/clone/
+        var givenMaterialsNewElement = $('.form-row.given-material').first().clone();
 
-        var givenMaterialsNewElement = givenMaterialsFirstElement;
-        // .val() does not set the inputs inner text
-        $(givenMaterialsNewElement).find('.mat-material').attr('value', firstMaterialId);
-        $(givenMaterialsNewElement).find('.mat-quantity').attr('value', firstMaterialQuantity);
-        $(givenMaterialsNewElement).find('.mat-calculated-price').attr('value', firstMaterialPrice);
-
-        $(givenMaterialsNewElement.outerHTML).insertBefore(this);
+        $(givenMaterialsNewElement).insertBefore(this);
       });
     }
 
