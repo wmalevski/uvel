@@ -118,7 +118,8 @@
 						</div>
 					</div>
 
-					<div class="form-row model_stones"></div>
+					<div class="form-row model_stones">
+					</div>
 
 					<div class="form-row">
 						<div class="form-group col-md-5">

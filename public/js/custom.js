@@ -466,7 +466,7 @@ var uvel,
         if(imagesInputFieldExists) {
           var imagesHolder = $('.drop-area-gallery .image-wrapper img');
 
-          imagesHolder.each(function(index, element) {
+          imagesHolder.each(function(index , element) {
             var imgSource = element.getAttribute('src');
             imageCollection.push(imgSource);
           });
@@ -1505,6 +1505,10 @@ var uvel,
             firstMaterialQuantity = $givenMaterialsFirstElement.find('.mat-quantity').val(),
             firstMaterialPrice = $givenMaterialsFirstElement.find('.mat-calculated-price').val();
 
+        // TODO
+        // use jquery.clone()
+        // https://api.jquery.com/clone/
+
         var givenMaterialsNewElement = givenMaterialsFirstElement;
         // .val() does not set the inputs inner text
         $(givenMaterialsNewElement).find('.mat-material').attr('value', firstMaterialId);
@@ -1674,7 +1678,6 @@ var uvel,
       var datePickerTriggers = form.find('.timepicker-input input:not([readonly])').closest('.timepicker-input').find('.input-group-addon');
       datePickerTriggers.on('click', function() {
         var datePicker = $(this).closest('.timepicker-input').find('input');
-
         datePicker.focus();
       });
     }
@@ -1840,7 +1843,6 @@ var uvel,
 
     this.checkAllForms = function(currentPressedBtn) {
       var certificateBtns = document.querySelectorAll('.certificate');
-
       certificateBtns.forEach(function(btn){
         btn.addEventListener('click',printCertificate);
       });
