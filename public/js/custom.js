@@ -122,7 +122,7 @@ var uvel,
       },
       orders: {
         selector: '[name="orders"]',
-        controllers: ['nameFieldSearch', 'addStonesInit', 'addAnother', 'manualReceipt', 'modelRequestInit', 'barcodeInput'],
+        controllers: ['ordersModelSelectInit', 'addStonesInit', 'addAnother', 'manualReceipt', 'barcodeInput'],
         initialized: false
       },
       productsTravelling: {
@@ -1184,9 +1184,8 @@ var uvel,
     }
 
     this.modelRequestInit = function(form) {
-      /* Селектора (падащо меню) който ще прави рекуест */
       var modelRequestTrigger = form.find('.input-search');
-
+      // TODO check if its needed now with Select2
       modelRequestTrigger.on('input', function() {
         var _this = $(this);
         if (_this.find('option:selected').val() !== '0' && _this.find('option:selected').val() !== '') {
@@ -1199,7 +1198,6 @@ var uvel,
       });
     }
 
-    /* При избор на модел от падащото меню се прави тази заявка */
     this.modelRequest = function (form) {
       var inputModel = form.find('.input-search'),
           ajaxUrl = window.location.origin + '/' + inputModel.attr('data-url'),
@@ -1213,8 +1211,6 @@ var uvel,
       /* Form specific properties */
       if (form[0].name == 'products') {
         $self.fillPhotos(response.photos, form);
-      } else if (form[0].name == 'orders') {
-        $self.fillModels(response.models, form);
       }
       if ($('[data-calculatePrice-withStones]').is(':checked')) {
         $self.calculatePrice(form);
@@ -1228,21 +1224,6 @@ var uvel,
       $self.fillFinalPrice(response.price, form);
       $self.fillWorkmanshipPrice(response.workmanship, form);
       $self.calculateStones(form);
-    }
-
-    this.fillModels = function (models, form) {
-      var modelElement = form.find('[data-calculateprice-model]');
-      modelElement.html('<option value="0">Избери</option>');
-
-      models.forEach(function (model) {
-        var selected = model.selected ? 'selected' : '';
-        var option = '<option value="' +
-            model.value + '" ' +
-            selected + '>' +
-            model.label + '</option>';
-
-        modelElement.append(option);
-      });
     }
 
     this.fillMaterials = function (materials, form) {
@@ -1494,28 +1475,33 @@ var uvel,
       })
     }
 
+    this.ordersModelSelectInit = function(form) {
+      var modelSelect = form.find('#model_select');
+
+      $self.initializeSelect(modelSelect, function(event) {
+        $self.onOrdersFormSelect(event, form);
+      });
+    }
+
+    this.onOrdersFormSelect = function(event, form) {
+      var currentSelect = event.currentTarget,
+          ajaxUrl = currentSelect.attributes.url.value,
+          selectedModelId = currentSelect.selectedOptions[0].dataset.modelId,
+          ajaxUrl = window.location.origin + '/' + ajaxUrl + selectedModelId;
+
+      $self.ajaxFn('GET', ajaxUrl, $self.modelRequestResponseHandler, '', form);
+
+    }
+
     this.addAnother = function(form) {
       var addAnother = form.find('#btnAddAnother');
+
       addAnother.on('click', function(event) {
         event.preventDefault();
-        // Copy the given materials first element
-        // .outerHTML does not copy the elements values, so they are manually set
-        var $givenMaterialsFirstElement = $('.form-row.given-material').first(),
-            firstMaterialId = $givenMaterialsFirstElement.find('.mat-material').val(),
-            firstMaterialQuantity = $givenMaterialsFirstElement.find('.mat-quantity').val(),
-            firstMaterialPrice = $givenMaterialsFirstElement.find('.mat-calculated-price').val();
 
-        // TODO
-        // use jquery.clone()
-        // https://api.jquery.com/clone/
+        var givenMaterialsNewElement = $('.form-row.given-material').first().clone();
 
-        var givenMaterialsNewElement = $givenMaterialsFirstElement.clone();
-        // .val() does not set the inputs inner text
-        $(givenMaterialsNewElement).find('.mat-material').attr('value', firstMaterialId);
-        $(givenMaterialsNewElement).find('.mat-quantity').attr('value', firstMaterialQuantity);
-        $(givenMaterialsNewElement).find('.mat-calculated-price').attr('value', firstMaterialPrice);
-
-        $(givenMaterialsNewElement.outerHTML).insertBefore(this);
+        $(givenMaterialsNewElement).insertBefore(this);
       });
     }
 
@@ -1831,6 +1817,8 @@ var uvel,
         templateResult: $self.addSelect2CustomAttributes,
         templateSelection: $self.addSelect2CustomAttributes
       });
+      // callback for when an option in selected
+      select.on('select2:select', selectCallback);
     }
 
     this.checkAllForms = function(currentPressedBtn) {
