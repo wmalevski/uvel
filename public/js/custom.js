@@ -122,7 +122,7 @@ var uvel,
       },
       orders: {
         selector: '[name="orders"]',
-        controllers: ['initializeSelect', 'addStonesInit', 'addAnother', 'manualReceipt', 'modelRequestInit', 'barcodeInput'],
+        controllers: ['initOrdersForm', 'addStonesInit', 'addAnother', 'manualReceipt', 'barcodeInput'],
         initialized: false
       },
       productsTravelling: {
@@ -334,7 +334,8 @@ var uvel,
 
         if (discountAmount > 0) {
           var ajaxUrl = _url + discountUrl;
-          $self.ajaxFn('POST', ajaxUrl, $self.discountSuccess, dataSend, '', '');
+
+          $self.ajaxFn("POST", ajaxUrl, $self.discountSuccess, dataSend, '', '');
         }
       });
     }
@@ -475,7 +476,6 @@ var uvel,
         }
       });
 
-      debugger;
       $self.sendFormRequest(form, ajaxRequestLink, formType, data);
     }
 
@@ -717,7 +717,7 @@ var uvel,
       }
 
       var successMessage = $('<div class="alert alert-success"></div>');
-      successMessage.html('Редактирахте успешно записа!');
+      successMessage.html("Редактирахте успешно записа!");
 
       form.find('.modal-body .info-cont').append(successMessage);
 
@@ -768,7 +768,7 @@ var uvel,
             document.body.classList.add('print-mode');
             window.print();
             document.body.removeChild(node);
-            document.body.classList.remove('print-mode')
+            document.body.classList.remove("print-mode")
           }
         }
       });
@@ -1186,7 +1186,7 @@ var uvel,
 
     this.modelRequestInit = function(form) {
       var modelRequestTrigger = form.find('.input-search');
-
+      // TODO check if its needed now with Select2
       modelRequestTrigger.on('input', function() {
         var _this = $(this);
         if (_this.find('option:selected').val() !== '0' && _this.find('option:selected').val() !== '') {
@@ -1212,8 +1212,6 @@ var uvel,
       /* Form specific properties */
       if (form[0].name == 'products') {
         $self.fillPhotos(response.photos, form);
-      } else if (form[0].name == 'orders') {
-        $self.fillModels(response.models, form);
       }
       if ($('[data-calculatePrice-withStones]').is(':checked')) {
         $self.calculatePrice(form);
@@ -1227,21 +1225,6 @@ var uvel,
       $self.fillFinalPrice(response.price, form);
       $self.fillWorkmanshipPrice(response.workmanship, form);
       $self.calculateStones(form);
-    }
-
-    this.fillModels = function (models, form) {
-      var modelElement = form.find('[data-calculateprice-model]');
-      modelElement.html('<option value="0">Избери</option>');
-
-      models.forEach(function (model) {
-        var selected = model.selected ? 'selected' : '';
-        var option = '<option value="' +
-            model.value + '" ' +
-            selected + '>' +
-            model.label + '</option>';
-
-        modelElement.append(option);
-      });
     }
 
     this.fillMaterials = function (materials, form) {
@@ -1493,6 +1476,22 @@ var uvel,
       })
     }
 
+    this.initOrdersForm = function () {
+      $('#model_select').on('select2:select', $self.onOrdersFormSelect);
+    }
+
+    this.onOrdersFormSelect = function (event) {
+      var currentSelect = event.currentTarget;
+      if (currentSelect.id == 'model_select') {
+        var form = $('#formOrders'),
+            ajaxUrl = currentSelect.attributes.url.value,
+            selectedModelId = currentSelect.selectedOptions[0].dataset.modelId,
+            ajaxUrl = window.location.origin + '/' + ajaxUrl + selectedModelId;
+
+        $self.ajaxFn('GET', ajaxUrl, $self.modelRequestResponseHandler, '', form);
+      }
+    }
+
     this.addAnother = function(form) {
       var addAnother = form.find('#btnAddAnother');
       // TODO
@@ -1677,6 +1676,7 @@ var uvel,
       var datePickerTriggers = form.find('.timepicker-input input:not([readonly])').closest('.timepicker-input').find('.input-group-addon');
       datePickerTriggers.on('click', function() {
         var datePicker = $(this).closest('.timepicker-input').find('input');
+
         datePicker.focus();
       });
     }
@@ -1777,7 +1777,7 @@ var uvel,
       xhttp.setRequestHeader('Content-Type', 'application/json');
       xhttp.setRequestHeader('X-CSRF-TOKEN', token);
 
-      if(method === 'GET') {
+      if(method === "GET") {
         xhttp.send();
       } else {
         xhttp.send(JSON.stringify(dataSend));
@@ -1814,7 +1814,10 @@ var uvel,
           'data-price': $(data.element).attr('data-price') || 0,
           'data-pricebuy': $(data.element).attr('data-pricebuy') || 0,
           'data-retail': $(data.element).attr('data-retail') || 0,
-          'data-material': $(data.element).attr('data-material') || 0
+          'data-material': $(data.element).attr('data-material') || 0,
+          'data-barcode': $(data.element).attr('data-barcode') || 0,
+          'data-product-id': $(data.element).attr('data-product-id') || 0,
+          'data-model-id': $(data.element).attr('data-model-id') || 0
         });
       }
 
@@ -1825,15 +1828,22 @@ var uvel,
       FUNCTION THAT INITIALIZES THE SELECT 2 PLUGIN
     */
 
-    this.initializeSelect = function (select) {
+    this.initializeSelect = function (select, selectCallback) {
+      /*
       select.select2({
-        templateResult: $self.addSelect2CustomAttributes,
-        templateSelection: $self.addSelect2CustomAttributes
+        //templateResult: $self.addSelect2CustomAttributes
+        //templateSelection: $self.addSelect2CustomAttributes
       });
+      */
+      select.select2();
+      // callback for when an option in selected
+      select.on('select2:select', selectCallback);
     }
 
     this.checkAllForms = function(currentPressedBtn) {
       var certificateBtns = document.querySelectorAll('.certificate');
+      var pendingRequest = false;
+
       certificateBtns.forEach(function(btn){
         btn.addEventListener('click',printCertificate);
       });

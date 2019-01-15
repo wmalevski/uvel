@@ -10,7 +10,7 @@
 							<span aria-hidden="true">&times;</span>
 					</button>
 			</div>
-			<form method="POST" name="orders" data-type="add" action="orders" autocomplete="off">
+			<form id="formOrders" method="POST" name="orders" data-type="add" action="orders" autocomplete="off">
 				<div class="modal-body">
 
 					<div class="info-cont"></div>
@@ -59,7 +59,7 @@
 							<select id="model_select" url="ajax/orders/getModelInfo/" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model>
 								<option value="">Избери</option>
 								@foreach($models as $model)
-									<option value="{{ $model->id }}" data-jewel="{{ $model->jewel->id }}">{{ $model->name }}</option>
+									<option value="{{ $model->id }}" data-model-id="{{ $model->id }}" data-jewel="{{ $model->jewel->id }}">{{ $model->name }}</option>
 								@endforeach
 							</select>
 
