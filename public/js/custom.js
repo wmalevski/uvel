@@ -1478,12 +1478,13 @@ var uvel,
     this.ordersModelSelectInit = function(form) {
       var modelSelect = form.find('#model_select');
 
-      $self.initializeSelect(modelSelect, $self.onOrdersFormSelect);
+      $self.initializeSelect(modelSelect, function(event) {
+        $self.onOrdersFormSelect(event, form);
+      });
     }
 
-    this.onOrdersFormSelect = function(event) {
+    this.onOrdersFormSelect = function(event, form) {
       var currentSelect = event.currentTarget,
-          form = $('form[name="orders"]'),
           ajaxUrl = currentSelect.attributes.url.value,
           selectedModelId = currentSelect.selectedOptions[0].dataset.modelId,
           ajaxUrl = window.location.origin + '/' + ajaxUrl + selectedModelId;
