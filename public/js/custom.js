@@ -1475,13 +1475,13 @@ var uvel,
       })
     }
 
-    this.ordersModelSelectInit = function (form) {
+    this.ordersModelSelectInit = function(form) {
       var modelSelect = form.find('#model_select');
 
       $self.initializeSelect(modelSelect, $self.onOrdersFormSelect);
     }
 
-    this.onOrdersFormSelect = function (event) {
+    this.onOrdersFormSelect = function(event) {
       var currentSelect = event.currentTarget,
           form = $('form[name="orders"]'),
           ajaxUrl = currentSelect.attributes.url.value,
@@ -1815,7 +1815,10 @@ var uvel,
     */
 
     this.initializeSelect = function(select, selectCallback) {
-      select.select2();
+      select.select2({
+        templateResult: $self.addSelect2CustomAttributes,
+        templateSelection: $self.addSelect2CustomAttributes
+      });
       // callback for when an option in selected
       select.on('select2:select', selectCallback);
     }
