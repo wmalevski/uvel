@@ -38,4 +38,14 @@ class Material extends Model
     public function pricesSell(){
         return $this->hasMany('App\Price')->where('type', 'sell');
     }
+
+    public function scopeForBuy()
+    {
+        return $this->where('for_buy', 'yes');
+    }
+
+    public function scopeForExchange()
+    {
+        return $this->where('for_exchange', 'yes');
+    }
 }

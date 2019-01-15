@@ -201,6 +201,10 @@
                     </li>
                     {{-- @endif --}}
 
+                    <li>
+                      <a class="sidebar-link" href="{{ route('partners') }}">Партньори</a>
+                    </li>
+
                   </ul>
                 </li>
 

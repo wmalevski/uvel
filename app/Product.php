@@ -58,6 +58,11 @@ class Product extends BaseModel
         return $this->hasMany('App\Gallery');
     }
 
+    public function material()
+    {
+        return $this->belongsTo('App\MaterialQuantity');
+    }
+
     public function stones()
     {
         return $this->hasMany('App\ProductStone');

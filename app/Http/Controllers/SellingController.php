@@ -18,6 +18,7 @@ use Response;
 use App\ProductOther;
 use \Darryldecode\Cart\CartCondition as CartCondition;
 use \Darryldecode\Cart\Helpers\Helpers as Helpers;
+use App\MaterialQuantity;
 
 Class CartCustomCondition extends CartCondition {
     public function apply($totalOrSubTotalOrPrice, $conditionValue){
@@ -107,6 +108,24 @@ class SellingController extends Controller
         $condition = Cart::getConditions('discount');
         $priceCon = 0;
 
+        $materials = MaterialQuantity::currentStore();
+
+        $pass_materials = array();
+
+        foreach($materials as $material){
+            if(count($material->material->pricesBuy)){
+                $pass_materials[] = [
+                    'label' => $material->material->parent->name.' - '.$material->material->color.' - '.$material->material->carat,
+                    'value' => $material->id,
+                    'price' => $material->material->pricesBuy->first()->price,
+                    'for_buy'  => $material->material->for_buy,
+                    'for_exchange' => $material->material->for_exchange,
+                    'carat_transform' => $material->material->carat_transform,
+                    'carat' => $material->material->carat
+                ];
+            }
+        }
+
         if(count($cartConditions) > 0){
             foreach(Cart::session(Auth::user()->getId())->getConditions() as $cc){
                 $priceCon += $cc->getCalculatedValue($subTotal);
@@ -123,7 +142,7 @@ class SellingController extends Controller
 
         $dds = round($subTotal - ($subTotal/1.2), 2);
         
-        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds));
+        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials, 'jsMaterials' =>  json_encode($pass_materials, JSON_UNESCAPED_SLASHES )));
     }
 
     /**
@@ -249,9 +268,21 @@ class SellingController extends Controller
                 if($type == "product"){
                     $item->status = 'selling';
                     $item->save();
+
+                    //check if carates are 14k
+                    $item_material = $item->material->material;
+                    if($item_material->carat != '14'){
+                        $calculated_weight = floor(($item_material->carat/14*$item->weight) * 100) / 100;
+                    }else{
+                        $calculated_weight = $item->weight;
+                    }
+
+
                 } else if($type == 'repair'){
                     $item->status = 'returning';
                     $item->save();
+
+                    $calculated_weight = '';
                 }           
             }
         }else{
@@ -274,6 +305,8 @@ class SellingController extends Controller
             
             $item->quantity = $item->quantity-$request->quantity;
             $item->save();
+
+            $calculated_weight = '';
            }
         }
 
@@ -302,14 +335,22 @@ class SellingController extends Controller
                     ));
             
                 }else{
+                    if($item->material){
+                        $carat = $item->material->material->carat;
+                    }else{
+                        $carat = 0;
+                    }
+
                     Cart::session($userId)->add(array(
                         'id' => $item->barcode,
                         'name' => $item->name,
                         'price' => $item->price,
                         'quantity' => $request->quantity,
                         'attributes' => array(
+                            'carat' => $carat,
                             'weight' => $item->weight,
-                            'type' => $type
+                            'type' => $type,
+                            'calculated_weight' => $calculated_weight
                         )
                     ));
                 }
@@ -411,6 +452,14 @@ class SellingController extends Controller
         
 
         if(isset($setDiscount)){
+            $partner = 'false';
+
+            if(isset($card)){
+                if($card->user->isA('corporate_partner')){
+                    $partner = 'true';
+                }
+            }
+
             $condition = new CartCustomCondition(array(
                 'name' => $setDiscount,
                 'type' => 'discount',
@@ -419,7 +468,7 @@ class SellingController extends Controller
                 'attributes' => array(
                     'discount_id' => $setDiscount,
                     'description' => 'Value added tax',
-                    'more_data' => 'more data here'
+                    'partner' => $partner
                 )
             ));
 
