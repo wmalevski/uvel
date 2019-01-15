@@ -19,7 +19,7 @@
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-								<input type="checkbox" id="weightWithStones" name="with_stones" class="peer " data-calculatePrice-withStones>
+								<input type="checkbox" id="weightWithStones" name="with_stones" class="peer" data-calculatePrice-withStones>
 								<label for="weightWithStones" class="peers peer-greed js-sb ai-c">
 									<span class="peer peer-greed">Тегло с камъни</span>
 								</label>
@@ -42,19 +42,6 @@
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label>Модел:</label>
-
-							<!--
-							{{--
-							<input class="form-control input-search" type="text" data-url="ajax/products/" data-product-name data-product-id placeholder="Модел">
-							<div class="dropdown-menu hidden">
-								@foreach($models as $model)
-								<li id="{{ $model->id }}" class="dropdown-item" data-name="{{ $model->name }}" data-jewel="{{ $model->jewel->id }}">
-									{{ $model->name }}
-								</li>
-								@endforeach
-							</div>
-							--}}
-							-->
 
 							<select id="model_select" url="ajax/orders/getModelInfo/" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model>
 								<option value="">Избери</option>
@@ -103,7 +90,7 @@
 
 						<div class="form-group col-md-6">
 							<label>Цена: </label>
-							<select id="retail_prices" name="retail_price_id" class="form-control calculate  prices-filled retail-price retail_prices" data-calculatePrice-retail disabled>
+							<select id="retail_prices" name="retail_price_id" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail disabled>
 								<option value="">Избери</option>
 
 								@foreach($prices->where('type', 'sell') as $price)
@@ -114,7 +101,7 @@
 						<div class="form-group col-md-3 weight-holder">
 							<label for="weight">Нетно тегло: </label>
 							<div class="input-group">
-								<input type="text" class="form-control weight calculate " id="weight" name="weight" data-calculatePrice-netWeight placeholder="Тегло:" min="1" max="10000">
+								<input type="text" class="form-control weight calculate" id="weight" name="weight" data-calculatePrice-netWeight placeholder="Тегло:" min="1" max="10000">
 								<span class="input-group-addon">гр</span>
 							</div>
 						</div>

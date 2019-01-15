@@ -334,8 +334,7 @@ var uvel,
 
         if (discountAmount > 0) {
           var ajaxUrl = _url + discountUrl;
-
-          $self.ajaxFn("POST", ajaxUrl, $self.discountSuccess, dataSend, '', '');
+          $self.ajaxFn('POST', ajaxUrl, $self.discountSuccess, dataSend, '', '');
         }
       });
     }
@@ -446,13 +445,13 @@ var uvel,
         data._method = 'PUT';
       }
 
-      inputFields.each(function (index, element) {
+      inputFields.each(function(index, element) {
         var inputType = element.type,
             dataKey = element.name,
             dataKeyValue = element.value,
             imagesInputFieldExists = dataKey == 'images' ? true : false;
 
-        if ((inputType == 'radio' || inputType == 'checkbox') && dataKey.indexOf('[]') !== -1) {
+        if((inputType == 'radio' || inputType == 'checkbox') && dataKey.indexOf('[]') !== -1) {
           dataKey = dataKey.replace('[]', '');
           (data[dataKey] = data[dataKey] || []).push($(element).is(':checked'));
         } else if (inputType == 'radio' || inputType == 'checkbox') {
@@ -464,10 +463,10 @@ var uvel,
           data[dataKey] = dataKeyValue;
         }
 
-        if (imagesInputFieldExists) {
+        if(imagesInputFieldExists) {
           var imagesHolder = $('.drop-area-gallery .image-wrapper img');
 
-          imagesHolder.each(function (index, element) {
+          imagesHolder.each(function(index, element) {
             var imgSource = element.getAttribute('src');
             imageCollection.push(imgSource);
           });
@@ -717,7 +716,7 @@ var uvel,
       }
 
       var successMessage = $('<div class="alert alert-success"></div>');
-      successMessage.html("Редактирахте успешно записа!");
+      successMessage.html('Редактирахте успешно записа!');
 
       form.find('.modal-body .info-cont').append(successMessage);
 
@@ -768,7 +767,7 @@ var uvel,
             document.body.classList.add('print-mode');
             window.print();
             document.body.removeChild(node);
-            document.body.classList.remove("print-mode")
+            document.body.classList.remove('print-mode')
           }
         }
       });
@@ -1501,10 +1500,10 @@ var uvel,
         event.preventDefault();
         // Copy the given materials first element
         // .outerHTML does not copy the elements values, so they are manually set
-        var givenMaterialsFirstElement = $('.form-row.given-material').first()[0],
-            firstMaterialId = $(givenMaterialsFirstElement).find('.mat-material').val(),
-            firstMaterialQuantity = $(givenMaterialsFirstElement).find('.mat-quantity').val(),
-            firstMaterialPrice = $(givenMaterialsFirstElement).find('.mat-calculated-price').val();
+        var $givenMaterialsFirstElement = $('.form-row.given-material').first(),
+            firstMaterialId = $givenMaterialsFirstElement.find('.mat-material').val(),
+            firstMaterialQuantity = $givenMaterialsFirstElement.find('.mat-quantity').val(),
+            firstMaterialPrice = $givenMaterialsFirstElement.find('.mat-calculated-price').val();
 
         var givenMaterialsNewElement = givenMaterialsFirstElement;
         // .val() does not set the inputs inner text
@@ -1514,7 +1513,6 @@ var uvel,
 
         $(givenMaterialsNewElement.outerHTML).insertBefore(this);
       });
-
     }
 
     this.dragNdropImages = function(dropArea, form) {
@@ -1777,7 +1775,7 @@ var uvel,
       xhttp.setRequestHeader('Content-Type', 'application/json');
       xhttp.setRequestHeader('X-CSRF-TOKEN', token);
 
-      if(method === "GET") {
+      if(method === 'GET') {
         xhttp.send();
       } else {
         xhttp.send(JSON.stringify(dataSend));
@@ -1829,7 +1827,7 @@ var uvel,
     */
 
     this.initializeSelect = function (select, selectCallback) {
-      /*
+      /* TODO needs checking with other branches
       select.select2({
         //templateResult: $self.addSelect2CustomAttributes
         //templateSelection: $self.addSelect2CustomAttributes
@@ -1842,7 +1840,6 @@ var uvel,
 
     this.checkAllForms = function(currentPressedBtn) {
       var certificateBtns = document.querySelectorAll('.certificate');
-      var pendingRequest = false;
 
       certificateBtns.forEach(function(btn){
         btn.addEventListener('click',printCertificate);
