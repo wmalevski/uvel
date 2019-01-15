@@ -83,6 +83,16 @@ var uvel,
         controllers: [],
         initialized: false
       },
+      partners: {
+        selector: '[name="partners"]',
+        controllers: [],
+        initialized: false
+      },
+      partnermaterials: {
+        selector: '[name="partnermaterials"]',
+        controllers: [],
+        initialized: false
+      },
       selling: {
         selector: '[name="selling"]',
         controllers: ['paymentInitializer', 'getWantedSumInit'],
