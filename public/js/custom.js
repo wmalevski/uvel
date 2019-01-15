@@ -1814,7 +1814,7 @@ var uvel,
       FUNCTION THAT INITIALIZES THE SELECT 2 PLUGIN
     */
 
-    this.initializeSelect = function(select, selectCallback) {
+    this.initializeSelect = function (select) {
       select.select2({
         templateResult: $self.addSelect2CustomAttributes,
         templateSelection: $self.addSelect2CustomAttributes
