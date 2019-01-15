@@ -407,6 +407,14 @@ class SellingController extends Controller
         
 
         if(isset($setDiscount)){
+            $partner = 'false';
+
+            if(isset($card)){
+                if($card->user->isA('corporate_partner')){
+                    $partner = 'true';
+                }
+            }
+
             $condition = new CartCustomCondition(array(
                 'name' => $setDiscount,
                 'type' => 'discount',
@@ -415,7 +423,7 @@ class SellingController extends Controller
                 'attributes' => array(
                     'discount_id' => $setDiscount,
                     'description' => 'Value added tax',
-                    'more_data' => 'more data here'
+                    'partner' => $partner
                 )
             ));
 

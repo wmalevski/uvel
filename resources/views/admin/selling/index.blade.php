@@ -264,7 +264,7 @@ aria-hidden="true">
                             <label for="subTotal" class="col-sm-9 control-label">Отстъпки:<br/>
                                 <span class="discount--label-holder">
                                     @foreach($conditions as $condition)
-                                        
+                                        {{ $condition->getAttributes()['partner'] }}
                                         <span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">{{ $condition->getValue() }}</span> 
                                         <span data-url="/ajax/removeDiscount/{{ $condition->getName() }}" data-sell-removeDiscount class="discount-remove badge bgc-red-50 c-red-700 p-10 lh-0 tt-c badge-pill"><i class="c-brown-500 ti-close"></i></span> <br/>
                                         

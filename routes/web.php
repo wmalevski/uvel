@@ -50,6 +50,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/users', 'UserController@index')->name('users');
     Route::get('/users/{user}', 'UserController@edit');
 
+    Route::get('/partners', 'PartnerController@index')->name('partners');
+    Route::get('/partners/{partner}', 'PartnerController@edit');
+
+    Route::get('/partnermaterials/{partner}', 'PartnerMaterialController@index')->name('partner_materials');
+    Route::get('/partnermaterials/{partner}/{material}', 'PartnerMaterialController@edit');
+
     Route::get('/stones', 'StoneController@index')->name('stones');
     Route::post('/stones', 'StoneController@store');
 
@@ -159,6 +165,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 });
 
 Route::group(['prefix' => 'ajax'], function() {
+
+    Route::put('/partners/{partner}', 'PartnerController@update');
+    Route::put('/partnermaterials/{partner}/{material}', 'PartnerMaterialController@update');
 
     Route::post('/stores', 'StoreController@store');
     Route::put('/stores/{store}', 'StoreController@update');
