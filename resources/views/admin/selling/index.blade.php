@@ -11,15 +11,10 @@ aria-hidden="true">
                 </button>
             </div>
             <form method="POST" action="repairs" name="fullEditRepair">
-                 
                 <div class="modal-body">    
                     <div class="info-cont">
                     </div>
-
                     {{ csrf_field() }}  
-                                
-
-                    
                 </div>
 
                 <div class="modal-footer">
@@ -58,7 +53,73 @@ aria-hidden="true">
                             <input class="form-control" id="wanted-sum" type="number" name="wanted_sum" data-calculatePayment-wanted readonly>
                         </div>
                     </div>
-                                
+
+                    <div class="form-row">
+                        <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                            <input type="checkbox" id="exchange" class="exchange-method" name="exchange_method" class="peer" data-exchange-trigger>
+                            <label for="exchange" class="peers peer-greed js-sb ai-c">
+                                <span class="peer peer-greed">Обмяна</span>
+                            </label>
+                        </div>    
+                    </div>
+
+                    <div id="exchange-row"> <!-- SHOW HIDE DEPENDING ON EXCHANGE CHECKBOX -->
+                        <div class="exhange-row-controllers form-row">
+                            <div class="form-group col-md-8">
+                                <span data-expected-material='0'>Даден материал</span>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <button type="button" class="btn btn-primary" data-newExchangeField-trigger>Добави</button>
+                            </div>
+                        </div>
+
+                        <div class="exchange-row-fields">
+                            <div class="form-row">
+                                <div class="form-group col-md-5">
+                                    <label for="">Вид</label>
+                                    <select id="material_type" name="material_id[]" data-calculateprice-material class="material_type form-control calculate">
+                                        <option value="0">Избери</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <label for="">Грамаж</label>
+                                    <input type="number" id="" class="form-control" value="0" name="weight[]" placeholder="" data-weight>
+                                </div>
+                                {{-- <div class="form-group col-md-4">
+                                    <label for="">Цена на грамаж</label>
+                                    <!-- AUTO GENERATED FROM JS -->
+                                    <select id="retail_prices" name="retail_price_id[]" class="form-control calculate prices-filled retail-price" data-calculateprice-retail disabled>
+                                        <option value="0">Избери</option>
+                                    </select>
+                                </div> --}}
+
+                                <div class="form-group col-md-1">
+                                    <span class="delete-material remove_field" data-exchangeRowRemove-trigger=""><i class="c-brown-500 ti-trash"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="exchange-row-total form-row">
+                            <div class="form-group col-md-6">
+                                <label for="given-sum">Сума от материали</label>
+                                <input type="number" id="" data-defaultPrice="{{ $materials->first()->material->pricesBuy->first()->price }}" class="form-control" value="0" name="exchangeRows_total" placeholder="Дължима сума" data-exchangeRows-total readonly>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="given-sum">Цена на грамаж</label>
+                                <select name="calculating_price" class="form-control">
+                                    <option value="0">Избери</option>
+                                    @if($materials->first()->material->pricesBuy->first())
+                                    @foreach($materials->first()->material->pricesBuy as $price)
+                                        <option value="{{ $price->id }}" data-defaultPrice="{{ $materials->first()->material->pricesBuy->first()->price }}" data-price="{{ $price->price }}">{{ $price->slug }} - {{ $price->price }}</option>
+                                    @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+
+                       
+                    </div>          
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="given-sum">Дадена сума</label>
@@ -305,4 +366,10 @@ aria-hidden="true">
         </div>
     </div>
 </div>
+@endsection
+
+@section('footer-scripts')
+<script id="materials_data" type="application/json">
+    {!!  $jsMaterials !!}
+</script>
 @endsection

@@ -294,6 +294,8 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::get('/getPrices/{material}/{model}', 'PriceController@getByMaterial');
 
+    Route::get('/getPricesExchange/{material}/{model}', 'PriceController@getByMaterialExchange');
+
     Route::post('/users/substitutions', 'UserSubstitutionController@store');
 
     Route::put('/users/substitutions/{userSubstitution}', 'UserSubstitutionController@update');

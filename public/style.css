@@ -1,4 +1,9 @@
 /* todo: fix styles */
+#exchange-row {
+  display: none;
+  opacity: 0;
+}
+
 input[readonly] {
   pointer-events: none;
 }
