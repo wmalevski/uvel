@@ -446,12 +446,9 @@ var uvel,
           ajaxRequestLink = $self.buildAjaxRequestLink('submitForm', form.attr('action')),
           formType = form.attr('data-type');
 
-      debugger;
-
       submitButton.click(function(e) {
         e.preventDefault();
-        var _this = $(this),
-            inputFields = form.find('select , input, textarea');
+        var inputFields = form.find('select , input, textarea');
 
         $self.getFormFields(form, ajaxRequestLink, formType, inputFields);
       });
@@ -1678,8 +1675,7 @@ var uvel,
       var  datePickerTriggers = form.find('.timepicker-input input:not([readonly])').closest('.timepicker-input').find('.input-group-addon');
 
       datePickerTriggers.on('click', function() {
-        var _this = $(this),
-            datePicker = _this.closest('.timepicker-input').find('input');
+        var datePicker = $(this).closest('.timepicker-input').find('input');
 
         datePicker.focus();
       })
@@ -1860,8 +1856,8 @@ var uvel,
         }
       });
 
-      var selectProduct = form.find('#productSelector'),
-          selectStore = form.find('#storeSelector');
+      var selectProduct = form.find('select[name="product_select[]"]'),
+          selectStore = form.find('select[name="store_to_id"]');
 
       $self.initializeSelect(selectProduct, $self.productTravellingProductSelected);
       $self.initializeSelect(selectStore);
@@ -1869,28 +1865,43 @@ var uvel,
 
     this.productTravellingProductSelected = function (event) {
       var data = event.params.data.element.dataset,
-          ajax = $('#productSelector').attr('data-url'),
+          ajax = $('select[name="product_select[]"]').attr('data-url'),
           ajaxUrl = window.location.origin + '/' + ajax + data.barcode;
 
       $self.ajaxFn('GET', ajaxUrl, $self.productTravellingAjaxResponse);
     }
 
     this.productTravellingAjaxResponse = function (response) {
-      var name = response.item.name,
-          weight = response.item.weight,
-          id = response.item.id,
-          barcode = response.item.barcode;
+      if (response.errors) {
+        var error = response.errors.not_found[0],
+            errorElement = '<div class="alert alert-danger table-alert">' + error + '</div>',
+            stayingTime = 3000;
 
-      var productElement = '<tr data-id="' +
-          id + '"><td>' +
-          barcode + '</td><td>' +
-          name + '</td><td>' +
-          weight + ' гр</td><td><span data-url="#" class="delete-btn">' +
-          '<i class="c-brown-500 ti-trash"></i></span></td></tr>';
+        $('.info-cont').append(errorElement);
+        setTimeout(function() {
+          $('.info-cont').html('');
+        }, stayingTime);
+      } else {
+        var id = response.item.id,
+            match = $('.found-product[data-id="' + id + '"]');
 
+        if (match.length == 0) {
+          var name = response.item.name,
+              weight = response.item.weight,
+              barcode = response.item.barcode;
 
-      $('productSelector').attr('')
-      $('#foundProduct').append(productElement);
+          var productElement = '<tr class="found-product" data-id="' +
+              id + '"><input type="hidden" name="product_id[]" value="' +
+              id + '"><td>' +
+              barcode + '</td><td>' +
+              name + '</td><td>' +
+              weight + ' гр</td><td><span data-url="#" class="delete-btn">' +
+              '<i class="c-brown-500 ti-trash"></i></span></td></tr>';
+
+          $('#inputBarcodeScan').val('');
+          $('#foundProducts').append(productElement);
+        }
+      }
     }
 
     this.checkAllForms = function(currentPressedBtn) {

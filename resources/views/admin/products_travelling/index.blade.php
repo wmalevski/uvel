@@ -24,8 +24,8 @@
 
                         <div class="form-group col-md-6">
                         <label>Избери: </label>
-                            <select id="productSelector" name="product_id" class="form-control" data-url="ajax/productstravelling/addByScan/">
-                                <option value="">Избер продукт</option>
+                            <select name="product_select[]" class="form-control" data-url="ajax/productstravelling/addByScan/">
+                                <option value="">Избери продукт</option>
 
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-product-id="{{ $product->id }}" data-barcode="{{ $product->barcode }}" data-weight="{{ $product->weight }}">
@@ -45,13 +45,13 @@
                                     <th scope="col">Действия</th>
                                 </tr>
                             </thead>
-                            <tbody id="foundProduct"></tbody>
+                            <tbody id="foundProducts"></tbody>
                         </table>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="3">Магазин: </label>
-                            <select id="storeSelector" name="store_to_id" class="form-control">
+                            <select name="store_to_id" class="form-control">
                                 <option value="">Избери магазин</option>
 
                                 @foreach($stores as $store)
@@ -64,7 +64,7 @@
                             </select>
                         </div>
                     </div>
-                    <div id="errors-container"></div>
+
                 </div>
 
                 <input type="hidden" name="store_id" value="{{  Auth::user()->store }}">
