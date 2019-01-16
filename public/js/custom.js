@@ -1867,11 +1867,14 @@ var uvel,
     }
 
     this.productTravellingProductSelected = function (event) {
-      var data = event.params.data.element.dataset,
-          ajax = $('select[name="product_select[]"]').attr('data-url'),
-          ajaxUrl = window.location.origin + '/' + ajax + data.barcode;
+      var data = event.params.data.element.dataset;
 
-      $self.ajaxFn('GET', ajaxUrl, $self.productTravellingAjaxResponse);
+      if (data.productId) {
+        var ajax = $('select[name="product_select[]"]').attr('data-url'),
+            ajaxUrl = window.location.origin + '/' + ajax + data.barcode;
+
+        $self.ajaxFn('GET', ajaxUrl, $self.productTravellingAjaxResponse);
+      }
     }
 
     this.productTravellingAjaxResponse = function (response) {
