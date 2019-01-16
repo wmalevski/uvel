@@ -221,8 +221,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
 Route::group(['prefix' => 'ajax'], function() {
 
+<<<<<<< HEAD
     Route::post('/sell/partner', 'PaymentController@partner_payment');
 
+=======
+>>>>>>> Returning all the information
     Route::get('/cartMaterialsInfo', 'SellingController@cartMaterialsInfo')->name('cart_materials');
     
     Route::post('/orders', 'OrderController@store');

@@ -4,10 +4,7 @@ namespace App;
 
 use Cart;
 use Auth;
-<<<<<<< HEAD
 use App\Partner;
-=======
->>>>>>> Working on looping products
 use Illuminate\Database\Eloquent\Model;
 
 class Selling extends Model
