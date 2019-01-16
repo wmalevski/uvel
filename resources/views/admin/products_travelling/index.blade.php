@@ -45,7 +45,7 @@
                                     <th scope="col">Действия</th>
                                 </tr>
                             </thead>
-                            <tbody id="foundProducts"></tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
                     <div class="form-row">

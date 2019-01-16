@@ -559,9 +559,9 @@ var uvel,
           dataType: "json",
           data: data,
           success: function(response) {
-            debugger;
             if (formType == 'add') {
               $self.appendResponseToTable(response, form);
+              $('form').find('table tbody').empty();
             } else if (formType == 'edit') {
               $self.replaceResponseRowToTheTable(form, response);
             }
@@ -616,7 +616,7 @@ var uvel,
       } else if(response.type == 'sell') {
         table = form.parents('.main-content').find('table#sell tbody');
       } else {
-        table = form.parents('.main-content').find('table tbody');
+        table = form.parents('.main-content').find('table tbody:not(form table tbody)');
       }
 
       table.append(responseHTML);
@@ -1882,7 +1882,7 @@ var uvel,
 
         $('.info-cont').append(errorElement);
         setTimeout(function() {
-          $('.info-cont').html('');
+          $('.info-cont').empty();
         }, stayingTime);
       } else {
         var id = response.item.id,
@@ -1902,7 +1902,7 @@ var uvel,
               id + '"><i class="c-brown-500 ti-trash"></i></span></td></tr>';
 
           $('#inputBarcodeScan').val('');
-          $('#foundProducts').append(productElement);
+          $('form').find('table tbody').append(productElement);
           $('.delete-btn[data-parent-id="' + id + '"]').on('click', function() {
             $(this).parents('.found-product').remove();
           });
