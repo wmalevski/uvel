@@ -30,19 +30,7 @@
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label>Модел:</label>
-
-							<input class="form-control input-search" type="text" data-url="ajax/products/" data-product-name data-product-id placeholder="Модел">
-							<div class="dropdown-menu hidden">
-								@foreach($models as $model)
-								<li id="{{ $model->id }}" class="dropdown-item" data-name="{{ $model->name }}" data-jewel="{{ $model->jewel->id }}">
-									{{ $model->name }}
-								</li>
-								@endforeach
-							</div>
-
-							<!--
-							{{--
-							<select id="model_select" url="ajax/products/" name="model_id" class="model-select form-control model-filled"
+							<select data-url="ajax/products/" name="model_id" class="model-select form-control model-filled"
 							 data-calculatePrice-model>
 								<option value="">
 									Избери
@@ -53,11 +41,6 @@
 								</option>
 								@endforeach
 							</select>
-							--}}
-							-->
-
-
-
 						</div>
 						<div class="form-group col-md-6">
 							<label>Вид: </label>
