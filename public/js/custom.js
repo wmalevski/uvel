@@ -559,6 +559,7 @@ var uvel,
           dataType: "json",
           data: data,
           success: function(response) {
+            debugger;
             if (formType == 'add') {
               $self.appendResponseToTable(response, form);
             } else if (formType == 'edit') {
@@ -1897,11 +1898,14 @@ var uvel,
               id + '"><td>' +
               barcode + '</td><td>' +
               name + '</td><td>' +
-              weight + ' гр</td><td><span data-url="#" class="delete-btn">' +
-              '<i class="c-brown-500 ti-trash"></i></span></td></tr>';
+              weight + ' гр</td><td><span data-url="#" class="delete-btn" data-parent-id="' +
+              id + '"><i class="c-brown-500 ti-trash"></i></span></td></tr>';
 
           $('#inputBarcodeScan').val('');
           $('#foundProducts').append(productElement);
+          $('.delete-btn[data-parent-id="' + id + '"]').on('click', function() {
+            $(this).parents('.found-product').remove();
+          });
         }
       }
     }
