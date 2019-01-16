@@ -67,8 +67,6 @@
 
                 </div>
 
-                <input type="hidden" name="store_id" value="{{  Auth::user()->store }}">
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
                     <button type="submit" id="add" data-state="add_state" class="action--state_button add-btn-modal btn btn-primary">Добави</button>
