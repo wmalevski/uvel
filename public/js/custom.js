@@ -95,6 +95,11 @@ var uvel,
         controllers: ['paymentInitializer', 'getWantedSumInit'],
         initialized: false
       },
+      sellingPartners: {
+        selector: '[name="sellingPartners"]',
+        controllers: [],
+        initialized: false
+      },
       stones: {
         selector: '[name="stones"]',
         controllers: ['calculateCaratsInitializer', 'imageHandling'],
@@ -267,6 +272,8 @@ var uvel,
       if (formType == 'sell') {
         $self.calculateExpectedMaterial('[data-saleProduct]', 'expecteMaterial');
         $self.lockPaymentControllers();
+      } else if (formType == 'partner-sell') {
+        console.log(currentPressedBtn)
       }
 
       //TODO: ASK BOBI VVVV
@@ -446,6 +453,9 @@ var uvel,
 
     this.discountSuccess = function (response) {
       var discountsHolder = $('.discount--label-holder');
+          isPartner = false,
+          regularSellBtn = document.querySelector('[data-target="#paymentModal"]'),
+          partnerSellBtn = document.querySelector('[data-target="#paymentPartner"]');
 
       if (response.success) {
         var discounts = response.condition,
@@ -460,6 +470,18 @@ var uvel,
               '<i class="c-brown-500 ti-close"></i></span><br/>';
 
           newFields += newDiscount;
+
+          if (discount.attributes.partner) {
+            isPartner = true;
+          }
+        }
+
+        if (isPartner && regularSellBtn.style.display != 'none') {
+          regularSellBtn.style.display = 'none';
+          partnerSellBtn.style.display = 'initial';
+        } else if (!isPartner && partnerSellBtn.style.display != 'none') {
+          regularSellBtn.style.display = 'initial';
+          partnerSellBtn.style.display = 'none';
         }
 
         discountsHolder.html(newFields);
