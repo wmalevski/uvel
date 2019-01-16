@@ -20,6 +20,8 @@ use App\ProductOtherType;
 use App\Repair;
 use App\MaterialQuantity;
 use App\MaterialType;
+use App\Partner;
+use App\PartnerMaterial;
 
 class DatabaseSeeder extends Seeder
 {
@@ -38,6 +40,11 @@ class DatabaseSeeder extends Seeder
         $merchant = Bouncer::role()->create([
             'name' => 'merchant',
             'title' => 'Магазинер',
+        ]);
+
+        $partner = Bouncer::role()->create([
+            'name' => 'corporate_partner',
+            'title' => 'Kорпоративен Партньор',
         ]);
 
         $manager = Bouncer::role()->create([
@@ -206,6 +213,21 @@ class DatabaseSeeder extends Seeder
         $merchant->save();
 
         Bouncer::assign('merchant')->to($merchant);
+
+        $corporate_partner = new User();
+        $corporate_partner->name = 'Partner';
+        $corporate_partner->email = 'Partner@uvel.com';
+        $corporate_partner->password = bcrypt('partner');
+        $corporate_partner->store_id = 3;
+        $corporate_partner->save();
+
+        Bouncer::assign('corporate_partner')->to($corporate_partner);
+
+        $partner = new Partner();
+        $partner->user_id = $corporate_partner->id;
+        $partner->money = 100;
+        $partner->save();
+
         $material_type = new MaterialType();
         $material_type->name = 'Злато';
         $material_type->save();
@@ -224,6 +246,12 @@ class DatabaseSeeder extends Seeder
         $material_quantity->quantity = 500;
         $material_quantity->store_id = 2;
         $material_quantity->save();
+
+        $partner_material = new PartnerMaterial();
+        $partner_material->partner_id = $partner->id;
+        $partner_material->material_id = 1;
+        $partner_material->quantity = 50;
+        $partner_material->save();
 
         $price = new Price();
         $price->material_id = $material->id;

@@ -5,14 +5,6 @@ var uvel,
       $body = $('body'),
       currentPressedBtn;
 
-   /**********************************************
-    *                                            *
-    *                                            *
-    *   MEGA GIGANT COMMENT FOR THE REFACTORING  *
-    *                                            *
-    *                                            *
-    **********************************************/
-
     this.formsConfig = {
       globalSettings: {
         token: $('meta[name="csrf-token"]').attr('content'),
@@ -83,6 +75,16 @@ var uvel,
         controllers: [],
         initialized: false
       },
+      partners: {
+        selector: '[name="partners"]',
+        controllers: [],
+        initialized: false
+      },
+      partnermaterials: {
+        selector: '[name="partnermaterials"]',
+        controllers: [],
+        initialized: false
+      },
       selling: {
         selector: '[name="selling"]',
         controllers: ['paymentInitializer', 'getWantedSumInit'],
@@ -110,7 +112,7 @@ var uvel,
       },
       models: {
         selector: '[name="models"]',
-        controllers: ['addMaterialsInit', 'removeMaterialsInit', 'addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'imageHandling'],
+        controllers: ['addMaterialsInit', 'calculateRepairAfterPriceInit', 'addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'imageHandling'],
         initialized: false
       },
       products: {
@@ -132,14 +134,17 @@ var uvel,
         selector: '[name="repairs"]',
         controllers: ['fillRepairPrice', 'calculateRepairAfterPriceInit', 'calculateRepairAfterPrice', 'focusDatePicker'],
         initialized: false
+      },
+      orders: {
+        selector: '[name="orders"]',
+        controllers: ['ordersModelSelectInit', 'addStonesInit', 'addAnother', 'manualReceipt', 'barcodeInput'],
+        initialized: false
       }
     };
 
     this.init = function () {
       $self.attachInitialEvents();
-
-      // $self.initializeSelect($('select'));
-
+      $self.initializeSelect($('select'));
       // $self.checkAllForms();
     };
 
@@ -169,14 +174,28 @@ var uvel,
       $self.addCardDiscount($addCardDiscountTrigger);
       $self.travellingMaterialsState($travelingMaterialsStateBtns);
       $self.enterPressBehaviour($inputCollection);
+      $self.setInputFilters();
     }
 
     this.openForm = function(openFormTrigger) {
       openFormTrigger.on('click', function() {
-        var _this = $(this);
-        $self.openFormAction(_this);
+        $self.openFormAction($(this));
       });
     };
+
+    this.calculateExpectedMaterial = function() {
+      var materialHolder = document.querySelector('[data-expected-material]'),
+          materials = document.querySelectorAll('[data-saleProduct]'),
+          totalWeight = 0;
+
+      for (var i = 0; i < materials.length; i++) {
+        var materialCarat = Number(materials[i].querySelector('[data-carat]').dataset.carat);
+        var materialWeight = parseFloat(materials[i].querySelector('[data-weight]').dataset.weight);
+        totalWeight += (materialCarat/14) * materialWeight;
+      }
+
+      materialHolder.dataset.expectedMaterial = Number(totalWeight.toFixed(2)) || 0;
+    }
 
     this.openFormAction = function(currentPressedBtn, data) {
       var $this = currentPressedBtn,
@@ -189,10 +208,15 @@ var uvel,
         $self.appendingEditFormToTheModal($this, data);
       }
 
+      if (formType == 'sell') {
+        $self.calculateExpectedMaterial('[data-saleProduct]', 'expecteMaterial');
+        $self.lockPaymentControllers();
+      }
+
       //TODO: ASK BOBI VVVV
 
       setTimeout(function() {
-        if ((formType == 'add' || formType == 'sell') && !formSettings.initialized) {
+        if ((formType == 'add') || (formType == 'sell') && !formSettings.initialized) {
           $self.initializeForm(formSettings, formType);
           formSettings.initialized = true;
         } else if (formType == 'edit') {
@@ -205,7 +229,6 @@ var uvel,
       inputs.on('keypress', function(event) {
         if (event.which == 13) {
           var _this = $(this);
-
           event.preventDefault();
           _this.trigger('change');
           _this.blur();
@@ -218,19 +241,20 @@ var uvel,
         var _this = $(this),
             ajaxRequestLink = _this.hasClass('cart') ? _this.attr('data-url') : $self.buildAjaxRequestLink('deleteRow', _this.attr('data-url'));
 
-        if (confirm("Сигурен ли сте, че искате да изтриете записа?")) {
+        if (confirm('Сигурен ли сте, че искате да изтриете записа?')) {
           $.ajax({
-            method: "POST",
+            method: 'POST',
             url: ajaxRequestLink,
-            success: function(resp) {
+            success: function(response) {
               if (_this.hasClass('cart')) {
                 $self.cartSumsPopulate(resp);
+                $self.calculateExpectedMaterial('[data-saleProduct]', 'expectedMaterial');
               }
 
               _this.parents('tr').remove();
             },
-            error: function(resp) {
-              var errors = resp.responseJSON.errors,
+            error: function(response) {
+              var errors = response.responseJSON.errors,
                   stayingTime = 3000;
 
               for (var key in errors) {
@@ -276,10 +300,10 @@ var uvel,
             'quantity' : productsAmount,
             'amount_check' : moreProductsChecked,
             'type_repair' : typeRepair
-          }
+          };
         }
 
-        $self.ajaxFn("POST", ajaxUrl, $self.numberSend, dataSend, '', '');
+        $self.ajaxFn('POST', ajaxUrl, $self.numberSend, dataSend, '', '');
         _this.val('');
       })
     }
@@ -291,9 +315,7 @@ var uvel,
 
       if(success) {
         shoppingTable.find('tbody').html(html);
-
         $self.cartSumsPopulate(response);
-
         var deleteRowTrigger = $('.delete-btn');
         $self.deleteRow(deleteRowTrigger);
       } else {
@@ -315,21 +337,18 @@ var uvel,
 
     this.sellMoreProducts = function (sellMoreProductsTrigger) {
       sellMoreProductsTrigger.on('change', function() {
-        var _this = $(this),
-            amountInput = $('[data-sell-productsAmount]');
-
-        if (_this.is(':checked')) {
+        var amountInput = $('[data-sell-productsAmount]');
+        if ($(this).is(':checked')) {
           amountInput.removeAttr('readonly');
-        }
-        else {
+        } else {
           amountInput.attr('readonly', 'readonly');
           amountInput.val('1');
         }
-      })
+      });
     }
 
-    this.addDiscount = function(addDiscountTrigger) {
-      addDiscountTrigger.on('click', function(e) {
+    this.addDiscount = function (addDiscountTrigger) {
+      addDiscountTrigger.on('click', function (e) {
         e.preventDefault();
         var _this = $(this),
             discountInput = _this.closest('form').find('[data-sell-discount]'),
@@ -339,14 +358,13 @@ var uvel,
             _url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/',
             discountUrl = _this.attr('data-url'),
             dataSend = {
-              'discount' : discountAmount,
-              'description' : description
+              'discount': discountAmount,
+              'description': description
             };
 
         if (discountAmount > 0) {
           var ajaxUrl = _url + discountUrl;
-
-          $self.ajaxFn("POST", ajaxUrl, $self.discountSuccess, dataSend, '', '');
+          $self.ajaxFn('POST', ajaxUrl, $self.discountSuccess, dataSend, '', '');
         }
       });
     }
@@ -362,37 +380,32 @@ var uvel,
         if (discountBarcode.length == 13) {
           var ajaxUrl = _url + discountUrl + discountBarcode;
 
-          $self.ajaxFn("GET", ajaxUrl, $self.discountSuccess, '', '', '');
+          $self.ajaxFn('GET', ajaxUrl, $self.discountSuccess, '', '', '');
           _this.val('');
         }
-      })
+      });
     }
 
-    this.discountSuccess = function(response) {
-      var success = response.success,
-          discountsHolder = $('.discount--label-holder');
+    this.discountSuccess = function (response) {
+      var discountsHolder = $('.discount--label-holder');
 
-      if(success) {
+      if (response.success) {
         var discounts = response.condition,
             newFields = '';
 
         for (key in discounts) {
-          var discount = discounts[key],
-              discountAmount = key,
-              label = discount.value,
-              discountID = discount.attributes.discount_id;
+          var discount = discounts[key];
 
-          var newDiscount =
-          '<span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">'+label+'</span>' +
-          '<span data-url="/ajax/removeDiscount/'+discountID+'" data-sell-removeDiscount class="discount-remove badge bgc-red-50 c-red-700 p-10 lh-0 tt-c badge-pill"><i class="c-brown-500 ti-close"></i></span> <br/>';
+          var newDiscount = '<span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">' +
+              discount.value + '</span><span data-url="/ajax/removeDiscount/' +
+              discount.attributes.discount_id + '" data-sell-removeDiscount class="discount-remove badge bgc-red-50 c-red-700 p-10 lh-0 tt-c badge-pill">' +
+              '<i class="c-brown-500 ti-close"></i></span><br/>';
 
           newFields += newDiscount;
         }
 
         discountsHolder.html(newFields);
-
         $self.cartSumsPopulate(response);
-
         var removeDiscountTrigger = $('[data-sell-removeDiscount]');
         $self.removeDiscountAttach(removeDiscountTrigger);
       }
@@ -415,14 +428,13 @@ var uvel,
 
     this.removeDiscountAttach = function(removeDiscountTrigger) {
       removeDiscountTrigger.on('click', function() {
-        var _this = $(this);
-        $self.removeDiscount(_this);
+        $self.removeDiscount($(this));
       });
     }
 
     this.removeDiscount = function(btn) {
       var ajaxUrl = btn.attr('data-url');
-      $self.ajaxFn("GET", ajaxUrl, $self.discountSuccess, '', '', '');
+      $self.ajaxFn('GET', ajaxUrl, $self.discountSuccess, '', '', '');
     }
 
     this.initializeForm = function(formSettings, formType) {
@@ -438,7 +450,7 @@ var uvel,
     }
 
     this.initializeControllers = function(controllers, form) {
-        controllers.forEach(function(controller) {
+      controllers.forEach(function(controller) {
         $self[controller](form);
       });
     }
@@ -451,7 +463,6 @@ var uvel,
       submitButton.click(function(e) {
         e.preventDefault();
         var inputFields = form.find('select , input, textarea');
-
         $self.getFormFields(form, ajaxRequestLink, formType, inputFields);
       });
     }
@@ -461,21 +472,20 @@ var uvel,
           imageCollection = [];
 
       if (formType == 'edit') {
-        data._method = "PUT";
+        data._method = 'PUT';
       }
 
       inputFields.each(function(index, element) {
-        var _this = element,
-            inputType = _this.type,
-            dataKey = _this.name,
-            dataKeyValue = _this.value,
+        var inputType = element.type,
+            dataKey = element.name,
+            dataKeyValue = element.value,
             imagesInputFieldExists = dataKey == 'images' ? true : false;
 
         if((inputType == 'radio' || inputType == 'checkbox') && dataKey.indexOf('[]') !== -1) {
           dataKey = dataKey.replace('[]', '');
-          (data[dataKey] = data[dataKey] || []).push($(_this).is(':checked'));
+          (data[dataKey] = data[dataKey] || []).push($(element).is(':checked'));
         } else if (inputType == 'radio' || inputType == 'checkbox') {
-          data[dataKey] = $(_this).is(':checked');
+          data[dataKey] = $(element).is(':checked');
         } else if (dataKey.indexOf('[]') !== -1) {
           dataKey = dataKey.replace('[]', '');
           (data[dataKey] = data[dataKey] || []).push(dataKeyValue);
@@ -487,9 +497,8 @@ var uvel,
           var imagesHolder = $('.drop-area-gallery .image-wrapper img');
 
           imagesHolder.each(function(index , element) {
-            var _imgSource = element.getAttribute('src');
-
-            imageCollection.push(_imgSource);
+            var imgSource = element.getAttribute('src');
+            imageCollection.push(imgSource);
           });
 
           data.images = imageCollection;
@@ -522,8 +531,7 @@ var uvel,
       checksAndRadiosNotToClear.prop('checked', true);
 
       for (var i = 0; i < selects.length; i++) {
-        var select = $(selects[i]),
-            options = select.find('option');
+        var options = $(selects[i]).find('option');
 
         for (var n = 0; n < options.length; n++) {
           var option = $(options[n]),
@@ -535,12 +543,11 @@ var uvel,
         }
       }
 
-      if (form.attr('name') == 'models') {                          // removes all material rows except the first one
+      if (form.attr('name') == 'models') {
+        // removes all material rows except the first one
         var materials = materialsContainer.children('.form-row');
-
         for (var i = 1; i < materials.length; i++) {
           var materialRow = $(materials[i]);
-
           materialRow.remove();
         }
       }
@@ -549,28 +556,27 @@ var uvel,
       imagesContainer.empty();
     }
 
-
-    this.sendFormRequest = function(form, ajaxRequestLink, formType, data) {
-       var requestUrl =  ajaxRequestLink;
-
-       $.ajax({
-          method: "POST",
-          url: requestUrl,
-          dataType: "json",
-          data: data,
-          success: function(response) {
-            if (formType == 'add') {
-              $self.appendResponseToTable(response, form);
-              $('form').find('table tbody').empty();
-            } else if (formType == 'edit') {
-              $self.replaceResponseRowToTheTable(form, response);
-            }
-
-            $self.formSuccessHandler(form, formType);
-          },
-          error: function(err) {
-            $self.formsErrorHandler(err, form);
+    this.sendFormRequest = function(form, ajaxRequestUrl, formType, data) {
+      $.ajax({
+        method: 'POST',
+        url: ajaxRequestUrl,
+        dataType: 'json',
+        data: data,
+        success: function(response) {
+          // scroll to top of form window
+          document.getElementsByClassName('modal-content')[0].scrollIntoView();
+          if (formType == 'add') {
+            $self.appendResponseToTable(response, form);
+          } else if (formType == 'edit') {
+            $self.replaceResponseRowToTheTable(form, response);
           }
+          $self.formSuccessHandler(form, formType);
+        },
+        error: function(err) {
+          // scroll to top of form window
+          document.getElementsByClassName('modal-content')[0].scrollIntoView();
+          $self.formsErrorHandler(err, form);
+        }
       });
     }
 
@@ -580,7 +586,6 @@ var uvel,
     this.formsErrorHandler = function(err , form) {
         var errorObject = form.find('[data-repair-scan]').length > 0 ? err.errors : err.responseJSON.errors,
             errorMessagesHolder = $('<div class="error--messages_holder"></div>');
-
 
         for(var key in errorObject) {
           var messageError = $('<div class="alert alert-danger"></div>');
@@ -641,27 +646,23 @@ var uvel,
         $('.error--messages_holder').remove();
       }
 
-      var messageStayingTime = 2000,   // How long te message will be shown on the screen
-          successMessage = $('<div class="alert alert-success"></div>'),
-          message;
-
+      var text;
       if (formType == 'add') {
-        message = "Добавихте успешно записа!";
+        text = 'Добавихте успешно записа!';
       } else if (formType == 'edit') {
-        message = "Редактирахте успешно записа!";
+        text = 'Редактирахте успешно записа!';
       } else if (formType == 'sell') {
-        message = "Извършихте успешно плащане!";
+        text = 'Извършихте успешно плащане!';
       } else if (formType == 'images') {
-        message = resp.success;
+        text = resp.success;
       }
 
-      successMessage.html(message);
-
+      var successMessage = '<div class="alert alert-success">' + text + '</div>';
       form.find('.modal-body .info-cont').append(successMessage);
 
       setTimeout(function() {
         form.find('.modal-body .info-cont .alert-success').remove();
-      }, messageStayingTime);
+      }, 2000); // How long te message will be shown on the screen
 
       if (formType == 'add') {
         $self.clearForm(form);
@@ -679,13 +680,11 @@ var uvel,
       }
       else {
         var ajaxRequestLink = $self.buildAjaxRequestLink('requestForm', currentButton.attr('data-url'));
-
         $.ajax({
           url: ajaxRequestLink,
-          success: function(resp) {
+          success: function(response) {
             var modal = currentButton.parents().find('.edit--modal_holder .modal-content');
-
-            modal.html(resp);
+            modal.html(response);
             // $self.initializeSelect(_this.parents().find('select'));
             if (modal.find('[data-calculatePrice-material]').length > 0 && modal.closest('#editProduct').length > 0) {
               for (var i = 0; i < modal.find('[data-calculatePrice-material]').length; i++) {
@@ -747,7 +746,7 @@ var uvel,
       }
 
       var successMessage = $('<div class="alert alert-success"></div>');
-      successMessage.html("Редактирахте успешно записа!");
+      successMessage.html('Редактирахте успешно записа!');
 
       form.find('.modal-body .info-cont').append(successMessage);
 
@@ -758,50 +757,47 @@ var uvel,
 
     // FUNCTION THAT BUILDS THE AJAX REQUEST LINK
 
-    this.buildAjaxRequestLink = function(type, path) {
+    this.buildAjaxRequestLink = function (type, path) {
       var prefix;
 
-      switch(type) {
-        case 'requestForm' :
+      switch (type) {
+        case 'requestForm':
           prefix = '/admin/';
-            break
-        case 'submitForm' :
-        case 'deleteRow' :
+          break;
+        case 'submitForm':
+        case 'deleteRow':
         case 'print':
           prefix = '/ajax/';
-            break;
+          break;
       }
 
-      return  prefix + path;
+      return prefix + path;
     }
 
     this.print = function(btn) {
       btn.on('click', function(e) {
         e.preventDefault();
-
-        var _this = $(this),
-            ajaxRequestLink = $self.buildAjaxRequestLink('print', _this.attr('href'));
-
+        var ajaxRequestLink = $self.buildAjaxRequestLink('print', $(this).attr('href'));
         $self.handlePrintResponse(ajaxRequestLink);
-      })
+      });
     }
 
     this.handlePrintResponse = function(ajaxRequestLink) {
       $.ajax({
-        type: "GET",
+        type: 'GET',
         url : ajaxRequestLink,
-        success: function(resp) {
-          if (resp.html) {
-            var toPrint = resp.html,
-                node = document.createElement("div"),
+        success: function(response) {
+          if (response.html) {
+            var toPrint = response.html,
+                node = document.createElement('div'),
                 printElement = document.body.appendChild(node);
 
-            printElement.classList.add("to-print");
+            printElement.classList.add('to-print');
             printElement.innerHTML = toPrint;
-            document.body.classList.add("print-mode");
+            document.body.classList.add('print-mode');
             window.print();
             document.body.removeChild(node);
-            document.body.classList.remove("print-mode")
+            document.body.classList.remove('print-mode')
           }
         }
       });
@@ -817,12 +813,10 @@ var uvel,
             buttonStateRowId = row.attr('data-id');
 
         $.ajax({
-          method: "POST",
+          method: 'POST',
           url: '/ajax/materials/' + buttonState + '/' + buttonStateRowId,
-          success: function(resp) {
-            var htmlResponse = resp.success;
-
-            row.replaceWith(htmlResponse);
+          success: function(response) {
+            row.replaceWith(response.success);
           }
         });
       });
@@ -831,9 +825,7 @@ var uvel,
     this.addMaterialsInit = function(form) {
       var addMaterialsTrigger = form.find('[data-addMaterials-add]');
       var defaultBtnsCollection = $('.default_material');
-
-      $self.giveElemntsIds(defaultBtnsCollection);
-
+      $self.giveElementsIds(defaultBtnsCollection);
       addMaterialsTrigger.on('click', function() {
         $self.addMaterials(form);
       });
@@ -858,8 +850,12 @@ var uvel,
         '<option value="0">Избери</option>'
 
       materialsData.forEach(function (option) {
-        newFields += '<option value='+option.value+' data-pricebuy='+option.pricebuy+' data-material='+option.material+'>'+option.label+'</option>';
-      })
+        newFields += '<option value=' +
+          option.value + ' data-pricebuy=' +
+          option.pricebuy + ' data-material=' +
+          option.material + '>' +
+          option.label + '</option>';
+      });
 
       newFields +=
         '</select>' +
@@ -884,7 +880,7 @@ var uvel,
       materialsWrapper.append(newRow);
 
       var defaultBtnsCollection = $('.default_material');
-      $self.giveElemntsIds(defaultBtnsCollection);
+      $self.giveElementsIds(defaultBtnsCollection);
 
       var newRemoveTrigger = $(newRow).find('[data-removeMaterials-remove]');
       $self.removeMaterialsAttach(newRemoveTrigger);
@@ -903,13 +899,12 @@ var uvel,
 
     this.removeMaterialsAttach = function(collection) {
       collection.on('click', function() {
-        var _this = $(this);
-        $self.removeMaterials(_this);
-      })
+        $self.removeMaterials($(this));
+      });
     }
 
     this.removeMaterials = function(_this) {
-      var errorMessage = "Материалът, който искате да премахнете е избран за материал по подразбиране и не може да бъде изтрит.",
+      var errorMessage = 'Материалът, който искате да премахнете е избран за материал по подразбиране и не може да бъде изтрит.',
           materialRow = _this.closest('.form-row'),
           isDefault = materialRow.find('[data-calculateprice-default]').is(':checked');
 
@@ -924,14 +919,13 @@ var uvel,
       var addStoneTrigger = form.find('[data-addStone-add]'),
           forFlowCollection = $('.stone-flow');
 
-      $self.giveElemntsIds(forFlowCollection);
-
+      $self.giveElementsIds(forFlowCollection);
       addStoneTrigger.on('click', function() {
         $self.addStone(form);
       });
     }
 
-    this.addStone = function(form, stone) {
+    this.addStone = function (form, stone) {
       var stonesWrapper = form.find('.model_stones'),
           fields = stonesWrapper.find('.fields'),
           stonesData = stone || $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null,
@@ -944,22 +938,23 @@ var uvel,
         var fieldsHolder = document.createElement('div');
         fieldsHolder.classList.add('form-row', 'fields');
 
-        var newFields =
-          '<div class="form-group col-md-6">' +
-          '<label>Камък:</label>' +
-          '<select name="stones[]" class="form-control" data-calculatePrice-stone>';
+        var newFields = '<div class="form-group col-md-6"><label>Камък:</label>' +
+            '<select name="stones[]" class="form-control" data-calculatePrice-stone>';
 
-        for(var i = 0; i<stonesData.length; i++) {
+        for (var i = 0; i < stonesData.length; i++) {
           var option = stonesData[i],
               selected = '';
 
-          if (stone) {
-            if (stone.value == option.value) {
-              selected = 'selected';
-            }
+          if (stone && stone.value == option.value) {
+            selected = 'selected';
           }
 
-          newFields += '<option value='+option.value+' data-stone-price='+option.price+' data-stone-type='+option.type+' '+selected+'>'+option.label+'</option>'
+          newFields += '<option value=' +
+            option.value + ' data-stone-price=' +
+            option.price + ' data-stone-type=' +
+            option.type + ' ' +
+            selected + '>' +
+            option.label + '</option>';
         }
 
         newFields +=
@@ -967,23 +962,23 @@ var uvel,
           '</div>' +
           '<div class="form-group col-md-4">' +
           '<label>Брой:</label>' +
-          '<input type="text" value="'+amount+'" class="form-control calculate-stones" name="stone_amount[]" data-calculateStones-amount placeholder="Брой">' +
+          '<input type="text" value="' + amount + '" class="form-control calculate-stones" name="stone_amount[]" data-calculateStones-amount placeholder="Брой">' +
           '</div>' +
           '<div class="form-group col-md-2">' +
-          '<span class="delete-stone remove_field" data-removeStone-remove><i class="c-brown-500 ti-trash"></i></span>'+
+          '<span class="delete-stone remove_field" data-removeStone-remove><i class="c-brown-500 ti-trash"></i></span>' +
           '</div>' +
           '<div class="form-group col-md-6">' +
           '<div class="form-group">' +
           '<label>Тегло: </label>' +
           '<div class="input-group">' +
-          '<input type="number" value="'+weight+'" class="form-control calculate-stones" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">' +
+          '<input type="number" value="' + weight + '" class="form-control calculate-stones" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">' +
           '<span class="input-group-addon">гр</span>' +
           '</div>' +
           '</div>' +
           '</div>' +
           '<div class="form-group col-md-6">' +
           '<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder">' +
-          '<input type="checkbox" id="" class="stone-flow calculate-stones" name="stone_flow[]" class="peer" '+flow+'>' +
+          '<input type="checkbox" id="" class="stone-flow calculate-stones" name="stone_flow[]" class="peer" ' + flow + '>' +
           '<label for="" class="peers peer-greed js-sb ai-c">' +
           '<span class="peer peer-greed">За леене</span>' +
           '</label>' +
@@ -995,7 +990,7 @@ var uvel,
         stonesWrapper.append(fieldsHolder);
 
         var forFlowCollection = $('.stone-flow');
-        $self.giveElemntsIds(forFlowCollection);
+        $self.giveElementsIds(forFlowCollection);
 
         var newRemoveTrigger = $(fieldsHolder).find('[data-removeStone-remove]');
         $self.removeStoneAttach(newRemoveTrigger, form);
@@ -1015,14 +1010,12 @@ var uvel,
 
     this.removeStoneAttach = function(collection, form) {
       collection.on('click', function() {
-        var _this = $(this);
-        $self.removeStone(_this, form);
-      })
+        $self.removeStone($(this), form);
+      });
     }
 
     this.removeStone = function(_this, form) {
-      var parents = _this.closest(".form-row");
-      parents.remove();
+      _this.closest('.form-row').remove();
       $self.calculateStones(form);
       $self.calculatePrice(form);
     }
@@ -1039,12 +1032,12 @@ var uvel,
       });
     }
 
-    this.calculateStones = function(form) {
+    this.calculateStones = function (form) {
       var stoneRows = form.find('.model_stones .fields'),
           totalNode = form.find('[data-calculateStones-total]'),
           currentTotal = 0;
 
-      for (var i=0; i<stoneRows.length; i++) {
+      for (var i = 0; i < stoneRows.length; i++) {
         row = $(stoneRows[i]);
         var isForFlow = row.find('.stone-flow').is(':checked'),
             rowTotalNode = row.find('.row-total-weight');
@@ -1052,7 +1045,7 @@ var uvel,
         if (isForFlow) {
           var rowWeight = row.find('[data-calculateStones-weight]').val() * 1;
 
-          rowTotalNode.html('('+rowWeight+' гр.)');
+          rowTotalNode.html('(' + rowWeight + ' гр.)');
           rowTotalNode.css('opacity', '1');
           currentTotal += rowWeight;
         } else {
@@ -1063,19 +1056,19 @@ var uvel,
       totalNode.val(currentTotal);
     }
 
-    this.giveElemntsIds = function(collection) {
-      for (i=0; i<collection.length; i++) {
-        var el = collection[i],
+    this.giveElementsIds = function (collection) {
+      for (i = 0; i < collection.length; i++) {
+        var element = collection[i],
             setBtnId;
 
-        if ($(el).hasClass('default_material')) {
-          setBtnId = 'material_' + String(i+1);
-        } else if($(el).hasClass('stone-flow')) {
-          setBtnId = 'stoneFlow_' + String(i+1);
+        if ($(element).hasClass('default_material')) {
+          setBtnId = 'material_' + String(i + 1);
+        } else if ($(element).hasClass('stone-flow')) {
+          setBtnId = 'stoneFlow_' + String(i + 1);
         }
 
-        el.setAttribute('id', setBtnId);
-        el.nextElementSibling.setAttribute('for', setBtnId);
+        element.setAttribute('id', setBtnId);
+        element.nextElementSibling.setAttribute('for', setBtnId);
       }
     }
 
@@ -1086,14 +1079,12 @@ var uvel,
 
     this.calculatePriceAttach = function(collection, form) {
       collection.on('change', function() {
-        var _this = $(this);
-        $self.calculatePriceHandler(form, _this);
+        $self.calculatePriceHandler(form, $(this));
       });
     }
 
     this.calculatePriceHandler = function(form, _this) {
       var row = _this.closest('.form-row');
-
       if (row.find('[data-calculatePrice-default]:checked').length > 0 || row.find('[data-calculatePrice-netWeight]').length > 0 || form.attr('name') == 'products' || _this.closest('.model_stones').length > 0) {
         $self.calculatePrice(form);
       }
@@ -1157,12 +1148,11 @@ var uvel,
 
     this.materialPricesRequestAttach = function(collection, form) {
       collection.on('change', function(){
-        var _this = $(this);
-        $self.materialPricesRequestBuilder(form, _this);
-      })
+        $self.materialPricesRequestBuilder(form, $(this));
+      });
     }
 
-    this.materialPricesRequestBuilder = function(form, _this) {
+    this.materialPricesRequestBuilder = function (form, _this) {
       var ajaxUrl = window.location.origin + '/ajax/getPrices/',
           materialType = _this.find(':selected').val(),
           materialAttribute = _this.find(':selected').attr('data-material'),
@@ -1170,7 +1160,7 @@ var uvel,
           requestLink = ajaxUrl + materialAttribute,
           formName = form.attr('name');
 
-      if(materialType == 0) {
+      if (materialType == 0) {
         pricesFilled.val('0');
         pricesFilled.attr('disabled', true);
 
@@ -1185,12 +1175,15 @@ var uvel,
       if (formName == 'products') {
         var modelId = form.find('[data-calculatePrice-model] option:selected').val();
         requestLink += '/' + modelId;
+      } else if (formName == 'orders') {
+        var modelId = form.find('[data-calculateprice-model] option:selected').val();
+        requestLink += '/' + modelId;
       } else {
         requestLink += '/0';
       }
 
       if (materialAttribute !== undefined) {
-        $self.ajaxFn('GET' , requestLink , $self.materialPricesResponseHandler, '', form, _this);
+        $self.ajaxFn('GET', requestLink, $self.materialPricesResponseHandler, '', form, _this);
       }
     }
 
@@ -1201,21 +1194,19 @@ var uvel,
       $self.fillPrices(retaiPriceFilled, retailPrices, form);
     }
 
-    this.fillPrices = function(element, prices, form) {      //  for now it's made for classic select, needs review when we apply Select2
-      var chooseOpt = '<option value="0">Избери</option>';
-
-      element.empty();
+    this.fillPrices = function (element, prices, form) {
+      //  for now it's made for classic select, needs review when we apply Select2
+      element.html('<option value="0">Избери</option>');
       element.attr('disabled', false);
-      element.append(chooseOpt);
 
-      prices.forEach(function(price) {
-        var id = price.id,
-            material = price.material,
-            _price = price.price,
-            selected = price.selected ? 'selected' : '',
-            text = price.slug;
-
-        var option = '<option value="'+id+'" data-material="'+material+'" data-price="'+_price+'" '+selected+'>'+text+'</option>';
+      prices.forEach(function (price) {
+        var selected = price.selected ? 'selected' : '';
+        var option = '<option value="' +
+            price.id + '" data-material="' +
+            price.material + '" data-price="' +
+            price.price + '" ' +
+            selected + '>' +
+            price.slug + '</option>';
 
         element.append(option);
       });
@@ -1224,61 +1215,60 @@ var uvel,
     }
 
     this.modelRequestInit = function(form) {
-      var modelRequestTrigger = form.find('[data-calculatePrice-model]');
-
-      modelRequestTrigger.on('change', function() {
+      var modelRequestTrigger = form.find('.input-search');
+      // TODO check if its needed now with Select2
+      modelRequestTrigger.on('input', function() {
         var _this = $(this);
-
         if (_this.find('option:selected').val() !== '0' && _this.find('option:selected').val() !== '') {
           $self.modelRequest(form);
         } else {
           var collection = form.find('[data-calculatePrice-material], [data-calculatePrice-retail]');
-
           collection.val('0');
           collection.attr('disabled', 'disabled');
         }
       });
     }
 
-    this.modelRequest = function(form) {
-      var ajaxUrl = window.location.origin + '/ajax/products/',
-          modelId = form.find('[data-calculatePrice-model]').val();
+    this.modelRequest = function (form) {
+      var inputModel = form.find('.input-search'),
+          ajaxUrl = window.location.origin + '/' + inputModel.attr('data-url'),
+          modelId = inputModel.attr('data-product-id'),
+          requestLink = ajaxUrl + modelId;
 
-      var requestLink = ajaxUrl + modelId;
-
-      $self.ajaxFn('GET' , requestLink , $self.modelRequestResponseHandler, '', form);
+      $self.ajaxFn('GET', requestLink, $self.modelRequestResponseHandler, '', form);
     }
 
-    this.modelRequestResponseHandler = function(response, form) {
-      $self.fillMaterials(response, form);
-      $self.fillJewel(response, form);
-      $self.fillStones(response, form);
-      $self.calculateStones(form);
-      $self.fillSize(response, form);
-      $self.fillWeight(response, form);
-      $self.fillFinalPrice(response, form);
-      $self.fillWorkmanshipPrice(response, form);
-      $self.fillPhotos(response, form);
+    this.modelRequestResponseHandler = function (response, form) {
+      /* Form specific properties */
+      if (form[0].name == 'products') {
+        $self.fillPhotos(response.photos, form);
+      }
       if ($('[data-calculatePrice-withStones]').is(':checked')) {
         $self.calculatePrice(form);
       }
+
+      $self.fillMaterials(response.materials, form);
+      $self.fillJewel(response.jewels_types, form);
+      $self.fillStones(response.stones, form);
+      $self.fillSize(response.size, form);
+      $self.fillWeight(response, form);
+      $self.fillFinalPrice(response.price, form);
+      $self.fillWorkmanshipPrice(response.workmanship, form);
+      $self.calculateStones(form);
     }
 
-    this.fillMaterials = function(response, form) {
-      var materialHolder = form.find('[data-calculatePrice-material]'),
-          materials = response.materials,
-          chooseOpt = '<option value="0">Избери</option>';
+    this.fillMaterials = function (materials, form) {
+      var materialHolder = form.find('[data-calculatePrice-material]');
+      materialHolder.html('<option value="0">Избери</option>');
 
-      materialHolder.html(chooseOpt);
-
-      materials.forEach(function(material) {
-        var value = material.value,
-            dataMaterial = material.dataMaterial,
-            priceBuy = material.priceBuy,
-            label = material.label,
-            selected = material.selected ? 'selected' : '';
-
-        var option = '<option value="'+value+'" data-material="'+dataMaterial+'" data-pricebuy="'+priceBuy+'" '+selected+'>'+label+'</option>'
+      materials.forEach(function (material) {
+        var selected = material.selected ? 'selected' : '';
+        var option = '<option value="' +
+            material.value + '" data-material="' +
+            material.dataMaterial + '" data-pricebuy="' +
+            material.priceBuy + '" ' +
+            selected + '>' +
+            material.label + '</option>';
 
         materialHolder.append(option);
         materialHolder.attr('disabled', false);
@@ -1287,31 +1277,27 @@ var uvel,
       $self.materialPricesRequestBuilder(form, materialHolder);
     }
 
-    this.fillJewel = function(response, form) {
-      var jewelHolder = form.find('[data-modelFilled-jewel]'),
-          selected;
-
-      response.jewels_types.forEach(function(jewel) {
+    this.fillJewel = function(jewelsTypes, form) {
+      var selected;
+      jewelsTypes.forEach(function(jewel) {
         if (jewel.selected) {
           selected = jewel.value;
         }
-      })
+      });
 
-      jewelHolder.val(selected);
+      form.find('[data-modelFilled-jewel]').val(selected);
     }
 
-    this.fillStones = function(response, form) {
-      var stones = response.stones;
-          stonesHolder = form.find('.model_stones');
-
+    this.fillStones = function(stones, form) {
+      var stonesHolder = form.find('.model_stones');
       stonesHolder.empty();
-
       stones.forEach(function(stone) {
         $self.addStone(form, stone);
       });
     }
 
     this.fillWeight = function(response, form) {
+      // kakvo e tva weight * 1
       var netWeightHolder = form.find('[data-calculatePrice-netWeight]'),
           grossWeightHolder = form.find('[data-calculatePrice-grossWeight]'),
           weight = response.weight * 1,
@@ -1336,34 +1322,27 @@ var uvel,
       grossWeightHolder.val(weight);
     }
 
-    this.fillSize = function(response, form) {
-      var sizeHolder = form.find('[data-modelFilld-size]'),
-          size = response.size;
-
+    this.fillSize = function(size, form) {
+      var sizeHolder = form.find('[data-modelFilld-size]');
       sizeHolder.val(size);
     }
 
-    this.fillFinalPrice = function(response, form) {
-      var finalHolder = form.find('[data-calculatePrice-final]'),
-          price = response.price;
-
+    this.fillFinalPrice = function(price, form) {
+      var finalHolder = form.find('[data-calculatePrice-final]');
       finalHolder.val(price);
     }
 
-    this.fillWorkmanshipPrice = function(response, form) {
-      var workmanshipHolder = form.find('[data-calculatePrice-worksmanship]'),
-          price = response.workmanship;
-
-      workmanshipHolder.val(price);
+    this.fillWorkmanshipPrice = function(workmanshipPrice, form) {
+      var workmanshipHolder = form.find('[data-calculatePrice-worksmanship]');
+      workmanshipHolder.val(workmanshipPrice);
     }
 
-    this.fillPhotos = function(response, form) {
-      var dropAreaGalleryHolder = form.find('.drop-area-gallery'),
-          photos = response.photos;
+    this.fillPhotos = function (photos, form) {
+      var dropAreaGalleryHolder = form.find('.drop-area-gallery');
 
       dropAreaGalleryHolder.empty();
 
-      photos.forEach(function(photo) {
+      photos.forEach(function (photo) {
         var imageWrapper = $(document.createElement('div')),
             newImg = $(document.createElement('img')),
             photoUrl = photo.base64,
@@ -1384,9 +1363,7 @@ var uvel,
 
     this.getWantedSumInit = function(form) {
       $self.getWantedSum(form);
-
       var getWantedTrigger = $('[data-selling-payment]');
-
       getWantedTrigger.on('click', function() {
         $self.getWantedSum(form);
       })
@@ -1395,7 +1372,38 @@ var uvel,
     this.paymentInitializer = function(form) {
       var calculateTrigger = form.find('[data-calculatePayment-given]'),
           currencyChangeTrigger = form.find('[data-calculatePayment-currency]'),
-          methodChangeTrigger = form.find('[data-calculatePayment-method]');
+          methodChangeTrigger = form.find('[data-calculatePayment-method]'),
+          exchangeTrigger = form.find('[data-exchange-trigger]'),
+          newExchangeFieldTrigger = form.find('[data-newExchangeField-trigger]'),
+          newExchangeField = form.find('.exchange-row-fields').html(),
+          exchangeRow = form.find('#exchange-row');
+
+      document.querySelector('.exchange-row-fields').innerHTML = '';
+      $('#paymentModal').on('click', $self.closePayments);
+
+      exchangeTrigger.on('change', function() {
+        if (!this.checked) {
+          $self.hideExchangeRow();
+        } else {
+          $self.showExchangeRow(exchangeRow, newExchangeField);
+        }
+      });
+
+      newExchangeFieldTrigger.on('click', function() {
+        $self.addNewExchangeField(newExchangeField);
+      });
+
+      exchangeRow.on('click', '[data-exchangeRowRemove-trigger]', $self.removeSingleExchangeRow);
+
+      exchangeRow.on('change', '[data-calculateprice-material]', function() {
+        $self.exchangeMaterialCaratConvert($(this).closest('.form-row'));
+      });
+
+      exchangeRow.on('change', '[data-weight]', $self.setExchangeMaterialWeight);
+
+      exchangeRow.on('change', '[name="calculating_price"]', function() {
+        $self.calculateExchangeMaterialTotal();
+      });
 
       calculateTrigger.on('change', function() {
         $self.calculatePaymentInit(form);
@@ -1406,9 +1414,184 @@ var uvel,
       });
 
       methodChangeTrigger.on('change', function() {
-        var _this = $(this);
-        $self.paymentMethodChange(form, _this);
+        $self.paymentMethodChange(form, $(this));
       });
+    }
+
+    this.hideExchangeRow = function() {
+      var row = $('#exchange-row');
+
+      row.animate({
+        opacity: 0,
+      }, 300, function() {
+        row.css('display', 'none');
+
+        $self.removeExchangeRows();
+        document.querySelector('#exchange').checked = false;
+        $self.calculatePaymentInit($('[name="selling"]'));
+      });
+    }
+
+    this.lockPaymentControllers = function() {
+      var calculationType = document.querySelector('#shopping-table tbody').children.length > 0 ? 'for_exchange' : 'for_buy',
+          calculationPrice = document.querySelector('[name="calculating_price"]');
+          paymentGiven = document.querySelector('[data-calculatepayment-given]');
+
+          if (calculationType == 'for_buy') {
+            calculationPrice.disabled = true;
+            paymentGiven.disabled = true;
+          } else {
+            calculationPrice.disabled = false;
+            paymentGiven.disabled = false;
+          }
+
+          paymentGiven.value = 0;
+          calculationPrice.selectedIndex = 0;
+    }
+
+    this.showExchangeRow = function(row, field) {
+      row.css('display', 'block');
+
+      row.animate({
+        opacity: 1,
+      }, 300, function() {
+          $self.addNewExchangeField(field);
+      });
+    }
+
+    this.removeExchangeRows = function() {
+      var exchangeRows = document.querySelectorAll('.exchange-row-fields .form-row');
+
+      for (var i = 0; i < exchangeRows.length; i++) {
+        exchangeRows[i].remove();
+      }
+
+      document.querySelector('[data-exchangerows-total]').value = 0;
+    }
+
+    this.removeSingleExchangeRow = function() {
+      $(this).parent().parent().remove();
+
+      if ($('.exchange-row-fields .form-row').length == 0) {
+        $self.hideExchangeRow();
+      }
+
+      $self.calculateExchangeMaterialTotal();
+    }
+
+    this.addNewExchangeField = function(field) {
+      var populateType = document.querySelector('#shopping-table tbody').children.length > 0 ? 'for_exchange' : 'for_buy';
+
+      document.querySelector('.exchange-row-fields').insertAdjacentHTML('beforeend', field);
+
+      $self.populateExchangeMaterials(populateType);
+    }
+
+    this.populateExchangeMaterials = function(type) {
+      var materials = document.querySelectorAll('[data-calculateprice-material]'),
+          materialHolder = materials[materials.length - 1],
+          materialsData = $('#materials_data').length > 0 ? JSON.parse($('#materials_data').html()) : null;
+
+        for (var i = 0; i < materialsData.length; i++) {
+            if (materialsData[i][type] == 'yes') {
+              addMaterial(materialsData[i]);
+            }
+        }
+
+      function addMaterial(material) {
+        var option = document.createElement("option");
+
+        option.text = material.label;
+        option.dataset.pricebuy = material.price;
+        option.dataset.carat = material.carat;
+        option.dataset.transform = material.carat_transform;
+        option.value = material.value;
+
+        materialHolder.add(option);
+      }
+
+      //TODO - CHECK THIS AFTER SELECT 2 IMPLEMENTATION
+    }
+
+    this.closePayments = function(e) {
+
+      if (e.target.id == 'paymentModal' || e.target.parentElement.classList.contains('close')) {
+        $self.hideExchangeRow();
+        document.querySelector('[data-calculatepayment-return]').value = '';
+        document.querySelector('[data-calculatepayment-given]').value = 0;
+      }
+    }
+
+    this.setExchangeMaterialWeight = function() {
+      var $this = $(this),
+          weight = $this.val().replace(/^0+/, '');
+
+      $this.val(weight);
+      $this.attr('value', weight);
+
+      $self.exchangeMaterialCaratConvert($this.closest('.form-row'));
+    }
+
+    this.exchangeMaterialCaratConvert = function(row) {
+      var transform = row.find('[data-calculateprice-material] :selected').attr('data-transform'),
+          weight = row.find('[data-weight]'),
+          materialPrice = row.find('[data-calculateprice-material] :selected'),
+          carat,
+          convertedWeight = 0;
+
+      if (materialPrice.val() > 0 && weight.val() > 0) {
+        if (transform == 'yes') {
+          carat = parseFloat(materialPrice.attr('data-carat'));
+          convertedWeight = Number( ((carat/14) * weight.val()).toFixed(2));
+        } else {
+          convertedWeight = parseFloat(weight.val());
+        }
+
+        weight.attr('data-weight', convertedWeight);
+      } else {
+        weight.attr('data-weight', convertedWeight);
+      }
+
+      $self.calculateExchangeMaterialTotal();
+    }
+
+    this.calculateExchangeMaterialTotal = function() {
+      var calculationType = document.querySelector('#shopping-table tbody').children.length > 0 ? 'for_exchange' : 'for_buy',
+          materials = document.querySelectorAll('.exchange-row-fields .form-row'),
+          expectedMaterial = parseFloat(document.querySelector('[data-expected-material]').dataset.expectedMaterial),
+          weightConverted = 0,
+          weightNotConvertedSum = 0,
+          aboveExpected = 0,
+          defaultPrice = parseFloat(document.querySelector('[data-defaultprice]').dataset.defaultprice),
+          selectedPrice = parseFloat(document.querySelector('[name="calculating_price"]').selectedOptions[0].dataset.price) || defaultPrice,
+          selectedCurrency = parseFloat(document.querySelector('[data-calculatepayment-currency]').selectedOptions[0].dataset.currency),
+          total = 0,
+          notConvertedPrice,
+          notConvertedWeight;
+
+      for (var i = 0; i < materials.length; i++) {
+
+        if (materials[i].closest('.form-row').querySelector('[data-calculateprice-material]').selectedOptions[0].dataset.transform == 'yes') {
+          weightConverted += parseFloat(materials[i].querySelector('[data-weight]').dataset.weight) || 0;
+        } else {
+          notConvertedPrice = parseFloat(materials[i].querySelector('[data-calculateprice-material]').selectedOptions[0].dataset.pricebuy);
+          notConvertedWeight = parseFloat(materials[i].querySelector('[data-weight]').dataset.weight);
+
+          weightNotConvertedSum += notConvertedPrice * notConvertedWeight;
+        }
+      }
+
+      if (weightConverted > expectedMaterial && calculationType == 'for_exchange') {
+        aboveExpected = weightConverted - expectedMaterial;
+        total = (((weightConverted - aboveExpected) * defaultPrice ) + (aboveExpected * selectedPrice)) * selectedCurrency;
+      } else {
+        total = (weightConverted * defaultPrice) * selectedCurrency;
+      }
+
+      total += weightNotConvertedSum * selectedCurrency;
+      document.querySelector('[data-exchangerows-total]').value = Number(total.toFixed(2));
+
+      return $self.calculatePaymentInit($('[name="selling"]'));
     }
 
     this.getWantedSum = function(form) {
@@ -1416,27 +1599,39 @@ var uvel,
           wantedValue = $('[data-calculatePayment-total]').val(),
           selectedCurrency = form.find('[data-calculatePayment-currency] :selected').attr('data-currency');
 
-      var newWanted = Math.round((wantedValue * selectedCurrency) * 100) / 100;
+      var newWanted = Number((wantedValue * selectedCurrency).toFixed(2));
       wantedHolder.val(newWanted);
     }
 
     this.calculatePaymentInit = function(form) {
-      var givenSum = form.find('[data-calculatePayment-given]').val(),
-          wantedSum = form.find('[data-calculatePayment-wanted]').val();
+      var givenSum = parseFloat(form.find('[data-calculatePayment-given]').val()) || 0,
+          wantedSum = parseFloat(form.find('[data-calculatePayment-wanted]').val()),
+          exchangeSum = parseFloat($('[data-exchangerows-total]').val()) || 0;
 
-      $self.calculatePayment(form, givenSum, wantedSum);
+      $self.calculatePayment(form, givenSum, wantedSum, exchangeSum);
     }
 
-    this.calculatePayment = function(form, givenSum, wantedSum) {
+    this.calculatePayment = function(form, givenSum, wantedSum, exchangeSum) {
       var returnHolder = form.find('[data-calculatePayment-return]'),
-          returnSum = Math.round((givenSum - wantedSum) * 100) / 100;
+          returnSum;
+
+      if (wantedSum > 0) {
+        returnSum = Number((givenSum + exchangeSum - wantedSum).toFixed(2));
+      } else {
+        returnSum = Number(exchangeSum.toFixed(2));
+      }
 
       returnHolder.val(returnSum);
     }
 
     this.paymentCurrencyChange = function(form) {
       $self.getWantedSum(form);
-      $self.calculatePaymentInit(form);
+
+      if (document.querySelectorAll('.exchange-row-fields .form-row').length > 0) {
+        $self.calculateExchangeMaterialTotal();
+      } else {
+        $self.calculatePaymentInit(form);
+      }
     }
 
     this.paymentMethodChange = function(form, _this) {
@@ -1475,7 +1670,6 @@ var uvel,
 
     this.calculateCaratsInitializer = function(form) {
       var calculateCaratTrigger = form.find('[data-calculateCarats-weight], [data-calculateCarats-type]');
-
       calculateCaratTrigger.on('change', function() {
         $self.calculateCarats(form)
       });
@@ -1501,42 +1695,91 @@ var uvel,
           deleteImagesTriggerUploadArea = form.find('.uploaded-images-area .close');
 
       uploadImagesTrigger.on('change', function(event) {
-        var _this = $(this);
         $self.uploadImages(event, form);
       });
 
       $self.dragNdropImages(dropArea, form);
-
       $self.deleteImagesDropArea(deleteImagesTriggerDropArea);
       $self.deleteImagesUploadArea(deleteImagesTriggerUploadArea, form);
+    }
+
+    this.manualReceipt = function(form) {
+      var btnManualReceipt = form.find('[data-manual-receipt]');
+      btnManualReceipt.on('click', function() {
+        event.preventDefault();
+        var manualReceipt = form.find('');
+      });
+    }
+
+    this.barcodeInput = function(form) {
+      var barcodeInput = form.find('#calculate_product');
+      barcodeInput.on('input', function(event) {
+        if (event.currentTarget.value.length >= 13) {
+          // TODO possible bug with window.location.origin, to be tested with different url-s
+          var urlOrigin = window.location.origin,
+              inputUrl = event.currentTarget.attributes.url.value,
+              inputValue = event.currentTarget.value;
+
+          var ajaxUrl = urlOrigin + '/' + inputUrl + inputValue;
+          $self.ajaxFn('GET', ajaxUrl, $self.modelRequestResponseHandler, '', form);
+        }
+      })
+    }
+
+    this.ordersModelSelectInit = function(form) {
+      var modelSelect = form.find('#model_select');
+
+      $self.initializeSelect(modelSelect, function(event) {
+        $self.onOrdersFormSelect(event, form);
+      });
+    }
+
+    this.onOrdersFormSelect = function(event, form) {
+      var currentSelect = event.currentTarget,
+          ajaxUrl = currentSelect.attributes.url.value,
+          selectedModelId = currentSelect.selectedOptions[0].dataset.modelId,
+          ajaxUrl = window.location.origin + '/' + ajaxUrl + selectedModelId;
+
+      $self.ajaxFn('GET', ajaxUrl, $self.modelRequestResponseHandler, '', form);
+
+    }
+
+    this.addAnother = function(form) {
+      var addAnother = form.find('#btnAddAnother');
+
+      addAnother.on('click', function(event) {
+        event.preventDefault();
+
+        var givenMaterialsNewElement = $('.form-row.given-material').first().clone();
+
+        $(givenMaterialsNewElement).insertBefore(this);
+      });
     }
 
     this.dragNdropImages = function(dropArea, form) {
       $('html').on('dragover', function(event) {
         event.preventDefault();
-      })
+      });
 
       $('html').on('drop', function(event) {
         event.preventDefault();
-      })
+      });
 
       dropArea.on('dragenter', function(event) {
         event.preventDefault();
         var _this = $(event.currentTarget);
-
         _this.addClass('dragging');
         _this.children().css('pointer-events', 'none');
-      })
+      });
 
       dropArea.on('dragleave', function(event) {
         event.preventDefault();
         var _this = $(event.currentTarget);
-
         _this.removeClass('dragging');
         _this.children().css('pointer-events', 'auto');
-      })
+      });
 
-      dropArea.on('drop', function(event) {
+      dropArea.on('drop', function (event) {
         event.preventDefault();
         var _this = $(event.currentTarget),
             collectionFiles = [];
@@ -1546,23 +1789,23 @@ var uvel,
         _this.children().css('pointer-events', 'auto');
 
         if (event.dataTransfer.items) {
-          for (var i=0; i<event.dataTransfer.items.length; i++) {
+          for (var i = 0; i < event.dataTransfer.items.length; i++) {
             var item = event.dataTransfer.items[i];
 
             if (item.kind === 'file') {
               var file = item.getAsFile();
-              if(file.type == "image/svg+xml") {
-                alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
+              if (file.type == "image/svg+xml") {
+                alert('Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif');
               } else {
                 collectionFiles.push(file);
               }
             }
           }
         } else {
-          for (var i=0; i<event.dataTransfer.files.length; i++) {
+          for (var i = 0; i < event.dataTransfer.files.length; i++) {
             var file = event.dataTransfer.files[i];
-            if(file.type == "image/svg+xml") {
-              alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
+            if (file.type == 'image/svg+xml') {
+              alert('Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif');
             } else {
               collectionFiles.push(file);
             }
@@ -1570,7 +1813,7 @@ var uvel,
         }
 
         $self.appendImages(collectionFiles, form);
-      })
+      });
     }
 
     this.uploadImages = function(event, form) {
@@ -1594,7 +1837,6 @@ var uvel,
       collectionFiles.forEach(function(element) {
         var reader = new FileReader();
         reader.readAsDataURL(element);
-
         reader.onloadend = function() {
           var imageWrapper = document.createElement('div');
           var closeBtn = document.createElement('div');
@@ -1634,28 +1876,23 @@ var uvel,
             $self.formSuccessHandler(form, 'images', resp);
             _this.closest('.image-wrapper').remove();
           }
-        })
-      })
+        });
+      });
     }
 
     this.fillRepairPrice = function(form) {
-      var fillPriceTrigger = form.find('[data-repair-type]'),
-          priceHolder = form.find('[data-repair-price]');
-
+      var fillPriceTrigger = form.find('[data-repair-type]');
       fillPriceTrigger.on('change', function() {
-        var _this = $(this),
-            price = _this.find(':selected').attr('data-price');
-
+        var price = $(this).find(':selected').attr('data-price');
         priceHolder.val(price);
-      })
+      });
     }
 
     this.calculateRepairAfterPriceInit = function(form) {
       var calculatePriceTrigger = $('[data-repair-type], [data-repair-material], [data-repair-weightAfter]');
-
       calculatePriceTrigger.on('change', function() {
         $self.calculateRepairAfterPrice(form);
-      })
+      });
     }
 
     this.calculateRepairAfterPrice = function(form) {
@@ -1675,13 +1912,11 @@ var uvel,
     }
 
     this.focusDatePicker = function(form) {
-      var  datePickerTriggers = form.find('.timepicker-input input:not([readonly])').closest('.timepicker-input').find('.input-group-addon');
-
+      var datePickerTriggers = form.find('.timepicker-input input:not([readonly])').closest('.timepicker-input').find('.input-group-addon');
       datePickerTriggers.on('click', function() {
         var datePicker = $(this).closest('.timepicker-input').find('input');
-
         datePicker.focus();
-      })
+      });
     }
 
     this.barcodeProcessRepairAttach = function(input) {
@@ -1713,19 +1948,17 @@ var uvel,
         window.location.replace(data.redirect);
       } else if (data.hasOwnProperty('errors')) {
         var form = currentPressedBtn.closest('form');
-
         $self.formsErrorHandler(data, form);
       }
     }
 
     this.returnRepairBtnAction = function(returnRepairBtn) {
       returnRepairBtn.on('click', function() {
-        var _this = $(this),
-            urlTaken = window.location.href.split('/'),
-            path = _this.attr('data-url'),
+        var urlTaken = window.location.href.split('/'),
+            path = $(this).attr('data-url'),
             ajaxUrl = urlTaken[0] + '//' + urlTaken[2] + '/ajax/' + path;
 
-        $self.ajaxFn('GET', ajaxUrl, $self.barcodeProcessReturnResponse,'','',_this);
+        $self.ajaxFn('GET', ajaxUrl, $self.barcodeProcessReturnResponse, '', '', $(this));
       })
     }
 
@@ -1745,12 +1978,11 @@ var uvel,
 
       closeModalTrigger.on('click', function() {
         $self.closeModal(modal);
-      })
+      });
 
       modal.on('click', function(e) {
-        var _this = $(e.target);
-        console.log(_this);
-      })
+        console.log($(e.target));
+      });
     }
 
     this.closeModal = function(modal) {
@@ -1765,15 +1997,14 @@ var uvel,
           token = $self.formsConfig.globalSettings.token;
 
       xhttp.open(method, url, true);
-
       xhttp.onreadystatechange = function () {
         if(this.readyState == 4 && this.status == 200) {
+          var data;
           if($self.IsJsonString(this.responseText)){
-            var data = JSON.parse(this.responseText);
+            data = JSON.parse(this.responseText);
           } else {
-            var data = this.responseText;
+            data = this.responseText;
           }
-
           callback(data, elements, currentPressedBtn);
         } else if (this.readyState == 4 && this.status == 401) {
           var data = JSON.parse(this.responseText);
@@ -1784,7 +2015,7 @@ var uvel,
       xhttp.setRequestHeader('Content-Type', 'application/json');
       xhttp.setRequestHeader('X-CSRF-TOKEN', token);
 
-      if(method === "GET") {
+      if(method === 'GET') {
         xhttp.send();
       } else {
         xhttp.send(JSON.stringify(dataSend));
@@ -1806,7 +2037,6 @@ var uvel,
 
     this.addModelSelectInitialize = function() {
       var addModelButton = $('[data-target="#addModel"]');
-
       addModelButton.click(function() {
         $self.initializeSelect($('form[name="addModel"]').find('select'));
       });
@@ -1836,16 +2066,10 @@ var uvel,
     */
 
     this.initializeSelect = function (select, selectCallback) {
-      //var select = form.find('select');
-      // TODO check if passed parameters are needed in other branches
-
       select.select2({
         templateResult: $self.addSelect2CustomAttributes,
         templateSelection: $self.addSelect2CustomAttributes
       });
-
-
-      //select.select2();
       select.on('select2:select', selectCallback);
     }
 
@@ -1922,22 +2146,122 @@ var uvel,
       });
 
       function printCertificate(e) {
-        var urlTaken = window.location.href.split('/');
-        var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs';
-        var certificateId = e.target.getAttribute('data-repair-id');
-        var ajaxUrl = url + '/certificate/' + certificateId;
+        var urlTaken = window.location.href.split('/'),
+            url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs',
+            certificateId = e.target.getAttribute('data-repair-id'),
+            ajaxUrl = url + '/certificate/' + certificateId;
 
-        ajaxFn("GET",ajaxUrl,printBtnSuccess,'','','');
+        ajaxFn('GET',ajaxUrl,printBtnSuccess,'','','');
       }
+    }
+
+    // Used in Admin->Products Travelling and Admin->Products
+    this.nameFieldSearch = function (form) {
+      var input = $('.input-search'),
+          dropdown = $(form).find('.dropdown-menu'),
+          dropdownItems = $(form).find('.dropdown-item'),
+          modalWindow = $('.modal-content:visible');
+
+      input.on('focusin', function () {
+        dropdown.removeClass('hidden');
+      });
+
+      modalWindow.on('click', function(event) {
+        // Check if click is outside input or the dropdown menu
+        // so the dropdown can be closed
+        var target = event.target;
+        if (!target.classList.contains('input-search') && !target.classList.contains('dropdown-item')) {
+          dropdown.addClass('hidden');
+          // reset the input field text, if it was edited without selecting new option from the dropdown
+          if (input.attr('data-product-name') && input.val() != input.attr('data-product-name')) {
+            input.val(input.attr('data-product-name'));
+          }
+        }
+      });
+
+      dropdownItems.on('click', function (event) {
+        var optionId = event.currentTarget.id,
+            optionText = event.currentTarget.innerText;
+
+        dropdown.addClass('hidden');
+        input.val(optionText);
+        input.attr('data-product-id', optionId);
+        input.attr('data-product-name', optionText);
+        // triggers the input event on the search input, so the ajax request is made
+        $('.input-search').trigger('input');
+      });
+
+      input.on('input', function (event) {
+        var inputText = event.currentTarget.value.trim();
+        var filterAttributes = [
+          'data-name'
+        ];
+        $self.filterElementsByAttribute(inputText, dropdownItems, filterAttributes);
+      });
+    }
+
+    // Currently used in Admin->Models and Admin->Products pages
+    this.setInputFilters = function () {
+      var inputs = $('.filter-input'),
+          btnClearFilters = $('.btn-clear-filters'),
+          filterableElements = $('.filterable-element');
+
+      inputs.on('input', function (event) {
+        // First check the current input, then all others
+        var inputText = event.currentTarget.value.trim();
+        var filterAttributes = [
+          event.currentTarget.dataset.searchAttribute
+        ];
+        $self.filterElementsByAttribute(inputText, filterableElements, filterAttributes);
+
+        // After the current input is checked, search only through the visible elements
+        var visibleElements = $('.filterable-element:visible');
+
+        // Check other inputs, without the current one
+        for (var i = 0; i < inputs.length; i++) {
+          var input = inputs[i];
+          // Current input is already checked, ignore it
+          if (input != event.currentTarget && input.value != '') {
+            var inputText = input.value.trim();
+            var filterAttributes = [
+              input.dataset.searchAttribute
+            ];
+            $self.filterElementsByAttribute(inputText, visibleElements, filterAttributes);
+          }
+        }
+      });
+
+      btnClearFilters.on('click', function() {
+        inputs.val('');
+        var elements = $('.filterable-element');
+        elements.show();
+      });
+    }
+
+    // Filter elements by a given data-attributes to search through
+    // text - the text from the input field
+    // elements - array of the elements to be filtered
+    // filterAttributes - array with the attributes to be searched for
+    this.filterElementsByAttribute = function (text, elements, filterAttributes) {
+      elements.filter(function () {
+        var match;
+        for (var filterAttr of filterAttributes) {
+          match = this.attributes[filterAttr].value.toLowerCase().indexOf(text.toLowerCase()) > -1;
+          if (match) {
+            break;
+          } else {
+            $(this).hide();
+          }
+        }
+        return match;
+      }).show();
     }
   }
 
 $(function () {
   if (!window.console) window.console = {};
-  if (!window.console.log) window.console.log = function () {
-  };
-  if (!window.console.info) window.console.info = function () {
-  };
+  if (!window.console.log) window.console.log = function () {};
+  if (!window.console.info) window.console.info = function () {};
 
   uvel = new uvelController();
   uvel.init();

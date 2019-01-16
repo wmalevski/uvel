@@ -31,6 +31,7 @@ class CreateProductsTable extends Migration
             $table->enum('status', ['available', 'selling', 'travelling', 'sold'])->default('available');
             $table->enum('weight_without_stones', ['yes', 'no'])->default('no');
             $table->integer('store_id')->unsigned();
+            $table->integer('order_id')->unsigned()->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

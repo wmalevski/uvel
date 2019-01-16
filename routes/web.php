@@ -42,6 +42,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/stones/contours', 'StoneContourController@index')->name('contours');
     Route::post('/stones/contours', 'StoneContourController@store');
 
+    Route::get('/orders', 'OrderController@index')->name('orders');
+
     //Route::get('/users/substitution/{user}', 'UserSubstitutionController@show');
 
     Route::get('/users/substitutions', 'UserSubstitutionController@index')->name('substitutions');
@@ -49,6 +51,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/users', 'UserController@index')->name('users');
     Route::get('/users/{user}', 'UserController@edit');
+
+    Route::get('/partners', 'PartnerController@index')->name('partners');
+    Route::get('/partners/{partner}', 'PartnerController@edit');
+
+    Route::get('/partnermaterials/{partner}', 'PartnerMaterialController@index')->name('partner_materials');
+    Route::get('/partnermaterials/{partner}/{material}', 'PartnerMaterialController@edit');
 
     Route::get('/stones', 'StoneController@index')->name('stones');
     Route::post('/stones', 'StoneController@store');
@@ -162,9 +170,20 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/search/models/{term}', 'ModelController@search');
 
     Route::get('/search/products/{term}', 'ProductController@search');
+    Route::get('/orders/{order}', 'OrderController@edit');
 });
 
 Route::group(['prefix' => 'ajax'], function() {
+    Route::post('/orders', 'OrderController@store');
+    Route::put('/orders/{order}', 'OrderController@update');
+    Route::get('/orders/getProductInfo/{product}', 'OrderController@getProductInfo')->name('getProductInfo');
+    Route::get('/orders/getModelInfo/{model}', 'OrderController@getModelInfo')->name('getModelInfo');
+    Route::post('/orders/delete/{order}', 'OrderController@destroy');
+
+    Route::put('/partners/{partner}', 'PartnerController@update');
+    Route::put('/partnermaterials/{partner}/{material}', 'PartnerMaterialController@update');
+
+    Route::get('productstravelling/addByScan/{product}', 'ProductTravellingController@addByScan');
 
     Route::get('productstravelling/addByScan/{product}', 'ProductTravellingController@addByScan');
 
@@ -224,7 +243,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/sendMaterial', 'MaterialTravellingController@store');
 
     Route::put('/mquantity/{materialQuantity}', 'MaterialQuantityController@update');
-    
+
     Route::put('/materials/{material}', 'MaterialController@update');
 
     Route::put('/materialstypes/{materialType}', 'MaterialTypeController@update');
@@ -292,6 +311,8 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::put('/settings/currencies/{currency}', 'CurrencyController@update');
 
     Route::get('/getPrices/{material}/{model}', 'PriceController@getByMaterial');
+
+    Route::get('/getPricesExchange/{material}/{model}', 'PriceController@getByMaterialExchange');
 
     Route::post('/users/substitutions', 'UserSubstitutionController@store');
 
