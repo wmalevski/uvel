@@ -120,7 +120,7 @@ var uvel,
       },
       productsTravelling: {
         selector: '[name="productsTravelling"]',
-        controllers: [],
+        controllers: ['productTravellingInit'],
         initialized: false
       },
       repairTypes: {
@@ -140,7 +140,7 @@ var uvel,
 
       // $self.initializeSelect($('select'));
 
-      // $self.checkAllForms();      
+      // $self.checkAllForms();
     };
 
     this.attachInitialEvents = function () {
@@ -180,7 +180,7 @@ var uvel,
 
     this.openFormAction = function(currentPressedBtn, data) {
       var $this = currentPressedBtn,
-          timeToOpenModal = 1000, //time which takes for modals to open 
+          timeToOpenModal = 1000, //time which takes for modals to open
           openedForm = $this.attr('data-form'),
           formType = $this.attr('data-form-type'),
           formSettings = $self.formsConfig[openedForm];
@@ -262,7 +262,7 @@ var uvel,
             typeRepair = sellingForm.find('[data-sell-repair]').is(':checked'),
             ajaxUrl = sellingForm.attr('data-scan'),
             dataSend;
-            
+
         if (_this[0].hasAttribute('data-sell-catalogNumber')) {
           dataSend = {
             'catalog_number' : number,
@@ -291,7 +291,7 @@ var uvel,
 
       if(success) {
         shoppingTable.find('tbody').html(html);
-        
+
         $self.cartSumsPopulate(response);
 
         var deleteRowTrigger = $('.delete-btn');
@@ -345,7 +345,7 @@ var uvel,
 
         if (discountAmount > 0) {
           var ajaxUrl = _url + discountUrl;
-          
+
           $self.ajaxFn("POST", ajaxUrl, $self.discountSuccess, dataSend, '', '');
         }
       });
@@ -382,7 +382,7 @@ var uvel,
               label = discount.value,
               discountID = discount.attributes.discount_id;
 
-          var newDiscount = 
+          var newDiscount =
           '<span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">'+label+'</span>' +
           '<span data-url="/ajax/removeDiscount/'+discountID+'" data-sell-removeDiscount class="discount-remove badge bgc-red-50 c-red-700 p-10 lh-0 tt-c badge-pill"><i class="c-brown-500 ti-close"></i></span> <br/>';
 
@@ -410,7 +410,7 @@ var uvel,
 
       var discountsSum = response.subtotal - response.total;
       discountsSum = Math.round(discountsSum * 100) / 100;
-      discountDisplay.val(discountsSum);      
+      discountDisplay.val(discountsSum);
     }
 
     this.removeDiscountAttach = function(removeDiscountTrigger) {
@@ -450,8 +450,7 @@ var uvel,
 
       submitButton.click(function(e) {
         e.preventDefault();
-        var _this = $(this),
-            inputFields = form.find('select , input, textarea');
+        var inputFields = form.find('select , input, textarea');
 
         $self.getFormFields(form, ajaxRequestLink, formType, inputFields);
       });
@@ -592,7 +591,7 @@ var uvel,
           } else {
             messageError.append(errorObject[key][0]);
           }
-          
+
           errorMessagesHolder.append(messageError);
         }
 
@@ -658,12 +657,12 @@ var uvel,
       successMessage.html(message);
 
       form.find('.modal-body .info-cont').append(successMessage);
-      
+
       setTimeout(function() {
         form.find('.modal-body .info-cont .alert-success').remove();
       }, messageStayingTime);
 
-      if (formType == 'add') {    
+      if (formType == 'add') {
         $self.clearForm(form);
       }
     }
@@ -725,7 +724,7 @@ var uvel,
           deleteBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .delete-btn'),
           printBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] .print-btn'),
           returnRepairBtn = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"] [data-repair-return]');
-      
+
       $self.openForm(editBtn);
       $self.deleteRow(deleteBtn);
       $self.print(printBtn);
@@ -745,12 +744,12 @@ var uvel,
       if($('.error--messages_holder').length) {
         $('.error--messages_holder').remove();
       }
-    
+
       var successMessage = $('<div class="alert alert-success"></div>');
       successMessage.html("Редактирахте успешно записа!");
-    
+
       form.find('.modal-body .info-cont').append(successMessage);
-      
+
       setTimeout(function() {
        form.find('.modal-body .info-cont .alert-success').remove();
       } , 2000);
@@ -802,7 +801,7 @@ var uvel,
             window.print();
             document.body.removeChild(node);
             document.body.classList.remove("print-mode")
-          } 
+          }
         }
       });
     }
@@ -810,7 +809,7 @@ var uvel,
     this.travellingMaterialsState = function(travelingMaterialsStateBtns) {
       travelingMaterialsStateBtns.on('click', function(e) {
         e.preventDefault();
-        
+
         var _this = $(this),
             buttonState = _this.attr('data-travelstate'),
             row = _this.parents('tr[data-id]'),
@@ -846,7 +845,7 @@ var uvel,
 
       $(newRow).addClass('form-row');
 
-      var newFields = 
+      var newFields =
         '<div class="col-12">' +
         '<div class="col-6">' +
         '<hr>' +
@@ -952,7 +951,7 @@ var uvel,
         for(var i = 0; i<stonesData.length; i++) {
           var option = stonesData[i],
               selected = '';
-          
+
           if (stone) {
             if (stone.value == option.value) {
               selected = 'selected';
@@ -1201,7 +1200,7 @@ var uvel,
       $self.fillPrices(retaiPriceFilled, retailPrices, form);
     }
 
-    this.fillPrices = function(element, prices, form) {      //  for now it's made for classic select, needs review when we apply Select2 
+    this.fillPrices = function(element, prices, form) {      //  for now it's made for classic select, needs review when we apply Select2
       var chooseOpt = '<option value="0">Избери</option>';
 
       element.empty();
@@ -1269,8 +1268,7 @@ var uvel,
           materials = response.materials,
           chooseOpt = '<option value="0">Избери</option>';
 
-      materialHolder.empty();
-      materialHolder.append(chooseOpt);
+      materialHolder.html(chooseOpt);
 
       materials.forEach(function(material) {
         var value = material.value,
@@ -1429,9 +1427,9 @@ var uvel,
     }
 
     this.calculatePayment = function(form, givenSum, wantedSum) {
-      var returnHolder = form.find('[data-calculatePayment-return]');
+      var returnHolder = form.find('[data-calculatePayment-return]'),
+          returnSum = Math.round((givenSum - wantedSum) * 100) / 100;
 
-      var returnSum = Math.round((givenSum - wantedSum) * 100) / 100;
       returnHolder.val(returnSum);
     }
 
@@ -1577,7 +1575,7 @@ var uvel,
     this.uploadImages = function(event, form) {
       var files = event.target.files,
           collectionFiles= [];
-     
+
       for(var file of files) {
         if(file.type == "image/svg+xml") {
           alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
@@ -1601,13 +1599,13 @@ var uvel,
           var closeBtn = document.createElement('div');
           var img = document.createElement('img');
 
-          _instanceFiles.push(reader.result);   
+          _instanceFiles.push(reader.result);
 
           imageWrapper.setAttribute("class", "image-wrapper");
           closeBtn.setAttribute("class", "close");
           closeBtn.innerHTML = '&#215;';
-          $self.deleteImagesDropArea($(closeBtn));       
-          
+          $self.deleteImagesDropArea($(closeBtn));
+
           img.src = reader.result;
           imageWrapper.append(closeBtn);
           imageWrapper.append(img);
@@ -1679,9 +1677,8 @@ var uvel,
       var  datePickerTriggers = form.find('.timepicker-input input:not([readonly])').closest('.timepicker-input').find('.input-group-addon');
 
       datePickerTriggers.on('click', function() {
-        var _this = $(this),
-            datePicker = _this.closest('.timepicker-input').find('input');
-            
+        var datePicker = $(this).closest('.timepicker-input').find('input');
+
         datePicker.focus();
       })
     }
@@ -1715,7 +1712,7 @@ var uvel,
         window.location.replace(data.redirect);
       } else if (data.hasOwnProperty('errors')) {
         var form = currentPressedBtn.closest('form');
-        
+
         $self.formsErrorHandler(data, form);
       }
     }
@@ -1775,7 +1772,7 @@ var uvel,
           } else {
             var data = this.responseText;
           }
-          
+
           callback(data, elements, currentPressedBtn);
         } else if (this.readyState == 4 && this.status == 401) {
           var data = JSON.parse(this.responseText);
@@ -1785,7 +1782,7 @@ var uvel,
 
       xhttp.setRequestHeader('Content-Type', 'application/json');
       xhttp.setRequestHeader('X-CSRF-TOKEN', token);
-      
+
       if(method === "GET") {
         xhttp.send();
       } else {
@@ -1802,15 +1799,7 @@ var uvel,
       return true;
     }
 
-    /*********************************************
-    *                                            *
-    *                                            *
-    *   MEGA GIGANT COMMENT FOR THE REFACTORING  *
-    *                                            *
-    *                                            *
-    *********************************************/
-
-    /* 
+    /*
       INITIALIZING SELECT2 IN THE ADD FORM , BECAUSE WHEN EDIT BUTTON IS CLICKED , THE SELECT2 IN ADDMODEL DESTROYS ITSELF.
     */
 
@@ -1822,7 +1811,7 @@ var uvel,
       });
     }
 
-    /* 
+    /*
       FUNCTION THAT GET THE SELECT OPTION'S ATTRIBUTES AND ATTACH THEM ON THE SELECT2 PLUGIN LIST ITEMS.
     */
 
@@ -1832,7 +1821,9 @@ var uvel,
           'data-price': $(data.element).attr('data-price') || 0,
           'data-pricebuy': $(data.element).attr('data-pricebuy') || 0,
           'data-retail': $(data.element).attr('data-retail') || 0,
-          'data-material': $(data.element).attr('data-material') || 0
+          'data-material': $(data.element).attr('data-material') || 0,
+          'data-barcode': $(data.element).attr('data-barcode') || 0,
+          'data-product-id': $(data.element).attr('data-product-id') || 0
         });
       }
 
@@ -1843,21 +1834,86 @@ var uvel,
       FUNCTION THAT INITIALIZES THE SELECT 2 PLUGIN
     */
 
-    this.initializeSelect = function (select) {
+    this.initializeSelect = function (select, selectCallback) {
+      //var select = form.find('select');
+      // TODO check if passed parameters are needed in other branches
+
       select.select2({
         templateResult: $self.addSelect2CustomAttributes,
         templateSelection: $self.addSelect2CustomAttributes
       });
-    }    
+
+
+      //select.select2();
+      select.on('select2:select', selectCallback);
+    }
+
+    this.productTravellingInit = function (form) {
+      $('#inputBarcodeScan').on('input', function (event) {
+        var text = event.target.value;
+        if (text.length >= 13) {
+          var ajaxUrl = window.location.origin + '/' + this.dataset.url + text;
+
+          $self.ajaxFn('GET', ajaxUrl, $self.productTravellingAjaxResponse);
+        }
+      });
+
+      var selectProduct = form.find('select[name="product_select[]"]'),
+          selectStore = form.find('select[name="store_to_id"]');
+
+      $self.initializeSelect(selectProduct, $self.productTravellingProductSelected);
+      $self.initializeSelect(selectStore);
+    }
+
+    this.productTravellingProductSelected = function (event) {
+      var data = event.params.data.element.dataset,
+          ajax = $('select[name="product_select[]"]').attr('data-url'),
+          ajaxUrl = window.location.origin + '/' + ajax + data.barcode;
+
+      $self.ajaxFn('GET', ajaxUrl, $self.productTravellingAjaxResponse);
+    }
+
+    this.productTravellingAjaxResponse = function (response) {
+      if (response.errors) {
+        var error = response.errors.not_found[0],
+            errorElement = '<div class="alert alert-danger table-alert">' + error + '</div>',
+            stayingTime = 3000;
+
+        $('.info-cont').append(errorElement);
+        setTimeout(function() {
+          $('.info-cont').html('');
+        }, stayingTime);
+      } else {
+        var id = response.item.id,
+            match = $('.found-product[data-id="' + id + '"]');
+
+        if (match.length == 0) {
+          var name = response.item.name,
+              weight = response.item.weight,
+              barcode = response.item.barcode;
+
+          var productElement = '<tr class="found-product" data-id="' +
+              id + '"><input type="hidden" name="product_id[]" value="' +
+              id + '"><td>' +
+              barcode + '</td><td>' +
+              name + '</td><td>' +
+              weight + ' гр</td><td><span data-url="#" class="delete-btn">' +
+              '<i class="c-brown-500 ti-trash"></i></span></td></tr>';
+
+          $('#inputBarcodeScan').val('');
+          $('#foundProducts').append(productElement);
+        }
+      }
+    }
 
     this.checkAllForms = function(currentPressedBtn) {
       var certificateBtns = document.querySelectorAll('.certificate');
       var pendingRequest = false;
-           
+
       certificateBtns.forEach(function(btn){
         btn.addEventListener('click',printCertificate);
       });
-  
+
       function printCertificate(e) {
         var urlTaken = window.location.href.split('/');
         var url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs';
@@ -1865,7 +1921,7 @@ var uvel,
         var ajaxUrl = url + '/certificate/' + certificateId;
 
         ajaxFn("GET",ajaxUrl,printBtnSuccess,'','','');
-      }   
+      }
     }
   }
 
