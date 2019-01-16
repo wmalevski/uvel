@@ -567,6 +567,7 @@ var uvel,
           document.getElementsByClassName('modal-content')[0].scrollIntoView();
           if (formType == 'add') {
             $self.appendResponseToTable(response, form);
+            $('form').find('table tbody').empty();
           } else if (formType == 'edit') {
             $self.replaceResponseRowToTheTable(form, response);
           }

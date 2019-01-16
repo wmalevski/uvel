@@ -185,6 +185,8 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::get('productstravelling/addByScan/{product}', 'ProductTravellingController@addByScan');
 
+    Route::get('productstravelling/addByScan/{product}', 'ProductTravellingController@addByScan');
+
     Route::post('/stores', 'StoreController@store');
     Route::put('/stores/{store}', 'StoreController@update');
     Route::get('/stores/{store}', 'StoreController@edit');
@@ -241,7 +243,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/sendMaterial', 'MaterialTravellingController@store');
 
     Route::put('/mquantity/{materialQuantity}', 'MaterialQuantityController@update');
-    
+
     Route::put('/materials/{material}', 'MaterialController@update');
 
     Route::put('/materialstypes/{materialType}', 'MaterialTypeController@update');

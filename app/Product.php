@@ -72,7 +72,7 @@ class Product extends BaseModel
     {
         return $this->belongsTo('App\Price')->withTrashed();
     }
-    
+
     public function order()
     {
         return $this->belongsTo('App\OrderItem');
@@ -81,41 +81,41 @@ class Product extends BaseModel
     public function chainedSelects(Model $model){
         $materials = MaterialQuantity::curStore();
         $default = $model->options->where('default', 'yes')->first();
-        
+
         if($model){
             $jewels = Jewel::all();
             $model_stones = $model->stones;
             $model_photos = $model->photos;
             $models = Model::all();
-            
+
             if($default){
-                $retail_prices = $default->material->material->pricesBuy; 
-        
+                $retail_prices = $default->material->material->pricesBuy;
+
                 $pass_jewels = array();
-                
+
                 foreach($jewels as $jewel){
                     if($jewel->id == $model->jewel_id){
                         $selected = true;
                     }else{
                         $selected = false;
                     }
-    
+
                     $pass_jewels[] = (object)[
                         'value' => $jewel->id,
                         'label' => $jewel->name,
                         'selected' => $selected
                     ];
                 }
-        
+
                 $prices_retail = array();
-                
+
                 foreach($retail_prices as $price){
                     if($price->id == $default->retail_price_id){
                         $selected = true;
                     }else{
                         $selected = false;
                     }
-    
+
                     $prices_retail[] = (object)[
                         'value' => $price->id,
                         'label' => $price->slug.' - '.$price->price.'лв',
@@ -126,7 +126,7 @@ class Product extends BaseModel
             }
 
             $pass_stones = array();
-            
+
             foreach($model_stones as $stone){
                 $pass_stones[] = [
                     'value' => $stone->id,
@@ -157,7 +157,7 @@ class Product extends BaseModel
 
 
             $pass_materials = array();
-            
+
             foreach($materials as $material){
                 if($material->material->pricesBuy){
                     if($default){
@@ -169,8 +169,8 @@ class Product extends BaseModel
                     }else{
                         $selected = false;
                     }
-                    
-    
+
+
                     //BE: Use materials quantity, not MATERIAL TYPE! Do it after merging.
                     $pass_materials[] = (object)[
                         'value' => $material->id,
@@ -185,7 +185,7 @@ class Product extends BaseModel
             $pass_photos = array();
 
             $pass_stones = array();
-            
+
             foreach($model_stones as $stone){
                 $pass_stones[] = [
                     'value' => $stone->stone->id,
@@ -203,11 +203,11 @@ class Product extends BaseModel
             foreach($model_photos as $photo){
                 $url =  Storage::get('public/models/'.$photo->photo);
                 $ext_url = Storage::url('public/models/'.$photo->photo);
-                
+
                 $info = pathinfo($ext_url);
-                
+
                 $image_name =  basename($ext_url,'.'.$info['extension']);
-                
+
                 $base64 = base64_encode($url);
 
                 $pass_photos[] = [
@@ -215,9 +215,9 @@ class Product extends BaseModel
                     'base64' => 'data:image/'.$info['extension'].';base64,'.$base64
                 ];
             }
-    
+
             return array(
-                'retail_prices' => $prices_retail, 
+                'retail_prices' => $prices_retail,
                 'jewels_types' => $pass_jewels,
                 'stones' => $pass_stones,
                 'weight' => $model->weight,
@@ -248,7 +248,7 @@ class Product extends BaseModel
 
             return $pass_products;
         }
-        
+
         public function store($request, $responseType = 'JSON'){
             //dd($request);
             $validator = Validator::make( $request->all(), [
@@ -261,8 +261,8 @@ class Product extends BaseModel
                 'workmanship' => 'required|numeric|between:0.1,500000',
                 'price' => 'required|numeric|between:0.1,500000',
                 'store_id' => 'required|numeric'
-            ]); 
-    
+            ]);
+
             if ($validator->fails()) {
                 if($responseType == 'JSON'){
                     return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
@@ -270,16 +270,16 @@ class Product extends BaseModel
                     return array('errors' => $validator->errors());
                 }
             }
-    
+
             $material = MaterialQuantity::withTrashed()->find($request->material_id);
-            
+
             if($material->quantity < $request->weight){
                 if($responseType == 'JSON'){
                     return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
                 }else{
                     return array('errors' => array('using' => ['Няма достатъчна наличност от този материал.']));
                 }
-                
+
             }
 
             $findModel = DefModel::find($request->model_id);
@@ -296,17 +296,17 @@ class Product extends BaseModel
             $product->price = $request->price;
             $product->code = 'P'.unique_random('products', 'code', 7);
             $product->store_id = $request->store_id;
-            $bar = '380'.unique_number('products', 'barcode', 7).'1'; 
-    
+            $bar = '380'.unique_number('products', 'barcode', 7).'1';
+
             $material->quantity = $material->quantity - $request->weight;
             $material->save();
-    
+
             if($request->with_stones == 'false'){
                 $product->weight_without_stones = 'no';
             } else{
                 $product->weight_without_stones = 'yes';
             }
-    
+
             $digits =(string)$bar;
             // 1. Add the values of the digits in the even-numbered positions: 2, 4, 6, etc.
             $even_sum = $digits{1} + $digits{3} + $digits{5} + $digits{7} + $digits{9} + $digits{11};
@@ -320,27 +320,27 @@ class Product extends BaseModel
             $next_ten = (ceil($total_sum/10))*10;
             $check_digit = $next_ten - $total_sum;
             $product->barcode = $digits . $check_digit;
-    
+
             $path = public_path('uploads/products/');
-            
+
             File::makeDirectory($path, 0775, true, true);
             Storage::disk('public')->makeDirectory('products', 0775, true);
-    
-    
+
+
             $findModel = ModelOption::where([
                 ['material_id', '=', $request->material],
                 ['model_id', '=', $request->model]
             ])->get();
-    
+
             if(!$findModel){
                 $option = new ModelOption();
                 $option->material_id = $request->material_id;
                 $option->model_id = $request->model_id;
                 $option->retail_price_id = $request->retail_price_id;
-    
+
                 $option->save;
             }
-    
+
             $stoneQuantity = 1;
             if($request->stones){
                 foreach($request->stones as $key => $stone){
@@ -353,9 +353,9 @@ class Product extends BaseModel
                             }else{
                                 return array('errors' => array('stone_weight' => ['Няма достатъчна наличност от този камък.']));
                             }
-                            
+
                         }
-                
+
                         $checkStone->amount = $checkStone->amount - $request->stone_amount[$key];
                         $checkStone->save();
                     }
@@ -363,7 +363,7 @@ class Product extends BaseModel
             }
 
             $product->save();
-    
+
             if($request->stones){
                 if($stoneQuantity == 1){
                     foreach($request->stones as $key => $stone){
@@ -384,27 +384,27 @@ class Product extends BaseModel
                     }
                 }
             }
-    
-            $file_data = $request->input('images'); 
+
+            $file_data = $request->input('images');
             if($file_data){
                 foreach($file_data as $img){
                     $memi = substr($img, 5, strpos($img, ';')-5);
-                    
+
                     $extension = explode('/',$memi);
                     if($extension[1] == "svg+xml"){
                         $ext = 'png';
                     }else{
                         $ext = $extension[1];
                     }
-                    
-    
+
+
                     $file_name = 'productimage_'.uniqid().time().'.'.$ext;
-    
+
                     $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
                     file_put_contents(public_path('uploads/products/').$file_name, $data);
-    
+
                     Storage::disk('public')->put('products/'.$file_name, file_get_contents(public_path('uploads/products/').$file_name));
-    
+
                     $photo = new Gallery();
                     $photo->photo = $file_name;
                     $photo->product_id = $product->id;
@@ -414,6 +414,6 @@ class Product extends BaseModel
             }
 
              return $product;
-            
+
         }
     }
