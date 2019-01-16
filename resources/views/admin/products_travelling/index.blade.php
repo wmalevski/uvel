@@ -67,64 +67,13 @@
 
                 </div>
 
-					<div class="form-row">
-						<div class="form-group col-md-12">
-							<label>Тип: </label>
-
-							<input class="form-control input-search" type="text" data-product-name data-product-id placeholder="Продукт">
-							<div class="dropdown-menu hidden">
-								@foreach($products as $product)
-								<li id="{{ $product->id }}" class="dropdown-item" data-name="{{ $product->name }}">
-									{{ $product->name }}
-								</li>
-								@endforeach
-							</div>
-
-							<!--
-							{{--
-							<select name="product_id" class="form-control">
-								<option value="">Избери продукт</option>
-
-								@foreach($products as $product)
-								<option value="{{ $product->id }}">
-									{{ $product->name }}
-								</option>
-								@endforeach
-							</select>
-							--}}
-							-->
-
-
-						</div>
-					</div>
-
-					<div class="form-row">
-						<div class="form-group col-md-12">
-							<label for="3">Магазин: </label>
-							<select name="store_to_id" class="form-control">
-								<option value="">Избери магазин</option>
-								@foreach($stores as $store)
-									@if($store->id != Auth::user()->getStore()->id)
-									<option value="{{ $store->id }}">
-										{{ $store->name }} - {{ $store->location }}
-									</option>
-									@endif
-								@endforeach
-							</select>
-						</div>
-					</div>
-					<div id="errors-container"></div>
-				</div>
-
-				<input type="hidden" name="store_id" value="{{  Auth::user()->store }}">
-
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-					<button type="submit" id="add" data-state="add_state" class="action--state_button add-btn-modal btn btn-primary">Добави</button>
-				</div>
-			</form>
-		</div>
-	</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+                    <button type="submit" id="add" data-state="add_state" class="action--state_button add-btn-modal btn btn-primary">Добави</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <div class="row">

@@ -47,40 +47,44 @@ class ProductTravellingController extends Controller
      */
     public function store(Request $request)
     {
-        $productTravelling = new ProductTravelling();
-        $productTravelling = $productTravelling->store($request, 'JSON');
+        $validator = Validator::make( $request->all(), [
+            'store_to_id' => 'required'
+        ]);
 
-        if(isset($productTravelling->id)){
-            return Response::json(array('success' => View::make('admin/products_travelling/table', array('product' => $travel, 'proID' => $travel->id))->render()));
-        }else{
-            return $productTravelling;
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
         $response = '';
-        foreach($request->product_id as $product){
-            $check = Product::find($product);
+        if($request->product_id){
+            foreach($request->product_id as $product){
+                $check = Product::find($product);
 
-            if($check){
-                if($check->store_id == $request->store_to_id){
-                    return Response::json(['errors' => array('quantity' => ['Не може да изпращате материал към същият магазин'])], 401);
+                if($check){
+                    if($check->store_id == $request->store_to_id){
+                        return Response::json(['errors' => array('quantity' => ['Не може да изпращате материал към същият магазин'])], 401);
+                    }
                 }
+
+                $travel = new ProductTravelling();
+                $travel->product_id = $product;
+                $travel->store_from_id = Auth::user()->getStore()->id;
+                $travel->store_to_id  = $request->store_to_id;
+                $travel->date_sent = new \DateTime();
+                $travel->user_sent = Auth::user()->getId();
+
+                $travel->save();
+
+                $product = Product::find($product);
+                $product->status = 'travelling';
+                $product->save();
+
+                $response .=  View::make('admin/products_travelling/table', array('product' => $travel, 'proID' => $travel->id))->render();
             }
 
-            $travel = new ProductTravelling();
-            $travel->product_id = $product;
-            $travel->store_from_id = Auth::user()->getStore()->id;
-            $travel->store_to_id  = $request->store_to_id;
-            $travel->date_sent = new \DateTime();
-            $travel->user_sent = Auth::user()->getId();
-
-            $travel->save();
-
-            $product = Product::find($product);
-            $product->status = 'travelling';
-            $product->save();
-
-            $response .=  View::make('admin/products_travelling/table', array('product' => $travel, 'proID' => $travel->id))->render();
+            return Response::json(array('success' =>$response));
         }
+
 
         //
         // $history = new History();
@@ -91,8 +95,6 @@ class ProductTravellingController extends Controller
         // $history->result_id = $travel->id;
 
         // $history->save();
-
-        return Response::json(array('success' =>$response));
     }
 
     public function addByScan($product){

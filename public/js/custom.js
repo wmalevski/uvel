@@ -139,11 +139,6 @@ var uvel,
         selector: '[name="orders"]',
         controllers: ['ordersModelSelectInit', 'addStonesInit', 'addAnother', 'manualReceipt', 'barcodeInput'],
         initialized: false
-      },
-      productsTravelling: {
-        selector: '[name="productsTravelling"]',
-        controllers: ['nameFieldSearch'],
-        initialized: false
       }
     };
 
