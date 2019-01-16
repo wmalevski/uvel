@@ -137,7 +137,9 @@ var uvel,
 
     this.init = function () {
       $self.attachInitialEvents();
-			//$self.initializeSelect($('select'));
+
+      // $self.initializeSelect($('select'));
+
       // $self.checkAllForms();
     };
 
