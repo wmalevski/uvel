@@ -22,7 +22,7 @@ class ProductTravellingController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::where('status', 'available')->get();
         $travelling = ProductTravelling::all();
         $stores = Store::all();
 
@@ -54,6 +54,62 @@ class ProductTravellingController extends Controller
             return Response::json(array('success' => View::make('admin/products_travelling/table', array('product' => $travel, 'proID' => $travel->id))->render()));
         }else{
             return $productTravelling;
+        }
+
+        $response = '';
+        foreach($request->product_id as $product){
+            $check = Product::find($product);
+
+            if($check){
+                if($check->store_id == $request->store_to_id){
+                    return Response::json(['errors' => array('quantity' => ['Не може да изпращате материал към същият магазин'])], 401);
+                }
+            }
+
+            $travel = new ProductTravelling();
+            $travel->product_id = $product;
+            $travel->store_from_id = Auth::user()->getStore()->id;
+            $travel->store_to_id  = $request->store_to_id;
+            $travel->date_sent = new \DateTime();
+            $travel->user_sent = Auth::user()->getId();
+
+            $travel->save();
+
+            $product = Product::find($product);
+            $product->status = 'travelling';
+            $product->save();
+
+            $response .=  View::make('admin/products_travelling/table', array('product' => $travel, 'proID' => $travel->id))->render();
+        }
+
+        //
+        // $history = new History();
+
+        // $history->action = '1';
+        // $history->user = Auth::user()->getId();
+        // $history->table = 'products_travelling';
+        // $history->result_id = $travel->id;
+
+        // $history->save();
+
+        return Response::json(array('success' =>$response));
+    }
+
+    public function addByScan($product){
+        $item = Product::where('barcode', $product)->first();
+
+        if($item){
+            $pass_item = (object)[
+                'id' => $item->id,
+                'name' => $item->name,
+                'weight' => $item->weight,
+                'barcode' => $item->barcode
+            ];
+
+            return Response::json(array(
+                'item' => $pass_item));
+        }else{
+            return Response::json(['errors' => ['not_found' => ['Продукта не може да бъде намерен.']]], 401);
         }
     }
 

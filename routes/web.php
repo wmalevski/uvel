@@ -130,6 +130,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/productstravelling/accept/{product}', 'ProductTravellingController@accept');
 
+    Route::get('productstravelling/addByScan/{product}', 'ProductTravellingController@addByScan');
+
     Route::get('/productsotherstypes', 'ProductOtherTypeController@index')->name('products_others_types');
     Route::get('/productsotherstypes/{productOtherType}', 'ProductOtherTypeController@edit');
 
@@ -165,6 +167,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/repairs/return/{repair}', 'RepairController@return');
     Route::get('/repairs/edit/{repair}', 'RepairController@edit');
 
+    Route::get('/search/models/{term}', 'ModelController@search');
+
+    Route::get('/search/products/{term}', 'ProductController@search');
     Route::get('/orders/{order}', 'OrderController@edit');
 });
 
@@ -177,6 +182,8 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::put('/partners/{partner}', 'PartnerController@update');
     Route::put('/partnermaterials/{partner}/{material}', 'PartnerMaterialController@update');
+
+    Route::get('productstravelling/addByScan/{product}', 'ProductTravellingController@addByScan');
 
     Route::post('/stores', 'StoreController@store');
     Route::put('/stores/{store}', 'StoreController@update');
