@@ -30,6 +30,7 @@
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label>Модел:</label>
+
 							<input class="form-control input-search" type="text" data-url="ajax/products/" data-product-name data-product-id placeholder="Модел">
 							<div class="dropdown-menu hidden">
 								@foreach($models as $model)

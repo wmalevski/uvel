@@ -117,7 +117,7 @@ var uvel,
       },
       products: {
         selector: '[name="products"]',
-        controllers: ['addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'imageHandling'],
+        controllers: ['addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'modelRequestInit', 'imageHandling'],
         initialized: false
       },
       productsTravelling: {
@@ -1228,6 +1228,30 @@ var uvel,
       });
 
       $self.calculatePrice(form);
+    }
+
+    this.modelRequestInit = function(form) {
+      var modelRequestTrigger = form.find('.input-search');
+      // TODO check if its needed now with Select2
+      modelRequestTrigger.on('input', function() {
+        var _this = $(this);
+        if (_this.find('option:selected').val() !== '0' && _this.find('option:selected').val() !== '') {
+          $self.modelRequest(form);
+        } else {
+          var collection = form.find('[data-calculatePrice-material], [data-calculatePrice-retail]');
+          collection.val('0');
+          collection.attr('disabled', 'disabled');
+        }
+      });
+    }
+
+    this.modelRequest = function (form) {
+      var inputModel = form.find('.input-search'),
+          ajaxUrl = window.location.origin + '/' + inputModel.attr('data-url'),
+          modelId = inputModel.attr('data-product-id'),
+          requestLink = ajaxUrl + modelId;
+
+      $self.ajaxFn('GET', requestLink, $self.modelRequestResponseHandler, '', form);
     }
 
     this.modelRequestResponseHandler = function (response, form) {
