@@ -139,7 +139,7 @@ var uvel,
         select2obj: [
           {
             selector: 'select[name="product_select"]',
-            callback: 'productTravellingProductSelected'
+            callback: 'productTravellingSelectCallback'
           }
         ],
         initialized: false
@@ -2096,8 +2096,8 @@ var uvel,
       select.on('select2:select', selectCallback);
     }
 
-    this.productTravellingBarcodeInput = function (form) {
-      $('#inputBarcodeScan').on('input', function (event) {
+    this.productTravellingBarcodeInput = function(form) {
+      $('#inputBarcodeScan').on('input', function(event) {
         var text = event.target.value;
         if (text.length >= 13) {
           var ajaxUrl = window.location.origin + '/' + this.dataset.url + text;
@@ -2107,7 +2107,7 @@ var uvel,
       });
     }
 
-    this.productTravellingProductSelected = function (event, selectElement, form) {
+    this.productTravellingSelectCallback = function(event, selectElement, form) {
       var selectedOption = selectElement[0].selectedOptions[0],
           productId = selectedOption.dataset.productId;
 
@@ -2115,7 +2115,7 @@ var uvel,
         var match = form.find('.found-product[data-id="' + productId + '"]');
 
         if (match.length == 0) {
-          var ajax = $('select[name="product_select"]').attr('data-url'),
+          var ajax = selectElement[0].dataset.url,
               ajaxUrl = window.location.origin + '/' + ajax + selectedOption.dataset.barcode;
 
           $self.ajaxFn('GET', ajaxUrl, $self.productTravellingAjaxResponse);
