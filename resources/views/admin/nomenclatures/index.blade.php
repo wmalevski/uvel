@@ -12,10 +12,10 @@ aria-hidden="true">
                 </button>
             </div>
             <form method="POST" name="nomenclature" data-type="add" action="nomenclatures">
-                <div class="modal-body">    
+                <div class="modal-body">
                     <div class="info-cont">
                     </div>
-                    {{ csrf_field() }}                    
+                    {{ csrf_field() }}
                     <div class="form-group">
                         <label for="1">Име: </label>
                         <input type="text" class="form-control" id="1" name="name" placeholder="Име на номенклатура:">
@@ -34,7 +34,7 @@ aria-hidden="true">
 <div class="modal fade edit--modal_holder" id="editNomenclature" tabindex="-1"  role="dialog" aria-labelledby="editNomenclature">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            
+
 
         </div>
     </div>
@@ -44,13 +44,13 @@ aria-hidden="true">
 <div class="row">
     <div class="col-md-12">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
-            <h4 class="c-grey-900 mB-20">Номенклатури <button type="button" class="btn btn-primary" data-form-type="add" data-form="nomenclatures" data-toggle="modal" data-target="#addNomenclature">Добави</button></h4>
+            <h4 class="c-grey-900 mB-20">Номенклатури <button type="button" class="btn btn-primary" data-form-type="add" data-form="nomenclature" data-toggle="modal" data-target="#addNomenclature">Добави</button></h4>
             <p>Преглед на създадените размери.</p>
             <table class="table table-condensed tablesort">
                 <thead>
                     <tr>
-                        <th>Име</th> 
-                        <th class="sort-false">Действия</th> 
+                        <th>Име</th>
+                        <th class="sort-false">Действия</th>
                     </tr>
                 </thead>
                <tbody>
