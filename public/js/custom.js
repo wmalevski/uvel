@@ -469,7 +469,7 @@ var uvel,
       if (formType == 'edit') {
         data._method = "PUT";
       }
-debugger;
+
       inputFields.each(function(index, element) {
         var _this = element,
             inputType = _this.type,
@@ -483,11 +483,9 @@ debugger;
         } else if (inputType == 'radio' || inputType == 'checkbox') {
           data[dataKey] = $(_this).is(':checked');
         } else if (dataKey.indexOf('[]') !== -1) {
-          debugger;
           dataKey = dataKey.replace('[]', '');
           (data[dataKey] = data[dataKey] || []).push(dataKeyValue);
         } else {
-          debugger;
           data[dataKey] = dataKeyValue;
         }
 
