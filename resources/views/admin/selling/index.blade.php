@@ -77,7 +77,7 @@ aria-hidden="true">
                             <div class="form-row">
                                 <div class="form-group col-md-5">
                                     <label for="">Вид</label>
-                                    <select id="material_type" name="material_id[]" data-calculateprice-material class="material_type form-control calculate">
+                                    <select id="material_type" name="material_id[]" data-select2-skip data-calculateprice-material class="material_type form-control calculate">
                                         <option value="0">Избери</option>
                                     </select>
                                 </div>

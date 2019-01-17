@@ -168,7 +168,7 @@ var uvel,
 
     this.init = function () {
       $self.attachInitialEvents();
-      $self.initializeSelect($('select'));
+      $self.initializeSelect($('select').not('[data-select2-skip]'));
       // $self.checkAllForms();
     };
 
@@ -1527,6 +1527,8 @@ var uvel,
               addMaterial(materialsData[i]);
             }
         }
+
+      $(materialHolder).select2();
 
       function addMaterial(material) {
         var option = document.createElement("option");
