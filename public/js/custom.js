@@ -456,7 +456,6 @@ var uvel,
 
       $self.initializeGlobalFormControllers(form);
       $self.initializeControllers(customControllers, form);
-      // tuka da se setvat callbacite
       $self.setSelect2Callbacks(formSettings.select2callbacks, form);
     }
 
@@ -2087,10 +2086,6 @@ var uvel,
         templateSelection: $self.addSelect2CustomAttributes
       });
       select.on('select2:select', selectCallback);
-    }
-
-    this.setSelectCallback = function() {
-
     }
 
     this.productTravellingInit = function (form) {
