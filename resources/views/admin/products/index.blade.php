@@ -47,10 +47,16 @@
 								<option value="">
 									Избери
 								</option>
+								@foreach($models as $model)
+								<option value="{{ $model->id }}" data-jewel="{{ $model->jewel->id }}">
+									{{ $model->name }}
+								</option>
 								@endforeach
 							</select>
 							--}}
 							-->
+
+
 
 						</div>
 						<div class="form-group col-md-6">

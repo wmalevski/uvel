@@ -1295,7 +1295,6 @@ var uvel,
 
     this.fillJewel = function(jewelsTypes, form) {
       var selected;
-
       jewelsTypes.forEach(function(jewel) {
         if (jewel.selected) {
           selected = jewel.value;
