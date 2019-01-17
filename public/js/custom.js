@@ -117,20 +117,7 @@ var uvel,
       },
       products: {
         selector: '[name="products"]',
-        controllers: [
-          'addStonesInit',
-          'removeStoneInit',
-          'calculateStonesInit',
-          'calculatePriceInit',
-          'materialPricesRequestInit',
-          'imageHandling'
-        ],
-        select2obj: [
-          {
-            selector: 'select[name="model_id"]',
-            callback: 'productsModelSelectCallback'
-          }
-        ],
+        controllers: ['addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'imageHandling'],
         initialized: false
       },
       productsTravelling: {
@@ -1243,15 +1230,6 @@ var uvel,
       $self.calculatePrice(form);
     }
 
-    this.productsModelSelectCallback = function(event, form) {
-      var currentSelect = event.currentTarget,
-          ajax = window.location.origin + '/' + currentSelect.dataset.url,
-          modelId = currentSelect.selectedOptions[0].value,
-          ajaxUrl = ajax + modelId;
-
-      $self.ajaxFn('GET', ajaxUrl, $self.modelRequestResponseHandler, '', form);
-    }
-
     this.modelRequestResponseHandler = function (response, form) {
       /* Form specific properties */
       if (form[0].name == 'products') {
@@ -1292,8 +1270,7 @@ var uvel,
     }
 
     this.fillJewel = function(jewelsTypes, form) {
-      var $jewelSelect = form.find('[data-modelFilled-jewel]'),
-          selected;
+      var selected;
 
       jewelsTypes.forEach(function(jewel) {
         if (jewel.selected) {
@@ -1301,9 +1278,7 @@ var uvel,
         }
       });
 
-      $jewelSelect.val(selected);
-      $jewelSelect.trigger('change');
-      $jewelSelect.attr('disabled', false);
+      form.find('[data-modelFilled-jewel]').val(selected);
     }
 
     this.fillStones = function(stones, form) {
@@ -2083,7 +2058,7 @@ var uvel,
       FUNCTION THAT INITIALIZES THE SELECT 2 PLUGIN
     */
 
-    this.initializeSelect = function(select, selectCallback) {
+    this.initializeSelect = function (select, selectCallback) {
       select.select2({
         templateResult: $self.addSelect2CustomAttributes,
         templateSelection: $self.addSelect2CustomAttributes
