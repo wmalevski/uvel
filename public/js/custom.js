@@ -478,7 +478,7 @@ var uvel,
             selectElement = form.find(selector);
 
         selectElement.on('select2:select', function(event) {
-          $self[callback](event, form);
+          $self[callback](event, selectElement, form);
         });
       }
     }
@@ -1243,10 +1243,11 @@ var uvel,
       $self.calculatePrice(form);
     }
 
-    this.productsModelSelectCallback = function(event, form) {
-      var currentSelect = event.currentTarget,
+    this.productsModelSelectCallback = function(event, selectElement, form) {
+      var currentSelect = selectElement[0],
+          selectedOption = currentSelect.selectedOptions[0],
+          modelId = selectedOption.value,
           ajax = window.location.origin + '/' + currentSelect.dataset.url,
-          modelId = currentSelect.selectedOptions[0].value,
           ajaxUrl = ajax + modelId;
 
       $self.ajaxFn('GET', ajaxUrl, $self.modelRequestResponseHandler, '', form);
