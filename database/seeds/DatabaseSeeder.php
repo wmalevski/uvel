@@ -392,7 +392,7 @@ class DatabaseSeeder extends Seeder
         // $repair->weight = 2.00;
         // $repair->code = 'RBPTA4YZ';
         // $repair->status = 'repairing';
-        // $repair->date_recieved = '30-04-2018'; 
+        // $repair->date_recieved = '30-04-2018';
         // $repair->date_returned = '24-05-2018';
         // $repair->customer_phone = '862589845';
         // $repair->customer_name = 'George Vasilev';
