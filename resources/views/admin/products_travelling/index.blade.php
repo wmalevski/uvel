@@ -24,7 +24,7 @@
 
                         <div class="form-group col-md-6">
                         <label>Избери: </label>
-                            <select name="product_select[]" class="form-control" data-url="ajax/productstravelling/addByScan/">
+                            <select name="product_select" class="form-control" data-url="ajax/productstravelling/addByScan/">
                                 <option value="">Избери продукт</option>
 
                                 @foreach($products as $product)

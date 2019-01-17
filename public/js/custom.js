@@ -135,7 +135,13 @@ var uvel,
       },
       productsTravelling: {
         selector: '[name="productsTravelling"]',
-        controllers: ['productTravellingInit'],
+        controllers: ['productTravellingBarcodeInput'],
+        select2obj: [
+          {
+            selector: 'select[name="product_select"]',
+            callback: 'productTravellingSelectCallback'
+          }
+        ],
         initialized: false
       },
       repairTypes: {
@@ -2090,8 +2096,8 @@ var uvel,
       select.on('select2:select', selectCallback);
     }
 
-    this.productTravellingInit = function (form) {
-      $('#inputBarcodeScan').on('input', function (event) {
+    this.productTravellingBarcodeInput = function(form) {
+      $('#inputBarcodeScan').on('input', function(event) {
         var text = event.target.value;
         if (text.length >= 13) {
           var ajaxUrl = window.location.origin + '/' + this.dataset.url + text;
@@ -2099,22 +2105,21 @@ var uvel,
           $self.ajaxFn('GET', ajaxUrl, $self.productTravellingAjaxResponse);
         }
       });
-
-      var selectProduct = form.find('select[name="product_select[]"]'),
-          selectStore = form.find('select[name="store_to_id"]');
-
-      $self.initializeSelect(selectProduct, $self.productTravellingProductSelected);
-      $self.initializeSelect(selectStore);
     }
 
-    this.productTravellingProductSelected = function (event) {
-      var data = event.params.data.element.dataset;
+    this.productTravellingSelectCallback = function(event, selectElement, form) {
+      var selectedOption = selectElement[0].selectedOptions[0],
+          productId = selectedOption.dataset.productId;
 
-      if (data.productId) {
-        var ajax = $('select[name="product_select[]"]').attr('data-url'),
-            ajaxUrl = window.location.origin + '/' + ajax + data.barcode;
+      if (productId) {
+        var match = form.find('.found-product[data-id="' + productId + '"]');
 
-        $self.ajaxFn('GET', ajaxUrl, $self.productTravellingAjaxResponse);
+        if (match.length == 0) {
+          var ajax = selectElement[0].dataset.url,
+              ajaxUrl = window.location.origin + '/' + ajax + selectedOption.dataset.barcode;
+
+          $self.ajaxFn('GET', ajaxUrl, $self.productTravellingAjaxResponse);
+        }
       }
     }
 
@@ -2129,28 +2134,24 @@ var uvel,
           $('.info-cont').empty();
         }, stayingTime);
       } else {
-        var id = response.item.id,
-            match = $('.found-product[data-id="' + id + '"]');
+        var id = response.item.id;
+            name = response.item.name,
+            weight = response.item.weight,
+            barcode = response.item.barcode;
 
-        if (match.length == 0) {
-          var name = response.item.name,
-              weight = response.item.weight,
-              barcode = response.item.barcode;
+        var productElement = '<tr class="found-product" data-id="' +
+            id + '"><input type="hidden" name="product_id[]" value="' +
+            id + '"><td>' +
+            barcode + '</td><td>' +
+            name + '</td><td>' +
+            weight + ' гр</td><td><span data-url="#" class="delete-btn" data-parent-id="' +
+            id + '"><i class="c-brown-500 ti-trash"></i></span></td></tr>';
 
-          var productElement = '<tr class="found-product" data-id="' +
-              id + '"><input type="hidden" name="product_id[]" value="' +
-              id + '"><td>' +
-              barcode + '</td><td>' +
-              name + '</td><td>' +
-              weight + ' гр</td><td><span data-url="#" class="delete-btn" data-parent-id="' +
-              id + '"><i class="c-brown-500 ti-trash"></i></span></td></tr>';
-
-          $('#inputBarcodeScan').val('');
-          $('form').find('table tbody').append(productElement);
-          $('.delete-btn[data-parent-id="' + id + '"]').on('click', function() {
-            $(this).parents('.found-product').remove();
-          });
-        }
+        $('#inputBarcodeScan').val('');
+        $('form').find('table tbody').append(productElement);
+        $('.delete-btn[data-parent-id="' + id + '"]').on('click', function() {
+          $(this).parents('.found-product').remove();
+        });
       }
     }
 
