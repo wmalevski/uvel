@@ -117,7 +117,20 @@ var uvel,
       },
       products: {
         selector: '[name="products"]',
-        controllers: ['addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'modelRequestInit', 'imageHandling'],
+        controllers: [
+          'addStonesInit',
+          'removeStoneInit',
+          'calculateStonesInit',
+          'calculatePriceInit',
+          'materialPricesRequestInit',
+          'imageHandling'
+        ],
+        select2obj: [
+          {
+            selector: 'select[name="model_id"]',
+            callback: 'productsModelSelectCallback'
+          }
+        ],
         initialized: false
       },
       productsTravelling: {
@@ -1230,28 +1243,12 @@ var uvel,
       $self.calculatePrice(form);
     }
 
-    this.modelRequestInit = function(form) {
-      var modelRequestTrigger = form.find('.input-search');
-      // TODO check if its needed now with Select2
-      modelRequestTrigger.on('input', function() {
-        var _this = $(this);
-        if (_this.find('option:selected').val() !== '0' && _this.find('option:selected').val() !== '') {
-          $self.modelRequest(form);
-        } else {
-          var collection = form.find('[data-calculatePrice-material], [data-calculatePrice-retail]');
-          collection.val('0');
-          collection.attr('disabled', 'disabled');
-        }
-      });
-    }
+    this.productsModelSelectCallback = function(event, selectElement, form) {
+      var modelId = selectElement.val(),
+          ajax = window.location.origin + '/' + selectElement[0].dataset.url,
+          ajaxUrl = ajax + modelId;
 
-    this.modelRequest = function (form) {
-      var inputModel = form.find('.input-search'),
-          ajaxUrl = window.location.origin + '/' + inputModel.attr('data-url'),
-          modelId = inputModel.attr('data-product-id'),
-          requestLink = ajaxUrl + modelId;
-
-      $self.ajaxFn('GET', requestLink, $self.modelRequestResponseHandler, '', form);
+      $self.ajaxFn('GET', ajaxUrl, $self.modelRequestResponseHandler, '', form);
     }
 
     this.modelRequestResponseHandler = function (response, form) {
@@ -1294,14 +1291,18 @@ var uvel,
     }
 
     this.fillJewel = function(jewelsTypes, form) {
-      var selected;
+      var $jewelSelect = form.find('[data-modelFilled-jewel]'),
+          selected;
+
       jewelsTypes.forEach(function(jewel) {
         if (jewel.selected) {
           selected = jewel.value;
         }
       });
 
-      form.find('[data-modelFilled-jewel]').val(selected);
+      $jewelSelect.val(selected);
+      $jewelSelect.trigger('change');
+      $jewelSelect.attr('disabled', false);
     }
 
     this.fillStones = function(stones, form) {
@@ -2081,7 +2082,7 @@ var uvel,
       FUNCTION THAT INITIALIZES THE SELECT 2 PLUGIN
     */
 
-    this.initializeSelect = function (select, selectCallback) {
+    this.initializeSelect = function(select, selectCallback) {
       select.select2({
         templateResult: $self.addSelect2CustomAttributes,
         templateSelection: $self.addSelect2CustomAttributes
