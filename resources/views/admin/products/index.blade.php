@@ -294,3 +294,20 @@
 </script>
 
 @endsection
+		</tr>
+
+	</thead>
+	<tbody>
+		@foreach($products as $product)
+		@include('admin.products.table')
+		@endforeach
+	</tbody>
+</table>
+@endsection
+
+@section('footer-scripts')
+<script id="stones_data" type="application/json">
+	{!!$jsStones!!}
+</script>
+
+@endsection
