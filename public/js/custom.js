@@ -117,7 +117,20 @@ var uvel,
       },
       products: {
         selector: '[name="products"]',
-        controllers: ['productsModelInit', 'addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'imageHandling'],
+        controllers: [
+          'addStonesInit',
+          'removeStoneInit',
+          'calculateStonesInit',
+          'calculatePriceInit',
+          'materialPricesRequestInit',
+          'imageHandling'
+        ],
+        select2callbacks: [
+          {
+            selector: 'select[name="model_id"]',
+            callback: 'productsModelSelectCallback'
+          }
+        ],
         initialized: false
       },
       productsTravelling: {
@@ -443,6 +456,8 @@ var uvel,
 
       $self.initializeGlobalFormControllers(form);
       $self.initializeControllers(customControllers, form);
+      // tuka da se setvat callbacite
+      $self.setSelect2Callbacks(formSettings.select2callbacks, form);
     }
 
     this.initializeGlobalFormControllers = function(form) {
@@ -453,6 +468,18 @@ var uvel,
       controllers.forEach(function(controller) {
         $self[controller](form);
       });
+    }
+
+    this.setSelect2Callbacks = function(select2callbacks, form) {
+      for (var i = 0; i < select2callbacks.length; i++) {
+        var _this = this,
+            selector = select2callbacks[i].selector,
+            callback = select2callbacks[i].callback;
+
+        form.find(selector).on('select2:select', function(event) {
+          _this[callback](event.currentTarget, form);
+        });
+      }
     }
 
     this.submitForm = function(form) {
@@ -1215,18 +1242,9 @@ var uvel,
       $self.calculatePrice(form);
     }
 
-    this.productsModelInit = function(form) {
-      var select = form.find('select[name="model_id"]');
-
-      $self.initializeSelect(select, function(event) {
-        $self.productsModelSelectCallback(event, form);
-      });
-    }
-
-    this.productsModelSelectCallback = function(event, form) {
-      var select = form.find('select[name="model_id"]'),
-          ajax = window.location.origin + '/' + select.attr('data-url'),
-          modelId = event.currentTarget.selectedOptions[0].value,
+    this.productsModelSelectCallback = function(currentTarget, form) {
+      var ajax = window.location.origin + '/' + currentTarget.dataset.url,
+          modelId = currentTarget.selectedOptions[0].value,
           ajaxUrl = ajax + modelId;
 
       $self.ajaxFn('GET', ajaxUrl, $self.modelRequestResponseHandler, '', form);
@@ -2063,12 +2081,16 @@ var uvel,
       FUNCTION THAT INITIALIZES THE SELECT 2 PLUGIN
     */
 
-    this.initializeSelect = function (select, selectCallback) {
+    this.initializeSelect = function(select, selectCallback) {
       select.select2({
         templateResult: $self.addSelect2CustomAttributes,
         templateSelection: $self.addSelect2CustomAttributes
       });
       select.on('select2:select', selectCallback);
+    }
+
+    this.setSelectCallback = function() {
+
     }
 
     this.productTravellingInit = function (form) {
