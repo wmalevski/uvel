@@ -57,6 +57,7 @@ class Selling extends Model
 
             if(array_key_exists($material->id, $materials)) {
                 $materials[$material->id]['weight'] = $materials[$material->id]['weight']+$product->weight;
+<<<<<<< HEAD
             } else {  
                 $partner_material = '';
                 $partner_material_weight = '';
@@ -68,14 +69,21 @@ class Selling extends Model
                     }
                 }    
 
+=======
+            } else {             
+>>>>>>> Material id as array key
                 $materials[$material->id] = [
                     'material_id' => $material->id,
                     'name' => $material->parent->name,
                     'carat' => $material->carat,
                     'code' => $material->code,
+<<<<<<< HEAD
                     'weight' => $product->weight,
                     'partner_material' => $partner_material,
                     'partner_material_weight' => $partner_material_weight 
+=======
+                    'weight' => $product->weight
+>>>>>>> Material id as array key
                 ];
             }   
         }
