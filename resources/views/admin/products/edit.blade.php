@@ -13,7 +13,6 @@
             <div class="info-cont">
             </div>
             {{ csrf_field() }}
-            
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
@@ -24,13 +23,13 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label>Модел: </label>
                     <select id="model_select_edit" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model>
                         <option value="">Избери</option>
-                
+
                         @foreach($models as $model)
                             <option value="{{ $model->id }}" data-jewel="{{ $model->jewel->id }}" @if($product->model->id == $model->id) selected @endif>{{ $model->name }}</option>
                         @endforeach
@@ -40,7 +39,6 @@
                     <label>Вид: </label>
                     <select id="jewel_edit" name="jewel_id" class="form-control jewels_types" data-modelFilled-jewel disabled>
                         <option value="">Избери</option>
-                
                         @foreach($jewels as $jewel)
                         <option @if($product->jewel_id == $jewel->id) selected @endif value="{{ $jewel->id }}">{{ $jewel->name }}</option>
                         @endforeach
@@ -50,13 +48,12 @@
                     <hr>
                 </div>
             </div>
-                        
+
             <div class="form-row model_materials">
                 <div class="form-group col-md-12">
                     <label>Материал: </label>
                     <select id="material_edit" name="material_id" class="material_type form-control calculate" data-calculatePrice-material>
                         <option value="">Избери</option>
-                
                         @foreach($materials as $material)
                             @if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
                                 <option value="{{ $material->id }}" data-material="{{ $material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}" @if($material->id == $product->material_id) selected @endif>{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
@@ -68,7 +65,6 @@
                     <label>Цена: </label>
                     <select id="retail_price_edit" name="retail_price_id" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail>
                         <option value="">Избери</option>
-                
                         @foreach($prices->where('type', 'sell') as $price)
                     <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}" @if($product->retail_price_id == $price->id) selected @endif>{{ $price->slug }} - {{ $price->price }}</option>
                         @endforeach
@@ -81,7 +77,7 @@
                         <span class="input-group-addon">гр</span>
                     </div>
                 </div>
-            
+
                 <div class="form-group col-md-3">
                     <label for="size_edit">Размер: </label>
                     <input type="text" class="form-control size" id="size_edit" value="{{ $product->size }}" name="size" data-modelFilld-size placeholder="Размер:" min="1" max="10000">
@@ -93,13 +89,13 @@
                     <hr>
                 </div>
             </div>
-            
+
             <div class="form-row model_stones">
                 @foreach($product_stones as $modelStone)
                 <div class="form-row fields">
                     <div class="form-group col-md-6">
                         <label>Камъни: </label>
-                        
+
                         <select name="stones[]" class="form-control" data-calculatePrice-stone>
                             <option value="">Избери</option>
 
@@ -111,7 +107,7 @@
                             @endforeach
                         </select>
                     </div>
-    
+
                     <div class="form-group col-md-4">
                         <label for="1">Брой: </label>
                         <input type="number" class="form-control calculate-stones" name="stone_amount[]" placeholder="Брой" value="{{  $modelStone->amount  }}" data-calculateStones-amount min="1" max="50">
@@ -148,7 +144,7 @@
                 <div class="form-group col-md-5">
                     <button type="button" class="btn btn-primary add_field_button" data-addStone-add>Добави камък</button>
                 </div>
-                
+
                 <div class="form-group col-md-3">
                     <label for="totalStones_edit">Общо за леене:</label>
                 </div>
@@ -164,11 +160,11 @@
                     <hr>
                 </div>
             </div>
-            
+
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="grossWeight_edit">Брутно тегло:</label>
-                    <div class="input-group"> 
+                    <div class="input-group">
                         <input type="number" class="form-control" name="gross_weight" id="grossWeight_edit" value="{{ $product->gross_weight }}" data-calculatePrice-grossWeight disabled>
                         <span class="input-group-addon">гр</span>
                     </div>
@@ -176,7 +172,7 @@
 
                 <div class="form-group col-md-4">
                     <label for="workmanship">Изработка: </label>
-                    <div class="input-group"> 
+                    <div class="input-group">
                         <input type="number" class="form-control worksmanship_price workmanship" value="{{ $product->workmanship }}" name="workmanship" id="workmanship" value="0" data-calculatePrice-worksmanship>
                         <span class="input-group-addon">лв</span>
                     </div>
@@ -184,7 +180,7 @@
 
                 <div class="form-group col-md-4">
                     <label for="price">Цена: </label>
-                    <div class="input-group"> 
+                    <div class="input-group">
                         <input type="number" class="form-control final_price price" value="{{ $product->price }}" name="price" id="price" value="0" data-calculatePrice-final>
                         <span class="input-group-addon">лв</span>
                     </div>
@@ -196,7 +192,7 @@
                     <label>Магазин: </label>
                     <select name="store_id" class="form-control">
                         <option value="">Избери магазин</option>
-                
+
                         @foreach($stores as $store)
                             <option value="{{ $store->id }}" @if($store->id == $material->store_id) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
                         @endforeach
@@ -216,7 +212,7 @@
                         <div class='close'><span data-url="gallery/delete/{{$photo['id']}}">&#215;</span></div>
                         <img src="{{$photo['photo']}}" alt="" class="img-responsive" />
                     </div>
-                @endforeach 
+                @endforeach
             </div>
 
             <div id="errors-container"></div>
