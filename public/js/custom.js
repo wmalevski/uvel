@@ -465,7 +465,7 @@ var uvel,
             selectElement = form.find(selector);
 
         selectElement.on('select2:select', function(event) {
-          $self[callback](event, form);
+          $self[callback](event, selectElement, form);
         });
       }
     }
