@@ -301,4 +301,8 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/materials/accept/{material}', 'MaterialTravellingController@accept');
     Route::post('/materials/decline/{material}', 'MaterialTravellingController@decline');
+
+    Route::post('/nomenclatures', 'NomenclatureController@store');
+
+    Route::put('/nomenclatures/{nomenclature}', 'NomenclatureController@update');
 });
