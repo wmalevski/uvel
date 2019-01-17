@@ -13,6 +13,8 @@ use App\PaymentDiscount;
 use Response;
 use Auth;
 use Cart;
+use App\ExchangeMaterial;
+use App\MaterialQuantity;
 
 class PaymentController extends Controller
 {
@@ -45,17 +47,14 @@ class PaymentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //Store the selling
-        
-
+    {       
         //Store the payment
-        if($request->given_sum >= $request->wanted_sum){
+        if(($request->given_sum >= $request->wanted_sum)){
             $userId = Auth::user()->getId();
 
             //Check if the given sum is more or equal to the wanted sum
             $validator = Validator::make( $request->all(), [
-                'wanted_sum' => 'required|numeric|between:0,1000000000',
+                // 'wanted_sum' => 'required|numeric|between:0,1000000000',
                 'given_sum'  => 'required|numeric|between:0,10000000',
             ]);
     
@@ -164,11 +163,40 @@ class PaymentController extends Controller
                     if($product){
                         $product->status = 'sold';
                         $product->save();
+
+                        // if($product->order){
+                        //     $product->order->status = 'done';
+                        //     $product->order->save();
+                        // }
                     }
                 } else if($item['attributes']->type == 'box'){
 
                 }
-            };
+            }
+
+            if($request->exchange_method == 'true'){
+                if($request->material_id){
+                    foreach($request->material_id as $key => $material){
+                        if($material){
+                            $exchange_material = new ExchangeMaterial();
+                            $exchange_material->material_id = $material;
+                            $exchange_material->payment_id = $paymentID;
+                            $exchange_material->weight = $request->weight[$key];
+                            $exchange_material->sum_price = $request->exchangeRows_total;
+                            $exchange_material->additional_price = $request->calculating_price;
+
+                            $exchange_material->save();
+
+                            $material_quantity = MaterialQuantity::find($material);
+
+                            if($material_quantity){
+                                $material_quantity->quantity = $material_quantity->quantity+$request->weight[$key];
+                                $material_quantity->save();
+                            }
+                        }
+                    }
+                }
+            }
 
             //Store the notification
             $history = new History();
@@ -191,9 +219,6 @@ class PaymentController extends Controller
         }else{
             return Response::json(['errors' => ['more_money' => ['Магазинера трябва да приеме сума равна или по-голяма от дължимата сума.']]], 401);
         }
-
-        //Add to safe   
-        //On hold for next sprint
     }
 
     /**

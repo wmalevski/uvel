@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Partner;
 use App\Store;
 use App\Permission;
 use Response;
@@ -123,6 +124,12 @@ class UserController extends Controller
         //$user->roles()->attach([$request->role]);
 
         $user->assign($request->role);
+
+        if($request->role == 'corporate_partner'){
+            $partner = new Partner();
+            $partner->user_id = $user->id;
+            $partner->save();
+        }
         
         return Response::json(array('success' => View::make('admin/users/table',array('user'=>$user))->render()));
     }

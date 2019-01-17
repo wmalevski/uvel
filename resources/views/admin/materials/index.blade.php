@@ -48,6 +48,38 @@ aria-hidden="true">
                             <input type="number" class="form-control" id="4" name="carat" placeholder="Карати:">
                         </div>
                     </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                                <input type="checkbox" id="for_buy" name="for_buy" class="peer" checked>
+                                <label for="for_buy" class="peers peer-greed js-sb ai-c">
+                                    <span class="peer peer-greed">За изкупуване</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                                <input type="checkbox" id="for_exchange" name="for_exchange" class="peer">
+                                <label for="for_exchange" class="peers peer-greed js-sb ai-c">
+                                    <span class="peer peer-greed">За обмяна</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                                <input type="checkbox" id="carat_transform" name="carat_transform" class="peer" checked>
+                                <label for="carat_transform" class="peers peer-greed js-sb ai-c">
+                                    <span class="peer peer-greed">Преобразуване на карати</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                     <div id="errors-container"></div>
                 </div>
 
