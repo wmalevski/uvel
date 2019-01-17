@@ -20,6 +20,7 @@ use App\ProductOtherType;
 use App\Repair;
 use App\MaterialQuantity;
 use App\MaterialType;
+use App\Nomenclature;
 use App\Partner;
 use App\PartnerMaterial;
 
@@ -159,6 +160,10 @@ class DatabaseSeeder extends Seeder
         $stores->save();
 
         for($i = 1; $i <= 5; $i++){
+            $nomenclature = new Nomenclature();
+            $nomenclature->name = 'Тестова '.$i;
+            $nomenclature->save();
+
             $stone_styles = new StoneStyle();
             $stone_styles->name = 'Стил '.$i;
             $stone_styles->save();
@@ -179,7 +184,7 @@ class DatabaseSeeder extends Seeder
 
 
             $stone = new Stone();
-            $stone->name = 'Камък '.$i;
+            $stone->nomenclature_id = $i;
             $stone->type = rand(1,2);
             $stone->weight = rand(1,5);
             $stone->carat = rand(1,5);

@@ -15,7 +15,7 @@ class CreateStonesTable extends Migration
     {
         Schema::create('stones', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('nomenclature_id');
             $table->integer('type');
             $table->float('weight');
             $table->float('carat');

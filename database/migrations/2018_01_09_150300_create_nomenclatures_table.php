@@ -16,8 +16,6 @@ class CreateNomenclaturesTable extends Migration
         Schema::create('nomenclatures', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('code');
-            $table->string('color');
             $table->timestamps();
         });
     }

@@ -72,8 +72,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/stores/{store}', 'StoreController@edit');
     //Route::put('/stores/{store}', 'StoreController@update');
 
-    Route::get('/nomenclatures', 'NomenclaturesController@index')->name('nomenclatures');
-    Route::post('/nomenclatures', 'NomenclaturesController@store');
+    Route::get('/nomenclatures', 'NomenclatureController@index')->name('nomenclatures');
+
+    Route::get('/nomenclatures/{nomenclature}', 'NomenclatureController@edit');
 
     Route::get('/materials', 'MaterialController@index')->name('materials');
     Route::post('/materials', 'MaterialController@store');
@@ -191,6 +192,8 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::put('/stores/{store}', 'StoreController@update');
     Route::get('/stores/{store}', 'StoreController@edit');
     Route::post('/stores/delete/{store}', 'StoreController@destroy');
+
+    Route::post('/nomenclatureс/delete/{nomenclature}', 'NomenclatureController@destroy');
 
     Route::post('/materials', 'MaterialController@store');
     Route::post('/materials/delete/{material}', 'MaterialController@destroy');
@@ -323,4 +326,8 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/materials/accept/{material}', 'MaterialTravellingController@accept');
     Route::post('/materials/decline/{material}', 'MaterialTravellingController@decline');
+
+    Route::post('/nomenclatures', 'NomenclatureController@store');
+
+    Route::put('/nomenclatures/{nomenclature}', 'NomenclatureController@update');
 });
