@@ -439,10 +439,12 @@ var uvel,
 
     this.initializeForm = function(formSettings, formType) {
       var form = $(formSettings.selector + '[data-type="' + formType + '"]'),
-          customControllers = formSettings.controllers;
+          customControllers = formSettings.controllers,
+          select2obj = formSettings.select2obj;
 
       $self.initializeGlobalFormControllers(form);
       $self.initializeControllers(customControllers, form);
+      $self.setSelect2(select2obj, form);
     }
 
     this.initializeGlobalFormControllers = function(form) {
@@ -453,6 +455,19 @@ var uvel,
       controllers.forEach(function(controller) {
         $self[controller](form);
       });
+    }
+
+    this.setSelect2 = function(select2obj, form) {
+      for (var i = 0; i < select2obj.length; i++) {
+        var currentSelectObject =  select2obj[i],
+            selector = currentSelectObject.selector,
+            callback = currentSelectObject.callback,
+            selectElement = form.find(selector);
+
+        selectElement.on('select2:select', function(event) {
+          $self[callback](event, selectElement, form);
+        });
+      }
     }
 
     this.submitForm = function(form) {
