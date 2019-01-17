@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="nomenclature" data-type="add" action="nomenclatures">
+            <form method="POST" name="nomenclatures" data-type="add" action="nomenclatures">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>

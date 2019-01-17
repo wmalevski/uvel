@@ -159,8 +159,8 @@ var uvel,
         controllers: ['ordersModelSelectInit', 'addStonesInit', 'addAnother', 'manualReceipt', 'barcodeInput'],
         initialized: false
       },
-      nomenclature: {
-        selector: '[name="nomenclature"]',
+      nomenclatures: {
+        selector: '[name="nomenclatures"]',
         controllers: [],
         initialized: false
       }
