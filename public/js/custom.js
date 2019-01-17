@@ -1244,10 +1244,8 @@ var uvel,
     }
 
     this.productsModelSelectCallback = function(event, selectElement, form) {
-      var currentSelect = selectElement[0],
-          selectedOption = currentSelect.selectedOptions[0],
-          modelId = selectedOption.value,
-          ajax = window.location.origin + '/' + currentSelect.dataset.url,
+      var modelId = selectElement.val(),
+          ajax = window.location.origin + '/' + selectElement[0].dataset.url,
           ajaxUrl = ajax + modelId;
 
       $self.ajaxFn('GET', ajaxUrl, $self.modelRequestResponseHandler, '', form);
