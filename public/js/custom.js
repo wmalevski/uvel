@@ -125,7 +125,7 @@ var uvel,
           'materialPricesRequestInit',
           'imageHandling'
         ],
-        select2callbacks: [
+        select2obj: [
           {
             selector: 'select[name="model_id"]',
             callback: 'productsModelSelectCallback'
@@ -452,11 +452,12 @@ var uvel,
 
     this.initializeForm = function(formSettings, formType) {
       var form = $(formSettings.selector + '[data-type="' + formType + '"]'),
-          customControllers = formSettings.controllers;
+          customControllers = formSettings.controllers,
+          select2obj = formSettings.select2obj;
 
       $self.initializeGlobalFormControllers(form);
       $self.initializeControllers(customControllers, form);
-      $self.setSelect2Callbacks(formSettings.select2callbacks, form);
+      $self.setSelect2(select2obj, form);
     }
 
     this.initializeGlobalFormControllers = function(form) {
@@ -469,14 +470,15 @@ var uvel,
       });
     }
 
-    this.setSelect2Callbacks = function(select2callbacks, form) {
-      for (var i = 0; i < select2callbacks.length; i++) {
-        var _this = this,
-            selector = select2callbacks[i].selector,
-            callback = select2callbacks[i].callback;
+    this.setSelect2 = function(select2obj, form) {
+      for (var i = 0; i < select2obj.length; i++) {
+        var currentSelectObject =  select2obj[i],
+            selector = currentSelectObject.selector,
+            callback = currentSelectObject.callback,
+            selectElement = form.find(selector);
 
-        form.find(selector).on('select2:select', function(event) {
-          _this[callback](event.currentTarget, form);
+        selectElement.on('select2:select', function(event) {
+          $self[callback](event, form);
         });
       }
     }
@@ -1241,9 +1243,10 @@ var uvel,
       $self.calculatePrice(form);
     }
 
-    this.productsModelSelectCallback = function(currentTarget, form) {
-      var ajax = window.location.origin + '/' + currentTarget.dataset.url,
-          modelId = currentTarget.selectedOptions[0].value,
+    this.productsModelSelectCallback = function(event, form) {
+      var currentSelect = event.currentTarget,
+          ajax = window.location.origin + '/' + currentSelect.dataset.url,
+          modelId = currentSelect.selectedOptions[0].value,
           ajaxUrl = ajax + modelId;
 
       $self.ajaxFn('GET', ajaxUrl, $self.modelRequestResponseHandler, '', form);
