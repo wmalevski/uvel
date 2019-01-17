@@ -138,7 +138,7 @@ var uvel,
         controllers: ['productTravellingBarcodeInput'],
         select2obj: [
           {
-            selector: 'select[name="product_select[]"]',
+            selector: 'select[name="product_select"]',
             callback: 'productTravellingProductSelected'
           }
         ],
@@ -2115,7 +2115,7 @@ var uvel,
         var match = form.find('.found-product[data-id="' + productId + '"]');
 
         if (match.length == 0) {
-          var ajax = $('select[name="product_select[]"]').attr('data-url'),
+          var ajax = $('select[name="product_select"]').attr('data-url'),
               ajaxUrl = window.location.origin + '/' + ajax + selectedOption.dataset.barcode;
 
           $self.ajaxFn('GET', ajaxUrl, $self.productTravellingAjaxResponse);
