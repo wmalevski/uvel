@@ -154,6 +154,11 @@ var uvel,
         controllers: ['fillRepairPrice', 'calculateRepairAfterPriceInit', 'calculateRepairAfterPrice', 'focusDatePicker'],
         initialized: false
       },
+      orders: {
+        selector: '[name="orders"]',
+        controllers: ['ordersModelSelectInit', 'addStonesInit', 'addAnother', 'manualReceipt', 'barcodeInput'],
+        initialized: false
+      },
       nomenclature: {
         selector: '[name="nomenclature"]',
         controllers: [],
