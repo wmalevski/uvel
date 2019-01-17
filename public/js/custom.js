@@ -2134,7 +2134,7 @@ var uvel,
           $('.info-cont').empty();
         }, stayingTime);
       } else {
-        var id = response.item.id;
+        var id = response.item.id,
             name = response.item.name,
             weight = response.item.weight,
             barcode = response.item.barcode;
