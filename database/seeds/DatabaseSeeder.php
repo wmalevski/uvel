@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'customer',
             'title' => 'Клиент',
         ]);
-
+        
 
         $sellingProducts = Bouncer::ability()->create([
             'name' => 'selling-products',
@@ -146,7 +146,7 @@ class DatabaseSeeder extends Seeder
         Bouncer::allow($manager)->to($storeSale);
         Bouncer::allow($manager)->to($addingSafe);
 
-        //Merchant permissions
+        //Merchant permissions 
         Bouncer::allow($merchant)->to($sellingProducts);
         Bouncer::allow($merchant)->to($manageOrders);
         Bouncer::allow($merchant)->to($manageRepairs);
@@ -155,7 +155,7 @@ class DatabaseSeeder extends Seeder
 
         $stores = new Store();
         $stores->name = 'Склад';
-        $stores->location = 'София';
+        $stores->location = 'София'; 
         $stores->phone = '0541587414178';
         $stores->save();
 
@@ -178,7 +178,7 @@ class DatabaseSeeder extends Seeder
 
             $stores = new Store();
             $stores->name = 'Магазин '.$i;
-            $stores->location = 'София';
+            $stores->location = 'София'; 
             $stores->phone = '0541587414178';
             $stores->save();
 
@@ -264,7 +264,7 @@ class DatabaseSeeder extends Seeder
         $price->price = '30';
         $price->type = 'buy';
         $price->save();
-
+        
         $price = new Price();
         $price->material_id = $material->id;
         $price->slug = 'Продава 1';
@@ -287,7 +287,7 @@ class DatabaseSeeder extends Seeder
         $price->price = '20';
         $price->type = 'buy';
         $price->save();
-
+        
         $price = new Price();
         $price->material_id = $material->id;
         $price->slug = 'Продава 1';
@@ -320,7 +320,7 @@ class DatabaseSeeder extends Seeder
         $currency->currency = '1';
         $currency->default = 'yes';
         $currency->save();
-
+        
         // $model = new Model();
         // $model->name = 'Модел 1';
         // $model->jewel = 1;
@@ -377,7 +377,7 @@ class DatabaseSeeder extends Seeder
         // $repair->weight = 2.00;
         // $repair->code = 'RGV3IZPN';
         // $repair->status = 'repairing';
-        // $repair->date_recieved = '30-04-2018';
+        // $repair->date_recieved = '30-04-2018'; 
         // $repair->date_returned = '24-05-2018';
         // $repair->customer_phone = '862589845';
         // $repair->customer_name = 'George Vasilev';
@@ -407,7 +407,7 @@ class DatabaseSeeder extends Seeder
         // $repair->weight = 2.00;
         // $repair->code = 'R8PAZKXM';
         // $repair->status = 'repairing';
-        // $repair->date_recieved = '30-04-2018';
+        // $repair->date_recieved = '30-04-2018'; 
         // $repair->date_returned = '24-05-2018';
         // $repair->customer_phone = '862589845';
         // $repair->customer_name = 'George Vasilev';

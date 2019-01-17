@@ -12,10 +12,10 @@ aria-hidden="true">
                 </button>
             </div>
             <form method="POST" name="nomenclatures" data-type="add" action="nomenclatures">
-                <div class="modal-body">
+                <div class="modal-body">    
                     <div class="info-cont">
                     </div>
-                    {{ csrf_field() }}
+                    {{ csrf_field() }}                    
                     <div class="form-group">
                         <label for="1">Име: </label>
                         <input type="text" class="form-control" id="1" name="name" placeholder="Име на номенклатура:">
@@ -34,7 +34,7 @@ aria-hidden="true">
 <div class="modal fade edit--modal_holder" id="editNomenclature" tabindex="-1"  role="dialog" aria-labelledby="editNomenclature">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-
+            
 
         </div>
     </div>
@@ -49,8 +49,8 @@ aria-hidden="true">
             <table class="table table-condensed tablesort">
                 <thead>
                     <tr>
-                        <th>Име</th>
-                        <th class="sort-false">Действия</th>
+                        <th>Име</th> 
+                        <th class="sort-false">Действия</th> 
                     </tr>
                 </thead>
                <tbody>
