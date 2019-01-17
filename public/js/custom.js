@@ -463,7 +463,9 @@ var uvel,
 
       $self.initializeGlobalFormControllers(form);
       $self.initializeControllers(customControllers, form);
-      $self.setSelect2(select2obj, form);
+      if (select2obj) {
+        $self.setSelect2(select2obj, form);
+      }
     }
 
     this.initializeGlobalFormControllers = function(form) {
