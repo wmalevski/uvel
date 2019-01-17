@@ -17,6 +17,7 @@ use App\ModelStone;
 use App\ProductStone;
 use App\Store;
 use Storage;
+use App\Nomenclature;
 
 class StoneController extends Controller
 {
@@ -32,8 +33,9 @@ class StoneController extends Controller
         $stone_contours = StoneContour::all();
         $stone_styles = StoneStyle::all();
         $stores = Store::all();
+        $nomenclatures = Nomenclature::all();
 
-        return view('admin.stones.index', compact('stones', 'stone_sizes', 'stone_contours', 'stone_styles', 'stores'));
+        return view('admin.stones.index', compact('stones', 'stone_sizes', 'stone_contours', 'stone_styles', 'stores', 'nomenclatures'));
     }
 
     /**
@@ -55,7 +57,7 @@ class StoneController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make( $request->all(), [
-            'name' => 'required',
+            'nomenclature_id' => 'required',
             'type' => 'required',
             'weight' => 'required|numeric|between:0.01,100000',
             'carat' => 'required|numeric',
@@ -143,7 +145,7 @@ class StoneController extends Controller
     public function update(Request $request, Stone $stone)
     {
         $validator = Validator::make( $request->all(), [
-            'name' => 'required',
+            'nomenclature_id' => 'required',
             'type' => 'required',
             'weight' => 'required|numeric|between:0.01,100000',
             'carat' => 'required|numeric',
@@ -159,7 +161,7 @@ class StoneController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $stone->name = $request->name;
+        $stone->nomenclature_id = $request->nomenclature_id;
         $stone->type = $request->type;
         $stone->weight = $request->weight;
         $stone->carat = $request->carat;

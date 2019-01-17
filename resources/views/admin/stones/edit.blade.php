@@ -22,8 +22,14 @@
             </div>
 
             <div class="form-group">
-                <label for="1">Име: </label>
-                <input type="text" class="form-control" value="{{ $stone->name }}" id="1" name="name" placeholder="Име на камък:">
+                <label for="1">Име(Номенклатура): </label>
+                <select name="nomenclature_id" class="form-control">
+                    <option value="">Избер номенклатура</option>
+            
+                    @foreach($nomenclatures as $nomenclature)
+                        <option value="{{ $nomenclature->id }}" @if($stone->nomenclature == $nomenclature->id) selected @endif>{{ $nomenclature->name }}</option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="form-group">
