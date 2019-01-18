@@ -21,6 +21,7 @@
                                     <tr>
                                         <th scope="col">Материали</th>
                                         <th scope="col">В количката</th>
+                                        <th scope="col">Аванс</th>
                                         <th scope="col">Даден</th>
                                     </tr>
                                 </thead>

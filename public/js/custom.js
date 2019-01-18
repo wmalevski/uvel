@@ -301,22 +301,57 @@ var uvel,
           tableContent = '';
       
       for (var i = 0; i < Object.keys(materials).length; i++) {
-        tableContent += '<tr data-material-id="' + materials[Object.keys(materials)[i]].material_id + '">';
-        tableContent += '<td data-material-name>' + materials[Object.keys(materials)[i]].name + '</td>';
-        tableContent += '<td data-material-weight>' + materials[Object.keys(materials)[i]].weight + '</td>';
+        var partnerMaterialWeight = materials[Object.keys(materials)[i]].partner_material_weight,
+            materialId = materials[Object.keys(materials)[i]].material_id,
+            materialName =  materials[Object.keys(materials)[i]].name,
+            materialWeight = materials[Object.keys(materials)[i]].weight,
+            partnerMaterialId = materials[Object.keys(materials)[i]].partner_material;
+
+        tableContent += '<tr data-material-id="' + materialId + '">';
+        tableContent += '<td data-material-name>' + materialName + '</td>';
+        tableContent += '<td data-material-weight>' + materialWeight + '</td>';
+        tableContent += '<td data-material-partner="' + partnerMaterialId + '">' + partnerMaterialWeight || 0 + '</td>';
         tableContent += '<td><input type="number" class="form-control" value="0" data-material-given></td>';
         tableContent += '</tr>';
       }
 
       tableContent += '<tr class="partner-worksmanship">';
       tableContent += '<td>Изработка</td>';
-      tableContent += '<td data-worksmanship-wanted>' + workmanship + '</td>';
-      tableContent += '<td><input type="number" class="form-control" value="0" placeholder="Дадена сума" data-worksmanship-given></td>';
+      tableContent += '<td data-worksmanship-wanted colspan="2">' + workmanship + '</td>';
+      tableContent += '<td><input type="number" class="form-control" value="0" placeholder="0" data-worksmanship-given></td>';
       tableContent += '</tr>';
 
   
       form.querySelector('.partner-information').innerHTML = partner;
       form.querySelector('tbody').innerHTML = tableContent;
+      $self.partnerPaymentAttachEventListeners(form);
+    }
+
+    this.partnerPaymentAttachEventListeners = function(form) {
+      var wantedSumHolder = form.querySelector('[name="partner-wanted-sum"]'),
+          wantedWorksmanship = form.querySelector('[data-worksmanship-wanted]'),
+          givenWorksmanship = form.querySelector('[data-worksmanship-given]'),
+          paymentMethod = form.querySelector('[name="partner-pay-method"]');
+
+      wantedSumHolder.value = wantedWorksmanship.textContent;
+      
+      paymentMethod.addEventListener('click', function() {
+        if (this.checked) {
+          givenWorksmanship.readOnly = true;
+
+          wantedSumHolder.value = 0;
+          givenWorksmanship.value = wantedWorksmanship.textContent;
+        } else {
+          givenWorksmanship.readOnly = false;
+          givenWorksmanship.value = 0;
+          wantedSumHolder.value = wantedWorksmanship.textContent;
+        }
+      }, false);
+
+      givenWorksmanship.addEventListener('change', function() {
+        var total = parseFloat(wantedWorksmanship.textContent) - (parseFloat(givenWorksmanship.value) || 0);
+        wantedSumHolder.value = Number(total.toFixed(2));
+      }, false);
     }
 
     this.enterPressBehaviour = function(inputs) {
@@ -615,15 +650,16 @@ var uvel,
           };
 
       for (var i = 0; i < materials.length; i++) {
-        console.log(i);
         var material_id = materials[i].dataset.materialId,
+            material_partner_id = materials[i].querySelector('[data-material-partner]').dataset.materialPartner,
             material_weight = materials[i].querySelector('[data-material-weight]').textContent,
             material_given = materials[i].querySelector('[data-material-given]').value;
 
         var material = {
-          material_id : material_id,
-          material_weight : material_weight,
-          material_given : material_given
+          material_partner_id: material_partner_id,
+          material_id: material_id,
+          material_weight: material_weight,
+          material_given: material_given
         };
 
         data.materials.push(material);
