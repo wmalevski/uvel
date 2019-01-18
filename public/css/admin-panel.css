@@ -1,23 +1,40 @@
-.modal-content .dropdown-menu.hidden {
-	display: none;
+.modal-content .radio,
+.modal-content .checkbox {
+	padding-left: 4px;
+	user-select: none;
 }
 
-.modal-content .dropdown-menu {
-	position: absolute;
-	display: inline-block;
-	width: 100%;
-	overflow-y: auto;
-	height: 200px;
+.modal-content .radio span {
+	position: relative;
+	top: -2px;
 }
 
-.modal-content .dropdown-menu .dropdown-item {
-	padding: 10px;
-}
-
-.modal-content .dropdown-menu .dropdown-item:hover {
-	cursor: pointer;
-}
-
-.modal-content .input-search {
+.modal-content .radio label,
+.modal-content .checkbox label,
+.modal-content .checkbox .peer {
+	margin: -2px 0 0 0;
 	padding-left: 10px;
+}
+
+.modal-content .checkbox label:after {
+	top: 6px;
+	left: 2px;
+	width: 10px !important;
+	height: 10px !important;
+	border-radius: 50%;
+	font-size: 16px !important;
+}
+
+.modal-content .radio label:before,
+.modal-content .checkbox label:before {
+	width: 20px;
+	height: 20px;
+	border: 2px solid #0f9aee !important;
+}
+
+.modal-content .radio label:after,
+.modal-content .checkbox label:after {
+	width: 14px;
+	height: 14px;
+	background-color: #0f9aee !important;
 }
