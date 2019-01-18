@@ -138,6 +138,11 @@ class PaymentController extends Controller
         }
     }
 
+    public function partner_payment(Request $request)
+    {
+        dd($request);
+    }
+
     /**
      * Display the specified resource.
      *
