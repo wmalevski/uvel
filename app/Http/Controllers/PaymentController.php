@@ -179,6 +179,13 @@ class PaymentController extends Controller
                         $partner_material->quantity = $partner_material + ($material['material_weight'] - $material['material_given']);
 
                         $partner_material->save();
+                    }else{
+                        $p_material = new PartnerMaterial();
+                        $p_material->material_id = $material['material_id'];
+                        $p_material->partner_id = $partner->id;
+                        $p_material->quantity = $partner_material + ($material['material_weight'] - $material['material_given']);
+
+                        $p_material->save();
                     }
                 }
             } else {
@@ -190,6 +197,13 @@ class PaymentController extends Controller
                         $partner_material->quantity = $partner_material - ($material['material_weight'] - $material['material_given']);
 
                         $partner_material->save();
+                    }else{
+                        $p_material = new PartnerMaterial();
+                        $p_material->material_id = $material['material_id'];
+                        $p_material->partner_id = $partner->id;
+                        $p_material->quantity = $partner_material + ($material['material_weight'] - $material['material_given']);
+
+                        $p_material->save();
                     }
                 }
             }
