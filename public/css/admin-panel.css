@@ -6,7 +6,7 @@
 
 .modal-content .radio span {
 	position: relative;
-	top: -2px;
+	top: -3px;
 }
 
 .modal-content .radio label,
@@ -18,23 +18,19 @@
 
 .modal-content .checkbox label:after {
 	top: 7px;
-	left: 2px;
+	left: 3px;
 	width: 10px !important;
 	height: 10px !important;
 	border-radius: 50%;
-	font-size: 16px !important;
+	font-size: 12px !important;
 }
 
 .modal-content .radio label:before,
 .modal-content .checkbox label:before {
-	width: 20px;
-	height: 20px;
 	border: 2px solid #0f9aee !important;
 }
 
 .modal-content .radio label:after,
 .modal-content .checkbox label:after {
-	width: 14px;
-	height: 14px;
 	background-color: #0f9aee !important;
 }
