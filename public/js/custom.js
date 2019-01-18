@@ -273,13 +273,15 @@ var uvel,
         $self.calculateExpectedMaterial('[data-saleProduct]', 'expecteMaterial');
         $self.lockPaymentControllers();
       } else if (formType == 'partner-sell') {
-        console.log(currentPressedBtn)
+        var ajaxUrl = currentPressedBtn.attr('data-url');
+
+        $self.ajaxFn('GET', ajaxUrl, $self.partnerPaymentLoad);
       }
 
       //TODO: ASK BOBI VVVV
 
       setTimeout(function() {
-        if (((formType == 'add') || (formType == 'sell')) && !formSettings.initialized) {
+        if ((formType == 'add') || (formType == 'sell' || formType == 'partner-sell') && !formSettings.initialized) {
           $self.initializeForm(formSettings, formType);
           formSettings.initialized = true;
         } else if (formType == 'edit') {
@@ -289,6 +291,32 @@ var uvel,
 					console.log('form already initialized');
 				}
       }, timeToOpenModal);
+    }
+
+    this.partnerPaymentLoad = function(response) {
+      var form = document.querySelector('[name="sellingPartners"]'),
+          materials = JSON.parse(response.materials),
+          partner = response.partner.name,
+          workmanship = parseFloat(response.workmanship),
+          tableContent = '';
+      
+      for (var i = 0; i < Object.keys(materials).length; i++) {
+        tableContent += '<tr data-material-id="' + materials[Object.keys(materials)[i]].material_id + '">';
+        tableContent += '<td data-material-name>' + materials[Object.keys(materials)[i]].name + '</td>';
+        tableContent += '<td data-material-weight>' + materials[Object.keys(materials)[i]].weight + '</td>';
+        tableContent += '<td><input type="number" class="form-control" value="0" data-material-given></td>';
+        tableContent += '</tr>';
+      }
+
+      tableContent += '<tr class="partner-worksmanship">';
+      tableContent += '<td>Изработка</td>';
+      tableContent += '<td data-worksmanship-wanted>' + workmanship + '</td>';
+      tableContent += '<td><input type="number" class="form-control" value="0" placeholder="Дадена сума" data-worksmanship-given></td>';
+      tableContent += '</tr>';
+
+  
+      form.querySelector('.partner-information').innerHTML = partner;
+      form.querySelector('tbody').innerHTML = tableContent;
     }
 
     this.enterPressBehaviour = function(inputs) {
@@ -312,7 +340,7 @@ var uvel,
             url: ajaxRequestLink,
             success: function(response) {
               if (_this.hasClass('cart')) {
-                $self.cartSumsPopulate(resp);
+                $self.cartSumsPopulate(response);
                 $self.calculateExpectedMaterial('[data-saleProduct]', 'expectedMaterial');
               }
 
@@ -471,7 +499,7 @@ var uvel,
 
           newFields += newDiscount;
 
-          if (discount.attributes.partner) {
+          if (discount.attributes.partner == 'true') {
             isPartner = true;
           }
         }
@@ -559,9 +587,55 @@ var uvel,
 
       submitButton.click(function(e) {
         e.preventDefault();
-        var inputFields = form.find('select , input, textarea');
-        $self.getFormFields(form, ajaxRequestLink, formType, inputFields);
+        
+        if (formType == 'partner-sell') {
+          $self.partnerPaymentSubmit(form, ajaxRequestLink, formType);
+        } else {
+          var inputFields = form.find('select , input, textarea');
+          $self.getFormFields(form, ajaxRequestLink, formType, inputFields);
+        }
       });
+    }
+
+    this.partnerPaymentSubmit = function(form, ajaxRequestLink, formType) {
+      var materials = form.find('[data-material-id]'),
+          workmanshipWanted = form.find('[data-worksmanship-wanted]').text(),
+          workmanshipGiven = form.find('[data-worksmanship-given]').val(),
+          receiptOptions = form.find('[type="radio"]'),
+          payMethod = form.find('[name="partner-pay-method"]')[0].checked,
+          data = {
+            _token : $self.formsConfig.globalSettings.token,
+            isPartner : true,
+            payMethod : payMethod,
+            workmanship : {
+              wanted : workmanshipWanted,
+              given : workmanshipGiven
+            },
+            materials: []
+          };
+
+      for (var i = 0; i < materials.length; i++) {
+        console.log(i);
+        var material_id = materials[i].dataset.materialId,
+            material_weight = materials[i].querySelector('[data-material-weight]').textContent,
+            material_given = materials[i].querySelector('[data-material-given]').value;
+
+        var material = {
+          material_id : material_id,
+          material_weight : material_weight,
+          material_given : material_given
+        };
+
+        data.materials.push(material);
+      }
+
+      for (var i = 0; i < receiptOptions.length; i++) {
+        if (receiptOptions[i].checked) {
+          data[receiptOptions[i].id] =  true;
+        }
+      }
+
+      $self.sendFormRequest(form, ajaxRequestLink, formType, data);
     }
 
     this.getFormFields = function(form, ajaxRequestLink, formType, inputFields) {

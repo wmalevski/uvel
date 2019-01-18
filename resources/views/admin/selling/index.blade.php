@@ -8,7 +8,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="sell/partners" name="sellingPartners" data-type="partner-sell">
+            <form method="POST" action="sell/partner" name="sellingPartners" data-type="partner-sell">
                 <div class="modal-body">    
                     <div class="info-cont">
                     </div>
@@ -16,7 +16,7 @@
 
                     <div class="form-row">
                         <div class="form-group col-md-12">
-                            <table class="table" id="shopping-table">
+                            <table class="table" id="partner-shopping-table">
                                 <thead class="thead-dark">
                                     <tr>
                                         <th scope="col">Материали</th>
@@ -30,15 +30,10 @@
                             </table>
                         </div>    
                     </div>
-
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="partner-information">Информация за партнъора:</label>
-                            <!-- FINISH FORM INIT -->
-                            <p class="partner-information">
-                                Жоро ЕООД<br>
-                                Гр. Пазарджик
-                            </p>
+                            <p class="partner-information"></p>
                         </div>
                     </div>
                     <div class="form-row">
@@ -52,53 +47,52 @@
                     <div class="form-row">
                         <div class="form-group col-md-4">    
                             <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                                <input type="checkbox" id="pay-method" class="pay-method" name="pay_method" data-calculatepayment-method="">
-                                <label for="pay-method" class="peers peer-greed js-sb ai-c">
+                                <input type="checkbox" id="partner-pay-method" class="pay-method" name="partner-pay-method" data-calculatepayment-method="">
+                                <label for="partner-pay-method" class="peers peer-greed js-sb ai-c">
                                     <span class="peer peer-greed">С карта</span>
                                 </label>
                             </div>
                         </div>
                         <div class="form-group col-md-4">
                             <div class="radio radio-info">
-                                <input type="radio" id="modal-reciept" name="modal_reciept" value="yes" checked="">
-                                <label for="modal-reciept">Фискален</label>
+                                <input type="radio" id="partner-modal-reciept" name="partner-modal-reciept" value="yes" checked="">
+                                <label for="partner-modal-reciept">Фискален</label>
                             </div>
                             <div class="radio radio-info">
-                                <input type="radio" id="modal-non-reciept" name="modal_reciept" value="no">
-                                <label for="modal-non-reciept">Без фискален</label>
+                                <input type="radio" id="partner-modal-non-reciept" name="partner-modal-reciept" value="no">
+                                <label for="partner-modal-non-reciept">Без фискален</label>
                             </div>
                         </div>
                         <div class="form-group col-md-4">
                             <div class="radio radio-info">
-                                <input type="radio" id="modal-ticket" name="modal_ticket" value="yes" checked="">
-                                <label for="modal-ticket">С разписка</label>
+                                <input type="radio" id="partner-modal-ticket" name="partner-modal-ticket" value="yes" checked="">
+                                <label for="partner-modal-ticket">С разписка</label>
                             </div>
                             <div class="radio radio-info">
-                                <input type="radio" id="modal-non-ticket" name="modal_ticket" value="no">
-                                <label for="modal-non-ticket">Без разписка</label>
+                                <input type="radio" id="partner-modal-non-ticket" name="partner-modal-ticket" value="no">
+                                <label for="partner-modal-non-ticket">Без разписка</label>
                             </div>
                         </div>
                     </div>
-
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <span>Принтиране на сертификат:</span>
                         </div>
                         <div class="form-group col-md-6">
                             <div class="radio radio-info">
-                                <input type="radio" id="modal-certificate" name="modal_certificate" value="yes" checked="">
-                                <label for="modal-certificate">С цена</label>
+                                <input type="radio" id="partner-modal-certificate" name="partner-modal-certificate" value="yes" checked="">
+                                <label for="partner-modal-certificate">С цена</label>
                             </div>
                             <div class="radio radio-info">
-                                <input type="radio" id="modal-non-certificate" name="modal_certificate" value="no">
-                                <label for="modal-non-certificate">Без цена</label>
+                                <input type="radio" id="partner-modal-non-certificate" name="partner-modal-certificate" value="no">
+                                <label for="partner-modal-non-certificate">Без цена</label>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" class="btn btn-primary">Завърши плащането</button>
+                    <button type="submit" class="btn btn-primary btn-finish-payment">Завърши плащането</button>
                 </div>
             </form>
         </div>
@@ -402,7 +396,7 @@ aria-hidden="true">
 
                         <div class="form-group">
                             <button type="button" class="btn btn-primary payment-btn" data-selling-payment data-form-type="sell" data-form="selling" data-toggle="modal" data-target="#paymentModal">Плащане</button>
-                            <button type="button" class="btn btn-primary payment-btn" data-form-type="partner-sell" data-form="sellingPartners" data-toggle="modal" data-target="#paymentPartner" style="display: none;">Плащане Партнъор</button>
+                            <button type="button" class="btn btn-primary payment-btn" data-url="/ajax/cartMaterialsInfo" data-form-type="partner-sell" data-form="sellingPartners" data-toggle="modal" data-target="#paymentPartner" style="display: none;">Плащане Партнъор</button>
                             <button type="button" class="btn btn-primary">Ръчно пускане на фискален бон</button>
                         </div>
 
