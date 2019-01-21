@@ -26,7 +26,7 @@ class ProductController extends BaseController
         $products = Product::where([
             ['status', '=', 'available'],
             ['website_visible', '=', 'yes']
-        ])->paginate(12);
+        ])->paginate(env('RESULTS_PER_PAGE'));
 
         $products_new = new Product();
         $products = $products_new->filterProducts($request, $products);
@@ -48,7 +48,7 @@ class ProductController extends BaseController
 
         $products = Product::where([
             ['status', '=', 'available']
-        ])->paginate(12);
+        ])->paginate(env('RESULTS_PER_PAGE'));
 
         $materialTypes = MaterialType::all();
 
