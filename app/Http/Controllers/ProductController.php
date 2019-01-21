@@ -7,6 +7,7 @@ use App\Model;
 use App\Jewel;
 use App\Price;
 use App\Stone;
+use App\Review;
 use App\ModelStone;
 use App\ProductStone;
 use App\ModelOption;
@@ -15,6 +16,7 @@ use App\Gallery;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Redirect;
 use Response;
 use File;
 use App\Material;
@@ -51,6 +53,22 @@ class ProductController extends Controller
         }
 
         return \View::make('admin/products/index', array('stores' => $stores ,'products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials->scopeCurrentStore(), 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
+    }
+
+    /**
+     * Show all products reviews 
+     */
+    public function showReviews()
+    {
+        $reviews = Review::where([
+            ['product_id', '!=', '']
+        ])->get();
+
+        if(count($reviews)){
+            return \View::make('admin/products_reviews/index', array('reviews'=>$reviews));
+        }else {
+            return redirect()->route('admin_products')->with('success', 'Съобщението ви беше изпратено успешно');
+        }
     }
 
     /**
@@ -233,6 +251,12 @@ class ProductController extends Controller
                 $product->weight_without_stones = 'no';
             } else{
                 $product->weight_without_stones = 'yes';
+            }
+
+            if($request->website_visible == 'true'){
+                $product->website_visible =  'yes';
+            }else{
+                $product->website_visible =  'no';
             }
     
             $product->save();

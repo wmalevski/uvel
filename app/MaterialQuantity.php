@@ -38,6 +38,10 @@ class MaterialQuantity extends Model
         return $this->belongsTo('App\MaterialTravelling')->withTrashed();
     }
 
+    public function products(){
+        return $this->hasMany('App\Product')->withTrashed();
+    }
+
     protected $table = 'materials_quantities';
     protected $dates = ['deleted_at'];
 }

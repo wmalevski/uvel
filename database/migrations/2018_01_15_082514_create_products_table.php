@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->integer('model_id')->unsigned();
             $table->integer('material_id')->unsigned();
+            $table->integer('material_type_id')->unsigned();
             $table->integer('jewel_id')->unsigned();
             $table->integer('type')->default(1);
             $table->float('weight');
@@ -28,8 +29,9 @@ class CreateProductsTable extends Migration
             $table->float('price');
             $table->string('code')->nullable();
             $table->string('barcode');
-            $table->enum('status', ['available', 'selling', 'travelling', 'sold'])->default('available');
+            $table->enum('status', ['available', 'selling', 'travelling', 'reserved', 'sold'])->default('available');
             $table->enum('weight_without_stones', ['yes', 'no'])->default('no');
+            $table->enum('website_visible', ['yes', 'no'])->default('yes');
             $table->integer('store_id')->unsigned();
             $table->integer('order_id')->unsigned()->nullable();
             $table->timestamps();

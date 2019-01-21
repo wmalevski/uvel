@@ -21,7 +21,9 @@
 							<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
 								<input type="checkbox" id="weightWithStones" name="with_stones" class="peer" data-calculatePrice-withStones>
 								<label for="weightWithStones" class="peers peer-greed js-sb ai-c">
-									<span class="peer peer-greed">Тегло с камъни</span>
+									<span class="peer peer-greed">
+										Тегло с камъни
+									</span>
 								</label>
 							</div>
 						</div>
@@ -45,13 +47,10 @@
 						<div class="form-group col-md-6">
 							<label>Вид: </label>
 							<select id="jewels_types" name="jewel_id" class="jewels_types form-control" data-modelFilled-jewel disabled>
-								<option value="">
-									Избери
-								</option>
+								<option value="">Избери</option>
+
 								@foreach($jewels as $jewel)
-								<option value="{{ $jewel->id }}" data-material="{{ $jewel->material }}">
-									{{ $jewel->name }}
-								</option>
+								<option value="{{ $jewel->id }}" data-material="{{ $jewel->material }}">{{ $jewel->name }}</option>
 								@endforeach
 							</select>
 						</div>
@@ -172,7 +171,7 @@
 					<div class="form-row">
 						<div class="form-group col-md-12">
 							<label>Магазин: </label>
-							<select name="store_id" class="form-control">
+							<select name="store_id" class="store-select form-control">
 								<option value="">Избери магазин</option>
 
 								@foreach($stores as $store)
@@ -180,6 +179,13 @@
 								@endforeach
 							</select>
 						</div>
+					</div>
+
+					<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
+						<input type="checkbox" id="website_visible" name="website_visible" class="peer" checked>
+						<label for="website_visible" class="peers peer-greed js-sb ai-c">
+							<span class="peer peer-greed">Показване в сайта</span>
+						</label>
 					</div>
 
 					<div class="drop-area" name="add">
@@ -219,6 +225,9 @@
 
 		<tr>
 			<th class="sort-false">
+				Снимка
+			</th>
+			<th class="sort-false">
 				Уникален номер
 			</th>
 			<th>
@@ -249,6 +258,9 @@
 
 		<tr class="search-inputs">
 			<th>
+				
+			</th>
+			<th>
 				<input class="filter-input form-control" type="text" data-search-attribute="data-code" placeholder="Търси по номер">
 			</th>
 			<th>
@@ -278,11 +290,10 @@
 			</th>
 			<th></th>
 		</tr>
-
 	</thead>
 	<tbody>
 		@foreach($products as $product)
-		@include('admin.products.table')
+			@include('admin.products.table')
 		@endforeach
 	</tbody>
 </table>

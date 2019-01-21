@@ -75,7 +75,7 @@ aria-hidden="true">
 <div class="modal fade edit--modal_holder" id="editDiscount" role="dialog" aria-labelledby="editDiscount" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            
+
 
         </div>
     </div>
@@ -89,9 +89,9 @@ aria-hidden="true">
         <table class="table table-condensed tablesort">
             <thead>
                 <tr>
-                    <th class="sort-false">Баркод</th> 
-                    <th>Отстъпка</th> 
-                    <th class="sort-false">Валидна до</th> 
+                    <th class="sort-false">Баркод</th>
+                    <th>Отстъпка</th>
+                    <th class="sort-false">Валидна до</th>
                     <th>Статус</th>
                     <th class="sort-false">Потребител</th>
                     <th>Използвана</th>

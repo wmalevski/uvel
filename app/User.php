@@ -22,7 +22,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'store_id'
+        'name', 'email', 'password', 'store_id',
+        'first_name', 'last_name', 'city', 'street', 'postcode', 'country', 'street_number', 'phone'
     ];
 
     protected $dates = ['deleted_at'];
@@ -63,6 +64,31 @@ class User extends Authenticatable
     public function store()
     {
         return $this->belongsTo('App\Store')->withTrashed();
+    }
+
+    public function blogs()
+    {
+        return $this->hasMany('App\Blog')->get();
+    }
+
+    public function blogComments()
+    {
+        return $this->hasMany('App\BlogComment')->get();
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany('App\Review');
+    }
+
+    public function wishLists() 
+    {
+        return $this->hasMany('App\WishList');
+    }
+
+    public function sellings()
+    {
+        return $this->hasMany('App\UserPayment');
     }
 
     public function partnerInfo()

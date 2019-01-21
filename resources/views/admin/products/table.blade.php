@@ -8,14 +8,20 @@
 	data-price="{{ $product->price }}"
 	data-barcode="{{ $product->barcode }}">
 
-	{{$product->order}}
-
 	<td class="thumbnail--tooltip">
-		{{ $product->code }}
-		<ul @if($product->photos) style="background-image: url({{ asset("uploads/products/" .
-			$product->photos->first()['photo']) }});" @endif>
+		<img class="admin-product-image" src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @endif ">
+		<ul class="product-hover-image"
+		@if($product->photos) style="background-image: url({{ asset("uploads/products/" .
+		$product->photos->first()['photo']) }});" @endif >
 		</ul>
 	</td>
+	
+	<td class="admin-product-name">
+		<p>
+			{{ $product->code }}
+		</p>
+	</td>
+
 	<td>
 		@if($product->model) {{ $product->model->name }} @endif
 	</td>
@@ -40,38 +46,26 @@
 
 	<td>
 		@if($product->status == 'selling')
-			<span class="badge bgc-deep-purple-50 c-deep-purple-700 p-10 lh-0 tt-c badge-pill">
-				В продажба
-			</span>
+		<span class="badge bgc-deep-purple-50 c-deep-purple-700 p-10 lh-0 tt-c badge-pill">В продажба</span>
 		@elseif($product->status == 'sold')
-			<span class="badge bgc-orange-50 c-orange-700 p-10 lh-0 tt-c badge-pill">
-				Продаден
-			</span>
+		<span class="badge bgc-orange-50 c-orange-700 p-10 lh-0 tt-c badge-pill">Продаден</span>
 		@elseif($product->status == 'travelling')
-			<span class="badge bgc-orange-50 c-orange-700 p-10 lh-0 tt-c badge-pill">
-				На път
-			</span>
+		<span class="badge bgc-orange-50 c-orange-700 p-10 lh-0 tt-c badge-pill">На път</span>
+		@elseif($product->status == 'reserved')
+		<span class="badge bgc-orange-50 c-orange-700 p-10 lh-0 tt-c badge-pill">Резервиран</span>
 		@else
-			<span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">
-				Наличен
-			</span>
-		@endif
-	</td>
+		<span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">Наличен</span> @endif</td>
 
 	<td>
 		@can('edit-products')
 		<span data-url="products/{{$product->id}}" class="edit-btn" data-form-type="edit" data-form="products" data-toggle="modal"
-		 data-target="#editProduct">
-		 <i class="c-brown-500 ti-pencil"></i>
-		</span>
+		 data-target="#editProduct"><i class="c-brown-500 ti-pencil"></i></span>
 		@endcan
-		<a href="products/print/{{$product->id}}" class="print-btn">
-			<i class="c-brown-500 ti-printer"></i>
-		</a>
+		<a href="reviews/product/{{$product->id}}"><i class="c-brown-500 ti-star"></i></a>
+		<a href="products/print/{{$product->id}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a>
 		@can('delete-products')
-		<span data-url="products/delete/{{$product->id}}" class="delete-btn">
-			<i class="c-brown-500 ti-trash"></i>
-		</span>
+		<span data-url="products/delete/{{$product->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></span>
 		@endcan
 	</td>
+
 </tr>

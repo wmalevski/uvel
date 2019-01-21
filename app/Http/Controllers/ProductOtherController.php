@@ -3,13 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Store;
+use App\Review;
+use App\Gallery;
 use App\ProductOther;
 use App\ProductOtherType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\JsonResponse;
 use Response;
+use File;
+use Storage;
 
 class ProductOtherController extends Controller
 {
@@ -86,7 +91,51 @@ class ProductOtherController extends Controller
 
         $product->save();
 
+        $file_data = $request->input('images'); 
+        if($file_data){
+            foreach($file_data as $img){
+                $memi = substr($img, 5, strpos($img, ';')-5);
+                
+                $extension = explode('/',$memi);
+                if($extension[1] == "svg+xml"){
+                    $ext = 'png';
+                }else{
+                    $ext = $extension[1];
+                }
+                
+
+                $file_name = 'productotherimage_'.uniqid().time().'.'.$ext;
+
+                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                file_put_contents(public_path('uploads/productsothers/').$file_name, $data);
+
+                Storage::disk('public')->put('productsothers/'.$file_name, file_get_contents(public_path('uploads/productsothers/').$file_name));
+
+                $photo = new Gallery();
+                $photo->photo = $file_name;
+                $photo->product_other_id = $product->id;
+                $photo->table = 'products_others';
+                $photo->save();
+            }
+        }
+
         return Response::json(array('success' => View::make('admin/products_others/table',array('product'=>$product))->render()));
+    }
+
+    /**
+     * Display all reviews
+     */
+    public function showReviews()
+    {
+        $reviews = Review::where([
+            ['product_others_id', '!=', '']
+        ])->get();
+
+        if (count($reviews)) {
+            return \View::make('admin.products_others_reviews.index', array('reviews'=>$reviews));
+        } else {
+            return redirect()->route('products_others')->with('success', 'Съобщението ви беше изпратено успешно');
+        }
     }
 
     /**
@@ -111,8 +160,39 @@ class ProductOtherController extends Controller
         $types = ProductOtherType::all();
         $stores = Store::all();
 
+        $photos = Gallery::where(
+            [
+                ['table', '=', 'products'],
+                ['product_other_id', '=', $productOther->id]
+            ]
+        )->get();
 
-        return \View::make('admin/products_others/edit', array('product' => $productOther, 'types' => $types, 'stores' => $stores));
+        $pass_photos = array();
+
+        foreach($photos as $photo){
+            $url =  Storage::get('public/productsothers/'.$photo->photo);
+            $ext_url = Storage::url('public/productsothers/'.$photo->photo);
+            
+            $info = pathinfo($ext_url);
+            
+            $image_name =  basename($ext_url,'.'.$info['extension']);
+            
+            $base64 = base64_encode($url);
+
+            if($info['extension'] == "svg"){
+                $ext = "png";
+            }else{
+                $ext = $info['extension'];
+            }
+
+            $pass_photos[] = [
+                'id' => $photo->id,
+                'photo' => 'data:image/'.$ext.';base64,'.$base64
+            ];
+        }
+
+
+        return \View::make('admin/products_others/edit', array('product' => $productOther, 'types' => $types, 'stores' => $stores, 'basephotos' => $pass_photos));
     }
 
     /**
