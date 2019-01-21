@@ -755,6 +755,9 @@
 
   <script type="text/javascript" src="{{ URL::asset('js/jquery-3.1.1.min.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('js/select2.min.js') }}"></script>
+  <script type="text/javascript" src="{{ URL::asset('js/tablesort.min.js') }}"></script>
+  <script type="text/javascript" src="{{ URL::asset('js/tablesort.number.min.js') }}"></script>
+  <script type="text/javascript" src="{{ URL::asset('js/tablesort.date.min.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('vendor.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('bundle.js') }}"></script>

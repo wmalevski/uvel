@@ -169,6 +169,7 @@ var uvel,
     this.init = function () {
       $self.attachInitialEvents();
       $self.initializeSelect($('select').not('[data-select2-skip]'));
+      $self.initializeTableSort();
       // $self.checkAllForms();
     };
 
@@ -199,6 +200,14 @@ var uvel,
       $self.travellingMaterialsState($travelingMaterialsStateBtns);
       $self.enterPressBehaviour($inputCollection);
       $self.setInputFilters();
+    }
+
+    this.initializeTableSort = function() {
+      var tables = document.querySelectorAll('table');
+
+      for (var i = 0; i < tables.length; i++) {
+        new Tablesort(tables[i]);
+      }
     }
 
     this.openForm = function(openFormTrigger) {
