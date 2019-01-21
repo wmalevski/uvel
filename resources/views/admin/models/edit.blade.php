@@ -158,7 +158,7 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder"><input type="checkbox" id="inputCall1" name="stone_flow[]" class="peer stone-flow calculate-stones" @if($modelStone->flow == 'yes') checked @endif><label for="inputCall1" class="peers peer-greed js-sb ai-c"><span class="peer peer-greed">За леене</span></label>
+                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder"><input type="checkbox" id="flow" name="stone_flow[]" class="peer stone-flow calculate-stones" @if($modelStone->flow == 'yes') checked @endif><label for="flow" class="peers peer-greed js-sb ai-c"><span class="peer peer-greed">За леене</span></label>
                     <span class="row-total-weight"></span></div>
                 </div>
             </div>
@@ -220,7 +220,7 @@
         @endforeach 
 
         <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
-            <input type="checkbox" id="website_visible" name="website_visible" class="peer" @if($model->website_visible == 'true') checked @endif>
+            <input type="checkbox" id="website_visible" name="website_visible" class="peer" @if($model->website_visible == 'yes') checked @endif>
             <label for="website_visible" class="peers peer-greed js-sb ai-c">
                 <span class="peer peer-greed">Показване в сайта</span>
             </label>

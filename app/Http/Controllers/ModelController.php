@@ -218,7 +218,7 @@ class ModelController extends Controller
             $product->store_id = 1;
             $bar = '380'.unique_number('products', 'barcode', 7).'1'; 
             
-            $digits =(string)$bar;
+            $digits =(string)$bar;  
             // 1. Add the values of the digits in the even-numbered positions: 2, 4, 6, etc.
             $even_sum = $digits{1} + $digits{3} + $digits{5} + $digits{7} + $digits{9} + $digits{11};
             // 2. Multiply this result by 3.
@@ -232,11 +232,8 @@ class ModelController extends Controller
             $check_digit = $next_ten - $total_sum;
             $product->barcode = $digits . $check_digit;
 
-            if($request->website_visible == 'true'){
-                $product->website_visible =  'yes';
-            }else{
-                $product->website_visible =  'no';
-            }
+            $product->website_visible =  'yes';
+           
             
             $product->save();
 
