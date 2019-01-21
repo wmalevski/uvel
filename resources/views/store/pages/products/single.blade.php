@@ -47,22 +47,24 @@
 										 data-animate="fadeInRight">
 											<div id="gallery_main" class="product-image-thumb thumbs full_width ">
 												<ul class="slide-product-image">
-													@foreach($product->photos as $image)
-													<li class="image">
-														<a href="{{ asset("uploads/products/" . $image->photo) }}" class="cloud-zoom-gallery active">
-															<img alt="{{ $product->name }}" src="{{ asset("uploads/products/" . $image->photo) }}" alt="{{ $product->name }}">
-														</a>
-													</li>
+													@foreach($product->images as $image)
+														<li class="image">
+															<a href="{{ asset("uploads/products/" . $image->photo) }}" class="cloud-zoom-gallery active">
+																<img alt="{{ $product->name }}" src="{{ asset("uploads/products/" . $image->photo) }}" alt="{{ $product->name }}">
+															</a>
+														</li>
 													@endforeach
 												</ul>
 											</div>
 										</div>
+										@if(count($product->images))
 										<div class="image featured col-smd-12 col-sm-12 fadeInUp not-animated" data-animate="fadeInUp">
-											<img src="{{ asset("uploads/products/" . $product->photos->first()['photo']) }}" alt="{{ $product->name }}">
+											<img src="{{ asset("uploads/products/" . $product->images->first()['photo']) }}" alt="{{ $product->name }}">
 										</div>
+										@endif
 										<div id="gallery_main_mobile" class="visible-xs product-image-thumb thumbs mobile_full_width ">
 											<ul style="opacity: 0; display: block;" class="slide-product-image owl-carousel owl-theme">
-												@foreach($product->photos as $image)
+												@foreach($product->images as $image)
 												<li class="image">
 													<a href="{{ asset("uploads/products/" . $image->photo) }}" class="cloud-zoom-gallery active">
 														<img src="{{ asset("uploads/products/" . $image->photo) }}" alt="{{ $product->name }}">
@@ -334,7 +336,7 @@
 												<li class="row-left">
 													<a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">
 														<img class="img-responsive" alt="{{ $product->name }}"
-														src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif">
+														src="@if($product->images) {{ asset("uploads/products/" . $product->images->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif">
 													</a>
 													<div class="hbw">
 														<span class="hoverBorderWrapper"></span>
