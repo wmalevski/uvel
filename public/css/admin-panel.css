@@ -18,7 +18,7 @@
 
 .modal-content .checkbox label:after {
 	top: 7px;
-	left: 2px;
+	left: 3px;
 	width: 10px !important;
 	height: 10px !important;
 	border-radius: 50%;
@@ -33,4 +33,20 @@
 .modal-content .radio label:after,
 .modal-content .checkbox label:after {
 	background-color: #0f9aee !important;
+}
+
+.modal-content .modal-header {
+	padding-left: 18px;
+}
+
+form .select2-selection__arrow {
+	height: 100% !important;
+}
+
+form .select2-selection__rendered {
+	padding-top: 2px;
+}
+
+form .form-group {
+	margin-bottom: 10px;
 }
