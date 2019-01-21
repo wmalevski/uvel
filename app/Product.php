@@ -297,7 +297,7 @@ class Product extends BaseModel
             })->where([
                 ['status', '=', 'available'],
                 ['website_visible', '=', 'yes']
-            ])->paginate(12);
+            ])->paginate(env('RESULTS_PER_PAGE'));
             return $query;
         }
 

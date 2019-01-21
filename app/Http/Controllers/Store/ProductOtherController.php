@@ -25,7 +25,7 @@ class ProductOtherController extends BaseController
     {
         $products = ProductOther::where([
             ['quantity', '!=', 0]
-        ])->paginate(12);
+        ])->paginate(env('RESULTS_PER_PAGE'));
 
         $products_new = new ProductOther();
         $products = $products_new->filterProducts($request, $products);
@@ -46,7 +46,7 @@ class ProductOtherController extends BaseController
     public function show(ProductOther $product){
         $productothertypes = ProductOtherType::all();
 
-        $products = ProductOther::paginate(12);
+        $products = ProductOther::paginate(env('RESULTS_PER_PAGE'));
 
         $materialTypes = MaterialType::all();
 

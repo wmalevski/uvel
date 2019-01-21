@@ -20,11 +20,7 @@ class ModelController extends BaseController
      */
     public function index()
     {
-        // $models = Product::where([
-        //     ['status', '=', 'available']
-        // ])->paginate(12);
-
-        $models = Model::where('website_visible', 'yes')->paginate(12);
+        $models = Model::where('website_visible', 'yes')->paginate(env('RESULTS_PER_PAGE'));
 
         $stores = Store::all()->except(1);
 
@@ -36,7 +32,7 @@ class ModelController extends BaseController
     }
 
     public function show(Model $model){
-        $models = Model::paginate(12);
+        $models = Model::paginate(env('RESULTS_PER_PAGE'));
 
         $allModels = Model::select('*')->where('jewel_id',$model->jewel_id )->whereNotIn('id', [$model->id]);
         $similarModels = $allModels->orderBy(DB::raw('ABS(`price` - '.$model->price.')'))->take(5)->get();
