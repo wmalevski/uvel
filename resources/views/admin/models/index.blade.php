@@ -64,9 +64,12 @@
 								<div class="radio radio-info">
 									<input type="radio" class="default_material not-clear" id="" name="default_material[]"
 									 data-calculatePrice-default checked>
-									<label for="">Материал по подразбиране</label>
+									<label for="">
+										<span>Материал по подразбиране</span>
+									</label>
 								</div>
 							</div>
+							
 						</div>
 					</div>
 
@@ -156,12 +159,16 @@
 						<div class="drop-area-gallery"></div>
 					</div>
 
-					<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
-						<input type="checkbox" id="inputCall1" name="release_product" class="peer">
-						<label for="inputCall1" class="peers peer-greed js-sb ai-c">
-							<span class="peer peer-greed">Добави като продукт</span>
-						</label>
+					
+					<div class="form-row">
+						<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
+							<input type="checkbox" id="inputCall1" name="release_product" class="peer">
+							<label for="inputCall1" class="peers peer-greed js-sb ai-c">
+								<span class="peer peer-greed">Добави като продукт</span>
+							</label>
+						</div>
 					</div>
+				
 				</div>
 
 				<div class="modal-footer">
