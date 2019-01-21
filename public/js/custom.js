@@ -164,13 +164,13 @@ var uvel,
         controllers: [],
         initialized: false
       }
-    }
+    };
 
     this.init = function () {
       $self.attachInitialEvents();
       $self.initializeSelect($('select').not('[data-select2-skip]'));
       // $self.checkAllForms();
-    }
+    };
 
     this.attachInitialEvents = function () {
       var $openFormTrigger = $('[data-form]:not([data-repair-scan])'),
@@ -205,7 +205,7 @@ var uvel,
       openFormTrigger.on('click', function() {
         $self.openFormAction($(this));
       });
-    }
+    };
 
     this.calculateExpectedMaterial = function() {
       var materialHolder = document.querySelector('[data-expected-material]'),
