@@ -261,7 +261,10 @@ class Product extends Model
                 if ($request->byMaterial) {
                     $query->whereIn('material_type_id', $request->byMaterial);
                 }
-            })->where('status', 'available')->paginate(12);
+            })->where([
+                ['status', '=', 'available'],
+                ['website_visible', '=', 'yes']
+            ])->paginate(12);
             return $query;
         }
     }

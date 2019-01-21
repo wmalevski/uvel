@@ -24,7 +24,7 @@ class ModelController extends BaseController
         //     ['status', '=', 'available']
         // ])->paginate(12);
 
-        $models = Model::paginate(12);
+        $models = Model::where('website_visible', 'yes')->paginate(12);
 
         $stores = Store::all()->except(1);
 

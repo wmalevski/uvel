@@ -151,8 +151,8 @@ aria-hidden="true">
                     </div>
 
                     <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
-                        <input type="checkbox" id="inputCall1" name="release_product" class="peer">
-                        <label for="inputCall1" class="peers peer-greed js-sb ai-c">
+                        <input type="checkbox" id="as_product" name="release_product" class="peer">
+                        <label for="as_product" class="peers peer-greed js-sb ai-c">
                             <span class="peer peer-greed">Добави като продукт</span>
                         </label>
                     </div>

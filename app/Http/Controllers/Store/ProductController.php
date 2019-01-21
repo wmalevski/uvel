@@ -24,7 +24,8 @@ class ProductController extends BaseController
     public function index(Request $request)
     {
         $products = Product::where([
-            ['status', '=', 'available']
+            ['status', '=', 'available'],
+            ['website_visible', '=', 'yes']
         ])->paginate(12);
 
         $products_new = new Product();

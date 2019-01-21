@@ -98,7 +98,7 @@ class Model extends BaseModel
             if ($request->byMaterial) {
                 $query = $query->whereIn('material_id', $request->byMaterial);
             }
-        })->paginate(12);
+        })->where('website_visible', 'yes')->paginate(12);
 
         return $query;
     }
