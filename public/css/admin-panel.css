@@ -46,3 +46,7 @@ form .select2-selection__arrow {
 form .select2-selection__rendered {
 	padding-top: 2px;
 }
+
+form .form-group {
+	margin-bottom: 10px;
+}
