@@ -17,6 +17,7 @@ use App\ModelOption;
 use File;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use App\MaterialQuantity;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
@@ -36,6 +37,7 @@ class Product extends BaseModel
         'workmanship',
         'price',
         'code',
+        'material_type_id',
         'model_id'
     ];
 
@@ -73,6 +75,17 @@ class Product extends BaseModel
         return $this->belongsTo('App\Price')->withTrashed();
     }
 
+    public function reviews()
+    {
+        return $this->hasMany('App\Review');
+    }
+
+    public function wishLists()
+    {
+        return $this->hasMany('App\WishList');
+
+    }
+    
     public function order()
     {
         return $this->belongsTo('App\OrderItem');
@@ -231,6 +244,62 @@ class Product extends BaseModel
             );
             }
         }
+        public function scopeOfSimilarPrice($query, $price)
+        {
+            return $query->orderBy(DB::raw('ABS(`price` - '.$price.')'));
+        }
+
+        public function getProductAvgRating($product) {
+            $productTotalRating = 0;
+            if(count($product->reviews)){
+                foreach($product->reviews as $review) {
+                    $productTotalRating = $productTotalRating + $review->rating;
+                }
+                return $productAvgRating = $productTotalRating/count($product->reviews);
+            }
+        }
+
+        public function listProductAvgRatingStars($product) {
+            for($i = 1; $i <= 5; $i++){
+                if($this->getProductAvgRating($product) >= $i){
+                    echo '<i class="spr-icon spr-icon-star"></i>';
+                }elseif($product->getProductAvgRating($product) < $i){
+                    echo'<i class="spr-icon spr-icon-star-empty"></i>';
+                }
+            }
+        }
+
+        public function filterProducts(Request $request ,$query){
+            $query = Product::where(function($query) use ($request){
+                if ($request->priceFrom && $request->priceTo) {
+                    $query->whereBetween('price', [$request->priceFrom, $request->priceTo]);
+                } else if($request->priceFrom){
+                    $query->where('price', '>=', $request->priceFrom);
+                } else if($request->priceTo){
+                    $query->where('price', '<=', $request->priceTo);
+                }
+
+                if ($request->bySize) {
+                    $query->whereIn('size', $request->bySize);
+                }
+
+                if ($request->byStore) {
+                    $query->whereIn('store_id', $request->byStore);
+                }
+
+                if ($request->byJewel) {
+                    $query->whereIn('jewel_id', $request->byJewel);
+                }
+
+                if ($request->byMaterial) {
+                    $query->whereIn('material_type_id', $request->byMaterial);
+                }
+            })->where([
+                ['status', '=', 'available'],
+                ['website_visible', '=', 'yes']
+            ])->paginate(12);
+            return $query;
+        }
 
         public function search($term){
             $results = Product::where('name', 'LIKE', "%$term%")->get();
@@ -250,7 +319,6 @@ class Product extends BaseModel
         }
 
         public function store($request, $responseType = 'JSON'){
-            //dd($request);
             $validator = Validator::make( $request->all(), [
                 'jewel_id' => 'required',
                 'material_id' => 'required',

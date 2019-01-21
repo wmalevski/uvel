@@ -114,6 +114,7 @@
             </div>
           </div>
         </div>
+
         <ul class="sidebar-menu scrollable pos-r">
           <li class="nav-item mT-30 {{ Active::check('admin') }}">
             <a class="sidebar-link" href="{{ route('admin') }}" default>
@@ -143,6 +144,10 @@
                 <a class="sidebar-link" href="{{ route('payments') }}">Завършени</a>
               </li>
 
+              <li>
+                <a class="sidebar-link" href="{{ route('online_selling') }}">Онлайн магазин</a>
+              </li>
+
             </ul>
           </li>
 
@@ -153,12 +158,22 @@
               </span>
               <span class="title">Отстъпки</span>
             </a>
+          </li>
           <li class="nav-item {{ Active::check('admin/stores',true) }}">
               <a class="sidebar-link" href="{{ route('stores') }}">
                 <span class="icon-holder">
-                  <i class=" ti-pencil"></i>
+                  <i class=" ti-location-arrow"></i>
                 </span>
                 <span class="title">Магазини</span>
+              </a>
+            </li>
+
+            <li class="nav-item {{ Active::check('admin/blog',true) }}">
+              <a class="sidebar-link" href="{{ route('admin_blog') }}">
+                <span class="icon-holder">
+                  <i class=" ti-pencil"></i>
+                </span>
+                <span class="title">Блог</span>
               </a>
             </li>
             <li class="nav-item {{ Active::check('admin/prices',true) }}">
@@ -208,6 +223,32 @@
                   </ul>
                 </li>
 
+
+                <li class="nav-item dropdown {{ Active::check('admin/orders',true) }}">
+                  <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                      <i class=" ti-truck"></i>
+                    </span>
+                    <span class="title">Поръчки</span>
+                    <span class="arrow">
+                      <i class="ti-angle-right"></i>
+                    </span>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a class="sidebar-link" href="{{ route('custom_orders') }}">По модел на клиента</a>
+                    </li>
+
+                    {{-- @if(Auth::user()->hasRole('admin')) --}}
+                    <li>
+                      <a class="sidebar-link" href="{{ route('model_orders_web') }}">По готов модел</a>
+                    </li>
+                    {{-- @endif --}}
+
+                  </ul>
+                </li>
+
+
             <li class="nav-item {{ Active::check('admin/jewels',true) }}">
               <a class="sidebar-link" href="{{ route('jewels') }}">
                 <span class="icon-holder">
@@ -216,16 +257,37 @@
                 <span class="title">Бижута</span>
               </a>
             </li>
-            <li class="nav-item {{ Active::check('admin/models',true) }}">
-                <a class="sidebar-link" href="{{ route('models') }}">
+
+              <li class="nav-item dropdown {{ Active::check('admin/models',true) }}">
+                <a class="dropdown-toggle" href="javascript:void(0);">
                   <span class="icon-holder">
-                    <i class=" ti-blackboard"></i>
+                    <i class="ti-blackboard"></i>
                   </span>
                   <span class="title">Модели</span>
+                  <span class="arrow">
+                    <i class="ti-angle-right"></i>
+                  </span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="sidebar-link" href="{{ route('admin_models') }}">Наличности</a>
+                  </li>
+                  <li>
+                    <a class="sidebar-link" href="{{ route('show_model_reviews') }}">Ревюта</a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class="nav-item {{ Active::check('admin/reviews',true) }}">
+                <a class="sidebar-link" href="{{ route('reviews') }}">
+                  <span class="icon-holder">
+                    <i class="ti-archive"></i>
+                  </span>
+                  <span class="title">Ревюта</span>
                 </a>
               </li>
 
-              <li class="nav-item dropdown {{ Active::check('admin/products',true) }}">
+              <li class="nav-item dropdown {{ Active::check('admin/admin_products',true) }}">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                   <span class="icon-holder">
                     <i class="ti-package"></i>
@@ -237,10 +299,13 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a class="sidebar-link" href="{{ route('products') }}">Наличности</a>
+                    <a class="sidebar-link" href="{{ route('admin_products') }}">Наличности</a>
                   </li>
                   <li>
                     <a class="sidebar-link" href="{{ route('products_travelling') }}">На път</a>
+                  </li>
+                  <li>
+                    <a class="sidebar-link" href="{{ route('products_reviews') }}">Ревюта</a>
                   </li>
                 </ul>
               </li>
@@ -261,6 +326,9 @@
                   </li>
                   <li>
                     <a class="sidebar-link" href="{{ route('products_others_types') }}">Типове</a>
+                  </li>
+                  <li>
+                    <a class="sidebar-link" href="{{ route('show_products_others_reviews') }}">Ревюта</a>
                   </li>
                 </ul>
               </li>
@@ -360,6 +428,15 @@
               </li>
             </ul>
           </li>
+
+          <li class="nav-item {{ Active::check('admin/mailchimp',true) }}">
+          <a class="sidebar-link" href="{{ route('mailchimp') }}">
+            <span class="icon-holder">
+              <i class=" ti-email"></i>
+            </span>
+            <span class="title">MailChimp</span>
+          </a>
+        </li>
           {{-- @endif --}}
           {{--  <li class="nav-item">
             <a class="sidebar-link" href="compose.html">
@@ -715,7 +792,7 @@
                   </a>
                 </li>  --}}
                 <li>
-                  <a href="{{ route('logout') }}"
+                  <a href="{{ route('admin_logout') }}"
                   onclick="event.preventDefault();
                            document.getElementById('logout-form').submit();" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
                     <i class="ti-power-off mR-10"></i>
@@ -748,20 +825,44 @@
       </footer>
     </div>
   </div>
-  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+  <form id="logout-form" action="{{ route('admin_logout') }}" method="POST" style="display: none;">
     {{ csrf_field() }}
   </form>
 
 
   <script type="text/javascript" src="{{ URL::asset('js/jquery-3.1.1.min.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('js/select2.min.js') }}"></script>
+  <script type="text/javascript" src="{{ URL::asset('js/tablesort.min.js') }}"></script>
+  <script type="text/javascript" src="{{ URL::asset('js/tablesort.number.min.js') }}"></script>
+  <script type="text/javascript" src="{{ URL::asset('js/tablesort.date.min.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('vendor.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('bundle.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('js/custom.js') }}"></script>
 
+  <!-- include summernote css/js -->
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
 
 
+  <script>
+    $(document).ready(function() {
+      $('.summernote').summernote({
+       height: 300,
+       popover: {
+         image: [],
+         link: [],
+         air: []
+       }
+     });
+
+     $('body').on('click', '#blog_lng_edit a', function (e) {
+      e.preventDefault();
+      console.log('clicked');
+      $(this).tab('show');
+    })
+});
+  </script>
 
 
   @yield('footer-scripts')

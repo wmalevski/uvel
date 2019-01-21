@@ -295,14 +295,10 @@
 
 @section('footer-scripts')
 <script id="stones_data" type="application/json">
-	{
-		!!$jsStones!!
-	}
+	{!!$jsStones!!}
 </script>
 
 <script id="materials_data" type="application/json">
-	{
-		!!$jsMaterials!!
-	}
+	{!!$jsMaterials!!}
 </script>
 @endsection

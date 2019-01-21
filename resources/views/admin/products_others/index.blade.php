@@ -62,6 +62,14 @@ aria-hidden="true">
                             @endforeach
                         </select>
                     </div>
+
+                    <div class="drop-area" name="add">
+                        <input type="file" name="images" class="drop-area-input" id="fileElem-add" multiple accept="image/*" >
+                        <label class="button" for="fileElem-add">Select some files</label>
+                        <div class="drop-area-gallery"></div>
+                    </div>
+
+
                 </div>
 
                 <div class="modal-footer">

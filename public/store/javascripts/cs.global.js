@@ -11,8 +11,6 @@ var GLOBAL = {
       
       searchPlaceholder();
 
-
-      $('.add-to-cart').bind( 'click', addToCart );
     }
   },
 

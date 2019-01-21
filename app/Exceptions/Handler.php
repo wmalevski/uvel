@@ -4,6 +4,9 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Auth\AuthenticationException;
+use Response;
+use Request;
 
 class Handler extends ExceptionHandler
 {
@@ -49,5 +52,18 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         return parent::render($request, $exception);
+    }
+
+    // protected function unauthenticated($request, AuthenticationException $exception)
+    // {
+    //    return Response::json(array('message' => 'Трябва да влезнете в системата!'), 401);
+
+    // }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+       return $request->expectsJson()
+               ? response()->json(['success' => false, 'message' => 'Трябва да влезете в системата!'], 401)
+               : redirect()->guest(route('login'));
     }
 }

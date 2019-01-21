@@ -22,6 +22,17 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function() {
     Route::get('/', 'DashboardController@index')->name('admin');
 
+    Route::get('/infoemails', 'InfoMailController@index')->name('info_emails');
+    Route::get('/infoemails/{email}', 'InfoMailController@edit');
+
+    Route::get('/infophones', 'InfoPhoneController@index')->name('info_phones');
+    Route::get('/infophones/{phone}', 'InfoPhoneController@edit');
+
+    Route::get('/blog', 'BlogController@index')->name('admin_blog');
+    Route::get('/blog/{article}', 'BlogController@edit');
+    Route::get('/blog/{article}/comments', 'BlogController@showComments');
+    Route::post('/blog', 'BlogController@store');
+
     Route::get('/repairtypes', 'RepairTypeController@index')->name('repair_types');
     Route::post('/repairtypes', 'RepairTypeController@store');
     Route::get('/repairtypes/{repairType}', 'RepairTypeController@edit');
@@ -32,6 +43,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/selling', 'SellingController@index')->name('selling');
     Route::post('/selling', 'SellingController@store');
+
+    Route::get('/selling/online', 'OnlineSellingsController@index')->name('online_selling');
 
     Route::get('/stones/sizes', 'StoneSizeController@index')->name('sizes');
     Route::post('/stones/sizes', 'StoneSizeController@store');
@@ -63,6 +76,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/stones/{stone}', 'StoneController@edit');
 
+    Route::get('/slides', 'SliderController@index')->name('slides');
+    Route::post('/slides', 'SliderController@store');
+
+    Route::get('/slides/{slide}', 'SliderController@edit');
+
     Route::get('/stores', 'StoreController@index')->name('stores');
     Route::post('/stores', 'StoreController@store');
     Route::get('/stores/info/{store}', 'StoreController@show');
@@ -71,6 +89,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/stores/{store}', 'StoreController@edit');
     //Route::put('/stores/{store}', 'StoreController@update');
+
+    Route::get('/selling/online/{selling}', 'OnlineSellingsController@edit');
+    Route::put('/selling/online/{selling}', 'OnlineSellingsController@update');
 
     Route::get('/nomenclatures', 'NomenclatureController@index')->name('nomenclatures');
 
@@ -111,14 +132,22 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/jewels/{jewel}', 'JewelController@edit');
 
-    Route::get('/models', 'ModelController@index')->name('models');
+    Route::get('/orders/custom', 'CustomOrderController@index')->name('custom_orders');
+
+    Route::get('/orders/custom/{order}', 'CustomOrderController@edit');
+
+    Route::get('/orders/model', 'ModelOrderController@index')->name('model_orders_web');
+    
+    Route::get('/orders/model/{order}', 'ModelOrderController@edit');
+
+    Route::get('/models', 'ModelController@index')->name('admin_models');
     Route::post('/models', 'ModelController@store');
 
     Route::get('/models/{model}', 'ModelController@edit');
     Route::put('/models/{model}', 'ModelController@update');
 
     Route::get('/products/{product}', 'ProductController@edit');
-    Route::get('/products', 'ProductController@index')->name('products');
+    Route::get('/products', 'ProductController@index')->name('admin_products');
     Route::post('/products', 'ProductController@store');
 
     Route::get('/productsothers', 'ProductOtherController@index')->name('products_others');
@@ -168,6 +197,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/repairs/return/{repair}', 'RepairController@return');
     Route::get('/repairs/edit/{repair}', 'RepairController@edit');
 
+    Route::get('/mailchimp', 'NewsletterController@index')->name('mailchimp');
+
+    Route::get('/reviews', 'ReviewController@index')->name('reviews');
+    Route::get('/reviews/{review}', 'ReviewController@show')->name('show_review');
+    Route::post('/reviews/delete/{review}', 'ReviewController@destroy')->name('destroy_review');
+
+    Route::get('/reviews/product/{product}', 'ReviewController@index')->name('show_product_reviews');
+
+    Route::get('/products/reviews/all', 'ProductController@showReviews')->name('products_reviews');
+    Route::get('/productsothers/reviews/all', 'ProductOtherController@showReviews')->name('show_products_others_reviews');
+    Route::get('/models/reviews/all', 'ModelController@showReviews')->name('show_model_reviews');
+    Route::post('/logout', 'UserController@logout')->name('admin_logout');
+
     Route::get('/search/models/{term}', 'ModelController@search');
 
     Route::get('/search/products/{term}', 'ProductController@search');
@@ -188,6 +230,20 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::get('productstravelling/addByScan/{product}', 'ProductTravellingController@addByScan');
 
+    //Route::post('/blog/{article}/{comment}/delete', 'BlogCommentController@destroy');
+
+    Route::post('/infophones', 'InfoPhoneController@store');
+    Route::post('/infophones/delete/{phone}', 'InfoPhoneController@destroy');
+
+    Route::post('/infoemails', 'InfoEmailController@store');
+    Route::post('/infoemails/delete/{phone}', 'InfoEmailController@destroy');
+
+    Route::post('/slides', 'SliderController@store');
+    Route::post('/slides/delete/{slide}', 'SliderController@destroy');
+
+    Route::post('/blog', 'BlogController@store');
+    Route::post('/blog/delete/{blog}', 'BlogController@destroy');
+
     Route::post('/stores', 'StoreController@store');
     Route::put('/stores/{store}', 'StoreController@update');
     Route::get('/stores/{store}', 'StoreController@edit');
@@ -203,6 +259,9 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/repairtypes', 'RepairTypeController@store');
 
+    Route::get('/selling/online/{selling}', 'OnlineSellingsController@edit');
+    Route::put('/selling/online/{selling}', 'OnlineSellingsController@update');
+
     Route::post('/stones', 'StoneController@store');
     Route::post('/stones/delete/{stone}', 'StoneController@destroy');
 
@@ -211,6 +270,9 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/stones/styles', 'StoneStyleController@store');
     Route::get('/stones/styles/{stoneStyle}', 'StoneStyleController@edit');
+
+    Route::put('/blog/{article}', 'BlogController@update');
+    Route::post('/blog/{article}', 'BlogController@destroy');
 
     Route::put('/stones/{stone}', 'StoneController@update');
     Route::get('/stones/{stone}', 'StoneController@edit');
@@ -252,6 +314,9 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::put('/materialstypes/{materialType}', 'MaterialTypeController@update');
 
     Route::put('/users/{user}', 'UserController@update');
+
+    Route::put('/orders/custom/{order}', 'CustomOrderController@update');
+    Route::put('/orders/model/{order}', 'ModelOrderController@update');
 
     Route::post('/users', 'UserController@store');
     Route::post('/users/delete/{user}', 'UserController@destroy');
@@ -324,6 +389,10 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/gallery/delete/{photo}', 'GalleryController@destroy');
 
+    Route::post('/reviews/delete/{review}', 'ReviewController@destroy')->name('destroy_review');
+
+    Route::post('/blog/comments/{comment}/delete', 'BlogCommentController@destroy');
+
     Route::post('/materials/accept/{material}', 'MaterialTravellingController@accept');
     Route::post('/materials/decline/{material}', 'MaterialTravellingController@decline');
 
@@ -331,3 +400,119 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::put('/nomenclatures/{nomenclature}', 'NomenclatureController@update');
 });
+
+/**
+ * Online Store Routes
+ */
+Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
+    Route::get('/', 'StoreController@index')->name('store');
+    Route::post('/blog/{article}/comments/delete/{comment}', 'BlogCommentController@destroy');
+
+    Route::group(['prefix' => 'blog'], function() {
+        Route::get('/{article}', 'BlogController@show')->name('single_article');
+        Route::get('/lg/{locale}', 'BlogController@index')->name('translated_articles');
+        Route::get('/lg/{locale}/{article}', 'BlogController@show')->name('single_translated_article');
+        Route::post('/{article}/comment', 'BlogCommentController@store')->name('article_comment');
+        Route::post('/{article}/{comment}/delete', 'BlogCommentController@destroy')->name('article_comment_delete');
+    });
+
+    Route::get('/prices', 'StorePricesController@index')->name('storePrices');
+    Route::get('/warranty', 'WarrantyController@index')->name('warranty');
+    Route::get('/howtoorder', 'HowToOrderController@index')->name('howtoorder');
+    Route::get('/about', 'AboutController@index')->name('about');
+    Route::get('/stores', 'ListStoresController@index')->name('stores');
+
+    Route::get('/contact', 'ContactController@index')->name('contactus');
+    Route::post('/contact', 'ContactController@store');
+
+    Route::post('/subscribe', 'SubscribeController@subscribe')->name('subscribe');
+    Route::get('/unsubscribe/{email}', 'SubscribeController@unsubscribe')->name('unsubscribe');
+
+    //User Related
+    Route::get('/register', 'UserController@create')->name('register');
+    Route::post('/register', 'UserController@store')->name('registerform');
+    Route::get('/login', 'UserController@login')->name('login');
+    Route::post('/login', 'UserController@userlogin')->name('userlogin');
+    Route::get('/logout', 'UserController@logout')->name('logout');
+
+    Route::get('/custom_order', 'CustomOrderController@index')->name('custom_order');
+    Route::post('/custom_order', 'CustomOrderController@store')->name('submit_custom_order');
+    
+    Route::group(['prefix' => 'products'], function() {
+        Route::get('/', 'ProductController@index')->name('products');
+        Route::get('/{product}', 'ProductController@show')->name('single_product');
+        Route::post('/{product}/review', 'ReviewController@store')->name('product_review');
+    });
+
+    Route::group(['prefix' => 'productsothers'], function() {
+        Route::get('/', 'ProductOtherController@index')->name('productsothers');
+        Route::get('/{product}', 'ProductOtherController@show')->name('single_product_other');
+    });  
+
+    Route::group(['prefix' => 'models'], function() {
+        Route::get('/', 'ModelController@index')->name('models');
+        Route::get('/{model}', 'ModelController@show')->name('single_model');
+    });  
+    
+    Route::get('/model_orders/', 'ModelOrderController@index')->name('model_orders');
+});
+
+Route::group(['prefix' => 'online',  'namespace' => 'Store', 'middleware' => 'auth'], function() {
+    Route::get('/cart', 'CartController@index')->name('cart');
+    Route::post('/cart', 'UserPaymentController@store')->name('pay_order');
+    Route::get('/cart/addItem/{item}/{quantity}', 'CartController@addItem')->name('CartAddItem');
+    Route::post('/cart/pay/paypal', 'PayController@pay')->name('paypal_pay');
+    Route::get('/cart/pay/status', 'PayController@getPaymentStatus')->name('paypal_status');
+    Route::get('/cart/addDiscount/{barcode}', 'PayController@setDiscount')->name('add_discount');
+    Route::get('/cart/removeDiscount/{name}', 'PayController@removeDiscount')->name('remove_discount');
+
+    Route::get('/account', 'AccountController@index')->name('user_account');
+
+    Route::get('/wishlist', 'WishListController@index')->name('wishlist');
+    Route::get('/wishlist/delete/{wishList}', 'WishListController@destroy')->name('destroy_wishlist_item');
+
+    Route::get('/settings', 'UserController@edit')->name('user_settings');
+    Route::post('/settings', 'UserController@update')->name('user_settings_update');
+
+    Route::get('/model_order/{model}', 'ModelOrderController@store')->name('order_model');
+
+    //Route::get('/cart/updateItem/{item}/{quantity}', 'CartController@updateItem')->name('CartUpdateItem');
+
+});
+
+//AJAX FOR STORE
+
+Route::group(['prefix' => 'ajax', 'namespace' => 'Store'], function() {
+    //Route::get('/cart/addItem/{item}/{quantity}', 'CartController@addItem');
+    Route::get('/cart/removeItem/{item}', 'CartController@removeItem')->name('CartRemoveItem');
+    Route::get('/cart/updateItem/{item}/{quantity}', 'CartController@updateItem')->name('CartUpdateItem');
+
+    Route::get('/products/{product}/quickview/', 'ProductController@quickview');
+    Route::get('/productsothers/{product}/quickview/', 'ProductOtherController@quickview');
+    Route::get('/models/{model}/quickview/', 'ModelController@quickview');
+
+    Route::get('/filter/products', 'ProductController@filter');
+
+    Route::get('/filter/productsothers', 'ProductOtherController@filter');
+
+    Route::get('/filter/models', 'ModelController@filter');
+
+    Route::post('/wishlists/store/{type}/{item}', 'WishListController@store')->name('wishlists_store');
+
+    Route::get('/cart/setDiscount/{barcode}',  'CartController@setDiscount')->name('add_discount');
+
+});
+
+/**
+ * !Note: Store routes for testing
+ */
+// Route::prefix('online')->group(function () {
+
+//     Route::get('contact', function () {
+//         return view('store.pages.contact');
+//     });
+
+//     Route::get('product', function () {
+//         return view('store.pages.products.index');
+//     });
+// });

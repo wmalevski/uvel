@@ -119,6 +119,11 @@ class DatabaseSeeder extends Seeder
             'title' => 'Изтриване на готово изделие',
         ]);
 
+        $accessDashboard = Bouncer::ability()->create([
+            'name' => 'access-dashboard',
+            'title' => 'Влизане в админ панела',
+        ]);
+
         //Admin permissions
         Bouncer::allow($admin)->to($sellingProducts);
         Bouncer::allow($admin)->to($manageOrders);
@@ -132,6 +137,7 @@ class DatabaseSeeder extends Seeder
         Bouncer::allow($admin)->to($storeSale);
         Bouncer::allow($admin)->to($addingSafe);
         Bouncer::allow($admin)->to($deleteProducts);
+        Bouncer::allow($admin)->to($accessDashboard);
 
         //Manager permissions
         Bouncer::allow($manager)->to($sellingProducts);
@@ -145,6 +151,7 @@ class DatabaseSeeder extends Seeder
         Bouncer::allow($manager)->to($editProducts);
         Bouncer::allow($manager)->to($storeSale);
         Bouncer::allow($manager)->to($addingSafe);
+        Bouncer::allow($manager)->to($accessDashboard);
 
         //Merchant permissions 
         Bouncer::allow($merchant)->to($sellingProducts);
@@ -152,6 +159,7 @@ class DatabaseSeeder extends Seeder
         Bouncer::allow($merchant)->to($manageRepairs);
         Bouncer::allow($merchant)->to($sellingStatus);
         Bouncer::allow($merchant)->to($jewelStatus);
+        Bouncer::allow($merchant)->to($accessDashboard);
 
         $stores = new Store();
         $stores->name = 'Склад';

@@ -119,7 +119,8 @@ return [
     'attributes' => [
         //Global
         'name' => 'Име',
-        'slug' => 'Име',
+				'slug' => 'Име',
+				'title' => 'Заглавие',
         'material' => 'Материал',
         'discount' => 'Отстъпка',
         'location' => 'Адрес',
@@ -138,6 +139,17 @@ return [
         'style' => 'Стил',
         'contour' => 'Контур',
         'currency ' => 'Курс',
+        'g-recaptcha-response' => 'за валидация',
+        'message' => 'Съобщение',
+        'comment' => 'Коментар',
+        'content' => 'Описание',
+        'city' => 'Град',
+        'street' => 'Улица',
+        'street_number' => 'Номер',
+        'postcode' => 'Пощенски код',
+        'country' => 'Държава',
+        'first_name' => 'Име',
+        'last_name' => 'Фамилия',
 
         //Repairs
         'customer_name' => 'Име на клиент',
@@ -155,7 +167,18 @@ return [
         'stone_weight.*' => 'Тегло камъни',
         'storeTo' => 'Магазин',
         'carat' => 'Карат',
-        'deposit' => 'Капаро'
+        'deposit' => 'Капаро',
+
+
+
+        //Blog
+        'images' => 'за снимка',
+        'title.bg' => 'Заглавие на Български',
+        'title.en' => 'Заглавие на Английски',
+        'content.bg' => 'Съдържание на Български',
+        'content.en' => 'Съдържение на Английски',
+        'excerpt.bg' => 'Описание на Български',
+        'excerpt.en' => 'Описание на Английски',
     ],
 
 ];

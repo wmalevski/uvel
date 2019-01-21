@@ -94,7 +94,11 @@ class DashboardController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    { 
+        if(!Auth::user()->can('access-dashboard')){
+            return redirect()->route('store');;
+        }
+
         $discounts = DiscountCode::all();
         $currencies = Currency::all();
         $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();

@@ -7,6 +7,7 @@ use App\Jewel;
 use App\Price;
 use App\Stone;
 use App\ModelStone;
+use App\Review;
 use App\Product;
 use App\ProductStone;
 use App\Material;
@@ -16,6 +17,7 @@ use App\Gallery;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\JsonResponse;
 use Response;
 use Illuminate\Support\Facades\View;
@@ -108,6 +110,14 @@ class ModelController extends Controller
         $model->workmanship = $request->workmanship;
         $model->price = $request->price;
         $model->totalStones =  $request->totalStones;
+        $model->code = 'M'.unique_random('models', 'code', 7);
+
+        if($request->website_visible == 'true'){
+            $model->website_visible =  'yes';
+        }else{
+            $model->website_visible =  'no';
+        }
+
         $model->save();
 
         if($request->stones){
@@ -149,7 +159,7 @@ class ModelController extends Controller
                 }
                 
 
-                $file_name = 'productimage_'.uniqid().time().'.'.$ext;
+                $file_name = 'modelimage_'.uniqid().time().'.'.$ext;
             
                 $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
                 file_put_contents(public_path('uploads/models/').$file_name, $data);
@@ -191,12 +201,15 @@ class ModelController extends Controller
                 ['default', '=', 'yes']
             ])->first();
 
+            $material = MaterialQuantity::withTrashed()->find($default->material_id);
+
             $product = new Product();
             $product->name = $request->name;
             $product->model_id = $model->id;
             $product->jewel_id= $request->jewel_id;
             $product->weight = $request->weight;
             $product->material_id = $default->material_id;
+            $product->material_type_id = $material->material_id;
             $product->retail_price_id = $default->retail_price_id;
             $product->size = $request->size;
             $product->workmanship = $request->workmanship;
@@ -205,7 +218,7 @@ class ModelController extends Controller
             $product->store_id = 1;
             $bar = '380'.unique_number('products', 'barcode', 7).'1'; 
             
-            $digits =(string)$bar;
+            $digits =(string)$bar;  
             // 1. Add the values of the digits in the even-numbered positions: 2, 4, 6, etc.
             $even_sum = $digits{1} + $digits{3} + $digits{5} + $digits{7} + $digits{9} + $digits{11};
             // 2. Multiply this result by 3.
@@ -218,6 +231,9 @@ class ModelController extends Controller
             $next_ten = (ceil($total_sum/10))*10;
             $check_digit = $next_ten - $total_sum;
             $product->barcode = $digits . $check_digit;
+
+            $product->website_visible =  'yes';
+           
             
             $product->save();
 
@@ -247,6 +263,11 @@ class ModelController extends Controller
                     }
                 }
             }
+
+            $path = public_path('uploads/products/');
+        
+            File::makeDirectory($path, 0775, true, true);
+            Storage::disk('public')->makeDirectory('models', 0775, true);
 
             if($file_data){
                 foreach($file_data as $img){
@@ -278,6 +299,22 @@ class ModelController extends Controller
         }
 
         return Response::json(array('success' => View::make('admin/models/table',array('model'=>$model))->render()));
+    }
+
+     /**
+     * Display all reviews
+     */
+    public function showReviews()
+    {
+        $reviews = Review::where([
+            ['model_id', '!=', '']
+        ])->get();
+
+        if (count($reviews)) {
+            return \View::make('admin.models_reviews.index', array('reviews'=>$reviews));
+        } else {
+            return redirect()->route('admin_models')->with('success', 'Съобщението ви беше изпратено успешно');
+        }
     }
 
     /**
@@ -399,6 +436,12 @@ class ModelController extends Controller
         $model->weight = $request->weight;
         $model->totalStones =  $request->totalStones;
         $model->size = $request->size;
+
+        if($request->website_visible == 'true'){
+            $model->website_visible =  'yes';
+        }else{
+            $model->website_visible =  'no';
+        }
         
         $model->save();
 

@@ -13,5 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         'ajax/*',
+        'online/ajax/*',
+        'admin/*'
     ];
 }

@@ -98,9 +98,9 @@ class PaymentController extends Controller
             $payment->save();
 
             $paymentID = $payment->id;
-            
+            $session_id = session()->getId();
             //Saving car's conditions(discounts only) to the database.
-            $cartConditions = Cart::session($userId)->getConditions();
+            $cartConditions = Cart::session($session_id)->getConditions();
             foreach($cartConditions as $condition){
                 if($condition->getName() != 'ДДС')
                 {
@@ -124,7 +124,7 @@ class PaymentController extends Controller
             
             $items = [];
             
-            Cart::session($userId)->getContent()->each(function($item) use (&$items)
+            Cart::session($session_id)->getContent()->each(function($item) use (&$items)
             {
                 $items[] = $item;
             });
@@ -148,7 +148,7 @@ class PaymentController extends Controller
                 $selling->save();
             }
             
-            foreach(Cart::session($userId)->getContent() as $item)
+            foreach(Cart::session($session_id)->getContent() as $item)
             {
                 if($item['attributes']->type == 'repair'){
                     $repair = Repair::find($item->id);
@@ -211,8 +211,8 @@ class PaymentController extends Controller
             
             Cart::clear();
             Cart::clearCartConditions();
-            Cart::session($userId)->clear();
-            Cart::session($userId)->clearCartConditions();
+            Cart::session($session_id)->clear();
+            Cart::session($session_id)->clearCartConditions();
 
             return Response::json(array('success' => 'Успешно продадено!'));
 

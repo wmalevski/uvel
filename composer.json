@@ -6,13 +6,18 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
+        "albertcht/invisible-recaptcha": "^1.8",
         "darryldecode/cart": "~3.0",
+        "davejamesmiller/laravel-breadcrumbs": "4.x",
+        "dimsav/laravel-translatable": "8.1",
         "fideloper/proxy": "~3.3",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
         "milon/barcode": "^5.3",
+        "paypal/rest-api-sdk-php": "^1.13",
         "pyaesone17/active-state": "1.1.1",
         "silber/bouncer": "v1.0.0-rc.1",
+        "spatie/laravel-newsletter": "^4.2",
         "webpatser/laravel-uuid": "3.0"
     },
     "require-dev": {
@@ -29,7 +34,8 @@
         ],
         "files": [
             "app/Helpers/string.php",
-            "app/Helpers/number.php"
+            "app/Helpers/number.php",
+            "app/Helpers/slugify.php"
         ],
         "psr-4": {
             "App\\": "app/"
