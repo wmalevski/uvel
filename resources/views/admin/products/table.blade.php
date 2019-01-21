@@ -1,27 +1,45 @@
-<tr data-id="{{ $product->id }}">
-
-
+<tr class="filterable-element"
+	data-id="{{ $product->id }}"
+	data-code="{{ $product->code }}"
+	data-model="{{ $product->model->name }}"
+	data-type="{{ $product->jewel->name }}"
+	data-retail-price="{{ $product->retailPrice->price }}"
+	data-weight="{{ $product->weight }}"
+	data-price="{{ $product->price }}"
+	data-barcode="{{ $product->barcode }}">
 
 	<td class="thumbnail--tooltip">
-		<img class="admin-product-image"
-			src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }}" @endif>
+		<img class="admin-product-image" src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @endif ">
 		<ul class="product-hover-image"
 		@if($product->photos) style="background-image: url({{ asset("uploads/products/" .
-		$product->photos->first()['photo']) }});" @endif>
+		$product->photos->first()['photo']) }});" @endif >
 		</ul>
 	</td>
+	
 	<td class="admin-product-name">
 		<p>
 			{{ $product->code }}
 		</p>
 	</td>
 
-	<td> @if($product->model) {{ $product->model->name }} @endif </td>
-	<td> @if($product->model) {{ $product->jewel->name }} @endif </td>
-	<td> {{ $product->retailPrice->price }} </td>
-	<td> {{ $product->weight }} </td>
-	<td> {{ $product->price }} </td>
+	<td>
+		@if($product->model) {{ $product->model->name }} @endif
+	</td>
+	<td>
+		@if($product->model) {{ $product->jewel->name }} @endif
+	</td>
+	<td>
+		{{ $product->retailPrice->price }}
+	</td>
+	<td>
+		{{ $product->weight }}
+	</td>
+	<td>
+		{{ $product->price }}
+	</td>
+
 	{{-- <td> {{ ($product->retailPrice->price)*$product->weight }} </td> --}}
+
 	<td>
 		{!! DNS1D::getBarcodeSVG($product->barcode, "EAN13",1,33,"black", true) !!} <br /> {{ $product->barcode }}<br />
 	</td>

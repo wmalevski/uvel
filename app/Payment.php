@@ -31,4 +31,8 @@ class Payment extends Model
     public function sellings(){
         return $this->hasMany('App\Selling');
     }
+
+    public function exchange_materials(){
+        return $this->hasMany('App\ExchangeMaterial');
+    }
 }

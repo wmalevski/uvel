@@ -102,4 +102,20 @@ class Model extends BaseModel
 
         return $query;
     }
+    
+    public function search($term)
+    {
+        $results = Model::where('name', 'LIKE', "%$term%")->get();
+
+        $pass_models = array();
+
+        foreach($results as $model){
+            $pass_models[] = [
+                'value' => $model->id,
+                'label' => $model->name
+            ];
+        }
+
+        return $pass_models;
+    }
 }

@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Nomenclature extends Model
 {
     protected $fillable = [
-        'name',
-        'code',
-        'color'
+        'name'
     ];
 
     protected $table = 'nomenclatures';
+
+    public function stones()
+    {
+        $this->hasMany('App\Stone');
+    }
 }

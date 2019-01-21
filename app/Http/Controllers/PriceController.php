@@ -145,7 +145,6 @@ class PriceController extends Controller
         $checkExisting = ModelOption::where([
             ['model_id', '=', $model],
             ['material_id', '=', $material]
-            //['default', '=', 'yes']
         ])->first();
 
         $mat = MaterialQuantity::where('material_id', $material)->first();
@@ -205,6 +204,89 @@ class PriceController extends Controller
         return Response::json(array(
             'retail_prices' => $prices_retail, 
             'pass_models' => $models, 
+            'pricebuy' => $priceBuy->price));
+    }
+
+    public function getByMaterialExchange($material, $model){
+        $checkExisting = ModelOption::where([
+            ['model_id', '=', $model],
+            ['material_id', '=', $material]
+            //['default', '=', 'yes']
+        ])->first();
+
+        $mat = MaterialQuantity::find($material);
+
+        $retail_prices = Price::where(
+            [
+                ['material_id', '=', $mat->material_id],
+                ['type', '=', 'buy']
+            ]
+        )->get();
+
+        $secondary_price = Price::where(
+            [
+                ['material_id', '=', $mat->material_id],
+                ['type', '=', 'buy'],
+                ['price', '<', $retail_prices->first()->price]
+            ]
+        )->first();
+
+        $prices_retail = array();
+
+        $priceBuy = Price::where(
+            [
+                ['material_id', '=', $material],
+                ['type', '=', 'buy']
+            ]
+        )->first();
+
+        $models = Model::where(
+            [
+                ['jewel_id', '=', $material],
+            ]
+        )->get();
+
+        $pass_models = array();
+        
+        foreach($models as $model){
+            $pass_models[] = (object)[
+                'value' => $model->id,
+                'label' => $model->name,
+            ];
+        }
+        
+        foreach($retail_prices as $price){
+
+            if($checkExisting){
+                if($price->id == $checkExisting->retail_price_id){
+                    $selected = true;
+                }else{
+                    $selected = false;
+                }
+            }else{
+                $selected = false;
+            }
+
+            if($price->id == $secondary_price->id){
+                $secondary = true;
+            }else{
+                $secondary = false;
+            }
+
+            $prices_retail[] = (object)[
+                'id' => $price->id,
+                'material' => $price->material_id,
+                'slug' => $price->slug.' - '.$price->price.'лв',
+                'price' => $price->price,
+                'selected' => $selected,
+                'secondary' => $secondary
+            ];
+        }
+
+        return Response::json(array(
+            'retail_prices' => $prices_retail, 
+            'pass_models' => $models, 
+            'secondary_price' => $secondary_price->price,
             'pricebuy' => $priceBuy->price));
     }
 }

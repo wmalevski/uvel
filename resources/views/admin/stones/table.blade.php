@@ -1,6 +1,6 @@
 <tr data-id="{{ $stone->id }}">
     <td class="thumbnail--tooltip">
-        {{ $stone->name }}
+        {{ $stone->nomenclature->name }}
         <ul @if($stone->photos) style="background-image: url({{ asset("uploads/stones/" . $stone->photos->first()['photo']) }});" @endif>
         </ul>
     </td> 

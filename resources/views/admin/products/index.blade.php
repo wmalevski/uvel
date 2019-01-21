@@ -31,12 +31,16 @@
 
 					<div class="form-row">
 						<div class="form-group col-md-6">
-							<label>Модел: </label>
-							<select id="model_select" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model>
-								<option value="">Избери</option>
-
+							<label>Модел:</label>
+							<select data-url="ajax/products/" name="model_id" class="model-select form-control model-filled"
+							 data-calculatePrice-model>
+								<option value="">
+									Избери
+								</option>
 								@foreach($models as $model)
-								<option value="{{ $model->id }}" data-jewel="{{ $model->jewel->id }}">{{ $model->name }}</option>
+								<option value="{{ $model->id }}" data-jewel="{{ $model->jewel->id }}">
+									{{ $model->name }}
+								</option>
 								@endforeach
 							</select>
 						</div>
@@ -102,8 +106,7 @@
 
 						<div class="form-group col-md-3">
 							<label for="size">Размер: </label>
-							<input type="text" class="form-control size" id="size" name="size" placeholder="Размер:" min="1"
-							 data-modelFilld-size max="10000">
+							<input type="text" class="form-control size" id="size" name="size" placeholder="Размер:" min="1" data-modelFilld-size max="10000">
 						</div>
 					</div>
 
@@ -113,8 +116,7 @@
 						</div>
 					</div>
 
-					<div class="form-row model_stones">
-					</div>
+					<div class="form-row model_stones"></div>
 
 					<div class="form-row">
 						<div class="form-group col-md-5">
@@ -207,33 +209,91 @@
 <div class="modal fade edit--modal_holder" id="editProduct" role="dialog" aria-labelledby="editProductLabel"
  aria-hidden="true">
 	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-
-		</div>
+		<div class="modal-content"></div>
 	</div>
 </div>
 
-<h3>Добави готово изделие <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="products"
-	 data-toggle="modal" data-target="#addProduct">Добави</button></h3>
+<h3>
+	Добави готово изделие
+	<button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="products" data-toggle="modal" data-target="#addProduct">
+	 Добави
+	</button>
+</h3>
 
 <table class="table table-condensed tablesort">
 	<thead>
+
 		<tr>
-			<th class="sort-false">Снимка</th>
-			<th class="sort-false">Уникален номер</th>
-			<th>Модел</th>
-			<th>Вид бижу</th>
-			<th class="sort-false">Цена на дребно</th>
-			<th class="sort-false">Тегло</th>
-			<th>Цена</th>
-			<th class="sort-false">Баркод</th>
-			<th>Статус</th>
-			<th class="sort-false">Действия</th>
+			<th class="sort-false">
+				Снимка
+			</th>
+			<th class="sort-false">
+				Уникален номер
+			</th>
+			<th>
+				Модел
+			</th>
+			<th>
+				Вид бижу
+			</th>
+			<th class="sort-false">
+				Цена на дребно
+			</th>
+			<th class="sort-false">
+				Тегло
+			</th>
+			<th>
+				Цена
+			</th>
+			<th class="sort-false">
+				Баркод
+			</th>
+			<th>
+				Статус
+			</th>
+			<th class="sort-false">
+				Действия
+			</th>
+		</tr>
+
+		<tr class="search-inputs">
+			<th>
+				
+			</th>
+			<th>
+				<input class="filter-input form-control" type="text" data-search-attribute="data-code" placeholder="Търси по номер">
+			</th>
+			<th>
+				<input class="filter-input form-control" type="text" data-search-attribute="data-model" placeholder="Търси по модел">
+			</th>
+			<th>
+				<input class="filter-input form-control" type="text" data-search-attribute="data-type" placeholder="Търси по вид">
+			</th>
+			<th>
+				<input class="filter-input form-control" type="number" data-search-attribute="data-retail-price" placeholder="Търси по цена на дребно">
+			</th>
+			<th>
+				<input class="filter-input form-control" type="number" data-search-attribute="data-weight" placeholder="Търси по тегло">
+			</th>
+			<th>
+				<input class="filter-input form-control" type="number" data-search-attribute="data-price" placeholder="Търси по цена">
+			</th>
+			<th>
+				<input class="filter-input form-control" type="number" data-search-attribute="data-barcode" placeholder="Търси по баркод">
+			</th>
+			<th></th>
+			<th>
+				<button type="button" class="btn btn-primary btn-clear-filters">
+					<strong>X</strong>
+					Изчисти филтри
+				</button>
+			</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 		@foreach($products as $product)
-		@include('admin.products.table')
+			@include('admin.products.table')
 		@endforeach
 	</tbody>
 </table>
@@ -241,9 +301,7 @@
 
 @section('footer-scripts')
 <script id="stones_data" type="application/json">
-	{
-		!!$jsStones!!
-	}
+	{!!$jsStones!!}
 </script>
 
 @endsection

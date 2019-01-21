@@ -45,7 +45,7 @@ class ModelController extends Controller
         foreach($stones as $stone){
             $pass_stones[] = [
                 'value' => $stone->id,
-                'label' => $stone->name.' ('.$stone->contour->name.', '.$stone->style->name.' )',
+                'label' => $stone->nomenclature->name.' ('.$stone->contour->name.', '.$stone->size->name.', '.$stone->style->name.' )',
                 'type' => $stone->type,
                 'price' => $stone->price
             ];
@@ -356,7 +356,7 @@ class ModelController extends Controller
         foreach($stones as $stone){
             $pass_stones[] = [
                 'value' => $stone->id,
-                'label' => $stone->name.' ('.$stone->contour->name.', '.$stone->style->name.' )',
+                'label' => $stone->nomenclature->name.' ('.$stone->contour->name.', '.$stone->style->name.' )',
                 'type'  => $stone->type,
                 'price' => $stone->price
             ];
@@ -538,6 +538,13 @@ class ModelController extends Controller
         }
 
         return Response::json(array('ID' => $model->id, 'table' => View::make('admin/models/table',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render(), 'photos' => $photosHtml));
+    }
+
+    public function search($term){
+        $model = new Model();
+        $search = $model->search($term);
+
+        return json_encode($search, JSON_UNESCAPED_SLASHES );
     }
 
     /**

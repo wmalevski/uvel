@@ -7,6 +7,11 @@
   font-weight: bold;
 }
 
+#exchange-row {
+  display: none;
+  opacity: 0;
+}
+
 input[readonly] {
   pointer-events: none;
 }
@@ -281,6 +286,16 @@ textarea {
 	transform: translateX(-100%) translateY(-100%);
 	min-width: 400px;
 }
+
+.search-inputs {
+	border-bottom: 3px solid #e9ecef;
+}
+
+.search-inputs th {
+	margin: 0 !important;
+	padding: 10px !important;
+}
+
 
 /* .stones--tooltip ul:before {
   content: '';

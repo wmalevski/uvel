@@ -175,52 +175,74 @@ aria-hidden="true">
 </div>
 
 
-<div class="modal fade edit--modal_holder" id="editModel" role="dialog" aria-labelledby="editModelLabel"
-aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModelLabel">Редактиране на модел</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="info-cont">
-                </div>
-                {{ csrf_field() }}
-
-
-            </div>
-        </div>
-    </div>
+<div class="modal fade edit--modal_holder" id="editModel" role="dialog" aria-labelledby="editModelLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="editModelLabel">Редактиране на модел</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="info-cont"></div>
+				{{ csrf_field() }}
+			</div>
+		</div>
+	</div>
 </div>
 
-<h3>Модели <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="models" data-toggle="modal" data-target="#addModel">Добави</button></h3>
+<h3>Модели <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="models" data-toggle="modal"
+	 data-target="#addModel">Добави</button></h3>
 
 <table class="table table-condensed models-table tablesort">
-    <tr>
-        <th>Име</th> 
-        <th>Виж бижу</th>
-        <th>Тегло</th>
-        <th>Изработка</th>
-        <th>Цена</th>
-        <th>Действия</th>
-        <th></th>
-    </tr>
-    
-    @foreach($models as $model)
-        @include('admin.models.table')
-    @endforeach
+	<tr>
+		<th>Име</th>
+		<th>Вид бижу</th>
+		<th>Тегло</th>
+		<th>Изработка</th>
+		<th>Цена</th>
+		<th>Действия</th>
+		<th></th>
+	</tr>
+
+	<tr class="search-inputs">
+		<th>
+			<input class="filter-input form-control" type="text" data-search-attribute="data-name" placeholder="Търси по име">
+		</th>
+		<th>
+			<input class="filter-input form-control" type="text" data-search-attribute="data-type" placeholder="Търси по вид">
+		</th>
+		<th>
+			<input class="filter-input form-control" type="number" data-search-attribute="data-weight" placeholder="Търси по тегло">
+		</th>
+		<th>
+			<input class="filter-input form-control" type="number" data-search-attribute="data-workmanship" placeholder="Търси по изработка">
+		</th>
+		<th>
+			<input class="filter-input form-control" type="number" data-search-attribute="data-price" placeholder="Търси по цена">
+		</th>
+		<th>
+			<button type="button" class="btn btn-primary btn-clear-filters">
+				<strong>X</strong>
+				Изчисти филтри
+			</button>
+		</th>
+		<th></th>
+	</tr>
+
+	@foreach($models as $model)
+	@include('admin.models.table')
+	@endforeach
 </table>
 @endsection
 
 @section('footer-scripts')
 <script id="stones_data" type="application/json">
- {!! $jsStones !!}
+	{!!$jsStones!!}
 </script>
 
 <script id="materials_data" type="application/json">
-    {!! $jsMaterials !!}
+	{!!$jsMaterials!!}
 </script>
 @endsection

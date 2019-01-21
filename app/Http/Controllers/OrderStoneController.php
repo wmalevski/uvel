@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Nomenclatures;
+use App\OrderStone;
 use Illuminate\Http\Request;
 
-class NomenclaturesController extends Controller
+class OrderStoneController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,7 @@ class NomenclaturesController extends Controller
      */
     public function index()
     {
-        $nomenclatures = Nomenclatures::all();
-
-        return \View::make('nomenclatures/index', array('nomenclatures' => $nomenclatures));
+        //
     }
 
     /**
@@ -37,23 +35,16 @@ class NomenclaturesController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'code' => 'required',
-            'color' => 'required',
-        ]);
-
-        $nomenclatures = Nomenclatures::create($request->all());
-        return redirect('admin/nomenclatures');
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Nomenclatures  $nomenclatures
+     * @param  \App\OrderStone  $orderStone
      * @return \Illuminate\Http\Response
      */
-    public function show(Nomenclatures $nomenclatures)
+    public function show(OrderStone $orderStone)
     {
         //
     }
@@ -61,10 +52,10 @@ class NomenclaturesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Nomenclatures  $nomenclatures
+     * @param  \App\OrderStone  $orderStone
      * @return \Illuminate\Http\Response
      */
-    public function edit(Nomenclatures $nomenclatures)
+    public function edit(OrderStone $orderStone)
     {
         //
     }
@@ -73,10 +64,10 @@ class NomenclaturesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Nomenclatures  $nomenclatures
+     * @param  \App\OrderStone  $orderStone
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Nomenclatures $nomenclatures)
+    public function update(Request $request, OrderStone $orderStone)
     {
         //
     }
@@ -84,10 +75,10 @@ class NomenclaturesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Nomenclatures  $nomenclatures
+     * @param  \App\OrderStone  $orderStone
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Nomenclatures $nomenclatures)
+    public function destroy(OrderStone $orderStone)
     {
         //
     }

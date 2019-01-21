@@ -65,7 +65,8 @@
       }
     }
 
-  </style>
+	</style>
+	<link href="{{ URL::asset('../css/admin-panel.css') }}" rel="stylesheet">
   <link href="{{ URL::asset('style.css') }}" rel="stylesheet">
   <link href="{{ URL::asset('select2.min.css') }}" rel="stylesheet">
 
@@ -124,7 +125,7 @@
             </a>
           </li>
 
-          <li class="nav-item dropdown {{ Active::check('admin/payments',true) }}">
+          <li class="nav-item dropdown {{ Active::check('admin/selling',true) }}">
             <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
                 <i class="ti-shopping-cart"></i>
@@ -215,6 +216,10 @@
                     </li>
                     {{-- @endif --}}
 
+                    <li>
+                      <a class="sidebar-link" href="{{ route('partners') }}">Партньори</a>
+                    </li>
+
                   </ul>
                 </li>
 
@@ -242,6 +247,7 @@
 
                   </ul>
                 </li>
+
 
             <li class="nav-item {{ Active::check('admin/jewels',true) }}">
               <a class="sidebar-link" href="{{ route('jewels') }}">
@@ -327,10 +333,10 @@
                 </ul>
               </li>
 
-              <li class="nav-item dropdown {{ Active::check('admin/materials',true) }}">
+              <li class="nav-item dropdown {{ Active::check('admin/materialstypes',true) }}">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                   <span class="icon-holder">
-                    <i class=" ti-magnet"></i>
+                    <i class="ti-magnet"></i>
                   </span>
                   <span class="title">Материали</span>
                   <span class="arrow">
@@ -826,6 +832,9 @@
 
   <script type="text/javascript" src="{{ URL::asset('js/jquery-3.1.1.min.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('js/select2.min.js') }}"></script>
+  <script type="text/javascript" src="{{ URL::asset('js/tablesort.min.js') }}"></script>
+  <script type="text/javascript" src="{{ URL::asset('js/tablesort.number.min.js') }}"></script>
+  <script type="text/javascript" src="{{ URL::asset('js/tablesort.date.min.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('vendor.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('bundle.js') }}"></script>

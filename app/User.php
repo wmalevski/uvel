@@ -90,4 +90,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\UserPayment');
     }
+
+    public function partnerInfo()
+    {
+        return $this->belongsTo('App\Partner')->withTrashed();
+    }
 }

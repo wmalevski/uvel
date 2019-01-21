@@ -1,0 +1,36 @@
+.modal-content .radio,
+.modal-content .checkbox {
+	padding-left: 4px;
+	user-select: none;
+}
+
+.modal-content .radio span {
+	position: relative;
+	top: -3px;
+}
+
+.modal-content .radio label,
+.modal-content .checkbox label,
+.modal-content .checkbox .peer {
+	margin: -2px 0 0 0;
+	padding-left: 10px;
+}
+
+.modal-content .checkbox label:after {
+	top: 7px;
+	left: 2px;
+	width: 10px !important;
+	height: 10px !important;
+	border-radius: 50%;
+	font-size: 12px !important;
+}
+
+.modal-content .radio label:before,
+.modal-content .checkbox label:before {
+	border: 2px solid #0f9aee !important;
+}
+
+.modal-content .radio label:after,
+.modal-content .checkbox label:after {
+	background-color: #0f9aee !important;
+}

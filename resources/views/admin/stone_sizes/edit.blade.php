@@ -17,7 +17,7 @@
     
                 <div class="form-group">
                     <label for="1">Име:</label>
-                    <input type="text" class="form-control" value="{{ $size->name }}" id="1"  name="name" placeholder="Име на магазин:" autocomplete="off">
+                    <input type="text" class="form-control" value="{{ $size->name }}" id="1"  name="name" placeholder="Име на размер:" autocomplete="off">
                 </div>
             </div>
             <div class="modal-footer">
