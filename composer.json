@@ -7,6 +7,7 @@
     "require": {
         "php": ">=7.0.0",
         "albertcht/invisible-recaptcha": "^1.8",
+        "arcesilas/active-state": "2.0",
         "darryldecode/cart": "~3.0",
         "davejamesmiller/laravel-breadcrumbs": "4.x",
         "dimsav/laravel-translatable": "8.1",
@@ -49,6 +50,7 @@
     "extra": {
         "laravel": {
             "dont-discover": [
+                "arcesilas/active-state"
             ]
         }
     },
