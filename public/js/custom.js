@@ -1368,14 +1368,15 @@ var uvel,
       $jewelSelect.attr('disabled', false);
     }
 
-    this.fillStones = function(response, form) {
-      var stones = response.stones;
-        stonesHolder = form.find('.model_stones');
+    this.fillStones = function(stones, form) {
+      var stonesHolder = form.find('.model_stones');
 
       stonesHolder.empty();
-      stones.forEach(function(stone) {
-        $self.addStone(form, stone);
-      });
+      if (stones.length) {
+        stones.forEach(function(stone) {
+          $self.addStone(form, stone);
+        });
+      }
     }
 
     this.fillWeight = function(response, form) {
