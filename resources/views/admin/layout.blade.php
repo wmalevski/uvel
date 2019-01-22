@@ -116,7 +116,7 @@
         </div>
 
         <ul class="sidebar-menu scrollable pos-r">
-          <li class="nav-item mT-30 {{ Active::check('admin') }}">
+          <li class="nav-item mT-30 {{ Active::ifRouteIn('admin') }}">
             <a class="sidebar-link" href="{{ route('admin') }}" default>
               <span class="icon-holder">
                 <i class="c-blue-500 ti-home"></i>
@@ -125,7 +125,7 @@
             </a>
           </li>
 
-          <li class="nav-item dropdown {{ Active::check('admin/selling',true) }}">
+          <li class="nav-item dropdown {{ Active::ifRouteIn(['selling', 'payments', 'online_selling']) }}">
             <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
                 <i class="ti-shopping-cart"></i>
@@ -136,22 +136,22 @@
               </span>
             </a>
             <ul class="dropdown-menu">
-              <li>
+              <li {{ Active::ifRouteIn('selling') }}>
                 <a class="sidebar-link" href="{{ route('selling') }}">Продажба</a>
               </li>
 
-              <li>
+              <li {{ Active::ifRouteIn('payments') }}>
                 <a class="sidebar-link" href="{{ route('payments') }}">Завършени</a>
               </li>
 
-              <li>
+              <li {{ Active::ifRouteIn('online_selling') }}>
                 <a class="sidebar-link" href="{{ route('online_selling') }}">Онлайн магазин</a>
               </li>
 
             </ul>
           </li>
 
-          <li class="nav-item {{ Active::check('admin/discounts',true) }}">
+          <li class="nav-item {{ Active::ifRouteIn('discounts') }}">
             <a class="sidebar-link" href="{{ route('discounts') }}">
               <span class="icon-holder">
                 <i class=" ti-money"></i>
@@ -159,7 +159,7 @@
               <span class="title">Отстъпки</span>
             </a>
           </li>
-          <li class="nav-item {{ Active::check('admin/stores',true) }}">
+          <li class="nav-item {{ Active::ifRouteIn('stores') }}">
               <a class="sidebar-link" href="{{ route('stores') }}">
                 <span class="icon-holder">
                   <i class=" ti-location-arrow"></i>
@@ -168,7 +168,7 @@
               </a>
             </li>
 
-            <li class="nav-item {{ Active::check('admin/blog',true) }}">
+            <li class="nav-item {{ Active::ifRouteIn('admin_blog') }}">
               <a class="sidebar-link" href="{{ route('admin_blog') }}">
                 <span class="icon-holder">
                   <i class=" ti-pencil"></i>
@@ -176,7 +176,7 @@
                 <span class="title">Блог</span>
               </a>
             </li>
-            <li class="nav-item {{ Active::check('admin/prices',true) }}">
+            <li class="nav-item {{ Active::ifRouteIn('prices') }}">
                 <a class="sidebar-link" href="{{ route('prices') }}">
                   <span class="icon-holder">
                     <i class=" ti-money"></i>
@@ -195,7 +195,7 @@
                 </li> --}}
 
 
-                <li class="nav-item dropdown {{ Active::check('admin/users',true) }}">
+                <li class="nav-item dropdown {{ Active::ifRouteIn(['users', 'substitutions', 'partners']) }}">
                   <a class="dropdown-toggle" href="javascript:void(0);">
                     <span class="icon-holder">
                       <i class=" ti-user"></i>
@@ -206,17 +206,17 @@
                     </span>
                   </a>
                   <ul class="dropdown-menu">
-                    <li>
+                    <li {{ Active::ifRouteIn('users') }}>
                       <a class="sidebar-link" href="{{ route('users') }}">Потребители</a>
                     </li>
 
                     {{-- @if(Auth::user()->hasRole('admin')) --}}
-                    <li>
+                    <li {{ Active::ifRouteIn('substitutions') }}>
                       <a class="sidebar-link" href="{{ route('substitutions') }}">Замествания</a>
                     </li>
                     {{-- @endif --}}
 
-                    <li>
+                    <li {{ Active::ifRouteIn('partners') }}>
                       <a class="sidebar-link" href="{{ route('partners') }}">Партньори</a>
                     </li>
 
@@ -224,7 +224,7 @@
                 </li>
 
 
-                <li class="nav-item dropdown {{ Active::check('admin/orders',true) }}">
+                <li class="nav-item dropdown {{ Active::ifRouteIn(['custom_orders', 'model_orders_web', 'orders']) }}">
                   <a class="dropdown-toggle" href="javascript:void(0);">
                     <span class="icon-holder">
                       <i class=" ti-truck"></i>
@@ -235,12 +235,12 @@
                     </span>
                   </a>
                   <ul class="dropdown-menu">
-                    <li>
+                    <li {{ Active::ifRouteIn('custom_orders') }}>
                       <a class="sidebar-link" href="{{ route('custom_orders') }}">По модел на клиента</a>
                     </li>
 
                     {{-- @if(Auth::user()->hasRole('admin')) --}}
-                    <li>
+                    <li {{ Active::ifRouteIn('model_orders_web') }}>
                       <a class="sidebar-link" href="{{ route('model_orders_web') }}">По готов модел</a>
                     </li>
                     {{-- @endif --}}
@@ -249,7 +249,7 @@
                 </li>
 
 
-            <li class="nav-item {{ Active::check('admin/jewels',true) }}">
+            <li class="nav-item {{ Active::ifRouteIn('jewels') }}">
               <a class="sidebar-link" href="{{ route('jewels') }}">
                 <span class="icon-holder">
                   <i class=" ti-package"></i>
@@ -258,7 +258,7 @@
               </a>
             </li>
 
-              <li class="nav-item dropdown {{ Active::check('admin/models',true) }}">
+              <li class="nav-item dropdown {{ Active::ifRouteIn(['admin_models', 'show_model_reviews']) }}">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                   <span class="icon-holder">
                     <i class="ti-blackboard"></i>
@@ -269,16 +269,16 @@
                   </span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li>
+                  <li {{ Active::ifRouteIn('admin_models') }}>
                     <a class="sidebar-link" href="{{ route('admin_models') }}">Наличности</a>
                   </li>
-                  <li>
+                  <li {{ Active::ifRouteIn('show_model_reviews') }}>
                     <a class="sidebar-link" href="{{ route('show_model_reviews') }}">Ревюта</a>
                   </li>
                 </ul>
               </li>
 
-              <li class="nav-item {{ Active::check('admin/reviews',true) }}">
+              <li class="nav-item {{ Active::ifRouteIn('reviews') }}">
                 <a class="sidebar-link" href="{{ route('reviews') }}">
                   <span class="icon-holder">
                     <i class="ti-archive"></i>
@@ -287,7 +287,7 @@
                 </a>
               </li>
 
-              <li class="nav-item dropdown {{ Active::check('admin/admin_products',true) }}">
+              <li class="nav-item dropdown {{ Active::ifRouteIn(['admin_products', 'products_travelling', 'products_reviews']) }}">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                   <span class="icon-holder">
                     <i class="ti-package"></i>
@@ -298,19 +298,19 @@
                   </span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li>
+                  <li {{ Active::ifRouteIn('admin_products') }}>
                     <a class="sidebar-link" href="{{ route('admin_products') }}">Наличности</a>
                   </li>
-                  <li>
+                  <li {{ Active::ifRouteIn('products_travelling') }}>
                     <a class="sidebar-link" href="{{ route('products_travelling') }}">На път</a>
                   </li>
-                  <li>
+                  <li {{ Active::ifRouteIn('products_reviews') }}>
                     <a class="sidebar-link" href="{{ route('products_reviews') }}">Ревюта</a>
                   </li>
                 </ul>
               </li>
 
-              <li class="nav-item dropdown {{ Active::check('admin/productsothers',true) }}">
+              <li class="nav-item dropdown {{ Active::ifRouteIn(['products_others', 'products_others_types', 'show_products_others_reviews']) }}">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                   <span class="icon-holder">
                     <i class="ti-folder"></i>
@@ -321,19 +321,19 @@
                   </span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li>
+                  <li {{ Active::ifRouteIn('products_others') }}>
                     <a class="sidebar-link" href="{{ route('products_others') }}">Наличности</a>
                   </li>
-                  <li>
+                  <li {{ Active::ifRouteIn('products_others_types') }}>
                     <a class="sidebar-link" href="{{ route('products_others_types') }}">Типове</a>
                   </li>
-                  <li>
+                  <li {{ Active::ifRouteIn('show_products_others_reviews') }}>
                     <a class="sidebar-link" href="{{ route('show_products_others_reviews') }}">Ревюта</a>
                   </li>
                 </ul>
               </li>
 
-              <li class="nav-item dropdown {{ Active::check('admin/materialstypes',true) }}">
+              <li class="nav-item dropdown {{ Active::ifRouteIn(['materials_types', 'materials', 'materials_quantity', 'materials_travelling']) }}">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                   <span class="icon-holder">
                     <i class="ti-magnet"></i>
@@ -344,27 +344,27 @@
                   </span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li>
+                  <li {{ Active::ifRouteIn('materials_types') }}>
                     <a class="sidebar-link" href="{{ route('materials_types') }}">Типове</a>
                   </li>
 
-                  <li>
+                  <li {{ Active::ifRouteIn('materials') }}>
                     <a class="sidebar-link" href="{{ route('materials') }}">Видове</a>
                   </li>
 
                   {{-- @if(Auth::user()->hasRole('admin')) --}}
-                  <li>
+                  <li {{ Active::ifRouteIn('materials_quantity') }}>
                     <a class="sidebar-link" href="{{ route('materials_quantity') }}">Наличности</a>
                   </li>
                   {{-- @endif --}}
 
-                  <li>
+                  <li {{ Active::ifRouteIn('materials_travelling') }}>
                     <a class="sidebar-link" href="{{ route('materials_travelling') }}">На път</a>
                   </li>
 
                 </ul>
               </li>
-          <li class="nav-item dropdown {{ Active::check('admin/stones',true) }}">
+          <li class="nav-item dropdown {{ Active::ifRouteIn(['stones', 'sizes', 'stones', 'contours', 'styles']) }}">
             <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
                 <i class=" ti-hummer"></i>
@@ -375,21 +375,21 @@
               </span>
             </a>
             <ul class="dropdown-menu">
-              <li>
+              <li {{ Active::ifRouteIn('stones') }}>
                 <a class="sidebar-link" href="{{ route('stones') }}">Камъни</a>
               </li>
-              <li>
+              <li {{ Active::ifRouteIn('sizes') }}>
                 <a class="sidebar-link" href="{{ route('sizes') }}">Размери</a>
               </li>
-              <li>
+              <li {{ Active::ifRouteIn('contours') }}>
                 <a class="sidebar-link" href="{{ route('contours') }}">Контури</a>
               </li>
-              <li>
+              <li {{ Active::ifRouteIn('styles') }}>
                 <a class="sidebar-link" href="{{ route('styles') }}">Стилове</a>
               </li>
             </ul>
           </li>
-          <li class="nav-item dropdown {{ Active::check('admin/repairtypes',true) }}">
+          <li class="nav-item dropdown {{ Active::ifRouteIn(['repair_types', 'repairs']) }}">
             <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
                 <i class=" ti-slice"></i>
@@ -400,16 +400,16 @@
               </span>
             </a>
             <ul class="dropdown-menu">
-              <li>
+              <li {{ Active::ifRouteIn('repair_types') }}>
                 <a class="sidebar-link" href="{{ route('repair_types') }}">Видове</a>
               </li>
-              <li>
+              <li {{ Active::ifRouteIn('repairs') }}>
                 <a class="sidebar-link" href="{{ route('repairs') }}">Ремонти</a>
               </li>
             </ul>
           </li>
 
-          <li class="nav-item dropdown {{ Active::check('admin/settings',true) }}">
+          <li class="nav-item dropdown {{ Active::ifRouteIn(['stock_prices', 'currencies']) }}">
             <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
                 <i class="ti-settings"></i>
@@ -429,7 +429,7 @@
             </ul>
           </li>
 
-          <li class="nav-item {{ Active::check('admin/mailchimp',true) }}">
+          <li class="nav-item {{ Active::ifRouteIn('mailchimp') }}">
           <a class="sidebar-link" href="{{ route('mailchimp') }}">
             <span class="icon-holder">
               <i class=" ti-email"></i>
@@ -501,7 +501,7 @@
                 <a class="sidebar-link" href="basic-table.html">Basic Table</a>
               </li>
               <li>
-                <a class="sidebar-link" href="datatable.html">Data Table</a>
+                <a class="sidebar-link" href="datatable.html">Data Table</da>
               </li>
             </ul>
           </li>
