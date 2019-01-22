@@ -70,7 +70,6 @@ class PaymentController extends Controller
             }
         }
 
-
         // $materials = [(object)[
         //     'material_id' => 1,
         //     'material_weight' => 500,
