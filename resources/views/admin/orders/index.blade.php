@@ -17,15 +17,13 @@
 					<div class="info-cont"></div>
 					{{ csrf_field() }}
 					<div class="form-row">
-						<div class="form-group col-md-6">
-							<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-								<input type="checkbox" id="weightWithStones" name="with_stones" class="peer" data-calculatePrice-withStones>
-								<label for="weightWithStones" class="peers peer-greed js-sb ai-c">
-									<span class="peer peer-greed">
-										Тегло с камъни
-									</span>
-								</label>
-							</div>
+						<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+							<input type="checkbox" id="weightWithStones" name="with_stones" class="peer" data-calculatePrice-withStones>
+							<label for="weightWithStones" class="peers peer-greed js-sb ai-c">
+								<span class="peer peer-greed">
+									Тегло с камъни
+								</span>
+							</label>
 						</div>
 					</div>
 
@@ -39,6 +37,7 @@
 								name="product_id" placeholder="Сканирай продукт:">
 							</div>
 						</div>
+						
 						<div class="col-12">
 							<hr>
 						</div>
@@ -76,6 +75,7 @@
 								@endforeach
 							</select>
 						</div>
+						
 						<div class="col-12">
 							<hr>
 						</div>
@@ -140,10 +140,8 @@
 							</label>
 							<input type="text" class="form-control size" id="size" name="size" placeholder="Размер:" min="1" data-modelFilld-size max="10000">
 						</div>
-					</div>
-
-					<div class="form-row">
-						<div class="form-group col-md-12">
+						
+						<div class="col-12">
 							<hr>
 						</div>
 					</div>
@@ -151,19 +149,16 @@
 					<div class="form-row model_stones"></div>
 
 					<div class="form-row">
-						<div class="form-group col-md-5">
+						<div class="form-group col-md-6 mt-auto">
 							<button type="button" class="btn btn-primary add_field_button" data-addStone-add>
 								Добави камък
 							</button>
 						</div>
 
-						<div class="form-group col-md-3">
+						<div class="form-group col-md-6">
 							<label for="totalStones">
 								Общо за леене:
 							</label>
-						</div>
-
-						<div class="form-group col-md-4">
 							<div class="input-group">
 								<input type="text" class="form-control" id="totalStones" name="totalStones" data-calculateStones-total disabled>
 								<span class="input-group-addon">
@@ -213,6 +208,10 @@
 								</span>
 							</div>
 						</div>
+						
+						<div class="col-12">
+							<hr>
+						</div>
 					</div>
 
 					<div class="form-row">
@@ -253,12 +252,17 @@
 								<textarea class="form-control" name="content" id="notes" placeholder="Описание на поръчката"></textarea>
 							</div>
 						</div>
+						
+						<div class="col-12">
+							<hr>
+						</div>
 					</div>
 
-					<strong>
-						Даден материал:
-					</strong>
-					<br/>
+					<div class="form-row">
+						<div class="form-group col-md-12">
+							<strong>Даден материал:</strong>
+						</div>
+					</div>
 
 					<div class="form-row given-material">
 						<div class="form-group col-md-4">
@@ -309,11 +313,18 @@
 						</div>
 					</div>
 
-					<button id="btnAddAnother" class="action--state_button add-btn-modal btn btn-primary">
-						Добави друг
-					</button>
-					<br />
-
+					<div class="form-row pt-3">
+						<div class="form-group col-md-6 mt-auto">
+							<button id="btnAddAnother" class="action--state_button add-btn-modal btn btn-primary">
+								Добави друг
+							</button>
+						</div>
+						
+						<div class="col-12">
+							<hr>
+						</div>
+					</div>
+					
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label for="grossWeight">
@@ -333,16 +344,14 @@
 							</div>
 						</div>
 					</div>
-
-					<button class="action--state_button add-btn-modal btn btn-primary" data-manual-receipt>
-						Ръчно пускане на фискален бон
-					</button>
-
-					{{-- <div class="drop-area" name="add">
-						<input type="file" name="images" class="drop-area-input" id="fileElem-add" multiple accept="image/*">
-						<label class="button" for="fileElem-add">Select some files</label>
-						<div class="drop-area-gallery"></div>
-					</div> --}}
+					
+					<div class="form-row pt-3">
+						<div class="form-group col-md-6">
+							<button class="action--state_button add-btn-modal btn btn-primary" data-manual-receipt>
+								Ръчно пускане на фискален бон
+							</button>
+						</div>
+					</div>
 
 					<div id="errors-container"></div>
 				</div>
