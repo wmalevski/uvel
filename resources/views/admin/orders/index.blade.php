@@ -16,6 +16,7 @@
 				<div class="modal-body">
 					<div class="info-cont"></div>
 					{{ csrf_field() }}
+					
 					<div class="form-row">
 						<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
 							<input type="checkbox" id="weightWithStones" name="with_stones" class="peer" data-calculatePrice-withStones>
@@ -283,16 +284,8 @@
 								</option>
 								@endif
 								@endforeach
-
 							</select>
 						</div>
-
-						{{-- <div class="form-group col-md-4">
-							<label for="grossWeight">Материал:</label>
-							<div class="input-group">
-								<input type="text" class="form-control mat-material" name="given_material_id[]" placeholder="Въведете материал:">
-							</div>
-						</div> --}}
 
 						<div class="form-group col-md-4">
 							<label for="grossWeight">
@@ -352,9 +345,10 @@
 							</button>
 						</div>
 					</div>
-
-					<div id="errors-container"></div>
+					
 				</div>
+				
+				<div id="errors-container"></div>
 
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">
