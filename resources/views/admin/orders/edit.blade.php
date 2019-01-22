@@ -1,8 +1,6 @@
 <div class="editModalWrapper">
   <div class="modal-header">
-    <h5 class="modal-title" id="addorderLabel">
-      Редактиране на поръчка
-    </h5>
+    <h5 class="modal-title" id="addorderLabel">Редактиране на поръчка</h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -16,20 +14,17 @@
       <div class="form-row">
         <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
           <input id="weightWithStones_edit" class="peer" type="checkbox" name="with_stones"
-                  data-calculatePrice-withStones @if($order->weight_without_stones == 'yes') checked @endif >
+                 data-calculatePrice-withStones @if($order->weight_without_stones == 'yes') checked @endif >
           <label for="weightWithStones_edit" class="peers peer-greed js-sb ai-c">
-            <span class="peer peer-greed">
-              Тегло с камъни
-            </span>
+            <span class="peer peer-greed">Тегло с камъни</span>
           </label>
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group col-md-12">
-          <label for="weight">
-            Сканирай продукт:
-          </label>
+          <label for="weight">Сканирай продукт:</label>
+          
           <div class="input-group">
             <input id="calculate_product" class="form-control" type="text" url="ajax/orders/getProductInfo/"
                    name="product_id" placeholder="Сканирай продукт:">
@@ -44,6 +39,7 @@
       <div class="form-row">
         <div class="form-group col-md-6">
           <label>Модел:</label>
+          
           <select id="model_select_edit" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model>
             <option value="">Избери</option>
             @foreach($models as $model)
@@ -56,6 +52,7 @@
         </div>
         <div class="form-group col-md-6">
           <label>Вид:</label>
+          
           <select id="jewel_edit" name="jewel_id" class="form-control jewels_types" data-modelFilled-jewel disabled>
             <option value="">Избери</option>
             
@@ -75,6 +72,7 @@
       <div class="form-row model_materials">
         <div class="form-group col-md-12">
           <label>Материал:</label>
+          
           <select id="material_edit" name="material_id" class="material_type form-control calculate" data-calculatePrice-material>
             <option value="">Избери</option>
             
@@ -101,7 +99,7 @@
 
             @foreach($prices->where('type', 'sell') as $price)
             <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}"
-              @if($order->retail_price_id == $price->id) selected @endif>
+                    @if($order->retail_price_id == $price->id) selected @endif>
               {{ $price->slug }} - {{ $price->price }}
             </option>
             @endforeach
@@ -129,9 +127,6 @@
         </div>
       </div>
 
-
-
-      <!-- MODEL STONES START -->
       <div class="form-row model_stones">
         {{-- @foreach($order_stones as $modelStone)
         <div class="form-row fields">
@@ -199,11 +194,6 @@
         </div>
         @endforeach --}}
       </div>
-      <!-- MODEL STONES END -->
-
-
-
-
 
       <div class="form-row">
         <div class="form-group col-md-6 mt-auto">
@@ -214,6 +204,7 @@
 
         <div class="form-group col-md-6">
           <label for="totalStones_edit">Общо за леене:</label>
+          
           <div class="input-group">
             <input type="number" class="form-control" id="totalStones" name="totalStones_edit" data-calculateStones-total disabled>
             <span class="input-group-addon">гр</span>
@@ -309,13 +300,10 @@
 
       <div class="form-row given-material">
         <div class="form-group col-md-4">
-          <label for="">
-            Вид
-          </label>
+          <label for="">Вид</label>
+          
           <select id="material_type" name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate">
-            <option value="">
-              Избери
-            </option>
+            <option value="">Избери</option>
             {{--
             @foreach($mats as $material)
               @if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
@@ -340,9 +328,8 @@
         </div>
 
         <div class="form-group col-md-4">
-          <label for="grossWeight">
-            Стойност:
-          </label>
+          <label for="grossWeight">Стойност:</label>
+          
           <div class="input-group">
             <input type="number" class="form-control mat-calculated-price" name="calculated_price[]" value="0">
           </div>
@@ -363,18 +350,16 @@
 
       <div class="form-row">
         <div class="form-group col-md-6">
-          <label for="grossWeight">
-            Касова група:
-          </label>
+          <label for="grossWeight">Касова група:</label>
+          
           <div class="input-group">
             <input type="text" class="form-control" name="safe_group" id="safe_group" placeholder="Изберете касова група:">
           </div>
         </div>
 
         <div class="form-group col-md-6">
-          <label for="grossWeight">
-            Капаро:
-          </label>
+          <label for="grossWeight">Капаро:</label>
+          
           <div class="input-group">
             <input type="number" class="form-control" name="earnest" id="earnest" placeholder="0">
           </div>
@@ -396,7 +381,7 @@
       <div class="form-row pt-3">
         <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
           <input type="checkbox" id="inputCall1" name="status" class="peer" value="ready"
-                  @if($order->status == 'ready') checked @endif>
+                 @if($order->status == 'ready') checked @endif>
           <label for="inputCall1" class="peers peer-greed js-sb ai-c">
             <span class="peer peer-greed">Готов за връщане</span>
           </label>
