@@ -171,7 +171,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Pyaesone17\ActiveState\ActiveStateServiceProvider::class,
+        Arcesilas\ActiveState\ActiveStateServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
         Darryldecode\Cart\CartServiceProvider::class,
         App\Providers\CartCustomConditionServiceProvider::class,
@@ -224,10 +224,10 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Active' => Pyaesone17\ActiveState\ActiveFacade::class,
         'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
         'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
-        'Cart' => Darryldecode\Cart\Facades\CartFacade::class
+        'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
+        'Active' => Arcesilas\ActiveState\ActiveFacade::class,
     ],
 
 ];
