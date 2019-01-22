@@ -35,8 +35,8 @@
 								Сканирай продукт:
 							</label>
 							<div class="input-group">
-								<input type="text" url="ajax/orders/getProductInfo/" class="form-control" id="calculate_product" 
-								name="product_id" placeholder="Сканирай продукт:">
+								<input id="calculate_product" class="form-control" type="text" url="ajax/orders/getProductInfo/" 
+										   name="product_id" placeholder="Сканирай продукт:">
 							</div>
 						</div>
 						<div class="col-12">
@@ -49,30 +49,25 @@
 							<label>
 								Модел:
 							</label>
-							<select id="model_select" url="ajax/orders/getModelInfo/" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model>
-								<option value="">
-									Избери
-								</option>
+							<select id="model_select" class="model-select form-control model-filled"
+											url="ajax/orders/getModelInfo/" name="model_id" data-calculatePrice-model>
+								<option value="">Избери</option>
 								@foreach($models as $model)
-								<option value="{{ $model->id }}" data-model-id="{{ $model->id }}" data-jewel="{{ $model->jewel->id }}">
-									{{ $model->name }}
-								</option>
+									<option value="{{ $model->id }}" data-model-id="{{ $model->id }}" data-jewel="{{ $model->jewel->id }}">
+										{{ $model->name }}
+									</option>
 								@endforeach
 							</select>
 						</div>
 						
 						<div class="form-group col-md-6">
-							<label>
-								Вид:
-							</label>
+							<label>Вид:</label>
 							<select id="jewels_types" name="jewel_id" class="jewels_types form-control" data-modelFilled-jewel disabled>
-								<option value="">
-									Избери
-								</option>
+								<option value="">Избери</option>
 								@foreach($jewels as $jewel)
-								<option value="{{ $jewel->id }}" data-material="{{ $jewel->material }}">
-									{{ $jewel->name }}
-								</option>
+									<option value="{{ $jewel->id }}" data-material="{{ $jewel->material }}">
+										{{ $jewel->name }}
+									</option>
 								@endforeach
 							</select>
 						</div>
@@ -83,61 +78,51 @@
 
 					<div class="form-row model_materials">
 						<div class="form-group col-md-12">
-							<label>
-								Материал:
-							</label>
-							<select id="material" name="material_id" class="material_type form-control material calculate" data-calculatePrice-material disabled>
-								<option value="">
-									Избери
-								</option>
+							<label>Материал:</label>
+							<select id="material" name="material_id" class="material_type form-control material calculate"
+											data-calculatePrice-material disabled>
+								<option value="">Избери</option>
 								@foreach($materials as $material)
 									@if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
-									{{-- {{ $material->material->prices }} --}}
-									<option value="{{ $material->id }}" data-material="{{ $material->material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">
-										@if($material->material->parent)
-											{{ $material->material->parent->name }}
-										@else 
-											{{ $material->material->name }}
-										@endif
-										- {{ $material->material->color }} -
-										{{ $material->material->carat }}
-									</option>
+										{{-- {{ $material->material->prices }} --}}
+										<option value="{{ $material->id }}" data-material="{{ $material->material->id }}"
+														data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">
+											@if($material->material->parent)
+												{{ $material->material->parent->name }}
+											@else 
+												{{ $material->material->name }}
+											@endif
+											- {{ $material->material->color }} -
+											{{ $material->material->carat }}
+										</option>
 									@endif
 								@endforeach
 							</select>
 						</div>
 
 						<div class="form-group col-md-6">
-							<label>
-								Цена:
-							</label>
-							<select id="retail_prices" name="retail_price_id" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail disabled>
-								<option value="">
-									Избери
-								</option>
+							<label>Цена:</label>
+							<select id="retail_prices" class="form-control calculate prices-filled retail-price retail_prices"
+											name="retail_price_id" data-calculatePrice-retail disabled>
+								<option value="">Избери</option>
 								@foreach($prices->where('type', 'sell') as $price)
-								<option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}">
-									{{ $price->slug }} - {{ $price->price }}
-								</option>
+									<option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}">
+										{{ $price->slug }} - {{ $price->price }}
+									</option>
 								@endforeach
 							</select>
 						</div>
 						<div class="form-group col-md-3 weight-holder">
-							<label for="weight">
-								Нетно тегло:
-							</label>
+							<label for="weight">Нетно тегло:</label>
 							<div class="input-group">
-								<input type="text" class="form-control weight calculate" id="weight" name="weight" data-calculatePrice-netWeight placeholder="Тегло:" min="1" max="10000">
-								<span class="input-group-addon">
-									гр
-								</span>
+								<input id="weight" class="form-control weight calculate" type="text" name="weight"
+											 data-calculatePrice-netWeight placeholder="Тегло:" min="1" max="10000">
+								<span class="input-group-addon">гр</span>
 							</div>
 						</div>
 
 						<div class="form-group col-md-3">
-							<label for="size">
-								Размер:
-							</label>
+							<label for="size">Размер:</label>
 							<input type="text" class="form-control size" id="size" name="size" placeholder="Размер:" min="1" data-modelFilld-size max="10000">
 						</div>
 					</div>
@@ -158,17 +143,13 @@
 						</div>
 
 						<div class="form-group col-md-3">
-							<label for="totalStones">
-								Общо за леене:
-							</label>
+							<label for="totalStones">Общо за леене:</label>
 						</div>
 
 						<div class="form-group col-md-4">
 							<div class="input-group">
 								<input type="text" class="form-control" id="totalStones" name="totalStones" data-calculateStones-total disabled>
-								<span class="input-group-addon">
-									гр
-								</span>
+								<span class="input-group-addon">гр</span>
 							</div>
 						</div>
 
@@ -179,55 +160,41 @@
 
 					<div class="form-row">
 						<div class="form-group col-md-4">
-							<label for="grossWeight">
-								Брутно тегло:
-							</label>
+							<label for="grossWeight">Брутно тегло:</label>
 							<div class="input-group">
-								<input type="number" class="form-control" name="gross_weight" id="grossWeight" value="0" data-calculatePrice-grossWeight disabled>
-								<span class="input-group-addon">
-									гр
-								</span>
+								<input id="grossWeight" class="form-control" type="number" name="gross_weight" 
+											 value="0" data-calculatePrice-grossWeight disabled>
+								<span class="input-group-addon">гр</span>
 							</div>
 						</div>
 
 						<div class="form-group col-md-4">
-							<label for="workmanship">
-								Изработка:
-							</label>
+							<label for="workmanship">Изработка:</label>
 							<div class="input-group">
-								<input type="number" class="form-control workmanship worksmanship_price" name="workmanship" id="workmanship" value="0" data-calculatePrice-worksmanship>
-								<span class="input-group-addon">
-									лв
-								</span>
+								<input id="workmanship" class="form-control workmanship worksmanship_price" type="number"
+											 name="workmanship" value="0" data-calculatePrice-worksmanship>
+								<span class="input-group-addon">лв</span>
 							</div>
 						</div>
 
 						<div class="form-group col-md-4">
-							<label for="price">
-								Цена:
-							</label>
+							<label for="price">Цена:</label>
 							<div class="input-group">
 								<input type="number" class="form-control final_price price" name="price" id="price" value="0" data-calculatePrice-final>
-								<span class="input-group-addon">
-									лв
-								</span>
+								<span class="input-group-addon">лв</span>
 							</div>
 						</div>
 					</div>
 
 					<div class="form-row">
 						<div class="form-group col-md-12">
-							<label>
-								Магазин:
-							</label>
+							<label>Магазин:</label>
 							<select name="store_id" class="form-control">
-								<option value="">
-									Избери магазин
-								</option>
+								<option value="">Избери магазин</option>
 								@foreach($stores as $store)
-								<option value="{{ $store->id }}">
-									{{ $store->name }} - {{ $store->location }}
-								</option>
+									<option value="{{ $store->id }}">
+										{{ $store->name }} - {{ $store->location }}
+									</option>
 								@endforeach
 							</select>
 						</div>
@@ -235,9 +202,7 @@
 
 					<div class="form-row">
 						<div class="form-group col-md-4">
-							<label for="grossWeight">
-								Брой:
-							</label>
+							<label for="grossWeight">Брой:</label>
 							<div class="input-group">
 								<input type="number" class="form-control" name="quantity" id="quantity" value="1">
 							</div>
@@ -246,9 +211,7 @@
 
 					<div class="form-row">
 						<div class="form-group col-md-12">
-							<label for="grossWeight">
-								Описание:
-							</label>
+							<label for="grossWeight">Описание:</label>
 							<div class="input-group">
 								<textarea class="form-control" name="content" id="notes" placeholder="Описание на поръчката"></textarea>
 							</div>
@@ -270,16 +233,15 @@
 									Избери
 								</option>
 								@foreach($mats as $material)
-								@if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
-								<option value="{{ $material->id }}" data-carat="{{ $material->material->carat }}" data-material="{{ $material->material->id }}"
-								data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">
-									{{ $material->material->parent->name }} -
-									{{ $material->material->color }} - 
-									{{ $material->material->carat }}
-								</option>
-								@endif
+									@if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
+									<option value="{{ $material->id }}" data-carat="{{ $material->material->carat }}" data-material="{{ $material->material->id }}"
+									data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">
+										{{ $material->material->parent->name }} -
+										{{ $material->material->color }} - 
+										{{ $material->material->carat }}
+									</option>
+									@endif
 								@endforeach
-
 							</select>
 						</div>
 
