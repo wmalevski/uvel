@@ -468,7 +468,8 @@ class SellingController extends Controller
                 'attributes' => array(
                     'discount_id' => $setDiscount,
                     'description' => 'Value added tax',
-                    'partner' => $partner
+                    'partner' => $partner,
+                    'partner_id' => $card->user->id
                 )
             ));
 
@@ -536,6 +537,14 @@ class SellingController extends Controller
         
         $userId = Auth::user()->getId(); 
 
+        $partner = 'false';
+
+        if(isset($card)){
+            if($card->user->isA('corporate_partner')){
+                $partner = 'true';
+            }
+        }
+
         $condition = new CartCustomCondition(array(
             'name' => $request->discount,
             'type' => 'discount',
@@ -544,7 +553,8 @@ class SellingController extends Controller
             'attributes' => array(
                 'discount_id' => $request->discount,
                 'description' => $request->description,
-                'more_data' => 'more data here'
+                'more_data' => 'more data here',
+                'partner' => $partner
             ),
             'order' => 1
         ));
@@ -640,5 +650,10 @@ class SellingController extends Controller
         }
 
         return Response::json(array('success' => 'yes', 'html' => View::make('admin/selling/information',array('items'=>$items, 'total' => $subtotal, 'subtotal' => $subtotal))->render()));
+    }
+
+    public function cartMaterialsInfo(){
+        $info = new Selling();
+        return $info->cartMaterialsInfo();
     }
 }

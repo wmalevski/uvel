@@ -32,6 +32,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/blog/{article}', 'BlogController@edit');
     Route::get('/blog/{article}/comments', 'BlogController@showComments');
     Route::post('/blog', 'BlogController@store');
+    Route::get('/sell/partner', 'PaymentController@partner_payment');
+
+    Route::get('/cartMaterialsInfo', 'SellingController@cartMaterialsInfo')->name('cart_materials');
 
     Route::get('/repairtypes', 'RepairTypeController@index')->name('repair_types');
     Route::post('/repairtypes', 'RepairTypeController@store');
@@ -217,6 +220,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 });
 
 Route::group(['prefix' => 'ajax'], function() {
+
+    Route::post('/sell/partner', 'PaymentController@partner_payment');
+
+    Route::get('/cartMaterialsInfo', 'SellingController@cartMaterialsInfo')->name('cart_materials');
+    
     Route::post('/orders', 'OrderController@store');
     Route::put('/orders/{order}', 'OrderController@update');
     Route::get('/orders/getProductInfo/{product}', 'OrderController@getProductInfo')->name('getProductInfo');
@@ -373,6 +381,8 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/sell/removeItem/{item}', 'SellingController@removeItem');
 
     Route::post('/sell/payment', 'PaymentController@store');
+
+    //Route::post('/sell/partner', 'PaymentController@partner_payment');
 
     Route::post('/settings/currencies', 'CurrencyController@store');
     Route::post('/settings/currencies/delete/{currency}', 'CurrencyController@destroy');
