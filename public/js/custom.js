@@ -1372,7 +1372,7 @@ var uvel,
       var stonesHolder = form.find('.model_stones');
 
       stonesHolder.empty();
-      if (stones.length > 0) {
+      if (stones.length) {
         stones.forEach(function(stone) {
           $self.addStone(form, stone);
         });
