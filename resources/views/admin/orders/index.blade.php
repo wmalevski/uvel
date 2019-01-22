@@ -82,16 +82,17 @@
 								
 								@foreach($materials as $material)
 									@if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
-									{{-- {{ $material->material->prices }} --}}
-									<option value="{{ $material->id }}" data-material="{{ $material->material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">
-										@if($material->material->parent)
-											{{ $material->material->parent->name }}
-										@else 
-											{{ $material->material->name }}
-										@endif
-										- {{ $material->material->color }} -
-										{{ $material->material->carat }}
-									</option>
+										{{-- {{ $material->material->prices }} --}}
+										<option value="{{ $material->id }}" data-material="{{ $material->material->id }}"
+														data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">
+											@if($material->material->parent)
+												{{ $material->material->parent->name }}
+											@else 
+												{{ $material->material->name }}
+											@endif
+											- {{ $material->material->color }} -
+											{{ $material->material->carat }}
+										</option>
 									@endif
 								@endforeach
 							</select>
@@ -104,9 +105,9 @@
 								<option value="">Избери</option>
 								
 								@foreach($prices->where('type', 'sell') as $price)
-								<option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}">
-									{{ $price->slug }} - {{ $price->price }}
-								</option>
+									<option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}">
+										{{ $price->slug }} - {{ $price->price }}
+									</option>
 								@endforeach
 							</select>
 						</div>

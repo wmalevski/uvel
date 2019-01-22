@@ -131,31 +131,27 @@
         {{-- @foreach($order_stones as $modelStone)
         <div class="form-row fields">
           <div class="form-group col-md-6">
-            <label>
-              Камъни:
-            </label>
+            <label>Камъни:</label>
 
             <select name="stones[]" class="form-control" data-calculatePrice-stone>
-              <option value="">
-                Избери
-              </option>
+              <option value="">Избери</option>
 
               @foreach($stones as $stone)
               <option value="{{ $stone->id }}" @if($modelStone->stone_id == $stone->id) selected @endif
-                data-stone-type="{{ $stone->type }}" data-stone-price="{{ $stone->price }}">
+                      data-stone-type="{{ $stone->type }}" data-stone-price="{{ $stone->price }}">
                 {{ $stone->name }}
-                ({{ $stone->contour->name }}, {{ $stone->size->name }})
+                ({{ $stone->contour->name }}, 
+                {{ $stone->size->name }})
               </option>
               @endforeach
             </select>
           </div>
 
           <div class="form-group col-md-4">
-            <label for="1">
-              Брой:
-            </label>
+            <label for="1">Брой:</label>
+            
             <input type="number" class="form-control calculate-stones" name="stone_amount[]" placeholder="Брой" value="{{  $modelStone->amount  }}"
-              data-calculateStones-amount min="1" max="50">
+                   data-calculateStones-amount min="1" max="50">
           </div>
 
           <div class="form-group col-md-2">
@@ -166,15 +162,12 @@
 
           <div class="form-group col-md-6">
             <div class="form-group">
-              <label for="1">
-                Тегло:
-              </label>
+              <label for="1">Тегло:</label>
+              
               <div class="input-group">
                 <input type="number" value="{{  $modelStone->weight  }}" class="form-control calculate-stones" id="1"
-                  name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">
-                <span class="input-group-addon">
-                  гр
-                </span>
+                       name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">
+                <span class="input-group-addon">гр</span>
               </div>
             </div>
           </div>
@@ -182,11 +175,9 @@
           <div class="form-group col-md-6">
             <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder">
               <input type="checkbox" id="inputCall1" name="stone_flow[]" class="peer stone-flow calculate-stones"
-                @if($modelStone->flow == 'yes') checked @endif>
+                     @if($modelStone->flow == 'yes') checked @endif>
               <label for="inputCall1" class="peers peer-greed js-sb ai-c">
-                <span class="peer peer-greed">
-                  За леене
-                </span>
+                <span class="peer peer-greed">За леене</span>
               </label>
               <span class="row-total-weight"></span>
             </div>
