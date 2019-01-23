@@ -296,16 +296,17 @@ var uvel,
     this.partnerPaymentLoad = function(response) {
       var form = document.querySelector('[name="sellingPartners"]'),
           materials = JSON.parse(response.materials),
+          keys = Object.keys(materials),
           partner = response.partner.name,
           workmanship = response.workmanship,
           tableContent = '';
       
-      for (var i = 0; i < Object.keys(materials).length; i++) {
-        var partnerMaterialWeight = materials[Object.keys(materials)[i]].partner_material_weight,
-            materialId = materials[Object.keys(materials)[i]].material_id,
-            materialName =  materials[Object.keys(materials)[i]].name,
-            materialWeight = materials[Object.keys(materials)[i]].weight,
-            partnerMaterialId = materials[Object.keys(materials)[i]].partner_material;
+      for (var i = 0; i < keys.length; i++) {
+        var partnerMaterialWeight = materials[keys[i]].partner_material_weight,
+            materialId = materials[keys[i]].material_id,
+            materialName =  materials[keys[i]].name,
+            materialWeight = materials[keys[i]].weight,
+            partnerMaterialId = materials[keys[i]].partner_material;
 
         tableContent += '<tr data-material-id="' + materialId + '">';
         tableContent += '<td data-material-name>' + materialName + '</td>';
