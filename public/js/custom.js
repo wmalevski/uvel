@@ -189,8 +189,7 @@ var uvel,
       },
       nomenclatures: {
         selector: '[name="nomenclatures"]',
-        controllers: [],
-        initialized: false
+        controllers: []
       },
       dailyReport: {
         selector: '[name="dailyReport"]',
