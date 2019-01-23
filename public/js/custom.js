@@ -281,7 +281,7 @@ var uvel,
       //TODO: ASK BOBI VVVV
 
       setTimeout(function() {
-        if (((formType == 'add') || (formType == 'sell' || formType == 'partner-sell')) && !formSettings.initialized) {
+        if ((formType == 'add' || formType == 'sell' || formType == 'partner-sell') && !formSettings.initialized) {
           $self.initializeForm(formSettings, formType);
           formSettings.initialized = true;
         } else if (formType == 'edit') {
