@@ -13,6 +13,7 @@ use App\PaymentDiscount;
 use App\Partner;
 use App\PartnerMaterial;
 use App\User;
+use App\ProductOther;
 use Response;
 use Auth;
 use Cart;

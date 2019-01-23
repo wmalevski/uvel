@@ -110,16 +110,54 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="repairs" name="fullEditRepair">
-                <div class="modal-body">
+            <form method="POST" action="repairs" name="fullEditRepair"> 
+                <div class="modal-body">    
                     <div class="info-cont">
                     </div>
-                    {{ csrf_field() }}
+
+                    {{ csrf_field() }}  
+                                
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
                     <button type="submit" id="add" class="btn btn-primary">Завърши ремонта</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="dailyReport"   role="dialog" aria-labelledby="dailyReportLabel"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Пускане на дневен отчет</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form name="dailyReport" data-scan="/ajax/dailyreports" autocomplete="off">
+                <div class="modal-body">
+                    <div class="info-cont">
+                    </div>
+                    {{ csrf_field() }}
+                    <div class="form-row">
+                        <div class="col-md-4">
+
+                        </div>
+                        {{-- <div class="form-group col-md-12">
+                            <label for="1">Пари в касата: </label>
+                            <input type="number" class="form-control" name="safe_amount" placeholder="Въведете колко пари има в касата:">
+                        </div> --}}
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+                    <button type="submit" data-state="add_state" class="action--state_button add-btn-modal btn btn-primary">Пусни отчет</button>
                 </div>
             </form>
         </div>
@@ -177,8 +215,15 @@ aria-hidden="true">
                             <div class="form-row">
                                 <div class="form-group col-md-5">
                                     <label for="">Вид</label>
-                                    <select id="material_type" name="material_id[]" data-select2-skip data-calculateprice-material class="material_type form-control calculate">
-                                        <option value="0">Избери</option>
+                                    <select id="material_type" name="material_id[]" data-calculateprice-material class="material_type form-control calculate">
+                                        <option value="">Избери</option>
+                                
+                                        @foreach($materials as $material)
+                                            @if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
+                                                <option value="{{ $material->id }}" data-carat="{{ $material->material->carat }}" data-material="{{ $material->material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
+                                            @endif
+                                        @endforeach
+
                                     </select>
                                 </div>
                                 <div class="form-group col-md-5">
@@ -217,9 +262,8 @@ aria-hidden="true">
                                 </select>
                             </div>
                         </div>
-
-
                     </div>
+
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="given-sum">Дадена сума</label>
@@ -307,7 +351,13 @@ aria-hidden="true">
 <div class="row">
     <div class="col-md-12">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
-            <h4 class="c-grey-900 mB-20">Продажби <a href="{{ route('clear_cart') }}" class="btn btn-primary">Изчисти продажбата</a></h4>
+            <h4 class="c-grey-900 mB-20">Продажби 
+                <a href="{{ route('clear_cart') }}" class="btn btn-primary">Изчисти продажбата</a>
+                @if($todayReport == 'false')
+                    <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#dailyReport" data-form-type="add" data-form="dailyReport">Пусни дневен отчет</button>
+                    {{-- {{$allSold}} --}}
+                @endif
+            </h4>
 
             <form id="selling-form" data-scan="{{ route('sellScan') }}">
                 <div class="row gap-20 masonry pos-r">
