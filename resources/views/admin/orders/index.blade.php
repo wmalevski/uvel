@@ -237,7 +237,7 @@
 						<div class="form-group col-md-4">
 							<label for="">Вид</label>
 							
-							<select id="material_type" name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate">
+							<select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate">
 								<option value="">Избери</option>
 								
 								@foreach($mats as $material)
