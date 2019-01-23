@@ -184,19 +184,12 @@ var uvel,
       },
       orders: {
         selector: '[name="orders"]',
-        controllers: ['addStonesInit', 'addAnother', 'manualReceipt', 'barcodeInput'],
-        select2obj: [
-          {
-            selector: 'select[name="model_id"]',
-            callback: 'onOrdersFormSelect'
-          }
-        ],
+        controllers: ['ordersModelSelectInit', 'addStonesInit', 'addAnother', 'manualReceipt', 'barcodeInput'],
         initialized: false
       },
       nomenclatures: {
         selector: '[name="nomenclatures"]',
-        controllers: [],
-        initialized: false
+        controllers: []
       },
       dailyReport: {
         selector: '[name="dailyReport"]',
@@ -247,27 +240,6 @@ var uvel,
       for (var i = 0; i < tables.length; i++) {
         new Tablesort(tables[i]);
       }
-    }
-
-    this.dailyReportAttach = function() {
-      var form =  $('form[name="dailyReport"');
-      var dailyReportTrigger = form.find('button[type="submit"]');
-
-      dailyReportTrigger.on('click', function(e) {
-        e.preventDefault();
-        var ajaxUrl = form[0].dataset.scan;
-        
-        $.ajax({
-          method: "POST",
-          url: ajaxUrl,
-          success: function(resp) {
-            $self.formSuccessHandler(form, 'dailyReport', resp);
-          },
-          error: function(err) {
-            $self.formsErrorHandler(err, form);
-          }
-        });
-      });
     }
 
     this.openForm = function(openFormTrigger) {
@@ -909,9 +881,6 @@ var uvel,
         $self.clearForm($('#selling-form'));
       } else if (formType == 'images') {
         text = resp.success;
-      }
-      else if (formType == 'dailyReport') {
-        message = resp.success;
       }
 
       var successMessage = '<div class="alert alert-success">' + text + '</div>';
@@ -1987,10 +1956,19 @@ var uvel,
       })
     }
 
-    this.onOrdersFormSelect = function(event, selectElement, form) {
-      var selectedModelId = selectElement.val(),
-          ajax = selectElement[0].attributes.url.value,
-          ajaxUrl = window.location.origin + '/' + ajax + selectedModelId;
+    this.ordersModelSelectInit = function(form) {
+      var modelSelect = form.find('#model_select');
+
+      $self.initializeSelect(modelSelect, function(event) {
+        $self.onOrdersFormSelect(event, form);
+      });
+    }
+
+    this.onOrdersFormSelect = function(event, form) {
+      var currentSelect = event.currentTarget,
+          ajaxUrl = currentSelect.attributes.url.value,
+          selectedModelId = currentSelect.selectedOptions[0].dataset.modelId,
+          ajaxUrl = window.location.origin + '/' + ajaxUrl + selectedModelId;
 
       $self.ajaxFn('GET', ajaxUrl, $self.modelRequestResponseHandler, '', form);
     }
@@ -2000,10 +1978,37 @@ var uvel,
 
       addAnother.on('click', function(event) {
         event.preventDefault();
-                
-        var givenMaterialsNewElement = $('.form-row.given-material').first().clone();
         
-        $(givenMaterialsNewElement).insertBefore(this);
+        // Remove the Select2 plugin from form-row so it can be copied
+        $('.form-row.given-material select').select2('destroy');
+        // Remove the Select2 attributes from all children of form-row
+        $('.form-row.given-material *').removeAttr('data-select2-id');
+        
+        var $givenMaterialFirstRow = $('.form-row.given-material').first(),
+            $givenMaterialLastRow = $('.form-row.given-material').last(),
+            givenMaterialNewRow = $givenMaterialFirstRow[0].outerHTML;
+        
+        var btnRemove = '<div class="form-group col-md-1">' +
+            '<span class="delete-material remove_field" data-removematerials-remove="">' +
+            '<i class="c-brown-500 ti-trash"></i>' +
+            '</span></div>';
+                      
+        $(givenMaterialNewRow).insertAfter($givenMaterialLastRow);
+        
+        // Re-apply the Select2 to all selects in form-row
+        $('.form-row.given-material select').select2();
+        
+        var $lastFormRow = $('.form-row.given-material').last();
+        
+        $lastFormRow.find('.form-group').last()
+          .removeClass('col-md-4')
+          .addClass('col-md-3');
+          
+        $lastFormRow.append(btnRemove);
+        
+        $lastFormRow.find('.remove_field').on('click', function() {
+          $(this).parents('.form-row.given-material').remove();
+        });
       });
     }
 
