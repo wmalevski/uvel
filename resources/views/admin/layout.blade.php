@@ -159,13 +159,30 @@
               <span class="title">Отстъпки</span>
             </a>
           </li>
-          <li class="nav-item {{ Active::ifRouteIn('stores') }}">
-              <a class="sidebar-link" href="{{ route('stores') }}">
+          <li class="nav-item dropdown {{ Active::ifRouteIn(['stores', 'daily_reports', 'expenses', 'expenses_types']) }}">
+              <a class="sidebar-link" href="javascript:void(0);">
                 <span class="icon-holder">
                   <i class=" ti-location-arrow"></i>
                 </span>
                 <span class="title">Магазини</span>
+                <span class="arrow">
+                  <i class="ti-angle-right"></i>
+                </span>
               </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="sidebar-link" href="{{ route('stores') }}">Магазини</a>
+                </li>
+                <li>
+                  <a class="sidebar-link" href="{{ route('daily_reports') }}">Дневни отчети</a>
+                </li>
+                <li>
+                  <a class="sidebar-link" href="{{ route('expenses') }}">Разходи</a>
+                </li>
+                <li>
+                  <a class="sidebar-link" href="{{ route('expenses_types') }}">Типове разходи</a>
+                </li>
+              </ul>
             </li>
 
             <li class="nav-item {{ Active::ifRouteIn('admin_blog') }}">
@@ -184,16 +201,6 @@
                   <span class="title">Цени</span>
                 </a>
               </li>
-{{--
-              <li class="nav-item {{ Active::check('admin/users',true) }}">
-                  <a class="sidebar-link" href="{{ route('users') }}">
-                    <span class="icon-holder">
-                      <i class=" ti-user"></i>
-                    </span>
-                    <span class="title">Потребители</span>
-                  </a>
-                </li> --}}
-
 
                 <li class="nav-item dropdown {{ Active::ifRouteIn(['users', 'substitutions', 'partners']) }}">
                   <a class="dropdown-toggle" href="javascript:void(0);">
@@ -410,6 +417,25 @@
           </li>
 
           <li class="nav-item dropdown {{ Active::ifRouteIn(['stock_prices', 'currencies']) }}">
+              <span class="icon-holder">
+                <i class=" ti-slice"></i>
+              </span>
+              <span class="title">Отчети</span>
+              <span class="arrow">
+                <i class="ti-angle-right"></i>
+              </span>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="sidebar-link" href="{{ route('daily_reports') }}">Дневни</a>
+              </li>
+              <li>
+                <a class="sidebar-link" href="{{ route('expenses') }}">Разходи</a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown {{ Active::ifRouteIn('settings') }}">
             <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
                 <i class="ti-settings"></i>
