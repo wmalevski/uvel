@@ -184,7 +184,13 @@ var uvel,
       },
       orders: {
         selector: '[name="orders"]',
-        controllers: ['ordersModelSelectInit', 'addStonesInit', 'addAnother', 'manualReceipt', 'barcodeInput'],
+        controllers: ['addStonesInit', 'addAnother', 'manualReceipt', 'barcodeInput'],
+        select2obj: [
+          {
+            selector: 'select[name="model_id"]',
+            callback: 'onOrdersFormSelect'
+          }
+        ],
         initialized: false
       },
       nomenclatures: {
@@ -1952,22 +1958,12 @@ var uvel,
       })
     }
 
-    this.ordersModelSelectInit = function(form) {
-      var modelSelect = form.find('#model_select');
-
-      $self.initializeSelect(modelSelect, function(event) {
-        $self.onOrdersFormSelect(event, form);
-      });
-    }
-
-    this.onOrdersFormSelect = function(event, form) {
-      var currentSelect = event.currentTarget,
-          ajaxUrl = currentSelect.attributes.url.value,
-          selectedModelId = currentSelect.selectedOptions[0].dataset.modelId,
-          ajaxUrl = window.location.origin + '/' + ajaxUrl + selectedModelId;
+    this.onOrdersFormSelect = function(event, selectElement, form) {
+      var selectedModelId = selectElement.val(),
+          ajax = selectElement[0].attributes.url.value,
+          ajaxUrl = window.location.origin + '/' + ajax + selectedModelId;
 
       $self.ajaxFn('GET', ajaxUrl, $self.modelRequestResponseHandler, '', form);
-
     }
 
     this.addAnother = function(form) {
@@ -1983,7 +1979,7 @@ var uvel,
             givenMaterialNewRow = $givenMaterialFirstRow.first().clone();
         
         $(givenMaterialNewRow).insertAfter($givenMaterialLastRow);
-        debugger;
+
         $('.form-row.given-material select').select2();
         
       });
