@@ -281,7 +281,7 @@ var uvel,
       //TODO: ASK BOBI VVVV
 
       setTimeout(function() {
-        if ((formType == 'add') || (formType == 'sell' || formType == 'partner-sell') && !formSettings.initialized) {
+        if (((formType == 'add') || (formType == 'sell' || formType == 'partner-sell')) && !formSettings.initialized) {
           $self.initializeForm(formSettings, formType);
           formSettings.initialized = true;
         } else if (formType == 'edit') {
@@ -767,13 +767,14 @@ var uvel,
         var noteEditors = form.find('.note-editable');
         noteEditors.html('<p><br></p>');
       }
-      
-      if (formType == 'sell-partner') {
+
+      if (formType == 'partner-sell') {
         $('#partner-shopping-table tbody').html('');
         $('#shopping-table tbody').html('');
       } else if (formType == 'sell') {
         $('#shopping-table tbody').html('');
       }
+      
     }
 
     this.sendFormRequest = function(form, ajaxRequestUrl, formType, data) {
