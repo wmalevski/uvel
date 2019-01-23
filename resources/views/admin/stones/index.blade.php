@@ -16,103 +16,144 @@
         <div class="modal-body">
           <div class="info-cont"></div>
           {{ csrf_field() }}
-          <select name="type" id="stone_type" data-calculateCarats-type class="form-control">
-            <option value="1">Синтетичен</option>
-            <option value="2">Естествен</option>
-          </select>
-
-          <div class="form-group">
-            <label for="1">Име(Номенклатура):</label>
+          
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="carat">Тип:</label>
             
-            <select name="nomenclature_id" class="form-control">
-              <option value="">Избер номенклатура</option>
-
-              @foreach($nomenclatures as $nomenclature)
-              <option value="{{ $nomenclature->id }}">{{ $nomenclature->name }}</option>
-              @endforeach
-            </select>
+              <select name="type" id="stone_type" data-calculateCarats-type class="form-control">
+                <option value="1">Синтетичен</option>
+                <option value="2">Естествен</option>
+              </select>
+            </div>
           </div>
+          
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="1">Име (Номенклатура):</label>
+              
+              <select name="nomenclature_id" class="form-control">
+                <option value="">Избери номенклатура</option>
 
-          <div class="form-group">
-            <label for="weight">Тегло:</label>
+                @foreach($nomenclatures as $nomenclature)
+                <option value="{{ $nomenclature->id }}">
+                  {{ $nomenclature->name }}
+                </option>
+                @endforeach
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="weight">Тегло:</label>
+              
+              <div class="input-group">
+                <input type="number" class="form-control weight" id="weight" name="weight"
+                      data-calculateCarats-weight placeholder="Тегло:">
+                <span class="input-group-addon">гр.</span>
+              </div>
+            </div>
+          </div>
+         
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="carat">Карат:</label>
+              
+              <input type="number" class="form-control carat" id="carat" value="0" name="carat"
+                     data-calculateCarats-carat placeholder="Карат:" readonly>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label>Размер:</label>
             
-            <div class="input-group">
-              <input type="number" class="form-control weight" id="weight" name="weight"
-                     data-calculateCarats-weight placeholder="Тегло:">
-              <span class="input-group-addon">гр.</span>
+              <select name="size_id" class="form-control">
+                <option value="">Избери размер</option>
+
+                @foreach($stone_sizes as $size)
+                <option value="{{ $size->id }}">
+                  {{ $size->name }}
+                </option>
+                @endforeach
+              </select>
             </div>
           </div>
 
-          <div class="form-group">
-            <label for="carat">Карат:</label>
-            
-            <input type="number" class="form-control carat" id="carat" value="0" name="carat"
-                   data-calculateCarats-carat placeholder="Карат:" readonly>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label>Контур:</label>
+          
+              <select name="contour_id" class="form-control">
+                <option value="">Избери контур</option>
+
+                @foreach($stone_contours as $contour)
+                <option value="{{ $contour->id }}">
+                  {{ $contour->name }}
+                </option>
+                @endforeach
+              </select>
+            </div>
           </div>
-
-          <label>Размер: </label>
           
-          <select name="size_id" class="form-control">
-            <option value="">Избер размер</option>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label>Стил: </label>
+              
+              <select name="style_id" class="form-control">
+                <option value="">Избери стил</option>
 
-            @foreach($stone_sizes as $size)
-            <option value="{{ $size->id }}">{{ $size->name }}</option>
-            @endforeach
-          </select>
-
-          <label>Контур: </label>
-          
-          <select name="contour_id" class="form-control">
-            <option value="">Избери контур</option>
-
-            @foreach($stone_contours as $contour)
-            <option value="{{ $contour->id }}">{{ $contour->name }}</option>
-            @endforeach
-          </select>
-
-          <label>Стил: </label>
-          
-          <select name="style_id" class="form-control">
-            <option value="">Избери стил</option>
-
-            @foreach($stone_styles as $style)
-            <option value="{{ $style->id }}">{{ $style->name }}</option>
-            @endforeach
-          </select>
-          <br />
-
-          <div class="form-group">
-            <label for="4">Количество: </label>
-            
-            <input type="number" class="form-control" id="4" name="amount" placeholder="Количество:">
-          </div>
-
-          <div class="form-group">
-            <label for="5">Цена: </label>
-            
-            <div class="input-group">
-              <input type="number" class="form-control" id="5" name="price" placeholder="Цена:">
-              <span class="input-group-addon">лв</span>
+                @foreach($stone_styles as $style)
+                <option value="{{ $style->id }}">
+                  {{ $style->name }}
+                </option>
+                @endforeach
+              </select>
             </div>
           </div>
 
-          <div class="form-group">
-            <label>Магазин: </label>
-            
-            <select name="store_id" class="form-control">
-              <option value="">Избери магазин</option>
-
-              @foreach($stores as $store)
-              <option value="{{ $store->id }}">{{ $store->name }} - {{ $store->location }}</option>
-              @endforeach
-            </select>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="4">Количество:</label>
+              
+              <input type="number" class="form-control" id="4" name="amount" placeholder="Количество:">
+            </div>
           </div>
 
-          <div class="drop-area" name="add">
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="5">Цена:</label>
+              
+              <div class="input-group">
+                <input type="number" class="form-control" id="5" name="price" placeholder="Цена:">
+                <span class="input-group-addon">лв</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label>Магазин: </label>
+              
+              <select name="store_id" class="form-control">
+                <option value="">Избери магазин</option>
+
+                @foreach($stores as $store)
+                <option value="{{ $store->id }}">
+                  {{ $store->name }} - {{ $store->location }}
+                </option>
+                @endforeach
+              </select>
+            </div>
+          </div>
+
+          <div class="drop-area mt-3" name="add">
             <input type="file" name="images" class="drop-area-input" id="fileElem-add" multiple accept="image/*">
             <label class="button" for="fileElem-add">Select some files</label>
             <div class="drop-area-gallery"></div>
           </div>
+          
         </div>
 
         <div class="modal-footer">
