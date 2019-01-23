@@ -1998,17 +1998,10 @@ var uvel,
 
       addAnother.on('click', function(event) {
         event.preventDefault();
+                
+        var givenMaterialsNewElement = $('.form-row.given-material').first().clone();
         
-        $('.form-row.given-material select').select2('destroy');
-        
-        var $givenMaterialFirstRow = $('.form-row.given-material').first(),
-            $givenMaterialLastRow = $('.form-row.given-material').last(),
-            givenMaterialNewRow = $givenMaterialFirstRow.first().clone();
-        
-        $(givenMaterialNewRow).insertAfter($givenMaterialLastRow);
-
-        $('.form-row.given-material select').select2();
-        
+        $(givenMaterialsNewElement).insertBefore(this);
       });
     }
 
