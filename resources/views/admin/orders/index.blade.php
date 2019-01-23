@@ -43,7 +43,7 @@
 						<div class="form-group col-md-6">
 							<label>Модел:</label>
 							
-							<select id="model_select" url="ajax/orders/getModelInfo/" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model>
+							<select url="ajax/orders/getModelInfo/" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model>
 								<option value="">Избери</option>
 								
 								@foreach($models as $model)
