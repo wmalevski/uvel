@@ -417,6 +417,7 @@
           </li>
 
           <li class="nav-item dropdown {{ Active::ifRouteIn(['stock_prices', 'currencies']) }}">
+            <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
                 <i class=" ti-slice"></i>
               </span>
