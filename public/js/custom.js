@@ -715,9 +715,9 @@ var uvel,
       $self.sendFormRequest(form, ajaxRequestLink, formType, data);
     }
 
-    this.clearForm = function(form) {
+    this.clearForm = function(form, formType) {
 			var inputsSelector = 'input[type="text"]:not(.not-clear), ' +
-				'input[type="number"]:not(.not-clear), ' +
+        'input[type="number"]:not(.not-clear), ' +
 				'input[type="password"]:not(.not-clear), ' +
 				'input[type="email"]:not(.not-clear), ' +
 				'textarea:not(.not-clear)';
@@ -766,7 +766,14 @@ var uvel,
       if (form.find('.summernote').length > 0) {
         var noteEditors = form.find('.note-editable');
         noteEditors.html('<p><br></p>');
-			}
+      }
+      
+      if (formType == 'sell-partner') {
+        $('#partner-shopping-table tbody').html('');
+        $('#shopping-table tbody').html('');
+      } else if (formType == 'sell') {
+        $('#shopping-table tbody').html('');
+      }
     }
 
     this.sendFormRequest = function(form, ajaxRequestUrl, formType, data) {
@@ -861,7 +868,7 @@ var uvel,
         text = 'Добавихте успешно записа!';
       } else if (formType == 'edit') {
         text = 'Редактирахте успешно записа!';
-      } else if (formType == 'sell') {
+      } else if (formType == 'sell' || formType == 'partner-sell') {
         text = 'Извършихте успешно плащане!';
       } else if (formType == 'images') {
         text = resp.success;
@@ -876,6 +883,9 @@ var uvel,
 
       if (formType == 'add') {
         $self.clearForm(form);
+      } else if (formType == 'sell' || formType == 'partner-sell') {
+        $self.clearForm(form, formType);
+        $self.clearForm($('#selling-form'));
       }
     }
 
