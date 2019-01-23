@@ -70,7 +70,6 @@ class PaymentController extends Controller
             }
         }
 
-
         // $materials = [(object)[
         //     'material_id' => 1,
         //     'material_weight' => 500,
@@ -108,7 +107,7 @@ class PaymentController extends Controller
 
                 foreach($partner->materials as $partner_material){
                     if($partner_material->material_id = $material['material_id']){
-                        $partner_material->quantity = $partner_material - ($material['material_weight'] - $material['material_given']);
+                        $partner_material->quantity = $partner_material->quantity - ($material['material_weight'] - $material['material_given']);
 
                         $partner_material->save();
                     }else{

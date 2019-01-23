@@ -95,6 +95,11 @@ var uvel,
         controllers: ['paymentInitializer', 'getWantedSumInit'],
         initialized: false
       },
+      sellingPartners: {
+        selector: '[name="sellingPartners"]',
+        controllers: [],
+        initialized: false
+      },
       stones: {
         selector: '[name="stones"]',
         controllers: ['calculateCaratsInitializer', 'imageHandling'],
@@ -267,12 +272,16 @@ var uvel,
       if (formType == 'sell') {
         $self.calculateExpectedMaterial('[data-saleProduct]', 'expecteMaterial');
         $self.lockPaymentControllers();
+      } else if (formType == 'partner-sell') {
+        var ajaxUrl = currentPressedBtn.attr('data-url');
+
+        $self.ajaxFn('GET', ajaxUrl, $self.partnerPaymentLoad);
       }
 
       //TODO: ASK BOBI VVVV
 
       setTimeout(function() {
-        if (((formType == 'add') || (formType == 'sell')) && !formSettings.initialized) {
+        if ((formType == 'add' || formType == 'sell' || formType == 'partner-sell') && !formSettings.initialized) {
           $self.initializeForm(formSettings, formType);
           formSettings.initialized = true;
         } else if (formType == 'edit') {
@@ -282,6 +291,68 @@ var uvel,
 					console.log('form already initialized');
 				}
       }, timeToOpenModal);
+    }
+
+    this.partnerPaymentLoad = function(response) {
+      var form = document.querySelector('[name="sellingPartners"]'),
+          materials = JSON.parse(response.materials),
+          keys = Object.keys(materials),
+          partner = response.partner.name,
+          workmanship = response.workmanship,
+          tableContent = '';
+      
+      for (var i = 0; i < keys.length; i++) {
+        var partnerMaterialWeight = materials[keys[i]].partner_material_weight,
+            materialId = materials[keys[i]].material_id,
+            materialName =  materials[keys[i]].name,
+            materialWeight = materials[keys[i]].weight,
+            partnerMaterialId = materials[keys[i]].partner_material;
+
+        tableContent += '<tr data-material-id="' + materialId + '">';
+        tableContent += '<td data-material-name>' + materialName + '</td>';
+        tableContent += '<td data-material-weight>' + materialWeight + '</td>';
+        tableContent += '<td data-material-partner="' + partnerMaterialId + '">' + partnerMaterialWeight || 0 + '</td>';
+        tableContent += '<td><input type="number" class="form-control" value="0" data-material-given></td>';
+        tableContent += '</tr>';
+      }
+
+      tableContent += '<tr class="partner-worksmanship">';
+      tableContent += '<td>Изработка</td>';
+      tableContent += '<td data-worksmanship-wanted colspan="2">' + workmanship + '</td>';
+      tableContent += '<td><input type="number" class="form-control" value="0" placeholder="0" data-worksmanship-given></td>';
+      tableContent += '</tr>';
+
+  
+      form.querySelector('.partner-information').innerHTML = partner;
+      form.querySelector('tbody').innerHTML = tableContent;
+      $self.partnerPaymentAttachEventListeners(form);
+    }
+
+    this.partnerPaymentAttachEventListeners = function(form) {
+      var wantedSumHolder = form.querySelector('[name="partner-wanted-sum"]'),
+          wantedWorksmanship = form.querySelector('[data-worksmanship-wanted]'),
+          givenWorksmanship = form.querySelector('[data-worksmanship-given]'),
+          paymentMethod = form.querySelector('[name="partner-pay-method"]');
+
+      wantedSumHolder.value = wantedWorksmanship.textContent;
+      
+      paymentMethod.addEventListener('click', function() {
+        if (this.checked) {
+          givenWorksmanship.readOnly = true;
+
+          wantedSumHolder.value = 0;
+          givenWorksmanship.value = wantedWorksmanship.textContent;
+        } else {
+          givenWorksmanship.readOnly = false;
+          givenWorksmanship.value = 0;
+          wantedSumHolder.value = wantedWorksmanship.textContent;
+        }
+      }, false);
+
+      givenWorksmanship.addEventListener('change', function() {
+        var total = parseFloat(wantedWorksmanship.textContent) - (parseFloat(givenWorksmanship.value) || 0);
+        wantedSumHolder.value = Number(total.toFixed(2));
+      }, false);
     }
 
     this.enterPressBehaviour = function(inputs) {
@@ -305,7 +376,7 @@ var uvel,
             url: ajaxRequestLink,
             success: function(response) {
               if (_this.hasClass('cart')) {
-                $self.cartSumsPopulate(resp);
+                $self.cartSumsPopulate(response);
                 $self.calculateExpectedMaterial('[data-saleProduct]', 'expectedMaterial');
               }
 
@@ -446,6 +517,9 @@ var uvel,
 
     this.discountSuccess = function (response) {
       var discountsHolder = $('.discount--label-holder');
+          isPartner = false,
+          regularSellBtn = document.querySelector('[data-target="#paymentModal"]'),
+          partnerSellBtn = document.querySelector('[data-target="#paymentPartner"]');
 
       if (response.success) {
         var discounts = response.condition,
@@ -460,6 +534,18 @@ var uvel,
               '<i class="c-brown-500 ti-close"></i></span><br/>';
 
           newFields += newDiscount;
+
+          if (discount.attributes.partner == 'true') {
+            isPartner = true;
+          }
+        }
+
+        if (isPartner && regularSellBtn.style.display != 'none') {
+          regularSellBtn.style.display = 'none';
+          partnerSellBtn.style.display = 'initial';
+        } else if (!isPartner && partnerSellBtn.style.display != 'none') {
+          regularSellBtn.style.display = 'initial';
+          partnerSellBtn.style.display = 'none';
         }
 
         discountsHolder.html(newFields);
@@ -537,9 +623,56 @@ var uvel,
 
       submitButton.click(function(e) {
         e.preventDefault();
-        var inputFields = form.find('select , input, textarea');
-        $self.getFormFields(form, ajaxRequestLink, formType, inputFields);
+        
+        if (formType == 'partner-sell') {
+          $self.partnerPaymentSubmit(form, ajaxRequestLink, formType);
+        } else {
+          var inputFields = form.find('select , input, textarea');
+          $self.getFormFields(form, ajaxRequestLink, formType, inputFields);
+        }
       });
+    }
+
+    this.partnerPaymentSubmit = function(form, ajaxRequestLink, formType) {
+      var materials = form.find('[data-material-id]'),
+          workmanshipWanted = form.find('[data-worksmanship-wanted]').text(),
+          workmanshipGiven = form.find('[data-worksmanship-given]').val(),
+          receiptOptions = form.find('[type="radio"]'),
+          payMethod = form.find('[name="partner-pay-method"]')[0].checked,
+          data = {
+            _token : $self.formsConfig.globalSettings.token,
+            isPartner : true,
+            payMethod : payMethod,
+            workmanship : {
+              wanted : workmanshipWanted,
+              given : workmanshipGiven
+            },
+            materials: []
+          };
+
+      for (var i = 0; i < materials.length; i++) {
+        var material_id = materials[i].dataset.materialId,
+            material_partner_id = materials[i].querySelector('[data-material-partner]').dataset.materialPartner,
+            material_weight = materials[i].querySelector('[data-material-weight]').textContent,
+            material_given = materials[i].querySelector('[data-material-given]').value;
+
+        var material = {
+          material_partner_id: material_partner_id,
+          material_id: material_id,
+          material_weight: material_weight,
+          material_given: material_given
+        };
+
+        data.materials.push(material);
+      }
+
+      for (var i = 0; i < receiptOptions.length; i++) {
+        if (receiptOptions[i].checked) {
+          data[receiptOptions[i].id] =  true;
+        }
+      }
+
+      $self.sendFormRequest(form, ajaxRequestLink, formType, data);
     }
 
     this.getFormFields = function(form, ajaxRequestLink, formType, inputFields) {
@@ -583,9 +716,9 @@ var uvel,
       $self.sendFormRequest(form, ajaxRequestLink, formType, data);
     }
 
-    this.clearForm = function(form) {
+    this.clearForm = function(form, formType) {
 			var inputsSelector = 'input[type="text"]:not(.not-clear), ' +
-				'input[type="number"]:not(.not-clear), ' +
+        'input[type="number"]:not(.not-clear), ' +
 				'input[type="password"]:not(.not-clear), ' +
 				'input[type="email"]:not(.not-clear), ' +
 				'textarea:not(.not-clear)';
@@ -634,7 +767,15 @@ var uvel,
       if (form.find('.summernote').length > 0) {
         var noteEditors = form.find('.note-editable');
         noteEditors.html('<p><br></p>');
-			}
+      }
+
+      if (formType == 'partner-sell') {
+        $('#partner-shopping-table tbody').html('');
+        $('#shopping-table tbody').html('');
+      } else if (formType == 'sell') {
+        $('#shopping-table tbody').html('');
+      }
+      
     }
 
     this.sendFormRequest = function(form, ajaxRequestUrl, formType, data) {
@@ -727,10 +868,13 @@ var uvel,
       var text;
       if (formType == 'add') {
         text = 'Добавихте успешно записа!';
+        $self.clearForm(form);
       } else if (formType == 'edit') {
         text = 'Редактирахте успешно записа!';
-      } else if (formType == 'sell') {
+      } else if (formType == 'sell' || formType == 'partner-sell') {
         text = 'Извършихте успешно плащане!';
+        $self.clearForm(form, formType);
+        $self.clearForm($('#selling-form'));
       } else if (formType == 'images') {
         text = resp.success;
       }
@@ -742,9 +886,6 @@ var uvel,
         form.find('.modal-body .info-cont .alert-success').remove();
       }, 2000); // How long te message will be shown on the screen
 
-      if (formType == 'add') {
-        $self.clearForm(form);
-      }
     }
 
     // APPENDING EDIT FORM TO THE MODAL
