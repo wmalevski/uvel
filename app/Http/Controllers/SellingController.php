@@ -16,6 +16,9 @@ use Illuminate\Http\JsonResponse;
 use App\DiscountCode;
 use Response;
 use App\ProductOther;
+use App\DailyReport;
+use Carbon\Carbon;
+use App\Payment;
 use \Darryldecode\Cart\CartCondition as CartCondition;
 use \Darryldecode\Cart\Helpers\Helpers as Helpers;
 use App\MaterialQuantity;
@@ -141,8 +144,22 @@ class SellingController extends Controller
         });
 
         $dds = round($subTotal - ($subTotal/1.2), 2);
+
+        $allSold = Payment::where([
+            ['method', '=', 'cash'],
+            ['store_id', '=', Auth::user()->getStore()]
+        ])->whereDate('created_at', Carbon::today())->sum('given');
+            
+        $todayReport = DailyReport::where('store_id', Auth::user()->getStore())->whereDate('created_at', Carbon::today())->get();
         
-        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials, 'jsMaterials' =>  json_encode($pass_materials, JSON_UNESCAPED_SLASHES )));
+        if(count($todayReport)){
+            $todayReport = 'true';
+        }else{
+            $todayReport = 'false';
+        }
+        //To add kaparo from the orders when branches are merged
+        
+        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials, 'jsMaterials' =>  json_encode($pass_materials, JSON_UNESCAPED_SLASHES ), 'todayReport' => $todayReport));
     }
 
     /**

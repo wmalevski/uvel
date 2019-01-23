@@ -217,6 +217,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/search/products/{term}', 'ProductController@search');
     Route::get('/orders/{order}', 'OrderController@edit');
+    Route::get('/expenses', 'ExpenseController@index');
+    Route::get('/expenses', 'ExpenseController@index')->name('expenses');    
+
+    Route::get('/expensetypes', 'ExpenseTypeController@index')->name('expenses_types');    
+
+    Route::get('/dailyreports', 'DailyReportController@index')->name('daily_reports');    
+    Route::get('/dailyreports/{report}', 'DailyReportController@edit');
+
+    Route::get('/safe', 'SafeController@index');
 });
 
 Route::group(['prefix' => 'ajax'], function() {
@@ -251,6 +260,15 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/blog', 'BlogController@store');
     Route::post('/blog/delete/{blog}', 'BlogController@destroy');
+    Route::post('/expenses', 'ExpenseController@store');
+    Route::put('/expenses/{expense}', 'ExpenseController@update');
+    Route::post('/expenses/delete/{expense}', 'ExpenseController@destroy');
+
+    Route::post('/dailyreports', 'DailyReportController@store');
+
+    Route::post('/expensetypes', 'ExpenseController@store');
+    Route::put('/expensetypes/{expensetype}', 'ExpenseController@update');
+    Route::post('/expensetypes/delete/{expensetype}', 'ExpenseController@destroy');
 
     Route::post('/stores', 'StoreController@store');
     Route::put('/stores/{store}', 'StoreController@update');

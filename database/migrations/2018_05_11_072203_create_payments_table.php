@@ -26,6 +26,7 @@ class CreatePaymentsTable extends Migration
             $table->integer('discount_code_id')->nullable();
             $table->text('info')->nullable();
             $table->integer('user_id');
+            $table->integer('store_id');
             $table->timestamps();
         });
     }
