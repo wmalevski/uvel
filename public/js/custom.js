@@ -190,6 +190,8 @@ var uvel,
       nomenclatures: {
         selector: '[name="nomenclatures"]',
         controllers: [],
+        initialized: false
+      },
       dailyReport: {
         selector: '[name="dailyReport"]',
         controllers: ['dailyReportAttach'],
