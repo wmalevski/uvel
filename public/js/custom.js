@@ -297,7 +297,7 @@ var uvel,
       var form = document.querySelector('[name="sellingPartners"]'),
           materials = JSON.parse(response.materials),
           partner = response.partner.name,
-          workmanship = parseFloat(response.workmanship),
+          workmanship = response.workmanship,
           tableContent = '';
       
       for (var i = 0; i < Object.keys(materials).length; i++) {
@@ -867,10 +867,13 @@ var uvel,
       var text;
       if (formType == 'add') {
         text = 'Добавихте успешно записа!';
+        $self.clearForm(form);
       } else if (formType == 'edit') {
         text = 'Редактирахте успешно записа!';
       } else if (formType == 'sell' || formType == 'partner-sell') {
         text = 'Извършихте успешно плащане!';
+        $self.clearForm(form, formType);
+        $self.clearForm($('#selling-form'));
       } else if (formType == 'images') {
         text = resp.success;
       }
@@ -882,12 +885,6 @@ var uvel,
         form.find('.modal-body .info-cont .alert-success').remove();
       }, 2000); // How long te message will be shown on the screen
 
-      if (formType == 'add') {
-        $self.clearForm(form);
-      } else if (formType == 'sell' || formType == 'partner-sell') {
-        $self.clearForm(form, formType);
-        $self.clearForm($('#selling-form'));
-      }
     }
 
     // APPENDING EDIT FORM TO THE MODAL
