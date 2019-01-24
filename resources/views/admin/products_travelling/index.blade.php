@@ -36,17 +36,19 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <table class="table repair-records-table tablesort">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Баркод</th>
-                                    <th scope="col">Име</th>
-                                    <th scope="col">Грамаж</th>
-                                    <th scope="col">Действия</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
+                        <div class="form-group col-md-12">
+                            <table class="table repair-records-table tablesort">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">Баркод</th>
+                                        <th scope="col">Име</th>
+                                        <th scope="col">Грамаж</th>
+                                        <th scope="col">Действия</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-12">
