@@ -136,15 +136,15 @@
               </span>
             </a>
             <ul class="dropdown-menu">
-              <li {{ Active::ifRouteIn('selling') }}>
+              <li class="{{ Active::ifRouteIn('selling') }}">
                 <a class="sidebar-link" href="{{ route('selling') }}">Продажба</a>
               </li>
 
-              <li {{ Active::ifRouteIn('payments') }}>
+              <li class="{{ Active::ifRouteIn('payments') }}">
                 <a class="sidebar-link" href="{{ route('payments') }}">Завършени</a>
               </li>
 
-              <li {{ Active::ifRouteIn('online_selling') }}>
+              <li class="{{ Active::ifRouteIn('online_selling') }}">
                 <a class="sidebar-link" href="{{ route('online_selling') }}">Онлайн магазин</a>
               </li>
 
@@ -170,16 +170,16 @@
                 </span>
               </a>
               <ul class="dropdown-menu">
-                <li>
+                <li class="{{ Active::ifRouteIn('stores') }}">
                   <a class="sidebar-link" href="{{ route('stores') }}">Магазини</a>
                 </li>
-                <li>
+                <li class="{{ Active::ifRouteIn('daily_reports') }}">
                   <a class="sidebar-link" href="{{ route('daily_reports') }}">Дневни отчети</a>
                 </li>
-                <li>
+                <li class="{{ Active::ifRouteIn('expenses') }}">
                   <a class="sidebar-link" href="{{ route('expenses') }}">Разходи</a>
                 </li>
-                <li>
+                <li class="{{ Active::ifRouteIn('expenses_types') }}">
                   <a class="sidebar-link" href="{{ route('expenses_types') }}">Типове разходи</a>
                 </li>
               </ul>
@@ -213,17 +213,17 @@
                     </span>
                   </a>
                   <ul class="dropdown-menu">
-                    <li {{ Active::ifRouteIn('users') }}>
+                    <li class="{{ Active::ifRouteIn('users') }}">
                       <a class="sidebar-link" href="{{ route('users') }}">Потребители</a>
                     </li>
 
                     {{-- @if(Auth::user()->hasRole('admin')) --}}
-                    <li {{ Active::ifRouteIn('substitutions') }}>
+                    <li class="{{ Active::ifRouteIn('substitutions') }}">
                       <a class="sidebar-link" href="{{ route('substitutions') }}">Замествания</a>
                     </li>
                     {{-- @endif --}}
 
-                    <li {{ Active::ifRouteIn('partners') }}>
+                    <li class="{{ Active::ifRouteIn('partners') }}">
                       <a class="sidebar-link" href="{{ route('partners') }}">Партньори</a>
                     </li>
 
@@ -242,12 +242,12 @@
                     </span>
                   </a>
                   <ul class="dropdown-menu">
-                    <li {{ Active::ifRouteIn('custom_orders') }}>
+                    <li class="{{ Active::ifRouteIn('custom_orders') }}">
                       <a class="sidebar-link" href="{{ route('custom_orders') }}">По модел на клиента</a>
                     </li>
 
                     {{-- @if(Auth::user()->hasRole('admin')) --}}
-                    <li {{ Active::ifRouteIn('model_orders_web') }}>
+                    <li class="{{ Active::ifRouteIn('model_orders_web') }}">
                       <a class="sidebar-link" href="{{ route('model_orders_web') }}">По готов модел</a>
                     </li>
                     {{-- @endif --}}
@@ -276,10 +276,10 @@
                   </span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li {{ Active::ifRouteIn('admin_models') }}>
+                  <li class="{{ Active::ifRouteIn('admin_models') }}">
                     <a class="sidebar-link" href="{{ route('admin_models') }}">Наличности</a>
                   </li>
-                  <li {{ Active::ifRouteIn('show_model_reviews') }}>
+                  <li class="{{ Active::ifRouteIn('show_model_reviews') }}">
                     <a class="sidebar-link" href="{{ route('show_model_reviews') }}">Ревюта</a>
                   </li>
                 </ul>
@@ -305,13 +305,13 @@
                   </span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li {{ Active::ifRouteIn('admin_products') }}>
+                  <li class="{{ Active::ifRouteIn('admin_products') }}">
                     <a class="sidebar-link" href="{{ route('admin_products') }}">Наличности</a>
                   </li>
-                  <li {{ Active::ifRouteIn('products_travelling') }}>
+                  <li class="{{ Active::ifRouteIn('products_travelling') }}">
                     <a class="sidebar-link" href="{{ route('products_travelling') }}">На път</a>
                   </li>
-                  <li {{ Active::ifRouteIn('products_reviews') }}>
+                  <li class="{{ Active::ifRouteIn('products_reviews') }}">
                     <a class="sidebar-link" href="{{ route('products_reviews') }}">Ревюта</a>
                   </li>
                 </ul>
@@ -328,13 +328,13 @@
                   </span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li {{ Active::ifRouteIn('products_others') }}>
+                  <li class="{{ Active::ifRouteIn('products_others') }}">
                     <a class="sidebar-link" href="{{ route('products_others') }}">Наличности</a>
                   </li>
-                  <li {{ Active::ifRouteIn('products_others_types') }}>
+                  <li class="{{ Active::ifRouteIn('products_others_types') }}">
                     <a class="sidebar-link" href="{{ route('products_others_types') }}">Типове</a>
                   </li>
-                  <li {{ Active::ifRouteIn('show_products_others_reviews') }}>
+                  <li class="{{ Active::ifRouteIn('show_products_others_reviews') }}">
                     <a class="sidebar-link" href="{{ route('show_products_others_reviews') }}">Ревюта</a>
                   </li>
                 </ul>
@@ -351,21 +351,21 @@
                   </span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li {{ Active::ifRouteIn('materials_types') }}>
+                  <li class="{{ Active::ifRouteIn('materials_types') }}">
                     <a class="sidebar-link" href="{{ route('materials_types') }}">Типове</a>
                   </li>
 
-                  <li {{ Active::ifRouteIn('materials') }}>
+                  <li class="{{ Active::ifRouteIn('materials') }}">
                     <a class="sidebar-link" href="{{ route('materials') }}">Видове</a>
                   </li>
 
                   {{-- @if(Auth::user()->hasRole('admin')) --}}
-                  <li {{ Active::ifRouteIn('materials_quantity') }}>
+                  <li class="{{ Active::ifRouteIn('materials_quantity') }}">
                     <a class="sidebar-link" href="{{ route('materials_quantity') }}">Наличности</a>
                   </li>
                   {{-- @endif --}}
 
-                  <li {{ Active::ifRouteIn('materials_travelling') }}>
+                  <li class="{{ Active::ifRouteIn('materials_travelling') }}">
                     <a class="sidebar-link" href="{{ route('materials_travelling') }}">На път</a>
                   </li>
 
@@ -382,16 +382,16 @@
               </span>
             </a>
             <ul class="dropdown-menu">
-              <li {{ Active::ifRouteIn('stones') }}>
+              <li class="{{ Active::ifRouteIn('stones') }}">
                 <a class="sidebar-link" href="{{ route('stones') }}">Камъни</a>
               </li>
-              <li {{ Active::ifRouteIn('sizes') }}>
+              <li class="{{ Active::ifRouteIn('sizes') }}">
                 <a class="sidebar-link" href="{{ route('sizes') }}">Размери</a>
               </li>
-              <li {{ Active::ifRouteIn('contours') }}>
+              <li class="{{ Active::ifRouteIn('contours') }}">
                 <a class="sidebar-link" href="{{ route('contours') }}">Контури</a>
               </li>
-              <li {{ Active::ifRouteIn('styles') }}>
+              <li class="{{ Active::ifRouteIn('styles') }}">
                 <a class="sidebar-link" href="{{ route('styles') }}">Стилове</a>
               </li>
             </ul>
@@ -407,10 +407,10 @@
               </span>
             </a>
             <ul class="dropdown-menu">
-              <li {{ Active::ifRouteIn('repair_types') }}>
+              <li class="{{ Active::ifRouteIn('repair_types') }}">
                 <a class="sidebar-link" href="{{ route('repair_types') }}">Видове</a>
               </li>
-              <li {{ Active::ifRouteIn('repairs') }}>
+              <li class="{{ Active::ifRouteIn('repairs') }}">
                 <a class="sidebar-link" href="{{ route('repairs') }}">Ремонти</a>
               </li>
             </ul>
@@ -427,10 +427,10 @@
               </span>
             </a>
             <ul class="dropdown-menu">
-              <li>
+              <li class="{{ Active::ifRouteIn('daily_reports') }}">
                 <a class="sidebar-link" href="{{ route('daily_reports') }}">Дневни</a>
               </li>
-              <li>
+              <li class="{{ Active::ifRouteIn('expenses') }}">
                 <a class="sidebar-link" href="{{ route('expenses') }}">Разходи</a>
               </li>
             </ul>
@@ -447,10 +447,10 @@
               </span>
             </a>
             <ul class="dropdown-menu">
-              <li>
+              <li class="{{ Active::ifRouteIn('stock_prices') }}">
                 <a class="sidebar-link" href="{{ route('stock_prices') }}">Борсови цени</a>
               </li>
-              <li>
+              <li class="{{ Active::ifRouteIn('currencies') }}">
                 <a class="sidebar-link" href="{{ route('currencies') }}">Валути и курсове</a>
               </li>
             </ul>
