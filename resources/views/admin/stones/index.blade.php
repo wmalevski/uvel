@@ -99,7 +99,7 @@
           
           <div class="form-row">
             <div class="form-group col-md-12">
-              <label>Стил: </label>
+              <label>Стил:</label>
               
               <select name="style_id" class="form-control">
                 <option value="">Избери стил</option>
