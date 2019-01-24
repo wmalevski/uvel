@@ -1,4 +1,39 @@
 @extends('admin.layout')
+@php
+$givenMaterialRowTpl = '<div class="form-row given-material">
+						<div class="form-group col-md-4"> 
+							<label for="">Вид</label>
+							<select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate">
+								<option value="">Избери</option>';
+								foreach($mats as $material) {
+									if($material->material->pricesBuy->first() && $material->material->pricesSell->first()) {
+									$givenMaterialRowTpl .= '<option value="'. $material->id .'" data-carat="'. $material->material->carat  .'" data-material="'. $material->material->id  .'"
+										data-pricebuy="'. $material->material->pricesBuy->first()->price  .'"> 
+										'. $material->material->parent->name  .' - 
+										'. $material->material->color  .' - 
+										'. $material->material->carat  .' 
+									</option>';
+									}
+								}
+							$givenMaterialRowTpl .= '</select>
+						</div>
+						<div class="form-group col-md-4">
+							<label for="grossWeight">Количество:</label>
+							
+							<div class="input-group">
+								<input type="number" class="form-control mat-quantity" name="mat_quantity[]" value="1">
+							</div>
+						</div>
+						<div class="form-group col-md-4">
+							<label for="grossWeight">Стойност:</label>
+							<div class="input-group">
+								<input type="number" class="form-control mat-calculated-price" name="calculated_price[]" value="0">
+							</div>
+						</div>
+					</div>';
+
+$givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMaterialRowTpl));
+@endphp
 
 @section('content')
 <div class="modal fade" id="addOrder" role="dialog" aria-labelledby="addOrderlLabel" aria-hidden="true">
@@ -232,43 +267,12 @@
 							<strong>Даден материал:</strong>
 						</div>
 					</div>
-
-					<div class="form-row given-material">
-						<div class="form-group col-md-4">
-							<label for="">Вид</label>
-							
-							<select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate">
-								<option value="">Избери</option>
-								
-								@foreach($mats as $material)
-									@if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
-									<option value="{{ $material->id }}" data-carat="{{ $material->material->carat }}" data-material="{{ $material->material->id }}"
-													data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">
-										{{ $material->material->parent->name }} -
-										{{ $material->material->color }} - 
-										{{ $material->material->carat }}
-									</option>
-									@endif
-								@endforeach
-							</select>
-						</div>
-
-						<div class="form-group col-md-4">
-							<label for="grossWeight">Количество:</label>
-							
-							<div class="input-group">
-								<input type="number" class="form-control mat-quantity" name="mat_quantity[]" value="1">
-							</div>
-						</div>
-
-						<div class="form-group col-md-4">
-							<label for="grossWeight">Стойност:</label>
-							
-							<div class="input-group">
-								<input type="number" class="form-control mat-calculated-price" name="calculated_price[]" value="0">
-							</div>
-						</div>
-					</div>
+					
+					<script>
+						var givenMaterialRow = '{!! $givenMaterialRowTpl !!}';
+					</script>
+					
+					{!! $givenMaterialRowTpl !!}
 
 					<div class="form-row pt-3">
 						<div class="form-group col-md-6 mt-auto">

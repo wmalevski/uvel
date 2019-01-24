@@ -2000,36 +2000,8 @@ var uvel,
       addAnother.on('click', function(event) {
         event.preventDefault();
         
-        // Remove the Select2 plugin from form-row so it can be copied
-        $('.form-row.given-material select').select2('destroy');
-        // Remove the Select2 attributes from all children of form-row
-        $('.form-row.given-material *').removeAttr('data-select2-id');
-        
-        var $givenMaterialFirstRow = $('.form-row.given-material').first(),
-            $givenMaterialLastRow = $('.form-row.given-material').last(),
-            givenMaterialNewRow = $givenMaterialFirstRow[0].outerHTML;
-        
-        var btnRemove = '<div class="form-group col-md-1">' +
-            '<span class="delete-material remove_field" data-removematerials-remove="">' +
-            '<i class="c-brown-500 ti-trash"></i>' +
-            '</span></div>';
-                      
-        $(givenMaterialNewRow).insertAfter($givenMaterialLastRow);
-        
-        // Re-apply the Select2 to all selects in form-row
-        $('.form-row.given-material select').select2();
-        
-        var $lastFormRow = $('.form-row.given-material').last();
-        
-        $lastFormRow.find('.form-group').last()
-          .removeClass('col-md-4')
-          .addClass('col-md-3');
-          
-        $lastFormRow.append(btnRemove);
-        
-        $lastFormRow.find('.remove_field').on('click', function() {
-          $(this).parents('.form-row.given-material').remove();
-        });
+        $(givenMaterialRow).insertAfter($('.form-row.given-material').last());
+        $('.form-row.given-material').last().find('select').select2();
       });
     }
 
