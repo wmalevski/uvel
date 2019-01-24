@@ -188,7 +188,7 @@ var uvel,
         select2obj: [
           {
             selector: 'select[name="model_id"]',
-            callback: 'onOrdersFormSelect'
+            callback: 'onOrdersFormSelectCallback'
           }
         ],
         initialized: false
@@ -1986,19 +1986,10 @@ var uvel,
       })
     }
 
-    this.ordersModelSelectInit = function(form) {
-      var modelSelect = form.find('#model_select');
-
-      $self.initializeSelect(modelSelect, function(event) {
-        $self.onOrdersFormSelect(event, form);
-      });
-    }
-
-    this.onOrdersFormSelect = function(event, form) {
-      var currentSelect = event.currentTarget,
-          ajaxUrl = currentSelect.attributes.url.value,
-          selectedModelId = currentSelect.selectedOptions[0].dataset.modelId,
-          ajaxUrl = window.location.origin + '/' + ajaxUrl + selectedModelId;
+    this.onOrdersFormSelectCallback = function(event, selectElement, form) {
+      var ajax = selectElement[0].attributes.url.value,
+          selectedModelId = selectElement[0].selectedOptions[0].value,
+          ajaxUrl = window.location.origin + '/' + ajax + selectedModelId;
 
       $self.ajaxFn('GET', ajaxUrl, $self.modelRequestResponseHandler, '', form);
     }
