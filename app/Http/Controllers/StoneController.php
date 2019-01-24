@@ -125,6 +125,7 @@ class StoneController extends Controller
         $stone_contours = StoneContour::all();
         $stone_styles = StoneStyle::all();
         $stores = Store::all();
+        $nomenclatures = Nomenclature::all();
         $stone_photos = Gallery::where(
             [
                 ['table', '=', 'stones'],
@@ -132,7 +133,7 @@ class StoneController extends Controller
             ]
         )->get();
         
-        return \View::make('admin/stones/edit', array('stone' => $stone, 'stone_sizes' => $stone_sizes, 'stone_contours' => $stone_contours, 'stone_styles' => $stone_styles, 'stone_photos' => $stone_photos, 'stores' => $stores));
+        return \View::make('admin/stones/edit', array('stone' => $stone, 'stone_sizes' => $stone_sizes, 'stone_contours' => $stone_contours, 'stone_styles' => $stone_styles, 'stone_photos' => $stone_photos, 'stores' => $stores, 'nomenclatures' => $nomenclatures));
     }
 
     /**
