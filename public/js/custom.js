@@ -184,7 +184,13 @@ var uvel,
       },
       orders: {
         selector: '[name="orders"]',
-        controllers: ['ordersModelSelectInit', 'addStonesInit', 'addAnother', 'manualReceipt', 'barcodeInput'],
+        controllers: ['addStonesInit', 'addAnother', 'manualReceipt', 'barcodeInput'],
+        select2obj: [
+          {
+            selector: 'select[name="model_id"]',
+            callback: 'onOrdersFormSelect'
+          }
+        ],
         initialized: false
       },
       nomenclatures: {
@@ -240,6 +246,27 @@ var uvel,
       for (var i = 0; i < tables.length; i++) {
         new Tablesort(tables[i]);
       }
+    }
+    
+    this.dailyReportAttach = function() {
+      var form =  $('form[name="dailyReport"');
+      var dailyReportTrigger = form.find('button[type="submit"]');
+
+      dailyReportTrigger.on('click', function(e) {
+        e.preventDefault();
+        var ajaxUrl = form[0].dataset.scan;
+        
+        $.ajax({
+          method: "POST",
+          url: ajaxUrl,
+          success: function(resp) {
+            $self.formSuccessHandler(form, 'dailyReport', resp);
+          },
+          error: function(err) {
+            $self.formsErrorHandler(err, form);
+          }
+        });
+      });
     }
 
     this.openForm = function(openFormTrigger) {
@@ -881,6 +908,9 @@ var uvel,
         $self.clearForm($('#selling-form'));
       } else if (formType == 'images') {
         text = resp.success;
+      }
+      else if (formType == 'dailyReport') {
+        message = resp.success;
       }
 
       var successMessage = '<div class="alert alert-success">' + text + '</div>';
