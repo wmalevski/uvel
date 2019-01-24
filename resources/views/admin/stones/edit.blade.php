@@ -31,13 +31,11 @@
           <select name="nomenclature_id" class="form-control">
             <option value="">Избери номенклатура</option>
 
-            {{--
             @foreach($nomenclatures as $nomenclature)
             <option value="{{ $nomenclature->id }}" @if($stone->nomenclature == $nomenclature->id) selected @endif>
               {{ $nomenclature->name }}
             </option>
             @endforeach
-            --}}
           </select>
         </div>
       </div>
