@@ -25,7 +25,7 @@
           <option value="">Избер номенклатура</option>
 
           @foreach($nomenclatures as $nomenclature)
-          <option value="{{ $nomenclature->id }}" @if($stone->nomenclature == $nomenclature->id) selected @endif>
+          <option value="{{ $nomenclature->id }}" @if($stone->nomenclature_id == $nomenclature->id) selected @endif>
             {{ $nomenclature->name }}
           </option>
           @endforeach
