@@ -937,7 +937,10 @@ var uvel,
           success: function(response) {
             var modal = currentButton.parents().find('.edit--modal_holder .modal-content');
             modal.html(response);
-            // $self.initializeSelect(_this.parents().find('select'));
+            
+            var selects = $('form[data-type="edit"] select');
+            $self.initializeSelect(selects);
+            
             if (modal.find('[data-calculatePrice-material]').length > 0 && modal.closest('#editProduct').length > 0) {
               for (var i = 0; i < modal.find('[data-calculatePrice-material]').length; i++) {
                 var _this = $(modal.find('[data-calculatePrice-material]')[i]),
