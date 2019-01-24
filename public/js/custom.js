@@ -1999,9 +1999,10 @@ var uvel,
 
       addAnother.on('click', function(event) {
         event.preventDefault();
-        
         $(givenMaterialRow).insertAfter($('.form-row.given-material').last());
-        $('.form-row.given-material').last().find('select').select2();
+        
+        var select = $('.form-row.given-material').last().find('select');
+        $self.initializeSelect(select);
       });
     }
 
