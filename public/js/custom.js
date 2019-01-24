@@ -188,7 +188,7 @@ var uvel,
         select2obj: [
           {
             selector: 'select[name="model_id"]',
-            callback: 'onOrdersFormSelect'
+            callback: 'onOrdersFormSelectCallback'
           }
         ],
         initialized: false
@@ -247,7 +247,7 @@ var uvel,
         new Tablesort(tables[i]);
       }
     }
-
+    
     this.dailyReportAttach = function() {
       var form =  $('form[name="dailyReport"');
       var dailyReportTrigger = form.find('button[type="submit"]');
@@ -1986,9 +1986,9 @@ var uvel,
       })
     }
 
-    this.onOrdersFormSelect = function(event, selectElement, form) {
-      var selectedModelId = selectElement.val(),
-          ajax = selectElement[0].attributes.url.value,
+    this.onOrdersFormSelectCallback = function(event, selectElement, form) {
+      var ajax = selectElement[0].attributes.url.value,
+          selectedModelId = selectElement[0].selectedOptions[0].value,
           ajaxUrl = window.location.origin + '/' + ajax + selectedModelId;
 
       $self.ajaxFn('GET', ajaxUrl, $self.modelRequestResponseHandler, '', form);
@@ -1999,10 +1999,10 @@ var uvel,
 
       addAnother.on('click', function(event) {
         event.preventDefault();
-                
-        var givenMaterialsNewElement = $('.form-row.given-material').first().clone();
+        $(givenMaterialRow).insertAfter($('.form-row.given-material').last());
         
-        $(givenMaterialsNewElement).insertBefore(this);
+        var select = $('.form-row.given-material').last().find('select');
+        $self.initializeSelect(select);
       });
     }
 
