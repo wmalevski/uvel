@@ -42,77 +42,77 @@
         </div>
       </div>
 
-      <div class="form-row model_materials">
+      <div class="model_materials">
         @if($options)
         @foreach($options as $option)
-        @if(!$loop->first)
-        <div class="col-md-12">
-          <div class="col-6">
-            <hr>
+        <div class="form-row">
+          @if(!$loop->first)
+          <div class="col-md-12">
+            <div class="col-6">
+              <hr>
+            </div>
+          </div>
+          @endif
+          <div class="form-group col-md-6">
+            <label>
+              Избери материал:
+            </label>
+            <select id="material_type" name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material>
+              <option value="">
+                Избери
+              </option>
+              @foreach($materials as $material)
+              @if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
+              <option value="{{ $material->id }}" data-material="{{ $material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}"
+                @if($material->id == $option->material_id) selected @endif>
+                {{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->carat }}
+              </option>
+              @endif
+              @endforeach
+            </select>
+          </div>
+
+          <div class="form-group col-md-5">
+            <label>
+              Цена:
+            </label>
+            <select id="retail_price_edit" name="retail_price_id[]" class="form-control calculate prices-filled retail-price" data-calculatePrice-retail>
+              <option value="">
+                Избери
+              </option>
+              @foreach($option->material->material->pricesSell as $price)
+              <option value="{{ $price->id }}" data-material="{{ $price->material_id }}" data-price="{{ $price->price }}"
+                @if($option->retail_price_id == $price->id) selected @endif>
+                {{ $price->slug }} - {{ $price->price }}
+              </option>
+              @endforeach
+            </select>
+          </div>
+
+          @if(!$loop->first)
+          <div class="form-group col-md-1">
+            <span class="delete-material remove_field" data-removeMaterials-remove>
+              <i class="c-brown-500 ti-trash"></i>
+            </span>
+          </div>
+          @endif
+
+          <div class="form-group col-md-12">
+            <div class="radio radio-info">
+              <input type="radio" class=" default_material" id="" name="default_material[]" data-calculatePrice-default
+                @if($option->default == 'yes') checked @endif>
+              <label for="">
+                <span>
+                  Материал по подразбиране
+                </span>
+              </label>
+            </div>
           </div>
         </div>
-        @endif
-        <div class="form-group col-md-6">
-          <label>
-            Избери материал:
-          </label>
-          <select id="material_type" name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material>
-            <option value="">
-              Избери
-            </option>
-            @foreach($materials as $material)
-            @if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
-            <option value="{{ $material->id }}" data-material="{{ $material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}"
-              @if($material->id == $option->material_id) selected @endif>
-              {{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->carat }}
-            </option>
-            @endif
-            @endforeach
-          </select>
-        </div>
-
-        <div class="form-group col-md-6">
-          <label>
-            Цена:
-          </label>
-          <select id="retail_price_edit" name="retail_price_id[]" class="form-control calculate prices-filled retail-price" data-calculatePrice-retail>
-            <option value="">
-              Избери
-            </option>
-            @foreach($option->material->material->pricesSell as $price)
-            <option value="{{ $price->id }}" data-material="{{ $price->material_id }}" data-price="{{ $price->price }}"
-              @if($option->retail_price_id == $price->id) selected @endif>
-              {{ $price->slug }} - {{ $price->price }}
-            </option>
-            @endforeach
-          </select>
-        </div>
-
-        @if(!$loop->first)
-        <div class="form-group col-md-1">
-          <span class="delete-material remove_field" data-removeMaterials-remove>
-            <i class="c-brown-500 ti-trash"></i>
-          </span>
-        </div>
-        @endif
-
         @endforeach
         @endif
       </div>
 
-      <div class="form-row">
-        <div class="form-group col-md-12">
-          <div class="radio radio-info">
-            <input type="radio" class=" default_material" id="" name="default_material[]" data-calculatePrice-default
-              @if($option->default == 'yes') checked @endif>
-            <label for="">
-              <span>
-                Материал по подразбиране
-              </span>
-            </label>
-          </div>
-        </div>
-      </div>
 
       <div class="form-row">
         <div class="form-group col-md-6">
@@ -152,7 +152,7 @@
         </div>
       </div>
 
-      <div class="form-row model_stones">
+      <div class="model_stones">
         @foreach($modelStones as $modelStone)
         <div class="form-row fields">
           <div class="form-group col-md-6">

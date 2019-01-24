@@ -1141,7 +1141,7 @@ var uvel,
         '<div class="form-group col-md-12">' +
         '<div class="radio radio-info">' +
         '<input type="radio" id="" class="default_material" name="default_material[]" data-calculatePrice-default>' +
-        '<label for="">Материал по подразбиране</label>' +
+        '<label for=""><span>Материал по подразбиране</span></label>' +
         '</div>' +
         '</div>';
 
@@ -1399,11 +1399,11 @@ var uvel,
 
       if (sellPrice && buyPrice && netWeight) {
         if (!isWeightWithStones) {
-          var worksmanShipPrice = Math.round(((sellPrice - buyPrice) * netWeight) * 100) / 100,
-            productPrice = Math.round(((sellPrice * netWeight) + naturalStonesPrice) * 100) / 100;
+          var worksmanShipPrice = parseFloat(((sellPrice - buyPrice) * netWeight).toFixed(2)),
+            productPrice = parseFloat(((sellPrice * netWeight) + naturalStonesPrice).toFixed(2));
         } else if (isWeightWithStones) {
-          var worksmanShipPrice = Math.round(((sellPrice - buyPrice) * grossWeight) * 100) / 100,
-            productPrice = Math.round(((sellPrice * grossWeight) + naturalStonesPrice) * 100) / 100;
+          var worksmanShipPrice = parseFloat(((sellPrice - buyPrice) * grossWeight).toFixed(2)),
+            productPrice = parseFloat(((sellPrice * grossWeight) + naturalStonesPrice).toFixed(2));
         }
 
         workmanshipHolder.val(worksmanShipPrice);

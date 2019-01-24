@@ -43,45 +43,42 @@
 						</div>
 					</div>
 
-					<div class="form-row model_materials">
+					<div class="model_materials">
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label>Избери материал:</label>
+								<select id="material_type" name="material_id[]" data-calculatePrice-material class="material_type form-control calculate">
+									<option value="">Избери</option>
 
-						<div class="form-group col-md-6">
-							<label>Избери материал:</label>
-							<select id="material_type" name="material_id[]" data-calculatePrice-material class="material_type form-control calculate">
-								<option value="">Избери</option>
+									@foreach($materials as $material)
+									@if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
+									<option value="{{ $material->id }}" data-material="{{ $material->material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">
+										{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->carat }}
+									</option>
+									@endif
+									@endforeach
+								</select>
+							</div>
 
-								@foreach($materials as $material)
-								@if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
-								<option value="{{ $material->id }}" data-material="{{ $material->material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">
-									{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->carat }}
-								</option>
-								@endif
-								@endforeach
-							</select>
-						</div>
-
-						<div class="form-group col-md-6">
-							<label>
-								Цена:
-							</label>
-							<select id="retail_prices" name="retail_price_id[]" class="form-control calculate prices-filled retail-price" data-calculatePrice-retail disabled>
-								<option value="">
-									Избери
-								</option>
-							</select>
-						</div>
-
-					</div>
-
-					<div class="form-row">
-						<div class="form-group col-md-12">
-							<div class="radio radio-info">
-								<input type="radio" class="default_material not-clear" id="" name="default_material[]" data-calculatePrice-default checked>
-								<label for="">
-									<span>
-										Материал по подразбиране
-									</span>
+							<div class="form-group col-md-6">
+								<label>
+									Цена:
 								</label>
+								<select id="retail_prices" name="retail_price_id[]" class="form-control calculate prices-filled retail-price" data-calculatePrice-retail disabled>
+									<option value="">
+										Избери
+									</option>
+								</select>
+							</div>
+							<div class="form-group col-md-12">
+								<div class="radio radio-info">
+									<input type="radio" class="default_material not-clear" id="" name="default_material[]" data-calculatePrice-default checked>
+									<label for="">
+										<span>
+											Материал по подразбиране
+										</span>
+									</label>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -123,7 +120,7 @@
 						</div>
 					</div>
 
-					<div class="from-row model_stones"></div>
+					<div class="model_stones"></div>
 					
 					<div class="form-row">
 						<div class="form-group col-md-6 mt-auto">

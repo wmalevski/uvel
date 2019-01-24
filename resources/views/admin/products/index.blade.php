@@ -131,7 +131,7 @@
 						</div>
 					</div>
 
-					<div class="form-row model_stones"></div>
+					<div class="model_stones"></div>
 
 					<div class="form-row">
 						<div class="form-group col-md-6 mt-auto">
@@ -343,9 +343,7 @@
 
 @section('footer-scripts')
 <script id="stones_data" type="application/json">
-	{
-		!!$jsStones!!
-	}
+	{!!$jsStones!!}
 </script>
 
 @endsection
