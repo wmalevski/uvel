@@ -64,7 +64,7 @@ aria-hidden="true">
               <th scope="col">Име</th> 
               <th scope="col">Адрес</th>
               <th scope="col">Телефон</th>
-              <th scope="col">Действия</th>
+              <th scope="col" data-sort-method="none">Действия</th>
             </tr>
           </thead>
           <tbody>

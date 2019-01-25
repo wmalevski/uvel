@@ -47,14 +47,18 @@ aria-hidden="true">
 <h3>Добави друг тип <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="otherProductsTypes" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
 
 <table class="table table-condensed">
-    <tr>
-        <th>Име</th>
-        <th></th>
-    </tr>
+    <thead>
+        <tr>
+            <th>Име</th>
+            <th data-sort-method="none"></th>
+        </tr>
+    </thead>
     
-    @foreach($products_others_types as $type)
-        @include('admin.products_others_types.table')
-    @endforeach
+    <tbody>
+        @foreach($products_others_types as $type)
+            @include('admin.products_others_types.table')
+        @endforeach
+    </tbody>
 </table>
 
 @endsection

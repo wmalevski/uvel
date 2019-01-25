@@ -99,11 +99,11 @@ aria-hidden="true">
             <tr>
               <th scope="col">Име</th> 
               <th scope="col">Дължима сума</th> 
-              {{-- <th class="sort-false" scope="col">Email</th>
+              {{-- <th data-sort-method="none" scope="col">Email</th>
               <th scope="col">Вид</th>
               <th scope="col">Магазин</th>
               --}}
-              <th class="sort-false" scope="col">Действия</th>
+              <th data-sort-method="none" scope="col">Действия</th>
             </tr>
           </thead>
           <tbody>

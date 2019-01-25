@@ -266,40 +266,19 @@
 
 <table class="table table-condensed tablesort">
 	<thead>
-
-		<tr>
-			<th class="sort-false">
-				Снимка
-			</th>
-			<th class="sort-false">
-				Уникален номер
-			</th>
-			<th>
-				Модел
-			</th>
-			<th>
-				Вид бижу
-			</th>
-			<th class="sort-false">
-				Цена на дребно
-			</th>
-			<th class="sort-false">
-				Тегло
-			</th>
-			<th>
-				Цена
-			</th>
-			<th class="sort-false">
-				Баркод
-			</th>
-			<th>
-				Статус
-			</th>
-			<th class="sort-false">
-				Действия
-			</th>
+		<tr data-sort-method="thead">
+			<th data-sort-method="none">Снимка</th>
+			<th data-sort-method="none">Уникален номер</th>
+			<th>Модел</th>
+			<th>Вид бижу</th>
+			<th data-sort-method="none">Цена на дребно</th>
+			<th data-sort-method="none">Тегло</th>
+			<th>Цена</th>
+			<th data-sort-method="none">Баркод</th>
+			<th>Статус</th>
+			<th data-sort-method="none">Действия</th>
 		</tr>
-
+		
 		<tr class="search-inputs">
 			<th></th>
 			<th>
@@ -333,6 +312,7 @@
 			<th></th>
 		</tr>
 	</thead>
+
 	<tbody>
 		@foreach($products as $product)
 		@include('admin.products.table')

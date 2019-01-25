@@ -102,18 +102,22 @@ aria-hidden="true">
         <h4 class="c-grey-900 mB-20">Материали <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="materials" data-toggle="modal" data-target="#addMaterial">Добави</button></h4>
         <p>Преглед на създадените материали.</p>
         <table class="table">
-            <tr>
-                <th style="width: 16%">Тип</th>
-                <th style="width: 14%">Проба</th> 
-                <th style="width: 14%">Цвят</th> 
-                <th style="width: 14%">Карат</th>
-                <th style="width: 14%">Борсова Цена</th>
-                <th style="width: 12%">Действия</th> 
-            </tr>
+            <thead>
+                <tr>
+                    <th>Тип</th>
+                    <th>Проба</th> 
+                    <th>Цвят</th> 
+                    <th>Карат</th>
+                    <th>Борсова Цена</th>
+                    <th data-sort-method="none">Действия</th> 
+                </tr>
+            </thead>
             
-            @foreach($materials as $material)
-                @include('admin.materials.table')
-            @endforeach
+            <tbody>
+                @foreach($materials as $material)
+                    @include('admin.materials.table')
+                @endforeach
+            </tbody>
         </table>
       </div>
     </div>

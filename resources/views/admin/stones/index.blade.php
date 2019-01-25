@@ -190,7 +190,7 @@
             <th scope="col">Количество</th>
             <th scope="col">Магазин</th>
             <th scope="col">Цена</th>
-            <th class="sort-false" scope="col">Действия</th>
+            <th data-sort-method="none" scope="col">Действия</th>
           </tr>
         </thead>
         <tbody>
