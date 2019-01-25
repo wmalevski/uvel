@@ -50,3 +50,12 @@ form .select2-selection__rendered {
 form .form-group {
 	margin-bottom: 10px;
 }
+
+/* Admin Panel Side menu */
+.nav-item.active > a, .nav-item.active li.active {
+	background: #d2d2d2;
+}
+
+.nav-item .dropdown-menu {
+	margin-top: 0 !important;
+}
