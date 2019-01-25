@@ -86,7 +86,7 @@
               </h4>
               <p>Преглед на пътуващите продукти.</p>
               <table class="table table-condensed">
-                  <tr>
+                  <tr data-sort-method="none">
                       <th>Продукт</th>
                       <th>Изпратен на</th>
                       <th>От магазин</th>
