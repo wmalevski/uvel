@@ -1,5 +1,84 @@
 @extends('admin.layout')
+@php
+$newMaterialRow =
+				'<div class="col-12">
+					<div class="col-6">
+						<hr>
+					</div>
+				</div>
+				<div class="form-group col-md-6">
+					<label>Избери материал: </label>
+					<select id="material_type" name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material>
+						<option value="0">Избери</option>';
+						foreach($materials as $material) {
+								if($material->material->pricesBuy->first() && $material->material->pricesSell->first()) {
+								$newMaterialRow .= '<option value="'. $material->id .'" data-carat="'. $material->material->carat  .'" data-material="'. $material->material->id  .'"
+									data-pricebuy="'. $material->material->pricesBuy->first()->price  .'"> 
+									'. $material->material->parent->name  .' - 
+									'. $material->material->color  .' - 
+									'. $material->material->carat  .' 
+								</option>';
+								}
+							}
+						$newMaterialRow .= '</select>
+				</div>
+				<div class="form-group col-md-5">
+					<label>Цена: </label>
+					<select id="retail_prices" name="retail_price_id[]" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail disabled>
+						<option value="0">Избери</option>
+					</select>
+				</div>
+				<div class="form-group col-md-1">
+					<span class="delete-material remove_field" data-materials-remove><i class="c-brown-500 ti-trash"></i></span>
+				</div>
+				<div class="form-group col-md-12">
+					<div class="radio radio-info">
+					<input type="radio" id="" class="default_material" name="default_material[]" data-calculatePrice-default>
+					<label for=""><span>Материал по подразбиране</span></label>
+				</div>';
 
+$newMaterialRow = str_replace("\n", "", str_replace("\r", "", $newMaterialRow));
+
+$newStoneRow =
+				'<div class="form-group col-md-6"><label>Камък:</label>
+					<select name="stones[]" class="form-control" data-calculatePrice-stone>';
+						foreach($stones as $stone) {
+							$newStoneRow .= '<option value="'. $stone->id .'" data-stone-price="'. $stone->price .'" data-stone-type="'. $stone->type .'"> 
+								'. $stone->nomenclature->name  .' - 
+								'. $stone->contour->name  .' - 
+								'. $stone->size->name  .' 
+							</option>';
+						}
+						$newStoneRow .= '</select>
+				</div>
+				<div class="form-group col-md-4">
+					<label>Брой:</label>
+					<input type="text" value="" class="form-control calculate-stones" name="stone_amount[]" data-calculateStones-amount placeholder="Брой">
+				</div>
+				<div class="form-group col-md-2">
+					<span class="delete-stone remove_field" data-stone-remove><i class="c-brown-500 ti-trash"></i></span>
+				</div>
+				<div class="form-group col-md-6">
+					<div class="form-group">
+						<label>Тегло: </label>
+						<div class="input-group">
+							<input type="number" value="" class="form-control calculate-stones" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">
+							<span class="input-group-addon">гр</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group col-md-6">
+					<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder">
+						<input type="checkbox" id="" class="stone-flow calculate-stones" name="stone_flow[]" class="peer">
+						<label for="" class="peers peer-greed js-sb ai-c">
+							<span class="peer peer-greed">За леене</span>
+						</label>
+						<span class="row-total-weight"></span>
+					</div>
+				</div>';
+
+$newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
+@endphp
 @section('content')
 
 <div class="modal fade" id="addModel" role="dialog" aria-labelledby="addModelLabel" aria-hidden="true">
@@ -283,11 +362,8 @@
 @endsection
 
 @section('footer-scripts')
-<script id="stones_data" type="application/json">
-	{!!$jsStones!!}
-</script>
-
-<script id="materials_data" type="application/json">
-	{!!$jsMaterials!!}
+<script>
+	var newMaterialRow = '{!! $newMaterialRow !!}',
+		newStoneRow = '{!! $newStoneRow !!}';
 </script>
 @endsection

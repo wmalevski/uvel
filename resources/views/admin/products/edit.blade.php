@@ -126,7 +126,7 @@
                     </div>
 
                     <div class="form-group col-md-2">
-                        <span class="delete-stone remove_field" data-removestone-remove><i class="c-brown-500 ti-trash"></i></span>
+                        <span class="delete-stone remove_field" data-stone-remove><i class="c-brown-500 ti-trash"></i></span>
                     </div>
 
                     <div class="form-group col-md-6">

@@ -1,5 +1,45 @@
 @extends('admin.layout')
+@php
+$newStoneRow =
+				'<div class="form-group col-md-6"><label>Камък:</label>
+					<select name="stones[]" class="form-control" data-calculatePrice-stone>';
+						foreach($stones as $stone) {
+							$newStoneRow .= '<option value="'. $stone->id .'" data-stone-price="'. $stone->price .'" data-stone-type="'. $stone->type .'"> 
+								'. $stone->nomenclature->name  .' - 
+								'. $stone->contour->name  .' - 
+								'. $stone->size->name  .' 
+							</option>';
+						}
+						$newStoneRow .= '</select>
+				</div>
+				<div class="form-group col-md-4">
+					<label>Брой:</label>
+					<input type="text" value="" class="form-control calculate-stones" name="stone_amount[]" data-calculateStones-amount placeholder="Брой">
+				</div>
+				<div class="form-group col-md-2">
+					<span class="delete-stone remove_field" data-stone-remove><i class="c-brown-500 ti-trash"></i></span>
+				</div>
+				<div class="form-group col-md-6">
+					<div class="form-group">
+						<label>Тегло: </label>
+						<div class="input-group">
+							<input type="number" value="" class="form-control calculate-stones" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">
+							<span class="input-group-addon">гр</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group col-md-6">
+					<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder">
+						<input type="checkbox" id="" class="stone-flow calculate-stones" name="stone_flow[]" class="peer">
+						<label for="" class="peers peer-greed js-sb ai-c">
+							<span class="peer peer-greed">За леене</span>
+						</label>
+						<span class="row-total-weight"></span>
+					</div>
+				</div>';
 
+$newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
+@endphp
 @section('content')
 <div class="modal fade" id="addProduct" role="dialog" aria-labelledby="addProductlLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
@@ -322,8 +362,7 @@
 @endsection
 
 @section('footer-scripts')
-<script id="stones_data" type="application/json">
-	{!!$jsStones!!}
+<script>
+	var newStoneRow = '{!! $newStoneRow !!}';
 </script>
-
 @endsection

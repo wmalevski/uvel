@@ -91,7 +91,7 @@
 
           @if(!$loop->first)
           <div class="form-group col-md-1">
-            <span class="delete-material remove_field" data-removematerials-remove>
+            <span class="delete-material remove_field" data-materials-remove>
               <i class="c-brown-500 ti-trash"></i>
             </span>
           </div>
@@ -161,14 +161,11 @@
             </label>
 
             <select id="model-stone" name="stones[]" class="form-control" data-calculatePrice-stone>
-              <option value="">
-                Избери
-              </option>
               @foreach($stones as $stone)
               <option value="{{ $stone->id }}" @if($modelStone->stone->id == $stone->id) selected @endif
                 data-stone-type="{{
                 $stone->type }}" data-stone-price="{{ $stone->price }}">
-                {{ $modelStone->stone->name }}
+                {{ $modelStone->stone->nomenclature->name }}
                 ({{ $modelStone->stone->contour->name }}, {{ $modelStone->stone->style->name }})
               </option>
               @endforeach
@@ -184,7 +181,7 @@
           </div>
 
           <div class="form-group col-md-2">
-            <span class="delete-stone remove_field" data-removestone-remove>
+            <span class="delete-stone remove_field" data-stone-remove>
               <i class="c-brown-500 ti-trash"></i>
             </span>
           </div>
@@ -307,13 +304,3 @@
 
   </form>
 </div>
-
-@section('footer-scripts')
-<script id="stones_data" type="application/json">
-  {!!$jsStones!!}
-</script>
-
-<script id="materials_data" type="application/json">
-  {!!$jsMaterials!!}
-</script>
-@endsection
