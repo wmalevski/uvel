@@ -861,7 +861,7 @@ var uvel,
     }
 
 
-    // functionTHAT READS ALL THE ERRORS RETURNED FROM THE REQUEST AND APPEND THEM IN THE MODAL-FORM-BODY
+    // FUNCTION THAT READS ALL THE ERRORS RETURNED FROM THE REQUEST AND APPEND THEM IN THE MODAL-FORM-BODY
 
     this.formsErrorHandler = function(err, form) {
       var errorObject = form.find('[data-repair-scan]').length > 0 ? err.errors : err.responseJSON.errors,
@@ -884,7 +884,7 @@ var uvel,
       form.find('.modal-body .info-cont').append(errorMessagesHolder);
     }
 
-    // functionFOR ADDING THE RESPONSE ROW (RETURNED AS HTML) TO THE TABLE
+    // FUNCTION FOR ADDING THE RESPONSE ROW (RETURNED AS HTML) TO THE TABLE
 
     this.appendResponseToTable = function(response, form) {
       var responseHTML = response.success,
@@ -916,7 +916,7 @@ var uvel,
       $self.print(newPrintTrigger);
     }
 
-    // functionTHAT APPENDS SUCCESS MESSAGES TO THE FORM WHEN THE REQUEST IS SUCCESS
+    // FUNCTION THAT APPENDS SUCCESS MESSAGES TO THE FORM WHEN THE REQUEST IS SUCCESS
 
     this.formSuccessHandler = function(form, formType, resp) {
       if ($('.error--messages_holder').length) {
@@ -991,7 +991,7 @@ var uvel,
       }
     }
 
-    // functionFOR REPLACING THE TR ROW IN THE TABLE ( THAT"s FOR THE EDIT )
+    // FUNCTION FOR REPLACING THE TR ROW IN THE TABLE ( THAT"s FOR THE EDIT )
 
     this.replaceResponseRowToTheTable = function(form, response) {
       var replaceRowHTML = response.table,
@@ -1023,14 +1023,14 @@ var uvel,
       $self.returnRepairBtnAction(returnRepairBtn);
     }
 
-    // functionTO MOVE ROW FROM ONE TABLE TO ANOTHER WHEN EDITING ON SCREENS WITH MULTIPLE TABLES
+    // FUNCTION TO MOVE ROW FROM ONE TABLE TO ANOTHER WHEN EDITING ON SCREENS WITH MULTIPLE TABLES
 
     this.moveRowToTheTable = function(row, targetTable, replaceRowHTML) {
       row.remove();
       targetTable.append(replaceRowHTML);
     }
 
-    // functionTHAT DISPLAY THE EDIT SUCCESS MESSAGE.
+    // FUNCTION THAT DISPLAY THE EDIT SUCCESS MESSAGE.
 
     this.formSuccessEditMessageHandler = function(form) {
       if ($('.error--messages_holder').length) {
@@ -1047,7 +1047,7 @@ var uvel,
       }, 2000);
     }
 
-    // functionTHAT BUILDS THE AJAX REQUEST LINK
+    // FUNCTION THAT BUILDS THE AJAX REQUEST LINK
 
     this.buildAjaxRequestLink = function(type, path) {
       var prefix;
