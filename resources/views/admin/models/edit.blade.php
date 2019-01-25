@@ -57,7 +57,7 @@
             <label>
               Избери материал:
             </label>
-            <select id="material_type" name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material>
+            <select name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material>
               <option value="">
                 Избери
               </option>

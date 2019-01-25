@@ -1104,10 +1104,15 @@ var uvel,
     this.addMaterials = function(form) {
       var materialsWrapper = form.find('.model_materials');
       var newRow = document.createElement('div');
+      var hr = '<div class="col-12"><div class="col-6"><hr></div></div>';
 
       $(newRow).addClass('form-row');
 
-      newRow.innerHTML = newMaterialRow;
+      newRow.innerHTML = hr + newMaterialRow;
+
+      var select = $(newRow).find('select');
+      $self.initializeSelect(select);
+    
       materialsWrapper.append(newRow);
 
       var defaultBtnsCollection = $('.default_material');
@@ -1175,7 +1180,10 @@ var uvel,
           $(fieldsHolder).find('[data-calculateStones-weight]').attr('value', weight);
           $(fieldsHolder).find('.stone-flow').addClass(flow);
         }
-    
+
+        var select = $(fieldsHolder).find('select');
+        $self.initializeSelect(select);
+
         stonesWrapper.append(fieldsHolder);
 
         var forFlowCollection = $('.stone-flow');
