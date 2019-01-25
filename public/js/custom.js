@@ -37,7 +37,7 @@ var uvel,
       },
       otherProducts: {
         selector: '[name="productsOthers"]',
-        controllers: [],
+        controllers: ['imageHandling'],
         initialized: false
       },
       materialTypes: {
