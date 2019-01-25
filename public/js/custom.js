@@ -793,6 +793,9 @@ var uvel,
         }
       }
 
+      // Reset all Select2 selectors
+      $('select').val(null).trigger('change');
+      
       stoneRowsContainer.empty();
       imagesContainer.empty();
 
