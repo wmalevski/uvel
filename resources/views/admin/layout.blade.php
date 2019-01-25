@@ -11,10 +11,6 @@
       width: 100% !important;
     }
 
-    .nav-item.active{
-      background: #d2d2d2;
-    }
-
     #loader {
       transition: all .3s ease-in-out;
       opacity: 1;
