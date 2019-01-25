@@ -49,14 +49,18 @@ aria-hidden="true">
         <h4 class="c-grey-900 mB-20">Тип Материал <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="materialTypes" data-toggle="modal" data-target="#addMaterial">Добави</button></h4>
         <p>Преглед на създадените типове материали.</p>
         <table class="table">
-            <tr>
-                <th style="width: 32%;">Име</th> 
-                <th style="width: 12%">Действия</th> 
-            </tr>
+            <thead>
+                <tr>
+                    <th style="width: 32%;">Име</th> 
+                    <th style="width: 12%">Действия</th> 
+                </tr>
+            </thead>
             
-            @foreach($materials as $material)
-                @include('admin.materials_types.table')
-            @endforeach
+            <tbody>
+                @foreach($materials as $material)
+                    @include('admin.materials_types.table')
+                @endforeach
+            </tbody>
         </table>
       </div>
     </div>

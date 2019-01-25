@@ -84,16 +84,20 @@ aria-hidden="true">
         </h4>
         <p>Преглед на наличност.</p>
         <table class="table table-condensed">
-            <tr>
-                <th>Тип</th> 
-                <th>Количество/гр</th> 
-                <th>Магазин</th>
-                <th>Действия</th> 
-            </tr>
+            <thead>
+                <tr>
+                    <th>Тип</th> 
+                    <th>Количество/гр</th> 
+                    <th>Магазин</th>
+                    <th>Действия</th> 
+                </tr>
+            </thead>
             
-            @foreach($materials as $material)
-                @include('admin.materials_quantity.table')
-            @endforeach
+            <tbody>
+                @foreach($materials as $material)
+                    @include('admin.materials_quantity.table')
+                @endforeach
+            </tbody>
         </table>
       </div>
     </div>

@@ -89,13 +89,13 @@ aria-hidden="true">
         <table class="table table-condensed tablesort">
             <thead>
                 <tr>
-                    <th class="sort-false">Баркод</th>
+                    <th data-sort-method="none">Баркод</th>
                     <th>Отстъпка</th>
-                    <th class="sort-false">Валидна до</th>
+                    <th data-sort-method="none">Валидна до</th>
                     <th>Статус</th>
-                    <th class="sort-false">Потребител</th>
+                    <th data-sort-method="none">Потребител</th>
                     <th>Използвана</th>
-                    <th class="sort-false">Действия</th>
+                    <th data-sort-method="none">Действия</th>
                 </tr>
             </thead>
             <tbody>

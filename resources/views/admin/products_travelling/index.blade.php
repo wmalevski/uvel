@@ -86,18 +86,22 @@
               </h4>
               <p>Преглед на пътуващите продукти.</p>
               <table class="table table-condensed">
-                  <tr data-sort-method="none">
-                      <th>Продукт</th>
-                      <th>Изпратен на</th>
-                      <th>От магазин</th>
-                      <th>До магазин</th>
-                      <th>Статус</th>
-                      <th></th>
-                  </tr>
-
-                  @foreach($travelling as $product)
-                      @include('admin.products_travelling.table')
-                  @endforeach
+                <thead>
+                    <tr data-sort-method="none">
+                        <th>Продукт</th>
+                        <th>Изпратен на</th>
+                        <th>От магазин</th>
+                        <th>До магазин</th>
+                        <th>Статус</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                  
+                <tbody>
+                    @foreach($travelling as $product)
+                        @include('admin.products_travelling.table')
+                    @endforeach
+                </tbody>
               </table>
             </div>
           </div>

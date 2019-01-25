@@ -345,14 +345,14 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
 <table class="table table-condensed tablesort">
 	<thead>
 		<tr>
-			<th class="sort-false">Уникален номер</th>
+			<th data-sort-method="none">Уникален номер</th>
 			<th>Модел</th>
 			<th>Вид бижу</th>
-			<th class="sort-false">Цена на дребно</th>
-			<th class="sort-false">Тегло</th>
+			<th data-sort-method="none">Цена на дребно</th>
+			<th data-sort-method="none">Тегло</th>
 			<th>Цена</th>
 			<th>Статус</th>
-			<th class="sort-false">Действия</th>
+			<th data-sort-method="none">Действия</th>
 		</tr>
 	</thead>
 	<tbody>

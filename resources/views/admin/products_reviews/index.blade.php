@@ -13,7 +13,7 @@
                     <th>Заглавие</th>
                     <th>Рейтинг</th>
                     <th>Продукт</th>
-                    <th class="sort-false">Действия</th> 
+                    <th data-sort-method="none">Действия</th> 
                 </tr>
             </thead>
             <tbody>

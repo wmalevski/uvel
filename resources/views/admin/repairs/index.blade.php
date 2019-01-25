@@ -317,11 +317,11 @@ aria-hidden="true">
                         <th scope="col">Баркод</th>
                         <th scope="col">Уникален номер</th>
                         <th scope="col">Име</th>
-                        <th class="sort-false" scope="col">Телефон</th>
+                        <th data-sort-method="none" scope="col">Телефон</th>
                         <th scope="col">Тип ремонт</th>
                         <th scope="col">Статус</th>
-                        <th class="sort-false" scope="col">Дата</th>
-                        <th class="sort-false" scope="col">Действия</th>
+                        <th data-sort-method="none" scope="col">Дата</th>
+                        <th data-sort-method="none" scope="col">Действия</th>
                     </tr>
                 </thead>
                 <tbody>

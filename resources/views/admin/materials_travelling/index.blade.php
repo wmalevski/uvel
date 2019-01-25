@@ -76,21 +76,25 @@ aria-hidden="true">
               </h4>
               <p>Преглед на пътуващите материали.</p>
               <table class="table table-condensed">
-                  <tr>
-                      <th>Тип</th> 
-                      <th>Количество/гр</th> 
-                      <th>Стойност</th> 
-                      <th>Изпратен на</th>
-                      <th>От магазин</th> 
-                      <th>До магазин</th> 
-                      <th>Статус</th> 
-                      <th></th> 
-                      <th></th> 
-                  </tr>
+                <thead>
+                    <tr>
+                        <th>Тип</th> 
+                        <th>Количество/гр</th> 
+                        <th>Стойност</th> 
+                        <th>Изпратен на</th>
+                        <th>От магазин</th> 
+                        <th>До магазин</th> 
+                        <th>Статус</th> 
+                        <th></th> 
+                        <th></th> 
+                    </tr>
+                </thead>
                   
-                  @foreach($travelling as $material)
-                      @include('admin.materials_travelling.table')
-                  @endforeach
+                <tbody>
+                    @foreach($travelling as $material)
+                        @include('admin.materials_travelling.table')
+                    @endforeach
+                </tbody>
               </table>
             </div>
           </div>
