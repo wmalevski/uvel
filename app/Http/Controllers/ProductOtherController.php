@@ -90,6 +90,9 @@ class ProductOtherController extends Controller
         $product->barcode = $digits . $check_digit;
 
         $product->save();
+        
+        $path = public_path('uploads/products_others/');
+        File::makeDirectory($path, 0775, true, true);
 
         $file_data = $request->input('images'); 
         if($file_data){
@@ -107,9 +110,9 @@ class ProductOtherController extends Controller
                 $file_name = 'productotherimage_'.uniqid().time().'.'.$ext;
 
                 $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                file_put_contents(public_path('uploads/productsothers/').$file_name, $data);
+                file_put_contents(public_path('uploads/products_others/').$file_name, $data);
 
-                Storage::disk('public')->put('productsothers/'.$file_name, file_get_contents(public_path('uploads/productsothers/').$file_name));
+                Storage::disk('public')->put('products_others/'.$file_name, file_get_contents(public_path('uploads/products_others/').$file_name));
 
                 $photo = new Gallery();
                 $photo->photo = $file_name;
@@ -162,7 +165,7 @@ class ProductOtherController extends Controller
 
         $photos = Gallery::where(
             [
-                ['table', '=', 'products'],
+                ['table', '=', 'products_others'],
                 ['product_other_id', '=', $productOther->id]
             ]
         )->get();
@@ -170,8 +173,8 @@ class ProductOtherController extends Controller
         $pass_photos = array();
 
         foreach($photos as $photo){
-            $url =  Storage::get('public/productsothers/'.$photo->photo);
-            $ext_url = Storage::url('public/productsothers/'.$photo->photo);
+            $url =  Storage::get('public/products_others/'.$photo->photo);
+            $ext_url = Storage::url('public/products_others/'.$photo->photo);
             
             $info = pathinfo($ext_url);
             
@@ -234,6 +237,37 @@ class ProductOtherController extends Controller
         }
         
         $productOther->save();
+
+        $path = public_path('uploads/products_others/');
+        File::makeDirectory($path, 0775, true, true);
+
+        $file_data = $request->input('images'); 
+        if($file_data){
+            foreach($file_data as $img){
+                $memi = substr($img, 5, strpos($img, ';')-5);
+                
+                $extension = explode('/',$memi);
+                if($extension[1] == "svg+xml"){
+                    $ext = 'png';
+                }else{
+                    $ext = $extension[1];
+                }
+                
+
+                $file_name = 'productotherimage_'.uniqid().time().'.'.$ext;
+
+                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                file_put_contents(public_path('uploads/products_others/').$file_name, $data);
+
+                Storage::disk('public')->put('products_others/'.$file_name, file_get_contents(public_path('uploads/products_others/').$file_name));
+
+                $photo = new Gallery();
+                $photo->photo = $file_name;
+                $photo->product_other_id = $productOther->id;
+                $photo->table = 'products_others';
+                $photo->save();
+            }
+        }
         
         return Response::json(array('table' => View::make('admin/products_others/table',array('product'=>$productOther))->render(), 'ID' => $productOther->id));
     }
