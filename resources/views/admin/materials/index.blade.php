@@ -103,15 +103,16 @@ aria-hidden="true">
         <p>Преглед на създадените материали.</p>
         <table class="table">
             <thead>
-                <tr data-sort-method="thead">
-                    <th style="width: 16%">Тип</th>
-                    <th style="width: 14%">Проба</th> 
-                    <th style="width: 14%">Цвят</th> 
-                    <th style="width: 14%">Карат</th>
-                    <th style="width: 14%">Борсова Цена</th>
-                    <th style="width: 12%">Действия</th> 
+                <tr>
+                    <th>Тип</th>
+                    <th>Проба</th> 
+                    <th>Цвят</th> 
+                    <th>Карат</th>
+                    <th>Борсова Цена</th>
+                    <th data-sort-method="none">Действия</th> 
                 </tr>
             </thead>
+            
             <tbody>
                 @foreach($materials as $material)
                     @include('admin.materials.table')

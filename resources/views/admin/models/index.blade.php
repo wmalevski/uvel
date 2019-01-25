@@ -240,56 +240,48 @@
 </h3>
 
 <table class="table table-condensed models-table tablesort">
-	<tr data-sort-method="none">
-		<th>
-			Име
-		</th>
-		<th>
-			Вид бижу
-		</th>
-		<th>
-			Тегло
-		</th>
-		<th>
-			Изработка
-		</th>
-		<th>
-			Цена
-		</th>
-		<th>
-			Действия
-		</th>
-		<th></th>
-	</tr>
+	<thead>
+		<tr data-sort-method="thead">
+			<th>Име</th>
+			<th>Вид бижу</th>
+			<th>Тегло</th>
+			<th>Изработка</th>
+			<th>Цена</th>
+			<th data-sort-method="none">Действия</th>
+			<th data-sort-method="none"></th>
+		</tr>
 
-	<tr class="search-inputs" data-sort-method="none">
-		<th>
-			<input class="filter-input form-control" type="text" data-search-attribute="data-name" placeholder="Търси по име">
-		</th>
-		<th>
-			<input class="filter-input form-control" type="text" data-search-attribute="data-type" placeholder="Търси по вид">
-		</th>
-		<th>
-			<input class="filter-input form-control" type="number" data-search-attribute="data-weight" placeholder="Търси по тегло">
-		</th>
-		<th>
-			<input class="filter-input form-control" type="number" data-search-attribute="data-workmanship" placeholder="Търси по изработка">
-		</th>
-		<th>
-			<input class="filter-input form-control" type="number" data-search-attribute="data-price" placeholder="Търси по цена">
-		</th>
-		<th>
-			<button type="button" class="btn btn-primary btn-clear-filters">
-				<strong>X</strong>
-				Изчисти филтри
-			</button>
-		</th>
-		<th></th>
-	</tr>
-
-	@foreach($models as $model)
-	@include('admin.models.table')
-	@endforeach
+		<tr class="search-inputs">
+			<th>
+				<input class="filter-input form-control" type="text" data-search-attribute="data-name" placeholder="Търси по име">
+			</th>
+			<th>
+				<input class="filter-input form-control" type="text" data-search-attribute="data-type" placeholder="Търси по вид">
+			</th>
+			<th>
+				<input class="filter-input form-control" type="number" data-search-attribute="data-weight" placeholder="Търси по тегло">
+			</th>
+			<th>
+				<input class="filter-input form-control" type="number" data-search-attribute="data-workmanship" placeholder="Търси по изработка">
+			</th>
+			<th>
+				<input class="filter-input form-control" type="number" data-search-attribute="data-price" placeholder="Търси по цена">
+			</th>
+			<th>
+				<button type="button" class="btn btn-primary btn-clear-filters">
+					<strong>X</strong>
+					Изчисти филтри
+				</button>
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	
+	<tbody>
+		@foreach($models as $model)
+			@include('admin.models.table')
+		@endforeach
+	</tbody>
 </table>
 @endsection
 

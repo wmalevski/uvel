@@ -107,7 +107,7 @@
               <th scope="col">Магазин</th>
               <th scope="col">Дата от</th>
               <th scope="col">Дата до</th>
-              <th scope="col">Действия</th>
+              <th scope="col" data-sort-method="none">Действия</th>
             </tr>
           </thead>
           <tbody>

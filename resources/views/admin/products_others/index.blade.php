@@ -95,19 +95,23 @@ aria-hidden="true">
 <h3>Добави друг продукт <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="otherProducts" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
 
 <table class="table table-condensed tablesort">
-    <tr>
-        <th>Баркод</th> 
-        <th>Модел</th>
-        <th>Цена/бр</th>
-        <th>Количество</th>
-        <th>Магазин</th>
-        <th>Уникален номер</th>
-        <th>Опции</th>
-    </tr>
+    <thead>
+        <tr>
+            <th data-sort-method="none">Баркод</th> 
+            <th>Модел</th>
+            <th>Цена/бр</th>
+            <th>Количество</th>
+            <th>Магазин</th>
+            <th>Уникален номер</th>
+            <th data-sort-method="none">Опции</th>
+        </tr>
+    </thead>
     
-    @foreach($products_others as $product)
-        @include('admin.products_others.table')
-    @endforeach
+    <tbody>
+        @foreach($products_others as $product)
+            @include('admin.products_others.table')
+        @endforeach
+    </tbody>
 </table>
 
 @endsection
