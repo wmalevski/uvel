@@ -26,7 +26,7 @@ aria-hidden="true">
             <th scope="col">Град</th> 
             <th scope="col">Модел</th> 
             <th scope="col">Статус</th> 
-            <th scope="col">Действия</th>
+            <th scope="col" data-sort-method="none">Действия</th>
           </tr>
         </thead>
         <tbody>

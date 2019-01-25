@@ -51,8 +51,8 @@ aria-hidden="true">
         <table class="table">
             <thead>
                 <tr>
-                    <th style="width: 32%;">Име</th> 
-                    <th style="width: 12%">Действия</th> 
+                    <th>Име</th> 
+                    <th data-sort-method="none">Действия</th> 
                 </tr>
             </thead>
             

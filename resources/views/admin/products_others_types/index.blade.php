@@ -50,7 +50,7 @@ aria-hidden="true">
     <thead>
         <tr>
             <th>Име</th>
-            <th></th>
+            <th data-sort-method="none"></th>
         </tr>
     </thead>
     

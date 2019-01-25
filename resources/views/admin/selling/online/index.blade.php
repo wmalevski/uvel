@@ -25,7 +25,7 @@ aria-hidden="true">
                         <th>Цена</th>
                         <th>Дата</th>
                         <th>Статус</th>
-                        <th>Действия</th>
+                        <th data-sort-method="none">Действия</th>
                     </tr>
                 </thead>
                 <tbody>

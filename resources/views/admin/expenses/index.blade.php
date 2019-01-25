@@ -84,7 +84,7 @@ aria-hidden="true">
             <th scope="col">Магазин </th> 
             <th scope="col">Валута</th> 
             <th scope="col">Пояснение</th> 
-            <th scope="col">Действия</th>
+            <th scope="col" data-sort-method="none">Действия</th>
           </tr>
         </thead>
         <tbody>

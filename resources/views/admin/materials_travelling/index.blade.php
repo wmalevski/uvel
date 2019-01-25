@@ -85,8 +85,6 @@ aria-hidden="true">
                         <th>От магазин</th> 
                         <th>До магазин</th> 
                         <th>Статус</th> 
-                        <th></th> 
-                        <th></th> 
                     </tr>
                 </thead>
                   

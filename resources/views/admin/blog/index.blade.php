@@ -89,7 +89,7 @@
 				<thead>
 					<tr>
 						<th scope="col">Име</th>
-						<th scope="col">Действия</th>
+						<th scope="col" data-sort-method="none">Действия</th>
 					</tr>
 				</thead>
 				<tbody>

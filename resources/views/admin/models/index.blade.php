@@ -247,11 +247,11 @@
 			<th>Тегло</th>
 			<th>Изработка</th>
 			<th>Цена</th>
-			<th>Действия</th>
-			<th></th>
+			<th data-sort-method="none">Действия</th>
+			<th data-sort-method="none"></th>
 		</tr>
 
-		<tr class="search-inputs" data-sort-method="none">
+		<tr class="search-inputs">
 			<th>
 				<input class="filter-input form-control" type="text" data-search-attribute="data-name" placeholder="Търси по име">
 			</th>

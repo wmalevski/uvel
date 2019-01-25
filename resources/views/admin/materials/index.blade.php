@@ -104,12 +104,12 @@ aria-hidden="true">
         <table class="table">
             <thead>
                 <tr>
-                    <th style="width: 16%">Тип</th>
-                    <th style="width: 14%">Проба</th> 
-                    <th style="width: 14%">Цвят</th> 
-                    <th style="width: 14%">Карат</th>
-                    <th style="width: 14%">Борсова Цена</th>
-                    <th style="width: 12%">Действия</th> 
+                    <th>Тип</th>
+                    <th>Проба</th> 
+                    <th>Цвят</th> 
+                    <th>Карат</th>
+                    <th>Борсова Цена</th>
+                    <th data-sort-method="none">Действия</th> 
                 </tr>
             </thead>
             

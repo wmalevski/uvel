@@ -93,7 +93,7 @@
                         <th>От магазин</th>
                         <th>До магазин</th>
                         <th>Статус</th>
-                        <th></th>
+                        <th data-sort-method="none"></th>
                     </tr>
                 </thead>
                   

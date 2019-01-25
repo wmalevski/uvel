@@ -97,13 +97,13 @@ aria-hidden="true">
 <table class="table table-condensed tablesort">
     <thead>
         <tr>
-            <th>Баркод</th> 
+            <th data-sort-method="none">Баркод</th> 
             <th>Модел</th>
             <th>Цена/бр</th>
             <th>Количество</th>
             <th>Магазин</th>
             <th>Уникален номер</th>
-            <th>Опции</th>
+            <th data-sort-method="none">Опции</th>
         </tr>
     </thead>
     

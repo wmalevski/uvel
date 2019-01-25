@@ -91,10 +91,10 @@ aria-hidden="true">
         <table class="table table-condensed buy" id="buy">
             <thead>
                 <tr>
-                    <th width="46%">#</th>
-                    <th width="18%">Име</th> 
-                    <th width="18%">Стойност</th>
-                    <th width="18%">Действия</th>
+                    <th>#</th>
+                    <th>Име</th> 
+                    <th>Стойност</th>
+                    <th data-sort-method="none">Действия</th>
                 </tr>
             </thead>
             
@@ -103,9 +103,7 @@ aria-hidden="true">
                     @include('admin.prices.table')
                 @endforeach
             </tbody>
-            
         </table>
-
         @endif
       </div>
     </div>
@@ -115,19 +113,22 @@ aria-hidden="true">
     <div class="col-md-12">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
         <h4 class="c-grey-900 mB-20">Цени Продава</h4>
-  
           @if(isset($prices))
           <table class="table table-condensed sell" id="sell">
-              <tr>
-                  <th width="46%">#</th>
-                  <th width="18%">Име</th> 
-                  <th width="18%">Стойност</th>
-                  <th width="18%">Действия</th>
-              </tr>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Име</th> 
+                    <th>Стойност</th>
+                    <th data-sort-method="none">Действия</th>
+                </tr>
+            </thead>
               
-              @foreach($prices->where('type', 'sell') as $indexKey => $price)
-                @include('admin.prices.table')
-              @endforeach
+            <tbody>
+                @foreach($prices->where('type', 'sell') as $indexKey => $price)
+                    @include('admin.prices.table')
+                @endforeach
+            </tbody>
           </table>
           @endif
         </div>

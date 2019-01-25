@@ -58,7 +58,7 @@ aria-hidden="true">
                 <thead>
                     <tr>
                         <th>Име</th>
-                        <th data-sort-method="none">Цена</th>
+                        <th>Цена</th>
                         <th data-sort-method="none">Опции</th>
                     </tr>
                 </thead>

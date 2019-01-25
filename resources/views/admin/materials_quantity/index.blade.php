@@ -89,7 +89,7 @@ aria-hidden="true">
                     <th>Тип</th> 
                     <th>Количество/гр</th> 
                     <th>Магазин</th>
-                    <th>Действия</th> 
+                    <th data-sort-method="none">Действия</th> 
                 </tr>
             </thead>
             
