@@ -799,7 +799,7 @@ var uvel,
       stoneRowsContainer.empty();
       
       // Clear images area and reset input[type=file] for the images
-      $('input.drop-area-input').val('');
+      form.find('.drop-area-input').val('');
       imagesContainer.empty();
 
       if (form.find('.summernote').length > 0) {
