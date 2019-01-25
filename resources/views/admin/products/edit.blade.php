@@ -100,7 +100,7 @@
                 </div>
             </div>
 
-            <div class="form-row model_stones">
+            <div class="model_stones">
                 @foreach($product_stones as $modelStone)
                 <div class="form-row fields">
                     <div class="form-group col-md-6">
@@ -126,7 +126,7 @@
                     </div>
 
                     <div class="form-group col-md-2">
-                        <span class="delete-stone remove_field"><i class="c-brown-500 ti-trash"></i></span>
+                        <span class="delete-stone remove_field" data-stone-remove><i class="c-brown-500 ti-trash"></i></span>
                     </div>
 
                     <div class="form-group col-md-6">

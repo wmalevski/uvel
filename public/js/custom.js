@@ -122,7 +122,7 @@ var uvel,
       },
       models: {
         selector: '[name="models"]',
-        controllers: ['addMaterialsInit', 'calculateRepairAfterPriceInit', 'addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'imageHandling'],
+        controllers: ['addMaterialsInit', 'calculateRepairAfterPriceInit', 'addStonesInit', 'removeMaterialsInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'imageHandling'],
         initialized: false
       },
       products: {
@@ -1106,56 +1106,22 @@ var uvel,
 
     this.addMaterials = function(form) {
       var materialsWrapper = form.find('.model_materials');
-      var materialsData = $('#materials_data').length > 0 ? JSON.parse($('#materials_data').html()) : null;
       var newRow = document.createElement('div');
+      var hr = '<div class="col-12"><div class="col-6"><hr></div></div>';
 
       $(newRow).addClass('form-row');
 
-      var newFields =
-        '<div class="col-12">' +
-        '<div class="col-6">' +
-        '<hr>' +
-        '</div>' +
-        '</div>' +
-        '<div class="form-group col-md-6">' +
-        '<label>Избери материал: </label>' +
-        '<select id="material_type" name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material>' +
-        '<option value="0">Избери</option>'
+      newRow.innerHTML = hr + newMaterialRow;
 
-      materialsData.forEach(function (option) {
-        newFields += '<option value=' +
-          option.value + ' data-pricebuy=' +
-          option.pricebuy + ' data-material=' +
-          option.material + '>' +
-          option.label + '</option>';
-      });
-
-      newFields +=
-        '</select>' +
-        '</div>' +
-        '<div class="form-group col-md-5">' +
-        '<label>Цена: </label>' +
-        '<select id="retail_prices" name="retail_price_id[]" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail disabled>' +
-        '<option value="0">Избери</option>' +
-        '</select>' +
-        '</div>' +
-        '<div class="form-group col-md-1">' +
-        '<span class="delete-material remove_field" data-removeMaterials-remove><i class="c-brown-500 ti-trash"></i></span>' +
-        '</div>' +
-        '<div class="form-group col-md-12">' +
-        '<div class="radio radio-info">' +
-        '<input type="radio" id="" class="default_material" name="default_material[]" data-calculatePrice-default>' +
-        '<label for="">Материал по подразбиране</label>' +
-        '</div>' +
-        '</div>';
-
-      newRow.innerHTML = newFields;
+      var select = $(newRow).find('select');
+      $self.initializeSelect(select);
+    
       materialsWrapper.append(newRow);
 
       var defaultBtnsCollection = $('.default_material');
       $self.giveElementsIds(defaultBtnsCollection);
 
-      var newRemoveTrigger = $(newRow).find('[data-removeMaterials-remove]');
+      var newRemoveTrigger = $(newRow).find('[data-materials-remove]');
       $self.removeMaterialsAttach(newRemoveTrigger);
 
       var newCalculatePriceTrigger = $(newRow).find('[data-calculatePrice-retail], [data-calculatePrice-default]');
@@ -1166,7 +1132,7 @@ var uvel,
     }
 
     this.removeMaterialsInit = function(form) {
-      var removeMaterialsTrigger = form.find('[data-removeMaterials-remove]');
+      var removeMaterialsTrigger = form.find('[data-materials-remove]');
       $self.removeMaterialsAttach(removeMaterialsTrigger);
     }
 
@@ -1201,7 +1167,6 @@ var uvel,
     this.addStone = function (form, stone) {
       var stonesWrapper = form.find('.model_stones'),
           fields = stonesWrapper.find('.fields'),
-          stonesData = stone || $('#stones_data').length > 0 ? JSON.parse($('#stones_data').html()) : null,
           maxFields = 10,
           amount = stone ? stone.amount : '',
           weight = stone ? stone.weight : '',
@@ -1211,61 +1176,23 @@ var uvel,
         var fieldsHolder = document.createElement('div');
         fieldsHolder.classList.add('form-row', 'fields');
 
-        var newFields = '<div class="form-group col-md-6"><label>Камък:</label>' +
-            '<select name="stones[]" class="form-control" data-calculatePrice-stone>';
-
-        for (var i = 0; i < stonesData.length; i++) {
-          var option = stonesData[i],
-              selected = '';
-
-          if (stone && stone.value == option.value) {
-            selected = 'selected';
-          }
-
-          newFields += '<option value=' +
-            option.value + ' data-stone-price=' +
-            option.price + ' data-stone-type=' +
-            option.type + ' ' +
-            selected + '>' +
-            option.label + '</option>';
+        fieldsHolder.innerHTML = newStoneRow;
+        
+        if (stone) {
+          $(fieldsHolder).find('[data-calculateStones-amount]').attr('value', amount);
+          $(fieldsHolder).find('[data-calculateStones-weight]').attr('value', weight);
+          $(fieldsHolder).find('.stone-flow').addClass(flow);
         }
 
-        newFields +=
-          '</select>' +
-          '</div>' +
-          '<div class="form-group col-md-4">' +
-          '<label>Брой:</label>' +
-          '<input type="text" value="' + amount + '" class="form-control calculate-stones" name="stone_amount[]" data-calculateStones-amount placeholder="Брой">' +
-          '</div>' +
-          '<div class="form-group col-md-2">' +
-          '<span class="delete-stone remove_field" data-removeStone-remove><i class="c-brown-500 ti-trash"></i></span>' +
-          '</div>' +
-          '<div class="form-group col-md-6">' +
-          '<div class="form-group">' +
-          '<label>Тегло: </label>' +
-          '<div class="input-group">' +
-          '<input type="number" value="' + weight + '" class="form-control calculate-stones" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">' +
-          '<span class="input-group-addon">гр</span>' +
-          '</div>' +
-          '</div>' +
-          '</div>' +
-          '<div class="form-group col-md-6">' +
-          '<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder">' +
-          '<input type="checkbox" id="" class="stone-flow calculate-stones" name="stone_flow[]" class="peer" ' + flow + '>' +
-          '<label for="" class="peers peer-greed js-sb ai-c">' +
-          '<span class="peer peer-greed">За леене</span>' +
-          '</label>' +
-          '<span class="row-total-weight"></span>' +
-          '</div>' +
-          '</div>';
+        var select = $(fieldsHolder).find('select');
+        $self.initializeSelect(select);
 
-        fieldsHolder.innerHTML = newFields;
         stonesWrapper.append(fieldsHolder);
 
         var forFlowCollection = $('.stone-flow');
         $self.giveElementsIds(forFlowCollection);
 
-        var newRemoveTrigger = $(fieldsHolder).find('[data-removeStone-remove]');
+        var newRemoveTrigger = $(fieldsHolder).find('[data-stone-remove]');
         $self.removeStoneAttach(newRemoveTrigger, form);
 
         var newCalculateTrigger = $(fieldsHolder).find('[data-calculateStones-weight], .stone-flow');
@@ -1277,7 +1204,7 @@ var uvel,
     }
 
     this.removeStoneInit = function(form) {
-      var removeTrigger = form.find('[data-removeStone-remove]');
+      var removeTrigger = form.find('[data-stone-remove]');
       $self.removeStoneAttach(removeTrigger, form);
     }
 
@@ -1403,11 +1330,11 @@ var uvel,
 
       if (sellPrice && buyPrice && netWeight) {
         if (!isWeightWithStones) {
-          var worksmanShipPrice = Math.round(((sellPrice - buyPrice) * netWeight) * 100) / 100,
-            productPrice = Math.round(((sellPrice * netWeight) + naturalStonesPrice) * 100) / 100;
+          var worksmanShipPrice = parseFloat(((sellPrice - buyPrice) * netWeight).toFixed(2)),
+            productPrice = parseFloat(((sellPrice * netWeight) + naturalStonesPrice).toFixed(2));
         } else if (isWeightWithStones) {
-          var worksmanShipPrice = Math.round(((sellPrice - buyPrice) * grossWeight) * 100) / 100,
-            productPrice = Math.round(((sellPrice * grossWeight) + naturalStonesPrice) * 100) / 100;
+          var worksmanShipPrice = parseFloat(((sellPrice - buyPrice) * grossWeight).toFixed(2)),
+            productPrice = parseFloat(((sellPrice * grossWeight) + naturalStonesPrice).toFixed(2));
         }
 
         workmanshipHolder.val(worksmanShipPrice);
