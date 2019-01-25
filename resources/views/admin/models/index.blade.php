@@ -240,7 +240,7 @@
 </h3>
 
 <table class="table table-condensed models-table tablesort">
-	<tr>
+	<tr data-sort-method="none">
 		<th>
 			Име
 		</th>
@@ -262,7 +262,7 @@
 		<th></th>
 	</tr>
 
-	<tr class="search-inputs">
+	<tr class="search-inputs" data-sort-method="none">
 		<th>
 			<input class="filter-input form-control" type="text" data-search-attribute="data-name" placeholder="Търси по име">
 		</th>
