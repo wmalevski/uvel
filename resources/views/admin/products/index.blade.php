@@ -265,8 +265,6 @@
 </h3>
 
 <table class="table table-condensed tablesort">
-	<thead>
-
 		<tr>
 			<th class="sort-false">
 				Снимка
@@ -300,7 +298,7 @@
 			</th>
 		</tr>
 
-		<tr class="search-inputs">
+		<tr class="search-inputs" data-sort-method="none">
 			<th></th>
 			<th>
 				<input class="filter-input form-control" type="text" data-search-attribute="data-code" placeholder="Търси по номер">
@@ -332,7 +330,6 @@
 			</th>
 			<th></th>
 		</tr>
-	</thead>
 	<tbody>
 		@foreach($products as $product)
 		@include('admin.products.table')
