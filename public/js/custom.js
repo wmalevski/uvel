@@ -202,6 +202,11 @@ var uvel,
         selector: '[name="dailyReport"]',
         controllers: ['dailyReportAttach'],
         initialized: false
+      },
+      expenseTypes: {
+        selector: '[name="expensetypes"]',
+        controllers: [],
+        initialized: false
       }
     }
 
