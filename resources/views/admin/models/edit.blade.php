@@ -91,7 +91,7 @@
 
           @if(!$loop->first)
           <div class="form-group col-md-1">
-            <span class="delete-material remove_field" data-removeMaterials-remove>
+            <span class="delete-material remove_field" data-removematerials-remove>
               <i class="c-brown-500 ti-trash"></i>
             </span>
           </div>
@@ -184,7 +184,7 @@
           </div>
 
           <div class="form-group col-md-2">
-            <span class="delete-stone remove_field" data-removeStone-remove>
+            <span class="delete-stone remove_field" data-removestone-remove>
               <i class="c-brown-500 ti-trash"></i>
             </span>
           </div>

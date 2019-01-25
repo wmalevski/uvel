@@ -122,7 +122,7 @@ var uvel,
       },
       models: {
         selector: '[name="models"]',
-        controllers: ['addMaterialsInit', 'calculateRepairAfterPriceInit', 'addStonesInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'imageHandling'],
+        controllers: ['addMaterialsInit', 'calculateRepairAfterPriceInit', 'addStonesInit', 'removeMaterialsInit', 'removeStoneInit', 'calculateStonesInit', 'calculatePriceInit', 'materialPricesRequestInit', 'imageHandling'],
         initialized: false
       },
       products: {
@@ -1136,7 +1136,7 @@ var uvel,
         '</select>' +
         '</div>' +
         '<div class="form-group col-md-1">' +
-        '<span class="delete-material remove_field" data-removeMaterials-remove><i class="c-brown-500 ti-trash"></i></span>' +
+        '<span class="delete-material remove_field" data-removematerials-remove><i class="c-brown-500 ti-trash"></i></span>' +
         '</div>' +
         '<div class="form-group col-md-12">' +
         '<div class="radio radio-info">' +
@@ -1151,7 +1151,7 @@ var uvel,
       var defaultBtnsCollection = $('.default_material');
       $self.giveElementsIds(defaultBtnsCollection);
 
-      var newRemoveTrigger = $(newRow).find('[data-removeMaterials-remove]');
+      var newRemoveTrigger = $(newRow).find('[data-removematerials-remove]');
       $self.removeMaterialsAttach(newRemoveTrigger);
 
       var newCalculatePriceTrigger = $(newRow).find('[data-calculatePrice-retail], [data-calculatePrice-default]');
@@ -1162,7 +1162,7 @@ var uvel,
     }
 
     this.removeMaterialsInit = function(form) {
-      var removeMaterialsTrigger = form.find('[data-removeMaterials-remove]');
+      var removeMaterialsTrigger = form.find('[data-removematerials-remove]');
       $self.removeMaterialsAttach(removeMaterialsTrigger);
     }
 
@@ -1234,7 +1234,7 @@ var uvel,
           '<input type="text" value="' + amount + '" class="form-control calculate-stones" name="stone_amount[]" data-calculateStones-amount placeholder="Брой">' +
           '</div>' +
           '<div class="form-group col-md-2">' +
-          '<span class="delete-stone remove_field" data-removeStone-remove><i class="c-brown-500 ti-trash"></i></span>' +
+          '<span class="delete-stone remove_field" data-removestone-remove><i class="c-brown-500 ti-trash"></i></span>' +
           '</div>' +
           '<div class="form-group col-md-6">' +
           '<div class="form-group">' +
@@ -1261,7 +1261,7 @@ var uvel,
         var forFlowCollection = $('.stone-flow');
         $self.giveElementsIds(forFlowCollection);
 
-        var newRemoveTrigger = $(fieldsHolder).find('[data-removeStone-remove]');
+        var newRemoveTrigger = $(fieldsHolder).find('[data-removestone-remove]');
         $self.removeStoneAttach(newRemoveTrigger, form);
 
         var newCalculateTrigger = $(fieldsHolder).find('[data-calculateStones-weight], .stone-flow');
@@ -1273,7 +1273,7 @@ var uvel,
     }
 
     this.removeStoneInit = function(form) {
-      var removeTrigger = form.find('[data-removeStone-remove]');
+      var removeTrigger = form.find('[data-removestone-remove]');
       $self.removeStoneAttach(removeTrigger, form);
     }
 
