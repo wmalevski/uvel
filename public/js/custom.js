@@ -2423,51 +2423,6 @@ var uvel,
       }
     }
 
-    // Used in Admin->Products Travelling and Admin->Products
-    this.nameFieldSearch = function (form) {
-      var input = $('.input-search'),
-          dropdown = $(form).find('.dropdown-menu'),
-          dropdownItems = $(form).find('.dropdown-item'),
-          modalWindow = $('.modal-content:visible');
-
-      input.on('focusin', function () {
-        dropdown.removeClass('hidden');
-      });
-
-      modalWindow.on('click', function(event) {
-        // Check if click is outside input or the dropdown menu
-        // so the dropdown can be closed
-        var target = event.target;
-        if (!target.classList.contains('input-search') && !target.classList.contains('dropdown-item')) {
-          dropdown.addClass('hidden');
-          // reset the input field text, if it was edited without selecting new option from the dropdown
-          if (input.attr('data-product-name') && input.val() != input.attr('data-product-name')) {
-            input.val(input.attr('data-product-name'));
-          }
-        }
-      });
-
-      dropdownItems.on('click', function (event) {
-        var optionId = event.currentTarget.id,
-            optionText = event.currentTarget.innerText;
-
-        dropdown.addClass('hidden');
-        input.val(optionText);
-        input.attr('data-product-id', optionId);
-        input.attr('data-product-name', optionText);
-        // triggers the input event on the search input, so the ajax request is made
-        $('.input-search').trigger('input');
-      });
-
-      input.on('input', function (event) {
-        var inputText = event.currentTarget.value.trim();
-        var filterAttributes = [
-          'data-name'
-        ];
-        $self.filterElementsByAttribute(inputText, dropdownItems, filterAttributes);
-      });
-    }
-
     // Currently used in Admin->Models and Admin->Products pages
     this.setInputFilters = function () {
       var inputs = $('.filter-input'),
