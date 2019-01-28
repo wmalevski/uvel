@@ -2293,10 +2293,70 @@ var uvel,
     */
 
     this.initializeSelect = function(select, selectCallback) {
-      select.select2({
-        templateResult: $self.addSelect2CustomAttributes,
-        templateSelection: $self.addSelect2CustomAttributes
-      });
+      if (select.length > 1) {
+        for (var i = 0; i < select.length; i++) {
+          loadSelect2(select[i]);
+        }
+      } else {
+        loadSelect2(select);
+      }
+
+      function loadSelect2(sel) {
+        if (sel.dataset.search) {
+          $(sel).select2({
+            ajax: {
+              url: sel.dataset.search,
+              type: 'GET',
+              dataType: 'json',
+              delay: 500,
+              data: function(params) {
+                var query = {
+                  search: params.term,
+                  page: params.page || 1
+                }
+                return query;
+              },
+              processResults: function(data, params) {
+                console.log(data)
+                var data = $.map(data, function(obj) {
+                  obj.id = obj.id;
+                  obj.text = obj.sku;
+                  return obj;
+                });
+                // parse the results into the format expected by Select2
+                // since we are using custom formatting functions we do not need to
+                // alter the remote JSON data, except to indicate that infinite
+                // scrolling can be used
+                params.page = params.page || 1;
+          
+                return {
+                  results: data,
+                  pagination: {
+                    more: (params.page * 30) < data.total_count
+                  }
+                };
+              },
+              cache: true
+            },
+            minimumInputLength: 1,
+            escapeMarkup: function(markup) {
+              return markup;
+            },
+            templateResult: $self.addSelect2CustomAttributes,
+            templateSelection: $self.addSelect2CustomAttributes
+          });
+
+          $(sel).on('select2:open', function() {
+            console.log('load init')
+          });
+        } else {
+          $(sel).select2({
+            templateResult: $self.addSelect2CustomAttributes,
+            templateSelection: $self.addSelect2CustomAttributes
+          })
+        }
+      }
+
       select.on('select2:select', selectCallback);
     }
 

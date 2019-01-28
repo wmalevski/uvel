@@ -3,7 +3,7 @@
 $newMaterialRow =
 				'<div class="form-group col-md-6">
 					<label>Избери материал: </label>
-					<select name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material>
+					<select data-search="/admin/search/models/" name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material>
 						<option value="0">Избери</option>';
 						foreach($materials as $material) {
 								if($material->material->pricesBuy->first() && $material->material->pricesSell->first()) {
