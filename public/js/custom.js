@@ -848,7 +848,6 @@ var uvel,
         dataType: 'json',
         data: data,
         success: function(response) {
-          document.getElementsByClassName('modal-content')[0].scrollIntoView();
           if (formType == 'add') {
             $self.appendResponseToTable(response, form);
             $('form').find('table tbody').empty();
@@ -858,13 +857,14 @@ var uvel,
           $self.formSuccessHandler(form, formType);
         },
         error: function(err) {
-          // scroll to top of form window
-          document.getElementsByClassName('modal-content')[0].scrollIntoView();
           $self.formsErrorHandler(err, form);
+        },
+        complete: function() {
+          // scroll to top of form window
+          form[0].scrollIntoView();
         }
       });
     }
-
 
     // FUNCTION THAT READS ALL THE ERRORS RETURNED FROM THE REQUEST AND APPEND THEM IN THE MODAL-FORM-BODY
 
