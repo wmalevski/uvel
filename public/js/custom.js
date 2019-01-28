@@ -1716,8 +1716,8 @@ var uvel,
         }
       }
 
-      $(materialHolder).select2();
-
+      $self.initializeSelect($(materialHolder));
+      
       function addMaterial(material) {
         var option = document.createElement("option");
 
@@ -1808,7 +1808,7 @@ var uvel,
       }
 
       total += weightNotConvertedSum * selectedCurrency;
-      document.querySelector('[data-exchangerows-total]').value = Number(total.toFixed(2));
+      document.querySelector('[data-exchangerows-total]').value = Number(total.toFixed(2)) || 0;
 
       return $self.calculatePaymentInit($('[name="selling"]'));
     }
