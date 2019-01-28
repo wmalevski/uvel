@@ -62,7 +62,7 @@ aria-hidden="true">
     </div>
 </div>
 
-<div class="modal fade edit--modal_holder" id="editExprense" role="dialog" aria-labelledby="editExprense"
+<div class="modal fade edit--modal_holder" id="editExpense" role="dialog" aria-labelledby="editExpense"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -74,7 +74,7 @@ aria-hidden="true">
 <div class="row">
   <div class="col-md-12">
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
-      <h4 class="c-grey-900 mB-20">Разходи <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-form-type="add" data-form="exprenses">Добави</button></h4>
+      <h4 class="c-grey-900 mB-20">Разходи <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-form-type="add" data-form="expenses">Добави</button></h4>
       <p>Преглед на въведените разходи.</p>
       <table class="table">
         <thead>
