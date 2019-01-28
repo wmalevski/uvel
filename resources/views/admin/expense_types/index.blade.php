@@ -33,7 +33,7 @@ aria-hidden="true">
     </div>
 </div>
 
-<div class="modal fade edit--modal_holder" id="editExprenseType" role="dialog" aria-labelledby="editExprenseType"
+<div class="modal fade edit--modal_holder" id="editExpenseType" role="dialog" aria-labelledby="editExpenseType"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -45,7 +45,7 @@ aria-hidden="true">
 <div class="row">
   <div class="col-md-12">
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
-      <h4 class="c-grey-900 mB-20">Видове разходи <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-form-type="add" data-form="exprensetype">Добави</button></h4>
+      <h4 class="c-grey-900 mB-20">Видове разходи <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-form-type="add" data-form="expensetype">Добави</button></h4>
       <p>Преглед на създадените видове разходи.</p>
       <table class="table">
         <thead>
@@ -55,7 +55,7 @@ aria-hidden="true">
           </tr>
         </thead>
         <tbody>
-            @foreach($exprenseTypes as $type)
+            @foreach($expenseTypes as $type)
                 @include('admin.expense_types.table')
             @endforeach
         </tbody>
