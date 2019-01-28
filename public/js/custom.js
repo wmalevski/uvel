@@ -707,10 +707,10 @@ var uvel,
             material_given = materials[i].querySelector('[data-material-given]').value;
 
         var material = {
-            material_partner_id: material_partner_id,
-            material_id: material_id,
-            material_weight: material_weight,
-            material_given: material_given
+          material_partner_id: material_partner_id,
+          material_id: material_id,
+          material_weight: material_weight,
+          material_given: material_given
         };
 
         data.materials.push(material);
@@ -1282,7 +1282,7 @@ var uvel,
     this.giveElementsIds = function(collection) {
       for (i = 0; i < collection.length; i++) {
         var element = collection[i],
-          setBtnId;
+            setBtnId;
 
         if ($(element).hasClass('default_material')) {
           setBtnId = 'material_' + String(i + 1);
