@@ -6,6 +6,7 @@ use App\StoneSize;
 use App\StoneStyle;
 use App\StoneContour;
 use Auth;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -77,5 +78,30 @@ class Stone extends Model
     public function nomenclature()
     {
         return $this->belongsTo('App\Nomenclature');
+    }
+
+    public function search(Request $request)
+    {
+        if($request->search != ''){
+            $results = Stone::with('Nomenclature')->whereHas('Nomenclature', function($q) use ($request){
+                $q->where('name', 'LIKE', "%$request->search%");
+            })->get();
+
+        }else{
+            $results = Stone::take(10)->get();
+        }
+
+        $pass_stones = array();
+
+        foreach($results as $stone){
+            $pass_stones[] = [
+                'value' => $stone->id,
+                'label' => $stone->nomenclature->name,
+                'data-stone-price' => $stone->price,
+                'data-stone-type' => $stone->type
+            ];
+        }
+
+        return $pass_stones;
     }
 }

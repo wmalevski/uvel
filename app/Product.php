@@ -301,8 +301,12 @@ class Product extends BaseModel
             return $query;
         }
 
-        public function search($term){
-            $results = Product::where('name', 'LIKE', "%$term%")->get();
+        public function search(Request $request){
+            if($request->search != ''){
+                $results = Product::where('name', 'LIKE', "%$request->search%")->get();
+            }else{
+                $results = Product::take(10)->get();
+            }
 
             $pass_products = array();
 

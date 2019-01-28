@@ -103,9 +103,13 @@ class Model extends BaseModel
         return $query;
     }
     
-    public function search($term)
+    public function search(Request $request)
     {
-        $results = Model::where('name', 'LIKE', "%$term%")->get();
+        if($request->search != ''){
+            $results = Model::where('name', 'LIKE', "%$request->search%")->get();
+        }else{
+            $results = Model::take(10)->get();
+        }
 
         $pass_models = array();
 

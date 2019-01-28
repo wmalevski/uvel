@@ -86,9 +86,9 @@ class ProductController extends Controller
         return $product->chainedSelects($model);
     }
 
-    public function search($term){
+    public function search(Request $request){
         $product = new Product();
-        $search = $product->search($term);
+        $search = $product->search($request);
 
         return json_encode($search, JSON_UNESCAPED_SLASHES );
     }

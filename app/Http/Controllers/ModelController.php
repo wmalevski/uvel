@@ -540,9 +540,9 @@ class ModelController extends Controller
         return Response::json(array('ID' => $model->id, 'table' => View::make('admin/models/table',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render(), 'photos' => $photosHtml));
     }
 
-    public function search($term){
+    public function search(Request $request){
         $model = new Model();
-        $search = $model->search($term);
+        $search = $model->search($request);
 
         return json_encode($search, JSON_UNESCAPED_SLASHES );
     }

@@ -218,6 +218,13 @@ class StoneController extends Controller
         return Response::json(array('ID' => $stone->id, 'table' => View::make('admin/stones/table',array('stone'=>$stone))->render(), 'photos' => $photosHtml));
     }
 
+    public function search(Request $request){
+        $stone = new Stone();
+        $search = $stone->search($request);
+
+        return json_encode($search, JSON_UNESCAPED_SLASHES );
+    }
+
     /**
      * Remove the specified resource from storage.
      *

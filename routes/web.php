@@ -213,9 +213,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/models/reviews/all', 'ModelController@showReviews')->name('show_model_reviews');
     Route::post('/logout', 'UserController@logout')->name('admin_logout');
 
-    Route::get('/search/models/{term}', 'ModelController@search');
+    Route::get('/search/models', 'ModelController@search');
 
-    Route::get('/search/products/{term}', 'ProductController@search');
+    Route::get('/search/products', 'ProductController@search');
+
+    Route::get('/search/stones', 'StoneController@search');
+
     Route::get('/orders/{order}', 'OrderController@edit');
     Route::get('/expenses', 'ExpenseController@index');
     Route::get('/expenses', 'ExpenseController@index')->name('expenses');    
