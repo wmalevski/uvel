@@ -223,7 +223,7 @@ var uvel,
         controllers: ['dailyReportAttach'],
         initialized: false
       },
-      expenseTypes: {
+      expensetypes: {
         selector: '[name="expensetypes"]',
         controllers: [],
         initialized: false
