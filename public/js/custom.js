@@ -1713,7 +1713,7 @@ var uvel,
 
       $(materialHolder).select2();
 
-      functionaddMaterial(material) {
+      function addMaterial(material) {
         var option = document.createElement("option");
 
         option.text = material.label;
@@ -2265,7 +2265,7 @@ var uvel,
     }
 
     /*
-      functionTHAT GET THE SELECT OPTION'S ATTRIBUTES AND ATTACH THEM ON THE SELECT2 PLUGIN LIST ITEMS.
+      FUNCTION THAT GET THE SELECT OPTION'S ATTRIBUTES AND ATTACH THEM ON THE SELECT2 PLUGIN LIST ITEMS.
     */
 
     this.addSelect2CustomAttributes = function(data, container) {
@@ -2284,7 +2284,7 @@ var uvel,
     }
 
     /*
-      functionTHAT INITIALIZES THE SELECT 2 PLUGIN
+      FUNCTION THAT INITIALIZES THE SELECT 2 PLUGIN
     */
 
     this.initializeSelect = function(select, selectCallback) {
@@ -2361,7 +2361,7 @@ var uvel,
         btn.addEventListener('click', printCertificate);
       });
 
-      functionprintCertificate(e) {
+      function printCertificate(e) {
         var urlTaken = window.location.href.split('/'),
             url = urlTaken[0] + '//' + urlTaken[2] + '/ajax' + '/repairs',
             certificateId = e.target.getAttribute('data-repair-id'),
