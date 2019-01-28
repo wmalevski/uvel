@@ -49,7 +49,7 @@ class ExpenseTypeController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $expense = ExpenseType::create($request->all());
+        $type = ExpenseType::create($request->all());
 
         return Response::json(array('success' => View::make('admin/expense_types/table',array('type'=>$type))->render()));
     }
