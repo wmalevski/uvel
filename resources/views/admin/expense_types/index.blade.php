@@ -11,7 +11,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="expensetypes" data-type="add" action="expensetypes" autocomplete="off">
+            <form method="POST" name="expenseTypes" data-type="add" action="expensetypes" autocomplete="off">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>
@@ -45,7 +45,13 @@ aria-hidden="true">
 <div class="row">
   <div class="col-md-12">
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
-      <h4 class="c-grey-900 mB-20">Видове разходи <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-form-type="add" data-form="expensetype">Добави</button></h4>
+        <h4 class="c-grey-900 mB-20">
+            Видове разходи
+            <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                    data-form-type="add" data-form="expenseTypes">
+                    Добави
+            </button>
+        </h4>
       <p>Преглед на създадените видове разходи.</p>
       <table class="table">
         <thead>
