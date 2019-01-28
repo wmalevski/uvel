@@ -131,6 +131,13 @@ class MaterialQuantityController extends Controller
         return Response::json(array('ID' => $materialQuantity->id, 'table' => View::make('admin/materials_quantity/table', array('material' => $materialQuantity))->render()));
     }
 
+    public function search(Request $request){
+        $material = new MaterialQuantity();
+        $search = $material->search($request);
+
+        return json_encode($search, JSON_UNESCAPED_SLASHES );
+    }
+
     /**
      * Remove the specified resource from storage.
      *

@@ -219,6 +219,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/search/stones', 'StoneController@search');
 
+    Route::get('/search/materials', 'MaterialQuantityController@search');
+
     Route::get('/orders/{order}', 'OrderController@edit');
     Route::get('/expenses', 'ExpenseController@index');
     Route::get('/expenses', 'ExpenseController@index')->name('expenses');    
