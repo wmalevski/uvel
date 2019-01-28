@@ -2380,31 +2380,41 @@ var uvel,
     this.setInputFilters = function() {
       var inputs = $('.filter-input'),
           btnClearFilters = $('.btn-clear-filters'),
-          filterableElements = $('.filterable-element');
+          filterableElements = $('.filterable-element'),
+          timeout;
 
       inputs.on('input', function(event) {
-        // First check the current input, then all others
-        var inputText = event.currentTarget.value.trim();
-        var filterAttributes = [
-          event.currentTarget.dataset.searchAttribute
-        ];
-        $self.filterElementsByAttribute(inputText, filterableElements, filterAttributes);
 
-        // After the current input is checked, search only through the visible elements
-        var visibleElements = $('.filterable-element:visible');
+        var searchFunc = function () {
+          // First check the current input, then all others
+          var inputText = event.currentTarget.value.trim();
+          var filterAttributes = [
+            event.currentTarget.dataset.searchAttribute
+          ];
+          $self.filterElementsByAttribute(inputText, filterableElements, filterAttributes);
 
-        // Check other inputs, without the current one
-        for (var i = 0; i < inputs.length; i++) {
-          var input = inputs[i];
-          // Current input is already checked, ignore it
-          if (input != event.currentTarget && input.value != '') {
-            var inputText = input.value.trim();
-            var filterAttributes = [
-              input.dataset.searchAttribute
-            ];
-            $self.filterElementsByAttribute(inputText, visibleElements, filterAttributes);
+          // After the current input is checked, search only through the visible elements
+          var visibleElements = $('.filterable-element:visible');
+
+          // Check other inputs, without the current one
+          for (var i = 0; i < inputs.length; i++) {
+            var input = inputs[i];
+            // Current input is already checked, ignore it
+            if (input != event.currentTarget && input.value != '') {
+              var inputText = input.value.trim();
+              var filterAttributes = [
+                input.dataset.searchAttribute
+              ];
+              $self.filterElementsByAttribute(inputText, visibleElements, filterAttributes);
+            }
           }
         }
+
+        if (timeout != null) {
+          clearTimeout(timeout);
+        }
+
+        timeout = setTimeout(searchFunc, 1000);
       });
 
       btnClearFilters.on('click', function() {
