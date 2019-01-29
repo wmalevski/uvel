@@ -2394,8 +2394,35 @@ var uvel,
           timeout;
 
       inputs.on('input', function(event) {
+        
+        var ajaxResultsResponse = function(response) {
+          
+          // i tuka nqkuv callback deto da populira poletata
+          
+          
+          // enable pak cqlata tablica
+          $('tbody').removeClass('inactive');
+        }
+        
+        var newSearchFunc = function() {
+          // pyrvo disable-va cqlata tablica dolu
+          $('tbody').addClass('inactive');
+          
+          debugger;
+          // posle vzima teksta ot poleto
+          var inputText = event.currentTarget.value.trim();
+          var ajax = event.currentTarget.dataset.dynamicSearchUrl;
+          var ajaxUrl = window.location.origin + '/' + ajax + inputText;
+          
+          
+          
+          // pravi zaqvkata
+          $self.ajaxFn('GET', ajaxUrl, ajaxResultsResponse);
 
-        var searchFunc = function () {
+          
+        };
+
+        var searchFunc = function() {
           // First check the current input, then all others
           var inputText = event.currentTarget.value.trim();
           var filterAttributes = [
@@ -2418,13 +2445,13 @@ var uvel,
               $self.filterElementsByAttribute(inputText, visibleElements, filterAttributes);
             }
           }
-        }
+        };
 
         if (timeout != null) {
           clearTimeout(timeout);
         }
 
-        timeout = setTimeout(searchFunc, 1000);
+        timeout = setTimeout(newSearchFunc, 1000);
       });
 
       btnClearFilters.on('click', function() {
