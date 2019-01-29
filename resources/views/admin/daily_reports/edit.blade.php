@@ -5,7 +5,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <form method="POST" name="dailyreports" data-type="edit" action="dailyreports/{{ $report->id }}">
+    <form method="POST" name="dailyReports" data-type="edit" action="dailyreports/{{ $report->id }}">
         <input name="_method" type="hidden" value="PUT">
         <div class="modal-body">
             <div class="info-cont">

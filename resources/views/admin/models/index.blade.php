@@ -4,7 +4,7 @@ $newMaterialRow =
 				'<div class="form-group col-md-6">
 					<label>Избери материал: </label>
 					<select name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material>
-						<option value="0">Избери</option>';
+						<option value="">Избери</option>';
 						foreach($materials as $material) {
 								if($material->material->pricesBuy->first() && $material->material->pricesSell->first()) {
 								$newMaterialRow .= '<option value="'. $material->id .'" data-carat="'. $material->material->carat  .'" data-material="'. $material->material->id  .'"
@@ -20,7 +20,7 @@ $newMaterialRow =
 				<div class="form-group col-md-5">
 					<label>Цена: </label>
 					<select name="retail_price_id[]" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail disabled>
-						<option value="0">Избери</option>
+						<option value="">Избери</option>
 					</select>
 				</div>
 				<div class="form-group col-md-1">

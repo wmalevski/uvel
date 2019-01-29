@@ -227,6 +227,16 @@ var uvel,
         selector: '[name="expenseTypes"]',
         controllers: [],
         initialized: false
+      },
+      expenses: {
+        selector: '[name="expenses"]',
+        controllers: [],
+        initialized: false
+      },
+      dailyReports: {
+        selector: '[name="dailyReports"]',
+        controllers: [],
+        initialized: false
       }
     }
 
@@ -819,7 +829,7 @@ var uvel,
       }
 
       // Reset all Select2 selectors
-      $('select').val(null).trigger('change');
+      $('select').val('').trigger('change');
 
       stoneRowsContainer.empty();
 
@@ -1424,7 +1434,7 @@ var uvel,
 
     this.fillPrices = function(element, prices, form) {
       //  for now it's made for classic select, needs review when we apply Select2
-      element.html('<option value="0">Избери</option>');
+      element.html('<option value="">Избери</option>');
       element.attr('disabled', false);
 
       prices.forEach(function(price) {
@@ -1471,7 +1481,7 @@ var uvel,
 
     this.fillMaterials = function(materials, form) {
       var materialHolder = form.find('[data-calculatePrice-material]');
-      materialHolder.html('<option value="0">Избери</option>');
+      materialHolder.html('<option value="">Избери</option>');
 
       materials.forEach(function(material) {
         var selected = material.selected ? 'selected' : '';
@@ -1937,7 +1947,7 @@ var uvel,
         if (event.currentTarget.value.length >= 13) {
           // TODO possible bug with window.location.origin, to be tested with different url-s
           var urlOrigin = window.location.origin,
-              inputUrl = event.currentTarget.attributes.url.value,
+              inputUrl = event.currentTarget.dataset.url,
               inputValue = event.currentTarget.value;
 
           var ajaxUrl = urlOrigin + '/' + inputUrl + inputValue;
@@ -1947,7 +1957,7 @@ var uvel,
     }
 
     this.onOrdersFormSelectCallback = function(event, selectElement, form) {
-      var ajax = selectElement[0].attributes.url.value,
+      var ajax = selectElement[0].dataset.url,
           selectedModelId = selectElement[0].selectedOptions[0].value,
           ajaxUrl = window.location.origin + '/' + ajax + selectedModelId;
 
@@ -2380,31 +2390,41 @@ var uvel,
     this.setInputFilters = function() {
       var inputs = $('.filter-input'),
           btnClearFilters = $('.btn-clear-filters'),
-          filterableElements = $('.filterable-element');
+          filterableElements = $('.filterable-element'),
+          timeout;
 
       inputs.on('input', function(event) {
-        // First check the current input, then all others
-        var inputText = event.currentTarget.value.trim();
-        var filterAttributes = [
-          event.currentTarget.dataset.searchAttribute
-        ];
-        $self.filterElementsByAttribute(inputText, filterableElements, filterAttributes);
 
-        // After the current input is checked, search only through the visible elements
-        var visibleElements = $('.filterable-element:visible');
+        var searchFunc = function () {
+          // First check the current input, then all others
+          var inputText = event.currentTarget.value.trim();
+          var filterAttributes = [
+            event.currentTarget.dataset.searchAttribute
+          ];
+          $self.filterElementsByAttribute(inputText, filterableElements, filterAttributes);
 
-        // Check other inputs, without the current one
-        for (var i = 0; i < inputs.length; i++) {
-          var input = inputs[i];
-          // Current input is already checked, ignore it
-          if (input != event.currentTarget && input.value != '') {
-            var inputText = input.value.trim();
-            var filterAttributes = [
-              input.dataset.searchAttribute
-            ];
-            $self.filterElementsByAttribute(inputText, visibleElements, filterAttributes);
+          // After the current input is checked, search only through the visible elements
+          var visibleElements = $('.filterable-element:visible');
+
+          // Check other inputs, without the current one
+          for (var i = 0; i < inputs.length; i++) {
+            var input = inputs[i];
+            // Current input is already checked, ignore it
+            if (input != event.currentTarget && input.value != '') {
+              var inputText = input.value.trim();
+              var filterAttributes = [
+                input.dataset.searchAttribute
+              ];
+              $self.filterElementsByAttribute(inputText, visibleElements, filterAttributes);
+            }
           }
         }
+
+        if (timeout != null) {
+          clearTimeout(timeout);
+        }
+
+        timeout = setTimeout(searchFunc, 1000);
       });
 
       btnClearFilters.on('click', function() {
