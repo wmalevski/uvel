@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
 use Auth;
 
 class MaterialQuantity extends Model
@@ -40,6 +41,18 @@ class MaterialQuantity extends Model
 
     public function products(){
         return $this->hasMany('App\Product')->withTrashed();
+    }
+
+    public function filterMaterials(Request $request ,$query){
+        $query = MaterialQuantity::where(function($query) use ($request){
+            if ($request->byName) {
+                $query->with('Material')->whereHas('Material', function($q) use ($request){
+                    $q->where('name', 'LIKE', "%$request->byName%");
+                });
+            }
+        });
+
+        return $query;
     }
 
     protected $table = 'materials_quantities';

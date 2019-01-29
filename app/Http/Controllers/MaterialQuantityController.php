@@ -131,6 +131,33 @@ class MaterialQuantityController extends Controller
         return Response::json(array('ID' => $materialQuantity->id, 'table' => View::make('admin/materials_quantity/table', array('material' => $materialQuantity))->render()));
     }
 
+    public function search(Request $request){
+        $material = new MaterialQuantity();
+        $search = $material->search($request);
+
+        return json_encode($search, JSON_UNESCAPED_SLASHES );
+    }
+
+    public function select_search(Request $request){
+        $query = MaterialQuantity::select('*');
+
+        $materials_new = new MaterialQuantity();
+        $materials = $materials_new->filterMaterials($request, $query);
+        $materials = $materials->where('store', Auth::user()->getStore()->id)->paginate(env('RESULTS_PER_PAGE'));
+        $pass_materials = array();
+
+        foreach($materials as $material){
+            $pass_materials[] = [
+                'value' => $material->id,
+                'label' => $material->material->parent->name.' - '.$material->material->color.' - '.$material->material->carat,
+                'data-carat' => $material->material->carat,
+                'data-pricebuy' => $material->material->pricesBuy->first()->price
+            ];
+        }
+
+        return json_encode($pass_materials, JSON_UNESCAPED_SLASHES );
+    }
+
     /**
      * Remove the specified resource from storage.
      *
