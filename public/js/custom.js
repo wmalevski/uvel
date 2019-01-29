@@ -1937,7 +1937,7 @@ var uvel,
         if (event.currentTarget.value.length >= 13) {
           // TODO possible bug with window.location.origin, to be tested with different url-s
           var urlOrigin = window.location.origin,
-              inputUrl = event.currentTarget.attributes.url.value,
+              inputUrl = event.currentTarget.dataset.url,
               inputValue = event.currentTarget.value;
 
           var ajaxUrl = urlOrigin + '/' + inputUrl + inputValue;
@@ -1947,7 +1947,7 @@ var uvel,
     }
 
     this.onOrdersFormSelectCallback = function(event, selectElement, form) {
-      var ajax = selectElement[0].attributes.url.value,
+      var ajax = selectElement[0].dataset.url,
           selectedModelId = selectElement[0].selectedOptions[0].value,
           ajaxUrl = window.location.origin + '/' + ajax + selectedModelId;
 
