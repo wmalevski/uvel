@@ -232,6 +232,11 @@ var uvel,
         selector: '[name="expenses"]',
         controllers: [],
         initialized: false
+      },
+      dailyReports: {
+        selector: '[name="dailyReports"]',
+        controllers: [],
+        initialized: false
       }
     }
 
