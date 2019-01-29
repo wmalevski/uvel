@@ -546,8 +546,13 @@ class ModelController extends Controller
 
         $models_new = new Model();
         $models = $models_new->filterModels($request, $query);
+        $models = $models->paginate(env('RESULTS_PER_PAGE'));
 
         $pass_models = array();
+
+        if($models->count() == 0){
+            $models = Model::all()->paginate(env('RESULTS_PER_PAGE'));
+        }
 
         foreach($models as $model){
             $pass_models[] = [
@@ -563,8 +568,12 @@ class ModelController extends Controller
         $query = Model::select('*');
 
         $models_new = new Model();
-        $models = $models_new->filterModels($request, $query);
+        $models = $models_new->filterModels($request, $query)->paginate(env('RESULTS_PER_PAGE'));
 
+        if($models->count() == 0){
+            $models = Model::all()->paginate(env('RESULTS_PER_PAGE'));
+        }
+        
         $response = '';
         foreach($models as $model){
             $response .= \View::make('admin/models/table', array('model' => $model, 'listType' => $request->listType));
