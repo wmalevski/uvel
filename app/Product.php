@@ -279,6 +279,18 @@ class Product extends BaseModel
                     $query->where('price', '<=', $request->priceTo);
                 }
 
+                if ($request->byName) {
+                    $query->where('name','LIKE','%'.$request->byName.'%');
+                }
+
+                if ($request->barcode) {
+                    $query->where('barcode','LIKE','%'.$request->byBarcode.'%');
+                }
+                
+                if ($request->code) {
+                    $query->where('code','LIKE','%'.$request->byCode.'%');
+                }
+
                 if ($request->bySize) {
                     $query->whereIn('size', $request->bySize);
                 }
@@ -294,33 +306,40 @@ class Product extends BaseModel
                 if ($request->byMaterial) {
                     $query->whereIn('material_type_id', $request->byMaterial);
                 }
-            })->where([
-                ['status', '=', 'available'],
-                ['website_visible', '=', 'yes']
-            ])->paginate(env('RESULTS_PER_PAGE'));
+            })->paginate(env('RESULTS_PER_PAGE'));
+
+            // ->where([
+            //     ['status', '=', 'available'],
+            //     ['website_visible', '=', 'yes']
+            // ])
+
             return $query;
         }
 
-        public function search(Request $request){
-            if($request->search != ''){
-                $results = Product::where('name', 'LIKE', "%$request->search%")->get();
-            }else{
-                $results = Product::take(10)->get();
-            }
+        // public function search(Request $request, $response = 'array'){
+        //     if($request->search != ''){
+        //         $results = Product::where('name', 'LIKE', "%$request->search%")->get();
+        //     }else{
+        //         $results = Product::take(10)->get();
+        //     }
 
-            $pass_products = array();
+        //     if($request->response == 'array'){
+        //         $pass_products = array();
 
-            foreach($results as $product){
-                $pass_products[] = [
-                    'value' => $product->id,
-                    'label' => $product->name,
-                    'barcode' => $product->barcode,
-                    'weight' => $product->weight
-                ];
-            }
+        //         foreach($results as $product){
+        //             $pass_products[] = [
+        //                 'value' => $product->id,
+        //                 'label' => $product->name,
+        //                 'barcode' => $product->barcode,
+        //                 'weight' => $product->weight
+        //             ];
+        //         }
 
-            return $pass_products;
-        }
+        //         return $pass_products;
+        //     }else if($request->response == 'table'){
+        //         return $results;
+        //     }
+        // }
 
         public function store($request, $responseType = 'JSON'){
             $validator = Validator::make( $request->all(), [
@@ -468,7 +487,6 @@ class Product extends BaseModel
                     }else{
                         $ext = $extension[1];
                     }
-
 
                     $file_name = 'productimage_'.uniqid().time().'.'.$ext;
 

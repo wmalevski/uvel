@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Input;
 use Response;
 use Illuminate\Support\Facades\View;
 use File;
@@ -540,11 +541,39 @@ class ModelController extends Controller
         return Response::json(array('ID' => $model->id, 'table' => View::make('admin/models/table',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render(), 'photos' => $photosHtml));
     }
 
-    public function search(Request $request){
-        $model = new Model();
-        $search = $model->search($request);
+    public function select_search(Request $request){
+        $query = Model::select('*');
 
-        return json_encode($search, JSON_UNESCAPED_SLASHES );
+        $models_new = new Model();
+        $models = $models_new->filterModels($request, $query);
+
+        $pass_models = array();
+
+        foreach($models as $model){
+            $pass_models[] = [
+                'value' => $model->id,
+                'label' => $model->name
+            ];
+        }
+
+        return json_encode($pass_models, JSON_UNESCAPED_SLASHES );
+    }
+    
+    public function filter(Request $request){
+        $query = Model::select('*');
+
+        $models_new = new Model();
+        $models = $models_new->filterModels($request, $query);
+
+        $response = '';
+        foreach($models as $model){
+            $response .= \View::make('admin/models/table', array('model' => $model, 'listType' => $request->listType));
+        }
+
+        $models->setPath('');
+        $response .= $models->appends(Input::except('page'))->links();
+
+        return $response;
     }
 
     /**

@@ -83,6 +83,10 @@ class Model extends BaseModel
                 $query = $query->where('price', '<=', $request->priceTo);
             }
 
+            if ($request->byName) {
+                $query->where('name','LIKE','%'.$request->byName.'%');
+            }
+
             if ($request->bySize) {
                 $query = $query->whereIn('size', $request->bySize);
             }
@@ -98,7 +102,9 @@ class Model extends BaseModel
             if ($request->byMaterial) {
                 $query = $query->whereIn('material_id', $request->byMaterial);
             }
-        })->where('website_visible', 'yes')->paginate(env('RESULTS_PER_PAGE'));
+        })->paginate(env('RESULTS_PER_PAGE'));
+
+        //->where('website_visible', 'yes')
 
         return $query;
     }

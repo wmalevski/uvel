@@ -75,7 +75,6 @@ class ProductController extends BaseController
         $response .= $products->appends(Input::except('page'))->links();
 
         return $response;
-
     }
 
     public function quickView(Product $product)

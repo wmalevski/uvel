@@ -235,6 +235,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 });
 
 Route::group(['prefix' => 'ajax'], function() {
+    Route::get('/search/products', 'ProductController@filter');
+    Route::get('/select_search/products', 'ProductController@select_search');
+
+    Route::get('/search/models', 'ModelController@filter');
+    Route::get('/select_search/models', 'ModelController@select_search');
 
     Route::post('/sell/partner', 'PaymentController@partner_payment');
 

@@ -14,6 +14,7 @@ use App\ModelOption;
 use Illuminate\Http\Request;
 use App\Gallery;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Redirect;
@@ -86,11 +87,52 @@ class ProductController extends Controller
         return $product->chainedSelects($model);
     }
 
-    public function search(Request $request){
-        $product = new Product();
-        $search = $product->search($request);
+    // public function search(Request $request){
+    //     $product = new Product();
+    //     $search = $product->search($request);
 
-        return json_encode($search, JSON_UNESCAPED_SLASHES );
+    //     if($request->response == 'array'){
+    //         return json_encode($search, JSON_UNESCAPED_SLASHES );
+    //     }else if($request->response == 'table'){
+    //         return Response::json(array('success' => View::make('admin/products/table',array('product'=>$product))->render()));
+    //     }
+    // }
+
+    public function select_search(Request $request){
+        $query = Product::select('*');
+
+        $products_new = new Product();
+        $products = $products_new->filterProducts($request, $query);
+
+        $pass_products = array();
+
+        foreach($products as $product){
+            $pass_products[] = [
+                'value' => $product->id,
+                'label' => $product->name,
+                'barcode' => $product->barcode,
+                'weight' => $product->weight
+            ];
+        }
+
+        return json_encode($pass_products, JSON_UNESCAPED_SLASHES );
+    }
+
+    public function filter(Request $request){
+        $query = Product::select('*');
+
+        $products_new = new Product();
+        $products = $products_new->filterProducts($request, $query);
+
+        $response = '';
+        foreach($products as $product){
+            $response .= \View::make('admin/products/table', array('product' => $product, 'listType' => $request->listType));
+        }
+
+        $products->setPath('');
+        $response .= $products->appends(Input::except('page'))->links();
+
+        return $response;
     }
 
     /**
