@@ -228,6 +228,11 @@ var uvel,
         controllers: [],
         initialized: false
       },
+      expenses: {
+        selector: '[name="expenses"]',
+        controllers: [],
+        initialized: false
+      },
       dailyReports: {
         selector: '[name="dailyReports"]',
         controllers: [],
