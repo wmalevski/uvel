@@ -2388,54 +2388,28 @@ var uvel,
 
     // Currently used in Admin->Models and Admin->Products pages
     this.setInputFilters = function() {
-      var inputs = $('.filter-input'),
+      var inputsLocalSearch = $('.filter-input:not([data-dynamic-search-url])'),
+          inputsDynamicSearch = $('.filter-input[data-dynamic-search-url]'),
           btnClearFilters = $('.btn-clear-filters'),
           filterableElements = $('.filterable-element'),
           timeout;
 
-      inputs.on('input', function(event) {
+      inputsLocalSearch.on('input', function(event) {
         
-        var ajaxResultsResponse = function(response) {
-          
-          // i tuka nqkuv callback deto da populira poletata
-          
-          
-          // enable pak cqlata tablica
-          $('tbody').removeClass('inactive');
-        }
-        
-        var newSearchFunc = function() {
-          // pyrvo disable-va cqlata tablica dolu
-          $('tbody').addClass('inactive');
-          
-          debugger;
-          // posle vzima teksta ot poleto
-          var inputText = event.currentTarget.value.trim();
-          var ajax = event.currentTarget.dataset.dynamicSearchUrl;
-          var ajaxUrl = window.location.origin + '/' + ajax + inputText;
-          
-          
-          
-          // pravi zaqvkata
-          $self.ajaxFn('GET', ajaxUrl, ajaxResultsResponse);
-
-          
-        };
-
-        var searchFunc = function() {
+        var localSearchFunc = function() {
           // First check the current input, then all others
           var inputText = event.currentTarget.value.trim();
           var filterAttributes = [
             event.currentTarget.dataset.searchAttribute
           ];
           $self.filterElementsByAttribute(inputText, filterableElements, filterAttributes);
-
+  
           // After the current input is checked, search only through the visible elements
           var visibleElements = $('.filterable-element:visible');
-
+  
           // Check other inputs, without the current one
-          for (var i = 0; i < inputs.length; i++) {
-            var input = inputs[i];
+          for (var i = 0; i < inputsLocalSearch.length; i++) {
+            var input = inputsLocalSearch[i];
             // Current input is already checked, ignore it
             if (input != event.currentTarget && input.value != '') {
               var inputText = input.value.trim();
@@ -2446,12 +2420,34 @@ var uvel,
             }
           }
         };
-
+        
         if (timeout != null) {
           clearTimeout(timeout);
         }
-
-        timeout = setTimeout(newSearchFunc, 1000);
+        timeout = setTimeout(localSearchFunc, 1000);
+      });
+      
+      inputsDynamicSearch.on('input', function(event) {
+        
+        var ajaxResultsResponse = function(response) {
+          $('tbody').html(response);
+          $('tbody').removeClass('inactive');
+        };
+        
+        var dynamicSearchFunc = function() {
+          $('tbody').addClass('inactive');
+          
+          var inputText = event.currentTarget.value.trim(),
+              ajax = event.currentTarget.dataset.dynamicSearchUrl,
+              ajaxUrl = window.location.origin + '/' + ajax + inputText;
+  
+          $self.ajaxFn('GET', ajaxUrl, ajaxResultsResponse);
+        };
+        
+        if (timeout != null) {
+          clearTimeout(timeout);
+        }
+        timeout = setTimeout(dynamicSearchFunc, 1000);
       });
 
       btnClearFilters.on('click', function() {
