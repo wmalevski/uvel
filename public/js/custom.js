@@ -227,6 +227,11 @@ var uvel,
         selector: '[name="expenseTypes"]',
         controllers: [],
         initialized: false
+      },
+      expenses: {
+        selector: '[name="expenses"]',
+        controllers: [],
+        initialized: false
       }
     }
 
