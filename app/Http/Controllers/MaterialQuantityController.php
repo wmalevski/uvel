@@ -146,6 +146,10 @@ class MaterialQuantityController extends Controller
         $materials = $materials->where('store', Auth::user()->getStore()->id)->paginate(env('RESULTS_PER_PAGE'));
         $pass_materials = array();
 
+        if($materials->count() == 0){
+            $materials = MaterialQuantity::paginate(env('RESULTS_PER_PAGE'));
+        }
+
         foreach($materials as $material){
             $pass_materials[] = [
                 'value' => $material->id,

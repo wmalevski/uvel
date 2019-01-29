@@ -551,7 +551,7 @@ class ModelController extends Controller
         $pass_models = array();
 
         if($models->count() == 0){
-            $models = Model::all()->paginate(env('RESULTS_PER_PAGE'));
+            $models = Model::paginate(env('RESULTS_PER_PAGE'));
         }
 
         foreach($models as $model){
@@ -571,7 +571,7 @@ class ModelController extends Controller
         $models = $models_new->filterModels($request, $query)->paginate(env('RESULTS_PER_PAGE'));
 
         if($models->count() == 0){
-            $models = Model::all()->paginate(env('RESULTS_PER_PAGE'));
+            $models = Model::paginate(env('RESULTS_PER_PAGE'));
         }
         
         $response = '';

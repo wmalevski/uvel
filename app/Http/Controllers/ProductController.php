@@ -96,7 +96,7 @@ class ProductController extends Controller
         $pass_products = array();
 
         if($products->count() == 0){
-            $products = Product::all()->paginate(env('RESULTS_PER_PAGE'));
+            $products = Product::paginate(env('RESULTS_PER_PAGE'));
         }
 
         foreach($products as $product){
@@ -119,7 +119,7 @@ class ProductController extends Controller
         $products = $products->paginate(env('RESULTS_PER_PAGE'));
 
         if($products->count() == 0){
-            $products = Product::all()->paginate(env('RESULTS_PER_PAGE'));
+            $products = Product::paginate(env('RESULTS_PER_PAGE'));
         }
 
         $response = '';
