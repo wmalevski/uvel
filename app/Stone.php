@@ -80,28 +80,15 @@ class Stone extends Model
         return $this->belongsTo('App\Nomenclature');
     }
 
-    public function search(Request $request)
-    {
-        if($request->search != ''){
-            $results = Stone::with('Nomenclature')->whereHas('Nomenclature', function($q) use ($request){
-                $q->where('name', 'LIKE', "%$request->search%");
-            })->get();
+    public function filterStones(Request $request ,$query){
+        $query = Stone::where(function($query) use ($request){
+            if ($request->byName) {
+                $query->with('Nomenclature')->whereHas('Nomenclature', function($q) use ($request){
+                    $q->where('name', 'LIKE', "%$request->byName%");
+                });
+            }
+        });
 
-        }else{
-            $results = Stone::take(10)->get();
-        }
-
-        $pass_stones = array();
-
-        foreach($results as $stone){
-            $pass_stones[] = [
-                'value' => $stone->id,
-                'label' => $stone->nomenclature->name,
-                'data-stone-price' => $stone->price,
-                'data-stone-type' => $stone->type
-            ];
-        }
-
-        return $pass_stones;
+        return $query;
     }
 }

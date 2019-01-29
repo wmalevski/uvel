@@ -311,31 +311,6 @@ class Product extends BaseModel
             return $query;
         }
 
-        // public function search(Request $request, $response = 'array'){
-        //     if($request->search != ''){
-        //         $results = Product::where('name', 'LIKE', "%$request->search%")->get();
-        //     }else{
-        //         $results = Product::take(10)->get();
-        //     }
-
-        //     if($request->response == 'array'){
-        //         $pass_products = array();
-
-        //         foreach($results as $product){
-        //             $pass_products[] = [
-        //                 'value' => $product->id,
-        //                 'label' => $product->name,
-        //                 'barcode' => $product->barcode,
-        //                 'weight' => $product->weight
-        //             ];
-        //         }
-
-        //         return $pass_products;
-        //     }else if($request->response == 'table'){
-        //         return $results;
-        //     }
-        // }
-
         public function store($request, $responseType = 'JSON'){
             $validator = Validator::make( $request->all(), [
                 'jewel_id' => 'required',

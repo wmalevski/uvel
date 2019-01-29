@@ -105,6 +105,24 @@ class JewelController extends Controller
         return Response::json(array('ID' => $jewel->id, 'table' => View::make('admin/jewels/table',array('jewel'=>$jewel))->render()));
     }
 
+    public function select_search(Request $request){
+        $query = Jewel::select('*');
+
+        $jewels_new = new Jewel();
+        $jewels = $jewels_new->filterJewels($request, $query);
+        $jewels = $jewels->paginate(env('RESULTS_PER_PAGE'));
+        $pass_jewels = array();
+
+        foreach($jewels as $jewel){
+            $pass_jewels[] = [
+                'value' => $jewel->id,
+                'label' => $jewel->name,
+            ];
+        }
+
+        return json_encode($pass_jewels, JSON_UNESCAPED_SLASHES );
+    }
+
     /**
      * Remove the specified resource from storage.
      *

@@ -108,24 +108,4 @@ class Model extends BaseModel
 
         return $query;
     }
-    
-    public function search(Request $request)
-    {
-        if($request->search != ''){
-            $results = Model::where('name', 'LIKE', "%$request->search%")->get();
-        }else{
-            $results = Model::take(10)->get();
-        }
-
-        $pass_models = array();
-
-        foreach($results as $model){
-            $pass_models[] = [
-                'value' => $model->id,
-                'label' => $model->name
-            ];
-        }
-
-        return $pass_models;
-    }
 }

@@ -43,29 +43,16 @@ class MaterialQuantity extends Model
         return $this->hasMany('App\Product')->withTrashed();
     }
 
-    public function search(Request $request)
-    {
-        if($request->search != ''){
-            $results = MaterialQuantity::with('Material')->whereHas('Material', function($q) use ($request){
-                $q->where('name', 'LIKE', "%$request->search%");
-            })->get();
+    public function filterMaterials(Request $request ,$query){
+        $query = MaterialQuantity::where(function($query) use ($request){
+            if ($request->byName) {
+                $query->with('Material')->whereHas('Material', function($q) use ($request){
+                    $q->where('name', 'LIKE', "%$request->byName%");
+                });
+            }
+        });
 
-        }else{
-            $results = MaterialQuantity::take(10)->get();
-        }
-
-        $pass_materials = array();
-
-        foreach($results as $material){
-            $pass_materials[] = [
-                'value' => $material->id,
-                'label' => $material->material->parent->name.' - '.$material->material->color.' - '.$material->material->carat,
-                'data-carat' => $material->material->carat,
-                'data-pricebuy' => $material->material->pricesBuy->first()->price
-            ];
-        }
-
-        return $pass_materials;
+        return $query;
     }
 
     protected $table = 'materials_quantities';

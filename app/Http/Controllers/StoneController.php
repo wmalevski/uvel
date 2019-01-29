@@ -218,11 +218,24 @@ class StoneController extends Controller
         return Response::json(array('ID' => $stone->id, 'table' => View::make('admin/stones/table',array('stone'=>$stone))->render(), 'photos' => $photosHtml));
     }
 
-    public function search(Request $request){
-        $stone = new Stone();
-        $search = $stone->search($request);
+    public function select_search(Request $request){
+        $query = Stone::select('*');
 
-        return json_encode($search, JSON_UNESCAPED_SLASHES );
+        $stones_new = new Stone();
+        $stones = $stones_new->filterStones($request, $query);
+        $stones = $stones->where('store', Auth::user()->getStore()->id)->paginate(env('RESULTS_PER_PAGE'));
+        $pass_stones = array();
+
+        foreach($stones as $stone){
+            $pass_stones[] = [
+                'value' => $stone->id,
+                'label' => $stone->nomenclature->name.' - '.$stone->contour->name.' - '.$stone->size->name,
+                'price' => $stone->price,
+                'type' => $stone->type
+            ];
+        }
+
+        return json_encode($pass_stones, JSON_UNESCAPED_SLASHES );
     }
 
     /**
