@@ -18,6 +18,7 @@ use App\ProductStone;
 use App\Store;
 use Storage;
 use App\Nomenclature;
+use Auth;
 
 class StoneController extends Controller
 {
@@ -223,8 +224,12 @@ class StoneController extends Controller
 
         $stones_new = new Stone();
         $stones = $stones_new->filterStones($request, $query);
-        $stones = $stones->where('store', Auth::user()->getStore()->id)->paginate(env('RESULTS_PER_PAGE'));
+        $stones = $stones->where('store_id', Auth::user()->getStore()->id)->paginate(env('RESULTS_PER_PAGE'));
         $pass_stones = array();
+
+        if($stones->count() == 0){
+            $stones = Stone::paginate(env('RESULTS_PER_PAGE'));
+        }
 
         foreach($stones as $stone){
             $pass_stones[] = [
