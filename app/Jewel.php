@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
 
 class Jewel extends Model
 {
@@ -26,5 +27,15 @@ class Jewel extends Model
 
     public function models() {
     	return $this->hasMany('App\Model');
+    }
+
+    public function filterJewels(Request $request ,$query){
+        $query = Jewel::where(function($query) use ($request){
+            if ($request->byName) {
+                $query->where('name','LIKE','%'.$request->byName.'%');
+            }
+        });
+
+        return $query;
     }
 }

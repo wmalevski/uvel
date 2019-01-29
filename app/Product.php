@@ -279,6 +279,18 @@ class Product extends BaseModel
                     $query->where('price', '<=', $request->priceTo);
                 }
 
+                if ($request->byName) {
+                    $query->where('name','LIKE','%'.$request->byName.'%');
+                }
+
+                if ($request->barcode) {
+                    $query->where('barcode','LIKE','%'.$request->byBarcode.'%');
+                }
+                
+                if ($request->code) {
+                    $query->where('code','LIKE','%'.$request->byCode.'%');
+                }
+
                 if ($request->bySize) {
                     $query->whereIn('size', $request->bySize);
                 }
@@ -294,28 +306,9 @@ class Product extends BaseModel
                 if ($request->byMaterial) {
                     $query->whereIn('material_type_id', $request->byMaterial);
                 }
-            })->where([
-                ['status', '=', 'available'],
-                ['website_visible', '=', 'yes']
-            ])->paginate(env('RESULTS_PER_PAGE'));
+            });
+
             return $query;
-        }
-
-        public function search($term){
-            $results = Product::where('name', 'LIKE', "%$term%")->get();
-
-            $pass_products = array();
-
-            foreach($results as $product){
-                $pass_products[] = [
-                    'value' => $product->id,
-                    'label' => $product->name,
-                    'barcode' => $product->barcode,
-                    'weight' => $product->weight
-                ];
-            }
-
-            return $pass_products;
         }
 
         public function store($request, $responseType = 'JSON'){
@@ -464,7 +457,6 @@ class Product extends BaseModel
                     }else{
                         $ext = $extension[1];
                     }
-
 
                     $file_name = 'productimage_'.uniqid().time().'.'.$ext;
 

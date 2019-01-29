@@ -213,9 +213,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/models/reviews/all', 'ModelController@showReviews')->name('show_model_reviews');
     Route::post('/logout', 'UserController@logout')->name('admin_logout');
 
-    Route::get('/search/models/{term}', 'ModelController@search');
-
-    Route::get('/search/products/{term}', 'ProductController@search');
     Route::get('/orders/{order}', 'OrderController@edit');
     Route::get('/expenses', 'ExpenseController@index');
     Route::get('/expenses', 'ExpenseController@index')->name('expenses');    
@@ -230,6 +227,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 });
 
 Route::group(['prefix' => 'ajax'], function() {
+    Route::get('/select_search/materials', 'MaterialQuantityController@select_search');
+
+    Route::get('/select_search/jewels', 'JewelController@select_search');
+
+    Route::get('/select_search/stones', 'StoneController@select_search');
+    
+    Route::get('/search/products', 'ProductController@filter');
+    Route::get('/select_search/products', 'ProductController@select_search');
+
+    Route::get('/search/models', 'ModelController@filter');
+    Route::get('/select_search/models', 'ModelController@select_search');
 
     Route::post('/sell/partner', 'PaymentController@partner_payment');
 

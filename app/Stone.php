@@ -6,6 +6,7 @@ use App\StoneSize;
 use App\StoneStyle;
 use App\StoneContour;
 use Auth;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -77,5 +78,17 @@ class Stone extends Model
     public function nomenclature()
     {
         return $this->belongsTo('App\Nomenclature');
+    }
+
+    public function filterStones(Request $request ,$query){
+        $query = Stone::where(function($query) use ($request){
+            if ($request->byName) {
+                $query->with('Nomenclature')->whereHas('Nomenclature', function($q) use ($request){
+                    $q->where('name', 'LIKE', "%$request->byName%");
+                });
+            }
+        });
+
+        return $query;
     }
 }

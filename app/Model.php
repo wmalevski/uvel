@@ -83,6 +83,10 @@ class Model extends BaseModel
                 $query = $query->where('price', '<=', $request->priceTo);
             }
 
+            if ($request->byName) {
+                $query->where('name','LIKE','%'.$request->byName.'%');
+            }
+
             if ($request->bySize) {
                 $query = $query->whereIn('size', $request->bySize);
             }
@@ -98,24 +102,8 @@ class Model extends BaseModel
             if ($request->byMaterial) {
                 $query = $query->whereIn('material_id', $request->byMaterial);
             }
-        })->where('website_visible', 'yes')->paginate(env('RESULTS_PER_PAGE'));
+        });
 
         return $query;
-    }
-    
-    public function search($term)
-    {
-        $results = Model::where('name', 'LIKE', "%$term%")->get();
-
-        $pass_models = array();
-
-        foreach($results as $model){
-            $pass_models[] = [
-                'value' => $model->id,
-                'label' => $model->name
-            ];
-        }
-
-        return $pass_models;
     }
 }
