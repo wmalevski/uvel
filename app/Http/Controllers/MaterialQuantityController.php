@@ -143,7 +143,7 @@ class MaterialQuantityController extends Controller
 
         $materials_new = new MaterialQuantity();
         $materials = $materials_new->filterMaterials($request, $query);
-        $materials = $materials->where('store', Auth::user()->getStore()->id)->paginate(env('RESULTS_PER_PAGE'));
+        $materials = $materials->where('store_id', Auth::user()->getStore()->id)->paginate(env('RESULTS_PER_PAGE'));
         $pass_materials = array();
 
         if($materials->count() == 0){
