@@ -227,6 +227,11 @@ var uvel,
         selector: '[name="expenseTypes"]',
         controllers: [],
         initialized: false
+      },
+      dailyReports: {
+        selector: '[name="dailyReports"]',
+        controllers: [],
+        initialized: false
       }
     }
 
