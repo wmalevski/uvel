@@ -31,6 +31,11 @@ class ProductController extends BaseController
         $products_new = new Product();
         $products = $products_new->filterProducts($request, $products);
 
+        $products = $products->where([
+            ['status', '=', 'available'],
+            ['website_visible', '=', 'yes']
+        ])->paginate(env('RESULTS_PER_PAGE'));
+
         $stores = Store::all()->except(1);
 
         $productothertypes = ProductOtherType::all();
@@ -65,6 +70,11 @@ class ProductController extends BaseController
 
         $products_new = new Product();
         $products = $products_new->filterProducts($request, $query);
+        $products = $products->where([
+            ['status', '=', 'available'],
+            ['website_visible', '=', 'yes']
+        ])->paginate(env('RESULTS_PER_PAGE'));
+
 
         $response = '';
         foreach($products as $product){

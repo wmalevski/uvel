@@ -306,12 +306,7 @@ class Product extends BaseModel
                 if ($request->byMaterial) {
                     $query->whereIn('material_type_id', $request->byMaterial);
                 }
-            })->paginate(env('RESULTS_PER_PAGE'));
-
-            // ->where([
-            //     ['status', '=', 'available'],
-            //     ['website_visible', '=', 'yes']
-            // ])
+            });
 
             return $query;
         }

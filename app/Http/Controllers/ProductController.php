@@ -87,23 +87,12 @@ class ProductController extends Controller
         return $product->chainedSelects($model);
     }
 
-    // public function search(Request $request){
-    //     $product = new Product();
-    //     $search = $product->search($request);
-
-    //     if($request->response == 'array'){
-    //         return json_encode($search, JSON_UNESCAPED_SLASHES );
-    //     }else if($request->response == 'table'){
-    //         return Response::json(array('success' => View::make('admin/products/table',array('product'=>$product))->render()));
-    //     }
-    // }
-
     public function select_search(Request $request){
         $query = Product::select('*');
 
         $products_new = new Product();
         $products = $products_new->filterProducts($request, $query);
-
+        $products = $products->paginate(env('RESULTS_PER_PAGE'));
         $pass_products = array();
 
         foreach($products as $product){
