@@ -215,15 +215,8 @@ aria-hidden="true">
                             <div class="form-row">
                                 <div class="form-group col-md-5">
                                     <label for="">Вид</label>
-                                    <select id="material_type" name="material_id[]" data-calculateprice-material class="material_type form-control calculate">
+                                    <select name="material_id[]" data-select2-skip data-calculateprice-material class="material_type form-control calculate">
                                         <option value="">Избери</option>
-                                
-                                        @foreach($materials as $material)
-                                            @if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
-                                                <option value="{{ $material->id }}" data-carat="{{ $material->material->carat }}" data-material="{{ $material->material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->carat }}</option>
-                                            @endif
-                                        @endforeach
-
                                     </select>
                                 </div>
                                 <div class="form-group col-md-5">
@@ -234,7 +227,7 @@ aria-hidden="true">
                                     <label for="">Цена на грамаж</label>
                                     <!-- AUTO GENERATED FROM JS -->
                                     <select id="retail_prices" name="retail_price_id[]" class="form-control calculate prices-filled retail-price" data-calculateprice-retail disabled>
-                                        <option value="0">Избери</option>
+                                        <option value="">Избери</option>
                                     </select>
                                 </div> --}}
 
@@ -253,7 +246,7 @@ aria-hidden="true">
                             <div class="form-group col-md-6">
                                 <label for="given-sum">Цена на грамаж</label>
                                 <select name="calculating_price" class="form-control">
-                                    <option value="0">Избери</option>
+                                    <option value="">Избери</option>
                                     @if($materials->first()->material->pricesBuy->first())
                                     @foreach($materials->first()->material->pricesBuy as $price)
                                         <option value="{{ $price->id }}" data-defaultPrice="{{ $materials->first()->material->pricesBuy->first()->price }}" data-price="{{ $price->price }}">{{ $price->slug }} - {{ $price->price }}</option>

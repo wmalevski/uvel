@@ -227,6 +227,16 @@ var uvel,
         selector: '[name="expenseTypes"]',
         controllers: [],
         initialized: false
+      },
+      expenses: {
+        selector: '[name="expenses"]',
+        controllers: [],
+        initialized: false
+      },
+      dailyReports: {
+        selector: '[name="dailyReports"]',
+        controllers: [],
+        initialized: false
       }
     }
 
@@ -819,7 +829,7 @@ var uvel,
       }
 
       // Reset all Select2 selectors
-      $('select').val(null).trigger('change');
+      $('select').val('').trigger('change');
 
       stoneRowsContainer.empty();
 
@@ -848,7 +858,6 @@ var uvel,
         dataType: 'json',
         data: data,
         success: function(response) {
-          document.getElementsByClassName('modal-content')[0].scrollIntoView();
           if (formType == 'add') {
             $self.appendResponseToTable(response, form);
             $('form').find('table tbody').empty();
@@ -858,13 +867,14 @@ var uvel,
           $self.formSuccessHandler(form, formType);
         },
         error: function(err) {
-          // scroll to top of form window
-          document.getElementsByClassName('modal-content')[0].scrollIntoView();
           $self.formsErrorHandler(err, form);
+        },
+        complete: function() {
+          // scroll to top of form window
+          form[0].scrollIntoView();
         }
       });
     }
-
 
     // FUNCTION THAT READS ALL THE ERRORS RETURNED FROM THE REQUEST AND APPEND THEM IN THE MODAL-FORM-BODY
 
@@ -1424,7 +1434,7 @@ var uvel,
 
     this.fillPrices = function(element, prices, form) {
       //  for now it's made for classic select, needs review when we apply Select2
-      element.html('<option value="0">Избери</option>');
+      element.html('<option value="">Избери</option>');
       element.attr('disabled', false);
 
       prices.forEach(function(price) {
@@ -1471,7 +1481,7 @@ var uvel,
 
     this.fillMaterials = function(materials, form) {
       var materialHolder = form.find('[data-calculatePrice-material]');
-      materialHolder.html('<option value="0">Избери</option>');
+      materialHolder.html('<option value="">Избери</option>');
 
       materials.forEach(function(material) {
         var selected = material.selected ? 'selected' : '';
@@ -1716,8 +1726,8 @@ var uvel,
         }
       }
 
-      $(materialHolder).select2();
-
+      $self.initializeSelect($(materialHolder));
+      
       function addMaterial(material) {
         var option = document.createElement("option");
 
@@ -1808,7 +1818,7 @@ var uvel,
       }
 
       total += weightNotConvertedSum * selectedCurrency;
-      document.querySelector('[data-exchangerows-total]').value = Number(total.toFixed(2));
+      document.querySelector('[data-exchangerows-total]').value = Number(total.toFixed(2)) || 0;
 
       return $self.calculatePaymentInit($('[name="selling"]'));
     }
@@ -1937,7 +1947,7 @@ var uvel,
         if (event.currentTarget.value.length >= 13) {
           // TODO possible bug with window.location.origin, to be tested with different url-s
           var urlOrigin = window.location.origin,
-              inputUrl = event.currentTarget.attributes.url.value,
+              inputUrl = event.currentTarget.dataset.url,
               inputValue = event.currentTarget.value;
 
           var ajaxUrl = urlOrigin + '/' + inputUrl + inputValue;
@@ -1947,7 +1957,7 @@ var uvel,
     }
 
     this.onOrdersFormSelectCallback = function(event, selectElement, form) {
-      var ajax = selectElement[0].attributes.url.value,
+      var ajax = selectElement[0].dataset.url,
           selectedModelId = selectElement[0].selectedOptions[0].value,
           ajaxUrl = window.location.origin + '/' + ajax + selectedModelId;
 
@@ -2298,20 +2308,20 @@ var uvel,
           loadSelect2(select[i]);
         }
       } else {
-        loadSelect2(select);
+        loadSelect2(select[0]);
       }
 
       function loadSelect2(sel) {
-        if (sel.dataset.search) {
+        if (sel.hasAttribute('data-search')) {
           $(sel).select2({
             ajax: {
               url: sel.dataset.search,
               type: 'GET',
               dataType: 'json',
-              delay: 500,
+              delay: 1000,
               data: function(params) {
                 var query = {
-                  search: params.term,
+                  byName: params.term,
                   page: params.page || 1
                 }
                 return query;
@@ -2319,8 +2329,8 @@ var uvel,
               processResults: function(data, params) {
                 console.log(data)
                 var data = $.map(data, function(obj) {
-                  obj.id = obj.id;
-                  obj.text = obj.sku;
+                  obj.id = obj.value;
+                  obj.text = obj.label;
                   return obj;
                 });
                 // parse the results into the format expected by Select2
@@ -2338,7 +2348,7 @@ var uvel,
               },
               cache: true
             },
-            minimumInputLength: 1,
+            minimumInputLength: 0,
             escapeMarkup: function(markup) {
               return markup;
             },
@@ -2440,31 +2450,41 @@ var uvel,
     this.setInputFilters = function() {
       var inputs = $('.filter-input'),
           btnClearFilters = $('.btn-clear-filters'),
-          filterableElements = $('.filterable-element');
+          filterableElements = $('.filterable-element'),
+          timeout;
 
       inputs.on('input', function(event) {
-        // First check the current input, then all others
-        var inputText = event.currentTarget.value.trim();
-        var filterAttributes = [
-          event.currentTarget.dataset.searchAttribute
-        ];
-        $self.filterElementsByAttribute(inputText, filterableElements, filterAttributes);
 
-        // After the current input is checked, search only through the visible elements
-        var visibleElements = $('.filterable-element:visible');
+        var searchFunc = function () {
+          // First check the current input, then all others
+          var inputText = event.currentTarget.value.trim();
+          var filterAttributes = [
+            event.currentTarget.dataset.searchAttribute
+          ];
+          $self.filterElementsByAttribute(inputText, filterableElements, filterAttributes);
 
-        // Check other inputs, without the current one
-        for (var i = 0; i < inputs.length; i++) {
-          var input = inputs[i];
-          // Current input is already checked, ignore it
-          if (input != event.currentTarget && input.value != '') {
-            var inputText = input.value.trim();
-            var filterAttributes = [
-              input.dataset.searchAttribute
-            ];
-            $self.filterElementsByAttribute(inputText, visibleElements, filterAttributes);
+          // After the current input is checked, search only through the visible elements
+          var visibleElements = $('.filterable-element:visible');
+
+          // Check other inputs, without the current one
+          for (var i = 0; i < inputs.length; i++) {
+            var input = inputs[i];
+            // Current input is already checked, ignore it
+            if (input != event.currentTarget && input.value != '') {
+              var inputText = input.value.trim();
+              var filterAttributes = [
+                input.dataset.searchAttribute
+              ];
+              $self.filterElementsByAttribute(inputText, visibleElements, filterAttributes);
+            }
           }
         }
+
+        if (timeout != null) {
+          clearTimeout(timeout);
+        }
+
+        timeout = setTimeout(searchFunc, 1000);
       });
 
       btnClearFilters.on('click', function() {

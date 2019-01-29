@@ -18,6 +18,7 @@ use App\ProductStone;
 use App\Store;
 use Storage;
 use App\Nomenclature;
+use Auth;
 
 class StoneController extends Controller
 {
@@ -216,6 +217,30 @@ class StoneController extends Controller
         }
 
         return Response::json(array('ID' => $stone->id, 'table' => View::make('admin/stones/table',array('stone'=>$stone))->render(), 'photos' => $photosHtml));
+    }
+
+    public function select_search(Request $request){
+        $query = Stone::select('*');
+
+        $stones_new = new Stone();
+        $stones = $stones_new->filterStones($request, $query);
+        $stones = $stones->where('store_id', Auth::user()->getStore()->id)->paginate(env('RESULTS_PER_PAGE'));
+        $pass_stones = array();
+
+        if($stones->count() == 0){
+            $stones = Stone::paginate(env('RESULTS_PER_PAGE'));
+        }
+
+        foreach($stones as $stone){
+            $pass_stones[] = [
+                'value' => $stone->id,
+                'label' => $stone->nomenclature->name.' - '.$stone->contour->name.' - '.$stone->size->name,
+                'price' => $stone->price,
+                'type' => $stone->type
+            ];
+        }
+
+        return json_encode($pass_stones, JSON_UNESCAPED_SLASHES );
     }
 
     /**

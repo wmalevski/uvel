@@ -64,7 +64,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
 							<label for="weight">Сканирай продукт:</label>
 							
 							<div class="input-group">
-								<input type="text" url="ajax/orders/getProductInfo/" class="form-control" id="calculate_product" 
+								<input type="text" data-url="ajax/orders/getProductInfo/" class="form-control" id="calculate_product" 
 											 name="product_id" placeholder="Сканирай продукт:">
 							</div>
 						</div>
@@ -78,7 +78,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
 						<div class="form-group col-md-6">
 							<label>Модел:</label>
 							
-							<select url="ajax/orders/getModelInfo/" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model>
+							<select data-url="ajax/orders/getModelInfo/" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model>
 								<option value="">Избери</option>
 								
 								@foreach($models as $model)
