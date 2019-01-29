@@ -829,7 +829,7 @@ var uvel,
       }
 
       // Reset all Select2 selectors
-      $('select').val(null).trigger('change');
+      $('select').val('').trigger('change');
 
       stoneRowsContainer.empty();
 
@@ -1434,7 +1434,7 @@ var uvel,
 
     this.fillPrices = function(element, prices, form) {
       //  for now it's made for classic select, needs review when we apply Select2
-      element.html('<option value="0">Избери</option>');
+      element.html('<option value="">Избери</option>');
       element.attr('disabled', false);
 
       prices.forEach(function(price) {
@@ -1481,7 +1481,7 @@ var uvel,
 
     this.fillMaterials = function(materials, form) {
       var materialHolder = form.find('[data-calculatePrice-material]');
-      materialHolder.html('<option value="0">Избери</option>');
+      materialHolder.html('<option value="">Избери</option>');
 
       materials.forEach(function(material) {
         var selected = material.selected ? 'selected' : '';
