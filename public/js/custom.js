@@ -1167,6 +1167,8 @@ var uvel,
       newRow.innerHTML = hr + newMaterialRow;
 
       var select = $(newRow).find('select');
+      $(newRow).find('[data-calculateprice-default]').prop('checked', false);
+      
       $self.initializeSelect(select);
 
       materialsWrapper.append(newRow);
