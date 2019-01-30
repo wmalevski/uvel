@@ -13,7 +13,7 @@
                 </div>
             {{ csrf_field() }}
             <!-- Nav tabs -->
-            <ul id="blog_lng" class="nav nav-tabs" role="tablist">
+            <ul id="blog_lng_edit" class="nav nav-tabs" role="tablist">
                 @foreach(config('translatable.locales') as $locale => $language)
                     <li role="presentation" class="@if($loop->first)active @endif">
                         <a href="#{{$locale}}_store" aria-controls="{{$locale}}" role="tab" data-toggle="tab">{{$language}}</a>

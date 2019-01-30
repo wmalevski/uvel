@@ -991,8 +991,8 @@ var uvel,
               }
             }
 
-            if (modal.find('#summernote').length > 0) {
-              modal.find('#summernote').summernote({
+            if (modal.find('.summernote').length > 0) {
+              modal.find('.summernote').summernote({
                 height: 300,
                 popover: {
                   image: [],
