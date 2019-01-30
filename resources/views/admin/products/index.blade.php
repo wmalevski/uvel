@@ -322,33 +322,20 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 		<tr class="search-inputs">
 			<th></th>
 			<th>
-				<input class="filter-input form-control" type="text" data-search-attribute="data-code" placeholder="Търси по номер">
+				<input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/products/?byCode=" placeholder="Търси по номер">
 			</th>
 			<th>
-				<input class="filter-input form-control" type="text" data-search-attribute="data-model" placeholder="Търси по модел">
-			</th>
-			<th>
-				<input class="filter-input form-control" type="text" data-search-attribute="data-type" placeholder="Търси по вид">
-			</th>
-			<th>
-				<input class="filter-input form-control" type="number" data-search-attribute="data-retail-price" placeholder="Търси по цена на дребно">
-			</th>
-			<th>
-				<input class="filter-input form-control" type="number" data-search-attribute="data-weight" placeholder="Търси по тегло">
-			</th>
-			<th>
-				<input class="filter-input form-control" type="number" data-search-attribute="data-price" placeholder="Търси по цена">
-			</th>
-			<th>
-				<input class="filter-input form-control" type="number" data-search-attribute="data-barcode" placeholder="Търси по баркод">
+				<input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/products/?byName=" placeholder="Търси по модел">
 			</th>
 			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
 			<th>
-				<button type="button" class="btn btn-primary btn-clear-filters">
-					<strong>X</strong>
-					Изчисти филтри
-				</button>
+				<input class="filter-input form-control" type="number" data-dynamic-search-url="ajax/search/products/?byBarcode=" placeholder="Търси по баркод">
 			</th>
+			<th></th>
+			<th></th>
 			<th></th>
 		</tr>
 	</thead>
