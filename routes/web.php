@@ -214,8 +214,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::post('/logout', 'UserController@logout')->name('admin_logout');
 
     Route::get('/orders/{order}', 'OrderController@edit');
-    Route::get('/expenses', 'ExpenseController@index');
-    Route::get('/expenses', 'ExpenseController@index')->name('expenses');    
+    Route::get('/expenses', 'ExpenseController@index')->name('expenses');   
+    Route::get('/expenses/{expense}', 'ExpenseController@edit');    
 
     Route::get('/expensetypes', 'ExpenseTypeController@index')->name('expenses_types'); 
     Route::get('/expensetypes/edit/{type}', 'ExpenseTypeController@edit');   
