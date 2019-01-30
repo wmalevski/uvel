@@ -59,3 +59,9 @@ form .form-group {
 .nav-item .dropdown-menu {
 	margin-top: 0 !important;
 }
+
+/* Blog */
+.note-editor .note-editable {
+	min-height: 200px;
+	max-height: 1000px;
+}
