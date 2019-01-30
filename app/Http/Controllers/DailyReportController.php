@@ -10,6 +10,10 @@ use App\Expense;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
+use App\Material;
+use App\MaterialQuantity;
+use App\Jewel;
+use App\Currency;
 
 class DailyReportController extends Controller
 {
@@ -20,8 +24,7 @@ class DailyReportController extends Controller
      */
     public function index()
     {
-        // $dailyReports = DailyReport::whereDate('created_at', Carbon::today())->get();
-        $dailyReports = DailyReport::all();
+        $dailyReports = DailyReport::whereDate('created_at', Carbon::today())->get();
         
         return view('admin.daily_reports.index', compact('dailyReports'));
     }
@@ -33,7 +36,13 @@ class DailyReportController extends Controller
      */
     public function create()
     {
-        //
+        $jewels = Jewel::all();
+        $materials = MaterialQuantity::where('store_id', Auth::user()->getStore()->id)->get();
+        $currencies = Currency::where('default', 'no')->get();
+
+        $dailyReports = DailyReport::whereDate('created_at', Carbon::today())->get();
+
+        return view('admin.daily_reports.create', compact('dailyReports', 'materials', 'jewels', 'currencies'));
     }
 
     /**
@@ -44,50 +53,28 @@ class DailyReportController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make( $request->all(), [
-            'safe_amount' => 'required|numeric'
-         ]);
-
-        if ($validator->fails()) {
-            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
-        }
-
-        $allSold = Payment::where([
-            ['method', '=', 'cash'],
-            ['store_id', '=', Auth::user()->getStore()]
-        ])->whereDate('created_at', Carbon::today())->sum('given');
-
-        $expenses = Expense::where([
-            ['store_id', '=', Auth::user()->getStore()]
-        ])->whereDate('created_at', Carbon::today())->sum('given');
-
-        $todayReport = DailyReport::where('store_id', Auth::user()->getStore())->whereDate('created_at', Carbon::today())->get();
         
-        if(count($todayReport)){
-            $todayReport = 'true';
-        }else{
-            $todayReport = 'false';
-        }
+    }
 
-        $report = new DailyReport();
-        $report->safe_amount = $request->safe_amount;
-        $report->calculated_price = $allSold;
-        $report->store_id = Auth::user()->getStore();
-        $report->user_id = Auth::user()->getId();
-        $report->save();
+    public function moneyReport(Request $request){
+        $dailyReport = new DailyReport();
+        $dailyReport = $dailyReport->moneyReport($request);
 
-        if($allSold < ($request->safe_amount - $expenses)){
-            return Response::json(['errors' => ['using' => ['Въведената сума не съвпата с тази в системата! Моля опитайте пак или се свържете с администратор!']]], 401);
-        }else if($allSold == ($request->save_amount - $expenses)){
-            if($todayReport == 'false'){
-                return Response::json(array('success' => 'Успешно направихте дневен отчет!'));
-            }else{
-                return Response::json(['errors' => ['using' => ['Вече сте пуснали дневен отчет!']]], 401);
-            }
-            
-        }else{
-            return Response::json(['errors' => ['using' => ['Въведената сума не съвпата с тази в системата! Моля опитайте пак или се свържете с администратор!']]], 401);
-        }
+        return $dailyReport;
+    }
+
+    public function jewelReport(Request $request){
+        $dailyReport = new DailyReport();
+        $dailyReport = $dailyReport->jewelReport($request);
+
+        return $dailyReport;
+    }
+
+    public function materialReport(Request $request){
+        $dailyReport = new DailyReport();
+        $dailyReport = $dailyReport->materialReport($request);
+
+        return $dailyReport;
     }
 
     /**

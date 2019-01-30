@@ -347,8 +347,7 @@ aria-hidden="true">
             <h4 class="c-grey-900 mB-20">Продажби 
                 <a href="{{ route('clear_cart') }}" class="btn btn-primary">Изчисти продажбата</a>
                 @if($todayReport == 'false')
-                    <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#dailyReport" data-form-type="add" data-form="dailyReport">Пусни дневен отчет</button>
-                    {{-- {{$allSold}} --}}
+                    <a href="{{ route('create_report') }}" class="add-btn btn btn-primary" >Пусни дневен отчет</a>
                 @endif
             </h4>
 

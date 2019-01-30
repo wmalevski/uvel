@@ -113,6 +113,10 @@ class JewelController extends Controller
         $jewels = $jewels->paginate(env('RESULTS_PER_PAGE'));
         $pass_jewels = array();
 
+        if($jewels->count() == 0){
+            $jewels = Jewel::paginate(env('RESULTS_PER_PAGE'));
+        }
+
         foreach($jewels as $jewel){
             $pass_jewels[] = [
                 'value' => $jewel->id,
