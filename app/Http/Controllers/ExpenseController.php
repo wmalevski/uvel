@@ -49,10 +49,7 @@ class ExpenseController extends Controller
         $validator = Validator::make( $request->all(), [
             'type_id' => 'required',
             'amount' => 'required',
-            'given' => 'required',
             'currency_id' => 'required',
-            'user_id' => 'required',
-            'store_id' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -60,6 +57,7 @@ class ExpenseController extends Controller
         }
 
         $request->request->add(['user_id' => Auth::user()->getId()]);
+        $request->request->add(['store_id' => Auth::user()->getStore()->id]);
 
         $expense = Expense::create($request->all());
 
@@ -85,7 +83,10 @@ class ExpenseController extends Controller
      */
     public function edit(Expense $expense)
     {
-        return \View::make('admin/expenses/edit',array('expense'=>$expense));
+        $expenses_types = ExpenseType::all();
+        $currencies = Currency::all();
+
+        return \View::make('admin/expenses/edit',array('expense' => $expense, 'expenses_types' => $expenses_types, 'currencies' => $currencies));
     }
 
     /**
@@ -100,10 +101,7 @@ class ExpenseController extends Controller
         $validator = Validator::make( $request->all(), [
             'type_id' => 'required',
             'amount' => 'required',
-            'given' => 'required',
             'currency_id' => 'required',
-            'user_id' => 'required',
-            'store_id' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -115,7 +113,7 @@ class ExpenseController extends Controller
         $expense->given = $request->given;
         $expense->currency_id = $request->currency_id;
         $expense->user_id = Auth::user()->getId();
-        $expense->store_id = $request->store_id;
+        $expense->store_id = Auth::user()->getStore()->id;
 
         $expense->save();
 
