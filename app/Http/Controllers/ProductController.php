@@ -144,10 +144,6 @@ class ProductController extends Controller
         $product = new Product();
         $product = $product->store($request, 'JSON');
 
-        if($models->count() == 0){
-            $models = Model::all();
-        }
-        
         if(isset($product->id)){
             return Response::json(array('success' => View::make('admin/products/table',array('product'=>$product))->render()));
         }else{
