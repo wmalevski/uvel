@@ -70,6 +70,7 @@ class Payment extends Model
             $payment->price = $request->wanted_sum;
             $payment->given = $request->given_sum;
             $payment->info = $request->info;
+            $payment->store_id = Auth::user()->getStore()->id;
             $payment->user_id = $userId;
 
 
