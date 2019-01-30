@@ -28,7 +28,7 @@ $newMaterialRow =
 				</div>
 				<div class="form-group col-md-12">
 					<div class="radio radio-info">
-						<input type="radio" id="" class="default_material" name="default_material[]" data-calculatePrice-default>
+						<input type="radio" id="" class="default_material" name="default_material[]" data-calculatePrice-default checked>
 						<label for=""><span>Материал по подразбиране</span></label>
 					</div>
 				</div>';
