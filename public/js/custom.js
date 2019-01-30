@@ -2392,10 +2392,11 @@ var uvel,
           inputsDynamicSearch = $('.filter-input[data-dynamic-search-url]'),
           btnClearFilters = $('.btn-clear-filters'),
           filterableElements = $('.filterable-element'),
-          timeout;
+          timeoutLocalSearch,
+          timeoutDynamicSearch;
 
       inputsLocalSearch.on('input', function(event) {
-        
+
         var localSearchFunc = function() {
           // First check the current input, then all others
           var inputText = event.currentTarget.value.trim();
@@ -2421,33 +2422,33 @@ var uvel,
           }
         };
         
-        if (timeout != null) {
-          clearTimeout(timeout);
+        if (timeoutLocalSearch != null) {
+          clearTimeout(timeoutLocalSearch);
         }
-        timeout = setTimeout(localSearchFunc, 1000);
+        timeoutLocalSearch = setTimeout(localSearchFunc, 1000);
       });
-      
+
       inputsDynamicSearch.on('input', function(event) {
         
         var ajaxResultsResponse = function(response) {
           $('tbody').html(response);
           $('tbody').removeClass('inactive');
         };
-        
+
         var dynamicSearchFunc = function() {
           $('tbody').addClass('inactive');
-          
+
           var inputText = event.currentTarget.value.trim(),
               ajax = event.currentTarget.dataset.dynamicSearchUrl,
               ajaxUrl = window.location.origin + '/' + ajax + inputText;
   
           $self.ajaxFn('GET', ajaxUrl, ajaxResultsResponse);
         };
-        
-        if (timeout != null) {
-          clearTimeout(timeout);
+
+        if (timeoutDynamicSearch != null) {
+          clearTimeout(timeoutDynamicSearch);
         }
-        timeout = setTimeout(dynamicSearchFunc, 1000);
+        timeoutDynamicSearch = setTimeout(dynamicSearchFunc, 1000);
       });
 
       btnClearFilters.on('click', function() {

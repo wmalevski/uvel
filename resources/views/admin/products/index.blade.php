@@ -322,10 +322,12 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 		<tr class="search-inputs">
 			<th></th>
 			<th>
-				<input class="filter-input form-control" type="text" data-search-attribute="data-code" placeholder="Търси по номер">
+				<input class="filter-input form-control" type="text"
+							 data-search-attribute="data-code" data-dynamic-search-url="ajax/search/products/?byCode=" placeholder="Търси по номер">
 			</th>
 			<th>
-				<input class="filter-input form-control" type="text" data-search-attribute="data-model" placeholder="Търси по модел">
+				<input class="filter-input form-control" type="text"
+							 data-search-attribute="data-model" data-dynamic-search-url="ajax/search/products/?byName=" placeholder="Търси по модел">
 			</th>
 			<th>
 				<input class="filter-input form-control" type="text" data-search-attribute="data-type" placeholder="Търси по вид">
@@ -340,7 +342,8 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 				<input class="filter-input form-control" type="number" data-search-attribute="data-price" placeholder="Търси по цена">
 			</th>
 			<th>
-				<input class="filter-input form-control" type="number" data-search-attribute="data-barcode" placeholder="Търси по баркод">
+				<input class="filter-input form-control" type="number"
+							 data-search-attribute="data-barcode" data-dynamic-search-url="ajax/search/products/?byBarcode=" placeholder="Търси по баркод">
 			</th>
 			<th></th>
 			<th>
