@@ -2388,45 +2388,8 @@ var uvel,
 
     // Currently used in Admin->Models and Admin->Products pages
     this.setInputFilters = function() {
-      var inputsLocalSearch = $('.filter-input:not([data-dynamic-search-url])'),
-          inputsDynamicSearch = $('.filter-input[data-dynamic-search-url]'),
-          btnClearFilters = $('.btn-clear-filters'),
-          filterableElements = $('.filterable-element'),
-          timeoutLocalSearch,
-          timeoutDynamicSearch;
-
-      inputsLocalSearch.on('input', function(event) {
-
-        var localSearchFunc = function() {
-          // First check the current input, then all others
-          var inputText = event.currentTarget.value.trim();
-          var filterAttributes = [
-            event.currentTarget.dataset.searchAttribute
-          ];
-          $self.filterElementsByAttribute(inputText, filterableElements, filterAttributes);
-  
-          // After the current input is checked, search only through the visible elements
-          var visibleElements = $('.filterable-element:visible');
-  
-          // Check other inputs, without the current one
-          for (var i = 0; i < inputsLocalSearch.length; i++) {
-            var input = inputsLocalSearch[i];
-            // Current input is already checked, ignore it
-            if (input != event.currentTarget && input.value != '') {
-              var inputText = input.value.trim();
-              var filterAttributes = [
-                input.dataset.searchAttribute
-              ];
-              $self.filterElementsByAttribute(inputText, visibleElements, filterAttributes);
-            }
-          }
-        };
-        
-        if (timeoutLocalSearch != null) {
-          clearTimeout(timeoutLocalSearch);
-        }
-        timeoutLocalSearch = setTimeout(localSearchFunc, 1000);
-      });
+      var inputsDynamicSearch = $('.filter-input'),
+          timeout;
 
       inputsDynamicSearch.on('input', function(event) {
         
@@ -2435,7 +2398,7 @@ var uvel,
           $('tbody').removeClass('inactive');
         };
 
-        var dynamicSearchFunc = function() {
+        var searchFunc = function() {
           $('tbody').addClass('inactive');
 
           var inputText = event.currentTarget.value.trim(),
@@ -2445,36 +2408,11 @@ var uvel,
           $self.ajaxFn('GET', ajaxUrl, ajaxResultsResponse);
         };
 
-        if (timeoutDynamicSearch != null) {
-          clearTimeout(timeoutDynamicSearch);
+        if (timeout != null) {
+          clearTimeout(timeout);
         }
-        timeoutDynamicSearch = setTimeout(dynamicSearchFunc, 1000);
+        timeout = setTimeout(searchFunc, 1000);
       });
-
-      btnClearFilters.on('click', function() {
-        inputs.val('');
-        var elements = $('.filterable-element');
-        elements.show();
-      });
-    }
-
-    // Filter elements by a given data-attributes to search through
-    // text - the text from the input field
-    // elements - array of the elements to be filtered
-    // filterAttributes - array with the attributes to be searched for
-    this.filterElementsByAttribute = function(text, elements, filterAttributes) {
-      elements.filter(function() {
-        var match;
-        for (var filterAttr of filterAttributes) {
-          match = this.attributes[filterAttr].value.toLowerCase().indexOf(text.toLowerCase()) > -1;
-          if (match) {
-            break;
-          } else {
-            $(this).hide();
-          }
-        }
-        return match;
-      }).show();
     }
   }
 

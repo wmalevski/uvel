@@ -1,11 +1,4 @@
-<tr class="filterable-element"
-	data-id="{{ $model->id }}"
-	data-name="{{ $model->name }}"
-	data-type="{{ $model->jewel->name }}"
-	data-weight="{{ $model->weight }}"
-	data-workmanship="{{ $model->workmanship }}"
-	data-price="{{ $model->price }}">
-
+<tr>
 	<td class="thumbnail--tooltip">
 		{{ $model->name }}
 		<ul @if($model->photos) style="background-image: url({{ asset("uploads/models/" . $model->photos->first()['photo'])
