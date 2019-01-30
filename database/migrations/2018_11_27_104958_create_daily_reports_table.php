@@ -15,10 +15,19 @@ class CreateDailyReportsTable extends Migration
     {
         Schema::create('daily_reports', function (Blueprint $table) {
             $table->increments('id');
-            $table->float('safe_amount')->nullable();
-            $table->float('calculated_price');
+            $table->float('safe_money_amount')->nullable();
+            $table->float('given_money_amount')->nullable();
+
+            $table->float('safe_jewels_amount')->nullable();
+            $table->float('given_jewels_amount')->nullable();
+
+            $table->float('safe_materials_amount')->nullable();
+            $table->float('given_materials_amount')->nullable();
+
             $table->integer('store_id')->unsigned();
             $table->integer('user_id')->unsigned();
+            $table->enum('type', ['money', 'jewels', 'materials']);
+            $table->enum('status', ['successful', 'unsuccessful'])->default('successful');
             $table->timestamps();
         });
     }
