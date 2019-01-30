@@ -220,7 +220,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/expensetypes', 'ExpenseTypeController@index')->name('expenses_types'); 
     Route::get('/expensetypes/edit/{type}', 'ExpenseTypeController@edit');   
 
-    Route::get('/dailyreports', 'DailyReportController@index')->name('daily_reports');    
+    Route::get('/dailyreports', 'DailyReportController@index')->name('daily_reports'); 
+    Route::get('/dailyreports/create', 'DailyReportController@create')->name('create_report');
+          
+    Route::post('/dailyreports/create/moneyreport', 'DailyReportController@moneyreport');
+    Route::post('/dailyreports/create/jewelreport', 'DailyReportController@jewelreport');
+    Route::post('/dailyreports/create/materialreport', 'DailyReportController@materialreport');
+
     Route::get('/dailyreports/{report}', 'DailyReportController@edit');
 
     Route::get('/safe', 'SafeController@index');
