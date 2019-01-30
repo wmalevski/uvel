@@ -1,4 +1,13 @@
-<tr>
+<tr class="filterable-element"
+	data-id="{{ $product->id }}"
+	data-code="{{ $product->code }}"
+	data-model="{{ $product->model->name }}"
+	data-type="{{ $product->jewel->name }}"
+	data-retail-price="{{ $product->retailPrice->price }}"
+	data-weight="{{ $product->weight }}"
+	data-price="{{ $product->price }}"
+	data-barcode="{{ $product->barcode }}">
+
 	<td class="thumbnail--tooltip">
 		<img class="admin-product-image" src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @endif ">
 		<ul class="product-hover-image"
