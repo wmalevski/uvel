@@ -807,10 +807,8 @@ var uvel,
         
         if (element.type == 'number') {
           element.value = 0;
-        } else if (element.type == 'checkbox') {
-          if (element.checked) {
+        } else if (element.type == 'checkbox' && element.checked) {
             $(element).prop('checked', false).change();
-          }
         } else {
           element.value = '';
         }
