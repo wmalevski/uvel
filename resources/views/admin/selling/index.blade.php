@@ -28,6 +28,13 @@
                                 <tbody>
                                     
                                 </tbody>
+                                <tfoot>
+                                    <tr class="partner-worksmanship">
+                                        <td>Изработка</td>
+                                        <td colspan="2"><input type="number" style="border: none; padding: 0;" class="form-control" value="0" data-worksmanship-wanted placeholder="0" readonly></td>
+                                        <td><input type="number" class="form-control" value="0" placeholder="0" data-worksmanship-given></td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>    
                     </div>
@@ -42,7 +49,7 @@
                             <label for="partner-wanted-sum">Дължима сума</label>
                         </div>
                         <div class="form-group col-md-6">
-                            <input class="form-control" id="partner-wanted-sum" type="number" name="partner-wanted-sum" readonly="">
+                            <input type="number" value="0" class="form-control" id="partner-wanted-sum" type="number" name="partner-wanted-sum" readonly="">
                         </div>
                     </div>
                     <div class="form-row">
@@ -56,7 +63,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <div class="radio radio-info">
-                                <input type="radio" id="partner-modal-reciept" name="partner-modal-reciept" value="yes" checked="">
+                                <input type="radio" id="partner-modal-reciept" class="not-clear" name="partner-modal-reciept" value="yes" checked="">
                                 <label for="partner-modal-reciept">Фискален</label>
                             </div>
                             <div class="radio radio-info">
@@ -66,7 +73,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <div class="radio radio-info">
-                                <input type="radio" id="partner-modal-ticket" name="partner-modal-ticket" value="yes" checked="">
+                                <input type="radio" id="partner-modal-ticket" class="not-clear" name="partner-modal-ticket" value="yes" checked="">
                                 <label for="partner-modal-ticket">С разписка</label>
                             </div>
                             <div class="radio radio-info">
@@ -81,7 +88,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <div class="radio radio-info">
-                                <input type="radio" id="partner-modal-certificate" name="partner-modal-certificate" value="yes" checked="">
+                                <input type="radio" id="partner-modal-certificate" class="not-clear" name="partner-modal-certificate" value="yes" checked="">
                                 <label for="partner-modal-certificate">С цена</label>
                             </div>
                             <div class="radio radio-info">
@@ -188,16 +195,18 @@ aria-hidden="true">
                             <label for="wanted-sum">Дължима сума</label>
                         </div>
                         <div class="form-group col-md-6">
-                            <input class="form-control" id="wanted-sum" type="number" name="wanted_sum" data-calculatePayment-wanted readonly>
+                            <input type="number" value="0" class="form-control" id="wanted-sum" type="number" name="wanted_sum" data-calculatePayment-wanted readonly>
                         </div>
                     </div>
 
                     <div class="form-row">
-                        <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                            <input type="checkbox" id="exchange" class="exchange-method" name="exchange_method" class="peer" data-exchange-trigger>
-                            <label for="exchange" class="peers peer-greed js-sb ai-c">
-                                <span class="peer peer-greed">Обмяна</span>
-                            </label>
+                        <div class="form-group col-md-6">
+                            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                                <input type="checkbox" id="exchange" class="exchange-method" name="exchange_method" class="peer" data-exchange-trigger>
+                                <label for="exchange" class="peers peer-greed js-sb ai-c">
+                                    <span class="peer peer-greed">Обмяна</span>
+                                </label>
+                            </div>
                         </div>
                     </div>
 
@@ -215,18 +224,18 @@ aria-hidden="true">
                             <div class="form-row">
                                 <div class="form-group col-md-5">
                                     <label for="">Вид</label>
-                                    <select name="material_id[]" data-select2-skip data-calculateprice-material class="material_type form-control calculate">
+                                    <select name="material_id[]" data-select2-skip data-calculateprice-material class="material_type form-control calculate not-clear">
                                         <option value="">Избери</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label for="">Грамаж</label>
-                                    <input type="number" id="" class="form-control" value="0" name="weight[]" placeholder="" data-weight>
+                                    <input type="number" id="" class="form-control not-clear" value="0" name="weight[]" placeholder="" data-weight>
                                 </div>
                                 {{-- <div class="form-group col-md-4">
                                     <label for="">Цена на грамаж</label>
                                     <!-- AUTO GENERATED FROM JS -->
-                                    <select id="retail_prices" name="retail_price_id[]" class="form-control calculate prices-filled retail-price" data-calculateprice-retail disabled>
+                                    <select id="retail_prices" name="retail_price_id[]" class="form-control calculate prices-filled retail-price not-clear" data-calculateprice-retail disabled>
                                         <option value="">Избери</option>
                                     </select>
                                 </div> --}}
@@ -240,13 +249,13 @@ aria-hidden="true">
                         <div class="exchange-row-total form-row">
                             <div class="form-group col-md-6">
                                 <label for="given-sum">Сума от материали</label>
-                                <input type="number" id="" data-defaultPrice="{{ $materials->first()->material->pricesBuy->first()->price }}" class="form-control" value="0" name="exchangeRows_total" placeholder="Дължима сума" data-exchangeRows-total readonly>
+                                <input type="number" data-defaultPrice="{{ $materials->first()->material->pricesBuy->first()->price }}" class="form-control not-clear" value="0" name="exchangeRows_total" placeholder="Дължима сума" data-exchangeRows-total readonly>
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label for="given-sum">Цена на грамаж</label>
-                                <select name="calculating_price" class="form-control">
-                                    <option value="">Избери</option>
+                                <select name="calculating_price" class="form-control not-clear">
+                                    <option value="0">Избери</option>
                                     @if($materials->first()->material->pricesBuy->first())
                                     @foreach($materials->first()->material->pricesBuy as $price)
                                         <option value="{{ $price->id }}" data-defaultPrice="{{ $materials->first()->material->pricesBuy->first()->price }}" data-price="{{ $price->price }}">{{ $price->slug }} - {{ $price->price }}</option>
@@ -268,7 +277,7 @@ aria-hidden="true">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="pay-currency">Валута</label>
-                            <select id="pay-currency" name="pay_currency" class="form-control" data-calculatePayment-currency>
+                            <select id="pay-currency" name="pay_currency" class="form-control not-clear" data-calculatePayment-currency>
                                 @foreach($currencies as $currency)
                                     <option value="{{ $currency->id }}" data-default="{{$currency->default }}" data-currency="{{ $currency->currency }}" @if($currency->default == "yes") selected @endif >{{ $currency->name }}</option>
                                 @endforeach
@@ -294,7 +303,7 @@ aria-hidden="true">
                         </div>
                         <div class="form-group col-md-4">
                             <div class="radio radio-info">
-                                <input type="radio" id="modal-reciept" name="modal_reciept" value="yes" checked>
+                                <input type="radio" id="modal-reciept" class="not-clear" name="modal_reciept" value="yes" checked>
                                 <label for="modal-reciept">Фискален</label>
                             </div>
                             <div class="radio radio-info">
@@ -304,7 +313,7 @@ aria-hidden="true">
                         </div>
                         <div class="form-group col-md-4">
                             <div class="radio radio-info">
-                                <input type="radio" id="modal-ticket" name="modal_ticket" value="yes" checked>
+                                <input type="radio" id="modal-ticket" class="not-clear" name="modal_ticket" value="yes" checked>
                                 <label for="modal-ticket">С разписка</label>
                             </div>
                             <div class="radio radio-info">
@@ -319,7 +328,7 @@ aria-hidden="true">
                         </div>
                         <div class="form-group col-md-6">
                             <div class="radio radio-info">
-                                <input type="radio" id="modal-certificate" name="modal_certificate" value="yes" checked>
+                                <input type="radio" id="modal-certificate" class="not-clear" name="modal_certificate" value="yes" checked>
                                 <label for="modal-certificate">С цена</label>
                             </div>
                             <div class="radio radio-info">
@@ -351,7 +360,7 @@ aria-hidden="true">
                 @endif
             </h4>
 
-            <form id="selling-form" data-scan="{{ route('sellScan') }}">
+            <form id="selling-form" name="selling-form" data-scan="{{ route('sellScan') }}">
                 <div class="row gap-20 masonry pos-r">
                     <div class="masonry-sizer col-md-6"></div>
                     <div class="col-md-6 masonry-item form-horizontal">
@@ -448,7 +457,7 @@ aria-hidden="true">
                             <label for="subTotal" class="col-sm-9 control-label">Цена (с ДДС):</label>
                             <div class="col-sm-3">
                                 <div class="input-group">
-                                    <input type="price" name="subTotal" value="{{ Cart::session(Auth::user()->id)->getSubTotal() }}" class="form-control" id="subTotal" data-sell-subTotal placeholder="" readonly>
+                                    <input type="number" name="subTotal" value="{{ Cart::session(Auth::user()->id)->getSubTotal() }}" class="form-control" id="subTotal" data-sell-subTotal placeholder="" readonly>
                                     <span class="input-group-addon">лв</span>
                                 </div>
                             </div>
@@ -458,7 +467,7 @@ aria-hidden="true">
                             <label for="tax" class="col-sm-9 control-label">ДДС:</label>
                             <div class="col-sm-3">
                                 <div class="input-group">
-                                    <input type="price" name="tax" value="{{ $dds }}" class="form-control" id="tax" data-sell-tax placeholder="" readonly>
+                                    <input type="number" name="tax" value="{{ $dds }}" class="form-control" id="tax" data-sell-tax placeholder="" readonly>
                                     <span class="input-group-addon">лв</span>
                                 </div>
                             </div>
@@ -476,7 +485,7 @@ aria-hidden="true">
                             </label>
                             <div class="col-sm-3">
                                 <div class="input-group">
-                                    <input type="price" name="subTotal" value="{{ $priceCon }}" class="form-control" id="subTotal" placeholder="" data-sell-discountDisplay readonly>
+                                    <input type="number" name="subTotal" value="{{ $priceCon }}" class="form-control" id="subTotal" placeholder="" data-sell-discountDisplay readonly>
                                     <span class="input-group-addon">лв</span>
                                 </div>
                             </div>
@@ -486,7 +495,7 @@ aria-hidden="true">
                             <label for="total" class="col-sm-9 control-label">Крайна цена:</label>
                             <div class="col-sm-3">
                                 <div class="input-group">
-                                    <input type="totalPrice" name="total" value="{{ round(Cart::session(Auth::user()->id)->getTotal(),2) }}" class="form-control" id="total" data-calculatePayment-total placeholder="" readonly>
+                                    <input type="number" name="total" value="{{ round(Cart::session(Auth::user()->id)->getTotal(),2) }}" class="form-control" id="total" data-calculatePayment-total placeholder="" readonly>
                                     <span class="input-group-addon">лв</span>
                                 </div>
                             </div>
