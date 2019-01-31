@@ -15,4 +15,8 @@ class ExchangeMaterial extends Model
     ];
 
     protected $table = 'exchange_materials';
+
+    public function material() {
+    	return $this->belongsTo('App\MaterialQuantity');
+    }
 }

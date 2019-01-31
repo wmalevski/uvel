@@ -267,10 +267,17 @@ class PriceController extends Controller
                 $selected = false;
             }
 
-            if($price->id == $secondary_price->id){
-                $secondary = true;
+            if($secondary_price){
+                 if($price->id == $secondary_price->id){
+                    $secondary = true;
+                    $secondary_price = $secondary_price->price;
+                }else{
+                    $secondary = false;
+                    $secondary_price = $priceBuy->price;
+                }
             }else{
                 $secondary = false;
+                $secondary_price = $priceBuy->price;
             }
 
             $prices_retail[] = (object)[
@@ -286,7 +293,7 @@ class PriceController extends Controller
         return Response::json(array(
             'retail_prices' => $prices_retail, 
             'pass_models' => $models, 
-            'secondary_price' => $secondary_price->price,
+            'secondary_price' => $secondary_price,
             'pricebuy' => $priceBuy->price));
     }
 }

@@ -24,6 +24,7 @@ use App\MaterialQuantity;
 use Storage;
 use App\OrderStone;
 use App\ProductTravelling;
+use App\ExchangeMaterial;
 use Auth;
 
 class OrderController extends Controller
@@ -117,13 +118,12 @@ class OrderController extends Controller
         $material = MaterialQuantity::withTrashed()->find($request->material_id);
         
         if($material->quantity < $request->weight){
-            return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
+            return Response::json(['errors' => ['using' => [trans('admin/orders.material_quantity_not_matching')]]], 401);
         }
 
         $model = Model::find($request->model_id);
         
         $order = new Order();
-        //$order->name = $model->name;
         $order->model_id = $request->model_id;
         $order->jewel_id = $request->jewel_id;
         $order->product_id = $request->product_id;
@@ -134,40 +134,15 @@ class OrderController extends Controller
         $order->size = $request->size;
         $order->workmanship = $request->workmanship;
         $order->price = $request->price;
-        //$order->code = 'P'.unique_random('products', 'code', 7);
         $order->store_id = $request->store_id;
-        //$bar = '380'.unique_number('products', 'barcode', 7).'1'; 
         $order->earnest = $request->earnest;
         $order->quantity = $request->quantity;
-
-        // $material->quantity = $material->quantity - $request->weight;
-        // $material->save();
 
         if($request->with_stones == 'false'){
             $order->weight_without_stones = 'no';
         } else{
             $order->weight_without_stones = 'yes';
         }
-
-        // $digits =(string)$bar;
-        // // 1. Add the values of the digits in the even-numbered positions: 2, 4, 6, etc.
-        // $even_sum = $digits{1} + $digits{3} + $digits{5} + $digits{7} + $digits{9} + $digits{11};
-        // // 2. Multiply this result by 3.
-        // $even_sum_three = $even_sum * 3;
-        // // 3. Add the values of the digits in the odd-numbered positions: 1, 3, 5, etc.
-        // $odd_sum = $digits{0} + $digits{2} + $digits{4} + $digits{6} + $digits{8} + $digits{10};
-        // // 4. Sum the results of steps 2 and 3.
-        // $total_sum = $even_sum_three + $odd_sum;
-        // // 5. The check character is the smallest number which, when added to the result in step 4,  produces a multiple of 10.
-        // $next_ten = (ceil($total_sum/10))*10;
-        // $check_digit = $next_ten - $total_sum;
-        // $product->barcode = $digits . $check_digit;
-
-        //$path = public_path('uploads/products/');
-        
-        // File::makeDirectory($path, 0775, true, true);
-        // Storage::disk('public')->makeDirectory('products', 0775, true);
-
 
         $findModel = ModelOption::where([
             ['material_id', '=', $request->material],
@@ -190,7 +165,7 @@ class OrderController extends Controller
                     $checkStone = Stone::find($stone);
                     if($checkStone->amount < $request->stone_amount[$key]){
                         $stoneQuantity = 0;
-                        return Response::json(['errors' => ['stone_weight' => ['Няма достатъчна наличност от този камък.']]], 401);
+                        return Response::json(['errors' => ['stone_weight' => [trans('admin/orders.stone_quantity_not_matching')]]], 401);
                     }
             
                     $checkStone->amount = $checkStone->amount - $request->stone_amount[$key];
@@ -198,25 +173,12 @@ class OrderController extends Controller
                 }
             }
         }
-
-        //saving exchange materials, need to merge branch 32 for migrations
-        if($request->material_id){
-            // foreach($request->material_id as $key => $material){
-            //     if($material){
-            //         $exchange_material = new ExchangeMaterial();
-            //         $exchange_material->material_id = $material;
-            //         $exchange_material->payment_id = $paymentID;
-            //         $exchange_material->weight = $request->weight[$key];
-            //         $exchange_material->retail_price_id = $request->retail_price_id[$key];
-
-            //         $exchange_material->save();
-            //     }
-            // }
-        }
+        
+        $order->save();
 
         if($request->stones){
             if($stoneQuantity == 1){
-                $order->save();
+                
                 foreach($request->stones as $key => $stone){
                     if($stone) {
                         $order_stones = new OrderStone();
@@ -234,38 +196,25 @@ class OrderController extends Controller
                     }
                 }
             }
-        }else{
-            $order->save();
         }
 
-        // $file_data = $request->input('images'); 
-        // if($file_data){
-        //     foreach($file_data as $img){
-        //         $memi = substr($img, 5, strpos($img, ';')-5);
-                
-        //         $extension = explode('/',$memi);
-        //         if($extension[1] == "svg+xml"){
-        //             $ext = 'png';
-        //         }else{
-        //             $ext = $extension[1];
-        //         }
-                
+        if($request->given_material_id){
+            foreach($request->given_material_id as $key => $material){
+                if($material){
+                    $price = MaterialQuantity::find($material)->material->pricesBuy()->first()->price;
 
-        //         $file_name = 'productimage_'.uniqid().time().'.'.$ext;
+                    $exchange_material = new ExchangeMaterial();
+                    $exchange_material->material_id = $material;
+                    $exchange_material->order_id = $order->id;
+                    $exchange_material->weight = $request->weight[$key];
+                    $exchange_material->sum_price = $request->weight[$key] * $price;
+                    $exchange_material->additional_price = 0;
 
-        //         $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-        //         file_put_contents(public_path('uploads/products/').$file_name, $data);
+                    $exchange_material->save();
+                }
+            }
+        }
 
-        //         Storage::disk('public')->put('products/'.$file_name, file_get_contents(public_path('uploads/products/').$file_name));
-
-        //         $photo = new Gallery();
-        //         $photo->photo = $file_name;
-        //         $photo->product_id = $product->id;
-        //         $photo->table = 'products';
-        //         $photo->save();
-        //     }
-        // }
-        
         return Response::json(array('success' => View::make('admin/orders/table',array('order' => $order))->render()));
     }
 
@@ -294,7 +243,7 @@ class OrderController extends Controller
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::all();
-        $materials = MaterialQuantity::all();
+        $materials = MaterialQuantity::currentStore();
         $stores = Store::all();
 
         return \View::make('admin/orders/edit', array('stores' => $stores , 'order_stones' => $order_stones, 'order' => $order, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials));
@@ -315,16 +264,10 @@ class OrderController extends Controller
             $jewels = Jewel::all();
             $prices = Price::where('type', 'sell')->get();
             $stones = Stone::all();
-    
-            // $photos = Gallery::where(
-            //     [
-            //         ['table', '=', 'orders'],
-            //         ['order_id', '=', $order->id]
-            //     ]
-            // )->get();
 
             $validator = Validator::make( $request->all(), [
                 'jewel_id' => 'required',
+                'material_id' => 'required',
                 'retail_price_id' => 'required|numeric|min:1',
                 'weight' => 'required|numeric|between:0.1,10000',
                 'gross_weight' => 'required|numeric|between:0.1,10000',
@@ -332,41 +275,27 @@ class OrderController extends Controller
                 'workmanship' => 'required|numeric|between:0.1,500000',
                 'price' => 'required|numeric|between:0.1,500000',
                 'store_id' => 'required|numeric',
-                'quantity' => 'required|numeric|min:1'
+                'earnest' => 'numeric|nullable',
+                'safe_group' => 'numeric|nullable',
+                'quantity' => 'required'
             ]); 
     
             if ($validator->fails()) {
                 return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
             }
-
-            $currentMaterial = MaterialQuantity::withTrashed()->find($order->material_id);
-
-            if($request->material != $order->material){
-                $newMaterial = MaterialQuantity::withTrashed()->find($request->material);
-
-                if($newMaterial->quantity < $request->weight){
-                    return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
-                }
-
-                $currentMaterial->quantity = $currentMaterial->quantity + $order->weight;
-                $currentMaterial->save();
-
-                $newMaterial->quantity = $newMaterial->quantity - $request->weight;
-                $newMaterial->save();
-
-            }else if($request->weight != $order->weight){
-                if($currentMaterial->quantity < $request->weight){
-                    return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
-                }
-
-                $newQuantity = $order->weight - $request->weight;
-                $currentMaterial->quantity = $currentMaterial->quantity + $newQuantity;
-                $currentMaterial->save();
-
+    
+            $material = MaterialQuantity::withTrashed()->find($request->material_id);
+            
+            if($material->quantity < $request->weight){
+                return Response::json(['errors' => ['using' => [trans('admin/orders.material_quantity_not_matching')]]], 401);
             }
     
+            $model = Model::find($request->model_id);
+            
             $order->model_id = $request->model_id;
             $order->jewel_id = $request->jewel_id;
+            $order->product_id = $request->product_id;
+            $order->material_id = $request->material_id;
             $order->weight = $request->weight;
             $order->gross_weight = $request->gross_weight;
             $order->retail_price_id = $request->retail_price_id;
@@ -375,16 +304,86 @@ class OrderController extends Controller
             $order->price = $request->price;
             $order->store_id = $request->store_id;
             $order->earnest = $request->earnest;
-            $order->store_id = $request->store_id;
             $order->quantity = $request->quantity;
-
+    
             if($request->with_stones == 'false'){
                 $order->weight_without_stones = 'no';
             } else{
                 $order->weight_without_stones = 'yes';
             }
-
+    
+            $findModel = ModelOption::where([
+                ['material_id', '=', $request->material],
+                ['model_id', '=', $request->model]
+            ])->get();
+    
+            if(!$findModel){
+                $option = new ModelOption();
+                $option->material_id = $request->material_id;
+                $option->model_id = $request->model_id;
+                $option->retail_price_id = $request->retail_price_id;
+    
+                $option->save;
+            }
+    
+            $stoneQuantity = 1;
+            if($request->stones){
+                foreach($request->stones as $key => $stone){
+                    if($stone) {
+                        $checkStone = Stone::find($stone);
+                        if($checkStone->amount < $request->stone_amount[$key]){
+                            $stoneQuantity = 0;
+                            return Response::json(['errors' => ['stone_weight' => [trans('admin/orders.stone_quantity_not_found')]]], 401);
+                        }
+                
+                        $checkStone->amount = $checkStone->amount - $request->stone_amount[$key];
+                        $checkStone->save();
+                    }
+                }
+            }
+            
             $order->save();
+    
+            if($request->stones){
+                if($stoneQuantity == 1){
+                    
+                    foreach($request->stones as $key => $stone){
+                        if($stone) {
+                            $order_stones = new OrderStone();
+                            $order_stones->order_id = $order->id;
+                            $order_stones->model_id = $request->model_id;
+                            $order_stones->stone_id = $stone;
+                            $order_stones->amount = $request->stone_amount[$key];
+                            $order_stones->weight = $request->stone_weight[$key];
+                            if($request->stone_flow[$key] == 'true'){
+                                $order_stones->flow = 'yes';
+                            }else{
+                                $order_stones->flow = 'no';
+                            }
+                            $order_stones->save();
+                        }
+                    }
+                }
+            }
+    
+            if($request->given_material_id){
+                $materials = ExchangeMaterial::where('order_id', $order->id)->delete();
+
+                foreach($request->given_material_id as $key => $material){
+                    if($material){
+                        $price = MaterialQuantity::find($material)->material->pricesBuy()->first()->price;
+    
+                        $exchange_material = new ExchangeMaterial();
+                        $exchange_material->material_id = $material;
+                        $exchange_material->order_id = $order->id;
+                        $exchange_material->weight = $request->mat_quantity[$key];
+                        $exchange_material->sum_price = $request->mat_quantity[$key] * $price;
+                        $exchange_material->additional_price = 0;
+    
+                        $exchange_material->save();
+                    }
+                }
+            }
 
             if($request->status == 'true'){
                 for($i=1;$i<=$request->quantity;$i++){
@@ -412,46 +411,11 @@ class OrderController extends Controller
                         return Response::json(['errors' => $productTravellingResponse['errors']], 401);
                     }
                 }
+
+                $order = Order::find($order->id);
+                $order->status = 'ready';
+                $order->save();
             }
-    
-            $order = Order::find($order->id);
-            $order->status = 'ready';
-            $order->save();
-            
-
-            // $path = public_path('uploads/products/');
-            
-            // File::makeDirectory($path, 0775, true, true);
-    
-            // $file_data = $request->input('images'); 
-            // if($file_data){
-            //     foreach($file_data as $img){
-            //         $memi = substr($img, 5, strpos($img, ';')-5);
-                    
-            //         $extension = explode('/',$memi);
-        
-            //         if($extension[1] == "svg+xml"){
-            //             $ext = 'png';
-            //         }else{
-            //             $ext = $extension[1];
-            //         }
-                    
-        
-            //         $file_name = 'productimage_'.uniqid().time().'.'.$ext;
-                    
-            //         $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-            //         file_put_contents(public_path('uploads/products/').$file_name, $data);
-
-            //         Storage::disk('public')->put('products/'.$file_name, file_get_contents(public_path('uploads/products/').$file_name));
-        
-            //         $photo = new Gallery();
-            //         $photo->photo = $file_name;
-            //         $photo->product_id = $product->id;
-            //         $photo->table = 'products';
-        
-            //         $photo->save();
-            //     }
-            // }
 
             $deleteStones = OrderStone::where('order_id', $order->id)->delete();
     
@@ -489,7 +453,7 @@ class OrderController extends Controller
     {
         if($order){
             $order->delete();
-            return Response::json(array('success' => 'Успешно изтрито!'));
+            return Response::json(array('success' => trans('admin/orders.order_deleted')));
         }
     }
 
