@@ -550,10 +550,6 @@ class ModelController extends Controller
 
         $pass_models = array();
 
-        if($models->count() == 0){
-            $models = Model::paginate(env('RESULTS_PER_PAGE'));
-        }
-
         foreach($models as $model){
             $pass_models[] = [
                 'value' => $model->id,
@@ -569,10 +565,6 @@ class ModelController extends Controller
 
         $models_new = new Model();
         $models = $models_new->filterModels($request, $query)->paginate(env('RESULTS_PER_PAGE'));
-
-        if($models->count() == 0){
-            $models = Model::paginate(env('RESULTS_PER_PAGE'));
-        }
         
         $response = '';
         foreach($models as $model){

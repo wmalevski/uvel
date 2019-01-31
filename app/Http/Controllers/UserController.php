@@ -11,6 +11,7 @@ use Bouncer;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
@@ -101,6 +102,24 @@ class UserController extends Controller
         }
         
         return Response::json(array('success' => View::make('admin/users/table',array('user'=>$user))->render()));
+    }
+
+    public function filter(Request $request){
+        $query = User::select('*');
+
+        $users_new = new User();
+        $users = $users_new->filterUsers($request, $query);
+        $users = $users->paginate(env('RESULTS_PER_PAGE'));
+
+        $response = '';
+        foreach($users as $user){
+            $response .= \View::make('admin/users/table', array('user' => $user, 'listType' => $request->listType));
+        }
+
+        $users->setPath('');
+        $response .= $users->appends(Input::except('page'))->links();
+
+        return $response;
     }
 
     /**

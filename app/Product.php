@@ -306,6 +306,10 @@ class Product extends BaseModel
                 if ($request->byMaterial) {
                     $query->whereIn('material_type_id', $request->byMaterial);
                 }
+
+                if ($request->byName == '' && $request->barcode == '' && $request->code == '' && $request->bySize == '' && $request->byStore == '' && $request->byJewel == '' && $request->byMaterial == '') {
+                    $query = Product::all();
+                }
             });
 
             return $query;

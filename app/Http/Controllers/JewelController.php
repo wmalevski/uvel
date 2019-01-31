@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Response;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Input;
 use File;
 use App\Model;
 use App\Product;
@@ -113,10 +114,6 @@ class JewelController extends Controller
         $jewels = $jewels->paginate(env('RESULTS_PER_PAGE'));
         $pass_jewels = array();
 
-        if($jewels->count() == 0){
-            $jewels = Jewel::paginate(env('RESULTS_PER_PAGE'));
-        }
-
         foreach($jewels as $jewel){
             $pass_jewels[] = [
                 'value' => $jewel->id,
@@ -125,6 +122,24 @@ class JewelController extends Controller
         }
 
         return json_encode($pass_jewels, JSON_UNESCAPED_SLASHES );
+    }
+
+    public function filter(Request $request){
+        $query = Jewel::select('*');
+
+        $jewels_new = new Jewel();
+        $jewels = $jewels_new->filterJewels($request, $query);
+        $jewels = $jewels->paginate(env('RESULTS_PER_PAGE'));
+
+        $response = '';
+        foreach($jewels as $jewel){
+            $response .= \View::make('admin/jewels/table', array('jewel' => $jewel, 'listType' => $request->listType));
+        }
+
+        $jewels->setPath('');
+        $response .= $jewels->appends(Input::except('page'))->links();
+
+        return $response;
     }
 
     /**

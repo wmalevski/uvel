@@ -233,6 +233,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 });
 
 Route::group(['prefix' => 'ajax'], function() {
+    Route::get('/search/jewels', 'JewelController@filter');
+
+    Route::get('/search/users', 'UserController@filter');
+
     Route::get('/select_search/materials', 'MaterialQuantityController@select_search');
 
     Route::get('/select_search/jewels', 'JewelController@select_search');

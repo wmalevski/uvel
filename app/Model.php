@@ -102,6 +102,10 @@ class Model extends BaseModel
             if ($request->byMaterial) {
                 $query = $query->whereIn('material_id', $request->byMaterial);
             }
+
+            if( $request->byName == '' && $request->bySize == '' && $request->byStore == '' && $request->byJewel == '' && $request->byMaterial == ''){
+                $query = Model::all();
+            }
         });
 
         return $query;
