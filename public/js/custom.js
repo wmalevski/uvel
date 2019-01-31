@@ -1689,7 +1689,6 @@ var uvel,
       }
 
       paymentGiven.value = 0;
-      calculationPrice.selectedIndex = 0;
     }
 
     this.showExchangeRow = function(row, field) {
