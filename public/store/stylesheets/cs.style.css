@@ -256,7 +256,7 @@ h6.general-title:before{content:'';background:url(../images/home_line.png) no-re
 #home_collections .home_collections_item .collection-action a{font-family:'Lato', sans-serif;font-size:15px;color:#a07936;font-weight:400;position:relative;padding-top:3px;}
 .home-popular-collections{margin-bottom:60px;}
 #home_collections .home_collections_item_inner{position:relative;}
-#home_collections .home_collections_item_inner .hover-overlay{position:absolute;bottom:0;left:0;right:0;margin:0 auto;text-align:center;margin-bottom:12px;}
+#home_collections .home_collections_item_inner .hover-overlay{position:absolute;bottom:0;left:0;right:0;margin:0 auto;text-align:center;padding-bottom:12px;}
 #home_collections .home_collections_item .collection-action a:after{content:"";position:absolute;width:30px;border-bottom:1px solid;top:-5px;left:0;right:0;margin:0 auto;}
 #home_collections .owl-item .home_collections_item a:hover img{opacity:1;-ms-filter:"progid: DXImageTransform.Microsoft.Alpha(Opacity=100)";filter:alpha(opacity=100);}
 .home-blog{padding-bottom:15px;}
