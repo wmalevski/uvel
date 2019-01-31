@@ -23,15 +23,6 @@
 
 		<div class="footer-content footer-content-top clearfix">
 			<div class="container">
-				<div class="footer-link-list col-md-6">
-					<div class="group">
-						<h5 class="general-title">За нас</h5>
-						<ul>
-							<li><a href="{{ route('contactus') }}">Контакт</a></li>
-							<li><a href="{{ route('about') }}">За нас</a></li>
-						</ul>
-					</div>
-				</div>
 				<div class="footer-link-list col-md-8">
 					<div class="group">
 						<h5 class="general-title">Информация</h5>
@@ -49,6 +40,15 @@
 							<li><a href="{{ route('user_settings') }}">Преференции</a></li>
 							<li><a href="{{ route('user_account') }}">История на поръчките</a></li>
 							<li><a href="{{ route('login') }}">Логин</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="footer-link-list col-md-6">
+					<div class="group">
+						<h5 class="general-title">За нас</h5>
+						<ul>
+							<li><a href="{{ route('contactus') }}">Контакт</a></li>
+							<li><a href="{{ route('about') }}">За нас</a></li>
 						</ul>
 					</div>
 				</div>

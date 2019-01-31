@@ -1,3 +1,5 @@
+/* Header styles start */
+
 /* Header visible */
 header .container.top {
 	height: 40px;
@@ -9,7 +11,7 @@ header.affix .container.top {
 	margin-top: -40px;
 }
 
-@media (min-width:768px) {
+@media (min-width: 768px) {
 	header {
 		position: fixed;
 		z-index: 1;
@@ -22,7 +24,25 @@ header.affix .container.top {
 	}
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 768px) {
+	header .container.top {
+		height: 70px;
+	}
+
+	header #widget-social {
+		padding-right: 6px;
+	}
+
+	header .cart-link .number {
+		vertical-align: top;
+	}
+
+	header .cart-link:after {
+		display: none;
+	}
+}
+
+@media (max-width: 1024px) {
 	header .nav-item {
 		padding: 0 10px 0 0;
 	}
@@ -39,19 +59,28 @@ header.affix .container.top {
 		width: auto !important;
 	}
 
+	header .top-navigation .umbrella {
+		padding: 0;
+	}
+
+	header .umbrella .cart-link:after {
+		margin-top: 2px !important;
+	}
+}
+
+@media (min-width: 1024px) {
+	header .top-navigation,
+	header .top-logo,
+	header .container.bottom {
+		height: 50px;
+	}
+
 	header .top-navigation .navbar-nav {
 		position: fixed;
 	}
 
 	header .top-navigation .umbrella {
-		margin-top: 22px !important;
-		padding: 0;
-	}
-}
-
-@media (min-width: 1026px) {
-	header .top-navigation .umbrella {
-		padding: 4px 15px 6px 15px;
+		padding-top: 0;
 	}
 }
 
@@ -72,14 +101,15 @@ header.affix {
 	background-color: #f7f7f7;
 }
 
-header.affix .top-other,
-header.affix .navbar {
+header.affix .top-other {
 	min-height: 40px;
 }
 
 header.affix #umbrella .cart-link:after {
 	margin-top: 17px;
 }
+
+/* Header styles end */
 
 .img-fill {
 	position: absolute;
@@ -251,6 +281,25 @@ li.element {
 	#footer .general-title {
 		font-size: 14px;
 		font-weight: bold;
+	}
+}
+
+@media (max-width: 768px) {
+	#footer .footer-content-top .container .footer-link-list {
+		width: 33%;
+		padding: 20px;
+	}
+}
+
+@media (max-width: 375px) {
+	#footer .footer-content-top .container .footer-link-list {
+		width: 100%;
+		padding: 20px;
+		text-align: center;
+	}
+	
+	#footer .general-title {
+		text-align: center;
 	}
 }
 
@@ -621,4 +670,8 @@ li.element {
 #products .hover-appear .list-mode {
 	font-size: 15px;
 	font-weight: bold;
+}
+
+.owl-wrapper .owl-item .collection-details {
+	height: 350px;
 }
