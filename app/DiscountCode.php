@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
 use App\User;
 
 class DiscountCode extends Model
@@ -51,5 +52,25 @@ class DiscountCode extends Model
     public function payments()
     {
         return $this->hasMany('App\PaymentDiscount')->get();
+    }
+
+    public function filterDiscountCodes(Request $request ,$query){
+        $query = DiscountCode::where(function($query) use ($request){
+            if ($request->byUser) {
+                $query->with('User')->whereHas('User', function($q) use ($request){
+                    $q->where('name', 'LIKE', "%$request->byUser%");
+                });
+            }
+
+            if($request->byBarcode){
+                $query = $query->whereIn('barcode', [$request->byBarcode]);
+            }
+
+            if($request->byName == '' && $request->byBarcode == ''){
+                $query = DiscountCode::all();
+            }
+        });
+
+        return $query;
     }
 }

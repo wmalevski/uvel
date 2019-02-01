@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Http\JsonResponse;
 use Response;
 use File;
@@ -272,6 +273,26 @@ class ProductOtherController extends Controller
         return Response::json(array('table' => View::make('admin/products_others/table',array('product'=>$productOther))->render(), 'ID' => $productOther->id));
     }
 
+    
+
+    public function filter(Request $request){
+        $query = ProductOther::select('*');
+
+        $products_new = new ProductOther();
+        $products = $products_new->filterProducts($request, $query);
+        $products = $products->paginate(env('RESULTS_PER_PAGE'));
+
+        $response = '';
+        foreach($products as $product){
+            $response .= \View::make('admin/products_others/table', array('product' => $product, 'listType' => $request->listType));
+        }
+
+        $products->setPath('');
+        $response .= $products->appends(Input::except('page'))->links();
+
+        return $response;
+
+    }
     /**
      * Remove the specified resource from storage.
      *

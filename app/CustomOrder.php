@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
 
 class CustomOrder extends Model
 {
@@ -24,5 +25,23 @@ class CustomOrder extends Model
     public function photos()
     {
         return $this->hasMany('App\Gallery');
+    }
+
+    public function filterOrders(Request $request ,$query){
+        $query = CustomOrder::where(function($query) use ($request){
+            if ($request->byName) {
+                $query->where('name','LIKE','%'.$request->byName.'%');
+            }
+
+            if ($request->byEmail) {
+                $query = $query->whereIn('email', [$request->byEmail]);
+            }
+
+            if( $request->byName == '' && $request->byEmail == ''){
+                $query = CustomOrder::all();
+            }
+        });
+
+        return $query;
     }
 }

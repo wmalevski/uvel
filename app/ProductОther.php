@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class ProductOther extends Model
 {
@@ -64,7 +65,20 @@ class ProductOther extends Model
             if ($request->byType) {
                 $query = $query->whereIn('type_id', $request->byType);
             }
-        })->where('quantity', '>' , 0)->paginate(env('RESULTS_PER_PAGE'));
+
+            if ($request->byBarcode) {
+                $query->where('barcode','LIKE','%'.$request->byBarcode.'%');
+            }
+
+            if ($request->byCode) {
+                $query = $query->whereIn('code', [$request->byCode]);
+            }
+
+            if( $request->byBarcode == '' && $request->byCode == '' && $request->byType == '' && $request->byStore == '' && $request->priceFrom == '' && $request->priceTo == ''){
+                $query = ProductOther::all();
+            }
+
+        });
 
         return $query;
     }
