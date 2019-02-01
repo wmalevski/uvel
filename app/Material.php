@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
 
 class Material extends Model
 {
@@ -55,5 +56,19 @@ class Material extends Model
     public function scopeForExchange()
     {
         return $this->where('for_exchange', 'yes');
+    }
+
+    public function filterMaterials(Request $request ,$query){
+        $query = Material::where(function($query) use ($request){
+            if($request->byCode){
+                $query = $query->whereIn('code', [$request->byCode]);
+            }
+
+            if($request->byCode == ''){
+                $query = Material::all();
+            }
+        });
+
+        return $query;
     }
 }

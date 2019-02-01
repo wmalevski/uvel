@@ -50,6 +50,10 @@ class MaterialQuantity extends Model
                     $q->where('name', 'LIKE', "%$request->byName%");
                 });
             }
+
+            if ($request->byName == '') {
+                $query = MaterialQuantity::all();
+            }
         });
 
         return $query;

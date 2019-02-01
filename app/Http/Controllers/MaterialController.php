@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use App\Jewel;
 use App\MaterialType;
 use App\MaterialQuantity;
+use Illuminate\Support\Facades\Input;
 
 class MaterialController extends Controller
 {
@@ -155,6 +156,24 @@ class MaterialController extends Controller
         $material->save();
 
         return Response::json(array('ID' => $material->id,'table' => View::make('admin/materials/table',array('material'=>$material))->render()));
+    }
+
+    public function filter(Request $request){
+        $query = Material::select('*');
+
+        $materials_new = new Material();
+        $materials = $materials_new->filterMaterials($request, $query);
+        $materials = $materials->paginate(env('RESULTS_PER_PAGE'));
+
+        $response = '';
+        foreach($materials as $material){
+            $response .= \View::make('admin/materials/table', array('material' => $material, 'listType' => $request->listType));
+        }
+
+        $materials->setPath('');
+        $response .= $materials->appends(Input::except('page'))->links();
+
+        return $response;
     }
 
     /**

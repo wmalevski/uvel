@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
 use App\DiscountCode;
 use App\UserSubstitution;
 use App\Store;
@@ -94,5 +95,24 @@ class User extends Authenticatable
     public function partnerInfo()
     {
         return $this->belongsTo('App\Partner')->withTrashed();
+    }
+
+    public function filterUsers(Request $request ,$query){
+        $query = User::where(function($query) use ($request){
+
+            if ($request->byName) {
+                $query->where('name','LIKE','%'.$request->byName.'%');
+            }
+
+            if ($request->email) {
+                $query->where('email','LIKE','%'.$request->byBarcode.'%');
+            }
+
+            if ($request->byName == '' && $request->email == '') {
+                $query = User::all();
+            }
+        });
+
+        return $query;
     }
 }
