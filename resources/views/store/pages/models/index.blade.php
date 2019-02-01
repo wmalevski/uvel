@@ -1,13 +1,12 @@
 @extends('store.layouts.app', ['bodyClass' => 'templateProduct'])
 
 @section('content')
-<div class="modal fade edit--modal_holder" id="quick-shop-modal" role="dialog" aria-labelledby="quick-shop-modal"
- aria-hidden="true">
+<div class="modal fade edit--modal_holder" id="quick-shop-modal" role="dialog" aria-labelledby="quick-shop-modal" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content"></div>
 	</div>
 </div>
-<div id="content-wrapper-parent">
+<div id="content-wrapper-parent" class="store-page-models">
 	<div id="content-wrapper">
 		<!-- Content -->
 		<div id="content" class="clearfix">
@@ -20,7 +19,6 @@
 					</div>
 				</div>
 			</div>
-
 			<section class="content">
 				<div class="container">
 					<div class="row">
@@ -36,35 +34,25 @@
 											<div class="filter-tag-group" data-url="ajax/filter/models">
 												<h6 class="sb-title">Филтри</h6>
 
-												<!-- tags groupd 3 -->
 												<div class="tag-group" id="coll-filter-3">
-													<p class="title">
-														Вид бижу
-													</p>
+													<p class="title">Вид бижу</p>
 													<ul>
 														@foreach($jewels as $jewel)
 														<li>
-															<a title="Narrow selection to products matching tag Under $100" href="#"
-																data-id="byJewel[]={{ $jewel->id }}"><span
-																class="fe-checkbox"></span> {{ $jewel->name }} ({{ count($jewel->models) }})
+															<a href="#" data-id="byJewel[]={{ $jewel->id }}">
+																<span class="fe-checkbox"></span>
+																{{ $jewel->name }} ({{ count($jewel->models) }})
 															</a>
 														</li>
 														@endforeach
 													</ul>
 												</div>
-												<!-- tags groupd 3 -->
 
-												<!-- tags groupd 3 -->
 												<div class="tag-group" id="coll-filter-3">
-													<p class="title">
-														Цена
-													</p>
-
+													<p class="title">Цена</p>
 													<input type="number" class="form-control" placeholder="От" data-id="priceFrom[]=">
 													<input type="number" class="form-control" placeholder="До" data-id="priceTo[]=">
 												</div>
-												<!-- tags groupd 3 -->
-												<!-- tags groupd 3 -->
 											</div>
 										</div>
 
@@ -146,18 +134,15 @@
 														</div>
 
 														<div class="hover-appear">
-															<form action="#" method="post">
-																<div class="effect-ajax-cart">
-																	<input name="quantity" value="1" type="hidden">
-																	<button class="select-option" type="button" onclick="window.location.href='{{ route('single_model', ['model' => $model->id])  }}'"><i
-																		 class="fa fa-th-list" title="Преглед"></i>
-																		 <span class="list-mode">Преглед</span>
-																	</button>
-																</div>
-															</form>
+															<div class="effect-ajax-cart">
+																<input name="quantity" value="1" type="hidden">
+																<a href="{{ route('single_model', ['model' => $model->id]) }}">
+																	<i class="fa fa-th-list" title="Преглед"></i>
+																	<span class="list-mode">Преглед</span>
+																</a>
+															</div>
 															<div class="product-ajax-qs hidden-xs hidden-sm">
-																<div data-target="#quick-shop-modal" class="quick_shop"
-																 data-toggle="modal" data-url="models/{{ $model->id }}/">
+																<div data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal" data-url="models/{{ $model->id }}/">
 																	<i class="fa fa-eye" title="Бърз Преглед"></i>
 																	<span class="list-mode">Бърз преглед</span>
 																</div>
@@ -179,4 +164,5 @@
 			</section>
 		</div>
 	</div>
-	@endsection
+</div>
+@endsection
