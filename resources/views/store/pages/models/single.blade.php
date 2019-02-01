@@ -93,24 +93,6 @@
 														{{ $model->weight }} гр. + {{ $model->workmanship }} лв.
 													</p>
 												</div>
-												{{-- <div class="relative">
-													<ul class="list-unstyled">
-														<li class="tags">
-															<span>Tags :</span>
-															<a href="#">
-																above-200<span>,</span>
-															</a>
-															<a href="#">
-																black<span>,</span>
-															</a>
-															<a href="#">
-																l<span>,</span>
-															</a>
-															<a href="#">
-																sale-off </a>
-														</li>
-													</ul>
-												</div> --}}
 											</div>
 											<div id="product-info-right">
 												@if($errors->any())
@@ -143,7 +125,12 @@
 																</div>
 															</div>
 															<div class="others-bottom clearfix">
-																<a data-url="{{ route('order_model', ['model' => $model->id]) }}" class="order_product btn btn-1">Поръчай</a>
+																<!--<a data-url="{{ route('order_model', ['model' => $model->id]) }}" class="order_product btn btn-1">Поръчай</a>-->
+																
+																<button id="add-to-cart" class="btn btn-1 order_product"  type="submit" name="add"
+																				data-url="{{ route('order_model', ['model' => $model->id]) }}">
+																	Поръчай
+																</button>
 															</div>
 														</div>
 													</form>
@@ -200,22 +187,14 @@
 											</div>
 										</div>
 									</div>
-									<div id="shopify-product-reviews" data-id="1293236931">
-										<style scoped="">
-											.spr-container {
-												padding: 24px;
-												border-color: #ECECEC;
-												}
-												.spr-review, .spr-form {
-												border-color: #ECECEC;
-												}
-											</style>
+									<div id="shopify-product-reviews">
+										
 										<div class="spr-container">
 											<div class="spr-header">
 												<h2 class="spr-header-title">Ревюта</h2>
 												@if($model->getModelAvgRating($model) > 0)
 												<div class="spr-summary" itemscope="" itemtype="http://data-vocabulary.org/Review-aggregate">
-													<meta itemprop="itemreviewed" content="Donec aliquam ante non">
+													<meta itemprop="itemreviewed">
 													<meta itemprop="votes" content="{{count($model->reviews)}}">
 													<span itemprop="rating" itemscope="" itemtype="http://data-vocabulary.org/Rating" class="spr-starrating spr-summary-starrating">
 														<meta itemprop="average" content="{{$model->getModelAvgRating($model)}}">
@@ -230,10 +209,6 @@
 															{{$model->getModelAvgRating($model)}}/5 @endif
 														</span>
 													</span>
-													{{-- <span class="spr-summary-actions">
-														<a href="#" class="spr-summary-actions-newreview" onclick="SPR.toggleForm(1293236931);return false">Напиши
-															ревю</a>
-													</span> --}}
 												</div>
 												@endif
 											</div>
@@ -247,7 +222,7 @@
 														<fieldset class="spr-form-review">
 															<div class="spr-form-review-rating">
 																<label class="spr-form-label">Рейтинг</label>
-																<div class="spr-form-input spr-starrating ">
+																<div class="spr-form-input spr-starrating">
 																	<a href="#" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="1">&nbsp;</a>
 																	<a href="#" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="2">&nbsp;</a>
 																	<a href="#" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="3">&nbsp;</a>
@@ -255,13 +230,11 @@
 																	<a href="#" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="5">&nbsp;</a>
 																</div>
 															</div>
-															<div class="spr-form-review-title">
-																<label class="spr-form-label" for="review_title_{{$model->id}}">Заглавие</label>
-																<input class="spr-form-input spr-form-input-text " id="review_title_{{$model->id}}" type="text" name="title"
-																 value="" placeholder="Заглавие на ревюто" autocomplete="off">
-															</div>
+
 															<div class="spr-form-review-body">
-																<label class="spr-form-label" for="review_body_{{$model->id}}">Описание <span class="spr-form-review-body-charactersremaining">(1500)</span></label>
+																<label class="spr-form-label" for="review_body_{{$model->id}}">
+																	Коментар
+																	<span class="spr-form-review-body-charactersremaining">(1500)</span></label>
 																<div class="spr-form-input">
 																	<textarea class="spr-form-input spr-form-input-textarea " id="review_body_{{$model->id}}"
 																	 data-product-id="{{$model->id}}" name="content" rows="10" placeholder="Добавете вашият коментар за ревюто тук"></textarea>
@@ -311,9 +284,10 @@
 										<div class="element no_full_width not-animated" data-animate="bounceIn" data-delay="0">
 											<ul class="row-container list-unstyled clearfix">
 												<li class="row-left">
-													<a href="{{ route('single_model', ['model' => $model->id])  }}" class="container_item">
-														<img src="@if($model->photos) {{ asset("uploads/products/" . $model->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif"
-														 class="img-responsive">
+													<a href="{{ route('single_model', ['model' => $model->id]) }}" class="container_item">
+														<img class="img-fill" alt="{{ $model->name }}"
+																 src="@if($model->photos) {{ asset("uploads/models/" . $model->photos->first()['photo']) }} 
+																 @else {{ asset('store/images/demo_375x375.png') }} @endif">
 													</a>
 													<div class="hbw">
 														<span class="hoverBorderWrapper"></span>
@@ -321,18 +295,21 @@
 												</li>
 												<li class="row-right parent-fly animMix">
 													<div class="product-content-left">
-														<a class="title-5" href="{{ route('single_model', ['model' => $model->id])  }}">{{ $model->name }}</a>
-														<span class="spr-badge" id="spr_badge_1293238211" data-rating="0.0">
+														<a class="title-5" href="{{ route('single_model', ['model' => $model->id])  }}">
+															{{ $model->name }}
+														</a>
+														<span class="spr-badge" data-rating="0.0">
 															<span class="spr-starrating spr-badge-starrating">
 																{{$model->listModelAvgRatingStars($model)}}
 															</span>
-															<span class="spr-badge-caption">
-																No reviews </span>
+															<span class="spr-badge-caption">No reviews</span>
 														</span>
 													</div>
 													<div class="product-content-right">
 														<div class="product-price">
-															<span class="price">{{ $model->price }} лв</span>
+															<span class="price">
+																{{ $model->price }} лв
+															</span>
 															*Цената е с включено ДДС.
 														</div>
 													</div>
@@ -343,13 +320,13 @@
 														neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed...
 													</div>
 													<div class="hover-appear">
-														<form action="#" method="post">
-															<div class="effect-ajax-cart">
-																<input name="quantity" value="1" type="hidden">
-																<button class="select-option" type="button" onclick="window.location.href='product.html'"><i class="fa fa-th-list"
-																	 title="Преглед"></i><span class="list-mode">Select Option</span></button>
-															</div>
-														</form>
+														<div class="effect-ajax-cart">
+															<input name="quantity" value="1" type="hidden">
+															<a href="{{ route('single_model', ['model' => $model->id]) }}">
+																<i class="fa fa-th-list" title="Преглед"></i>
+																<span class="list-mode">Преглед</span>
+															</a>
+														</div>
 														<div class="product-ajax-qs hidden-xs hidden-sm">
 															<div data-barcode="{{ $model->barcode }}" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
 																<i class="fa fa-eye" title="Бърз преглед"></i><span class="list-mode">Бърз преглед</span>

@@ -35,7 +35,7 @@
 					<div class="row">
 						<div id="col-main" class="product-page col-xs-24 col-sm-24 ">
 							<div itemscope="" itemtype="http://schema.org/Product">
-								<meta itemprop="url" content="/products/donec-condime-fermentum">
+								<meta itemprop="url">
 								<div id="product" class="content clearfix">
 									<h1 id="page-title" class="text-center">
 										<span itemprop="name">
@@ -50,7 +50,7 @@
 													@foreach($product->images as $image)
 														<li class="image">
 															<a href="{{ asset("uploads/products/" . $image->photo) }}" class="cloud-zoom-gallery active">
-																<img alt="{{ $product->name }}" src="{{ asset("uploads/products/" . $image->photo) }}" alt="{{ $product->name }}">
+																<img alt="{{ $product->name }}" src="{{ asset("uploads/products/" . $image->photo) }}">
 															</a>
 														</li>
 													@endforeach
@@ -112,24 +112,6 @@
 														{{ $product->weight }} гр. + {{ $product->workmanship }} лв.
 													</p>
 												</div>
-												{{-- <div class="relative">
-													<ul class="list-unstyled">
-														<li class="tags">
-															<span>Tags :</span>
-															<a href="#">
-																above-200<span>,</span>
-															</a>
-															<a href="#">
-																black<span>,</span>
-															</a>
-															<a href="#">
-																l<span>,</span>
-															</a>
-															<a href="#">
-																sale-off </a>
-														</li>
-													</ul>
-												</div> --}}
 											</div>
 											<div id="product-info-right">
 												<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="col-sm-24 group-variants">
@@ -146,10 +128,13 @@
 																</div>
 															</div>
 															<div class="others-bottom clearfix">
-																<button id="add-to-cart" class="btn btn-1 add-to-cart" data-url="{{ route('CartAddItem', ['item' => $product->barcode, 'quantity' => 1]) }}"
-																 data-parent=".product-information" type="submit" name="add">
+																
+																<button id="add-to-cart" class="btn btn-1 add-to-cart"  type="submit" name="add"
+																				data-url="{{ route('CartAddItem', ['item' => $product->barcode, 'quantity' => 1]) }}"
+																 				data-parent=".product-information">
 																 Добави в количка
 																</button>
+																
 															</div>
 														</div>
 													</form>
@@ -225,7 +210,7 @@
 											<div class="spr-header">
 												<h2 class="spr-header-title">Ревюта</h2>
 												<div class="spr-summary" itemscope="" itemtype="http://data-vocabulary.org/Review-aggregate">
-													<meta itemprop="itemreviewed" content="Donec aliquam ante non">
+													<meta itemprop="itemreviewed">
 													<meta itemprop="votes" content="{{count($product->reviews)}}">
 													<span itemprop="rating" itemscope="" itemtype="http://data-vocabulary.org/Rating" class="spr-starrating spr-summary-starrating">
 														<meta itemprop="average" content="{{$productAvgRating}}">
@@ -335,7 +320,7 @@
 											<ul class="row-container list-unstyled clearfix">
 												<li class="row-left">
 													<a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">
-														<img class="img-responsive" alt="{{ $product->name }}"
+														<img class="img-fill" alt="{{ $product->name }}"
 														src="@if($product->images) {{ asset("uploads/products/" . $product->images->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif">
 													</a>
 													<div class="hbw">
@@ -369,27 +354,22 @@
 														neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed...
 													</div>
 													<div class="hover-appear">
-														<form action="#" method="post">
-															<div class="effect-ajax-cart">
-																<input name="quantity" value="1" type="hidden">
-																<button class="select-option" type="button" onclick="window.location.href='{{ route('single_product', ['product' => $product->id]) }}'"><i
-																	 class="fa fa-th-list" title="Преглед"></i><span class="list-mode">Select Option</span></button>
-															</div>
-														</form>
+														<div class="effect-ajax-cart">
+															<input name="quantity" value="1" type="hidden">
+															<a href="{{ route('single_product', ['product' => $product->id]) }}">
+																<i class="fa fa-th-list" title="Преглед"></i>
+																<span class="list-mode">Преглед</span>
+															</a>
+														</div>
 														<div class="product-ajax-qs hidden-xs hidden-sm">
-															<div data-barcode="{{ $product->barcode }}" data-target="#quick-shop-modal"
-															 class="quick_shop" data-toggle="modal">
+															<div data-barcode="{{ $product->barcode }}" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
 																<i class="fa fa-eye" title="Бърз Преглед"></i>
-																<span class="list-mode">
-																	Бърз Преглед
-																</span>
+																<span class="list-mode">Бърз Преглед</span>
 															</div>
 														</div>
 														<a class="wish-list" href="#" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}" title="Наблюдавани">
-														 <i class="fa fa-heart"></i>
-														 <span class="list-mode">
-															 Добави в желани
-															</span>
+															<i class="fa fa-heart"></i>
+															<span class="list-mode">Добави в желани</span>
 														</a>
 													</div>
 												</li>

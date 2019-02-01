@@ -1170,7 +1170,6 @@ var uvelStore,
 	this.orderProductAttach = function (orderBtn) {
 		orderBtn.on('click', function (e) {
 			e.preventDefault();
-			debugger;
 			// test if it works without jquery
 			$self.orderProduct($(this));
 		});
@@ -1196,7 +1195,6 @@ var uvelStore,
 	this.removeFromCartAttach = function (removeBtn) {
 		removeBtn.on('click', function (e) {
 			e.preventDefault();
-			debugger;
 			// test if it works without jquery
 			$self.removeFromCart($(this));
 		})

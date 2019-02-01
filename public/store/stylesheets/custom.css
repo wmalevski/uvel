@@ -515,7 +515,7 @@ li.element {
 	font-size: 16px;
 }
 
-.view-product .spr-form .spr-icon {
+#product .spr-form .spr-icon {
 	font-size: 24px !important;
 }
 
@@ -662,11 +662,6 @@ li.element {
 	opacity: 0.5;
 }
 
-#products .hover-appear .select-option {
-	margin: 0;
-	padding: 0;
-}
-
 #products .hover-appear .list-mode {
 	font-size: 15px;
 	font-weight: bold;
@@ -674,4 +669,23 @@ li.element {
 
 .owl-wrapper .owl-item .collection-details {
 	height: 350px;
+}
+
+.store-page-models .hover-appear .quick_shop {
+	border-right: 0 !important;
+}
+
+.element ul li.row-right .hover-appear .effect-ajax-cart {
+	width: 50px;
+	height: 50px;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+.element ul li.row-right .hover-appear .effect-ajax-cart a {
+	line-height: 50px;
+}
+
+.element ul li.row-right .hover-appear .effect-ajax-cart:hover {
+	background-color: #a07936;
 }
