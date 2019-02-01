@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Input;
 use App\MaterialQuantity;
 
 class RepairController extends Controller
@@ -293,6 +294,24 @@ class RepairController extends Controller
         $repair->save();
         
         return Response::json(array('ID' => $repair->id, 'table' => View::make('admin/repairs/table',array('repair'=>$repair))->render(), 'ID' => $repair->id));
+    }
+
+    public function filter(Request $request){
+        $query = Repair::select('*');
+
+        $repairs_new = new Repair();
+        $repairs = $repairs_new->filterRepairs($request, $query);
+        $repairs = $repairs->paginate(env('RESULTS_PER_PAGE'));
+
+        $response = '';
+        foreach($repairs as $repair){
+            $response .= \View::make('admin/repairs/table', array('repair' => $repair, 'listType' => $request->listType));
+        }
+
+        $repairs->setPath('');
+        $response .= $repairs->appends(Input::except('page'))->links();
+
+        return $response;
     }
 
     /**

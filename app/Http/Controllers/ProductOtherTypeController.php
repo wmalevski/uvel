@@ -108,7 +108,6 @@ class ProductOtherTypeController extends Controller
         $response .= $products->appends(Input::except('page'))->links();
 
         return $response;
-
     }
 
     /**

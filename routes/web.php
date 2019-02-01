@@ -233,9 +233,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 });
 
 Route::group(['prefix' => 'ajax'], function() {
-    Route::get('/search/product_others_types', 'ProductOtherTypeController@filter');
+    Route::get('/search/repairs', 'RepairController@filter');
 
-    Route::get('/search/product_others', 'ProductOtherController@filter');
+    Route::get('/search/repairs_types', 'RepairTypeController@filter');
+
+    Route::get('/search/products_others_types', 'ProductOtherTypeController@filter');
+
+    Route::get('/search/products_others', 'ProductOtherController@filter');
 
     Route::get('/search/orders/model', 'ModelOrderController@filter');
 
