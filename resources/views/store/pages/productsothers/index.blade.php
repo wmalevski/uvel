@@ -1,8 +1,7 @@
 @extends('store.layouts.app', ['bodyClass' => 'templateProduct'])
 
 @section('content')
-<div class="modal fade edit--modal_holder" id="quick-shop-modal" role="dialog" aria-labelledby="quick-shop-modal"
- aria-hidden="true">
+<div class="modal fade edit--modal_holder" id="quick-shop-modal" role="dialog" aria-labelledby="quick-shop-modal" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content"></div>
 	</div>
@@ -24,9 +23,7 @@
 					<div class="row">
 						<div id="collection-content">
 							<div id="page-header">
-								<h1 id="page-title">
-									Продукти
-								</h1>
+								<h1 id="page-title">Продукти</h1>
 							</div>
 							<div class="collection-main-content">
 								<div id="prodcoll" class="col-sm-6 col-md-6 sidebar hidden-xs">
@@ -34,13 +31,9 @@
 										<div class="sb-wrapper">
 
 											<div class="filter-tag-group" data-url="ajax/filter/productsothers">
-												<h6 class="sb-title">
-													Филтри
-												</h6>
+												<h6 class="sb-title">Филтри</h6>
 												<div id="coll-filter-3" class="tag-group">
-													<p class="title">
-														Тип
-													</p>
+													<p class="title">Тип</p>
 													<ul>
 														@foreach($productothertypes as $type)
 														<li>
@@ -54,13 +47,11 @@
 												</div>
 
 												<div class="tag-group" id="coll-filter-3">
-													<p class="title">
-														Налично в
-													</p>
+													<p class="title">Налично в</p>
 													<ul>
 														@foreach($stores as $store)
 														<li>
-															<a href="#" data-id="byStore[]={{ $store->id }}" title="Narrow selection to products matching tag Under $100">
+															<a href="#" data-id="byStore[]={{ $store->id }}">
 																<span class="fe-checkbox"></span>
 																{{ $store->name }} ({{ count($store->productsOther) }})
 															</a>
@@ -70,16 +61,12 @@
 												</div>
 
 												<div class="tag-group" id="coll-filter-3">
-													<p class="title">
-														Размер
-													</p>
+													<p class="title">Размер</p>
 													<input type="number" class="form-control" placeholder="Въведи размер">
 												</div>
 
 												<div class="tag-group" id="coll-filter-3">
-													<p class="title">
-														Цена
-													</p>
+													<p class="title">Цена</p>
 													<input type="number" class="form-control" placeholder="От">
 													<input type="number" class="form-control" placeholder="До">
 												</div>
@@ -106,13 +93,9 @@
 												</li>
 												<li class="sortBy">
 													<div id="sortButtonWarper" class="dropdown-toggle" data-toggle="dropdown">
-														<strong class="title-6">
-															Подреди
-														</strong>
+														<strong class="title-6">Подреди</strong>
 														<button id="sortButton">
-															<span class="name">
-																Най-нови
-															</span>
+															<span class="name">Най-нови</span>
 															<i class="fa fa-caret-down"></i>
 														</button>
 														<i class="sub-dropdown1"></i>
@@ -152,9 +135,9 @@
 															<a class="title-5" href="{{ route('single_product_other', ['product' => $product->id])  }}">
 																{{ $product->name }}
 															</a>
-															<br/>
+															<br />
 															No: {{ $product->code }}
-															<br/>
+															<br />
 															<span class="spr-starrating spr-badge-starrating">
 																{{$product->listProductOtherAvgRatingStars($product)}}
 															</span>
@@ -171,31 +154,23 @@
 															<br />
 														</div>
 														<div class="hover-appear">
-															<form action="#" method="post">
-																<div class="effect-ajax-cart">
-																	<input name="quantity" value="1" type="hidden">
-																	<button class="select-option" type="button" onclick="window.location.href='{{ route('single_product', ['product' => $product->id])  }}'">
-																		<i class="fa fa-th-list" title="Преглед"></i>
-																		<span class="list-mode">
-																			Преглед
-																		</span>
-																	</button>
-																</div>
-															</form>
+															<div class="effect-ajax-cart">
+																<input name="quantity" value="1" type="hidden">
+																<a href="{{ route('single_product', ['product' => $product->id]) }}">
+																	<i class="fa fa-th-list" title="Преглед"></i>
+																	<span class="list-mode">Преглед</span>
+																</a>
+															</div>
 															<div class="product-ajax-qs hidden-xs hidden-sm">
 																<div data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal" data-url="productsothers/{{ $product->id }}/">
 																	<i class="fa fa-eye" title="Бърз Преглед"></i>
-																	<span class="list-mode">
-																		Бърз преглед
-																	</span>
+																	<span class="list-mode">Бърз преглед</span>
 																</div>
 															</div>
 															<a class="wish-list" href="#" data-url="{{ route('wishlists_store', ['type' => 'product_other', 'item' => $product->id]) }}"
 															 title="Наблюдавани">
 																<i class="fa fa-heart"></i>
-																<span class="list-mode">
-																	Добави в желани
-																</span>
+																<span class="list-mode">Добави в желани</span>
 															</a>
 														</div>
 													</li>
