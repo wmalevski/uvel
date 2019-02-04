@@ -1239,13 +1239,13 @@ ul#price-table{display:block;width:100%;height:auto;margin-top:40px;}
 .element.full_width ul li.row-right .hover-appear .wish-list:hover i.fa{color:#a07936;}
 .element ul li.row-right .hover-appear form,
 .element ul li.row-right .hover-appear .product-ajax-qs,
-.element ul li.row-right .hover-appear .wish-list{width:50px;height:50px;background:transparent;cursor:pointer;color:#464646;border:none;}
+.element ul li.row-right .hover-appear .wish-list{width:50px;height:50px;background:transparent;cursor:pointer;border:none;}
 .element ul li.row-right .hover-appear .quick_shop{border-left:1px solid #eaeaea;border-right:1px solid #eaeaea;}
-.element ul li.row-right .hover-appear form button.select-option i.fa,
+.element ul li.row-right .hover-appear form i.fa,
 .element ul li.row-right .hover-appear .product-ajax-qs i.fa,
 .element ul li.row-right .hover-appear .wish-list i.fa,
 .element ul li.row-right .hover-appear form button.add-to-cart i.fa{line-height:50px;color:#000000;}
-.element ul li.row-right .hover-appear form button.select-option:hover i.fa,
+.element ul li.row-right .hover-appear form a:hover i.fa,
 .element ul li.row-right .hover-appear .product-ajax-qs:hover i.fa,
 .element ul li.row-right .hover-appear .wish-list:hover i.fa,
 .element ul li.row-right .hover-appear form button.add-to-cart:hover i.fa{color:#fff;}
@@ -1260,14 +1260,13 @@ ul#price-table{display:block;width:100%;height:auto;margin-top:40px;}
 .element.full_width ul li.row-right .hover-appear .wish-list{width:auto;}
 .element.full_width ul li.row-right .hover-appear .quick_shop{border-left:0;border-right:0;}
 .element.full_width ul li.row-right .hover-appear .quick_shop,
-.element.full_width ul li.row-right .hover-appear .wish-list{font-size:13px;color:#202020;text-transform:uppercase;font-weight:700;margin:0 20px;}
+.element.full_width ul li.row-right .hover-appear .wish-list{font-size:13px;text-transform:uppercase;font-weight:700;margin:0 20px;}
 .element.full_width ul li.row-right .hover-appear .quick_shop i.fa,
 .element.full_width ul li.row-right .hover-appear .wish-list i.fa,
 .element.full_width ul li.row-right .hover-appear form:hover,
 .element.full_width ul li.row-right .hover-appear .product-ajax-qs:hover,
-.element.full_width ul li.row-right .hover-appear form:hover button.select-option,
 .element.full_width ul li.row-right .hover-appear .product-ajax-qs:hover .quick_shop,
-.element.full_width ul li.row-right .hover-appear .wish-list:hover{color:#a07936;background:transparent;}
+.element.full_width ul li.row-right .hover-appear .wish-list:hover{background:transparent;}
 .element.full_width ul li.row-right .hover-appear{display:-webkit-flex;display:-moz-flex;display:-ms-flex;display:flex;-webkit-flex-flow:row wrap;-moz-flex-flow:row wrap;-ms-flex-flow:row wrap;flex-flow:row wrap;justify-content:left;-moz-justify-content:left;-ms-justify-content:left;-webkit-justify-content:left;}
 .filter-tag-group .tag-group ul > li{display:inline-block;*display:inline;zoom:1;margin-right:15px;}
 .filter-tag-group .tag-group#coll-filter-3 ul > li{width:100%;}

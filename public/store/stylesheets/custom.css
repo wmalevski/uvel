@@ -232,11 +232,9 @@ li.element {
 	height: 200px;
 }
 
-#sandBox .element.full_width .row-container {
-	height: 100%;
-}
-
-#sandBox .element.full_width .row-left {
+#sandBox .element.full_width .row-container,
+#sandBox .element.full_width .row-left,
+.element.no_full_width .row-left .container_item {
 	height: 100%;
 }
 
@@ -247,7 +245,6 @@ li.element {
 
 .element.no_full_width .row-left .container_item {
 	position: relative;
-	height: 100%;
 }
 
 .element.no_full_width .row-container .product-content-left,
@@ -675,17 +672,38 @@ li.element {
 	border-right: 0 !important;
 }
 
-.element ul li.row-right .hover-appear .effect-ajax-cart {
-	width: 50px;
+.element .hover-appear .effect-ajax-cart {
 	height: 50px;
 	background-color: transparent;
 	cursor: pointer;
 }
 
-.element ul li.row-right .hover-appear .effect-ajax-cart a {
+.element.no_full_width .hover-appear .effect-ajax-cart {
+	width: 50px;
+}
+
+.element.full_width .hover-appear .effect-ajax-cart {
+	width: auto;
+	font-size: 13px;
+  color: #202020;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.element.full_width .hover-appear .quick_shop {
+	margin-left: 0;
+}
+
+.element.full_width .hover-appear .quick_shop:hover {
+	color: #a07936;
+}
+
+.element.no_full_width .hover-appear .effect-ajax-cart a {
 	line-height: 50px;
 }
 
-.element ul li.row-right .hover-appear .effect-ajax-cart:hover {
+.element.no_full_width .hover-appear .effect-ajax-cart:hover {
 	background-color: #a07936;
 }
+
+

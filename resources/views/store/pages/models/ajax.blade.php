@@ -33,20 +33,19 @@
             </div>
 
             <div class="hover-appear">
-                <div class="effect-ajax-cart">
+                <a href="{{ route('single_model', ['model' => $model->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
                     <input name="quantity" value="1" type="hidden">
-                    <a href="{{ route('single_model', ['model' => $model->id]) }}">
-                        <i class="fa fa-th-list" title="Преглед"></i>
-                        <span class="list-mode">Преглед</span>
-                    </a>
-                </div>
-                <div class="product-ajax-qs hidden-xs hidden-sm">
-                    <div data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal" data-url="models/{{ $model->id }}/">
-                        <i class="fa fa-eye" title="Бърз Преглед"></i>
-                        <span class="list-mode">Бърз преглед</span>
-                    </div>
+                    <i class="fa fa-th-list"></i>
+                    <span class="list-mode">Преглед</span>
+                </a>
+                
+                <div data-target="#quick-shop-modal" class="quick_shop product-ajax-qs hidden-xs hidden-sm" data-toggle="modal"
+                     data-url="models/{{ $model->id }}/" title="Бърз Преглед">
+                    <i class="fa fa-eye"></i>
+                    <span class="list-mode">Бърз преглед</span>
                 </div>
             </div>
+            
         </li>
     </ul>
 </li>
