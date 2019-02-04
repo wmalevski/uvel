@@ -294,20 +294,20 @@ li.element {
 		padding: 20px;
 		text-align: center;
 	}
-	
+
 	#footer .general-title {
 		text-align: center;
 	}
-	
+
 	.spr-container {
-		border: 0;
 		padding: 0;
+		border: 0;
 	}
-	
+
 	textarea {
 		resize: none !important;
 	}
-	
+
 	input.btn {
 		height: 50px;
 	}
