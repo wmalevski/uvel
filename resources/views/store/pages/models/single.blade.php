@@ -25,7 +25,7 @@
 											{{ $model->name }}
 										</span>
 									</h1>
-									<div id="product-image" class="product-image row ">
+									<div id="product-image" class="product-image row">
 										<div id="detail-left-column" class="hidden-xs left-coloum col-sm-6 col-sm-6 fadeInRight not-animated"
 										 data-animate="fadeInRight">
 											<div id="gallery_main" class="product-image-thumb thumbs full_width ">

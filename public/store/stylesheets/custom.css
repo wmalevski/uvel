@@ -319,6 +319,16 @@ li.element {
 	.effect-ajax-cart {
 		display: inline;
 	}
+	
+	#product-image.product-image .image,
+	#product-image.product-image #detail-right-column {
+		padding: 0;
+	}
+	
+	#product-image.product-image .product-image-thumb {
+		padding-top: 14px;
+	}
+	
 }
 
 .contact-page .row {
