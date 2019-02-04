@@ -651,6 +651,12 @@ li.element {
 	text-align: right;
 }
 
+@media (max-width: 480px) {
+	.addthis_sharing_toolbox #atstbx a{
+		display: inline-block;
+	}
+}
+
 .product-page .wls a {
 	cursor: pointer;
 }
@@ -659,7 +665,7 @@ li.element {
 	opacity: 0.5;
 }
 
-#products .hover-appear .list-mode {
+.hover-appear .list-mode {
 	font-size: 15px;
 	font-weight: bold;
 }
@@ -685,9 +691,12 @@ li.element {
 .element.full_width .hover-appear .effect-ajax-cart {
 	width: auto;
 	font-size: 13px;
-  color: #202020;
   text-transform: uppercase;
   font-weight: 700;
+}
+
+.element.full_width .product-content-left {
+	height: 70%;
 }
 
 .element.full_width .hover-appear .quick_shop {
@@ -702,7 +711,7 @@ li.element {
 	line-height: 50px;
 }
 
-.element.no_full_width .hover-appear .effect-ajax-cart:hover {
+.element.no_full_width .hover-appear a:hover {
 	background-color: #a07936;
 }
 
