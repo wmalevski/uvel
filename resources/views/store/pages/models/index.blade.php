@@ -120,6 +120,8 @@
 															</a>
 															<br/>
 															{{ $model->weight }}гр.
+															<br>
+															<strong class="text-danger">По Поръчка за 10 дни</strong>
 															<span class="spr-badge" data-rating="{{$model->getModelAvgRating($model)}}">
 																<span class="spr-starrating spr-badge-starrating">
 																	{{$model->listModelAvgRatingStars($model)}}
