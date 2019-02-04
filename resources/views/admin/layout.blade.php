@@ -238,6 +238,10 @@
                     </span>
                   </a>
                   <ul class="dropdown-menu">
+                    <li class="{{ Active::ifRouteIn('orders') }}">
+                      <a class="sidebar-link" href="{{ route('orders') }}">Поръчки</a>
+                    </li>
+
                     <li class="{{ Active::ifRouteIn('custom_orders') }}">
                       <a class="sidebar-link" href="{{ route('custom_orders') }}">По модел на клиента</a>
                     </li>

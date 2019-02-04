@@ -112,24 +112,7 @@
 														{{-- {{ $product->weight }} гр. + {{ $product->workmanship }} лв.
 													</p>
 												</div> --}}
-												{{-- <div class="relative">
-													<ul class="list-unstyled">
-														<li class="tags">
-															<span>Tags :</span>
-															<a href="#">
-																above-200<span>,</span>
-															</a>
-															<a href="#">
-																black<span>,</span>
-															</a>
-															<a href="#">
-																l<span>,</span>
-															</a>
-															<a href="#">
-																sale-off </a>
-														</li>
-													</ul>
-												</div> --}}
+												
 											</div>
 											<div id="product-info-right">
 												<div itemprop="offers" itemtype="http://schema.org/Offer" class="col-sm-24 group-variants">
@@ -234,7 +217,7 @@
 											<div class="spr-header">
 												<h2 class="spr-header-title">Ревюта</h2>
 												<div class="spr-summary" itemscope="" itemtype="http://data-vocabulary.org/Review-aggregate">
-													<meta itemprop="itemreviewed" content="Donec aliquam ante non">
+													<meta itemprop="itemreviewed">
 													<meta itemprop="votes" content="{{count($product->reviews)}}">
 													<span itemprop="rating" itemscope="" itemtype="http://data-vocabulary.org/Rating" class="spr-starrating spr-summary-starrating">
 														<meta itemprop="average" content="{{$product->getProductOtherAvgRating($product)}}">
@@ -349,9 +332,10 @@
 										<div class="element no_full_width not-animated" data-animate="bounceIn" data-delay="0">
 											<ul class="row-container list-unstyled clearfix">
 												<li class="row-left">
-													<a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">
-														<img src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif"
-														 class="img-responsive">
+													<a href="{{ route('single_product', ['product' => $product->id]) }}" class="container_item">
+														<img class="img-fill" alt="{{ $product->name }}"
+																 src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }}
+																 @else {{ asset('store/images/demo_375x375.png') }} @endif">
 													</a>
 													<div class="hbw">
 														<span class="hoverBorderWrapper"></span>
@@ -359,8 +343,8 @@
 												</li>
 												<li class="row-right parent-fly animMix">
 													<div class="product-content-left">
-														<a class="title-5" href="{{ route('single_product_other', ['product' => $product->id])  }}">{{
-															$product->name }}</a>
+														<a class="title-5" href="{{ route('single_product_other', ['product' => $product->id])  }}">
+															{{ $product->name }}</a>
 														<span class="spr-badge" id="spr_badge_{{$product->id}}" data-rating="{{$product->getProductOtherAvgRating($product)}}">
 															<span class="spr-starrating spr-badge-starrating">
 																{{$product->listProductOtherAvgRatingStars($product)}}
@@ -382,31 +366,23 @@
 														neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed...
 													</div>
 													<div class="hover-appear">
-														<form action="#" method="post">
-															<div class="effect-ajax-cart">
-																<input name="quantity" value="1" type="hidden">
-																<button class="select-option" type="button" onclick="window.location.href='product.html'"><i class="fa fa-th-list"
-																	 title="Преглед"></i>
-																	<span class="list-mode">
-																		Select Option
-																	</span></button>
-															</div>
-														</form>
+														<div class="effect-ajax-cart">
+															<input name="quantity" value="1" type="hidden">
+															<a href="{{ route('single_product', ['product' => $product->id]) }}">
+																<i class="fa fa-th-list" title="Преглед"></i>
+																<span class="list-mode">Преглед</span>
+															</a>
+														</div>
 														<div class="product-ajax-qs hidden-xs hidden-sm">
 															<div data-barcode="{{ $product->barcode }}" data-target="#quick-shop-modal" class="quick_shop"
 															 data-toggle="modal">
 																<i class="fa fa-eye" title="Бърз Преглед"></i>
-																<span class="list-mode">
-																	Бърз Преглед
-																</span>
+																<span class="list-mode">Бърз Преглед</span>
 															</div>
 														</div>
-														<a class="wish-list" href="#" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}"
-														 title="Наблюдавани">
+														<a class="wish-list" href="#" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}" title="Наблюдавани">
 															<i class="fa fa-heart"></i>
-															<span class="list-mode">
-																Add to Wishlist
-															</span>
+															<span class="list-mode">Добави в Желани</span>
 														</a>
 													</div>
 												</li>

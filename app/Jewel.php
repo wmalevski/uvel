@@ -34,6 +34,10 @@ class Jewel extends Model
             if ($request->byName) {
                 $query->where('name','LIKE','%'.$request->byName.'%');
             }
+
+            if( $request->byName == '' ) {
+                $query = Jewel::all();
+            }
         });
 
         return $query;

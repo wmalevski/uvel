@@ -87,6 +87,10 @@ class Stone extends Model
                     $q->where('name', 'LIKE', "%$request->byName%");
                 });
             }
+
+            if($request->byName == ''){
+                $query = Stone::all();
+            }
         });
 
         return $query;

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
 
 class Repair extends Model
 {
@@ -38,5 +39,31 @@ class Repair extends Model
     public function material()
     {
         return $this->belongsTo('App\Material')->withTrashed();
+    }
+
+    public function filterRepairs(Request $request ,$query){
+        $query = Repair::where(function($query) use ($request){
+            if ($request->byBarcode) {
+                $query->where('barcode','LIKE','%'.$request->byBarcode.'%');
+            }
+
+            if ($request->byCode) {
+                $query->where('code','LIKE','%'.$request->byCode.'%');
+            }
+
+            if ($request->byName) {
+                $query = $query->whereIn('customer_name', [$request->byName]);
+            }
+
+            if ($request->byPhone) {
+                $query = $query->whereIn('customer_phone', [$request->byPhone]);
+            }
+
+            if( $request->byName == '' && $request->byPhone == '' && $request->byBarcode == '' && $request->byCode == ''){
+                $query = Repair::all();
+            }
+        });
+
+        return $query;
     }
 }

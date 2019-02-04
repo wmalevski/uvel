@@ -100,7 +100,7 @@ var uvel,
       },
       sellingPartners: {
         selector: '[name="sellingPartners"]',
-        controllers: [],
+        controllers: ['partnerPaymentInit'],
         initialized: false
       },
       stones: {
@@ -383,39 +383,36 @@ var uvel,
         tableContent += '</tr>';
       }
 
-      tableContent += '<tr class="partner-worksmanship">';
-      tableContent += '<td>Изработка</td>';
-      tableContent += '<td data-worksmanship-wanted colspan="2">' + workmanship + '</td>';
-      tableContent += '<td><input type="number" class="form-control" value="0" placeholder="0" data-worksmanship-given></td>';
-      tableContent += '</tr>';
-
+      
       form.querySelector('.partner-information').innerHTML = partner;
       form.querySelector('tbody').innerHTML = tableContent;
-      $self.partnerPaymentAttachEventListeners(form);
+      form.querySelector('#partner-wanted-sum').value = 0;
+      form.querySelector('[data-worksmanship-wanted]').value = workmanship;
+      form.querySelector('[data-worksmanship-given]').value = 0
     }
 
-    this.partnerPaymentAttachEventListeners = function(form) {
-      var wantedSumHolder = form.querySelector('[name="partner-wanted-sum"]'),
-          wantedWorksmanship = form.querySelector('[data-worksmanship-wanted]'),
-          givenWorksmanship = form.querySelector('[data-worksmanship-given]'),
-          paymentMethod = form.querySelector('[name="partner-pay-method"]');
+    this.partnerPaymentInit = function(form) {
+      var wantedSumHolder = form[0].querySelector('[name="partner-wanted-sum"]'),
+          wantedWorksmanship = form[0].querySelector('[data-worksmanship-wanted]'),
+          givenWorksmanship = form[0].querySelector('[data-worksmanship-given]'),
+          paymentMethod = form[0].querySelector('[name="partner-pay-method"]');
 
-      wantedSumHolder.value = wantedWorksmanship.textContent;
+      wantedSumHolder.value = wantedWorksmanship.value;
 
       paymentMethod.addEventListener('click', function() {
         if (this.checked) {
           givenWorksmanship.readOnly = true;
           wantedSumHolder.value = 0;
-          givenWorksmanship.value = wantedWorksmanship.textContent;
+          givenWorksmanship.value = wantedWorksmanship.value;
         } else {
           givenWorksmanship.readOnly = false;
           givenWorksmanship.value = 0;
-          wantedSumHolder.value = wantedWorksmanship.textContent;
+          wantedSumHolder.value = wantedWorksmanship.value;
         }
       }, false);
 
       givenWorksmanship.addEventListener('change', function() {
-        var total = parseFloat(wantedWorksmanship.textContent) - (parseFloat(givenWorksmanship.value) || 0);
+        var total = parseFloat(wantedWorksmanship.value) - (parseFloat(givenWorksmanship.value) || 0);
         wantedSumHolder.value = Number(total.toFixed(2));
       }, false);
     }
@@ -582,9 +579,7 @@ var uvel,
 
     this.discountSuccess = function(response) {
       var discountsHolder = $('.discount--label-holder'),
-          isPartner = false,
-          regularSellBtn = document.querySelector('[data-target="#paymentModal"]'),
-          partnerSellBtn = document.querySelector('[data-target="#paymentPartner"]');
+          isPartner = false;
 
       if (response.success) {
         var discounts = response.condition,
@@ -605,18 +600,25 @@ var uvel,
           }
         }
 
-        if (isPartner && regularSellBtn.style.display != 'none') {
-          regularSellBtn.style.display = 'none';
-          partnerSellBtn.style.display = 'initial';
-        } else if (!isPartner && partnerSellBtn.style.display != 'none') {
-          regularSellBtn.style.display = 'initial';
-          partnerSellBtn.style.display = 'none';
-        }
+        $self.checkSellingFormType(isPartner);
 
         discountsHolder.html(newFields);
         $self.cartSumsPopulate(response);
         var removeDiscountTrigger = $('[data-sell-removeDiscount]');
         $self.removeDiscountAttach(removeDiscountTrigger);
+      }
+    }
+
+    this.checkSellingFormType = function(isPartner) {
+      var regularSellBtn = document.querySelector('[data-target="#paymentModal"]'),
+          partnerSellBtn = document.querySelector('[data-target="#paymentPartner"]');
+
+      if (isPartner && regularSellBtn.style.display != 'none') {
+        regularSellBtn.style.display = 'none';
+        partnerSellBtn.style.display = 'initial';
+      } else if (!isPartner && partnerSellBtn.style.display != 'none') {
+        regularSellBtn.style.display = 'initial';
+        partnerSellBtn.style.display = 'none';
       }
     }
 
@@ -700,7 +702,7 @@ var uvel,
 
     this.partnerPaymentSubmit = function(form, ajaxRequestLink, formType) {
       var materials = form.find('[data-material-id]'),
-          workmanshipWanted = form.find('[data-worksmanship-wanted]').text(),
+          workmanshipWanted = form.find('[data-worksmanship-wanted]').val(),
           workmanshipGiven = form.find('[data-worksmanship-given]').val(),
           receiptOptions = form.find('[type="radio"]'),
           payMethod = form.find('[name="partner-pay-method"]')[0].checked,
@@ -788,23 +790,32 @@ var uvel,
           'input[type="number"]:not(.not-clear), ' +
           'input[type="password"]:not(.not-clear), ' +
           'input[type="email"]:not(.not-clear), ' +
+          'input[type="checkbox"]:not(.not-clear),' +
           'textarea:not(.not-clear)';
 
       var textInputs = form.find(inputsSelector),
-          checksAndRadios = form.find('input[type="checkbox"]:not(.not-clear), input[type="radio"]:not(.not-clear)'),
-          checksAndRadiosNotToClear = form.find('input[type="checkbox"].not-clear, input[type="radio"].not-clear'),
+          radios = form.find('input[type="radio"]:not(.not-clear)'),
+          radiosNotToClear = form.find('input[type="radio"].not-clear'),
           selects = form.find('select:not(.not-clear)'),
           stoneRowsContainer = form.find('.model_stones'),
           imagesContainer = form.find('.drop-area-gallery'),
-          materialsContainer = form.find('.model_materials');
+          materialsContainer = form.find('.model_materials'),
+          formName = form.attr('name');
 
       for (var i = 0; i < textInputs.length; i++) {
         var element = textInputs[i];
-        element.value = '';
+        
+        if (element.type == 'number') {
+          element.value = 0;
+        } else if (element.type == 'checkbox' && element.checked) {
+            $(element).prop('checked', false).change();
+        } else {
+          element.value = '';
+        }
       }
 
-      checksAndRadios.prop('checked', false);
-      checksAndRadiosNotToClear.prop('checked', true);
+      radios.prop('checked', false);
+      radiosNotToClear.prop('checked', true);
 
       for (var i = 0; i < selects.length; i++) {
         var options = $(selects[i]).find('option');
@@ -819,17 +830,21 @@ var uvel,
         }
       }
 
-      if (form.attr('name') == 'models') {
+      if (formName == 'models') {
         // removes all material rows except the first one
         var materials = materialsContainer.children('.form-row');
         for (var i = 1; i < materials.length; i++) {
           var materialRow = $(materials[i]);
           materialRow.remove();
         }
+      } else if (formName == 'selling-form') {
+        $('#amount_check').prop('checked', false).change();
+        document.querySelector('.discount--label-holder').innerHTML = '';
+        $self.checkSellingFormType(false);
       }
 
       // Reset all Select2 selectors
-      $('select').val('').trigger('change');
+      $('select:not(.not-clear)').val('').trigger('change');
 
       stoneRowsContainer.empty();
 
@@ -845,6 +860,7 @@ var uvel,
       if (formType == 'partner-sell') {
         $('#partner-shopping-table tbody').html('');
         $('#shopping-table tbody').html('');
+        $('.partner-information').html('');
       } else if (formType == 'sell') {
         $('#shopping-table tbody').html('');
       }
@@ -991,8 +1007,8 @@ var uvel,
               }
             }
 
-            if (modal.find('#summernote').length > 0) {
-              modal.find('#summernote').summernote({
+            if (modal.find('.summernote').length > 0) {
+              modal.find('.summernote').summernote({
                 height: 300,
                 popover: {
                   image: [],
@@ -1151,6 +1167,8 @@ var uvel,
       newRow.innerHTML = hr + newMaterialRow;
 
       var select = $(newRow).find('select');
+      $(newRow).find('[data-calculateprice-default]').prop('checked', false);
+      
       $self.initializeSelect(select);
 
       materialsWrapper.append(newRow);
@@ -1662,19 +1680,15 @@ var uvel,
 
     this.lockPaymentControllers = function() {
       var calculationType = document.querySelector('#shopping-table tbody').children.length > 0 ? 'for_exchange' : 'for_buy',
-          calculationPrice = document.querySelector('[name="calculating_price"]'),
           paymentGiven = document.querySelector('[data-calculatepayment-given]');
 
       if (calculationType == 'for_buy') {
-        calculationPrice.disabled = true;
         paymentGiven.disabled = true;
       } else {
-        calculationPrice.disabled = false;
         paymentGiven.disabled = false;
       }
 
       paymentGiven.value = 0;
-      calculationPrice.selectedIndex = 0;
     }
 
     this.showExchangeRow = function(row, field) {
@@ -1814,7 +1828,7 @@ var uvel,
         aboveExpected = weightConverted - expectedMaterial;
         total = (((weightConverted - aboveExpected) * defaultPrice) + (aboveExpected * selectedPrice)) * selectedCurrency;
       } else {
-        total = (weightConverted * defaultPrice) * selectedCurrency;
+        total = (weightConverted * selectedPrice) * selectedCurrency;
       }
 
       total += weightNotConvertedSum * selectedCurrency;
@@ -1829,7 +1843,7 @@ var uvel,
           selectedCurrency = form.find('[data-calculatePayment-currency] :selected').attr('data-currency');
 
       var newWanted = Number((wantedValue * selectedCurrency).toFixed(2));
-      wantedHolder.val(newWanted);
+      wantedHolder.val(newWanted || 0);
     }
 
     this.calculatePaymentInit = function(form) {
@@ -2448,69 +2462,31 @@ var uvel,
 
     // Currently used in Admin->Models and Admin->Products pages
     this.setInputFilters = function() {
-      var inputs = $('.filter-input'),
-          btnClearFilters = $('.btn-clear-filters'),
-          filterableElements = $('.filterable-element'),
+      var inputsDynamicSearch = $('.filter-input'),
           timeout;
 
-      inputs.on('input', function(event) {
+      inputsDynamicSearch.on('input', function(event) {
+        
+        var ajaxResultsResponse = function(response) {
+          $('tbody').html(response);
+          $('tbody').removeClass('inactive');
+        };
 
-        var searchFunc = function () {
-          // First check the current input, then all others
-          var inputText = event.currentTarget.value.trim();
-          var filterAttributes = [
-            event.currentTarget.dataset.searchAttribute
-          ];
-          $self.filterElementsByAttribute(inputText, filterableElements, filterAttributes);
+        var searchFunc = function() {
+          $('tbody').addClass('inactive');
 
-          // After the current input is checked, search only through the visible elements
-          var visibleElements = $('.filterable-element:visible');
-
-          // Check other inputs, without the current one
-          for (var i = 0; i < inputs.length; i++) {
-            var input = inputs[i];
-            // Current input is already checked, ignore it
-            if (input != event.currentTarget && input.value != '') {
-              var inputText = input.value.trim();
-              var filterAttributes = [
-                input.dataset.searchAttribute
-              ];
-              $self.filterElementsByAttribute(inputText, visibleElements, filterAttributes);
-            }
-          }
-        }
+          var inputText = event.currentTarget.value.trim(),
+              ajax = event.currentTarget.dataset.dynamicSearchUrl,
+              ajaxUrl = window.location.origin + '/' + ajax + inputText;
+  
+          $self.ajaxFn('GET', ajaxUrl, ajaxResultsResponse);
+        };
 
         if (timeout != null) {
           clearTimeout(timeout);
         }
-
         timeout = setTimeout(searchFunc, 1000);
       });
-
-      btnClearFilters.on('click', function() {
-        inputs.val('');
-        var elements = $('.filterable-element');
-        elements.show();
-      });
-    }
-
-    // Filter elements by a given data-attributes to search through
-    // text - the text from the input field
-    // elements - array of the elements to be filtered
-    // filterAttributes - array with the attributes to be searched for
-    this.filterElementsByAttribute = function(text, elements, filterAttributes) {
-      elements.filter(function() {
-        var match;
-        for (var filterAttr of filterAttributes) {
-          match = this.attributes[filterAttr].value.toLowerCase().indexOf(text.toLowerCase()) > -1;
-          if (match) {
-            break;
-          } else {
-            $(this).hide();
-          }
-        }
-        return match;
-      }).show();
     }
   }
 

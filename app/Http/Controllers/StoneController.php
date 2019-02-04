@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Input;
 use Uuid;
 use App\Gallery;
 use File;
@@ -241,6 +242,24 @@ class StoneController extends Controller
         }
 
         return json_encode($pass_stones, JSON_UNESCAPED_SLASHES );
+    }
+
+    public function filter(Request $request){
+        $query = Stone::select('*');
+
+        $stones_new = new Stone();
+        $stones = $stones_new->filterStones($request, $query);
+        $stones = $stones->paginate(env('RESULTS_PER_PAGE'));
+
+        $response = '';
+        foreach($stones as $stone){
+            $response .= \View::make('admin/stones/table', array('stone' => $stone, 'listType' => $request->listType));
+        }
+
+        $stones->setPath('');
+        $response .= $stones->appends(Input::except('page'))->links();
+
+        return $response;
     }
 
     /**

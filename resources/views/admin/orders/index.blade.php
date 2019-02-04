@@ -1,7 +1,7 @@
 @extends('admin.layout')
 @php
 $givenMaterialRowTpl = '<div class="form-row given-material">
-						<div class="form-group col-md-4"> 
+						<div class="form-group col-md-6"> 
 							<label for="">Вид</label>
 							<select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate">
 								<option value="">Избери</option>';
@@ -17,17 +17,11 @@ $givenMaterialRowTpl = '<div class="form-row given-material">
 								}
 							$givenMaterialRowTpl .= '</select>
 						</div>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-6">
 							<label for="grossWeight">Количество:</label>
 							
 							<div class="input-group">
-								<input type="number" class="form-control mat-quantity" name="mat_quantity[]" value="1">
-							</div>
-						</div>
-						<div class="form-group col-md-4">
-							<label for="grossWeight">Стойност:</label>
-							<div class="input-group">
-								<input type="number" class="form-control mat-calculated-price" name="calculated_price[]" value="0">
+								<input type="number" class="form-control mat-quantity" name="mat_quantity[]" placeHolder="0">
 							</div>
 						</div>
 					</div>';
@@ -288,29 +282,22 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
 					
 					<div class="form-row">
 						<div class="form-group col-md-6">
-							<label for="grossWeight">Касова група:</label>
-							
-							<div class="input-group">
-								<input type="text" class="form-control" name="safe_group" id="safe_group" placeholder="Изберете касова група:">
-							</div>
-						</div>
-
-						<div class="form-group col-md-6">
 							<label for="grossWeight">Капаро:</label>
 							
 							<div class="input-group">
 								<input type="number" class="form-control" name="earnest" id="earnest" placeholder="0">
 							</div>
 						</div>
-					</div>
-					
-					<div class="form-row pt-3">
+
 						<div class="form-group col-md-6">
+							<label for="grossWeight">Фискален бон:</label>
+
 							<button class="action--state_button add-btn-modal btn btn-primary" data-manual-receipt>
 								Ръчно пускане на фискален бон
 							</button>
 						</div>
 					</div>
+					
 					
 				</div>
 				
@@ -365,9 +352,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
 
 @section('footer-scripts')
 <script id="stones_data" type="application/json">
-	{
-		!!$jsStones!!
-	}
+	{!! $jsStones !!}
 </script>
 
 @endsection

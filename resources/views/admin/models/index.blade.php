@@ -28,7 +28,7 @@ $newMaterialRow =
 				</div>
 				<div class="form-group col-md-12">
 					<div class="radio radio-info">
-						<input type="radio" id="" class="default_material" name="default_material[]" data-calculatePrice-default>
+						<input type="radio" id="" class="default_material" name="default_material[]" data-calculatePrice-default checked>
 						<label for=""><span>Материал по подразбиране</span></label>
 					</div>
 				</div>';
@@ -291,26 +291,13 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 
 		<tr class="search-inputs">
 			<th>
-				<input class="filter-input form-control" type="text" data-search-attribute="data-name" placeholder="Търси по име">
+				<input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/models/?byName=" placeholder="Търси по име">
 			</th>
-			<th>
-				<input class="filter-input form-control" type="text" data-search-attribute="data-type" placeholder="Търси по вид">
-			</th>
-			<th>
-				<input class="filter-input form-control" type="number" data-search-attribute="data-weight" placeholder="Търси по тегло">
-			</th>
-			<th>
-				<input class="filter-input form-control" type="number" data-search-attribute="data-workmanship" placeholder="Търси по изработка">
-			</th>
-			<th>
-				<input class="filter-input form-control" type="number" data-search-attribute="data-price" placeholder="Търси по цена">
-			</th>
-			<th>
-				<button type="button" class="btn btn-primary btn-clear-filters">
-					<strong>X</strong>
-					Изчисти филтри
-				</button>
-			</th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
 			<th></th>
 		</tr>
 	</thead>

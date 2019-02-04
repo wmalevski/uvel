@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Response;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Input;
 use App\MaterialTravelling;
 
 class MaterialQuantityController extends Controller
@@ -146,10 +147,6 @@ class MaterialQuantityController extends Controller
         $materials = $materials->where('store_id', Auth::user()->getStore()->id)->paginate(env('RESULTS_PER_PAGE'));
         $pass_materials = array();
 
-        if($materials->count() == 0){
-            $materials = MaterialQuantity::paginate(env('RESULTS_PER_PAGE'));
-        }
-
         foreach($materials as $material){
             $pass_materials[] = [
                 'value' => $material->id,
@@ -160,6 +157,24 @@ class MaterialQuantityController extends Controller
         }
 
         return json_encode($pass_materials, JSON_UNESCAPED_SLASHES );
+    }
+
+    public function filter(Request $request){
+        $query = MaterialQuantity::select('*');
+
+        $materials_new = new MaterialQuantity();
+        $materials = $materials_new->filterMaterials($request, $query);
+        $materials = $materials->paginate(env('RESULTS_PER_PAGE'));
+
+        $response = '';
+        foreach($materials as $material){
+            $response .= \View::make('admin/materials_quantity/table', array('material' => $material, 'listType' => $request->listType));
+        }
+
+        $materials->setPath('');
+        $response .= $materials->appends(Input::except('page'))->links();
+
+        return $response;
     }
 
     /**

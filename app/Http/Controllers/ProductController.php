@@ -95,10 +95,6 @@ class ProductController extends Controller
         $products = $products->paginate(env('RESULTS_PER_PAGE'));
         $pass_products = array();
 
-        if($products->count() == 0){
-            $products = Product::paginate(env('RESULTS_PER_PAGE'));
-        }
-
         foreach($products as $product){
             $pass_products[] = [
                 'value' => $product->id,
@@ -117,10 +113,6 @@ class ProductController extends Controller
         $products_new = new Product();
         $products = $products_new->filterProducts($request, $query);
         $products = $products->paginate(env('RESULTS_PER_PAGE'));
-
-        if($products->count() == 0){
-            $products = Product::paginate(env('RESULTS_PER_PAGE'));
-        }
 
         $response = '';
         foreach($products as $product){
@@ -144,10 +136,6 @@ class ProductController extends Controller
         $product = new Product();
         $product = $product->store($request, 'JSON');
 
-        if($models->count() == 0){
-            $models = Model::all();
-        }
-        
         if(isset($product->id)){
             return Response::json(array('success' => View::make('admin/products/table',array('product'=>$product))->render()));
         }else{

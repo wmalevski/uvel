@@ -6,6 +6,7 @@ use App\DiscountCode;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Http\JsonResponse;
 use Response;
 use Illuminate\Support\Facades\View;
@@ -90,6 +91,24 @@ class DiscountCodeController extends Controller
         $discount->save();
 
         return Response::json(array('success' => View::make('admin/discounts/table',array('discount'=>$discount))->render()));
+    }
+
+    public function filter(Request $request){
+        $query = DiscountCode::select('*');
+
+        $discounts_new = new DiscountCode();
+        $discounts = $discounts_new->filterDiscountCodes($request, $query);
+        $discounts = $discounts->paginate(env('RESULTS_PER_PAGE'));
+
+        $response = '';
+        foreach($discounts as $discount){
+            $response .= \View::make('admin/discounts/table', array('discount' => $discount, 'listType' => $request->listType));
+        }
+
+        $discounts->setPath('');
+        $response .= $discounts->appends(Input::except('page'))->links();
+
+        return $response;
     }
 
     /**

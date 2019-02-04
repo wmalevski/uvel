@@ -7,6 +7,7 @@ use Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Input;
 
 class RepairTypeController extends Controller
 {
@@ -99,6 +100,24 @@ class RepairTypeController extends Controller
         $repairType->save();
         
         return Response::json(array('ID' => $repairType->id, 'table' => View::make('admin/repair_types/table',array('repairType'=>$repairType))->render()));
+    }
+
+    public function filter(Request $request){
+        $query = RepairType::select('*');
+
+        $repairs_new = new RepairType();
+        $repairs = $repairs_new->filterRepairTypes($request, $query);
+        $repairs = $repairs->paginate(env('RESULTS_PER_PAGE'));
+
+        $response = '';
+        foreach($repairs as $type){
+            $response .= \View::make('admin/repair_types/table', array('repairType' => $type, 'listType' => $request->listType));
+        }
+
+        $repairs->setPath('');
+        $response .= $repairs->appends(Input::except('page'))->links();
+
+        return $response;
     }
 
     /**

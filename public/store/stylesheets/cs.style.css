@@ -256,7 +256,7 @@ h6.general-title:before{content:'';background:url(../images/home_line.png) no-re
 #home_collections .home_collections_item .collection-action a{font-family:'Lato', sans-serif;font-size:15px;color:#a07936;font-weight:400;position:relative;padding-top:3px;}
 .home-popular-collections{margin-bottom:60px;}
 #home_collections .home_collections_item_inner{position:relative;}
-#home_collections .home_collections_item_inner .hover-overlay{position:absolute;bottom:0;left:0;right:0;margin:0 auto;text-align:center;margin-bottom:12px;}
+#home_collections .home_collections_item_inner .hover-overlay{position:absolute;bottom:0;left:0;right:0;margin:0 auto;text-align:center;padding-bottom:12px;}
 #home_collections .home_collections_item .collection-action a:after{content:"";position:absolute;width:30px;border-bottom:1px solid;top:-5px;left:0;right:0;margin:0 auto;}
 #home_collections .owl-item .home_collections_item a:hover img{opacity:1;-ms-filter:"progid: DXImageTransform.Microsoft.Alpha(Opacity=100)";filter:alpha(opacity=100);}
 .home-blog{padding-bottom:15px;}
@@ -292,8 +292,6 @@ a,
 .element ul li.row-right .product-price span.price{font-size:18px;line-height:18px;color:#202020;}
 .home_deal_fp .element ul li.row-right .product-price span.price{font-size:15px;}
 .element.no_full_width ul li.row-right{display:block;height:73px;padding:0;}
-.element form .row-right .effect-ajax-cart button{background:transparent;border:1px solid #dedede;border-radius:4px;-moz-transition:background 0.3s ease-in-out;-webkit-transition:background 0.3s ease-in-out;transition:background 0.3s ease-in-out;height:36px !important;padding:0 8px;}
-.element form .row-right .effect-ajax-cart button:hover{background:#a07936;color:#ffffff;border-color:#a07936;}
 .element form .row-left i.fa-angle-right{font-size:15px;color:#202020;}
 .element ul li.row-right .product-content-left{width:70%;text-align:left;display:inline-block;text-overflow:ellipsis;overflow:hidden;padding:10px 20px 0;}
 .element ul li.row-right .product-content-right{display:inline-block;float:right;text-align:right;padding:14px 20px 0 0;width:30%;}
@@ -546,8 +544,6 @@ h6.general-title{text-align:center;margin-top:57px;margin-bottom:67px;}
 .group_deal_products .element:first-child{padding-top:0;}
 .group_deal_products .element:last-child{padding-bottom:0;}
 .group_deal_products .element > ul{margin-bottom:0;}
-.group_deal_products .element.full_width .row-right .effect-ajax-cart button.select-option,
-.group_deal_products .element.full_width .row-right .effect-ajax-cart button.add-to-cart{margin-left:15px;}
 .featured-product-wrapper .element.no_full_width .row-right .product-price{margin-bottom:0;}
 .featured-product-wrapper .element.no_full_width .row-right .list-mode-description{display:none;}
 .featured-product-wrapper .element .row-right .spr-badge{margin-top:5px;margin-bottom:0;}
@@ -619,11 +615,6 @@ h6.general-title{text-align:center;margin-top:57px;margin-bottom:67px;}
 .element.full_width .row-right .list-mode-description{margin-bottom:20px;display:block;float:left;width:100%;}
 .element.full_width ul li.row-right .product-content-left{padding:0;}
 .element.full_width .row-right .effect-ajax-cart{margin-left:0;position:static;opacity:1;-ms-filter:"progid: DXImageTransform.Microsoft.Alpha(Opacity=100)";filter:alpha(opacity=100);-moz-transition:none;-webkit-transition:none;-o-transition:none;-ms-transition:none;transition:none;display:inline-block;zoom:1;float:left;}
-.element.full_width > ul:hover .row-right .effect-ajax-cart button.select-option{position:static;}
-.element.full_width .row-right .effect-ajax-cart button.select-option{width:auto;height:auto;margin-left:0;margin-top:0;position:static;opacity:1;-ms-filter:"progid: DXImageTransform.Microsoft.Alpha(Opacity=100)";filter:alpha(opacity=100);transition:none;display:inline-block;zoom:1;}
-.home_deal_fp .element.full_width .row-right .effect-ajax-cart button.select-option{color:rgba(1,1,1,0.6);}
-.home_deal_fp .element.full_width .row-right .effect-ajax-cart button.select-option:hover{color:#fff;}
-.element.full_width .row-right .effect-ajax-cart button.select-option i.fa{position:static;display:inline-block;*display:block;zoom:1;padding-right:5px;}
 .element.full_width .row-right .list-mode{display:inline-block;*display:block;zoom:1;}
 .element .row-left .grid-mode,
 .element .row-left .hbw{display:block;}
@@ -671,7 +662,6 @@ h6.general-title{text-align:center;margin-top:57px;margin-bottom:67px;}
 .element .row-left button.wish-list{color:#1e1e1e;color:#202020;display:block;display:inline-block;position:absolute;bottom:50%;margin-bottom:-40px;cursor:pointer;background:none;border:none;-moz-transition:all 0.45s ease;-webkit-transition:all 0.45s ease;-o-transition:all 0.45s ease;-ms-transition:all 0.45s ease;transition:all 0.45s ease;font-size:13px;text-transform:uppercase;font-family:'Lato', sans-serif;color:#202020;cursor:pointer;font-weight:700;background:transparent;opacity:0;filter:alpha(opacity=0);-ms-filter:"progid: DXImageTransform.Microsoft.Alpha(Opacity=0)";}
 .element .row-left .product-ajax-qs .quick_shop{width:48px;height:48px;position:absolute;top:50%;left:50%;margin-top:-7px;margin-left:-20px;border-left:1px solid #eaeaea;border-right:1px solid #eaeaea;}
 .element .row-left .product-ajax-qs .quick_shop i.fa{position:absolute;top:50%;left:50%;margin-top:-8px;margin-left:-8px;}
-.element .row-right .effect-ajax-cart button{background:transparent;border:transparent;border-radius:0;text-transform:uppercase;-moz-transition:all 0.45s ease;-webkit-transition:all 0.45s ease;-o-transition:all 0.45s ease;-ms-transition:all 0.45s ease;transition:all 0.45s ease;}
 .element.full_width .row-left .product-ajax-qs .quick_shop{left:0;right:auto;margin-left:30px;}
 .element .row-left .product-ajax-qs .quick_shop i.fa{font-size:16px;}
 .element .row-left .product-ajax-qs .quick_shop:hover{background:rgba(255,255,255,255);color:#8f8f8f;}
@@ -1271,10 +1261,8 @@ ul#price-table{display:block;width:100%;height:auto;margin-top:40px;}
 .element.full_width ul li.row-right .hover-appear .quick_shop{border-left:0;border-right:0;}
 .element.full_width ul li.row-right .hover-appear .quick_shop,
 .element.full_width ul li.row-right .hover-appear .wish-list{font-size:13px;color:#202020;text-transform:uppercase;font-weight:700;margin:0 20px;}
-.element.full_width .row-right .effect-ajax-cart button.select-option i.fa,
 .element.full_width ul li.row-right .hover-appear .quick_shop i.fa,
 .element.full_width ul li.row-right .hover-appear .wish-list i.fa,
-.element.full_width .row-right .effect-ajax-cart button.add-to-cart i.fa{padding-right:10px;}
 .element.full_width ul li.row-right .hover-appear form:hover,
 .element.full_width ul li.row-right .hover-appear .product-ajax-qs:hover,
 .element.full_width ul li.row-right .hover-appear form:hover button.select-option,
