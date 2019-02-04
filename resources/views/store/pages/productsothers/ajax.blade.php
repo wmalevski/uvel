@@ -34,19 +34,19 @@
 					
 				<a href="{{ route('single_product', ['product' => $product->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
 					<input name="quantity" value="1" type="hidden">
-					<i class="fa fa-th-list"></i>
+					<i class="fa fa-lg fa-th-list"></i>
 					<span class="list-mode">Преглед</span>
 				</a>
 				
 				<a href="#" data-target="#quick-shop-modal" class="quick_shop product-ajax-qs hidden-xs hidden-sm" data-toggle="modal"
 					 data-barcode="{{ $product->barcode }}">
-					<i class="fa fa-eye" title="Бърз Преглед"></i>
+					<i class="fa fa-lg fa-eye" title="Бърз Преглед"></i>
 					<span class="list-mode">Бърз преглед</span>
 				</a>
 				
 				<a href="#" class="wish-list" title="Добави в желани"
 					 data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
-				 	<i class="fa fa-heart"></i>
+				 	<i class="fa fa-lg fa-heart"></i>
 					<span class="list-mode">Добави в желани</span>
 				</a>
 			</div>
