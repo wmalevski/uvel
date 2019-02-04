@@ -1,6 +1,6 @@
 @extends('admin.layout')
 @php
-$givenMaterialRowTpl = '<div class="form-row given-material">
+$givenMaterialRowTpl = '<div class="form-row">
 						<div class="form-group col-md-6"> 
 							<label for="">Вид</label>
 							<select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate">
@@ -17,16 +17,59 @@ $givenMaterialRowTpl = '<div class="form-row given-material">
 								}
 							$givenMaterialRowTpl .= '</select>
 						</div>
-						<div class="form-group col-md-6">
+						<div class="form-group col-md-5">
 							<label for="grossWeight">Количество:</label>
 							
 							<div class="input-group">
 								<input type="number" class="form-control mat-quantity" name="mat_quantity[]" placeHolder="0">
 							</div>
 						</div>
+						<div class="form-group col-md-1">
+							<span class="delete-material remove_field" data-materials-remove><i class="c-brown-500 ti-trash"></i></span>
+						</div>
 					</div>';
 
 $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMaterialRowTpl));
+
+$newStoneRow =
+				'<div class="form-group col-md-6"><label>Камък:</label>
+					<select name="stones[]" class="form-control" data-calculatePrice-stone>';
+						foreach($stones as $stone) {
+							$newStoneRow .= '<option value="'. $stone->id .'" data-stone-price="'. $stone->price .'" data-stone-type="'. $stone->type .'"> 
+								'. $stone->nomenclature->name  .' - 
+								'. $stone->contour->name  .' - 
+								'. $stone->size->name  .' 
+							</option>';
+						}
+						$newStoneRow .= '</select>
+				</div>
+				<div class="form-group col-md-4">
+					<label>Брой:</label>
+					<input type="text" value="" class="form-control calculate-stones" name="stone_amount[]" data-calculateStones-amount placeholder="Брой">
+				</div>
+				<div class="form-group col-md-2">
+					<span class="delete-stone remove_field" data-stone-remove><i class="c-brown-500 ti-trash"></i></span>
+				</div>
+				<div class="form-group col-md-6">
+					<div class="form-group">
+						<label>Тегло: </label>
+						<div class="input-group">
+							<input type="number" value="" class="form-control calculate-stones" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">
+							<span class="input-group-addon">гр</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group col-md-6">
+					<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder">
+						<input type="checkbox" id="" class="stone-flow calculate-stones" name="stone_flow[]" class="peer">
+						<label for="" class="peers peer-greed js-sb ai-c">
+							<span class="peer peer-greed">За леене</span>
+						</label>
+						<span class="row-total-weight"></span>
+					</div>
+				</div>';
+
+$newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 @endphp
 
 @section('content')
@@ -131,13 +174,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
 							<label>Цена:</label>
 							
 							<select id="retail_prices" name="retail_price_id" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail disabled>
-								<option value="">Избери</option>
-								
-								@foreach($prices->where('type', 'sell') as $price)
-									<option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}">
-										{{ $price->slug }} - {{ $price->price }}
-									</option>
-								@endforeach
+								<option value="0">Избери</option>
 							</select>
 						</div>
 						<div class="form-group col-md-3 weight-holder">
@@ -160,7 +197,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
 						</div>
 					</div>
 
-					<div class="form-row model_stones"></div>
+					<div class="model_stones"></div>
 
 					<div class="form-row">
 						<div class="form-group col-md-6 mt-auto">
@@ -256,17 +293,14 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
 						</div>
 					</div>
 
-					<div class="form-row">
-						<div class="form-group col-md-12">
-							<strong>Даден материал:</strong>
+					<div class="given-material">
+						<div class="form-row">
+							<div class="form-group col-md-12">
+								<strong>Даден материал:</strong>
+							</div>
 						</div>
+						{!! $givenMaterialRowTpl !!}
 					</div>
-					
-					<script>
-						var givenMaterialRow = '{!! $givenMaterialRowTpl !!}';
-					</script>
-					
-					{!! $givenMaterialRowTpl !!}
 
 					<div class="form-row pt-3">
 						<div class="form-group col-md-6 mt-auto">
@@ -351,8 +385,9 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
 @endsection
 
 @section('footer-scripts')
-<script id="stones_data" type="application/json">
-	{!! $jsStones !!}
+<script>
+	var newStoneRow = '{!! $newStoneRow !!}',
+		givenMaterialRow = '{!! $givenMaterialRowTpl !!}';				
 </script>
 
 @endsection

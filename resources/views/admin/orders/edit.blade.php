@@ -1,5 +1,5 @@
 @php
-$givenMaterialRowTpl = '<div class="form-row given-material">
+$givenMaterialRowTpl = '<div class="form-row">
 						<div class="form-group col-md-6"> 
 							<label for="">Вид</label>
 							<select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate">
@@ -16,12 +16,15 @@ $givenMaterialRowTpl = '<div class="form-row given-material">
 								}
 							$givenMaterialRowTpl .= '</select>
 						</div>
-						<div class="form-group col-md-6">
+						<div class="form-group col-md-5">
 							<label for="grossWeight">Количество:</label>
 							
 							<div class="input-group">
 								<input type="number" class="form-control mat-quantity" name="mat_quantity[]" placeHolder="0">
 							</div>
+            </div>
+            <div class="form-group col-md-1">
+							<span class="delete-material remove_field" data-materials-remove><i class="c-brown-500 ti-trash"></i></span>
 						</div>
 					</div>';
 
@@ -156,7 +159,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
         </div>
       </div>
 
-      <div class="form-row model_stones">
+      <div class="model_stones">
         @foreach($order->stones as $order_stone)
         <div class="form-row fields">
           <div class="form-group col-md-6">
@@ -312,44 +315,42 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
         </div>
       </div>
       
-      <div class="form-row">
-        <div class="form-group col-md-12">
-          <strong>Даден материал:</strong>
-        </div>
-      </div>
-
-      @foreach($order->materials as $material)
-        <div class="form-row given-material">
-          <div class="form-group col-md-6"> 
-            <label for="">Вид</label>
-            <select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate">
-              <option value="">Избери</option>
-                @if($material->material->material->pricesBuy->first())
-                <option value="{{ $material->material->id }} " data-carat="{{ $material->material->material->carat  }}" data-material="{{ $material->material->material->id  }}"
-                  data-pricebuy="{{ $material->material->material->pricesBuy->first()->price }}" selected> 
-                  {{ $material->material->material->parent->name }}  - 
-                  {{ $material->material->material->color }}  - 
-                  {{ $material->material->material->carat }}   
-                </option>
-                @endif
-            </select>
-          </div>
-          <div class="form-group col-md-6">
-            <label for="grossWeight">Количество:</label>
-            
-            <div class="input-group">
-              <input type="number" class="form-control mat-quantity" name="mat_quantity[]" value="{{ $material->weight }}" placeHolder="0">
+      <div class="given-material">
+					<div class="form-row">
+						<div class="form-group col-md-12">
+							<strong>Даден материал:</strong>
+						</div>
+					</div>
+          @foreach($order->materials as $material)
+          <div class="form-row">
+            <div class="form-group col-md-6"> 
+              <label for="">Вид</label>
+              <select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate">
+                <option value="">Избери</option>
+                  @if($material->material->material->pricesBuy->first())
+                  <option value="{{ $material->material->id }} " data-carat="{{ $material->material->material->carat  }}" data-material="{{ $material->material->material->id  }}"
+                    data-pricebuy="{{ $material->material->material->pricesBuy->first()->price }}" selected> 
+                    {{ $material->material->material->parent->name }}  - 
+                    {{ $material->material->material->color }}  - 
+                    {{ $material->material->material->carat }}   
+                  </option>
+                  @endif
+              </select>
+            </div>
+            <div class="form-group col-md-5">
+              <label for="grossWeight">Количество:</label>
+              
+              <div class="input-group">
+                <input type="number" class="form-control mat-quantity" name="mat_quantity[]" value="{{ $material->weight }}" placeHolder="0">
+              </div>
+            </div>
+            <div class="form-group col-md-1">
+                <span class="delete-material remove_field" data-materials-remove><i class="c-brown-500 ti-trash"></i></span>
             </div>
           </div>
-        </div>
-      @endforeach
-
-      <script>
-        var givenMaterialRow = '{!! $givenMaterialRowTpl !!}';
-      </script>
-        
-      {!! $givenMaterialRowTpl !!}
-      
+        @endforeach
+      </div>
+   
       <div class="form-row pt-3">
           <div class="form-group col-md-6 mt-auto">
             <button id="btnAddAnother" class="action--state_button add-btn-modal btn btn-primary">
@@ -404,3 +405,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
     </div>
   </form>
 </div>
+
+<script>
+  var givenMaterialRow = '{!! $givenMaterialRowTpl !!}';
+</script>
