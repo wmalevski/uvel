@@ -288,7 +288,7 @@ li.element {
 	}
 }
 
-@media (max-width: 375px) {
+@media (max-width: 480px) {
 	#footer .footer-content-top .container .footer-link-list {
 		width: 100%;
 		padding: 20px;
@@ -297,6 +297,19 @@ li.element {
 	
 	#footer .general-title {
 		text-align: center;
+	}
+	
+	.spr-container {
+		border: 0;
+		padding: 0;
+	}
+	
+	textarea {
+		resize: none !important;
+	}
+	
+	input.btn {
+		height: 50px;
 	}
 }
 
@@ -529,18 +542,19 @@ li.element {
 	.product-page .at-svc-facebook {
 		margin-left: -10px;
 	}
-
+	/*
 	.product-page #product-information .description p {
 		font-size: 12px;
 	}
-
+	*/
 	.product-page #product-information .wls {
 		text-align: center;
 	}
-
+	/*
 	.product-page #product-information .wls a {
 		font-size: 12px;
 	}
+	*/
 }
 
 @media (max-width: 480px) {
@@ -714,5 +728,3 @@ li.element {
 .element.no_full_width .hover-appear a:hover {
 	background-color: #a07936;
 }
-
-
