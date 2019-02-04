@@ -311,6 +311,14 @@ li.element {
 	input.btn {
 		height: 50px;
 	}
+	
+	.element .row-container .row-left {
+		height: 400px !important;
+	}
+	
+	.effect-ajax-cart {
+		display: inline;
+	}
 }
 
 .contact-page .row {
