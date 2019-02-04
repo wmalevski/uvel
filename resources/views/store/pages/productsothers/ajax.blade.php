@@ -29,29 +29,28 @@
 					</span>
 				</div>
 			</div>
+			
 			<div class="hover-appear">
-				<div class="effect-ajax-cart">
+					
+				<a href="{{ route('single_product', ['product' => $product->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
 					<input name="quantity" value="1" type="hidden">
-					<button href="{{ route('single_product', ['product' => $product->id]) }}">
-						<i class="fa fa-th-list" title="Преглед"></i>
-						<span class="list-mode">Преглед</span>
-					</button>
-				</div>
-				<div class="product-ajax-qs hidden-xs hidden-sm">
-					<div data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal" data-barcode="{{ $product->barcode }}">
-						<i class="fa fa-eye" title="Бърз Преглед"></i>
-						<span class="list-mode">
-							Бърз преглед
-						</span>
-					</div>
-				</div>
-				<a class="wish-list" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}" href="#" title="Наблюдавани">
-				 <i class="fa fa-heart"></i>
-				 	<span class="list-mode">
-						Добави в желани
-					</span>
+					<i class="fa fa-th-list"></i>
+					<span class="list-mode">Преглед</span>
+				</a>
+				
+				<a href="#" data-target="#quick-shop-modal" class="quick_shop product-ajax-qs hidden-xs hidden-sm" data-toggle="modal"
+					 data-barcode="{{ $product->barcode }}">
+					<i class="fa fa-eye" title="Бърз Преглед"></i>
+					<span class="list-mode">Бърз преглед</span>
+				</a>
+				
+				<a href="#" class="wish-list" title="Добави в желани"
+					 data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
+				 	<i class="fa fa-heart"></i>
+					<span class="list-mode">Добави в желани</span>
 				</a>
 			</div>
+			
 		</li>
 	</ul>
 </li>
