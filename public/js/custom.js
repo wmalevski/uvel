@@ -2321,7 +2321,7 @@ var uvel,
         for (var i = 0; i < select.length; i++) {
           loadSelect2(select[i]);
         }
-      } else {
+      } else if (select.length == 1) {
         loadSelect2(select[0]);
       }
 
@@ -2341,7 +2341,6 @@ var uvel,
                 return query;
               },
               processResults: function(data, params) {
-                console.log(data)
                 var data = $.map(data, function(obj) {
                   obj.id = obj.value;
                   obj.text = obj.label;
@@ -2368,10 +2367,6 @@ var uvel,
             },
             templateResult: $self.addSelect2CustomAttributes,
             templateSelection: $self.addSelect2CustomAttributes
-          });
-
-          $(sel).on('select2:open', function() {
-            console.log('load init')
           });
         } else {
           $(sel).select2({
