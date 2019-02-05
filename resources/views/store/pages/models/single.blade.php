@@ -25,7 +25,7 @@
 											{{ $model->name }}
 										</span>
 									</h1>
-									<div id="product-image" class="product-image row ">
+									<div id="product-image" class="product-image row">
 										<div id="detail-left-column" class="hidden-xs left-coloum col-sm-6 col-sm-6 fadeInRight not-animated"
 										 data-animate="fadeInRight">
 											<div id="gallery_main" class="product-image-thumb thumbs full_width ">
@@ -319,22 +319,27 @@
 														Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et
 														neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed...
 													</div>
+													
 													<div class="hover-appear">
-														<div class="effect-ajax-cart">
+														<a href="{{ route('single_model', ['model' => $model->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
 															<input name="quantity" value="1" type="hidden">
-															<a href="{{ route('single_model', ['model' => $model->id]) }}">
-																<i class="fa fa-th-list" title="Преглед"></i>
-																<span class="list-mode">Преглед</span>
-															</a>
-														</div>
-														<div class="product-ajax-qs hidden-xs hidden-sm">
-															<div data-barcode="{{ $model->barcode }}" data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal">
-																<i class="fa fa-eye" title="Бърз преглед"></i><span class="list-mode">Бърз преглед</span>
-															</div>
-														</div>
-														<a class="wish-list" href="#" title="Наблюдавани" data-url="{{ route('wishlists_store', ['type' => 'model', 'item' => $model->id]) }}"><i
-															 class="fa fa-heart"></i><span class="list-mode">Добави в желани</span></a>
+															<i class="fa fa-lg fa-th-list"></i>
+															<span class="list-mode">Преглед</span>
+														</a>
+														
+														<a href="#" data-barcode="{{ $model->barcode }}" data-target="#quick-shop-modal" class="quick_shop product-ajax-qs hidden-xs hidden-sm"
+															 data-url="models/{{ $model->id }}/" data-toggle="modal" title="Бърз преглед"">
+															<i class="fa fa-lg fa-eye"></i>
+															<span class="list-mode">Бърз преглед</span>
+														</a>
+														
+														<a class="wish-list" href="#" title="Добави в желани"
+															 data-url="{{ route('wishlists_store', ['type' => 'model', 'item' => $model->id]) }}">
+															 <i class="fa fa-lg fa-heart"></i>
+															 <span class="list-mode">Добави в желани</span>
+														</a>
 													</div>
+													
 												</li>
 											</ul>
 										</div>

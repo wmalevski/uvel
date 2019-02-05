@@ -353,6 +353,8 @@
 														Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et
 														neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed...
 													</div>
+													
+													<!--
 													<div class="hover-appear">
 														<div class="effect-ajax-cart">
 															<input name="quantity" value="1" type="hidden">
@@ -372,6 +374,28 @@
 															<span class="list-mode">Добави в желани</span>
 														</a>
 													</div>
+													-->
+													
+													<div class="hover-appear">
+														<a href="{{ route('single_product', ['product' => $product->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
+															<input name="quantity" value="1" type="hidden">
+															<i class="fa fa-lg fa-th-list"></i>
+															<span class="list-mode">Преглед</span>
+														</a>
+														
+														<a href="#" class="quick_shop product-ajax-qs hidden-xs hidden-sm" data-target="#quick-shop-modal" data-toggle="modal"
+															 data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}" title="Бърз Преглед">
+															<i class="fa fa-lg fa-eye"></i>
+															<span class="list-mode">Бърз преглед</span>
+														</a>
+														
+														<a class="wish-list" href="#" title="Добави в желани"
+															 data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
+															<i class="fa fa-lg fa-heart"></i>
+															<span class="list-mode">Добави в желани</span>
+														</a>
+													</div>
+													
 												</li>
 											</ul>
 										</div>

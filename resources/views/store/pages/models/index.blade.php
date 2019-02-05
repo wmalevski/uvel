@@ -120,6 +120,8 @@
 															</a>
 															<br/>
 															{{ $model->weight }}гр.
+															<br>
+															<strong class="text-danger">По Поръчка за 10 дни</strong>
 															<span class="spr-badge" data-rating="{{$model->getModelAvgRating($model)}}">
 																<span class="spr-starrating spr-badge-starrating">
 																	{{$model->listModelAvgRatingStars($model)}}
@@ -134,20 +136,19 @@
 														</div>
 
 														<div class="hover-appear">
-															<div class="effect-ajax-cart">
+															<a href="{{ route('single_model', ['model' => $model->id]) }}" title="Преглед" class="effect-ajax-cart product-ajax-qs">
 																<input name="quantity" value="1" type="hidden">
-																<a href="{{ route('single_model', ['model' => $model->id]) }}">
-																	<i class="fa fa-th-list" title="Преглед"></i>
-																	<span class="list-mode">Преглед</span>
-																</a>
-															</div>
-															<div class="product-ajax-qs hidden-xs hidden-sm">
-																<div data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal" data-url="models/{{ $model->id }}/">
-																	<i class="fa fa-eye" title="Бърз Преглед"></i>
-																	<span class="list-mode">Бърз преглед</span>
-																</div>
-															</div>
+																<i class="fa fa-lg fa-th-list"></i>
+																<span class="list-mode">Преглед</span>
+															</a>
+															
+															<a href="#" class="product-ajax-qs hidden-xs hidden-sm quick_shop" data-target="#quick-shop-modal" data-toggle="modal"
+																 data-url="models/{{ $model->id }}/" title="Бърз Преглед">
+																<i class="fa fa-lg fa-eye"></i>
+																<span class="list-mode">Бърз преглед</span>
+															</a>
 														</div>
+														
 													</li>
 												</ul>
 											</li>
