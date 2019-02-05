@@ -2346,10 +2346,7 @@ var uvel,
                   obj.text = obj.label;
                   return obj;
                 });
-                // parse the results into the format expected by Select2
-                // since we are using custom formatting functions we do not need to
-                // alter the remote JSON data, except to indicate that infinite
-                // scrolling can be used
+
                 params.page = params.page || 1;
           
                 return {
