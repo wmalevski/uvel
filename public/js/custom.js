@@ -690,7 +690,9 @@ var uvel,
 
       submitButton.click(function(e) {
         e.preventDefault();
-
+        
+        this.disabled = true;
+        
         if (formType == 'partner-sell') {
           $self.partnerPaymentSubmit(form, ajaxRequestLink, formType);
         } else {
@@ -888,6 +890,8 @@ var uvel,
         complete: function() {
           // scroll to top of form window
           form[0].scrollIntoView();
+          // re-enable submit buttons
+          form.find('[type="submit"]').disabled = false;
         }
       });
     }
