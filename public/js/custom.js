@@ -205,7 +205,8 @@ var uvel,
           'addStonesInit',
           'addAnother',
           'manualReceipt',
-          'barcodeInput'
+          'barcodeInput',
+          'removeMaterialsInit'
         ],
         select2obj: [{
           selector: 'select[name="model_id"]',
@@ -1503,6 +1504,7 @@ var uvel,
       if (form[0].name == 'products') {
         $self.fillPhotos(response.photos, form);
       }
+
       if ($('[data-calculatePrice-withStones]').is(':checked')) {
         $self.calculatePrice(form);
       }
@@ -1517,6 +1519,24 @@ var uvel,
       $self.calculateStones(form);
     }
 
+    this.selectModel = function(model, form) {
+      var select = form.find('[data-calculateprice-model]'),
+          selected = model.value;
+      
+      if (select.find('[value="' + selected + '"]').length) {
+        select.val(selected).trigger('change');
+      } else {
+        var option = '<option value="' +
+            model.value + '" data-model-id="' +
+            model.id + '" data-jewel="' +
+            model.jewel + '" ' +
+            'selected' + '>' +
+            model.label + '</option>';
+        
+        select.append(option);    
+      }
+    }
+    
     this.fillMaterials = function(materials, form) {
       var materialHolder = form.find('[data-calculatePrice-material]');
       materialHolder.html('<option value="">Избери</option>');
@@ -1985,9 +2005,14 @@ var uvel,
               inputValue = event.currentTarget.value;
 
           var ajaxUrl = urlOrigin + '/' + inputUrl + inputValue;
-          $self.ajaxFn('GET', ajaxUrl, $self.modelRequestResponseHandler, '', form);
+          $self.ajaxFn('GET', ajaxUrl, $self.barcodeResponseHandler, '', form);
         }
       })
+    }
+
+    this.barcodeResponseHandler = function(response, form) {
+      $self.selectModel(response.models[0], form);
+      $self.modelRequestResponseHandler(response, form);
     }
 
     this.onOrdersFormSelectCallback = function(event, selectElement, form) {
@@ -2003,10 +2028,17 @@ var uvel,
 
       addAnother.on('click', function(event) {
         event.preventDefault();
-        $(givenMaterialRow).insertAfter($('.form-row.given-material').last());
 
-        var select = $('.form-row.given-material').last().find('select');
+        var container = form.find('.given-material'),
+            newRow = $(givenMaterialRow);
+        
+        var newRemoveTrigger = newRow.find('[data-materials-remove]');
+        $self.removeMaterialsAttach(newRemoveTrigger);
+
+        var select = newRow.find('select');
         $self.initializeSelect(select);
+
+        container.append(newRow)
       });
     }
 
