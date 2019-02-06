@@ -30,12 +30,12 @@ class StoneController extends Controller
      */
     public function index()
     {
-        $stones = Stone::all();
-        $stone_sizes = StoneSize::all();
-        $stone_contours = StoneContour::all();
-        $stone_styles = StoneStyle::all();
-        $stores = Store::all();
-        $nomenclatures = Nomenclature::all();
+        $stones = Stone::take(env('SELECT_PRELOADED'))->get();
+        $stone_sizes = StoneSize::take(env('SELECT_PRELOADED'))->get();
+        $stone_contours = StoneContour::take(env('SELECT_PRELOADED'))->get();
+        $stone_styles = StoneStyle::take(env('SELECT_PRELOADED'))->get();
+        $stores = Store::take(env('SELECT_PRELOADED'))->get();
+        $nomenclatures = Nomenclature::take(env('SELECT_PRELOADED'))->get();
 
         return view('admin.stones.index', compact('stones', 'stone_sizes', 'stone_contours', 'stone_styles', 'stores', 'nomenclatures'));
     }
@@ -123,11 +123,11 @@ class StoneController extends Controller
      */
     public function edit(Stone $stone)
     {
-        $stone_sizes = StoneSize::all();
-        $stone_contours = StoneContour::all();
-        $stone_styles = StoneStyle::all();
-        $stores = Store::all();
-        $nomenclatures = Nomenclature::all();
+        $stone_sizes = StoneSize::take(env('SELECT_PRELOADED'))->get();
+        $stone_contours = StoneContour::take(env('SELECT_PRELOADED'))->get();
+        $stone_styles = StoneStyle::take(env('SELECT_PRELOADED'))->get();
+        $stores = Store::take(env('SELECT_PRELOADED'))->get();
+        $nomenclatures = Nomenclature::take(env('SELECT_PRELOADED'))->get();
         $stone_photos = Gallery::where(
             [
                 ['table', '=', 'stones'],
@@ -227,10 +227,6 @@ class StoneController extends Controller
         $stones = $stones_new->filterStones($request, $query);
         $stones = $stones->where('store_id', Auth::user()->getStore()->id)->paginate(env('RESULTS_PER_PAGE'));
         $pass_stones = array();
-
-        if($stones->count() == 0){
-            $stones = Stone::paginate(env('RESULTS_PER_PAGE'));
-        }
 
         foreach($stones as $stone){
             $pass_stones[] = [

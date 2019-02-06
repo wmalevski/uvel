@@ -34,7 +34,7 @@ class CustomOrder extends Model
             }
 
             if ($request->byEmail) {
-                $query = $query->whereIn('email', [$request->byEmail]);
+                $query = $query->where('email','LIKE','%'.$request->byEmail.'%');
             }
 
             if( $request->byName == '' && $request->byEmail == ''){

@@ -64,7 +64,13 @@ class Material extends Model
                 $query = $query->whereIn('code', [$request->byCode]);
             }
 
-            if($request->byCode == ''){
+            if($request->byName){
+                $query->whereHas('parent', function($q) use ($request){
+                    $q->where('name', 'LIKE', '%' . $request->byName . '%');
+                })->orWhere('code','LIKE','%'.$request->byName.'%')->orWhere('color','LIKE','%'.$request->byName.'%');
+            }
+
+            if($request->byCode == '' && $request->byName == ''){
                 $query = Material::all();
             }
         });

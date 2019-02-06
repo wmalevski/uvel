@@ -120,6 +120,24 @@ class RepairTypeController extends Controller
         return $response;
     }
 
+    public function select_search(Request $request){
+        $query = RepairType::select('*');
+
+        $repairs_new = new RepairType();
+        $repairs = $repairs_new->filterRepairTypes($request, $query);
+        $repairs = $repairs->paginate(env('RESULTS_PER_PAGE'));
+        $pass_repairs = array();
+
+        foreach($repairs as $repair){
+            $pass_repairs[] = [
+                'value' => $repair->id,
+                'label' => $repair->name
+            ];
+        }
+
+        return json_encode($pass_repairs, JSON_UNESCAPED_SLASHES );
+    }
+
     /**
      * Remove the specified resource from storage.
      *

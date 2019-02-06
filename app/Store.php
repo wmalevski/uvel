@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
 
 class Store extends Model
 {
@@ -46,5 +47,19 @@ class Store extends Model
     public function stones()
     {
     	return $this->hasMany('App\Stone');
+    }
+
+    public function filterStores(Request $request ,$query){
+        $query = Store::where(function($query) use ($request){
+            if ($request->byName) {
+                $query->where('name', 'LIKE', "%$request->byName%")->orWhere('location', 'LIKE', "%$request->byName%");
+            }
+
+            if ($request->byName == '') {
+                $query = Store::all();
+            }
+        });
+
+        return $query;
     }
 }

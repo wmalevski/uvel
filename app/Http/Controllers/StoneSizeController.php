@@ -100,6 +100,25 @@ public function edit(StoneSize $stoneSize)
         return Response::json(array('ID' => $stoneSize->id, 'table' => View::make('admin/stone_sizes/table', array('size' => $stoneSize))->render()));
     }
 
+    public function select_search(Request $request){
+        $query = StoneSize::select('*');
+
+        $sizes_new = new Stonesize();
+        $sizes = $sizes_new->filterSizes($request, $query);
+        $sizes = $sizes->paginate(env('RESULTS_PER_PAGE'));
+
+        $pass_sizes = array();
+
+        foreach($sizes as $size){
+            $pass_sizes[] = [
+                'value' => $size->id,
+                'label' => $size->name
+            ];
+        }
+
+        return json_encode($pass_sizes, JSON_UNESCAPED_SLASHES );
+    }
+
     /**
      * Remove the specified resource from storage.
      *

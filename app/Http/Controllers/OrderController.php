@@ -38,12 +38,12 @@ class OrderController extends Controller
     {
         $orders = Order::all();
         $products = Product::all();
-        $models = Model::all();
-        $jewels = Jewel::all();
+        $models = Model::take(env('SELECT_PRELOADED'))->get();
+        $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
         $prices = Price::where('type', 'sell')->get();
-        $stones = Stone::all();
-        $stores = Store::all();
-        $mats = MaterialQuantity::currentStore();
+        $stones = Stone::take(env('SELECT_PRELOADED'))->get();
+        $stores = Store::take(env('SELECT_PRELOADED'))->get();
+        $mats = MaterialQuantity::currentStore()->take(env('SELECT_PRELOADED'));
 
         $pass_stones = array();
         
@@ -206,8 +206,8 @@ class OrderController extends Controller
                     $exchange_material = new ExchangeMaterial();
                     $exchange_material->material_id = $material;
                     $exchange_material->order_id = $order->id;
-                    $exchange_material->weight = $request->weight[$key];
-                    $exchange_material->sum_price = $request->weight[$key] * $price;
+                    $exchange_material->weight = $request->mat_quantity[$key];
+                    $exchange_material->sum_price = $request->mat_quantity[$key] * $price;
                     $exchange_material->additional_price = 0;
 
                     $exchange_material->save();
@@ -239,12 +239,12 @@ class OrderController extends Controller
     {
         $order_stones = $order->stones;
         $order_materials = $order->materials;
-        $models = Model::all();
-        $jewels = Jewel::all();
+        $models = Model::take(env('SELECT_PRELOADED'))->get();
+        $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
         $prices = Price::where('type', 'sell')->get();
-        $stones = Stone::all();
-        $materials = MaterialQuantity::currentStore();
-        $stores = Store::all();
+        $stones = Stone::take(env('SELECT_PRELOADED'))->get();
+        $materials = MaterialQuantity::currentStore()->take(env('SELECT_PRELOADED'));
+        $stores = Store::take(env('SELECT_PRELOADED'))->get();
 
         return \View::make('admin/orders/edit', array('stores' => $stores , 'order_stones' => $order_stones, 'order' => $order, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials));
     }

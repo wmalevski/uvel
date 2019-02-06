@@ -25,7 +25,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        $stores = Store::all();
+        $stores = Store::take(env('SELECT_PRELOADED'))->get();
         
         return \View::make('admin/users/index', array('users' => $users, 'stores' => $stores));
     }
@@ -102,6 +102,24 @@ class UserController extends Controller
         }
         
         return Response::json(array('success' => View::make('admin/users/table',array('user'=>$user))->render()));
+    }
+
+    public function select_search(Request $request){
+        $query = User::select('*');
+
+        $users_new = new User();
+        $users = $users_new->filterUsers($request, $query);
+        $users = $users->paginate(env('RESULTS_PER_PAGE'));
+        $pass_users = array();
+
+        foreach($users as $user){
+            $pass_users[] = [
+                'value' => $user->id,
+                'label' => $user->name.' - '.$user->store->name,
+            ];
+        }
+
+        return json_encode($pass_users, JSON_UNESCAPED_SLASHES );
     }
 
     public function filter(Request $request){

@@ -24,7 +24,7 @@
 
                         <div class="form-group col-md-6">
                         <label>Избери: </label>
-                            <select name="product_select" class="form-control" data-url="ajax/productstravelling/addByScan/">
+                            <select name="product_select" class="form-control" data-url="ajax/productstravelling/addByScan/" data-search="/ajax/select_search/products/">
                                 <option value="">Избери продукт</option>
 
                                 @foreach($products as $product)
@@ -53,7 +53,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="3">Магазин: </label>
-                            <select name="store_to_id" class="form-control">
+                            <select name="store_to_id" class="form-control" data-search="/ajax/select_search/stores/">
                                 <option value="">Избери магазин</option>
 
                                 @foreach($stores as $store)

@@ -32,7 +32,7 @@
             <div class="form-group col-md-12">
               <label for="1">Име (Номенклатура):</label>
               
-              <select name="nomenclature_id" class="form-control">
+              <select name="nomenclature_id" class="form-control" data-search="/ajax/select_search/stones/nomenclatures/">
                 <option value="">Избери номенклатура</option>
 
                 @foreach($nomenclatures as $nomenclature)
@@ -69,7 +69,7 @@
             <div class="form-group col-md-12">
               <label>Размер:</label>
             
-              <select name="size_id" class="form-control">
+              <select name="size_id" class="form-control" data-search="/ajax/select_search/stones/sizes/">
                 <option value="">Избери размер</option>
 
                 @foreach($stone_sizes as $size)
@@ -85,7 +85,7 @@
             <div class="form-group col-md-12">
               <label>Контур:</label>
           
-              <select name="contour_id" class="form-control">
+              <select name="contour_id" class="form-control" data-search="/ajax/select_search/stones/contours/">
                 <option value="">Избери контур</option>
 
                 @foreach($stone_contours as $contour)
@@ -101,7 +101,7 @@
             <div class="form-group col-md-12">
               <label>Стил:</label>
               
-              <select name="style_id" class="form-control">
+              <select name="style_id" class="form-control" data-search="/ajax/select_search/stones/styles/">
                 <option value="">Избери стил</option>
 
                 @foreach($stone_styles as $style)
@@ -136,7 +136,7 @@
             <div class="form-group col-md-12">
               <label>Магазин: </label>
               
-              <select name="store_id" class="form-control">
+              <select name="store_id" class="form-control" data-search="/ajax/select_search/stores/">
                 <option value="">Избери магазин</option>
 
                 @foreach($stores as $store)

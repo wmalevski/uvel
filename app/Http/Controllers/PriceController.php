@@ -25,7 +25,7 @@ class PriceController extends Controller
     public function index(Request $request)
     {
 
-        $materials = Material::all();
+        $materials = Material::take(env('SELECT_PRELOADED'))->get();
         
         if ($request->isMethod('post')){
             return redirect()->route('view_price', ['material' => $request->material_id]);

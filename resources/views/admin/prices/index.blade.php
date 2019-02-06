@@ -13,7 +13,7 @@
                 <div class="form-row  col-md-12">
 
                     <div class="form-group col-md-3">
-                        <select name="material_id" class="form-control col-md-9">
+                        <select name="material_id" class="form-control col-md-9" data-search="/ajax/select_search/materials/">
                             <option value="">Избери</option>
 
                             @foreach($materials as $material)

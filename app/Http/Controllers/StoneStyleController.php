@@ -98,6 +98,25 @@ class StoneStyleController extends Controller
         return Response::json(array('ID' => $stoneStyle->id, 'table' => View::make('admin/stone_styles/table', array('style' => $stoneStyle))->render()));
     }
 
+    public function select_search(Request $request){
+        $query = StoneStyle::select('*');
+
+        $styles_new = new StoneStyle();
+        $styles = $styles_new->filterStyles($request, $query);
+        $styles = $styles->paginate(env('RESULTS_PER_PAGE'));
+
+        $pass_styles = array();
+
+        foreach($styles as $style){
+            $pass_styles[] = [
+                'value' => $style->id,
+                'label' => $style->name
+            ];
+        }
+
+        return json_encode($pass_styles, JSON_UNESCAPED_SLASHES );
+    }
+
     /**
      * Remove the specified resource from storage.
      *

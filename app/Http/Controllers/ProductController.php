@@ -36,11 +36,11 @@ class ProductController extends Controller
     public function index(MaterialQuantity $materials)
     {
         $products = Product::all();
-        $models = Model::all();
-        $jewels = Jewel::all();
+        $models = Model::take(env('SELECT_PRELOADED'))->get();
+        $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
         $prices = Price::where('type', 'sell')->get();
-        $stones = Stone::all();
-        $stores = Store::all();
+        $stones = Stone::take(env('SELECT_PRELOADED'))->get();
+        $stores = Store::take(env('SELECT_PRELOADED'))->get();
 
         $pass_stones = array();
         
@@ -164,12 +164,12 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $product_stones = $product->stones;
-        $models = Model::all();
-        $jewels = Jewel::all();
+        $models = Model::take(env('SELECT_PRELOADED'))->get();
+        $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
         $prices = Price::where('type', 'sell')->get();
-        $stones = Stone::all();
+        $stones = Stone::take(env('SELECT_PRELOADED'))->get();
         $materials = MaterialQuantity::all();
-        $stores = Store::all();
+        $stores = Store::take(env('SELECT_PRELOADED'))->get();
 
         $photos = Gallery::where(
             [

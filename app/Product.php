@@ -92,14 +92,14 @@ class Product extends BaseModel
     }
 
     public function chainedSelects(Model $model){
-        $materials = MaterialQuantity::curStore();
+        $materials = MaterialQuantity::curStore()->take(env('SELECT_PRELOADED'));
         $default = $model->options->where('default', 'yes')->first();
 
         if($model){
-            $jewels = Jewel::all();
+            $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
             $model_stones = $model->stones;
             $model_photos = $model->photos;
-            $models = Model::all();
+            $models = Model::take(env('SELECT_PRELOADED'))->get();
 
             if($default){
                 $retail_prices = $default->material->material->pricesBuy;
@@ -182,14 +182,15 @@ class Product extends BaseModel
                     }
 
 
-                    //BE: Use materials quantity, not MATERIAL TYPE! Do it after merging.
-                    $pass_materials[] = (object)[
-                        'value' => $material->id,
-                        'label' => $material->material->name.' - '.$material->material->color.'- '.$material->material->code,
-                        'selected' => $selected,
-                        'dataMaterial' => $material->id,
-                        'priceBuy' => $material->material->pricesBuy->first()['price'],
-                    ];
+                    if($material->material->pricesBuy->first()){
+                        $pass_materials[] = (object)[
+                            'value' => $material->id,
+                            'label' => $material->material->parent->name.' - '.$material->material->color.'- '.$material->material->code,
+                            'selected' => $selected,
+                            'dataMaterial' => $material->id,
+                            'priceBuy' => $material->material->pricesBuy->first()['price'],
+                        ];
+                    }
                 }
             }
 

@@ -41,4 +41,18 @@ class StoneSize extends Model
     {
         return $this->hasMany('App\Stone', 'size_id');
     }
+
+    public function filterSizes(Request $request ,$query){
+        $query = StoneSize::where(function($query) use ($request){
+            if ($request->byName) {
+                $query->where('name', 'LIKE', "%$request->byName%");
+            }
+
+            if ($request->byName == '') {
+                $query = StoneSize::all();
+            }
+        });
+
+        return $query;
+    }
 }

@@ -109,7 +109,7 @@ class DashboardController extends Controller
         $condition = Cart::getConditions('discount');
         $priceCon = 0;
 
-        $materials = MaterialQuantity::currentStore();
+        $materials = MaterialQuantity::currentStore()->take(env('SELECT_PRELOADED'));
 
         $pass_materials = array();
 
