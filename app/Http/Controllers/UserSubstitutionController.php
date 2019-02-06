@@ -28,8 +28,8 @@ class UsersubstitutionController extends Controller
             'date_to', '<', date("Y-m-d")
         )->get();
 
-        $stores = Store::all();
-        $users = User::whereIsNot('customer')->get();
+        $stores = Store::take(env('SELECT_PRELOADED'))->get();
+        $users = User::whereIsNot('customer')->take(env('SELECT_PRELOADED'))->get();
         
         return \View::make('admin/substitutions/index', array('activeSubstitutions' => $activeSubstitutions, 'inactiveSubstitutions' => $inactiveSubstitutions, 'stores' => $stores, 'users' => $users));
     }

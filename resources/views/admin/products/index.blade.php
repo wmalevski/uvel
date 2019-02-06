@@ -2,7 +2,7 @@
 @php
 $newStoneRow =
 				'<div class="form-group col-md-6"><label>Камък:</label>
-					<select name="stones[]" class="form-control" data-calculatePrice-stone>';
+					<select name="stones[]" class="form-control" data-calculatePrice-stone data-search="/ajax/select_search/stones/">';
 						foreach($stones as $stone) {
 							$newStoneRow .= '<option value="'. $stone->id .'" data-stone-price="'. $stone->price .'" data-stone-type="'. $stone->type .'"> 
 								'. $stone->nomenclature->name  .' - 
@@ -72,7 +72,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							<label>
 								Модел:
 							</label>
-							<select data-url="ajax/products/" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model>
+							<select data-url="ajax/products/" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model data-search="/ajax/select_search/models/">
 								<option value="">
 									Избери
 								</option>
@@ -87,7 +87,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							<label>
 								Вид:
 							</label>
-							<select id="jewels_types" name="jewel_id" class="jewels_types form-control" data-modelFilled-jewel disabled>
+							<select id="jewels_types" name="jewel_id" class="jewels_types form-control" data-modelFilled-jewel disabled data-search="/ajax/select_search/jewels/">
 								<option value="">
 									Избери
 								</option>
@@ -109,7 +109,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							<label>
 								Материал:
 							</label>
-							<select id="material" name="material_id" class="material_type form-control material calculate" data-calculatePrice-material disabled>
+							<select id="material" name="material_id" class="material_type form-control material calculate" data-calculatePrice-material disabled data-search="/ajax/select_search/materials/">
 								<option value="">
 									Избери
 								</option>
@@ -243,7 +243,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							<label>
 								Магазин:
 							</label>
-							<select name="store_id" class="store-select form-control">
+							<select name="store_id" class="store-select form-control" data-search="/ajax/select_search/stores/">
 								<option value="">
 									Избери магазин
 								</option>

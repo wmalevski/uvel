@@ -27,14 +27,14 @@ class MaterialTravellingController extends Controller
     public function index()
     {
         if(Bouncer::is(Auth::user())->an('admin')){
-            $materials = MaterialQuantity::all();
+            $materials = MaterialQuantity::take(env('SELECT_PRELOADED'))->get();
         }else{
-            $materials = MaterialQuantity::CurrentStore();
+            $materials = MaterialQuantity::CurrentStore()->take(env('SELECT_PRELOADED'))->get();
         }
         
-        $stores = Store::where('id', '!=', Auth::user()->getStore()->id)->get();;
-        $materials_types = Material::all();
-        $travelling = MaterialTravelling::all();
+        $stores = Store::where('id', '!=', Auth::user()->getStore()->id)->take(env('SELECT_PRELOADED'))->get();
+        $materials_types = Material::take(env('SELECT_PRELOADED'))->get();
+        $travelling = MaterialTravelling::take(env('SELECT_PRELOADED'))->get();
 
         if(Bouncer::is(Auth::user())->an('admin')){
             $travelling = MaterialTravelling::all();

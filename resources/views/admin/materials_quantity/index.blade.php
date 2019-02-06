@@ -20,7 +20,7 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label>Тип: </label>
-                            <select name="material_id" class="form-control">
+                            <select name="material_id" class="form-control" data-search="/ajax/select_search/materialstypes/">
                                 <option value="">Избери материал</option>
                         
                                 @foreach($types as $type)
@@ -43,7 +43,7 @@ aria-hidden="true">
 
                     <div class="form-group">
                         <label>Магазин: </label>
-                        <select name="store_id" class="form-control">
+                        <select name="store_id" class="form-control" data-search="/ajax/select_search/stores/">
                             <option value="">Избери магазин</option>
                     
                             @foreach($stores as $store)

@@ -98,6 +98,25 @@ class StoneContourController extends Controller
         return Response::json(array('ID' => $stoneContour->id, 'table' => View::make('admin/stone_contours/table', array('contour' => $stoneContour))->render()));
     }
 
+    public function select_search(Request $request){
+        $query = StoneContour::select('*');
+
+        $contours_new = new Stonecontour();
+        $contours = $contours_new->filterContours($request, $query);
+        $contours = $contours->paginate(env('RESULTS_PER_PAGE'));
+
+        $pass_contours = array();
+
+        foreach($contours as $contour){
+            $pass_contours[] = [
+                'value' => $contour->id,
+                'label' => $contour->name
+            ];
+        }
+
+        return json_encode($pass_contours, JSON_UNESCAPED_SLASHES );
+    }
+
     /**
      * Remove the specified resource from storage.
      *

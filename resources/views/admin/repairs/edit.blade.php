@@ -56,7 +56,7 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label>Тип ремонт</label>
-                    <select name="type_id" class="form-control fill-field" data-fieldToFill="input[name='price']" data-repair-type>
+                    <select name="type_id" class="form-control fill-field" data-fieldToFill="input[name='price']" data-repair-type data-search="/ajax/select_search/repairtypes/">
                         <option value="">Избери</option>
 
                         @foreach($repairTypes as $repairType)
@@ -67,7 +67,7 @@
 
                 <div class="form-group col-md-6">
                     <label>Материал: </label>
-                    <select name="material_id" class="form-control" data-repair-material>
+                    <select name="material_id" class="form-control" data-repair-material data-search="/ajax/select_search/materials/">
                         <option value="">Избер материал</option>
                 
                         @foreach($materials as $material)

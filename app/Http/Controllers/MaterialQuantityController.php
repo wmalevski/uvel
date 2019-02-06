@@ -26,8 +26,8 @@ class MaterialQuantityController extends Controller
         //$materials = Materials_quantity::where('store', Auth::user()->store)->get();
         //$stores = Store::where('id', '!=', Auth::user()->store)->get();
         $materials = MaterialQuantity::all();
-        $stores = Store::all();
-        $materials_types = Material::all();
+        $stores = Store::take(env('SELECT_PRELOADED'))->get();
+        $materials_types = Material::take(env('SELECT_PRELOADED'))->get();
         
         return \View::make('admin/materials_quantity/index', array('materials' => $materials, 'types' => $materials_types, 'stores' => $stores, 'travelling' => $travelling::current()));
     }
@@ -98,8 +98,8 @@ class MaterialQuantityController extends Controller
      */
     public function edit(MaterialQuantity $materialQuantity)
     {
-        $stores = Store::all();
-        $materials_types = Material::withTrashed()->get();
+        $stores = Store::take(env('SELECT_PRELOADED'))->get();
+        $materials_types = Material::withTrashed()->take(env('SELECT_PRELOADED'))->get();
         
         return \View::make('admin/materials_quantity/edit',array('material'=>$materialQuantity, 'types' => $materials_types, 'stores' => $stores));
     }
@@ -148,12 +148,15 @@ class MaterialQuantityController extends Controller
         $pass_materials = array();
 
         foreach($materials as $material){
-            $pass_materials[] = [
-                'value' => $material->id,
-                'label' => $material->material->parent->name.' - '.$material->material->color.' - '.$material->material->carat,
-                'data-carat' => $material->material->carat,
-                'data-pricebuy' => $material->material->pricesBuy->first()->price
-            ];
+            if($material->material->pricesBuy->first()){
+                $pass_materials[] = [
+                    'value' => $material->id,
+                    'label' => $material->material->parent->name.' - '.$material->material->color.' - '.$material->material->carat,
+                    'data-carat' => $material->material->carat,
+                    'data-pricebuy' => $material->material->pricesBuy->first()['price']
+                ];
+            }
+            
         }
 
         return json_encode($pass_materials, JSON_UNESCAPED_SLASHES );

@@ -224,7 +224,7 @@ aria-hidden="true">
                             <div class="form-row">
                                 <div class="form-group col-md-5">
                                     <label for="">Вид</label>
-                                    <select name="material_id[]" data-select2-skip data-calculateprice-material class="material_type form-control calculate not-clear">
+                                    <select name="material_id[]" data-select2-skip data-calculateprice-material class="material_type form-control calculate not-clear" data-search="/ajax/select_search/materials/">
                                         <option value="">Избери</option>
                                     </select>
                                 </div>
@@ -249,17 +249,19 @@ aria-hidden="true">
                         <div class="exchange-row-total form-row">
                             <div class="form-group col-md-6">
                                 <label for="given-sum">Сума от материали</label>
-                                <input type="number" data-defaultPrice="{{ $materials->first()->material->pricesBuy->first()->price }}" class="form-control not-clear" value="0" name="exchangeRows_total" placeholder="Дължима сума" data-exchangeRows-total readonly>
+                                <input type="number" data-defaultPrice="@if(count($materials) > 0) {{ $materials->first()->material->pricesBuy->first()['price'] }} @endif" class="form-control not-clear" value="0" name="exchangeRows_total" placeholder="Дължима сума" data-exchangeRows-total readonly>
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label for="given-sum">Цена на грамаж</label>
                                 <select name="calculating_price" class="form-control not-clear">
                                     <option value="0">Избери</option>
-                                    @if($materials->first()->material->pricesBuy->first())
-                                    @foreach($materials->first()->material->pricesBuy as $price)
-                                        <option value="{{ $price->id }}" data-defaultPrice="{{ $materials->first()->material->pricesBuy->first()->price }}" data-price="{{ $price->price }}">{{ $price->slug }} - {{ $price->price }}</option>
-                                    @endforeach
+                                    @if(count($materials) > 0)
+                                        @if($materials->first()->material->pricesBuy->first())
+                                            @foreach($materials->first()->material->pricesBuy as $price)
+                                                <option value="{{ $price->id }}" data-defaultPrice="{{ $materials->first()->material->pricesBuy->first()->price }}" data-price="{{ $price->price }}">{{ $price->slug }} - {{ $price->price }}</option>
+                                            @endforeach
+                                        @endif
                                     @endif
                                 </select>
                             </div>

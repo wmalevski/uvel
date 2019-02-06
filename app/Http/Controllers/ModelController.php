@@ -37,10 +37,10 @@ class ModelController extends Controller
     public function index()
     {
         $models = Model::all();
-        $jewels = Jewel::all();
+        $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
         $prices = Price::all();
-        $stones = Stone::all();
-        $materials = MaterialQuantity::currentStore();
+        $stones = Stone::take(env('SELECT_PRELOADED'))->get();
+        $materials = MaterialQuantity::currentStore()->take(env('SELECT_PRELOADED'));
         $pass_stones = array();
         
         foreach($stones as $stone){
@@ -337,9 +337,9 @@ class ModelController extends Controller
      */
     public function edit(Model $model)
     {
-        $jewels = Jewel::all();
+        $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
         $prices = Price::where('type', 'sell')->get();
-        $stones = Stone::all();
+        $stones = Stone::take(env('SELECT_PRELOADED'))->get();
         $modelStones = $model->stones;
         $photos = Gallery::where(
             [
@@ -350,7 +350,7 @@ class ModelController extends Controller
 
         $options = $model->options;
 
-        $materials = MaterialQuantity::currentStore();
+        $materials = MaterialQuantity::currentStore()->take(env('SELECT_PRELOADED'));
         $pass_photos = array();        
         $pass_stones = array();
         
@@ -392,7 +392,7 @@ class ModelController extends Controller
             $pass_materials[] = [
                 'value' => $material->id,
                 'label' => $material->material->parent->name.' - '. $material->material->parent->color.  ' - '  .$material->material->parent->carat,
-                'pricebuy' => $material->material->pricesBuy->first()->price,
+                'pricebuy' => $material->material->pricesBuy->first()['price'],
                 'material' => $material->material
             ];
         }

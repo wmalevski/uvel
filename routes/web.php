@@ -257,6 +257,22 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::get('/search/users', 'UserController@filter');
 
+    Route::get('/select_search/repairtypes', 'RepairTypeController@select_search');
+
+    Route::get('/select_search/stones/nomenclatures', 'NomenclatureController@select_search');
+
+    Route::get('/select_search/stones/sizes', 'StoneSizeController@select_search');
+
+    Route::get('/select_search/stones/styles', 'StoneStyleController@select_search');
+
+    Route::get('/select_search/stones/contours', 'StoneContourController@select_search');
+
+    Route::get('/select_search/stores', 'StoreController@select_search');
+
+    Route::get('/select_search/users', 'UserController@select_search');
+
+    Route::get('/select_search/parentmaterials', 'MaterialController@select_search');
+
     Route::get('/select_search/materials', 'MaterialQuantityController@select_search');
 
     Route::get('/select_search/jewels', 'JewelController@select_search');

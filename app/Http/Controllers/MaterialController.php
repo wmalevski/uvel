@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Material;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -174,6 +175,27 @@ class MaterialController extends Controller
         $response .= $materials->appends(Input::except('page'))->links();
 
         return $response;
+    }
+
+    public function select_search(Request $request){
+        $query = Material::select('*');
+
+        $materials_new = new Material();
+        $materials = $materials_new->filterMaterials($request, $query);
+        $materials = $materials->paginate(env('RESULTS_PER_PAGE'));
+        $pass_materials = array();
+
+        foreach($materials as $material){
+            $pass_materials[] = [
+                'value' => $material->id,
+                'label' => $material->parent->name.' - '.$material->color.' - '.$material->carat,
+                'data-carat' => $material->carat,
+                'data-pricebuy' => $material->pricesBuy->first()['price']
+            ];
+            
+        }
+
+        return json_encode($pass_materials, JSON_UNESCAPED_SLASHES );
     }
 
     /**

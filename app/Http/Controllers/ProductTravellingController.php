@@ -22,7 +22,7 @@ class ProductTravellingController extends Controller
      */
     public function index()
     {
-        $products = Product::where('status', 'available')->get();
+        $products = Product::where('status', 'available')->take(env('SELECT_PRELOADED'))->get();
         $travelling = ProductTravelling::all();
         $stores = Store::all();
 

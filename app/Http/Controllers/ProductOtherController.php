@@ -28,7 +28,7 @@ class ProductOtherController extends Controller
     {
         $products_others = ProductOther::all();
         $types = ProductOtherType::all();
-        $stores = Store::all();
+        $stores = Store::take(env('SELECT_PRELOADED'))->get();
 
         return \View::make('admin/products_others/index', array('products_others' => $products_others, 'types' => $types, 'stores' => $stores));
     }
@@ -162,7 +162,7 @@ class ProductOtherController extends Controller
     public function edit(ProductOther $productOther)
     {
         $types = ProductOtherType::all();
-        $stores = Store::all();
+        $stores = Store::take(env('SELECT_PRELOADED'))->get();
 
         $photos = Gallery::where(
             [

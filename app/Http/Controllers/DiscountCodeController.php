@@ -21,7 +21,7 @@ class DiscountCodeController extends Controller
     public function index()
     {
         $discounts = DiscountCode::all();
-        $users = User::all();
+        $users = User::take(env('SELECT_PRELOADED'))->get();
         
         return \View::make('admin/discounts/index', array('discounts' => $discounts, 'users' => $users));
     }

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Input;
 use Response;
 
 class StoreController extends Controller
@@ -107,6 +108,25 @@ class StoreController extends Controller
         $store->save();
         
         return Response::json(array('ID' => $store->id, 'table' => View::make('admin/stores/table', array('store' => $store))->render()));
+    }
+
+    public function select_search(Request $request){
+        $query = Store::select('*');
+
+        $stores_new = new Store();
+        $stores = $stores_new->filterStores($request, $query);
+        $stores = $stores->paginate(env('RESULTS_PER_PAGE'));
+
+        $pass_stores = array();
+
+        foreach($stores as $store){
+            $pass_stores[] = [
+                'value' => $store->id,
+                'label' => $store->name.' - '.$store->location
+            ];
+        }
+
+        return json_encode($pass_stores, JSON_UNESCAPED_SLASHES );
     }
 
     /**

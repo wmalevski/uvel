@@ -27,9 +27,9 @@ class RepairController extends Controller
      */
     public function index()
     {
-        $repairTypes = RepairType::all();
+        $repairTypes = RepairType::take(env('SELECT_PRELOADED'))->get();
         $repairs = Repair::all();
-        $materials = Material::all();
+        $materials = Material::take(env('SELECT_PRELOADED'))->get();
         
         return \View::make('admin/repairs/index', array('repairTypes' => $repairTypes, 'repairs' => $repairs, 'materials' => $materials));
     }
@@ -131,8 +131,8 @@ class RepairController extends Controller
     public function edit(Repair $repair, $barcode)
     {
         $repair = Repair::where('barcode', $barcode)->first();
-        $repairTypes = RepairType::all();
-        $materials = Material::all();
+        $repairTypes = RepairType::take(env('SELECT_PRELOADED'))->get();
+        $materials = Material::take(env('SELECT_PRELOADED'))->get();
 
         return \View::make('admin/repairs/edit', array('repair' => $repair, 'repairTypes' => $repairTypes, 'materials' => $materials));
     }

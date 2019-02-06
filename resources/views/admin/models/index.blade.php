@@ -37,7 +37,7 @@ $newMaterialRow = str_replace("\n", "", str_replace("\r", "", $newMaterialRow));
 
 $newStoneRow =
 				'<div class="form-group col-md-6"><label>Камък:</label>
-					<select name="stones[]" class="form-control" data-calculatePrice-stone>';
+					<select name="stones[]" class="form-control" data-calculatePrice-stone data-search="/ajax/select_search/stones/">';
 						foreach($stones as $stone) {
 							$newStoneRow .= '<option value="'. $stone->id .'" data-stone-price="'. $stone->price .'" data-stone-type="'. $stone->type .'"> 
 								'. $stone->nomenclature->name  .' - 
@@ -96,9 +96,13 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							<input type="text" class="form-control" id="1" name="name" placeholder="Име:">
 						</div>
 						<div class="form-group col-md-6">
-							<label>Избери вид бижу:</label>
-							<select id="jewel_id" name="jewel_id" class="form-control calculate">
-								<option value="">Избери</option>
+							<label>
+								Избери вид бижу:
+							</label>
+							<select id="jewel_id" name="jewel_id" class="form-control calculate" data-search="/ajax/select_search/jewels/">
+								<option value="">
+									Избери
+								</option>
 								@foreach($jewels as $jewel)
 								<option value="{{ $jewel->id }}">{{ $jewel->name }}</option>
 								@endforeach

@@ -18,9 +18,19 @@
         </div>
 
         <div class="form-group col-md-6">
+<<<<<<< HEAD
+          <label>
+            Избери вид бижу:
+          </label>
+          <select id="jewel_edit" name="jewel_id" class="form-control calculate" data-search="/ajax/select_search/jewels/">
+            <option value="">
+              Избери
+            </option>
+=======
           <label>Избери вид бижу:</label>
           <select id="jewel_edit" name="jewel_id" class="form-control calculate">
             <option value="">Избери</option>
+>>>>>>> 105690e3676d9c8de2651bba17be26a59786416b
             @foreach($jewels as $jewel)
             <option value="{{ $jewel->id }}" data-material="{{ $jewel->material_id }}" @if($model->jewel_id == $jewel->id) selected @endif>
               {{ $jewel->name }}
@@ -46,9 +56,13 @@
           </div>
           @endif
           <div class="form-group col-md-6">
-            <label>Избери материал:</label>
-            <select name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material>
-              <option value="">Избери</option>
+            <label>
+              Избери материал:
+            </label>
+            <select name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material data-search="/ajax/select_search/materials/">
+              <option value="">
+                Избери
+              </option>
               @foreach($materials as $material)
               @if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
               <option value="{{ $material->id }}" data-material="{{ $material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}"
@@ -134,7 +148,7 @@
           <div class="form-group col-md-6">
             <label>Камък:</label>
 
-            <select id="model-stone" name="stones[]" class="form-control" data-calculatePrice-stone>
+            <select id="model-stone" name="stones[]" class="form-control" data-calculatePrice-stone data-search="/ajax/select_search/stones/">
               @foreach($stones as $stone)
               <option value="{{ $stone->id }}" @if($modelStone->stone->id == $stone->id) selected @endif
                 data-stone-type="{{

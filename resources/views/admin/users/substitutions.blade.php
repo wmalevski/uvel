@@ -18,7 +18,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label>Магазин: </label>
-                    <select name="store_id" class="form-control">
+                    <select name="store_id" class="form-control" data-search="/ajax/select_search/stores/">
                         <option value="">Избер магазин</option>
                 
                         @foreach($stores as $store)

@@ -99,6 +99,25 @@ class NomenclatureController extends Controller
         return Response::json(array('ID' => $nomenclature->id, 'table' => View::make('admin/nomenclatures/table', array('nomenclature' => $nomenclature))->render()));
     }
 
+    public function select_search(Request $request){
+        $query = Nomenclature::select('*');
+
+        $nomenclatures_new = new Nomenclature();
+        $nomenclatures = $nomenclatures_new->filterNomenclatures($request, $query);
+        $nomenclatures = $nomenclatures->paginate(env('RESULTS_PER_PAGE'));
+
+        $pass_nomenclatures = array();
+
+        foreach($nomenclatures as $nomenclature){
+            $pass_nomenclatures[] = [
+                'value' => $nomenclature->id,
+                'label' => $nomenclature->name
+            ];
+        }
+
+        return json_encode($pass_nomenclatures, JSON_UNESCAPED_SLASHES );
+    }
+
     /**
      * Remove the specified resource from storage.
      *
