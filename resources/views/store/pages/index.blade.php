@@ -64,11 +64,10 @@
 														<div class="collection-details">
 															<a href="online/products/?byMaterial[]={{ $material->id }}">
 
-																<img src="@if(count($material->materials)) @if(count($material->materials->first()->products))
+																<img alt="{{ $material->name }}" src="@if(count($material->materials)) @if(count($material->materials->first()->products))
                                           @if(count($material->materials->first()->products->first()->images))
                                           {{ asset("uploads/products/" . $material->materials->first()->products->first()->images->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }}
-																					@endif @endif @endif"
-																 alt="">
+																					@endif @endif @endif">
 															</a>
 														</div>
 														<div class="hover-overlay">
@@ -89,14 +88,15 @@
 													<div class="home_collections_item_inner">
 														<div class="collection-details">
 															<a href="{{ route('models') }}">
-																<img src="@if(count($models))
-																	@if(count($models->first()->photos))
-																	{{ asset("uploads/models/" . $models->first()->photos->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif @endif"
-																 alt="По поръчка">
+																<img alt="{{ $models->first()->name }}" src="@if(count($models)) @if(count($models->first()->photos))
+																	{{ asset("uploads/models/" . $models->first()->photos->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }}
+																	@endif @endif">
 															</a>
 														</div>
 														<div class="hover-overlay">
-															<span class="col-name"><a href="{{ route('models') }}">По поръчка</a></span>
+															<span class="col-name">
+																<a href="{{ route('models') }}">По поръчка</a>
+															</span>
 															<div class="collection-action">
 																<a href="{{ route('models') }}">Виж</a>
 															</div>
@@ -108,10 +108,9 @@
 													<div class="home_collections_item_inner">
 														<div class="collection-details">
 															<a href="{{ route('custom_order') }}">
-																<img src="@if(count($models))
-																	@if(count($models->first()->photos))
-																	{{ asset("uploads/models/" . $models->first()->photos->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif @endif"
-																 alt="По ваш модел">
+																<img alt="{{ $models->first()->name }}"
+																		 src="@if(count($models)) @if(count($models->first()->photos)) {{ asset("uploads/models/" . $models->first()->photos->first()->photo) }}
+																		 @else {{ asset('store/images/demo_375x375.png') }} @endif @endif">
 															</a>
 														</div>
 														<div class="hover-overlay">
@@ -132,7 +131,7 @@
 						</div>
 					</div>
 
-					<!-- Нови продукти -->
+					<!-- Нови продукти
 					{{-- @if(count($products))
 					<div class="home-newproduct">
 						<div class="container">
@@ -197,7 +196,7 @@
 																		</span>
 																	</div>
 																</div>
-																<a class="wish-list" href="#" title="Наблюдавани" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
+																<a class="wish-list" href="#" title="Наблюдавсссани" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
 																	<i class="fa fa-heart"></i>
 																	<span class="list-mode">
 																		Добави в желани
@@ -216,6 +215,7 @@
 						</div>
 					</div>
 					@endif --}}
+					Нови продукти -->
 
 					@foreach($materials as $material)
 					<div class="home-feature">
@@ -233,7 +233,7 @@
 
 														<li class="row-left">
 															<a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">
-																<img class="img-fill" src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }}
+																<img class="img-fill" alt="{{ $product->name }}" src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }}
 																@else {{ asset('store/images/demo_375x375.png') }}
 																@endif">
 															</a>
@@ -272,32 +272,25 @@
 															</div>
 
 															<div class="hover-appear">
-																<form action="#" method="post">
-																	<div class="effect-ajax-cart">
-																		<input name="quantity" value="1" type="hidden">
-																		<button class="select-option" type="button" onclick="window.location.href='{{ route('single_product', ['product' => $product->id])  }}'">
-																			<i class="fa fa-th-list" title="Преглед"></i>
-																			<span class="list-mode">
-																				Преглед
-																			</span>
-																		</button>
-																	</div>
-																</form>
-																<div class="product-ajax-qs hidden-xs hidden-sm">
-																	<div data-target="#quick-shop-modal" class="quick_shop" data-toggle="modal" data-url="products/{{ $product->id }}/">
-																		<i class="fa fa-eye" title="Бърз Преглед"></i>
-																		<span class="list-mode">
-																			Бърз преглед
-																		</span>
-																	</div>
-																</div>
-																<a class="wish-list" href="#" title="Наблюдавани" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
-																	<i class="fa fa-heart"></i>
-																	<span class="list-mode">
-																		Добави в желани
-																	</span>
+																<a href="{{ route('single_product', ['product' => $product->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
+																	<input name="quantity" value="1" type="hidden">
+																	<i class="fa fa-lg fa-th-list"></i>
+																	<span class="list-mode">Преглед</span>
+																</a>
+																
+																<a href="#" class="product-ajax-qs hidden-xs hidden-sm quick_shop" data-target="#quick-shop-modal" data-toggle="modal"
+																	 data-url="products/{{ $product->id }}/" title="Бърз Преглед">
+																	<i class="fa fa-lg fa-eye"></i>
+																	<span class="list-mode">Бърз преглед</span>
+																</a>
+																
+																<a class="wish-list" href="#" title="Добави в желани"
+																	 data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
+																	<i class="fa fa-lg fa-heart"></i>
+																	<span class="list-mode">Добави в желани</span>
 																</a>
 															</div>
+															
 														</li>
 													</ul>
 												</li>
@@ -321,7 +314,7 @@
 								<div class="home-bottom_banner_wrapper col-md-12">
 									<div id="home-bottom_banner" class="home-bottom_banner">
 										<a href="{{ route('single_translated_article', ['locale'=>app()->getLocale(), 'product' => $articles->first()->slug])  }}">
-											<img src="{{ asset("uploads/blog/" . $articles->first()->thumbnail) }}" alt="">
+											<img src="{{ asset("uploads/blog/" . $articles->first()->thumbnail) }}" alt="{{ $articles->first()->slug }}">
 										</a>
 									</div>
 								</div>
@@ -345,7 +338,10 @@
 													</a>
 												</h4>
 												<ul class="list-inline">
-													<li class="author"><i class="fa fa-user"></i> {{$article->author()->name}}</li>
+													<li class="author">
+														<i class="fa fa-user"></i>
+														{{$article->author()->name}}
+													</li>
 													<li>/</li>
 													<li class="comment">
 														<a href="{{ route('single_translated_article', ['locale'=>app()->getLocale(), 'product' => $article->slug])  }}">

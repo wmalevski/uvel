@@ -331,8 +331,11 @@ var uvel,
           timeToOpenModal = 1000, //time which takes for modals to open
           openedForm = $this.attr('data-form'),
           formType = $this.attr('data-form-type'),
-          formSettings = $self.formsConfig[openedForm];
-
+          formSettings = $self.formsConfig[openedForm]
+          $submitButton = $('form[name="' + openedForm + '"]').find('button[type="submit"]');
+          
+      $submitButton.prop('disabled', true);
+      
       if (formType == 'edit') {
         $self.appendingEditFormToTheModal($this, data);
       }
@@ -358,6 +361,7 @@ var uvel,
           // Form already initialized
           console.log('form already initialized');
         }
+        $submitButton.prop('disabled', false);
       }, timeToOpenModal);
     }
 
@@ -691,7 +695,9 @@ var uvel,
 
       submitButton.click(function(e) {
         e.preventDefault();
-
+        
+        this.disabled = true;
+        
         if (formType == 'partner-sell') {
           $self.partnerPaymentSubmit(form, ajaxRequestLink, formType);
         } else {
@@ -883,12 +889,14 @@ var uvel,
           }
           $self.formSuccessHandler(form, formType);
         },
-        error: function(err) {
-          $self.formsErrorHandler(err, form);
+        error: function(error) {
+          $self.formsErrorHandler(error, form);
         },
         complete: function() {
           // scroll to top of form window
           form[0].scrollIntoView();
+          // re-enable submit buttons
+          form.find('[type="submit"]').prop('disabled', false);
         }
       });
     }
@@ -896,8 +904,18 @@ var uvel,
     // FUNCTION THAT READS ALL THE ERRORS RETURNED FROM THE REQUEST AND APPEND THEM IN THE MODAL-FORM-BODY
 
     this.formsErrorHandler = function(err, form) {
-      var errorObject = form.find('[data-repair-scan]').length > 0 ? err.errors : err.responseJSON.errors,
-          errorMessagesHolder = $('<div class="error--messages_holder"></div>');
+      var errorMessagesHolder = $('<div class="error--messages_holder"></div>'),
+          errorObject;
+          
+      if (form.find('[data-repair-scan]').length > 0) {
+        errorObject = err.errors;
+      } else if (err.statusText == 'timeout') {
+        errorObject = {
+          error: err
+        };
+      } else {
+        errorObject = err.responseJSON.errors;
+      }
 
       for (var key in errorObject) {
         var messageError = $('<div class="alert alert-danger"></div>');
@@ -906,6 +924,8 @@ var uvel,
           for (var x in errorObject[key]) {
             messageError.append(errorObject[key][x][0]);
           }
+        } else if (errorObject[key].statusText == 'timeout') {
+          messageError.append('Времето за изчакване изтече.')
         } else {
           messageError.append(errorObject[key][0]);
         }
@@ -2349,10 +2369,62 @@ var uvel,
     */
 
     this.initializeSelect = function(select, selectCallback) {
-      select.select2({
-        templateResult: $self.addSelect2CustomAttributes,
-        templateSelection: $self.addSelect2CustomAttributes
-      });
+      if (select.length > 1) {
+        for (var i = 0; i < select.length; i++) {
+          loadSelect2(select[i]);
+        }
+      } else if (select.length == 1) {
+        loadSelect2(select[0]);
+      }
+
+      function loadSelect2(sel) {
+        if (sel.hasAttribute('data-search')) {
+          $(sel).select2({
+            ajax: {
+              url: sel.dataset.search,
+              type: 'GET',
+              dataType: 'json',
+              delay: 1000,
+              data: function(params) {
+                var query = {
+                  byName: params.term,
+                  page: params.page || 1
+                }
+                return query;
+              },
+              processResults: function(data, params) {
+                var data = $.map(data, function(obj) {
+                  obj.id = obj.value;
+                  obj.text = obj.label;
+                  return obj;
+                });
+
+                params.page = params.page || 1;
+          
+                return {
+                  results: data,
+                  pagination: {
+                    more: (params.page * 30) < data.total_count
+                  }
+                };
+              },
+              cache: true
+            },
+            minimumInputLength: 0,
+            escapeMarkup: function(markup) {
+              return markup;
+            },
+            templateResult: $self.addSelect2CustomAttributes,
+            templateSelection: $self.addSelect2CustomAttributes
+          });
+        } else {
+          $(sel).select2({
+            templateResult: $self.addSelect2CustomAttributes,
+            templateSelection: $self.addSelect2CustomAttributes
+          })
+        }
+      }
+
       select.on('select2:select', selectCallback);
     }
 

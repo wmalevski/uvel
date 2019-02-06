@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Response;
+use App\Http\Controllers\Store\ModelController;
+use Illuminate\Support\Facades\Input;
 
 class ModelOrderController extends Controller
 {
@@ -98,6 +100,24 @@ class ModelOrderController extends Controller
         $order->save();
 
         return Response::json(array('ID' => $order->id, 'table' => View::make('admin/orders/model/table',array('order'=>$order))->render()));
+    }
+
+    public function filter(Request $request){
+        $query = ModelOrder::select('*');
+
+        $orders_new = new ModelOrder();
+        $orders = $orders_new->filterOrders($request, $query);
+        $orders = $orders->paginate(env('RESULTS_PER_PAGE'));
+
+        $response = '';
+        foreach($orders as $material){
+            $response .= \View::make('admin/orders/model/table', array('order' => $order, 'listType' => $request->listType));
+        }
+
+        $orders->setPath('');
+        $response .= $orders->appends(Input::except('page'))->links();
+
+        return $response;
     }
 
     /**

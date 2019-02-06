@@ -233,6 +233,30 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 });
 
 Route::group(['prefix' => 'ajax'], function() {
+    Route::get('/search/repairs', 'RepairController@filter');
+
+    Route::get('/search/repairs_types', 'RepairTypeController@filter');
+
+    Route::get('/search/products_others_types', 'ProductOtherTypeController@filter');
+
+    Route::get('/search/products_others', 'ProductOtherController@filter');
+
+    Route::get('/search/orders/model', 'ModelOrderController@filter');
+
+    Route::get('/search/orders/custom', 'CustomOrderController@filter');
+
+    Route::get('/search/stones', 'StoneController@filter');
+
+    Route::get('/search/materialquantities', 'MaterialQuantityController@filter');
+
+    Route::get('/search/materials', 'MaterialController@filter');
+
+    Route::get('/search/discounts', 'DiscountCodeController@filter');
+
+    Route::get('/search/jewels', 'JewelController@filter');
+
+    Route::get('/search/users', 'UserController@filter');
+
     Route::get('/select_search/materials', 'MaterialQuantityController@select_search');
 
     Route::get('/select_search/jewels', 'JewelController@select_search');

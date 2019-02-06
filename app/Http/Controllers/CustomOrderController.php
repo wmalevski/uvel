@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Input;
 use Gallery;
 use Response;
 use Mail;
@@ -134,6 +135,24 @@ class CustomOrderController extends Controller
         $order->save();
 
         return Response::json(array('ID' => $order->id, 'table' => View::make('admin/orders/custom/table',array('order'=>$order))->render()));
+    }
+
+    public function filter(Request $request){
+        $query = CustomOrder::select('*');
+
+        $orders_new = new CustomOrder();
+        $orders = $orders_new->filterOrders($request, $query);
+        $orders = $orders->paginate(env('RESULTS_PER_PAGE'));
+
+        $response = '';
+        foreach($orders as $material){
+            $response .= \View::make('admin/orders/custom/table', array('order' => $order, 'listType' => $request->listType));
+        }
+
+        $orders->setPath('');
+        $response .= $orders->appends(Input::except('page'))->links();
+
+        return $response;
     }
 
     /**
