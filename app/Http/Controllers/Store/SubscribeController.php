@@ -34,13 +34,13 @@ class SubscribeController extends Controller
         }
 
         Newsletter::subscribe($request->email);
-        return Redirect::back()->with('success', 'Успешно се абонирахте!');
+        return Redirect::back()->with('success.subscribe', trans('store/subscribe.successful_subscribe'));
     }
 
     public function unsubscribe($email)
     {
         Newsletter::unsubscribe($email);
-        return Redirect::back()->with('success', 'Успешно си махнахте абонирането!');
+        return Redirect::back()->with('success.subscribe', trans('store/subscribe.successful_unsubscribe'));
     }
 
 

@@ -19,9 +19,9 @@
 				</ul>
 				@endif
 
-				@if(session()->has('success'))
+				@if(session()->has('success.subscribe'))
 				<div class="alert alert-success">
-					{{ session()->get('success') }}
+					{{ session()->get('success.subscribe') }}
 				</div>
 				@endif
 			</div>
