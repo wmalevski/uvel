@@ -10,6 +10,7 @@ use App\ProductOther;
 use App\ExchangeMaterial;
 use App\PaymentDiscount;
 use App\History;
+use App\OrderItem;
 use Cart;
 use App\MaterialQuantity;
 use Illuminate\Http\Request;
@@ -168,10 +169,33 @@ class Payment extends Model
                         $product->status = 'sold';
                         $product->save();
 
-                        // if($product->order){
-                        //     $product->order->status = 'done';
-                        //     $product->order->save();
-                        // }
+                        if($item['attributes']->order != ''){
+                            $order_item = OrderItem::find($item['attributes']->order_item_id);
+                            
+                            $order = Order::find($item['attributes']->order);
+                            $materials = $order->materials;
+
+                            if($materials){
+                                foreach($materials as $material){
+                                    if($material->material_id == $order->material_id){
+                                        if($material->weight - $order_item->product->weight <= 0){
+                                            $material->weight = 0;
+                                        }else{
+                                            $material->weight = $material->weight - $order_item->product->weight;
+                                        }
+
+                                        $material->save();
+                                    }
+                                }
+                            }
+
+                            $order_item->delete();
+
+                            if($order && count($order->items) == 0){
+                                $order->status = 'done';
+                                $order->save();
+                            }
+                        }
                     }
                 } else if($item['attributes']->type == 'box'){
 

@@ -19,4 +19,8 @@ class ExchangeMaterial extends Model
     public function material() {
     	return $this->belongsTo('App\MaterialQuantity');
     }
+
+    public function order() {
+        return $this->belongsTo('App\Order');
+    }
 }

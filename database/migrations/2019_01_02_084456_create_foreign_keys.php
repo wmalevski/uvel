@@ -116,17 +116,27 @@ class CreateForeignKeys extends Migration {
 						->onDelete('cascade')
 						->onUpdate('cascade');
 
-			// $table->foreign('retail_price_id')->references('id')->on('prices')
-			// 			->onDelete('cascade')
-			// 			->onUpdate('cascade');
-
 			$table->foreign('payment_id')->references('id')->on('payments')
 						->onDelete('cascade')
 						->onUpdate('cascade');
 
-			// $table->foreign('order_id')->references('id')->on('orders')
-			// 			->onDelete('cascade')
-			// 			->onUpdate('cascade');
+			$table->foreign('order_id')->references('id')->on('orders')
+						->onDelete('cascade')
+						->onUpdate('cascade');
+		});
+
+		Schema::table('order_items', function (Blueprint $table) {
+			
+			$table->foreign('product_id')->references('id')->on('products')
+						->onDelete('cascade')
+						->onUpdate('cascade');
+		});
+
+		Schema::table('order_items', function (Blueprint $table) {
+			
+			$table->foreign('order_id')->references('id')->on('orders')
+						->onDelete('cascade')
+						->onUpdate('cascade');
 		});
 	}
 
@@ -135,14 +145,12 @@ class CreateForeignKeys extends Migration {
 
 		Schema::table('exchange_materials', function(Blueprint $table) {
 			$table->dropForeign('exchange_materials_material_id_foreign');
-			//$table->dropForeign('exchange_materials_retail_price_id_foreign');
 			$table->dropForeign('exchange_materials_payment_id_foreign');
-			// $table->dropForeign('exchange_materials_order_id_foreign');
+			$table->dropForeign('exchange_materials_order_id_foreign');
 
 			$table->dropColumn('material_id');
-			//$table->dropColumn('retail_price_id');
 			$table->dropColumn('payment_id');
-			// $table->dropColumn('order_id');
+			$table->dropColumn('order_id');
 		});
 
 
@@ -209,6 +217,14 @@ class CreateForeignKeys extends Migration {
 		Schema::table('products_others', function(Blueprint $table) {
 			$table->dropForeign('products_others_type_id_foreign');
 			$table->dropColumn('type_id');
+		});
+
+		Schema::table('order_items', function(Blueprint $table) {
+			$table->dropForeign('order_items_order_id_foreign');
+			$table->dropColumn('order_id');
+
+			$table->dropForeign('order_items_product_id_foreign');
+			$table->dropColumn('product_id');
 		});
 	}
 }

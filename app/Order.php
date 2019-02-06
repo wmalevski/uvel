@@ -54,4 +54,9 @@ class Order extends Model
     {
         return $this->hasMany('App\ExchangeMaterial', 'order_id');
     }
+
+    public function items()
+    {
+        return $this->hasMany('App\OrderItem');
+    }
 }

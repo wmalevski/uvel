@@ -86,9 +86,9 @@ class Product extends BaseModel
 
     }
     
-    public function order()
+    public function orederItem()
     {
-        return $this->belongsTo('App\OrderItem');
+        return $this->belongsTo('App\OrderItem', 'product_id');
     }
 
     public function chainedSelects(Model $model){

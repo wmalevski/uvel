@@ -1,4 +1,24 @@
 @extends('admin.layout') @section('content')
+@php
+    $newExchangeField = '<div class="form-row">
+                                <div class="form-group col-md-5">
+                                    <label for="">Вид</label>
+                                    <select name="material_id[]" data-select2-skip data-calculateprice-material class="material_type form-control calculate not-clear" data-search="/ajax/select_search/materials/">
+                                        <option value="0">Избери</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <label for="">Грамаж</label>
+                                    <input type="number" id="" class="form-control not-clear" value="0" name="weight[]" placeholder="" data-weight>
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <span class="delete-material remove_field" data-exchangeRowRemove-trigger=""><i class="c-brown-500 ti-trash"></i></span>
+                                </div>
+                            </div>';
+
+    $newExchangeField = str_replace("\n", "", str_replace("\r", "", $newExchangeField));
+@endphp
+
 <div class="modal fade" id="paymentPartner" role="dialog" aria-labelledby="paymentPartner" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -221,29 +241,7 @@ aria-hidden="true">
                         </div>
 
                         <div class="exchange-row-fields">
-                            <div class="form-row">
-                                <div class="form-group col-md-5">
-                                    <label for="">Вид</label>
-                                    <select name="material_id[]" data-select2-skip data-calculateprice-material class="material_type form-control calculate not-clear" data-search="/ajax/select_search/materials/">
-                                        <option value="">Избери</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-5">
-                                    <label for="">Грамаж</label>
-                                    <input type="number" id="" class="form-control not-clear" value="0" name="weight[]" placeholder="" data-weight>
-                                </div>
-                                {{-- <div class="form-group col-md-4">
-                                    <label for="">Цена на грамаж</label>
-                                    <!-- AUTO GENERATED FROM JS -->
-                                    <select id="retail_prices" name="retail_price_id[]" class="form-control calculate prices-filled retail-price not-clear" data-calculateprice-retail disabled>
-                                        <option value="">Избери</option>
-                                    </select>
-                                </div> --}}
-
-                                <div class="form-group col-md-1">
-                                    <span class="delete-material remove_field" data-exchangeRowRemove-trigger=""><i class="c-brown-500 ti-trash"></i></span>
-                                </div>
-                            </div>
+                            
                         </div>
 
                         <div class="exchange-row-total form-row">
@@ -524,5 +522,8 @@ aria-hidden="true">
 @section('footer-scripts')
 <script id="materials_data" type="application/json">
     {!!  $jsMaterials !!}
+</script>
+<script>
+	var newExchangeField = '{!! $newExchangeField !!}';
 </script>
 @endsection
