@@ -1527,7 +1527,7 @@ var uvel,
         select.val(selected).trigger('change');
       } else {
         var option = '<option value="' +
-            model.value+ '" data-model-id="' +
+            model.value + '" data-model-id="' +
             model.id + '" data-jewel="' +
             model.jewel + '" ' +
             'selected' + '>' +
