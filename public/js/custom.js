@@ -1473,7 +1473,7 @@ var uvel,
 
     this.fillPrices = function(element, prices, form) {
       //  for now it's made for classic select, needs review when we apply Select2
-      element.html('<option value="0">Избери</option>');
+      element.html('<option value="">Избери</option>');
       element.attr('disabled', false);
 
       prices.forEach(function(price) {
