@@ -330,8 +330,11 @@ var uvel,
           timeToOpenModal = 1000, //time which takes for modals to open
           openedForm = $this.attr('data-form'),
           formType = $this.attr('data-form-type'),
-          formSettings = $self.formsConfig[openedForm];
-
+          formSettings = $self.formsConfig[openedForm]
+          $submitButton = $('form[name="' + openedForm + '"]').find('button[type="submit"]');
+          
+      $submitButton.prop('disabled', true);
+      
       if (formType == 'edit') {
         $self.appendingEditFormToTheModal($this, data);
       }
@@ -357,6 +360,7 @@ var uvel,
           // Form already initialized
           console.log('form already initialized');
         }
+        $submitButton.prop('disabled', false);
       }, timeToOpenModal);
     }
 
@@ -884,14 +888,14 @@ var uvel,
           }
           $self.formSuccessHandler(form, formType);
         },
-        error: function(err) {
-          $self.formsErrorHandler(err, form);
+        error: function(error) {
+          $self.formsErrorHandler(error, form);
         },
         complete: function() {
           // scroll to top of form window
           form[0].scrollIntoView();
           // re-enable submit buttons
-          form.find('[type="submit"]').disabled = false;
+          form.find('[type="submit"]').prop('disabled', false);
         }
       });
     }
@@ -899,8 +903,18 @@ var uvel,
     // FUNCTION THAT READS ALL THE ERRORS RETURNED FROM THE REQUEST AND APPEND THEM IN THE MODAL-FORM-BODY
 
     this.formsErrorHandler = function(err, form) {
-      var errorObject = form.find('[data-repair-scan]').length > 0 ? err.errors : err.responseJSON.errors,
-          errorMessagesHolder = $('<div class="error--messages_holder"></div>');
+      var errorMessagesHolder = $('<div class="error--messages_holder"></div>'),
+          errorObject;
+          
+      if (form.find('[data-repair-scan]').length > 0) {
+        errorObject = err.errors;
+      } else if (err.statusText == 'timeout') {
+        errorObject = {
+          error: err
+        };
+      } else {
+        errorObject = err.responseJSON.errors;
+      }
 
       for (var key in errorObject) {
         var messageError = $('<div class="alert alert-danger"></div>');
@@ -909,6 +923,8 @@ var uvel,
           for (var x in errorObject[key]) {
             messageError.append(errorObject[key][x][0]);
           }
+        } else if (errorObject[key].statusText == 'timeout') {
+          messageError.append('Времето за изчакване изтече.')
         } else {
           messageError.append(errorObject[key][0]);
         }
