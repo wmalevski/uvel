@@ -2337,10 +2337,62 @@ var uvel,
     */
 
     this.initializeSelect = function(select, selectCallback) {
-      select.select2({
-        templateResult: $self.addSelect2CustomAttributes,
-        templateSelection: $self.addSelect2CustomAttributes
-      });
+      if (select.length > 1) {
+        for (var i = 0; i < select.length; i++) {
+          loadSelect2(select[i]);
+        }
+      } else if (select.length == 1) {
+        loadSelect2(select[0]);
+      }
+
+      function loadSelect2(sel) {
+        if (sel.hasAttribute('data-search')) {
+          $(sel).select2({
+            ajax: {
+              url: sel.dataset.search,
+              type: 'GET',
+              dataType: 'json',
+              delay: 1000,
+              data: function(params) {
+                var query = {
+                  byName: params.term,
+                  page: params.page || 1
+                }
+                return query;
+              },
+              processResults: function(data, params) {
+                var data = $.map(data, function(obj) {
+                  obj.id = obj.value;
+                  obj.text = obj.label;
+                  return obj;
+                });
+
+                params.page = params.page || 1;
+          
+                return {
+                  results: data,
+                  pagination: {
+                    more: (params.page * 30) < data.total_count
+                  }
+                };
+              },
+              cache: true
+            },
+            minimumInputLength: 0,
+            escapeMarkup: function(markup) {
+              return markup;
+            },
+            templateResult: $self.addSelect2CustomAttributes,
+            templateSelection: $self.addSelect2CustomAttributes
+          });
+        } else {
+          $(sel).select2({
+            templateResult: $self.addSelect2CustomAttributes,
+            templateSelection: $self.addSelect2CustomAttributes
+          })
+        }
+      }
+
       select.on('select2:select', selectCallback);
     }
 
