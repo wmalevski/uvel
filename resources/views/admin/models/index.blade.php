@@ -18,7 +18,7 @@ $newMaterialRow =
 						$newMaterialRow .= '</select>
 				</div>
 				<div class="form-group col-md-5">
-					<label>Цена: </label>
+					<label>Цена:</label>
 					<select name="retail_price_id[]" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail disabled>
 						<option value="">Избери</option>
 					</select>
@@ -81,9 +81,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="addModelLabel">
-					Добавяне на модел
-				</h5>
+				<h5 class="modal-title" id="addModelLabel">Добавяне на модел</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -94,19 +92,13 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 					{{ csrf_field() }}
 					<div class="form-row">
 						<div class="form-group col-md-6">
-							<label for="1">
-								Име:
-							</label>
+							<label for="1">Име:</label>
 							<input type="text" class="form-control" id="1" name="name" placeholder="Име:">
 						</div>
 						<div class="form-group col-md-6">
-							<label>
-								Избери вид бижу:
-							</label>
+							<label>Избери вид бижу:</label>
 							<select id="jewel_id" name="jewel_id" class="form-control calculate">
-								<option value="">
-									Избери
-								</option>
+								<option value="">Избери</option>
 								@foreach($jewels as $jewel)
 								<option value="{{ $jewel->id }}">{{ $jewel->name }}</option>
 								@endforeach
@@ -138,9 +130,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 
 					<div class="form-row">
 						<div class="form-group col-md-6 weight-holder">
-							<label for="weight">
-								Нетно тегло:
-							</label>
+							<label for="weight">Нетно тегло:</label>
 							<div class="input-group">
 								<input type="number" class="form-control calculate" id="weight" name="weight" data-calculatePrice-netWeight placeholder="Тегло:">
 								<span class="input-group-addon">
@@ -150,9 +140,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 						</div>
 
 						<div class="form-group col-md-6">
-							<label for="1">
-								Размер:
-							</label>
+							<label for="1">Размер:</label>
 							<input type="number" class="form-control" id="1" name="size" placeholder="Размер:">
 						</div>
 
@@ -171,14 +159,10 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 						</div>
 						
 						<div class="form-group col-md-6">
-							<label for="totalStones">
-								Общо за леене:
-							</label>
+							<label for="totalStones">Общо за леене:</label>
 							<div class="input-group">
 								<input type="number" class="form-control" id="totalStones" name="totalStones" data-calculateStones-total disabled>
-								<span class="input-group-addon">
-									гр
-								</span>
+								<span class="input-group-addon">гр</span>
 							</div>
 						</div>
 						
@@ -189,26 +173,18 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 
 					<div class="form-row">
 						<div class="form-group col-md-6">
-							<label>
-								Избработка:
-							</label>
+							<label>Избработка:</label>
 							<div class="input-group">
 								<input id="workmanship" type="number" class="form-control worksmanship_price" value="0" name="workmanship" data-calculatePrice-worksmanship>
-								<span class="input-group-addon">
-									лв
-								</span>
+								<span class="input-group-addon">лв</span>
 							</div>
 						</div>
 
 						<div class="form-group col-md-6">
-							<label>
-								Цена:
-							</label>
+							<label>Цена:</label>
 							<div class="input-group">
 								<input id="price" type="number" class="form-control final_price" value="0" name="price" data-calculatePrice-final>
-								<span class="input-group-addon">
-									лв
-								</span>
+								<span class="input-group-addon">лв</span>
 							</div>
 						</div>
 						
@@ -219,9 +195,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 
 					<div class="drop-area" name="add">
 						<input type="file" name="images" class="drop-area-input" id="fileElem-add" multiple accept="image/*">
-						<label class="button" for="fileElem-add">
-							Select some files
-						</label>
+						<label class="button" for="fileElem-add">Select some files</label>
 						<div class="drop-area-gallery"></div>
 					</div>
 
@@ -229,9 +203,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 						<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
 							<input type="checkbox" id="inputCall1" name="release_product" class="peer">
 							<label for="inputCall1" class="peers peer-greed js-sb ai-c">
-								<span class="peer peer-greed">
-									Добави като продукт
-								</span>
+								<span class="peer peer-greed">Добави като продукт</span>
 							</label>
 						</div>
 					</div>
@@ -255,9 +227,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="editModelLabel">
-					Редактиране на модел
-				</h5>
+				<h5 class="modal-title" id="editModelLabel">Редактиране на модел</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
