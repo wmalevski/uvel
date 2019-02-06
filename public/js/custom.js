@@ -2011,7 +2011,7 @@ var uvel,
     }
 
     this.barcodeResponseHandler = function(response, form) {
-      $self.selectModel(response.models, form);
+      $self.selectModel(response.models[0], form);
       $self.modelRequestResponseHandler(response, form);
     }
 
