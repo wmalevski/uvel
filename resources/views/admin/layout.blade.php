@@ -189,6 +189,16 @@
                 <span class="title">Блог</span>
               </a>
             </li>
+            
+            <li class="nav-item {{ Active::ifRouteIn('slides') }}">
+              <a class="sidebar-link" href="{{ route('slides') }}">
+                <span class="icon-holder">
+                  <i class="ti-image"></i>
+                </span>
+                <span class="title">Слайдове</span>
+              </a>
+            </li>
+            
             <li class="nav-item {{ Active::ifRouteIn('prices') }}">
                 <a class="sidebar-link" href="{{ route('prices') }}">
                   <span class="icon-holder">
