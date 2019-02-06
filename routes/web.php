@@ -287,6 +287,8 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/sell/partner', 'PaymentController@partner_payment');
 
+    Route::get('/sell/order_materials', 'PaymentController@order_materials');
+
     Route::get('/cartMaterialsInfo', 'SellingController@cartMaterialsInfo')->name('cart_materials');
     
     Route::post('/orders', 'OrderController@store');

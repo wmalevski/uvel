@@ -14,11 +14,12 @@ use App\Partner;
 use App\PartnerMaterial;
 use App\User;
 use App\ProductOther;
+use App\Order;
+use App\ExchangeMaterial;
+use App\MaterialQuantity;
 use Response;
 use Auth;
 use Cart;
-use App\ExchangeMaterial;
-use App\MaterialQuantity;
 
 class PaymentController extends Controller
 {
@@ -70,14 +71,6 @@ class PaymentController extends Controller
                 }
             }
         }
-
-        // $materials = [(object)[
-        //     'material_id' => 1,
-        //     'material_weight' => 500,
-        //     'material_given' => 0,
-        // ]];
-        
-        // $materials = (array)$materials;
 
         foreach($request->materials as $material){
             $material = (array)$material;
@@ -136,6 +129,84 @@ class PaymentController extends Controller
             $payment = new Payment;
             return $payment->store_payment($request);
         }
+    }
+
+    public function order_materials(Request $request)
+    {
+        //Getting all products in the cart related with orders
+        $items = [];
+        
+        Cart::session(Auth::user()->getID())->getContent()->each(function($item) use (&$items)
+        {
+            if($item['attributes']->type == 'product' && $item['attributes']->order != ''){
+                $items[] = $item;
+            }
+        });
+
+        $orders = array();
+        foreach($items as $item){
+            $orders[] = $item['attributes']->order;
+        }
+
+        $orders = array_unique($orders);
+
+        //Get all materials from all products orders
+        $materials = array();
+        foreach($orders as $order){
+            $order = Order::find($order);
+
+            if($order->materials){
+                $materials[] = $order->materials;
+            }
+        }
+
+        //Passing the given materials to the FE for showing them in the modal
+        $pass_materials = array();
+        foreach($materials as $material){
+            $material = $material[0];
+            $order = $material->order;
+            $order_items = count($material->order->items);
+            $parent = MaterialQuantity::find($material->material_id);
+
+            $weight = $material->weight;
+
+            $products_weight = 0;
+            $count_products = 0;
+            foreach($items as $item){
+                if($item['attributes']->order == $material->order_id){
+                    $product = Product::where('barcode', $item->id)->first();
+
+                    if($product->material_id == $parent->id){
+                        $count_products++;
+                        $products_weight += $item['attributes']->weight;
+                    }
+                }
+            }
+
+            if($order_items == $count_products || $order_items == 1){
+                $weight = $material->weight;
+            }else{
+                if($weight <= $products_weight){
+                    $weight = $material->weight;
+                }else{
+                    $weight = $products_weight;
+                }
+            }
+
+            $pass_materials[] = [
+                'label' => $parent->material->parent->name.' - '.$parent->material->color.' - '.$parent->material->carat,
+                'value' => $parent->id,
+                'price' => $parent->material->pricesBuy->first()->price,
+                'for_buy'  => $parent->material->for_buy,
+                'for_exchange' => $parent->material->for_exchange,
+                'carat_transform' => $parent->material->carat_transform,
+                'carat' => $parent->material->carat,
+                'order_id' => $material->order_id,
+                'weight' => $weight
+            ];
+        }
+
+        return Response::json(array('materials' => $pass_materials));
     }
 
     /**

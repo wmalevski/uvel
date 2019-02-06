@@ -26,6 +26,7 @@ use App\OrderStone;
 use App\ProductTravelling;
 use App\ExchangeMaterial;
 use Auth;
+use App\OrderItem;
 
 class OrderController extends Controller
 {
@@ -405,7 +406,12 @@ class OrderController extends Controller
                     $request->request->add(['store_from_id' => 1]);
 
                     $productTravelling = new ProductTravelling();
-                    $productTravellingResponse = $productTravelling->store($request, 'array');        
+                    $productTravellingResponse = $productTravelling->store($request, 'array'); 
+                    
+                    $order_item = new OrderItem();
+                    $order_item->product_id = $productResponse->id;
+                    $order_item->order_id = $order->id;
+                    $order_item->save();
                     
                     if($productTravellingResponse['errors']){
                         return Response::json(['errors' => $productTravellingResponse['errors']], 401);

@@ -30,7 +30,6 @@ $givenMaterialRowTpl = '<div class="form-row">
 					</div>';
 
 $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMaterialRowTpl));
-
 $newStoneRow =
 				'<div class="form-group col-md-6"><label>Камък:</label>
 					<select name="stones[]" class="form-control" data-calculatePrice-stone>';
@@ -389,5 +388,4 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 	var newStoneRow = '{!! $newStoneRow !!}',
 		givenMaterialRow = '{!! $givenMaterialRowTpl !!}';				
 </script>
-
 @endsection

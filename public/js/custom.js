@@ -343,6 +343,7 @@ var uvel,
       if (formType == 'sell') {
         $self.calculateExpectedMaterial('[data-saleProduct]', 'expecteMaterial');
         $self.lockPaymentControllers();
+        $self.checkOrder($('[data-type="' + formType + '"]'));
       } else if (formType == 'partner-sell') {
         var ajaxUrl = currentPressedBtn.attr('data-url');
 
@@ -363,6 +364,59 @@ var uvel,
         }
         $submitButton.prop('disabled', false);
       }, timeToOpenModal);
+    }
+
+    this.checkOrder = function(form) {
+      var orderedProducts = document.querySelectorAll('#shopping-table [data-order-id]');
+
+      if (orderedProducts.length) {
+        //MAKE AJAX CALL
+        $.ajax({
+          method: 'GET',
+          url: '/ajax/sell/order_materials',
+          success: function(response) {
+            $self.orderResponseHandler(form, response);
+          },
+          error: function(response) {
+            console.log(response);
+          }
+        });
+      }
+    };
+
+    this.orderResponseHandler = function(form, response) {
+      var exchange = form.find('#exchange'),
+          exchangeRow = form.find('#exchange-row'),
+          exchangeFields = form.find('.exchange-row-fields'),
+          materials = response.materials;
+
+          $self.showExchangeRow(exchangeRow, newExchangeField, false);
+          exchange.prop('checked', true);
+
+      for (var i = 0; i < materials.length; i++) {
+        var newField = $(newExchangeField);
+              
+        newField.find('[data-calculateprice-material]')
+                .attr({
+                  name: 'order_material_id[]',
+                  disabled: true
+                });
+
+        newField.find('[data-weight]')
+                .val(materials[i].weight)
+                .attr({
+                  'data-weight': materials[i].weight, 
+                  disabled: true
+                })
+                .removeAttr('name');
+
+        exchangeFields.append(newField);
+
+        var materialFields = form[0].querySelectorAll('[data-calculateprice-material]'),
+            materialHolder = materialFields[materialFields.length - 1];
+
+        $self.addExchangeMaterial(materials[i], materialHolder, true);
+      }
     }
 
     this.partnerPaymentLoad = function(response) {
@@ -1661,22 +1715,20 @@ var uvel,
           methodChangeTrigger = form.find('[data-calculatePayment-method]'),
           exchangeTrigger = form.find('[data-exchange-trigger]'),
           newExchangeFieldTrigger = form.find('[data-newExchangeField-trigger]'),
-          newExchangeField = form.find('.exchange-row-fields').html(),
           exchangeRow = form.find('#exchange-row');
 
-      document.querySelector('.exchange-row-fields').innerHTML = '';
       $('#paymentModal').on('click', $self.closePayments);
 
       exchangeTrigger.on('change', function() {
         if (!this.checked) {
           $self.hideExchangeRow();
         } else {
-          $self.showExchangeRow(exchangeRow, newExchangeField);
+          $self.showExchangeRow(exchangeRow, newExchangeField, true);
         }
       });
 
       newExchangeFieldTrigger.on('click', function() {
-        $self.addNewExchangeField(newExchangeField);
+        $self.addNewExchangeField(newExchangeField, true);
       });
 
       exchangeRow.on('click', '[data-exchangeRowRemove-trigger]', $self.removeSingleExchangeRow);
@@ -1731,13 +1783,15 @@ var uvel,
       paymentGiven.value = 0;
     }
 
-    this.showExchangeRow = function(row, field) {
+    this.showExchangeRow = function(row, field, populate) {
       row.css('display', 'block');
 
       row.animate({
         opacity: 1,
       }, 300, function() {
-        $self.addNewExchangeField(field);
+        if (populate) {
+          $self.addNewExchangeField(field, populate);
+        }
       });
     }
 
@@ -1761,12 +1815,14 @@ var uvel,
       $self.calculateExchangeMaterialTotal();
     }
 
-    this.addNewExchangeField = function(field) {
+    this.addNewExchangeField = function(field, populate) {
       var populateType = document.querySelector('#shopping-table tbody').children.length > 0 ? 'for_exchange' : 'for_buy';
 
       document.querySelector('.exchange-row-fields').insertAdjacentHTML('beforeend', field);
 
-      $self.populateExchangeMaterials(populateType);
+      if (populate) {
+        $self.populateExchangeMaterials(populateType);
+      }
     }
 
     this.populateExchangeMaterials = function(type) {
@@ -1776,25 +1832,29 @@ var uvel,
 
       for (var i = 0; i < materialsData.length; i++) {
         if (materialsData[i][type] == 'yes') {
-          addMaterial(materialsData[i]);
+          $self.addExchangeMaterial(materialsData[i], materialHolder, false);
         }
       }
 
       $self.initializeSelect($(materialHolder));
-      
-      function addMaterial(material) {
-        var option = document.createElement("option");
-
-        option.text = material.label;
-        option.dataset.pricebuy = material.price;
-        option.dataset.carat = material.carat;
-        option.dataset.transform = material.carat_transform;
-        option.value = material.value;
-
-        materialHolder.add(option);
-      }
 
       //TODO - CHECK THIS AFTER SELECT 2 IMPLEMENTATION
+    }
+
+    this.addExchangeMaterial = function(material, materialHolder, select) {
+      var option = document.createElement("option");
+
+      option.text = material.label;
+      option.dataset.pricebuy = material.price;
+      option.dataset.carat = material.carat;
+      option.dataset.transform = material.carat_transform;
+      option.value = material.value;
+
+      materialHolder.add(option);
+
+      if (select) {
+        option.selected = true;
+      }
     }
 
     this.closePayments = function(e) {
@@ -1884,6 +1944,12 @@ var uvel,
 
       var newWanted = Number((wantedValue * selectedCurrency).toFixed(2));
       wantedHolder.val(newWanted || 0);
+
+      setTimeout(function() {
+        if ($('#exchange').prop('checked')) {
+          $self.calculateExchangeMaterialTotal();
+        }
+      }, 100);
     }
 
     this.calculatePaymentInit = function(form) {

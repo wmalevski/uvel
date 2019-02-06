@@ -22,6 +22,7 @@ use App\Payment;
 use \Darryldecode\Cart\CartCondition as CartCondition;
 use \Darryldecode\Cart\Helpers\Helpers as Helpers;
 use App\MaterialQuantity;
+use App\OrderItem;
 
 Class CartCustomCondition extends CartCondition {
     public function apply($totalOrSubTotalOrPrice, $conditionValue){
@@ -357,6 +358,17 @@ class SellingController extends Controller
                     }else{
                         $carat = 0;
                     }
+                    
+                    $order = '';
+                    $order_item_id = '';
+                    if($type == 'product'){
+                        $order_item = OrderItem::where('product_id', $item->id)->first();
+                        
+                        if($order_item){
+                            $order = $order_item->order_id;
+                            $order_item_id = $order_item->id;
+                        }
+                    }
 
                     Cart::session($userId)->add(array(
                         'id' => $item->barcode,
@@ -367,7 +379,9 @@ class SellingController extends Controller
                             'carat' => $carat,
                             'weight' => $item->weight,
                             'type' => $type,
-                            'calculated_weight' => $calculated_weight
+                            'calculated_weight' => $calculated_weight,
+                            'order' => $order,
+                            'order_item_id' => $order_item_id
                         )
                     ));
                 }
