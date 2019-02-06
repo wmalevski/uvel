@@ -157,15 +157,13 @@ class Product extends BaseModel
             foreach($models as $modelp){
                 if($model->id == $modelp->id){
                     $selected = true;
-                }else{
-                    $selected = false;
-                }
 
-                $pass_models[] =[
-                    'value' => $modelp->id,
-                    'label' => $modelp->name,
-                    'selected' => $selected
-                ];
+                    $pass_models[] =[
+                        'value' => $modelp->id,
+                        'label' => $modelp->name,
+                        'selected' => $selected
+                    ];
+                }
             }
 
 
