@@ -135,13 +135,13 @@ class DailyReport extends Model
         $report->save();
 
         $total_given = 0;
+        $total_check = 0;
         $errors = [];
         foreach($request->material_id as $key => $material){
             if($request->quantity[$key] != ''){
                 $total_given += $request->quantity[$key];
                 $quantity = $request->quantity[$key];
 
-                $total_check = 0;
                 $check = Product::where([
                     ['material_id', '=', $material],
                     ['status', '=', 'available'] 
@@ -188,21 +188,23 @@ class DailyReport extends Model
         $total_given = 0;
         $errors = [];
         foreach($request->material_id as $key => $material){
+            $total_given += $request->quantity[$key];
             if($request->quantity[$key] != ''){
-                $total_given += $request->quantity[$key];
                 $quantity = $request->quantity[$key];
+            }else{
+                $quantity = 0;
+            }
+            
+            $check = MaterialQuantity::find($material);
 
-                $check = MaterialQuantity::find($material);
-
-                $report_material = new DailyReportMaterial();
-                $report_material->material_id = $material;
-                $report_material->quantity = $quantity;
-                $report_material->report_id = $report->id;
-                $report_material->save();
-                
-                if($check->quantity != $quantity){
-                    $errors['not_matching.materials'] = trans('admin/reports.quantity_not_matching');
-                }
+            $report_material = new DailyReportMaterial();
+            $report_material->material_id = $material;
+            $report_material->quantity = $quantity;
+            $report_material->report_id = $report->id;
+            $report_material->save();
+            
+            if($check->quantity != $quantity){
+                $errors['not_matching.materials'] = trans('admin/reports.quantity_not_matching');
             }
         }
 
