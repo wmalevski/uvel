@@ -353,8 +353,6 @@ var uvel,
         if ((formType == 'add' || formType == 'sell' || formType == 'partner-sell') && !formSettings.initialized) {
           $self.initializeForm(formSettings, formType);
           formSettings.initialized = true;
-        } else if (formType == 'edit') {
-          $self.initializeForm(formSettings, formType);
         } else {
           // Form already initialized
           console.log('form already initialized');
@@ -1077,6 +1075,12 @@ var uvel,
           success: function(response) {
             var modal = currentButton.parents().find('.edit--modal_holder .modal-content');
             modal.html(response);
+
+            var openedForm = currentButton.attr('data-form'),
+                formType = currentButton.attr('data-form-type'),
+                formSettings = $self.formsConfig[openedForm];
+
+            $self.initializeForm(formSettings, formType);
 
             $('button[type="submit"]').prop('disabled', true);
             
