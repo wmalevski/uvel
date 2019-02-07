@@ -275,6 +275,19 @@ var uvel,
       $self.travellingMaterialsState($travelingMaterialsStateBtns);
       $self.enterPressBehaviour($inputCollection);
       $self.setInputFilters();
+      $self.expandSideMenu();      
+    }
+    
+    this.expandSideMenu = function() {
+      var $activeMenu = $('.nav-item.active'),
+          activeMenuOffsetTop = $activeMenu[0].offsetTop;
+
+      if ($activeMenu.find('.dropdown-menu').length) {  
+        $activeMenu.addClass('open');
+        $activeMenu.find('.dropdown-menu').show();
+      }
+
+      $('.sidebar-menu').scrollTop(activeMenuOffsetTop);
     }
 
     this.initializeTableSort = function() {
