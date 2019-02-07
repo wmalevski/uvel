@@ -1,8 +1,7 @@
 @extends('admin.layout')
 
 @section('content')
-<div class="modal fade" id="exampleModal"   role="dialog" aria-labelledby="exampleModalLabel"
-aria-hidden="true">
+<div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -18,8 +17,8 @@ aria-hidden="true">
                     {{ csrf_field() }}
                     <div class="form-row">
                         <div class="form-group col-md-12">
-                            <label for="1">Име: </label>
-                            <input type="text" class="form-control" id="1" name="name" placeholder="Име:">
+                            <label for="1">Имейл</label>
+                            <input type="text" class="form-control" id="1" name="name" placeholder="Имейл адрес…">
                         </div>
                     </div>
                 </div>
@@ -33,19 +32,21 @@ aria-hidden="true">
     </div>
 </div>
 
-<div class="modal fade edit--modal_holder" id="editJewel" role="dialog" aria-labelledby="editJewel"
-aria-hidden="true">
+<div class="modal fade edit--modal_holder" id="editSubscriber" role="dialog" aria-labelledby="editSubscriber" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            
-        </div>
+        <div class="modal-content"></div>
     </div>
 </div>
 
 <div class="row">
   <div class="col-md-12">
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
-      <h4 class="c-grey-900 mB-20">Mailchimp Subscribbers <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-form-type="add" data-form="jewels">Добави</button></h4>
+        <h4 class="c-grey-900 mB-20">
+            Mailchimp Subscribers
+            <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-form-type="add" data-form="subscribe">
+              Добави
+            </button>
+        </h4>
       <p>Преглед на абонираните потребители.</p>
       <table class="table">
         <thead>
