@@ -331,11 +331,8 @@ var uvel,
           timeToOpenModal = 1000, //time which takes for modals to open
           openedForm = $this.attr('data-form'),
           formType = $this.attr('data-form-type'),
-          formSettings = $self.formsConfig[openedForm]
-          $submitButton = $('form[name="' + openedForm + '"]').find('button[type="submit"]');
-          
-      $submitButton.prop('disabled', true);
-      
+          formSettings = $self.formsConfig[openedForm];
+
       if (formType == 'edit') {
         $self.appendingEditFormToTheModal($this, data);
       }
@@ -362,7 +359,7 @@ var uvel,
           // Form already initialized
           console.log('form already initialized');
         }
-        $submitButton.prop('disabled', false);
+        $('button[type="submit"]').prop('disabled', false);
       }, timeToOpenModal);
     }
 
@@ -442,7 +439,7 @@ var uvel,
         tableContent += '</tr>';
       }
 
-      
+
       form.querySelector('.partner-information').innerHTML = partner;
       form.querySelector('tbody').innerHTML = tableContent;
       form.querySelector('#partner-wanted-sum').value = 0;
@@ -717,6 +714,8 @@ var uvel,
       if (select2obj) {
         $self.setSelect2(select2obj, form);
       }
+
+      $('button[type="submit"]').prop('disabled', false);
     }
 
     this.initializeGlobalFormControllers = function(form) {
@@ -749,9 +748,9 @@ var uvel,
 
       submitButton.click(function(e) {
         e.preventDefault();
-        
+
         this.disabled = true;
-        
+
         if (formType == 'partner-sell') {
           $self.partnerPaymentSubmit(form, ajaxRequestLink, formType);
         } else {
@@ -865,7 +864,7 @@ var uvel,
 
       for (var i = 0; i < textInputs.length; i++) {
         var element = textInputs[i];
-        
+
         if (element.type == 'number') {
           element.value = 0;
         } else if (element.type == 'checkbox' && element.checked) {
@@ -960,7 +959,7 @@ var uvel,
     this.formsErrorHandler = function(err, form) {
       var errorMessagesHolder = $('<div class="error--messages_holder"></div>'),
           errorObject;
-          
+
       if (form.find('[data-repair-scan]').length > 0) {
         errorObject = err.errors;
       } else if (err.statusText == 'timeout') {
@@ -1079,6 +1078,8 @@ var uvel,
             var modal = currentButton.parents().find('.edit--modal_holder .modal-content');
             modal.html(response);
 
+            $('button[type="submit"]').prop('disabled', true);
+            
             var selects = $('form[data-type="edit"] select');
             $self.initializeSelect(selects);
 
@@ -1252,7 +1253,7 @@ var uvel,
 
       var select = $(newRow).find('select');
       $(newRow).find('[data-calculateprice-default]').prop('checked', false);
-      
+
       $self.initializeSelect(select);
 
       materialsWrapper.append(newRow);
@@ -1585,7 +1586,7 @@ var uvel,
     this.selectModel = function(model, form) {
       var select = form.find('[data-calculateprice-model]'),
           selected = model.value;
-      
+
       if (select.find('[value="' + selected + '"]').length) {
         select.val(selected).trigger('change');
       } else {
@@ -1595,11 +1596,11 @@ var uvel,
             model.jewel + '" ' +
             'selected' + '>' +
             model.label + '</option>';
-        
-        select.append(option);    
+
+        select.append(option);
       }
     }
-    
+
     this.fillMaterials = function(materials, form) {
       var materialHolder = form.find('[data-calculatePrice-material]');
       materialHolder.html('<option value="">Избери</option>');
@@ -2106,7 +2107,7 @@ var uvel,
 
         var container = form.find('.given-material'),
             newRow = $(givenMaterialRow);
-        
+
         var newRemoveTrigger = newRow.find('[data-materials-remove]');
         $self.removeMaterialsAttach(newRemoveTrigger);
 
@@ -2475,7 +2476,7 @@ var uvel,
                 });
 
                 params.page = params.page || 1;
-          
+
                 return {
                   results: data,
                   pagination: {
@@ -2585,7 +2586,7 @@ var uvel,
           timeout;
 
       inputsDynamicSearch.on('input', function(event) {
-        
+
         var ajaxResultsResponse = function(response) {
           $('tbody').html(response);
           $('tbody').removeClass('inactive');
@@ -2597,7 +2598,7 @@ var uvel,
           var inputText = event.currentTarget.value.trim(),
               ajax = event.currentTarget.dataset.dynamicSearchUrl,
               ajaxUrl = window.location.origin + '/' + ajax + inputText;
-  
+
           $self.ajaxFn('GET', ajaxUrl, ajaxResultsResponse);
         };
 
