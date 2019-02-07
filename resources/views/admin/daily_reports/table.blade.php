@@ -5,9 +5,9 @@
         @if($report->type == 'money')
 		    Паричен отчет
 		@elseif($report->type == 'jewels')
-            По бижура
+            По бижута
         @elseif($report->type == 'materials')
-            по Материали
+            По материали
         @endif
     </td>
     <td>
