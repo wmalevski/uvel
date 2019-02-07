@@ -18,19 +18,9 @@
         </div>
 
         <div class="form-group col-md-6">
-<<<<<<< HEAD
-          <label>
-            Избери вид бижу:
-          </label>
-          <select id="jewel_edit" name="jewel_id" class="form-control calculate" data-search="/ajax/select_search/jewels/">
-            <option value="">
-              Избери
-            </option>
-=======
           <label>Избери вид бижу:</label>
-          <select id="jewel_edit" name="jewel_id" class="form-control calculate">
+          <select id="jewel_edit" name="jewel_id" class="form-control calculate" data-search="/ajax/select_search/jewels/>
             <option value="">Избери</option>
->>>>>>> 105690e3676d9c8de2651bba17be26a59786416b
             @foreach($jewels as $jewel)
             <option value="{{ $jewel->id }}" data-material="{{ $jewel->material_id }}" @if($model->jewel_id == $jewel->id) selected @endif>
               {{ $jewel->name }}
@@ -255,6 +245,17 @@
           <img src="{{$photo['photo']}}" alt="" class="img-responsive" />
         </div>
         @endforeach
+      </div>
+      
+      <div class="form-row">
+        <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
+          <input type="checkbox" id="checkbox_website_add" name="release_product" class="peer">
+          <label for="checkbox_website_add" class="peers peer-greed js-sb ai-c">
+            <span class="peer peer-greed">
+              Добави като продукт
+            </span>
+          </label>
+        </div>
       </div>
     </div>
 
