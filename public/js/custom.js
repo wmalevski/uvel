@@ -238,6 +238,11 @@ var uvel,
         selector: '[name="dailyReports"]',
         controllers: [],
         initialized: false
+      },
+      subscribe: {
+        selector: '[name="subscribe"]',
+        controllers: [],
+        initialized: false
       }
     }
 
