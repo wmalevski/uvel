@@ -347,12 +347,6 @@
 															<span class="price">{{ $product->price }} лв</span>
 														</div>
 													</div>
-													<div class="list-mode-description">
-														Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime
-														placeat facere possimus, omnis amet voluptas assumenda est, omnis dolor repellendus quis nostrum.
-														Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et
-														neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed...
-													</div>
 													
 													<!--
 													<div class="hover-appear">
