@@ -4,7 +4,7 @@ $newMaterialRow =
 				'<div class="form-group col-md-6">
 					<label>Избери материал: </label>
 					<select data-search="/ajax/select_search/materials/" name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material>
-						<option value="0">Избери</option>';
+						<option value="">Избери</option>';
 						foreach($materials as $material) {
 								if($material->material->pricesBuy->first() && $material->material->pricesSell->first()) {
 								$newMaterialRow .= '<option value="'. $material->id .'" data-carat="'. $material->material->carat  .'" data-material="'. $material->material->id  .'"
@@ -28,7 +28,7 @@ $newMaterialRow =
 				</div>
 				<div class="form-group col-md-12">
 					<div class="radio radio-info">
-						<input type="radio" id="" class="default_material" name="default_material[]" data-calculatePrice-default checked>
+						<input type="radio" id="" class="default_material not-clear" name="default_material[]" data-calculatePrice-default checked>
 						<label for=""><span>Материал по подразбиране</span></label>
 					</div>
 				</div>';
@@ -115,7 +115,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 					</div>
 
 					<div class="model_materials">
-						<div class="form-row">
+						<div class="form-row not-clear">
 							{!! $newMaterialRow !!}
 						</div>
 					</div>

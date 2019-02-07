@@ -903,8 +903,8 @@ var uvel,
 
       if (formName == 'models') {
         // removes all material rows except the first one
-        var materials = materialsContainer.children('.form-row');
-        for (var i = 1; i < materials.length; i++) {
+        var materials = materialsContainer.children('.form-row').not('.not-clear');
+        for (var i = 0; i < materials.length; i++) {
           var materialRow = $(materials[i]);
           materialRow.remove();
         }
@@ -1257,7 +1257,7 @@ var uvel,
       newRow.innerHTML = hr + newMaterialRow;
 
       var select = $(newRow).find('select');
-      $(newRow).find('[data-calculateprice-default]').prop('checked', false);
+      $(newRow).find('[data-calculateprice-default]').prop('checked', false).removeClass('not-clear');
 
       $self.initializeSelect(select);
 
@@ -1432,6 +1432,15 @@ var uvel,
     this.calculatePriceHandler = function(form, _this) {
       var row = _this.closest('.form-row');
       if (row.find('[data-calculatePrice-default]:checked').length > 0 || row.find('[data-calculatePrice-netWeight]').length > 0 || form.attr('name') == 'products' || _this.closest('.model_stones').length > 0) {
+                
+        if (_this[0].hasAttribute('data-calculatePrice-default')) {
+          form.find('[data-calculatePrice-default].not-clear').removeClass('not-clear');
+          form.find('.form-row.not-clear').removeClass('not-clear');
+
+          _this.addClass('not-clear');
+          _this.closest('.form-row').addClass('not-clear');
+        }
+        
         $self.calculatePrice(form);
       }
     }
