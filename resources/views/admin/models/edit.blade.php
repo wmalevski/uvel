@@ -19,7 +19,7 @@
 
         <div class="form-group col-md-6">
           <label>Избери вид бижу:</label>
-          <select id="jewel_edit" name="jewel_id" class="form-control calculate" data-search="/ajax/select_search/jewels/>
+          <select id="jewel_edit" name="jewel_id" class="form-control calculate" data-search="/ajax/select_search/jewels/">
             <option value="">Избери</option>
             @foreach($jewels as $jewel)
             <option value="{{ $jewel->id }}" data-material="{{ $jewel->material_id }}" @if($model->jewel_id == $jewel->id) selected @endif>
