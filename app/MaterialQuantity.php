@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
+use Cart;
 use Auth;
 
 class MaterialQuantity extends Model
@@ -53,6 +54,35 @@ class MaterialQuantity extends Model
 
             if ($request->byName == '') {
                 $query = MaterialQuantity::all();
+            }
+        });
+
+        return $query;
+    }
+
+    public function filterMaterialsPayment(Request $request ,$query){
+        $items = Cart::session(Auth::user()->getId())->getContent()->count();
+        $query = MaterialQuantity::where(function($query) use ($request, $items){
+            if ($request->byName) {
+                $query->with('Material')->whereHas('Material', function($q) use ($request, $items){
+                    if($items > 0){
+                        $q->where('for_exchange', 'yes');
+                    }else{
+                        $q->where('for_buy', 'yes');
+                    }
+
+                    $q->where('name', 'LIKE', "%$request->byName%")->orWhere('color', 'LIKE', "%$request->byName%")->orWhere('code', 'LIKE', "%$request->byName%");
+                });
+            }
+
+            if ($request->byName == '') {
+                $query->with('Material')->whereHas('Material', function($q) use ($request, $items){
+                    if($items > 0){
+                        $q->where('for_exchange', 'yes');
+                    }else{
+                        $q->where('for_buy', 'yes');
+                    }
+                });
             }
         });
 

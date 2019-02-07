@@ -3,7 +3,7 @@
     $newExchangeField = '<div class="form-row">
                                 <div class="form-group col-md-5">
                                     <label for="">Вид</label>
-                                    <select name="material_id[]" data-select2-skip data-calculateprice-material class="material_type form-control calculate not-clear" data-search="/ajax/select_search/materials/">
+                                    <select name="material_id[]" data-select2-skip data-calculateprice-material class="material_type form-control calculate not-clear" data-search="/ajax/select_search/materials/payment/">
                                         <option value="0">Избери</option>
                                     </select>
                                 </div>
@@ -447,8 +447,8 @@ aria-hidden="true">
                         </table>
 
                         <div class="form-group">
-                            <button type="button" class="btn btn-primary payment-btn" data-selling-payment data-form-type="sell" data-form="selling" data-toggle="modal" data-target="#paymentModal">Плащане</button>
-                            <button type="button" class="btn btn-primary payment-btn" data-url="/ajax/cartMaterialsInfo" data-form-type="partner-sell" data-form="sellingPartners" data-toggle="modal" data-target="#paymentPartner" style="display: none;">Плащане Партнъор</button>
+                            <button type="button" class="btn btn-primary payment-btn" data-selling-payment data-form-type="sell" data-form="selling" data-toggle="modal" data-target="#paymentModal" @if($partner == true) style="display: none;" @endif>Плащане</button>
+                            <button type="button" class="btn btn-primary payment-btn" data-url="/ajax/cartMaterialsInfo" data-form-type="partner-sell" data-form="sellingPartners" data-toggle="modal" data-target="#paymentPartner" @if($partner == true) style="display: initial;" @else style="display: none;" @endif>Плащане Партнъор</button>
                             <button type="button" class="btn btn-primary">Ръчно пускане на фискален бон</button>
                         </div>
 
