@@ -130,9 +130,14 @@ class SellingController extends Controller
             }
         }
 
+        $partner = false;
         if(count($cartConditions) > 0){
             foreach(Cart::session(Auth::user()->getId())->getConditions() as $cc){
                 $priceCon += $cc->getCalculatedValue($subTotal);
+
+                if($cc->getAttributes()['partner']){
+                    $partner = true;
+                }
             }
         } else{
             $priceCon = 0;
@@ -160,7 +165,7 @@ class SellingController extends Controller
         }
         //To add kaparo from the orders when branches are merged
         
-        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials, 'jsMaterials' =>  json_encode($pass_materials, JSON_UNESCAPED_SLASHES ), 'todayReport' => $todayReport));
+        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials, 'jsMaterials' =>  json_encode($pass_materials, JSON_UNESCAPED_SLASHES ), 'todayReport' => $todayReport, 'partner' => $partner));
     }
 
     /**
