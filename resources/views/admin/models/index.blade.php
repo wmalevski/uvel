@@ -205,8 +205,8 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 
 					<div class="form-row">
 						<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
-							<input type="checkbox" id="inputCall1" name="release_product" class="peer">
-							<label for="inputCall1" class="peers peer-greed js-sb ai-c">
+							<input type="checkbox" id="checkbox_website_add" name="release_product" class="peer">
+							<label for="checkbox_website_add" class="peers peer-greed js-sb ai-c">
 								<span class="peer peer-greed">Добави като продукт</span>
 							</label>
 						</div>

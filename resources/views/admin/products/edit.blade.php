@@ -222,9 +222,9 @@
             </div>
 
             <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
-                <input type="checkbox" id="website_visible" name="website_visible" class="peer" @if($product->website_visible
+                <input type="checkbox" id="checkbox_website_visible" name="website_visible" class="peer" @if($product->website_visible
                 == 'yes') checked @endif>
-                <label for="website_visible" class="peers peer-greed js-sb ai-c">
+                <label for="checkbox_website_visible" class="peers peer-greed js-sb ai-c">
                     <span class="peer peer-greed">Показване в сайта</span>
                 </label>
             </div>

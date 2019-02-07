@@ -46,31 +46,31 @@
         </div>
 
         <div class="form-row mt-3">
-                <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                    <input type="checkbox" id="weightWithStones" name="for_buy" class="peer" @if($material->for_buy == 'yes') checked @endif>
-                    <label for="weightWithStones" class="peers peer-greed js-sb ai-c">
-                        <span class="peer peer-greed">За изкупуване</span>
-                    </label>
-                </div>
+            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                <input type="checkbox" id="checkbox_weight_stones" name="for_buy" class="peer" @if($material->for_buy == 'yes') checked @endif>
+                <label for="checkbox_weight_stones" class="peers peer-greed js-sb ai-c">
+                    <span class="peer peer-greed">За изкупуване</span>
+                </label>
             </div>
+        </div>
 
-            <div class="form-row mt-3">
-                <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                    <input type="checkbox" id="weightWithStones" name="for_exchange" class="peer" @if($material->for_exchange == 'yes') checked @endif>
-                    <label for="weightWithStones" class="peers peer-greed js-sb ai-c">
-                        <span class="peer peer-greed">За обмяна</span>
-                    </label>
-                </div>
+        <div class="form-row mt-3">
+            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                <input type="checkbox" id="checkbox_exchange" name="for_exchange" class="peer" @if($material->for_exchange == 'yes') checked @endif>
+                <label for="checkbox_exchange" class="peers peer-greed js-sb ai-c">
+                    <span class="peer peer-greed">За обмяна</span>
+                </label>
             </div>
+        </div>
 
-            <div class="form-row mt-3">
-                <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                    <input type="checkbox" id="carat_transform" name="carat_transform" class="peer" @if($material->carat_transform == 'yes') checked @endif>
-                    <label for="carat_transform" class="peers peer-greed js-sb ai-c">
-                        <span class="peer peer-greed">Преобразуване на карати</span>
-                    </label>
-                </div>
+        <div class="form-row mt-3">
+            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                <input type="checkbox" id="carat_transform_checkbox" name="carat_transform" class="peer" @if($material->carat_transform == 'yes') checked @endif>
+                <label for="carat_transform_checkbox" class="peers peer-greed js-sb ai-c">
+                    <span class="peer peer-greed">Преобразуване на карати</span>
+                </label>
             </div>
+        </div>
     </div>
 
     <div class="modal-footer">
