@@ -149,10 +149,6 @@
 																</span>
 															</div>
 														</div>
-														<div class="list-mode-description">
-															No: {{ $product->code }}
-															<br />
-														</div>
 														
 														<div class="hover-appear">
 															<a href="{{ route('single_product', ['product' => $product->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
