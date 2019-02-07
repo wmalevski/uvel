@@ -968,18 +968,8 @@ var uvel,
     // FUNCTION THAT READS ALL THE ERRORS RETURNED FROM THE REQUEST AND APPEND THEM IN THE MODAL-FORM-BODY
 
     this.formsErrorHandler = function(err, form) {
-      var errorMessagesHolder = $('<div class="error--messages_holder"></div>'),
-          errorObject;
-
-      if (form.find('[data-repair-scan]').length > 0) {
-        errorObject = err.errors;
-      } else if (err.statusText == 'timeout') {
-        errorObject = {
-          error: err
-        };
-      } else {
-        errorObject = err.responseJSON.errors;
-      }
+      var errorObject = form.find('[data-repair-scan]').length > 0 ? err.errors : err.responseJSON.errors,
+          errorMessagesHolder = $('<div class="error--messages_holder"></div>');
 
       for (var key in errorObject) {
         var messageError = $('<div class="alert alert-danger"></div>');
@@ -988,8 +978,6 @@ var uvel,
           for (var x in errorObject[key]) {
             messageError.append(errorObject[key][x][0]);
           }
-        } else if (errorObject[key].statusText == 'timeout') {
-          messageError.append('Времето за изчакване изтече.')
         } else {
           messageError.append(errorObject[key][0]);
         }
