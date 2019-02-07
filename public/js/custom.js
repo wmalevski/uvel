@@ -1035,6 +1035,15 @@ var uvel,
         $self.clearForm(form);
       } else if (formType == 'edit') {
         text = 'Редактирахте успешно записа!';
+        if (form.find('.drop-area-gallery').length) {
+          // Move the uploaded images to the product area
+          var newImages = form.find('.drop-area-gallery .image-wrapper');
+          form.find('.uploaded-images-area').append(newImages);
+          
+          // Clear images area and reset input[type=file] for the images
+          form.find('.drop-area-input').val('');
+          form.find('.drop-area-gallery').empty();
+        }
       } else if (formType == 'sell' || formType == 'partner-sell') {
         text = 'Извършихте успешно плащане!';
         $self.clearForm(form, formType);
