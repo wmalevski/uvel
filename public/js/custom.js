@@ -243,7 +243,9 @@ var uvel,
 
     this.init = function() {
       $self.attachInitialEvents();
-      $self.initializeSelect($('select').not('[data-select2-skip]'));
+      $self.initializeSelect($('select').not('[data-select2-skip], [data-search]'));
+      $self.initializeSelectWithSearch($('select[data-search]'));
+
       $self.initializeTableSort();
       // $self.checkAllForms();
     }
@@ -1070,8 +1072,12 @@ var uvel,
             var modal = currentButton.parents().find('.edit--modal_holder .modal-content');
             modal.html(response);
 
-            var selects = $('form[data-type="edit"] select');
+            var selects = $('form[data-type="edit"] select').not('[data-search]'),
+                selectsWithSearch = $('form[data-type="edit"] select[data-search]');
+
             $self.initializeSelect(selects);
+            $self.initializeSelectWithSearch(selectsWithSearch, '', {test: 'test123'});
+            
 
             if (modal.find('[data-calculatePrice-material]').length > 0 && modal.closest('#editProduct').length > 0) {
               for (var i = 0; i < modal.find('[data-calculatePrice-material]').length; i++) {
@@ -1241,10 +1247,13 @@ var uvel,
 
       newRow.innerHTML = hr + newMaterialRow;
 
-      var select = $(newRow).find('select');
+      var select = $(newRow).find('select').not('[data-search]'),
+          selectsWithSearch = $(newRow).find('select[data-search]');
+
       $(newRow).find('[data-calculateprice-default]').prop('checked', false);
       
       $self.initializeSelect(select);
+      $self.initializeSelectWithSearch(selectsWithSearch);
 
       materialsWrapper.append(newRow);
 
@@ -1314,8 +1323,11 @@ var uvel,
           $(fieldsHolder).find('.stone-flow').addClass(flow);
         }
 
-        var select = $(fieldsHolder).find('select');
+        var select = $(fieldsHolder).find('select').not('[data-search]'),
+            selectsWithSearch = $(fieldsHolder).find('select[data-search]');
+
         $self.initializeSelect(select);
+        $self.initializeSelectWithSearch(selectsWithSearch);
 
         stonesWrapper.append(fieldsHolder);
 
@@ -1837,7 +1849,7 @@ var uvel,
       }
 
       $self.initializeSelect($(materialHolder));
-
+      //talk it out with joro
       //TODO - CHECK THIS AFTER SELECT 2 IMPLEMENTATION
     }
 
@@ -2101,8 +2113,11 @@ var uvel,
         var newRemoveTrigger = newRow.find('[data-materials-remove]');
         $self.removeMaterialsAttach(newRemoveTrigger);
 
-        var select = newRow.find('select');
+        var select = newRow.find('select').not('[data-search]'),
+            selectsWithSearch = newRow.find('select[data-search]');
+
         $self.initializeSelect(select);
+        $self.initializeSelectWithSearch(selectsWithSearch);
 
         container.append(newRow)
       });
@@ -2407,7 +2422,11 @@ var uvel,
     this.addModelSelectInitialize = function() {
       var addModelButton = $('[data-target="#addModel"]');
       addModelButton.click(function() {
-        $self.initializeSelect($('form[name="addModel"]').find('select'));
+        var selects = $('form[name="addModel"]').find('select').not('[data-search]'),
+            selectsWithSearch = $('form[name="addModel"]').find('select[data-search]');
+
+        $self.initializeSelect(selects);
+        $self.initializeSelectWithSearch(selectsWithSearch);
       });
     }
 
@@ -2434,64 +2453,65 @@ var uvel,
       FUNCTION THAT INITIALIZES THE SELECT 2 PLUGIN
     */
 
-    this.initializeSelect = function(select, selectCallback) {
-      if (select.length > 1) {
-        for (var i = 0; i < select.length; i++) {
-          loadSelect2(select[i]);
-        }
-      } else if (select.length == 1) {
-        loadSelect2(select[0]);
+    this.initializeSelectWithSearch = function(selects) {
+      for (var i = 0; i < selects.length; i++) {
+        var options = generateAjaxOption(selects[i].dataset.search);
+      
+        $self.initializeSelect(selects[i], null, options);
       }
 
-      function loadSelect2(sel) {
-        if (sel.hasAttribute('data-search')) {
-          $(sel).select2({
-            ajax: {
-              url: sel.dataset.search,
-              type: 'GET',
-              dataType: 'json',
-              delay: 1000,
-              data: function(params) {
-                var query = {
-                  byName: params.term,
-                  page: params.page || 1
+      function generateAjaxOption(url) {
+        return {
+          ajax: {
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            delay: 1000,
+            data: function(params) {
+              var query = {
+                byName: params.term,
+                page: params.page || 1
+              }
+              return query;
+            },
+            processResults: function(data, params) {
+              var data = $.map(data, function(obj) {
+                obj.id = obj.value;
+                obj.text = obj.label;
+                return obj;
+              });
+
+              params.page = params.page || 1;
+        
+              return {
+                results: data,
+                pagination: {
+                  more: (params.page * 30) < data.total_count
                 }
-                return query;
-              },
-              processResults: function(data, params) {
-                var data = $.map(data, function(obj) {
-                  obj.id = obj.value;
-                  obj.text = obj.label;
-                  return obj;
-                });
-
-                params.page = params.page || 1;
-          
-                return {
-                  results: data,
-                  pagination: {
-                    more: (params.page * 30) < data.total_count
-                  }
-                };
-              },
-              cache: true
+              };
             },
-            minimumInputLength: 0,
-            escapeMarkup: function(markup) {
-              return markup;
-            },
-            templateResult: $self.addSelect2CustomAttributes,
-            templateSelection: $self.addSelect2CustomAttributes
-          });
-        } else {
-          $(sel).select2({
-            templateResult: $self.addSelect2CustomAttributes,
-            templateSelection: $self.addSelect2CustomAttributes
-          })
+            cache: true
+          },
+          templateResult: $self.addSelect2CustomAttributes,
+          templateSelection: $self.addSelect2CustomAttributes,
+          minimumInputLength: 0,
+          escapeMarkup: function(markup) {
+            return markup;
+          }
         }
       }
+    }
 
-      select.on('select2:select', selectCallback);
+    this.initializeSelect = function(select, selectCallback, selectOptions) {
+      var defaultOptions = {
+        templateResult: $self.addSelect2CustomAttributes,
+        templateSelection: $self.addSelect2CustomAttributes
+      };
+
+      var options = selectOptions || defaultOptions;
+      
+      $(select).select2(options);
+      $(select).on('select2:select', selectCallback);
     }
 
     this.productTravellingBarcodeInput = function(form) {
