@@ -3,10 +3,6 @@
 	pointer-events: none;
 }
 
-thead .filter-input {
-	max-width: 300px;
-}
-
 .modal-content .radio,
 .modal-content .checkbox {
 	padding: 4px;
