@@ -246,16 +246,22 @@
         </div>
         @endforeach
       </div>
-      
-      <div class="form-row">
-        <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
-          <input type="checkbox" id="checkbox_website_add" name="release_product" class="peer">
-          <label for="checkbox_website_add" class="peers peer-greed js-sb ai-c">
-            <span class="peer peer-greed">
-              Добави като продукт
-            </span>
+
+      <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
+          <input type="checkbox" id="checkbox_website_visible" name="website_visible" class="peer" @if($model->website_visible
+          == 'yes') checked @endif>
+          <label for="checkbox_website_visible" class="peers peer-greed js-sb ai-c">
+              <span class="peer peer-greed">Показване в сайта</span>
           </label>
-        </div>
+      </div>
+      
+      <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
+        <input type="checkbox" id="checkbox_release_product" name="release_product" class="peer">
+        <label for="checkbox_release_product" class="peers peer-greed js-sb ai-c">
+          <span class="peer peer-greed">
+            Добави като продукт
+          </span>
+        </label>
       </div>
     </div>
 
