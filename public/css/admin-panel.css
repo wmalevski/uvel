@@ -5,13 +5,12 @@
 
 .modal-content .radio,
 .modal-content .checkbox {
-	padding-left: 4px;
+	padding: 4px;
 	user-select: none;
 }
 
-.modal-content .radio span {
-	position: relative;
-	top: -3px;
+.modal-content label {
+	padding-left: 2px;
 }
 
 .modal-content .radio label,
@@ -19,6 +18,10 @@
 .modal-content .checkbox .peer {
 	margin: -2px 0 0 0;
 	padding-left: 10px;
+}
+
+.modal-content label:before {
+	border: 2px solid #0f9aee !important;
 }
 
 .modal-content .checkbox label:after {
@@ -31,8 +34,10 @@
 }
 
 .modal-content .radio label:before,
-.modal-content .checkbox label:before {
-	border: 2px solid #0f9aee !important;
+.modal-content .radio label:after {
+	bottom: 1px;
+	margin-top: auto;
+	margin-bottom: auto;
 }
 
 .modal-content .radio label:after,
@@ -57,7 +62,8 @@ form .form-group {
 }
 
 /* Admin Panel Side menu */
-.nav-item.active > a, .nav-item.active li.active {
+.nav-item.active > a,
+.nav-item.active li.active {
 	background: #d2d2d2;
 }
 
@@ -69,4 +75,9 @@ form .form-group {
 .note-editor .note-editable {
 	min-height: 200px;
 	max-height: 1000px;
+}
+
+/* Selling -> Payment form */
+label[for="pay-method"] {
+	margin-top: 0 !important;
 }
