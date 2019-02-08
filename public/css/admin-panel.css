@@ -44,6 +44,10 @@ thead .filter-input {
 	margin-bottom: auto;
 }
 
+.modal-content input {
+	padding-left: 8px;
+}
+
 .modal-content .radio label:after,
 .modal-content .checkbox label:after {
 	background-color: #0f9aee !important;
@@ -63,6 +67,16 @@ form .select2-selection__rendered {
 
 form .form-group {
 	margin-bottom: 10px;
+}
+
+.model_stones .checkbox {
+	bottom: 0;
+}
+
+.model_stones .row-total-weight {
+	position: absolute;
+	top: 0;
+	right: -40px;
 }
 
 /* Admin Panel Side menu */
