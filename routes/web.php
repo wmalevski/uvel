@@ -230,6 +230,49 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/dailyreports/{report}', 'DailyReportController@edit');
 
     Route::get('/safe', 'SafeController@index');
+
+    //Adding routes for FE testing
+    Route::group(['prefix' => 'admin_reports'], function() {
+        Route::get('/aggregated_reports', function () {
+            return view('admin.admin_reports.aggregated_reports_information.index');
+        });
+
+        Route::get('/expenses', function () {
+            return view('admin.admin_reports.expenses.index');
+        });
+
+        Route::get('/materials_travelling', function () {
+            return view('admin.admin_reports.materials_travelling.index');
+        });
+
+        Route::get('/materials_travelling/delta', function () {
+            return view('admin.admin_reports.materials_travelling.delta.index');
+        });
+
+        Route::get('/products_travelling/item_movement', function () {
+            return view('admin.admin_reports.products_travelling.item_movement.index');
+        });
+
+        Route::get('/products_travelling/items_in_stock', function () {
+            return view('admin.admin_reports.products_travelling.items_in_stock.index');
+        });
+
+        Route::get('/products_travelling/material_movement', function () {
+            return view('admin.admin_reports.products_travelling.material_movement.index');
+        });
+
+        Route::get('/detailed_report/export', function () {
+            return view('admin.admin_reports.detailed_report.export.index');
+        });
+
+        Route::get('/detailed_report/level_one', function () {
+            return view('admin.admin_reports.detailed_report.level_one.index');
+        });
+
+        Route::get('/detailed_report/level_two', function () {
+            return view('admin.admin_reports.detailed_report.level_two.index');
+        });
+    });
 });
 
 Route::group(['prefix' => 'ajax'], function() {
