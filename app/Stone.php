@@ -15,7 +15,7 @@ class Stone extends Model
     use SoftDeletes;
     
     protected $fillable = [
-        'nomenclature',
+        'nomenclature_id',
         'type',
         'weight',
         'carat',
