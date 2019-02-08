@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('content')
-<div class="modal fade" id="addMaterial"   role="dialog" aria-labelledby="addMateriallLabel"
+<div class="modal fade" id="addMaterial" role="dialog" aria-labelledby="addMateriallLabel"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -103,13 +103,23 @@ aria-hidden="true">
         <p>Преглед на създадените материали.</p>
         <table class="table">
             <thead>
-                <tr>
+                <tr data-sort-method="thead">
                     <th>Тип</th>
                     <th>Проба</th> 
                     <th>Цвят</th> 
                     <th>Карат</th>
                     <th>Борсова Цена</th>
                     <th data-sort-method="none">Действия</th> 
+                </tr>
+                <tr>
+                    <th></th>
+                    <th>
+                        <input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/materials/?byCode=" placeholder="Търси по тип">
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             
