@@ -55,7 +55,7 @@ class Product extends BaseModel
         return $this->belongsTo('App\Jewel');
     }
 
-    public function images()
+    public function photos()
     {
         return $this->hasMany('App\Gallery');
     }
