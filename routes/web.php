@@ -485,8 +485,8 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/materials/decline/{material}', 'MaterialTravellingController@decline');
 
     Route::post('/nomenclatures', 'NomenclatureController@store');
-
     Route::put('/nomenclatures/{nomenclature}', 'NomenclatureController@update');
+    Route::post('/nomenclatures/delete/{nomenclature}', 'NomenclatureController@destroy');
 });
 
 /**
