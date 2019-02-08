@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('content')
-<div class="modal fade" id="addDiscount"   role="dialog" aria-labelledby="addDiscountLabel"
+<div class="modal fade" id="addDiscount" role="dialog" aria-labelledby="addDiscountLabel"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -19,7 +19,7 @@ aria-hidden="true">
                     <div id="success-container"></div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="1">Отстъпка: </label>
+                            <label for="1">Отстъпка:</label>
                             <div class="input-group">
                                 <input type="number" class="form-control" id="1" name="discount" placeholder="Процент отстъпка: " min="0" max="100">
                                 <span class="input-group-addon">%</span>
@@ -33,7 +33,7 @@ aria-hidden="true">
                                     <div class="input-group-addon bgc-white bd bdwR-0">
                                         <i class="ti-calendar"></i>
                                     </div>
-                                    <input type="text" name="date_expires" class="form-control bdc-grey-200 start-date" placeholder="Валидна до: " data-date-autoclose="true" data-provide="datepicker" data-date-format="dd-mm-yyyy" data-date-start-date="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}">
+                                    <input type="text" name="date_expires" class="form-control bdc-grey-200 start-date" placeholder="Валидна до:" data-date-autoclose="true" data-provide="datepicker" data-date-format="dd-mm-yyyy" data-date-start-date="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}">
                                 </div>
                             </div>
                         </div>
@@ -84,18 +84,36 @@ aria-hidden="true">
 <div class="row">
     <div class="col-md-12">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
-        <h4 class="c-grey-900 mB-20">Отстъпки <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="discounts" data-toggle="modal" data-target="#addDiscount">Добави</button></h4>
+        <h4 class="c-grey-900 mB-20">
+            Отстъпки
+            <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="discounts" data-toggle="modal" data-target="#addDiscount">
+                Добави
+            </button>
+        </h4>
         <p>Преглед на създадените отстъпки.</p>
         <table class="table table-condensed tablesort">
             <thead>
-                <tr>
+                <tr data-sort-method="thead">
                     <th data-sort-method="none">Баркод</th>
                     <th>Отстъпка</th>
-                    <th data-sort-method="none">Валидна до</th>
+                    <th>Валидна до</th>
                     <th>Статус</th>
-                    <th data-sort-method="none">Потребител</th>
+                    <th>Потребител</th>
                     <th>Използвана</th>
                     <th data-sort-method="none">Действия</th>
+                </tr>
+                <tr>
+                    <th>
+                        <input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/discounts/?byBarcode=" placeholder="Търси по баркод">
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th>
+                        <input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/discounts/?byUser=" placeholder="Търси по потребител">
+                    </th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
