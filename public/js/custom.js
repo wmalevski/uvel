@@ -280,19 +280,41 @@ var uvel,
       $self.travellingMaterialsState($travelingMaterialsStateBtns);
       $self.enterPressBehaviour($inputCollection);
       $self.setInputFilters();
-      $self.expandSideMenu();      
+      $self.expandSideMenu();
+      $self.setDailyReportsInputs();
     }
     
     this.expandSideMenu = function() {
-      var $activeMenu = $('.nav-item.active'),
-          activeMenuOffsetTop = $activeMenu[0].offsetTop;
+      var $activeMenu = $('.nav-item.active');
+      
+      if ($activeMenu.length) {
+        var activeMenuOffsetTop = $activeMenu[0].offsetTop;
 
-      if ($activeMenu.find('.dropdown-menu').length) {  
-        $activeMenu.addClass('open');
-        $activeMenu.find('.dropdown-menu').show();
+        if ($activeMenu.find('.dropdown-menu').length) {  
+          $activeMenu.addClass('open');
+          $activeMenu.find('.dropdown-menu').show();
+        }
+
+        $('.sidebar-menu').scrollTop(activeMenuOffsetTop);
       }
+    }
+    
+    this.setDailyReportsInputs = function() {
+      if ($('.daily-report-create-page').length) {
+        $('.input-quantity').on('input', function(event) {
+          var inputElement = event.currentTarget,
+              quantity = inputElement.value,
+              denominationRow = inputElement.dataset.row,
+              denominationValue = $('.input-denomination[data-row="' + denominationRow + '"]')[0].value,
+              denominationTotal = quantity * denominationValue;
 
-      $('.sidebar-menu').scrollTop(activeMenuOffsetTop);
+          if (denominationTotal % 1) {
+            denominationTotal = parseFloat(quantity * denominationValue).toFixed(2)
+          }
+
+          $('.input-total[data-row="' + denominationRow + '"]').val(denominationTotal);
+        });
+      }
     }
 
     this.initializeTableSort = function() {
