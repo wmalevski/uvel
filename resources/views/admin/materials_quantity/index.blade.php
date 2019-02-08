@@ -20,7 +20,7 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label>Тип: </label>
-                            <select name="material_id" class="form-control" data-search="/ajax/select_search/materialstypes/">
+                            <select name="material_id" class="form-control" data-search="/ajax/select_search/parentmaterials/">
                                 <option value="">Избери материал</option>
                         
                                 @foreach($types as $type)
