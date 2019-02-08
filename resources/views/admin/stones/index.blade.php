@@ -179,7 +179,7 @@
       <p>Преглед на камъни</p>
       <table class="table tablesort">
         <thead>
-          <tr>
+          <tr data-sort-method="thead">
             <th scope="col">Име</th>
             <th scope="col">Тип</th>
             <th scope="col">Тегло</th>
@@ -191,6 +191,12 @@
             <th scope="col">Магазин</th>
             <th scope="col">Цена</th>
             <th data-sort-method="none" scope="col">Действия</th>
+          </tr>
+          
+          <tr class="search-inputs">
+            <th>
+              <input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/stones/?byName=" placeholder="Търси по име">
+            </th>
           </tr>
         </thead>
         <tbody>
