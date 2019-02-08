@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('content')
-<div class="modal fade" id="addProduct" role="dialog" aria-labelledby="addProductlLabel"
+<div class="modal fade" id="addProduct"   role="dialog" aria-labelledby="addProductlLabel"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -96,7 +96,7 @@ aria-hidden="true">
 
 <table class="table table-condensed tablesort">
     <thead>
-        <tr data-sort-method="thead">
+        <tr>
             <th data-sort-method="none">Баркод</th> 
             <th>Модел</th>
             <th>Цена/бр</th>
@@ -104,19 +104,6 @@ aria-hidden="true">
             <th>Магазин</th>
             <th>Уникален номер</th>
             <th data-sort-method="none">Опции</th>
-        </tr>
-        <tr>
-            <th>
-                <input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/products_others/?byBarcode=" placeholder="Търси по баркод">
-            </th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th>
-                <input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/products_others/?byCode=" placeholder="Търси по уникален номер">
-            </th>
-            <th></th>
         </tr>
     </thead>
     
