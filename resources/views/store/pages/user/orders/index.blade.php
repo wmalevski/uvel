@@ -33,6 +33,7 @@
                                   <th scope="col">Модел</th> 
                                   <th scope="col">Дата</th>
                                   <th scope="col">Статус</th> 
+                                  <th scope="col">Действия</th> 
                                 </tr>
                               </thead>
                               <tbody>
@@ -52,6 +53,7 @@
                                             <span class="badge bgc-orange-50 c-orange-700 p-10 lh-0 tt-c badge-pill">Върнат от работилница</span> 
                                         @else 
                                             <span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">Получен</span>  @endif</td> 
+                                    <td><a href="{{ route('single_order') }}">Преглед</a></td>
                                 </tr>
                                   @endforeach
                               </tbody>     

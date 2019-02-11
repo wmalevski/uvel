@@ -543,6 +543,9 @@ Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
     });  
     
     Route::get('/model_orders/', 'ModelOrderController@index')->name('model_orders');
+
+    //Building url for FE, will add id parameter later
+    Route::get('/orders/', 'ModelOrderController@show')->name('single_order');
 });
 
 Route::group(['prefix' => 'online',  'namespace' => 'Store', 'middleware' => 'auth'], function() {

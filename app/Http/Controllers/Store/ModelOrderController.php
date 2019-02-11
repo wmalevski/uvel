@@ -21,7 +21,7 @@ class ModelOrderController extends BaseController
     {
         $orders = ModelOrder::where('user_id', Auth::user()->getId())->get();
 
-        return \View::make('store.pages.user.orders', array('orders' => $orders));
+        return \View::make('store.pages.user.orders.index', array('orders' => $orders));
     }
 
     /**
@@ -64,7 +64,7 @@ class ModelOrderController extends BaseController
      */
     public function show(ModelOrder $modelOrder)
     {
-        //
+        return \View::make('store.pages.user.orders.single');
     }
 
     /**
