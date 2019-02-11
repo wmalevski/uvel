@@ -53,7 +53,7 @@ aria-hidden="true">
 </div>
 <div class="row admin-reports-row">
     <div class="col-md-12">
-        <h3>Разходи</h3>
+        <h3>Наличност на материали</h3>
     </div>
     <div class="col-md-12">
         <form name="adminReport" data-url="/#">
@@ -95,19 +95,11 @@ aria-hidden="true">
         <table class="table table-condensed tablesort">
             <thead>
                 <tr>
-                    <th>Основание</th>
-                    <th>Сума</th>
-                    <th>Дата</th>
-                    <th>Час</th>
-                    <th>Описание</th>
+                   
                 </tr>
             </thead>
             <tbody>
-                <td>Вода</td>
-                <td>140</td>
-                <td>10.02.2018</td>
-                <td>15:30</td>
-                <td>Платих водата и ся нямам пари.</td>
+
             </tbody>
         </table>
     </div>
