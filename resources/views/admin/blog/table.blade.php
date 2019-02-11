@@ -1,7 +1,7 @@
 <tr data-id="{{ $article->id }}">
     <td class="thumbnail--tooltip">
         {{ $article->title }}
-        <ul @if($article->thumbnail) style="background-image: url({{ asset("uploads/blog/" . $article->thumbnail) }});" @endif>
+        <ul @if($article->thumbnail()) style="background-image: url({{ asset("uploads/blog/" . $article->thumbnail()->photo) }});" @endif>
         </ul>
     </td>
 

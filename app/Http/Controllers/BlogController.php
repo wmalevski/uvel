@@ -6,10 +6,11 @@ use Storage;
 use Response;
 use Auth;
 use App\Blog;
+use App\Gallery;
+use App\BlogComment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
-use App\BlogComment;
 
 class BlogController extends Controller
 {
@@ -55,7 +56,6 @@ class BlogController extends Controller
         }
 
         $article = new Blog();
-        $article->thumbnail = $request->images[0];
         $article->author_id = Auth::user()->getId();
         $article->slug = slugify($request->title['bg']);
         $article->save();
@@ -98,9 +98,16 @@ class BlogController extends Controller
 
                 Storage::disk('public')->put('blog/'.$file_name, file_get_contents(public_path('uploads/blog/').$file_name));
 
-                $article->thumbnail = $file_name;
-                $article->save();
+                $photo = new Gallery();
+                $photo->photo = $file_name;
+                $photo->blog_id = $article->id;
+                $photo->table = 'blog';
+
+                $photo->save();
             }
+
+            $article->thumbnail_id = $photo->id;
+            $article->save();
         }
 
         return Response::json(array('success' => View::make('admin/blog/table',array('article'=>$article))->render()));
@@ -155,10 +162,6 @@ class BlogController extends Controller
 
         $article->save();
 
-        if($request->images){
-            $article->thumbnail = $request->images[0];
-        }
-
         $article->slug = $article->slug.'-'.$article->id;
         $article->save();
 
@@ -189,9 +192,16 @@ class BlogController extends Controller
 
                 Storage::disk('public')->put('blog/'.$file_name, file_get_contents(public_path('uploads/blog/').$file_name));
 
-                $article->thumbnail = $file_name;
-                $article->save();
+                $photo = new Gallery();
+                $photo->photo = $file_name;
+                $photo->blog_id = $article->id;
+                $photo->table = 'blog';
+
+                $photo->save();
             }
+            
+            $article->thumbnail_id = $photo->id;
+            $article->save();
         }
 
         return Response::json(array('ID' => $article->id, 'table' => View::make('admin/blog/table',array('article'=>$article))->render()));
