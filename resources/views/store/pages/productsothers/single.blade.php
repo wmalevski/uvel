@@ -25,10 +25,10 @@
 							</ul>
 							@endif
 
-							@if(session()->has('success'))
-							<div class="alert alert-success">
-								{{ session()->get('success') }}
-							</div>
+							@if(session()->has('success.productsother'))
+								<div class="alert alert-success">
+									{{ session()->get('success.productsother') }}
+								</div>
 							@endif
 						</div>
 					</div>

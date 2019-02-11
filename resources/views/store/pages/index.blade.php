@@ -19,10 +19,10 @@
 				</ul>
 				@endif
 
-				@if(session()->has('success'))
-				<div class="alert alert-success">
-					{{ session()->get('success') }}
-				</div>
+				@if(session()->has('success.subscribe'))
+					<div class="alert alert-success">
+						{{ session()->get('success.subscribe') }}
+					</div>
 				@endif
 			</div>
 		</div>
