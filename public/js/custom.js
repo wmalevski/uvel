@@ -243,6 +243,11 @@ var uvel,
         selector: '[name="subscribe"]',
         controllers: [],
         initialized: false
+      },
+      exportAdminReport: {
+        selector: '[name="exportAdminReport"]',
+        controllers: [],
+        initialized: false
       }
     }
 
@@ -280,12 +285,57 @@ var uvel,
       $self.travellingMaterialsState($travelingMaterialsStateBtns);
       $self.enterPressBehaviour($inputCollection);
       $self.setInputFilters();
-      $self.expandSideMenu();      
+      $self.expandSideMenu();    
+      $self.adminReportInit();
+    }
+
+    this.adminReportInit = function() {
+      var reportFrom = $('#report_from'),
+          reportTo = $('#report_to'),
+          exportFrom = $('#export_from'),
+          exportTo = $('#export_to');
+      
+      $self.initializeDatePicker(reportFrom, reportTo);
+      $self.initializeDatePicker(exportFrom, exportTo, 'export');
+    }
+
+    this.initializeDatePicker = function(dateFromSelector, dateToSelector, formType) {
+      var today = new Date();
+
+      dateToSelector.datepicker('setEndDate', today);
+
+      dateFromSelector.datepicker('setEndDate', today).on('changeDate', function(e) {
+        var maxDate = new Date(e.date),
+            minDate = new Date(e.date),
+            dateTo = dateToSelector.datepicker("getDate") || '';
+
+        if (formType == 'export') {
+          maxDate.setFullYear(maxDate.getFullYear() + 1);
+        } else {
+          maxDate.setMonth(maxDate.getMonth() + 3);
+        }
+
+        if (maxDate > today) {
+          maxDate = today;
+        }
+        checkDateRange(dateTo, minDate, maxDate);
+
+        dateToSelector.datepicker('setEndDate', maxDate);
+        dateToSelector.datepicker('setStartDate', minDate);
+      });
+
+      function checkDateRange(selectedDate, startDate, endDate) {
+        var isValid = (startDate != '' && endDate != '') ? (startDate <= selectedDate && selectedDate <= endDate) : true;
+
+        if (!isValid) {
+          dateToSelector.datepicker('update', '');
+        }
+      }
     }
     
     this.expandSideMenu = function() {
       var $activeMenu = $('.nav-item.active'),
-          activeMenuOffsetTop = $activeMenu[0].offsetTop;
+          activeMenuOffsetTop = 10 || $activeMenu[0].offsetTop;
 
       if ($activeMenu.find('.dropdown-menu').length) {  
         $activeMenu.addClass('open');
@@ -353,6 +403,9 @@ var uvel,
 
       if (formType == 'edit') {
         $self.appendingEditFormToTheModal($this, data);
+      } else if (formType == 'export') {
+        $self.initializeForm(formSettings, formType);
+        formSettings.initialized = true;
       }
 
       if (formType == 'sell') {

@@ -1,3 +1,14 @@
+/* admin-reports */
+.admin-reports-row {
+	margin-bottom: 20px;
+}
+
+.admin-reports-row .btn_container {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
 /* todo: fix styles */
 #blog_lng_edit li:first-child {
   margin-right: 10px;
