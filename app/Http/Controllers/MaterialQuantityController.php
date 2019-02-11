@@ -143,8 +143,15 @@ class MaterialQuantityController extends Controller
         $query = MaterialQuantity::select('*');
 
         $materials_new = new MaterialQuantity();
-        $materials = $materials_new->filterMaterials($request, $query);
+
+        if($request->type && $request->type == 'payment'){
+            $materials = $materials_new->filterMaterialsPayment($request, $query);
+        }else{
+            $materials = $materials_new->filterMaterials($request, $query);
+        }
+
         $materials = $materials->where('store_id', Auth::user()->getStore()->id)->paginate(env('RESULTS_PER_PAGE'));
+        
         $pass_materials = array();
 
         foreach($materials as $material){
@@ -153,7 +160,12 @@ class MaterialQuantityController extends Controller
                     'value' => $material->id,
                     'label' => $material->material->parent->name.' - '.$material->material->color.' - '.$material->material->carat,
                     'data-carat' => $material->material->carat,
-                    'data-pricebuy' => $material->material->pricesBuy->first()['price']
+                    'data-pricebuy' => $material->material->pricesBuy->first()['price'],
+                    'data-price' => $material->material->pricesBuy->first()['price'],
+                    'for_buy'  => $material->material->for_buy,
+                    'for_exchange' => $material->material->for_exchange,
+                    'carat_transform' => $material->material->carat_transform,
+                    'carat' => $material->material->carat
                 ];
             }
             

@@ -392,6 +392,9 @@
               </span>
             </a>
             <ul class="dropdown-menu">
+              <li class="{{ Active::ifRouteIn('nomenclatures') }}">
+                <a class="sidebar-link" href="{{ route('nomenclatures') }}">Номенклатури</a>
+              </li>
               <li class="{{ Active::ifRouteIn('stones') }}">
                 <a class="sidebar-link" href="{{ route('stones') }}">Камъни</a>
               </li>

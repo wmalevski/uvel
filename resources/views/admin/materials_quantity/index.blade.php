@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('content')
-<div class="modal fade" id="addMQuantity"   role="dialog" aria-labelledby="addMQuantity"
+<div class="modal fade" id="addMQuantity" role="dialog" aria-labelledby="addMQuantity"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -20,7 +20,7 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label>Тип: </label>
-                            <select name="material_id" class="form-control" data-search="/ajax/select_search/materialstypes/">
+                            <select name="material_id" class="form-control" data-search="/ajax/select_search/parentmaterials/">
                                 <option value="">Избери материал</option>
                         
                                 @foreach($types as $type)
@@ -55,7 +55,7 @@ aria-hidden="true">
                     <div id="errors-container"></div>
                 </div>
 
-                {{-- <input type="hidden" name="store" value="{{  Auth::user()->store }}"> --}}
+                {{-- <input type="hidden" name="store" value="{{ Auth::user()->store }}"> --}}
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
@@ -85,11 +85,19 @@ aria-hidden="true">
         <p>Преглед на наличност.</p>
         <table class="table table-condensed">
             <thead>
-                <tr>
+                <tr data-sort-method="thead">
                     <th>Тип</th> 
                     <th>Количество/гр</th> 
                     <th>Магазин</th>
                     <th data-sort-method="none">Действия</th> 
+                </tr>
+                <tr>
+                    <th>
+                        <input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/materialquantities/?byName=" placeholder="Търси по име">
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             

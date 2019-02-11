@@ -65,8 +65,8 @@
 															<a href="online/products/?byMaterial[]={{ $material->id }}">
 
 																<img alt="{{ $material->name }}" src="@if(count($material->materials)) @if(count($material->materials->first()->products))
-                                          @if(count($material->materials->first()->products->first()->images))
-                                          {{ asset("uploads/products/" . $material->materials->first()->products->first()->images->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }}
+                                          @if(count($material->materials->first()->products->first()->photos))
+                                          {{ asset("uploads/products/" . $material->materials->first()->products->first()->photos->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }}
 																					@endif @endif @endif">
 															</a>
 														</div>
@@ -88,9 +88,11 @@
 													<div class="home_collections_item_inner">
 														<div class="collection-details">
 															<a href="{{ route('models') }}">
-																<img alt="{{ $models->first()->name }}" src="@if(count($models)) @if(count($models->first()->photos))
-																	{{ asset("uploads/models/" . $models->first()->photos->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }}
-																	@endif @endif">
+																@if(count($models) && count($models->first()->photos))
+																	<img alt="{{ $models->first()->name }}" src="{{ asset("uploads/models/" . $models->first()->photos->first()->photo) }}">
+																@else 
+																	<img alt="" src="{{ asset('store/images/demo_375x375.png') }}">
+																@endif
 															</a>
 														</div>
 														<div class="hover-overlay">
@@ -108,9 +110,11 @@
 													<div class="home_collections_item_inner">
 														<div class="collection-details">
 															<a href="{{ route('custom_order') }}">
-																<img alt="{{ $models->first()->name }}"
-																		 src="@if(count($models)) @if(count($models->first()->photos)) {{ asset("uploads/models/" . $models->first()->photos->first()->photo) }}
-																		 @else {{ asset('store/images/demo_375x375.png') }} @endif @endif">
+																@if(count($models) && count($models->first()->photos))
+																	<img alt="{{ $models->first()->name }}" src="{{ asset("uploads/models/" . $models->first()->photos->first()->photo) }}">
+																@else 
+																	<img alt="" src="{{ asset('store/images/demo_375x375.png') }}">
+																@endif
 															</a>
 														</div>
 														<div class="hover-overlay">
@@ -314,7 +318,9 @@
 								<div class="home-bottom_banner_wrapper col-md-12">
 									<div id="home-bottom_banner" class="home-bottom_banner">
 										<a href="{{ route('single_translated_article', ['locale'=>app()->getLocale(), 'product' => $articles->first()->slug])  }}">
-											<img src="{{ asset("uploads/blog/" . $articles->first()->thumbnail) }}" alt="{{ $articles->first()->slug }}">
+											@if($articles->first()->thumbnail())
+												<img src="{{ asset("uploads/blog/" . $articles->first()->thumbnail()->photo ) }}" alt="{{ $articles->first()->slug }}">
+											@endif
 										</a>
 									</div>
 								</div>

@@ -273,6 +273,8 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::get('/select_search/parentmaterials', 'MaterialController@select_search');
 
+    Route::get('/select_search/materials/{type}', 'MaterialQuantityController@select_search');
+
     Route::get('/select_search/materials', 'MaterialQuantityController@select_search');
 
     Route::get('/select_search/jewels', 'JewelController@select_search');
@@ -483,8 +485,8 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/materials/decline/{material}', 'MaterialTravellingController@decline');
 
     Route::post('/nomenclatures', 'NomenclatureController@store');
-
     Route::put('/nomenclatures/{nomenclature}', 'NomenclatureController@update');
+    Route::post('/nomenclatures/delete/{nomenclature}', 'NomenclatureController@destroy');
 });
 
 /**

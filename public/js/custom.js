@@ -238,6 +238,11 @@ var uvel,
         selector: '[name="dailyReports"]',
         controllers: [],
         initialized: false
+      },
+      subscribe: {
+        selector: '[name="subscribe"]',
+        controllers: [],
+        initialized: false
       }
     }
 
@@ -277,6 +282,41 @@ var uvel,
       $self.travellingMaterialsState($travelingMaterialsStateBtns);
       $self.enterPressBehaviour($inputCollection);
       $self.setInputFilters();
+      $self.expandSideMenu();
+      $self.setDailyReportsInputs();
+    }
+    
+    this.expandSideMenu = function() {
+      var $activeMenu = $('.nav-item.active');
+      
+      if ($activeMenu.length) {
+        var activeMenuOffsetTop = $activeMenu[0].offsetTop;
+
+        if ($activeMenu.find('.dropdown-menu').length) {  
+          $activeMenu.addClass('open');
+          $activeMenu.find('.dropdown-menu').show();
+        }
+
+        $('.sidebar-menu').scrollTop(activeMenuOffsetTop);
+      }
+    }
+    
+    this.setDailyReportsInputs = function() {
+      if ($('.daily-report-create-page').length) {
+        $('.input-quantity').on('input', function(event) {
+          var inputElement = event.currentTarget,
+              quantity = inputElement.value,
+              denominationRow = inputElement.dataset.row,
+              denominationValue = $('.input-denomination[data-row="' + denominationRow + '"]')[0].value,
+              denominationTotal = quantity * denominationValue;
+
+          if (denominationTotal % 1) {
+            denominationTotal = parseFloat(quantity * denominationValue).toFixed(2)
+          }
+
+          $('.input-total[data-row="' + denominationRow + '"]').val(denominationTotal);
+        });
+      }
     }
 
     this.initializeTableSort = function() {
@@ -957,18 +997,8 @@ var uvel,
     // FUNCTION THAT READS ALL THE ERRORS RETURNED FROM THE REQUEST AND APPEND THEM IN THE MODAL-FORM-BODY
 
     this.formsErrorHandler = function(err, form) {
-      var errorMessagesHolder = $('<div class="error--messages_holder"></div>'),
-          errorObject;
-
-      if (form.find('[data-repair-scan]').length > 0) {
-        errorObject = err.errors;
-      } else if (err.statusText == 'timeout') {
-        errorObject = {
-          error: err
-        };
-      } else {
-        errorObject = err.responseJSON.errors;
-      }
+      var errorObject = form.find('[data-repair-scan]').length > 0 ? err.errors : err.responseJSON.errors,
+          errorMessagesHolder = $('<div class="error--messages_holder"></div>');
 
       for (var key in errorObject) {
         var messageError = $('<div class="alert alert-danger"></div>');
@@ -977,8 +1007,6 @@ var uvel,
           for (var x in errorObject[key]) {
             messageError.append(errorObject[key][x][0]);
           }
-        } else if (errorObject[key].statusText == 'timeout') {
-          messageError.append('Времето за изчакване изтече.')
         } else {
           messageError.append(errorObject[key][0]);
         }

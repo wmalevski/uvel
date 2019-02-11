@@ -15,7 +15,7 @@ class Nomenclature extends Model
 
     public function stones()
     {
-        $this->hasMany('App\Stone');
+        return $this->hasMany('App\Stone');
     }
 
     public function filterNomenclatures(Request $request ,$query){

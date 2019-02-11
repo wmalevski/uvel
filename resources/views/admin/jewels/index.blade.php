@@ -36,9 +36,7 @@ aria-hidden="true">
 <div class="modal fade edit--modal_holder" id="editJewel" role="dialog" aria-labelledby="editJewel"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            
-        </div>
+        <div class="modal-content"></div>
     </div>
 </div>
 
@@ -49,10 +47,17 @@ aria-hidden="true">
       <p>Преглед на създадените видове бижута.</p>
       <table class="table">
         <thead>
-          <tr>
-            <th scope="col">Име</th> 
-            <th scope="col" data-sort-method="none">Действия</th>
-          </tr>
+            <tr data-sort-method="thead">
+                <th scope="col">Име</th> 
+                <th scope="col" data-sort-method="none">Действия</th>
+            </tr>
+            <tr>
+                <th>
+                    <input class="filter-input form-control" type="text"
+                           data-dynamic-search-url="ajax/search/jewels/?byName=" placeholder="Търси по име">
+                </th>
+                <th></th>
+            </tr>
         </thead>
         <tbody>
             @foreach($jewels as $jewel)
