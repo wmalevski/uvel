@@ -33,10 +33,10 @@
 							</ul>
 							@endif
 
-							@if(session()->has('success'))
-							<div class="alert alert-success">
-								{{ session()->get('success') }}
-							</div>
+							@if(session()->has('success.contact'))
+								<div class="alert alert-success">
+									{{ session()->get('success.contact') }}
+								</div>
 							@endif
 
 							<div class="row">
