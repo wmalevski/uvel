@@ -57,9 +57,14 @@
                             </div>
                         </div>
                         <div class="uploaded-images-area">
-                            <div class='image-wrapper'>
-                                <img src="{{ asset("uploads/blog/" . $article->thumbnail) }}" alt="" class="img-responsive" />
-                            </div>
+                            @if($article->thumbnail())
+                                <div class='image-wrapper'>
+                                    <div class='close'>
+                                        <span data-url="gallery/delete/{{$article->thumbnail()->id}}">&#215;</span>
+                                    </div>
+                                    <img src="{{ asset("uploads/blog/" . $article->thumbnail()->photo) }}" alt="" class="img-responsive" />  
+                                </div>
+                            @endif
                         </div>
                     </div>
                 @endforeach
