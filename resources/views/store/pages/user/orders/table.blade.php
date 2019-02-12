@@ -1,8 +1,6 @@
 <tr>
-  <td>{{ $order->user->name }}</td>
-  <td>{{ $order->user->email }}</td>
-  <td>{{ $order->user->phone }}</td>
-  <td>{{ $order->user->city }}</td>
+  <td>{{ $order->id }}</td>
+  <td>{{ $order->store_id }}</td>
   <td>{{ $order->model->name }}</td>
   <td>{{ $order->created_at }}</td>
   <td>
@@ -18,48 +16,50 @@
     @endif
   </td>
   <td>
-    <!-- href="{{ route('single_order') }}"  -->
-    <a data-toggle="collapse" data-target="#accordion{{ $order->id }}" class="clickable">Преглед</a>
+    <button data-toggle="collapse" data-target="#accordion{{ $order->id }}" class="btn btn-1">Преглед</button>
   </td>
 </tr>
 <tr id="accordion{{ $order->id }}" class="collapse">
   <td colspan="10">
-    <div class="row store-order-block col-md-12">
-      <table class="table table-striped">
+    <div class="row float-right col-md-12">
+      <table class="table">
         <tbody>
           <tr>
             <th scope="row">Артикул</th>
-            <td>Продукт</td>
+            <td>Хонда</td>
           </tr>
           <tr>
-            <th scope="row">Количество</th>
-            <td>Брой</td>
+            <th scope="row">Брой/Количество</th>
+            <td>10</td>
           </tr>
           <tr>
             <th scope="row">Цена</th>
-            <td>Изработка</td>
+            <td>20лв</td>
+          </tr>
+          <tr>
+            <th scope="row">Изработка</th>
+            <td>50лв</td>
           </tr>
         </tbody>
       </table>
-
-      <strong>Материал</strong>
-      <table class="table table-striped">
+      
+      <table class="table">
         <tbody>
           <tr>
-            <th scope="row">Име</th>
-            <td>Сребро</td>
+            <th scope="row">Артикул</th>
+            <td>БМВ</td>
+          </tr>
+          <tr>
+            <th scope="row">Брой/Количество</th>
+            <td>2</td>
           </tr>
           <tr>
             <th scope="row">Цена</th>
-            <td>70лв</td>
+            <td>230лв</td>
           </tr>
           <tr>
-            <th scope="row">Тегло</th>
-            <td>80гр</td>
-          </tr>
-          <tr>
-            <th scope="row">Размер</th>
-            <td>15</td>
+            <th scope="row">Изработка</th>
+            <td>100лв</td>
           </tr>
         </tbody>
       </table>

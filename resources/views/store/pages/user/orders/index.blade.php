@@ -22,14 +22,12 @@
               <h1 id="page-title">Поръчки</h1>
             </div>
 
-            <div id="col-main" class="col-md-24 register-page clearfix">
+            <div id="col-main" class="col-md-24 clearfix">
               <table class="table-hover">
                 <thead>
                   <tr>
-                    <th scope="col">Име</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Телефон</th>
-                    <th scope="col">Град</th>
+                    <th scope="col">#</th>
+                    <th scope="col">Поръчано от</th>
                     <th scope="col">Модел</th>
                     <th scope="col">Дата</th>
                     <th scope="col">Статус</th>
