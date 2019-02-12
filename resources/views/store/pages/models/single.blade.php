@@ -248,9 +248,9 @@
 														<input type="hidden" name="type" value="model">
 													</form>
 												</div>
-												<div class="spr-reviews" id="reviews_1293236931">
+												<div class="spr-reviews">
 													@foreach($model->reviews as $review)
-													<div class="spr-review" id="spr-review-906174">
+													<div class="spr-review">
 														<div class="spr-review-header">
 															<span class="spr-starratings spr-review-header-starratings">
 																@for($i = 1; $i <= 5; $i++) @if($review->rating >= $i)
