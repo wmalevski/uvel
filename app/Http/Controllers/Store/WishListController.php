@@ -110,7 +110,7 @@ class WishListController extends BaseController
     {
         if($wishList){
             $wishList->delete();
-            return Redirect::back()->with('success', 'Продуктът беше успешно премахнат от списъка.');
+            return Redirect::back()->with('success.wishlist', 'Продуктът беше успешно премахнат от списъка.');
         }
     }
 }

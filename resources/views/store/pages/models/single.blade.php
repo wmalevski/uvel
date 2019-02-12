@@ -103,10 +103,10 @@
 												</ul>
 												@endif
 
-												@if(session()->has('success'))
-												<div class="alert alert-success">
-													{{ session()->get('success') }}
-												</div>
+												@if(session()->has('success.models'))
+													<div class="alert alert-success">
+														{{ session()->get('success.models') }}
+													</div>
 												@endif
 												<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="col-sm-24 group-variants">
 													<meta itemprop="priceCurrency" content="USD">
