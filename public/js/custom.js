@@ -248,7 +248,9 @@ var uvel,
 
     this.init = function() {
       $self.attachInitialEvents();
-      $self.initializeSelect($('select').not('[data-select2-skip]'));
+      $self.initializeSelect($('select').not('[data-select2-skip], [data-search]'));
+      $self.initializeSelectWithSearch($('select[data-search]'));
+
       $self.initializeTableSort();
       // $self.checkAllForms();
     }
@@ -803,11 +805,11 @@ var uvel,
           workmanshipWanted = form.find('[data-worksmanship-wanted]').val(),
           workmanshipGiven = form.find('[data-worksmanship-given]').val(),
           receiptOptions = form.find('[type="radio"]'),
-          payMethod = form.find('[name="partner-pay-method"]')[0].checked,
+          pay_method = form.find('[name="partner-pay-method"]')[0].checked,
           data = {
             _token: $self.formsConfig.globalSettings.token,
             isPartner: true,
-            payMethod: payMethod,
+            pay_method: pay_method,
             workmanship: {
               wanted: workmanshipWanted,
               given: workmanshipGiven
@@ -930,8 +932,8 @@ var uvel,
 
       if (formName == 'models') {
         // removes all material rows except the first one
-        var materials = materialsContainer.children('.form-row');
-        for (var i = 1; i < materials.length; i++) {
+        var materials = materialsContainer.children('.form-row').not('.not-clear');
+        for (var i = 0; i < materials.length; i++) {
           var materialRow = $(materials[i]);
           materialRow.remove();
         }
@@ -1112,8 +1114,12 @@ var uvel,
 
             $('button[type="submit"]').prop('disabled', true);
             
-            var selects = $('form[data-type="edit"] select');
+            var selects = $('form[data-type="edit"] select').not('[data-search]'),
+                selectsWithSearch = $('form[data-type="edit"] select[data-search]');
+
             $self.initializeSelect(selects);
+            $self.initializeSelectWithSearch(selectsWithSearch);
+            
 
             if (modal.find('[data-calculatePrice-material]').length > 0 && modal.closest('#editProduct').length > 0) {
               for (var i = 0; i < modal.find('[data-calculatePrice-material]').length; i++) {
@@ -1283,10 +1289,13 @@ var uvel,
 
       newRow.innerHTML = hr + newMaterialRow;
 
-      var select = $(newRow).find('select');
-      $(newRow).find('[data-calculateprice-default]').prop('checked', false);
+      var select = $(newRow).find('select').not('[data-search]'),
+          selectsWithSearch = $(newRow).find('select[data-search]');
+
+      $(newRow).find('[data-calculateprice-default]').prop('checked', false).removeClass('not-clear');
 
       $self.initializeSelect(select);
+      $self.initializeSelectWithSearch(selectsWithSearch);
 
       materialsWrapper.append(newRow);
 
@@ -1356,8 +1365,11 @@ var uvel,
           $(fieldsHolder).find('.stone-flow').addClass(flow);
         }
 
-        var select = $(fieldsHolder).find('select');
+        var select = $(fieldsHolder).find('select').not('[data-search]'),
+            selectsWithSearch = $(fieldsHolder).find('select[data-search]');
+
         $self.initializeSelect(select);
+        $self.initializeSelectWithSearch(selectsWithSearch);
 
         stonesWrapper.append(fieldsHolder);
 
@@ -1459,6 +1471,15 @@ var uvel,
     this.calculatePriceHandler = function(form, _this) {
       var row = _this.closest('.form-row');
       if (row.find('[data-calculatePrice-default]:checked').length > 0 || row.find('[data-calculatePrice-netWeight]').length > 0 || form.attr('name') == 'products' || _this.closest('.model_stones').length > 0) {
+                
+        if (_this[0].hasAttribute('data-calculatePrice-default')) {
+          form.find('[data-calculatePrice-default].not-clear').removeClass('not-clear');
+          form.find('.form-row.not-clear').removeClass('not-clear');
+
+          _this.addClass('not-clear');
+          _this.closest('.form-row').addClass('not-clear');
+        }
+        
         $self.calculatePrice(form);
       }
     }
@@ -1770,7 +1791,7 @@ var uvel,
       });
 
       newExchangeFieldTrigger.on('click', function() {
-        $self.addNewExchangeField(newExchangeField, true);
+        $self.addNewExchangeField(newExchangeField);
       });
 
       exchangeRow.on('click', '[data-exchangeRowRemove-trigger]', $self.removeSingleExchangeRow);
@@ -1832,7 +1853,7 @@ var uvel,
         opacity: 1,
       }, 300, function() {
         if (populate) {
-          $self.addNewExchangeField(field, populate);
+          $self.addNewExchangeField(field);
         }
       });
     }
@@ -1857,30 +1878,13 @@ var uvel,
       $self.calculateExchangeMaterialTotal();
     }
 
-    this.addNewExchangeField = function(field, populate) {
-      var populateType = document.querySelector('#shopping-table tbody').children.length > 0 ? 'for_exchange' : 'for_buy';
-
+    this.addNewExchangeField = function(field) {
       document.querySelector('.exchange-row-fields').insertAdjacentHTML('beforeend', field);
-
-      if (populate) {
-        $self.populateExchangeMaterials(populateType);
-      }
-    }
-
-    this.populateExchangeMaterials = function(type) {
+      
       var materials = document.querySelectorAll('[data-calculateprice-material]'),
-          materialHolder = materials[materials.length - 1],
-          materialsData = $('#materials_data').length > 0 ? JSON.parse($('#materials_data').html()) : null;
+          materialHolder = materials[materials.length - 1];
 
-      for (var i = 0; i < materialsData.length; i++) {
-        if (materialsData[i][type] == 'yes') {
-          $self.addExchangeMaterial(materialsData[i], materialHolder, false);
-        }
-      }
-
-      $self.initializeSelect($(materialHolder));
-
-      //TODO - CHECK THIS AFTER SELECT 2 IMPLEMENTATION
+      $self.initializeSelectWithSearch($(materialHolder));
     }
 
     this.addExchangeMaterial = function(material, materialHolder, select) {
@@ -2143,8 +2147,11 @@ var uvel,
         var newRemoveTrigger = newRow.find('[data-materials-remove]');
         $self.removeMaterialsAttach(newRemoveTrigger);
 
-        var select = newRow.find('select');
+        var select = newRow.find('select').not('[data-search]'),
+            selectsWithSearch = newRow.find('select[data-search]');
+
         $self.initializeSelect(select);
+        $self.initializeSelectWithSearch(selectsWithSearch);
 
         container.append(newRow)
       });
@@ -2449,7 +2456,11 @@ var uvel,
     this.addModelSelectInitialize = function() {
       var addModelButton = $('[data-target="#addModel"]');
       addModelButton.click(function() {
-        $self.initializeSelect($('form[name="addModel"]').find('select'));
+        var selects = $('form[name="addModel"]').find('select').not('[data-search]'),
+            selectsWithSearch = $('form[name="addModel"]').find('select[data-search]');
+
+        $self.initializeSelect(selects);
+        $self.initializeSelectWithSearch(selectsWithSearch);
       });
     }
 
@@ -2459,6 +2470,12 @@ var uvel,
 
     this.addSelect2CustomAttributes = function(data, container) {
       if (data.element) {
+        if (data['for_exchange']) {
+          data.element.dataset.transform = data['carat_transform'];
+          data.element.dataset.carat = data.carat;
+          data.element.dataset.pricebuy = data['data-pricebuy'];
+        }
+
         $(container).attr({
           'data-price': $(data.element).attr('data-price') || 0,
           'data-pricebuy': $(data.element).attr('data-pricebuy') || 0,
@@ -2468,7 +2485,8 @@ var uvel,
           'data-product-id': $(data.element).attr('data-product-id') || 0
         });
       }
-
+      
+      
       return data.text;
     }
 
@@ -2476,64 +2494,66 @@ var uvel,
       FUNCTION THAT INITIALIZES THE SELECT 2 PLUGIN
     */
 
-    this.initializeSelect = function(select, selectCallback) {
-      if (select.length > 1) {
-        for (var i = 0; i < select.length; i++) {
-          loadSelect2(select[i]);
-        }
-      } else if (select.length == 1) {
-        loadSelect2(select[0]);
+    this.initializeSelectWithSearch = function(selects) {
+      for (var i = 0; i < selects.length; i++) {
+        var options = generateAjaxOption(selects[i].dataset.search);
+      
+        $self.initializeSelect(selects[i], null, options);
       }
 
-      function loadSelect2(sel) {
-        if (sel.hasAttribute('data-search')) {
-          $(sel).select2({
-            ajax: {
-              url: sel.dataset.search,
-              type: 'GET',
-              dataType: 'json',
-              delay: 1000,
-              data: function(params) {
-                var query = {
-                  byName: params.term,
-                  page: params.page || 1
+      function generateAjaxOption(url) {
+        return {
+          ajax: {
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            delay: 1000,
+            data: function(params) {
+              var query = {
+                byName: params.term,
+                page: params.page || 1
+              }
+              return query;
+            },
+            processResults: function(data, params) {
+              var data = $.map(data, function(obj) {
+                obj.id = obj.value;
+                obj.text = obj.label;
+
+                return obj;
+              });
+
+              params.page = params.page || 1;
+
+              return {
+                results: data,
+                pagination: {
+                  more: (params.page * 30) < data.total_count
                 }
-                return query;
-              },
-              processResults: function(data, params) {
-                var data = $.map(data, function(obj) {
-                  obj.id = obj.value;
-                  obj.text = obj.label;
-                  return obj;
-                });
-
-                params.page = params.page || 1;
-
-                return {
-                  results: data,
-                  pagination: {
-                    more: (params.page * 30) < data.total_count
-                  }
-                };
-              },
-              cache: true
+              };
             },
-            minimumInputLength: 0,
-            escapeMarkup: function(markup) {
-              return markup;
-            },
-            templateResult: $self.addSelect2CustomAttributes,
-            templateSelection: $self.addSelect2CustomAttributes
-          });
-        } else {
-          $(sel).select2({
-            templateResult: $self.addSelect2CustomAttributes,
-            templateSelection: $self.addSelect2CustomAttributes
-          })
+            cache: true
+          },
+          templateResult: $self.addSelect2CustomAttributes,
+          templateSelection: $self.addSelect2CustomAttributes,
+          minimumInputLength: 0,
+          escapeMarkup: function(markup) {
+            return markup;
+          }
         }
       }
+    }
 
-      select.on('select2:select', selectCallback);
+    this.initializeSelect = function(select, selectCallback, selectOptions) {
+      var defaultOptions = {
+        templateResult: $self.addSelect2CustomAttributes,
+        templateSelection: $self.addSelect2CustomAttributes
+      };
+
+      var options = selectOptions || defaultOptions;
+      
+      $(select).select2(options);
+      $(select).on('select2:select', selectCallback);
     }
 
     this.productTravellingBarcodeInput = function(form) {
