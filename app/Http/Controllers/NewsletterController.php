@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 use Newsletter;
 use App\ModelStone;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
+use Response;
 
 class NewsletterController extends Controller
 {
@@ -36,7 +39,22 @@ class NewsletterController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make( $request->all(), [
+            'email' => 'required|string|email|max:255',
+        ]);
+        
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
+        if(Newsletter::isSubscribed($request->email)){
+            return Response::json(['errors' => ['subscribed' => trans('admin/subscribers.already_subscribed')]], 401);
+        }
+
+        Newsletter::subscribe($request->email);
+        $subscriber = Newsletter::getMember($request->email);
+
+        return Response::json(array('success' => View::make('admin/mailchimp/table',array('subscriber'=>$subscriber))->render()));
     }
 
     /**
@@ -79,8 +97,8 @@ class NewsletterController extends Controller
      * @param  \App\Newsletter  $model_stones
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Newsletter $Newsletter)
+    public function destroy(Newsletter $Newsletter, $subscriber)
     {
-        //
+        Newsletter::unsubscribe($subscriber);
     }
 }
