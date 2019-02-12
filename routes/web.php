@@ -277,6 +277,8 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::get('/select_search/materials', 'MaterialQuantityController@select_search');
 
+    Route::get('/select_search/prices/materials', 'PriceController@select_search');
+
     Route::get('/select_search/jewels', 'JewelController@select_search');
 
     Route::get('/select_search/stones', 'StoneController@select_search');
