@@ -13,12 +13,8 @@
                 <div class="form-row  col-md-12">
 
                     <div class="form-group col-md-3">
-                        <select name="material_id" class="form-control col-md-9" data-search="/ajax/select_search/materials/">
+                        <select name="material_id" class="form-control col-md-9" data-search="/ajax/select_search/prices/materials/">
                             <option value="">Избери</option>
-
-                            @foreach($materials as $material)
-                                <option value="{{ $material->id }}">@if($material->parent_id) {{ App\MaterialType::withTrashed()->find($material->parent_id)->name }} @endif - {{ $material->code }} - {{ $material->color }}</option>
-                            @endforeach
                         </select>
                     </div>
 
