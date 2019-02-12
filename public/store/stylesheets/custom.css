@@ -746,3 +746,25 @@ li.element {
 .element.no_full_width .hover-appear a:hover {
 	background-color: #a07936;
 }
+
+/** Orders **/
+.page-store-orders .store-order-block {
+	margin: 0 16px 0 0;
+	padding: 0;
+}
+
+.page-store-orders .store-order-block strong {
+	padding: 8px;
+}
+
+.page-store-orders .collapse strong {
+	text-align: left;
+}
+
+.store-order-block {
+	height: 300px;
+}
+
+.collapsing {
+	transition: height .35s ease;
+}
