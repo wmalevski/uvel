@@ -805,11 +805,11 @@ var uvel,
           workmanshipWanted = form.find('[data-worksmanship-wanted]').val(),
           workmanshipGiven = form.find('[data-worksmanship-given]').val(),
           receiptOptions = form.find('[type="radio"]'),
-          payMethod = form.find('[name="partner-pay-method"]')[0].checked,
+          pay_method = form.find('[name="partner-pay-method"]')[0].checked,
           data = {
             _token: $self.formsConfig.globalSettings.token,
             isPartner: true,
-            payMethod: payMethod,
+            pay_method: pay_method,
             workmanship: {
               wanted: workmanshipWanted,
               given: workmanshipGiven
@@ -1782,7 +1782,7 @@ var uvel,
       });
 
       newExchangeFieldTrigger.on('click', function() {
-        $self.addNewExchangeField(newExchangeField, true);
+        $self.addNewExchangeField(newExchangeField);
       });
 
       exchangeRow.on('click', '[data-exchangeRowRemove-trigger]', $self.removeSingleExchangeRow);
@@ -1844,7 +1844,7 @@ var uvel,
         opacity: 1,
       }, 300, function() {
         if (populate) {
-          $self.addNewExchangeField(field, populate);
+          $self.addNewExchangeField(field);
         }
       });
     }
@@ -1869,30 +1869,13 @@ var uvel,
       $self.calculateExchangeMaterialTotal();
     }
 
-    this.addNewExchangeField = function(field, populate) {
-      var populateType = document.querySelector('#shopping-table tbody').children.length > 0 ? 'for_exchange' : 'for_buy';
-
+    this.addNewExchangeField = function(field) {
       document.querySelector('.exchange-row-fields').insertAdjacentHTML('beforeend', field);
-
-      if (populate) {
-        $self.populateExchangeMaterials(populateType);
-      }
-    }
-
-    this.populateExchangeMaterials = function(type) {
+      
       var materials = document.querySelectorAll('[data-calculateprice-material]'),
-          materialHolder = materials[materials.length - 1],
-          materialsData = $('#materials_data').length > 0 ? JSON.parse($('#materials_data').html()) : null;
+          materialHolder = materials[materials.length - 1];
 
-      for (var i = 0; i < materialsData.length; i++) {
-        if (materialsData[i][type] == 'yes') {
-          $self.addExchangeMaterial(materialsData[i], materialHolder, false);
-        }
-      }
-
-      $self.initializeSelect($(materialHolder));
-      //talk it out with joro
-      //TODO - CHECK THIS AFTER SELECT 2 IMPLEMENTATION
+      $self.initializeSelectWithSearch($(materialHolder));
     }
 
     this.addExchangeMaterial = function(material, materialHolder, select) {
@@ -2478,6 +2461,12 @@ var uvel,
 
     this.addSelect2CustomAttributes = function(data, container) {
       if (data.element) {
+        if (data['for_exchange']) {
+          data.element.dataset.transform = data['carat_transform'];
+          data.element.dataset.carat = data.carat;
+          data.element.dataset.pricebuy = data['data-pricebuy'];
+        }
+
         $(container).attr({
           'data-price': $(data.element).attr('data-price') || 0,
           'data-pricebuy': $(data.element).attr('data-pricebuy') || 0,
@@ -2487,7 +2476,8 @@ var uvel,
           'data-product-id': $(data.element).attr('data-product-id') || 0
         });
       }
-
+      
+      
       return data.text;
     }
 
@@ -2520,11 +2510,12 @@ var uvel,
               var data = $.map(data, function(obj) {
                 obj.id = obj.value;
                 obj.text = obj.label;
+
                 return obj;
               });
 
               params.page = params.page || 1;
-        
+
               return {
                 results: data,
                 pagination: {
