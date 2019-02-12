@@ -25,10 +25,10 @@
 							</ul>
 							@endif
 
-							@if(session()->has('success'))
-							<div class="alert alert-success">
-								{{ session()->get('success') }}
-							</div>
+							@if(session()->has('success.products'))
+								<div class="alert alert-success">
+									{{ session()->get('success.products') }}
+								</div>
 							@endif
 						</div>
 					</div>
@@ -47,27 +47,27 @@
 										 data-animate="fadeInRight">
 											<div id="gallery_main" class="product-image-thumb thumbs full_width ">
 												<ul class="slide-product-image">
-													@foreach($product->images as $image)
+													@foreach($product->photos as $photo)
 														<li class="image">
-															<a href="{{ asset("uploads/products/" . $image->photo) }}" class="cloud-zoom-gallery active">
-																<img alt="{{ $product->name }}" src="{{ asset("uploads/products/" . $image->photo) }}">
+															<a href="{{ asset("uploads/products/" . $photo->photo) }}" class="cloud-zoom-gallery active">
+																<img alt="{{ $product->name }}" src="{{ asset("uploads/products/" . $photo->photo) }}">
 															</a>
 														</li>
 													@endforeach
 												</ul>
 											</div>
 										</div>
-										@if(count($product->images))
+										@if(count($product->photos))
 										<div class="image featured col-smd-12 col-sm-12 fadeInUp not-animated" data-animate="fadeInUp">
-											<img src="{{ asset("uploads/products/" . $product->images->first()['photo']) }}" alt="{{ $product->name }}">
+											<img src="{{ asset("uploads/products/" . $product->photos->first()['photo']) }}" alt="{{ $product->name }}">
 										</div>
 										@endif
 										<div id="gallery_main_mobile" class="visible-xs product-image-thumb thumbs mobile_full_width ">
 											<ul style="opacity: 0; display: block;" class="slide-product-image owl-carousel owl-theme">
-												@foreach($product->images as $image)
+												@foreach($product->photos as $photo)
 												<li class="image">
-													<a href="{{ asset("uploads/products/" . $image->photo) }}" class="cloud-zoom-gallery active">
-														<img src="{{ asset("uploads/products/" . $image->photo) }}" alt="{{ $product->name }}">
+													<a href="{{ asset("uploads/products/" . $photo->photo) }}" class="cloud-zoom-gallery active">
+														<img src="{{ asset("uploads/products/" . $photo->photo) }}" alt="{{ $product->name }}">
 													</a>
 												</li>
 												@endforeach
@@ -321,7 +321,7 @@
 												<li class="row-left">
 													<a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">
 														<img class="img-fill" alt="{{ $product->name }}"
-														src="@if($product->images) {{ asset("uploads/products/" . $product->images->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif">
+														src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif">
 													</a>
 													<div class="hbw">
 														<span class="hoverBorderWrapper"></span>

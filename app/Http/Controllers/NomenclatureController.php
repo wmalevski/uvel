@@ -128,10 +128,10 @@ class NomenclatureController extends Controller
     {
         if($nomenclature){
             if($nomenclature->stones->count()){
-                return Response::json(['errors' => ['using' => ['Този контур се използва от системата и не може да бъде изтрит.']]], 401);
+                return Response::json(['errors' => ['using' => [trans('admin/global.delete_using')]]], 401);
             }else {
                 $nomenclature->delete();
-                return Response::json(array('success' => 'Успешно изтрито!'));
+                return Response::json(array('success' => trans('admin/global.delete_success')));
             }
         }
     }

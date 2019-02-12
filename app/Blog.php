@@ -34,4 +34,9 @@ class Blog extends Model
     {
         return $this->belongsTo('App\User')->first();
     }
+
+    public function thumbnail()
+    {
+        return $this->belongsTo('App\Gallery')->first();
+    }
 }

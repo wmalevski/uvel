@@ -39,7 +39,7 @@ class ContactController extends BaseController
 
         //Send email to support mail
         $this->contactUSPost($request);
-        return Redirect::back()->with('success', 'Съобщението ви беше изпратено успешно');
+        return Redirect::back()->with('success.contact', 'Съобщението ви беше изпратено успешно');
     }
 
     /** * Show the application dashboard. * * @return \Illuminate\Http\Response */

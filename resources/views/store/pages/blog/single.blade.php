@@ -62,7 +62,9 @@
 											<div class="blogs-image">
 												<ul class="list-inline">
 													<li>
-														<img src="{{ asset("uploads/blog/" . $article->thumbnail) }}">
+														@if($article->thumbnail())
+															<img src="{{ asset("uploads/blog/" . $article->thumbnail()->photo ) }}">
+														@endif
 													</li>
 												</ul>
 											</div>

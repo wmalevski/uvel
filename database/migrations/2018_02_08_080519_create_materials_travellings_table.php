@@ -23,7 +23,7 @@ class CreateMaterialsTravellingsTable extends Migration
             $table->dateTime('dateSent');
             $table->dateTime('dateReceived')->nullable();
             $table->integer('user_sent_id')->unsigned();
-            $table->enum('status', ['0', '1'])->default(0);	
+            $table->enum('status', ['not_accepted', 'accepted'])->default('not_accepted');	
             $table->timestamps();
         });
     }

@@ -25,22 +25,14 @@ class MaterialTravellingController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        if(Bouncer::is(Auth::user())->an('admin')){
-            $materials = MaterialQuantity::take(env('SELECT_PRELOADED'))->get();
-        }else{
-            $materials = MaterialQuantity::CurrentStore()->take(env('SELECT_PRELOADED'))->get();
-        }
+    {  
+        $materials = MaterialQuantity::CurrentStore()->take(env('SELECT_PRELOADED'));
         
         $stores = Store::where('id', '!=', Auth::user()->getStore()->id)->take(env('SELECT_PRELOADED'))->get();
         $materials_types = Material::take(env('SELECT_PRELOADED'))->get();
-        $travelling = MaterialTravelling::take(env('SELECT_PRELOADED'))->get();
 
-        if(Bouncer::is(Auth::user())->an('admin')){
-            $travelling = MaterialTravelling::all();
-        }else{
-            $travelling = MaterialTravelling::where('store_from_id', '=', Auth::user()->getStore()->id)->orWhere('store_to_id', '=', Auth::user()->getStore()->id)->get();
-        }
+        $travelling = MaterialTravelling::where('store_from_id', '=', Auth::user()->getStore()->id)->orWhere('store_to_id', '=', Auth::user()->getStore()->id)->take(env('SELECT_PRELOADED'))->get();
+        
 
   
         return \View::make('admin/materials_travelling/index', array('materials' => $materials, 'types' => $materials_types, 'stores' => $stores, 'travelling' => $travelling));
@@ -79,9 +71,8 @@ class MaterialTravellingController extends Controller
         if($check){
             if($request->quantity <= $check->quantity && $check->quantity != 0){
                 $price = Material::withTrashed()->find($check->material_id);
-
-                if($check->store == $request->storeTo){
-                    return Response::json(['errors' => array('quantity' => ['Не може да изпращате материал към същият магазин'])], 401);
+                if($check->store_id == $request->store_to_id){
+                    return Response::json(['errors' => array('quantity' => [trans('admin/materials_travelling.store_duplicate')])], 401);
                 }
 
                 $material = new MaterialTravelling();
@@ -95,7 +86,10 @@ class MaterialTravellingController extends Controller
 
                 $material->save();
 
-                $quantity = MaterialQuantity::find($request->material_id);
+                $quantity = MaterialQuantity::where([
+                    ['material_id', '=', $request->material_id],
+                    ['store_id', '=', Auth::user()->getStore()->id]
+                ])->first();
 
                 if($quantity){
                     $quantity->quantity = $quantity->quantity - $request->quantity;
@@ -105,20 +99,20 @@ class MaterialTravellingController extends Controller
                 return Response::json(array('success' => View::make('admin/materials_travelling/table', array('material' => $material, 'matID' => $check->material->id))->render()));
 
             }else{
-                return Response::json(['errors' => array('quantity' => ['Въведохте невалидно количество!'])], 401);
+                return Response::json(['errors' => array('quantity' => [trans('admin/materials_travelling.material_quantity_not_matching')])], 401);
             }
+        }else{
+            return Response::json(['errors' => array('quantity' => [trans('admin/materials_travelling.material_quantity_not_matching')])], 401);
         }
     }
 
     public function accept(Request $request, MaterialTravelling $material)
     {
-        if($material->status == 0){
-            $check = MaterialQuantity::where(
-                [
-                    ['material_id', '=', $material->material_id],
-                    ['store_id', '=', $material->store_to_id]
-                ]
-            )->first();
+        if($material->status == 'not_accepted'){
+            $check = MaterialQuantity::where([
+                ['material_id', '=', $material->material_id],
+                ['store_id', '=', $material->store_to_id]
+            ])->first();
     
             if($check){
                 $check->quantity = $check->quantity + $material->quantity;
@@ -133,7 +127,7 @@ class MaterialTravellingController extends Controller
                 $quantity->save();
             }
 
-            $material->status = '1';
+            $material->status = 'accepted';
             $material->dateReceived = Carbon::now()->format('Y-m-d H:i:s');
             $material->save();
 
@@ -143,32 +137,28 @@ class MaterialTravellingController extends Controller
 
     public function decline(Request $request, MaterialTravelling $material)
     {
-        if($material->status == 0){
-            $check = MaterialQuantity::where(
-                [
-                    ['material_id', '=', $material->material_id],
-                    ['store_id', '=', $material->store_to_id]
-                ]
-            )->first();
-    
-            if($check){
-                $check->quantity = $check->quantity + $material->quantity;
-                $check->save();
-            } else{
-                $quantity = new MaterialQuantity();
-                $quantity->material_id = $material->material_id;
-                $quantity->quantity = $material->quantity;
-                $quantity->store_id = $material->store_to_id;
-                $quantity->carat = '';
-    
-                $quantity->save();
-            }
+        $check = MaterialQuantity::where([
+                ['material_id', '=', $material->material_id],
+                ['store_id', '=', $material->store_from_id]
+            ])->first();
 
-            $material->dateReceived = Carbon::now()->format('Y-m-d H:i:s');
-            $material->save();
+        if($check){
+            $check->quantity = $check->quantity + $material->quantity;
+            $check->save();
+        } else{
+            $quantity = new MaterialQuantity();
+            $quantity->material_id = $material->material_id;
+            $quantity->quantity = $material->quantity;
+            $quantity->store_id = $material->store_from_id;
+            $quantity->carat = '';
 
-            return Response::json(array('success' => View::make('admin/materials_travelling/table', array('material' => $material, 'matID' => $material->id))->render()));
+            $quantity->save();
         }
+
+        $material->dateReceived = Carbon::now()->format('Y-m-d H:i:s');
+        $material->save();
+
+        return Response::json(array('success' => View::make('admin/materials_travelling/table', array('material' => $material, 'matID' => $material->id))->render()));
     }
 
     /**

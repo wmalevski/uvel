@@ -102,6 +102,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <span>Принтиране на сертификат:</span>
@@ -156,7 +157,7 @@ aria-hidden="true">
 </div>
 
 
-<div class="modal fade" id="dailyReport"   role="dialog" aria-labelledby="dailyReportLabel"
+<div class="modal fade" id="dailyReport" role="dialog" aria-labelledby="dailyReportLabel"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -205,8 +206,7 @@ aria-hidden="true">
             <form method="POST" action="sell/payment" name="selling" data-type="sell">
 
                 <div class="modal-body">
-                    <div class="info-cont">
-                    </div>
+                    <div class="info-cont"></div>
 
                     {{ csrf_field() }}
 
@@ -267,6 +267,9 @@ aria-hidden="true">
                     </div>
 
                     <div class="form-row">
+                        <div class="col-12">
+							<hr>
+						</div>
                         <div class="form-group col-md-4">
                             <label for="given-sum">Дадена сума</label>
                             <input type="number" id="given-sum" class="form-control" value="0" name="given_sum" data-calculatePayment-given placeholder="Дадена сума от клиента">
@@ -286,14 +289,6 @@ aria-hidden="true">
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <!-- <div class="radio radio-info">
-                                <input type="radio" name="pay_method" value="cash" id="pay-method-cash" checked>
-                                <label for="pay-method-cash">В брой</label>
-                            </div>
-                            <div class="radio radio-info">
-                                <input type="radio" name="pay_method" value="pos" id="pay-method-pos">
-                                <label for="pay-method-pos">С карта</label>
-                            </div> -->
                             <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
                                 <input type="checkbox" id="pay-method" class="pay-method" name="pay_method" class="peer" data-calculatePayment-method>
                                 <label for="pay-method" class="peers peer-greed js-sb ai-c">
@@ -321,12 +316,15 @@ aria-hidden="true">
                                 <label for="modal-non-ticket">Без разписка</label>
                             </div>
                         </div>
+                        <div class="col-12">
+							<hr>
+						</div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-8">
                             <span>Принтиране на сертификат:</span>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <div class="radio radio-info">
                                 <input type="radio" id="modal-certificate" class="not-clear" name="modal_certificate" value="yes" checked>
                                 <label for="modal-certificate">С цена</label>
@@ -399,7 +397,7 @@ aria-hidden="true">
                             <label for="discount" class="col-sm-9 control-label">Отстъпка</label>
                             <div class="col-sm-3">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" name="discount"  id="discount" data-sell-discount placeholder="Проценти" >
+                                    <input type="text" class="form-control" name="discount" id="discount" data-sell-discount placeholder="Проценти" >
                                     <span class="input-group-addon">%</span>
                                 </div>
                             </div>
