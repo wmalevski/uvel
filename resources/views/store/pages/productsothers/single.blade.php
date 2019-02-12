@@ -247,7 +247,7 @@
 											</div>
 											<div class="spr-content">
 												<div class="spr-form" id="form_{{$product->id}}">
-													<form method="post" action="{{ route('product_review', ['product' => $product->id])  }}" id="new-review-form_{{$product->id}}"
+													<form method="post" action="{{ route('product_review', ['product' => $product->id]) }}" id="new-review-form_{{$product->id}}"
 													 class="new-review-form">
 														{{ csrf_field() }}
 														<input type="hidden" name="rating" value="5">
@@ -265,21 +265,14 @@
 																	<a href="#" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="5">&nbsp;</a>
 																</div>
 															</div>
-															<div class="spr-form-review-title">
-																<label class="spr-form-label" for="review_title_{{$product->id}}">
-																	Заглавие
-																</label>
-																<input class="spr-form-input spr-form-input-text " id="review_title_{{$product->id}}" type="text" name="title" placeholder="Заглавие на ревюто">
-															</div>
 															<div class="spr-form-review-body">
 																<label class="spr-form-label" for="review_body_{{$product->id}}">
-																	Описание
+																	Коментар
 																	<span class="spr-form-review-body-charactersremaining">(1500)</span>
 																</label>
 																<div class="spr-form-input">
-																	<textarea class="spr-form-input spr-form-input-textarea " id="review_body_{{$product->id}}"
-																	 data-product-id="{{$product->id}}" name="content" rows="10" placeholder="Добавете вашият коментар за ревюто тук">
-																	</textarea>
+																	<textarea class="spr-form-input spr-form-input-textarea" id="review_body_{{$product->id}}"
+																	 					data-product-id="{{$product->id}}" name="content" rows="10" placeholder="Добавете вашият коментар за ревюто тук"></textarea>
 																</div>
 															</div>
 														</fieldset>
@@ -311,10 +304,6 @@
 																{{$review->content}}
 															</p>
 														</div>
-														<div class="spr-review-footer">
-															<a href="#" class="spr-review-reportreview" onclick="SPR.reportReview({{$key}});return false" id="report_{{$key}}"
-															 data-msg="This review has been reported">Докладвай</a>
-														</div>
 													</div>
 													@endforeach
 												</div>
@@ -343,7 +332,7 @@
 												</li>
 												<li class="row-right parent-fly animMix">
 													<div class="product-content-left">
-														<a class="title-5" href="{{ route('single_product_other', ['product' => $product->id])  }}">
+														<a class="title-5" href="{{ route('single_product_other', ['product' => $product->id]) }}">
 															{{ $product->name }}</a>
 														<span class="spr-badge" id="spr_badge_{{$product->id}}" data-rating="{{$product->getProductOtherAvgRating($product)}}">
 															<span class="spr-starrating spr-badge-starrating">
