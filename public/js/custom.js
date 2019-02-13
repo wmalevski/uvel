@@ -367,10 +367,12 @@ var uvel,
 
     this.openFormAction = function(currentPressedBtn, data) {
       var $this = currentPressedBtn,
-          timeToOpenModal = 1000, //time which takes for modals to open
+          timeToOpenModal = 500, //time which takes for modals to open
           openedForm = $this.attr('data-form'),
           formType = $this.attr('data-form-type'),
           formSettings = $self.formsConfig[openedForm];
+
+      $('button[type="submit"]').prop('disabled', true);
 
       if (formType == 'edit') {
         $self.appendingEditFormToTheModal($this, data);
@@ -386,17 +388,17 @@ var uvel,
         $self.ajaxFn('GET', ajaxUrl, $self.partnerPaymentLoad);
       }
 
-      //TODO: ASK BOBI VVVV
-
+      if ((formType == 'add' || formType == 'sell' || formType == 'partner-sell') && !formSettings.initialized) {
+        $self.initializeForm(formSettings, formType);
+        formSettings.initialized = true;
+      } else {
+        // Form already initialized
+        console.log('form already initialized');
+      }
+      
+      
       setTimeout(function() {
-        if ((formType == 'add' || formType == 'sell' || formType == 'partner-sell') && !formSettings.initialized) {
-          $self.initializeForm(formSettings, formType);
-          formSettings.initialized = true;
-        } else {
-          // Form already initialized
-          console.log('form already initialized');
-        }
-        $('button[type="submit"]').prop('disabled', false);
+          $('button[type="submit"]').prop('disabled', false);
       }, timeToOpenModal);
     }
 
@@ -775,7 +777,6 @@ var uvel,
         $self.setSelect2(select2obj, form);
       }
 
-      $('button[type="submit"]').prop('disabled', false);
     }
 
     this.initializeGlobalFormControllers = function(form) {
@@ -1127,13 +1128,13 @@ var uvel,
             var modal = currentButton.parents().find('.edit--modal_holder .modal-content');
             modal.html(response);
 
+            $('button[type="submit"]').prop('disabled', true);
+
             var openedForm = currentButton.attr('data-form'),
                 formType = currentButton.attr('data-form-type'),
                 formSettings = $self.formsConfig[openedForm];
 
             $self.initializeForm(formSettings, formType);
-
-            $('button[type="submit"]').prop('disabled', true);
             
             var selects = $('form[data-type="edit"] select').not('[data-search]'),
                 selectsWithSearch = $('form[data-type="edit"] select[data-search]');
