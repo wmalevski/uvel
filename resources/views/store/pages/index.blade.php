@@ -9,23 +9,7 @@
 </div>
 <div id="content-wrapper-parent">
 	<div id="content-wrapper">
-		<div class="row" @if(!count($slides)) style="padding-top: 110px;" @endif>
-			<div class="col-md-24">
-				@if($errors->any())
-				<ul class="alert alert-danger">
-					@foreach ($errors->all() as $error)
-					<li>{{ $error }}</li>
-					@endforeach
-				</ul>
-				@endif
-
-				@if(session()->has('success.subscribe'))
-					<div class="alert alert-success">
-						{{ session()->get('success.subscribe') }}
-					</div>
-				@endif
-			</div>
-		</div>
+		<div class="row" @if(!count($slides)) style="padding-top: 110px;" @endif></div>
 		<!-- Main Slideshow -->
 		@if(count($slides))
 		<div class="home-slider-wrapper clearfix">
@@ -90,7 +74,7 @@
 															<a href="{{ route('models') }}">
 																@if(count($models) && count($models->first()->photos))
 																	<img alt="{{ $models->first()->name }}" src="{{ asset("uploads/models/" . $models->first()->photos->first()->photo) }}">
-																@else 
+																@else
 																	<img alt="" src="{{ asset('store/images/demo_375x375.png') }}">
 																@endif
 															</a>
@@ -112,7 +96,7 @@
 															<a href="{{ route('custom_order') }}">
 																@if(count($models) && count($models->first()->photos))
 																	<img alt="{{ $models->first()->name }}" src="{{ asset("uploads/models/" . $models->first()->photos->first()->photo) }}">
-																@else 
+																@else
 																	<img alt="" src="{{ asset('store/images/demo_375x375.png') }}">
 																@endif
 															</a>
@@ -281,20 +265,20 @@
 																	<i class="fa fa-lg fa-th-list"></i>
 																	<span class="list-mode">Преглед</span>
 																</a>
-																
+
 																<a href="#" class="product-ajax-qs hidden-xs hidden-sm quick_shop" data-target="#quick-shop-modal" data-toggle="modal"
 																	 data-url="products/{{ $product->id }}/" title="Бърз Преглед">
 																	<i class="fa fa-lg fa-eye"></i>
 																	<span class="list-mode">Бърз преглед</span>
 																</a>
-																
+
 																<a class="wish-list" href="#" title="Добави в желани"
 																	 data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
 																	<i class="fa fa-lg fa-heart"></i>
 																	<span class="list-mode">Добави в желани</span>
 																</a>
 															</div>
-															
+
 														</li>
 													</ul>
 												</li>

@@ -506,7 +506,16 @@ var uvelStore,
 		$self.orderProductAttach($orderProductTrigger);
 		$self.sortProductsAttach($sortTrigger);
 		$self.quickViewImageSwap();
+		$self.handleErrors();
 	};
+
+	this.handleErrors = function() {
+		var errorElement = $('.info-message');
+
+		if (errorElement.length) {
+			$self.showMessage(errorElement);
+		}
+	}
 
 	this.reviewWordCount = function () {
 		$('.spr-form-input-textarea').keyup(function () {

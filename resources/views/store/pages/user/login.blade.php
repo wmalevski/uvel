@@ -3,9 +3,9 @@
 @section('content')
 
 <div id="content-wrapper-parent">
-    <div id="content-wrapper">  
+    <div id="content-wrapper">
         <!-- Content -->
-        <div id="content" class="clearfix">        
+        <div id="content" class="clearfix">
             <div id="breadcrumb" class="breadcrumb">
                 <div itemprop="breadcrumb" class="container">
                     <div class="row">
@@ -14,23 +14,15 @@
                         </div>
                     </div>
                 </div>
-            </div>              
+            </div>
             <section class="content">
                 <div class="container">
                     <div class="row">
                         <div id="page-header" class="col-md-24">
-                            <h1 id="page-title">Вход</h1> 
+                            <h1 id="page-title">Вход</h1>
                         </div>
 
                         <div id="col-main" class="col-md-24 register-page clearfix">
-                            @if($errors->any())
-                                <ul class="alert alert-danger">
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            @endif 
-
                             <form method="POST" action="{{ route('userlogin') }}" id="create_customer" accept-charset="UTF-8">
                                 {{ csrf_field() }}
                                 <input value="create_customer" name="form_type" type="hidden"><input name="utf8" value="✓" type="hidden">
@@ -52,10 +44,10 @@
                                     </li>
                                 </ul>
                             </form>
-                        </div>   
+                        </div>
                     </div>
                 </div>
-            </section>        
+            </section>
         </div>
     </div>
 </div>

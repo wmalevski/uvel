@@ -287,4 +287,15 @@
 			});
 		</script>
 	</div>
+	@if($errors->any())
+		<div class="info-message error">
+			@foreach ($errors->all() as $error)
+				<li>{{ $error }}</li>
+			@endforeach
+		</div>
+	@elseif(session()->has('success'))
+		<div class="info-message success">
+			{{ session()->get('success->first()') }}
+		</div>
+	@endif
 </header>
