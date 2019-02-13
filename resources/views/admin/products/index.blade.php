@@ -319,20 +319,20 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 			<th data-sort-method="none">Действия</th>
 		</tr>
 		
-		<tr class="search-inputs">
+		<tr class="search-inputs" data-dynamic-search-url="ajax/search/products/">
 			<th></th>
 			<th>
-				<input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/products/?byCode=" placeholder="Търси по номер">
+				<input class="filter-input form-control" type="text" data-dynamic-search-param="byCode=" placeholder="Търси по номер">
 			</th>
 			<th>
-				<input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/products/?byName=" placeholder="Търси по модел">
+				<input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Търси по модел">
 			</th>
 			<th></th>
 			<th></th>
 			<th></th>
 			<th></th>
 			<th>
-				<input class="filter-input form-control" type="number" data-dynamic-search-url="ajax/search/products/?byBarcode=" placeholder="Търси по баркод">
+				<input class="filter-input form-control" type="number" data-dynamic-search-param="byBarcode=" placeholder="Търси по баркод">
 			</th>
 			<th></th>
 			<th></th>

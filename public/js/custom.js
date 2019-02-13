@@ -2656,7 +2656,6 @@ var uvel,
       }
     }
 
-    // Currently used in Admin->Models and Admin->Products pages
     this.setInputFilters = function() {
       var inputsDynamicSearch = $('.filter-input'),
           timeout;
@@ -2671,9 +2670,20 @@ var uvel,
         var searchFunc = function() {
           $('tbody').addClass('inactive');
 
-          var inputText = event.currentTarget.value.trim(),
-              ajax = event.currentTarget.dataset.dynamicSearchUrl,
-              ajaxUrl = window.location.origin + '/' + ajax + inputText;
+          var input = event.currentTarget,
+              inputText = input.value.trim(),
+              ajaxSearchUrlStub = $(input).parents('.search-inputs').attr('data-dynamic-search-url'),
+              ajaxSearchParam = input.dataset.dynamicSearchParam;
+              ajaxUrl = window.location.origin + '/' + ajaxSearchUrlStub + '?' + ajaxSearchParam + inputText;
+
+          var otherSearchFields = $('.filter-input:not([data-dynamic-search-param="' + ajaxSearchParam + '"])');
+
+          for (var i = 0; i < otherSearchFields.length; i++) {
+            var input = otherSearchFields[i];
+            if (input.value) {
+              ajaxUrl += '&' + input.dataset.dynamicSearchParam + input.value;
+            }
+          }
 
           $self.ajaxFn('GET', ajaxUrl, ajaxResultsResponse);
         };
