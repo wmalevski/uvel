@@ -49,7 +49,7 @@ class DailyReport extends Model
         }
 
         $defaultCurrency = Currency::where('default', 'yes')->first();
-
+        
         $allSold = Payment::where([
             ['method', '=', 'cash'],
             ['reciept', '=', 'yes'],

@@ -4,16 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Price;
 use App\Material;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\JsonResponse;
 use App\Model;
 use App\ModelOption;
-use Response;
-use Illuminate\Support\Facades\View;
 use App\Product;
 use App\Jewel;
 use App\MaterialQuantity;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\View;
+use Response;
 
 class PriceController extends Controller
 {
@@ -295,5 +296,31 @@ class PriceController extends Controller
             'pass_models' => $models, 
             'secondary_price' => $secondary_price,
             'pricebuy' => $priceBuy->price));
+    }
+
+    public function select_search(Request $request){
+        $query = MaterialQuantity::select('*');
+
+        $materials_new = new Price();
+        
+        $materials = $materials_new->filterMaterials($request, $query);
+
+        $materials = $materials->paginate(env('RESULTS_PER_PAGE'));
+        
+        $pass_materials = array();
+
+        foreach($materials as $material){
+            $pass_materials[] = [
+                'value' => $material->id,
+                'label' => $material->material->parent->name.' - '.$material->material->color.' - '.$material->material->carat,
+                'data-carat' => $material->material->carat,
+                'for_buy'  => $material->material->for_buy,
+                'for_exchange' => $material->material->for_exchange,
+                'carat_transform' => $material->material->carat_transform,
+                'carat' => $material->material->carat
+            ];
+        }
+
+        return json_encode($pass_materials, JSON_UNESCAPED_SLASHES );
     }
 }

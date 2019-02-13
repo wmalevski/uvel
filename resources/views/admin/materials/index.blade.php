@@ -48,6 +48,13 @@ aria-hidden="true">
                             <input type="number" class="form-control" id="4" name="carat" placeholder="Карати:">
                         </div>
                     </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="cash_group">Касова група: </label>
+                            <input type="number" class="form-control" id="cash_group" name="cash_group" placeholder="Касова група:">
+                        </div>
+                    </div>
                     
                     <div class="form-row mt-3">
                         <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
@@ -108,13 +115,14 @@ aria-hidden="true">
                     <th>Проба</th> 
                     <th>Цвят</th> 
                     <th>Карат</th>
+                    <th>Касова група</th>
                     <th>Борсова Цена</th>
                     <th data-sort-method="none">Действия</th> 
                 </tr>
-                <tr>
+                <tr class="search-inputs" data-dynamic-search-url="ajax/search/materials/">
                     <th></th>
                     <th>
-                        <input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/materials/?byCode=" placeholder="Търси по тип">
+                        <input class="filter-input form-control" type="text" data-dynamic-search-param="byCode=" placeholder="Търси по проба">
                     </th>
                     <th></th>
                     <th></th>

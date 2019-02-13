@@ -751,3 +751,12 @@ li.element {
 .page-store-orders .clickable {
 	cursor: pointer;
 }
+
+.page-store-account .divider,
+.page-store-account #customer_detail li {
+	margin: 10px;
+}
+
+header .login a {
+	font-size: 16px !important;
+}

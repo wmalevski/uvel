@@ -179,6 +179,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/settings/currencies/{currency}', 'CurrencyController@edit');
 
+    Route::get('/settings/cashgroups', 'CashGroupController@index')->name('cashgroups');
+    Route::get('/settings/cashgroups/{cashGroup}', 'CashGroupController@edit');
+
     Route::get('/discounts', 'DiscountCodeController@index')->name('discounts');
 
     Route::get('/discounts/{discountCode}', 'DiscountCodeController@edit');
@@ -277,6 +280,8 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::get('/select_search/materials', 'MaterialQuantityController@select_search');
 
+    Route::get('/select_search/prices/materials', 'PriceController@select_search');
+
     Route::get('/select_search/jewels', 'JewelController@select_search');
 
     Route::get('/select_search/stones', 'StoneController@select_search');
@@ -292,6 +297,9 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::get('/sell/order_materials', 'PaymentController@order_materials');
 
     Route::get('/cartMaterialsInfo', 'SellingController@cartMaterialsInfo')->name('cart_materials');
+
+    Route::post('/mailchimp', 'NewsletterController@store');
+    Route::post('/mailchimp/unsubscribe/{subscriber}', 'NewsletterController@destroy');
     
     Route::post('/orders', 'OrderController@store');
     Route::put('/orders/{order}', 'OrderController@update');
@@ -465,6 +473,8 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/settings/currencies', 'CurrencyController@store');
     Route::post('/settings/currencies/delete/{currency}', 'CurrencyController@destroy');
     Route::put('/settings/currencies/{currency}', 'CurrencyController@update');
+
+    Route::put('/settings/cashgroups/{cashGroup}', 'CashGroupController@update');
 
     Route::get('/getPrices/{material}/{model}', 'PriceController@getByMaterial');
 

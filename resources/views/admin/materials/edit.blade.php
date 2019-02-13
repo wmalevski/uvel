@@ -45,6 +45,13 @@
             </div>
         </div>
 
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="cash_group">Касова група: </label>
+                <input type="number" class="form-control" id="cash_group" value="{{ $material->cash_group }}" name="cash_group" placeholder="Касова група:">
+            </div>
+        </div>
+
         <div class="form-row mt-3">
             <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
                 <input type="checkbox" id="checkbox_weight_stones" name="for_buy" class="peer" @if($material->for_buy == 'yes') checked @endif>

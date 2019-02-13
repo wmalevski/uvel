@@ -117,8 +117,8 @@ aria-hidden="true">
           <table class="table table-condensed sell" id="sell">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Име</th> 
+                    <th data-sort-method="none">#</th>
+                    <th data-sort-method="none">Име</th> 
                     <th>Стойност</th>
                     <th data-sort-method="none">Действия</th>
                 </tr>

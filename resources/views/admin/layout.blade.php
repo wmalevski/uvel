@@ -466,6 +466,9 @@
               <li class="{{ Active::ifRouteIn('currencies') }}">
                 <a class="sidebar-link" href="{{ route('currencies') }}">Валути и курсове</a>
               </li>
+              <li class="{{ Active::ifRouteIn('cashgroups') }}">
+                <a class="sidebar-link" href="{{ route('cashgroups') }}">Касови групи</a>
+              </li>
             </ul>
           </li>
 

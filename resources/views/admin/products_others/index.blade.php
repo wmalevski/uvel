@@ -105,16 +105,16 @@ aria-hidden="true">
             <th>Уникален номер</th>
             <th data-sort-method="none">Опции</th>
         </tr>
-        <tr>
+        <tr class="search-inputs" data-dynamic-search-url="ajax/search/products_others/">
             <th>
-                <input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/products_others/?byBarcode=" placeholder="Търси по баркод">
+                <input class="filter-input form-control" type="text" data-dynamic-search-param="byBarcode=" placeholder="Търси по баркод">
             </th>
             <th></th>
             <th></th>
             <th></th>
             <th></th>
             <th>
-                <input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/products_others/?byCode=" placeholder="Търси по уникален номер">
+                <input class="filter-input form-control" type="text" data-dynamic-search-param="byCode=" placeholder="Търси по уникален номер">
             </th>
             <th></th>
         </tr>

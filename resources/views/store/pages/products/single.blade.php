@@ -1,6 +1,12 @@
 @extends('store.layouts.app', ['bodyClass' => 'templateProduct'])
 
 @section('content')
+
+<div class="modal fade edit--modal_holder" id="quick-shop-modal" role="dialog" aria-labelledby="quick-shop-modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content"></div>
+    </div>
+</div>
 <div id="content-wrapper-parent">
 	<div id="content-wrapper">
 		<div id="content" class="view-product clearfix">
@@ -15,23 +21,6 @@
 			</div>
 			<section class="content">
 				<div class="container">
-					<div class="row">
-						<div class="col-md-24">
-							@if($errors->any())
-							<ul class="alert alert-danger">
-								@foreach ($errors->all() as $error)
-								<li>{{ $error }}</li>
-								@endforeach
-							</ul>
-							@endif
-
-							@if(session()->has('success.products'))
-								<div class="alert alert-success">
-									{{ session()->get('success.products') }}
-								</div>
-							@endif
-						</div>
-					</div>
 					<div class="row">
 						<div id="col-main" class="product-page col-xs-24 col-sm-24 ">
 							<div itemscope="" itemtype="http://schema.org/Product">
@@ -128,13 +117,13 @@
 																</div>
 															</div>
 															<div class="others-bottom clearfix">
-																
+
 																<button id="add-to-cart" class="btn btn-1 add-to-cart"  type="submit" name="add"
 																				data-url="{{ route('CartAddItem', ['item' => $product->barcode, 'quantity' => 1]) }}"
 																 				data-parent=".product-information">
 																 Добави в количка
 																</button>
-																
+
 															</div>
 														</div>
 													</form>
@@ -347,7 +336,7 @@
 															<span class="price">{{ $product->price }} лв</span>
 														</div>
 													</div>
-													
+
 													<!--
 													<div class="hover-appear">
 														<div class="effect-ajax-cart">
@@ -369,27 +358,27 @@
 														</a>
 													</div>
 													-->
-													
+
 													<div class="hover-appear">
 														<a href="{{ route('single_product', ['product' => $product->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
 															<input name="quantity" value="1" type="hidden">
 															<i class="fa fa-lg fa-th-list"></i>
 															<span class="list-mode">Преглед</span>
 														</a>
-														
+
 														<a href="#" class="quick_shop product-ajax-qs hidden-xs hidden-sm" data-target="#quick-shop-modal" data-toggle="modal"
 															 data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}" title="Бърз Преглед">
 															<i class="fa fa-lg fa-eye"></i>
 															<span class="list-mode">Бърз преглед</span>
 														</a>
-														
+
 														<a class="wish-list" href="#" title="Добави в желани"
 															 data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
 															<i class="fa fa-lg fa-heart"></i>
 															<span class="list-mode">Добави в желани</span>
 														</a>
 													</div>
-													
+
 												</li>
 											</ul>
 										</div>

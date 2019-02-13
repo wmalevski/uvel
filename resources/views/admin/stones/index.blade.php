@@ -193,10 +193,20 @@
             <th data-sort-method="none" scope="col">Действия</th>
           </tr>
           
-          <tr class="search-inputs">
+          <tr class="search-inputs" data-dynamic-search-url="ajax/search/stones/">
             <th>
-              <input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/stones/?byName=" placeholder="Търси по име">
+              <input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Търси по име">
             </th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>

@@ -92,10 +92,7 @@ var uvel,
       },
       selling: {
         selector: '[name="selling"]',
-        controllers: [
-          'paymentInitializer',
-          'getWantedSumInit'
-        ],
+        controllers: ['paymentInitializer'],
         initialized: false
       },
       sellingPartners: {
@@ -370,36 +367,38 @@ var uvel,
 
     this.openFormAction = function(currentPressedBtn, data) {
       var $this = currentPressedBtn,
-          timeToOpenModal = 1000, //time which takes for modals to open
+          timeToOpenModal = 500, //time which takes for modals to open
           openedForm = $this.attr('data-form'),
           formType = $this.attr('data-form-type'),
           formSettings = $self.formsConfig[openedForm];
+
+      $('button[type="submit"]').prop('disabled', true);
 
       if (formType == 'edit') {
         $self.appendingEditFormToTheModal($this, data);
       }
 
       if (formType == 'sell') {
+        $self.checkOrder($('[data-type="' + formType + '"]'));
         $self.calculateExpectedMaterial('[data-saleProduct]', 'expecteMaterial');
         $self.lockPaymentControllers();
-        $self.checkOrder($('[data-type="' + formType + '"]'));
       } else if (formType == 'partner-sell') {
         var ajaxUrl = currentPressedBtn.attr('data-url');
 
         $self.ajaxFn('GET', ajaxUrl, $self.partnerPaymentLoad);
       }
 
-      //TODO: ASK BOBI VVVV
-
+      if ((formType == 'add' || formType == 'sell' || formType == 'partner-sell') && !formSettings.initialized) {
+        $self.initializeForm(formSettings, formType);
+        formSettings.initialized = true;
+      } else {
+        // Form already initialized
+        console.log('form already initialized');
+      }
+      
+      
       setTimeout(function() {
-        if ((formType == 'add' || formType == 'sell' || formType == 'partner-sell') && !formSettings.initialized) {
-          $self.initializeForm(formSettings, formType);
-          formSettings.initialized = true;
-        } else {
-          // Form already initialized
-          console.log('form already initialized');
-        }
-        $('button[type="submit"]').prop('disabled', false);
+          $('button[type="submit"]').prop('disabled', false);
       }, timeToOpenModal);
     }
 
@@ -418,6 +417,10 @@ var uvel,
             console.log(response);
           }
         });
+      } else {
+        form.find('#deposit').val(0).attr('data-initial', 0);
+        form.find('[data-calculatepayment-return]').val(0);
+        $self.getWantedSum(form);
       }
     };
 
@@ -425,10 +428,26 @@ var uvel,
       var exchange = form.find('#exchange'),
           exchangeRow = form.find('#exchange-row'),
           exchangeFields = form.find('.exchange-row-fields'),
-          materials = response.materials;
+          materials = response.materials,
+          deposit = response.earnest,
+          depositKeys = Object.keys(deposit),
+          selectedCurrency = form.find('[data-calculatePayment-currency] :selected').attr('data-currency');
 
-          $self.showExchangeRow(exchangeRow, newExchangeField, false);
-          exchange.prop('checked', true);
+      $self.showExchangeRow(exchangeRow, newExchangeField, false);
+      exchange.prop({
+        checked: true,
+        disabled: true
+      });
+
+      if (depositKeys.length) {
+        var totalDeposit = 0;
+
+        for (var i = 0; i < depositKeys.length; i++) {
+          totalDeposit += deposit[depositKeys[i]]['order_earnest'];
+        }
+
+        form.find('#deposit').val(totalDeposit * selectedCurrency).attr('data-initial', totalDeposit);
+      }
 
       for (var i = 0; i < materials.length; i++) {
         var newField = $(newExchangeField);
@@ -447,6 +466,8 @@ var uvel,
                 })
                 .removeAttr('name');
 
+        newField.find('.remove_field').parent().remove();
+
         exchangeFields.append(newField);
 
         var materialFields = form[0].querySelectorAll('[data-calculateprice-material]'),
@@ -454,6 +475,8 @@ var uvel,
 
         $self.addExchangeMaterial(materials[i], materialHolder, true);
       }
+
+      $self.getWantedSum(form);
     }
 
     this.partnerPaymentLoad = function(response) {
@@ -755,7 +778,6 @@ var uvel,
         $self.setSelect2(select2obj, form);
       }
 
-      $('button[type="submit"]').prop('disabled', false);
     }
 
     this.initializeGlobalFormControllers = function(form) {
@@ -963,6 +985,7 @@ var uvel,
         $('.partner-information').html('');
       } else if (formType == 'sell') {
         $('#shopping-table tbody').html('');
+        form.find('#deposit').val(0).attr('data-initial', 0);
       }
 
     }
@@ -1106,13 +1129,13 @@ var uvel,
             var modal = currentButton.parents().find('.edit--modal_holder .modal-content');
             modal.html(response);
 
+            $('button[type="submit"]').prop('disabled', true);
+
             var openedForm = currentButton.attr('data-form'),
                 formType = currentButton.attr('data-form-type'),
                 formSettings = $self.formsConfig[openedForm];
 
             $self.initializeForm(formSettings, formType);
-
-            $('button[type="submit"]').prop('disabled', true);
             
             var selects = $('form[data-type="edit"] select').not('[data-search]'),
                 selectsWithSearch = $('form[data-type="edit"] select[data-search]');
@@ -1764,14 +1787,6 @@ var uvel,
       });
     }
 
-    this.getWantedSumInit = function(form) {
-      $self.getWantedSum(form);
-      var getWantedTrigger = $('[data-selling-payment]');
-      getWantedTrigger.on('click', function() {
-        $self.getWantedSum(form);
-      });
-    }
-
     this.paymentInitializer = function(form) {
       var calculateTrigger = form.find('[data-calculatePayment-given]'),
           currencyChangeTrigger = form.find('[data-calculatePayment-currency]'),
@@ -1865,6 +1880,7 @@ var uvel,
         exchangeRows[i].remove();
       }
 
+      document.querySelector('#exchange').disabled = false;
       document.querySelector('[data-exchangerows-total]').value = 0;
     }
 
@@ -1986,9 +2002,10 @@ var uvel,
     this.getWantedSum = function(form) {
       var wantedHolder = form.find('[data-calculatePayment-wanted]'),
           wantedValue = $('[data-calculatePayment-total]').val(),
-          selectedCurrency = form.find('[data-calculatePayment-currency] :selected').attr('data-currency');
+          selectedCurrency = form.find('[data-calculatePayment-currency] :selected').attr('data-currency'),
+          depositValue = form.find('#deposit').val() || 0;
 
-      var newWanted = Number((wantedValue * selectedCurrency).toFixed(2));
+      var newWanted = Number(((wantedValue - depositValue) * selectedCurrency).toFixed(2));
       wantedHolder.val(newWanted || 0);
 
       setTimeout(function() {
@@ -2021,6 +2038,12 @@ var uvel,
 
     this.paymentCurrencyChange = function(form) {
       $self.getWantedSum(form);
+
+      var deposit = form.find('#deposit'),
+          selectedCurrency = parseFloat(document.querySelector('[data-calculatepayment-currency]').selectedOptions[0].dataset.currency);
+          depositNew = parseFloat((deposit[0].dataset.initial * selectedCurrency).toFixed(2));
+      
+      deposit.val(depositNew);
 
       if (document.querySelectorAll('.exchange-row-fields .form-row').length > 0) {
         $self.calculateExchangeMaterialTotal();
@@ -2220,7 +2243,7 @@ var uvel,
     this.uploadImages = function(event, form) {
       var files = event.target.files,
           collectionFiles = [];
-
+      
       for (var file of files) {
         if (file.type == "image/svg+xml") {
           alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
@@ -2229,10 +2252,10 @@ var uvel,
         }
       }
 
-      $self.appendImages(collectionFiles, form);
+      $self.appendImages(collectionFiles, form, event);
     }
 
-    this.appendImages = function(collectionFiles, form) {
+    this.appendImages = function(collectionFiles, form, event) {
       var _instanceFiles = [];
 
       collectionFiles.forEach(function(element) {
@@ -2253,7 +2276,8 @@ var uvel,
           img.src = reader.result;
           imageWrapper.append(closeBtn);
           imageWrapper.append(img);
-          form.find('.drop-area-gallery').append(imageWrapper);
+
+          $(event.currentTarget).siblings('.drop-area-gallery').append(imageWrapper);
         }
       });
     }
@@ -2632,7 +2656,6 @@ var uvel,
       }
     }
 
-    // Currently used in Admin->Models and Admin->Products pages
     this.setInputFilters = function() {
       var inputsDynamicSearch = $('.filter-input'),
           timeout;
@@ -2647,9 +2670,20 @@ var uvel,
         var searchFunc = function() {
           $('tbody').addClass('inactive');
 
-          var inputText = event.currentTarget.value.trim(),
-              ajax = event.currentTarget.dataset.dynamicSearchUrl,
-              ajaxUrl = window.location.origin + '/' + ajax + inputText;
+          var input = event.currentTarget,
+              inputText = input.value.trim(),
+              ajaxSearchUrlStub = $(input).parents('.search-inputs').attr('data-dynamic-search-url'),
+              ajaxSearchParam = input.dataset.dynamicSearchParam;
+              ajaxUrl = window.location.origin + '/' + ajaxSearchUrlStub + '?' + ajaxSearchParam + inputText;
+
+          var otherSearchFields = $('.filter-input:not([data-dynamic-search-param="' + ajaxSearchParam + '"])');
+
+          for (var i = 0; i < otherSearchFields.length; i++) {
+            var input = otherSearchFields[i];
+            if (input.value) {
+              ajaxUrl += '&' + input.dataset.dynamicSearchParam + input.value;
+            }
+          }
 
           $self.ajaxFn('GET', ajaxUrl, ajaxResultsResponse);
         };
