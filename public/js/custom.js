@@ -92,10 +92,7 @@ var uvel,
       },
       selling: {
         selector: '[name="selling"]',
-        controllers: [
-          'paymentInitializer',
-          'getWantedSumInit'
-        ],
+        controllers: ['paymentInitializer'],
         initialized: false
       },
       sellingPartners: {
@@ -380,9 +377,9 @@ var uvel,
       }
 
       if (formType == 'sell') {
+        $self.checkOrder($('[data-type="' + formType + '"]'));
         $self.calculateExpectedMaterial('[data-saleProduct]', 'expecteMaterial');
         $self.lockPaymentControllers();
-        $self.checkOrder($('[data-type="' + formType + '"]'));
       } else if (formType == 'partner-sell') {
         var ajaxUrl = currentPressedBtn.attr('data-url');
 
@@ -418,6 +415,10 @@ var uvel,
             console.log(response);
           }
         });
+      } else {
+        form.find('#deposit').val(0).attr('data-initial', 0);
+        form.find('[data-calculatepayment-return]').val(0);
+        $self.getWantedSum(form);
       }
     };
 
@@ -425,10 +426,25 @@ var uvel,
       var exchange = form.find('#exchange'),
           exchangeRow = form.find('#exchange-row'),
           exchangeFields = form.find('.exchange-row-fields'),
-          materials = response.materials;
+          materials = response.materials,
+          deposit = response.earnest,
+          depositKeys = Object.keys(deposit);
 
-          $self.showExchangeRow(exchangeRow, newExchangeField, false);
-          exchange.prop('checked', true);
+      $self.showExchangeRow(exchangeRow, newExchangeField, false);
+      exchange.prop({
+        checked: true,
+        disabled: true
+      });
+
+      if (depositKeys.length) {
+        var totalDeposit = 0;
+
+        for (var i = 0; i < depositKeys.length; i++) {
+          totalDeposit += deposit[depositKeys[i]]['order_earnest'];
+        }
+
+        form.find('#deposit').val(totalDeposit).attr('data-initial', totalDeposit);
+      }
 
       for (var i = 0; i < materials.length; i++) {
         var newField = $(newExchangeField);
@@ -447,6 +463,8 @@ var uvel,
                 })
                 .removeAttr('name');
 
+        newField.find('.remove_field').parent().remove();
+
         exchangeFields.append(newField);
 
         var materialFields = form[0].querySelectorAll('[data-calculateprice-material]'),
@@ -454,6 +472,8 @@ var uvel,
 
         $self.addExchangeMaterial(materials[i], materialHolder, true);
       }
+
+      $self.getWantedSum(form);
     }
 
     this.partnerPaymentLoad = function(response) {
@@ -963,6 +983,7 @@ var uvel,
         $('.partner-information').html('');
       } else if (formType == 'sell') {
         $('#shopping-table tbody').html('');
+        form.find('#deposit').val(0).attr('data-initial', 0);
       }
 
     }
@@ -1764,14 +1785,6 @@ var uvel,
       });
     }
 
-    this.getWantedSumInit = function(form) {
-      $self.getWantedSum(form);
-      var getWantedTrigger = $('[data-selling-payment]');
-      getWantedTrigger.on('click', function() {
-        $self.getWantedSum(form);
-      });
-    }
-
     this.paymentInitializer = function(form) {
       var calculateTrigger = form.find('[data-calculatePayment-given]'),
           currencyChangeTrigger = form.find('[data-calculatePayment-currency]'),
@@ -1865,6 +1878,7 @@ var uvel,
         exchangeRows[i].remove();
       }
 
+      document.querySelector('#exchange').disabled = false;
       document.querySelector('[data-exchangerows-total]').value = 0;
     }
 
@@ -1986,9 +2000,10 @@ var uvel,
     this.getWantedSum = function(form) {
       var wantedHolder = form.find('[data-calculatePayment-wanted]'),
           wantedValue = $('[data-calculatePayment-total]').val(),
-          selectedCurrency = form.find('[data-calculatePayment-currency] :selected').attr('data-currency');
+          selectedCurrency = form.find('[data-calculatePayment-currency] :selected').attr('data-currency'),
+          depositValue = form.find('#deposit').val() || 0;
 
-      var newWanted = Number((wantedValue * selectedCurrency).toFixed(2));
+      var newWanted = Number(((wantedValue - depositValue) * selectedCurrency).toFixed(2));
       wantedHolder.val(newWanted || 0);
 
       setTimeout(function() {
@@ -2021,6 +2036,12 @@ var uvel,
 
     this.paymentCurrencyChange = function(form) {
       $self.getWantedSum(form);
+
+      var deposit = form.find('#deposit'),
+          selectedCurrency = parseFloat(document.querySelector('[data-calculatepayment-currency]').selectedOptions[0].dataset.currency);
+          depositNew = parseFloat((deposit[0].dataset.initial * selectedCurrency).toFixed(2));
+      
+      deposit.val(depositNew);
 
       if (document.querySelectorAll('.exchange-row-fields .form-row').length > 0) {
         $self.calculateExchangeMaterialTotal();

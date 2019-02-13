@@ -368,7 +368,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
             <label for="grossWeight">Капаро:</label>
             
             <div class="input-group">
-              <input type="number" class="form-control" name="earnest" id="earnest" placeholder="0">
+              <input type="number" class="form-control" name="earnest" id="earnest" placeholder="0" value="{{ $order->earnest }}">
             </div>
           </div>
 

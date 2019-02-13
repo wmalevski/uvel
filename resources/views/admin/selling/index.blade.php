@@ -269,16 +269,20 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="col-12">
 							<hr>
-						</div>
-                        <div class="form-group col-md-4">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="deposit">Капаро</label>
+                            <input type="number" id="deposit" data-initial="0" class="form-control" value="0" placeholder="Дадено капаро от клиента" readonly disabled>
+                        </div>
+                        <div class="form-group col-md-3">
                             <label for="given-sum">Дадена сума</label>
                             <input type="number" id="given-sum" class="form-control" value="0" name="given_sum" data-calculatePayment-given placeholder="Дадена сума от клиента">
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <label for="return-sum">Ресто</label>
                             <input type="number" id="return-sum" class="form-control" name="return_sum" data-calculatePayment-return placeholder="Ресто" readonly>
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <label for="pay-currency">Валута</label>
                             <select id="pay-currency" name="pay_currency" class="form-control not-clear" data-calculatePayment-currency>
                                 @foreach($currencies as $currency)

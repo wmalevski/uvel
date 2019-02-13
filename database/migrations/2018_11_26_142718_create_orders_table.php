@@ -31,7 +31,8 @@ class CreateOrdersTable extends Migration
             $table->integer('quantity');
             $table->text('content')->nullable();
             $table->integer('safe_group')->nullable();
-            $table->integer('earnest')->nullable();
+            $table->integer('earnest')->nullable()->default(0);
+            $table->enum('earnest_used', ['yes', 'no'])->default('no');
             $table->timestamps();
         });
     }
