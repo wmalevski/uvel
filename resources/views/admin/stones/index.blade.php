@@ -197,6 +197,16 @@
             <th>
               <input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Търси по име">
             </th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
