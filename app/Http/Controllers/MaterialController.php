@@ -53,7 +53,8 @@ class MaterialController extends Controller
             'code' => 'required',
             'color' => 'required',
             'carat' => 'nullable|numeric|between:1,100',
-            'parent_id' => 'required|nullable|numeric'
+            'parent_id' => 'required|nullable|numeric',
+            'cash_group' => 'required|numeric'
          ]);
 
         if ($validator->fails()) {
@@ -124,7 +125,8 @@ class MaterialController extends Controller
             'code' => 'required',
             'color' => 'required',
             'carat' => 'nullable|numeric|between:1,100',
-            'parent_id' => 'required|nullable|numeric'
+            'parent_id' => 'required|nullable|numeric',
+            'cash_group' => 'required|numeric'
          ]);
 
         if ($validator->fails()) {
@@ -134,6 +136,7 @@ class MaterialController extends Controller
         $material->code = $request->code;
         $material->color = $request->color;
         $material->carat = $request->carat;
+        $material->cash_group = $request->cash_group;
         $material->parent_id = $request->parent_id;
 
         if($request->for_buy == 'false'){
