@@ -20,6 +20,7 @@ class CreateMaterialsTable extends Migration
             $table->string('color');
             $table->integer('carat')->nullable();
             $table->float('stock_price');
+            $table->integer('cash_group');
             $table->integer('parent_id')->unsigned();
             $table->enum('for_buy', ['yes', 'no'])->default('yes');
             $table->enum('for_exchange', ['yes', 'no'])->default('no');

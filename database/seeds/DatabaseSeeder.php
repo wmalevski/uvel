@@ -23,6 +23,7 @@ use App\MaterialType;
 use App\Nomenclature;
 use App\Partner;
 use App\PartnerMaterial;
+use App\CashGroup;
 
 class DatabaseSeeder extends Seeder
 {
@@ -252,6 +253,7 @@ class DatabaseSeeder extends Seeder
         $material->carat = '14';
         $material->parent_id = 1;
         $material->stock_price = '24';
+        $material->cash_group = 1;
         $material->save();
 
         $material_quantity = new MaterialQuantity();
@@ -287,6 +289,7 @@ class DatabaseSeeder extends Seeder
         $material->carat = '14';
         $material->parent_id = 1;
         $material->stock_price = '24';
+        $material->cash_group = 2;
         $material->save();
 
         $price = new Price();
@@ -328,6 +331,25 @@ class DatabaseSeeder extends Seeder
         $currency->currency = '1';
         $currency->default = 'yes';
         $currency->save();
+
+
+        $cashGroup = new CashGroup();
+        $cashGroup->label = 'Ремонти';
+        $cashGroup->table = 'repairs';
+        $cashGroup->cash_group = 3;
+        $cashGroup->save();
+
+        $cashGroup = new CashGroup();
+        $cashGroup->label = 'Поръчки';
+        $cashGroup->table = 'orders';
+        $cashGroup->cash_group = 4;
+        $cashGroup->save();
+
+        $cashGroup = new CashGroup();
+        $cashGroup->label = 'Кутии';
+        $cashGroup->table = 'products_others';
+        $cashGroup->cash_group = 5;
+        $cashGroup->save();
         
         // $model = new Model();
         // $model->name = 'Модел 1';
