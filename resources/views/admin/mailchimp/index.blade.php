@@ -10,7 +10,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" name="subscribe" data-type="add" action="subscribe" autocomplete="off">
+            <form method="POST" name="subscribe" data-type="add" action="mailchimp" autocomplete="off">
                 <div class="modal-body">
                     <div class="info-cont">
                     </div>
