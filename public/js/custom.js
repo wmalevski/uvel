@@ -430,7 +430,8 @@ var uvel,
           exchangeFields = form.find('.exchange-row-fields'),
           materials = response.materials,
           deposit = response.earnest,
-          depositKeys = Object.keys(deposit);
+          depositKeys = Object.keys(deposit),
+          selectedCurrency = form.find('[data-calculatePayment-currency] :selected').attr('data-currency');
 
       $self.showExchangeRow(exchangeRow, newExchangeField, false);
       exchange.prop({
@@ -445,7 +446,7 @@ var uvel,
           totalDeposit += deposit[depositKeys[i]]['order_earnest'];
         }
 
-        form.find('#deposit').val(totalDeposit).attr('data-initial', totalDeposit);
+        form.find('#deposit').val(totalDeposit * selectedCurrency).attr('data-initial', totalDeposit);
       }
 
       for (var i = 0; i < materials.length; i++) {
