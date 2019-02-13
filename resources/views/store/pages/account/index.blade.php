@@ -47,14 +47,17 @@
 											</address>
 										</li>
 										<li>
-											<a class="btn btn-1" id="view_address" href="{{route('model_orders')}}">Поръчки</a>
+											<a class="btn btn-1" href="{{route('wishlist')}}">Списък с желани</a>
 										</li>
 										<li>
-											<a class="btn btn-1" id="view_address" href="{{route('user_settings')}}">Настройки</a>
+											<a class="btn btn-1" href="{{route('model_orders')}}">Поръчки</a>
+										</li>
+										<li>
+											<a class="btn btn-1" href="{{route('user_settings')}}">Настройки</a>
 										</li>
 										<hr class="divider">
 										<li>
-											<a class="btn btn-1" id="view_address" href="{{route('logout')}}">Изход</a>
+											<a class="btn btn-1" href="{{route('logout')}}">Изход</a>
 										</li>
 									</ul>
 								</div>
