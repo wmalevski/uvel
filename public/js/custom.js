@@ -2242,7 +2242,7 @@ var uvel,
     this.uploadImages = function(event, form) {
       var files = event.target.files,
           collectionFiles = [];
-
+      
       for (var file of files) {
         if (file.type == "image/svg+xml") {
           alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
@@ -2251,10 +2251,10 @@ var uvel,
         }
       }
 
-      $self.appendImages(collectionFiles, form);
+      $self.appendImages(collectionFiles, form, event);
     }
 
-    this.appendImages = function(collectionFiles, form) {
+    this.appendImages = function(collectionFiles, form, event) {
       var _instanceFiles = [];
 
       collectionFiles.forEach(function(element) {
@@ -2275,7 +2275,8 @@ var uvel,
           img.src = reader.result;
           imageWrapper.append(closeBtn);
           imageWrapper.append(img);
-          form.find('.drop-area-gallery').append(imageWrapper);
+
+          $(event.currentTarget).siblings('.drop-area-gallery').append(imageWrapper);
         }
       });
     }
