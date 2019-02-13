@@ -2,6 +2,11 @@
 
 @section('content')
 
+<div class="modal fade edit--modal_holder" id="quick-shop-modal" role="dialog" aria-labelledby="quick-shop-modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content"></div>
+    </div>
+</div>
 <div id="content-wrapper-parent">
 	<div id="content-wrapper">
 		<div id="content" class="clearfix">
