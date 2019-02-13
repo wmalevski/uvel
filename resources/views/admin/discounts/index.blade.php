@@ -102,15 +102,15 @@ aria-hidden="true">
                     <th>Използвана</th>
                     <th data-sort-method="none">Действия</th>
                 </tr>
-                <tr>
+                <tr class="search-inputs" data-dynamic-search-url="ajax/search/discounts/">
                     <th>
-                        <input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/discounts/?byBarcode=" placeholder="Търси по баркод">
+                        <input class="filter-input form-control" type="text" data-dynamic-search-param="byBarcode=" placeholder="Търси по баркод">
                     </th>
                     <th></th>
                     <th></th>
                     <th></th>
                     <th>
-                        <input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/discounts/?byUser=" placeholder="Търси по потребител">
+                        <input class="filter-input form-control" type="text" data-dynamic-search-param="byUser=" placeholder="Търси по потребител">
                     </th>
                     <th></th>
                     <th></th>

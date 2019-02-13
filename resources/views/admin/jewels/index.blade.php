@@ -51,10 +51,9 @@ aria-hidden="true">
                 <th scope="col">Име</th> 
                 <th scope="col" data-sort-method="none">Действия</th>
             </tr>
-            <tr>
+            <tr class="search-inputs" data-dynamic-search-url="ajax/search/jewels/">
                 <th>
-                    <input class="filter-input form-control" type="text"
-                           data-dynamic-search-url="ajax/search/jewels/?byName=" placeholder="Търси по име">
+                    <input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Търси по име">
                 </th>
                 <th></th>
             </tr>

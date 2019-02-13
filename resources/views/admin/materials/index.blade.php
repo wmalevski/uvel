@@ -119,10 +119,10 @@ aria-hidden="true">
                     <th>Борсова Цена</th>
                     <th data-sort-method="none">Действия</th> 
                 </tr>
-                <tr>
+                <tr class="search-inputs" data-dynamic-search-url="ajax/search/materials/">
                     <th></th>
                     <th>
-                        <input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/materials/?byCode=" placeholder="Търси по тип">
+                        <input class="filter-input form-control" type="text" data-dynamic-search-param="byCode=" placeholder="Търси по тип">
                     </th>
                     <th></th>
                     <th></th>

@@ -52,9 +52,9 @@ aria-hidden="true">
             <th>Име</th>
             <th data-sort-method="none"></th>
         </tr>
-        <tr>
+        <tr class="search-inputs" data-dynamic-search-url="ajax/search/products_others_types/">
             <th>
-                <input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/products_others_types/?byName=" placeholder="Търси по име">
+                <input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Търси по име">
             </th>
             <th></th>
         </tr>
