@@ -95,19 +95,6 @@
 												</div>
 											</div>
 											<div id="product-info-right">
-												@if($errors->any())
-												<ul class="alert alert-danger">
-													@foreach ($errors->all() as $error)
-													<li>{{ $error }}</li>
-													@endforeach
-												</ul>
-												@endif
-
-												@if(session()->has('success.models'))
-													<div class="alert alert-success">
-														{{ session()->get('success.models') }}
-													</div>
-												@endif
 												<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="col-sm-24 group-variants">
 													<meta itemprop="priceCurrency" content="USD">
 													<link itemprop="availability" href="http://schema.org/InStock">
@@ -126,7 +113,7 @@
 															</div>
 															<div class="others-bottom clearfix">
 																<!--<a data-url="{{ route('order_model', ['model' => $model->id]) }}" class="order_product btn btn-1">Поръчай</a>-->
-																
+
 																<button id="add-to-cart" class="btn btn-1 order_product"  type="submit" name="add"
 																				data-url="{{ route('order_model', ['model' => $model->id]) }}">
 																	Поръчай
@@ -188,7 +175,7 @@
 										</div>
 									</div>
 									<div id="shopify-product-reviews">
-										
+
 										<div class="spr-container">
 											<div class="spr-header">
 												<h2 class="spr-header-title">Ревюта</h2>
@@ -286,7 +273,7 @@
 												<li class="row-left">
 													<a href="{{ route('single_model', ['model' => $model->id]) }}" class="container_item">
 														<img class="img-fill" alt="{{ $model->name }}"
-																 src="@if($model->photos) {{ asset("uploads/models/" . $model->photos->first()['photo']) }} 
+																 src="@if($model->photos) {{ asset("uploads/models/" . $model->photos->first()['photo']) }}
 																 @else {{ asset('store/images/demo_375x375.png') }} @endif">
 													</a>
 													<div class="hbw">
@@ -313,27 +300,27 @@
 															*Цената е с включено ДДС.
 														</div>
 													</div>
-													
+
 													<div class="hover-appear">
 														<a href="{{ route('single_model', ['model' => $model->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
 															<input name="quantity" value="1" type="hidden">
 															<i class="fa fa-lg fa-th-list"></i>
 															<span class="list-mode">Преглед</span>
 														</a>
-														
+
 														<a href="#" data-barcode="{{ $model->barcode }}" data-target="#quick-shop-modal" class="quick_shop product-ajax-qs hidden-xs hidden-sm"
 															 data-url="models/{{ $model->id }}/" data-toggle="modal" title="Бърз преглед"">
 															<i class="fa fa-lg fa-eye"></i>
 															<span class="list-mode">Бърз преглед</span>
 														</a>
-														
+
 														<a class="wish-list" href="#" title="Добави в желани"
 															 data-url="{{ route('wishlists_store', ['type' => 'model', 'item' => $model->id]) }}">
 															 <i class="fa fa-lg fa-heart"></i>
 															 <span class="list-mode">Добави в желани</span>
 														</a>
 													</div>
-													
+
 												</li>
 											</ul>
 										</div>

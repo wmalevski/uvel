@@ -16,23 +16,6 @@
 			<section class="content">
 				<div class="container">
 					<div class="row">
-						<div class="col-md-12">
-							@if($errors->any())
-							<ul class="alert alert-danger">
-								@foreach ($errors->all() as $error)
-								<li>{{ $error }}</li>
-								@endforeach
-							</ul>
-							@endif
-
-							@if(session()->has('success.productsother'))
-								<div class="alert alert-success">
-									{{ session()->get('success.productsother') }}
-								</div>
-							@endif
-						</div>
-					</div>
-					<div class="row">
 						<div id="col-main" class="product-page col-xs-24 col-sm-24 ">
 							<div>
 								<div id="product" class="content clearfix">
@@ -112,7 +95,7 @@
 														{{-- {{ $product->weight }} гр. + {{ $product->workmanship }} лв.
 													</p>
 												</div> --}}
-												
+
 											</div>
 											<div id="product-info-right">
 												<div itemprop="offers" itemtype="http://schema.org/Offer" class="col-sm-24 group-variants">
@@ -348,27 +331,27 @@
 															*Цената е с включено ДДС.
 														</div>
 													</div>
-													
+
 													<div class="hover-appear">
 														<a href="{{ route('single_product', ['product' => $product->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
 															<input name="quantity" value="1" type="hidden">
 															<i class="fa fa-lg fa-th-list"></i>
 															<span class="list-mode">Преглед</span>
 														</a>
-														
+
 														<a href="#" data-barcode="{{ $product->barcode }}" data-target="#quick-shop-modal" class="quick_shop product-ajax-qs hidden-xs hidden-sm"
 															 data-toggle="modal" title="Бърз Преглед">
 															<i class="fa fa-lg fa-eye"></i>
 															<span class="list-mode">Бърз Преглед</span>
 														</a>
-														
+
 														<a href="#" class="wish-list" title="Добави в Желани"
 															 data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
 															<i class="fa fa-lg fa-heart"></i>
 															<span class="list-mode">Добави в Желани</span>
 														</a>
 													</div>
-													
+
 												</li>
 											</ul>
 										</div>
