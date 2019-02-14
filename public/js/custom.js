@@ -240,6 +240,11 @@ var uvel,
         selector: '[name="subscribe"]',
         controllers: [],
         initialized: false
+      },
+      cashgroups: {
+        selector: '[name="cashgroup"]',
+        controllers: [],
+        initialized: false
       }
     }
 
@@ -1020,20 +1025,13 @@ var uvel,
     // FUNCTION THAT READS ALL THE ERRORS RETURNED FROM THE REQUEST AND APPEND THEM IN THE MODAL-FORM-BODY
 
     this.formsErrorHandler = function(err, form) {
-      var errorObject = form.find('[data-repair-scan]').length > 0 ? err.errors : err.responseJSON.errors,
+      var errorObject = form.find('[data-repair-scan]').length ? err.errors : err.responseJSON.errors,
           errorMessagesHolder = $('<div class="error--messages_holder"></div>');
 
       for (var key in errorObject) {
         var messageError = $('<div class="alert alert-danger"></div>');
 
-        if (form.find('[data-repair-scan]').length > 0) {
-          for (var x in errorObject[key]) {
-            messageError.append(errorObject[key][x][0]);
-          }
-        } else {
-          messageError.append(errorObject[key][0]);
-        }
-
+        messageError.append(errorObject[key]);
         errorMessagesHolder.append(messageError);
       }
       form.find('.error--messages_holder').remove();
@@ -1519,7 +1517,7 @@ var uvel,
           grossWeight = 0,
           isWeightWithStones = $('[data-calculatePrice-withStones]').is(':checked'),
           naturalStonesPrice = 0,
-          synthStonesWeight = 0;
+          totalStoneWeight = 0;
 
       for (var i = 0; i < stones.length; i++) {
         var stoneRow = $(stones[i]),
@@ -1531,13 +1529,13 @@ var uvel,
 
         if (stoneType == 2) { // natural stone
           naturalStonesPrice += (stonePrice * stonesAmount);
-        } else if (stoneType == 1) { // synthetic stone
-          synthStonesWeight += stoneWeight;
         }
+
+        totalStoneWeight += stoneWeight;
       }
 
       if (isWeightWithStones) {
-        grossWeight = netWeight + synthStonesWeight;
+        grossWeight = netWeight + totalStoneWeight;
       } else {
         grossWeight = netWeight;
       }

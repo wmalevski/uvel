@@ -299,7 +299,7 @@ class PriceController extends Controller
     }
 
     public function select_search(Request $request){
-        $query = MaterialQuantity::select('*');
+        $query = Material::select('*');
 
         $materials_new = new Price();
         
@@ -312,12 +312,12 @@ class PriceController extends Controller
         foreach($materials as $material){
             $pass_materials[] = [
                 'value' => $material->id,
-                'label' => $material->material->parent->name.' - '.$material->material->color.' - '.$material->material->carat,
-                'data-carat' => $material->material->carat,
-                'for_buy'  => $material->material->for_buy,
-                'for_exchange' => $material->material->for_exchange,
-                'carat_transform' => $material->material->carat_transform,
-                'carat' => $material->material->carat
+                'label' => $material->parent->name.' - '.$material->color.' - '.$material->carat,
+                'data-carat' => $material->carat,
+                'for_buy'  => $material->for_buy,
+                'for_exchange' => $material->for_exchange,
+                'carat_transform' => $material->carat_transform,
+                'carat' => $material->carat
             ];
         }
 
