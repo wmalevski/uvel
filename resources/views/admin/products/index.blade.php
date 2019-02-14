@@ -109,24 +109,10 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							<label>
 								Материал:
 							</label>
-							<select id="material" name="material_id" class="material_type form-control material calculate" data-calculatePrice-material disabled data-search="/ajax/select_search/materials/">
+							<select id="material" name="material_id" class="material_type form-control material calculate" data-calculatePrice-material disabled data-search="/ajax/select_search/prices/materials/">
 								<option value="">
 									Избери
 								</option>
-
-								@foreach($materials as $material)
-								@if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
-								{{-- {{ $material->material->prices }} --}}
-								<option value="{{ $material->id }}" data-material="{{ $material->material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">
-									@if($material->material->parent)
-									{{ $material->material->parent->name }}
-									@else {{ $material->material->name }} @endif
-									-
-									{{ $material->material->color }} -
-									{{ $material->material->carat }}
-								</option>
-								@endif
-								@endforeach
 							</select>
 						</div>
 

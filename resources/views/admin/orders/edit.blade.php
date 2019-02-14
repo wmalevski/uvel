@@ -2,15 +2,15 @@
 $givenMaterialRowTpl = '<div class="form-row">
 						<div class="form-group col-md-6"> 
 							<label for="">Вид</label>
-							<select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate" data-search="/ajax/select_search/materials/">
+							<select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate" data-search="/ajax/select_search/prices/materials/">
 								<option value="">Избери</option>';
 								foreach($materials as $material) {
-									if($material->material->pricesBuy->first() && $material->material->pricesSell->first()) {
-									$givenMaterialRowTpl .= '<option value="'. $material->id .'" data-carat="'. $material->material->carat  .'" data-material="'. $material->material->id  .'"
-										data-pricebuy="'. $material->material->pricesBuy->first()->price  .'"> 
-										'. $material->material->parent->name  .' - 
-										'. $material->material->color  .' - 
-										'. $material->material->carat  .' 
+									if($material->pricesBuy->first() && $material->pricesSell->first()) {
+									$givenMaterialRowTpl .= '<option value="'. $material->id .'" data-carat="'. $material->carat  .'" data-material="'. $material->id  .'"
+										data-pricebuy="'. $material->pricesBuy->first()->price  .'"> 
+										'. $material->parent->name  .' - 
+										'. $material->color  .' - 
+										'. $material->carat  .' 
 									</option>';
 									}
 								}
@@ -105,17 +105,17 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
         <div class="form-group col-md-12">
           <label>Материал:</label>
           
-          <select id="material_edit" name="material_id" class="material_type form-control calculate" data-calculatePrice-material data-search="/ajax/select_search/materials/">
+          <select id="material_edit" name="material_id" class="material_type form-control calculate" data-calculatePrice-material data-search="/ajax/select_search/prices/materials/">
             <option value="">Избери</option>
             
             @foreach($materials as $material)
-              @if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
+              @if($material->pricesBuy->first() && $material->pricesSell->first())
                 <option value="{{ $material->id }}" data-material="{{ $material->id }}"
-                        data-pricebuy="{{ $material->material->pricesBuy->first()->price }}"
+                        data-pricebuy="{{ $material->pricesBuy->first()->price }}"
                         @if($material->id == $order->material_id) selected @endif>
-                  {{ $material->material->parent->name }} -
-                  {{ $material->material->color }} -
-                  {{ $material->material->carat }}
+                  {{ $material->parent->name }} -
+                  {{ $material->color }} -
+                  {{ $material->carat }}
                 </option>
               @endif
             @endforeach
@@ -283,7 +283,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
             <option value="">Избери магазин</option>
 
             @foreach($stores as $store)
-            <option value="{{ $store->id }}" @if($store->id == $material->store_id) selected @endif>
+            <option value="{{ $store->id }}" @if($store->id == $order->store_id) selected @endif>
               {{ $store->name }} - {{ $store->location }}
             </option>
             @endforeach
@@ -325,14 +325,14 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
           <div class="form-row">
             <div class="form-group col-md-6"> 
               <label for="">Вид</label>
-              <select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate" data-search="/ajax/select_search/materials/">
+              <select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate" data-search="/ajax/select_search/prices/materials/">
                 <option value="">Избери</option>
                   @if($material->material->material->pricesBuy->first())
                   <option value="{{ $material->material->id }} " data-carat="{{ $material->material->material->carat  }}" data-material="{{ $material->material->material->id  }}"
                     data-pricebuy="{{ $material->material->material->pricesBuy->first()->price }}" selected> 
                     {{ $material->material->material->parent->name }}  - 
                     {{ $material->material->material->color }}  - 
-                    {{ $material->material->material->carat }}   
+                    {{ $material->material->material->code }}   
                   </option>
                   @endif
               </select>

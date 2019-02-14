@@ -3,18 +3,9 @@
 $newMaterialRow =
 				'<div class="form-group col-md-6">
 					<label>Избери материал: </label>
-					<select data-search="/ajax/select_search/models/materials/" name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material>
+					<select data-search="/ajax/select_search/prices/materials/" name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material>
 						<option value="">Избери</option>';
-						foreach($materials as $material) {
-								if($material->material->pricesBuy->first() && $material->material->pricesSell->first()) {
-								$newMaterialRow .= '<option value="'. $material->id .'" data-carat="'. $material->material->carat  .'" data-material="'. $material->material->id  .'"
-									data-pricebuy="'. $material->material->pricesBuy->first()->price  .'"> 
-									'. $material->material->parent->name  .' - 
-									'. $material->material->color  .' - 
-									'. $material->material->carat  .' 
-								</option>';
-								}
-							}
+						
 						$newMaterialRow .= '</select>
 				</div>
 				<div class="form-group col-md-5">

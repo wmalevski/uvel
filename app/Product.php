@@ -22,6 +22,7 @@ use App\MaterialQuantity;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Database\Eloquent\Model as BaseModel;
+use Auth;
 
 class Product extends BaseModel
 {
@@ -335,15 +336,17 @@ class Product extends BaseModel
                 }
             }
 
-            $material = MaterialQuantity::withTrashed()->find($request->material_id);
+            $material = MaterialQuantity::where([
+                ['material_id', $request->material_id],
+                ['store_id', Auth::user()->getStore()->id]
+            ])->first();
 
-            if($material->quantity < $request->weight){
+            if(!count($material) || $material->quantity < $request->weight){
                 if($responseType == 'JSON'){
                     return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
                 }else{
                     return array('errors' => array('using' => ['Няма достатъчна наличност от този материал.']));
                 }
-
             }
 
             $findModel = DefModel::find($request->model_id);

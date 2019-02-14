@@ -312,7 +312,7 @@ class PriceController extends Controller
         foreach($materials as $material){
             $pass_materials[] = [
                 'value' => $material->id,
-                'label' => $material->parent->name.' - '.$material->color.' - '.$material->carat,
+                'label' => $material->parent->name.' - '.$material->color.' - '.$material->code,
                 'data-carat' => $material->carat,
                 'for_buy'  => $material->for_buy,
                 'for_exchange' => $material->for_exchange,

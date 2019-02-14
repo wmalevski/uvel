@@ -3,18 +3,9 @@
 $givenMaterialRowTpl = '<div class="form-row">
 						<div class="form-group col-md-6"> 
 							<label for="">Вид</label>
-							<select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate" data-search="/ajax/select_search/materials/">
+							<select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate" data-search="/ajax/select_search/prices/materials/">
 								<option value="">Избери</option>';
-								foreach($mats as $material) {
-									if($material->material->pricesBuy->first() && $material->material->pricesSell->first()) {
-									$givenMaterialRowTpl .= '<option value="'. $material->id .'" data-carat="'. $material->material->carat  .'" data-material="'. $material->material->id  .'"
-										data-pricebuy="'. $material->material->pricesBuy->first()->price  .'"> 
-										'. $material->material->parent->name  .' - 
-										'. $material->material->color  .' - 
-										'. $material->material->carat  .' 
-									</option>';
-									}
-								}
+								
 							$givenMaterialRowTpl .= '</select>
 						</div>
 						<div class="form-group col-md-5">
@@ -148,7 +139,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 						<div class="form-group col-md-12">
 							<label>Материал:</label>
 							
-							<select id="material" name="material_id" class="material_type form-control material calculate" data-calculatePrice-material disabled data-search="/ajax/select_search/materials/">
+							<select id="material" name="material_id" class="material_type form-control material calculate" data-calculatePrice-material disabled data-search="/ajax/select_search/prices/materials/">
 								<option value="">Избери</option>
 								
 								@foreach($materials as $material)
@@ -162,7 +153,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 												{{ $material->material->name }}
 											@endif
 											- {{ $material->material->color }} -
-											{{ $material->material->carat }}
+											{{ $material->material->code }}
 										</option>
 									@endif
 								@endforeach

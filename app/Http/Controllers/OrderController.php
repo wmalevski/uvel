@@ -244,7 +244,7 @@ class OrderController extends Controller
         $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::take(env('SELECT_PRELOADED'))->get();
-        $materials = MaterialQuantity::currentStore()->take(env('SELECT_PRELOADED'));
+        $materials = Material::take(env('SELECT_PRELOADED'))->get();
         $stores = Store::take(env('SELECT_PRELOADED'))->get();
 
         return \View::make('admin/orders/edit', array('stores' => $stores , 'order_stones' => $order_stones, 'order' => $order, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials));
@@ -388,6 +388,16 @@ class OrderController extends Controller
 
             if($request->status == 'true'){
                 for($i=1;$i<=$request->quantity;$i++){
+
+                    $material = MaterialQuantity::where([
+                        ['material_id', $request->material_id],
+                        ['store_id', Auth::user()->getStore()->id]
+                    ])->first();
+        
+                    if(!count($material) || $material->quantity < $request->weight){
+                        return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
+                    }
+
                     $product = new Product();
 
                     $request->merge([

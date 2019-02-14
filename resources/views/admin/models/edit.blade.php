@@ -49,7 +49,7 @@
             <label>
               Избери материал:
             </label>
-            <select name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material data-search="/ajax/select_search/models/materials/">
+            <select name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material data-search="/ajax/select_search/prices/materials/">
               <option value="">
                 Избери
               </option>
@@ -57,7 +57,7 @@
               @if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
               <option value="{{ $material->id }}" data-material="{{ $material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}"
                 @if($material->id == $option->material_id) selected @endif>
-                {{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->carat }}
+                {{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->code }}
               </option>
               @endif
               @endforeach

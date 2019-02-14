@@ -202,14 +202,25 @@ class ModelController extends Controller
                 ['default', '=', 'yes']
             ])->first();
 
-            $material = MaterialQuantity::withTrashed()->find($default->material_id);
+            $material = MaterialQuantity::where([
+                ['material_id', $default->material_id],
+                ['store_id', Auth::user()->getStore()->id]
+            ]);
+
+            if(count($material) == 0 || $material->quantity < $request->weight){
+                if($responseType == 'JSON'){
+                    return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
+                }else{
+                    return array('errors' => array('using' => ['Няма достатъчна наличност от този материал.']));
+                }
+            }
 
             $product = new Product();
             $product->name = $request->name;
             $product->model_id = $model->id;
             $product->jewel_id= $request->jewel_id;
             $product->weight = $request->weight;
-            $product->material_id = $default->material_id;
+            $product->material_id = $material->id;
             $product->material_type_id = $material->material_id;
             $product->retail_price_id = $default->retail_price_id;
             $product->size = $request->size;
@@ -579,7 +590,7 @@ class ModelController extends Controller
             if($material->material->pricesBuy->first()){
                 $pass_materials[] = [
                     'value' => $material->id,
-                    'label' => $material->material->parent->name.' - '.$material->material->color.' - '.$material->material->carat,
+                    'label' => $material->material->parent->name.' - '.$material->material->color.' - '.$material->material->code.' ('.$material->store->name.')',
                     'data-carat' => $material->material->carat,
                     'data-pricebuy' => $material->material->pricesBuy->first()['price'],
                     'data-price' => $material->material->pricesBuy->first()['price'],
