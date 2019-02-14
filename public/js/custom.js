@@ -240,6 +240,11 @@ var uvel,
         selector: '[name="subscribe"]',
         controllers: [],
         initialized: false
+      },
+      cashgroups: {
+        selector: '[name="cashgroup"]',
+        controllers: [],
+        initialized: false
       }
     }
 
