@@ -1028,7 +1028,7 @@ var uvel,
 
         if (form.find('[data-repair-scan]').length > 0) {
           for (var x in errorObject[key]) {
-            messageError.append(errorObject[key][x][0]);
+            messageError.append(errorObject[key][x]);
           }
         } else {
           messageError.append(errorObject[key][0]);
