@@ -1519,7 +1519,7 @@ var uvel,
           grossWeight = 0,
           isWeightWithStones = $('[data-calculatePrice-withStones]').is(':checked'),
           naturalStonesPrice = 0,
-          synthStonesWeight = 0;
+          totalStoneWeight = 0;
 
       for (var i = 0; i < stones.length; i++) {
         var stoneRow = $(stones[i]),
@@ -1531,13 +1531,13 @@ var uvel,
 
         if (stoneType == 2) { // natural stone
           naturalStonesPrice += (stonePrice * stonesAmount);
-        } else if (stoneType == 1) { // synthetic stone
-          synthStonesWeight += stoneWeight;
         }
+
+        totalStoneWeight += stoneWeight;
       }
 
       if (isWeightWithStones) {
-        grossWeight = netWeight + synthStonesWeight;
+        grossWeight = netWeight + totalStoneWeight;
       } else {
         grossWeight = netWeight;
       }
