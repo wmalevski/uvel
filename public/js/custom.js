@@ -1548,9 +1548,10 @@ var uvel,
             productPrice = parseFloat(((sellPrice * netWeight) + naturalStonesPrice).toFixed(2));
         } else if (isWeightWithStones) {
           var worksmanShipPrice = parseFloat(((sellPrice - buyPrice) * grossWeight).toFixed(2)),
-            productPrice = parseFloat(((sellPrice * grossWeight) + naturalStonesPrice).toFixed(2));
+            productPrice = parseFloat(((sellPrice * netWeight) + naturalStonesPrice).toFixed(2));
         }
-
+        console.log(sellPrice, netWeight, naturalStonesPrice, sellPrice * netWeight)
+        console.log('Product price', productPrice)
         workmanshipHolder.val(worksmanShipPrice);
         finalHolder.val(productPrice);
       }
