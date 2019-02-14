@@ -48,7 +48,7 @@
 														<div class="collection-details">
 															<a href="online/products/?byMaterial[]={{ $material->id }}">
 
-																<img alt="{{ $material->name }}" src="@if(count($material->materials)) @if(count($material->materials->first()->products))
+																<img class="img-fill" alt="{{ $material->name }}" src="@if(count($material->materials)) @if(count($material->materials->first()->products))
                                           @if(count($material->materials->first()->products->first()->photos))
                                           {{ asset("uploads/products/" . $material->materials->first()->products->first()->photos->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }}
 																					@endif @endif @endif">
@@ -73,9 +73,9 @@
 														<div class="collection-details">
 															<a href="{{ route('models') }}">
 																@if(count($models) && count($models->first()->photos))
-																	<img alt="{{ $models->first()->name }}" src="{{ asset("uploads/models/" . $models->first()->photos->first()->photo) }}">
+																	<img class="img-fill" alt="{{ $models->first()->name }}" src="{{ asset("uploads/models/" . $models->first()->photos->first()->photo) }}">
 																@else
-																	<img alt="" src="{{ asset('store/images/demo_375x375.png') }}">
+																	<img class="img-fill" alt="" src="{{ asset('store/images/demo_375x375.png') }}">
 																@endif
 															</a>
 														</div>
@@ -95,9 +95,9 @@
 														<div class="collection-details">
 															<a href="{{ route('custom_order') }}">
 																@if(count($models) && count($models->first()->photos))
-																	<img alt="{{ $models->first()->name }}" src="{{ asset("uploads/models/" . $models->first()->photos->first()->photo) }}">
+																	<img class="img-fill" alt="{{ $models->first()->name }}" src="{{ asset("uploads/models/" . $models->first()->photos->first()->photo) }}">
 																@else
-																	<img alt="" src="{{ asset('store/images/demo_375x375.png') }}">
+																	<img class="img-fill" alt="" src="{{ asset('store/images/demo_375x375.png') }}">
 																@endif
 															</a>
 														</div>

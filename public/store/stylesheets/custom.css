@@ -70,7 +70,6 @@ header.affix .container.top {
 
 @media (min-width: 1024px) {
 	header .top-navigation,
-	header .top-logo,
 	header .container.bottom {
 		height: 50px;
 	}
@@ -90,6 +89,76 @@ header.affix .container.top {
 	}
 }
 
+@media (max-width: 1200px) {
+	header .list-inline .top-logo {
+		display: block !important;
+		margin: 20px auto 0 auto;
+	}
+	
+	header .list-inline .navigation, 
+	header .list-inline .umbrella {
+		display: inline-block !important;
+		margin: auto;
+	}
+	
+	header .list-inline .navigation {
+		width: 80% !important;
+	}
+	
+	header .list-inline .umbrella {
+		width: 20% !important;
+		text-align: left;
+		padding: 0;
+	}
+	
+	header .list-inline .umbrella #umbrella {
+		float: left;
+	}
+	
+	header .list-inline .umbrella #umbrella .cart-link {
+		padding-top: 7px;
+		padding-left: 24px;
+	}
+	
+	header .list-inline .umbrella #umbrella .cart-link:after {
+		margin-top: 8px;
+	}
+}
+
+@media (min-width: 1200px) {
+	header .top-logo {
+		padding: 0;
+		width: 20%;
+	}
+	
+	header .navigation {
+		width: 80%;
+	}
+	
+	header .umbrella {
+		margin: 0;
+		padding: 0;
+		float: right !important;
+	}
+	
+	header .list-inline .umbrella #umbrella .cart-link {
+		padding-top: 17px;
+	}
+	
+	header .list-inline .umbrella #umbrella .cart-link:after {
+		top: -2px;
+		left: -54px;
+	}
+	
+	header .list-inline .navbar {
+		margin-bottom: 6px;
+	}
+}
+
+header .login a {
+	font-size: 16px !important;
+}
+
 header .line {
 	width: 100%;
 	height: 1px;
@@ -103,10 +172,6 @@ header.affix {
 
 header.affix .top-other {
 	min-height: 40px;
-}
-
-header.affix #umbrella .cart-link:after {
-	margin-top: 17px;
 }
 
 /* Header styles end */
@@ -425,8 +490,9 @@ li.element {
 .home-slider-wrapper .camera_prev span,
 .home-slider-wrapper .camera_next span {
 	display: block;
-	width: 100px;
-	height: 100px;
+	opacity: 0.6;
+	width: 50px;
+	height: 50px;
 	border: solid white;
 	border-width: 1px 0 0 1px;
 	background: none;
@@ -750,8 +816,4 @@ li.element {
 .page-store-account .divider,
 .page-store-account #customer_detail li {
 	margin: 10px;
-}
-
-header .login a {
-	font-size: 16px !important;
 }
