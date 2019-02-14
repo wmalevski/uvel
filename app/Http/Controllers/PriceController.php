@@ -148,11 +148,10 @@ class PriceController extends Controller
             ['material_id', '=', $material]
         ])->first();
 
-        $mat = MaterialQuantity::where('material_id', $material)->first();
 
         $retail_prices = Price::where(
             [
-                ['material_id', '=', $mat->material_id],
+                ['material_id', '=', $material],
                 ['type', '=', 'sell']
             ]
         )->get();

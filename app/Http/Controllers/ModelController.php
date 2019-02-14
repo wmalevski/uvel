@@ -570,41 +570,6 @@ class ModelController extends Controller
 
         return json_encode($pass_models, JSON_UNESCAPED_SLASHES );
     }
-
-    public function select_search_materials(Request $request){
-        $query = MaterialQuantity::select('*');
-
-        $materials_new = new MaterialQuantity();
-
-        if($request->type && $request->type == 'payment'){
-            $materials = $materials_new->filterMaterialsPayment($request, $query);
-        }else{
-            $materials = $materials_new->filterMaterials($request, $query);
-        }
-
-        $materials = $materials->paginate(env('RESULTS_PER_PAGE'));
-        
-        $pass_materials = array();
-
-        foreach($materials as $material){
-            if($material->material->pricesBuy->first()){
-                $pass_materials[] = [
-                    'value' => $material->id,
-                    'label' => $material->material->parent->name.' - '.$material->material->color.' - '.$material->material->code.' ('.$material->store->name.')',
-                    'data-carat' => $material->material->carat,
-                    'data-pricebuy' => $material->material->pricesBuy->first()['price'],
-                    'data-price' => $material->material->pricesBuy->first()['price'],
-                    'for_buy'  => $material->material->for_buy,
-                    'for_exchange' => $material->material->for_exchange,
-                    'carat_transform' => $material->material->carat_transform,
-                    'carat' => $material->material->carat
-                ];
-            }
-            
-        }
-
-        return json_encode($pass_materials, JSON_UNESCAPED_SLASHES );
-    }
     
     public function filter(Request $request){
         $query = Model::select('*');

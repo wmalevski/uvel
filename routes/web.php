@@ -276,11 +276,11 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::get('/select_search/parentmaterials', 'MaterialController@select_search');
 
-    Route::get('/select_search/models/materials', 'ModelController@select_search_materials');
-
-    Route::get('/select_search/materials/{type}', 'MaterialQuantityController@select_search');
+    Route::get('/select_search/global/materials/{type}', 'MaterialController@select_search');
 
     Route::get('/select_search/materials', 'MaterialQuantityController@select_search');
+
+    Route::get('/select_search/global/materials', 'MaterialController@select_search');
 
     Route::get('/select_search/prices/materials', 'PriceController@select_search');
 

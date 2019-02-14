@@ -77,7 +77,17 @@ class PaymentController extends Controller
         if($partner){
             foreach($request->materials as $material){
                 $material = (array)$material;
-                $quantity = MaterialQuantity::find($material['material_id']);
+                $quantity = MaterialQuantity::where([
+                    ['material_id', '=', $material['material_id']],
+                    ['store_id', '=', Auth::user()->getStore()->id]
+                ])->first();
+
+                if(!count($quantity)){
+                    $create_quantity = new MaterialQuantity();
+                    $create_quantity->store_id = Auth::user()->getStore()->id;
+                    $create_quantity->quantity = 0;
+                    $create_quantity_material_id = $material['material_id'];
+                }
     
                 if($material['material_given'] > $material['material_weight']){
                     
@@ -179,7 +189,10 @@ class PaymentController extends Controller
             $material = $material[0];
             $order = $material->order;
             $order_items = count($material->order->items);
-            $parent = MaterialQuantity::find($material->material_id);
+            $parent = MaterialQuantity::where([
+                ['material_id', '=', $material['material_id']],
+                ['store_id', '=', Auth::user()->getStore()->id]
+            ])->first();
 
             $weight = $material->weight;
 

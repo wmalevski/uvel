@@ -2496,8 +2496,10 @@ var uvel,
           data.element.dataset.transform = data['carat_transform'];
           data.element.dataset.carat = data.carat;
           data.element.dataset.pricebuy = data['data-pricebuy'];
+          data.element.dataset.price = data.price;
+          data.element.dataset.material = data.element.value;
         }
-
+        console.log(data)
         $(container).attr({
           'data-price': $(data.element).attr('data-price') || 0,
           'data-pricebuy': $(data.element).attr('data-pricebuy') || 0,

@@ -56,7 +56,7 @@
                 <div class="form-group col-md-12">
                     <label>Материал: </label>
                     <select id="material_edit" name="material_id" class="material_type form-control calculate"
-                        data-calculatePrice-material data-search="/ajax/select_search/prices/materials/">
+                        data-calculatePrice-material data-search="/ajax/select_search/global/materials/">
                         <option value="">Избери</option>
                         @foreach($materials as $material)
                         @if($material->material->pricesBuy->first() && $material->material->pricesSell->first())

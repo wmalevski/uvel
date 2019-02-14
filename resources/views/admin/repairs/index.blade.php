@@ -73,14 +73,9 @@ aria-hidden="true">
 
                             <div class="form-group col-md-6">
                                 <label>Материал: </label>
-                                <select name="material_id" class="form-control" data-search="/ajax/select_search/materials/">
+                                <select name="material_id" class="form-control" data-search="/ajax/select_search/global/materials/">
                                     <option value="">Избер материал</option>
-                            
-                                    @foreach($materials as $material)
-                                        @if($material->pricesSell->first())
-                                            <option value="{{ $material->id }}">@if($material->parent) {{ $material->parent->name }} @endif - {{ $material->color }} - {{ $material->code }}</option>
-                                        @endif
-                                    @endforeach
+
                                 </select>
                             </div>
                         </div>

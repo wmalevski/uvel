@@ -3,7 +3,7 @@
 $givenMaterialRowTpl = '<div class="form-row">
 						<div class="form-group col-md-6"> 
 							<label for="">Вид</label>
-							<select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate" data-search="/ajax/select_search/prices/materials/">
+							<select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate" data-search="/ajax/select_search/global/materials/">
 								<option value="">Избери</option>';
 								
 							$givenMaterialRowTpl .= '</select>
@@ -139,7 +139,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 						<div class="form-group col-md-12">
 							<label>Материал:</label>
 							
-							<select id="material" name="material_id" class="material_type form-control material calculate" data-calculatePrice-material disabled data-search="/ajax/select_search/prices/materials/">
+							<select id="material" name="material_id" class="material_type form-control material calculate" data-calculatePrice-material disabled data-search="/ajax/select_search/global/materials/">
 								<option value="">Избери</option>
 								
 								@foreach($materials as $material)

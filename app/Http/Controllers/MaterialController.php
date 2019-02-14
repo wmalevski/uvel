@@ -184,18 +184,49 @@ class MaterialController extends Controller
         $query = Material::select('*');
 
         $materials_new = new Material();
-        $materials = $materials_new->filterMaterials($request, $query);
+        
+        if($request->type && $request->type == 'payment'){
+            $materials = $materials_new->filterMaterialsPayment($request, $query);
+        }else{
+            $materials = $materials_new->filterMaterials($request, $query);
+        }
+
         $materials = $materials->paginate(env('RESULTS_PER_PAGE'));
         $pass_materials = array();
 
         foreach($materials as $material){
             $pass_materials[] = [
                 'value' => $material->id,
-                'label' => $material->parent->name.' - '.$material->color.' - '.$material->carat,
+                'label' => $material->parent->name.' - '.$material->color.' - '.$material->code,
                 'data-carat' => $material->carat,
                 'data-pricebuy' => $material->pricesBuy->first()['price']
             ];
             
+        }
+
+        return json_encode($pass_materials, JSON_UNESCAPED_SLASHES );
+    }
+
+    public function select_search_withPrice(Request $request){
+        $query = Material::select('*');
+
+        $materials_new = new Material();
+        $materials = $materials_new->filterMaterials($request, $query);
+        $materials = $materials->paginate(env('RESULTS_PER_PAGE'));
+        $pass_materials = array();
+
+        foreach($materials as $material){
+            if($material->pricesBuy->first()){
+                $pass_materials[] = [
+                    'value' => $material->id,
+                    'label' => $material->parent->name.' - '.$material->color.' - '.$material->code,
+                    'data-carat' => $material->carat,
+                    'for_buy'  => $material->for_buy,
+                    'for_exchange' => $material->for_exchange,
+                    'carat_transform' => $material->carat_transform,
+                    'data-pricebuy' => $material->pricesBuy->first()['price']
+                ];
+            } 
         }
 
         return json_encode($pass_materials, JSON_UNESCAPED_SLASHES );
