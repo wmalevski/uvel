@@ -27,15 +27,13 @@ class Price extends Model
     }
 
     public function filterMaterials(Request $request ,$query){
-        $query = MaterialQuantity::where(function($query) use ($request){
+        $query = Material::where(function($query) use ($request){
             if ($request->byName) {
-                $query->with('Material')->whereHas('Material', function($q) use ($request){
-                    $q->where('name', 'LIKE', "%$request->byName%")->orWhere('color', 'LIKE', "%$request->byName%")->orWhere('code', 'LIKE', "%$request->byName%");
-                });
+                $query->where('name', 'LIKE', "%$request->byName%")->orWhere('color', 'LIKE', "%$request->byName%")->orWhere('code', 'LIKE', "%$request->byName%");
             }
 
             if ($request->byName == '') {
-                $query = MaterialQuantity::all();
+                $query = Material::all();
             }
         });
 
