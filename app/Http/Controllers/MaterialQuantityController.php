@@ -158,7 +158,7 @@ class MaterialQuantityController extends Controller
             if($material->material->pricesBuy->first()){
                 $pass_materials[] = [
                     'value' => $material->id,
-                    'label' => $material->material->parent->name.' - '.$material->material->color.' - '.$material->material->carat,
+                    'label' => $material->material->parent->name.' - '.$material->material->color.' - '.$material->material->code,
                     'data-carat' => $material->material->carat,
                     'data-pricebuy' => $material->material->pricesBuy->first()['price'],
                     'data-price' => $material->material->pricesBuy->first()['price'],
