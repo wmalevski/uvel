@@ -1025,20 +1025,13 @@ var uvel,
     // FUNCTION THAT READS ALL THE ERRORS RETURNED FROM THE REQUEST AND APPEND THEM IN THE MODAL-FORM-BODY
 
     this.formsErrorHandler = function(err, form) {
-      var errorObject = form.find('[data-repair-scan]').length > 0 ? err.errors : err.responseJSON.errors,
+      var errorObject = form.find('[data-repair-scan]').length ? err.errors : err.responseJSON.errors,
           errorMessagesHolder = $('<div class="error--messages_holder"></div>');
 
       for (var key in errorObject) {
         var messageError = $('<div class="alert alert-danger"></div>');
 
-        if (form.find('[data-repair-scan]').length > 0) {
-          for (var x in errorObject[key]) {
-            messageError.append(errorObject[key][x]);
-          }
-        } else {
-          messageError.append(errorObject[key][0]);
-        }
-
+        messageError.append(errorObject[key]);
         errorMessagesHolder.append(messageError);
       }
       form.find('.error--messages_holder').remove();
