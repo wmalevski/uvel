@@ -201,23 +201,27 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 						<div class="drop-area-gallery"></div>
 					</div>
 
-					<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
-						<input type="checkbox" id="website_visible" name="website_visible" class="peer" checked>
-						<label for="website_visible" class="peers peer-greed js-sb ai-c">
-							<span class="peer peer-greed">
-								Показване в сайта
-							</span>
-						</label>
+					<div class="form-row bot-row">
+						<div class="form-group col-md-6">
+							<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
+								<input type="checkbox" id="website_visible" name="website_visible" class="peer" checked>
+								<label for="website_visible" class="peers peer-greed js-sb ai-c">
+									<span class="peer peer-greed">Показване в сайта</span>
+								</label>
+							</div>
+						</div>
 					</div>
 
-					
-					<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
-						<input type="checkbox" id="checkbox_website_add" name="release_product" class="peer">
-						<label for="checkbox_website_add" class="peers peer-greed js-sb ai-c">
-							<span class="peer peer-greed">Добави като продукт</span>
-						</label>
+					<div class="form-row bot-row">
+						<div class="form-group col-md-6">
+							<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
+								<input type="checkbox" id="checkbox_website_add" name="release_product" class="peer">
+								<label for="checkbox_website_add" class="peers peer-greed js-sb ai-c">
+									<span class="peer peer-greed">Добави като продукт</span>
+								</label>
+							</div>
+						</div>
 					</div>
-
 				</div>
 
 				<div class="modal-footer">

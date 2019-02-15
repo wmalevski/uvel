@@ -249,15 +249,10 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 								@endforeach
 							</select>
 						</div>
-					</div>
-
-					<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
-						<input type="checkbox" id="website_visible" name="website_visible" class="peer" checked>
-						<label for="website_visible" class="peers peer-greed js-sb ai-c">
-							<span class="peer peer-greed">
-								Показване в сайта
-							</span>
-						</label>
+						
+						<div class="col-12">
+							<hr>
+						</div>
 					</div>
 
 					<div class="drop-area" name="add">
@@ -266,6 +261,19 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							Select some files
 						</label>
 						<div class="drop-area-gallery"></div>
+					</div>
+
+					<div class="form-row bot-row">
+						<div class="form-group col-md-6">
+							<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
+								<input type="checkbox" id="website_visible" name="website_visible" class="peer" checked>
+								<label for="website_visible" class="peers peer-greed js-sb ai-c">
+									<span class="peer peer-greed">
+										Показване в сайта
+									</span>
+								</label>
+							</div>
+						</div>
 					</div>
 
 					<div id="errors-container"></div>
