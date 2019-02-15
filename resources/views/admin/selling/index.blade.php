@@ -330,12 +330,16 @@ aria-hidden="true">
                         </div>
                         <div class="form-group col-md-4">
                             <div class="radio radio-info">
-                                <input type="radio" id="modal-certificate" class="not-clear" name="modal_certificate" value="yes" checked>
+                                <input type="radio" id="modal-certificate" class="not-clear" name="modal_certificate" value="with_price" checked>
                                 <label for="modal-certificate">С цена</label>
                             </div>
                             <div class="radio radio-info">
-                                <input type="radio" id="modal-non-certificate" name="modal_certificate" value="no">
+                                <input type="radio" id="modal-non-certificate" name="modal_certificate" value="without_price">
                                 <label for="modal-non-certificate">Без цена</label>
+                            </div>
+                            <div class="radio radio-info">
+                                <input type="radio" id="modal-no-print-certificate" name="modal_certificate" value="no">
+                                <label for="modal-no-print-certificate">Без сертификат</label>
                             </div>
                         </div>
                     </div>
