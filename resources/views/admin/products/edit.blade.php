@@ -221,13 +221,7 @@
                 </div>
             </div>
 
-            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
-                <input type="checkbox" id="checkbox_website_visible" name="website_visible" class="peer" @if($product->website_visible
-                == 'yes') checked @endif>
-                <label for="checkbox_website_visible" class="peers peer-greed js-sb ai-c">
-                    <span class="peer peer-greed">Показване в сайта</span>
-                </label>
-            </div>
+           
 
             <div class="drop-area" name="edit">
                 <input type="file" name="images" class="drop-area-input" id="fileElem-edit" multiple accept="image/*">
@@ -242,6 +236,22 @@
                     <img src="{{$photo['photo']}}" alt="" class="img-responsive" />
                 </div>
                 @endforeach
+            </div>
+            
+            <div class="col-12 p-0">
+                <hr>
+            </div>
+            
+            <div class="form-row bot-row mt-neg15px">
+                <div class="form-group col-md-6">
+                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
+                        <input type="checkbox" id="checkbox_website_visible" name="website_visible" class="peer" @if($product->website_visible
+                        == 'yes') checked @endif>
+                        <label for="checkbox_website_visible" class="peers peer-greed js-sb ai-c">
+                            <span class="peer peer-greed">Показване в сайта</span>
+                        </label>
+                    </div>
+                </div>
             </div>
 
             <div id="errors-container"></div>
