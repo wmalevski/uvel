@@ -5,36 +5,44 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<form method="POST" id="edit-slides-form" action="slides/{{  }}" name="slides" data-type="edit" autocomplete="off">
+<form method="POST" id="edit-slides-form" action="slides/{{ $slide->id }}" name="slides" data-type="edit" autocomplete="off">
     <div class="modal-body">
-        <div class="info-cont">
-        </div>
+        <div class="info-cont"></div>
         {{ csrf_field() }}
 
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="1">Заглавие: </label>
+                <input type="text" class="form-control" id="1" name="title" placeholder="Заглавие:">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="2">Кратко описание: </label>
+                <input type="text" class="form-control" id="2" name="content" placeholder="Кратко описание:">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="3">Текст на бутона: </label>
+                <input type="text" class="form-control" id="3" name="button_text" placeholder="Текст на бутона:">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="4">Линк на бутона: </label>
+                <input type="text" class="form-control" id="4" name="button_link" placeholder="Линк на бутона:">
+            </div>
+            <div class="col-12">
+                <hr>
+            </div>
+        </div>
+        
         <div class="drop-area" name="add">
             <input type="file" name="images" class="drop-area-input" id="fileElem-edit" multiple accept="image/*" >
             <label class="button" for="fileElem-edit">Select some files</label>
             <div class="drop-area-gallery"></div>
-        </div>
-
-        <div class="form-group">
-            <label for="1">Заглавие: </label>
-            <input type="text" class="form-control" id="1" name="title" placeholder="Заглавие:">
-        </div>
-
-        <div class="form-group">
-            <label for="2">Кратко описание: </label>
-            <input type="text" class="form-control" id="2" name="content" placeholder="Кратко описание:">
-        </div>
-
-        <div class="form-group">
-            <label for="3">Текст на бутона: </label>
-            <input type="text" class="form-control" id="3" name="button_text" placeholder="Текст на бутона:">
-        </div>
-
-        <div class="form-group">
-            <label for="4">Линк на бутона: </label>
-            <input type="text" class="form-control" id="4" name="button_link" placeholder="Линк на бутона:">
         </div>
     </div>
 

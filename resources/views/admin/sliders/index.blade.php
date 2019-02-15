@@ -5,7 +5,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="addStoneLabel">Добавяне на слайд</h5>
+				<h5 class="modal-title">Добавяне на слайд</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -14,30 +14,42 @@
 				<div class="modal-body">
 					<div class="info-cont"></div>
 					{{ csrf_field() }}
+
+					<div class="form-row">
+						<div class="form-group col-md-12">
+							<label for="1">Заглавие: </label>
+							<input type="text" class="form-control" id="1" name="title">
+						</div>
+					</div>
+
+					<div class="form-row">
+						<div class="form-group col-md-12">
+							<label for="2">Кратко описание: </label>
+							<input type="text" class="form-control" id="2" name="content">
+						</div>
+					</div>
+					
+					<div class="form-row">
+						<div class="form-group col-md-12">
+							<label for="3">Текст на бутона: </label>
+							<input type="text" class="form-control" id="3" name="button_text">
+						</div>
+					</div>
+					
+					<div class="form-row">
+						<div class="form-group col-md-12">
+							<label for="4">Линк на бутона: </label>
+							<input type="text" class="form-control" id="4" name="button_link">
+						</div>
+						<div class="col-12">
+                <hr>
+            </div>
+					</div>
+					
 					<div class="drop-area" name="add">
 						<input type="file" name="images" class="drop-area-input" id="fileElem-add" accept="image/*">
 						<label class="button" for="fileElem-add">Select some files</label>
 						<div class="drop-area-gallery"></div>
-					</div>
-
-					<div class="form-group">
-						<label for="1">Заглавие: </label>
-						<input type="text" class="form-control" id="1" name="title">
-					</div>
-
-					<div class="form-group">
-						<label for="2">Кратко описание: </label>
-						<input type="text" class="form-control" id="2" name="content">
-					</div>
-
-					<div class="form-group">
-						<label for="3">Текст на бутона: </label>
-						<input type="text" class="form-control" id="3" name="button_text">
-					</div>
-
-					<div class="form-group">
-						<label for="4">Линк на бутона: </label>
-						<input type="text" class="form-control" id="4" name="button_link">
 					</div>
 				</div>
 
