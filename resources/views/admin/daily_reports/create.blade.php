@@ -90,17 +90,24 @@
               @endforeach
             </ul>
             @endif
+            
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Материал</label>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputtext4">Брой</label>
+              </div>
+            </div>
 
             @foreach($materials as $material)
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label>Материал</label>
-                <input type="number" class="form-control" placeholder="{{ $material->material->parent->name }}"
-                  readonly>
+                <input type="number" class="form-control" placeholder="{{ $material->material->parent->name }}" readonly>
                 <input type="hidden" class="form-control" value="{{ $material->id }}" name="material_id[]">
               </div>
               <div class="form-group col-md-6">
-                <label for="inputtext4">Брой</label>
+                
                 <input type="number" name="quantity[]" class="form-control" placeholder="0">
               </div>
             </div>
@@ -128,17 +135,24 @@
               @endforeach
             </ul>
             @endif
+            
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Материал</label>
+              </div>
+              <div class="form-group col-md-6">
+                <label>Количество гр.</label>
+              </div>
+            </div>
 
             @foreach($materials as $material)
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label>Материал</label>
-                <input type="number" class="form-control" placeholder="{{ $material->material->parent->name }} - {{ $material->material->carat }}"
-                  readonly>
+                
+                <input type="number" class="form-control" placeholder="{{ $material->material->parent->name }} - {{ $material->material->carat }}" readonly>
                 <input type="hidden" class="form-control" value="{{ $material->id }}" name="material_id[]">
               </div>
               <div class="form-group col-md-6">
-                <label for="inputtext4">Количество гр.</label>
                 <input type="number" name="quantity[]" class="form-control" placeholder="0">
               </div>
             </div>
