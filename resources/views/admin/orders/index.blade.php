@@ -54,7 +54,7 @@ $newStoneRow =
 						<label>Тегло: </label>
 						<div class="input-group">
 							<input type="number" value="" class="form-control calculate-stones" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">
-							<span class="input-group-addon">гр</span>
+							<span class="input-group-addon">гр.</span>
 						</div>
 					</div>
 				</div>
@@ -181,7 +181,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							
 							<div class="input-group">
 								<input type="text" class="form-control weight calculate" id="weight" name="weight" data-calculatePrice-netWeight placeholder="Тегло:" min="1" max="10000">
-								<span class="input-group-addon">гр</span>
+								<span class="input-group-addon">гр.</span>
 							</div>
 						</div>
 
@@ -210,7 +210,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							
 							<div class="input-group">
 								<input type="text" class="form-control" id="totalStones" name="totalStones" data-calculateStones-total disabled>
-								<span class="input-group-addon">гр</span>
+								<span class="input-group-addon">гр.</span>
 							</div>
 						</div>
 
@@ -225,7 +225,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							
 							<div class="input-group">
 								<input type="number" class="form-control" name="gross_weight" id="grossWeight" value="0" data-calculatePrice-grossWeight disabled>
-								<span class="input-group-addon">гр</span>
+								<span class="input-group-addon">гр.</span>
 							</div>
 						</div>
 
