@@ -118,7 +118,7 @@
           <div class="input-group">
             <input type="number" class="form-control calculate" id="weight" name="weight" value="{{ $model->weight }}"
                    data-calculatePrice-netWeight placeholder="Тегло:">
-            <span class="input-group-addon">гр</span>
+            <span class="input-group-addon">гр.</span>
           </div>
         </div>
 
@@ -168,7 +168,7 @@
               <div class="input-group">
                 <input type="number" value="{{ $modelStone->weight }}" class="form-control calculate-stones" id="1"
                        name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:">
-                <span class="input-group-addon">гр</span>
+                <span class="input-group-addon">гр.</span>
               </div>
             </div>
           </div>
@@ -199,7 +199,7 @@
           <div class="input-group">
             <input type="number" class="form-control" value="{{ $model->totalStones }}" id="totalStones_edit" name="totalStones"
                    data-calculateStones-total disabled>
-            <span class="input-group-addon">гр</span>
+            <span class="input-group-addon">гр.</span>
           </div>
         </div>
 
