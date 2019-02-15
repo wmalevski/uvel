@@ -83,6 +83,10 @@ form .form-group {
 	min-width: 44px;
 }
 
+.substitution-table {
+	table-layout: fixed;
+}
+
 /* Admin Panel Side menu */
 .nav-item.active > a,
 .nav-item.active li.active {
