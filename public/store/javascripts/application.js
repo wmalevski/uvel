@@ -482,7 +482,6 @@ var uvelStore,
 			$addToCartTrigger = $('.add-to-cart'),
 			$removeFromCartTrigger = $('.remove-from-cart'),
 			$updateCartQuantityTrigger = $('.update-cart-quantity'),
-			$addToWishTrigger = $('.wish-list'),
 			$orderProductTrigger = $('.order_product'),
 			$sortTrigger = $('.sort');
 
@@ -500,7 +499,7 @@ var uvelStore,
 		$self.addToCartAttach($addToCartTrigger);
 		$self.removeFromCartAttach($removeFromCartTrigger);
 		$self.updateCartQuantityAttach($updateCartQuantityTrigger);
-		$self.addToWishlistAttach($addToWishTrigger);
+		$self.addToWishlistAttach();
 		$self.reviewWordCount();
 		$self.setReviewRating();
 		$self.orderProductAttach($orderProductTrigger);
@@ -964,6 +963,7 @@ var uvelStore,
 				}, 400, function () {
 					productsContainer.html(resp);
 					$self.quickviewAttach($('.quick_shop'));
+					$self.addToWishlistAttach();
 				});
 
 				productsContainer.animate({
@@ -1287,8 +1287,8 @@ var uvelStore,
 		})
 	}
 
-	this.addToWishlistAttach = function (addToWishBtn) {
-		addToWishBtn.on('click', function (e) {
+	this.addToWishlistAttach = function () {
+		$('.wish-list').on('click', function (e) {
 			e.preventDefault();
 			$self.addToWishlist($(this));
 		})
