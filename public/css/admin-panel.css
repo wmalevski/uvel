@@ -79,6 +79,10 @@ form .form-group {
 	right: -40px;
 }
 
+.form-row span.input-group-addon {
+	min-width: 44px;
+}
+
 /* Admin Panel Side menu */
 .nav-item.active > a,
 .nav-item.active li.active {
