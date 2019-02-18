@@ -678,19 +678,18 @@ var uvel,
         e.preventDefault();
         var _this = $(this),
             discountInput = _this.closest('form').find('[data-sell-discount]'),
-            discountAmount = Number(discountInput.val());
+            discountAmount = Number(discountInput.val()),
+            description = _this.closest('form').find('[data-sell-description]').val(),
+            urlTaken = window.location.href.split('/'),
+            _url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/',
+            discountUrl = _this.attr('data-url'),
+            dataSend = {
+              discount: discountAmount,
+              description: description
+            };
 
         if (discountAmount > 0) {
-          var description = _this.closest('form').find('[data-sell-description]').val(),
-              urlTaken = window.location.href.split('/'),
-              _url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/',
-              discountUrl = _this.attr('data-url'),
-              ajaxUrl = _url + discountUrl,
-              dataSend = {
-                discount: discountAmount,
-                description: description
-              };
-
+          var ajaxUrl = _url + discountUrl;
           $self.ajaxFn('POST', ajaxUrl, $self.discountSuccess, dataSend, '', '');
         }
       });
