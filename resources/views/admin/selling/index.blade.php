@@ -29,11 +29,9 @@
                 </button>
             </div>
             <form method="POST" action="sell/partner" name="sellingPartners" data-type="partner-sell">
-                <div class="modal-body">    
-                    <div class="info-cont">
-                    </div>
-                    {{ csrf_field() }}  
-
+                <div class="modal-body">
+                    <div class="info-cont"></div>
+                    {{ csrf_field() }}
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <table class="table" id="partner-shopping-table">
@@ -46,22 +44,29 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
+
                                 </tbody>
                                 <tfoot>
                                     <tr class="partner-worksmanship">
                                         <td>Изработка</td>
-                                        <td colspan="2"><input type="number" style="border: none; padding: 0;" class="form-control" value="0" data-worksmanship-wanted placeholder="0" readonly></td>
-                                        <td><input type="number" class="form-control" value="0" placeholder="0" data-worksmanship-given></td>
+                                        <td colspan="2">
+                                            <input type="number" class="form-control border-0 p-0" value="0" data-worksmanship-wanted placeholder="0" readonly>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control" value="0" placeholder="0" data-worksmanship-given>
+                                        </td>
                                     </tr>
                                 </tfoot>
                             </table>
-                        </div>    
+                        </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="partner-information">Информация за партнъора:</label>
                             <p class="partner-information"></p>
+                        </div>
+                        <div class="col-12">
+							<hr>
                         </div>
                     </div>
                     <div class="form-row">
@@ -73,7 +78,7 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-4">    
+                        <div class="form-group col-md-4">
                             <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
                                 <input type="checkbox" id="partner-pay-method" class="pay-method" name="partner-pay-method" data-calculatepayment-method="">
                                 <label for="partner-pay-method" class="peers peer-greed js-sb ai-c">
@@ -101,22 +106,29 @@
                                 <label for="partner-modal-non-ticket">Без разписка</label>
                             </div>
                         </div>
+                        <div class="col-12">
+							<hr>
+						</div>
                     </div>
-                    
+
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-8">
                             <span>Принтиране на сертификат:</span>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <div class="radio radio-info">
-                                <input type="radio" id="partner-modal-certificate" class="not-clear" name="partner-modal-certificate" value="yes" checked="">
+                                <input type="radio" id="partner-modal-certificate" class="not-clear" name="partner-modal-certificate" value="with_price" checked="">
                                 <label for="partner-modal-certificate">С цена</label>
                             </div>
                             <div class="radio radio-info">
-                                <input type="radio" id="partner-modal-non-certificate" name="partner-modal-certificate" value="no">
+                                <input type="radio" id="partner-modal-non-certificate" name="partner-modal-certificate" value="without_price">
                                 <label for="partner-modal-non-certificate">Без цена</label>
                             </div>
-                        </div>
+                            <div class="radio radio-info">
+                                <input type="radio" id="partner-modal-no-print-certificate" name="partner-modal-certificate" value="no">
+                                <label for="partner-modal-no-print-certificate">Без сертификат</label>
+                            </div>
+                        </div>               
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -138,13 +150,10 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="repairs" name="fullEditRepair"> 
-                <div class="modal-body">    
-                    <div class="info-cont">
-                    </div>
-
-                    {{ csrf_field() }}  
-                                
+            <form method="POST" action="repairs" name="fullEditRepair">
+                <div class="modal-body">
+                    <div class="info-cont"></div>
+                    {{ csrf_field() }}
                 </div>
 
                 <div class="modal-footer">
@@ -169,13 +178,10 @@ aria-hidden="true">
             </div>
             <form name="dailyReport" data-scan="/ajax/dailyreports" autocomplete="off">
                 <div class="modal-body">
-                    <div class="info-cont">
-                    </div>
+                    <div class="info-cont"></div>
                     {{ csrf_field() }}
                     <div class="form-row">
-                        <div class="col-md-4">
-
-                        </div>
+                        <div class="col-md-4"></div>
                         {{-- <div class="form-group col-md-12">
                             <label for="1">Пари в касата: </label>
                             <input type="number" class="form-control" name="safe_amount" placeholder="Въведете колко пари има в касата:">
@@ -193,8 +199,7 @@ aria-hidden="true">
 </div>
 
 
-<div class="modal fade payment-modal" id="paymentModal" role="dialog" aria-labelledby="paymentModal"
-aria-hidden="true">
+<div class="modal fade payment-modal" id="paymentModal" role="dialog" aria-labelledby="paymentModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -204,12 +209,9 @@ aria-hidden="true">
                 </button>
             </div>
             <form method="POST" action="sell/payment" name="selling" data-type="sell">
-
                 <div class="modal-body">
                     <div class="info-cont"></div>
-
                     {{ csrf_field() }}
-
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="wanted-sum">Дължима сума</label>
@@ -240,9 +242,7 @@ aria-hidden="true">
                             </div>
                         </div>
 
-                        <div class="exchange-row-fields">
-                            
-                        </div>
+                        <div class="exchange-row-fields"></div>
 
                         <div class="exchange-row-total form-row">
                             <div class="form-group col-md-6">
@@ -359,7 +359,7 @@ aria-hidden="true">
 <div class="row">
     <div class="col-md-12">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
-            <h4 class="c-grey-900 mB-20">Продажби 
+            <h4 class="c-grey-900 mB-20">Продажби
                 <a href="{{ route('clear_cart') }}" class="btn btn-primary">Изчисти продажбата</a>
                 @if($todayReport == 'false')
                     <a href="{{ route('create_report') }}" class="add-btn btn btn-primary" >Пусни дневен отчет</a>
@@ -453,8 +453,12 @@ aria-hidden="true">
                         </table>
 
                         <div class="form-group">
-                            <button type="button" class="btn btn-primary payment-btn" data-selling-payment data-form-type="sell" data-form="selling" data-toggle="modal" data-target="#paymentModal" @if($partner == true) style="display: none;" @endif>Плащане</button>
-                            <button type="button" class="btn btn-primary payment-btn" data-url="/ajax/cartMaterialsInfo" data-form-type="partner-sell" data-form="sellingPartners" data-toggle="modal" data-target="#paymentPartner" @if($partner == true) style="display: initial;" @else style="display: none;" @endif>Плащане Партнъор</button>
+                            <button type="button" class="btn btn-primary payment-btn" data-selling-payment data-form-type="sell" data-form="selling" data-toggle="modal" data-target="#paymentModal"
+                                    @if($partner == true) style="display: none;" @endif>Плащане</button>
+                            <button type="button" class="btn btn-primary payment-btn" data-url="/ajax/cartMaterialsInfo" data-form-type="partner-sell" data-form="sellingPartners" data-toggle="modal" data-target="#paymentPartner"
+                                    @if($partner == true) style="display: initial;"
+                                    @else style="display: none;"
+                                    @endif>Плащане Партньор</button>
                             <button type="button" class="btn btn-primary">Ръчно пускане на фискален бон</button>
                         </div>
 
