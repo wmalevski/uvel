@@ -420,7 +420,7 @@ aria-hidden="true">
 
                         <div class="form-group">
                             <label for="description">Описание</label>
-                            <textarea name="description" id="description" class="form-control" data-sell-description></textarea>
+                            <textarea name="description" id="description" class="form-control" data-sell-description disabled></textarea>
                         </div>
 
                         <div class="form-group">

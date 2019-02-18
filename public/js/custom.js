@@ -265,7 +265,6 @@ var uvel,
           $returnRepairBtn = $('[data-repair-return]'),
           $addNumberTrigger = $('[data-sell-catalogNumber], [data-sell-barcode]'),
           $sellMoreProductsTrigger = $('[data-sell-moreProducts]'),
-          $addDiscountTrigger = $('[data-sell-discountApply]'),
           $addCardDiscountTrigger = $('[data-sell-discountCard]'),
           $travelingMaterialsStateBtns = $('[data-travelstate]'),
           $inputCollection = $('input'),
@@ -278,7 +277,7 @@ var uvel,
       $self.returnRepairBtnAction($returnRepairBtn);
       $self.addNumber($addNumberTrigger);
       $self.sellMoreProducts($sellMoreProductsTrigger);
-      $self.addDiscount($addDiscountTrigger);
+      $self.setSellingDiscountEvents();
       $self.removeDiscountAttach($removeDiscountTrigger);
       $self.addCardDiscount($addCardDiscountTrigger);
       $self.travellingMaterialsState($travelingMaterialsStateBtns);
@@ -662,23 +661,36 @@ var uvel,
       });
     }
 
-    this.addDiscount = function(addDiscountTrigger) {
-      addDiscountTrigger.on('click', function(e) {
+    this.setSellingDiscountEvents = function() {
+      var btnApplyDiscount = $('[data-sell-discountApply]'),
+          inputDiscount = $('input[name="discount"]'),
+          textareaDescription = $('[data-sell-description]');
+
+      inputDiscount.on('input', function(event) {
+        if (event.currentTarget.value) {
+          textareaDescription.prop('disabled', false);
+        } else {
+          textareaDescription.prop('disabled', true);
+        }
+      });
+
+      btnApplyDiscount.on('click', function(e) {
         e.preventDefault();
         var _this = $(this),
             discountInput = _this.closest('form').find('[data-sell-discount]'),
-            discountAmount = Number(discountInput.val()),
-            description = _this.closest('form').find('[data-sell-description]').val(),
-            urlTaken = window.location.href.split('/'),
-            _url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/',
-            discountUrl = _this.attr('data-url'),
-            dataSend = {
-              'discount': discountAmount,
-              'description': description
-            };
+            discountAmount = Number(discountInput.val());
 
         if (discountAmount > 0) {
-          var ajaxUrl = _url + discountUrl;
+          var description = _this.closest('form').find('[data-sell-description]').val(),
+              urlTaken = window.location.href.split('/'),
+              _url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/',
+              discountUrl = _this.attr('data-url'),
+              ajaxUrl = _url + discountUrl,
+              dataSend = {
+                discount: discountAmount,
+                description: description
+              };
+
           $self.ajaxFn('POST', ajaxUrl, $self.discountSuccess, dataSend, '', '');
         }
       });
