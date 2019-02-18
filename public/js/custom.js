@@ -265,7 +265,6 @@ var uvel,
           $returnRepairBtn = $('[data-repair-return]'),
           $addNumberTrigger = $('[data-sell-catalogNumber], [data-sell-barcode]'),
           $sellMoreProductsTrigger = $('[data-sell-moreProducts]'),
-          $addDiscountTrigger = $('[data-sell-discountApply]'),
           $addCardDiscountTrigger = $('[data-sell-discountCard]'),
           $travelingMaterialsStateBtns = $('[data-travelstate]'),
           $inputCollection = $('input'),
@@ -278,7 +277,7 @@ var uvel,
       $self.returnRepairBtnAction($returnRepairBtn);
       $self.addNumber($addNumberTrigger);
       $self.sellMoreProducts($sellMoreProductsTrigger);
-      $self.addDiscount($addDiscountTrigger);
+      $self.setSellingDiscountEvents();
       $self.removeDiscountAttach($removeDiscountTrigger);
       $self.addCardDiscount($addCardDiscountTrigger);
       $self.travellingMaterialsState($travelingMaterialsStateBtns);
@@ -662,8 +661,20 @@ var uvel,
       });
     }
 
-    this.addDiscount = function(addDiscountTrigger) {
-      addDiscountTrigger.on('click', function(e) {
+    this.setSellingDiscountEvents = function() {
+      var btnApplyDiscount = $('[data-sell-discountApply]'),
+          inputDiscount = $('input[name="discount"]'),
+          textareaDescription = $('[data-sell-description]');
+
+      inputDiscount.on('input', function(event) {
+        if (event.currentTarget.value) {
+          textareaDescription.prop('disabled', false);
+        } else {
+          textareaDescription.prop('disabled', true);
+        }
+      });
+
+      btnApplyDiscount.on('click', function(e) {
         e.preventDefault();
         var _this = $(this),
             discountInput = _this.closest('form').find('[data-sell-discount]'),
@@ -673,8 +684,8 @@ var uvel,
             _url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/',
             discountUrl = _this.attr('data-url'),
             dataSend = {
-              'discount': discountAmount,
-              'description': description
+              discount: discountAmount,
+              description: description
             };
 
         if (discountAmount > 0) {
