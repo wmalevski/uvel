@@ -402,7 +402,9 @@ var uvel,
       
       
       setTimeout(function() {
+        if (openedForm != 'sellingPartners' && openedForm != 'selling') {
           $('button[type="submit"]').prop('disabled', false);
+        }
       }, timeToOpenModal);
     }
 
@@ -2042,6 +2044,12 @@ var uvel,
         returnSum = Number(exchangeSum.toFixed(2));
       }
 
+      if (returnSum >= 0) {        
+        form.find('.btn-finish-payment, .btn-print').prop('disabled', false);
+      } else {
+        form.find('.btn-finish-payment, .btn-print').prop('disabled', true);
+      }
+      
       returnHolder.val(returnSum);
     }
 

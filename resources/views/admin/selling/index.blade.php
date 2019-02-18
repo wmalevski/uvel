@@ -276,7 +276,7 @@ aria-hidden="true">
                         </div>
                         <div class="form-group col-md-3">
                             <label for="given-sum">Дадена сума</label>
-                            <input type="number" id="given-sum" class="form-control" value="0" name="given_sum" data-calculatePayment-given placeholder="Дадена сума от клиента">
+                            <input type="number" id="given-sum" class="form-control" value="0" name="given_sum" data-calculatePayment-given>
                         </div>
                         <div class="form-group col-md-3">
                             <label for="return-sum">Ресто</label>
@@ -343,8 +343,8 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="button" class="btn btn-primary">Печат</button>
-                    <button type="submit" class="btn btn-primary btn-finish-payment">Завърши плащането</button>
+                    <button type="button" class="btn btn-primary btn-print" disabled>Печат</button>
+                    <button type="submit" class="btn btn-primary btn-finish-payment" disabled>Завърши плащането</button>
                 </div>
             </form>
         </div>
