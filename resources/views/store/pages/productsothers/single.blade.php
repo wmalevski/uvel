@@ -223,8 +223,10 @@
 													@if(count($product->reviews) >= 1)
 													<span class="spr-summary-caption">
 														<span class="spr-summary-actions-togglereviews">
-															Базирано на {{count($product->reviews)}} @if(count($product->reviews) == 1) ревю @else ревюта -
-															{{$product->getProductOtherAvgRating($product)}}/5 @endif
+															({{$productAvgRating}}/5)
+															Базирано на {{count($product->reviews)}}
+															@if(count($product->reviews) == 1) ревю @else ревюта
+															@endif
 														</span>
 													</span>
 													@endif
@@ -261,12 +263,13 @@
 																</label>
 																<div class="spr-form-input">
 																	<textarea class="spr-form-input spr-form-input-textarea" id="review_body_{{$product->id}}"
-																	 					data-product-id="{{$product->id}}" name="content" rows="10" placeholder="Добавете вашият коментар за ревюто тук"></textarea>
+																	 					data-product-id="{{$product->id}}" name="content" rows="10" placeholder="Добавете вашият коментар"></textarea>
 																</div>
 															</div>
 														</fieldset>
 														<fieldset class="spr-form-actions">
-															<input type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary" value="Добави рейтинг">
+															<input id="btnSubmitReview" type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary"
+																		 value="Добави рейтинг" disabled>
 														</fieldset>
 														<input type="hidden" name="product_others_id" value="{{$product->id}}">
 														<input type="hidden" name="type" value="product_other">
@@ -283,9 +286,13 @@
 																		@endif
 																		@endfor
 															</span>
-															<h3 class="spr-review-header-title">{{$review->title}}</h3>
+															<h3 class="spr-review-header-title">
+																{{$review->user->name}}
+															</h3>
 															<span class="spr-review-header-byline">
-																<strong>{{$review->user->name}}</strong> on <strong>{{$review->created_at}}</strong>
+																<strong>
+																	{{ $review->created_at->format('d') }} {{ $review->created_at->format('M') }}, {{ $review->created_at->format('Y') }}
+																</strong>
 															</span>
 														</div>
 														<div class="spr-review-content">

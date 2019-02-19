@@ -213,7 +213,7 @@
 													</span>
 													<span class="spr-summary-caption">
 														<span class="spr-summary-actions-togglereviews">
-															({{$productAvgRating}}/5 )
+															({{$productAvgRating}}/5)
 															Базирано на {{count($product->reviews)}}
 															@if(count($product->reviews) == 1) ревю @else ревюта
 															@endif
@@ -259,7 +259,7 @@
 														</fieldset>
 														<fieldset class="spr-form-actions">
 															<input id="btnSubmitReview" type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary"
-															 disabled value="Добави рейтинг">
+															 			 value="Добави рейтинг" disabled>
 														</fieldset>
 														<input type="hidden" name="product_id" value="{{$product->id}}">
 														<input type="hidden" name="type" value="product">
@@ -271,9 +271,11 @@
 													<div class="spr-review" id="spr-review-{{$key}}">
 														<div class="spr-review-header">
 															<span class="spr-starratings spr-review-header-starratings">
-																@for($i = 1; $i <= 5; $i++)
-																	<i class="spr-icon spr-icon-star"></i>
-																@endfor
+																@for($i = 1; $i <= 5; $i++) @if($review->rating >= $i)
+																	<i class="spr-icon spr-icon-star" style=""></i>
+																	@elseif($review->rating < $i) <i class="spr-icon spr-icon-star-empty" style=""></i>
+																		@endif
+																		@endfor
 															</span>
 															<h3 class="spr-review-header-title">{{$review->user->name}}</h3>
 															<span class="spr-review-header-byline">
