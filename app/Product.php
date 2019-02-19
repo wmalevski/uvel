@@ -91,6 +91,10 @@ class Product extends BaseModel
         return $this->belongsTo('App\OrderItem', 'product_id');
     }
 
+    public function store_info(){
+        return $this->belongsTo('App\Store', 'store_id');
+    }
+
     public function chainedSelects(Model $model){
         $materials = MaterialQuantity::curStore()->take(env('SELECT_PRELOADED'));
         $default = $model->options->where('default', 'yes')->first();
