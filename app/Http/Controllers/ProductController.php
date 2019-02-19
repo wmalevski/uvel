@@ -92,7 +92,7 @@ class ProductController extends Controller
 
         $products_new = new Product();
         $products = $products_new->filterProducts($request, $query);
-        $products = $products->paginate(env('RESULTS_PER_PAGE'));
+        $products = $products->where('status', 'available')->paginate(env('RESULTS_PER_PAGE'));
         $pass_products = array();
 
         foreach($products as $product){
