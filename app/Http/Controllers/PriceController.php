@@ -153,12 +153,15 @@ class PriceController extends Controller
     { 
         if($price){
             $usingRModel = ModelOption::where('retail_price_id', $price->id)->get();
-            if($usingRModel){
-                return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
+            if(count($usingRModel)){
+                return Response::json(['errors' => ['using' => [trans('admin/prices.delete_using')]]], 401);
             }else{
+                if($price->id == $price->material->pricesSell->first()->id || $price->id == $price->material->pricesBuy->first()->id){
+                    return Response::json(['errors' => ['default_price' => [trans('admin/prices.delete_default')]]], 401);
+                }
 
                 $price->delete();
-                return Response::json(array('success' => 'Успешно изтрито!'));
+                return Response::json(array('success' => trans('admin/prices.delete_success')));
             }
         }
     }
