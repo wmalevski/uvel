@@ -376,7 +376,7 @@ var uvel,
           formType = $this.attr('data-form-type'),
           formSettings = $self.formsConfig[openedForm];
 
-      $('button[type="submit"]').prop('disabled', true);
+      $('form[name="' + openedForm + '"]').find('button[type="submit"]').prop('disabled', true);
 
       if (formType == 'edit') {
         $self.appendingEditFormToTheModal($this, data);
@@ -743,6 +743,12 @@ var uvel,
         $self.cartSumsPopulate(response);
         var removeDiscountTrigger = $('[data-sell-removeDiscount]');
         $self.removeDiscountAttach(removeDiscountTrigger);
+
+        if ($('.discount-remove').length) {
+          $('.payment-btn, .fiscal-btn').prop('disabled', false);
+        } else {
+          $('.payment-btn, .fiscal-btn').prop('disabled', true);
+        }
       }
     }
 
