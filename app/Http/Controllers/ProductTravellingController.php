@@ -62,8 +62,10 @@ class ProductTravellingController extends Controller
 
                 if($check){
                     if($check->store_id == $request->store_to_id){
-                        return Response::json(['errors' => array('quantity' => ['Не може да изпращате материал към същият магазин'])], 401);
+                        return Response::json(['errors' => array('quantity' => [trans('admin/products_travelling.error_same_store')])], 401);
                     }
+                }else{
+                    return Response::json(['errors' => array('not_found' => [trans('admin/products_travelling.error_not_found')])], 401);
                 }
 
                 $travel = new ProductTravelling();
@@ -83,6 +85,8 @@ class ProductTravellingController extends Controller
             }
 
             return Response::json(array('success' =>$response));
+        }else{
+            return Response::json(['errors' => array('quantity' => [trans('admin/products_travelling.error_no_products')])], 401);
         }
 
 
