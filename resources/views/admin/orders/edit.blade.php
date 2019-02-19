@@ -143,7 +143,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
           <div class="input-group">
             <input id="weight_edit" class="form-control weight calculate" type="text" value="{{ $order->weight }}"
                    name="weight" data-calculatePrice-netWeight placeholder="Тегло:" min="1" max="10000">
-            <span class="input-group-addon">гр</span>
+            <span class="input-group-addon">гр.</span>
           </div>
         </div>
 
@@ -199,7 +199,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
               <div class="input-group">
                 <input type="number" value="{{  $order_stone->weight  }}" class="form-control calculate-stones" id="1"
                        name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">
-                <span class="input-group-addon">гр</span>
+                <span class="input-group-addon">гр.</span>
               </div>
             </div>
           </div>
@@ -230,7 +230,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
           
           <div class="input-group">
             <input type="number" class="form-control" id="totalStones" name="totalStones_edit" data-calculateStones-total disabled>
-            <span class="input-group-addon">гр</span>
+            <span class="input-group-addon">гр.</span>
           </div>
         </div>
 
@@ -246,7 +246,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
           <div class="input-group">
             <input id="grossWeight_edit" class="form-control" type="number" name="gross_weight"
                    value="{{ $order->gross_weight }}" data-calculatePrice-grossWeight disabled>
-            <span class="input-group-addon">гр</span>
+            <span class="input-group-addon">гр.</span>
           </div>
         </div>
 

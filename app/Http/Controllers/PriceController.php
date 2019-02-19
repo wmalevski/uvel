@@ -64,7 +64,18 @@ class PriceController extends Controller
         }
 
         $price = Price::create($request->all());
-        return Response::json(array('success' => View::make('admin/prices/table',array('price'=>$price, 'type' => $request->type))->render(), 'type'=>$request->type));
+
+        $indicatePrice = false;
+        $getIndicatePrice = Price::where([
+            ['type', '=', $price->type],
+            ['material_id', '=', $price->material_id]
+        ])->orderBy('id', 'ASC')->first();
+
+        if(count($getIndicatePrice) && $getIndicatePrice->id == $price->id){
+            $indicatePrice = true;
+        }
+
+        return Response::json(array('success' => View::make('admin/prices/table',array('price'=>$price, 'type' => $request->type, 'indicatePrice' => $indicatePrice))->render(), 'type'=>$request->type));
     }
 
     /**
@@ -118,8 +129,18 @@ class PriceController extends Controller
         $price->type = $request->type;
         
         $price->save();
+
+        $indicatePrice = false;
+        $getIndicatePrice = Price::where([
+            ['type', '=', $price->type],
+            ['material_id', '=', $price->material_id]
+        ])->orderBy('id', 'ASC')->first();
         
-        return Response::json(array('ID' => $price->id, 'table' => View::make('admin/prices/table', array('price' => $price, 'type' => $request->type))->render(), 'type'=>$request->type));
+        if(count($getIndicatePrice) && $getIndicatePrice->id == $price->id){
+            $indicatePrice = true;
+        }
+        
+        return Response::json(array('ID' => $price->id, 'table' => View::make('admin/prices/table', array('price' => $price, 'indicatePrice' => $indicatePrice))->render(), 'type'=>$request->type));
     }
 
     /**
@@ -132,12 +153,15 @@ class PriceController extends Controller
     { 
         if($price){
             $usingRModel = ModelOption::where('retail_price_id', $price->id)->get();
-            if($usingRModel){
-                return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
+            if(count($usingRModel)){
+                return Response::json(['errors' => ['using' => [trans('admin/prices.delete_using')]]], 401);
             }else{
+                if($price->id == $price->material->pricesSell->first()->id || $price->id == $price->material->pricesBuy->first()->id){
+                    return Response::json(['errors' => ['default_price' => [trans('admin/prices.delete_default')]]], 401);
+                }
 
                 $price->delete();
-                return Response::json(array('success' => 'Успешно изтрито!'));
+                return Response::json(array('success' => trans('admin/prices.delete_success')));
             }
         }
     }

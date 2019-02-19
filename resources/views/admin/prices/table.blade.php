@@ -1,5 +1,5 @@
 <tr data-id="{{ $price->id }}">
-    <td> @if(!empty($loop)) @if ($loop->first) Индикация за образуване на цена @endif @endif </td>
+    <td> @if ((!empty($loop) && $loop->first) || (isset($indicatePrice) && $indicatePrice == true)) Индикация за образуване на цена @endif </td>
     <td>{{ $price->slug }}</td> 
     <td>{{ $price->price }}</td> 
     <td>

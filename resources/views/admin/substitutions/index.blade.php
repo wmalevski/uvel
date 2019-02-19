@@ -5,10 +5,7 @@
 
 <div class="modal fade edit--modal_holder" id="editSubstitution" role="dialog" aria-labelledby="editSubstitution" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            
-
-        </div>
+        <div class="modal-content"></div>
     </div>
 </div>
 
@@ -50,7 +47,7 @@
                         <div class="form-group">
                             <label>Магазин: </label>
                             <select name="store_id" class="form-control" data-search="/ajax/select_search/stores/">
-                                <option value="">Избер магазин</option>
+                                <option value="">Избери магазин</option>
                         
                                 @foreach($stores as $store)
                                     <option value="{{ $store->id }}">{{ $store->name }} - {{ $store->location }}</option>
@@ -100,7 +97,7 @@
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
         <h4 class="c-grey-900 mB-20">Замествания <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="substitutions" data-toggle="modal" data-target="#userSubstitution">Изпрати</button></h4>
         <p>Преглед на текущи замествания.</p>
-        <table id="user-substitute-active" class="table active">
+        <table id="user-substitute-active" class="table active substitution-table">
           <thead>
             <tr>
               <th scope="col">Потребител</th> 
@@ -125,7 +122,7 @@
     <div class="col-md-12">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
         <p>История на заместванията</p>
-        <table id="user-substitute-inactive" class="table inactive">
+        <table id="user-substitute-inactive" class="table inactive substitution-table">
           <thead>
             <tr>
               <th scope="col">Потребител</th> 

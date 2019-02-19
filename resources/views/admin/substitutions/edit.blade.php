@@ -34,7 +34,7 @@
                 <div class="form-group">
                     <label>Магазин: </label>
                     <select name="store_id" class="form-control" data-search="/ajax/select_search/stores/">
-                        <option value="">Избер магазин</option>
+                        <option value="">Избери магазин</option>
                 
                         @foreach($stores as $store)
                             <option value="{{ $store->id }}" @if($substitution->store_id == $store->id) selected @endif>{{ $store->name }} - {{ $store->location }}</option>

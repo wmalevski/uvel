@@ -85,7 +85,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control weight calculate" id="weight_edit" value="{{ $product->weight }}"
                             name="weight" data-calculatePrice-netWeight placeholder="Тегло:" min="1" max="10000">
-                        <span class="input-group-addon">гр</span>
+                        <span class="input-group-addon">гр.</span>
                     </div>
                 </div>
 
@@ -136,7 +136,7 @@
                                 <input type="number" value="{{  $modelStone->weight  }}" class="form-control calculate-stones"
                                     id="1" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1"
                                     max="100">
-                                <span class="input-group-addon">гр</span>
+                                <span class="input-group-addon">гр.</span>
                             </div>
                         </div>
                     </div>
@@ -165,7 +165,7 @@
                     <div class="input-group">
                         <input type="number" class="form-control" id="totalStones" name="totalStones_edit"
                             data-calculateStones-total disabled>
-                        <span class="input-group-addon">гр</span>
+                        <span class="input-group-addon">гр.</span>
                     </div>
                 </div>
 
@@ -180,7 +180,7 @@
                     <div class="input-group">
                         <input type="number" class="form-control" name="gross_weight" id="grossWeight_edit" value="{{ $product->gross_weight }}"
                             data-calculatePrice-grossWeight disabled>
-                        <span class="input-group-addon">гр</span>
+                        <span class="input-group-addon">гр.</span>
                     </div>
                 </div>
 
@@ -221,13 +221,7 @@
                 </div>
             </div>
 
-            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
-                <input type="checkbox" id="checkbox_website_visible" name="website_visible" class="peer" @if($product->website_visible
-                == 'yes') checked @endif>
-                <label for="checkbox_website_visible" class="peers peer-greed js-sb ai-c">
-                    <span class="peer peer-greed">Показване в сайта</span>
-                </label>
-            </div>
+           
 
             <div class="drop-area" name="edit">
                 <input type="file" name="images" class="drop-area-input" id="fileElem-edit" multiple accept="image/*">
@@ -242,6 +236,22 @@
                     <img src="{{$photo['photo']}}" alt="" class="img-responsive" />
                 </div>
                 @endforeach
+            </div>
+            
+            <div class="col-12 p-0">
+                <hr>
+            </div>
+            
+            <div class="form-row bot-row mt-neg15px">
+                <div class="form-group col-md-6">
+                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
+                        <input type="checkbox" id="checkbox_website_visible" name="website_visible" class="peer" @if($product->website_visible
+                        == 'yes') checked @endif>
+                        <label for="checkbox_website_visible" class="peers peer-greed js-sb ai-c">
+                            <span class="peer peer-greed">Показване в сайта</span>
+                        </label>
+                    </div>
+                </div>
             </div>
 
             <div id="errors-container"></div>

@@ -24,7 +24,7 @@ $newStoneRow =
 						<label>Тегло: </label>
 						<div class="input-group">
 							<input type="number" value="" class="form-control calculate-stones" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">
-							<span class="input-group-addon">гр</span>
+							<span class="input-group-addon">гр.</span>
 						</div>
 					</div>
 				</div>
@@ -153,9 +153,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							<div class="input-group">
 								<input type="text" class="form-control weight calculate" id="weight" name="weight"
 								 data-calculatePrice-netWeight placeholder="Тегло:" min="1" max="10000">
-								<span class="input-group-addon">
-									гр
-								</span>
+								<span class="input-group-addon">гр.</span>
 							</div>
 						</div>
 
@@ -186,9 +184,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							</label>
 							<div class="input-group">
 								<input type="text" class="form-control" id="totalStones" name="totalStones" data-calculateStones-total disabled>
-								<span class="input-group-addon">
-									гр
-								</span>
+								<span class="input-group-addon">гр.</span>
 							</div>
 						</div>
 
@@ -204,9 +200,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							</label>
 							<div class="input-group">
 								<input type="number" class="form-control" name="gross_weight" id="grossWeight" value="0" data-calculatePrice-grossWeight disabled>
-								<span class="input-group-addon">
-									гр
-								</span>
+								<span class="input-group-addon">гр.</span>
 							</div>
 						</div>
 
@@ -255,15 +249,10 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 								@endforeach
 							</select>
 						</div>
-					</div>
-
-					<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
-						<input type="checkbox" id="website_visible" name="website_visible" class="peer" checked>
-						<label for="website_visible" class="peers peer-greed js-sb ai-c">
-							<span class="peer peer-greed">
-								Показване в сайта
-							</span>
-						</label>
+						
+						<div class="col-12">
+							<hr>
+						</div>
 					</div>
 
 					<div class="drop-area" name="add">
@@ -272,6 +261,19 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							Select some files
 						</label>
 						<div class="drop-area-gallery"></div>
+					</div>
+
+					<div class="form-row bot-row">
+						<div class="form-group col-md-6">
+							<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
+								<input type="checkbox" id="website_visible" name="website_visible" class="peer" checked>
+								<label for="website_visible" class="peers peer-greed js-sb ai-c">
+									<span class="peer peer-greed">
+										Показване в сайта
+									</span>
+								</label>
+							</div>
+						</div>
 					</div>
 
 					<div id="errors-container"></div>
@@ -311,8 +313,8 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 			<th data-sort-method="none">Уникален номер</th>
 			<th>Модел</th>
 			<th>Вид бижу</th>
-			<th data-sort-method="none">Цена на дребно</th>
-			<th data-sort-method="none">Тегло</th>
+			<th>Цена на дребно</th>
+			<th>Тегло</th>
 			<th>Цена</th>
 			<th data-sort-method="none">Баркод</th>
 			<th>Статус</th>

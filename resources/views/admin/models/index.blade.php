@@ -59,7 +59,7 @@ $newStoneRow =
 						<label>Тегло: </label>
 						<div class="input-group">
 							<input type="number" value="" class="form-control calculate-stones" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">
-							<span class="input-group-addon">гр</span>
+							<span class="input-group-addon">гр.</span>
 						</div>
 					</div>
 				</div>
@@ -137,9 +137,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							<label for="weight">Нетно тегло:</label>
 							<div class="input-group">
 								<input type="number" class="form-control calculate" id="weight" name="weight" data-calculatePrice-netWeight placeholder="Тегло:">
-								<span class="input-group-addon">
-									гр
-								</span>
+								<span class="input-group-addon">гр.</span>
 							</div>
 						</div>
 
@@ -166,7 +164,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							<label for="totalStones">Общо за леене:</label>
 							<div class="input-group">
 								<input type="number" class="form-control" id="totalStones" name="totalStones" data-calculateStones-total disabled>
-								<span class="input-group-addon">гр</span>
+								<span class="input-group-addon">гр.</span>
 							</div>
 						</div>
 						
@@ -203,23 +201,27 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 						<div class="drop-area-gallery"></div>
 					</div>
 
-					<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
-						<input type="checkbox" id="website_visible" name="website_visible" class="peer" checked>
-						<label for="website_visible" class="peers peer-greed js-sb ai-c">
-							<span class="peer peer-greed">
-								Показване в сайта
-							</span>
-						</label>
+					<div class="form-row bot-row">
+						<div class="form-group col-md-6">
+							<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
+								<input type="checkbox" id="website_visible" name="website_visible" class="peer" checked>
+								<label for="website_visible" class="peers peer-greed js-sb ai-c">
+									<span class="peer peer-greed">Показване в сайта</span>
+								</label>
+							</div>
+						</div>
 					</div>
 
-					
-					<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
-						<input type="checkbox" id="checkbox_website_add" name="release_product" class="peer">
-						<label for="checkbox_website_add" class="peers peer-greed js-sb ai-c">
-							<span class="peer peer-greed">Добави като продукт</span>
-						</label>
+					<div class="form-row bot-row">
+						<div class="form-group col-md-6">
+							<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
+								<input type="checkbox" id="checkbox_website_add" name="release_product" class="peer">
+								<label for="checkbox_website_add" class="peers peer-greed js-sb ai-c">
+									<span class="peer peer-greed">Добави като продукт</span>
+								</label>
+							</div>
+						</div>
 					</div>
-
 				</div>
 
 				<div class="modal-footer">
