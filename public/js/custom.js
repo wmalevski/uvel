@@ -383,7 +383,7 @@ var uvel,
       $('form[name="' + openedForm + '"]').find('button[type="submit"]').prop('disabled', true);
 
       if (formType == 'edit') {
-        $self.appendingEditFormToTheModal($this, data);
+        $self.appendingEditFormToTheModal($this, data, timeToOpenModal);
       }
 
       if (formType == 'sell') {
@@ -1136,7 +1136,7 @@ var uvel,
 
     // APPENDING EDIT FORM TO THE MODAL
 
-    this.appendingEditFormToTheModal = function(currentButton, data) {
+    this.appendingEditFormToTheModal = function(currentButton, data, timeToOpenModal) {
       if (currentButton[0].hasAttribute('data-repair-scan')) {
         currentButton.val('');
         $self.closeModal(currentButton.closest('.modal'));
@@ -1174,6 +1174,10 @@ var uvel,
                 }
               });
             }
+
+            setTimeout(function() {
+              $('button[type="submit"]').prop('disabled', false);
+            }, timeToOpenModal);
           }
         });
       }
