@@ -17,7 +17,7 @@ class ExchangeMaterial extends Model
     protected $table = 'exchange_materials';
 
     public function material() {
-    	return $this->belongsTo('App\MaterialQuantity');
+    	return $this->belongsTo('App\Material');
     }
 
     public function order() {

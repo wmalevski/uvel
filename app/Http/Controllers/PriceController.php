@@ -172,11 +172,10 @@ class PriceController extends Controller
             ['material_id', '=', $material]
         ])->first();
 
-        $mat = MaterialQuantity::where('material_id', $material)->first();
 
         $retail_prices = Price::where(
             [
-                ['material_id', '=', $mat->material_id],
+                ['material_id', '=', $material],
                 ['type', '=', 'sell']
             ]
         )->get();
@@ -239,18 +238,18 @@ class PriceController extends Controller
             //['default', '=', 'yes']
         ])->first();
 
-        $mat = MaterialQuantity::find($material);
+        $mat = Material::find($material);
 
         $retail_prices = Price::where(
             [
-                ['material_id', '=', $mat->material_id],
+                ['material_id', '=', $material],
                 ['type', '=', 'buy']
             ]
         )->get();
 
         $secondary_price = Price::where(
             [
-                ['material_id', '=', $mat->material_id],
+                ['material_id', '=', $material],
                 ['type', '=', 'buy'],
                 ['price', '<', $retail_prices->first()->price]
             ]
@@ -267,7 +266,7 @@ class PriceController extends Controller
 
         $models = Model::where(
             [
-                ['jewel_id', '=', $material],
+                ['material_id', '=', $material],
             ]
         )->get();
 
@@ -335,13 +334,15 @@ class PriceController extends Controller
 
         foreach($materials as $material){
             $pass_materials[] = [
-                'value' => $material->id,
-                'label' => $material->parent->name.' - '.$material->color.' - '.$material->carat,
-                'data-carat' => $material->carat,
-                'for_buy'  => $material->for_buy,
-                'for_exchange' => $material->for_exchange,
-                'carat_transform' => $material->carat_transform,
-                'carat' => $material->carat
+                'attributes' => [
+                    'value' => $material->id,
+                    'label' => $material->parent->name.' - '.$material->color.' - '.$material->code,
+                    'data-carat' => $material->carat,
+                    'data-transform' => $material->carat_transform,
+                    'data-pricebuy' => $material->pricesBuy->first()['price'],
+                    'data-price' => $material->pricesSell->first()['price'],
+                    'data-material' => $material->id,
+                ]
             ];
         }
 

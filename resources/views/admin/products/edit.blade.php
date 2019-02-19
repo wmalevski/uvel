@@ -26,8 +26,8 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label>Модел: </label>
-                    <select id="model_select_edit" name="model_id" class="model-select form-control model-filled"
-                        data-calculatePrice-model data-search="/ajax/select_search/models/">
+                    <select name="model_id" class="model-select form-control model-filled"
+                        data-calculatePrice-model data-search="/ajax/select_search/models/" data-url="ajax/products/">
                         <option value="">Избери</option>
 
                         @foreach($models as $model)
@@ -38,7 +38,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label>Вид: </label>
-                    <select id="jewel_edit" name="jewel_id" class="form-control jewels_types" data-modelFilled-jewel
+                    <select name="jewel_id" class="form-control jewels_types" data-modelFilled-jewel
                         disabled data-search="/ajax/select_search/jewels/">
                         <option value="">Избери</option>
                         @foreach($jewels as $jewel)
@@ -55,15 +55,15 @@
             <div class="form-row model_materials">
                 <div class="form-group col-md-12">
                     <label>Материал: </label>
-                    <select id="material_edit" name="material_id" class="material_type form-control calculate"
-                        data-calculatePrice-material data-search="/ajax/select_search/materials/">
+                    <select name="material_id" class="material_type form-control calculate"
+                        data-calculatePrice-material data-search="/ajax/select_search/global/materials/">
                         <option value="">Избери</option>
                         @foreach($materials as $material)
-                        @if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
-                        <option value="{{ $material->id }}" data-material="{{ $material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}"
+                        @if($material->pricesSell->first())
+                        <option value="{{ $material->id }}" data-material="{{ $material->id }}" data-pricebuy="{{ $material->pricesBuy->first()->price }}"
                             @if($material->id == $product->material_id) selected @endif>{{
-                            $material->material->parent->name }} - {{ $material->material->color }} - {{
-                            $material->material->carat }}</option>
+                            $material->parent->name }} - {{ $material->color }} - {{
+                            $material->code }}</option>
                         @endif
                         @endforeach
                     </select>
@@ -73,10 +73,10 @@
                     <select id="retail_price_edit" name="retail_price_id" class="form-control calculate prices-filled retail-price retail_prices"
                         data-calculatePrice-retail>
                         <option value="">Избери</option>
-                        @foreach($prices->where('type', 'sell') as $price)
-                        <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}"
-                            @if($product->retail_price_id == $price->id) selected @endif>{{ $price->slug }} - {{
-                            $price->price }}</option>
+                        @foreach($product->material->pricesSell as $price)
+                        <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-price="{{ $price->price }}" data-material="{{ $price->material_id }}"
+                            @if($price->id == $product->retail_price_id) selected @endif>{{ $price->slug }} - {{
+                            $price->price }}лв.</option>
                         @endforeach
                     </select>
                 </div>
@@ -111,7 +111,7 @@
 
                             @foreach($stones as $stone)
                             <option value="{{ $stone->id }}" @if($modelStone->stone_id == $stone->id) selected @endif
-                                data-stone-type="{{ $stone->type }}" data-stone-price="{{ $stone->price }}">
+                                data-type="{{ $stone->type }}" data-price="{{ $stone->price }}">
                                 {{ $stone->nomenclature->name }}
                                 ({{ $stone->contour->name }}, {{ $stone->size->name }})
                             </option>

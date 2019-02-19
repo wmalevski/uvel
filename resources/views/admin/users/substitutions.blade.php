@@ -16,11 +16,7 @@
                 <div class="form-group">
                     <label>Магазин:</label>
                     <select name="store_id" class="form-control" data-search="/ajax/select_search/stores/">
-                        <option value="">Избери магазин</option>
-
-                        @foreach($stores as $store)
-                            <option value="{{ $store->id }}" @if(Auth::user()->store == $store->id) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
-                        @endforeach
+                        <option value="">Избер магазин</option>
                     </select>
                 </div>
             </div>

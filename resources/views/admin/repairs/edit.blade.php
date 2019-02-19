@@ -67,7 +67,7 @@
 
                 <div class="form-group col-md-6">
                     <label>Материал: </label>
-                    <select name="material_id" class="form-control" data-repair-material data-search="/ajax/select_search/materials/">
+                    <select name="material_id" class="form-control" data-repair-material data-search="/ajax/select_search/global/materials/">
                         <option value="">Избер материал</option>
                 
                         @foreach($materials as $material)

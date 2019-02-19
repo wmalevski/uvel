@@ -230,10 +230,12 @@ class StoneController extends Controller
 
         foreach($stones as $stone){
             $pass_stones[] = [
-                'value' => $stone->id,
-                'label' => $stone->nomenclature->name.' - '.$stone->contour->name.' - '.$stone->size->name,
-                'price' => $stone->price,
-                'type' => $stone->type
+                'attributes' => [
+                    'value' => $stone->id,
+                    'label' => $stone->nomenclature->name.' - '.$stone->contour->name.' - '.$stone->size->name,
+                    'data-price' => $stone->price,
+                    'data-type' => $stone->type
+                ]
             ];
         }
 

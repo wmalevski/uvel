@@ -59,4 +59,9 @@ class Order extends Model
     {
         return $this->hasMany('App\OrderItem');
     }
+
+    public function material()
+    {
+        return $this->belongsTo('App\Material');
+    }
 }
