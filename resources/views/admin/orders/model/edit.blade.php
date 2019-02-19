@@ -35,7 +35,7 @@
 
             <div class="form-group">
                 <label>Модел: </label>
-                <select id="model_select_edit" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model>
+                <select name="model_id" class="model-select form-control model-filled" data-calculatePrice-model>
                     <option value="">Избери</option>
             
                     @foreach($models as $model)

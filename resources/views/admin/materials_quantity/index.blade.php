@@ -22,12 +22,6 @@ aria-hidden="true">
                             <label>Тип: </label>
                             <select name="material_id" class="form-control" data-search="/ajax/select_search/parentmaterials/">
                                 <option value="">Избери материал</option>
-                        
-                                @foreach($types as $type)
-                            
-                                    <option value="{{ $type->id }}">@if($type->parent) {{ $type->parent->name }} - {{ $type->color }} - {{ $type->code }} @endif</option>
-                                }
-                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -45,10 +39,6 @@ aria-hidden="true">
                         <label>Магазин: </label>
                         <select name="store_id" class="form-control" data-search="/ajax/select_search/stores/">
                             <option value="">Избери магазин</option>
-                    
-                            @foreach($stores as $store)
-                                <option value="{{ $store->id }}">{{ $store->name }} - {{ $store->location }}</option>
-                            @endforeach
                         </select>
                     </div>
 

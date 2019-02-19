@@ -121,8 +121,10 @@ class StoreController extends Controller
 
         foreach($stores as $store){
             $pass_stores[] = [
-                'value' => $store->id,
-                'label' => $store->name.' - '.$store->location
+                'attributes' => [
+                    'value' => $store->id,
+                    'label' => $store->name.' - '.$store->location
+                ]
             ];
         }
 

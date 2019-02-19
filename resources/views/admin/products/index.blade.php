@@ -1,42 +1,36 @@
 @extends('admin.layout')
 @php
 $newStoneRow =
-				'<div class="form-group col-md-6"><label>Камък:</label>
-					<select name="stones[]" class="form-control" data-calculatePrice-stone data-search="/ajax/select_search/stones/">';
-						foreach($stones as $stone) {
-							$newStoneRow .= '<option value="'. $stone->id .'" data-stone-price="'. $stone->price .'" data-stone-type="'. $stone->type .'"> 
-								'. $stone->nomenclature->name  .' - 
-								'. $stone->contour->name  .' - 
-								'. $stone->size->name  .' 
-							</option>';
-						}
-						$newStoneRow .= '</select>
-				</div>
-				<div class="form-group col-md-4">
-					<label>Брой:</label>
-					<input type="text" value="" class="form-control calculate-stones" name="stone_amount[]" data-calculateStones-amount placeholder="Брой">
-				</div>
-				<div class="form-group col-md-2">
-					<span class="delete-stone remove_field" data-stone-remove><i class="c-brown-500 ti-trash"></i></span>
-				</div>
-				<div class="form-group col-md-6">
-					<div class="form-group">
-						<label>Тегло: </label>
-						<div class="input-group">
-							<input type="number" value="" class="form-control calculate-stones" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">
-							<span class="input-group-addon">гр.</span>
-						</div>
-					</div>
-				</div>
-				<div class="form-group col-md-6">
-					<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder">
-						<input type="checkbox" id="" class="stone-flow calculate-stones" name="stone_flow[]" class="peer">
-						<label for="" class="peers peer-greed js-sb ai-c">
-							<span class="peer peer-greed">За леене</span>
-						</label>
-						<span class="row-total-weight"></span>
-					</div>
-				</div>';
+                '<div class="form-group col-md-6"><label>Камък:</label>
+                    <select name="stones[]" class="form-control" data-calculatePrice-stone data-search="/ajax/select_search/stones/">
+                        <option value="">Избери</option>';
+                        $newStoneRow .= '</select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Брой:</label>
+                    <input type="text" value="" class="form-control calculate-stones" name="stone_amount[]" data-calculateStones-amount placeholder="Брой">
+                </div>
+                <div class="form-group col-md-2">
+                    <span class="delete-stone remove_field" data-stone-remove><i class="c-brown-500 ti-trash"></i></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="form-group">
+                        <label>Тегло: </label>
+                        <div class="input-group">
+                            <input type="number" value="" class="form-control calculate-stones" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">
+                            <span class="input-group-addon">гр</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 stone-flow-holder">
+                        <input type="checkbox" id="" class="stone-flow calculate-stones" name="stone_flow[]" class="peer">
+                        <label for="" class="peers peer-greed js-sb ai-c">
+                            <span class="peer peer-greed">За леене</span>
+                        </label>
+                        <span class="row-total-weight"></span>
+                    </div>
+                </div>';
 
 $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 @endphp
@@ -76,27 +70,16 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 								<option value="">
 									Избери
 								</option>
-								@foreach($models as $model)
-								<option value="{{ $model->id }}" data-jewel="{{ $model->jewel->id }}">
-									{{ $model->name }}
-								</option>
-								@endforeach
 							</select>
 						</div>
 						<div class="form-group col-md-6">
 							<label>
 								Вид:
 							</label>
-							<select id="jewels_types" name="jewel_id" class="jewels_types form-control" data-modelFilled-jewel disabled data-search="/ajax/select_search/jewels/">
+							<select name="jewel_id" class="jewels_types form-control" data-modelFilled-jewel disabled data-search="/ajax/select_search/jewels/">
 								<option value="">
 									Избери
 								</option>
-
-								@foreach($jewels as $jewel)
-								<option value="{{ $jewel->id }}" data-material="{{ $jewel->material }}">
-									{{ $jewel->name }}
-								</option>
-								@endforeach
 							</select>
 						</div>
 						<div class="col-12">
@@ -109,24 +92,10 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							<label>
 								Материал:
 							</label>
-							<select id="material" name="material_id" class="material_type form-control material calculate" data-calculatePrice-material disabled data-search="/ajax/select_search/materials/">
+							<select name="material_id" class="material_type form-control material calculate" data-calculatePrice-material disabled data-search="/ajax/select_search/global/materials/">
 								<option value="">
 									Избери
 								</option>
-
-								@foreach($materials as $material)
-								@if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
-								{{-- {{ $material->material->prices }} --}}
-								<option value="{{ $material->id }}" data-material="{{ $material->material->id }}" data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">
-									@if($material->material->parent)
-									{{ $material->material->parent->name }}
-									@else {{ $material->material->name }} @endif
-									-
-									{{ $material->material->color }} -
-									{{ $material->material->carat }}
-								</option>
-								@endif
-								@endforeach
 							</select>
 						</div>
 
@@ -241,12 +210,6 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 								<option value="">
 									Избери магазин
 								</option>
-
-								@foreach($stores as $store)
-								<option value="{{ $store->id }}">
-									{{ $store->name }} - {{ $store->location }}
-								</option>
-								@endforeach
 							</select>
 						</div>
 						

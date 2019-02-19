@@ -116,8 +116,10 @@ class JewelController extends Controller
 
         foreach($jewels as $jewel){
             $pass_jewels[] = [
-                'value' => $jewel->id,
-                'label' => $jewel->name,
+                'attributes' => [
+                    'value' => $jewel->id,
+                    'label' => $jewel->name,
+                ]
             ];
         }
 

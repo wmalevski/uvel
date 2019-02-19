@@ -130,8 +130,10 @@ class RepairTypeController extends Controller
 
         foreach($repairs as $repair){
             $pass_repairs[] = [
-                'value' => $repair->id,
-                'label' => $repair->name
+                'attributes' => [
+                    'value' => $repair->id,
+                    'label' => $repair->name
+                ]
             ];
         }
 

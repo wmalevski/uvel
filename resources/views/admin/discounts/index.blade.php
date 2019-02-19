@@ -53,10 +53,6 @@ aria-hidden="true">
                             <label for="2">Потребител: </label>
                             <select name="user_id" class="form-control" data-search="/ajax/select_search/users/">
                                 <option value="">Избери</option>
-
-                                @foreach($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }} - {{ $user->roles->first()['title'] }}</option>
-                                @endforeach
                             </select>
                         </div>
                     </div>

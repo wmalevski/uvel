@@ -3,18 +3,9 @@
 $givenMaterialRowTpl = '<div class="form-row">
 						<div class="form-group col-md-6"> 
 							<label for="">Вид</label>
-							<select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate" data-search="/ajax/select_search/materials/">
+							<select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate" data-search="/ajax/select_search/global/materials/">
 								<option value="">Избери</option>';
-								foreach($mats as $material) {
-									if($material->material->pricesBuy->first() && $material->material->pricesSell->first()) {
-									$givenMaterialRowTpl .= '<option value="'. $material->id .'" data-carat="'. $material->material->carat  .'" data-material="'. $material->material->id  .'"
-										data-pricebuy="'. $material->material->pricesBuy->first()->price  .'"> 
-										'. $material->material->parent->name  .' - 
-										'. $material->material->color  .' - 
-										'. $material->material->carat  .' 
-									</option>';
-									}
-								}
+								
 							$givenMaterialRowTpl .= '</select>
 						</div>
 						<div class="form-group col-md-5">
@@ -32,16 +23,10 @@ $givenMaterialRowTpl = '<div class="form-row">
 $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMaterialRowTpl));
 $newStoneRow =
 				'<div class="form-group col-md-6"><label>Камък:</label>
-					<select name="stones[]" class="form-control" data-calculatePrice-stone>';
-						foreach($stones as $stone) {
-							$newStoneRow .= '<option value="'. $stone->id .'" data-stone-price="'. $stone->price .'" data-stone-type="'. $stone->type .'"> 
-								'. $stone->nomenclature->name  .' - 
-								'. $stone->contour->name  .' - 
-								'. $stone->size->name  .' 
-							</option>';
-						}
-						$newStoneRow .= '</select>
-				</div>
+                    <select name="stones[]" class="form-control" data-calculatePrice-stone data-search="/ajax/select_search/stones/">
+                        <option value="">Избери</option>';
+                        $newStoneRow .= '</select>
+                </div>
 				<div class="form-group col-md-4">
 					<label>Брой:</label>
 					<input type="text" value="" class="form-control calculate-stones" name="stone_amount[]" data-calculateStones-amount placeholder="Брой">
@@ -116,26 +101,14 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							
 							<select data-url="ajax/orders/getModelInfo/" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model data-search="/ajax/select_search/models/">
 								<option value="">Избери</option>
-								
-								@foreach($models as $model)
-								<option value="{{ $model->id }}" data-model-id="{{ $model->id }}" data-jewel="{{ $model->jewel->id }}">
-									{{ $model->name }}
-								</option>
-								@endforeach
 							</select>
 						</div>
 						
 						<div class="form-group col-md-6">
 							<label>Вид:</label>
 							
-							<select id="jewels_types" name="jewel_id" class="jewels_types form-control" data-modelFilled-jewel disabled data-search="/ajax/select_search/jewels/">
+							<select name="jewel_id" class="jewels_types form-control" data-modelFilled-jewel disabled data-search="/ajax/select_search/jewels/">
 								<option value="">Избери</option>
-								
-								@foreach($jewels as $jewel)
-								<option value="{{ $jewel->id }}" data-material="{{ $jewel->material }}">
-									{{ $jewel->name }}
-								</option>
-								@endforeach
 							</select>
 						</div>
 						
@@ -148,31 +121,15 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 						<div class="form-group col-md-12">
 							<label>Материал:</label>
 							
-							<select id="material" name="material_id" class="material_type form-control material calculate" data-calculatePrice-material disabled data-search="/ajax/select_search/materials/">
+							<select name="material_id" class="material_type form-control material calculate" data-calculatePrice-material disabled data-search="/ajax/select_search/global/materials/">
 								<option value="">Избери</option>
-								
-								@foreach($materials as $material)
-									@if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
-										{{-- {{ $material->material->prices }} --}}
-										<option value="{{ $material->id }}" data-material="{{ $material->material->id }}"
-														data-pricebuy="{{ $material->material->pricesBuy->first()->price }}">
-											@if($material->material->parent)
-												{{ $material->material->parent->name }}
-											@else 
-												{{ $material->material->name }}
-											@endif
-											- {{ $material->material->color }} -
-											{{ $material->material->carat }}
-										</option>
-									@endif
-								@endforeach
 							</select>
 						</div>
 
 						<div class="form-group col-md-6">
 							<label>Цена:</label>
 							
-							<select id="retail_prices" name="retail_price_id" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail disabled>
+							<select name="retail_price_id" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail disabled>
 								<option value="0">Избери</option>
 							</select>
 						</div>
@@ -258,12 +215,6 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							
 							<select name="store_id" class="form-control" data-search="/ajax/select_search/stores/">
 								<option value="">Избери магазин</option>
-								
-								@foreach($stores as $store)
-								<option value="{{ $store->id }}">
-									{{ $store->name }} - {{ $store->location }}
-								</option>
-								@endforeach
 							</select>
 						</div>
 					</div>

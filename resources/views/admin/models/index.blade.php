@@ -3,18 +3,9 @@
 $newMaterialRow =
 				'<div class="form-group col-md-6">
 					<label>Избери материал: </label>
-					<select data-search="/ajax/select_search/materials/" name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material>
+					<select data-search="/ajax/select_search/global/materials/" name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material>
 						<option value="">Избери</option>';
-						foreach($materials as $material) {
-								if($material->material->pricesBuy->first() && $material->material->pricesSell->first()) {
-								$newMaterialRow .= '<option value="'. $material->id .'" data-carat="'. $material->material->carat  .'" data-material="'. $material->material->id  .'"
-									data-pricebuy="'. $material->material->pricesBuy->first()->price  .'"> 
-									'. $material->material->parent->name  .' - 
-									'. $material->material->color  .' - 
-									'. $material->material->carat  .' 
-								</option>';
-								}
-							}
+						
 						$newMaterialRow .= '</select>
 				</div>
 				<div class="form-group col-md-5">
@@ -37,14 +28,8 @@ $newMaterialRow = str_replace("\n", "", str_replace("\r", "", $newMaterialRow));
 
 $newStoneRow =
 				'<div class="form-group col-md-6"><label>Камък:</label>
-					<select name="stones[]" class="form-control" data-calculatePrice-stone data-search="/ajax/select_search/stones/">';
-						foreach($stones as $stone) {
-							$newStoneRow .= '<option value="'. $stone->id .'" data-stone-price="'. $stone->price .'" data-stone-type="'. $stone->type .'"> 
-								'. $stone->nomenclature->name  .' - 
-								'. $stone->contour->name  .' - 
-								'. $stone->size->name  .' 
-							</option>';
-						}
+					<select name="stones[]" class="form-control" data-calculatePrice-stone data-search="/ajax/select_search/stones/">
+						<option value="">Избери</option>';
 						$newStoneRow .= '</select>
 				</div>
 				<div class="form-group col-md-4">
@@ -99,13 +84,10 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							<label>
 								Избери вид бижу:
 							</label>
-							<select id="jewel_id" name="jewel_id" class="form-control calculate" data-search="/ajax/select_search/jewels/">
+							<select name="jewel_id" class="form-control calculate" data-search="/ajax/select_search/jewels/">
 								<option value="">
 									Избери
 								</option>
-								@foreach($jewels as $jewel)
-								<option value="{{ $jewel->id }}">{{ $jewel->name }}</option>
-								@endforeach
 							</select>
 						</div>
 

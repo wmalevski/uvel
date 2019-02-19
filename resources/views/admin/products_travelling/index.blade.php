@@ -26,12 +26,6 @@
                         <label>Избери: </label>
                             <select name="product_select" class="form-control" data-url="ajax/productstravelling/addByScan/" data-search="/ajax/select_search/products/">
                                 <option value="">Избери продукт</option>
-
-                                @foreach($products as $product)
-                                    <option value="{{ $product->id }}" data-product-id="{{ $product->id }}" data-barcode="{{ $product->barcode }}" data-weight="{{ $product->weight }}">
-                                       {{ $product->name }}
-                                    </option>
-                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -55,14 +49,6 @@
                             <label for="3">Магазин: </label>
                             <select name="store_to_id" class="form-control" data-search="/ajax/select_search/stores/">
                                 <option value="">Избери магазин</option>
-
-                                @foreach($stores as $store)
-                                    @if($store->id != Auth::user()->getStore()->id)
-                                        <option value="{{ $store->id }}">
-                                            {{ $store->name }} - {{ $store->location }}
-                                        </option>
-                                    @endif
-                                @endforeach
                             </select>
                         </div>
                     </div>

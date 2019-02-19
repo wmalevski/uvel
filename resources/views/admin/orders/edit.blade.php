@@ -2,15 +2,15 @@
 $givenMaterialRowTpl = '<div class="form-row">
 						<div class="form-group col-md-6"> 
 							<label for="">Вид</label>
-							<select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate" data-search="/ajax/select_search/materials/">
+							<select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate" data-search="/ajax/select_search/global/materials/">
 								<option value="">Избери</option>';
 								foreach($materials as $material) {
-									if($material->material->pricesBuy->first() && $material->material->pricesSell->first()) {
-									$givenMaterialRowTpl .= '<option value="'. $material->id .'" data-carat="'. $material->material->carat  .'" data-material="'. $material->material->id  .'"
-										data-pricebuy="'. $material->material->pricesBuy->first()->price  .'"> 
-										'. $material->material->parent->name  .' - 
-										'. $material->material->color  .' - 
-										'. $material->material->carat  .' 
+									if($material->pricesBuy->first() && $material->pricesSell->first()) {
+									$givenMaterialRowTpl .= '<option value="'. $material->id .'" data-carat="'. $material->carat  .'" data-material="'. $material->id  .'"
+										data-pricebuy="'. $material->pricesBuy->first()->price  .'"> 
+										'. $material->parent->name  .' - 
+										'. $material->color  .' - 
+										'. $material->carat  .' 
 									</option>';
 									}
 								}
@@ -72,7 +72,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
         <div class="form-group col-md-6">
           <label>Модел:</label>
           
-          <select data-url="ajax/orders/getModelInfo/" id="model_select_edit" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model data-search="/ajax/select_search/models/">
+          <select data-url="ajax/orders/getModelInfo/" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model data-search="/ajax/select_search/models/">
             <option value="">Избери</option>
             @foreach($models as $model)
             <option value="{{ $model->id }}" data-jewel="{{ $model->jewel->id }}"
@@ -85,7 +85,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
         <div class="form-group col-md-6">
           <label>Вид:</label>
           
-          <select id="jewel_edit" name="jewel_id" class="form-control jewels_types" data-modelFilled-jewel disabled data-search="/ajax/select_search/jewels/">
+          <select name="jewel_id" class="form-control jewels_types" data-modelFilled-jewel disabled data-search="/ajax/select_search/jewels/">
             <option value="">Избери</option>
             
             @foreach($jewels as $jewel)
@@ -105,17 +105,17 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
         <div class="form-group col-md-12">
           <label>Материал:</label>
           
-          <select id="material_edit" name="material_id" class="material_type form-control calculate" data-calculatePrice-material data-search="/ajax/select_search/materials/">
+          <select name="material_id" class="material_type form-control calculate" data-calculatePrice-material data-search="/ajax/select_search/global/materials/">
             <option value="">Избери</option>
             
             @foreach($materials as $material)
-              @if($material->material->pricesBuy->first() && $material->material->pricesSell->first())
+              @if($material->pricesSell->first())
                 <option value="{{ $material->id }}" data-material="{{ $material->id }}"
-                        data-pricebuy="{{ $material->material->pricesBuy->first()->price }}"
+                        data-pricebuy="{{ $material->pricesBuy->first()->price }}"
                         @if($material->id == $order->material_id) selected @endif>
-                  {{ $material->material->parent->name }} -
-                  {{ $material->material->color }} -
-                  {{ $material->material->carat }}
+                  {{ $material->parent->name }} -
+                  {{ $material->color }} -
+                  {{ $material->code }}
                 </option>
               @endif
             @endforeach
@@ -125,15 +125,15 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
         <div class="form-group col-md-6">
           <label>Цена:</label>
           
-          <select id="retail_price_edit" class="form-control calculate prices-filled retail-price retail_prices"
+          <select class="form-control calculate prices-filled retail-price retail_prices"
                   name="retail_price_id" data-calculatePrice-retail>
             <option value="">Избери</option>
 
-            @foreach($prices->where('type', 'sell') as $price)
-            <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-material="{{ $price->material }}"
-                    @if($order->retail_price_id == $price->id) selected @endif>
-              {{ $price->slug }} - {{ $price->price }}
-            </option>
+            @foreach($order->material->pricesSell as $price)
+              <option value="{{ $price->id }}" data-retail="{{ $price->price }}" data-price="{{ $price->price }}" data-material="{{ $price->material_id }}"
+                      @if($price->id == $order->retail_price_id) selected @endif>
+                {{ $price->slug }} - {{ $price->price }}лв.
+              </option>
             @endforeach
           </select>
         </div>
@@ -170,8 +170,8 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
 
               @foreach($stones as $stone)
               <option value="{{ $stone->id }}" @if($order_stone->stone_id == $stone->id) selected @endif
-                      data-stone-type="{{ $stone->type }}" data-stone-price="{{ $stone->price }}">
-                {{ $stone->name }}
+                      data-type="{{ $stone->type }}" data-price="{{ $stone->price }}">
+                {{ $stone->nomenclature->name }}
                 ({{ $stone->contour->name }}, 
                 {{ $stone->size->name }})
               </option>
@@ -187,7 +187,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
           </div>
 
           <div class="form-group col-md-2">
-            <span class="delete-stone remove_field">
+            <span class="delete-stone remove_field" data-stone-remove>
               <i class="c-brown-500 ti-trash"></i>
             </span>
           </div>
@@ -283,7 +283,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
             <option value="">Избери магазин</option>
 
             @foreach($stores as $store)
-            <option value="{{ $store->id }}" @if($store->id == $material->store_id) selected @endif>
+            <option value="{{ $store->id }}" @if($store->id == $order->store_id) selected @endif>
               {{ $store->name }} - {{ $store->location }}
             </option>
             @endforeach
@@ -325,14 +325,14 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
           <div class="form-row">
             <div class="form-group col-md-6"> 
               <label for="">Вид</label>
-              <select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate" data-search="/ajax/select_search/materials/">
+              <select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate" data-search="/ajax/select_search/global/materials/">
                 <option value="">Избери</option>
-                  @if($material->material->material->pricesBuy->first())
-                  <option value="{{ $material->material->id }} " data-carat="{{ $material->material->material->carat  }}" data-material="{{ $material->material->material->id  }}"
-                    data-pricebuy="{{ $material->material->material->pricesBuy->first()->price }}" selected> 
-                    {{ $material->material->material->parent->name }}  - 
-                    {{ $material->material->material->color }}  - 
-                    {{ $material->material->material->carat }}   
+                  @if($material->material->pricesBuy->first())
+                  <option value="{{ $material->material->id }} " data-carat="{{ $material->carat  }}" data-material="{{ $material->material->id  }}"
+                    data-pricebuy="{{ $material->material->pricesBuy->first()->price }}" selected> 
+                    {{ $material->material->parent->name }}  - 
+                    {{ $material->material->color }}  - 
+                    {{ $material->material->code }}   
                   </option>
                   @endif
               </select>

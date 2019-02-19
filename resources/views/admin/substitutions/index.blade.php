@@ -33,10 +33,6 @@
                             <label>Потребител: </label>
                             <select name="user_id" class="form-control" data-search="/ajax/select_search/users/">
                                 <option value="">Избери потребител</option>
-                        
-                                @foreach($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }} - {{ $user->store->name }}</option>
-                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -47,11 +43,7 @@
                         <div class="form-group">
                             <label>Магазин: </label>
                             <select name="store_id" class="form-control" data-search="/ajax/select_search/stores/">
-                                <option value="">Избери магазин</option>
-                        
-                                @foreach($stores as $store)
-                                    <option value="{{ $store->id }}">{{ $store->name }} - {{ $store->location }}</option>
-                                @endforeach
+                                <option value="">Избер магазин</option>
                             </select>
                         </div>
                     </div>
