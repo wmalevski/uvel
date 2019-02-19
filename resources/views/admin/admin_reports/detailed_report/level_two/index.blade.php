@@ -98,8 +98,12 @@ aria-hidden="true">
         <table class="table table-condensed tablesort">
             <thead>
                 <tr>
-                    <th>Артикул</th>
                     <th>Продажба</th>
+                    <th>Уникален номер</th>
+                    <th>Модел</th>
+                    <th>Вид бижу</th>
+                    <th>Материал</th>
+                    <th>Брой</th>
                     <th>Стойност</th>
                     <th>Отстъпка</th>
                     <th>След отстъпка лв.</th>
@@ -109,16 +113,74 @@ aria-hidden="true">
                 </tr>
             </thead>
             <tbody>
-                <td>12312</td>
+                <td>
+                    <span data-url="test/test" class="edit-btn" data-form-type="view" data-toggle="modal" data-target="#viewModal">
+                        <i class="c-brown-500 ti-eye"></i>
+                    </span>
+                    1
+                </td>
+                <td>112352</td>
                 <td>1</td>
-                <td>556</td>
-                <td>56</td>
-                <td>-52</td>
-                <td>0 карта</td>
+                <td>5</td>
+                <td>5</td>
+                <td>2</td>
+                <td>2000лв.</td>
+                <td>20лв.</td>
+                <td>1980лв.</td>
+                <td>С карта</td>
                 <td>11.02.2019</td>
                 <td>Жоро</td>
             </tbody>
         </table>
     </div>
+</div>
+
+<div class="modal fade edit--modal_holder" id="viewModal" role="dialog" aria-labelledby="viewModal" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addProductLabel">Информация за Продажба</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <table class="table table-condensed tablesort">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Материал (вид)</th>
+                                    <th>Грамове</th>
+                                    <th>Стойност</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>злато - жълто - 585</td>
+                                    <td>15</td>
+                                    <td>30</td>
+                                </tr>
+                                <tr>
+                                    <td>злато - жълто - 565</td>
+                                    <td>15</td>
+                                    <td>30</td>
+                                </tr>
+                                <tr>
+                                    <td>злато - жълто - 505</td>
+                                    <td>15</td>
+                                    <td>30</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+            </div>
+        </div>
+	</div>
 </div>
 @endsection
