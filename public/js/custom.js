@@ -2585,9 +2585,16 @@ var uvel,
       $('#inputBarcodeScan').on('input', function(event) {
         var text = event.target.value;
         if (text.length >= 13) {
-          var ajaxUrl = window.location.origin + '/' + this.dataset.url + text;
+          if (!$('.found-product[data-barcode="' + text + '"]').length) {
+            var ajaxUrl = window.location.origin + '/' + this.dataset.url + text;
 
-          $self.ajaxFn('GET', ajaxUrl, $self.productTravellingAjaxResponse);
+            $self.ajaxFn('GET', ajaxUrl, $self.productTravellingAjaxResponse);
+          } else {
+            form.find('.info-cont').append('<div class="alert alert-danger table-alert">Вече има добавен продукт с този баркод</div>');
+            setTimeout(function() {
+              form.find('.info-cont').empty();
+            }, 3000);
+          }
         }
       });
     }
@@ -2625,7 +2632,8 @@ var uvel,
             barcode = response.item.barcode;
 
         var productElement = '<tr class="found-product" data-id="' +
-            id + '"><input type="hidden" name="product_id[]" value="' +
+            id + '" data-barcode="' +
+            barcode + '"><input type="hidden" name="product_id[]" value="' +
             id + '"><td>' +
             barcode + '</td><td>' +
             name + '</td><td>' +
