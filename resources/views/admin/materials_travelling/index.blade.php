@@ -81,6 +81,8 @@ aria-hidden="true">
                     @endforeach
                 </tbody>
               </table>
+
+              {{ $travelling->links() }}
             </div>
           </div>
 </div>

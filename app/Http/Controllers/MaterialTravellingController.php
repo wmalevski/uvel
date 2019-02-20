@@ -31,7 +31,7 @@ class MaterialTravellingController extends Controller
         $stores = Store::where('id', '!=', Auth::user()->getStore()->id)->take(env('SELECT_PRELOADED'))->get();
         $materials_types = Material::take(env('SELECT_PRELOADED'))->get();
 
-        $travelling = MaterialTravelling::where('store_from_id', '=', Auth::user()->getStore()->id)->orWhere('store_to_id', '=', Auth::user()->getStore()->id)->take(env('SELECT_PRELOADED'))->get();
+        $travelling = MaterialTravelling::where('store_from_id', '=', Auth::user()->getStore()->id)->orWhere('store_to_id', '=', Auth::user()->getStore()->id)->paginate(env('RESULTS_PER_PAGE'));
         
 
   
@@ -66,12 +66,15 @@ class MaterialTravellingController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $check = MaterialQuantity::find($request->material_id);
+        $check = MaterialQuantity::where([
+            ['material_id', '=', $request->material_id],
+            ['store_id', '=', Auth::user()->getStore()->id]
+        ])->first();
 
         if($check){
             if($request->quantity <= $check->quantity && $check->quantity != 0){
                 $price = Material::withTrashed()->find($check->material_id);
-                if($check->store_id == $request->store_to_id){
+                if(Auth::user()->getStore()->id == $request->store_to_id){
                     return Response::json(['errors' => array('quantity' => [trans('admin/materials_travelling.store_duplicate')])], 401);
                 }
 
@@ -83,6 +86,8 @@ class MaterialTravellingController extends Controller
                 $material->store_to_id  = $request->store_to_id;
                 $material->dateSent = new \DateTime();
                 $material->user_sent_id = Auth::user()->getId();
+                $material->status = 'not_accepted';
+                $material->dateReceived = NULL;
 
                 $material->save();
 
