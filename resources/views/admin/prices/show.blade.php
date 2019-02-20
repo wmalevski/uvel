@@ -88,7 +88,7 @@ aria-hidden="true">
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
       <h4 class="c-grey-900 mB-20">Цени Купува</h4>
         @if(isset($prices)) 
-        <table class="table table-condensed buy" id="buy">
+        <table class="table table-condensed buy table-fixed" id="buy">
             <thead>
                 <tr>
                     <th data-sort-method="none">#</th>
@@ -114,7 +114,7 @@ aria-hidden="true">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
         <h4 class="c-grey-900 mB-20">Цени Продава</h4>
           @if(isset($prices))
-          <table class="table table-condensed sell" id="sell">
+          <table class="table table-condensed sell table-fixed" id="sell">
             <thead>
                 <tr>
                     <th data-sort-method="none">#</th>
