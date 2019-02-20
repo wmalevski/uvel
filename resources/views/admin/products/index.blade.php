@@ -269,7 +269,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 	</button>
 </h3>
 
-<table class="table table-condensed tablesort">
+<table class="table table-condensed tablesort table-fixed">
 	<thead>
 		<tr data-sort-method="thead">
 			<th data-sort-method="none">Снимка</th>

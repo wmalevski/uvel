@@ -87,7 +87,7 @@ aria-hidden="true">
             </button>
         </h4>
         <p>Преглед на създадените отстъпки.</p>
-        <table class="table table-condensed tablesort">
+        <table class="table table-condensed tablesort table-fixed">
             <thead>
                 <tr data-sort-method="thead">
                     <th data-sort-method="none">Баркод</th>
