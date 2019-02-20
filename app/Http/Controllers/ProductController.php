@@ -101,7 +101,9 @@ class ProductController extends Controller
                     'value' => $product->id,
                     'label' => $product->name,
                     'barcode' => $product->barcode,
-                    'weight' => $product->weight
+                    'weight' => $product->weight,
+                    'data-product-id' => $product->id,
+                    'data-barcode' => $product->barcode
                 ]
             ];
         }
