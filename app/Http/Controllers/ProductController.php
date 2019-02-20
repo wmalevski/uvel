@@ -338,7 +338,12 @@ class ProductController extends Controller
                 }
             }
 
-            $deleteStones = ProductStone::where('product_id', $product->id)->delete();
+            foreach($product->stones as $productStone){
+                $productStone->stone->amount = $productStone->stone->amount + $productStone->amount;
+                $productStone->stone->save();
+            }
+
+            $deleteStones = $product->stones()->delete();
 
             $stoneQuantity = 1;
             if($request->stones){
@@ -376,31 +381,6 @@ class ProductController extends Controller
                     }
                 }
             }
-    
-            // if($request->stones){
-            //     foreach($request->stones as $key => $stone){
-            //         if($stone) {
-            //             $checkStone = Stone::find($stone);
-                        
-            //             if($checkStone->amount < $request->stone_amount[$key]){
-            //                 return Response::json(['errors' => ['stone_weight' => ['Няма достатъчна наличност от този камък.']]], 401);
-            //             }
-
-            //             $product_stones = new ProductStone();
-            //             $product_stones->product_id = $product->id;
-            //             $product_stones->model_id = $request->model_id;
-            //             $product_stones->stone_id = $stone;
-            //             $product_stones->amount = $request->stone_amount[$key];
-            //             $product_stones->weight = $request->stone_weight[$key];
-            //             if($request->stone_flow[$key] == 'true'){
-            //                 $product_stones->flow = 'yes';
-            //             }else{
-            //                 $product_stones->flow = 'no';
-            //             }
-            //             $product_stones->save();
-            //         }
-            //     }
-            // }
 
             $product_photos = Gallery::where(
                 [
