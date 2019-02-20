@@ -1,3 +1,8 @@
+/* SELECT2 */
+.select2-results__options {
+	position: relative;
+}
+
 /* todo: fix styles */
 #blog_lng_edit li:first-child {
   margin-right: 10px;

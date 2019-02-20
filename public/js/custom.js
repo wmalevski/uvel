@@ -1332,10 +1332,16 @@ var uvel,
 
       $(newRow).find('[data-calculateprice-default]').prop('checked', false).removeClass('not-clear');
 
+      materialsWrapper.append(newRow);
+
+      var materialRows = materialsWrapper.find('.form-row'),
+          currentRow = materialRows[materialRows.length - 1];
+
+      var select = $(currentRow).find('select').not('[data-search]'),
+          selectsWithSearch = $(currentRow).find('select[data-search]');
+
       $self.initializeSelect(select);
       $self.initializeSelectWithSearch(selectsWithSearch);
-
-      materialsWrapper.append(newRow);
 
       var defaultBtnsCollection = $('.default_material');
       $self.giveElementsIds(defaultBtnsCollection);
@@ -1408,13 +1414,17 @@ var uvel,
 
         }
 
-        var select = $(fieldsHolder).find('select').not('[data-search]'),
-            selectsWithSearch = $(fieldsHolder).find('select[data-search]');
+        stonesWrapper.append(fieldsHolder);
+
+        var stoneRows = stonesWrapper.find('.form-row.fields'),
+            currentRow = stoneRows[stoneRows.length - 1];
+
+        var select = $(currentRow).find('select').not('[data-search]'),
+            selectsWithSearch = $(currentRow).find('select[data-search]');
 
         $self.initializeSelect(select);
         $self.initializeSelectWithSearch(selectsWithSearch);
-
-        stonesWrapper.append(fieldsHolder);
+       
 
         var forFlowCollection = $('.stone-flow');
         $self.giveElementsIds(forFlowCollection);
@@ -2503,7 +2513,7 @@ var uvel,
       if (data.element && data.attributes) {
         $(data.element).attr(data.attributes);
       }
-      
+
       return data.text;
     }
 
@@ -2513,12 +2523,12 @@ var uvel,
 
     this.initializeSelectWithSearch = function(selects) {
       for (var i = 0; i < selects.length; i++) {
-        var options = generateAjaxOption(selects[i].dataset.search);
+        var options = generateAjaxOption(selects[i].dataset.search, selects[i]);
       
         $self.initializeSelect(selects[i], null, options);
       }
 
-      function generateAjaxOption(url) {
+      function generateAjaxOption(url, select) {
         return {
           ajax: {
             url: url,
@@ -2554,6 +2564,7 @@ var uvel,
           templateResult: $self.addSelect2CustomAttributes,
           templateSelection: $self.addSelect2CustomAttributes,
           minimumInputLength: 0,
+          dropdownParent: $(select).parent(),
           escapeMarkup: function(markup) {
             return markup;
           }
@@ -2564,20 +2575,26 @@ var uvel,
     this.initializeSelect = function(select, selectCallback, selectOptions) {
       var defaultOptions = {
         templateResult: $self.addSelect2CustomAttributes,
-        templateSelection: $self.addSelect2CustomAttributes
+        templateSelection: $self.addSelect2CustomAttributes,
+        dropdownParent: $(select).parent()
       };
 
       var options = selectOptions || defaultOptions;
       
       $(select).select2(options);
       $(select).on('select2:select', selectCallback);
-      $(select).on('select2-open', function () {
-          if( this.selectedIndex > 0) {
-              var viewport = $('#select2-drop .select2-results'),
-                  itemTop = viewport.find('.select2-highlighted').position().top;
+      $(select).on('select2:open', function () {
+        if( this.selectedIndex > 0) {
+            var viewport = $('.select2-results__options'),
+                options = viewport.find('.select2-results__option');
 
-            viewport.scrollTop(itemTop + viewport.scrollTop());
+          if (options.length > 1) {
+            setTimeout(function() {
+              var itemTop = viewport.find('.select2-results__option--highlighted')[0].offsetTop;
+              viewport.animate({scrollTop: itemTop}, 300);
+            }, 100);
           }
+        }
       });
     }
 
