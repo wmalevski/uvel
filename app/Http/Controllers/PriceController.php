@@ -71,7 +71,7 @@ class PriceController extends Controller
             ['material_id', '=', $price->material_id]
         ])->orderBy('id', 'ASC')->first();
 
-        if(count($getIndicatePrice) && $getIndicatePrice->id == $price->id){
+        if($getIndicatePrice && $getIndicatePrice->id == $price->id){
             $indicatePrice = true;
         }
 
@@ -136,7 +136,7 @@ class PriceController extends Controller
             ['material_id', '=', $price->material_id]
         ])->orderBy('id', 'ASC')->first();
         
-        if(count($getIndicatePrice) && $getIndicatePrice->id == $price->id){
+        if($getIndicatePrice && $getIndicatePrice->id == $price->id){
             $indicatePrice = true;
         }
         
