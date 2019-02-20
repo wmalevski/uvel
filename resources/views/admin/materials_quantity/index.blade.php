@@ -73,7 +73,7 @@ aria-hidden="true">
             <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="materialsQuantity" data-toggle="modal" data-target="#addMQuantity">Добави</button>
         </h4>
         <p>Преглед на наличност.</p>
-        <table class="table table-condensed">
+        <table class="table table-condensed table-fixed">
             <thead>
                 <tr data-sort-method="thead">
                     <th>Тип</th> 

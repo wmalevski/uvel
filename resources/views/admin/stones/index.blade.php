@@ -147,7 +147,7 @@
       <h4 class="c-grey-900 mB-20">Камъни <button class="add-btn btn btn-primary" type="button" id="dropdownMenuButton"
           data-form-type="add" data-form="stones" data-toggle="modal" data-target="#addStone">Добави</button></h4>
       <p>Преглед на камъни</p>
-      <table class="table tablesort">
+      <table class="table tablesort table-fixed">
         <thead>
           <tr data-sort-method="thead">
             <th scope="col">Име</th>
