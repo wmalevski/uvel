@@ -6,10 +6,8 @@
 		</ul>
 	</td>
 	
-	<td class="admin-product-name">
-		<p>
-			{{ $product->code }}
-		</p>
+	<td>
+		{{ $product->code }}
 	</td>
 
 	<td>

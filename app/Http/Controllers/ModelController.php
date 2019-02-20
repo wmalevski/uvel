@@ -112,7 +112,7 @@ class ModelController extends Controller
         $model->workmanship = $request->workmanship;
         $model->price = $request->price;
         $model->totalStones =  $request->totalStones;
-        $model->code = 'M'.unique_random('models', 'code', 7);
+        $model->code = unique_number('models', 'code', 7);
 
         if($request->website_visible == 'true'){
             $model->website_visible =  'yes';
@@ -565,7 +565,7 @@ class ModelController extends Controller
             $product->size = $request->size;
             $product->workmanship = $request->workmanship;
             $product->price = $request->price;
-            $product->code = 'P'.unique_random('products', 'code', 7);
+            $product->code = unique_number('products', 'code', 7);
             $product->store_id = 1;
             $bar = '380'.unique_number('products', 'barcode', 7).'1'; 
             

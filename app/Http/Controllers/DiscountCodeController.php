@@ -63,7 +63,7 @@ class DiscountCodeController extends Controller
             'discount' => $request->discount,
             'expires' => $request->date_expires,
             'user_id' => $request->user_id,
-            'code' =>  unique_random('discount_codes', 'code', 4),
+            'code' =>  unique_number('discount_codes', 'code', 4),
         ]);
 
         if($request->lifetime == 'true' || !$request->date_expires){
