@@ -246,23 +246,41 @@ class ModelController extends Controller
             
             $product->save();
 
+            $stoneQuantity = 1;
             if($request->stones){
                 foreach($request->stones as $key => $stone){
-                    if($stone){
-                        $product_stones = new ProductStone();
-                        $product_stones->product_id = $product->id;
-                        $product_stones->model_id = $model->id;
-                        $product_stones->stone_id = $stone;
-                        $product_stones->amount = $request->stone_amount[$key];
-                        $product_stones->weight = $request->stone_weight[$key];
-                        $product_stones->flow = $request->stone_flow[$key];
-
-                        if($request->stone_flow[$key] == 'true'){
-                            $product_stones->flow = 'yes';
-                        }else{
-                            $product_stones->flow = 'no';
+                    if($stone) {
+                        $checkStone = Stone::find($stone);
+                        if($checkStone->amount < $request->stone_amount[$key]){
+                            $stoneQuantity = 0;
+                            return Response::json(['errors' => ['stone_weight' => ['Няма достатъчна наличност от този камък.']]], 401);
                         }
-                        $product_stones->save();
+
+                        $checkStone->amount = $checkStone->amount - $request->stone_amount[$key];
+                        $checkStone->save();
+                    }
+                }
+            }
+
+            if($request->stones){
+                if($stoneQuantity == 1){
+                    foreach($request->stones as $key => $stone){
+                        if($stone){
+                            $product_stones = new ProductStone();
+                            $product_stones->product_id = $product->id;
+                            $product_stones->model_id = $model->id;
+                            $product_stones->stone_id = $stone;
+                            $product_stones->amount = $request->stone_amount[$key];
+                            $product_stones->weight = $request->stone_weight[$key];
+                            $product_stones->flow = $request->stone_flow[$key];
+
+                            if($request->stone_flow[$key] == 'true'){
+                                $product_stones->flow = 'yes';
+                            }else{
+                                $product_stones->flow = 'no';
+                            }
+                            $product_stones->save();
+                        }
                     }
                 }
             }

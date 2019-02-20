@@ -21,4 +21,9 @@ class ProductStone extends Model
     protected $table = 'product_stones';
 
     protected $dates = ['deleted_at'];
+
+    public function stone()
+    {
+        return $this->belongsTo('App\Stone');
+    }
 }
