@@ -73,7 +73,7 @@ class ProductOtherController extends Controller
             'store_id' => $request->store_id
         ]);
 
-        $product->code = 'B'.unique_random('products_others', 'code', 7);
+        $product->code = unique_number('products_others', 'code', 7);
         $bar = '380'.unique_number('products_others', 'barcode', 7).'2'; 
 
         $digits =(string)$bar;
