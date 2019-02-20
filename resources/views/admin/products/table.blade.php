@@ -31,7 +31,7 @@
 	{{-- <td> {{ ($product->retailPrice->price)*$product->weight }} </td> --}}
 
 	<td>
-		{!! DNS1D::getBarcodeSVG($product->barcode, "EAN13",1,33,"black", true) !!} <br /> {{ $product->barcode }}<br />
+		{!! DNS1D::getBarcodeSVG($product->barcode, "EAN13",1,33,"black", true) !!} 
 	</td>
 
 	<td>
