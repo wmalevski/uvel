@@ -17,6 +17,7 @@ class CreateModelOrdersTable extends Migration
             $table->increments('id');
             $table->integer('model_id');
             $table->integer('user_id');
+            $table->text('additional_description');
             $table->enum('status', ['pending', 'accepted', 'ready', 'delivered'])->default('pending');
             $table->timestamps();
         });
