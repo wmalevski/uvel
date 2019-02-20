@@ -325,7 +325,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/infoemails/delete/{phone}', 'InfoEmailController@destroy');
 
     Route::post('/slides', 'SliderController@store');
-    Route::post('/slides/delete/{slide}', 'SliderController@destroy');
+    Route::post('/slides/delete/{slider}', 'SliderController@destroy');
 
     Route::post('/blog', 'BlogController@store');
     Route::post('/blog/delete/{blog}', 'BlogController@destroy');
