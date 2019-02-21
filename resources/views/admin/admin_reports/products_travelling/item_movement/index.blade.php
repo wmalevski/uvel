@@ -94,7 +94,7 @@ aria-hidden="true">
     <div class="col-md-12">
         <table class="table table-condensed tablesort">
             <thead>
-                <tr>
+                <tr data-sort-method="thead">
                     <th>Артикул</th>
                     <th>Количество</th>
                     <th>От Магазин</th>
@@ -103,6 +103,11 @@ aria-hidden="true">
                     <th>До Магазин</th>
                     <th>Прието Дата/час</th>
                     <th>Служител</th>
+                </tr>
+                <tr class="reports-search-inputs">
+                    <th>
+                        <input class="search-input form-control" type="text" placeholder="Търси по артикул" data-column-sort="0" autocomplete="off">
+                    </th>
                 </tr>
             </thead>
             <tbody>

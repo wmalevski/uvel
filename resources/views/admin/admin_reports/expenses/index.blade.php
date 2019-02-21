@@ -94,7 +94,7 @@ aria-hidden="true">
     <div class="col-md-12">
         <table class="table table-condensed tablesort">
             <thead>
-                <tr>
+                <tr data-sort-method="thead">
                     <th>Основание</th>
                     <th>Сума</th>
                     <th>Дата</th>

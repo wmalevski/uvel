@@ -94,7 +94,7 @@ aria-hidden="true">
     <div class="col-md-12">
         <table class="table table-condensed tablesort">
             <thead>
-                <tr>
+                <tr data-sort-method="thead">
                     <th>Магазин</th>
                     <th>Дата</th>
                     <th>Каса лв.</th>

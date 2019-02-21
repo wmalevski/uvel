@@ -94,8 +94,13 @@ aria-hidden="true">
     <div class="col-md-12">
         <table class="table table-condensed tablesort">
             <thead>
-                <tr>
+                <tr data-sort-method="thead">
                    
+                </tr>
+                <tr class="reports-search-inputs">
+                    <th>
+                        <input class="search-input form-control" type="text" placeholder="Търси по артикул" data-column-sort="0" autocomplete="off">
+                    </th>
                 </tr>
             </thead>
             <tbody>

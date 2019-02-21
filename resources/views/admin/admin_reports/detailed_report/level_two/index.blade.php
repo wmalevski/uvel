@@ -97,7 +97,7 @@ aria-hidden="true">
     <div class="col-md-12">
         <table class="table table-condensed tablesort">
             <thead>
-                <tr>
+                <tr data-sort-method="thead">
                     <th>Продажба</th>
                     <th>Уникален номер</th>
                     <th>Модел</th>
@@ -111,27 +111,77 @@ aria-hidden="true">
                     <th>Дата</th>
                     <th>Служител</th>
                 </tr>
+                <tr class="reports-search-inputs">
+                    <th>
+                        <input class="search-input form-control" type="number" placeholder="Търси по продажба" data-column-sort="0" autocomplete="off">
+                    </th>
+                    <th>
+                        <input class="search-input form-control" type="text" placeholder="Търси по номер" data-column-sort="1" autocomplete="off">
+                    </th>
+                </tr>
             </thead>
             <tbody>
-                <td>
-                    <span data-url="test/test" class="edit-btn" data-form-type="view" data-toggle="modal" data-target="#viewModal">
-                        <i class="c-brown-500 ti-eye"></i>
-                    </span>
-                    1
-                </td>
-                <td>112352</td>
-                <td>1</td>
-                <td>5</td>
-                <td>5</td>
-                <td>2</td>
-                <td>2000лв.</td>
-                <td>20лв.</td>
-                <td>1980лв.</td>
-                <td>С карта</td>
-                <td>11.02.2019</td>
-                <td>Жоро</td>
+                <tr>
+                    <td>
+                        <span data-url="/enterurl" class="edit-btn" data-detailed-view data-toggle="modal" data-target="#viewModal" data-form-type="export-detailed" data-form="exportDetailedView">
+                            <i class="c-brown-500 ti-eye"></i>
+                        </span>
+                      
+                        523
+                    </td>
+                    <td>112352</td>
+                    <td>dp264</td>
+                    <td>мъжки пръстен</td>
+                    <td>Сребро - Бяло - 925</td>
+                    <td>2</td>
+                    <td>2000</td>
+                    <td>2000</td>
+                    <td>1800</td>
+                    <td>карта</td>
+                    <td>11.02.2019</td>
+                    <td>Жоро</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span data-url="/enterurl2" class="edit-btn" data-detailed-view data-toggle="modal" data-target="#viewModal" data-form-type="export-detailed" data-form="exportDetailedView">
+                            <i class="c-brown-500 ti-eye"></i>
+                        </span>
+                        001
+                    </td>
+                    <td>112352</td>
+                    <td>dp264</td>
+                    <td>мъжки пръстен</td>
+                    <td>Сребро - Бяло - 925</td>
+                    <td>2</td>
+                    <td>2000</td>
+                    <td>2000</td>
+                    <td>1800</td>
+                    <td>карта</td>
+                    <td>11.02.2019</td>
+                    <td>Жоро</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span data-url="/enterurl3" class="edit-btn" data-detailed-view data-toggle="modal" data-target="#viewModal" data-form-type="export-detailed" data-form="exportDetailedView">
+                            <i class="c-brown-500 ti-eye"></i>
+                        </span>
+                        002
+                    </td>
+                    <td>40500</td>
+                    <td>dp264</td>
+                    <td>мъжки пръстен</td>
+                    <td>Сребро - Бяло - 925</td>
+                    <td>2</td>
+                    <td>2000</td>
+                    <td>2000</td>
+                    <td>1800</td>
+                    <td>карта</td>
+                    <td>11.02.2019</td>
+                    <td>Атанас</td>
+                </tr>
             </tbody>
         </table>
+        <div class="table-results" style="display: none;">Няма намерени резултати</div>
     </div>
 </div>
 
@@ -144,42 +194,45 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-
-            <div class="modal-body">
-                <div class="form-row">
-                    <div class="col-md-12">
-                        <table class="table table-condensed tablesort">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>Материал (вид)</th>
-                                    <th>Грамове</th>
-                                    <th>Стойност</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>злато - жълто - 585</td>
-                                    <td>15</td>
-                                    <td>30</td>
-                                </tr>
-                                <tr>
-                                    <td>злато - жълто - 565</td>
-                                    <td>15</td>
-                                    <td>30</td>
-                                </tr>
-                                <tr>
-                                    <td>злато - жълто - 505</td>
-                                    <td>15</td>
-                                    <td>30</td>
-                                </tr>
-                            </tbody>
-                        </table>
+            <form method="POST" action="/pickurl" name="exportDetailedView" data-type="export-detailed"> 
+                <div class="modal-body">    
+                {{ csrf_field() }}  
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <table class="table table-condensed tablesort">
+                                <thead class="thead-dark">
+                                    <tr data-sort-method="thead">
+                                        <th>Материал (вид)</th>
+                                        <th>Грамове</th>
+                                        <th>Стойност</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>злато - жълто - 585</td>
+                                        <td>15</td>
+                                        <td>30</td>
+                                    </tr>
+                                    <tr>
+                                        <td>злато - жълто - 565</td>
+                                        <td>15</td>
+                                        <td>30</td>
+                                    </tr>
+                                    <tr>
+                                        <td>злато - жълто - 505</td>
+                                        <td>15</td>
+                                        <td>30</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+                    <button type="submit" class="btn btn-primary">Експорт</button>
+                </div>
+            </form>
         </div>
 	</div>
 </div>

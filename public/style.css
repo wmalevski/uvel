@@ -9,6 +9,10 @@
 	left: 0;
 }
 
+.table-results {
+	padding: 0 0.75rem;
+}
+
 /* todo: fix styles */
 #blog_lng_edit li:first-child {
   margin-right: 10px;

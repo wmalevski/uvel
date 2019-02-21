@@ -248,6 +248,11 @@ var uvel,
         selector: '[name="exportAdminReport"]',
         controllers: [],
         initialized: false
+      },
+      exportDetailedView: {
+        selector: '[name="exportDetailedView"]',
+        controllers: [],
+        initialized: false
       }
     }
 
@@ -293,11 +298,77 @@ var uvel,
       var reportFrom = $('#report_from'),
           reportTo = $('#report_to'),
           exportFrom = $('#export_from'),
-          exportTo = $('#export_to');
+          exportTo = $('#export_to'),
+          searchInputs = $('.reports-search-inputs .search-input');
       
       $self.initializeDatePicker(reportFrom, reportTo);
       $self.initializeDatePicker(exportFrom, exportTo, 'export');
+    
+      if (searchInputs.length) {
+        $self.adminReportSearchAttach(searchInputs);
+      }
     }
+
+    this.adminReportSearchAttach = function(searchInputs) {
+      var timer,
+          tbody = searchInputs.closest('table').find('tbody'),
+          timeBeforeFiltering = 500;
+
+      searchInputs.on('keyup', function() {
+        if (timer) {
+          clearTimeout(timer);
+          timer = null;
+        }
+
+        timer = setTimeout(function() {
+
+          $self.filterTable(tbody, searchInputs);
+        }, timeBeforeFiltering);
+      });
+
+    }
+
+    this.filterTable = function(table, searchInputs) {
+      var $rows = table.find('tr'),
+          filters = {};
+
+      for (var i = 0; i < searchInputs.length; i++) {
+        var column = searchInputs[i].dataset.columnSort,
+            content = searchInputs[i].value.toLowerCase();
+
+        filters[column] = content;  
+      }
+
+      $rows.hide().filter(function() {
+        var $cells = $(this).find('td'), 
+            bool = true;
+          
+        for (var key in filters) {
+          var tdText = $cells[key].textContent.toLowerCase();
+
+          bool = bool && (tdText.indexOf(filters[key]) != -1);
+
+          if (!bool) {
+            break;
+          }
+        }
+
+        return bool;
+      }).show();
+
+      if ($rows.is(':visible')) {
+        $('.table-results').hide();
+      } else {
+        $('.table-results').show();
+      }
+    }
+
+    this.detailedViewResponseHandler = function(response, elements, currentPressedBtn) {
+      console.log(currentPressedBtn, 'btn');
+    
+      console.log(response, 'response');
+    }
+
 
     this.initializeDatePicker = function(dateFromSelector, dateToSelector, formType) {
       var today = new Date();
@@ -403,9 +474,10 @@ var uvel,
 
       if (formType == 'edit') {
         $self.appendingEditFormToTheModal($this, data);
-      } else if (formType == 'export') {
-        $self.initializeForm(formSettings, formType);
-        formSettings.initialized = true;
+      } else if (formType == 'export-detailed') {
+        var ajaxUrl = '/ajax/' + currentPressedBtn.attr('data-url');
+
+        $self.ajaxFn('GET', ajaxUrl, $self.detailedViewResponseHandler, '', '', currentPressedBtn);
       }
 
       if (formType == 'sell') {
@@ -421,7 +493,7 @@ var uvel,
       //TODO: ASK BOBI VVVV
 
       setTimeout(function() {
-        if ((formType == 'add' || formType == 'sell' || formType == 'partner-sell') && !formSettings.initialized) {
+        if ((formType == 'add' || formType == 'sell' || formType == 'partner-sell' || formType == 'export' || formType == 'export-detailed') && !formSettings.initialized) {
           $self.initializeForm(formSettings, formType);
           formSettings.initialized = true;
         } else {
