@@ -58,7 +58,7 @@ class ModelController extends Controller
             if($material->pricesSell->first()){
                 $pass_materials[] = [
                     'value' => $material->id,
-                    'label' => $material->parent->name.' - '. $material->color.  ' - '  .$material->carat,
+                    'label' => $material->parent->name.' - '. $material->color.  ' - '  .$material->code,
                     'price' => $material->pricesSell->first()->price,
                     'pricebuy' => $material->pricesBuy->first()->price,
                     'material' => $material->id
@@ -411,7 +411,7 @@ class ModelController extends Controller
         foreach($materials as $material){
             $pass_materials[] = [
                 'value' => $material->id,
-                'label' => $material->parent->name.' - '. $material->color.  ' - '  .$material->carat,
+                'label' => $material->parent->name.' - '. $material->color.  ' - '  .$material->code,
                 'pricebuy' => $material->pricesBuy->first()['price'],
             ];
         }

@@ -159,7 +159,7 @@ class Product extends BaseModel
                 if($material->id == $default->material->id){
                     if(count($material->pricesSell)){
                         $pass_materials[] = (object)[
-                            'label' => $material->parent->name.' - '.$material->color.'- '.$material->code,
+                            'label' => $material->parent->name.' - '.$material->color.' - '.$material->code,
                             'attributes' => [
                                 'value' => $material->id,
                                 'data-material' => $material->id,
