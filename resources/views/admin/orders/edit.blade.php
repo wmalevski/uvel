@@ -10,7 +10,7 @@ $givenMaterialRowTpl = '<div class="form-row">
 										data-pricebuy="'. $material->pricesBuy->first()->price  .'"> 
 										'. $material->parent->name  .' - 
 										'. $material->color  .' - 
-										'. $material->carat  .' 
+										'. $material->code  .' 
 									</option>';
 									}
 								}
