@@ -168,9 +168,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::get('/productsotherstypes', 'ProductOtherTypeController@index')->name('products_others_types');
     Route::get('/productsotherstypes/{productOtherType}', 'ProductOtherTypeController@edit');
 
-    Route::get('/settings', 'SettingController@index')->name('settings');
-    Route::post('/settings', 'SettingController@store');
-
     Route::get('/settings/stock', 'SettingController@stockPrices')->name('stock_prices');
     Route::post('/settings/stock', 'SettingController@updatePrices');
 
