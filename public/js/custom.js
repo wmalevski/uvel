@@ -146,7 +146,8 @@ var uvel,
           'calculateStonesInit',
           'calculatePriceInit',
           'materialPricesRequestInit',
-          'imageHandling'
+          'imageHandling',
+          'productStoreChangeHandler'
         ],
         select2obj: [{
           selector: 'select[name="model_id"]',
@@ -289,6 +290,20 @@ var uvel,
       $self.setInputFilters();
       $self.expandSideMenu();
       $self.setDailyReportsInputs();
+    }
+
+    this.productStoreChangeHandler = function(form) {
+      var select = form.find('[data-store-select]'),
+          websiteVisible = form.find('[name="website_visible"]');
+
+      select.on('change', function() {
+        var selectedOption = this.selectedOptions[0].value;
+
+        if (selectedOption == 1) {
+          websiteVisible[0].checked = false;
+        }
+
+      });
     }
     
     this.expandSideMenu = function() {

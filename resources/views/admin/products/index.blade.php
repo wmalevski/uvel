@@ -206,7 +206,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							<label>
 								Магазин:
 							</label>
-							<select name="store_id" class="store-select form-control" data-search="/ajax/select_search/stores/">
+							<select name="store_id" class="store-select form-control" data-store-select data-search="/ajax/select_search/stores/">
 								<option value="">
 									Избери магазин
 								</option>

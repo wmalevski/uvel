@@ -210,7 +210,7 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label>Магазин: </label>
-                    <select name="store_id" class="form-control" data-search="/ajax/select_search/stores/">
+                    <select name="store_id" class="form-control" data-store-select data-search="/ajax/select_search/stores/">
                         <option value="">Избери магазин</option>
 
                         @foreach($stores as $store)
