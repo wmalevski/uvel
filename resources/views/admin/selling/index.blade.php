@@ -247,7 +247,7 @@ aria-hidden="true">
                         <div class="exchange-row-total form-row">
                             <div class="form-group col-md-6">
                                 <label for="given-sum">Сума от материали</label>
-                                <input type="number" data-defaultPrice="@if(count($materials) > 0) {{ $materials->first()->material->pricesBuy->first()['price'] }} @endif" class="form-control not-clear" value="0" name="exchangeRows_total" placeholder="Дължима сума" data-exchangeRows-total readonly>
+                                <input type="number" data-defaultPrice="@if(count($materials) > 0) {{ $materials->first()->pricesBuy->first()['price'] }} @endif" class="form-control not-clear" value="0" name="exchangeRows_total" placeholder="Дължима сума" data-exchangeRows-total readonly>
                             </div>
 
                             <div class="form-group col-md-6">
@@ -255,9 +255,10 @@ aria-hidden="true">
                                 <select name="calculating_price" class="form-control not-clear">
                                     <option value="0">Избери</option>
                                     @if(count($materials) > 0)
-                                        @if($materials->first()->material->pricesBuy->first())
-                                            @foreach($materials->first()->material->pricesBuy as $price)
-                                                <option value="{{ $price->id }}" data-defaultPrice="{{ $materials->first()->material->pricesBuy->first()->price }}" data-price="{{ $price->price }}">{{ $price->slug }} - {{ $price->price }}</option>
+                                        @if($materials->first()->pricesBuy)
+                                            @foreach($materials->first()->pricesBuy as $price)
+                                                {{ print_r($price) }}
+                                                <option value="{{ $price->id }}" data-defaultPrice="{{ $materials->first()->pricesBuy->first()->price }}" data-price="{{ $price->price }}">{{ $price->slug }} - {{ $price->price }}</option>
                                             @endforeach
                                         @endif
                                     @endif
@@ -527,9 +528,6 @@ aria-hidden="true">
 @endsection
 
 @section('footer-scripts')
-<script id="materials_data" type="application/json">
-    {!!  $jsMaterials !!}
-</script>
 <script>
 	var newExchangeField = '{!! $newExchangeField !!}';
 </script>
