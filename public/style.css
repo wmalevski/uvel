@@ -326,15 +326,6 @@ textarea {
 	height: 60px;
 }
 
-.admin-product-name {
-	display: inline-block;
-	width: 50%;
-	margin: 0;
-	padding: 0;
-	vertical-align: top;
-	text-align: center;
-}
-
 .note-toolbar {
 	border-bottom: 1px solid #a9a9a9;
 }
