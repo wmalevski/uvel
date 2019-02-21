@@ -113,6 +113,12 @@
             </div>
             @endforeach
 
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Стойност</label> 
+                <input type="number" class="form-control" placeholder="0" name="fiscal_amount">
+              </div>
+            </div>
             <button type="submit" class="btn btn-primary">Пускане</button>
           </form>
         </div>
