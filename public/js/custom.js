@@ -1159,12 +1159,6 @@ var uvel,
         $self.closeModal(currentButton.closest('.modal'));
         $('.edit--modal_holder .modal-content').html(data);
         $self.openModal($('.edit--modal_holder'));
-
-        var openedForm = currentButton.attr('data-form'),
-            formType = currentButton.attr('data-form-type'),
-            formSettings = $self.formsConfig[openedForm];
-
-        $self.initializeForm(formSettings, formType);
       } else {
         var ajaxRequestLink = $self.buildAjaxRequestLink('requestForm', currentButton.attr('data-url'));
         $.ajax({
