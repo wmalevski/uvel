@@ -301,7 +301,6 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 			</th>
 			<th></th>
 			<th></th>
-			<th></th>
 		</tr>
 	</thead>
 
