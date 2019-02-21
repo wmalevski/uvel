@@ -254,8 +254,7 @@ var uvel,
 
     this.init = function() {
       $self.attachInitialEvents();
-      $self.initializeSelect($('select').not('[data-select2-skip], [data-search]'));
-      $self.initializeSelectWithSearch($('select[data-search]'));
+      $self.select2Looper($('select').not('[data-select2-skip]'));
 
       $self.initializeTableSort();
       // $self.checkAllForms();
@@ -1181,11 +1180,9 @@ var uvel,
 
             $self.initializeForm(formSettings, formType);
             
-            var selects = $('form[data-type="edit"] select').not('[data-search]'),
-                selectsWithSearch = $('form[data-type="edit"] select[data-search]');
+            var selects = $('form[data-type="edit"] select');
 
-            $self.initializeSelect(selects);
-            $self.initializeSelectWithSearch(selectsWithSearch);
+            $self.select2Looper(selects);
 
             if (modal.find('.summernote').length > 0) {
               modal.find('.summernote').summernote({
@@ -1360,11 +1357,9 @@ var uvel,
       var materialRows = materialsWrapper.find('.form-row'),
           currentRow = materialRows[materialRows.length - 1];
 
-      var select = $(currentRow).find('select').not('[data-search]'),
-          selectsWithSearch = $(currentRow).find('select[data-search]');
+      var selects = $(currentRow).find('select');
 
-      $self.initializeSelect(select);
-      $self.initializeSelectWithSearch(selectsWithSearch);
+      $self.select2Looper(selects);
 
       var defaultBtnsCollection = $('.default_material');
       $self.giveElementsIds(defaultBtnsCollection);
@@ -1442,11 +1437,9 @@ var uvel,
         var stoneRows = stonesWrapper.find('.form-row.fields'),
             currentRow = stoneRows[stoneRows.length - 1];
 
-        var select = $(currentRow).find('select').not('[data-search]'),
-            selectsWithSearch = $(currentRow).find('select[data-search]');
+        var selects = $(currentRow).find('select');
 
-        $self.initializeSelect(select);
-        $self.initializeSelectWithSearch(selectsWithSearch);
+        $self.select2Looper(selects);
        
 
         var forFlowCollection = $('.stone-flow');
@@ -1934,7 +1927,7 @@ var uvel,
       var materials = document.querySelectorAll('[data-calculateprice-material]'),
           materialHolder = materials[materials.length - 1];
 
-      $self.initializeSelectWithSearch($(materialHolder));
+      $self.select2Looper($(materialHolder));
     }
 
     this.addExchangeMaterial = function(material, materialHolder, select) {
@@ -2210,11 +2203,9 @@ var uvel,
         var newRemoveTrigger = newRow.find('[data-materials-remove]');
         $self.removeMaterialsAttach(newRemoveTrigger);
 
-        var select = newRow.find('select').not('[data-search]'),
-            selectsWithSearch = newRow.find('select[data-search]');
+        var select = newRow.find('select');
 
-        $self.initializeSelect(select);
-        $self.initializeSelectWithSearch(selectsWithSearch);
+        $self.select2Looper(select);
 
         container.append(newRow)
       });
@@ -2525,11 +2516,9 @@ var uvel,
     this.addModelSelectInitialize = function() {
       var addModelButton = $('[data-target="#addModel"]');
       addModelButton.click(function() {
-        var selects = $('form[name="addModel"]').find('select').not('[data-search]'),
-            selectsWithSearch = $('form[name="addModel"]').find('select[data-search]');
+        var selects = $('form[name="addModel"]').find('select');
 
-        $self.initializeSelect(selects);
-        $self.initializeSelectWithSearch(selectsWithSearch);
+        $self.select2Looper(selects);
       });
     }
 
@@ -2549,11 +2538,22 @@ var uvel,
       FUNCTION THAT INITIALIZES THE SELECT 2 PLUGIN
     */
 
-    this.initializeSelectWithSearch = function(selects) {
+    this.select2Looper = function(selects, selectCallback, selectOptions) {
+      var defaultOptions = {
+        templateResult: $self.addSelect2CustomAttributes,
+        templateSelection: $self.addSelect2CustomAttributes
+      };
+
       for (var i = 0; i < selects.length; i++) {
-        var options = generateAjaxOption(selects[i].dataset.search, selects[i]);
-      
-        $self.initializeSelect(selects[i], null, options);
+        defaultOptions.dropdownParent = $(selects[i]).parent();
+
+        var options = selectOptions || defaultOptions;
+
+        if (selects[i].hasAttribute('data-search')) {
+          options = generateAjaxOption(selects[i].dataset.search, selects[i]);
+        }
+
+        $self.initializeSelect(selects[i], selectCallback, options);
       }
 
       function generateAjaxOption(url, select) {
@@ -2600,21 +2600,14 @@ var uvel,
       }
     }
 
-    this.initializeSelect = function(select, selectCallback, selectOptions) {
-      var defaultOptions = {
-        templateResult: $self.addSelect2CustomAttributes,
-        templateSelection: $self.addSelect2CustomAttributes,
-        dropdownParent: $(select).parent()
-      };
+    this.initializeSelect = function(select, callback, options) {
 
-      var options = selectOptions || defaultOptions;
-      
       $(select).select2(options);
-      $(select).on('select2:select', selectCallback);
+      $(select).on('select2:select', callback);
       $(select).on('select2:open', function () {
         if( this.selectedIndex > 0) {
-            var viewport = $('.select2-results__options'),
-                options = viewport.find('.select2-results__option');
+          var viewport = $('.select2-results__options'),
+              options = viewport.find('.select2-results__option');
 
           if (options.length > 1) {
             setTimeout(function() {
