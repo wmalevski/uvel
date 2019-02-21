@@ -25,6 +25,10 @@ class RepairType extends Model
             if ($request->byName) {
                 $query->where('name','LIKE','%'.$request->byName.'%');
             }
+
+            if( $request->byName == ''){
+                $query = RepairType::all();
+            }
         });
 
         return $query;
