@@ -260,11 +260,11 @@ class Product extends BaseModel
                     $query->where('name','LIKE','%'.$request->byName.'%');
                 }
 
-                if ($request->barcode) {
+                if ($request->byBarcode) {
                     $query->where('barcode','LIKE','%'.$request->byBarcode.'%');
                 }
                 
-                if ($request->code) {
+                if ($request->byCode) {
                     $query->where('code','LIKE','%'.$request->byCode.'%');
                 }
 
@@ -284,7 +284,7 @@ class Product extends BaseModel
                     $query->whereIn('material_id', $request->byMaterial);
                 }
 
-                if ($request->byName == '' && $request->barcode == '' && $request->code == '' && $request->bySize == '' && $request->byStore == '' && $request->byJewel == '' && $request->byMaterial == '') {
+                if ($request->byName == '' && $request->byBarcode == '' && $request->byCode == '' && $request->bySize == '' && $request->byStore == '' && $request->byJewel == '' && $request->byMaterial == '') {
                     $query = Product::all();
                 }
             });
