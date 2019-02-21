@@ -354,6 +354,19 @@ var uvel,
     }
 
     this.openForm = function(openFormTrigger) {
+      var enterKeyCode = 13;
+      
+      $('body').on('show.bs.modal', function() {
+        $('.modal-backdrop, .modal').addClass('inactive');
+        openFormTrigger.disabled = true;
+      });
+
+      $(openFormTrigger).on('keypress', function(event) {
+        if (event.keyCode  == enterKeyCode) {
+          event.preventDefault();
+        }
+      });
+
       openFormTrigger.on('click', function() {
         $self.openFormAction($(this));
       });
@@ -403,12 +416,13 @@ var uvel,
         // Form already initialized
         console.log('form already initialized');
       }
-      
-      
+
       setTimeout(function() {
         if (openedForm != 'sellingPartners' && openedForm != 'selling') {
           $('button[type="submit"]').prop('disabled', false);
         }
+        $('.modal-backdrop, .modal').removeClass('inactive');
+        currentPressedBtn.disabled = false;
       }, timeToOpenModal);
     }
 
