@@ -117,7 +117,6 @@ class ProductController extends Controller
         $products_new = new Product();
         $products = $products_new->filterProducts($request, $query);
         $products = $products->paginate(env('RESULTS_PER_PAGE'));
-
         $response = '';
         foreach($products as $product){
             $response .= \View::make('admin/products/table', array('product' => $product, 'listType' => $request->listType));
