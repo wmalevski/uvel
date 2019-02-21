@@ -905,8 +905,7 @@ var uvel,
       inputFields.each(function(index, element) {
         var inputType = element.type,
             dataKey = element.name,
-            dataKeyValue = element.value,
-            imagesInputFieldExists = dataKey == 'images' ? true : false;
+            dataKeyValue = element.value;
 
         if ((inputType == 'radio' || inputType == 'checkbox') && dataKey.indexOf('[]') !== -1) {
           dataKey = dataKey.replace('[]', '');
@@ -920,15 +919,19 @@ var uvel,
           data[dataKey] = dataKeyValue;
         }
 
-        if (imagesInputFieldExists) {
-          var imagesHolder = $('.drop-area-gallery .image-wrapper img');
+        if (dataKey.startsWith('images')) {
+          var imagesHolder = $(element).siblings('.drop-area-gallery').find('img');
+          
+          if (element.dataset.locale) {
+            data[dataKey] = imagesHolder[0].getAttribute('src');
+          } else {
+            imagesHolder.each(function(index, element) {
+              var imgSource = element.getAttribute('src');
+              imageCollection.push(imgSource);
+            });
 
-          imagesHolder.each(function(index, element) {
-            var imgSource = element.getAttribute('src');
-            imageCollection.push(imgSource);
-          });
-
-          data.images = imageCollection;
+            data.images = imageCollection;
+          }
         }
       });
 
@@ -2273,7 +2276,8 @@ var uvel,
     }
 
     this.appendImages = function(collectionFiles, form, event) {
-      var _instanceFiles = [];
+      var _instanceFiles = [],
+          filesInput = event.currentTarget;
 
       collectionFiles.forEach(function(element) {
         var reader = new FileReader();
@@ -2294,7 +2298,11 @@ var uvel,
           imageWrapper.append(closeBtn);
           imageWrapper.append(img);
 
-          $(event.currentTarget).siblings('.drop-area-gallery').append(imageWrapper);
+          if (filesInput.attributes.multiple) {
+            $(filesInput).siblings('.drop-area-gallery').append(imageWrapper);
+          } else {
+            $(filesInput).siblings('.drop-area-gallery').html(imageWrapper);
+          }
         }
       });
     }
