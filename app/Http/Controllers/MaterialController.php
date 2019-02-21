@@ -219,7 +219,11 @@ class MaterialController extends Controller
         $query = Material::select('*');
 
         $materials_new = new Material();
-        $materials = $materials_new->filterMaterials($request, $query);
+        if($request->type && $request->type == 'payment'){
+            $materials = $materials_new->filterMaterialsPayment($request, $query);
+        }else{
+            $materials = $materials_new->filterMaterials($request, $query);
+        }
         $materials = $materials->paginate(env('RESULTS_PER_PAGE'));
         $pass_materials = array();
 

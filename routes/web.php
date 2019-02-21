@@ -273,7 +273,7 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::get('/select_search/parentmaterials', 'MaterialController@select_search');
 
-    Route::get('/select_search/global/materials/{type}', 'MaterialController@select_search');
+    Route::get('/select_search/global/materials/{type}', 'MaterialController@select_search_withPrice');
 
     Route::get('/select_search/materials', 'MaterialQuantityController@select_search');
 

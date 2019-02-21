@@ -23,6 +23,7 @@ use \Darryldecode\Cart\CartCondition as CartCondition;
 use \Darryldecode\Cart\Helpers\Helpers as Helpers;
 use App\MaterialQuantity;
 use App\OrderItem;
+use App\Material;
 
 Class CartCustomCondition extends CartCondition {
     public function apply($totalOrSubTotalOrPrice, $conditionValue){
@@ -112,30 +113,14 @@ class SellingController extends Controller
         $condition = Cart::getConditions('discount');
         $priceCon = 0;
 
-        $materials = MaterialQuantity::currentStore()->take(env('SELECT_PRELOADED'));
-
-        $pass_materials = array();
-
-        foreach($materials as $material){
-            if(count($material->material->pricesBuy)){
-                $pass_materials[] = [
-                    'label' => $material->material->parent->name.' - '.$material->material->color.' - '.$material->material->carat,
-                    'value' => $material->id,
-                    'price' => $material->material->pricesBuy->first()->price,
-                    'for_buy'  => $material->material->for_buy,
-                    'for_exchange' => $material->material->for_exchange,
-                    'carat_transform' => $material->material->carat_transform,
-                    'carat' => $material->material->carat
-                ];
-            }
-        }
+        $materials = Material::take(env('SELECT_PRELOADED'))->get();
 
         $partner = false;
         if(count($cartConditions) > 0){
             foreach(Cart::session(Auth::user()->getId())->getConditions() as $cc){
                 $priceCon += $cc->getCalculatedValue($subTotal);
 
-                if($cc->getAttributes()['partner']){
+                if($cc->getAttributes()['partner'] != 'false'){
                     $partner = true;
                 }
             }
@@ -165,7 +150,7 @@ class SellingController extends Controller
         }
         //To add kaparo from the orders when branches are merged
         
-        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials, 'jsMaterials' =>  json_encode($pass_materials, JSON_UNESCAPED_SLASHES ), 'todayReport' => $todayReport, 'partner' => $partner));
+        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner));
     }
 
     /**

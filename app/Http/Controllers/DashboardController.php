@@ -8,6 +8,7 @@ use App\Payment;
 use App\Dashboard;
 use App\UserSubstitution;
 use App\DiscountCode;
+use App\Material;
 use App\Currency;
 use Illuminate\Http\Request;
 use Auth;
@@ -109,30 +110,14 @@ class DashboardController extends Controller
         $condition = Cart::getConditions('discount');
         $priceCon = 0;
 
-        $materials = MaterialQuantity::currentStore()->take(env('SELECT_PRELOADED'));
-
-        $pass_materials = array();
-
-        foreach($materials as $material){
-            if(count($material->material->pricesSell)){
-                $pass_materials[] = [
-                    'label' => $material->material->parent->name.' - '.$material->material->color.' - '.$material->material->carat,
-                    'value' => $material->id,
-                    'price' => $material->material->pricesSell->first()->price,
-                    'for_buy'  => $material->material->for_buy,
-                    'for_exchange' => $material->material->for_exchange,
-                    'carat_transform' => $material->material->carat_transform,
-                    'carat' => $material->material->carat
-                ];
-            }
-        }
+        $materials = Material::take(env('SELECT_PRELOADED'))->get();
 
         $partner = false;
         if(count($cartConditions) > 0){
             foreach(Cart::session(Auth::user()->getId())->getConditions() as $cc){
                 $priceCon += $cc->getCalculatedValue($subTotal);
 
-                if($cc->getAttributes()['partner']){
+                if($cc->getAttributes()['partner'] != 'false'){
                     $partner = true;
                 }
             }
@@ -177,7 +162,7 @@ class DashboardController extends Controller
             $todayReport = 'false';
         }
 
-        return \View::make('admin/selling/index', array('items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'priceCon' => $priceCon, 'dds' => $dds, 'materials' => $materials, 'jsMaterials' =>  json_encode($pass_materials, JSON_UNESCAPED_SLASHES ), 'todayReport' => $todayReport, 'partner' => $partner));
+        return \View::make('admin/selling/index', array('items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'priceCon' => $priceCon, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner));
     }
 
     /**
