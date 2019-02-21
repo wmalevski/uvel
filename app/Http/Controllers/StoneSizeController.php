@@ -111,8 +111,10 @@ public function edit(StoneSize $stoneSize)
 
         foreach($sizes as $size){
             $pass_sizes[] = [
-                'value' => $size->id,
-                'label' => $size->name
+                'attributes' => [
+                    'value' => $size->id,
+                    'label' => $size->name
+                ]
             ];
         }
 

@@ -19,12 +19,6 @@
 				</div>
 				<div id="col-main" class="col-md-24 clearfix">
 					<div class="page page-wishlist">
-						@if(session()->has('success'))
-						<div class="alert alert-success">
-								{{ session()->get('success') }}
-						</div>
-						@endif
-
 						@foreach($wishList as $wishListItem)
 						<div class="wishlist-item">
 

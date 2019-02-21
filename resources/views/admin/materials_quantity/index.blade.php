@@ -20,14 +20,8 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label>Тип: </label>
-                            <select name="material_id" class="form-control" data-search="/ajax/select_search/materialstypes/">
+                            <select name="material_id" class="form-control" data-search="/ajax/select_search/parentmaterials/">
                                 <option value="">Избери материал</option>
-                        
-                                @foreach($types as $type)
-                            
-                                    <option value="{{ $type->id }}">@if($type->parent) {{ $type->parent->name }} - {{ $type->color }} - {{ $type->code }} @endif</option>
-                                }
-                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -45,10 +39,6 @@ aria-hidden="true">
                         <label>Магазин: </label>
                         <select name="store_id" class="form-control" data-search="/ajax/select_search/stores/">
                             <option value="">Избери магазин</option>
-                    
-                            @foreach($stores as $store)
-                                <option value="{{ $store->id }}">{{ $store->name }} - {{ $store->location }}</option>
-                            @endforeach
                         </select>
                     </div>
 
@@ -83,17 +73,17 @@ aria-hidden="true">
             <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="materialsQuantity" data-toggle="modal" data-target="#addMQuantity">Добави</button>
         </h4>
         <p>Преглед на наличност.</p>
-        <table class="table table-condensed">
+        <table class="table table-condensed table-fixed">
             <thead>
                 <tr data-sort-method="thead">
                     <th>Тип</th> 
-                    <th>Количество/гр</th> 
+                    <th>Количество/гр.</th> 
                     <th>Магазин</th>
                     <th data-sort-method="none">Действия</th> 
                 </tr>
-                <tr>
+                <tr class="search-inputs" data-dynamic-search-url="ajax/search/materialquantities/">
                     <th>
-                        <input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/materialquantities/?byName=" placeholder="Търси по име">
+                        <input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Търси по тип">
                     </th>
                     <th></th>
                     <th></th>

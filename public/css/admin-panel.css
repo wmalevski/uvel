@@ -30,7 +30,7 @@ thead .filter-input {
 
 .modal-content .checkbox label:after {
 	top: 7px;
-	left: 3px;
+	left: 2px;
 	width: 10px !important;
 	height: 10px !important;
 	border-radius: 50%;
@@ -42,6 +42,10 @@ thead .filter-input {
 	bottom: 1px;
 	margin-top: auto;
 	margin-bottom: auto;
+}
+
+.modal-content input {
+	padding-left: 8px;
 }
 
 .modal-content .radio label:after,
@@ -65,6 +69,47 @@ form .form-group {
 	margin-bottom: 10px;
 }
 
+.model_stones .checkbox {
+	bottom: 0;
+}
+
+.model_stones .row-total-weight {
+	position: absolute;
+	top: 0;
+	right: -40px;
+}
+
+form .bot-row {
+	height: 40px;
+}
+
+form .bot-row.mt-neg15px {
+	margin-top: -15px;
+}
+
+form .bot-row .form-group,
+form .bot-row .form-group .checkbox {
+	position: absolute;
+	right: 0;
+}
+
+form .bot-row .form-group {
+	margin: 0;
+	padding: 0;
+}
+
+form .bot-row .form-group .checkbox {
+	padding-right: 18px;
+}
+
+.form-row span.input-group-addon {
+	min-width: 44px;
+}
+
+.table-fixed {
+	table-layout: fixed;
+}
+
 /* Admin Panel Side menu */
 .nav-item.active > a,
 .nav-item.active li.active {
@@ -73,6 +118,10 @@ form .form-group {
 
 .nav-item .dropdown-menu {
 	margin-top: 0 !important;
+}
+
+.sidebar-menu .nav-item.active {
+	margin-right: 8px;
 }
 
 /* Blog */

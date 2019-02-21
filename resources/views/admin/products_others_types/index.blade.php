@@ -46,15 +46,15 @@ aria-hidden="true">
 
 <h3>Добави друг тип <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="otherProductsTypes" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
 
-<table class="table table-condensed">
+<table class="table table-condensed table-fixed">
     <thead>
         <tr data-sort-method="thead">
             <th>Име</th>
             <th data-sort-method="none"></th>
         </tr>
-        <tr>
+        <tr class="search-inputs" data-dynamic-search-url="ajax/search/products_others_types/">
             <th>
-                <input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/products_others_types/?byName=" placeholder="Търси по име">
+                <input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Търси по име">
             </th>
             <th></th>
         </tr>

@@ -1,6 +1,12 @@
 @extends('store.layouts.app', ['bodyClass' => 'templateProduct'])
 
 @section('content')
+
+<div class="modal fade edit--modal_holder" id="quick-shop-modal" role="dialog" aria-labelledby="quick-shop-modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content"></div>
+    </div>
+</div>
 <div id="content-wrapper-parent">
 	<div id="content-wrapper">
 		<div id="content" class="clearfix">
@@ -15,23 +21,6 @@
 			</div>
 			<section class="content">
 				<div class="container">
-					<div class="row">
-						<div class="col-md-12">
-							@if($errors->any())
-							<ul class="alert alert-danger">
-								@foreach ($errors->all() as $error)
-								<li>{{ $error }}</li>
-								@endforeach
-							</ul>
-							@endif
-
-							@if(session()->has('success'))
-							<div class="alert alert-success">
-								{{ session()->get('success') }}
-							</div>
-							@endif
-						</div>
-					</div>
 					<div class="row">
 						<div id="col-main" class="product-page col-xs-24 col-sm-24 ">
 							<div>
@@ -112,7 +101,7 @@
 														{{-- {{ $product->weight }} гр. + {{ $product->workmanship }} лв.
 													</p>
 												</div> --}}
-												
+
 											</div>
 											<div id="product-info-right">
 												<div itemprop="offers" itemtype="http://schema.org/Offer" class="col-sm-24 group-variants">
@@ -234,8 +223,10 @@
 													@if(count($product->reviews) >= 1)
 													<span class="spr-summary-caption">
 														<span class="spr-summary-actions-togglereviews">
-															Базирано на {{count($product->reviews)}} @if(count($product->reviews) == 1) ревю @else ревюта -
-															{{$product->getProductOtherAvgRating($product)}}/5 @endif
+															({{$productAvgRating}}/5)
+															Базирано на {{count($product->reviews)}}
+															@if(count($product->reviews) == 1) ревю @else ревюта
+															@endif
 														</span>
 													</span>
 													@endif
@@ -247,7 +238,7 @@
 											</div>
 											<div class="spr-content">
 												<div class="spr-form" id="form_{{$product->id}}">
-													<form method="post" action="{{ route('product_review', ['product' => $product->id])  }}" id="new-review-form_{{$product->id}}"
+													<form method="post" action="{{ route('product_review', ['product' => $product->id]) }}" id="new-review-form_{{$product->id}}"
 													 class="new-review-form">
 														{{ csrf_field() }}
 														<input type="hidden" name="rating" value="5">
@@ -265,26 +256,20 @@
 																	<a href="#" class="spr-icon spr-icon-star spr-icon-star-empty" data-value="5">&nbsp;</a>
 																</div>
 															</div>
-															<div class="spr-form-review-title">
-																<label class="spr-form-label" for="review_title_{{$product->id}}">
-																	Заглавие
-																</label>
-																<input class="spr-form-input spr-form-input-text " id="review_title_{{$product->id}}" type="text" name="title" placeholder="Заглавие на ревюто">
-															</div>
 															<div class="spr-form-review-body">
 																<label class="spr-form-label" for="review_body_{{$product->id}}">
-																	Описание
+																	Коментар
 																	<span class="spr-form-review-body-charactersremaining">(1500)</span>
 																</label>
 																<div class="spr-form-input">
-																	<textarea class="spr-form-input spr-form-input-textarea " id="review_body_{{$product->id}}"
-																	 data-product-id="{{$product->id}}" name="content" rows="10" placeholder="Добавете вашият коментар за ревюто тук">
-																	</textarea>
+																	<textarea class="spr-form-input spr-form-input-textarea" id="review_body_{{$product->id}}"
+																	 					data-product-id="{{$product->id}}" name="content" rows="10" placeholder="Добавете вашият коментар"></textarea>
 																</div>
 															</div>
 														</fieldset>
 														<fieldset class="spr-form-actions">
-															<input type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary" value="Добави рейтинг">
+															<input id="btnSubmitReview" type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary"
+																		 value="Добави рейтинг" disabled>
 														</fieldset>
 														<input type="hidden" name="product_others_id" value="{{$product->id}}">
 														<input type="hidden" name="type" value="product_other">
@@ -301,19 +286,19 @@
 																		@endif
 																		@endfor
 															</span>
-															<h3 class="spr-review-header-title">{{$review->title}}</h3>
+															<h3 class="spr-review-header-title">
+																{{$review->user->name}}
+															</h3>
 															<span class="spr-review-header-byline">
-																<strong>{{$review->user->name}}</strong> on <strong>{{$review->created_at}}</strong>
+																<strong>
+																	{{ $review->created_at->format('d') }} {{ $review->created_at->format('M') }}, {{ $review->created_at->format('Y') }}
+																</strong>
 															</span>
 														</div>
 														<div class="spr-review-content">
 															<p class="spr-review-content-body">
 																{{$review->content}}
 															</p>
-														</div>
-														<div class="spr-review-footer">
-															<a href="#" class="spr-review-reportreview" onclick="SPR.reportReview({{$key}});return false" id="report_{{$key}}"
-															 data-msg="This review has been reported">Докладвай</a>
 														</div>
 													</div>
 													@endforeach
@@ -343,7 +328,7 @@
 												</li>
 												<li class="row-right parent-fly animMix">
 													<div class="product-content-left">
-														<a class="title-5" href="{{ route('single_product_other', ['product' => $product->id])  }}">
+														<a class="title-5" href="{{ route('single_product_other', ['product' => $product->id]) }}">
 															{{ $product->name }}</a>
 														<span class="spr-badge" id="spr_badge_{{$product->id}}" data-rating="{{$product->getProductOtherAvgRating($product)}}">
 															<span class="spr-starrating spr-badge-starrating">
@@ -359,27 +344,27 @@
 															*Цената е с включено ДДС.
 														</div>
 													</div>
-													
+
 													<div class="hover-appear">
 														<a href="{{ route('single_product', ['product' => $product->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
 															<input name="quantity" value="1" type="hidden">
 															<i class="fa fa-lg fa-th-list"></i>
 															<span class="list-mode">Преглед</span>
 														</a>
-														
+
 														<a href="#" data-barcode="{{ $product->barcode }}" data-target="#quick-shop-modal" class="quick_shop product-ajax-qs hidden-xs hidden-sm"
 															 data-toggle="modal" title="Бърз Преглед">
 															<i class="fa fa-lg fa-eye"></i>
 															<span class="list-mode">Бърз Преглед</span>
 														</a>
-														
+
 														<a href="#" class="wish-list" title="Добави в Желани"
 															 data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
 															<i class="fa fa-lg fa-heart"></i>
 															<span class="list-mode">Добави в Желани</span>
 														</a>
 													</div>
-													
+
 												</li>
 											</ul>
 										</div>

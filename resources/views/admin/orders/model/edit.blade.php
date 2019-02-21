@@ -25,17 +25,17 @@
 
             <div class="form-group">
                 <label for="3">Телефон на клиент: </label>
-                <input type="tel" class="form-control" value="{{ $order->user->phone }}" id="3" name="phone" placeholder="Телефон:">
+                <input type="tel" class="form-control" value="{{ $order->user->phone }}" id="3" name="phone" placeholder="Телефон:" readonly>
             </div>
 
             <div class="form-group">
                 <label for="4">Град на клиент: </label>
-                <input type="text" class="form-control" value="{{ $order->user->city }}" id="4" name="city" placeholder="Град:">
+                <input type="text" class="form-control" value="{{ $order->user->city }}" id="4" name="city" placeholder="Град:" readonly>
             </div>
 
             <div class="form-group">
                 <label>Модел: </label>
-                <select id="model_select_edit" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model>
+                <select name="model_id" class="model-select form-control model-filled" data-calculatePrice-model>
                     <option value="">Избери</option>
             
                     @foreach($models as $model)
@@ -46,7 +46,7 @@
 
             <div class="form-group">
                 <label for="4">Описание на поръчката: </label>
-                <textarea class="form-control" name="content">{{ $order->user->content }}</textarea>
+                <textarea class="form-control" name="additional_description">{{ $order->additional_description }}</textarea>
             </div>
 
             <div class="form-row">

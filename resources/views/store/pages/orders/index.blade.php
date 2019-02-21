@@ -24,20 +24,6 @@
 				<div id="col-main" class="contact-page clearfix">
 					<div class="group-contact clearfix">
 						<div class="container">
-							@if($errors->any())
-							<ul class="alert alert-danger">
-								@foreach ($errors->all() as $error)
-								<li>{{ $error }}</li>
-								@endforeach
-							</ul>
-							@endif
-
-							@if(session()->has('success'))
-							<div class="alert alert-success">
-								{{ session()->get('success') }}
-							</div>
-							@endif
-
 							<div class="row">
 								<div class="left-block col-md-12">
 									<form method="post" action="{{ route('submit_custom_order') }}" class="contact-form customOrder-form"

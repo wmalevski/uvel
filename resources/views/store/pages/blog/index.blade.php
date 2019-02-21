@@ -41,7 +41,7 @@
 												<div class="blogs-image">
 													@if(!empty($lng))
 													<a class="img-fill-container" href="{{ route('single_translated_article', ['locale'=>$lng, 'product' => $article->slug])  }}">
-														<img class="img-fill" src="{{ asset("uploads/blog/" . $article->thumbnail) }}">
+														<img class="img-fill" src="{{ asset("uploads/blog/" . $article->thumbnail()->photo ) }}">
 													</a>
 													@endif
 												</div>

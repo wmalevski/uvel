@@ -21,6 +21,8 @@ class CreateDailyReportsTable extends Migration
             $table->float('safe_jewels_amount')->nullable();
             $table->float('given_jewels_amount')->nullable();
 
+            $table->float('fiscal_amount')->nullable();
+
             $table->float('safe_materials_amount')->nullable();
             $table->float('given_materials_amount')->nullable();
 

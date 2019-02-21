@@ -112,6 +112,7 @@ class ExpenseController extends Controller
         $expense->amount = $request->amount;
         $expense->given = $request->given;
         $expense->currency_id = $request->currency_id;
+        $expense->additional_info = $request->additional_info;
         $expense->user_id = Auth::user()->getId();
         $expense->store_id = Auth::user()->getStore()->id;
 

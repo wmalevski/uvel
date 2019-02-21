@@ -6,6 +6,7 @@ use Auth;
 use App\MaterialQuantity;
 use App\Material;
 use App\Store;
+use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
@@ -155,17 +156,20 @@ class MaterialQuantityController extends Controller
         $pass_materials = array();
 
         foreach($materials as $material){
-            if($material->material->pricesBuy->first()){
+            if($material->material->pricesSell->first()){
                 $pass_materials[] = [
-                    'value' => $material->id,
-                    'label' => $material->material->parent->name.' - '.$material->material->color.' - '.$material->material->carat,
-                    'data-carat' => $material->material->carat,
-                    'data-pricebuy' => $material->material->pricesBuy->first()['price'],
-                    'data-price' => $material->material->pricesBuy->first()['price'],
-                    'for_buy'  => $material->material->for_buy,
-                    'for_exchange' => $material->material->for_exchange,
-                    'carat_transform' => $material->material->carat_transform,
-                    'carat' => $material->material->carat
+                    'attributes' => [
+                        'value' => $material->id,
+                        'label' => $material->material->parent->name.' - '.$material->material->color.' - '.$material->material->carat,
+                        'data-carat' => $material->material->carat,
+                        'data-pricebuy' => $material->material->pricesBuy->first()['price'],
+                        'data-price' => $material->material->pricesSell->first()['price'],
+                        'for_buy'  => $material->material->for_buy,
+                        'for_exchange' => $material->material->for_exchange,
+                        'carat_transform' => $material->material->carat_transform,
+                        'carat' => $material->material->carat,
+                        'data-material' => $material->material->id,
+                    ]
                 ];
             }
             
@@ -202,9 +206,10 @@ class MaterialQuantityController extends Controller
     {
         if($materialQuantity){
 
-            $using = MaterialTravelling::where('material_id', $materialQuantity->material_id)->count();
+            $usingTravelling = MaterialTravelling::where('material_id', $materialQuantity->material_id)->count();
+            $usingProduct = Product::where('material_id', $materialQuantity->material_id)->count();
             
-            if($using){
+            if($usingTravelling || $usingProduct){
                 return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
             }else{
                 $materialQuantity->delete();

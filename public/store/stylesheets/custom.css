@@ -746,3 +746,12 @@ li.element {
 .element.no_full_width .hover-appear a:hover {
 	background-color: #a07936;
 }
+
+.page-store-account .divider,
+.page-store-account #customer_detail li {
+	margin: 10px;
+}
+
+header .login a {
+	font-size: 16px !important;
+}

@@ -60,7 +60,7 @@ class OrderController extends Controller
         $pass_materials = array();
         
         foreach($mats as $material){
-            if($material->material->pricesBuy->first()){
+            if($material->material->pricesSell->first()){
                 $pass_materials[] = [
                     'value' => $material->id,
                     'label' => $material->material->parent->name.' - '. $material->material->color.  ' - '  .$material->material->carat,
@@ -109,16 +109,20 @@ class OrderController extends Controller
             'store_id' => 'required|numeric',
             'earnest' => 'numeric|nullable',
             'safe_group' => 'numeric|nullable',
-            'quantity' => 'required'
+            'quantity' => 'required',
+            'mat_quantity.*' => 'numeric|min:1'
         ]); 
 
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $material = MaterialQuantity::withTrashed()->find($request->material_id);
-        
-        if($material->quantity < $request->weight){
+        $material = MaterialQuantity::withTrashed()->where([
+            ['material_id', '=', $request->material_id],
+            ['store_id', '=', Auth::user()->getStore()->id]
+        ])->first();
+
+        if(!$material || $material->quantity < $request->weight){
             return Response::json(['errors' => ['using' => [trans('admin/orders.material_quantity_not_matching')]]], 401);
         }
 
@@ -184,7 +188,6 @@ class OrderController extends Controller
                     if($stone) {
                         $order_stones = new OrderStone();
                         $order_stones->order_id = $order->id;
-                        $order_stones->model_id = $request->model_id;
                         $order_stones->stone_id = $stone;
                         $order_stones->amount = $request->stone_amount[$key];
                         $order_stones->weight = $request->stone_weight[$key];
@@ -202,7 +205,7 @@ class OrderController extends Controller
         if($request->given_material_id){
             foreach($request->given_material_id as $key => $material){
                 if($material){
-                    $price = MaterialQuantity::find($material)->material->pricesBuy()->first()->price;
+                    $price = Material::find($material)->pricesSell()->first()->price;
 
                     $exchange_material = new ExchangeMaterial();
                     $exchange_material->material_id = $material;
@@ -244,7 +247,7 @@ class OrderController extends Controller
         $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::take(env('SELECT_PRELOADED'))->get();
-        $materials = MaterialQuantity::currentStore()->take(env('SELECT_PRELOADED'));
+        $materials = Material::take(env('SELECT_PRELOADED'))->get();
         $stores = Store::take(env('SELECT_PRELOADED'))->get();
 
         return \View::make('admin/orders/edit', array('stores' => $stores , 'order_stones' => $order_stones, 'order' => $order, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials));
@@ -285,7 +288,10 @@ class OrderController extends Controller
                 return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
             }
     
-            $material = MaterialQuantity::withTrashed()->find($request->material_id);
+            $material = MaterialQuantity::withTrashed()->where([
+                ['material_id', '=', $request->material_id],
+                ['store_id', '=', Auth::user()->getStore()->id]
+            ])->first();
             
             if($material->quantity < $request->weight){
                 return Response::json(['errors' => ['using' => [trans('admin/orders.material_quantity_not_matching')]]], 401);
@@ -326,6 +332,14 @@ class OrderController extends Controller
     
                 $option->save;
             }
+
+
+            foreach($order->stones as $orderStone){
+                $orderStone->stone->amount = $orderStone->stone->amount + $orderStone->amount;
+                $orderStone->stone->save();
+            }
+
+            $deleteStones = $order->stones()->delete();
     
             $stoneQuantity = 1;
             if($request->stones){
@@ -344,6 +358,8 @@ class OrderController extends Controller
             }
             
             $order->save();
+
+            $deleteStones = OrderStone::where('order_id', $order->id)->delete();
     
             if($request->stones){
                 if($stoneQuantity == 1){
@@ -352,7 +368,6 @@ class OrderController extends Controller
                         if($stone) {
                             $order_stones = new OrderStone();
                             $order_stones->order_id = $order->id;
-                            $order_stones->model_id = $request->model_id;
                             $order_stones->stone_id = $stone;
                             $order_stones->amount = $request->stone_amount[$key];
                             $order_stones->weight = $request->stone_weight[$key];
@@ -372,8 +387,8 @@ class OrderController extends Controller
 
                 foreach($request->given_material_id as $key => $material){
                     if($material){
-                        $price = MaterialQuantity::find($material)->material->pricesBuy()->first()->price;
-    
+                        $price = Material::find($material)->pricesSell()->first()->price;
+                        
                         $exchange_material = new ExchangeMaterial();
                         $exchange_material->material_id = $material;
                         $exchange_material->order_id = $order->id;
@@ -388,6 +403,16 @@ class OrderController extends Controller
 
             if($request->status == 'true'){
                 for($i=1;$i<=$request->quantity;$i++){
+
+                    $material = MaterialQuantity::where([
+                        ['material_id', $request->material_id],
+                        ['store_id', Auth::user()->getStore()->id]
+                    ])->first();
+        
+                    if(!$material || $material->quantity < $request->weight){
+                        return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
+                    }
+
                     $product = new Product();
 
                     $request->merge([
@@ -429,8 +454,7 @@ class OrderController extends Controller
                 foreach($request->stones as $key => $stone){
                     if($stone) {
                         $order_stones = new OrderStone();
-                        $order_stones->product_id = $order->id;
-                        $order_stones->model_id = $request->model_id;
+                        $order_stones->order_id = $order->id;
                         $order_stones->stone_id = $stone;
                         $order_stones->amount = $request->stone_amount[$key];
                         $order_stones->weight = $request->stone_weight[$key];
