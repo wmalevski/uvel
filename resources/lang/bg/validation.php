@@ -162,7 +162,7 @@ return [
         'jewelsTypes'  => 'Вид',
         'wholesale_prices' => 'Цена на едро',
         'workmanship' => 'Изработка',
-        'retail_price' => 'Цена на дребно',
+        'retail_price' => 'Цена на грам',
         'stone_amount.*' => 'Брой камъни',
         'stone_weight.*' => 'Тегло камъни',
         'storeTo' => 'Магазин',
