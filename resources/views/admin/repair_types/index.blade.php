@@ -42,10 +42,7 @@ aria-hidden="true">
 <div class="modal fade edit--modal_holder" id="editRepairType" role="dialog" aria-labelledby="editRepairType"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            
-
-        </div>
+        <div class="modal-content"></div>
     </div>
 </div>
 
@@ -54,12 +51,19 @@ aria-hidden="true">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
             <h4 class="c-grey-900 mB-20">Ремонтни дейности <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addRepairType" data-form-type="add" data-form="repairTypes">Добави</button></h4>
             <p>Преглед на създадените ремонтни дейности.</p>
-            <table class="table table-condensed tablesort">
+            <table class="table table-condensed tablesort table-fixed">
                 <thead>
-                    <tr>
+                    <tr data-sort-method="thead">
                         <th>Име</th>
                         <th>Цена</th>
                         <th data-sort-method="none">Опции</th>
+                    </tr>
+                    <tr class="search-inputs" data-dynamic-search-url="ajax/search/repairs_types/">
+                        <th>
+                            <input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Търси по име">
+                        </th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>

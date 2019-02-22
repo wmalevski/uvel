@@ -301,17 +301,35 @@ aria-hidden="true">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
             <h4 class="c-grey-900 mB-20">Ремонти <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="repairs" data-toggle="modal" data-target="#addRepair">Добави</button> <button type="button" class="return-repair btn btn-primary" data-toggle="modal" data-target="#returnRepair">Върни</button> <button type="button" class="scan-repair btn btn-primary" data-toggle="modal" data-target="#scanRepair">Обработи</button></h4>
             <p>Артикули за ремонт</p>
-            <table class="table repair-records-table tablesort">
-                <thead class="thead-dark">
-                    <tr>
+            <table class="table repair-records-table tablesort table-fixed">
+                <thead>
+                    <tr data-sort-method="thead">
                         <th scope="col">Баркод</th>
                         <th scope="col">Уникален номер</th>
                         <th scope="col">Име</th>
                         <th data-sort-method="none" scope="col">Телефон</th>
                         <th scope="col">Тип ремонт</th>
+                        <th scope="col">Дата</th>
                         <th scope="col">Статус</th>
-                        <th data-sort-method="none" scope="col">Дата</th>
                         <th data-sort-method="none" scope="col">Действия</th>
+                    </tr>
+                    <tr class="search-inputs" data-dynamic-search-url="ajax/search/repairs/">
+                        <th>
+                            <input class="filter-input form-control" type="text" data-dynamic-search-param="byBarcode=" placeholder="Търси по баркод">
+                        </th>
+                        <th>
+                            <input class="filter-input form-control" type="text" data-dynamic-search-param="byCode=" placeholder="Търси по номер">
+                        </th>
+                        <th>
+                            <input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Търси по име">
+                        </th>
+                        <th>
+                            <input class="filter-input form-control" type="text" data-dynamic-search-param="byPhone=" placeholder="Търси по телефон">
+                        </th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>

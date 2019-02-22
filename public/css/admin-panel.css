@@ -7,6 +7,24 @@ thead .filter-input {
 	max-width: 300px;
 }
 
+.table tr {
+	cursor: default;
+	user-select: none;
+}
+
+.table td {
+	cursor: text;
+	user-select: text;
+}
+
+.tablesort tr[data-sort-method="thead"] th:not([data-sort-method="none"]) {
+	cursor: pointer;
+}
+
+.tablesort tr[data-sort-method="thead"] th:not([data-sort-method="none"]):hover {
+	opacity: 0.8;
+}
+
 .modal-content .radio,
 .modal-content .checkbox {
 	padding: 4px;
