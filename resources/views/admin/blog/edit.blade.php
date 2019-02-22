@@ -58,12 +58,12 @@
                             </div>
                         </div>
                         <div class="uploaded-images-area">
-                            @if($article->thumbnail())
+                            @if($article->translate($locale)->thumbnail_id)
                                 <div class='image-wrapper'>
                                     <div class='close'>
-                                        <span data-url="gallery/delete/{{$article->thumbnail()->id}}">&#215;</span>
+                                        <span data-url="gallery/delete/{{ $article->translate($locale)->thumbnail_id }}">&#215;</span>
                                     </div>
-                                    <img src="{{ asset("uploads/blog/" . $article->thumbnail()->photo) }}" alt="" class="img-responsive" />  
+                                    <img src="{{ asset("uploads/blog/" . App\Gallery::find($article->translate($locale)->thumbnail_id)->photo ) }}" alt="" class="img-responsive" />  
                                 </div>
                             @endif
                         </div>

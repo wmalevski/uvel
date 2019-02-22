@@ -63,24 +63,15 @@ class BlogController extends Controller
         $article->slug = $article->slug.'-'.$article->id;
         $article->save();
 
-        foreach (config('translatable.locales') as $locale => $language) {
-            $article->translateOrNew($locale)->title = $request->title[$locale];
-            $article->translateOrNew($locale)->excerpt = $request->excerpt[$locale];
-            $article->translateOrNew($locale)->content = $request->content[$locale];
-        }
-
-        $article->save();
-
         $path = public_path('uploads/blog/');
-        
         File::makeDirectory($path, 0775, true, true);
         Storage::disk('public')->makeDirectory('blog', 0775, true);
 
-        $file_data = $request->input('images'); 
-        
-        if($file_data){
-            foreach($file_data as $img){
-                $memi = substr($img, 5, strpos($img, ';')-5);
+        foreach (config('translatable.locales') as $locale => $language) {
+            $file_data = $request->images[$locale];
+            
+            if($file_data){
+                $memi = substr($file_data, 5, strpos($file_data, ';')-5);
 
                 $extension = explode('/',$memi);
 
@@ -91,9 +82,9 @@ class BlogController extends Controller
                 }
                 
 
-                $file_name = 'productimage_'.uniqid().time().'.'.$ext;
+                $file_name = 'productimage_'.uniqid().time().$locale.'.'.$ext;
             
-                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $file_data));
                 file_put_contents(public_path('uploads/blog/').$file_name, $data);
 
                 Storage::disk('public')->put('blog/'.$file_name, file_get_contents(public_path('uploads/blog/').$file_name));
@@ -103,12 +94,16 @@ class BlogController extends Controller
                 $photo->blog_id = $article->id;
                 $photo->table = 'blog';
 
-                $photo->save();
+                    $photo->save();
             }
-
-            $article->thumbnail_id = $photo->id;
-            $article->save();
+            
+            $article->translateOrNew($locale)->title = $request->title[$locale];
+            $article->translateOrNew($locale)->excerpt = $request->excerpt[$locale];
+            $article->translateOrNew($locale)->content = $request->content[$locale];
+            $article->translateOrNew($locale)->thumbnail_id = $photo->id;
         }
+
+        $article->save();
 
         return Response::json(array('success' => View::make('admin/blog/table',array('article'=>$article))->render()));
     }
@@ -154,27 +149,15 @@ class BlogController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        foreach (config('translatable.locales') as $locale => $language) {
-            $article->translateOrNew($locale)->title = $request->title[$locale];
-            $article->translateOrNew($locale)->excerpt = $request->excerpt[$locale];
-            $article->translateOrNew($locale)->content = $request->content[$locale];
-        }
-
-        $article->save();
-
-        $article->slug = $article->slug.'-'.$article->id;
-        $article->save();
-
         $path = public_path('uploads/blog/');
-        
         File::makeDirectory($path, 0775, true, true);
-        //Storage::disk('public')->makeDirectory('blog', 0775, true);
+        Storage::disk('public')->makeDirectory('blog', 0775, true);
 
-        $file_data = $request->input('images'); 
-        
-        if($file_data){
-            foreach($file_data as $img){
-                $memi = substr($img, 5, strpos($img, ';')-5);
+        foreach (config('translatable.locales') as $locale => $language) {
+            $file_data = $request->input('images'); 
+            
+            if($file_data){
+                $memi = substr($file_data, 5, strpos($file_data, ';')-5);
 
                 $extension = explode('/',$memi);
 
@@ -185,9 +168,9 @@ class BlogController extends Controller
                 }
                 
 
-                $file_name = 'productimage_'.uniqid().time().'.'.$ext;
+                $file_name = 'productimage_'.uniqid().time().$locale.'.'.$ext;
             
-                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $file_data));
                 file_put_contents(public_path('uploads/blog/').$file_name, $data);
 
                 Storage::disk('public')->put('blog/'.$file_name, file_get_contents(public_path('uploads/blog/').$file_name));
@@ -200,9 +183,14 @@ class BlogController extends Controller
                 $photo->save();
             }
             
-            $article->thumbnail_id = $photo->id;
-            $article->save();
+            $article->translateOrNew($locale)->title = $request->title[$locale];
+            $article->translateOrNew($locale)->excerpt = $request->excerpt[$locale];
+            $article->translateOrNew($locale)->content = $request->content[$locale];
+            $article->translateOrNew($locale)->thumbnail_id = $photo->id;
         }
+
+        $article->slug = $article->slug.'-'.$article->id;
+        $article->save();
 
         return Response::json(array('ID' => $article->id, 'table' => View::make('admin/blog/table',array('article'=>$article))->render()));
     }

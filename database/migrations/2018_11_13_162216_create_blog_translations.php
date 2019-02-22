@@ -16,7 +16,8 @@ class CreateBlogTranslations extends Migration
         Schema::create('blog_translations', function(Blueprint $table)
         {
             $table->increments('id');
-            $table->integer('blog_id')->unsigned()->nullable();;
+            $table->integer('blog_id')->unsigned()->nullable();
+            $table->integer('thumbnail_id')->unsigned();
             $table->string('title');
             $table->longText('excerpt');
             $table->longText('content');

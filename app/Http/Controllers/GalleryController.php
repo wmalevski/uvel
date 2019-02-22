@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\gallery;
 use Illuminate\Http\Request;
 use Response;
+use App\Blog;
 
 class GalleryController extends Controller
 {
@@ -84,7 +85,14 @@ class GalleryController extends Controller
         $photo = Gallery::find($photo);
 
         if($photo){
-            unlink(public_path('uploads/'.$photo->table.'/').$photo->photo);
+            //unlink(public_path('uploads/'.$photo->table.'/').$photo->photo);
+            
+            if($photo->table == 'blog'){
+                $blog = Blog::whereTranslation('thumbnail_id', $photo->id)->first();
+                $blog->thumbnail_id = '';
+                $blog->save();
+            }
+
             $photo->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
         }
