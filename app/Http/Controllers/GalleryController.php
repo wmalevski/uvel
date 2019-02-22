@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\gallery;
 use Illuminate\Http\Request;
 use Response;
-use App\Blog;
+use App\BlogTranslation;
 
 class GalleryController extends Controller
 {
@@ -88,7 +88,7 @@ class GalleryController extends Controller
             //unlink(public_path('uploads/'.$photo->table.'/').$photo->photo);
             
             if($photo->table == 'blog'){
-                $blog = Blog::whereTranslation('thumbnail_id', $photo->id)->first();
+                $blog = BlogTranslation::where('thumbnail_id', $photo->id)->first();
                 $blog->thumbnail_id = '';
                 $blog->save();
             }
