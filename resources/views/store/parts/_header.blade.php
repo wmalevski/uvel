@@ -5,7 +5,7 @@
 			<div class="col-md-6 phone-shopping">
 				<span>За поръчки 08786248579</span>
 			</div>
-			<div class="col-md-18">
+			<div class="col-md-18 header-socials">
 				<ul class="text-right">
 					<li class="customer-links hidden-xs">
 						<ul id="accounts" class="list-inline">
@@ -204,6 +204,7 @@
 								<i class="sub-dropdown"></i>
 								<div class="num-items-in-cart">
 									<span class="icon">
+										<!--<i class="fas fa-shopping-cart"></i>-->
 										Количка
 										<span class="number">
 											@if(Auth::check())
