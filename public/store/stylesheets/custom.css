@@ -710,21 +710,37 @@ li.element {
 	border-right: 0 !important;
 }
 
-.element .hover-appear .effect-ajax-cart {
+.element .hover-appear .effect-ajax-cart,
+.element .hover-appear .quick_shop,
+.element .hover-appear .wish-list {
 	height: 50px;
 	background-color: transparent;
+	transition: background 0.4s ease-out;
 	cursor: pointer;
 }
 
-.element.no_full_width .hover-appear .effect-ajax-cart {
+.element.no_full_width .hover-appear .effect-ajax-cart,
+.element.no_full_width .hover-appear .quick_shop
+.element.no_full_width .hover-appear .wish-list {
 	width: 50px;
 }
 
-.element.full_width .hover-appear .effect-ajax-cart {
+.element.full_width .hover-appear .effect-ajax-cart,
+.element.full_width .hover-appear .quick_shop
+.element.full_width .hover-appear .wish-list {
 	width: auto;
 	font-size: 13px;
   text-transform: uppercase;
   font-weight: 700;
+}
+
+.element.no_full_width .hover-appear button {
+	padding-top: 0 !important;
+}
+
+.element.full_width .hover-appear button {
+	height: 100% !important;
+	margin-top: -1px;
 }
 
 .element.full_width .product-content-left {
@@ -735,15 +751,13 @@ li.element {
 	margin-left: 0;
 }
 
-.element.full_width .hover-appear .quick_shop:hover {
+.element.full_width .hover-appear a:hover,
+.element.full_width .hover-appear button:hover {
 	color: #a07936;
 }
 
-.element.no_full_width .hover-appear .effect-ajax-cart a {
-	line-height: 50px;
-}
-
-.element.no_full_width .hover-appear a:hover {
+.element.no_full_width .hover-appear a:hover,
+.element.no_full_width .hover-appear button:hover {
 	background-color: #a07936;
 }
 

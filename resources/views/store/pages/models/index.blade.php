@@ -126,7 +126,6 @@
 																<span class="spr-starrating spr-badge-starrating">
 																	{{$model->listModelAvgRatingStars($model)}}
 																</span>
-
 															</span>
 														</div>
 														<div class="product-content-right">
@@ -142,11 +141,11 @@
 																<span class="list-mode">Преглед</span>
 															</a>
 															
-															<a href="#" class="product-ajax-qs hidden-xs hidden-sm quick_shop" data-target="#quick-shop-modal" data-toggle="modal"
-																 data-url="models/{{ $model->id }}/" title="Бърз Преглед">
+															<button class="product-ajax-qs hidden-xs hidden-sm quick_shop" data-target="#quick-shop-modal" data-toggle="modal"
+																 			data-url="models/{{ $model->id }}/" title="Бърз Преглед">
 																<i class="fa fa-lg fa-eye"></i>
 																<span class="list-mode">Бърз преглед</span>
-															</a>
+															</button>
 														</div>
 														
 													</li>
