@@ -157,17 +157,17 @@
 																<span class="list-mode">Преглед</span>
 															</a>
 															
-															<a href="#" data-target="#quick-shop-modal" class="quick_shop product-ajax-qs hidden-xs hidden-sm" data-toggle="modal"
-																 data-url="productsothers/{{ $product->id }}/" title="Бърз Преглед">
+															<button data-target="#quick-shop-modal" class="quick_shop product-ajax-qs hidden-xs hidden-sm" data-toggle="modal"
+																 			data-url="productsothers/{{ $product->id }}/" title="Бърз Преглед">
 																<i class="fa fa-lg fa-eye"></i>
 																<span class="list-mode">Бърз преглед</span>
-															</a>
+															</button>
 															
-															<a class="wish-list" href="#" title="Добави в желани"
-																 data-url="{{ route('wishlists_store', ['type' => 'product_other', 'item' => $product->id]) }}">
+															<button class="wish-list" title="Добави в желани"
+																			data-url="{{ route('wishlists_store', ['type' => 'product_other', 'item' => $product->id]) }}">
 																<i class="fa fa-lg fa-heart"></i>
 																<span class="list-mode">Добави в желани</span>
-															</a>
+															</button>
 														</div>
 														
 													</li>
