@@ -1,5 +1,5 @@
-<li class="element first @if($listType == 'goList') full_width @else no_full_width @endif" data-alpha="{{ $product->name }}"
- data-price="{{ $product->price }}">
+<li class="element @if($listType == 'goList') full_width @else no_full_width @endif"
+		data-alpha="{{ $product->name }}" data-price="{{ $product->price }}" data-id="{{ $product->id }}">
 	<ul class="row-container list-unstyled clearfix">
 		<li class="row-left @if($listType == 'goList') col-md-8 @endif">
 			<a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">

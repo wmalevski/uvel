@@ -135,8 +135,8 @@
 										<ul id="sandBox" class="list-unstyled">
 
 											@foreach($products as $product)
-											<li class="element no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}"
-											 data-id="{{$product->id}}">
+											<li class="element no_full_width"
+													data-alpha="{{ $product->name }}" data-price="{{ $product->price }}" data-id="{{$product->id}}">
 												<ul class="row-container list-unstyled clearfix">
 
 													<li class="row-left">
