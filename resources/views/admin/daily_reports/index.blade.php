@@ -13,7 +13,9 @@ aria-hidden="true">
 <div class="row">
   <div class="col-md-12">
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
-      <h4 class="c-grey-900 mB-20">Дневни разходи от днес <a href="{{ route('create_report') }}" class="add-btn btn btn-primary">Добави</a></h4>
+      <h4 class="c-grey-900 mB-20">
+        Дневни Отчети
+        <a href="{{ route('create_report') }}" class="add-btn btn btn-primary">Добави</a></h4>
       <p>Преглед на дневните отчети.</p>
       <table class="table">
         <thead>

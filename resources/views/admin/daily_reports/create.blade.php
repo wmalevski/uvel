@@ -9,7 +9,7 @@
     <div class="masonry-sizer col-md-4"></div>
     <div class="masonry-item col-md-4">
       <div class="bgc-white p-20 bd">
-        <h6 class="c-grey-900">Парични дневни преводи</h6>
+        <h6 class="c-grey-900">Дневен отчет пари</h6>
         <div class="mT-30">
           <form method="POST" action="create/moneyreport">
             @if(session()->has('success.money'))
@@ -44,7 +44,7 @@
                          name="banknote[]" value="{{ $denomination }}" placeholder="{{ $denomination }}" readonly>
                 </div>
                 <div class="form-group col-md-4">
-                  <input class="input-quantity form-control" type="number" data-row="{{ $denomination }}"
+                  <input class="input-quantity form-control" type="number" min="0" data-row="{{ $denomination }}"
                          name="quantity[]" placeholder="0">
                 </div>
                 <div class="form-group col-md-4">
@@ -108,7 +108,7 @@
               </div>
               <div class="form-group col-md-6">
                 
-                <input type="number" name="quantity[]" class="form-control" placeholder="0">
+                <input type="number" min="0" name="quantity[]" class="form-control" placeholder="0">
               </div>
             </div>
             @endforeach
@@ -159,7 +159,7 @@
                 <input type="hidden" class="form-control" value="{{ $material->id }}" name="material_id[]">
               </div>
               <div class="form-group col-md-6">
-                <input type="number" name="quantity[]" class="form-control" placeholder="0">
+                <input type="number" min="0" name="quantity[]" class="form-control" placeholder="0">
               </div>
             </div>
             @endforeach
