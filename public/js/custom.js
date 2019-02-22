@@ -1200,6 +1200,10 @@ var uvel,
 
             setTimeout(function() {
               $('button[type="submit"]').prop('disabled', false);
+
+              var inputFields = $('form[name="' + openedForm + '"][data-type="edit"]').find('input');
+
+              $self.enterPressBehaviour(inputFields);
             }, timeToOpenModal);
           }
         });
