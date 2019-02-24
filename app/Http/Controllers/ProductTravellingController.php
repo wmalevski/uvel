@@ -79,7 +79,6 @@ class ProductTravellingController extends Controller
 
                 $product = Product::find($product);
                 $product->status = 'travelling';
-                $product->website_visible =  'no';
                 $product->save();
 
                 $response .=  View::make('admin/products_travelling/table', array('product' => $travel, 'proID' => $travel->id))->render();

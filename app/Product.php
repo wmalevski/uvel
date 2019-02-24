@@ -406,12 +406,6 @@ class Product extends BaseModel
                 }
             }
 
-            if($request->website_visible == 'true' && $request->store_id != 1){
-                $product->website_visible =  'yes';
-            }else{
-                $product->website_visible =  'no';
-            }
-
             $product->save();
 
             if($request->stones){
