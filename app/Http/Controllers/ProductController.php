@@ -296,7 +296,7 @@ class ProductController extends Controller
                 $product->weight_without_stones = 'yes';
             }
 
-            if($request->website_visible == 'true'){
+            if($request->website_visible == 'true' && $request->store_id != 1){
                 $product->website_visible =  'yes';
             }else{
                 $product->website_visible =  'no';
