@@ -734,6 +734,8 @@ class ModelController extends Controller
             if($using){
                 return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
             }else{
+                $model->name = $model->name.'_deleted';
+                $model->save();
                 $model->photos()->delete();
                 $model->delete();
                 
