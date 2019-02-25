@@ -101,14 +101,14 @@ class User extends Authenticatable
         $query = User::where(function($query) use ($request){
 
             if ($request->byName) {
-                $query->where('name','LIKE','%'.$request->byName.'%')->orWhere('location','LIKE','%'.$request->byName.'%');
+                $query->where('name','LIKE','%'.$request->byName.'%');
             }
 
-            if ($request->email) {
-                $query->where('email','LIKE','%'.$request->byBarcode.'%');
+            if ($request->byEmail) {
+                $query->where('email','LIKE','%'.$request->byEmail.'%');
             }
 
-            if ($request->byName == '' && $request->email == '') {
+            if ($request->byName == '' && $request->byEmail == '') {
                 $query = User::all();
             }
         });
