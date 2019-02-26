@@ -3,18 +3,9 @@
 $newMaterialRow =
 				'<div class="form-group col-md-6">
 					<label>Избери материал: </label>
-					<select data-search="/ajax/select_search/materials/" name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material>
-						<option value="0">Избери</option>';
-						foreach($materials as $material) {
-								if($material->material->pricesBuy->first() && $material->material->pricesSell->first()) {
-								$newMaterialRow .= '<option value="'. $material->id .'" data-carat="'. $material->material->carat  .'" data-material="'. $material->material->id  .'"
-									data-pricebuy="'. $material->material->pricesBuy->first()->price  .'"> 
-									'. $material->material->parent->name  .' - 
-									'. $material->material->color  .' - 
-									'. $material->material->carat  .' 
-								</option>';
-								}
-							}
+					<select data-search="/ajax/select_search/global/materials/" name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material>
+						<option value="">Избери</option>';
+						
 						$newMaterialRow .= '</select>
 				</div>
 				<div class="form-group col-md-5">
@@ -28,7 +19,7 @@ $newMaterialRow =
 				</div>
 				<div class="form-group col-md-12">
 					<div class="radio radio-info">
-						<input type="radio" id="" class="default_material" name="default_material[]" data-calculatePrice-default checked>
+						<input type="radio" id="" class="default_material not-clear" name="default_material[]" data-calculatePrice-default checked>
 						<label for=""><span>Материал по подразбиране</span></label>
 					</div>
 				</div>';
@@ -37,14 +28,8 @@ $newMaterialRow = str_replace("\n", "", str_replace("\r", "", $newMaterialRow));
 
 $newStoneRow =
 				'<div class="form-group col-md-6"><label>Камък:</label>
-					<select name="stones[]" class="form-control" data-calculatePrice-stone data-search="/ajax/select_search/stones/">';
-						foreach($stones as $stone) {
-							$newStoneRow .= '<option value="'. $stone->id .'" data-stone-price="'. $stone->price .'" data-stone-type="'. $stone->type .'"> 
-								'. $stone->nomenclature->name  .' - 
-								'. $stone->contour->name  .' - 
-								'. $stone->size->name  .' 
-							</option>';
-						}
+					<select name="stones[]" class="form-control" data-calculatePrice-stone data-search="/ajax/select_search/stones/">
+						<option value="">Избери</option>';
 						$newStoneRow .= '</select>
 				</div>
 				<div class="form-group col-md-4">
@@ -59,7 +44,7 @@ $newStoneRow =
 						<label>Тегло: </label>
 						<div class="input-group">
 							<input type="number" value="" class="form-control calculate-stones" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">
-							<span class="input-group-addon">гр</span>
+							<span class="input-group-addon">гр.</span>
 						</div>
 					</div>
 				</div>
@@ -99,13 +84,10 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							<label>
 								Избери вид бижу:
 							</label>
-							<select id="jewel_id" name="jewel_id" class="form-control calculate" data-search="/ajax/select_search/jewels/">
+							<select name="jewel_id" class="form-control calculate" data-search="/ajax/select_search/jewels/">
 								<option value="">
 									Избери
 								</option>
-								@foreach($jewels as $jewel)
-								<option value="{{ $jewel->id }}">{{ $jewel->name }}</option>
-								@endforeach
 							</select>
 						</div>
 
@@ -115,7 +97,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 					</div>
 
 					<div class="model_materials">
-						<div class="form-row">
+						<div class="form-row not-clear">
 							{!! $newMaterialRow !!}
 						</div>
 					</div>
@@ -137,9 +119,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							<label for="weight">Нетно тегло:</label>
 							<div class="input-group">
 								<input type="number" class="form-control calculate" id="weight" name="weight" data-calculatePrice-netWeight placeholder="Тегло:">
-								<span class="input-group-addon">
-									гр
-								</span>
+								<span class="input-group-addon">гр.</span>
 							</div>
 						</div>
 
@@ -166,7 +146,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							<label for="totalStones">Общо за леене:</label>
 							<div class="input-group">
 								<input type="number" class="form-control" id="totalStones" name="totalStones" data-calculateStones-total disabled>
-								<span class="input-group-addon">гр</span>
+								<span class="input-group-addon">гр.</span>
 							</div>
 						</div>
 						
@@ -203,15 +183,27 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 						<div class="drop-area-gallery"></div>
 					</div>
 
-					<div class="form-row">
-						<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
-							<input type="checkbox" id="checkbox_website_add" name="release_product" class="peer">
-							<label for="checkbox_website_add" class="peers peer-greed js-sb ai-c">
-								<span class="peer peer-greed">Добави като продукт</span>
-							</label>
+					<div class="form-row bot-row">
+						<div class="form-group col-md-6">
+							<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
+								<input type="checkbox" id="website_visible" name="website_visible" class="peer" checked>
+								<label for="website_visible" class="peers peer-greed js-sb ai-c">
+									<span class="peer peer-greed">Показване в сайта</span>
+								</label>
+							</div>
 						</div>
 					</div>
 
+					<div class="form-row bot-row">
+						<div class="form-group col-md-6">
+							<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
+								<input type="checkbox" id="checkbox_website_add" name="release_product" class="peer">
+								<label for="checkbox_website_add" class="peers peer-greed js-sb ai-c">
+									<span class="peer peer-greed">Добави като продукт</span>
+								</label>
+							</div>
+						</div>
+					</div>
 				</div>
 
 				<div class="modal-footer">
@@ -251,7 +243,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 	</button>
 </h3>
 
-<table class="table table-condensed models-table tablesort">
+<table class="table table-condensed models-table tablesort table-fixed">
 	<thead>
 		<tr data-sort-method="thead">
 			<th>Име</th>
@@ -263,9 +255,9 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 			<th data-sort-method="none"></th>
 		</tr>
 
-		<tr class="search-inputs">
+		<tr class="search-inputs" data-dynamic-search-url="ajax/search/models/">
 			<th>
-				<input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/models/?byName=" placeholder="Търси по име">
+				<input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Търси по име">
 			</th>
 			<th></th>
 			<th></th>

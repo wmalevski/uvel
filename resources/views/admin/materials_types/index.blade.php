@@ -6,7 +6,7 @@ aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addMaterialLabel">Добавяне на вид материал</h5>
+                <h5 class="modal-title" id="addMaterialLabel">Добавяне на тип материал</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -19,8 +19,8 @@ aria-hidden="true">
                     <div id="success-container"></div>
                     <div class="form-row">
                         <div class="form-group col-md-12">
-                            <label for="1">Име: </label>
-                            <input type="text" class="form-control" id="1" name="name" placeholder="Вид/Име:">
+                            <label for="1">Тип:</label>
+                            <input type="text" class="form-control" id="1" name="name" placeholder="Тип/Име:">
                         </div>
                     </div>
                     <div id="errors-container"></div>

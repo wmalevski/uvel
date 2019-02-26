@@ -1,6 +1,12 @@
 @extends('store.layouts.app', ['bodyClass' => 'templateProduct'])
 
 @section('content')
+
+<div class="modal fade edit--modal_holder" id="quick-shop-modal" role="dialog" aria-labelledby="quick-shop-modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content"></div>
+    </div>
+</div>
 <div id="content-wrapper-parent">
 	<div id="content-wrapper">
 		<div id="content" class="view-product clearfix">
@@ -15,23 +21,6 @@
 			</div>
 			<section class="content">
 				<div class="container">
-					<div class="row">
-						<div class="col-md-24">
-							@if($errors->any())
-							<ul class="alert alert-danger">
-								@foreach ($errors->all() as $error)
-								<li>{{ $error }}</li>
-								@endforeach
-							</ul>
-							@endif
-
-							@if(session()->has('success'))
-							<div class="alert alert-success">
-								{{ session()->get('success') }}
-							</div>
-							@endif
-						</div>
-					</div>
 					<div class="row">
 						<div id="col-main" class="product-page col-xs-24 col-sm-24 ">
 							<div itemscope="" itemtype="http://schema.org/Product">
@@ -128,13 +117,13 @@
 																</div>
 															</div>
 															<div class="others-bottom clearfix">
-																
+
 																<button id="add-to-cart" class="btn btn-1 add-to-cart"  type="submit" name="add"
 																				data-url="{{ route('CartAddItem', ['item' => $product->barcode, 'quantity' => 1]) }}"
 																 				data-parent=".product-information">
 																 Добави в количка
 																</button>
-																
+
 															</div>
 														</div>
 													</form>
@@ -224,7 +213,7 @@
 													</span>
 													<span class="spr-summary-caption">
 														<span class="spr-summary-actions-togglereviews">
-															({{$productAvgRating}}/5 )
+															({{$productAvgRating}}/5)
 															Базирано на {{count($product->reviews)}}
 															@if(count($product->reviews) == 1) ревю @else ревюта
 															@endif
@@ -270,7 +259,7 @@
 														</fieldset>
 														<fieldset class="spr-form-actions">
 															<input id="btnSubmitReview" type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary"
-															 disabled value="Добави рейтинг">
+															 			 value="Добави рейтинг" disabled>
 														</fieldset>
 														<input type="hidden" name="product_id" value="{{$product->id}}">
 														<input type="hidden" name="type" value="product">
@@ -282,9 +271,11 @@
 													<div class="spr-review" id="spr-review-{{$key}}">
 														<div class="spr-review-header">
 															<span class="spr-starratings spr-review-header-starratings">
-																@for($i = 1; $i <= 5; $i++)
-																	<i class="spr-icon spr-icon-star"></i>
-																@endfor
+																@for($i = 1; $i <= 5; $i++) @if($review->rating >= $i)
+																	<i class="spr-icon spr-icon-star" style=""></i>
+																	@elseif($review->rating < $i) <i class="spr-icon spr-icon-star-empty" style=""></i>
+																		@endif
+																		@endfor
 															</span>
 															<h3 class="spr-review-header-title">{{$review->user->name}}</h3>
 															<span class="spr-review-header-byline">
@@ -347,7 +338,7 @@
 															<span class="price">{{ $product->price }} лв</span>
 														</div>
 													</div>
-													
+
 													<!--
 													<div class="hover-appear">
 														<div class="effect-ajax-cart">
@@ -369,27 +360,27 @@
 														</a>
 													</div>
 													-->
-													
+
 													<div class="hover-appear">
 														<a href="{{ route('single_product', ['product' => $product->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
 															<input name="quantity" value="1" type="hidden">
 															<i class="fa fa-lg fa-th-list"></i>
 															<span class="list-mode">Преглед</span>
 														</a>
-														
+
 														<a href="#" class="quick_shop product-ajax-qs hidden-xs hidden-sm" data-target="#quick-shop-modal" data-toggle="modal"
 															 data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}" title="Бърз Преглед">
 															<i class="fa fa-lg fa-eye"></i>
 															<span class="list-mode">Бърз преглед</span>
 														</a>
-														
+
 														<a class="wish-list" href="#" title="Добави в желани"
 															 data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
 															<i class="fa fa-lg fa-heart"></i>
 															<span class="list-mode">Добави в желани</span>
 														</a>
 													</div>
-													
+
 												</li>
 											</ul>
 										</div>

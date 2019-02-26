@@ -49,12 +49,11 @@ class Payment extends Model
 
     public function store_payment($request, $responseType = 'JSON'){
         //Store the payment
-        if(($request->given_sum >= $request->wanted_sum) || (isset($request->partner_method) && $request->partner_method == true)){
+        if(($request->given_sum >= $request->wanted_sum) || (isset($request->partner_method) && $request->partner_method == true || (isset($request->return_sum) && $request->return_sum >= 0))){
             $userId = Auth::user()->getId();
 
             //Check if the given sum is more or equal to the wanted sum
             $validator = Validator::make( $request->all(), [
-                // 'wanted_sum' => 'required|numeric|between:0,1000000000',
                 'given_sum'  => 'required|numeric|between:0,10000000',
             ]);
     
@@ -98,7 +97,6 @@ class Payment extends Model
             } else{
                 $payment->certificate = 'yes';
             }
-
 
             $payment->save();
 
@@ -190,6 +188,9 @@ class Payment extends Model
                             }
 
                             $order_item->delete();
+
+                            $order->earnest_used = 'yes';
+                            $order->save();
 
                             if($order && count($order->items) == 0){
                                 $order->status = 'done';

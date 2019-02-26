@@ -92,15 +92,19 @@ class ProductController extends Controller
 
         $products_new = new Product();
         $products = $products_new->filterProducts($request, $query);
-        $products = $products->paginate(env('RESULTS_PER_PAGE'));
+        $products = $products->where('status', 'available')->paginate(env('RESULTS_PER_PAGE'));
         $pass_products = array();
 
         foreach($products as $product){
             $pass_products[] = [
-                'value' => $product->id,
-                'label' => $product->name,
-                'barcode' => $product->barcode,
-                'weight' => $product->weight
+                'attributes' => [
+                    'value' => $product->id,
+                    'label' => $product->name,
+                    'barcode' => $product->barcode,
+                    'weight' => $product->weight,
+                    'data-product-id' => $product->id,
+                    'data-barcode' => $product->barcode
+                ]
             ];
         }
 
@@ -168,7 +172,7 @@ class ProductController extends Controller
         $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::take(env('SELECT_PRELOADED'))->get();
-        $materials = MaterialQuantity::all();
+        $materials = Material::take(env('SELECT_PRELOADED'))->get();
         $stores = Store::take(env('SELECT_PRELOADED'))->get();
 
         $photos = Gallery::where(
@@ -243,12 +247,18 @@ class ProductController extends Controller
                 return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
             }
 
-            $currentMaterial = MaterialQuantity::withTrashed()->find($product->material_id);
+            $currentMaterial = MaterialQuantity::withTrashed()->where([
+                ['material_id', '=', $product->material_id],
+                ['store_id', '=', Auth::user()->getStore()->id]
+            ])->first();
 
-            if($request->material != $product->material){
-                $newMaterial = MaterialQuantity::withTrashed()->find($request->material_id);
+            if($request->material_id != $product->material_id){
+                $newMaterial = MaterialQuantity::withTrashed()->where([
+                    ['material_id', '=', $request->material_id],
+                    ['store_id', '=', Auth::user()->getStore()->id]
+                ])->first();
 
-                if($newMaterial->quantity < $request->weight){
+                if(!$newMaterial || ($newMaterial->quantity < $request->weight)){
                     return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
                 }
 
@@ -269,6 +279,7 @@ class ProductController extends Controller
 
             }
     
+            $product->material_id = $request->material_id;
             $product->model_id = $request->model_id;
             $product->jewel_id = $request->jewel_id;
             $product->weight = $request->weight;
@@ -327,23 +338,46 @@ class ProductController extends Controller
                 }
             }
 
-            $deleteStones = ProductStone::where('product_id', $product->id)->delete();
-    
+            foreach($product->stones as $productStone){
+                $productStone->stone->amount = $productStone->stone->amount + $productStone->amount;
+                $productStone->stone->save();
+            }
+
+            $deleteStones = $product->stones()->delete();
+
+            $stoneQuantity = 1;
             if($request->stones){
                 foreach($request->stones as $key => $stone){
                     if($stone) {
-                        $product_stones = new ProductStone();
-                        $product_stones->product_id = $product->id;
-                        $product_stones->model_id = $request->model_id;
-                        $product_stones->stone_id = $stone;
-                        $product_stones->amount = $request->stone_amount[$key];
-                        $product_stones->weight = $request->stone_weight[$key];
-                        if($request->stone_flow[$key] == 'true'){
-                            $product_stones->flow = 'yes';
-                        }else{
-                            $product_stones->flow = 'no';
+                        $checkStone = Stone::find($stone);
+                        if($checkStone->amount < $request->stone_amount[$key]){
+                            $stoneQuantity = 0;
+                            return Response::json(['errors' => ['stone_weight' => ['Няма достатъчна наличност от този камък.']]], 401);
                         }
-                        $product_stones->save();
+
+                        $checkStone->amount = $checkStone->amount - $request->stone_amount[$key];
+                        $checkStone->save();
+                    }
+                }
+            }
+
+            if($request->stones){
+                if($stoneQuantity == 1){
+                    foreach($request->stones as $key => $stone){
+                        if($stone) {
+                            $product_stones = new ProductStone();
+                            $product_stones->product_id = $product->id;
+                            $product_stones->model_id = $request->model_id;
+                            $product_stones->stone_id = $stone;
+                            $product_stones->amount = $request->stone_amount[$key];
+                            $product_stones->weight = $request->stone_weight[$key];
+                            if($request->stone_flow[$key] == 'true'){
+                                $product_stones->flow = 'yes';
+                            }else{
+                                $product_stones->flow = 'no';
+                            }
+                            $product_stones->save();
+                        }
                     }
                 }
             }

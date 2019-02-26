@@ -9,24 +9,20 @@
 				<ul class="text-right">
 					<li class="customer-links hidden-xs">
 						<ul id="accounts" class="list-inline">
-							{{-- <li class="my-account">
-								<a href="./account.html">My Account</a>
-							</li> --}}
 							@auth
-							Здравейте, {{ Auth::user()->name }}
-							<li class="login">
-								<a href="{{ route('logout') }}" id="customer_register_link">Изход</a>
-							</li>
+								<li class="login">
+									<a href="{{ route('user_account') }}" id="customer_register_link">{{ Auth::user()->name }}</a>
+								</li>
 							@endauth
 
 							@guest
-							<li class="login">
-								<a href="{{ route('login') }}" id="customer_register_link">Вход</a>
-							</li>
-							<li>/</li>
-							<li class="register">
-								<a href="{{ route('register') }}" id="customer_register_link">Регистрирай се</a>
-							</li>
+								<li class="login">
+									<a href="{{ route('login') }}" id="customer_register_link">Вход</a>
+								</li>
+								<li>/</li>
+								<li class="register">
+									<a href="{{ route('register') }}" id="customer_register_link">Регистрирай се</a>
+								</li>
 							@endguest
 						</ul>
 					</li>
@@ -287,4 +283,15 @@
 			});
 		</script>
 	</div>
+	@if($errors->any())
+		<div class="info-message error">
+			@foreach ($errors->all() as $error)
+				<li>{{ $error }}</li>
+			@endforeach
+		</div>
+	@elseif(session()->has('success'))
+		<div class="info-message success">
+			{{ session()->get('success->first()') }}
+		</div>
+	@endif
 </header>

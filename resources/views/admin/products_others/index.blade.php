@@ -94,7 +94,7 @@ aria-hidden="true">
 
 <h3>Добави друг продукт <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="otherProducts" data-toggle="modal" data-target="#addProduct">Добави</button></h3>
 
-<table class="table table-condensed tablesort">
+<table class="table table-condensed tablesort table-fixed">
     <thead>
         <tr data-sort-method="thead">
             <th data-sort-method="none">Баркод</th> 
@@ -105,16 +105,16 @@ aria-hidden="true">
             <th>Уникален номер</th>
             <th data-sort-method="none">Опции</th>
         </tr>
-        <tr>
+        <tr class="search-inputs" data-dynamic-search-url="ajax/search/products_others/">
             <th>
-                <input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/products_others/?byBarcode=" placeholder="Търси по баркод">
+                <input class="filter-input form-control" type="text" data-dynamic-search-param="byBarcode=" placeholder="Търси по баркод">
             </th>
             <th></th>
             <th></th>
             <th></th>
             <th></th>
             <th>
-                <input class="filter-input form-control" type="text" data-dynamic-search-url="ajax/search/products_others/?byCode=" placeholder="Търси по уникален номер">
+                <input class="filter-input form-control" type="text" data-dynamic-search-param="byCode=" placeholder="Търси по уникален номер">
             </th>
             <th></th>
         </tr>

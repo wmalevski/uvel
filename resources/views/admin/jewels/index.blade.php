@@ -45,16 +45,15 @@ aria-hidden="true">
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
       <h4 class="c-grey-900 mB-20">Вид бижу <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-form-type="add" data-form="jewels">Добави</button></h4>
       <p>Преглед на създадените видове бижута.</p>
-      <table class="table">
+      <table class="table table-fixed">
         <thead>
             <tr data-sort-method="thead">
                 <th scope="col">Име</th> 
                 <th scope="col" data-sort-method="none">Действия</th>
             </tr>
-            <tr>
+            <tr class="search-inputs" data-dynamic-search-url="ajax/search/jewels/">
                 <th>
-                    <input class="filter-input form-control" type="text"
-                           data-dynamic-search-url="ajax/search/jewels/?byName=" placeholder="Търси по име">
+                    <input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Търси по име">
                 </th>
                 <th></th>
             </tr>

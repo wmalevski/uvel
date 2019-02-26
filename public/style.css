@@ -1,3 +1,23 @@
+/* admin-reports */
+.admin-reports-row {
+	margin-bottom: 20px;
+}
+
+.admin-reports-row .btn_container {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
+.table-results {
+	padding: 0 0.75rem;
+}
+
+/* SELECT2 */
+.select2-results__options {
+	position: relative;
+}
+
 /* todo: fix styles */
 #blog_lng_edit li:first-child {
   margin-right: 10px;
@@ -319,15 +339,6 @@ textarea {
 	display: inline-block;
 	width: 60px;
 	height: 60px;
-}
-
-.admin-product-name {
-	display: inline-block;
-	width: 50%;
-	margin: 0;
-	padding: 0;
-	vertical-align: top;
-	text-align: center;
 }
 
 .note-toolbar {

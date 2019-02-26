@@ -25,7 +25,7 @@ class CreateForeignKeys extends Migration {
 						->onDelete('cascade')
 						->onUpdate('cascade');
 
-			$table->foreign('material_id')->references('id')->on('materials_quantities')
+			$table->foreign('material_id')->references('id')->on('materials')
 						->onDelete('cascade')
 						->onUpdate('cascade');
 

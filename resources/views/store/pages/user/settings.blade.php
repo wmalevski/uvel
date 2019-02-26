@@ -3,9 +3,9 @@
 @section('content')
 
 <div id="content-wrapper-parent">
-    <div id="content-wrapper">  
+    <div id="content-wrapper">
         <!-- Content -->
-        <div id="content" class="clearfix">        
+        <div id="content" class="clearfix">
             <div id="breadcrumb" class="breadcrumb">
                 <div itemprop="breadcrumb" class="container">
                     <div class="row">
@@ -14,23 +14,15 @@
                         </div>
                     </div>
                 </div>
-            </div>              
+            </div>
             <section class="content">
                 <div class="container">
                     <div class="row">
                         <div id="page-header" class="col-md-24">
-                            <h1 id="page-title">Настройки</h1> 
+                            <h1 id="page-title">Настройки</h1>
                         </div>
 
                         <div id="col-main" class="col-md-24 register-page clearfix">
-                            @if($errors->any())
-                                <ul class="alert alert-danger">
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            @endif 
-
                             <form method="POST" action="{{ route('user_settings_update') }}" id="create_customer" accept-charset="UTF-8">
                                 {{ csrf_field() }}
                                 <input value="create_customer" name="form_type" type="hidden"><input name="utf8" value="✓" type="hidden">
@@ -61,19 +53,19 @@
                                             <input name="city" id="city" class="form-control " value="{{ $user->city }}" type="text">
                                         </li>
 
-                                        
+
                                     <li id="street" class="">
                                         <label class="control-label" for="street">Улица <span class="req">*</span></label>
                                         <input name="street" id="street" value="{{ $user->street }}" class="form-control " type="text">
                                     </li>
 
-                                            
+
                                     <li id="street_number" class="">
                                         <label class="control-label" for="street_number">Номер <span class="req">*</span></label>
                                         <input name="street_number" value="{{ $user->street_number }}" id="street_number" class="form-control " type="text">
                                     </li>
 
-                                                
+
                                     <li id="country" class="">
                                         <label class="control-label" for="country">Държава <span class="req">*</span></label>
                                         <input name="country" id="country" value="{{ $user->country }}" class="form-control " type="text">
@@ -110,10 +102,10 @@
                                     </li>
                                 </ul>
                             </form>
-                        </div>   
+                        </div>
                     </div>
                 </div>
-            </section>        
+            </section>
         </div>
     </div>
 </div>

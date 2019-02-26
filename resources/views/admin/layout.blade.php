@@ -466,6 +466,9 @@
               <li class="{{ Active::ifRouteIn('currencies') }}">
                 <a class="sidebar-link" href="{{ route('currencies') }}">Валути и курсове</a>
               </li>
+              <li class="{{ Active::ifRouteIn('cashgroups') }}">
+                <a class="sidebar-link" href="{{ route('cashgroups') }}">Касови групи</a>
+              </li>
             </ul>
           </li>
 
@@ -879,7 +882,7 @@
   <script type="text/javascript" src="{{ URL::asset('vendor.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('bundle.js') }}"></script>
   <script type="text/javascript" src="{{ URL::asset('js/custom.js') }}"></script>
-
+  <script type="text/javascript" src="{{ URL::asset('js/bootstrap-datepicker.min.js') }}"></script>
   <!-- include summernote css/js -->
   <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
   <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>

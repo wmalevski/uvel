@@ -110,8 +110,10 @@ class NomenclatureController extends Controller
 
         foreach($nomenclatures as $nomenclature){
             $pass_nomenclatures[] = [
-                'value' => $nomenclature->id,
-                'label' => $nomenclature->name
+                'attributes' => [
+                    'value' => $nomenclature->id,
+                    'label' => $nomenclature->name
+                ]
             ];
         }
 

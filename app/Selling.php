@@ -53,7 +53,7 @@ class Selling extends Model
 
         $materials = [];
         foreach($products as $key => $product){
-            $material = $product->material->material;
+            $material = $product->material;
 
             if(array_key_exists($material->id, $materials)) {
                 $materials[$material->id]['weight'] = $materials[$material->id]['weight']+$product->weight;

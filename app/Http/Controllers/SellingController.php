@@ -293,7 +293,7 @@ class SellingController extends Controller
                     $item->save();
 
                     //check if carates are 14k
-                    $item_material = $item->material->material;
+                    $item_material = $item->material;
                     if($item_material->carat != '14'){
                         $calculated_weight = floor(($item_material->carat/14*$item->weight) * 100) / 100;
                     }else{
@@ -359,7 +359,7 @@ class SellingController extends Controller
             
                 }else{
                     if($item->material){
-                        $carat = $item->material->material->carat;
+                        $carat = $item->material->carat;
                     }else{
                         $carat = 0;
                     }
@@ -491,9 +491,18 @@ class SellingController extends Controller
             $partner = 'false';
 
             if(isset($card)){
-                if($card->user->isA('corporate_partner')){
-                    $partner = 'true';
+                if($card->user){
+                    if($card->user->isA('corporate_partner')){
+                        $partner = 'true';
+                    }
                 }
+                
+            }
+
+            $partner_id = '';
+
+            if($card->user){
+                $partner_id = $card->user->id;
             }
 
             $condition = new CartCustomCondition(array(
@@ -505,7 +514,7 @@ class SellingController extends Controller
                     'discount_id' => $setDiscount,
                     'description' => 'Value added tax',
                     'partner' => $partner,
-                    'partner_id' => $card->user->id
+                    'partner_id' => $partner_id
                 )
             ));
 

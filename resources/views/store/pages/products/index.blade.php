@@ -162,7 +162,7 @@
 																{{ $product->weight }}гр.
 															</div>
 															<div>
-																MAGAZIN: {{ $product->store_id }}
+																Магазин: {{ $product->store_info->name }}
 															</div>
 															<span class="spr-badge" id="spr_badge_1293239619454" data-rating="0.0">
 																<span class="spr-starrating spr-badge-starrating">

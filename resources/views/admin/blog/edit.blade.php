@@ -49,17 +49,23 @@
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label for="1">Снимка: </label>
-                                <div class="drop-area" name="add">
-                                    <input type="file" name="images" class="drop-area-input" id="fileElem-add" accept="image/*" >
-                                    <label class="button" for="fileElem-add">Select some files</label>
+                                <div class="drop-area" name="edit">
+                                    <input type="file" name="images" class="drop-area-input" id="fileElem-edit-{{ $locale }}"
+                                           data-locale="{{ $locale }}" accept="image/*">
+                                    <label class="button" for="fileElem-edit-{{ $locale }}">Select some files</label>
                                     <div class="drop-area-gallery"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="uploaded-images-area">
-                            <div class='image-wrapper'>
-                                <img src="{{ asset("uploads/blog/" . $article->thumbnail) }}" alt="" class="img-responsive" />
-                            </div>
+                            @if($article->thumbnail())
+                                <div class='image-wrapper'>
+                                    <div class='close'>
+                                        <span data-url="gallery/delete/{{$article->thumbnail()->id}}">&#215;</span>
+                                    </div>
+                                    <img src="{{ asset("uploads/blog/" . $article->thumbnail()->photo) }}" alt="" class="img-responsive" />  
+                                </div>
+                            @endif
                         </div>
                     </div>
                 @endforeach

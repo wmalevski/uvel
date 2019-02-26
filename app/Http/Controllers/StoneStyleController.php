@@ -109,8 +109,10 @@ class StoneStyleController extends Controller
 
         foreach($styles as $style){
             $pass_styles[] = [
-                'value' => $style->id,
-                'label' => $style->name
+                'attributes' => [
+                    'value' => $style->id,
+                    'label' => $style->name
+                ]
             ];
         }
 

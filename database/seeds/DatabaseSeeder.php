@@ -23,6 +23,7 @@ use App\MaterialType;
 use App\Nomenclature;
 use App\Partner;
 use App\PartnerMaterial;
+use App\CashGroup;
 
 class DatabaseSeeder extends Seeder
 {
@@ -252,6 +253,21 @@ class DatabaseSeeder extends Seeder
         $material->carat = '14';
         $material->parent_id = 1;
         $material->stock_price = '24';
+        $material->cash_group = 1;
+        $material->save();
+
+        $material_type = new MaterialType();
+        $material_type->name = 'Сребро';
+        $material_type->save();
+
+        $material = new Material();
+        $material->name = 'Сребро';
+        $material->code = '525';
+        $material->color = 'Бяло';
+        $material->carat = '14';
+        $material->parent_id = 2;
+        $material->stock_price = '24';
+        $material->cash_group = 1;
         $material->save();
 
         $material_quantity = new MaterialQuantity();
@@ -267,37 +283,28 @@ class DatabaseSeeder extends Seeder
         $partner_material->save();
 
         $price = new Price();
-        $price->material_id = $material->id;
+        $price->material_id = 1;
         $price->slug = 'Купува 1';
         $price->price = '30';
         $price->type = 'buy';
         $price->save();
         
         $price = new Price();
-        $price->material_id = $material->id;
+        $price->material_id = 1;
         $price->slug = 'Продава 1';
         $price->price = '90';
         $price->type = 'sell';
         $price->save();
 
-        $material = new Material();
-        $material->name = 'Сребро';
-        $material->code = '925';
-        $material->color = 'Сив';
-        $material->carat = '14';
-        $material->parent_id = 1;
-        $material->stock_price = '24';
-        $material->save();
-
         $price = new Price();
-        $price->material_id = $material->id;
+        $price->material_id = 2;
         $price->slug = 'Купува 1';
         $price->price = '20';
         $price->type = 'buy';
         $price->save();
         
         $price = new Price();
-        $price->material_id = $material->id;
+        $price->material_id = 2;
         $price->slug = 'Продава 1';
         $price->price = '70';
         $price->type = 'sell';
@@ -328,6 +335,25 @@ class DatabaseSeeder extends Seeder
         $currency->currency = '1';
         $currency->default = 'yes';
         $currency->save();
+
+
+        $cashGroup = new CashGroup();
+        $cashGroup->label = 'Ремонти';
+        $cashGroup->table = 'repairs';
+        $cashGroup->cash_group = 3;
+        $cashGroup->save();
+
+        $cashGroup = new CashGroup();
+        $cashGroup->label = 'Поръчки';
+        $cashGroup->table = 'orders';
+        $cashGroup->cash_group = 4;
+        $cashGroup->save();
+
+        $cashGroup = new CashGroup();
+        $cashGroup->label = 'Кутии';
+        $cashGroup->table = 'products_others';
+        $cashGroup->cash_group = 5;
+        $cashGroup->save();
         
         // $model = new Model();
         // $model->name = 'Модел 1';

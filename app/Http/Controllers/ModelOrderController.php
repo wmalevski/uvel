@@ -88,6 +88,7 @@ class ModelOrderController extends Controller
         }
 
         $order->model_id = $request->model_id;
+        $order->additional_description = $request->additional_description;
 
         if($request->status_accept == 'true'){
             $order->status = 'accepted';

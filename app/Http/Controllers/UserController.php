@@ -114,8 +114,10 @@ class UserController extends Controller
 
         foreach($users as $user){
             $pass_users[] = [
-                'value' => $user->id,
-                'label' => $user->name.' - '.$user->store->name,
+                'attributes' => [
+                    'value' => $user->id,
+                    'label' => $user->name.' - '.$user->store->name,
+                ]
             ];
         }
 
