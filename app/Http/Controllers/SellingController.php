@@ -23,6 +23,7 @@ use \Darryldecode\Cart\CartCondition as CartCondition;
 use \Darryldecode\Cart\Helpers\Helpers as Helpers;
 use App\MaterialQuantity;
 use App\OrderItem;
+use Mail;
 use App\Material;
 
 Class CartCustomCondition extends CartCondition {
@@ -614,13 +615,33 @@ class SellingController extends Controller
         $total = round(Cart::session($userId)->getTotal(),2);
         $subtotal = round(Cart::session($userId)->getSubTotal(),2);
 
+        //Sending mails and SMS
+        $this->sendDiscountNotification($total, $request->discount.'%', $request->description, Auth::user());
+
         return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon));  
         
     }
 
+    public function sendDiscountNotification($total, $condition, $description, $user) 
+    {
+        $emails = explode(',', env('NOTIFICATIONS_EMAILS'));
+        
+        Mail::send('ordernotification',
+        array(
+            'total' => $total,
+            'condition' => $condition,
+            'description' => $description,
+            'user' => $user->name,
+            'location' => $user->store->name
+        ), function($message) use ($emails)
+        {
+            $message->from(env('ORDER_EMAILS'));
+            $message->to($emails)->subject(trans('admin/sellings.custom_discount_email_subject'));
+        });
+    }
+
     public function removeItem($item){
         $userId = Auth::user()->getId(); 
-        //dd($item);
         $remove = Cart::session($userId)->remove($item);
 
         $total = round(Cart::session($userId)->getTotal(),2);
