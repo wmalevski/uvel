@@ -232,7 +232,7 @@ class Product extends BaseModel
                 foreach($product->reviews as $review) {
                     $productTotalRating = $productTotalRating + $review->rating;
                 }
-                return $productAvgRating = $productTotalRating/count($product->reviews);
+                return $productAvgRating = round($productTotalRating/count($product->reviews));
             }
         }
 

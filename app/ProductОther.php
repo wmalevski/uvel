@@ -44,7 +44,7 @@ class ProductOther extends Model
             foreach($product->reviews as $review) {
                 $productTotalRating = $productTotalRating + $review->rating;
             }
-            return $productAvgRating = $productTotalRating/count($product->reviews);
+            return $productAvgRating = round($productTotalRating/count($product->reviews));
         }
     }
 
@@ -89,7 +89,7 @@ class ProductOther extends Model
             foreach($product_other->reviews as $review) {
                 $productOtherTotalRating = $productOtherTotalRating + $review->rating;
             }
-            return $productOtherAvgRating = $productOtherTotalRating/count($product_other->reviews);
+            return $productOtherAvgRating = round($productOtherTotalRating/count($product_other->reviews));
         }
     }
 
