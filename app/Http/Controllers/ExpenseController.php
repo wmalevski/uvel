@@ -30,7 +30,7 @@ class ExpenseController extends Controller
 
     public function reports()
     {
-        $expenses = Expense::all();
+        $expenses = Expense::paginate(env('RESULTS_PER_PAGE'));
         return view('admin.admin_reports.expenses.index', compact('expenses'));
     }
 
