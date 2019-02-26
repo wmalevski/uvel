@@ -1,8 +1,9 @@
 <tr data-id="{{ $stone->id }}">
     <td class="thumbnail--tooltip">
         {{ $stone->nomenclature->name }}
-        <ul @if($stone->photos) style="background-image: url({{ asset("uploads/stones/" . $stone->photos->first()['photo']) }});" @endif>
-        </ul>
+        @if(count($stone->photos))
+            <ul style="background-image: url({{ asset("uploads/stones/" . $stone->photos->first()['photo']) }});"></ul>
+        @endif
     </td> 
     <td> @if($stone->type == 1) Синтетичен  @else Естествен  @endif </td> 
     <td>{{ $stone->weight }}</td> 
