@@ -59,7 +59,7 @@ class Model extends BaseModel
             foreach($model->reviews as $review) {
                 $modelTotalRating = $modelTotalRating + $review->rating;
             }
-            return $modelAvgRating = $modelTotalRating/count($model->reviews);
+            return $modelAvgRating = round($modelTotalRating/count($model->reviews));
         }
     }
 
