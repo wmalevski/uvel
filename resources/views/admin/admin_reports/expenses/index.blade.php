@@ -103,11 +103,9 @@ aria-hidden="true">
                 </tr>
             </thead>
             <tbody>
-                <td>Вода</td>
-                <td>140</td>
-                <td>10.02.2018</td>
-                <td>15:30</td>
-                <td>Платих водата и ся нямам пари.</td>
+                @foreach($expenses as $expense)
+                    @include('admin.admin_reports.expenses.table')
+                @endforeach
             </tbody>
         </table>
     </div>
