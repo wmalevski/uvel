@@ -1,9 +1,9 @@
 <tr>
 	<td class="thumbnail--tooltip">
 		{{ $model->name }}
-		<ul @if($model->photos) style="background-image: url({{ asset("uploads/models/" . $model->photos->first()['photo'])
-			}});" @endif>
-		</ul>
+		@if(count($model->photos)) 
+			<ul style="background-image: url({{ asset("uploads/models/" . $model->photos->first()['photo']) }});" ></ul>
+		@endif
 	</td>
 	<td>
 		{{ $model->jewel->name }}
