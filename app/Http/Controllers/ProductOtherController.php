@@ -135,11 +135,7 @@ class ProductOtherController extends Controller
             ['product_others_id', '!=', '']
         ])->get();
 
-        if (count($reviews)) {
-            return \View::make('admin.products_others_reviews.index', array('reviews'=>$reviews));
-        } else {
-            return redirect()->route('products_others')->with('success', 'Съобщението ви беше изпратено успешно');
-        }
+        return \View::make('admin.products_others_reviews.index', array('reviews'=>$reviews));
     }
 
     /**

@@ -65,11 +65,8 @@ class ProductController extends Controller
             ['product_id', '!=', '']
         ])->get();
 
-        if(count($reviews)){
-            return \View::make('admin/products_reviews/index', array('reviews'=>$reviews));
-        }else {
-            return redirect()->route('admin_products')->with('success', 'Съобщението ви беше изпратено успешно');
-        }
+        return \View::make('admin/products_reviews/index', array('reviews'=>$reviews));
+
     }
 
     /**
