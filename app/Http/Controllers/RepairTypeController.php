@@ -132,7 +132,8 @@ class RepairTypeController extends Controller
             $pass_repairs[] = [
                 'attributes' => [
                     'value' => $repair->id,
-                    'label' => $repair->name
+                    'label' => $repair->name,
+                    'data-price' => $repair->price
                 ]
             ];
         }
