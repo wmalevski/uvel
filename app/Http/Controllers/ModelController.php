@@ -331,11 +331,7 @@ class ModelController extends Controller
             ['model_id', '!=', '']
         ])->get();
 
-        if (count($reviews)) {
-            return \View::make('admin.models_reviews.index', array('reviews'=>$reviews));
-        } else {
-            return redirect()->route('admin_models')->with('success', 'Съобщението ви беше изпратено успешно');
-        }
+        return \View::make('admin.models_reviews.index', array('reviews'=>$reviews));
     }
 
     /**
