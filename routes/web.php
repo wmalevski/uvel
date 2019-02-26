@@ -237,9 +237,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
             return view('admin.admin_reports.aggregated_reports_information.index');
         });
 
-        Route::get('/expenses', function () {
-            return view('admin.admin_reports.expenses.index');
-        });
+        Route::get('/expenses', 'ExpenseController@reports')->name('reports_expenses');
 
         Route::get('/materials_travelling', function () {
             return view('admin.admin_reports.materials_travelling.index');

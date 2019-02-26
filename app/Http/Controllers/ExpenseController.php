@@ -28,6 +28,12 @@ class ExpenseController extends Controller
         return view('admin.expenses.index', compact('expenses', 'expenses_types', 'currencies'));
     }
 
+    public function reports()
+    {
+        $expenses = Expense::all();
+        return view('admin.admin_reports.expenses.index', compact('expenses'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
