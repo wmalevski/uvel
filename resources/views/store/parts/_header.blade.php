@@ -87,6 +87,14 @@
 									</li>
 									<li class="is-mobile-login">
 										<div class="btn-group">
+											<a href="@if (Auth::check()) {{ route('user_account') }} @else {{ route('login') }} @endif ">
+												<i class="fa fa-user"></i>
+											</a>
+										
+										
+										
+										<!--
+										{{--
 											<div class="dropdown-toggle" data-toggle="dropdown">
 												<i class="fa fa-user"></i>
 											</div>
@@ -110,8 +118,14 @@
 													<a href="{{ route('register') }}">Регистрация</a>
 												</li>
 											</ul>
-
+											
 											@endif
+											--}}
+										-->
+											
+											
+											
+											
 										</div>
 									</li>
 									@if (Auth::check())
@@ -140,13 +154,19 @@
 										</a>
 										<ul class="dropdown-menu" style="display: none;">
 											@foreach($materialTypes as $material)
-											<li class=""><a tabindex="-1" href="{{ route('products') }}?byMaterial[]={{ $material->id }}">{{
-													$material->name }}</a></li>
+												<li class="">
+													<a tabindex="-1" href="{{ route('products') }}?byMaterial[]={{ $material->id }}">
+														{{ $material->name }}
+													</a>
+												</li>
 											@endforeach
 
 											@foreach($productothertypes as $type)
-											<li class=""><a tabindex="-1" href="{{ route('productsothers') }}?byType[]={{ $type->id }}">{{ $type->name
-													}}</a></li>
+												<li class="">
+													<a tabindex="-1" href="{{ route('productsothers') }}?byType[]={{ $type->id }}">
+														{{ $type->name }}
+													</a>
+												</li>
 											@endforeach
 										</ul>
 									</li>
@@ -178,8 +198,9 @@
 							</div>
 						</div>
 					</nav>
-					{{--
 				</li>
+				
+				{{--
 				<li class="top-search hidden-xs">
 					<div class="header-search">
 						<a href="#">
@@ -195,9 +216,11 @@
 							<button type="submit" class="btn">Търси</button>
 						</form>
 					</div>
-				</li> --}}
+				</li>
+				--}}
+
 				<li class="umbrella hidden-xs">
-					<div id="umbrella" class="list-inline unmargin">
+					<div id="umbrella" class="navbar list-inline unmargin">
 						<div class="cart-link">
 							<a href="{{ route('cart') }}" class="dropdown-toggle dropdown-link" data-toggle="dropdown">
 								<i class="sub-dropdown1"></i>
@@ -246,6 +269,7 @@
 						</div>
 					</div>
 				</li>
+
 				{{-- <li class="mobile-search visible-xs">
 					<form id="mobile-search" class="search-form" action="search.html" method="get">
 						<input type="hidden" name="type" value="product">

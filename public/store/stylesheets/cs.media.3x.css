@@ -19,9 +19,6 @@ a:focus, select:focus, input:focus, button:focus{outline:none !important;}
 @media (min-width:1441px){}
 @media (min-width:1200px) and (max-width:1236px){.row{margin-right:0;}
 }
-@media (max-width:1200px){.product-ajax-qs,
-.quick_shop{display:none;}
-}
 @media (max-width:1199px){.customer-links{width:86%;}
 .top-logo{text-align:center;}
 .top-navigation ul li.top-logo{width:20%;}
@@ -74,7 +71,7 @@ a:focus, select:focus, input:focus, button:focus{outline:none !important;}
 .top-navigation ul li.top-logo{width:100%;text-align:center;display:block;}
 .top-navigation ul li.top-logo{float:left;width:auto;}
 .top-navigation ul li.navigation{clear:both;position:relative;}
-.top-navigation ul li.top-logo img{text-align:center;margin:20px auto;}
+.top-navigation ul li.top-logo img{text-align:center;}
 .top-navigation ul li.navigation .navbar .navbar-collapse.collapse{text-align:center;margin:0 auto;display:inline-block !important;*display:block !important;zoom:1 !important;}
 .top-navigation ul li.top-search{display:inline-block;*display:block;zoom:1;text-align:right;padding-right:20px;width:auto;float:right;position:absolute;right:0;top:0;margin-right:70px;margin-top:20px;}
 .top-navigation ul li.top-search .header-search i.fa{vertical-align:3px;}
@@ -253,7 +250,6 @@ td:before{position:absolute;top:50%;left:2%;width:25%;margin-top:-10px;padding-r
 #prod-related-wrapper .row-left .hoverBorder a.wish-list{left:0;right:0;text-align:center;}
 #prod-related-wrapper .row-left .hoverBorder a.wish-list{top:160%;}
 .product-page.no_full_width #gallery_main .owl-wrapper-outer .owl-item img,
-.product-image .product-image-thumb li img{max-width:75px;}
 .element.no_full_width ul li.row-right .hover-appear{opacity:1;-ms-filter:"progid: DXImageTransform.Microsoft.Alpha(Opacity=100)";filter:alpha(opacity=100);transition:none;-webkit-transition:none;-moz-transition:none;-o-transition:none;}
 .element.no_full_width .row-right span.price_sale,
 .element.no_full_width .row-right span.price,
@@ -389,8 +385,6 @@ ul#contact-form li.contact-email{padding-left:0;padding-right:0;}
 #gallery_main .owl-theme .owl-controls .owl-buttons > div.owl-next{top:0;right:0;left:auto;margin-top:-61px !important;margin-right:1px;}
 #gallery_main .owl-theme .owl-controls .owl-buttons > div.owl-next{margin-top:-107px !important;}
 #product-info-left,
-#product-info-right{width:100%;padding-left:0;padding-right:0;}
-#product-info-right{border-left:0;}
 .product-page.no_full_width #gallery_main.no_full_width{display:none;}
 #product-header{margin:10px 15px;}
 #product-information div.relative{padding-top:10px;padding-bottom:10px;}
@@ -467,7 +461,6 @@ table.cart-items tbody td{padding:38px 0;}
 .newsletter-popup .group_input,
 .newsletter-popup .group_input input.form-control{width:358px;}
 #popup-hide{margin-top:30px;}
-.top-navigation ul li.top-logo{padding:10px 0 0;}
 .top-navigation .mobile-search{padding:20px 0;}
 .top .phone-shopping{display:inline-block;float:left;padding-right:0;}
 .top div ul.text-right{display:inline-block;float:right;width:auto;}
@@ -525,7 +518,6 @@ table.cart-items thead th:nth-child(2),
 .custom-style-select-box{padding-right:0;}
 #product-information .options .quantity-wrapper input#quantity{width:100%;}
 #product-information .detail-price{margin-top:40px;margin-bottom:40px;}
-#product-information button#add-to-cart{width:calc(100% - 15px);}
 #product-information #product-header .options .line{width:100%;}
 #product-information{padding-left:15px;padding-right:15px;}
 .swatch{justify-content:flex-start !important;-moz-justify-content:flex-start !important;-ms-justify-content:flex-start !important;-webkit-justify-content:flex-start !important;}
@@ -580,7 +572,6 @@ table.cart-items thead th{padding-left:10px;padding-right:10px;}
 #sandBox{margin-left:0;margin-right:0;}
 .collection .element .row-left .hoverBorder form.contact-form{top:133%;}
 .allcollections-page .container-item .collection-action a{top:270px;}
-.collection-page.no_full_width .collection-full #sandBox .element.no_full_width{width:100%;}
 #product-information .quantity-wrapper span.qty-group span.qty-down{left:0;}
 #prod-related-wrapper .row-left .hoverBorder a.wish-list{top:137%;}
 #prod-related-wrapper .prod-related .owl-controls .owl-prev{left:-10px;}
