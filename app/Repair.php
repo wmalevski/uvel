@@ -52,11 +52,11 @@ class Repair extends Model
             }
 
             if ($request->byName) {
-                $query = $query->whereIn('customer_name', [$request->byName]);
+                $query->where('customer_name','LIKE','%'.$request->byName.'%');
             }
 
             if ($request->byPhone) {
-                $query = $query->whereIn('customer_phone', [$request->byPhone]);
+                $query->where('customer_phone','LIKE','%'.$request->byPhone.'%');
             }
 
             if( $request->byName == '' && $request->byPhone == '' && $request->byBarcode == '' && $request->byCode == ''){

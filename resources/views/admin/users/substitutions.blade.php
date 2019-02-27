@@ -5,25 +5,18 @@
             <span aria-hidden="true">&times;</span>
         </button>
       </div>
-    
-    <form method="POST" name="sendUser" action="users/substitutions/{{$user}}">
-        <input name="_method" type="hidden" value="PUT">    
-        <div class="modal-body">    
-          <div class="info-cont">
-          </div>
-  
-          {{ csrf_field() }}
 
+    <form method="POST" name="sendUser" action="users/substitutions/{{$user}}">
+        <input name="_method" type="hidden" value="PUT">
+        <div class="modal-body">
+          <div class="info-cont"></div>
+          {{ csrf_field() }}
           <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label>Магазин: </label>
+                    <label>Магазин:</label>
                     <select name="store_id" class="form-control" data-search="/ajax/select_search/stores/">
                         <option value="">Избер магазин</option>
-                
-                        @foreach($stores as $store)
-                            <option value="{{ $store->id }}" @if(Auth::user()->store == $store->id) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
-                        @endforeach
                     </select>
                 </div>
             </div>
@@ -52,7 +45,6 @@
                     </div>
                 </div>
             </div>
-
              <input type="hidden" value="{{ $user }}" name="userid">
           </div>
         </div>

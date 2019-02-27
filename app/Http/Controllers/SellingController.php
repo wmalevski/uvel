@@ -23,6 +23,8 @@ use \Darryldecode\Cart\CartCondition as CartCondition;
 use \Darryldecode\Cart\Helpers\Helpers as Helpers;
 use App\MaterialQuantity;
 use App\OrderItem;
+use Mail;
+use App\Material;
 
 Class CartCustomCondition extends CartCondition {
     public function apply($totalOrSubTotalOrPrice, $conditionValue){
@@ -112,30 +114,14 @@ class SellingController extends Controller
         $condition = Cart::getConditions('discount');
         $priceCon = 0;
 
-        $materials = MaterialQuantity::currentStore()->take(env('SELECT_PRELOADED'));
-
-        $pass_materials = array();
-
-        foreach($materials as $material){
-            if(count($material->material->pricesBuy)){
-                $pass_materials[] = [
-                    'label' => $material->material->parent->name.' - '.$material->material->color.' - '.$material->material->carat,
-                    'value' => $material->id,
-                    'price' => $material->material->pricesBuy->first()->price,
-                    'for_buy'  => $material->material->for_buy,
-                    'for_exchange' => $material->material->for_exchange,
-                    'carat_transform' => $material->material->carat_transform,
-                    'carat' => $material->material->carat
-                ];
-            }
-        }
+        $materials = Material::take(env('SELECT_PRELOADED'))->get();
 
         $partner = false;
         if(count($cartConditions) > 0){
             foreach(Cart::session(Auth::user()->getId())->getConditions() as $cc){
                 $priceCon += $cc->getCalculatedValue($subTotal);
 
-                if($cc->getAttributes()['partner']){
+                if($cc->getAttributes()['partner'] != 'false'){
                     $partner = true;
                 }
             }
@@ -165,7 +151,7 @@ class SellingController extends Controller
         }
         //To add kaparo from the orders when branches are merged
         
-        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials, 'jsMaterials' =>  json_encode($pass_materials, JSON_UNESCAPED_SLASHES ), 'todayReport' => $todayReport, 'partner' => $partner));
+        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner));
     }
 
     /**
@@ -293,7 +279,7 @@ class SellingController extends Controller
                     $item->save();
 
                     //check if carates are 14k
-                    $item_material = $item->material->material;
+                    $item_material = $item->material;
                     if($item_material->carat != '14'){
                         $calculated_weight = floor(($item_material->carat/14*$item->weight) * 100) / 100;
                     }else{
@@ -359,7 +345,7 @@ class SellingController extends Controller
             
                 }else{
                     if($item->material){
-                        $carat = $item->material->material->carat;
+                        $carat = $item->material->carat;
                     }else{
                         $carat = 0;
                     }
@@ -491,9 +477,18 @@ class SellingController extends Controller
             $partner = 'false';
 
             if(isset($card)){
-                if($card->user->isA('corporate_partner')){
-                    $partner = 'true';
+                if($card->user){
+                    if($card->user->isA('corporate_partner')){
+                        $partner = 'true';
+                    }
                 }
+                
+            }
+
+            $partner_id = '';
+
+            if($card->user){
+                $partner_id = $card->user->id;
             }
 
             $condition = new CartCustomCondition(array(
@@ -505,7 +500,7 @@ class SellingController extends Controller
                     'discount_id' => $setDiscount,
                     'description' => 'Value added tax',
                     'partner' => $partner,
-                    'partner_id' => $card->user->id
+                    'partner_id' => $partner_id
                 )
             ));
 
@@ -620,13 +615,33 @@ class SellingController extends Controller
         $total = round(Cart::session($userId)->getTotal(),2);
         $subtotal = round(Cart::session($userId)->getSubTotal(),2);
 
+        //Sending mails and SMS
+        $this->sendDiscountNotification($total, $request->discount.'%', $request->description, Auth::user());
+
         return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon));  
         
     }
 
+    public function sendDiscountNotification($total, $condition, $description, $user) 
+    {
+        $emails = explode(',', env('NOTIFICATIONS_EMAILS'));
+        
+        Mail::send('ordernotification',
+        array(
+            'total' => $total,
+            'condition' => $condition,
+            'description' => $description,
+            'user' => $user->name,
+            'location' => $user->store->name
+        ), function($message) use ($emails)
+        {
+            $message->from(env('ORDER_EMAILS'));
+            $message->to($emails)->subject(trans('admin/sellings.custom_discount_email_subject'));
+        });
+    }
+
     public function removeItem($item){
         $userId = Auth::user()->getId(); 
-        //dd($item);
         $remove = Cart::session($userId)->remove($item);
 
         $total = round(Cart::session($userId)->getTotal(),2);

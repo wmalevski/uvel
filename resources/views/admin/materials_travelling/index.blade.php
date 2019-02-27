@@ -22,12 +22,6 @@ aria-hidden="true">
                             <label>Тип: </label>
                             <select name="material_id" class="form-control" data-search="/ajax/select_search/parentmaterials/">
                                 <option value="">Избер материал</option>
-                        
-                                @foreach($materials as $material)
-                                    <option value="{{ $material->id }}">
-                                        {{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->code }} - {{ $material->store->name }}
-                                    </option>
-                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -43,14 +37,6 @@ aria-hidden="true">
                             <label for="3">Магазин: </label>
                             <select name="store_to_id" class="form-control" data-search="/ajax/select_search/stores/">
                                 <option value="">Избери магазин</option>
-                        
-                                @foreach($stores as $store)
-                                    @if($store->id != Auth::user()->getStore()->id)
-                                        <option value="{{ $store->id }}">
-                                            {{ $store->name }} - {{ $store->location }}
-                                        </option>
-                                    @endif
-                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -79,7 +65,7 @@ aria-hidden="true">
                 <thead>
                     <tr>
                         <th>Тип</th> 
-                        <th>Количество/гр</th> 
+                        <th>Количество/гр.</th> 
                         <th>Стойност</th> 
                         <th>Изпратен на</th>
                         <th>От магазин</th> 
@@ -95,6 +81,8 @@ aria-hidden="true">
                     @endforeach
                 </tbody>
               </table>
+
+              {{ $travelling->links() }}
             </div>
           </div>
 </div>

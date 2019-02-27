@@ -89,6 +89,14 @@
                         </div>
                     </div>
                 @endforeach
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="1">Стойност: </label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="fiscal_amount" value="{{ $report->fiscal_amount }}" readonly>
+                        </div>
+                    </div>
+                </div>
             @elseif($report->type == 'materials')
                 @foreach($report->report_materials as $material)
                     <div class="form-row">

@@ -1,5 +1,5 @@
-<li class="element first @if($listType == 'goList') full_width @else no_full_width @endif" data-alpha="{{ $product->name }}"
- data-price="{{ $product->price }}">
+<li class="element @if($listType == 'goList') full_width @else no_full_width @endif"
+		data-alpha="{{ $product->name }}" data-price="{{ $product->price }}" data-id="{{ $product->id }}">
 	<ul class="row-container list-unstyled clearfix">
 		<li class="row-left @if($listType == 'goList') col-md-8 @endif">
 			<a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">
@@ -38,19 +38,18 @@
 					<span class="list-mode">Преглед</span>
 				</a>
 				
-				<a href="#" data-target="#quick-shop-modal" class="quick_shop product-ajax-qs hidden-xs hidden-sm" data-toggle="modal"
-					 data-barcode="{{ $product->barcode }}">
+				<button data-target="#quick-shop-modal" class="quick_shop product-ajax-qs hidden-xs hidden-sm"
+								data-toggle="modal" data-barcode="{{ $product->barcode }}">
 					<i class="fa fa-lg fa-eye" title="Бърз Преглед"></i>
 					<span class="list-mode">Бърз преглед</span>
-				</a>
+				</button>
 				
-				<a href="#" class="wish-list" title="Добави в желани"
-					 data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
+				<button class="wish-list" title="Добави в желани"
+					 			data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
 				 	<i class="fa fa-lg fa-heart"></i>
 					<span class="list-mode">Добави в желани</span>
-				</a>
+				</button>
 			</div>
-			
 		</li>
 	</ul>
 </li>

@@ -53,10 +53,6 @@ aria-hidden="true">
                             <label for="2">Потребител: </label>
                             <select name="user_id" class="form-control" data-search="/ajax/select_search/users/">
                                 <option value="">Избери</option>
-
-                                @foreach($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }} - {{ $user->roles->first()['title'] }}</option>
-                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -91,7 +87,7 @@ aria-hidden="true">
             </button>
         </h4>
         <p>Преглед на създадените отстъпки.</p>
-        <table class="table table-condensed tablesort">
+        <table class="table table-condensed tablesort table-fixed">
             <thead>
                 <tr data-sort-method="thead">
                     <th data-sort-method="none">Баркод</th>

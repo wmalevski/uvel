@@ -109,8 +109,10 @@ class StoneContourController extends Controller
 
         foreach($contours as $contour){
             $pass_contours[] = [
-                'value' => $contour->id,
-                'label' => $contour->name
+                'attributes' => [
+                    'value' => $contour->id,
+                    'label' => $contour->name
+                ]
             ];
         }
 

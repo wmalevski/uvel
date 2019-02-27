@@ -101,8 +101,8 @@
 									<div id="sandBox-wrapper" class="group-product-item row collection-full">
 										<ul id="sandBox" class="list-unstyled">
 											@foreach($models as $model)
-											<li class="element first no_full_width" data-alpha="{{ $model->name }}" data-price="{{ $model->price }}"
-											 data-title="{{ $model->name }}" data-created="{{ $model->id }}">
+											<li class="element no_full_width"
+													data-alpha="{{ $model->name }}" data-price="{{ $model->price }}" data-id="{{ $model->id }}">
 												<ul class="row-container list-unstyled clearfix">
 													<li class="row-left">
 														<a href="{{ route('single_model', ['model' => $model->id])  }}" class="container_item">
@@ -126,7 +126,6 @@
 																<span class="spr-starrating spr-badge-starrating">
 																	{{$model->listModelAvgRatingStars($model)}}
 																</span>
-
 															</span>
 														</div>
 														<div class="product-content-right">
@@ -141,12 +140,12 @@
 																<i class="fa fa-lg fa-th-list"></i>
 																<span class="list-mode">Преглед</span>
 															</a>
-
-															<a href="#" class="product-ajax-qs hidden-xs hidden-sm quick_shop" data-target="#quick-shop-modal" data-toggle="modal"
-																 data-url="models/{{ $model->id }}/" title="Бърз Преглед">
+															
+															<button class="product-ajax-qs hidden-xs hidden-sm quick_shop" data-target="#quick-shop-modal" data-toggle="modal"
+																 			data-url="models/{{ $model->id }}/" title="Бърз Преглед">
 																<i class="fa fa-lg fa-eye"></i>
 																<span class="list-mode">Бърз преглед</span>
-															</a>
+															</button>
 														</div>
 														
 													</li>

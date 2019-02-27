@@ -15,8 +15,7 @@ aria-hidden="true">
             <form method="POST" action="users" name="users" data-type="add" autocomplete="off">
                  
                 <div class="modal-body">    
-                    <div class="info-cont">
-                    </div>
+                    <div class="info-cont"></div>
                     {{ csrf_field() }}  
                                 
                     <div class="form-group">
@@ -54,10 +53,6 @@ aria-hidden="true">
                         <label>Магазин: </label>
                         <select name="store_id" class="form-control" data-search="/ajax/select_search/stores/">
                             <option value="">Избери магазин</option>
-                    
-                            @foreach($stores as $store)
-                                <option value="{{ $store->id }}">{{ $store->name }} - {{ $store->location }}</option>
-                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -73,10 +68,7 @@ aria-hidden="true">
 
 <div class="modal fade edit--modal_holder" id="editUser" role="dialog" aria-labelledby="editUser" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            
-
-        </div>
+        <div class="modal-content"></div>
     </div>
 </div>
 
@@ -93,14 +85,26 @@ aria-hidden="true">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
         <h4 class="c-grey-900 mB-20">Потребители <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="users" data-toggle="modal" data-target="#addUser">Добави</button></h4>
         <p>Преглед на потребителите.</p>
-        <table class="table tablesort">
+        <table class="table tablesort table-fixed">
           <thead>
-            <tr>
+            <tr data-sort-method="thead">
               <th scope="col">Име</th> 
-              <th data-sort-method="none" scope="col">Email</th>
+              <th scope="col">Email</th>
               <th scope="col">Вид</th>
               <th scope="col">Магазин</th>
               <th data-sort-method="none" scope="col">Действия</th>
+            </tr>
+            
+            <tr class="search-inputs" data-dynamic-search-url="ajax/search/users/">
+                <th>
+                    <input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Търси по име">
+                </th>
+                <th>
+                    <input class="filter-input form-control" type="text" data-dynamic-search-param="byEmail=" placeholder="Търси по имейл">
+                </th>
+                <th></th>
+                <th></th>
+                <th></th>
             </tr>
           </thead>
           <tbody>

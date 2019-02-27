@@ -1,5 +1,5 @@
-<li class="element first @if($listType == 'goList') full_width @else no_full_width @endif" data-alpha="{{ $model->name }}"
-    data-price="{{ $model->price }}">
+<li class="element @if($listType == 'goList') full_width @else no_full_width @endif"
+    data-alpha="{{ $model->name }}" data-price="{{ $model->price }}" data-id="{{ $model->id }}">
     <ul class="row-container list-unstyled clearfix">
         <li class="row-left @if($listType == 'goList') col-md-8 @endif">
             <a href="{{ route('single_model', ['model' => $model->id])  }}" class="container_item">
@@ -13,17 +13,19 @@
         <li class="row-right parent-fly animMix @if($listType == 'goList') col-md-16 @endif">
             <div class="product-content-left">
                 <a class="title-5" href="{{ route('single_model', ['model' => $model->id])  }}">
-                    {{ $model->name }}
+                {{ $model->name }}
                 </a>
-                No: {{ $model->code }}
-                <br />
+                <br/>
                 {{ $model->weight }}гр.
+                <br>
+                <strong class="text-danger">По Поръчка за 10 дни</strong>
                 <span class="spr-badge" data-rating="{{$model->getModelAvgRating($model)}}">
                     <span class="spr-starrating spr-badge-starrating">
                         {{$model->listModelAvgRatingStars($model)}}
                     </span>
                 </span>
             </div>
+            
             <div class="product-content-right">
                 <div class="product-price">
                     <span class="price">
@@ -39,11 +41,11 @@
                     <span class="list-mode">Преглед</span>
                 </a>
                 
-                <div data-target="#quick-shop-modal" class="quick_shop product-ajax-qs hidden-xs hidden-sm" data-toggle="modal"
-                     data-url="models/{{ $model->id }}/" title="Бърз Преглед">
+                <button data-target="#quick-shop-modal" class="effect-ajax-cart quick_shop product-ajax-qs hidden-xs hidden-sm" data-toggle="modal"
+                        data-url="models/{{ $model->id }}/" title="Бърз Преглед">
                     <i class="fa fa-lg fa-eye"></i>
                     <span class="list-mode">Бърз преглед</span>
-                </div>
+                </button>
             </div>
             
         </li>

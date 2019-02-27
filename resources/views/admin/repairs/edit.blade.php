@@ -67,7 +67,7 @@
 
                 <div class="form-group col-md-6">
                     <label>Материал: </label>
-                    <select name="material_id" class="form-control" data-repair-material data-search="/ajax/select_search/materials/">
+                    <select name="material_id" class="form-control" data-repair-material data-search="/ajax/select_search/global/materials/">
                         <option value="">Избер материал</option>
                 
                         @foreach($materials as $material)
@@ -117,7 +117,7 @@
             <div class="form-row">
                 <div class="form-group col-md-5">
                     <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                        <input type="checkbox" id="done" name="status" class="peer" value="done">
+                        <input type="checkbox" id="done" name="status" class="peer" value="done" @if($repair->status == 'done') checked @endif>
                         <label for="done" class="peers peer-greed js-sb ai-c">
                             <span class="peer peer-greed">Готов за връщане</span>
                         </label>

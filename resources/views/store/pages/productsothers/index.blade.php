@@ -118,8 +118,8 @@
 									<div id="sandBox-wrapper" class="group-product-item row collection-full">
 										<ul id="sandBox" class="list-unstyled">
 											@foreach($products as $product)
-											<li class="element first no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}"
-											 data-title="{{ $product->name }}" data-created="{{ $product->id }}">
+											<li class="element no_full_width"
+													data-alpha="{{ $product->name }}" data-price="{{ $product->price }}" data-id="{{ $product->id }}">
 												<ul class="row-container list-unstyled clearfix">
 													<li class="row-left">
 														<a href="{{ route('single_product_other', ['product' => $product->id])  }}" class="container_item">
@@ -157,17 +157,17 @@
 																<span class="list-mode">Преглед</span>
 															</a>
 															
-															<a href="#" data-target="#quick-shop-modal" class="quick_shop product-ajax-qs hidden-xs hidden-sm" data-toggle="modal"
-																 data-url="productsothers/{{ $product->id }}/" title="Бърз Преглед">
+															<button data-target="#quick-shop-modal" class="quick_shop product-ajax-qs hidden-xs hidden-sm" data-toggle="modal"
+																 			data-url="productsothers/{{ $product->id }}/" title="Бърз Преглед">
 																<i class="fa fa-lg fa-eye"></i>
 																<span class="list-mode">Бърз преглед</span>
-															</a>
+															</button>
 															
-															<a class="wish-list" href="#" title="Добави в желани"
-																 data-url="{{ route('wishlists_store', ['type' => 'product_other', 'item' => $product->id]) }}">
+															<button class="wish-list" title="Добави в желани"
+																			data-url="{{ route('wishlists_store', ['type' => 'product_other', 'item' => $product->id]) }}">
 																<i class="fa fa-lg fa-heart"></i>
 																<span class="list-mode">Добави в желани</span>
-															</a>
+															</button>
 														</div>
 														
 													</li>

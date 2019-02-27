@@ -199,7 +199,7 @@
               </a>
             </li>
             
-            <li class="nav-item {{ Active::ifRouteIn('prices') }}">
+            <li class="nav-item {{ Active::ifRouteIn(['prices', 'view_price']) }}">
                 <a class="sidebar-link" href="{{ route('prices') }}">
                   <span class="icon-holder">
                     <i class=" ti-money"></i>

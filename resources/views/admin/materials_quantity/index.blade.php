@@ -22,12 +22,6 @@ aria-hidden="true">
                             <label>Тип: </label>
                             <select name="material_id" class="form-control" data-search="/ajax/select_search/parentmaterials/">
                                 <option value="">Избери материал</option>
-                        
-                                @foreach($types as $type)
-                            
-                                    <option value="{{ $type->id }}">@if($type->parent) {{ $type->parent->name }} - {{ $type->color }} - {{ $type->code }} @endif</option>
-                                }
-                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -45,10 +39,6 @@ aria-hidden="true">
                         <label>Магазин: </label>
                         <select name="store_id" class="form-control" data-search="/ajax/select_search/stores/">
                             <option value="">Избери магазин</option>
-                    
-                            @foreach($stores as $store)
-                                <option value="{{ $store->id }}">{{ $store->name }} - {{ $store->location }}</option>
-                            @endforeach
                         </select>
                     </div>
 
@@ -83,11 +73,11 @@ aria-hidden="true">
             <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="materialsQuantity" data-toggle="modal" data-target="#addMQuantity">Добави</button>
         </h4>
         <p>Преглед на наличност.</p>
-        <table class="table table-condensed">
+        <table class="table table-condensed table-fixed">
             <thead>
                 <tr data-sort-method="thead">
                     <th>Тип</th> 
-                    <th>Количество/гр</th> 
+                    <th>Количество/гр.</th> 
                     <th>Магазин</th>
                     <th data-sort-method="none">Действия</th> 
                 </tr>

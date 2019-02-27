@@ -242,7 +242,7 @@
 																	{{ $product->weight }}гр.
 																</div>
 																<div>
-																	MAGAZIN: {{ $product->store_id }}
+																	Магазин: {{ $product->store_info->name }}
 																</div>
 																<span class="spr-badge" id="spr_badge_1293239619454" data-rating="0.0">
 																	<span class="spr-starrating spr-badge-starrating">
@@ -266,17 +266,17 @@
 																	<span class="list-mode">Преглед</span>
 																</a>
 
-																<a href="#" class="product-ajax-qs hidden-xs hidden-sm quick_shop" data-target="#quick-shop-modal" data-toggle="modal"
+																<button class="product-ajax-qs hidden-xs hidden-sm quick_shop" data-target="#quick-shop-modal" data-toggle="modal"
 																	 data-url="products/{{ $product->id }}/" title="Бърз Преглед">
 																	<i class="fa fa-lg fa-eye"></i>
 																	<span class="list-mode">Бърз преглед</span>
-																</a>
+																</button>
 
-																<a class="wish-list" href="#" title="Добави в желани"
+																<button class="wish-list" title="Добави в желани"
 																	 data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
 																	<i class="fa fa-lg fa-heart"></i>
 																	<span class="list-mode">Добави в желани</span>
-																</a>
+																</button>
 															</div>
 
 														</li>

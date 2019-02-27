@@ -3,7 +3,7 @@
     $newExchangeField = '<div class="form-row">
                                 <div class="form-group col-md-5">
                                     <label for="">Вид</label>
-                                    <select name="material_id[]" data-select2-skip data-calculateprice-material class="material_type form-control calculate not-clear" data-search="/ajax/select_search/materials/payment/">
+                                    <select name="material_id[]" data-select2-skip data-calculateprice-material class="material_type form-control calculate not-clear" data-search="/ajax/select_search/global/materials/payment/">
                                         <option value="0">Избери</option>
                                     </select>
                                 </div>
@@ -247,7 +247,7 @@ aria-hidden="true">
                         <div class="exchange-row-total form-row">
                             <div class="form-group col-md-6">
                                 <label for="given-sum">Сума от материали</label>
-                                <input type="number" data-defaultPrice="@if(count($materials) > 0) {{ $materials->first()->material->pricesBuy->first()['price'] }} @endif" class="form-control not-clear" value="0" name="exchangeRows_total" placeholder="Дължима сума" data-exchangeRows-total readonly>
+                                <input type="number" data-defaultPrice="@if(count($materials) > 0) {{ $materials->first()->pricesBuy->first()['price'] }} @endif" class="form-control not-clear" value="0" name="exchangeRows_total" placeholder="Дължима сума" data-exchangeRows-total readonly>
                             </div>
 
                             <div class="form-group col-md-6">
@@ -255,9 +255,10 @@ aria-hidden="true">
                                 <select name="calculating_price" class="form-control not-clear">
                                     <option value="0">Избери</option>
                                     @if(count($materials) > 0)
-                                        @if($materials->first()->material->pricesBuy->first())
-                                            @foreach($materials->first()->material->pricesBuy as $price)
-                                                <option value="{{ $price->id }}" data-defaultPrice="{{ $materials->first()->material->pricesBuy->first()->price }}" data-price="{{ $price->price }}">{{ $price->slug }} - {{ $price->price }}</option>
+                                        @if($materials->first()->pricesBuy)
+                                            @foreach($materials->first()->pricesBuy as $price)
+                                                {{ print_r($price) }}
+                                                <option value="{{ $price->id }}" data-defaultPrice="{{ $materials->first()->pricesBuy->first()->price }}" data-price="{{ $price->price }}">{{ $price->slug }} - {{ $price->price }}</option>
                                             @endforeach
                                         @endif
                                     @endif
@@ -276,7 +277,7 @@ aria-hidden="true">
                         </div>
                         <div class="form-group col-md-3">
                             <label for="given-sum">Дадена сума</label>
-                            <input type="number" id="given-sum" class="form-control" value="0" name="given_sum" data-calculatePayment-given placeholder="Дадена сума от клиента">
+                            <input type="number" id="given-sum" class="form-control" value="0" name="given_sum" data-calculatePayment-given>
                         </div>
                         <div class="form-group col-md-3">
                             <label for="return-sum">Ресто</label>
@@ -343,8 +344,8 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="button" class="btn btn-primary">Печат</button>
-                    <button type="submit" class="btn btn-primary btn-finish-payment">Завърши плащането</button>
+                    <button type="button" class="btn btn-primary btn-print" disabled>Печат</button>
+                    <button type="submit" class="btn btn-primary btn-finish-payment" disabled>Завърши плащането</button>
                 </div>
             </form>
         </div>
@@ -416,7 +417,7 @@ aria-hidden="true">
 
                         <div class="form-group">
                             <label for="description">Описание</label>
-                            <textarea name="description" id="description" class="form-control" data-sell-description></textarea>
+                            <textarea name="description" id="description" class="form-control" data-sell-description disabled></textarea>
                         </div>
 
                         <div class="form-group">
@@ -449,9 +450,15 @@ aria-hidden="true">
                         </table>
 
                         <div class="form-group">
-                            <button type="button" class="btn btn-primary payment-btn" data-selling-payment data-form-type="sell" data-form="selling" data-toggle="modal" data-target="#paymentModal" @if($partner == true) style="display: none;" @endif>Плащане</button>
-                            <button type="button" class="btn btn-primary payment-btn" data-url="/ajax/cartMaterialsInfo" data-form-type="partner-sell" data-form="sellingPartners" data-toggle="modal" data-target="#paymentPartner" @if($partner == true) style="display: initial;" @else style="display: none;" @endif>Плащане Партнъор</button>
-                            <button type="button" class="btn btn-primary">Ръчно пускане на фискален бон</button>
+                            <button type="button" class="btn btn-primary payment-btn" data-selling-payment data-form-type="sell" data-form="selling"
+                                    data-toggle="modal" data-target="#paymentModal" @if($partner == true) style="display: none;" @endif
+                                    @if(!count($conditions)) disabled @endif>Плащане</button>
+                            <button type="button" class="btn btn-primary payment-btn" data-url="/ajax/cartMaterialsInfo" data-form-type="partner-sell"
+                                    data-form="sellingPartners" data-toggle="modal" data-target="#paymentPartner"
+                                    @if($partner == true) style="display: initial;" @else style="display: none;" @endif
+                                    @if(!count($conditions)) disabled @endif>Плащане Партнъор</button>
+                            <button type="button" class="btn btn-primary fiscal-btn"
+                                    @if(!count($conditions)) disabled @endif>Ръчно пускане на фискален бон</button>
                         </div>
 
 
@@ -481,7 +488,6 @@ aria-hidden="true">
                                     @foreach($conditions as $condition)
                                         <span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">{{ $condition->getValue() }}</span>
                                         <span data-url="/ajax/removeDiscount/{{ $condition->getName() }}" data-sell-removeDiscount class="discount-remove badge bgc-red-50 c-red-700 p-10 lh-0 tt-c badge-pill"><i class="c-brown-500 ti-close"></i></span> <br/>
-
                                     @endforeach
                                 </span>
                             </label>
@@ -522,9 +528,6 @@ aria-hidden="true">
 @endsection
 
 @section('footer-scripts')
-<script id="materials_data" type="application/json">
-    {!!  $jsMaterials !!}
-</script>
 <script>
 	var newExchangeField = '{!! $newExchangeField !!}';
 </script>

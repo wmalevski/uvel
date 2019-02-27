@@ -7,6 +7,24 @@ thead .filter-input {
 	max-width: 300px;
 }
 
+.table tr {
+	cursor: default;
+	user-select: none;
+}
+
+.table td {
+	cursor: text;
+	user-select: text;
+}
+
+.tablesort tr[data-sort-method="thead"] th:not([data-sort-method="none"]) {
+	cursor: pointer;
+}
+
+.tablesort tr[data-sort-method="thead"] th:not([data-sort-method="none"]):hover {
+	opacity: 0.8;
+}
+
 .modal-content .radio,
 .modal-content .checkbox {
 	padding: 4px;
@@ -30,7 +48,7 @@ thead .filter-input {
 
 .modal-content .checkbox label:after {
 	top: 7px;
-	left: 3px;
+	left: 2px;
 	width: 10px !important;
 	height: 10px !important;
 	border-radius: 50%;
@@ -77,6 +95,37 @@ form .form-group {
 	position: absolute;
 	top: 0;
 	right: -40px;
+}
+
+form .bot-row {
+	height: 40px;
+}
+
+form .bot-row.mt-neg15px {
+	margin-top: -15px;
+}
+
+form .bot-row .form-group,
+form .bot-row .form-group .checkbox {
+	position: absolute;
+	right: 0;
+}
+
+form .bot-row .form-group {
+	margin: 0;
+	padding: 0;
+}
+
+form .bot-row .form-group .checkbox {
+	padding-right: 18px;
+}
+
+.form-row span.input-group-addon {
+	min-width: 44px;
+}
+
+.table-fixed {
+	table-layout: fixed;
 }
 
 /* Admin Panel Side menu */

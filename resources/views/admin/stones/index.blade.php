@@ -34,12 +34,6 @@
               
               <select name="nomenclature_id" class="form-control" data-search="/ajax/select_search/stones/nomenclatures/">
                 <option value="">Избери номенклатура</option>
-
-                @foreach($nomenclatures as $nomenclature)
-                <option value="{{ $nomenclature->id }}">
-                  {{ $nomenclature->name }}
-                </option>
-                @endforeach
               </select>
             </div>
           </div>
@@ -71,12 +65,6 @@
             
               <select name="size_id" class="form-control" data-search="/ajax/select_search/stones/sizes/">
                 <option value="">Избери размер</option>
-
-                @foreach($stone_sizes as $size)
-                <option value="{{ $size->id }}">
-                  {{ $size->name }}
-                </option>
-                @endforeach
               </select>
             </div>
           </div>
@@ -87,12 +75,6 @@
           
               <select name="contour_id" class="form-control" data-search="/ajax/select_search/stones/contours/">
                 <option value="">Избери контур</option>
-
-                @foreach($stone_contours as $contour)
-                <option value="{{ $contour->id }}">
-                  {{ $contour->name }}
-                </option>
-                @endforeach
               </select>
             </div>
           </div>
@@ -103,12 +85,6 @@
               
               <select name="style_id" class="form-control" data-search="/ajax/select_search/stones/styles/">
                 <option value="">Избери стил</option>
-
-                @foreach($stone_styles as $style)
-                <option value="{{ $style->id }}">
-                  {{ $style->name }}
-                </option>
-                @endforeach
               </select>
             </div>
           </div>
@@ -138,12 +114,6 @@
               
               <select name="store_id" class="form-control" data-search="/ajax/select_search/stores/">
                 <option value="">Избери магазин</option>
-
-                @foreach($stores as $store)
-                <option value="{{ $store->id }}">
-                  {{ $store->name }} - {{ $store->location }}
-                </option>
-                @endforeach
               </select>
             </div>
           </div>
@@ -177,7 +147,7 @@
       <h4 class="c-grey-900 mB-20">Камъни <button class="add-btn btn btn-primary" type="button" id="dropdownMenuButton"
           data-form-type="add" data-form="stones" data-toggle="modal" data-target="#addStone">Добави</button></h4>
       <p>Преглед на камъни</p>
-      <table class="table tablesort">
+      <table class="table tablesort table-fixed">
         <thead>
           <tr data-sort-method="thead">
             <th scope="col">Име</th>

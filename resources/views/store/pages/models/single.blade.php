@@ -197,8 +197,9 @@
 
 													<span class="spr-summary-caption">
 														<span class="spr-summary-actions-togglereviews">
-															Базирано на {{count($model->reviews)}} @if(count($model->reviews) == 1) ревю @else ревюта -
-															{{$model->getModelAvgRating($model)}}/5 @endif
+															({{$model->getModelAvgRating($model)}}/5)
+															Базирано на {{count($model->reviews)}} @if(count($model->reviews) == 1) ревю @else ревюта
+															@endif
 														</span>
 													</span>
 												</div>
@@ -229,20 +230,21 @@
 																	<span class="spr-form-review-body-charactersremaining">(1500)</span></label>
 																<div class="spr-form-input">
 																	<textarea class="spr-form-input spr-form-input-textarea " id="review_body_{{$model->id}}"
-																	 data-product-id="{{$model->id}}" name="content" rows="10" placeholder="Добавете вашият коментар за ревюто тук"></textarea>
+																	 data-product-id="{{$model->id}}" name="content" rows="10" placeholder="Добавете вашият коментар"></textarea>
 																</div>
 															</div>
 														</fieldset>
 														<fieldset class="spr-form-actions">
-															<input type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary" value="Добави рейтинг">
+															<input id="btnSubmitReview" type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary"
+																		 value="Добави рейтинг" disabled>
 														</fieldset>
 														<input type="hidden" name="model_id" value="{{$model->id}}">
 														<input type="hidden" name="type" value="model">
 													</form>
 												</div>
 												<div class="spr-reviews">
-													@foreach($model->reviews as $review)
-													<div class="spr-review">
+													@foreach($model->reviews as $key => $review)
+													<div class="spr-review" id="spr-review-{{$key}}">
 														<div class="spr-review-header">
 															<span class="spr-starratings spr-review-header-starratings">
 																@for($i = 1; $i <= 5; $i++) @if($review->rating >= $i)
@@ -251,8 +253,14 @@
 																		@endif
 																		@endfor
 															</span>
-															<h3 class="spr-review-header-title">{{$review->title}}</h3>
-															<span class="spr-review-header-byline"><strong>{{$review->user->name}}</strong> on <strong>{{$review->created_at}}</strong></span>
+															<h3 class="spr-review-header-title">
+																{{$review->user->name}}
+															</h3>
+															<span class="spr-review-header-byline">
+																<strong>
+																	{{ $review->created_at->format('d') }} {{ $review->created_at->format('M') }}, {{ $review->created_at->format('Y') }}
+																</strong>
+															</span>
 														</div>
 														<div class="spr-review-content">
 															<p class="spr-review-content-body">
@@ -313,11 +321,11 @@
 															<span class="list-mode">Преглед</span>
 														</a>
 
-														<a href="#" data-barcode="{{ $model->barcode }}" data-target="#quick-shop-modal" class="quick_shop product-ajax-qs hidden-xs hidden-sm"
-															 data-url="models/{{ $model->id }}/" data-toggle="modal" title="Бърз преглед"">
+														<button data-barcode="{{ $model->barcode }}" data-target="#quick-shop-modal" class="quick_shop product-ajax-qs hidden-xs hidden-sm"
+															 			data-url="models/{{ $model->id }}/" data-toggle="modal" title="Бърз преглед">
 															<i class="fa fa-lg fa-eye"></i>
 															<span class="list-mode">Бърз преглед</span>
-														</a>
+														</button>
 
 														<!--
 														{{--

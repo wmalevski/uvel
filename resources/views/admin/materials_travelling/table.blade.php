@@ -5,7 +5,15 @@
     <td>{{ $material->created_at }} </td> 
     <td>{{ $material->store_from->name }}</td>
     <td>{{ $material->store_to->name }}</td>
-    <td>@if($material->dateReceived != '' && $material->status == 'not_accepted') Отказан @elseif($material->status == 'not_accepted' && $material->dateReceived == '') На път @else Приет @endif</td>
+    <td>
+        @if($material->dateReceived != '' && $material->status == 'not_accepted') 
+                Отказан 
+            @elseif($material->status == 'not_accepted' && $material->dateReceived == '') 
+                На път 
+            @else 
+                Приет 
+        @endif
+    </td>
 
     <td>    
         @if($material->dateReceived)

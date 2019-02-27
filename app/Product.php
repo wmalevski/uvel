@@ -22,6 +22,7 @@ use App\MaterialQuantity;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Database\Eloquent\Model as BaseModel;
+use Auth;
 
 class Product extends BaseModel
 {
@@ -62,7 +63,7 @@ class Product extends BaseModel
 
     public function material()
     {
-        return $this->belongsTo('App\MaterialQuantity');
+        return $this->belongsTo('App\Material');
     }
 
     public function stones()
@@ -91,8 +92,12 @@ class Product extends BaseModel
         return $this->belongsTo('App\OrderItem', 'product_id');
     }
 
+    public function store_info(){
+        return $this->belongsTo('App\Store', 'store_id');
+    }
+
     public function chainedSelects(Model $model){
-        $materials = MaterialQuantity::curStore()->take(env('SELECT_PRELOADED'));
+        $materials = Material::take(env('SELECT_PRELOADED'))->get();
         $default = $model->options->where('default', 'yes')->first();
 
         if($model){
@@ -102,54 +107,34 @@ class Product extends BaseModel
             $models = Model::take(env('SELECT_PRELOADED'))->get();
 
             if($default){
-                $retail_prices = $default->material->material->pricesBuy;
+                $retail_prices = $default->material->pricesSell;
 
                 $pass_jewels = array();
 
                 foreach($jewels as $jewel){
                     if($jewel->id == $model->jewel_id){
-                        $selected = true;
-                    }else{
-                        $selected = false;
+                        $pass_jewels[] = (object)[
+                            'label' => $jewel->name,
+                            'attributes' => [
+                                'value' => $jewel->id,
+                            ]
+                        ];
                     }
-
-                    $pass_jewels[] = (object)[
-                        'value' => $jewel->id,
-                        'label' => $jewel->name,
-                        'selected' => $selected
-                    ];
                 }
 
                 $prices_retail = array();
 
                 foreach($retail_prices as $price){
                     if($price->id == $default->retail_price_id){
-                        $selected = true;
-                    }else{
-                        $selected = false;
+                        $prices_retail[] = (object)[
+                            'label' => $price->slug.' - '.$price->price.'лв',
+                            'price' => $price->price,
+                            'attributes' => [
+                                'value' => $price->id,
+                            ]
+                        ];
                     }
-
-                    $prices_retail[] = (object)[
-                        'value' => $price->id,
-                        'label' => $price->slug.' - '.$price->price.'лв',
-                        'selected' => $selected,
-                        'price' => $price->price
-                    ];
                 }
-            }
-
-            $pass_stones = array();
-
-            foreach($model_stones as $stone){
-                $pass_stones[] = [
-                    'value' => $stone->id,
-                    'label' => $stone.' ('.$stone->contour. ', ' .$stone->size. ' )',
-                    'amount' => $stone->amount,
-                    'weight' => $stone->weight,
-                    'flow' => $stone->flow,
-                    'type' => $stone->type,
-                    'price' => $stone->price
-                ];
             }
 
             $pass_models = array();
@@ -158,10 +143,11 @@ class Product extends BaseModel
                 if($model->id == $modelp->id){
                     $selected = true;
 
-                    $pass_models[] =[
-                        'value' => $modelp->id,
+                    $pass_models[] = [
                         'label' => $modelp->name,
-                        'selected' => $selected
+                        'attributes' => [
+                            'value' => $modelp->id,
+                        ]
                     ];
                 }
             }
@@ -170,43 +156,34 @@ class Product extends BaseModel
             $pass_materials = array();
 
             foreach($materials as $material){
-                if($material->material->pricesBuy){
-                    if($default){
-                        if($material->material->id == $default->material->id){
-                            $selected = true;
-                        }else{
-                            $selected = false;
-                        }
-                    }else{
-                        $selected = false;
-                    }
-
-
-                    if($material->material->pricesBuy->first()){
+                if($material->id == $default->material->id){
+                    if(count($material->pricesSell)){
                         $pass_materials[] = (object)[
-                            'value' => $material->id,
-                            'label' => $material->material->parent->name.' - '.$material->material->color.'- '.$material->material->code,
-                            'selected' => $selected,
-                            'dataMaterial' => $material->id,
-                            'priceBuy' => $material->material->pricesBuy->first()['price'],
+                            'label' => $material->parent->name.' - '.$material->color.' - '.$material->code,
+                            'attributes' => [
+                                'value' => $material->id,
+                                'data-material' => $material->id,
+                                'data-price' => $material->pricesSell->first()['price'],
+                                'data-pricebuy' => $material->pricesBuy->first()['price'],
+                            ]
                         ];
                     }
                 }
             }
 
-            $pass_photos = array();
-
             $pass_stones = array();
 
             foreach($model_stones as $stone){
                 $pass_stones[] = [
-                    'value' => $stone->stone->id,
-                    'label' => $stone->stone->name.' ('.$stone->stone->contour->name. ', ' .$stone->stone->size->name. ' )',
+                    'label' => $stone->stone->nomenclature->name.' ('.$stone->stone->contour->name. ', ' .$stone->stone->size->name. ', '. $stone->stone->style->name .')',
                     'amount' => $stone->amount,
-                    'weight' => $stone->weight,
                     'flow' => $stone->flow,
-                    'type'  => $stone->stone->type,
-                    'price' => $stone->stone->price
+                    'attributes' => [
+                        'data-price' => $stone->stone->price,
+                        'data-type' => $stone->stone->type,
+                        'data-weight' => $stone->weight,
+                        'value' => $stone->stone->id,
+                    ]
                 ];
             }
 
@@ -238,11 +215,12 @@ class Product extends BaseModel
                 'price' => $model->price,
                 'materials' => $pass_materials,
                 'photos' => $pass_photos,
-                'pricebuy' => $default->material->material->pricesBuy->first()->price,
+                'pricebuy' => $default->material->pricesBuy->first()->price,
+                'price' => $default->material->pricesSell->first()->price,
                 'models' => $pass_models
             );
-            }
         }
+    }
         public function scopeOfSimilarPrice($query, $price)
         {
             return $query->orderBy(DB::raw('ABS(`price` - '.$price.')'));
@@ -254,7 +232,7 @@ class Product extends BaseModel
                 foreach($product->reviews as $review) {
                     $productTotalRating = $productTotalRating + $review->rating;
                 }
-                return $productAvgRating = $productTotalRating/count($product->reviews);
+                return $productAvgRating = round($productTotalRating/count($product->reviews));
             }
         }
 
@@ -282,11 +260,11 @@ class Product extends BaseModel
                     $query->where('name','LIKE','%'.$request->byName.'%');
                 }
 
-                if ($request->barcode) {
+                if ($request->byBarcode) {
                     $query->where('barcode','LIKE','%'.$request->byBarcode.'%');
                 }
                 
-                if ($request->code) {
+                if ($request->byCode) {
                     $query->where('code','LIKE','%'.$request->byCode.'%');
                 }
 
@@ -303,10 +281,10 @@ class Product extends BaseModel
                 }
 
                 if ($request->byMaterial) {
-                    $query->whereIn('material_type_id', $request->byMaterial);
+                    $query->whereIn('material_id', $request->byMaterial);
                 }
 
-                if ($request->byName == '' && $request->barcode == '' && $request->code == '' && $request->bySize == '' && $request->byStore == '' && $request->byJewel == '' && $request->byMaterial == '') {
+                if ($request->byName == '' && $request->byBarcode == '' && $request->byCode == '' && $request->bySize == '' && $request->byStore == '' && $request->byJewel == '' && $request->byMaterial == '') {
                     $query = Product::all();
                 }
             });
@@ -335,15 +313,17 @@ class Product extends BaseModel
                 }
             }
 
-            $material = MaterialQuantity::withTrashed()->find($request->material_id);
+            $material = MaterialQuantity::where([
+                ['material_id', $request->material_id],
+                ['store_id', Auth::user()->getStore()->id]
+            ])->first();
 
-            if($material->quantity < $request->weight){
+            if(!$material || $material->quantity < $request->weight){
                 if($responseType == 'JSON'){
                     return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
                 }else{
                     return array('errors' => array('using' => ['Няма достатъчна наличност от този материал.']));
                 }
-
             }
 
             $findModel = DefModel::find($request->model_id);

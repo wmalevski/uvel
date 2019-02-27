@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Material;
 use App\MaterialQuantity;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
@@ -24,6 +25,11 @@ class Price extends Model
     public function scopeMaterialPrices($query, $value)
     {
         return $query->where('material_id', $value)->get();
+    }
+
+    public function material()
+    {
+        return $this->belongsTo('App\Material');
     }
 
     public function filterMaterials(Request $request ,$query){

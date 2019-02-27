@@ -1,15 +1,12 @@
 <tr>
 	<td class="thumbnail--tooltip">
-		@if(count($product->photos)) <img class="admin-product-image" src="{{ asset("uploads/products/" . $product->photos->first()['photo']) }}"> @endif
-		<ul class="product-hover-image"
-			@if($product->photos) style="background-image: url({{ asset("uploads/products/".$product->photos->first()['photo']) }});" @endif >
-		</ul>
+		@if(count($product->photos)) <img class="admin-product-image" src="{{ asset("uploads/products/" . $product->photos->first()['photo']) }}">
+			<ul class="product-hover-image" style="background-image: url({{ asset("uploads/products/".$product->photos->first()['photo']) }});"></ul>
+		@endif
 	</td>
 	
-	<td class="admin-product-name">
-		<p>
-			{{ $product->code }}
-		</p>
+	<td>
+		{{ $product->code }}
 	</td>
 
 	<td>
