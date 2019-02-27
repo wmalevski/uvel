@@ -25,7 +25,7 @@ form{margin:0;position:relative;}
 .top-navigation ul li.top-search{width:4%;}
 .top-navigation ul li.top-search .header-search{display:table;table-layout:fixed;margin-left:10px;}
 .top-navigation ul li.top-search .header-search i.fa{vertical-align:3px;color:#202020;font-size:13px;font-weight:300;}
-#umbrella .cart-link:after{content:"";background:#b1b1b1;width:1px;height:20px;position:absolute;top:0;margin:auto;left:0;margin-top:21px;}
+#umbrella .cart-link:after{content:"";background:#b1b1b1;width:1px;height:20px;position:absolute;margin:auto;}
 .top-navigation .navbar ul.navbar-nav{float:right;}
 input::-webkit-input-placeholder{color:#b4b4b4;}
 input:-moz-placeholder{color:#b4b4b4;}
@@ -45,7 +45,6 @@ input:focus,
 .dropdown-toggle:focus{outline:none;box-shadow:none;}
 .customer-links{padding-right:0;}
 .customer-links .my-account{padding-right:20px;}
-#widget-social ul.list-inline li:last-child{padding-right:0;}
 #widget-social i.fa{font-size:14px;margin-left:10px;color:#202020;}
 .wls i.fa{margin-right:5px;}
 .num-items-in-cart span{color:#202020;text-transform:uppercase;font-family:'Lato', sans-serif;font-weight:400;line-height:20px;}
@@ -884,7 +883,6 @@ table{border:1px solid #ebebeb;}
 #product-information .quantity-wrapper span.qty-group span.qty-up{right:0;background:#eaeaea;}
 #product-information .quantity-wrapper span.qty-group span.qty-down{background:#eaeaea;}
 #product-information h2#page-title{margin-top:0;margin-bottom:0;}
-.product-image .product-image-thumb li img{max-width:100px;height:auto;}
 .swatch input:checked + label, .swatch label:hover{background:#404e53;border-color:#404e53;color:#fff;-webkit-transition:all 0.5s ease 0s;-moz-transition:all 0.5s ease 0s;-ms-transition:all 0.5s ease 0s;-o-transition:all 0.5s ease 0s;transition:all 0.5s ease 0s;box-shadow:none;background-position:-1px -1px;}
 .swatch input:checked + label{cursor:text;}
 .swatch label{float:left;font-size:13px;font-weight:normal;height:36px !important;line-height:34px;margin:0;min-width:36px !important;text-align:center;text-transform:uppercase;white-space:nowrap;cursor:pointer;background:none;border-radius:0;border:1px solid #dedede;background-position:-1px -1px;}

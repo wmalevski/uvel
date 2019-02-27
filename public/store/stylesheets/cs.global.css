@@ -126,7 +126,7 @@ button{appearance:none;-moz-appearance:none;-webkit-appearance:none;text-shadow:
 #top nav.navbar .dropdown-menu li.last{border-bottom:0;}
 #top nav.navbar .dropdown .sub-dropdown{padding-bottom:0;z-index:9999;cursor:pointer;}
 #top nav.navbar .dropdown:hover .sub-dropdown{padding-bottom:28px !important;}
-.navbar-nav > li{margin:0 0 0 0;padding:14px 15px;display:inline-block;*display:inline;zoom:1;float:left;}
+.navbar-nav > li{margin:0 0 0 0;display:inline-block;*display:inline;zoom:1;float:left;}
 .navbar-nav > li:hover a{background-color:#ffffff;}
 .nav>li>a{padding:0;text-transform:uppercase;}
 #top nav.navbar .dropdown-menu li{float:none;padding:5px 0px 9px;text-align:left;}

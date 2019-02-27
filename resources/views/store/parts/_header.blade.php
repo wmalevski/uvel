@@ -87,6 +87,14 @@
 									</li>
 									<li class="is-mobile-login">
 										<div class="btn-group">
+											<a href="@if (Auth::check()) {{ route('user_account') }} @else {{ route('login') }} @endif ">
+												<i class="fa fa-user"></i>
+											</a>
+										
+										
+										
+										<!--
+										{{--
 											<div class="dropdown-toggle" data-toggle="dropdown">
 												<i class="fa fa-user"></i>
 											</div>
@@ -110,8 +118,14 @@
 													<a href="{{ route('register') }}">Регистрация</a>
 												</li>
 											</ul>
-
+											
 											@endif
+											--}}
+										-->
+											
+											
+											
+											
 										</div>
 									</li>
 									@if (Auth::check())

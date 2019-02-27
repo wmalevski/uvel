@@ -7,7 +7,7 @@
         <div class="modal-content"></div>
     </div>
 </div>
-<div id="content-wrapper-parent">
+<div id="content-wrapper-parent" class="store-page-models-single">
 	<div id="content-wrapper">
 		<div id="content" class="clearfix">
 			<div id="breadcrumb" class="breadcrumb">
@@ -45,8 +45,8 @@
 												</ul>
 											</div>
 										</div>
-										<div class="image featured col-smd-12 col-sm-12 fadeInUp not-animated" data-animate="fadeInUp">
-											<img src="{{ asset("uploads/models/" . $model->photos->first()['photo']) }}" alt="{{ $model->name }}">
+										<div class="image featured col-smd-12 col-sm-12 fadeInUp not-animated img-fill-container" data-animate="fadeInUp">
+											<img class="img-fill" src="{{ asset("uploads/models/" . $model->photos->first()['photo']) }}" alt="{{ $model->name }}">
 										</div>
 										<div id="gallery_main_mobile" class="visible-xs product-image-thumb thumbs mobile_full_width ">
 											<ul style="opacity: 0; display: block;" class="slide-product-image owl-carousel owl-theme">
@@ -276,12 +276,12 @@
 										<div class="element no_full_width not-animated" data-animate="bounceIn" data-delay="0">
 											<ul class="row-container list-unstyled clearfix">
 												<li class="row-left">
-													<a href="{{ route('single_model', ['model' => $model->id]) }}" class="container_item">
+													<a href="{{ route('single_model', ['model' => $model->id]) }}" class="img-fill-container">
 														<img class="img-fill" alt="{{ $model->name }}"
 																 src="@if($model->photos) {{ asset("uploads/models/" . $model->photos->first()['photo']) }}
 																 @else {{ asset('store/images/demo_375x375.png') }} @endif">
 													</a>
-													<div class="hbw">
+													<div class="hbw hidden-xs hidden-sm">
 														<span class="hoverBorderWrapper"></span>
 													</div>
 												</li>
@@ -306,7 +306,7 @@
 														</div>
 													</div>
 
-													<div class="hover-appear">
+													<div class="hover-appear hidden-xs hidden-sm">
 														<a href="{{ route('single_model', ['model' => $model->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
 															<input name="quantity" value="1" type="hidden">
 															<i class="fa fa-lg fa-th-list"></i>
@@ -319,11 +319,15 @@
 															<span class="list-mode">Бърз преглед</span>
 														</a>
 
+														<!--
+														{{--
 														<a class="wish-list" href="#" title="Добави в желани"
 															 data-url="{{ route('wishlists_store', ['type' => 'model', 'item' => $model->id]) }}">
 															 <i class="fa fa-lg fa-heart"></i>
 															 <span class="list-mode">Добави в желани</span>
 														</a>
+														--}}
+														-->
 													</div>
 
 												</li>

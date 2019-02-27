@@ -109,7 +109,7 @@
 															<img src="@if($model->photos) {{ asset("uploads/models/" . $model->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif"
 															 class="img-fill" alt="{{ $model->name }}">
 														</a>
-														<div class="hbw">
+														<div class="hbw hidden-xs hidden-sm">
 															<span class="hoverBorderWrapper"></span>
 														</div>
 													</li>
@@ -135,13 +135,13 @@
 															</div>
 														</div>
 
-														<div class="hover-appear">
+														<div class="hover-appear hidden-xs hidden-sm">
 															<a href="{{ route('single_model', ['model' => $model->id]) }}" title="Преглед" class="effect-ajax-cart product-ajax-qs">
 																<input name="quantity" value="1" type="hidden">
 																<i class="fa fa-lg fa-th-list"></i>
 																<span class="list-mode">Преглед</span>
 															</a>
-															
+
 															<a href="#" class="product-ajax-qs hidden-xs hidden-sm quick_shop" data-target="#quick-shop-modal" data-toggle="modal"
 																 data-url="models/{{ $model->id }}/" title="Бърз Преглед">
 																<i class="fa fa-lg fa-eye"></i>
