@@ -45,8 +45,8 @@
 												</ul>
 											</div>
 										</div>
-										<div class="image featured col-smd-12 col-sm-12 fadeInUp not-animated img-fill-container" data-animate="fadeInUp">
-											<img class="img-fill" src="{{ asset("uploads/models/" . $model->photos->first()['photo']) }}" alt="{{ $model->name }}">
+										<div class="image featured col-smd-12 col-sm-12 fadeInUp not-animated" data-animate="fadeInUp">
+											<img src="{{ asset("uploads/models/" . $model->photos->first()['photo']) }}" alt="{{ $model->name }}">
 										</div>
 										<div id="gallery_main_mobile" class="visible-xs product-image-thumb thumbs mobile_full_width ">
 											<ul style="opacity: 0; display: block;" class="slide-product-image owl-carousel owl-theme">
