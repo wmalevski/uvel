@@ -701,6 +701,17 @@ var uvel,
           textareaDescription.prop('disabled', true);
         }
       });
+      
+      inputDiscount.on('focusout', function (event) {
+        var input = event.currentTarget,
+            value = input.value;
+
+        if (value > 100) {
+          input.value = 100;
+        } else if (value < 0 || value == '') {
+          input.value = 0;
+        }
+      });
 
       btnApplyDiscount.on('click', function(e) {
         e.preventDefault();

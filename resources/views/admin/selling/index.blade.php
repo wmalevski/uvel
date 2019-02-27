@@ -402,7 +402,7 @@ aria-hidden="true">
                             <label for="discount" class="col-sm-9 control-label">Отстъпка</label>
                             <div class="col-sm-3">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" name="discount" id="discount" data-sell-discount placeholder="Проценти" >
+                                    <input type="number" min="0.1" max="100" step="0.1" class="form-control" name="discount" id="discount" data-sell-discount placeholder="Проценти" >
                                     <span class="input-group-addon">%</span>
                                 </div>
                             </div>
