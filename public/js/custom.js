@@ -584,6 +584,15 @@ var uvel,
                 $self.calculateExpectedMaterial('[data-saleProduct]', 'expectedMaterial');
               }
 
+              if (response.success) {
+                var successMessage = '<div class="alert alert-success">' + response.success + '</div>';
+                $('#mainContent').prepend(successMessage);
+
+                setTimeout(function () {
+                  $('.alert-success').remove();
+                }, 3000);
+              }
+
               _this.parents('tr').remove();
             },
             error: function(response) {
