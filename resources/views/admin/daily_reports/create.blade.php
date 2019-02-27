@@ -103,7 +103,7 @@
             @foreach($materials as $material)
             <div class="form-row">
               <div class="form-group col-md-6">
-                <input type="number" class="form-control" placeholder="{{ $material->material->parent->name }}" readonly>
+                <input type="number" class="form-control" placeholder="{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->code }}" readonly>
                 <input type="hidden" class="form-control" value="{{ $material->id }}" name="material_id[]">
               </div>
               <div class="form-group col-md-6">
@@ -155,7 +155,7 @@
             <div class="form-row">
               <div class="form-group col-md-6">
                 
-                <input type="number" class="form-control" placeholder="{{ $material->material->parent->name }} - {{ $material->material->carat }}" readonly>
+                <input type="number" class="form-control" placeholder="{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->code }}" readonly>
                 <input type="hidden" class="form-control" value="{{ $material->id }}" name="material_id[]">
               </div>
               <div class="form-group col-md-6">
