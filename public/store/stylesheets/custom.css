@@ -145,8 +145,7 @@ header.affix .container.top {
 }
 
 
-/* Common rules for above 1041px */
-@media (min-width: 1041px) {
+@media (min-width: 1025px) {
 	header {
 		position: fixed;
 	}
@@ -808,11 +807,6 @@ li.element {
 	#product-image #detail-right-column {
 		padding: 0;
 	}
-
-	#product-header > div {
-		display: inline-block;
-		width: 50%;
-	}
 	
 	#shopify-product-reviews .spr-container {
 		border: 0;
@@ -838,10 +832,6 @@ li.element {
 		width: 100%;
 	}
 
-	#product-image .featured {
-		height: 400px;
-	}
-
 	.product-image .product-image-thumb li img {
 		height: 100px;
 		width: 100%;
@@ -857,6 +847,16 @@ li.element {
 @media (max-width: 375px) {
 	.owl-wrapper .owl-item .collection-details {
 		height: 200px !important;
+	}
+	
+	#product-header > div {
+		display: block;
+		width: 100%;
+	}
+	
+	#product-header #product-info-right {
+		padding: 0;
+		border: 0;
 	}
 	
 	#sandBox .element.no_full_width {
