@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Response;
+use App\Store;
 use App\Expense;
 use App\ExpenseType;
 use App\Currency;
@@ -31,6 +32,8 @@ class ExpenseController extends Controller
     public function reports()
     {
         $expenses = Expense::paginate(env('RESULTS_PER_PAGE'));
+        $stores = Store::take(env('SELECT_PRELOADED'))->get();
+
         return view('admin.admin_reports.expenses.index', compact('expenses'));
     }
 

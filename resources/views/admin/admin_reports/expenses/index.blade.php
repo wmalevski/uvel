@@ -58,7 +58,7 @@ aria-hidden="true">
     <div class="col-md-12">
         <form name="adminReport" data-url="/#">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label for="">От</label>
                     <div class="timepicker-input input-icon">
                         <div class="input-group">
@@ -69,7 +69,7 @@ aria-hidden="true">
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label for="">До</label>
                     <div class="timepicker-input input-icon">
                         <div class="input-group">
@@ -77,6 +77,18 @@ aria-hidden="true">
                                 <i class="ti-calendar"></i>
                             </div>
                             <input id="report_to" type="text" data-date-autoclose="true" data-date-format="dd-mm-yyyy" class="form-control bdc-grey-200" name="date_to" placeholder="Избери дата до">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label for="">Магазин</label>
+                    <div class="timepicker-input input-icon">
+                        <div class="input-group">
+                            <select name="store_id" class="store-select form-control" data-search="/ajax/select_search/stores/">
+								<option value="">
+									Избери магазин
+								</option>
+							</select>
                         </div>
                     </div>
                 </div>
@@ -99,6 +111,7 @@ aria-hidden="true">
                     <th>Сума</th>
                     <th>Дата</th>
                     <th>Час</th>
+                    <th>Магазин</th>
                     <th>Описание</th>
                 </tr>
             </thead>
