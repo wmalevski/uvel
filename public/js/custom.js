@@ -1000,8 +1000,13 @@ var uvel,
 
         if (element.type == 'number') {
           element.value = 0;
-        } else if (element.type == 'checkbox' && element.checked) {
+        } else if (element.type == 'checkbox') {
+          if (element.attributes.checked) {
+            // element has checked attribute by default in html, reset it to checked
+            $(element).prop('checked', true).change();
+          } else {
             $(element).prop('checked', false).change();
+          } 
         } else {
           element.value = '';
         }
