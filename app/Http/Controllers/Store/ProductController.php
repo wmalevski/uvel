@@ -73,7 +73,7 @@ class ProductController extends BaseController
         $products = $products->where([
             ['status', '=', 'available'],
             ['website_visible', '=', 'yes']
-        ])->paginate(env('RESULTS_PER_PAGE'));
+        ])->orderBy('id', 'DESC')->paginate(env('RESULTS_PER_PAGE'));
 
 
         $response = '';
