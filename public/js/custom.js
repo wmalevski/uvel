@@ -943,8 +943,13 @@ var uvel,
         if ((inputType == 'radio' || inputType == 'checkbox') && dataKey.indexOf('[]') !== -1) {
           dataKey = dataKey.replace('[]', '');
           (data[dataKey] = data[dataKey] || []).push($(element).is(':checked'));
-        } else if (inputType == 'radio' || inputType == 'checkbox') {
+        } else if (inputType == 'checkbox') {
           data[dataKey] = $(element).is(':checked');
+        } else if (inputType == 'radio') {
+          // if radio input is not checked, ignore it
+          if ($(element).is(':checked')) {
+            data[dataKey] = dataKeyValue;
+          }
         } else if (dataKey.indexOf('[]') !== -1) {
           dataKey = dataKey.replace('[]', '');
           (data[dataKey] = data[dataKey] || []).push(dataKeyValue);

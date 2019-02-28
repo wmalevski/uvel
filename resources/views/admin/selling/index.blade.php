@@ -83,17 +83,17 @@
                         </div>
                         <div class="form-group col-md-4">
                             <div class="radio radio-info">
-                                <input type="radio" id="partner-modal-reciept" class="not-clear" name="partner-modal-reciept" value="yes" checked="">
-                                <label for="partner-modal-reciept">Фискален</label>
+                                <input type="radio" id="partner-modal-receipt" class="not-clear" name="partner-modal-receipt" value="yes" checked>
+                                <label for="partner-modal-receipt">Фискален</label>
                             </div>
                             <div class="radio radio-info">
-                                <input type="radio" id="partner-modal-non-reciept" name="partner-modal-reciept" value="no">
-                                <label for="partner-modal-non-reciept">Без фискален</label>
+                                <input type="radio" id="partner-modal-non-receipt" name="partner-modal-receipt" value="no">
+                                <label for="partner-modal-non-receipt">Без фискален</label>
                             </div>
                         </div>
                         <div class="form-group col-md-4">
                             <div class="radio radio-info">
-                                <input type="radio" id="partner-modal-ticket" class="not-clear" name="partner-modal-ticket" value="yes" checked="">
+                                <input type="radio" id="partner-modal-ticket" class="not-clear" name="partner-modal-ticket" value="yes" checked>
                                 <label for="partner-modal-ticket">С разписка</label>
                             </div>
                             <div class="radio radio-info">
@@ -109,7 +109,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <div class="radio radio-info">
-                                <input type="radio" id="partner-modal-certificate" class="not-clear" name="partner-modal-certificate" value="yes" checked="">
+                                <input type="radio" id="partner-modal-certificate" class="not-clear" name="partner-modal-certificate" value="yes" checked>
                                 <label for="partner-modal-certificate">С цена</label>
                             </div>
                             <div class="radio radio-info">
@@ -303,12 +303,12 @@ aria-hidden="true">
                         </div>
                         <div class="form-group col-md-4">
                             <div class="radio radio-info">
-                                <input type="radio" id="modal-reciept" class="not-clear" name="modal_reciept" value="yes" checked>
-                                <label for="modal-reciept">Фискален</label>
+                                <input type="radio" id="modal-receipt" class="not-clear" name="modal_receipt" value="yes" checked>
+                                <label for="modal-receipt">Фискален</label>
                             </div>
                             <div class="radio radio-info">
-                                <input type="radio" id="modal-non-reciept" name="modal_reciept" value="no">
-                                <label for="modal-non-reciept">Без фискален</label>
+                                <input type="radio" id="modal-non-receipt" name="modal_receipt" value="no">
+                                <label for="modal-non-receipt">Без фискален</label>
                             </div>
                         </div>
                         <div class="form-group col-md-4">

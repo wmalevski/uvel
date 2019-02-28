@@ -52,7 +52,7 @@ class DailyReport extends Model
         
         $allSold = Payment::where([
             ['method', '=', 'cash'],
-            ['reciept', '=', 'yes'],
+            ['receipt', '=', 'yes'],
             ['store_id', '=', Auth::user()->getStore()->id],
             ['currency_id', '=', $defaultCurrency->id]
         ])->whereDate('created_at', Carbon::today())->sum('given');
@@ -106,7 +106,7 @@ class DailyReport extends Model
                 if($request->quantity[$key] != '' && $request->quantity[$key] > 0){
                     $check = Payment::where([
                         ['method', '=', 'cash'],
-                        ['reciept', '=', 'yes'],
+                        ['receipt', '=', 'yes'],
                         ['store_id', '=', Auth::user()->getStore()->id],
                         ['currency_id', '=', $currency]
                     ])->whereDate('created_at', Carbon::today())->sum('given');
@@ -179,7 +179,7 @@ class DailyReport extends Model
 
             $allSold = Payment::where([
                 ['method', '=', 'cash'],
-                ['reciept', '=', 'yes'],
+                ['receipt', '=', 'yes'],
                 ['store_id', '=', Auth::user()->getStore()->id],
                 ['currency_id', '=', $defaultCurrency->id]
             ])->whereDate('created_at', Carbon::today())->sum('given');

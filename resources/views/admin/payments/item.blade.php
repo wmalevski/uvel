@@ -11,7 +11,7 @@
     </td>
 
     <td>
-        @if($payment->reciept == 'yes')
+        @if($payment->receipt == 'yes')
             С фискален бон
         @else 
             Без фискален бон
