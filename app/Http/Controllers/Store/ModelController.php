@@ -47,7 +47,7 @@ class ModelController extends BaseController
 
         $products_new = new Model();
         $products = $products_new->filterModels($request, $query);
-        $products = $products->where('website_visible', 'yes')->paginate(env('RESULTS_PER_PAGE'));
+        $products = $products->where('website_visible', 'yes')->orderBy('id', 'DESC')->paginate(env('RESULTS_PER_PAGE'));
 
         $response = '';
         foreach($products as $product){
