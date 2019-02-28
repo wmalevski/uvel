@@ -705,6 +705,10 @@ li.element {
 	margin-top: 0;
 }
 
+#product-info-right .quantity-wrapper {
+	margin-bottom: 12px;
+}
+
 .product-page #product-information #product-info-left {
 	padding: 0;
 }
