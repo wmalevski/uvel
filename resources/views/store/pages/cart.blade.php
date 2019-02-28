@@ -42,8 +42,9 @@
 															<li class="image">
 
 																<a class="cart-item-image img-fill-container" href="{{ route('single_product', ['product' => $item->attributes['product_id']])  }}">
-																	{{-- <img src="{{ $item->attributes['photo'] }}" alt="{{ $item->attributes['name'] }}" width="150"> --}}
-																	<img class="img-fill" src="https://www.qsl.net/g4aon/images/vertical.jpg" alt="{{ $item->attributes['name'] }}" width="150">
+																	@if(count(App\Product::find($item->attributes['product_id'])->photos))
+																		<img src="{{ asset("uploads/products/" . App\Product::find($item->attributes['product_id'])->photos->first()->photo) }}" alt="{{ $item->attributes['name'] }}"width="150">
+																	@endif
 																</a>
 
 															</li>
