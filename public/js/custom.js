@@ -954,16 +954,18 @@ var uvel,
 
         if (dataKey.startsWith('images')) {
           var imagesHolder = $(element).siblings('.drop-area-gallery').find('img');
-          
-          if (element.dataset.locale) {
-            data[dataKey] = imagesHolder[0].getAttribute('src');
-          } else {
-            imagesHolder.each(function(index, element) {
-              var imgSource = element.getAttribute('src');
-              imageCollection.push(imgSource);
-            });
 
-            data.images = imageCollection;
+          if (imagesHolder.length) {
+            if (element.dataset.locale) {
+              data[dataKey] = imagesHolder[0].getAttribute('src');
+            } else {
+              imagesHolder.each(function(index, element) {
+                var imgSource = element.getAttribute('src');
+                imageCollection.push(imgSource);
+              });
+  
+              data.images = imageCollection;
+            }
           }
         }
       });
