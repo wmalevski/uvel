@@ -439,7 +439,7 @@ class SellingController extends Controller
                 $product->status = 'available';
                 $product->save();
             }else if($product_box){
-                $product_box->quantity = $product_box->quantity+$item->quantity;
+                $product_box->quantity += $item->quantity;
                 $product_box->save();
             }else if($repair){
                 $repair->status = 'done';
@@ -642,6 +642,21 @@ class SellingController extends Controller
 
     public function removeItem($item){
         $userId = Auth::user()->getId(); 
+
+        $product = Product::where('barcode', $item)->first();
+        $product_box = ProductOther::where('barcode', $item)->first();
+        $repair = Repair::where('barcode', $item)->first();
+
+        $cartItem = Cart::session($userId)->get($item);
+
+        if($product){
+            $product->status = 'available';
+            $product->save();
+        }else if($product_box){
+            $product_box->quantity += $cartItem->quantity;
+            $product_box->save();
+        }
+
         $remove = Cart::session($userId)->remove($item);
 
         $total = round(Cart::session($userId)->getTotal(),2);
@@ -660,24 +675,11 @@ class SellingController extends Controller
             $table .= View::make('admin/selling/table',array('item'=>$singleitem))->render();
         }
 
-        
-        $product = Product::where('barcode', $item)->first();
-        $product_box = ProductOther::where('barcode', $item)->first();
-        $repair = Repair::where('barcode', $item)->first();
-
-        if($product){
-            $product->status = 'available';
-            $product->save();
-        }else if($product_box){
-            $product_box->quantity = $product_box->quantity+$item->quantity;
-            $product_box->save();
-        }
-
         $dds = round($subtotal - ($subtotal/1.2), 2);
         
 
         if($remove){
-            return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'dds' => $dds));  
+            return Response::json(array('success' => trans('admin/cart.item_deleted'), 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'dds' => $dds));  
         }
     }
 
