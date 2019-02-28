@@ -140,7 +140,7 @@
 												<ul class="row-container list-unstyled clearfix">
 
 													<li class="row-left">
-														<a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">
+														<a href="{{ route('single_product', ['product' => $product->id]) }}" class="container_item">
 															<img class="img-fill" alt="{{ $product->name }}" src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }}
 																	 @else {{ asset('store/images/demo_375x375.png') }}
 																	 @endif">
@@ -153,7 +153,7 @@
 													<li class="row-right parent-fly animMix">
 
 														<div class="product-content-left">
-															<a class="title-5" href="{{ route('single_product', ['product' => $product->id])  }}">
+															<a class="title-5" href="{{ route('single_product', ['product' => $product->id]) }}">
 																{{ $product->name }}
 															</a>
 															<div>
@@ -164,7 +164,7 @@
 															<div>
 																Магазин: {{ $product->store_info->name }}
 															</div>
-															<span class="spr-badge" id="spr_badge_1293239619454" data-rating="0.0">
+															<span class="spr-badge" data-rating="0.0">
 																<span class="spr-starrating spr-badge-starrating">
 																	{{$product->listProductAvgRatingStars($product)}}
 																</span>
