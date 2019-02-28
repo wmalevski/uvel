@@ -1603,7 +1603,6 @@ var uvel,
           buyPrice = defaultMaterialRow.length ? defaultMaterialRow.find('[data-calculatePrice-material] :selected').attr('data-pricebuy') * 1 : form.find('[data-calculatePrice-material] :selected').attr('data-pricebuy') * 1,
           netWeight = form.find('[data-calculatePrice-netWeight]').val() * 1,
           grossWeight = 0,
-          isWeightWithStones = $('[data-calculatePrice-withStones]').is(':checked'),
           naturalStonesPrice = 0,
           totalStoneWeight = 0;
 
@@ -1622,11 +1621,7 @@ var uvel,
         totalStoneWeight += stoneWeight;
       }
 
-      if (isWeightWithStones) {
-        grossWeight = netWeight + totalStoneWeight;
-      } else {
-        grossWeight = netWeight;
-      }
+      grossWeight = netWeight + totalStoneWeight;
 
       grossWeightHolder.val(grossWeight);
 
@@ -1778,21 +1773,19 @@ var uvel,
       var netWeightHolder = form.find('[data-calculatePrice-netWeight]'),
           grossWeightHolder = form.find('[data-calculatePrice-grossWeight]'),
           weight = response.weight * 1,
-          isWeightWithStones = $('[data-calculatePrice-withStones]').is(':checked'),
-          stones = form.find('.model_stones .fields');
+          stones = form.find('.model_stones .fields'),
+          syntheticStone = 1;
 
       netWeightHolder.val(weight);
 
-      if (isWeightWithStones) {
-        for (var i = 0; i < stones.length; i++) {
-          var stoneRow = $(stones[i]),
-              stone = stoneRow.find('[data-calculatePrice-stone] option:selected'),
-              stoneType = stone.attr('data-type'),
-              stoneWeight = stoneRow.find('[data-calculateStones-weight]').val() * 1;
+      for (var i = 0; i < stones.length; i++) {
+        var stoneRow = $(stones[i]),
+            stone = stoneRow.find('[data-calculatePrice-stone] option:selected'),
+            stoneType = stone.attr('data-type'),
+            stoneWeight = stoneRow.find('[data-calculateStones-weight]').val() * 1;
 
-          if (stoneType == 1) { // synthetic stone
-            weight += stoneWeight;
-          }
+        if (stoneType == syntheticStone) {
+          weight += stoneWeight;
         }
       }
 
