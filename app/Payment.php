@@ -22,7 +22,7 @@ class Payment extends Model
     protected $fillable = [
         'currency',
         'method',
-        'reciept',
+        'receipt',
         'ticket',
         'price',
         'given',
@@ -80,19 +80,19 @@ class Payment extends Model
                 $payment->method = 'post';
             }
 
-            if($request->modal_reciept == 'false'){
-                $payment->reciept = 'no';
+            if($request->modal_receipt == 'no'){
+                $payment->receipt = 'no';
             } else{
-                $payment->reciept = 'yes';
+                $payment->receipt = 'yes';
             }
 
-            if($request->modal_ticket == 'false'){
+            if($request->modal_ticket == 'no'){
                 $payment->ticket = 'no';
             } else{
                 $payment->ticket = 'yes';
             }
 
-            if($request->modal_certificate == 'false'){
+            if($request->modal_certificate == 'no'){
                 $payment->certificate = 'no';
             } else{
                 $payment->certificate = 'yes';
