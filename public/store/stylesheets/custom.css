@@ -142,6 +142,10 @@ header.affix .container.top {
 		height: 50px;
 		transition: height 0.5s;
 	}
+	
+	#breadcrumb {
+		margin-top: 160px !important;
+	}
 }
 
 
@@ -400,27 +404,63 @@ li.element {
 	border-left: 1px solid gray;
 }
 
-.article-page .comment .author,
-.article-page .comment .date {
-	display: block;
-}
-
-.article-page .blog-article-title {
-	margin-bottom: 20px;
-}
-
 .blogs {
 	padding: 16px;
 }
 
-.blogs-item .article-title {
+.blogs-page .blogs-item .article-title {
 	width: 100%;
 	margin: 16px 0;
 	padding: 0;
 }
 
-.blogs-item .blogs-image {
-	margin: 0 0 16px;
+.blogs-item {
+	margin-top: 20px;
+}
+
+.blogs-item .blog-title {
+	margin-top: -4px;
+}
+
+.article-page .blogs-item .article-content .blogs-image {
+	float: left;
+	width: 50%;
+	margin-right: 20px;
+}
+
+.article-page .blogs-item .article-content .blogs-image li {
+	margin: 0;
+	padding: 0;
+}
+
+.article-page .blogs-item .blog-article-title {
+	display: inline-block;
+	min-width: 32%;
+	max-width: 48%;
+	padding: 0;
+}
+
+.article-page .blogs-item .article-extras {
+	display: inline-block;
+	width: 100%;
+}
+
+.article-page .blogs-item .blog-article-title .date {
+	margin: 0 20px 20px 0;
+}
+
+.article-page .blogs-item .blog-article-title .blog-title {
+	float: none;
+	width: 100%;
+	padding: 0;
+}
+
+.article-page .blogs-item .intro,
+.article-page .blogs-item .blog-article-title .blog-title,
+.article-page .blogs-item .article-content .blogs-image,
+.article-page .comment .author,
+.article-page .comment .date {
+	display: block;
 }
 
 /* List alignment */
@@ -552,7 +592,6 @@ li.element {
 
 .blog-page .article-title-container {
 	height: 80px;
-	vertical-align: top;
 }
 
 .blog-page .article-title {
@@ -1042,3 +1081,5 @@ li.element {
 .filter-tag-group input[type="number"] {
 	max-width: 200px;
 }
+
+

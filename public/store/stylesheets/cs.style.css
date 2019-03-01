@@ -786,7 +786,6 @@ table{border:1px solid #ebebeb;}
 .blogs h2 > a{font-size:20px;font-family:'Belleza', sans-serif;color:#202020;font-weight:500;}
 .blogs h2 > a:hover{color:#a07936;}
 .blogs-item h2{margin-top:21px;margin-bottom:17px;}
-.blogs-item .blogs-image{margin:20px 0;}
 .blogs-item .blogs-image div{text-align:center !important;}
 .blogs-item .blogs-image ul > li{padding-left:0;padding-right:0;display:block;}
 .blogs-item .blogs-image ul > li img{width:100%;}
@@ -806,7 +805,6 @@ table{border:1px solid #ebebeb;}
 .blogs .article-content a img{width:100%;}
 .blogs .article-content a:hover img{opacity:0.5;-ms-filter:"progid: DXImageTransform.Microsoft.Alpha(Opacity=50)";filter:alpha(opacity=50);}
 .blogs .article-content .post-action a{font-size:12px;font-family:'Lato', sans-serif;color:#8f8f8f;font-weight:700;text-transform:uppercase;}
-.article-content div{display:table;width:100%;}
 .article-content div#comment-form{width:80%;text-align:center;margin:0 auto;}
 .article-content .date{text-align:center;font-size:18px;font-family:'Lato', sans-serif;color:#a07936;font-weight:600;text-transform:uppercase;width:65px;height:65px;padding:0;position:relative;display:table-cell;float:left;border:1px solid #e5e5e5;border-radius:10px;}
 .blog-page .pagination{width:100%;}
