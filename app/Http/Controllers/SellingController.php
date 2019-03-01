@@ -264,13 +264,13 @@ class SellingController extends Controller
             if($item){
                 if($item->status == 'selling'){
                     return Response::json(['errors' => array(
-                        'selling' => 'Продукта вмомента принадлежи на друга продажба.'
+                        'selling' => 'Продукта в момента принадлежи на друга продажба.'
                     )], 401);
                 }
 
                 if($item->status == 'travelling'){
                     return Response::json(['errors' => array(
-                        'selling' => 'Продукта вмомента е на път.'
+                        'selling' => 'Продукта в момента е на път.'
                     )], 401);
                 }
     
