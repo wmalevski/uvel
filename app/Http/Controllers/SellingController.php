@@ -491,6 +491,18 @@ class SellingController extends Controller
                 $partner_id = $card->user->id;
             }
 
+            $removeDDS = new CartCustomCondition(array(
+                'name' => 'remove_dds',
+                'type' => 'tax',
+                'target' => 'subtotal',
+                'value' => '/1.2',
+                'attributes' => array(
+                    'partner' => $partner,
+                    'partner_id' => $partner_id
+                ),
+                'order' => 1
+            ));
+
             $condition = new CartCustomCondition(array(
                 'name' => $setDiscount,
                 'type' => 'discount',
@@ -501,15 +513,17 @@ class SellingController extends Controller
                     'description' => 'Value added tax',
                     'partner' => $partner,
                     'partner_id' => $partner_id
-                )
+                ),
+                'order' => 2
             ));
 
+            Cart::condition($removeDDS);
             Cart::condition($condition);
+            Cart::session($userId)->condition($removeDDS);
             Cart::session($userId)->condition($condition);
 
             $total = round(Cart::session($userId)->getTotal(),2);
-            $subtotal = round(Cart::session($userId)->getSubTotal(),2);
-            $subTotal = round(Cart::session(Auth::user()->getId())->getSubTotal(),2);
+            $subTotal = round(Cart::session($userId)->getSubTotal(),2);
             $cartConditions = Cart::session($userId)->getConditions();
             $conds = array();
             $priceCon = 0;
@@ -529,7 +543,7 @@ class SellingController extends Controller
 
             $dds = round($subTotal - ($subTotal/1.2), 2);
 
-            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon, 'dds' => $dds));  
+            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subTotal, 'condition' => $conds, 'priceCon' => $priceCon, 'dds' => $dds));  
         } 
     }
 

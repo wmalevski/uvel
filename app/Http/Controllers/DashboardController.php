@@ -161,7 +161,7 @@ class DashboardController extends Controller
         }else{
             $todayReport = 'false';
         }
-
+        
         return \View::make('admin/selling/index', array('items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'priceCon' => $priceCon, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner));
     }
 
