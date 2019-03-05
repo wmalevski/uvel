@@ -271,7 +271,8 @@ var uvel,
           $addCardDiscountTrigger = $('[data-sell-discountCard]'),
           $travelingMaterialsStateBtns = $('[data-travelstate]'),
           $inputCollection = $('input'),
-          $removeDiscountTrigger = $('[data-sell-removeDiscount]');
+          $removeDiscountTrigger = $('[data-sell-removeDiscount]'),
+          $numericInputsDailyReports = $('.daily-report-create-page input[type="number"][min], .daily-report-create-page input[type="number"][max]');
 
       $self.openForm($openFormTrigger);
       $self.deleteRow($deleteRowTrigger);
@@ -288,6 +289,7 @@ var uvel,
       $self.setInputFilters();
       $self.expandSideMenu();
       $self.setDailyReportsInputs();
+      $self.setNumericInputsValidation($numericInputsDailyReports);
     }
     
     this.expandSideMenu = function() {
@@ -675,6 +677,38 @@ var uvel,
           }, stayingTime);
         }
       }
+    }
+
+    this.setNumericInputsValidation = function(inputs) {
+      inputs.on('focusout', function(event) {
+        var input = event.currentTarget,
+            value = parseFloat(input.value),
+            minAllowedValue = '',
+            maxAllowedValue = '';
+
+        if (input.attributes.min) {
+          // min attribute set in the html
+          minAllowedValue = parseFloat(input.attributes.min.value);
+        }
+
+        if (input.attributes.max) {
+          // max attribute set in the html
+          maxAllowedValue = parseFloat(input.attributes.max.value);
+        }
+
+        if (maxAllowedValue !== '' && !isNaN(parseFloat(value)) && value > maxAllowedValue) {
+          // if max value is exceeded reset it to max
+          input.value = maxAllowedValue;
+        } else if (minAllowedValue !== '' && !isNaN(parseFloat(value)) && value < minAllowedValue) {
+          // if max value is exceeded reset it to max
+          input.value = minAllowedValue;
+        } else if (value == '') {
+          // value is some random text, reset it to 0
+          input.value = 0;
+        }
+        // trigger change of the input event
+        $(input).trigger('input');
+      });
     }
 
     this.sellMoreProducts = function(sellMoreProductsTrigger) {
