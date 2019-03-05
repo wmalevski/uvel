@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Selling;
+use App\Price;
 use Illuminate\Http\Request;
 use App\RepairType;
 use Cart;
@@ -112,9 +114,24 @@ class SellingController extends Controller
         $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();
         $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
         $condition = Cart::getConditions('discount');
+        $materials = Material::take(env('SELECT_PRELOADED'))->get();
         $priceCon = 0;
 
-        $materials = Material::take(env('SELECT_PRELOADED'))->get();
+        $second_default_price = 0;
+
+        if(count($materials) > 0) {
+            $default_price = $materials->first()->pricesBuy->first()['price'];
+            $check_second_price = Price::where([
+                ['material_id', '=', $materials->first()->id],
+                ['type', '=', 'buy'],
+                ['price', '<>', $default_price],
+                ['price', '<', $default_price]
+            ])->orderBy(DB::raw('ABS(price - '.$default_price.')'), 'desc')->first();
+
+            if(count($check_second_price)){
+                $second_default_price = $check_second_price->price;
+            }
+        }
 
         $partner = false;
         if(count($cartConditions) > 0){
@@ -151,7 +168,7 @@ class SellingController extends Controller
         }
         //To add kaparo from the orders when branches are merged
         
-        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner));
+        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner, 'second_default_price' => $second_default_price));
     }
 
     /**
