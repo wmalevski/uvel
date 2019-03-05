@@ -123,7 +123,7 @@ class DashboardController extends Controller
                 ['price', '<', $default_price]
             ])->orderBy(DB::raw('ABS(price - '.$default_price.')'), 'desc')->first();
 
-            if(count($check_second_price)){
+            if($check_second_price){
                 $second_default_price = $check_second_price->price;
             }
         }
