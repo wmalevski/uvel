@@ -63,7 +63,7 @@
                   <input type="hidden" class="form-control" name="currency_id[]" value="{{ $currency->id }}">
                 </div>
                 <div class="form-group col-md-4">
-                  <input type="text" class="form-control" name="quantity[]" placeholder="0">
+                  <input type="number" class="form-control" min="0" step="1" name="quantity[]" placeholder="0">
                 </div>
               </div>
             @endforeach
@@ -107,7 +107,6 @@
                 <input type="hidden" class="form-control" value="{{ $material->id }}" name="material_id[]">
               </div>
               <div class="form-group col-md-6">
-                
                 <input type="number" min="0" name="quantity[]" class="form-control" placeholder="0">
               </div>
             </div>
@@ -116,7 +115,7 @@
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label>Стойност</label> 
-                <input type="number" class="form-control" placeholder="0" name="fiscal_amount">
+                <input type="number" class="form-control" min="0" placeholder="0" name="fiscal_amount">
               </div>
             </div>
             <button type="submit" class="btn btn-primary">Пускане</button>
