@@ -1227,7 +1227,10 @@ var uvel,
 
         var openedForm = currentButton.attr('data-form'),
             formType = currentButton.attr('data-form-type'),
-            formSettings = $self.formsConfig[openedForm];
+            formSettings = $self.formsConfig[openedForm]
+            selects = $('form[data-type="edit"] select');
+
+        $self.select2Looper(selects);
 
         $self.initializeForm(formSettings, formType);
       } else {
@@ -1245,7 +1248,7 @@ var uvel,
                 formSettings = $self.formsConfig[openedForm];
 
             $self.initializeForm(formSettings, formType);
-            
+
             var selects = $('form[data-type="edit"] select');
 
             $self.select2Looper(selects);
