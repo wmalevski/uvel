@@ -251,7 +251,7 @@ aria-hidden="true">
                         <div class="exchange-row-total form-row">
                             <div class="form-group col-md-6">
                                 <label for="given-sum">Сума от материали</label>
-                                <input type="number" data-defaultPrice="@if(count($materials) > 0) {{ $materials->first()->pricesBuy->first()['price'] }} @endif" class="form-control not-clear" value="0" name="exchangeRows_total" placeholder="Дължима сума" data-exchangeRows-total readonly>
+                                <input type="number" @if($second_default_price != 0) data-secondDefaultPrice={{ $second_default_price }} @endif data-defaultPrice="@if(count($materials) > 0){{ $materials->first()->pricesBuy->first()['price'] }}@endif" class="form-control not-clear" value="0" name="exchangeRows_total" placeholder="Дължима сума" data-exchangeRows-total readonly>
                             </div>
 
                             <div class="form-group col-md-6">
