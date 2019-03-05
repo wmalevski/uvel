@@ -2480,14 +2480,11 @@ var uvel,
     }
 
     this.lifetimeDiscount = function(form) {
-      var lifetimeSelect = form.find('input[name="lifetime"]');
+      var lifetimeSelect = form.find('#lifetime_add');
 
       lifetimeSelect.on('change', function(event) {
         var isSelected = event.currentTarget.checked;
-
-        form.find('[name="date_expires"]')
-            .attr('readonly', isSelected)
-            .val('');
+        form.find('[name="date_expires"]').attr('readonly', isSelected);
       });
     }
 
