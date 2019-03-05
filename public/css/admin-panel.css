@@ -31,7 +31,8 @@ thead .filter-input {
 	user-select: none;
 }
 
-.modal-content label {
+.modal-content label,
+.modal-content .partner-information {
 	padding-left: 2px;
 }
 
