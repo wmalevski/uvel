@@ -20,6 +20,7 @@ aria-hidden="true">
                         <div class="form-group col-md-12">
                             <label for="type">Основание: </label>
                             <select id="type" name="type_id" class="form-control" data-calculatePayment-currency>
+                                <option value="">Избери</option>
                                 @foreach($expenses_types as $type)
                                     <option value="{{ $type->id }}">{{ $type->name }}</option>
                                 @endforeach
