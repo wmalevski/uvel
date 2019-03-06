@@ -63,6 +63,9 @@
                             <label for="partner-information">Информация за партнъора:</label>
                             <p class="partner-information"></p>
                         </div>
+                        <div class="col-12">
+							<hr>
+                        </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
@@ -101,13 +104,16 @@
                                 <label for="partner-modal-non-ticket">Без разписка</label>
                             </div>
                         </div>
+                        <div class="col-12">
+							<hr>
+						</div>
                     </div>
                     
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-8">
                             <span>Принтиране на сертификат:</span>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <div class="radio radio-info">
                                 <input type="radio" id="partner-modal-certificate" class="not-clear" name="partner-modal-certificate" value="yes" checked>
                                 <label for="partner-modal-certificate">С цена</label>
@@ -173,9 +179,7 @@ aria-hidden="true">
                     </div>
                     {{ csrf_field() }}
                     <div class="form-row">
-                        <div class="col-md-4">
-
-                        </div>
+                        <div class="col-md-4"></div>
                         {{-- <div class="form-group col-md-12">
                             <label for="1">Пари в касата: </label>
                             <input type="number" class="form-control" name="safe_amount" placeholder="Въведете колко пари има в касата:">
@@ -247,7 +251,7 @@ aria-hidden="true">
                         <div class="exchange-row-total form-row">
                             <div class="form-group col-md-6">
                                 <label for="given-sum">Сума от материали</label>
-                                <input type="number" data-defaultPrice="@if(count($materials) > 0) {{ $materials->first()->pricesBuy->first()['price'] }} @endif" class="form-control not-clear" value="0" name="exchangeRows_total" placeholder="Дължима сума" data-exchangeRows-total readonly>
+                                <input type="number" @if($second_default_price != 0) data-secondDefaultPrice={{ $second_default_price }} @endif data-defaultPrice="@if(count($materials) > 0){{ $materials->first()->pricesBuy->first()['price'] }}@endif" class="form-control not-clear" value="0" name="exchangeRows_total" placeholder="Дължима сума" data-exchangeRows-total readonly>
                             </div>
 
                             <div class="form-group col-md-6">

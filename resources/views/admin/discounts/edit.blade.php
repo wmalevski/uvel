@@ -27,7 +27,10 @@
                         <div class="input-group-addon bgc-white bd bdwR-0">
                             <i class="ti-calendar"></i>
                         </div>
-                        <input type="text" name="date_expires" value="{{ $discount->expires }}" class="form-control bdc-grey-200 start-date" placeholder="Валидна до: " data-date-autoclose="true" data-provide="datepicker" data-date-format="dd-mm-yyyy" data-date-start-date="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}">
+                        <input type="text" name="date_expires" value="{{ $discount->expires }}" class="form-control bdc-grey-200 start-date"
+                               placeholder="Валидна до: " data-date-autoclose="true" data-provide="datepicker" data-date-format="dd-mm-yyyy"
+                               data-date-start-date="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}"
+                               @if($discount->lifetime == 'yes') readonly @endif>
                     </div>
                 </div>
             </div>
@@ -55,10 +58,8 @@
             <div class="form-group col-md-12">
                 <label for="2">Потребител: </label>
                 <select name="user_id" class="form-control">
-                    <option value="">Избери</option>
-
                     @foreach($users as $user)
-                        <option value="{{ $user->id }}" @if($discount->user_id) @if($discount->user_id == $user->id) selected @endif @endif>{{ $user->name }} - {{ $user->roles->first()['title'] }}</option>
+                        <option value="{{ $user->id }}" @if($discount->user_id) @if($discount->user_id == $user->id) selected @endif @endif>{{ $user->name }} - {{ $user->store->name }}</option>
                     @endforeach
                 </select>
             </div>

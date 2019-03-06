@@ -17,7 +17,7 @@ class CreatePaymentsTable extends Migration
             $table->increments('id');
             $table->integer('currency_id');
             $table->enum('method', ['cash', 'post']);
-            $table->enum('reciept', ['yes', 'no']);
+            $table->enum('receipt', ['yes', 'no']);
             $table->enum('ticket', ['yes', 'no']);
             $table->enum('certificate', ['yes', 'no']);
             $table->float('price');

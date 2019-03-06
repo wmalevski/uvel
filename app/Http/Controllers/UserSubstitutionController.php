@@ -60,7 +60,7 @@ class UsersubstitutionController extends Controller
         ])->first();
 
         if($substitution){
-            return Response::json(['errors' => ['already_sub' => ['Този потребител вмомента замества в друг магазин']]], 401);
+            return Response::json(['errors' => ['already_sub' => ['Този потребител в момента замества в друг магазин']]], 401);
 
         } else{
             $validator = Validator::make( $request->all(), [
@@ -93,7 +93,7 @@ class UsersubstitutionController extends Controller
 
                 return Response::json(array('success' => View::make('admin/substitutions/table',array('substitution'=>$substitution))->render(), 'place' => $place));
             }else{
-                return Response::json(['errors' => ['same_store' => ['Не може да изпратите потребителя в същият магазин']]], 401);
+                return Response::json(['errors' => ['same_store' => ['Не може да изпратите потребителя в същия магазин']]], 401);
             }
         }
     }

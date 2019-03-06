@@ -271,7 +271,8 @@ var uvel,
           $addCardDiscountTrigger = $('[data-sell-discountCard]'),
           $travelingMaterialsStateBtns = $('[data-travelstate]'),
           $inputCollection = $('input'),
-          $removeDiscountTrigger = $('[data-sell-removeDiscount]');
+          $removeDiscountTrigger = $('[data-sell-removeDiscount]'),
+          $numericInputsDailyReports = $('.daily-report-create-page input[type="number"][min], .daily-report-create-page input[type="number"][max]');
 
       $self.openForm($openFormTrigger);
       $self.deleteRow($deleteRowTrigger);
@@ -288,6 +289,7 @@ var uvel,
       $self.setInputFilters();
       $self.expandSideMenu();
       $self.setDailyReportsInputs();
+      $self.setNumericInputsValidation($numericInputsDailyReports);
     }
     
     this.expandSideMenu = function() {
@@ -675,6 +677,38 @@ var uvel,
           }, stayingTime);
         }
       }
+    }
+
+    this.setNumericInputsValidation = function(inputs) {
+      inputs.on('focusout', function(event) {
+        var input = event.currentTarget,
+            value = parseFloat(input.value),
+            minAllowedValue = '',
+            maxAllowedValue = '';
+
+        if (input.attributes.min) {
+          // min attribute set in the html
+          minAllowedValue = parseFloat(input.attributes.min.value);
+        }
+
+        if (input.attributes.max) {
+          // max attribute set in the html
+          maxAllowedValue = parseFloat(input.attributes.max.value);
+        }
+
+        if (maxAllowedValue !== '' && !isNaN(parseFloat(value)) && value > maxAllowedValue) {
+          // if max value is exceeded reset it to max
+          input.value = maxAllowedValue;
+        } else if (minAllowedValue !== '' && !isNaN(parseFloat(value)) && value < minAllowedValue) {
+          // if max value is exceeded reset it to max
+          input.value = minAllowedValue;
+        } else if (value == '') {
+          // value is some random text, reset it to 0
+          input.value = 0;
+        }
+        // trigger change of the input event
+        $(input).trigger('input');
+      });
     }
 
     this.sellMoreProducts = function(sellMoreProductsTrigger) {
@@ -1193,7 +1227,10 @@ var uvel,
 
         var openedForm = currentButton.attr('data-form'),
             formType = currentButton.attr('data-form-type'),
-            formSettings = $self.formsConfig[openedForm];
+            formSettings = $self.formsConfig[openedForm]
+            selects = $('form[data-type="edit"] select');
+
+        $self.select2Looper(selects);
 
         $self.initializeForm(formSettings, formType);
       } else {
@@ -1211,7 +1248,7 @@ var uvel,
                 formSettings = $self.formsConfig[openedForm];
 
             $self.initializeForm(formSettings, formType);
-            
+
             var selects = $('form[data-type="edit"] select');
 
             $self.select2Looper(selects);
@@ -2372,9 +2409,11 @@ var uvel,
 
     this.fillRepairPrice = function(form) {
       var fillPriceTrigger = form.find('[data-repair-type]');
+
       fillPriceTrigger.on('change', function() {
         var price = $(this).find(':selected').attr('data-price');
-        priceHolder.val(price);
+
+        form.find('[data-repair-price]').val(price);
       });
     }
 
@@ -2443,11 +2482,14 @@ var uvel,
     }
 
     this.lifetimeDiscount = function(form) {
-      var lifetimeSelect = form.find('#lifetime_add');
+      var lifetimeSelect = form.find('input[name="lifetime"]');
 
       lifetimeSelect.on('change', function(event) {
         var isSelected = event.currentTarget.checked;
-        form.find('[name="date_expires"]').attr('readonly', isSelected);
+
+        form.find('[name="date_expires"]')
+            .attr('readonly', isSelected)
+            .val('');
       });
     }
 
@@ -2630,7 +2672,7 @@ var uvel,
     }
 
     this.initializeSelect = function(select, callback, options) {
-
+      
       $(select).select2(options);
       $(select).on('select2:select', callback);
       $(select).on('select2:open', function () {
@@ -2737,10 +2779,24 @@ var uvel,
           timeout;
 
       inputsDynamicSearch.on('input', function(event) {
+        
+        var inputElement = event.currentTarget;
 
         var ajaxResultsResponse = function(response) {
-          $('tbody').html(response);
-          $('tbody').removeClass('inactive');
+          var $table = $(inputElement).parents('table').find('tbody');
+          
+          $table.html(response);
+          
+          var $editButtons = $table.find('[data-form]'),
+              $deleteButtons = $table.find('.delete-btn');
+
+          $editButtons.on('click', function() {
+            $self.openFormAction($(this));
+          });
+          
+          $self.deleteRow($deleteButtons);
+
+          $table.removeClass('inactive');
         };
 
         var searchFunc = function() {
