@@ -2777,10 +2777,24 @@ var uvel,
           timeout;
 
       inputsDynamicSearch.on('input', function(event) {
+        
+        var inputElement = event.currentTarget;
 
         var ajaxResultsResponse = function(response) {
-          $('tbody').html(response);
-          $('tbody').removeClass('inactive');
+          var $table = $(inputElement).parents('table').find('tbody');
+          
+          $table.html(response);
+          
+          var $editButtons = $table.find('[data-form]'),
+              $deleteButtons = $table.find('.delete-btn');
+
+          $editButtons.on('click', function() {
+            $self.openFormAction($(this));
+          });
+          
+          $self.deleteRow($deleteButtons);
+
+          $table.removeClass('inactive');
         };
 
         var searchFunc = function() {
