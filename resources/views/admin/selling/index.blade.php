@@ -490,8 +490,10 @@ aria-hidden="true">
                             <label for="subTotal" class="col-sm-9 control-label">Отстъпки:<br/>
                                 <span class="discount--label-holder">
                                     @foreach($conditions as $condition)
-                                        <span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">{{ $condition->getValue() }}</span>
-                                        <span data-url="/ajax/removeDiscount/{{ $condition->getName() }}" data-sell-removeDiscount class="discount-remove badge bgc-red-50 c-red-700 p-10 lh-0 tt-c badge-pill"><i class="c-brown-500 ti-close"></i></span> <br/>
+                                        @if($condition->getName() != 'DDS')
+                                            <span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">{{ $condition->getValue() }}</span>
+                                            <span data-url="/ajax/removeDiscount/{{ $condition->getName() }}" data-sell-removeDiscount class="discount-remove badge bgc-red-50 c-red-700 p-10 lh-0 tt-c badge-pill"><i class="c-brown-500 ti-close"></i></span> <br/>
+                                        @endif
                                     @endforeach
                                 </span>
                             </label>
@@ -507,7 +509,7 @@ aria-hidden="true">
                             <label for="total" class="col-sm-9 control-label">Крайна цена:</label>
                             <div class="col-sm-3">
                                 <div class="input-group">
-                                    <input type="number" name="total" value="{{ round(Cart::session(Auth::user()->id)->getTotal(),2) }}" class="form-control" id="total" data-calculatePayment-total placeholder="" readonly>
+                                    <input type="number" name="total" value="{{ $total }}" class="form-control" id="total" data-calculatePayment-total placeholder="" readonly>
                                     <span class="input-group-addon">лв</span>
                                 </div>
                             </div>

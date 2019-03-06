@@ -111,11 +111,30 @@ class SellingController extends Controller
         $repairTypes = RepairType::all();
         $discounts = DiscountCode::all();
         $currencies = Currency::all();
+        $materials = Material::take(env('SELECT_PRELOADED'))->get();
+        $priceCon = 0;
+
+        
+        $condition = new CartCustomCondition(array(
+            'name' => 'DDS',
+            'type' => 'tax',
+            'target' => 'subtotal',
+            'value' => '20%',
+            'attributes' => array(
+                'discount_id' => 'dds',
+                'description' => 'Value added tax',
+                'partner' => 'false',
+            ),
+            'order' => 2
+        ));
+
+        Cart::condition($condition);
+        Cart::session(Auth::user()->getId())->condition($condition);
+
+        $total = Cart::session(Auth::user()->getId())->getTotal();
         $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();
         $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
         $condition = Cart::getConditions('discount');
-        $materials = Material::take(env('SELECT_PRELOADED'))->get();
-        $priceCon = 0;
 
         $second_default_price = 0;
 
@@ -136,7 +155,9 @@ class SellingController extends Controller
         $partner = false;
         if(count($cartConditions) > 0){
             foreach(Cart::session(Auth::user()->getId())->getConditions() as $cc){
-                $priceCon += $cc->getCalculatedValue($subTotal);
+                if($cc->getName() != 'DDS'){
+                    $priceCon += $cc->getCalculatedValue($subTotal);
+                }
 
                 if($cc->getAttributes()['partner'] != 'false'){
                     $partner = true;
@@ -152,7 +173,8 @@ class SellingController extends Controller
             $items[] = $item;
         });
 
-        $dds = round($subTotal - ($subTotal/1.2), 2);
+
+        $dds = round($subTotal*1.2 - ($subTotal), 2);
 
         $allSold = Payment::where([
             ['method', '=', 'cash'],
@@ -168,7 +190,7 @@ class SellingController extends Controller
         }
         //To add kaparo from the orders when branches are merged
         
-        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner, 'second_default_price' => $second_default_price));
+        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner, 'second_default_price' => $second_default_price, 'total' => $total));
     }
 
     /**
@@ -381,7 +403,7 @@ class SellingController extends Controller
                     Cart::session($userId)->add(array(
                         'id' => $item->barcode,
                         'name' => $item->name,
-                        'price' => $item->price,
+                        'price' => $item->price/1.2,
                         'quantity' => $request->quantity,
                         'attributes' => array(
                             'carat' => $carat,
@@ -413,7 +435,7 @@ class SellingController extends Controller
                 $table .= View::make('admin/selling/table',array('item'=>$item))->render();
             }
 
-            $dds = round($subtotal - ($subtotal/1.2), 2);
+            $dds = round($subtotal*1.2 - ($subtotal), 2);
 
             return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'dds' => $dds));  
 
@@ -508,18 +530,6 @@ class SellingController extends Controller
                 $partner_id = $card->user->id;
             }
 
-            $removeDDS = new CartCustomCondition(array(
-                'name' => 'remove_dds',
-                'type' => 'tax',
-                'target' => 'subtotal',
-                'value' => '/1.2',
-                'attributes' => array(
-                    'partner' => $partner,
-                    'partner_id' => $partner_id
-                ),
-                'order' => 1
-            ));
-
             $condition = new CartCustomCondition(array(
                 'name' => $setDiscount,
                 'type' => 'discount',
@@ -531,12 +541,10 @@ class SellingController extends Controller
                     'partner' => $partner,
                     'partner_id' => $partner_id
                 ),
-                'order' => 2
+                'order' => 1
             ));
 
-            Cart::condition($removeDDS);
             Cart::condition($condition);
-            Cart::session($userId)->condition($removeDDS);
             Cart::session($userId)->condition($condition);
 
             $total = round(Cart::session($userId)->getTotal(),2);
@@ -558,7 +566,7 @@ class SellingController extends Controller
                 $conds[$key]['attributes'] = $condition->getAttributes();
             }
 
-            $dds = round($subTotal - ($subTotal/1.2), 2);
+            $dds = round($subTotal*1.2 - ($subTotal), 2);
 
             return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subTotal, 'condition' => $conds, 'priceCon' => $priceCon, 'dds' => $dds));  
         } 
@@ -706,7 +714,7 @@ class SellingController extends Controller
             $table .= View::make('admin/selling/table',array('item'=>$singleitem))->render();
         }
 
-        $dds = round($subtotal - ($subtotal/1.2), 2);
+        $dds = round($subtotal*1.2 - ($subtotal), 2);
         
 
         if($remove){
