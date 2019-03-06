@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
 
         $partner = Bouncer::role()->create([
             'name' => 'corporate_partner',
-            'title' => 'Kорпоративен Партньор',
+            'title' => 'Корпоративен Партньор',
         ]);
 
         $manager = Bouncer::role()->create([
