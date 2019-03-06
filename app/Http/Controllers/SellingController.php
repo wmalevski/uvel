@@ -555,7 +555,9 @@ class SellingController extends Controller
     
             if(count($cartConditions) > 0){
                 foreach(Cart::session(Auth::user()->getId())->getConditions() as $cc){
-                    $priceCon += $cc->getCalculatedValue($subTotal);
+                    if($cc->getName() != 'DDS'){
+                        $priceCon += $cc->getCalculatedValue($subTotal);
+                    }
                 }
             } else{
                 $priceCon = 0;
@@ -594,7 +596,9 @@ class SellingController extends Controller
 
         if(count($cartConditions) > 0){
             foreach(Cart::session(Auth::user()->getId())->getConditionsByType('discount') as $cc){
-                $priceCon += $cc->getCalculatedValue($subTotal);
+                if($cc->getName() != 'DDS'){
+                    $priceCon += $cc->getCalculatedValue($subTotal);
+                }
             }
         } else{
             $priceCon = 0;
@@ -639,7 +643,9 @@ class SellingController extends Controller
 
         if(count($cartConditions) > 0){
             foreach(Cart::session(Auth::user()->getId())->getConditions() as $cc){
-                $priceCon += $cc->getCalculatedValue($subTotal);
+                if($cc->getName() != 'DDS'){
+                    $priceCon += $cc->getCalculatedValue($subTotal);
+                }
             }
         } else{
             $priceCon = 0;

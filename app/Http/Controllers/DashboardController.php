@@ -107,12 +107,30 @@ class DashboardController extends Controller
 
         $discounts = DiscountCode::all();
         $currencies = Currency::all();
-        $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();
-        $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
         $condition = Cart::getConditions('discount');
         $materials = Material::take(env('SELECT_PRELOADED'))->get();
         $priceCon = 0;
         $second_default_price = 0;
+
+        $condition = new CartCustomCondition(array(
+            'name' => 'DDS',
+            'type' => 'tax',
+            'target' => 'subtotal',
+            'value' => '20%',
+            'attributes' => array(
+                'discount_id' => 'dds',
+                'description' => 'Value added tax',
+                'partner' => 'false',
+            ),
+            'order' => 2
+        ));
+
+        Cart::condition($condition);
+        Cart::session(Auth::user()->getId())->condition($condition);
+
+        $total = Cart::session(Auth::user()->getId())->getTotal();
+        $subTotal = Cart::session(Auth::user()->getId())->getSubTotal();
+        $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
 
         if(count($materials) > 0) {
             $default_price = $materials->first()->pricesBuy->first()['price'];
@@ -131,7 +149,9 @@ class DashboardController extends Controller
         $partner = false;
         if(count($cartConditions) > 0){
             foreach(Cart::session(Auth::user()->getId())->getConditions() as $cc){
-                $priceCon += $cc->getCalculatedValue($subTotal);
+                if($cc->getName() != 'DDS'){
+                    $priceCon += $cc->getCalculatedValue($subTotal);
+                }
 
                 if($cc->getAttributes()['partner'] != 'false'){
                     $partner = true;
@@ -163,7 +183,7 @@ class DashboardController extends Controller
             $items[] = $item;
         });
 
-        $dds = round($subTotal - ($subTotal/1.2), 2);
+        $dds = round($subTotal*1.2 - ($subTotal), 2);
 
         $allSold = Payment::where([
             ['method', '=', 'cash'],
@@ -178,7 +198,7 @@ class DashboardController extends Controller
             $todayReport = 'false';
         }
 
-        return \View::make('admin/selling/index', array('items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'priceCon' => $priceCon, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner, 'second_default_price' => $second_default_price));
+        return \View::make('admin/selling/index', array('total' => $total, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'priceCon' => $priceCon, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner, 'second_default_price' => $second_default_price));
     }
 
     /**
