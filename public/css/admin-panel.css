@@ -17,11 +17,11 @@ thead .filter-input {
 	user-select: text;
 }
 
-.tablesort tr[data-sort-method="thead"] th:not([data-sort-method="none"]) {
+table thead tr:first-child th:not([data-sort-method="none"]) {
 	cursor: pointer;
 }
 
-.tablesort tr[data-sort-method="thead"] th:not([data-sort-method="none"]):hover {
+table thead tr:first-child th:not([data-sort-method="none"]):hover {
 	opacity: 0.8;
 }
 
