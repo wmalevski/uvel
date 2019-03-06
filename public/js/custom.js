@@ -2409,9 +2409,11 @@ var uvel,
 
     this.fillRepairPrice = function(form) {
       var fillPriceTrigger = form.find('[data-repair-type]');
+
       fillPriceTrigger.on('change', function() {
         var price = $(this).find(':selected').attr('data-price');
-        priceHolder.val(price);
+
+        form.find('[data-repair-price]').val(price);
       });
     }
 
@@ -2670,7 +2672,7 @@ var uvel,
     }
 
     this.initializeSelect = function(select, callback, options) {
-
+      
       $(select).select2(options);
       $(select).on('select2:select', callback);
       $(select).on('select2:open', function () {
