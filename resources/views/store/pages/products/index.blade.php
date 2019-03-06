@@ -52,12 +52,12 @@
 													<p class="title">Материал</p>
 													<ul>
 														@foreach($materials as $material)
-														<li>
-															<a href="#" data-id="byMaterial[]={{ $material->id }}">
-																<span class="fe-checkbox"></span>
-																{{ $material->parent->name }} ({{ $material->color }}) ({{ count($material->productsOnline) }})
-															</a>
-														</li>
+															<li @if(Request::get('byMaterial')[0] == $material->id) class="selected" @endif>
+																<a href="#" data-id="byMaterial[]={{ $material->id }}">
+																	<span class="fe-checkbox"></span>
+																	{{ $material->parent->name }} ({{ $material->color }}) ({{ count($material->productsOnline) }})
+																</a>
+															</li>
 														@endforeach
 													</ul>
 												</div>
