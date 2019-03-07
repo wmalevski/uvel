@@ -44,7 +44,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::post('/repairs', 'RepairController@store');
     Route::get('/repairs/{barcode}', 'RepairController@edit');
 
-    Route::get('/selling', 'SellingController@index')->name('selling');
+    Route::get('/selling', 'DashBoardController@index')->name('selling');
     Route::post('/selling', 'SellingController@store');
 
     Route::get('/selling/online', 'OnlineSellingsController@index')->name('online_selling');

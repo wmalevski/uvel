@@ -564,8 +564,10 @@ class SellingController extends Controller
             }
 
             foreach($cartConditions as $key => $condition){
-                $conds[$key]['value'] = $condition->getValue();
-                $conds[$key]['attributes'] = $condition->getAttributes();
+                if($condition->getName() != 'DDS'){
+                    $conds[$key]['value'] = $condition->getValue();
+                    $conds[$key]['attributes'] = $condition->getAttributes();
+                }
             }
 
             $dds = round($subTotal*1.2 - ($subTotal), 2);
@@ -652,9 +654,11 @@ class SellingController extends Controller
         }
         
         foreach($cartConditions as $key => $condition){
-            $conds[$key]['value'] = $condition->getValue();
-            $conds[$key]['name'] = $condition->getValue();
-            $conds[$key]['attributes'] = $condition->getAttributes();
+            if($condition->getName() != 'DDS'){
+                $conds[$key]['value'] = $condition->getValue();
+                $conds[$key]['name'] = $condition->getValue();
+                $conds[$key]['attributes'] = $condition->getAttributes();
+            }
         }
 
         $total = round(Cart::session($userId)->getTotal(),2);
