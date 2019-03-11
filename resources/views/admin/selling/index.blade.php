@@ -251,7 +251,10 @@ aria-hidden="true">
                         <div class="exchange-row-total form-row">
                             <div class="form-group col-md-6">
                                 <label for="given-sum">Сума от материали</label>
-                                <input type="number" @if($second_default_price != 0) data-secondDefaultPrice={{ $second_default_price }} @endif data-defaultPrice="@if(count($materials) > 0){{ $materials->first()->pricesBuy->first()['price'] }}@endif" class="form-control not-clear" value="0" name="exchangeRows_total" placeholder="Дължима сума" data-exchangeRows-total readonly>
+                                <input type="number"
+                                       @if($second_default_price != 0) data-secondDefaultPrice={{ $second_default_price }} data-secondDefaultPriceId={{ $second_default_price_id }} @endif
+                                       data-defaultPrice="@if(count($materials) > 0){{ $materials->first()->pricesBuy->first()['price'] }}@endif"
+                                       class="form-control not-clear" value="0" name="exchangeRows_total" placeholder="Дължима сума" data-exchangeRows-total readonly>
                             </div>
 
                             <div class="form-group col-md-6">
@@ -261,7 +264,6 @@ aria-hidden="true">
                                     @if(count($materials) > 0)
                                         @if($materials->first()->pricesBuy)
                                             @foreach($materials->first()->pricesBuy as $price)
-                                                {{ print_r($price) }}
                                                 <option value="{{ $price->id }}" data-defaultPrice="{{ $materials->first()->pricesBuy->first()->price }}" data-price="{{ $price->price }}">{{ $price->slug }} - {{ $price->price }}</option>
                                             @endforeach
                                         @endif

@@ -374,6 +374,7 @@ var uvel,
     }
 
     this.calculateExpectedMaterial = function() {
+      debugger;
       var materialHolder = document.querySelector('[data-expected-material]'),
           materials = document.querySelectorAll('[data-saleProduct]'),
           totalWeight = 0;
@@ -1994,6 +1995,10 @@ var uvel,
           materialHolder = materials[materials.length - 1];
 
       $self.select2Looper($(materialHolder));
+
+      var secondDefaultPriceId = $('input[data-seconddefaultpriceid]').attr('data-seconddefaultpriceid');
+
+      $('select[name="calculating_price"]').val(secondDefaultPriceId).select2();
     }
 
     this.addExchangeMaterial = function(material, materialHolder, select) {
@@ -2061,12 +2066,14 @@ var uvel,
           weightNotConvertedSum = 0,
           aboveExpected = 0,
           defaultPrice = parseFloat(document.querySelector('[data-defaultprice]').dataset.defaultprice),
+          secondDefaultPrice = parseFloat(document.querySelector('[data-seconddefaultprice]').dataset.seconddefaultprice),
           selectedPrice = parseFloat(document.querySelector('[name="calculating_price"]').selectedOptions[0].dataset.price) || defaultPrice,
           selectedCurrency = parseFloat(document.querySelector('[data-calculatepayment-currency]').selectedOptions[0].dataset.currency),
           total = 0,
           notConvertedPrice,
           notConvertedWeight;
 
+      debugger;
       for (var i = 0; i < materials.length; i++) {
 
         if (materials[i].closest('.form-row').querySelector('[data-calculateprice-material]').selectedOptions[0].dataset.transform == 'yes') {
@@ -2081,11 +2088,22 @@ var uvel,
 
       if (weightConverted > expectedMaterial && calculationType == 'for_exchange') {
         aboveExpected = weightConverted - expectedMaterial;
-        total = (((weightConverted - aboveExpected) * defaultPrice) + (aboveExpected * selectedPrice)) * selectedCurrency;
+        
+        debugger;
+        
+        // 5 gr product || 20 gr material
+        // pyrvite 5 grama se smqtat po defaultnata cena
+        // ostatyka ot 15 grama se smqta po seconddefaultprice
+        
+        var priceCalculatedByDefaultPrice = 122112;
+        var priceCalculatedBySecondDefaultPrice = 123231;
+        
+        total = (((weightConverted - aboveExpected) * defaultPrice) + (aboveExpected * secondDefaultPrice)) * selectedCurrency;
       } else {
         total = (weightConverted * selectedPrice) * selectedCurrency;
       }
 
+      debugger;
       total += weightNotConvertedSum * selectedCurrency;
       document.querySelector('[data-exchangerows-total]').value = Number(total.toFixed(2)) || 0;
 

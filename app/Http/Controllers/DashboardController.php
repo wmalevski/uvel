@@ -113,6 +113,7 @@ class DashboardController extends Controller
         $materials = Material::take(env('SELECT_PRELOADED'))->get();
         $priceCon = 0;
         $second_default_price = 0;
+        $second_default_price_id = 0;
 
         if(count($materials) > 0) {
             $default_price = $materials->first()->pricesBuy->first()['price'];
@@ -125,6 +126,7 @@ class DashboardController extends Controller
 
             if($check_second_price){
                 $second_default_price = $check_second_price->price;
+                $second_default_price_id = $check_second_price->id;
             }
         }
 
@@ -178,7 +180,7 @@ class DashboardController extends Controller
             $todayReport = 'false';
         }
 
-        return \View::make('admin/selling/index', array('items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'priceCon' => $priceCon, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner, 'second_default_price' => $second_default_price));
+        return \View::make('admin/selling/index', array('items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'priceCon' => $priceCon, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner, 'second_default_price' => $second_default_price, 'second_default_price' => $second_default_price, 'second_default_price_id' => $second_default_price_id));
     }
 
     /**
