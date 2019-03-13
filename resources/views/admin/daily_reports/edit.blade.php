@@ -1,6 +1,6 @@
 <div class="editModalWrapper">
     <div class="modal-header">
-        <h5 class="modal-title" id="editDiscountLabel">Промяна на дневен отчет</h5>
+        <h5 class="modal-title" id="editDiscountLabel">Информация за дневен отчет</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -8,9 +8,8 @@
     <form method="POST" name="dailyReports" data-type="edit" action="dailyreports/{{ $report->id }}">
         <input name="_method" type="hidden" value="PUT">
         <div class="modal-body">
-            <div class="info-cont">
-                </div>
-                {{ csrf_field() }}
+            <div class="info-cont"></div>
+            {{ csrf_field() }}
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="1">Магазин: </label>
@@ -116,8 +115,6 @@
                     </div>
                 @endforeach
             @endif
-    
-            
             <div id="errors-container"></div>
         </div>
     
