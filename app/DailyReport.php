@@ -196,6 +196,8 @@ class DailyReport extends Model
 
             $report->safe_jewels_amount = $total_check;
             $report->given_jewels_amount = $total_given;
+
+            if($request->fiscal_amount == '') $request->fiscal_amount = 0;
             $report->fiscal_amount = $request->fiscal_amount;
 
             $report->save();
