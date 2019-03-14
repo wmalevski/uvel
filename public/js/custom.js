@@ -1993,7 +1993,8 @@ var uvel,
       var materials = document.querySelectorAll('[data-calculateprice-material]'),
           materialHolder = materials[materials.length - 1];
 
-      $self.select2Looper($(materialHolder));
+      debugger;
+      $self.select2Looper($(materials));
     }
 
     this.addExchangeMaterial = function(material, materialHolder, select) {

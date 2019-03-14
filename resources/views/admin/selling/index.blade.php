@@ -1,13 +1,19 @@
 @extends('admin.layout') @section('content')
 @php
     $newExchangeField = '<div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label for="">Тип</label>
+                                    <select name="material_type[]" data-select2-skip data-calculateprice-material class="material_type form-control calculate not-clear" data-search="/ajax/select_search/global/materials">
+                                        <option value="0">Избери</option>
+                                    </select>
+                                </div>
                                 <div class="form-group col-md-5">
                                     <label for="">Вид</label>
                                     <select name="material_id[]" data-select2-skip data-calculateprice-material class="material_type form-control calculate not-clear" data-search="/ajax/select_search/global/materials/payment/">
                                         <option value="0">Избери</option>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-5">
+                                <div class="form-group col-md-3">
                                     <label for="">Грамаж</label>
                                     <input type="number" id="" class="form-control not-clear" value="0" name="weight[]" placeholder="" data-weight>
                                 </div>
