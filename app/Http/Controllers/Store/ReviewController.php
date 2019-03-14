@@ -39,7 +39,6 @@ class ReviewController extends BaseController
     public function store(Request $request)
     {
         $validator = Validator::make( $request->all(), [
-            'title' => 'required|string',
             'content' => 'required|string|max:1500',
             'rating' => 'required|integer',
             'type'  => 'required|string'
@@ -50,7 +49,6 @@ class ReviewController extends BaseController
         }
 
         $review = new Review();
-        $review->title = $request->title;
         $review->content = $request->content;
         $review->rating = $request->rating;
         $review->user_id = Auth::user()->getId();
