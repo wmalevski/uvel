@@ -153,3 +153,9 @@ form .bot-row .form-group .checkbox {
 label[for="pay-method"] {
 	margin-top: 0 !important;
 }
+
+/* Fix for disabled inputs on Mozilla to not show arrows */
+input[type="number"][readonly],
+input[type="number"][disabled] {
+	-moz-appearance: textfield;
+}
