@@ -39,7 +39,7 @@
 													<ul>
 														@foreach($jewels as $jewel)
 														<li>
-															<a title="Narrow selection to products matching tag Under $100" href="#" data-id="byJewel[]={{ $jewel->id }}">
+															<a href="#" data-id="byJewel[]={{ $jewel->id }}">
 																<span class="fe-checkbox"></span>
 																{{ $jewel->name }} ({{ count($jewel->productsOnline) }})
 															</a>
