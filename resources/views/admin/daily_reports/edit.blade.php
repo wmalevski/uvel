@@ -101,16 +101,17 @@
                 @foreach($report->report_materials as $material)
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="1">Материал: </label>
+                            <label for="1">Материал:</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" name="material_id" value="{{ $material->material->material->name }}" readonly>
+                                <input type="text" class="form-control" name="material_id" value="{{ $material->material->material->name }} - {{ $material->material->material->code }}" readonly>
                             </div>
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label for="1">Брой: </label>
+                            <label for="1">Количество:</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" name="quantity" value="{{ $material->quantity }}" readonly>
+                                <span class="input-group-addon">гр.</span>
                             </div>
                         </div>
                     </div>
