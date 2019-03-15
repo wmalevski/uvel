@@ -29,9 +29,10 @@
 
 								<div class="left-block col-md-12">
 									@foreach($stores as $store)
-									<h3>{{ $store->name }}</h3>
+									<h6>{{ $store->name }}</h6>
 									<p>Адрес: {{ $store->location }}</p>
 									<p>Телефон: {{ $store->phone }}</p>
+									<br>
 									@endforeach
 								</div>
 

@@ -1082,4 +1082,8 @@ li.element {
 	max-width: 200px;
 }
 
-
+.group-contact .left-block h6,
+.group-contact .left-block p {
+	margin: 0;
+	padding: 0;
+}
