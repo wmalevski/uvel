@@ -18,7 +18,7 @@
 				<div class="container">
 					<div class="row">
 						<div id="page-header" class="col-md-24">
-							<h1 id="page-title">Кошница</h1>
+							<h1 id="page-title">Количка</h1>
 						</div>
 						<div id="col-main" class="col-md-24 cart-page content">
 							<form action="{{ route('pay_order') }}" method="post" id="cartform" class="clearfix">

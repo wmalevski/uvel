@@ -17,7 +17,7 @@
 				<div class="container">
 					<div class="row">
 						<div id="page-header">
-							<h1 id="page-title">Поръчка по модел на клиента</h1>
+							<h1 id="page-title">Поръчка по ваш модел </h1>
 						</div>
 					</div>
 				</div>

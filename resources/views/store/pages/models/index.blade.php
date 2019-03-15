@@ -24,7 +24,7 @@
 					<div class="row">
 						<div id="collection-content">
 							<div id="page-header">
-								<h1 id="page-title">Модели</h1>
+								<h1 id="page-title">Модели по поръчка</h1>
 							</div>
 							<div class="collection-main-content">
 								<div id="prodcoll" class="col-sm-6 col-md-6 sidebar hidden-xs">
