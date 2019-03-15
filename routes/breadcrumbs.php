@@ -73,17 +73,17 @@ Breadcrumbs::register('login', function ($breadcrumbs) {
 
 Breadcrumbs::register('custom_order', function ($breadcrumbs) {
     $breadcrumbs->parent('store');
-    $breadcrumbs->push('Поръчка по модел на клиента', route('custom_order'));
+    $breadcrumbs->push('Поръчка по ваш модел', route('custom_order'));
 });
 
 Breadcrumbs::register('model_orders', function ($breadcrumbs) {
     $breadcrumbs->parent('store');
-    $breadcrumbs->push('Поръчка по модел', route('model_orders'));
+    $breadcrumbs->push('Модели по поръчка', route('model_orders'));
 });
 
 Breadcrumbs::register('models', function ($breadcrumbs) {
     $breadcrumbs->parent('store');
-    $breadcrumbs->push('Каталог с модели', route('models'));
+    $breadcrumbs->push('Модели по поръчка', route('models'));
 });
 
 Breadcrumbs::register('products', function ($breadcrumbs) {
