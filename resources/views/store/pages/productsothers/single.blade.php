@@ -132,7 +132,7 @@
 																	<span class="price">
 																		{{ $product->price }} лв
 																	</span>
-																	*Цената е с включено ДДС.
+																	*с ДДС.
 																</div>
 															</div>
 															<div class="others-bottom clearfix">
@@ -341,7 +341,7 @@
 															<span class="price">
 																{{ $product->price }} лв
 															</span>
-															*Цената е с включено ДДС.
+															*с ДДС.
 														</div>
 													</div>
 
