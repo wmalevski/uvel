@@ -111,7 +111,7 @@
 															<div id="purchase-1293235843">
 																<div class="detail-price" itemprop="price">
 																	<span class="price">
-																		{{ $product->price }} лв
+																		{{ number_format($product->price) }} лв
 																	</span>
 																	*с ДДС.
 																</div>
@@ -335,7 +335,7 @@
 													</div>
 													<div class="product-content-right">
 														<div class="product-price">
-															<span class="price">{{ $product->price }} лв</span>
+															<span class="price">{{ number_format($product->price) }} лв</span>
 														</div>
 													</div>
 

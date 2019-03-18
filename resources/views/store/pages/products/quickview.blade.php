@@ -50,10 +50,9 @@
 				<div id="quick-shop-container">
 					<div id="quick-shop-price-container" class="detail-price">
 						<span class="price_sale">
-							{{ $product->price }}лв.
+							{{ number_format($product->price) }} лв
 						</span>
 						<span class="dash"></span>
-						{{-- <del class="price_compare">$300.00</del> --}}
 					</div>
 					<div class="others-bottom">
 						<button id="quick-shop-add" class="btn small add-to-cart" type="submit" data-url="{{ route('CartAddItem', ['item' => $product->barcode, 'quantity' => 1]) }}">
