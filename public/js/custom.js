@@ -814,12 +814,6 @@ var uvel,
         $self.cartSumsPopulate(response);
         var removeDiscountTrigger = $('[data-sell-removeDiscount]');
         $self.removeDiscountAttach(removeDiscountTrigger);
-
-        if ($('.discount-remove').length) {
-          $('.payment-btn, .fiscal-btn').prop('disabled', false);
-        } else {
-          $('.payment-btn, .fiscal-btn').prop('disabled', true);
-        }
       }
     }
 

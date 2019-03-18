@@ -455,14 +455,11 @@ aria-hidden="true">
 
                         <div class="form-group">
                             <button type="button" class="btn btn-primary payment-btn" data-selling-payment data-form-type="sell" data-form="selling"
-                                    data-toggle="modal" data-target="#paymentModal" @if($partner == true) style="display: none;" @endif
-                                    @if(!count($conditions)) disabled @endif>Плащане</button>
+                                    data-toggle="modal" data-target="#paymentModal" @if($partner == true) style="display: none;" @endif>Плащане</button>
                             <button type="button" class="btn btn-primary payment-btn" data-url="/ajax/cartMaterialsInfo" data-form-type="partner-sell"
                                     data-form="sellingPartners" data-toggle="modal" data-target="#paymentPartner"
-                                    @if($partner == true) style="display: initial;" @else style="display: none;" @endif
-                                    @if(!count($conditions)) disabled @endif>Плащане Партнъор</button>
-                            <button type="button" class="btn btn-primary fiscal-btn"
-                                    @if(!count($conditions)) disabled @endif>Ръчно пускане на фискален бон</button>
+                                    @if($partner == true) style="display: initial;" @else style="display: none;" @endif>Плащане Партнъор</button>
+                            <button type="button" class="btn btn-primary fiscal-btn">Ръчно пускане на фискален бон</button>
                         </div>
 
 
