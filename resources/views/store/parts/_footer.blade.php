@@ -79,9 +79,6 @@
 						<li class="btooltip" data-toggle="tooltip" data-placement="top" title="Paypal" data-original-title="Paypal">
 							<span class="icons paypal"></span>
 						</li>
-						<li class="btooltip" data-toggle="tooltip" data-placement="top" title="Moneybookers" data-original-title="Moneybookers">
-							<span class="icons moneybookers"></span>
-						</li>
 					</ul>
 				</div>
 			</div>
