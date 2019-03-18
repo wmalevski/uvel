@@ -138,8 +138,10 @@
 															<br />
 															No: {{ $product->code }}
 															<br />
-															<span class="spr-starrating spr-badge-starrating">
-																{{$product->listProductOtherAvgRatingStars($product)}}
+															<span class="spr-badge">
+																<span class="spr-starrating spr-badge-starrating">
+																	{{$product->listProductOtherAvgRatingStars($product)}}
+																</span>
 															</span>
 														</div>
 														<div class="product-content-right">
