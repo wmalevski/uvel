@@ -49,6 +49,12 @@
 						<ul>
 							<li><a href="{{ route('contactus') }}">Контакт</a></li>
 							<li><a href="{{ route('about') }}">За нас</a></li>
+							<li>
+								<a target="_blank" href="#" class="btooltip swing" data-toggle="tooltip" data-placement="bottom" title=""
+									data-original-title="Facebook">
+								 	<i class="fa fa-lg fa-facebook"></i>
+								</a>
+							</li>
 						</ul>
 					</div>
 				</div>
