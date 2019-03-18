@@ -130,7 +130,7 @@
 														</div>
 														<div class="product-content-right">
 															<div class="product-price">
-																<span class="price">{{ $model->price }} лв</span>
+																<span class="price">{{ number_format($model->price) }} лв</span>
 															</div>
 														</div>
 
