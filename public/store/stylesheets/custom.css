@@ -528,10 +528,6 @@ li.element {
 	margin: 0;
 }
 
-.contact-page .row .col-md-12 {
-	padding: 0 16px 0 0;
-}
-
 .contact-page #message {
 	min-height: 150px;
 	max-height: 500px;
@@ -1082,7 +1078,8 @@ li.element {
 	padding-left: 0;
 }
 
-.page-store-account #customer_orders .sb-title {
+.page-store-account #customer_orders .sb-title,
+.right-block .sb-title {
 	margin-top: 0;
 	padding-top: 0;
 }
@@ -1091,4 +1088,8 @@ li.element {
 	max-width: 200px;
 }
 
-
+@media (min-width: 992px) {
+	.right-block.contact-content {
+		padding: 0 0 0 140px;
+	}
+}
