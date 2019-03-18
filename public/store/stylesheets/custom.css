@@ -1075,7 +1075,16 @@ li.element {
 
 .page-store-account .divider,
 .page-store-account #customer_detail li {
-	margin: 10px;
+	margin-bottom: 10px;
+}
+
+.page-store-account .sidebar {
+	padding-left: 0;
+}
+
+.page-store-account #customer_orders .sb-title {
+	margin-top: 0;
+	padding-top: 0;
 }
 
 .filter-tag-group input[type="number"] {

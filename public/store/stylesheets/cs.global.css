@@ -62,7 +62,7 @@ address .phone{display:table;width:100%;padding:0 0 10px;}
 address .address{text-transform:capitalize;}
 address .info .fa-user,
 address .address .fa-home,
-address .phone .fa-phone{padding:5px 25px 0 0;display:block;float:left;}
+address .phone .fa-phone{padding:10px 25px 0 0;display:block;float:left;}
 address .icon-user,
 address .icon-home,
 address .icon-phone,
