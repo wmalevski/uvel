@@ -24,8 +24,9 @@ class ExpenseController extends Controller
         $expenses = Expense::all();
         $expenses_types = ExpenseType::all();
         $currencies = Currency::all();
+        $current_store = Auth::user()->getStore();
 
-        return view('admin.expenses.index', compact('expenses', 'expenses_types', 'currencies'));
+        return view('admin.expenses.index', compact('expenses', 'expenses_types', 'currencies', 'current_store'));
     }
 
     /**
