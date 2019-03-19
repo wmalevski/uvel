@@ -7,7 +7,7 @@
 		<div class="modal-content"></div>
 	</div>
 </div>
-<div id="content-wrapper-parent">
+<div id="content-wrapper-parent" class="home-page">
 	<div id="content-wrapper">
 		<div class="row" @if(!count($slides)) style="padding-top: 110px;" @endif></div>
 		<!-- Main Slideshow -->

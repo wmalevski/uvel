@@ -3,7 +3,8 @@
 header {
 	z-index: 1;
 	width: 100%;
-	transition: margin-top 0.3s;
+	background: none;
+	transition: margin-top 0.3s, background-color 0.3s;
 }
 
 header .login a {
@@ -16,8 +17,8 @@ header .line {
 	border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+header.inner-page,
 header.affix {
-	z-index: 1;
 	background-color: #f7f7f7;
 }
 
@@ -129,6 +130,10 @@ header.affix .container.top {
 		position: fixed;
 	}
 	
+	#breadcrumb {
+		margin-top: 100px;
+	}
+	
 	header.affix .top-logo {
 		margin-top: -54px;
 		transition: margin-top 0.3s ease-out;
@@ -148,8 +153,7 @@ header.affix .container.top {
 	}
 }
 
-
-@media (min-width: 1025px) {
+@media (min-width: 1041px) {
 	header {
 		position: fixed;
 	}
@@ -160,10 +164,6 @@ header.affix .container.top {
 }
 
 @media (min-width: 1025px) and (max-width: 1040px) {
-	header {
-		position: fixed;
-	}
-	
 	header .top-logo {
 		display: block;
 	}
@@ -193,7 +193,6 @@ header.affix .container.top {
 		padding-right: 6px;
 	}
 }
-
 
 @media (min-width: 992px) and (max-width: 1024px) {
 	header .top.row,
