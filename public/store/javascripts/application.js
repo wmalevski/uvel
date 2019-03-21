@@ -506,7 +506,15 @@ var uvelStore,
 		$self.sortProductsAttach($sortTrigger);
 		$self.quickViewImageSwap();
 		$self.handleErrors();
+		$self.checkIfNotHomePage();
 	};
+
+	this.checkIfNotHomePage = function() {
+		// Add gray background style class to the header if it's not in the home page
+		if (!$('.home-page').length) {
+			$('header').addClass('inner-page');
+		}
+	}
 
 	this.handleErrors = function() {
 		var errorElement = $('.info-message');
