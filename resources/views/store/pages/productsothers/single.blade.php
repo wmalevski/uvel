@@ -130,9 +130,9 @@
 															<div>
 																<div class="detail-price" itemprop="price">
 																	<span class="price">
-																		{{ $product->price }} лв
+																		{{ number_format($product->price) }} лв
 																	</span>
-																	*Цената е с включено ДДС.
+																	*с ДДС.
 																</div>
 															</div>
 															<div class="others-bottom clearfix">
@@ -339,9 +339,9 @@
 													<div class="product-content-right">
 														<div class="product-price">
 															<span class="price">
-																{{ $product->price }} лв
+																{{ number_format($product->price) }} лв
 															</span>
-															*Цената е с включено ДДС.
+															*с ДДС.
 														</div>
 													</div>
 

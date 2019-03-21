@@ -138,14 +138,16 @@
 															<br />
 															No: {{ $product->code }}
 															<br />
-															<span class="spr-starrating spr-badge-starrating">
-																{{$product->listProductOtherAvgRatingStars($product)}}
+															<span class="spr-badge">
+																<span class="spr-starrating spr-badge-starrating">
+																	{{$product->listProductOtherAvgRatingStars($product)}}
+																</span>
 															</span>
 														</div>
 														<div class="product-content-right">
 															<div class="product-price">
 																<span class="price">
-																	{{ $product->price }} лв
+																	{{ number_format($product->price) }} лв
 																</span>
 															</div>
 														</div>
