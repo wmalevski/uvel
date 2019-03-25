@@ -12,7 +12,6 @@ class Review extends Model
     protected $table = 'reviews';
 
     protected $fillable = [
-        'title',
         'content',
         'rating',
         'user_id',

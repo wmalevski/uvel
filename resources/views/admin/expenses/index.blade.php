@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('content')
-<div class="modal fade" id="exampleModal"   role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -13,12 +13,43 @@ aria-hidden="true">
             </div>
             <form method="POST" name="expenses" data-type="add" action="expenses" autocomplete="off">
                 <div class="modal-body">
-                    <div class="info-cont">
-                    </div>
+                    <div class="info-cont"></div>
                     {{ csrf_field() }}
+
                     <div class="form-row">
                         <div class="form-group col-md-12">
-                            <label for="type">Основание: </label>
+                            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                                <input id="send-to-store" type="checkbox" name="send-to-store">
+                                <label for="send-to-store" class="peers peer-greed js-sb ai-c">
+                                    <span class="peer peer-greed">Трансфер</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row transfer-store-row" style="display: none;">
+                        <div class="form-group col-md-12">
+							<label>От магазин:</label>
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="{{ $current_store->location }} - {{ $current_store->name }}" disabled>
+							</div>
+						</div>
+
+						<div class="form-group col-md-12">
+							<label>До магазин:</label>
+							<select name="store_id" class="store-select form-control" data-search="/ajax/select_search/stores/">
+								<option value="">Избери магазин</option>
+							</select>
+						</div>
+
+						<div class="col-12">
+							<hr>
+						</div>
+					</div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="type">Основание:</label>
                             <select id="type" name="type_id" class="form-control" data-calculatePayment-currency>
                                 <option value="">Избери</option>
                                 @foreach($expenses_types as $type)
@@ -66,9 +97,7 @@ aria-hidden="true">
 <div class="modal fade edit--modal_holder" id="editExpense" role="dialog" aria-labelledby="editExpense"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            
-        </div>
+        <div class="modal-content"></div>
     </div>
 </div>
 

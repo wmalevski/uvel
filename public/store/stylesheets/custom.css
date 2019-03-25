@@ -3,7 +3,8 @@
 header {
 	z-index: 1;
 	width: 100%;
-	transition: margin-top 0.3s;
+	background: none;
+	transition: margin-top 0.3s, background-color 0.3s;
 }
 
 header .login a {
@@ -16,8 +17,8 @@ header .line {
 	border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+header.inner-page,
 header.affix {
-	z-index: 1;
 	background-color: #f7f7f7;
 }
 
@@ -129,6 +130,10 @@ header.affix .container.top {
 		position: fixed;
 	}
 	
+	#breadcrumb {
+		margin-top: 100px;
+	}
+	
 	header.affix .top-logo {
 		margin-top: -54px;
 		transition: margin-top 0.3s ease-out;
@@ -148,8 +153,7 @@ header.affix .container.top {
 	}
 }
 
-
-@media (min-width: 1025px) {
+@media (min-width: 1041px) {
 	header {
 		position: fixed;
 	}
@@ -160,10 +164,6 @@ header.affix .container.top {
 }
 
 @media (min-width: 1025px) and (max-width: 1040px) {
-	header {
-		position: fixed;
-	}
-	
 	header .top-logo {
 		display: block;
 	}
@@ -193,7 +193,6 @@ header.affix .container.top {
 		padding-right: 6px;
 	}
 }
-
 
 @media (min-width: 992px) and (max-width: 1024px) {
 	header .top.row,
@@ -479,13 +478,44 @@ li.element {
 	height: 200px;
 }
 
-.element.no_full_width .row-left .container_item {
+.element.no_full_width .row-container .row-right {
+	height: 180px !important;
+}
+
+.element.no_full_width .row-left .container_item,
+.element.no_full_width .row-container .row-right {
 	position: relative;
+}
+
+.element.no_full_width .row-container .product-content-left {
+	display: block;
+	position: relative;
+	width: 100%;
+	height: 180px;
+}
+
+.element.no_full_width .row-container .product-content-right {
+	position: absolute;
+  bottom: 0;
+	right: 0;
+	width: 60%;
 }
 
 .element.no_full_width .row-container .product-content-left,
 .element.no_full_width .row-container .product-content-right {
 	padding: 10px !important;
+}
+
+.element.no_full_width .spr-badge {
+	position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 0 0 6px 10px;
+}
+
+.element.no_full_width .spr-badge .spr-icon,
+.element.full_width .spr-badge .spr-icon {
+	font-size: 16px !important;
 }
 
 @media (max-width: 600px) {
@@ -526,10 +556,6 @@ li.element {
 
 .contact-page .row {
 	margin: 0;
-}
-
-.contact-page .row .col-md-12 {
-	padding: 0 16px 0 0;
 }
 
 .contact-page #message {
@@ -1075,11 +1101,25 @@ li.element {
 
 .page-store-account .divider,
 .page-store-account #customer_detail li {
-	margin: 10px;
+	margin-bottom: 10px;
+}
+
+.page-store-account .sidebar {
+	padding-left: 0;
+}
+
+.page-store-account #customer_orders .sb-title,
+.right-block .sb-title {
+	margin-top: 0;
+	padding-top: 0;
 }
 
 .filter-tag-group input[type="number"] {
 	max-width: 200px;
 }
 
-
+@media (min-width: 992px) {
+	.right-block.contact-content {
+		padding: 0 0 0 140px;
+	}
+}

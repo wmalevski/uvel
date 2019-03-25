@@ -24,7 +24,7 @@
 					<div class="row">
 						<div id="collection-content">
 							<div id="page-header">
-								<h1 id="page-title">Продукти</h1>
+								<h1 id="page-title">Налични бижута</h1>
 							</div>
 							<div class="collection-main-content">
 								<div id="prodcoll" class="col-sm-6 col-md-6 sidebar hidden-xs">
@@ -39,7 +39,7 @@
 													<ul>
 														@foreach($jewels as $jewel)
 														<li>
-															<a title="Narrow selection to products matching tag Under $100" href="#" data-id="byJewel[]={{ $jewel->id }}">
+															<a href="#" data-id="byJewel[]={{ $jewel->id }}">
 																<span class="fe-checkbox"></span>
 																{{ $jewel->name }} ({{ count($jewel->productsOnline) }})
 															</a>
@@ -174,7 +174,7 @@
 														<div class="product-content-right">
 															<div class="product-price">
 																<span class="price">
-																	{{ $product->price }} лв
+																	{{ number_format($product->price) }} лв
 																</span>
 															</div>
 														</div>

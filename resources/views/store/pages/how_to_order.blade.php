@@ -28,7 +28,7 @@
                             <div class="row">
                                 <div class="left-block col-md-12">
                                     <p>1. Кликнете върху снимката на избраното бижу за увеличен изглед.</p>
-                                    <p>2. Натиснете надпис ПОРЪЧАЙ или ДОБАВИ В КОШНИЦА.</p>
+                                    <p>2. Натиснете надпис ПОРЪЧАЙ или ДОБАВИ В КОЛИЧКА.</p>
                                     <p>3. Направете регистрация, ако нямате отпреди и продължете към форма за поръчка.</p>
                                     <p>4. Попълнете задължителните полета на формата.</p>
                                     <p>5. Изпратете формата.</p>
@@ -57,43 +57,6 @@
 										<li class="email">
 											<i class="fa fa-envelope"></i>
 											uvelgold@gmail.com
-										</li>
-									</ul>
-									<ul class="right-content social">
-										<li class="title">
-											<h6>Последвайте ни в</h6>
-										</li>
-										<li class="facebook">
-											<a href="#">
-												<span class="fa-stack fa-lg btooltip" title="" data-placement="bottom" data-original-title="Facebook">
-													<i class="fa fa-circle fa-stack-2x"></i>
-													<i class="fa fa-facebook fa-inverse fa-stack-1x"></i>
-												</span>
-											</a>
-										</li>
-										<li class="twitter">
-											<a href="#">
-												<span class="fa-stack fa-lg btooltip" title="" data-placement="bottom" data-original-title="Twitter">
-													<i class="fa fa-circle fa-stack-2x"></i>
-													<i class="fa fa-twitter fa-inverse fa-stack-1x"></i>
-												</span>
-											</a>
-										</li>
-										<li class="google-plus">
-											<a href="#">
-												<span class="fa-stack fa-lg btooltip" title="" data-placement="bottom" data-original-title="Google plus">
-													<i class="fa fa-circle fa-stack-2x"></i>
-													<i class="fa fa-google-plus fa-inverse fa-stack-1x"></i>
-												</span>
-											</a>
-										</li>
-										<li class="pinterest">
-											<a href="#">
-												<span class="fa-stack fa-lg btooltip" title="" data-placement="bottom" data-original-title="Pinterest">
-													<i class="fa fa-circle fa-stack-2x"></i>
-													<i class="fa fa-pinterest fa-inverse fa-stack-1x"></i>
-												</span>
-											</a>
 										</li>
 									</ul>
 								</div>
