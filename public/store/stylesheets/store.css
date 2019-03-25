@@ -103,7 +103,6 @@ body {
 /* content padding */
 #accounts {
     position: relative;
-    left: -16px;
 }
 
 .left-block, .right-block {

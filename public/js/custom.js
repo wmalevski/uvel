@@ -232,7 +232,7 @@ var uvel,
       },
       expenses: {
         selector: '[name="expenses"]',
-        controllers: [],
+        controllers: ['transferCheckboxInit'],
         initialized: false
       },
       dailyReports: {
@@ -814,12 +814,6 @@ var uvel,
         $self.cartSumsPopulate(response);
         var removeDiscountTrigger = $('[data-sell-removeDiscount]');
         $self.removeDiscountAttach(removeDiscountTrigger);
-
-        if ($('.discount-remove').length) {
-          $('.payment-btn, .fiscal-btn').prop('disabled', false);
-        } else {
-          $('.payment-btn, .fiscal-btn').prop('disabled', true);
-        }
       }
     }
 
@@ -2499,6 +2493,16 @@ var uvel,
 
       storeSelect.on('change', function() {
         $('#website_visible').prop('checked', false);
+      });
+    }
+    
+    this.transferCheckboxInit = function() {
+      $('#send-to-store').on('change', function(event) {
+        if (event.target.checked) {
+          $('.transfer-store-row').show();
+        } else {
+          $('.transfer-store-row').hide();
+        }
       });
     }
 

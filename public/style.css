@@ -263,7 +263,8 @@ textarea {
 }
 
 .stones--tooltip ul,
-.thumbnail--tooltip ul {
+.thumbnail--tooltip ul,
+.alert li {
 	opacity: 0;
 	visibility: hidden;
 	position: absolute;

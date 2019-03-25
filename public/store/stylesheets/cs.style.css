@@ -133,7 +133,7 @@ ul.list-inline{margin-left:0;margin-bottom:0;}
 #umbrella i.sub-dropdown{display:table-cell;}
 #umbrella .cart-link a{display:block;}
 #umbrella .cart-link .empty a{display:inline-block;*display:inline;zoom:1;margin-top:10px;}
-.customer-links{width:88%;float:left;}
+.customer-links{width:88%;float:right;}
 .top .text-right #widget-social{float:right;}
 #loginBox{position:absolute;right:0;left:auto;}
 #loginBox:before{top:-10px;left:33%;}
