@@ -364,7 +364,7 @@ class PriceController extends Controller
             $pass_prices[] = [
                 'attributes' => [
                     'value' => $price->id,
-                    'label' => $price->slug,
+                    'label' => $price->slug.' - '.$price->price.'лв',
                     'price' => $price->price,
                     'data-price' => $price->price
                 ]

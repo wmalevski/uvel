@@ -50,6 +50,8 @@ class Price extends Model
         $query = Price::where(function($query) use ($request){
             $query->where('material_id', $request->type);
 
+            $query->where('type', 'buy');
+
             if ($request->byName) {
                 $query->where('name', 'LIKE', "%$request->byName%");
             }
