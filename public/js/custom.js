@@ -373,18 +373,22 @@ var uvel,
       });
     }
 
-    this.calculateExpectedMaterial = function() {
-      var materialHolder = document.querySelector('[data-expected-material]'),
-          materials = document.querySelectorAll('[data-saleProduct]'),
+    this.calculateExpectedMaterial = function(materialSelector, valueHolder) {
+      var materialHolder = document.querySelector(valueHolder),
+          materialType = '[data-type="' + document.querySelector('[data-exchange-material-type]').selectedOptions[0].dataset.type + '"]',
+          materials = document.querySelectorAll(materialSelector + materialType),
           totalWeight = 0;
 
+      //EDIT TO CALCULATE TO SAMPLE
       for (var i = 0; i < materials.length; i++) {
-        var materialCarat = Number(materials[i].querySelector('[data-carat]').dataset.carat);
-        var materialWeight = parseFloat(materials[i].querySelector('[data-weight]').dataset.weight);
-        totalWeight += (materialCarat / 14) * materialWeight;
+        var sample = parseFloat(materials[i].querySelector('[data-sample]').dataset.sample),
+            defaultSample = parseFloat(materials[i].querySelector('[data-default-sample]').dataset.defaultSample),
+            weight = parseFloat(materials[i].querySelector('[data-weight]').dataset.weight);
+
+        totalWeight += (sample / defaultSample) * weight;
       }
 
-      materialHolder.dataset.expectedMaterial = Number(totalWeight.toFixed(2)) || 0;
+      materialHolder.dataset.expectedMaterial = parseFloat(totalWeight.toFixed(2)) || 0;
     }
 
     this.openFormAction = function(currentPressedBtn, data) {
@@ -402,7 +406,6 @@ var uvel,
 
       if (formType == 'sell') {
         $self.checkOrder($('[data-type="' + formType + '"]'));
-        $self.calculateExpectedMaterial('[data-saleProduct]', 'expecteMaterial');
         $self.lockPaymentControllers();
       } else if (formType == 'partner-sell') {
         var ajaxUrl = currentPressedBtn.attr('data-url');
@@ -583,7 +586,6 @@ var uvel,
             success: function(response) {
               if (_this.hasClass('cart')) {
                 $self.cartSumsPopulate(response);
-                $self.calculateExpectedMaterial('[data-saleProduct]', 'expectedMaterial');
               }
 
               if (response.success) {
@@ -1880,15 +1882,42 @@ var uvel,
           methodChangeTrigger = form.find('[data-calculatePayment-method]'),
           exchangeTrigger = form.find('[data-exchange-trigger]'),
           newExchangeFieldTrigger = form.find('[data-newExchangeField-trigger]'),
+          exchangeMaterialType = form.find('[data-exchange-material-type]'),
           exchangeRow = form.find('#exchange-row');
 
       $('#paymentModal').on('click', $self.closePayments);
+
+      function reInitializeCalcPrice() {
+        var type = form.find('[data-exchange-material-type]')[0].selectedOptions[0].dataset.type,
+            select = form.find('[name="calculating_price"]');
+
+        select.attr('data-search', '/materialprice/' + type).select2('destroy');
+
+        //INITIALIZE WITH NEW DATA-SEARCH
+        $self.select2Looper(select);
+      }
+
+      exchangeMaterialType.on('change', function() {
+        console.log('type changed');
+
+        reInitializeCalcPrice();
+
+        $self.calculateExpectedMaterial('[data-saleProduct]', '[data-expected-material]');
+
+        form.find('.exchange-row-fields').html('');
+
+        $self.addNewExchangeField(newExchangeField);
+        $self.calculateExchangeMaterialTotal();   
+      });
 
       exchangeTrigger.on('change', function() {
         if (!this.checked) {
           $self.hideExchangeRow();
         } else {
+          reInitializeCalcPrice();
+          
           $self.showExchangeRow(exchangeRow, newExchangeField, true);
+          $self.calculateExpectedMaterial('[data-saleProduct]', '[data-expected-material]');
         }
       });
 
@@ -1899,7 +1928,7 @@ var uvel,
       exchangeRow.on('click', '[data-exchangeRowRemove-trigger]', $self.removeSingleExchangeRow);
 
       exchangeRow.on('change', '[data-calculateprice-material]', function() {
-        $self.exchangeMaterialCaratConvert($(this).closest('.form-row'));
+        $self.exchangeMaterialSampleConvert($(this).closest('.form-row'));
       });
 
       exchangeRow.on('change', '[data-weight]', $self.setExchangeMaterialWeight);
@@ -1982,13 +2011,23 @@ var uvel,
     }
 
     this.addNewExchangeField = function(field) {
-      document.querySelector('.exchange-row-fields').insertAdjacentHTML('beforeend', field);
-      
+      var container = $('.exchange-row-fields'),
+          materialType = document.querySelector('[data-exchange-material-type]').selectedOptions[0].dataset.type,
+          newField = $(field);
+
+      //CHECK FOR MATERIAL TYPE AND THAN ADD
+      if (materialType) {
+        let searchParameter = newField.find('[data-calculateprice-material]')[0].dataset.search;
+
+        //newField.find('[data-calculateprice-material]')[0].dataset.search = searchParameter + materialType;
+      }
+
+      container.append(newField);
+
       var materials = document.querySelectorAll('[data-calculateprice-material]'),
           materialHolder = materials[materials.length - 1];
 
-      debugger;
-      $self.select2Looper($(materials));
+      $self.select2Looper($(materialHolder));
     }
 
     this.addExchangeMaterial = function(material, materialHolder, select) {
@@ -2022,10 +2061,10 @@ var uvel,
       $this.val(weight);
       $this.attr('value', weight);
 
-      $self.exchangeMaterialCaratConvert($this.closest('.form-row'));
+      $self.exchangeMaterialSampleConvert($this.closest('.form-row'));
     }
 
-    this.exchangeMaterialCaratConvert = function(row) {
+    this.exchangeMaterialSampleConvert = function(row) {
       var transform = row.find('[data-calculateprice-material] :selected').attr('data-transform'),
           weight = row.find('[data-weight]'),
           materialPrice = row.find('[data-calculateprice-material] :selected'),
@@ -2049,19 +2088,21 @@ var uvel,
     }
 
     this.calculateExchangeMaterialTotal = function() {
-      var calculationType = document.querySelector('#shopping-table tbody').children.length > 0 ? 'for_exchange' : 'for_buy',
+      var materialType = document.querySelector('[data-exchange-material-type]'),
+          calculationType = document.querySelector('#shopping-table tbody').children.length > 0 ? 'for_exchange' : 'for_buy',
           materials = document.querySelectorAll('.exchange-row-fields .form-row'),
           expectedMaterial = parseFloat(document.querySelector('[data-expected-material]').dataset.expectedMaterial),
           weightConverted = 0,
           weightNotConvertedSum = 0,
           aboveExpected = 0,
-          defaultPrice = parseFloat(document.querySelector('[data-defaultprice]').dataset.defaultprice),
+          defaultPrice = parseFloat(materialType.selectedOptions[0].dataset.defaultPrice),
           selectedPrice = parseFloat(document.querySelector('[name="calculating_price"]').selectedOptions[0].dataset.price) || defaultPrice,
           selectedCurrency = parseFloat(document.querySelector('[data-calculatepayment-currency]').selectedOptions[0].dataset.currency),
           total = 0,
           notConvertedPrice,
           notConvertedWeight;
 
+      console.log('default price is ', defaultPrice)
       for (var i = 0; i < materials.length; i++) {
 
         if (materials[i].closest('.form-row').querySelector('[data-calculateprice-material]').selectedOptions[0].dataset.transform == 'yes') {

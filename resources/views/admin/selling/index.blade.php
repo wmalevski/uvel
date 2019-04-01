@@ -1,19 +1,13 @@
 @extends('admin.layout') @section('content')
 @php
     $newExchangeField = '<div class="form-row">
-                                <div class="form-group col-md-3">
-                                    <label for="">Тип</label>
-                                    <select name="material_type[]" data-select2-skip data-calculateprice-material class="material_type form-control calculate not-clear" data-search="/ajax/select_search/global/materials">
-                                        <option value="0">Избери</option>
-                                    </select>
-                                </div>
                                 <div class="form-group col-md-5">
                                     <label for="">Вид</label>
                                     <select name="material_id[]" data-select2-skip data-calculateprice-material class="material_type form-control calculate not-clear" data-search="/ajax/select_search/global/materials/payment/">
                                         <option value="0">Избери</option>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-3">
+                                <div class="form-group col-md-5">
                                     <label for="">Грамаж</label>
                                     <input type="number" id="" class="form-control not-clear" value="0" name="weight[]" placeholder="" data-weight>
                                 </div>
@@ -250,6 +244,16 @@ aria-hidden="true">
                             </div>
                         </div>
 
+                        <div class="form-row">
+                            <div class="form-group col-md-5">
+                                <label for="">Тип</label>
+                                <select name="exchange_material_type" data-exchange-material-type class="material_type form-control calculate">
+                                    <option value="0" data-type="1" data-sample="585" data-default-price="100">Злато</option>
+                                    <option value="1" data-type="2" data-sample="900" data-default-price="50">Сребро</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="exchange-row-fields">
                             
                         </div>
@@ -262,16 +266,16 @@ aria-hidden="true">
 
                             <div class="form-group col-md-6">
                                 <label for="given-sum">Цена на грамаж</label>
-                                <select name="calculating_price" class="form-control not-clear">
+                                <select name="calculating_price" class="form-control not-clear" data-search="/materialprice/">
                                     <option value="0">Избери</option>
-                                    @if(count($materials) > 0)
+                                    <!--@if(count($materials) > 0)
                                         @if($materials->first()->pricesBuy)
                                             @foreach($materials->first()->pricesBuy as $price)
                                                 {{ print_r($price) }}
                                                 <option value="{{ $price->id }}" data-defaultPrice="{{ $materials->first()->pricesBuy->first()->price }}" data-price="{{ $price->price }}">{{ $price->slug }} - {{ $price->price }}</option>
                                             @endforeach
                                         @endif
-                                    @endif
+                                    @endif-->
                                 </select>
                             </div>
                         </div>
