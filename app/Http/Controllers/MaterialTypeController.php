@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 use Response;
 use App\Material;
 
@@ -101,6 +102,33 @@ class MaterialTypeController extends Controller
         $materialType->save();
 
         return Response::json(array('ID' => $materialType->id,'table' => View::make('admin/materials_types/table',array('material'=>$materialType))->render()));
+    }
+
+    public function select_search_payment(Request $request){
+        $query = MaterialType::select('*');
+
+        $materials_new = new MaterialType();
+        
+        $materials = $materials_new->filterMaterialsPayment($request, $query);
+
+        $materials = $materials->paginate(env('RESULTS_PER_PAGE'));
+        $pass_materials = array();
+
+        foreach($materials as $material){
+            if($material->defaultMaterial){
+                $pass_materials[] = [
+                    'attributes' => [
+                        'value' => $material->id,
+                        'label' => $material->name,
+                        'data-type' => $material->id,
+                        'data-sample' => $material->defaultMaterial->code,
+                        'data-default-price' => $material->defaultMaterial->pricesBuy->first()['price']
+                    ]
+                ];
+            }
+        }
+
+        return json_encode($pass_materials, JSON_UNESCAPED_SLASHES );
     }
 
     /**

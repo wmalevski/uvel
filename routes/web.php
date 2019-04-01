@@ -284,6 +284,12 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::get('/select_search/jewels', 'JewelController@select_search');
 
     Route::get('/select_search/stones', 'StoneController@select_search');
+
+    Route::get('/select_search/paymentmaterialtypes', 'MaterialTypeController@select_search_payment');
+
+    Route::get('/select_search/paymentmaterialprices/{type}', 'PriceController@select_search_payment');
+
+    Route::get('/select_search/paymentmaterials/{type}', 'MaterialController@select_search_payment');
     
     Route::get('/search/products', 'ProductController@filter');
     Route::get('/select_search/products', 'ProductController@select_search');

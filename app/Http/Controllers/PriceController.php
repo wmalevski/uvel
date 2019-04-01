@@ -348,4 +348,29 @@ class PriceController extends Controller
 
         return json_encode($pass_materials, JSON_UNESCAPED_SLASHES );
     }
+
+    public function select_search_payment(Request $request){
+        $query = Price::select('*');
+
+        $prices_new = new Price();
+        
+        $prices = $prices_new->filterPricesPayment($request, $query);
+
+        $prices = $prices->paginate(env('RESULTS_PER_PAGE'));
+        
+        $pass_prices = array();
+
+        foreach($prices as $price){
+            $pass_prices[] = [
+                'attributes' => [
+                    'value' => $price->id,
+                    'label' => $price->slug,
+                    'price' => $price->price,
+                    'data-price' => $price->price
+                ]
+            ];
+        }
+
+        return json_encode($pass_prices, JSON_UNESCAPED_SLASHES );
+    }
 }
