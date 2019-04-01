@@ -86,6 +86,17 @@ class MaterialController extends Controller
             $material->carat_transform = 'yes';
         }
 
+        if($request->default_material == 'false'){
+            $material->default = 'no';
+        } else{
+            Material::where('parent_id', '=', $request->parent_id)
+            ->update([
+                'default' => 'no',
+            ]);
+
+            $material->default = 'yes';
+        }
+
         $material->save();
 
         return Response::json(array('success' => View::make('admin/materials/table',array('material'=>$material))->render()));
@@ -158,6 +169,17 @@ class MaterialController extends Controller
             $material->carat_transform = 'no';
         } else{
             $material->carat_transform = 'yes';
+        }
+
+        if($request->default_material == 'false'){
+            $material->default = 'no';
+        } else{
+            Material::where('parent_id', '=', $request->parent_id)
+            ->update([
+                'default' => 'no',
+            ]);
+
+            $material->default = 'yes';
         }
         
         $material->save();

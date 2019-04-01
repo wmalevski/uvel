@@ -20,4 +20,8 @@ class MaterialType extends Model
         return $this->hasMany('App\Material', 'parent_id')->withTrashed();
     }
 
+    public function defaultMaterial(){
+        return $this->hasOne('App\Material', 'parent_id')->where('default', 'yes');
+    }
+
 }

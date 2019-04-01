@@ -17,7 +17,8 @@ class Material extends Model
         'color',
         'carat',
         'parent_id',
-        'cash_group'
+        'cash_group',
+        'default'
     ];
 
     protected $table = 'materials';
