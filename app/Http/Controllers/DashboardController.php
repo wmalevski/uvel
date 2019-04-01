@@ -10,6 +10,7 @@ use App\Dashboard;
 use App\UserSubstitution;
 use App\DiscountCode;
 use App\Material;
+use App\MaterialType;
 use App\Currency;
 use App\Price;
 use Illuminate\Http\Request;
@@ -111,6 +112,7 @@ class DashboardController extends Controller
         $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
         $condition = Cart::getConditions('discount');
         $materials = Material::take(env('SELECT_PRELOADED'))->get();
+        $materialtypes = MaterialType::all();
         $priceCon = 0;
         $second_default_price = 0;
 
@@ -178,7 +180,7 @@ class DashboardController extends Controller
             $todayReport = 'false';
         }
 
-        return \View::make('admin/selling/index', array('items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'priceCon' => $priceCon, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner, 'second_default_price' => $second_default_price));
+        return \View::make('admin/selling/index', array('items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'priceCon' => $priceCon, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner, 'second_default_price' => $second_default_price, 'material_types' => $materialtypes));
     }
 
     /**

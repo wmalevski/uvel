@@ -27,6 +27,7 @@ use App\MaterialQuantity;
 use App\OrderItem;
 use Mail;
 use App\Material;
+use App\MaterialType;
 
 Class CartCustomCondition extends CartCondition {
     public function apply($totalOrSubTotalOrPrice, $conditionValue){
@@ -115,6 +116,7 @@ class SellingController extends Controller
         $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
         $condition = Cart::getConditions('discount');
         $materials = Material::take(env('SELECT_PRELOADED'))->get();
+        $materialtypes = MaterialType::all();
         $priceCon = 0;
 
         $second_default_price = 0;
@@ -168,7 +170,7 @@ class SellingController extends Controller
         }
         //To add kaparo from the orders when branches are merged
         
-        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner, 'second_default_price' => $second_default_price));
+        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner, 'second_default_price' => $second_default_price, 'material_types' => $materialtypes));
     }
 
     /**
