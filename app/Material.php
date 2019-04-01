@@ -17,7 +17,8 @@ class Material extends Model
         'color',
         'carat',
         'parent_id',
-        'cash_group'
+        'cash_group',
+        'default'
     ];
 
     protected $table = 'materials';
@@ -100,6 +101,24 @@ class Material extends Model
                 }else{
                     $query->where('for_buy', 'yes');
                 }
+            }
+        });
+
+        return $query;
+    }
+
+    public function filterMaterialsPay(Request $request ,$query){
+        $query = Material::where(function($query) use ($request){
+            $query->where('parent_id', $request->type);
+
+            if($request->byName){
+                $query->whereHas('parent', function($q) use ($request){
+                    $q->where('name', 'LIKE', '%' . $request->byName . '%');
+                })->orWhere('code','LIKE','%'.$request->byName.'%')->orWhere('color','LIKE','%'.$request->byName.'%');
+            }
+
+            if($request->byName == ''){
+                $query = Material::all();
             }
         });
 

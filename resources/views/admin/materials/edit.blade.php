@@ -78,6 +78,15 @@
                 </label>
             </div>
         </div>
+
+        <div class="form-row mt-3">
+            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                <input type="checkbox" id="default_material_checkbox" name="default_material" class="peer" @if($material->default == 'yes') checked @endif>
+                <label for="default_material_checkbox" class="peers peer-greed js-sb ai-c">
+                    <span class="peer peer-greed">Материал по подразбиране</span>
+                </label>
+            </div>
+        </div>
     </div>
 
     <div class="modal-footer">

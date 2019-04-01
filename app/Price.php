@@ -45,4 +45,20 @@ class Price extends Model
 
         return $query;
     }
+
+    public function filterPricesPayment(Request $request ,$query){
+        $query = Price::where(function($query) use ($request){
+            $query->where('material_id', $request->type);
+
+            if ($request->byName) {
+                $query->where('name', 'LIKE', "%$request->byName%");
+            }
+
+            if ($request->byName == '') {
+                $query = Price::all();
+            }
+        });
+
+        return $query;
+    }
 }

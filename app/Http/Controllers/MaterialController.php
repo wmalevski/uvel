@@ -86,6 +86,17 @@ class MaterialController extends Controller
             $material->carat_transform = 'yes';
         }
 
+        if($request->default_material == 'false'){
+            $material->default = 'no';
+        } else{
+            Material::where('parent_id', '=', $request->parent_id)
+            ->update([
+                'default' => 'no',
+            ]);
+
+            $material->default = 'yes';
+        }
+
         $material->save();
 
         return Response::json(array('success' => View::make('admin/materials/table',array('material'=>$material))->render()));
@@ -158,6 +169,17 @@ class MaterialController extends Controller
             $material->carat_transform = 'no';
         } else{
             $material->carat_transform = 'yes';
+        }
+
+        if($request->default_material == 'false'){
+            $material->default = 'no';
+        } else{
+            Material::where('parent_id', '=', $request->parent_id)
+            ->update([
+                'default' => 'no',
+            ]);
+
+            $material->default = 'yes';
         }
         
         $material->save();
@@ -238,6 +260,38 @@ class MaterialController extends Controller
                         'data-pricebuy' => $material->pricesBuy->first()['price'],
                         'data-price' => $material->pricesSell->first()['price'],
                         'data-material' => $material->id,
+                        'data-type' => $material->parent->id
+                    ]
+                ];
+            } 
+        }
+
+        return json_encode($pass_materials, JSON_UNESCAPED_SLASHES );
+    }
+
+    public function select_search_payment(Request $request){
+        $query = Material::select('*');
+
+        $materials_new = new Material();
+
+        $materials = $materials_new->filterMaterialsPay($request, $query);
+
+        $materials = $materials->paginate(env('RESULTS_PER_PAGE'));
+        $pass_materials = array();
+
+        foreach($materials as $material){
+            if($material->pricesSell->first()){
+                $pass_materials[] = [
+                    'attributes' => [
+                        'value' => $material->id,
+                        'label' => $material->parent->name.' - '.$material->color.' - '.$material->code,
+                        'data-carat' => $material->carat,
+                        'data-transform' => $material->carat_transform,
+                        'data-pricebuy' => $material->pricesBuy->first()['price'],
+                        'data-price' => $material->pricesSell->first()['price'],
+                        'data-material' => $material->id,
+                        'data-type' => $material->parent->id,
+                        'data-sample' => $material->code
                     ]
                 ];
             } 
