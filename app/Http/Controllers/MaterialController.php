@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Material;
+use App\Price;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -277,10 +278,28 @@ class MaterialController extends Controller
         $materials = $materials_new->filterMaterialsPay($request, $query);
 
         $materials = $materials->paginate(env('RESULTS_PER_PAGE'));
+
         $pass_materials = array();
+
+        $all_materials = Material::all();
+
+        $second_default_price = 0;
 
         foreach($materials as $material){
             if($material->pricesSell->first()){
+                $default_price = $material->pricesBuy->first()['price'];
+
+                $check_second_price = Price::where([
+                    ['material_id', '=', $material->id],
+                    ['type', '=', 'buy'],
+                    ['price', '<>', $default_price],
+                    ['price', '<', $default_price]
+                ])->orderBy(DB::raw('ABS(price - '.$default_price.')'), 'desc')->first();
+
+                if($check_second_price){
+                    $second_default_price = $check_second_price->price;
+                }
+
                 $pass_materials[] = [
                     'attributes' => [
                         'value' => $material->id,
@@ -291,7 +310,8 @@ class MaterialController extends Controller
                         'data-price' => $material->pricesSell->first()['price'],
                         'data-material' => $material->id,
                         'data-type' => $material->parent->id,
-                        'data-sample' => $material->code
+                        'data-sample' => $material->code,
+                        'data-second-price' => $second_default_price
                     ]
                 ];
             } 

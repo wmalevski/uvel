@@ -1,4 +1,4 @@
-<tr data-id="{{ $material->id }}">
+<tr data-id="{{ $material->id }}" @if($material->default == 'yes') class="bold-row" @endif>
     <td style="width: 16%;">{{ $material->parent->name }}</td> 
     <td style="width: 14%;">{{ $material->code }}</td> 
     <td style="width: 14%;">{{ $material->color }}</td> 
