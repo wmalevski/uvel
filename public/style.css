@@ -4,6 +4,10 @@
 }
 
 /* todo: fix styles */
+.bold-row {
+	font-weight: bold;
+}
+
 #blog_lng_edit li:first-child {
   margin-right: 10px;
 }

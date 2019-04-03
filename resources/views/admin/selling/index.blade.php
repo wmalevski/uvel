@@ -3,7 +3,7 @@
     $newExchangeField = '<div class="form-row">
                                 <div class="form-group col-md-5">
                                     <label for="">Вид</label>
-                                    <select name="material_id[]" data-select2-skip data-calculateprice-material class="material_type form-control calculate not-clear" data-search="/ajax/select_search/global/materials/payment/">
+                                    <select name="material_id[]" data-select2-skip data-calculateprice-material class="material_type form-control calculate not-clear" data-search="/ajax/select_search/paymentmaterials/">
                                         <option value="0">Избери</option>
                                     </select>
                                 </div>
@@ -248,8 +248,11 @@ aria-hidden="true">
                             <div class="form-group col-md-5">
                                 <label for="">Тип</label>
                                 <select name="exchange_material_type" data-exchange-material-type class="material_type form-control calculate">
-                                    <option value="0" data-type="1" data-sample="585" data-default-price="100">Злато</option>
-                                    <option value="1" data-type="2" data-sample="900" data-default-price="50">Сребро</option>
+                                    @foreach($material_types as $type)
+                                        @if($type->defaultMaterial && $type->defaultMaterial->pricesBuy)
+                                            <option value="{{ $type->id }}" data-sample="{{ $type->defaultMaterial->code }}" data-type="{{ $type->id }}" data-default-price="{{ $type->defaultMaterial->pricesBuy->first()['price'] }}">{{ $type->name }}</option>
+                                        @endif
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -266,7 +269,7 @@ aria-hidden="true">
 
                             <div class="form-group col-md-6">
                                 <label for="given-sum">Цена на грамаж</label>
-                                <select name="calculating_price" class="form-control not-clear" data-search="/materialprice/">
+                                <select name="calculating_price" class="form-control not-clear" data-search="/ajax/select_search/paymentmaterialprices/">
                                     <option value="0">Избери</option>
                                     <!--@if(count($materials) > 0)
                                         @if($materials->first()->pricesBuy)

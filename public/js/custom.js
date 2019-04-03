@@ -379,7 +379,6 @@ var uvel,
           materials = document.querySelectorAll(materialSelector + materialType),
           totalWeight = 0;
 
-      //EDIT TO CALCULATE TO SAMPLE
       for (var i = 0; i < materials.length; i++) {
         var sample = parseFloat(materials[i].querySelector('[data-sample]').dataset.sample),
             defaultSample = parseFloat(materials[i].querySelector('[data-default-sample]').dataset.defaultSample),
@@ -1883,7 +1882,8 @@ var uvel,
           exchangeTrigger = form.find('[data-exchange-trigger]'),
           newExchangeFieldTrigger = form.find('[data-newExchangeField-trigger]'),
           exchangeMaterialType = form.find('[data-exchange-material-type]'),
-          exchangeRow = form.find('#exchange-row');
+          exchangeRow = form.find('#exchange-row'),
+          priceSearchUrl = form.find('[name="calculating_price"]').attr('data-search');
 
       $('#paymentModal').on('click', $self.closePayments);
 
@@ -1891,8 +1891,8 @@ var uvel,
         var type = form.find('[data-exchange-material-type]')[0].selectedOptions[0].dataset.type,
             select = form.find('[name="calculating_price"]');
 
-        select.attr('data-search', '/materialprice/' + type).select2('destroy');
-
+        select.attr('data-search', priceSearchUrl + type).val('0').select2('destroy');
+        
         //INITIALIZE WITH NEW DATA-SEARCH
         $self.select2Looper(select);
       }
@@ -2015,11 +2015,10 @@ var uvel,
           materialType = document.querySelector('[data-exchange-material-type]').selectedOptions[0].dataset.type,
           newField = $(field);
 
-      //CHECK FOR MATERIAL TYPE AND THAN ADD
       if (materialType) {
         let searchParameter = newField.find('[data-calculateprice-material]')[0].dataset.search;
 
-        //newField.find('[data-calculateprice-material]')[0].dataset.search = searchParameter + materialType;
+        newField.find('[data-calculateprice-material]')[0].dataset.search = searchParameter + materialType;
       }
 
       container.append(newField);
@@ -2065,19 +2064,15 @@ var uvel,
     }
 
     this.exchangeMaterialSampleConvert = function(row) {
-      var transform = row.find('[data-calculateprice-material] :selected').attr('data-transform'),
+      var defaultSample = parseFloat(document.querySelector('[data-exchange-material-type]').selectedOptions[0].dataset.sample),
           weight = row.find('[data-weight]'),
           materialPrice = row.find('[data-calculateprice-material] :selected'),
-          carat,
+          sample,
           convertedWeight = 0;
 
       if (materialPrice.val() > 0 && weight.val() > 0) {
-        if (transform == 'yes') {
-          carat = parseFloat(materialPrice.attr('data-carat'));
-          convertedWeight = Number(((carat / 14) * weight.val()).toFixed(2));
-        } else {
-          convertedWeight = parseFloat(weight.val());
-        }
+        sample = parseFloat(materialPrice.attr('data-sample'));
+        convertedWeight = parseFloat(((sample / defaultSample) * weight.val()).toFixed(2));
 
         weight.attr('data-weight', convertedWeight);
       } else {
@@ -2093,36 +2088,29 @@ var uvel,
           materials = document.querySelectorAll('.exchange-row-fields .form-row'),
           expectedMaterial = parseFloat(document.querySelector('[data-expected-material]').dataset.expectedMaterial),
           weightConverted = 0,
-          weightNotConvertedSum = 0,
           aboveExpected = 0,
           defaultPrice = parseFloat(materialType.selectedOptions[0].dataset.defaultPrice),
           selectedPrice = parseFloat(document.querySelector('[name="calculating_price"]').selectedOptions[0].dataset.price) || defaultPrice,
           selectedCurrency = parseFloat(document.querySelector('[data-calculatepayment-currency]').selectedOptions[0].dataset.currency),
-          total = 0,
-          notConvertedPrice,
-          notConvertedWeight;
+          total = 0;
 
-      console.log('default price is ', defaultPrice)
       for (var i = 0; i < materials.length; i++) {
-
-        if (materials[i].closest('.form-row').querySelector('[data-calculateprice-material]').selectedOptions[0].dataset.transform == 'yes') {
-          weightConverted += parseFloat(materials[i].querySelector('[data-weight]').dataset.weight) || 0;
-        } else {
-          notConvertedPrice = parseFloat(materials[i].querySelector('[data-calculateprice-material]').selectedOptions[0].dataset.pricebuy);
-          notConvertedWeight = parseFloat(materials[i].querySelector('[data-weight]').dataset.weight);
-
-          weightNotConvertedSum += notConvertedPrice * notConvertedWeight;
-        }
+        weightConverted += parseFloat(materials[i].querySelector('[data-weight]').dataset.weight) || 0;
       }
 
-      if (weightConverted > expectedMaterial && calculationType == 'for_exchange') {
-        aboveExpected = weightConverted - expectedMaterial;
-        total = (((weightConverted - aboveExpected) * defaultPrice) + (aboveExpected * selectedPrice)) * selectedCurrency;
+      if (calculationType == 'for_exchange') {
+
+        if (weightConverted > expectedMaterial) {
+          aboveExpected = weightConverted - expectedMaterial;
+          total = (((weightConverted - aboveExpected) * defaultPrice) + (aboveExpected * selectedPrice)) * selectedCurrency;
+        } else {
+          total = (weightConverted * defaultPrice) * selectedCurrency;
+        }
+
       } else {
         total = (weightConverted * selectedPrice) * selectedCurrency;
       }
 
-      total += weightNotConvertedSum * selectedCurrency;
       document.querySelector('[data-exchangerows-total]').value = Number(total.toFixed(2)) || 0;
 
       return $self.calculatePaymentInit($('[name="selling"]'));
