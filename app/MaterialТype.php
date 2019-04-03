@@ -25,6 +25,25 @@ class MaterialType extends Model
         return $this->hasOne('App\Material', 'parent_id')->where('default', 'yes');
     }
 
+    public function secondDefaultPrice(){
+        $default_material = $this->defaultMaterial();
+        $default_price = $default_material->pricesBuy()->first()['price'];
+        $second_default_price = 0;
+
+        $check_second_price = Price::where([
+            ['material_id', '=', $default_material->id],
+            ['type', '=', 'buy'],
+            ['price', '<>', $default_price],
+            ['price', '<', $default_price]
+        ])->orderBy(DB::raw('ABS(price - '.$default_price.')'), 'desc')->first();
+
+        if($check_second_price){
+            $second_default_price = $check_second_price->price;
+        }
+
+        return $second_default_price;
+    }
+
     public function filterMaterialsPayment(Request $request ,$query){
         $query = MaterialType::where(function($query) use ($request){
             if($request->byName){
