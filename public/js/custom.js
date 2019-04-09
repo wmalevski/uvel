@@ -178,6 +178,16 @@ var uvel,
         ],
         initialized: false
       },
+      returnRepair: {
+        selector: '[name="returnRepair"]',
+        controllers: [],
+        initialized: false
+      },
+      scanRepair: {
+        selector: '[name="scanRepair"]',
+        controllers: [],
+        initialized: false
+      },
       customOrders: {
         selector: '[name="custom_order"]',
         controllers: [],
