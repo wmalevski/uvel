@@ -67,20 +67,17 @@
 				</div>
 				<div id="widget-payment" class="col-md-12">
 					<ul id="payments" class="list-inline animated">
-						<li class="btooltip tada" data-toggle="tooltip" data-placement="top" title="" data-original-title="Visa">
-							<a href="#"  class="icons visa"></a>
+						<li class="btooltip" data-toggle="tooltip" data-placement="top" title="Visa" data-original-title="Visa">
+							<span class="icons visa"></span>
 						</li>
-						<li class="btooltip tada" data-toggle="tooltip" data-placement="top" title="" data-original-title="Mastercard">
-							<a href="#" class="icons mastercard"></a>
+						<li class="btooltip" data-toggle="tooltip" data-placement="top" title="Mastercard" data-original-title="Mastercard">
+							<span class="icons mastercard"></span>
 						</li>
-						<li class="btooltip tada" data-toggle="tooltip" data-placement="top" title="" data-original-title="American Express">
-							<a href="#" class="icons amex"></a>
+						<li class="btooltip" data-toggle="tooltip" data-placement="top" title="American Express" data-original-title="American Express">
+							<span class="icons amex"></span>
 						</li>
-						<li class="btooltip tada" data-toggle="tooltip" data-placement="top" title="" data-original-title="Paypal">
-							<a href="#" class="icons paypal"></a>
-						</li>
-						<li class="btooltip tada" data-toggle="tooltip" data-placement="top" title="" data-original-title="Moneybookers">
-							<a href="#;" class="icons moneybookers"></a>
+						<li class="btooltip" data-toggle="tooltip" data-placement="top" title="Paypal" data-original-title="Paypal">
+							<span class="icons paypal"></span>
 						</li>
 					</ul>
 				</div>
