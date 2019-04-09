@@ -374,12 +374,11 @@ a,
 .icons{background-image:url(../images/icon_payment.png);background-repeat:no-repeat;text-indent:-9999px;display:inline-block;height:16px;}
 #widget-payment{padding-right:0;}
 #widget-payment ul#payments{text-align:right;}
-#payments li a{height:13px;vertical-align:center;}
-#payments li a.visa{background-position:0 0;width:30px;}
-#payments li a.mastercard{background-position:-43px 0;width:25px;}
-#payments li a.amex{background-position:-79px 0;width:15px;}
-#payments li a.paypal{background-position:-103px 0;width:50px;}
-#payments li a.moneybookers{background-position:-164px 0;width:40px;}
+#payments li span{height:13px;vertical-align:center;}
+#payments li span.visa{background-position:0 0;width:30px;}
+#payments li span.mastercard{background-position:-43px 0;width:25px;}
+#payments li span.amex{background-position:-79px 0;width:15px;}
+#payments li span.paypal{background-position:-103px 0;width:50px;}
 .footer-content-top .general-title{padding-left:0;text-align:left;margin-bottom:15px;}
 .breadcrumb{border-radius:0;font-family:'Lato', sans-serif;background:#f2e4cc;padding:13px 0;margin-bottom:0;}
 #breadcrumb a{color:#808080;font-weight:400;font-family:'Lato', sans-serif;padding-right:3px;}
