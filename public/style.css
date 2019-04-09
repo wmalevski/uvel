@@ -262,9 +262,9 @@ textarea {
 	pointer-events: all;
 }
 
+
 .stones--tooltip ul,
-.thumbnail--tooltip ul,
-.alert li {
+.thumbnail--tooltip ul {
 	opacity: 0;
 	visibility: hidden;
 	position: absolute;
@@ -329,4 +329,8 @@ textarea {
 
 .note-toolbar {
 	border-bottom: 1px solid #a9a9a9;
+}
+
+.alert {
+	list-style-type: none;
 }
