@@ -7,6 +7,7 @@ use Response;
 use App\Expense;
 use App\ExpenseType;
 use App\Currency;
+use App\Partner;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
@@ -55,6 +56,17 @@ class ExpenseController extends Controller
 
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
+        if($request->send_to_bank == 'true') {
+            if($request->store_id != ''){
+                $partner = Partner::where('user_id' ,$request->store_id)->first();
+                $partner->money = $partner->money-$request->amount;
+                $partner->save();
+                
+            }else{
+                return Response::json(['errors' => ['select_partner' => [trans('admin/expenses.no_partner_selected')]]], 401);
+            }
         }
 
         $request->request->add(['user_id' => Auth::user()->getId()]);
