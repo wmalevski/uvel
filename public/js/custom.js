@@ -2506,11 +2506,18 @@ var uvel,
     }
     
     this.transferCheckboxInit = function() {
-      $('#send-to-store').on('change', function(event) {
-        if (event.target.checked) {
-          $('.transfer-store-row').show();
+      $('[data-transfer]').on('change', function(event) {
+        var target = this.dataset.transfer;
+
+        $('[data-transfer]').not(this).prop('checked', false);
+        $('[data-transferTarget]').hide();
+
+        if (this.checked) {
+          $('[data-transferTarget="' + target + '"]').show();
+
+          this.classList.add('active-transfer');
         } else {
-          $('.transfer-store-row').hide();
+          $('[data-transferTarget="' + target + '"]').hide();
         }
       });
     }

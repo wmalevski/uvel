@@ -19,15 +19,22 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                                <input id="send-to-store" type="checkbox" name="send-to-store">
-                                <label for="send-to-store" class="peers peer-greed js-sb ai-c">
+                                <input id="send_to_store" data-transfer="transfer-to-shop" type="checkbox" name="send_to_store">
+                                <label for="send_to_store" class="peers peer-greed js-sb ai-c">
                                     <span class="peer peer-greed">Трансфер</span>
+                                </label>
+                            </div>
+
+                            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                                <input id="send_to_bank" data-transfer="transfer-to-bank" type="checkbox" name="send_to_bank">
+                                <label for="send_to_bank" class="peers peer-greed js-sb ai-c">
+                                    <span class="peer peer-greed">Трансфер към банка</span>
                                 </label>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-row transfer-store-row" style="display: none;">
+                    <div class="form-row" data-transferTarget="transfer-to-shop" style="display: none;">
                         <div class="form-group col-md-12">
 							<label>От магазин:</label>
 							<div class="input-group">
@@ -39,6 +46,26 @@ aria-hidden="true">
 							<label>До магазин:</label>
 							<select name="store_id" class="store-select form-control" data-search="/ajax/select_search/stores/">
 								<option value="">Избери магазин</option>
+							</select>
+						</div>
+
+						<div class="col-12">
+							<hr>
+						</div>
+					</div>
+
+                    <div class="form-row" data-transferTarget="transfer-to-bank" style="display: none;">
+                        <div class="form-group col-md-12">
+							<label>От магазин:</label>
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="{{ $current_store->location }} - {{ $current_store->name }}" disabled>
+							</div>
+						</div>
+
+						<div class="form-group col-md-12">
+							<label>До банка:</label>
+							<select name="bank_id" class="store-select form-control">
+								<option value="0">Избери</option>
 							</select>
 						</div>
 
