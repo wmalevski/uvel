@@ -363,15 +363,21 @@ class SellingController extends Controller
                     ));
             
                 }else{
+                    $code = '';
                     if($item->material){
                         $carat = $item->material->carat;
+                        $code = $item->material->code;
                     }else{
                         $carat = 0;
                     }
                     
                     $order = '';
                     $order_item_id = '';
+                    $mat = '';
+                    $defCode = '';
                     if($type == 'product'){
+                        $mat = $item->material->parent->id;
+                        $defCode = MaterialType::find($mat)->defaultMaterial->first()->code;
                         $order_item = OrderItem::where('product_id', $item->id)->first();
                         
                         if($order_item){
@@ -391,7 +397,10 @@ class SellingController extends Controller
                             'type' => $type,
                             'calculated_weight' => $calculated_weight,
                             'order' => $order,
-                            'order_item_id' => $order_item_id
+                            'order_item_id' => $order_item_id,
+                            'mat' => $mat,
+                            'code' => $code,
+                            'defCode' => $defCode
                         )
                     ));
                 }
