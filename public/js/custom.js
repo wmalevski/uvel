@@ -452,19 +452,24 @@ var uvel,
     };
 
     this.orderResponseHandler = function(form, response) {
+      console.log(response)
       var exchange = form.find('#exchange'),
           exchangeRow = form.find('#exchange-row'),
           exchangeFields = form.find('.exchange-row-fields'),
+          materialType = form.find('[data-exchange-material-type]'),
           materials = response.materials,
           deposit = response.earnest,
           depositKeys = Object.keys(deposit),
           selectedCurrency = form.find('[data-calculatePayment-currency] :selected').attr('data-currency');
 
       $self.showExchangeRow(exchangeRow, newExchangeField, false);
+      
       exchange.prop({
         checked: true,
         disabled: true
       });
+
+      materialType.prop('disabled', true);
 
       if (depositKeys.length) {
         var totalDeposit = 0;
