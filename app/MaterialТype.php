@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class MaterialType extends Model
@@ -26,7 +27,7 @@ class MaterialType extends Model
     }
 
     public function secondDefaultPrice(){
-        $default_material = $this->defaultMaterial();
+        $default_material = $this->defaultMaterial()->first();
         $default_price = $default_material->pricesBuy()->first()['price'];
         $second_default_price = 0;
 
