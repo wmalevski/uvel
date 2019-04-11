@@ -248,9 +248,10 @@ aria-hidden="true">
                             <div class="form-group col-md-5">
                                 <label for="">Тип</label>
                                 <select name="exchange_material_type" data-exchange-material-type class="material_type form-control calculate">
+                                    <!-- add data defaultprice-2 -->
                                     @foreach($material_types as $type)
                                         @if($type->defaultMaterial && $type->defaultMaterial->pricesBuy)
-                                            <option value="{{ $type->id }}" data-sample="{{ $type->defaultMaterial->code }}" data-type="{{ $type->id }}" data-default-price="{{ $type->defaultMaterial->pricesBuy->first()['price'] }}">{{ $type->name }}</option>
+                                            <option value="{{ $type->id }}" @if($type->secondDefaultPrice() != 0) data-secondPrice="{{ $type->secondDefaultPrice() }}" @endif data-sample="{{ $type->defaultMaterial->code }}" data-type="{{ $type->id }}" data-default-price="{{ $type->defaultMaterial->pricesBuy->first()['price'] }}">{{ $type->name }}</option>
                                         @endif
                                     @endforeach
                                 </select>

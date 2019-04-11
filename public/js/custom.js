@@ -2090,7 +2090,8 @@ var uvel,
           weightConverted = 0,
           aboveExpected = 0,
           defaultPrice = parseFloat(materialType.selectedOptions[0].dataset.defaultPrice),
-          selectedPrice = parseFloat(document.querySelector('[name="calculating_price"]').selectedOptions[0].dataset.price) || defaultPrice,
+          secondPrice = parseFloat(materialType.selectedOptions[0].dataset.secondprice) || 0,
+          selectedPrice = parseFloat(document.querySelector('[name="calculating_price"]').selectedOptions[0].dataset.price) || secondPrice || defaultPrice,
           selectedCurrency = parseFloat(document.querySelector('[data-calculatepayment-currency]').selectedOptions[0].dataset.currency),
           total = 0;
 
