@@ -64,8 +64,8 @@ aria-hidden="true">
 
 						<div class="form-group col-md-12">
 							<label>До банка:</label>
-							<select name="bank_id" class="store-select form-control">
-								<option value="0">Избери</option>
+							<select name="store_id" class="store-select form-control" data-search="/ajax/select_search/users/partners">
+								<option value="">Избери партньор</option>
 							</select>
 						</div>
 
