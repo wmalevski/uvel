@@ -75,76 +75,112 @@ class PaymentController extends Controller
         }
 
         if($partner){
-            foreach($request->materials as $material){
-                $material = (array)$material;
+            foreach($request->extraMaterials as $material){
+                //$material = (array)$material;
                 $quantity = MaterialQuantity::where([
                     ['material_id', '=', $material['material_id']],
                     ['store_id', '=', Auth::user()->getStore()->id]
                 ])->first();
 
                 if(!count($quantity)){
-                    $create_quantity = new MaterialQuantity();
-                    $create_quantity->store_id = Auth::user()->getStore()->id;
-                    $create_quantity->quantity = 0;
-                    $create_quantity_material_id = $material['material_id'];
+                    $quantity = new MaterialQuantity();
+                    $quantity->store_id = Auth::user()->getStore()->id;
+                    $quantity->quantity = 0;
+                    $quantity->material_id = $material['material_id'];
+                    $quantity->save();
                 }
-    
-                if($material['material_given'] > $material['material_weight']){
-                    
-                    $quantity->quantity = $quantity->quantity + ($material['material_given']);
-                    $quantity->save();
-    
-                    foreach($partner->materials as $partner_material){
-                        if($partner_material->material_id = $material['material_id']){
-                            $partner_material->quantity = $partner_material + ($material['material_weight'] - $material['material_given']);
-    
-                            $partner_material->save();
-                        }else{
-                            $p_material = new PartnerMaterial();
-                            $p_material->material_id = $material['material_id'];
-                            $p_material->partner_id = $partner->id;
-                            $p_material->quantity = $partner_material + ($material['material_weight'] - $material['material_given']);
-    
-                            $p_material->save();
-                        }
-                    }
-                } else {
-                    $quantity->quantity = $quantity->quantity + ($material['material_given']);
-                    $quantity->save();
-    
-                    foreach($partner->materials as $partner_material){
-                        if($partner_material->material_id = $material['material_id']){
-                            $partner_material->quantity = $partner_material->quantity - ($material['material_weight'] - $material['material_given']);
-    
-                            $partner_material->save();
-                        }else{
-                            $p_material = new PartnerMaterial();
-                            $p_material->material_id = $material['material_id'];
-                            $p_material->partner_id = $partner->id;
-                            $p_material->quantity = $partner_material + ($material['material_weight'] - $material['material_given']);
-    
-                            $p_material->save();
-                        }
+
+                $quantity->quantity = $quantity->quantity + ($material['material_weight']);
+                $quantity->save();
+
+                foreach($partner->materials as $partner_material){
+                    if($partner_material->material_id == $material['material_id']){
+                        $partner_material->quantity = $partner_material->quantity + $material['material_weight'];
+
+                        $partner_material->save();
+                    }else{
+                        $p_material = new PartnerMaterial();
+                        $p_material->material_id = $material['material_id'];
+                        $p_material->partner_id = $partner->id;
+                        $p_material->quantity = $partner_material->quantity + $material['material_weight'];
+
+                        $p_material->save();
                     }
                 }
-    
-                $partner->money = $partner->money + ($request->workmanship['given'] - $request->workmanship['wanted']);
-                $partner->save();
-    
-                $request->request->add(['given_sum' => $request->workmanship['given']]);
-                $request->request->add(['pay_currency' => $defaultCurrency->id]);
-                $request->request->add(['wanted_sum' => $request->workmanship['wanted']]);
-                $request->request->add(['partner_method' => true]);
-    
-                if($request->pay_method == 'false'){
-                    $request->request->add(['method' => 'cash']);
-                } else{
-                    $request->request->add(['method' => 'post']);
-                }
-    
-                $payment = new Payment;
-                return $payment->store_payment($request);
             }
+
+            if($request->materials){
+                foreach($request->materials as $material){
+                    $material = (array)$material;
+                    $quantity = MaterialQuantity::where([
+                        ['material_id', '=', $material['material_id']],
+                        ['store_id', '=', Auth::user()->getStore()->id]
+                    ])->first();
+
+                    if(!count($quantity)){
+                        $create_quantity = new MaterialQuantity();
+                        $create_quantity->store_id = Auth::user()->getStore()->id;
+                        $create_quantity->quantity = 0;
+                        $create_quantity_material_id = $material['material_id'];
+                    }
+        
+                    if($material['material_given'] > $material['material_weight']){
+                        
+                        $quantity->quantity = $quantity->quantity + ($material['material_given']);
+                        $quantity->save();
+        
+                        foreach($partner->materials as $partner_material){
+                            if($partner_material->material_id == $material['material_id']){
+                                $partner_material->quantity = $partner_material->quantity + ($material['material_weight'] - $material['material_given']);
+        
+                                $partner_material->save();
+                            }else{
+                                $p_material = new PartnerMaterial();
+                                $p_material->material_id = $material['material_id'];
+                                $p_material->partner_id = $partner->id;
+                                $p_material->quantity = $partner_material->quantity + ($material['material_weight'] - $material['material_given']);
+        
+                                $p_material->save();
+                            }
+                        }
+                    } else {
+                        $quantity->quantity = $quantity->quantity + ($material['material_given']);
+                        $quantity->save();
+        
+                        foreach($partner->materials as $partner_material){
+                            if($partner_material->material_id = $material['material_id']){
+                                $partner_material->quantity = $partner_material->quantity - ($material['material_weight'] - $material['material_given']);
+        
+                                $partner_material->save();
+                            }else{
+                                $p_material = new PartnerMaterial();
+                                $p_material->material_id = $material['material_id'];
+                                $p_material->partner_id = $partner->id;
+                                $p_material->quantity = $partner_material + ($material['material_weight'] - $material['material_given']);
+        
+                                $p_material->save();
+                            }
+                        }
+                    }
+        
+                    $partner->money = $partner->money + ($request->workmanship['given'] - $request->workmanship['wanted']);
+                    $partner->save();
+                }
+            }
+
+            $request->request->add(['given_sum' => $request->workmanship['given']]);
+            $request->request->add(['pay_currency' => $defaultCurrency->id]);
+            $request->request->add(['wanted_sum' => $request->workmanship['wanted']]);
+            $request->request->add(['partner_method' => true]);
+
+            if($request->pay_method == 'false'){
+                $request->request->add(['method' => 'cash']);
+            } else{
+                $request->request->add(['method' => 'post']);
+            }
+
+            $payment = new Payment;
+            return $payment->store_payment($request);
         }
     }
 
