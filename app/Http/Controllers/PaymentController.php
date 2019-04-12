@@ -76,7 +76,7 @@ class PaymentController extends Controller
 
         if($partner){
             foreach($request->extraMaterials as $material){
-                //$material = (array)$material;
+                $material = (array)$material;
                 $quantity = MaterialQuantity::where([
                     ['material_id', '=', $material['material_id']],
                     ['store_id', '=', Auth::user()->getStore()->id]
@@ -93,18 +93,25 @@ class PaymentController extends Controller
                 $quantity->quantity = $quantity->quantity + ($material['material_weight']);
                 $quantity->save();
 
+                $checkPartnerMaterial = PartnerMaterial::where([
+                    ['partner_id', '=', $partner->id],
+                    ['material_id', '=', $material['material_id']]
+                ])->first();
+
+                if(!$checkPartnerMaterial){
+                    $p_material = new PartnerMaterial();
+                    $p_material->material_id = $material['material_id'];
+                    $p_material->partner_id = $partner->id;
+                    $p_material->quantity = $material['material_weight'];
+
+                    $p_material->save();
+                }
+
                 foreach($partner->materials as $partner_material){
                     if($partner_material->material_id == $material['material_id']){
                         $partner_material->quantity = $partner_material->quantity + $material['material_weight'];
 
                         $partner_material->save();
-                    }else{
-                        $p_material = new PartnerMaterial();
-                        $p_material->material_id = $material['material_id'];
-                        $p_material->partner_id = $partner->id;
-                        $p_material->quantity = $partner_material->quantity + $material['material_weight'];
-
-                        $p_material->save();
                     }
                 }
             }
@@ -128,37 +135,41 @@ class PaymentController extends Controller
                         
                         $quantity->quantity = $quantity->quantity + ($material['material_given']);
                         $quantity->save();
+
+                        if(!$checkPartnerMaterial){
+                            $p_material = new PartnerMaterial();
+                            $p_material->material_id = $material['material_id'];
+                            $p_material->partner_id = $partner->id;
+                            $p_material->quantity = $material['material_weight'];
+        
+                            $p_material->save();
+                        }
         
                         foreach($partner->materials as $partner_material){
                             if($partner_material->material_id == $material['material_id']){
                                 $partner_material->quantity = $partner_material->quantity + ($material['material_weight'] - $material['material_given']);
         
                                 $partner_material->save();
-                            }else{
-                                $p_material = new PartnerMaterial();
-                                $p_material->material_id = $material['material_id'];
-                                $p_material->partner_id = $partner->id;
-                                $p_material->quantity = $partner_material->quantity + ($material['material_weight'] - $material['material_given']);
-        
-                                $p_material->save();
                             }
                         }
                     } else {
                         $quantity->quantity = $quantity->quantity + ($material['material_given']);
                         $quantity->save();
+
+                        if(!$checkPartnerMaterial){
+                            $p_material = new PartnerMaterial();
+                            $p_material->material_id = $material['material_id'];
+                            $p_material->partner_id = $partner->id;
+                            $p_material->quantity = $material['material_weight'];
+        
+                            $p_material->save();
+                        }
         
                         foreach($partner->materials as $partner_material){
                             if($partner_material->material_id = $material['material_id']){
                                 $partner_material->quantity = $partner_material->quantity - ($material['material_weight'] - $material['material_given']);
         
                                 $partner_material->save();
-                            }else{
-                                $p_material = new PartnerMaterial();
-                                $p_material->material_id = $material['material_id'];
-                                $p_material->partner_id = $partner->id;
-                                $p_material->quantity = $partner_material + ($material['material_weight'] - $material['material_given']);
-        
-                                $p_material->save();
                             }
                         }
                     }
