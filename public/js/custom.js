@@ -545,13 +545,42 @@ var uvel,
       form.querySelector('[data-worksmanship-given]').value = 0
     }
 
+    this.addNewPartnerMaterialField = function(field) {
+      var materialContainer = document.querySelector('#partner-materials');
+
+      if (materialContainer.children.length < 5) {
+        document.querySelector('#partner-materials').insertAdjacentHTML('beforeend', field);
+
+        var materials = materialContainer.querySelectorAll('[data-calculateprice-material]'),
+            materialHolder = materials[materials.length - 1];
+      
+        $self.select2Looper($(materialHolder));
+      } else {
+        alert('Не може да добавите повече от 5 допълнителни материала!')
+      }
+    }
+
     this.partnerPaymentInit = function(form) {
       var wantedSumHolder = form[0].querySelector('[name="partner-wanted-sum"]'),
           wantedWorksmanship = form[0].querySelector('[data-worksmanship-wanted]'),
           givenWorksmanship = form[0].querySelector('[data-worksmanship-given]'),
-          paymentMethod = form[0].querySelector('[name="partner-pay-method"]');
-
+          paymentMethod = form[0].querySelector('[name="partner-pay-method"]'),
+          submit = form[0].querySelector('button[type="submit"]'),
+          addMaterial = form[0].querySelector('[data-add-partnermaterial]'),
+          materialsHolder = form[0].querySelector('#partner-materials');
+      
+      submit.disabled = false;
       wantedSumHolder.value = wantedWorksmanship.value;
+      
+      addMaterial.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        $self.addNewPartnerMaterialField(newExchangeField);
+      }, false);
+
+      $(materialsHolder).on('click', '[data-exchangeRowRemove-trigger]', function() {
+        $(this).parent().parent().remove();
+      });
 
       paymentMethod.addEventListener('click', function() {
         if (this.checked) {
@@ -923,6 +952,7 @@ var uvel,
 
     this.partnerPaymentSubmit = function(form, ajaxRequestLink, formType) {
       var materials = form.find('[data-material-id]'),
+          extraMaterials = form.find('#partner-materials .form-row'),
           workmanshipWanted = form.find('[data-worksmanship-wanted]').val(),
           workmanshipGiven = form.find('[data-worksmanship-given]').val(),
           receiptOptions = form.find('[type="radio"]'),
@@ -935,7 +965,8 @@ var uvel,
               wanted: workmanshipWanted,
               given: workmanshipGiven
             },
-            materials: []
+            materials: [],
+            extraMaterials: []
           };
 
       for (var i = 0; i < materials.length; i++) {
@@ -954,9 +985,20 @@ var uvel,
         data.materials.push(material);
       }
 
-      for (var i = 0; i < receiptOptions.length; i++) {
-        if (receiptOptions[i].checked) {
-          data[receiptOptions[i].id] = true;
+      for (var j = 0; j < extraMaterials.length; j++) {
+        var materialId = extraMaterials[j].querySelector('[data-calculateprice-material]').selectedOptions[0].dataset.material,
+            materialWeight = extraMaterials[j].querySelector('[data-weight]').value,
+            extraMaterial = {
+              material_id: materialId,
+              material_weight: materialWeight
+            };
+
+        data.extraMaterials.push(extraMaterial);
+      }
+
+      for (var k = 0; k < receiptOptions.length; k++) {
+        if (receiptOptions[k].checked) {
+          data[receiptOptions[k].id] = true;
         }
       }
 

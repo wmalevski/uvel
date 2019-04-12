@@ -4,6 +4,10 @@
 }
 
 /* todo: fix styles */
+#partner-materials {
+	padding: 15px 0;
+}
+
 #blog_lng_edit li:first-child {
   margin-right: 10px;
 }

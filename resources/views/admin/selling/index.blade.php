@@ -58,6 +58,15 @@
                             </table>
                         </div>    
                     </div>
+
+                    <div class="form-row">
+                        <div class="col-md-12" style="text-align: right;">
+                            <button class="btn btn-primary" data-add-partnermaterial>Добави</button>
+                        </div>
+                    </div>
+
+                    <div id="partner-materials"></div>
+
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="partner-information">Информация за партнъора:</label>
@@ -127,7 +136,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" class="btn btn-primary btn-finish-payment">Завърши плащането</button>
+                    <button type="submit" class="btn btn-primary">Завърши плащането</button>
                 </div>
             </form>
         </div>
