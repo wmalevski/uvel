@@ -540,7 +540,7 @@ var uvel,
 
       form.querySelector('.partner-information').innerHTML = partner;
       form.querySelector('tbody').innerHTML = tableContent;
-      form.querySelector('#partner-wanted-sum').value = 0;
+      form.querySelector('#partner-wanted-sum').value = workmanship || 0;
       form.querySelector('[data-worksmanship-wanted]').value = workmanship;
       form.querySelector('[data-worksmanship-given]').value = 0
     }
@@ -564,7 +564,6 @@ var uvel,
       var wantedSumHolder = form[0].querySelector('[name="partner-wanted-sum"]'),
           wantedWorksmanship = form[0].querySelector('[data-worksmanship-wanted]'),
           givenWorksmanship = form[0].querySelector('[data-worksmanship-given]'),
-          paymentMethod = form[0].querySelector('[name="partner-pay-method"]'),
           submit = form[0].querySelector('button[type="submit"]'),
           addMaterial = form[0].querySelector('[data-add-partnermaterial]'),
           materialsHolder = form[0].querySelector('#partner-materials');
@@ -581,18 +580,6 @@ var uvel,
       $(materialsHolder).on('click', '[data-exchangeRowRemove-trigger]', function() {
         $(this).parent().parent().remove();
       });
-
-      paymentMethod.addEventListener('click', function() {
-        if (this.checked) {
-          givenWorksmanship.readOnly = true;
-          wantedSumHolder.value = 0;
-          givenWorksmanship.value = wantedWorksmanship.value;
-        } else {
-          givenWorksmanship.readOnly = false;
-          givenWorksmanship.value = 0;
-          wantedSumHolder.value = wantedWorksmanship.value;
-        }
-      }, false);
 
       givenWorksmanship.addEventListener('change', function() {
         var total = parseFloat(wantedWorksmanship.value) - (parseFloat(givenWorksmanship.value) || 0);
