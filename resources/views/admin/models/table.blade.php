@@ -1,4 +1,4 @@
-<tr>
+<tr data-id="{{ $model->id }}">
 	<td class="thumbnail--tooltip">
 		{{ $model->name }}
 		@if(count($model->photos)) 

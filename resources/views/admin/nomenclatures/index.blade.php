@@ -46,7 +46,7 @@ aria-hidden="true">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
             <h4 class="c-grey-900 mB-20">Номенклатури <button type="button" class="btn btn-primary" data-form-type="add" data-form="nomenclatures" data-toggle="modal" data-target="#addNomenclature">Добави</button></h4>
             <p>Преглед на създадените размери.</p>
-            <table class="table table-condensed tablesort">
+            <table id="main_table" class="table table-condensed tablesort">
                 <thead>
                     <tr>
                         <th>Име</th> 

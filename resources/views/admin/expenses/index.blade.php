@@ -133,7 +133,7 @@ aria-hidden="true">
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
       <h4 class="c-grey-900 mB-20">Разходи <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-form-type="add" data-form="expenses">Добави</button></h4>
       <p>Преглед на въведените разходи.</p>
-      <table class="table">
+      <table id="main_table" class="table">
         <thead>
           <tr>
             <th scope="col">Основание</th> 

@@ -140,7 +140,12 @@ class PriceController extends Controller
             $indicatePrice = true;
         }
         
-        return Response::json(array('ID' => $price->id, 'table' => View::make('admin/prices/table', array('price' => $price, 'indicatePrice' => $indicatePrice))->render(), 'type'=>$request->type));
+        if($request->type == 'buy') {
+            $targetTable = 'table-price-buy';
+        }elseif($request->type == 'sell') {
+            $targetTable = 'table-price-sell';
+        }
+        return Response::json(array('ID' => $price->id, 'table' => View::make('admin/prices/table', array('price' => $price, 'indicatePrice' => $indicatePrice))->render(), 'type'=>$request->type, 'targetTable' => $targetTable));
     }
 
     /**

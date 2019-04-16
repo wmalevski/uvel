@@ -304,7 +304,7 @@ aria-hidden="true">
                 <button type="button" class="return-repair btn btn-primary" data-form-type="add" data-form="returnRepair" data-toggle="modal" data-target="#returnRepair">Върни</button> 
                 <button type="button" class="scan-repair btn btn-primary" data-form-type="add" data-form="scanRepair" data-toggle="modal" data-target="#scanRepair">Обработи</button></h4>
             <p>Артикули за ремонт</p>
-            <table class="table repair-records-table tablesort table-fixed">
+            <table id="main_table" class="table repair-records-table tablesort table-fixed">
                 <thead>
                     <tr data-sort-method="thead">
                         <th scope="col">Баркод</th>

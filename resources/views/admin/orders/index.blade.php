@@ -313,7 +313,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 	</button>
 </h3>
 
-<table class="table table-condensed tablesort">
+<table id="main_table" class="table table-condensed tablesort">
 	<thead>
 		<tr>
 			<th data-sort-method="none">Уникален номер</th>

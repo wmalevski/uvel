@@ -53,7 +53,7 @@ aria-hidden="true">
             </button>
         </h4>
       <p>Преглед на създадените видове разходи.</p>
-      <table class="table">
+      <table id="main_table" class="table">
         <thead>
           <tr>
             <th scope="col">Име</th> 
