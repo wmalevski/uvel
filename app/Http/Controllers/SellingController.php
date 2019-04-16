@@ -257,12 +257,22 @@ class SellingController extends Controller
 
         if($request->amount_check == false){
             if($request->type_repair == true){
-                $item = Repair::where(
-                    [
-                        ['barcode', '=', $request->barcode],
-                        ['status', '=', 'done']
-                    ]       
-                )->first();
+                if($request->barcode){
+                    $item = Repair::where(
+                        [
+                            ['barcode', '=', $request->barcode],
+                            ['status', '=', 'done']
+                        ]       
+                    )->first();
+                } else if($request->catalog_number){
+                    $item = Repair::where(
+                        [
+                            ['code', '=', $request->catalog_number],
+                            ['status', '=', 'done']
+                        ]       
+                    )->first();
+                }
+
                 $type = "repair";
             }else{
                 if($request->barcode){
