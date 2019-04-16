@@ -82,7 +82,7 @@ class PaymentController extends Controller
                     ['store_id', '=', Auth::user()->getStore()->id]
                 ])->first();
 
-                if(!count($quantity)){
+                if(!$quantity){
                     $quantity = new MaterialQuantity();
                     $quantity->store_id = Auth::user()->getStore()->id;
                     $quantity->quantity = 0;
