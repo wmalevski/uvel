@@ -117,15 +117,6 @@ class OrderController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $material = MaterialQuantity::withTrashed()->where([
-            ['material_id', '=', $request->material_id],
-            ['store_id', '=', Auth::user()->getStore()->id]
-        ])->first();
-
-        if(!$material || $material->quantity < $request->weight){
-            return Response::json(['errors' => ['using' => [trans('admin/orders.material_quantity_not_matching')]]], 401);
-        }
-
         $model = Model::find($request->model_id);
         
         $order = new Order();
@@ -397,6 +388,13 @@ class OrderController extends Controller
                         $exchange_material->additional_price = 0;
     
                         $exchange_material->save();
+
+                        $material_quantity = MaterialQuantity::where('material_id', $material)->first();
+
+                        if($material_quantity){
+                            $material_quantity->quantity = $material_quantity->quantity+$request->weight[$key];
+                            $material_quantity->save();
+                        }
                     }
                 }
             }
