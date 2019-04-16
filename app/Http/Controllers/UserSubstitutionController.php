@@ -78,7 +78,7 @@ class UsersubstitutionController extends Controller
 
             if($user->store_id != $request->store_id){
                 $status = 1;
-                $place = 'active';
+                $place = 'user-substitute-active';
                 $substitution = new UserSubstitution();
                 $substitution->user_id = $request->user_id;
                 $substitution->store_id = $request->store_id;
@@ -88,10 +88,10 @@ class UsersubstitutionController extends Controller
                 $substitution->save();
 
                 if($substitution->date_to < date("Y-m-d")){
-                    $place = 'inactive';
+                    $place = 'user-substitute-inactive';
                 }
 
-                return Response::json(array('success' => View::make('admin/substitutions/table',array('substitution'=>$substitution))->render(), 'place' => $place));
+                return Response::json(array('success' => View::make('admin/substitutions/table',array('substitution'=>$substitution))->render(), 'targetTable' => $place));
             }else{
                 return Response::json(['errors' => ['same_store' => ['Не може да изпратите потребителя в същия магазин']]], 401);
             }
@@ -136,13 +136,13 @@ class UsersubstitutionController extends Controller
     {
         $stores = Store::withTrashed()->get();
         $users = User::withTrashed()->get();
-        $place = 'active';
+        $place = 'user-substitute-active';
 
         if($userSubstitution->date_to < date("Y-m-d")){
-            $place = 'inactive';
+            $place = 'user-substitute-inactive';
         }
         
-        return \View::make('admin/substitutions/edit', array('users' => $users, 'stores' => $stores, 'substitution' => $userSubstitution, 'place' => $place));
+        return \View::make('admin/substitutions/edit', array('users' => $users, 'stores' => $stores, 'substitution' => $userSubstitution, 'targetTable' => $place));
     }
 
     /**
@@ -166,20 +166,20 @@ class UsersubstitutionController extends Controller
                 return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
             }
 
-            $place = 'active';
+            $place = 'user-substitute-active';
             $userSubstitution->user_id = $request->user_id;
             $userSubstitution->store_id = $request->store_id;
             $userSubstitution->date_from = date('Y-m-d', strtotime($request->dateFrom));
             $userSubstitution->date_to = date('Y-m-d', strtotime($request->dateTo));
 
             if($userSubstitution->date_to < date("Y-m-d")){
-                $place = 'inactive';
+                $place = 'user-substitute-inactive';
             }
 
     
             $userSubstitution->save();
     
-            return Response::json(array('ID' => $userSubstitution->id, 'table' => View::make('admin/substitutions/table',array('substitution'=>$userSubstitution))->render(), 'place' => $place));
+            return Response::json(array('ID' => $userSubstitution->id, 'table' => View::make('admin/substitutions/table',array('substitution'=>$userSubstitution))->render(), 'targetTable' => $place));
         }
     }
 

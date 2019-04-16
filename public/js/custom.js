@@ -1285,10 +1285,10 @@ var uvel,
     this.replaceResponseRowToTheTable = function(form, response) {
       var replaceRowHTML = response.table,
           rowId = response.ID,
-          rowToChange = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]'),
+          targetTable = response.targetTable || 'main_table',
+          rowToChange = form.parents('.main-content').find('table[id="' + targetTable + '"] tbody tr[data-id="' + rowId + '"]'),
           iscurrentlyActive = rowToChange.closest('table').hasClass('active'),
           isCurrentlyBuy = rowToChange.closest('table').hasClass('buy');
-
       if (response.place == 'active' && !iscurrentlyActive) {
         $self.moveRowToTheTable(rowToChange, form.parents('.main-content').find('table.active tbody'), replaceRowHTML);
       } else if (response.place == 'inactive' && iscurrentlyActive) {

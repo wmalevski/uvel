@@ -16,7 +16,7 @@
             <h4 class="c-grey-900 mB-20">Касови групи</h4>
 
             <p>Преглед на касовите групи.</p>
-            <table class="table">
+            <table id="main_table" class="table">
               <thead>
                 <tr>
                   <th scope="col">За</th> 

@@ -17,7 +17,7 @@ aria-hidden="true">
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
       <h4 class="c-grey-900 mB-20">Поръчки</h4>
       <p>Поръчки по модел на клиента.</p>
-      <table class="table">
+      <table id="main_table" class="table">
         <thead>
           <tr>
             <th scope="col">Име</th> 

@@ -51,7 +51,7 @@ aria-hidden="true">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
             <h4 class="c-grey-900 mB-20">Ремонтни дейности <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addRepairType" data-form-type="add" data-form="repairTypes">Добави</button></h4>
             <p>Преглед на създадените ремонтни дейности.</p>
-            <table class="table table-condensed tablesort table-fixed">
+            <table id="main_table" class="table table-condensed tablesort table-fixed">
                 <thead>
                     <tr data-sort-method="thead">
                         <th>Име</th>

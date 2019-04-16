@@ -61,7 +61,7 @@ aria-hidden="true">
                     <button type="button" class="btn btn-primary" data-form-type="add" data-form="materailsTraveling" data-toggle="modal" data-target="#sendMaterial">Изпрати</button>
               </h4>
               <p>Преглед на пътуващите материали.</p>
-              <table class="table table-condensed">
+              <table id="main_table" class="table table-condensed">
                 <thead>
                     <tr>
                         <th>Тип</th> 
