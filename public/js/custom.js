@@ -1153,14 +1153,12 @@ var uvel,
       var responseHTML = response.success,
           table;
 
-      if (response.place == 'active') {
-        table = form.parents('.main-content').find('table.active tbody');
-      } else if (response.place == 'inactive') {
-        table = form.parents('.main-content').find('table.inactive tbody');
+      if (response.targetTable) {
+        table = form.parents('.main-content').find('table#' + response.targetTable + ' tbody');
       } else if (response.type == 'buy') {
-        table = form.parents('.main-content').find('table#buy tbody');
+        table = form.parents('.main-content').find('table#table-price-buy tbody');
       } else if (response.type == 'sell') {
-        table = form.parents('.main-content').find('table#sell tbody');
+        table = form.parents('.main-content').find('table#table-price-sell tbody');
       } else {
         table = form.parents('.main-content').find('table tbody:not(form table tbody)');
       }
