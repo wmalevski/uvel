@@ -2,6 +2,24 @@
 body {
     overflow-x: hidden;
 }
+
+#quick-shop-container .wrapper {
+    position: relative;
+}
+
+#quick-shop-container .qty-wrapper .qty-up,
+#quick-shop-container .qty-wrapper .qty-down {
+    top: 0 !important;
+}
+
+.quantity-wrapper .qty-wrapper .qty-up {
+    right: 0 !important;
+}
+
+.quantity-wrapper .qty-wrapper .qty-down {
+    left: 0 !important;
+}
+
 /* selected check box */
 .selected .fe-checkbox {
     background-image: url(../images/fancybox_overlay.png) !important;
