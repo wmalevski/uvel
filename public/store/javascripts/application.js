@@ -796,8 +796,12 @@ var uvelStore,
 
 				quickviewCarousel();
 
-				var addToCartTrigger = modal.find('.add-to-cart');
-				var orderProductTrigger = modal.find('.order_product');
+				if (modal.find('#qs-quantity').length) {
+					$self.productQuantityAttach(modal);
+				}
+
+				var addToCartTrigger = modal.find('.add-to-cart'),
+					orderProductTrigger = modal.find('.order_product');
 
 				if (addToCartTrigger.length > 0) {
 					$self.addToCartAttach(addToCartTrigger);
@@ -825,6 +829,26 @@ var uvelStore,
 						navigationText: ['<span class="btooltip" title="Previous"></span>', '<span class="btooltip" title="Next"></span>']
 					});
 				});
+			}
+		}
+	}
+
+	this.productQuantityAttach = function(modal) {
+		var quantityUp = modal.find('.qty-up'),
+			quantityDown = modal.find('.qty-down'),
+			quantityHolder = modal.find('#qs-quantity');
+
+		quantityUp.on('click', handleQuantityChange);
+		quantityDown.on('click', handleQuantityChange);
+
+		function handleQuantityChange() {
+			var value = parseInt(quantityHolder.val()),
+				method = this.title;
+
+			if (method == 'Increase') {
+				quantityHolder.val(value + 1);
+			} else if (method == 'Decrease' && value > 1) {
+				quantityHolder.val(value - 1);
 			}
 		}
 	}
@@ -1154,7 +1178,7 @@ var uvelStore,
 			ajaxURL = _this.attr('data-url');
 
 		if (_this.hasClass('productsothers')) {
-			ajaxURL += '/' + _this.closest('form').find('.item-quantity').val()
+			ajaxURL += '/' + _this.closest('.product-information').find('.item-quantity').val();
 		}
 
 		$.ajax({
