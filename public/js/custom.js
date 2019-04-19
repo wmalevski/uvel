@@ -2694,6 +2694,12 @@ var uvel,
       
       $(select).select2(options);
       $(select).on('select2:select', callback);
+      $(select).on("select2:opening", function (event) {
+        if ($(this).is(":disabled")) {
+          event.preventDefault();
+        }
+      });
+
       $(select).on('select2:open', function () {
         if( this.selectedIndex > 0) {
           var viewport = $('.select2-results__options'),
