@@ -6,7 +6,7 @@
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
         <h4 class="c-grey-900 mB-20">Ревюта на Кутии/Икони</h4>
         <p>Преглед на създадените ревюта.</p>
-        <table class="table table-condensed tablesort">
+        <table id="main_table" class="table table-condensed tablesort">
             <thead>
                 <tr>
                     <th>Потребител</th> 

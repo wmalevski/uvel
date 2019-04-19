@@ -94,7 +94,7 @@ aria-hidden="true">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
         <h4 class="c-grey-900 mB-20">Партньори</h4>
         <p>Преглед на партньорите.</p>
-        <table class="table tablesort">
+        <table id="main_table" class="table tablesort">
           <thead>
             <tr>
               <th scope="col">Име</th> 

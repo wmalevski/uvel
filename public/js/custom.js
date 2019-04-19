@@ -1285,10 +1285,10 @@ var uvel,
     this.replaceResponseRowToTheTable = function(form, response) {
       var replaceRowHTML = response.table,
           rowId = response.ID,
-          rowToChange = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]'),
+          targetTable = response.targetTable || 'main_table',
+          rowToChange = form.parents('.main-content').find('table[id="' + targetTable + '"] tbody tr[data-id="' + rowId + '"]'),
           iscurrentlyActive = rowToChange.closest('table').hasClass('active'),
           isCurrentlyBuy = rowToChange.closest('table').hasClass('buy');
-
       if (response.place == 'active' && !iscurrentlyActive) {
         $self.moveRowToTheTable(rowToChange, form.parents('.main-content').find('table.active tbody'), replaceRowHTML);
       } else if (response.place == 'inactive' && iscurrentlyActive) {
@@ -2506,11 +2506,18 @@ var uvel,
     }
     
     this.transferCheckboxInit = function() {
-      $('#send-to-store').on('change', function(event) {
-        if (event.target.checked) {
-          $('.transfer-store-row').show();
+      $('[data-transfer]').on('change', function(event) {
+        var target = this.dataset.transfer;
+
+        $('[data-transfer]').not(this).prop('checked', false);
+        $('[data-transferTarget]').hide();
+
+        if (this.checked) {
+          $('[data-transferTarget="' + target + '"]').show();
+
+          this.classList.add('active-transfer');
         } else {
-          $('.transfer-store-row').hide();
+          $('[data-transferTarget="' + target + '"]').hide();
         }
       });
     }
