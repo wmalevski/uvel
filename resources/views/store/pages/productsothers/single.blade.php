@@ -90,10 +90,14 @@
 										<div id="product-header" class="clearfix">
 											<div id="product-info-left">
 												<div class="description">
-													<span>Описание</span>
-													<p>
-														No: {{ $product->code }}
-													</p>
+													<ul>
+														<li>
+															<h5>Информация за продукта</h5>
+															<ul class="sub">
+																<li><span>No:</span> {{ $product->code }}</li>
+															</ul>
+														</li>
+													</ul>
 												</div>
 												{{-- <div class="description">
 													<span>Изработка</span>
@@ -130,9 +134,9 @@
 															<div>
 																<div class="detail-price" itemprop="price">
 																	<span class="price">
-																		{{ number_format($product->price) }} лв
+																		{{ number_format($product->price) }} лв.
 																	</span>
-																	*с ДДС.
+																	*с ДДС
 																</div>
 															</div>
 															<div class="others-bottom clearfix">
@@ -339,9 +343,9 @@
 													<div class="product-content-right">
 														<div class="product-price">
 															<span class="price">
-																{{ number_format($product->price) }} лв
+																{{ number_format($product->price) }} лв.
 															</span>
-															*с ДДС.
+															*с ДДС
 														</div>
 													</div>
 

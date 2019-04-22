@@ -85,18 +85,26 @@
 										<div id="product-header" class="clearfix">
 											<div id="product-info-left">
 												<div class="description">
-													<span>Описание</span>
-													<p>
-														Модел: {{ $model->name }} <br />
-														Бижу: {{ $model->jewel->name }} <br />
-														Размер: {{ $model->size }}
-													</p>
+													<ul>
+														<li>
+															<h5>Информация за продукта</h5>
+															<ul class="sub">
+																<li><span>Модел:</span> {{ $model->name }}</li>
+																<li><span>Бижу:</span> {{ $model->jewel->name }}</li>
+																<li><span>Размер:</span> {{ $model->size }}</li>
+															</ul>
+														</li>
+													</ul>
 												</div>
 												<div class="description">
-													<span>Обмяна</span>
-													<p>
-														{{ $model->weight }} гр. + {{ $model->workmanship }} лв.
-													</p>
+													<ul>
+														<li>
+															<h5>Обмяна</h5>
+															<ul class="sub">
+																<li>{{ $model->weight }} гр. + {{ $model->workmanship }} лв.</li>
+															</ul>
+														</li>
+													</ul>
 												</div>
 											</div>
 											<div id="product-info-right">
@@ -112,8 +120,8 @@
 																</style>
 															<div id="purchase-1293235843">
 																<div class="detail-price" itemprop="price">
-																	<span class="price">{{ number_format($model->price) }} лв</span>
-																	*с ДДС.
+																	<span class="price">{{ number_format($model->price) }} лв.</span>
+																	*с ДДС
 																</div>
 															</div>
 															<div class="others-bottom clearfix">
@@ -308,9 +316,9 @@
 													<div class="product-content-right">
 														<div class="product-price">
 															<span class="price">
-																{{ number_format($model->price) }} лв
+																{{ number_format($model->price) }} лв.
 															</span>
-															*с ДДС.
+															*с ДДС
 														</div>
 													</div>
 

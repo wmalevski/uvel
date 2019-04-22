@@ -29,7 +29,7 @@
             <div class="product-content-right">
                 <div class="product-price">
                     <span class="price">
-                        {{ number_format($model->price) }} лв
+                        {{ number_format($model->price) }} лв.
                     </span>
                 </div>
             </div>
