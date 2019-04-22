@@ -3,6 +3,10 @@ body {
     overflow-x: hidden;
 }
 
+#breadcrumb, .breadcrumb {
+    background: #f3f3f3;
+}
+
 #quick-shop-container .wrapper {
     position: relative;
 }
