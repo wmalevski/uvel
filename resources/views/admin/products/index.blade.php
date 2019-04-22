@@ -276,6 +276,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 			<th data-sort-method="none">Уникален номер</th>
 			<th>Модел</th>
 			<th>Вид бижу</th>
+			<th>Материал</th>
 			<th>Цена на грам</th>
 			<th>Тегло</th>
 			<th>Цена</th>
@@ -292,6 +293,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 			<th>
 				<input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Търси по модел">
 			</th>
+			<th></th>
 			<th></th>
 			<th></th>
 			<th></th>
