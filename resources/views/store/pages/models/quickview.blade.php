@@ -43,7 +43,7 @@
 				<div id="quick-shop-container">
 					<div id="quick-shop-price-container" class="detail-price">
 						<span class="price_sale">
-							{{ number_format($model->price) }} лв
+							{{ number_format($model->price) }} лв.
 						</span>
 						<span class="dash"></span>
 					</div>

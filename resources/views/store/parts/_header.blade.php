@@ -230,13 +230,13 @@
 													<a href="./product.html">Product with left sidebar - black / small</a>
 												</div>
 												<div class="cart-price">
-													200.00 лв<span class="x"> x </span>1
+													200.00 лв.<span class="x"> x </span>1
 												</div>
 											</div>
 										</div>
 									</div>
 									<div class="subtotal">
-										<span>Тотал:</span><span class="cart-total-right">200.00 лв</span>
+										<span>Тотал:</span><span class="cart-total-right">200.00 лв.</span>
 									</div>
 									<div class="action">
 										<button class="btn" onclick="window.location='{{ route('cart') }}'">Чекаут</button><a class="btn btn-1" href="{{ route('cart') }}">Виж

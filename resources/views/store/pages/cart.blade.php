@@ -59,7 +59,7 @@
 													<td class="price-item title-1">
 														<p>
 															@if(count($items))
-															{{ $item->price }} лв
+															{{ $item->price }} лв.
 															@endif
 														</p>
 													</td>
@@ -79,7 +79,7 @@
 													<td class="total title-1">
 														<p>
 															@if(count($items))
-															{{ $item->price*$item->quantity }} лв
+															{{ $item->price*$item->quantity }} лв.
 															@endif
 														</p>
 													</td>
@@ -99,7 +99,7 @@
 												<tr class="bottom-summary">
 													<th>&nbsp;</th>
 													<td class="subtotal title-1">
-														{{ $subtotal }} лв
+														{{ $subtotal }} лв.
 													</td>
 													<td>
 														@if(count($items))
@@ -107,7 +107,7 @@
 														@endif
 													</td>
 													<td class="subtotal title-1">
-														{{ $total }} лв
+														{{ $total }} лв.
 													</td>
 													<td>
 														&nbsp;

@@ -88,18 +88,26 @@
 										<div id="product-header" class="clearfix">
 											<div id="product-info-left">
 												<div class="description">
-													<span>Описание</span>
-													<p>
-														Модел: {{ $product->model->name }} <br />
-														Бижу: {{ $product->jewel->name }} <br />
-														Размер: {{ $product->model->size }}
-													</p>
+													<ul>
+														<li>
+															<h5>Информация за продукта</h5>
+															<ul class="sub">
+																<li><span>Модел:</span> {{ $product->model->name }}</li>
+																<li><span>Бижу:</span> {{ $product->jewel->name }}</li>
+																<li><span>Размер:</span> {{ $product->model->size }}</li>
+															</ul>
+														</li>
+													</ul>
 												</div>
 												<div class="description">
-													<span>Обмяна</span>
-													<p>
-														{{ $product->weight }} гр. + {{ $product->workmanship }} лв.
-													</p>
+													<ul>
+														<li>
+															<h5>Обмяна</h5>
+															<ul class="sub">
+																<li>{{ $product->weight }} гр. + {{ $product->workmanship }} лв.</li>
+															</ul>
+														</li>
+													</ul>
 												</div>
 											</div>
 											<div id="product-info-right">
@@ -111,9 +119,9 @@
 															<div id="purchase-1293235843">
 																<div class="detail-price" itemprop="price">
 																	<span class="price">
-																		{{ number_format($product->price) }} лв
+																		{{ number_format($product->price) }} лв.
 																	</span>
-																	*с ДДС.
+																	*с ДДС
 																</div>
 															</div>
 															<div class="others-bottom clearfix">
@@ -335,7 +343,7 @@
 													</div>
 													<div class="product-content-right">
 														<div class="product-price">
-															<span class="price">{{ number_format($product->price) }} лв</span>
+															<span class="price">{{ number_format($product->price) }} лв.</span>
 														</div>
 													</div>
 
