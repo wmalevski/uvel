@@ -142,6 +142,7 @@ var uvel,
         selector: '[name="products"]',
         controllers: [
           'addStonesInit',
+          'productLocationChange',
           'removeStoneInit',
           'calculateStonesInit',
           'calculatePriceInit',
@@ -1266,6 +1267,18 @@ var uvel,
               });
             }
 
+            if (openedForm == 'products' && formType == 'edit') {
+              var storeSelected = modal.find('[name="store_id"]')[0].selectedOptions[0].value,
+                  websiteVisible = modal.find('[name="website_visible"]');
+
+              if (storeSelected == 1) {
+                websiteVisible.attr({
+                  disabled: true,
+                  checked: false
+                });
+              }
+            }
+
             setTimeout(function() {
               $('button[type="submit"]').prop('disabled', false);
 
@@ -1480,6 +1493,24 @@ var uvel,
       addStoneTrigger.on('click', function() {
         $self.addStone(form);
       });
+    }
+
+    this.productLocationChange = function(form) {
+      var storeSelect = form.find('[name="store_id"]');
+
+      storeSelect.on('change', function() {
+        var websiteVisible = form.find('[name="website_visible"]');
+
+        if (this.value == 1) {
+          websiteVisible.attr({
+            disabled: true,
+            checked: false
+          });
+
+        } else if (websiteVisible.attr('disabled')) {
+          websiteVisible.attr('disabled', false);
+        }
+      })
     }
 
     this.addStone = function(form, stone) {
