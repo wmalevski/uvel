@@ -246,6 +246,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 <table id="main_table" class="table table-condensed models-table tablesort table-fixed">
 	<thead>
 		<tr data-sort-method="thead">
+			<th>Снимка</th>
 			<th>Име</th>
 			<th>Вид бижу</th>
 			<th>Тегло</th>
@@ -256,6 +257,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 		</tr>
 
 		<tr class="search-inputs" data-dynamic-search-url="ajax/search/models/">
+			<th></th>
 			<th>
 				<input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Търси по име">
 			</th>
