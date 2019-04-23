@@ -16,6 +16,9 @@
 		@if($product->model) {{ $product->jewel->name }} @endif
 	</td>
 	<td>
+		@if($product->material) {{ $product->material->name }} - {{ $product->material->color}} - {{ $product->material->code}} @endif
+	</td>
+	<td>
 		{{ $product->retailPrice->price }}
 	</td>
 	<td>
