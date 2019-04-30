@@ -33,8 +33,7 @@ class MaterialTravellingController extends Controller
 
         $travelling = MaterialTravelling::where('store_from_id', '=', Auth::user()->getStore()->id)->orWhere('store_to_id', '=', Auth::user()->getStore()->id)->paginate(env('RESULTS_PER_PAGE'));
         
-
-  
+// dd($materials);
         return \View::make('admin/materials_travelling/index', array('materials' => $materials, 'types' => $materials_types, 'stores' => $stores, 'travelling' => $travelling));
     }
 

@@ -1,5 +1,5 @@
 <tr data-id="{{ $material->id }}">
-    <td>{{ $material->material->material->parent->name }} - {{ $material->material->material->code }} - {{ $material->material->material->color }}</td> 
+    <td>{{ $material->material->parent->name }} - {{ $material->material->code }} - {{ $material->material->color }}</td> 
     <td>{{ $material->quantity }}гр.</td> 
     <td>{{ $material->price }}лв.</td> 
     <td>{{ $material->created_at }} </td> 
