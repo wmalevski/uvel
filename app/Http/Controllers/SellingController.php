@@ -346,7 +346,7 @@ class SellingController extends Controller
            }
         }
 
-        if($item){       
+        if($item){
             $userId = Auth::user()->getId(); // or any string represents user identifier
             
             $find = Cart::session($userId)->get($item->barcode);
@@ -389,7 +389,7 @@ class SellingController extends Controller
                     }
 
                     Cart::session($userId)->add(array(
-                        'id' => $item->barcode,
+                        'id' => $item->id,
                         'name' => $item->name,
                         'price' => $item->price,
                         'quantity' => $request->quantity,
@@ -399,13 +399,12 @@ class SellingController extends Controller
                             'type' => $type,
                             'calculated_weight' => $calculated_weight,
                             'order' => $order,
-                            'order_item_id' => $order_item_id
+                            'order_item_id' => $order_item_id,
+                            'barcode' => $item->barcode
                         )
                     ));
                 }
-            }
-
-        
+            } 
 
             $total = round(Cart::session($userId)->getTotal(),2);
             $subtotal = round(Cart::session($userId)->getSubTotal(),2);
