@@ -999,9 +999,13 @@ var uvel,
         if (dataKey.startsWith('images')) {
           var imagesHolder = $(element).siblings('.drop-area-gallery').find('img');
 
+          if (form[0].name == 'blog') {
+            imagesHolder = imagesHolder.length ? imagesHolder : $(element).closest('.tab-pane').find('.uploaded-images-area img');
+          }
+
           if (imagesHolder.length) {
             if (element.dataset.locale) {
-              data[dataKey] = imagesHolder[0].getAttribute('src');
+              data[dataKey] = $self.getBase64Image(imagesHolder[0]);
             } else {
               imagesHolder.each(function(index, element) {
                 var imgSource = element.getAttribute('src');
@@ -1192,13 +1196,7 @@ var uvel,
       } else if (formType == 'edit') {
         text = 'Редактирахте успешно записа!';
         if (form.find('.drop-area-gallery').length) {
-          // Move the uploaded images to the product area
-          var newImages = form.find('.drop-area-gallery .image-wrapper');
-          form.find('.uploaded-images-area').append(newImages);
-          
-          // Clear images area and reset input[type=file] for the images
-          form.find('.drop-area-input').val('');
-          form.find('.drop-area-gallery').empty();
+          appendImages();
         }
       } else if (formType == 'sell' || formType == 'partner-sell') {
         text = 'Извършихте успешно плащане!';
@@ -1216,6 +1214,23 @@ var uvel,
       setTimeout(function() {
         form.find('.modal-body .info-cont .alert-success').remove();
       }, 2000); // How long te message will be shown on the screen
+
+      function appendImages() {
+        var formTabs = [form.find('#bg_store'), form.find('#en_store')],
+            dropAreaImages;
+
+        for (var i = 0; i < formTabs.length; i++) {
+          dropAreaImages = formTabs[i].find('.drop-area-gallery .image-wrapper')[0];
+
+          if (dropAreaImages) {
+            formTabs[i].find('.uploaded-images-area').html(dropAreaImages);
+
+            // Clear images area and reset input[type=file] for the images
+            formTabs[i].find('.drop-area-input').val('');
+            formTabs[i].find('.drop-area-gallery').empty();
+          }
+        }
+      }
 
     }
 
@@ -2383,6 +2398,21 @@ var uvel,
       }
 
       $self.appendImages(collectionFiles, form, event);
+    }
+
+    this.getBase64Image = function(img) {
+      var canvas = document.createElement("canvas");
+      
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+
+      var ctx = canvas.getContext("2d");
+      
+      ctx.drawImage(img, 0, 0);
+      
+      var dataURL = canvas.toDataURL("image/png");
+      
+      return dataURL;
     }
 
     this.appendImages = function(collectionFiles, form, event) {

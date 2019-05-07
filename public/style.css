@@ -12,6 +12,10 @@
   font-weight: bold;
 }
 
+.note-toolbar.panel-heading {
+	position: relative !important;
+}
+
 #partner-shopping-table td {
   width: 25%;
   vertical-align: middle;
