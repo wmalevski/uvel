@@ -1,10 +1,11 @@
 <tr data-id="{{ $model->id }}">
 	<td class="thumbnail--tooltip">
-		{{ $model->name }}
-		@if(count($model->photos)) 
-			<ul style="background-image: url({{ asset("uploads/models/" . $model->photos->first()['photo']) }});" ></ul>
+		@if(count($model->photos))
+			<img class="admin-product-image" src="{{ asset("uploads/models/" . $model->photos->first()['photo']) }}">
+			<ul  class="product-hover-image" style="background-image: url({{ asset("uploads/models/" . $model->photos->first()['photo']) }});" ></ul>
 		@endif
 	</td>
+	<td>{{ $model->name }}</td>
 	<td>
 		{{ $model->jewel->name }}
 	</td>
