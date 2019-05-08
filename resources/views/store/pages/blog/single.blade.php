@@ -39,9 +39,12 @@
 											<div class="blogs-image">
 												<ul class="list-inline">
 													<li>
-														@if($article->thumbnail())
-															<img src="{{ asset("uploads/blog/" . $article->thumbnail()->photo ) }}">
-														@endif
+														@foreach($article->thumbnail as $thumb)
+															@if($thumb->language == 'bg')
+																<img class="img-fill" src="{{ asset("uploads/blog/" . $thumb->photo ) }}">
+															@endif
+														@endforeach
+
 													</li>
 												</ul>
 											</div>

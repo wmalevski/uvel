@@ -58,14 +58,16 @@
                             </div>
                         </div>
                         <div class="uploaded-images-area">
-                            @if($article->thumbnail())
-                                <div class="image-wrapper">
-                                    <div class="close">
-                                        <span data-url="gallery/delete/{{$article->thumbnail()->id}}">&#215;</span>
+                            @foreach( $article->thumbnail as $thumb)
+                                @if($thumb->language == $locale)
+                                    <div class="image-wrapper">
+                                        <div class="close">
+                                            <span data-url="gallery/delete/{{$thumb->id}}">&#215;</span>
+                                        </div>
+                                        <img src="{{ asset("uploads/blog/" . $thumb->photo) }}" alt="{{ $article->slug }}"/>  
                                     </div>
-                                    <img src="{{ asset("uploads/blog/" . $article->thumbnail()->photo) }}" alt="{{ $article->slug }}"/>  
-                                </div>
-                            @endif
+                                @endif
+                            @endforeach
                         </div>
                     </div>
                 @endforeach

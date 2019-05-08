@@ -20,6 +20,7 @@ class CreateGalleriesTable extends Migration
             $table->integer('model_id')->nullable()->unsigned();
             $table->integer('stone_id')->nullable()->unsigned();
             $table->integer('blog_id')->nullable()->unsigned();
+            $table->string('language');
             $table->integer('slider_id')->nullable()->unsigned();
             $table->integer('custom_order_id')->nullable()->unsigned();
             $table->integer('product_other_id')->nullable()->unsigned();

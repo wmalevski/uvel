@@ -40,8 +40,12 @@
 
 												<div class="blogs-image">
 													@if(!empty($lng))
-													<a class="img-fill-container" href="{{ route('single_translated_article', ['locale'=>$lng, 'product' => $article->slug])  }}">
-														<img class="img-fill" src="{{ asset("uploads/blog/" . $article->thumbnail()->photo ) }}">
+													<a class="img-fill-container" href="{{ route('single_translated_article', ['locale'=>$lng, 'product' => $article->slug])  }}">														
+														@foreach($article->thumbnail as $thumb)
+															@if($thumb->language == 'bg')
+																<img class="img-fill" src="{{ asset("uploads/blog/" . $thumb->photo ) }}">
+															@endif
+														@endforeach
 													</a>
 													@endif
 												</div>

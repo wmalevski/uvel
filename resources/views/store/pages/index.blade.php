@@ -302,9 +302,16 @@
 								<div class="home-bottom_banner_wrapper col-md-12">
 									<div id="home-bottom_banner" class="home-bottom_banner">
 										<a href="{{ route('single_translated_article', ['locale'=>app()->getLocale(), 'product' => $articles->first()->slug])  }}">
-											@if($articles->first()->thumbnail())
-												<img src="{{ asset("uploads/blog/" . $articles->first()->thumbnail()->photo ) }}" alt="{{ $articles->first()->slug }}">
+										@foreach( $articles->first()->thumbnail as $thumb)
+											@if($thumb->language == 'bg')
+												<div class="image-wrapper">
+													<div class="close">
+														<span data-url="gallery/delete/{{$thumb->id}}">&#215;</span>
+													</div>
+													<img src="{{ asset("uploads/blog/" . $thumb->photo) }}" alt="{{ $articles->first()->slug }}"/>  
+												</div>
 											@endif
+										@endforeach
 										</a>
 									</div>
 								</div>

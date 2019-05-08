@@ -13,6 +13,7 @@ class Blog extends Model
 
     protected $table = 'blogs';
     protected $dates = ['deleted_at'];
+    protected $with = ['thumbnail'];
 
     public $translatedAttributes = [
         'title',
@@ -37,6 +38,6 @@ class Blog extends Model
 
     public function thumbnail()
     {
-        return $this->belongsTo('App\Gallery')->first();
+        return $this->hasMany('App\Gallery');
     }
 }
