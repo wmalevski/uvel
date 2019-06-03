@@ -36,7 +36,7 @@ class BlogController extends Controller
         $validator = Validator::make( $request->all(), [
             'title.*' => 'required',
             'content.*' => 'required',
-            'images' => 'required',
+            'images.*' => 'required',
             'excerpt.*' => 'required'
         ]);
 
@@ -102,6 +102,7 @@ class BlogController extends Controller
         $validator = Validator::make( $request->all(), [
             'title.*' => 'required',
             'content.*' => 'required',
+            'images.*' => 'required',
             'excerpt.*' => 'required'
         ]);
 
@@ -176,11 +177,11 @@ class BlogController extends Controller
             $photo->photo = $file_name;
             $photo->blog_id = $article->id;
             $photo->language = $lang;
-            $photo->table = 'blog';
+            $photo->table = 'blogs';
 
             $photo->save();
         }
-        
+
         $article->thumbnail_id = $photo->id;
         $article->save();
     }
