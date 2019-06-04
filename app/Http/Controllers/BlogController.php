@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\BlogTranslation;
 use File;
 use Storage;
 use Response;
@@ -121,11 +122,9 @@ class BlogController extends Controller
         $article->slug = $article->slug.'-'.$article->id;
         $article->save();
 
-        dd($request->input('images'));
         if($request->input('images')) {
             $this->uploadPhotos($request->input('images'), $article);
         }
-
         return Response::json(array('ID' => $article->id, 'table' => View::make('admin/blog/table',array('article'=>$article))->render()));
     }
 
@@ -173,16 +172,20 @@ class BlogController extends Controller
 
             Storage::disk('public')->put('blog/'.$file_name, file_get_contents(public_path('uploads/blog/').$file_name));
 
-            $photo = new Gallery();
-            $photo->photo = $file_name;
-            $photo->blog_id = $article->id;
-            $photo->language = $lang;
-            $photo->table = 'blogs';
+            try {
+                $photo = new Gallery();
+                $photo->photo = $file_name;
+                $photo->blog_id = $article->id;
+                $photo->language = $lang;
+                $photo->table = 'blog';
 
-            $photo->save();
+                $photo->save();
+
+                $translation = new BlogTranslation();
+                $translation::where('blog_id', $article->id)->where('locale', $lang)->update(['thumbnail_id' => $photo->id]);
+            } catch (\Exception $e) {
+                return $e->getMessage();
+            }
         }
-
-        $article->thumbnail_id = $photo->id;
-        $article->save();
     }
 }
