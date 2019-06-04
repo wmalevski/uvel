@@ -299,22 +299,21 @@
 							<div class="home-promotion-blog row">
 								<h6 class="general-title">Последни новини</h6>
 								@if(count($articles))
-								<div class="home-bottom_banner_wrapper col-md-12">
-									<div id="home-bottom_banner" class="home-bottom_banner">
-										<a href="{{ route('single_translated_article', ['locale'=>app()->getLocale(), 'product' => $articles->first()->slug])  }}">
-										@foreach( $articles->first()->thumbnail as $thumb)
-											@if($thumb->language == 'bg')
-												<div class="image-wrapper">
-													<div class="close">
-														<span data-url="gallery/delete/{{$thumb->id}}">&#215;</span>
-													</div>
-													<img src="{{ asset("uploads/blog/" . $thumb->photo) }}" alt="{{ $articles->first()->slug }}"/>  
+									<div class="home-bottom_banner_wrapper col-md-12">
+										@foreach( $articles as $article)
+											@foreach( $article->thumbnail as $thumb)
+												<div id="home-bottom_banner" class="home-bottom_banner">
+													<a  href="{{ route('single_translated_article', ['locale'=>app()->getLocale(), 'product' =>$article->slug])  }}">
+														@if($thumb->language == 'bg')
+															<div class="image-wrapper">
+																<img src="{{ asset("uploads/blog/" . $thumb->photo) }}" alt="{{ $article->slug }}"/>
+															</div>
+														@endif
+													</a>
 												</div>
-											@endif
+											@endforeach
 										@endforeach
-										</a>
 									</div>
-								</div>
 								@endif
 								<div class="home-blog-wrapper col-md-12">
 									<div id="home_blog" class="home-blog">

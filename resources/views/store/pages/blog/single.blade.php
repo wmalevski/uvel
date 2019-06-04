@@ -40,7 +40,7 @@
 												<ul class="list-inline">
 													<li>
 														@foreach($article->thumbnail as $thumb)
-															@if($thumb->language == 'bg')
+															@if($thumb->language == $lng)
 																<img class="img-fill" src="{{ asset("uploads/blog/" . $thumb->photo ) }}">
 															@endif
 														@endforeach
