@@ -19,7 +19,7 @@
                 </div>
     
                 <div class="form-group col-md-6">
-                    <label for="inputZip">Поданен на</label>
+                    <label for="inputZip">Подаден на:</label>
                     <div class="input-group">
                         
                         <input type="text" name="date_expires" class="form-control" value="{{ $report->created_at }}" readonly>
@@ -102,7 +102,7 @@
                         <div class="form-group col-md-6">
                             <label for="1">Материал:</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" name="material_id" value="{{ $material->material->material->name }} - {{ $material->material->material->code }}" readonly>
+                                <input type="text" class="form-control" name="material_id" value="{{ $material->material->material->name }} - {{ $material->material->material->code }} - {{ $material->material->material->color }}" readonly>
                             </div>
                         </div>
 
