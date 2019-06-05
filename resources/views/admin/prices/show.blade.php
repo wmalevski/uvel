@@ -80,7 +80,7 @@ aria-hidden="true">
 </div>
 
 
-<h4 class="c-grey-900 mT-10 mB-30">Цени за {{ $material->parent->name }}
+<h4 class="c-grey-900 mT-10 mB-30">Цени за {{ $material->parent->name }} - {{ $material->code }} - {{ $material->color }}
     <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-toggle="modal" data-form-type="add" data-form="prices" data-target="#addPrice">Добави</button>
 </h4>
 <div class="row">
