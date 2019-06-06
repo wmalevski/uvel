@@ -158,10 +158,9 @@ class CartController extends BaseController
             ])->first();
             
             if($box){
-                $currentProductOtherQuantity = ProductOther::where('barcode', $item)->first()->quantity;
-                if ($currentProductOtherQuantity) {
-                    ProductOther::where('barcode', $item)->update(['quantity' => ($currentProductOtherQuantity - $quantity)]);
-                }
+                $box->quantity = $box->quantity - $quantity;
+                $box->save();
+
                 $item = $box;
                 $type = 'box';
             }
