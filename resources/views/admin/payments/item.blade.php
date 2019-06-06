@@ -49,8 +49,9 @@
         @foreach($payment->sellings as $selling)
             @if($selling->product_id != '')
                 {{ $selling->product->name }}
-            @elseif($selling->repair_id != '')
-                {{ $selling->product->name }}
+     // TODO fix it after clear conception. The purpose of the comment is to avoid an error exception.
+{{--            @elseif($selling->repair_id != '')--}}
+{{--                {{ $selling->product->name }}--}}
             @elseif($selling->product_other_id != '')
                 {{ $selling->product->customer_name }}
             @endif
