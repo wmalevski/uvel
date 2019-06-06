@@ -389,17 +389,20 @@ class SellingController extends Controller
                     }
 
                     Cart::session($userId)->add(array(
-                        'id' => $item->id,
+                        'id' => $item->barcode,
                         'name' => $item->name,
                         'price' => $item->price,
                         'quantity' => $request->quantity,
                         'attributes' => array(
                             'carat' => $carat,
                             'weight' => $item->weight,
-                            'type' => $type,
+                            'price' => $item->price,
                             'calculated_weight' => $calculated_weight,
                             'order' => $order,
                             'order_item_id' => $order_item_id,
+                            'name' => $item->name,
+                            'product_id' => $item->id,
+                            'type' => $type,
                             'barcode' => $item->barcode
                         )
                     ));
