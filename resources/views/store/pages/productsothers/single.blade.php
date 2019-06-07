@@ -34,11 +34,11 @@
 										<div id="detail-left-column" class="hidden-xs left-coloum col-sm-6 col-sm-6 fadeInRight not-animated" data-animate="fadeInRight">
 											<div id="gallery_main" class="product-image-thumb thumbs full_width ">
 												<ul class="slide-product-image">
-													@if($product->photos)
-														@foreach($product->photos as $image)
+													@if(App\Gallery::where('product_other_id', $product->id)->first()->get())
+														@foreach(App\Gallery::where('product_other_id', $product->id)->get() as $data)
 														<li class="image">
-															<a href="{{ asset("uploads/products/" . $image->photo) }}" class="cloud-zoom-gallery active">
-																<img src="{{ asset("uploads/products/" . $image->photo) }}" alt="{{ $product->name }}">
+															<a href="{{ asset("uploads/products_others/" . $data->photo) }}" class="cloud-zoom-gallery active">
+																<img src="{{ asset("uploads/products_others/" . $data->photo) }}" alt="{{ $product->name }}">
 															</a>
 														</li>
 														@endforeach
@@ -47,8 +47,8 @@
 											</div>
 										</div>
 										<div class="image featured col-smd-12 col-sm-12 fadeInUp not-animated" data-animate="fadeInUp">
-											@if($product->photos)
-												<img src="{{ asset("uploads/products/" . $product->photos->first()['photo']) }}" alt="{{ $product->name }}">
+											@if(App\Gallery::where('product_other_id', $product->id)->first()->get())
+												<img src="{{ asset("uploads/products_others/" . App\Gallery::where('product_other_id', $product->id)->first()->photo) }}" alt="{{ $product->name }}">
 											@endif
 										</div>
 										<div id="gallery_main_mobile" class="visible-xs product-image-thumb thumbs mobile_full_width ">
