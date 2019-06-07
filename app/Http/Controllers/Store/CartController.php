@@ -219,8 +219,8 @@ class CartController extends BaseController
             if($product){
                 $product->status = 'available';
                 $product->save();
-            }else if($product_box) {
-                if ($singleitem->id == $item) {
+            }else if($product_box){
+                if($singleitem->id == $item){
                     $currentProductOtherItem = ProductOther::where('barcode', $item)->first();
                     $currentProductOtherItem->quantity = $currentProductOtherItem->quantity + $singleitem->quantity;
                     $currentProductOtherItem->save();
