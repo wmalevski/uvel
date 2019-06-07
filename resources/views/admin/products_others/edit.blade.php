@@ -41,7 +41,7 @@
             <div class="form-group">
                 <label for="1">Количество: </label>
                 <div class="input-group">
-                    <input type="number" min="0" class="form-control" id="quantity" value="{{ $product->quantity }}" name="quantity" placeholder="Налично количество:" readonly>
+                    <input type="number" min="0" class="form-control" id="quantity" value="{{ $product->quantity }}" name="quantity" placeholder="Налично количество:">
                     <span class="input-group-addon">бр.</span>
                 </div>
             </div>
