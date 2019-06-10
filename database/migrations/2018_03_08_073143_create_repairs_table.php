@@ -16,7 +16,7 @@ class CreateRepairsTable extends Migration
         Schema::create('repairs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('customer_name');
-            $table->integer('customer_phone');
+            $table->string('customer_phone');
             $table->integer('type_id')->unsigned();
             $table->string('date_recieved');
             $table->string('date_returned');
