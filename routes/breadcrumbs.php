@@ -38,7 +38,7 @@ Breadcrumbs::register('stores', function ($breadcrumbs) {
 
 Breadcrumbs::register('settings', function ($breadcrumbs) {
     $breadcrumbs->parent('store');
-    $breadcrumbs->push('Настройки', route('settings'));
+    $breadcrumbs->push('Настройки', route('user_settings'));
 });
 
 Breadcrumbs::register('prices', function ($breadcrumbs) {
