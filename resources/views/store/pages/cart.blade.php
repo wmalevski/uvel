@@ -42,6 +42,9 @@
 															<li class="image">
 
 																<a class="cart-item-image img-fill-container" href="{{ route('single_product', ['product' => $item->attributes['product_id']])  }}">
+																	@if(count(App\Product::find($item->attributes['product_id'])->photos))
+																		<img src="{{ asset("uploads/products/" . App\Product::find($item->attributes['product_id'])->photos->first()->photo) }}" alt="{{ $item->attributes['name'] }}"width="150">
+																	@endif
 																	@if(App\Gallery::where('product_other_id', $item->attributes['product_id'])->get())
 																		<img src="{{ asset("uploads/products_others/" . App\Gallery::where('product_other_id', $item->attributes['product_id'])->first()->photo) }}" alt="{{ $item->attributes['name'] }}"width="150">
 																	@endif
