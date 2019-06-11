@@ -54,7 +54,7 @@ class RepairController extends Controller
     {
         $validator = Validator::make( $request->all(), [
             'customer_name' => 'required',
-            'customer_phone' => 'required|numeric',
+            "customer_phone" => 'required|phone',
             'type_id' => 'required',
             'date_returned' => 'required',
             'weight' => 'required|numeric',
@@ -255,7 +255,7 @@ class RepairController extends Controller
 
         $validator = Validator::make( $request->all(), [
             'customer_name' => 'required',
-            'customer_phone' => 'required|numeric',
+            'customer_phone' => 'required|phone',
             'type_id' => 'required',
             'date_returned' => 'required',
             'weight' => 'required|numeric',
