@@ -16,7 +16,6 @@ use Cart;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 
-
 class UserPaymentController extends Controller
 {
     /**
@@ -58,6 +57,7 @@ class UserPaymentController extends Controller
                 'store_id' => 'required',
                 'shipping_address' => 'required'
             ]);
+
             $user_info = [
                 'user_id' => Auth::user()->getId(),
                 'shipping_method' => $request->shipping_method,
