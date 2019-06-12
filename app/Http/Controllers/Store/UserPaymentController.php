@@ -13,6 +13,9 @@ use App\Product;
 use App\UserPaymentProduct;
 use Auth;
 use Cart;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
+
 
 class UserPaymentController extends Controller
 {
@@ -46,6 +49,15 @@ class UserPaymentController extends Controller
     {
         if($request->amount > 0){
             session()->forget('cart_info');
+
+            $validator = Validator::make($request->all(), [
+                'user_id' => 'required',
+                'shipping_method' => 'required',
+                'payment_method' => 'required',
+                'information' => 'required',
+                'store_id' => 'required',
+                'shipping_address' => 'required'
+            ]);
             $user_info = [
                 'user_id' => Auth::user()->getId(),
                 'shipping_method' => $request->shipping_method,
@@ -67,6 +79,11 @@ class UserPaymentController extends Controller
             } else if ($request->payment_method == 'borika'){
                 
             }
+
+            if ($validator->fails()) {
+                return Redirect::back()->withErrors($validator);
+            }
+
         }
     }
 
