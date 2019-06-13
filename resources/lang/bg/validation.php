@@ -148,6 +148,8 @@ return [
         'street_number' => 'Номер',
         'postcode' => 'Пощенски код',
         'country' => 'Държава',
+        'payment_method' => 'Начин на плащане',
+        'shipping_method' => 'Начин на получаване',
         'first_name' => 'Име',
         'last_name' => 'Фамилия',
 
