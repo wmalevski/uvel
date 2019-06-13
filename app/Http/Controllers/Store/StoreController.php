@@ -38,7 +38,12 @@ class StoreController extends BaseController
         $articles = Blog::take(3)->get();
 
         $slides = Slider::all();
-        //dd($productothertypes);
+
+        foreach($materials as $material) {
+            foreach ($material->productsOnline->take(10) as $key => $product) {
+                $product->weight = calculate_product_weight($product);
+            }
+        }
 
         return \View::make('store.pages.index', array('products' => $products, 'jewels' => $jewels, 'articles' => $articles, 'materials' => $materials, 'productothertypes' => $productothertypes, 'slides' => $slides, 'models' => $models));
     }

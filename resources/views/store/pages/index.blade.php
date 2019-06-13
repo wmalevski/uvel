@@ -214,7 +214,7 @@
 										<h6 class="general-title">Последни от {{ $material->parent->name }}</h6>
 										<div class="home_fp_wrapper">
 											<div class="home_fp2">
-												
+
 												@foreach ( $material->productsOnline->take(10) as $key => $product )
 												<li class="element no_full_width" data-alpha="{{ $product->name }}" data-price="{{ $product->price }}" data-id="{{$product->id}}">
 													<ul class="row-container list-unstyled clearfix">
