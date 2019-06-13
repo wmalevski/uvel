@@ -92,6 +92,8 @@
 														<li>
 															<h5>Информация за продукта</h5>
 															<ul class="sub">
+																<li><span>No:</span> {{ $product->barcode }}</li>
+																<li>{{ $product->weight }}гр.</li>
 																<li><span>Модел:</span> {{ $product->model->name }}</li>
 																<li><span>Бижу:</span> {{ $product->jewel->name }}</li>
 																<li><span>Размер:</span> {{ $product->model->size }}</li>
