@@ -338,11 +338,10 @@
 														<br>
 															{{ round($product->weight, 3) }}гр.
 														<br>
-														@if ($product->weight_without_stones == 'yes')
-															@if ( App\Stone::where('id', $product->stones->first()->id)->first() && App\Stone::where('id', $product->stones->first()->id)->first()->type != 1)
-																{{ App\Nomenclature::where('id', $product->stones->first()->id)->first()->name }} - {{ $product->stones->first()->weight }}гр.
-																<br>
-															@endif
+														@if ($product->weight_without_stones == 'yes' && App\Stone::where('id', $product->stones->first()->id)->first()
+														 && App\Stone::where('id', $product->stones->first()->id)->first()->type != 1)
+															{{ App\Nomenclature::where('id', $product->stones->first()->id)->first()->name }} - {{ $product->stones->first()->weight }}гр.
+															<br>
 														@endif
 															Налично в: {{ $product->store_info->name }}
 														<span class="spr-badge" id="spr_badge_{{$product->id}}" data-rating="{{$product->getProductAvgRating($product)}}">
