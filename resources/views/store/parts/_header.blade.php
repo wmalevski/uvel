@@ -210,7 +210,7 @@
 											@if(Auth::check())
 											{{ Cart::session(Auth::user()->getId())->getTotalQuantity() }}
 											@else
-											0
+											{{ Cart::session(Session::getId())->getTotalQuantity() }}
 											@endif
 										</span>
 									</span>
