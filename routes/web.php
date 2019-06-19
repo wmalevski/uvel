@@ -233,6 +233,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 });
 
 Route::group(['prefix' => 'ajax'], function() {
+    Route::post('/dailyreports/delete/{report}', 'DailyReportController@destroy');
+
     Route::get('/search/repairs', 'RepairController@filter');
 
     Route::get('/search/repairs_types', 'RepairTypeController@filter');
