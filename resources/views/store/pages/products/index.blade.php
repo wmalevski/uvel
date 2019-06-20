@@ -154,16 +154,21 @@
 
 														<div class="product-content-left">
 															<a class="title-5" href="{{ route('single_product', ['product' => $product->id]) }}">
-																{{ $product->name }}
+																No: {{ implode(" ", str_split($product->code, 3)) }}
 															</a>
-															<div>
-																No: {{ $product->barcode }}
-																<br />
-																{{ $product->weight }}гр.
-															</div>
-															<div>
-																Магазин: {{ $product->store_info->name }}
-															</div>
+															<br>
+															Модел: {{ $product->model->name }}
+															<br>
+															{{ $product->material->name }} - {{ $product->material->code }} - {{ $product->material->color }}
+															<br>
+															{{ round($product->weight, 3) }}гр.
+															<br>
+															@if ($product->weight_without_stones == 'yes' && App\Stone::where('id', $product->stones->first()->id)->first()
+                                                             && App\Stone::where('id', $product->stones->first()->id)->first()->type != 1)
+																{{ App\Nomenclature::where('id', $product->stones->first()->id)->first()->name }} - {{ $product->stones->first()->weight }}гр.
+																<br>
+															@endif
+															Налично в: {{ $product->store_info->name }}
 															<span class="spr-badge" data-rating="0.0">
 																<span class="spr-starrating spr-badge-starrating">
 																	{{$product->listProductAvgRatingStars($product)}}
