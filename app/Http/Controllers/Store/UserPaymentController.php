@@ -80,7 +80,7 @@ class UserPaymentController extends Controller
             if($request->payment_method == 'on_delivery'){
                 $payment = new UserPayment();
                 return $payment->storePayment();
-    
+
             } else if ($request->payment_method == 'paypal'){
                 $pay = new PaypalPay();
                 return $pay->payWithpaypal($request);
@@ -93,6 +93,7 @@ class UserPaymentController extends Controller
             }
 
         }
+        return Redirect::to('/online');
     }
 
     /**
