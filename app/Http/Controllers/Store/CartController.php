@@ -19,6 +19,7 @@ use App\MaterialType;
 use App\ProductOtherType;
 use \Darryldecode\Cart\CartCondition as CartCondition;
 use \Darryldecode\Cart\Helpers\Helpers as Helpers;
+use Illuminate\Support\Facades\DB;
 
 Class CartCustomCondition extends CartCondition {
     public function apply($totalOrSubTotalOrPrice, $conditionValue){
@@ -138,21 +139,36 @@ class CartController extends BaseController
         });
 
         if (!Auth::check()) {
-            $gItems = json_encode($items);
-            Cookie::queue(cookie('cart_products', $gItems, $minute = 10));
+            if ($items) {
+                $items = json_encode($items);
+                Cookie::queue(cookie('cart_products', $items, $minute = 10));
+                $session_id = json_encode($session_id);
+                Cookie::queue(cookie('guest_session_id', $session_id, $minute = 10));
+                $items = json_decode($items);
+            }
         } else {
             $guestItems = json_decode(request()->cookie('cart_products'));
             if ($guestItems) {
-                foreach ($items as $item) {
-                    foreach ($guestItems as $guestItem) {
-                        if ($item->id == $guestItem->id) {
-                            $item->quantity = $item->quantity + $guestItem->quantity;
-                        } else {
-                            $items[] = $guestItem;
+                foreach ($guestItems as $guestItem) {
+                    if ($items) {
+                        foreach ($items as $item) {
+                            if ($item->id == $guestItem->id) {
+                                $this->updateItem($guestItem->id, $guestItem->quantity);
+                            } else {
+                                $this->addItem($guestItem->id, $guestItem->quantity);
+                            }
                         }
+                    } else {
+                        $this->addItem($guestItem->id, $guestItem->quantity);
                     }
                 }
             }
+
+            if (request()->cookie('guest_session_id')) {
+                DB::table('cart_storage')->where('id', json_decode(request()->cookie('guest_session_id')))->delete();
+                Cookie::queue(Cookie::forget('guest_session_id'));
+            }
+            Cookie::queue(Cookie::forget('cart_products'));
         }
 
         return \View::make('store.pages.cart', array('items' => $items, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'materialTypes' => $materialTypes, 'productothertypes' => $productothertypes, 'stores' => $stores, 'countitems' => $countitems, 'conditions' => $cartConditions));
@@ -166,10 +182,17 @@ class CartController extends BaseController
             $session_id = Session::getId();
         }
 
-        $product = Product::where([
-            ['barcode', '=', $item],
-            ['status', '=', 'available']
-        ])->first();
+        if (!empty(request()->cookie('cart_products')) && Auth::check()) {
+            $product = Product::where([
+                ['barcode', '=', $item]
+            ])->first();
+        } else {
+            $product = Product::where([
+                ['barcode', '=', $item],
+                ['status', '=', 'available']
+            ])->first();
+        }
+
         $type = '';
         $itemQuantity = 1;
 
