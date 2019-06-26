@@ -93,6 +93,7 @@ class UserPaymentController extends Controller
             }
 
         }
+        return Redirect::to('\online');
     }
 
     /**
