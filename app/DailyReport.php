@@ -134,75 +134,71 @@ class DailyReport extends Model
             ['type', '=', 'jewels']
         ])->whereDate('created_at', Carbon::today())->get();
 
-        $report = new DailyReport();
-        $report->type = 'jewels';
-        $report->store_id = Auth::user()->getStore()->id;
-        $report->user_id = Auth::user()->getId();
-
         if(count($todayReport)){
             $todayReport = 'true';
         }else{
             $todayReport = 'false';
         }
 
+        $report = new DailyReport();
+        $report->type = 'jewels';
+        $report->store_id = Auth::user()->getStore()->id;
+        $report->user_id = Auth::user()->getId();
+
         $total_given = 0;
         $total_check = 0;
         $errors = [];
-        
+        $flag_errors = false;
         if($todayReport == 'false'){
-            $report->save();
-
-            foreach($request->material_id as $key => $material){
-                if($request->quantity[$key] != ''){
-                    $total_given += $request->quantity[$key];
-                    $quantity = $request->quantity[$key];
-
-                    $check = Product::where([
-                        ['material_id', '=', $material],
-                        ['status', '=', 'available'] 
-                    ])->count();
-                    $total_check += $check;
-
-                    $report_jewel = new DailyReportJewel();
-                    $report_jewel->material_id = $material;
-                    $report_jewel->quantity = $quantity;
-                    $report_jewel->report_id = $report->id;
-                    $report_jewel->save();
-                    
-                    if($check != $quantity){
-                        $errors['not_matching.jewels'] = trans('admin/reports.quantity_not_matching');
+            foreach ($request->material_id as $key => $material) {
+                $total_given += $request->quantity[$key];
+                $quantity = $request->quantity[$key];
+                $check = Product::where('material_id', $material)->where('status', 'available')->orWhere('status', 'travelling')->count();
+                $total_check += $check;
+                if (isset($request->quantity[$key])) {
+                    if ($check == $quantity) {
+                        $report->save();
+                        $report_jewel = new DailyReportJewel();
+                        $report_jewel->material_id = $material;
+                        $report_jewel->quantity = $quantity;
+                        $report_jewel->report_id = $report->id;
+                        $report_jewel->save();
                     }
+                }
+                if ($check != $quantity) {
+                    $flag_errors = true;
                 }
             }
 
-            $defaultCurrency = Currency::where('default', 'yes')->first();
-
-            $allSold = Payment::where([
-                ['method', '=', 'cash'],
-                ['receipt', '=', 'yes'],
-                ['store_id', '=', Auth::user()->getStore()->id],
-                ['currency_id', '=', $defaultCurrency->id]
-            ])->whereDate('created_at', Carbon::today())->sum('given');
-
-            if($request->fiscal_amount != $allSold){
-                $errors['not_matching.jewels'] = trans('admin/reports.fiscal_not_matching');
+            if ($flag_errors) {
+                $errors['not_matching_quantity.jewels'] = trans('admin/reports.quantity_not_matching');
+                $report->save();
             }
 
-            if($total_check != $total_given || $request->fiscal_amount != $allSold){
+            $allSold = UserPayment::where([
+                ['status', 'done'],
+                ['store_id', Auth::user()->getStore()->id]
+            ])->whereDate('created_at', Carbon::today())->sum('price');
+
+            if($request->fiscal_amount != $allSold){
+                $errors['not_matching_fiscal.jewels'] = trans('admin/reports.fiscal_not_matching');
+            }
+
+            if ($total_check != $total_given || $request->fiscal_amount != $allSold) {
                 $report->status = 'unsuccessful';
-            }else{
+            } else {
                 $report->status = 'successful';
             }
 
             $report->safe_jewels_amount = $total_check;
             $report->given_jewels_amount = $total_given;
 
-            if($request->fiscal_amount == '') $request->fiscal_amount = 0;
+            if ($request->fiscal_amount == '') $request->fiscal_amount = 0;
             $report->fiscal_amount = $request->fiscal_amount;
 
             $report->save();
 
-            if(count($errors)){
+            if($errors){
                 return Redirect::back()->withErrors($errors, 'form_jewels');
             }
 

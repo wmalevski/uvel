@@ -37,7 +37,7 @@ class DailyReportController extends Controller
     public function create()
     {
         $jewels = Jewel::all();
-        $materials = MaterialQuantity::where('store_id', Auth::user()->getStore()->id)->get();
+        $materials = Material::all();
         $currencies = Currency::where('default', 'no')->get();
 
         $dailyReports = DailyReport::whereDate('created_at', Carbon::today())->get();

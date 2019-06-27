@@ -71,23 +71,25 @@
                     </div>
                 @endforeach
             @elseif($report->type == 'jewels')
-                @foreach($report->report_jewels as $jewel)
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="1">Материал: </label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="material_id" value="{{ $jewel->material->material->name }}" readonly>
+                @if ($jewels = App\DailyReportJewel::where('report_id',$report->id))
+                    @foreach($jewels->get() as $jewel)
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="1">Материал: </label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="material_id" value="{{ \App\Material::find($jewel->material_id)->name }} - {{ \App\Material::find($jewel->material_id)->code  }} - {{ \App\Material::find($jewel->material_id)->color  }}" readonly>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group col-md-6">
-                            <label for="1">Брой: </label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="quantity" value="{{ $jewel->quantity }}" readonly>
+                            <div class="form-group col-md-6">
+                                <label for="1">Брой: </label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="quantity" value="{{ $jewel->quantity}}" readonly>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                @endif
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="1">Стойност: </label>
