@@ -276,16 +276,19 @@ class SellingController extends Controller
                 $type = "repair";
             }else{
                 if($request->barcode){
-                    $item = Product::where('barcode', $request->barcode)->first();
+                    $request_type = 'barcode';
+                    $request_var = $request->barcode;
                 } else if($request->catalog_number){
-                    $item = Product::where('code', $request->catalog_number)->first();
+                    $request_type = 'code';
+                    $request_var = $request->catalog_number;
                 }
 
+                $item = Product::where($request_type, $request_var)->first();
                 $type = "product";
-
-                // if($item->order){
-                //     $checkOrder = 
-                // } 
+                if (!$item) {
+                    $item = ProductOther::where($request_type, $request_var)->first();
+                    $type = "box";
+                }
             }
 
             if($item){
@@ -312,23 +315,26 @@ class SellingController extends Controller
                     }else{
                         $calculated_weight = $item->weight;
                     }
-
-
                 } else if($type == 'repair'){
                     $item->status = 'returning';
                     $item->save();
 
                     $calculated_weight = '';
-                }           
+                } else {
+                    if ($item->quantity) {
+                        $item->quantity -= 1;
+                        $item->save();
+                    }
+
+                    $calculated_weight = '';
+                }
             }
         }else{
             if($request->barcode){
                 $item = ProductOther::where('barcode', $request->barcode)->first();
-
                 $type = "box";
             } else if($request->catalog_number){
                 $item = ProductOther::where('code', $request->catalog_number)->first();
-
                 $type = "box";
             }
 
@@ -339,7 +345,7 @@ class SellingController extends Controller
                 )], 401);
             }
             
-            $item->quantity = $item->quantity-$request->quantity;
+            $item->quantity = $item->quantity - $request->quantity;
             $item->save();
 
             $calculated_weight = '';
@@ -360,7 +366,7 @@ class SellingController extends Controller
 
                 if($type == "repair"){
                     Cart::session($userId)->add(array(
-                        'id' => $item->barcode,
+                        'id' => $item->code,
                         'name' => 'Връщане на ремонт - '.$item->customer_name,
                         'price' => $item->price,
                         'quantity' => 1,
@@ -370,6 +376,17 @@ class SellingController extends Controller
                         )
                     ));
             
+                }else if ($type == "box") {
+                    Cart::session($userId)->add(array(
+                        'id' => $item->code,
+                        'name' => $item->name,
+                        'price' => $item->price,
+                        'quantity' => $request->quantity,
+                        'attributes' => array(
+                            'weight' => $item->weight,
+                            'type' => 'box'
+                        )
+                    ));
                 }else{
                     if($item->material){
                         $carat = $item->material->carat;
@@ -389,7 +406,7 @@ class SellingController extends Controller
                     }
 
                     Cart::session($userId)->add(array(
-                        'id' => $item->barcode,
+                        'id' => $item->code,
                         'name' => $item->name,
                         'price' => $item->price,
                         'quantity' => $request->quantity,
