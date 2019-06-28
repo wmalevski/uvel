@@ -42,10 +42,9 @@ class DailyReport extends Model
         //Getting all banknote fields and summing them
         $sum = 0;
         foreach($request->banknote as $key => $banknote) {
-            if($request->quantity[$key] != ''){
-                $calculate = $banknote * $request->quantity[$key];
-                $sum += $calculate;
-            }
+            $quantity = $request->quantity[$key] ? $request->quantity[$key] : 0;
+            $calculate = $banknote * $quantity;
+            $sum += $calculate;
         }
 
         $defaultCurrency = Currency::where('default', 'yes')->first();
@@ -91,15 +90,14 @@ class DailyReport extends Model
             $report->save();
 
             foreach($request->banknote as $key => $banknote) {
-                if($request->quantity[$key] != '' && $request->quantity[$key] > 0){
-                    $calculate = $banknote * $request->quantity[$key];
-    
-                    $report_banknote = new DailyReportBanknote();
-                    $report_banknote->banknote = $banknote;
-                    $report_banknote->quantity = $request->quantity[$key];
-                    $report_banknote->report_id = $report->id;
-                    $report_banknote->save();
-                }
+                $quantity = $request->quantity[$key] ? $request->quantity[$key] : 0;
+                $calculate = $banknote * $request->quantity[$key];
+
+                $report_banknote = new DailyReportBanknote();
+                $report_banknote->banknote = $banknote;
+                $report_banknote->quantity = $quantity;
+                $report_banknote->report_id = $report->id;
+                $report_banknote->save();
             }
 
             foreach($request->currency_id as $key => $currency){
