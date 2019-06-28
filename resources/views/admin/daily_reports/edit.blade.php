@@ -99,19 +99,28 @@
                     </div>
                 </div>
             @elseif($report->type == 'materials')
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="1">Материал:</label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="1">Количество:</label>
+                    </div>
+                </div>
                 @foreach($report->report_materials as $material)
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="1">Материал:</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" name="material_id" value="{{ $material->material->material->name }} - {{ $material->material->material->code }} - {{ $material->material->material->color }}" readonly>
+                                <input type="text" class="form-control" name="material_id"
+                                       value="{{ $material->material->material->name }} - {{ $material->material->material->code }} - {{ $material->material->material->color }}"
+                                       readonly>
                             </div>
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label for="1">Количество:</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" name="quantity" value="{{ $material->quantity }}" readonly>
+                                <input type="text" class="form-control" name="quantity"
+                                       value="{{ $material->quantity }}" readonly>
                                 <span class="input-group-addon">гр.</span>
                             </div>
                         </div>
