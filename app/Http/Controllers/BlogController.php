@@ -151,40 +151,42 @@ class BlogController extends Controller
 
     private function uploadPhotos($file_data, $article) {
         $path = public_path('uploads/blog/');
-        
+
         File::makeDirectory($path, 0775, true, true);
 
-        foreach($file_data as $lang => $img){
-            $memi = substr($img, 5, strpos($img, ';')-5);
+        foreach ($file_data as $lang => $img) {
+            if (!count(Gallery::where('blog_id', $article->id)->where('language', $lang)->where('deleted_at', NULL)->get())) {
+                $memi = substr($img, 5, strpos($img, ';') - 5);
 
-            $extension = explode('/',$memi);
+                $extension = explode('/',$memi);
 
-            if($extension[1] == "svg+xml"){
-                $ext = 'png';
-            }else{
-                $ext = $extension[1];
-            }
-            
-            $file_name = 'productimage_' . $lang . '_' .uniqid().time().'.'.$ext;
-        
-            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-            file_put_contents(public_path('uploads/blog/').$file_name, $data);
+                if($extension[1] == "svg+xml"){
+                    $ext = 'png';
+                }else{
+                    $ext = $extension[1];
+                }
 
-            Storage::disk('public')->put('blog/'.$file_name, file_get_contents(public_path('uploads/blog/').$file_name));
+                $file_name = 'productimage_' . $lang . '_' .uniqid().time().'.'.$ext;
 
-            try {
-                $photo = new Gallery();
-                $photo->photo = $file_name;
-                $photo->blog_id = $article->id;
-                $photo->language = $lang;
-                $photo->table = 'blog';
+                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                file_put_contents(public_path('uploads/blog/').$file_name, $data);
 
-                $photo->save();
+                Storage::disk('public')->put('blog/'.$file_name, file_get_contents(public_path('uploads/blog/').$file_name));
 
-                $translation = new BlogTranslation();
-                $translation::where('blog_id', $article->id)->where('locale', $lang)->update(['thumbnail_id' => $photo->id]);
-            } catch (\Exception $e) {
-                return $e->getMessage();
+                try {
+                    $photo = new Gallery();
+                    $photo->photo = $file_name;
+                    $photo->blog_id = $article->id;
+                    $photo->language = $lang;
+                    $photo->table = 'blog';
+
+                    $photo->save();
+
+                    $translation = new BlogTranslation();
+                    $translation::where('blog_id', $article->id)->where('locale', $lang)->update(['thumbnail_id' => $photo->id]);
+                } catch (\Exception $e) {
+                    return $e->getMessage();
+                }
             }
         }
     }
