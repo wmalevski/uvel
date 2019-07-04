@@ -48,10 +48,11 @@ table thead tr:first-child th:not([data-sort-method="none"]):hover {
 }
 
 .modal-content .checkbox label:after {
-	top: 7px;
-	left: 2px;
-	width: 10px !important;
-	height: 10px !important;
+	width: 17px !important;
+    height: 17px !important;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
 	border-radius: 50%;
 	font-size: 12px !important;
 }
