@@ -33,7 +33,11 @@
 				<div id="quick-shop-infomation" class="description">
 					<div id="quick-shop-description" class="text-left">
 						<p>
+							Модел: {{ $product->name }}
+							<br />
 							No: {{ $product->code }}
+							<br />
+							Налично в: {{ App\Store::where('id',$product->store_id)->first()->name }}
 						</p>
 					</div>
 				</div>

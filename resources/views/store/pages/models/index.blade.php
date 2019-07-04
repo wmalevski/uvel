@@ -116,7 +116,7 @@
 													<li class="row-right parent-fly animMix">
 														<div class="product-content-left">
 															<a class="title-5" href="{{ route('single_model', ['model' => $model->id])  }}">
-															{{ $model->name }}
+															Модел: {{ $model->name }}
 															</a>
 															<br/>
 															{{ $model->weight }}гр.
