@@ -64,10 +64,14 @@ class ProductController extends BaseController
         $allProducts = Product::select('*')->where('jewel_id',$product->jewel_id )->whereNotIn('id', [$product->id]);
         $similarProducts = $allProducts->orderBy(DB::raw('ABS(`price` - '.$product->price.')'))->take(5)->get();
         
-        if($product){
+        if($product) {
+            $weightWithoutStone = $product->weight;
             $product->weight = calculate_product_weight($product);
+            foreach ($similarProducts as $similarProduct){
+                $similarProduct->weight = calculate_product_weight($similarProduct);
+            }
 
-            return \View::make('store.pages.products.single', array('materialTypes' => $materialTypes, 'product' => $product, 'products' => $products, 'similarProducts' => $similarProducts, 'productAvgRating' => $product->getProductAvgRating($product)));
+            return \View::make('store.pages.products.single', array( 'weightWithoutStone' => $weightWithoutStone, 'materialTypes' => $materialTypes, 'product' => $product, 'products' => $products, 'similarProducts' => $similarProducts, 'productAvgRating' => $product->getProductAvgRating($product)));
         }
     }
 
