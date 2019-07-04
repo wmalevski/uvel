@@ -218,41 +218,43 @@ class DailyReport extends Model
         $report->store_id = Auth::user()->getStore()->id;
         $report->user_id = Auth::user()->getId();
 
-        if(count($todayReport)){
+        if (count($todayReport)) {
             $todayReport = 'true';
-        }else{
+        } else {
             $todayReport = 'false';
         }
 
         $total_given = 0;
         $errors = [];
-        if($todayReport == 'false'){
-            $report->save();
-
-            foreach($request->material_id as $key => $material){
+        $flag_errors = false;
+        if ($todayReport == 'false') {
+            foreach ($request->material_id as $key => $material) {
                 $total_given += $request->quantity[$key];
-                if($request->quantity[$key] != ''){
-                    $quantity = $request->quantity[$key];
-                }else{
+                $quantity = $request->quantity[$key];
+                $check = MaterialQuantity::where('material_id', $material)->first();
+                if (!$quantity) {
                     $quantity = 0;
                 }
-                
-                $check = MaterialQuantity::find($material);
-
+                $report->save();
                 $report_material = new DailyReportMaterial();
                 $report_material->material_id = $material;
                 $report_material->quantity = $quantity;
                 $report_material->report_id = $report->id;
                 $report_material->save();
-                
-                if($check->quantity != $quantity){
-                    $errors['not_matching.materials'] = trans('admin/reports.quantity_not_matching');
+
+                if ($check->quantity != $quantity) {
+                    $flag_errors = true;
                 }
             }
 
-            if(count($errors)){
+            if ($flag_errors) {
+                $errors['not_matching.materials'] = trans('admin/reports.quantity_not_matching');
+                $report->save();
+            }
+
+            if ($errors) {
                 $report->status = 'unsuccessful';
-            }else{
+            } else {
                 $report->status = 'successful';
             }
 
@@ -261,12 +263,12 @@ class DailyReport extends Model
 
             $report->save();
 
-            if(count($errors)){
+            if ($errors) {
                 return Redirect::back()->withErrors($errors, 'form_materials');
             }
 
             return Redirect::back()->with(['success.materials' => trans('admin/reports.success')]);
-        }else{
+        } else {
             return Redirect::back()->withErrors(['already_exists.jewels' => trans('admin/reports.already_exists')], 'form_materials');
         }
     }
