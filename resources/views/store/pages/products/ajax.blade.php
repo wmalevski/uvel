@@ -13,12 +13,17 @@
 		<li class="row-right parent-fly animMix @if($listType == 'goList') col-md-16 @endif">
 			<div class="product-content-left">
 				<a class="title-5" href="{{ route('single_product', ['product' => $product->id]) }}">
-					{{ $product->name }}
+					{{	implode(" ", str_split($product->code, 3)) }}
 				</a>
 				<div>
-					No: {{ $product->barcode }}
-					<br />
-					{{ $product->weight }}гр.
+					No: {{ implode(" ", str_split($product->code, 3)) }}
+					<br/>
+					{{ $product->weight['weight'] }}гр.
+					<br/>
+					@if (isset($product->weight['stone']))
+						{{ $product->weight['stone'] }}кт.
+						<br/>
+					@endif
 				</div>
 				<div>
 					Магазин: {{ $product->store_info->name }}
