@@ -133,11 +133,12 @@
 													<li class="row-right parent-fly animMix">
 														<div class="product-content-left">
 															<a class="title-5" href="{{ route('single_product_other', ['product' => $product->id])  }}">
-																{{ $product->name }}
+															Модел: {{ $product->name }}
 															</a>
 															<br />
 															No: {{ $product->code }}
 															<br />
+															Налично в: {{ App\Store::where('id',$product->store_id)->first()->name }}
 															<span class="spr-badge">
 																<span class="spr-starrating spr-badge-starrating">
 																	{{$product->listProductOtherAvgRatingStars($product)}}

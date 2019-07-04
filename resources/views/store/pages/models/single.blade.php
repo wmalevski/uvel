@@ -90,6 +90,7 @@
 															<h5>Информация за продукта</h5>
 															<ul class="sub">
 																<li><span>Модел:</span> {{ $model->name }}</li>
+																<li><span>{{ $model->weight }}гр.</li>
 																<li><span>Бижу:</span> {{ $model->jewel->name }}</li>
 																<li><span>Размер:</span> {{ $model->size }}</li>
 															</ul>
@@ -304,8 +305,12 @@
 												<li class="row-right parent-fly animMix">
 													<div class="product-content-left">
 														<a class="title-5" href="{{ route('single_model', ['model' => $model->id])  }}">
-															{{ $model->name }}
+															Модел: {{ $model->name }}
 														</a>
+														<br/>
+														{{ $model->weight }}гр.
+														<br/>
+														<strong class="text-danger">По Поръчка за 10 дни</strong>
 														<span class="spr-badge" data-rating="0.0">
 															<span class="spr-starrating spr-badge-starrating">
 																{{$model->listModelAvgRatingStars($model)}}

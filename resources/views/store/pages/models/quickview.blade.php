@@ -33,9 +33,11 @@
 				<div id="quick-shop-infomation" class="description">
 					<div id="quick-shop-description" class="text-left">
 						<p>
-							No: {{ $model->code }}
+							Модел: {{ $model->name }}
 							<br/>
 							{{ $model->weight }}гр.
+							<br/>
+							<strong class="text-danger">По Поръчка за 10 дни</strong>
 							<br/>
 						</p>
 					</div>

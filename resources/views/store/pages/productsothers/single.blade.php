@@ -94,7 +94,9 @@
 														<li>
 															<h5>Информация за продукта</h5>
 															<ul class="sub">
-																<li><span>No:</span> {{ $product->code }}</li>
+																<li>Модел: {{ $product->name }} </li>
+																<li>No: {{ $product->code }}</li>
+																<li>Налично в: {{ App\Store::where('id',$product->store_id)->first()->name }}</li>
 															</ul>
 														</li>
 													</ul>
@@ -323,7 +325,7 @@
 												<li class="row-left">
 													<a href="{{ route('single_product', ['product' => $product->id]) }}" class="container_item">
 														<img class="img-fill" alt="{{ $product->name }}"
-																 src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }}
+																 src="@if(App\Gallery::where('product_other_id', $product->id)->first()) {{ asset("uploads/products_others/" . App\Gallery::where('product_other_id', $product->id)->first()->photo) }}
 																 @else {{ asset('store/images/demo_375x375.png') }} @endif">
 													</a>
 													<div class="hbw">
@@ -333,7 +335,12 @@
 												<li class="row-right parent-fly animMix">
 													<div class="product-content-left">
 														<a class="title-5" href="{{ route('single_product_other', ['product' => $product->id]) }}">
-															{{ $product->name }}</a>
+														Модел: {{ $product->name }}
+														</a>
+														<br />
+														No: {{ $product->code }}
+														<br />
+														Налично в: {{ App\Store::where('id',$product->store_id)->first()->name }}
 														<span class="spr-badge" id="spr_badge_{{$product->id}}" data-rating="{{$product->getProductOtherAvgRating($product)}}">
 															<span class="spr-starrating spr-badge-starrating">
 																{{$product->listProductOtherAvgRatingStars($product)}}
