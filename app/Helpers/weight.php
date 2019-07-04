@@ -19,8 +19,8 @@ if( ! function_exists('calculate_product_weight') ) {
             if (Str::lower($product->material->name) == "сребро") {
                 $weight = round($product->gross_weight, 3);
             } elseif (Str::lower($product->material->name) == "злато") {
-                if (Stone::where('id', $product->stones->first()->id)->first()->type != 1) {
-                    $stoneId = ProductStone::where('product_id', $product->id)->first()->id;
+                if (($stone = Stone::where('id', $product->stones->first()->stone_id)->first()) && $stone->type != 1) {
+                    $stoneId = $product->stones->first()->stone_id;
                     $stoneCarat = Stone::where('id', $stoneId)->first()->carat;
                     $stoneName = Nomenclature::where('id', $stoneId)->first()->name;
                     $stoneWeight = $product->gross_weight - $product->weight;
