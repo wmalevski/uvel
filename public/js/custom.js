@@ -1516,14 +1516,14 @@ var uvel,
       storeSelect.on('change', function() {
         var websiteVisible = form.find('[name="website_visible"]');
 
-        if (this.value == 1) {
-          websiteVisible.attr({
+        if (this.selectedOptions[0].value == 1) {
+          websiteVisible.prop({
             disabled: true,
             checked: false
           });
 
-        } else if (websiteVisible.attr('disabled')) {
-          websiteVisible.attr('disabled', false);
+        } else if (websiteVisible.prop('disabled')) {
+          websiteVisible.prop('disabled', false);
         }
       })
     }
