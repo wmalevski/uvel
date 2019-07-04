@@ -27,7 +27,7 @@
 					<div class="group">
 						<h5 class="general-title">Информация</h5>
 						<ul>
-							<li><a href="{{ route('stores') }}">Магазини</a></li>
+							<li><a href="{{ route('online_stores') }}">Магазини</a></li>
 							<li><a href="./account.html">Политика за поверителност</a></li>
 							<li><a href="./account.html">Карта на сайта</a></li>
 						</ul>
