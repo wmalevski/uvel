@@ -3,6 +3,11 @@ body {
     overflow-x: hidden;
 }
 
+.top-navigation .dropdown-menu {
+    margin: 0px !important;
+    left: 14px;
+}
+
 #product-header {
     display: flex; 
     align-items: center;
@@ -253,6 +258,10 @@ header .col-md-18 {
     .contact-content {
         padding: 0;
     }
+
+    .top-navigation .dropdown-menu {
+        left: 8px;
+    }
 }
 
 @media (max-width: 767px) {
@@ -291,6 +300,10 @@ header .col-md-18 {
 
     .collection-page {
         padding-left: 0px !important;
+    }
+
+    .top-navigation .dropdown-menu {
+        left: 0;
     }
 }
 
