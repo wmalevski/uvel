@@ -2217,7 +2217,7 @@ var uvel,
 
       givenHolder[0].setAttributeNode(disable);
       currencySelector.attr('disabled', true);
-      currencySelector.val(defaultCurrrency);
+      currencySelector.val(defaultCurrrency).trigger('change');
       $self.getWantedSum(form);
 
       var wantedSum = form.find('[data-calculatePayment-wanted]').val();
