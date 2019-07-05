@@ -119,6 +119,7 @@
             <input type="number" class="form-control calculate" id="weight" name="weight" value="{{ $model->weight }}"
                    data-calculatePrice-netWeight placeholder="Тегло:">
             <span class="input-group-addon">гр.</span>
+            <input type="number" class="form-control form-control--hidden" name="gross_weight" id="grossWeight_edit" value="0" data-calculateprice-grossweight="" disabled="">
           </div>
         </div>
 
