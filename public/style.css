@@ -4,6 +4,10 @@
 }
 
 /* todo: fix styles */
+button:hover {
+	cursor: pointer;
+}
+
 .model_stones .row-total-weight {
 	position: relative;
 	top: 0;
