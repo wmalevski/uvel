@@ -304,26 +304,25 @@
 						<div class="container">
 							<div class="home-promotion-blog row">
 								<h6 class="general-title">Последни новини</h6>
-								@if(count($articles))
-									<div class="home-bottom_banner_wrapper col-md-12">
-										@foreach( $articles as $article)
-											@foreach( $article->thumbnail as $thumb)
-												<div id="home-bottom_banner" class="home-bottom_banner">
-													<a  href="{{ route('single_translated_article', ['locale'=>app()->getLocale(), 'product' =>$article->slug])  }}">
-														@if($thumb->language == 'bg')
-															<div class="image-wrapper">
-																<img src="{{ asset("uploads/blog/" . $thumb->photo) }}" alt="{{ $article->slug }}"/>
-															</div>
-														@endif
-													</a>
-												</div>
-											@endforeach
-										@endforeach
-									</div>
-								@endif
+							</div>
+
+							@foreach($articles as $article)
+							<div class="row home-blog__article">
+								<div class="home-bottom_banner_wrapper col-md-12">
+									@foreach( $article->thumbnail as $thumb)
+										<div id="home-bottom_banner" class="home-bottom_banner">
+											<a  href="{{ route('single_translated_article', ['locale'=>app()->getLocale(), 'product' =>$article->slug])  }}">
+												@if($thumb->language == 'bg')
+													<div class="image-wrapper">
+														<img src="{{ asset("uploads/blog/" . $thumb->photo) }}" alt="{{ $article->slug }}"/>
+													</div>
+												@endif
+											</a>
+										</div>
+									@endforeach
+								</div>
 								<div class="home-blog-wrapper col-md-12">
 									<div id="home_blog" class="home-blog">
-										@foreach($articles as $article)
 										<div class="home-blog-item row">
 											<div class="date col-md-4">
 												<div class="date_inner">
@@ -359,10 +358,10 @@
 												</div>
 											</div>
 										</div>
-										@endforeach
 									</div>
 								</div>
 							</div>
+							@endforeach
 						</div>
 					</div>
 					@endif
