@@ -154,7 +154,7 @@
 														</div>
 														
 														<div class="hover-appear">
-															<a href="{{ route('single_product', ['product' => $product->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
+															<a href="{{ route('single_product_other', ['products' => $product->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
 																<input name="quantity" value="1" type="hidden">
 																<i class="fa fa-lg fa-th-list"></i>
 																<span class="list-mode">Преглед</span>
