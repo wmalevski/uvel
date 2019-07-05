@@ -8,6 +8,10 @@ button:hover {
 	cursor: pointer;
 }
 
+.form-control--hidden {
+	display: none !important;
+}
+
 .model_stones .row-total-weight {
 	position: relative;
 	top: 0;

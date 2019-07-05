@@ -120,6 +120,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							<div class="input-group">
 								<input type="number" class="form-control calculate" id="weight" name="weight" data-calculatePrice-netWeight placeholder="Тегло:">
 								<span class="input-group-addon">гр.</span>
+								<input type="number" class="form-control form-control--hidden" name="gross_weight" id="grossWeight_edit" value="0" data-calculateprice-grossweight="" disabled="">
 							</div>
 						</div>
 
