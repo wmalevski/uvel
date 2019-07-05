@@ -8,6 +8,14 @@ button:hover {
 	cursor: pointer;
 }
 
+.sidebar .ps__rail-x {
+	bottom: 0 !important;
+}
+
+.sidebar-menu .nav-item:last-of-type {
+	margin-bottom: 30px !important;
+}
+
 .form-control--hidden {
 	display: none !important;
 }
