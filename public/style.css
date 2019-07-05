@@ -4,6 +4,17 @@
 }
 
 /* todo: fix styles */
+.model_stones .row-total-weight {
+	position: relative;
+	top: 0;
+	left: 0;
+	right: auto;
+}
+
+.modal-content .radio label, .modal-content .checkbox label, .modal-content .checkbox .peer {
+	margin: 0 !important;
+}
+
 #blog_lng_edit li:first-child {
   margin-right: 10px;
 }
