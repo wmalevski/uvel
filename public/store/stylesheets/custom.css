@@ -7,6 +7,10 @@ header {
 	transition: margin-top 0.3s, background-color 0.3s;
 }
 
+header .container.bottom {
+	height: auto;
+}
+
 header .login a {
 	font-size: 16px !important;
 }
@@ -89,9 +93,6 @@ header.affix .container.top {
 	}
 
 	header .top-navigation,
-	header .container.bottom {
-		height: 50px;
-	}
 
 	header .top-navigation .umbrella {
 		padding-top: 0;
@@ -130,10 +131,6 @@ header.affix .container.top {
 		position: fixed;
 	}
 	
-	#breadcrumb {
-		margin-top: 100px;
-	}
-	
 	header.affix .top-logo {
 		margin-top: -54px;
 		transition: margin-top 0.3s ease-out;
@@ -147,10 +144,6 @@ header.affix .container.top {
 		height: 50px;
 		transition: height 0.5s;
 	}
-	
-	#breadcrumb {
-		margin-top: 160px !important;
-	}
 }
 
 @media (min-width: 1041px) {
@@ -159,7 +152,7 @@ header.affix .container.top {
 	}
 
 	#breadcrumb {
-		margin-top: 100px;
+		margin-top: 107px;
 	}
 }
 
@@ -224,10 +217,6 @@ header.affix .container.top {
 	header .col-md-18 {
 		padding-right: 120px;
 	}
-
-	#breadcrumb {
-		margin-top: -20px;
-	}
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
@@ -280,10 +269,6 @@ header.affix .container.top {
 	header .navbar-nav .nav-item {
 		padding: 8px;
 	}
-
-	#breadcrumb {
-		margin-top: -20px;
-	}
 }
 
 @media (max-width: 767px) {
@@ -306,7 +291,6 @@ header.affix .container.top {
 	}
 
 	#breadcrumb {
-		margin-top: -14px;
 		padding: 8px 0;
 	}
 }

@@ -507,6 +507,27 @@ var uvelStore,
 		$self.quickViewImageSwap();
 		$self.handleErrors();
 		$self.checkIfNotHomePage();
+		$self.handleNavigationResizeAttach();
+	};
+
+	this.handleNavigationResizeAttach = function() {
+		var resizeTimeout = 250,
+			debounced = _.debounce(handleNavigationResize, resizeTimeout),
+			navigation = document.querySelector('#top'),
+			breadcrumbs = document.querySelector('#breadcrumb');
+
+		function handleNavigationResize() {
+			if ($window.width() > 1041 || ($window.width() == 1024 && $window.height() == 1366)) {
+				breadcrumbs.style.marginTop = navigation.offsetHeight + 'px';
+			} else {
+				breadcrumbs.style.marginTop = '0';
+			}
+		}
+
+		if (breadcrumbs) {
+			handleNavigationResize();
+			$(window).on('resize', debounced);
+		}
 	};
 
 	this.checkIfNotHomePage = function() {

@@ -53,6 +53,7 @@
 	<script src="{{ asset('store/javascripts/jquery.fancybox-buttons.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('store/javascripts/jquery.zoom.js') }}" type="text/javascript"></script>	
 	<script src="{{ asset('store/javascripts/cs.script.js') }}" type="text/javascript"></script>
+	<script src="{{ asset('store/javascripts/lodash.custom.min.js') }}" type="text/javascript"></script>
 </head>
 
 <body {{ !Request::routeIs('store') ? 'itemscope="" itemtype="http://schema.org/WebPage"' : '' }} class="{{ $bodyClass }} notouch">
