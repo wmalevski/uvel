@@ -190,8 +190,10 @@ class RepairController extends Controller
         
                 //return redirect()->route('admin');
                 return Response::json(array('success' => '', 'redirect' => route('admin')));
+            }elseif($repair->status == 'returned') {
+                return Response::json(['errors' => ['not_done' => ['Ремонтът е отбелязан като завършен.']]], 401);
             }else{
-                return Response::json(['errors' => ['not_done' => ['Ремонта не е отбелязан като завършен и готов за връщане.']]], 401);
+                return Response::json(['errors' => ['not_done' => ['Ремонтът не е отбелязан като завършен и готов за връщане.']]], 401);
             }
         }else{
             return Response::json(['errors' => ['not_exist' => ['Не съществува такъв ремонт.']]], 401);
