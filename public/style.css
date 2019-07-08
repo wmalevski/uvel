@@ -12,6 +12,10 @@ button:hover {
 	display: none !important;
 }
 
+.note-toolbar-wrapper.panel-default {
+    min-height: 66px;
+}
+
 .model_stones .row-total-weight {
 	position: relative;
 	top: 0;
