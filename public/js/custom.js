@@ -47,7 +47,7 @@ var uvel,
       },
       materials: {
         selector: '[name="materials"]',
-        controllers: [],
+        controllers: ['newMaterialInit'],
         initialized: false
       },
       materialsQuantity: {
@@ -1427,6 +1427,20 @@ var uvel,
             row.replaceWith(htmlResponse);
           }
         });
+      });
+    }
+
+    this.newMaterialInit = function(form) {
+      var materialType = form.find('[name="parent_id"]'),
+          materialCarat = form.find('[name="carat"]')[0];
+
+      materialType.on('change', function() {
+        if (this.selectedOptions[0].value == 2) {
+          materialCarat.value = '';
+          materialCarat.disabled = true;
+        } else {
+          materialCarat.disabled = false;
+        }
       });
     }
 
