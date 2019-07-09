@@ -1,5 +1,5 @@
 <tr data-id="{{ $product->id }}">
-    <td>{{ App\Product::withTrashed()->find($product->product_id)->name }}</td> 
+    <td>{{ App\Product::withTrashed()->find($product->product_id)->code }}</td>
     <td>{{ $product->created_at }} </td> 
     <td>{{ App\Store::withTrashed()->find($product->store_from_id)->name }}</td>
     <td>{{ App\Store::withTrashed()->find($product->store_to_id)->name }}</td>
