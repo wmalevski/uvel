@@ -934,21 +934,25 @@ var uvelStore,
 	}
 
 	this.showMessage = function (message) {
-		var timeToStay = 5000,
+		var messageLength = message[0].textContent.trim().length;
+
+		if (messageLength) {
+			var timeToStay = 5000,
 			navi = $('.top-navigation'),
 			header = $('header'),
 			naviHeight = navi.outerHeight();
 
-		if (header.hasClass('affix')) {
-			message.css('top', naviHeight);
-		}
+			if (header.hasClass('affix')) {
+				message.css('top', naviHeight);
+			}
 
-		message.slideDown('fast');
-		setTimeout(function () {
-			message.slideUp('fast', function () {
-				message.remove();
-			})
-		}, timeToStay)
+			message.slideDown('fast');
+			setTimeout(function () {
+				message.slideUp('fast', function () {
+					message.remove();
+				})
+			}, timeToStay)
+		}
 	}
 
 	this.filterAttach = function (filterBtn) {
