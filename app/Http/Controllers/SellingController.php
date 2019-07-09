@@ -292,9 +292,18 @@ class SellingController extends Controller
             }
 
             if($item){
+                $available = true;
                 if($item->status == 'selling'){
+                    $message = 'Продуктът в момента принадлежи на друга продажба.';
+                    $available = false;
+                } elseif($item->status == 'sold'){
+                    $message = 'Продуктът е продаден.';
+                    $available = false;
+                }
+
+                if (!$available) {
                     return Response::json(['errors' => array(
-                        'selling' => 'Продукта в момента принадлежи на друга продажба.'
+                        'selling' => $message
                     )], 401);
                 }
 
