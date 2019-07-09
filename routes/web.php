@@ -420,8 +420,8 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/repairs', 'RepairController@store');
 
-    Route::get('/repairs/return/{barcode}', 'RepairController@return');
-    Route::put('/repairs/return/{barcode}', 'RepairController@returnRepair');
+    Route::get('/repairs/return/{code}', 'RepairController@return');
+    Route::put('/repairs/return/{code}', 'RepairController@returnRepair');
 
     Route::get('/repairs/edit/{barcode}', 'RepairController@edit');
     Route::put('/repairs/edit/{barcode}', 'RepairController@update');

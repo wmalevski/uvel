@@ -154,7 +154,7 @@ class Payment extends Model
             foreach(Cart::session($userId)->getContent() as $item)
             {
                 if($item['attributes']->type == 'repair'){
-                    $repair = Repair::where('barcode', $item->id)->first();
+                    $repair = Repair::where('code', $item->id)->first();
 
                     if($repair){
                         $repair->status = 'returned';
