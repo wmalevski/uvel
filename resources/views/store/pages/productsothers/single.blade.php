@@ -244,10 +244,14 @@
 											</div>
 											<div class="spr-content">
 												<div class="spr-form" id="form_{{$product->id}}">
-													<form method="post" action="{{ route('product_review', ['product' => $product->id]) }}" id="new-review-form_{{$product->id}}"
+													<form method="post" data-form-captcha action="{{ route('product_review', ['product' => $product->id]) }}" id="new-review-form_{{$product->id}}"
 													 class="new-review-form">
 														{{ csrf_field() }}
 														<input type="hidden" name="rating" value="5">
+														<div 
+															id="review_form"
+															data-size="invisible" data-captcha="review_form" data-callback="formSubmit">
+														</div>
 														<h3 class="spr-form-title">
 															Напиши ревю
 														</h3>
@@ -274,8 +278,7 @@
 															</div>
 														</fieldset>
 														<fieldset class="spr-form-actions">
-															<input id="btnSubmitReview" type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary"
-																		 value="Добави рейтинг" disabled>
+															<button id="btnSubmitReview" type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary" disabled>Добави рейтинг</button>
 														</fieldset>
 														<input type="hidden" name="product_others_id" value="{{$product->id}}">
 														<input type="hidden" name="type" value="product_other">

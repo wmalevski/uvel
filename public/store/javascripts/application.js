@@ -467,11 +467,11 @@ borderSize:4,showLens:!0,borderColour:"#888",lensBorderSize:1,lensBorderColour:"
 var uvelStore,
 	uvelStoreController = function() {
 		var $self = this,
-			$window = $(window);
+			$window = $(window),
+			_captchaWidgets = {};
 
 	this.init = function() {
 		var $quickViewTrigger = $('.quick_shop'),
-			//$subscribeTrigger = $('form[name="mc-embedded-subscribe-form"] button[type="submit"]'),
 			$filterTrigger = $('.filter-tag-group .tag-group li'),
 			$filterInputTrigger = $('.filter-tag-group .tag-group input'),
 			$shippingMethodTrigger = $('[name="shippingMethod"]'),
@@ -483,17 +483,16 @@ var uvelStore,
 			$removeFromCartTrigger = $('.remove-from-cart'),
 			$updateCartQuantityTrigger = $('.update-cart-quantity'),
 			$orderProductTrigger = $('.order_product'),
-			$sortTrigger = $('.sort');
+			$sortTrigger = $('.sort'),
+			$formWithCaptcha = $('[data-form-captcha]');
 
 		$self.quickviewAttach($quickViewTrigger);
 		$self.imageHandling();
-		//$self.subscribeAttach($subscribeTrigger);
 		$self.filterAttach($filterTrigger);
 		$self.filterInputAttach($filterInputTrigger);
 		$self.shippingMethodAttach($shippingMethodTrigger);
 		$self.paymentMethodAttach($paymentMethodTrigger);
 		$self.addDiscountAttach($addDiscountTrigger);
-		$self.submitCustomOrder();
 		$self.removeDiscountAttach($removeDiscountTrigger);
 		$self.discountEnter($discountCradInput);
 		$self.addToCartAttach($addToCartTrigger);
@@ -508,6 +507,7 @@ var uvelStore,
 		$self.handleErrors();
 		$self.checkIfNotHomePage();
 		$self.handleNavigationResizeAttach();
+		$self.formsWithCaptchaSubmit($formWithCaptcha);
 	};
 
 	this.handleNavigationResizeAttach = function() {
@@ -874,50 +874,54 @@ var uvelStore,
 		}
 	}
 
-	this.subscribeAttach = function (subscribeTrigger) {
-		subscribeTrigger.on('click', function (e) {
-			e.preventDefault();
-			$self.subscribe($(this));
-		})
+	this.renderCaptcha = function(key) {
+		var captchas = document.querySelectorAll('[data-captcha]');
+
+		for (var i = 0; i < captchas.length; i++) {
+			render(captchas[i]);
+		}
+
+		function render(captcha) {
+			var data = captcha.dataset,
+				form = $(captcha.closest('form'));
+
+			_captchaWidgets[data.captcha] = grecaptcha.render(data.captcha, {
+				sitekey: key,
+				callback: function(response) {
+					if (response) {
+						$self[data.callback](form, response);
+						grecaptcha.reset(_captchaWidgets[data.captcha]);
+					}
+				}
+			});
+		}
 	}
 
-	this.subscribe = function (subscribeBtn) {
-		var _this = subscribeBtn,
-			form = _this.closest('form'),
-			ajaxRequestLink = form.attr('action'),
-			mailInput = form.find('input[name="email"]'),
-			mail = mailInput.val(),
-			captchaInput = form.find('[name="g-recaptcha-response"]'),
-			captcha = captchaInput.val(),
-			data = {
-				token: $('meta[name="csrf-token"]').attr('content')
-			};
+	this.executeCaptcha = function(captcha) {
+		var data = captcha.dataset;
 
-		data.email = mail;
-		data['g-recaptcha-response'] = captcha;
+		grecaptcha.execute(_captchaWidgets[data.captcha]);
+	}
 
-		$.ajax({
-			method: 'POST',
-			url: ajaxRequestLink,
-			dataType: 'json',
-			data: data,
-			success: function (resp) {
-				var message = resp.success;
-				$self.ajaxReturnMessage(message, 'success');
-				mailInput.val('');
-			},
-			error: function (err) {
-				var errors = JSON.parse(err.responseText).errors,
-					messages = '';
+	this.formSubmit = function(form, response) {
+		form.find('[name="g-recaptcha-response"]').val(response);
+		form.submit();
+	}
 
-				Object.keys(errors).forEach(function (key) {
-					var message = errors[key][0];
-					messages += message + '<br>';
-				});
+	this.formsWithCaptchaSubmit = function(forms) {
+		for (var i = 0; i < forms.length; i++) {
+			formSubmitAttach($(forms[i]));
+		}
 
-				$self.ajaxReturnMessage(messages, 'error');
-			}
-		})
+		function formSubmitAttach(form) {
+			var captcha = form.find('[data-captcha]')[0],
+				button = form.find('button[type="submit"]');
+
+			button.on('click', function(e) {
+				e.preventDefault();
+				$self.executeCaptcha(captcha);
+			});
+		}
 	}
 
 	this.ajaxReturnMessage = function (message, type) {
@@ -1176,15 +1180,9 @@ var uvelStore,
 		hiddenPaymentInput.val(method);
 	}
 
-	this.submitCustomOrder = function () {
-		var form = $('form.customOrder-form'),
-			submitButton = form.find('[type="submit"]');
-
-		submitButton.on('click', function (e) {
-			e.preventDefault();
-			var inputFields = form.find('select , input, textarea');
-			$self.getFormFields(form, inputFields);
-		})
+	this.submitCustomOrder = function (form) {
+		var inputFields = form.find('select , input, textarea');
+		$self.getFormFields(form, inputFields);
 	}
 
 	this.addToCartAttach = function (addToCartBtn) {

@@ -4,18 +4,21 @@
 		<div id="widget-newsletter">
 			<div class="container">
 				<div class="newsletter col-md-24">
-					<form action="{{ route('subscribe') }}" method="POST" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form">
+					<form action="{{ route('subscribe') }}" method="POST" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" data-form-captcha>
 						{{ csrf_field() }}
 						<span class="news-desc">Обещаваме, че изпращаме само най-доброто</span>
 						<div class="group_input">
 							<input class="form-control" type="email" placeholder="Вашият имейл адрес" name="email" id="email-input">
 							<div class="unpadding-top">
+								<div 
+									id="subscribe_captcha"
+									data-size="invisible" data-captcha="subscribe_captcha" data-callback="formSubmit">
+								</div>
 								<button class="btn btn-1" type="submit">
 									<i class="fa fa-paper-plane"></i>
 								</button>
 							</div>
 						</div>
-						@captcha
 					</form>
 				</div>
 			</div>

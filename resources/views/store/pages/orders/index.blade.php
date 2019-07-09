@@ -26,11 +26,15 @@
 						<div class="container">
 							<div class="row">
 								<div class="left-block col-md-12">
-									<form method="post" action="{{ route('submit_custom_order') }}" class="contact-form customOrder-form"
+									<form method="post" action="{{ route('submit_custom_order') }}" data-form-captcha class="contact-form customOrder-form"
 									 accept-charset="UTF-8">
 										{{ csrf_field() }}
 										<input type="hidden" value="contact" name="form_type">
 										<input type="hidden" name="utf8" value="✓">
+										<div 
+											id="custom_order"
+											data-size="invisible" data-captcha="custom_order" data-callback="submitCustomOrder">
+										</div>
 										<ul id="contact-form" class="row list-unstyled">
 											<li class="">
 												<h3>Можете да използвате формата за да поръчате продукт по ваши изисквания</h3>
@@ -84,7 +88,6 @@
 												</div>
 											</li>
 											<li class="clearfix"></li>
-											@captcha
 											<li class="unpadding-top">
 												<button type="submit" class="btn">
 													Изпратете запитване
