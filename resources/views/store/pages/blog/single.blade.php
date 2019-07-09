@@ -70,10 +70,14 @@
 											</footer>
 
 											@auth
-											<form method="post" action="{{ route('article_comment', ['article' => $article->id])  }}" accept-charset="UTF-8">
+											<form method="post" data-form-captcha action="{{ route('article_comment', ['article' => $article->id])  }}" accept-charset="UTF-8">
 												{{ csrf_field() }}
 												<input value="new_comment" name="form_type" type="hidden">
 												<input name="utf8" value="✓" type="hidden">
+												<div 
+													id="blog_captcha"
+													data-size="invisible" data-captcha="blog_captcha" data-callback="formSubmit">
+												</div>
 												<div id="comment-form">
 													<h6>Оставете коментар</h6>
 													<ul class="contact-form row list-unstyled">
