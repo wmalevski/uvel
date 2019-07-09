@@ -138,9 +138,9 @@ class RepairController extends Controller
     }
 
 
-    public function return(Repair $repair, $barcode)
+    public function return(Repair $repair, $code)
     {
-        $repair = Repair::where('barcode', $barcode)->first();
+        $repair = Repair::where('code', $code)->first();
         $repairTypes = RepairType::all();
 
         if($repair){
@@ -164,7 +164,7 @@ class RepairController extends Controller
                 }
         
                 Cart::session($userId)->add(array(
-                    'id' => $repair->barcode,
+                    'id' => $repair->code,
                     'name' => 'Връщане на ремонт - '.$repair->customer_name,
                     'price' => $price,
                     'quantity' => 1,
@@ -206,8 +206,8 @@ class RepairController extends Controller
 
     public function returnRepair(Request $request, Repair $repair)
     {
-        $repair = Repair::where('barcode', $repair)->first();
-        
+        $repair = Repair::where('code', $repair)->first();
+
         if($repair){
             $repair->status = 'returned';
             $repair->date_received = Carbon::parse(Carbon::now())->format('d-m-Y');
