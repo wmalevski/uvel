@@ -44,15 +44,21 @@ class Store extends Model
         return $this->hasMany('App\ProductOther');
     }
 
+
     public function stones()
     {
     	return $this->hasMany('App\Stone');
     }
 
-    public function filterStores(Request $request ,$query){
-        $query = Store::where(function($query) use ($request){
+    public function filterStores(Request $request ,$query)
+    {
+        $query = Store::where(function ($query) use ($request) {
             if ($request->byName) {
-                $query->where('name', 'LIKE', "%$request->byName%")->orWhere('location', 'LIKE', "%$request->byName%");
+                $request->byName = explode("-", $request->byName);
+                $query->where('name', 'LIKE', '%' . trim($request->byName[0]) . '%');
+                if (count($request->byName) > 1) {
+                    $query->where('location', 'LIKE',  trim($request->byName[1]) . '%');
+                }
             }
 
             if ($request->byName == '') {

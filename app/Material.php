@@ -68,9 +68,19 @@ class Material extends Model
             }
 
             if($request->byName){
-                $query->whereHas('parent', function($q) use ($request){
-                    $q->where('name', 'LIKE', '%' . $request->byName . '%');
-                })->orWhere('code','LIKE','%'.$request->byName.'%')->orWhere('color','LIKE','%'.$request->byName.'%');
+                $request->byName = explode("-", $request->byName);
+
+                $query->whereHas('parent', function ($q) use ($request) {
+                    $q->where('name', 'LIKE', '%' . trim($request->byName[0]) . '%');
+                });
+
+                if (count($request->byName) > 1) {
+                    $query->where('color', 'LIKE', '%' . trim($request->byName[1]) . '%');
+                }
+
+                if (count($request->byName) > 2) {
+                    $query->where('code', 'LIKE', '%' . trim($request->byName[2]) . '%');
+                }
             }
 
             if($request->byCode == '' && $request->byName == ''){
