@@ -225,7 +225,7 @@ class StoneController extends Controller
 
         $stones_new = new Stone();
         $stones = $stones_new->filterStones($request, $query);
-        $stones = $stones->where('store_id', Auth::user()->getStore()->id)->paginate(env('RESULTS_PER_PAGE'));
+        $stones = $stones->get();
         $pass_stones = array();
 
         foreach($stones as $stone){
