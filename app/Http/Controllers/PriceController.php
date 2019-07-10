@@ -131,17 +131,27 @@ class PriceController extends Controller
         $price->save();
 
         if ($request->type == 'sell') {
-            try {
-                $product = Product::where('material_id', $price->material_id)->first();
-                $product->price = $request->price * $product->weight;
-                $product->save();
+            $buy = Price::where('material_id', $price->material_id)->where('type', 'buy')->first()->price;
+            $sell = $request->price;
+        } else {
+            $sell = Price::where('material_id', $price->material_id)->where('type', 'sell')->first()->price;
+            $buy = $request->price;
+        }
+        try {
+            if(count($products = Product::where('material_id', $price->material_id)->get())) {
+                foreach ($products as $product) {
+                    $product->price = $sell * $product->weight;
+                    $product->workmanship = ($sell - $buy) * $product->weight;
+                    $product->save();
 
-                $model = Model::find($product->model_id);
-                $model->price = $request->price * $model->weight;
-                $model->save();
-            } catch (\Exception $e) {
-                return $e->getMessage();
+                    $model = Model::find($product->model_id);
+                    $model->price = $sell * $model->weight;
+                    $model->workmanship = ($sell - $buy) * $product->weight;
+                    $model->save();
+                }
             }
+        } catch (\Exception $e) {
+            return $e->getMessage();
         }
 
         $indicatePrice = false;
