@@ -38,13 +38,19 @@ class DailyReport extends Model
         return $this->hasMany('App\DailyReportBanknote' , 'report_id');
     }
 
+    public function report_currencies(){
+        return $this->hasMany('App\DailyReportCurrency' , 'report_id');
+    }
+
     public function moneyReport(Request $request){
         //Getting all banknote fields and summing them
         $sum = 0;
+        $count = 0;
         foreach($request->banknote as $key => $banknote) {
             $quantity = $request->quantity[$key] ? $request->quantity[$key] : 0;
             $calculate = $banknote * $quantity;
             $sum += $calculate;
+            $count++;
         }
 
         $defaultCurrency = Currency::where('default', 'yes')->first();
@@ -100,19 +106,14 @@ class DailyReport extends Model
                 $report_banknote->save();
             }
 
-            foreach($request->currency_id as $key => $currency){
-                if($request->quantity[$key] != '' && $request->quantity[$key] > 0){
-                    $check = Payment::where([
-                        ['method', '=', 'cash'],
-                        ['receipt', '=', 'yes'],
-                        ['store_id', '=', Auth::user()->getStore()->id],
-                        ['currency_id', '=', $currency]
-                    ])->whereDate('created_at', Carbon::today())->sum('given');
-
-                    if($check != $request->quantityp[$key]){
-                        return Redirect::back()->withErrors(['not_matching.money' => trans('admin/reports.quantity_not_matching')], 'form_money');
-                    }
-                }
+            foreach($request->currency_id as $currency){
+                $quantity = $request->quantity[$count]? $request->quantity[$count] : 0;
+                $report_currency = new DailyReportCurrency();
+                $report_currency->currency_id = $currency;
+                $report_currency->quantity = $quantity;
+                $report_currency->report_id = $report->id;
+                $report_currency->save();
+                $count++;
             }
 
             if($allSold == $sum){

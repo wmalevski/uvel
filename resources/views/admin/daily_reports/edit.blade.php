@@ -80,6 +80,27 @@
                         </div>
                     </div>
                 @endforeach
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label>Валута:</label>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Стойност:</label>
+                    </div>
+                </div>
+                @foreach($report->report_currencies as $currency)
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <input type="text" class="form-control" name="currency"
+                                   value="{{ $currency->currency->name }}" readonly>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <input type="text" class="form-control" name="quantity"
+                                   value="{{ $currency->quantity }}" readonly>
+                        </div>
+                    </div>
+                @endforeach
             @elseif($report->type == 'jewels')
                 @if ($jewels = App\DailyReportJewel::where('report_id',$report->id))
                     @foreach($jewels->get() as $jewel)
