@@ -670,8 +670,8 @@ class SellingController extends Controller
         $total = round(Cart::session($userId)->getTotal(),2);
         $subtotal = round(Cart::session($userId)->getSubTotal(),2);
 
-        //Sending mails and SMS
-        $this->sendDiscountNotification($total, $request->discount.'%', $request->description, Auth::user());
+        // Todo Sending mails and SMS
+//        $this->sendDiscountNotification($total, $request->discount.'%', $request->description, Auth::user());
 
         return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon));  
         
