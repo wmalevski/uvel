@@ -83,13 +83,23 @@ class Stone extends Model
     public function filterStones(Request $request ,$query){
         $query = Stone::where(function($query) use ($request){
             if ($request->byName) {
-                $query->whereHas('Nomenclature', function($q) use ($request){
-                    $q->where('name', 'LIKE', '%' . $request->byName . '%');
-                })->orWhereHas('Contour', function($q) use($request) {
-                    $q->where('name', 'like', '%' . $request->byName . '%');
-                })->orWhereHas('Size', function($q) use($request) {
-                    $q->where('name', 'like', '%' . $request->byName . '%');
+                $request->byName = explode("-", $request->byName);
+
+                $query->whereHas('Nomenclature', function ($q) use ($request) {
+                    $q->where('name', 'LIKE', '%' . trim($request->byName[0]) . '%');
                 });
+
+                if (count($request->byName) > 1) {
+                    $query->whereHas('Contour', function ($q) use ($request) {
+                        $q->where('name', 'like', '%' .  trim($request->byName[1]) . '%');
+                    });
+                }
+
+                if (count($request->byName) > 2) {
+                    $query->whereHas('Size', function ($q) use ($request) {
+                        $q->where('name', 'like', '%' .  trim($request->byName[2]) . '%');
+                    });
+                }
             }
 
             if($request->byName == ''){
