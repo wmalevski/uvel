@@ -467,11 +467,11 @@ borderSize:4,showLens:!0,borderColour:"#888",lensBorderSize:1,lensBorderColour:"
 var uvelStore,
 	uvelStoreController = function() {
 		var $self = this,
-			$window = $(window);
+			$window = $(window),
+			_captchaWidgets = {};
 
 	this.init = function() {
 		var $quickViewTrigger = $('.quick_shop'),
-			//$subscribeTrigger = $('form[name="mc-embedded-subscribe-form"] button[type="submit"]'),
 			$filterTrigger = $('.filter-tag-group .tag-group li'),
 			$filterInputTrigger = $('.filter-tag-group .tag-group input'),
 			$shippingMethodTrigger = $('[name="shippingMethod"]'),
@@ -483,17 +483,16 @@ var uvelStore,
 			$removeFromCartTrigger = $('.remove-from-cart'),
 			$updateCartQuantityTrigger = $('.update-cart-quantity'),
 			$orderProductTrigger = $('.order_product'),
-			$sortTrigger = $('.sort');
+			$sortTrigger = $('.sort'),
+			$formWithCaptcha = $('[data-form-captcha]');
 
 		$self.quickviewAttach($quickViewTrigger);
 		$self.imageHandling();
-		//$self.subscribeAttach($subscribeTrigger);
 		$self.filterAttach($filterTrigger);
 		$self.filterInputAttach($filterInputTrigger);
 		$self.shippingMethodAttach($shippingMethodTrigger);
 		$self.paymentMethodAttach($paymentMethodTrigger);
 		$self.addDiscountAttach($addDiscountTrigger);
-		$self.submitCustomOrder();
 		$self.removeDiscountAttach($removeDiscountTrigger);
 		$self.discountEnter($discountCradInput);
 		$self.addToCartAttach($addToCartTrigger);
@@ -507,6 +506,28 @@ var uvelStore,
 		$self.quickViewImageSwap();
 		$self.handleErrors();
 		$self.checkIfNotHomePage();
+		$self.handleNavigationResizeAttach();
+		$self.formsWithCaptchaSubmit($formWithCaptcha);
+	};
+
+	this.handleNavigationResizeAttach = function() {
+		var resizeTimeout = 250,
+			debounced = _.debounce(handleNavigationResize, resizeTimeout),
+			navigation = document.querySelector('#top'),
+			breadcrumbs = document.querySelector('#breadcrumb');
+
+		function handleNavigationResize() {
+			if ($window.width() > 1041 || ($window.width() == 1024 && $window.height() == 1366)) {
+				breadcrumbs.style.marginTop = navigation.offsetHeight + 'px';
+			} else {
+				breadcrumbs.style.marginTop = '0';
+			}
+		}
+
+		if (breadcrumbs) {
+			handleNavigationResize();
+			$(window).on('resize', debounced);
+		}
 	};
 
 	this.checkIfNotHomePage = function() {
@@ -796,8 +817,12 @@ var uvelStore,
 
 				quickviewCarousel();
 
-				var addToCartTrigger = modal.find('.add-to-cart');
-				var orderProductTrigger = modal.find('.order_product');
+				if (modal.find('#qs-quantity').length) {
+					$self.productQuantityAttach(modal);
+				}
+
+				var addToCartTrigger = modal.find('.add-to-cart'),
+					orderProductTrigger = modal.find('.order_product');
 
 				if (addToCartTrigger.length > 0) {
 					$self.addToCartAttach(addToCartTrigger);
@@ -829,50 +854,74 @@ var uvelStore,
 		}
 	}
 
-	this.subscribeAttach = function (subscribeTrigger) {
-		subscribeTrigger.on('click', function (e) {
-			e.preventDefault();
-			$self.subscribe($(this));
-		})
+	this.productQuantityAttach = function(modal) {
+		var quantityUp = modal.find('.qty-up'),
+			quantityDown = modal.find('.qty-down'),
+			quantityHolder = modal.find('#qs-quantity');
+
+		quantityUp.on('click', handleQuantityChange);
+		quantityDown.on('click', handleQuantityChange);
+
+		function handleQuantityChange() {
+			var value = parseInt(quantityHolder.val()),
+				method = this.title;
+
+			if (method == 'Increase') {
+				quantityHolder.val(value + 1);
+			} else if (method == 'Decrease' && value > 1) {
+				quantityHolder.val(value - 1);
+			}
+		}
 	}
 
-	this.subscribe = function (subscribeBtn) {
-		var _this = subscribeBtn,
-			form = _this.closest('form'),
-			ajaxRequestLink = form.attr('action'),
-			mailInput = form.find('input[name="email"]'),
-			mail = mailInput.val(),
-			captchaInput = form.find('[name="g-recaptcha-response"]'),
-			captcha = captchaInput.val(),
-			data = {
-				token: $('meta[name="csrf-token"]').attr('content')
-			};
+	this.renderCaptcha = function(key) {
+		var captchas = document.querySelectorAll('[data-captcha]');
 
-		data.email = mail;
-		data['g-recaptcha-response'] = captcha;
+		for (var i = 0; i < captchas.length; i++) {
+			render(captchas[i]);
+		}
 
-		$.ajax({
-			method: 'POST',
-			url: ajaxRequestLink,
-			dataType: 'json',
-			data: data,
-			success: function (resp) {
-				var message = resp.success;
-				$self.ajaxReturnMessage(message, 'success');
-				mailInput.val('');
-			},
-			error: function (err) {
-				var errors = JSON.parse(err.responseText).errors,
-					messages = '';
+		function render(captcha) {
+			var data = captcha.dataset,
+				form = $(captcha.closest('form'));
 
-				Object.keys(errors).forEach(function (key) {
-					var message = errors[key][0];
-					messages += message + '<br>';
-				});
+			_captchaWidgets[data.captcha] = grecaptcha.render(data.captcha, {
+				sitekey: key,
+				callback: function(response) {
+					if (response) {
+						$self[data.callback](form, response);
+						grecaptcha.reset(_captchaWidgets[data.captcha]);
+					}
+				}
+			});
+		}
+	}
 
-				$self.ajaxReturnMessage(messages, 'error');
-			}
-		})
+	this.executeCaptcha = function(captcha) {
+		var data = captcha.dataset;
+
+		grecaptcha.execute(_captchaWidgets[data.captcha]);
+	}
+
+	this.formSubmit = function(form, response) {
+		form.find('[name="g-recaptcha-response"]').val(response);
+		form.submit();
+	}
+
+	this.formsWithCaptchaSubmit = function(forms) {
+		for (var i = 0; i < forms.length; i++) {
+			formSubmitAttach($(forms[i]));
+		}
+
+		function formSubmitAttach(form) {
+			var captcha = form.find('[data-captcha]')[0],
+				button = form.find('button[type="submit"]');
+
+			button.on('click', function(e) {
+				e.preventDefault();
+				$self.executeCaptcha(captcha);
+			});
+		}
 	}
 
 	this.ajaxReturnMessage = function (message, type) {
@@ -885,21 +934,25 @@ var uvelStore,
 	}
 
 	this.showMessage = function (message) {
-		var timeToStay = 5000,
+		var messageLength = message[0].textContent.trim().length;
+
+		if (messageLength) {
+			var timeToStay = 5000,
 			navi = $('.top-navigation'),
 			header = $('header'),
 			naviHeight = navi.outerHeight();
 
-		if (header.hasClass('affix')) {
-			message.css('top', naviHeight);
-		}
+			if (header.hasClass('affix')) {
+				message.css('top', naviHeight);
+			}
 
-		message.slideDown('fast');
-		setTimeout(function () {
-			message.slideUp('fast', function () {
-				message.remove();
-			})
-		}, timeToStay)
+			message.slideDown('fast');
+			setTimeout(function () {
+				message.slideUp('fast', function () {
+					message.remove();
+				})
+			}, timeToStay)
+		}
 	}
 
 	this.filterAttach = function (filterBtn) {
@@ -1131,15 +1184,9 @@ var uvelStore,
 		hiddenPaymentInput.val(method);
 	}
 
-	this.submitCustomOrder = function () {
-		var form = $('form.customOrder-form'),
-			submitButton = form.find('[type="submit"]');
-
-		submitButton.on('click', function (e) {
-			e.preventDefault();
-			var inputFields = form.find('select , input, textarea');
-			$self.getFormFields(form, inputFields);
-		})
+	this.submitCustomOrder = function (form) {
+		var inputFields = form.find('select , input, textarea');
+		$self.getFormFields(form, inputFields);
 	}
 
 	this.addToCartAttach = function (addToCartBtn) {
@@ -1154,7 +1201,7 @@ var uvelStore,
 			ajaxURL = _this.attr('data-url');
 
 		if (_this.hasClass('productsothers')) {
-			ajaxURL += '/' + _this.closest('form').find('.item-quantity').val()
+			ajaxURL += '/' + _this.closest('.product-information').find('.item-quantity').val();
 		}
 
 		$.ajax({

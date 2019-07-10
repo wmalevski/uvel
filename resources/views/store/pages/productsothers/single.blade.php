@@ -34,11 +34,11 @@
 										<div id="detail-left-column" class="hidden-xs left-coloum col-sm-6 col-sm-6 fadeInRight not-animated" data-animate="fadeInRight">
 											<div id="gallery_main" class="product-image-thumb thumbs full_width ">
 												<ul class="slide-product-image">
-													@if($product->photos)
-														@foreach($product->photos as $image)
+													@if(App\Gallery::where('product_other_id', $product->id)->first()->get())
+														@foreach(App\Gallery::where('product_other_id', $product->id)->get() as $data)
 														<li class="image">
-															<a href="{{ asset("uploads/products/" . $image->photo) }}" class="cloud-zoom-gallery active">
-																<img src="{{ asset("uploads/products/" . $image->photo) }}" alt="{{ $product->name }}">
+															<a href="{{ asset("uploads/products_others/" . $data->photo) }}" class="cloud-zoom-gallery active">
+																<img src="{{ asset("uploads/products_others/" . $data->photo) }}" alt="{{ $product->name }}">
 															</a>
 														</li>
 														@endforeach
@@ -47,8 +47,8 @@
 											</div>
 										</div>
 										<div class="image featured col-smd-12 col-sm-12 fadeInUp not-animated" data-animate="fadeInUp">
-											@if($product->photos)
-												<img src="{{ asset("uploads/products/" . $product->photos->first()['photo']) }}" alt="{{ $product->name }}">
+											@if(App\Gallery::where('product_other_id', $product->id)->first()->get())
+												<img src="{{ asset("uploads/products_others/" . App\Gallery::where('product_other_id', $product->id)->first()->photo) }}" alt="{{ $product->name }}">
 											@endif
 										</div>
 										<div id="gallery_main_mobile" class="visible-xs product-image-thumb thumbs mobile_full_width ">
@@ -90,10 +90,16 @@
 										<div id="product-header" class="clearfix">
 											<div id="product-info-left">
 												<div class="description">
-													<span>Описание</span>
-													<p>
-														No: {{ $product->code }}
-													</p>
+													<ul>
+														<li>
+															<h5>Информация за продукта</h5>
+															<ul class="sub">
+																<li>Модел: {{ $product->name }} </li>
+																<li>No: {{ $product->code }}</li>
+																<li>Налично в: {{ App\Store::where('id',$product->store_id)->first()->name }}</li>
+															</ul>
+														</li>
+													</ul>
 												</div>
 												{{-- <div class="description">
 													<span>Изработка</span>
@@ -130,9 +136,9 @@
 															<div>
 																<div class="detail-price" itemprop="price">
 																	<span class="price">
-																		{{ number_format($product->price) }} лв
+																		{{ number_format($product->price) }} лв.
 																	</span>
-																	*с ДДС.
+																	*с ДДС
 																</div>
 															</div>
 															<div class="others-bottom clearfix">
@@ -238,10 +244,14 @@
 											</div>
 											<div class="spr-content">
 												<div class="spr-form" id="form_{{$product->id}}">
-													<form method="post" action="{{ route('product_review', ['product' => $product->id]) }}" id="new-review-form_{{$product->id}}"
+													<form method="post" data-form-captcha action="{{ route('product_review', ['product' => $product->id]) }}" id="new-review-form_{{$product->id}}"
 													 class="new-review-form">
 														{{ csrf_field() }}
 														<input type="hidden" name="rating" value="5">
+														<div 
+															id="review_form"
+															data-size="invisible" data-captcha="review_form" data-callback="formSubmit">
+														</div>
 														<h3 class="spr-form-title">
 															Напиши ревю
 														</h3>
@@ -268,8 +278,7 @@
 															</div>
 														</fieldset>
 														<fieldset class="spr-form-actions">
-															<input id="btnSubmitReview" type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary"
-																		 value="Добави рейтинг" disabled>
+															<button id="btnSubmitReview" type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary" disabled>Добави рейтинг</button>
 														</fieldset>
 														<input type="hidden" name="product_others_id" value="{{$product->id}}">
 														<input type="hidden" name="type" value="product_other">
@@ -319,7 +328,7 @@
 												<li class="row-left">
 													<a href="{{ route('single_product', ['product' => $product->id]) }}" class="container_item">
 														<img class="img-fill" alt="{{ $product->name }}"
-																 src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }}
+																 src="@if(App\Gallery::where('product_other_id', $product->id)->first()) {{ asset("uploads/products_others/" . App\Gallery::where('product_other_id', $product->id)->first()->photo) }}
 																 @else {{ asset('store/images/demo_375x375.png') }} @endif">
 													</a>
 													<div class="hbw">
@@ -329,7 +338,12 @@
 												<li class="row-right parent-fly animMix">
 													<div class="product-content-left">
 														<a class="title-5" href="{{ route('single_product_other', ['product' => $product->id]) }}">
-															{{ $product->name }}</a>
+														Модел: {{ $product->name }}
+														</a>
+														<br />
+														No: {{ $product->code }}
+														<br />
+														Налично в: {{ App\Store::where('id',$product->store_id)->first()->name }}
 														<span class="spr-badge" id="spr_badge_{{$product->id}}" data-rating="{{$product->getProductOtherAvgRating($product)}}">
 															<span class="spr-starrating spr-badge-starrating">
 																{{$product->listProductOtherAvgRatingStars($product)}}
@@ -339,14 +353,14 @@
 													<div class="product-content-right">
 														<div class="product-price">
 															<span class="price">
-																{{ number_format($product->price) }} лв
+																{{ number_format($product->price) }} лв.
 															</span>
-															*с ДДС.
+															*с ДДС
 														</div>
 													</div>
 
 													<div class="hover-appear">
-														<a href="{{ route('single_product', ['product' => $product->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
+														<a href="{{ route('single_product_other', ['product' => $product->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
 															<input name="quantity" value="1" type="hidden">
 															<i class="fa fa-lg fa-th-list"></i>
 															<span class="list-mode">Преглед</span>

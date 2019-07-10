@@ -53,6 +53,8 @@
 	<script src="{{ asset('store/javascripts/jquery.fancybox-buttons.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('store/javascripts/jquery.zoom.js') }}" type="text/javascript"></script>	
 	<script src="{{ asset('store/javascripts/cs.script.js') }}" type="text/javascript"></script>
+	<script src="{{ asset('store/javascripts/lodash.custom.min.js') }}" type="text/javascript"></script>
+	<script src="https://www.google.com/recaptcha/api.js?onload=renderCaptcha&render=explicit" async defer></script>
 </head>
 
 <body {{ !Request::routeIs('store') ? 'itemscope="" itemtype="http://schema.org/WebPage"' : '' }} class="{{ $bodyClass }} notouch">
@@ -67,6 +69,10 @@
     @include('store.parts._footer')
     
 <script src="{{ asset('store/javascripts/cs.global.js') }}" type="text/javascript"></script>
-<input type="hidden" id="captcha_key" value="{{ env('INVISIBLE_RECAPTCHA_SITEKEY') }} ">
+<script>
+	var renderCaptcha = function() {
+		uvelStore.renderCaptcha('{{ env('INVISIBLE_RECAPTCHA_SITEKEY') }}');
+	}
+</script>
 </body>
 </html>

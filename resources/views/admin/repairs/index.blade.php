@@ -49,7 +49,7 @@ aria-hidden="true">
                                         <div class="input-group-addon bgc-white bd bdwR-0">
                                             <i class="ti-calendar"></i>
                                         </div>
-                                        <input type="text" data-date-autoclose="true" data-date-format="dd-mm-yyyy" name="date_returned" class="form-control bdc-grey-200 start-date" placeholder="Дата на връщане" data-date-start-date="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" data-provide="datepicker">
+                                        <input type="text" data-date-autoclose="true" data-date-format="dd-mm-yyyy" name="date_returned" class="form-control bdc-grey-200 start-date" value="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" placeholder="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" data-date-start-date="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" data-provide="datepicker">
                                     </div>
                                 </div>
                             </div>
@@ -70,7 +70,7 @@ aria-hidden="true">
                             <div class="form-group col-md-6">
                                 <label>Материал: </label>
                                 <select name="material_id" class="form-control" data-search="/ajax/select_search/global/materials/">
-                                    <option value="">Избер материал</option>
+                                    <option value="">Избери материал</option>
                                 </select>
                             </div>
                         </div>
@@ -143,7 +143,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="repairs/return" id='return-repair-form' name="returnRepair">
+            <form method="POST" data-type="add" action="repairs/return" id='return-repair-form' name="returnRepair">
                  
                 <div class="modal-body">    
                     <div class="info-cont">
@@ -177,7 +177,7 @@ aria-hidden="true">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form method="POST" action="repairs/return" id='scan-repair-form' name="scanRepair">
+                <form method="POST" data-type="add" action="repairs/return" id='scan-repair-form' name="scanRepair">
                     
                     <div class="modal-body">    
                         <div class="info-cont">
@@ -299,9 +299,12 @@ aria-hidden="true">
 <div class="row">
     <div class="col-md-12">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
-            <h4 class="c-grey-900 mB-20">Ремонти <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="repairs" data-toggle="modal" data-target="#addRepair">Добави</button> <button type="button" class="return-repair btn btn-primary" data-toggle="modal" data-target="#returnRepair">Върни</button> <button type="button" class="scan-repair btn btn-primary" data-toggle="modal" data-target="#scanRepair">Обработи</button></h4>
+            <h4 class="c-grey-900 mB-20">Ремонти 
+                <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="repairs" data-toggle="modal" data-target="#addRepair">Добави</button> 
+                <button type="button" class="return-repair btn btn-primary" data-form-type="add" data-form="returnRepair" data-toggle="modal" data-target="#returnRepair">Върни</button> 
+                <button type="button" class="scan-repair btn btn-primary" data-form-type="add" data-form="scanRepair" data-toggle="modal" data-target="#scanRepair">Обработи</button></h4>
             <p>Артикули за ремонт</p>
-            <table class="table repair-records-table tablesort table-fixed">
+            <table id="main_table" class="table repair-records-table tablesort table-fixed">
                 <thead>
                     <tr data-sort-method="thead">
                         <th scope="col">Баркод</th>

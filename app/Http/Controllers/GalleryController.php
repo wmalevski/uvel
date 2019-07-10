@@ -81,10 +81,10 @@ class GalleryController extends Controller
      */
     public function destroy(gallery $gallery, $photo)
     {
-        $photo = Gallery::find($photo);
+        $photo = $gallery::find($photo);
 
         if($photo){
-            unlink(public_path('uploads/'.$photo->table.'/').$photo->photo);
+            unlink(public_path('uploads\\' . $photo->table . '\\').$photo->photo);
             $photo->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
         }

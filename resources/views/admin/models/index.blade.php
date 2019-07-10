@@ -120,6 +120,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							<div class="input-group">
 								<input type="number" class="form-control calculate" id="weight" name="weight" data-calculatePrice-netWeight placeholder="Тегло:">
 								<span class="input-group-addon">гр.</span>
+								<input type="number" class="form-control form-control--hidden" name="gross_weight" id="grossWeight_edit" value="0" data-calculateprice-grossweight="" disabled="">
 							</div>
 						</div>
 
@@ -243,9 +244,10 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 	</button>
 </h3>
 
-<table class="table table-condensed models-table tablesort table-fixed">
+<table id="main_table" class="table table-condensed models-table tablesort table-fixed">
 	<thead>
 		<tr data-sort-method="thead">
+			<th>Снимка</th>
 			<th>Име</th>
 			<th>Вид бижу</th>
 			<th>Тегло</th>
@@ -256,6 +258,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 		</tr>
 
 		<tr class="search-inputs" data-dynamic-search-url="ajax/search/models/">
+			<th></th>
 			<th>
 				<input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Търси по име">
 			</th>

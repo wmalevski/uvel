@@ -48,7 +48,7 @@
             <h4 class="c-grey-900 mB-20">Валути и курсове <button type="button" class="btn btn-primary" data-form-type="add" data-form="currencies" data-toggle="modal" data-target="#addCurrency">Добави</button></h4>
 
             <p>Преглед на валути и курсове.</p>
-            <table class="table">
+            <table id="main_table" class="table">
               <thead>
                 <tr>
                   <th scope="col">Валута</th>

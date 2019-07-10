@@ -54,7 +54,7 @@ class RepairController extends Controller
     {
         $validator = Validator::make( $request->all(), [
             'customer_name' => 'required',
-            'customer_phone' => 'required|numeric',
+            "customer_phone" => 'required|phone',
             'type_id' => 'required',
             'date_returned' => 'required',
             'weight' => 'required|numeric',
@@ -138,9 +138,9 @@ class RepairController extends Controller
     }
 
 
-    public function return(Repair $repair, $barcode)
+    public function return(Repair $repair, $code)
     {
-        $repair = Repair::where('barcode', $barcode)->first();
+        $repair = Repair::where('code', $code)->first();
         $repairTypes = RepairType::all();
 
         if($repair){
@@ -164,7 +164,7 @@ class RepairController extends Controller
                 }
         
                 Cart::session($userId)->add(array(
-                    'id' => $repair->barcode,
+                    'id' => $repair->code,
                     'name' => 'Връщане на ремонт - '.$repair->customer_name,
                     'price' => $price,
                     'quantity' => 1,
@@ -190,8 +190,10 @@ class RepairController extends Controller
         
                 //return redirect()->route('admin');
                 return Response::json(array('success' => '', 'redirect' => route('admin')));
+            }elseif($repair->status == 'returned') {
+                return Response::json(['errors' => ['not_done' => ['Ремонтът е отбелязан като завършен.']]], 401);
             }else{
-                return Response::json(['errors' => ['not_done' => ['Ремонта не е отбелязан като завършен и готов за връщане.']]], 401);
+                return Response::json(['errors' => ['not_done' => ['Ремонтът не е отбелязан като завършен и готов за връщане.']]], 401);
             }
         }else{
             return Response::json(['errors' => ['not_exist' => ['Не съществува такъв ремонт.']]], 401);
@@ -204,8 +206,8 @@ class RepairController extends Controller
 
     public function returnRepair(Request $request, Repair $repair)
     {
-        $repair = Repair::where('barcode', $repair)->first();
-        
+        $repair = Repair::where('code', $repair)->first();
+
         if($repair){
             $repair->status = 'returned';
             $repair->date_received = Carbon::parse(Carbon::now())->format('d-m-Y');
@@ -255,7 +257,7 @@ class RepairController extends Controller
 
         $validator = Validator::make( $request->all(), [
             'customer_name' => 'required',
-            'customer_phone' => 'required|numeric',
+            'customer_phone' => 'required|phone',
             'type_id' => 'required',
             'date_returned' => 'required',
             'weight' => 'required|numeric',

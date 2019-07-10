@@ -27,9 +27,13 @@
 						<div class="container">
 							<div class="row">
 								<div class="left-block col-md-12">
-									<form method="post" action="contact" class="contact-form" accept-charset="UTF-8">
+									<form method="post" action="contact" class="contact-form" accept-charset="UTF-8" data-form-captcha>
 										{{ csrf_field() }}
 										<input type="hidden" value="contact" name="form_type"><input type="hidden" name="utf8" value="✓">
+										<div 
+											id="contact_captcha"
+											data-size="invisible" data-captcha="contact_captcha" data-callback="formSubmit">
+										</div>
 										<ul id="contact-form" class="row list-unstyled">
 											<li class="">
 												<h3>Напишете ни нещо</h3>
@@ -46,7 +50,7 @@
 												<label class="control-label" for="message">Съобщение <span class="req">*</span></label>
 												<textarea id="message" rows="5" class="form-control" name="message"></textarea>
 											</li>
-											@captcha
+
 											<li class="unpadding-top">
 												<button type="submit" class="btn">Изпратете</button>
 											</li>

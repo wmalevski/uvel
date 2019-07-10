@@ -4,8 +4,35 @@
 }
 
 /* todo: fix styles */
-.bold-row {
-	font-weight: bold;
+button:hover {
+	cursor: pointer;
+}
+
+.sidebar .ps__rail-x {
+	bottom: 0 !important;
+}
+
+.sidebar-menu .nav-item:last-of-type {
+	margin-bottom: 30px !important;
+}
+
+.form-control--hidden {
+	display: none !important;
+}
+
+.note-toolbar-wrapper.panel-default {
+    min-height: 66px;
+}
+
+.model_stones .row-total-weight {
+	position: relative;
+	top: 0;
+	left: 0;
+	right: auto;
+}
+
+.modal-content .radio label, .modal-content .checkbox label, .modal-content .checkbox .peer {
+	margin: 0 !important;
 }
 
 #blog_lng_edit li:first-child {
@@ -14,6 +41,10 @@
 
 #blog_lng_edit .active {
   font-weight: bold;
+}
+
+.note-toolbar.panel-heading {
+	position: relative !important;
 }
 
 #partner-shopping-table td {
@@ -266,9 +297,9 @@ textarea {
 	pointer-events: all;
 }
 
+
 .stones--tooltip ul,
-.thumbnail--tooltip ul,
-.alert li {
+.thumbnail--tooltip ul {
 	opacity: 0;
 	visibility: hidden;
 	position: absolute;
@@ -333,4 +364,8 @@ textarea {
 
 .note-toolbar {
 	border-bottom: 1px solid #a9a9a9;
+}
+
+.alert {
+	list-style-type: none;
 }

@@ -33,7 +33,7 @@ class MaterialTravelling extends Model
     }
 
     public function material(){
-        return $this->belongsTo('App\MaterialQuantity')->withTrashed();
+        return $this->belongsTo('App\Material')->withTrashed();
     }
 
     public function user_sent(){

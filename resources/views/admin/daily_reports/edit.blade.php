@@ -19,7 +19,7 @@
                 </div>
     
                 <div class="form-group col-md-6">
-                    <label for="inputZip">Поданен на</label>
+                    <label for="inputZip">Подаден на:</label>
                     <div class="input-group">
                         
                         <input type="text" name="date_expires" class="form-control" value="{{ $report->created_at }}" readonly>
@@ -37,7 +37,7 @@
                     </div>
         
                     <div class="form-group col-md-6">
-                        <label for="inputZip">Въведена от касата</label>
+                        <label for="inputZip">Въведена от касата:</label>
                         <div class="input-group">
                             
                             <input type="text" name="given_money_amount" class="form-control" value="{{ $report->given_money_amount }}" readonly>
@@ -45,49 +45,82 @@
                     </div>
                 </div>
 
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label>Купюра:</label>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Брой:</label>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Стойност в лв.</label>
+                    </div>
+                </div>
                 @foreach($report->report_banknotes as $banknote)
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="1">Купюра: </label>
                             <div class="input-group">
-                                <input type="text" class="form-control" name="banknote" value="{{ $banknote->banknote }}" readonly>
+                                <input type="text" class="form-control" name="banknote" value="{{ $banknote->banknote }}"
+                                       readonly>
                             </div>
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label for="1">Брой: </label>
                             <div class="input-group">
-                                <input type="text" class="form-control" name="quantity" value="{{ $banknote->quantity }}" readonly>
+                                <input type="text" class="form-control" name="quantity"
+                                       value="{{ $banknote->quantity }}" readonly>
                             </div>
                         </div>
-            
+
                         <div class="form-group col-md-4">
-                            <label for="inputZip">Стойност в лв.</label>
                             <div class="input-group">
-                                
-                                <input type="text" name="calculated_quantity" class="form-control" value="{{ $banknote->banknote*$banknote->quantity }}" readonly>
+                                <input type="text" name="calculated_quantity" class="form-control"
+                                       value=" {{ $banknote->banknote*$banknote->quantity }}" readonly>
                             </div>
+                        </div>
+                    </div>
+                @endforeach
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label>Валута:</label>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Стойност:</label>
+                    </div>
+                </div>
+                @foreach($report->report_currencies as $currency)
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <input type="text" class="form-control" name="currency"
+                                   value="{{ $currency->currency->name }}" readonly>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <input type="text" class="form-control" name="quantity"
+                                   value="{{ $currency->quantity }}" readonly>
                         </div>
                     </div>
                 @endforeach
             @elseif($report->type == 'jewels')
-                @foreach($report->report_jewels as $jewel)
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="1">Материал: </label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="material_id" value="{{ $jewel->material->material->name }}" readonly>
+                @if ($jewels = App\DailyReportJewel::where('report_id',$report->id))
+                    @foreach($jewels->get() as $jewel)
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="1">Материал: </label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="material_id" value="{{ \App\Material::find($jewel->material_id)->name }} - {{ \App\Material::find($jewel->material_id)->code  }} - {{ \App\Material::find($jewel->material_id)->color  }}" readonly>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group col-md-6">
-                            <label for="1">Брой: </label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="quantity" value="{{ $jewel->quantity }}" readonly>
+                            <div class="form-group col-md-6">
+                                <label for="1">Брой: </label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="quantity" value="{{ $jewel->quantity}}" readonly>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                @endif
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="1">Стойност: </label>
@@ -97,19 +130,28 @@
                     </div>
                 </div>
             @elseif($report->type == 'materials')
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="1">Материал:</label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="1">Количество:</label>
+                    </div>
+                </div>
                 @foreach($report->report_materials as $material)
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="1">Материал:</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" name="material_id" value="{{ $material->material->material->name }} - {{ $material->material->material->code }}" readonly>
+                                <input type="text" class="form-control" name="material_id"
+                                       value="{{ $material->material->material->name }} - {{ $material->material->material->code }} - {{ $material->material->material->color }}"
+                                       readonly>
                             </div>
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label for="1">Количество:</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" name="quantity" value="{{ $material->quantity }}" readonly>
+                                <input type="text" class="form-control" name="quantity"
+                                       value="{{ $material->quantity }}" readonly>
                                 <span class="input-group-addon">гр.</span>
                             </div>
                         </div>

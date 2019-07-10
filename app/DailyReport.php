@@ -38,14 +38,19 @@ class DailyReport extends Model
         return $this->hasMany('App\DailyReportBanknote' , 'report_id');
     }
 
+    public function report_currencies(){
+        return $this->hasMany('App\DailyReportCurrency' , 'report_id');
+    }
+
     public function moneyReport(Request $request){
         //Getting all banknote fields and summing them
         $sum = 0;
+        $count = 0;
         foreach($request->banknote as $key => $banknote) {
-            if($request->quantity[$key] != ''){
-                $calculate = $banknote * $request->quantity[$key];
-                $sum += $calculate;
-            }
+            $quantity = $request->quantity[$key] ? $request->quantity[$key] : 0;
+            $calculate = $banknote * $quantity;
+            $sum += $calculate;
+            $count++;
         }
 
         $defaultCurrency = Currency::where('default', 'yes')->first();
@@ -91,30 +96,24 @@ class DailyReport extends Model
             $report->save();
 
             foreach($request->banknote as $key => $banknote) {
-                if($request->quantity[$key] != '' && $request->quantity[$key] > 0){
-                    $calculate = $banknote * $request->quantity[$key];
-    
-                    $report_banknote = new DailyReportBanknote();
-                    $report_banknote->banknote = $banknote;
-                    $report_banknote->quantity = $request->quantity[$key];
-                    $report_banknote->report_id = $report->id;
-                    $report_banknote->save();
-                }
+                $quantity = $request->quantity[$key] ? $request->quantity[$key] : 0;
+                $calculate = $banknote * $request->quantity[$key];
+
+                $report_banknote = new DailyReportBanknote();
+                $report_banknote->banknote = $banknote;
+                $report_banknote->quantity = $quantity;
+                $report_banknote->report_id = $report->id;
+                $report_banknote->save();
             }
 
-            foreach($request->currency_id as $key => $currency){
-                if($request->quantity[$key] != '' && $request->quantity[$key] > 0){
-                    $check = Payment::where([
-                        ['method', '=', 'cash'],
-                        ['receipt', '=', 'yes'],
-                        ['store_id', '=', Auth::user()->getStore()->id],
-                        ['currency_id', '=', $currency]
-                    ])->whereDate('created_at', Carbon::today())->sum('given');
-
-                    if($check != $request->quantityp[$key]){
-                        return Redirect::back()->withErrors(['not_matching.money' => trans('admin/reports.quantity_not_matching')], 'form_money');
-                    }
-                }
+            foreach($request->currency_id as $currency){
+                $quantity = $request->quantity[$count]? $request->quantity[$count] : 0;
+                $report_currency = new DailyReportCurrency();
+                $report_currency->currency_id = $currency;
+                $report_currency->quantity = $quantity;
+                $report_currency->report_id = $report->id;
+                $report_currency->save();
+                $count++;
             }
 
             if($allSold == $sum){
@@ -134,75 +133,71 @@ class DailyReport extends Model
             ['type', '=', 'jewels']
         ])->whereDate('created_at', Carbon::today())->get();
 
-        $report = new DailyReport();
-        $report->type = 'jewels';
-        $report->store_id = Auth::user()->getStore()->id;
-        $report->user_id = Auth::user()->getId();
-
         if(count($todayReport)){
             $todayReport = 'true';
         }else{
             $todayReport = 'false';
         }
 
+        $report = new DailyReport();
+        $report->type = 'jewels';
+        $report->store_id = Auth::user()->getStore()->id;
+        $report->user_id = Auth::user()->getId();
+
         $total_given = 0;
         $total_check = 0;
         $errors = [];
-        
+        $flag_errors = false;
         if($todayReport == 'false'){
-            $report->save();
-
-            foreach($request->material_id as $key => $material){
-                if($request->quantity[$key] != ''){
-                    $total_given += $request->quantity[$key];
-                    $quantity = $request->quantity[$key];
-
-                    $check = Product::where([
-                        ['material_id', '=', $material],
-                        ['status', '=', 'available'] 
-                    ])->count();
-                    $total_check += $check;
-
-                    $report_jewel = new DailyReportJewel();
-                    $report_jewel->material_id = $material;
-                    $report_jewel->quantity = $quantity;
-                    $report_jewel->report_id = $report->id;
-                    $report_jewel->save();
-                    
-                    if($check != $quantity){
-                        $errors['not_matching.jewels'] = trans('admin/reports.quantity_not_matching');
+            foreach ($request->material_id as $key => $material) {
+                $total_given += $request->quantity[$key];
+                $quantity = $request->quantity[$key];
+                $check = Product::where('material_id', $material)->where('status', 'available')->orWhere('status', 'travelling')->count();
+                $total_check += $check;
+                if (isset($request->quantity[$key])) {
+                    if ($check == $quantity) {
+                        $report->save();
+                        $report_jewel = new DailyReportJewel();
+                        $report_jewel->material_id = $material;
+                        $report_jewel->quantity = $quantity;
+                        $report_jewel->report_id = $report->id;
+                        $report_jewel->save();
                     }
+                }
+                if ($check != $quantity) {
+                    $flag_errors = true;
                 }
             }
 
-            $defaultCurrency = Currency::where('default', 'yes')->first();
-
-            $allSold = Payment::where([
-                ['method', '=', 'cash'],
-                ['receipt', '=', 'yes'],
-                ['store_id', '=', Auth::user()->getStore()->id],
-                ['currency_id', '=', $defaultCurrency->id]
-            ])->whereDate('created_at', Carbon::today())->sum('given');
-
-            if($request->fiscal_amount != $allSold){
-                $errors['not_matching.jewels'] = trans('admin/reports.fiscal_not_matching');
+            if ($flag_errors) {
+                $errors['not_matching_quantity.jewels'] = trans('admin/reports.quantity_not_matching');
+                $report->save();
             }
 
-            if($total_check != $total_given || $request->fiscal_amount != $allSold){
+            $allSold = UserPayment::where([
+                ['status', 'done'],
+                ['store_id', Auth::user()->getStore()->id]
+            ])->whereDate('created_at', Carbon::today())->sum('price');
+
+            if($request->fiscal_amount != $allSold){
+                $errors['not_matching_fiscal.jewels'] = trans('admin/reports.fiscal_not_matching');
+            }
+
+            if ($total_check != $total_given || $request->fiscal_amount != $allSold) {
                 $report->status = 'unsuccessful';
-            }else{
+            } else {
                 $report->status = 'successful';
             }
 
             $report->safe_jewels_amount = $total_check;
             $report->given_jewels_amount = $total_given;
 
-            if($request->fiscal_amount == '') $request->fiscal_amount = 0;
+            if ($request->fiscal_amount == '') $request->fiscal_amount = 0;
             $report->fiscal_amount = $request->fiscal_amount;
 
             $report->save();
 
-            if(count($errors)){
+            if($errors){
                 return Redirect::back()->withErrors($errors, 'form_jewels');
             }
 
@@ -224,41 +219,43 @@ class DailyReport extends Model
         $report->store_id = Auth::user()->getStore()->id;
         $report->user_id = Auth::user()->getId();
 
-        if(count($todayReport)){
+        if (count($todayReport)) {
             $todayReport = 'true';
-        }else{
+        } else {
             $todayReport = 'false';
         }
 
         $total_given = 0;
         $errors = [];
-        if($todayReport == 'false'){
-            $report->save();
-
-            foreach($request->material_id as $key => $material){
+        $flag_errors = false;
+        if ($todayReport == 'false') {
+            foreach ($request->material_id as $key => $material) {
                 $total_given += $request->quantity[$key];
-                if($request->quantity[$key] != ''){
-                    $quantity = $request->quantity[$key];
-                }else{
+                $quantity = $request->quantity[$key];
+                $check = MaterialQuantity::where('material_id', $material)->first();
+                if (!$quantity) {
                     $quantity = 0;
                 }
-                
-                $check = MaterialQuantity::find($material);
-
+                $report->save();
                 $report_material = new DailyReportMaterial();
                 $report_material->material_id = $material;
                 $report_material->quantity = $quantity;
                 $report_material->report_id = $report->id;
                 $report_material->save();
-                
-                if($check->quantity != $quantity){
-                    $errors['not_matching.materials'] = trans('admin/reports.quantity_not_matching');
+
+                if ($check->quantity != $quantity) {
+                    $flag_errors = true;
                 }
             }
 
-            if(count($errors)){
+            if ($flag_errors) {
+                $errors['not_matching.materials'] = trans('admin/reports.quantity_not_matching');
+                $report->save();
+            }
+
+            if ($errors) {
                 $report->status = 'unsuccessful';
-            }else{
+            } else {
                 $report->status = 'successful';
             }
 
@@ -267,12 +264,12 @@ class DailyReport extends Model
 
             $report->save();
 
-            if(count($errors)){
+            if ($errors) {
                 return Redirect::back()->withErrors($errors, 'form_materials');
             }
 
             return Redirect::back()->with(['success.materials' => trans('admin/reports.success')]);
-        }else{
+        } else {
             return Redirect::back()->withErrors(['already_exists.jewels' => trans('admin/reports.already_exists')], 'form_materials');
         }
     }

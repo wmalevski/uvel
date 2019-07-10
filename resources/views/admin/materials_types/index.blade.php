@@ -48,7 +48,7 @@ aria-hidden="true">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
         <h4 class="c-grey-900 mB-20">Тип Материал <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="materialTypes" data-toggle="modal" data-target="#addMaterial">Добави</button></h4>
         <p>Преглед на създадените типове материали.</p>
-        <table class="table">
+        <table id="main_table" class="table">
             <thead>
                 <tr>
                     <th>Име</th> 

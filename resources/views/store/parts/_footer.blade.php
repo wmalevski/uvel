@@ -4,18 +4,21 @@
 		<div id="widget-newsletter">
 			<div class="container">
 				<div class="newsletter col-md-24">
-					<form action="{{ route('subscribe') }}" method="POST" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form">
+					<form action="{{ route('subscribe') }}" method="POST" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" data-form-captcha>
 						{{ csrf_field() }}
 						<span class="news-desc">Обещаваме, че изпращаме само най-доброто</span>
 						<div class="group_input">
 							<input class="form-control" type="email" placeholder="Вашият имейл адрес" name="email" id="email-input">
 							<div class="unpadding-top">
+								<div 
+									id="subscribe_captcha"
+									data-size="invisible" data-captcha="subscribe_captcha" data-callback="formSubmit">
+								</div>
 								<button class="btn btn-1" type="submit">
 									<i class="fa fa-paper-plane"></i>
 								</button>
 							</div>
 						</div>
-						@captcha
 					</form>
 				</div>
 			</div>
@@ -27,7 +30,7 @@
 					<div class="group">
 						<h5 class="general-title">Информация</h5>
 						<ul>
-							<li><a href="{{ route('stores') }}">Магазини</a></li>
+							<li><a href="{{ route('online_stores') }}">Магазини</a></li>
 							<li><a href="./account.html">Политика за поверителност</a></li>
 							<li><a href="./account.html">Карта на сайта</a></li>
 						</ul>
@@ -67,20 +70,17 @@
 				</div>
 				<div id="widget-payment" class="col-md-12">
 					<ul id="payments" class="list-inline animated">
-						<li class="btooltip tada" data-toggle="tooltip" data-placement="top" title="" data-original-title="Visa">
-							<a href="#"  class="icons visa"></a>
+						<li class="btooltip" data-toggle="tooltip" data-placement="top" title="Visa" data-original-title="Visa">
+							<span class="icons visa"></span>
 						</li>
-						<li class="btooltip tada" data-toggle="tooltip" data-placement="top" title="" data-original-title="Mastercard">
-							<a href="#" class="icons mastercard"></a>
+						<li class="btooltip" data-toggle="tooltip" data-placement="top" title="Mastercard" data-original-title="Mastercard">
+							<span class="icons mastercard"></span>
 						</li>
-						<li class="btooltip tada" data-toggle="tooltip" data-placement="top" title="" data-original-title="American Express">
-							<a href="#" class="icons amex"></a>
+						<li class="btooltip" data-toggle="tooltip" data-placement="top" title="American Express" data-original-title="American Express">
+							<span class="icons amex"></span>
 						</li>
-						<li class="btooltip tada" data-toggle="tooltip" data-placement="top" title="" data-original-title="Paypal">
-							<a href="#" class="icons paypal"></a>
-						</li>
-						<li class="btooltip tada" data-toggle="tooltip" data-placement="top" title="" data-original-title="Moneybookers">
-							<a href="#;" class="icons moneybookers"></a>
+						<li class="btooltip" data-toggle="tooltip" data-placement="top" title="Paypal" data-original-title="Paypal">
+							<span class="icons paypal"></span>
 						</li>
 					</ul>
 				</div>

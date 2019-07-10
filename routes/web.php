@@ -233,6 +233,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 });
 
 Route::group(['prefix' => 'ajax'], function() {
+    Route::post('/dailyreports/delete/{report}', 'DailyReportController@destroy');
+
     Route::get('/search/repairs', 'RepairController@filter');
 
     Route::get('/search/repairs_types', 'RepairTypeController@filter');
@@ -424,8 +426,8 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/repairs', 'RepairController@store');
 
-    Route::get('/repairs/return/{barcode}', 'RepairController@return');
-    Route::put('/repairs/return/{barcode}', 'RepairController@returnRepair');
+    Route::get('/repairs/return/{code}', 'RepairController@return');
+    Route::put('/repairs/return/{code}', 'RepairController@returnRepair');
 
     Route::get('/repairs/edit/{barcode}', 'RepairController@edit');
     Route::put('/repairs/edit/{barcode}', 'RepairController@update');
@@ -523,7 +525,7 @@ Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
     Route::get('/warranty', 'WarrantyController@index')->name('warranty');
     Route::get('/howtoorder', 'HowToOrderController@index')->name('howtoorder');
     Route::get('/about', 'AboutController@index')->name('about');
-    Route::get('/stores', 'ListStoresController@index');
+    Route::get('/stores', 'ListStoresController@index')->name('online_stores');
 
     Route::get('/contact', 'ContactController@index')->name('contactus');
     Route::post('/contact', 'ContactController@store');
@@ -560,10 +562,13 @@ Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
     Route::get('/model_orders/', 'ModelOrderController@index')->name('model_orders');
 });
 
-Route::group(['prefix' => 'online',  'namespace' => 'Store', 'middleware' => 'auth'], function() {
+Route::group(['prefix' => 'online',  'namespace' => 'Store'], function() {
     Route::get('/cart', 'CartController@index')->name('cart');
-    Route::post('/cart', 'UserPaymentController@store')->name('pay_order');
     Route::get('/cart/addItem/{item}/{quantity}', 'CartController@addItem')->name('CartAddItem');
+});
+
+Route::group(['prefix' => 'online',  'namespace' => 'Store', 'middleware' => 'auth'], function() {
+    Route::post('/cart', 'UserPaymentController@store')->name('pay_order');
     Route::post('/cart/pay/paypal', 'PayController@pay')->name('paypal_pay');
     Route::get('/cart/pay/status', 'PayController@getPaymentStatus')->name('paypal_status');
     Route::get('/cart/addDiscount/{barcode}', 'PayController@setDiscount')->name('add_discount');

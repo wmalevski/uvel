@@ -117,7 +117,7 @@ aria-hidden="true">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
         <h4 class="c-grey-900 mB-20">Материали <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="materials" data-toggle="modal" data-target="#addMaterial">Добави</button></h4>
         <p>Преглед на създадените материали.</p>
-        <table class="table table-fixed">
+        <table id="main_table" class="table table-fixed">
             <thead>
                 <tr data-sort-method="thead">
                     <th>Тип</th>

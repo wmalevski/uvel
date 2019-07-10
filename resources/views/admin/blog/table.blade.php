@@ -1,7 +1,11 @@
 <tr data-id="{{ $article->id }}">
     <td class="thumbnail--tooltip">
         {{ $article->title }}
-        <ul @if($article->thumbnail()) style="background-image: url({{ asset("uploads/blog/" . $article->thumbnail()->photo) }});" @endif>
+        @foreach($article->thumbnail as $thumb)
+            @if($thumb->language == 'bg')
+                <ul style="background-image: url({{ asset("uploads/blog/" . $thumb->photo) }});">
+            @endif
+        @endforeach
         </ul>
     </td>
 

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Store;
 use Cart;
 use Auth;
 use View;
+use Session;
+use Cookie;
 use Response;
 use App\Store;
 use App\Product;
@@ -17,6 +19,7 @@ use App\MaterialType;
 use App\ProductOtherType;
 use \Darryldecode\Cart\CartCondition as CartCondition;
 use \Darryldecode\Cart\Helpers\Helpers as Helpers;
+use Illuminate\Support\Facades\DB;
 
 Class CartCustomCondition extends CartCondition {
     public function apply($totalOrSubTotalOrPrice, $conditionValue){
@@ -106,70 +109,119 @@ class CartController extends BaseController
      */
     public function index()
     {
-        $session_id = Auth::user()->getId();
-        
-        $total = round(Cart::session($session_id)->getTotal(),2);
-        $subtotal = round(Cart::session($session_id)->getSubTotal(),2);
+        if (Auth::check()) {
+            $session_id = Auth::user()->getId();
+        } else {
+            $session_id = Session::getId();
+        }
+
+        $total = round(Cart::session($session_id)->getTotal(), 2);
+        $subtotal = round(Cart::session($session_id)->getSubTotal(), 2);
         $quantity = Cart::session($session_id)->getTotalQuantity();
         $materialTypes = MaterialType::all();
         $cartConditions = Cart::session($session_id)->getConditions();
         $productothertypes = ProductOtherType::all();
         $stores = Store::where([
-            ['id' , '!=', 1]
+            ['id', '!=', 1]
         ])->get();
 
-        if(Auth::check()){
+        if (Auth::check()) {
             $countitems = Cart::session($session_id)->getTotalQuantity();
-      
-          }else{
-              $countitems = 0;
-          }
-        
+
+        } else {
+            $countitems = 0;
+        }
+
         $items = [];
-        
-        Cart::session($session_id)->getContent()->each(function($item) use (&$items)
-        {
+
+        Cart::session($session_id)->getContent()->each(function ($item) use (&$items) {
             $items[] = $item;
         });
+
+        if (!Auth::check()) {
+            if ($items) {
+                $items = json_encode($items);
+                Cookie::queue(cookie('cart_products', $items, $minute = 10));
+                $session_id = json_encode($session_id);
+                Cookie::queue(cookie('guest_session_id', $session_id, $minute = 10));
+                $items = json_decode($items);
+            }
+        } else {
+            $guestItems = json_decode(request()->cookie('cart_products'));
+            if ($guestItems) {
+                foreach ($guestItems as $guestItem) {
+                    if ($items) {
+                        foreach ($items as $item) {
+                            if ($item->id == $guestItem->id) {
+                                $this->updateItem($guestItem->id, $guestItem->quantity);
+                            } else {
+                                $this->addItem($guestItem->id, $guestItem->quantity);
+                            }
+                        }
+                    } else {
+                        $this->addItem($guestItem->id, $guestItem->quantity);
+                    }
+                }
+            }
+
+            if (request()->cookie('guest_session_id')) {
+                DB::table('cart_storage')->where('id', json_decode(request()->cookie('guest_session_id')))->delete();
+                Cookie::queue(Cookie::forget('guest_session_id'));
+            }
+            Cookie::queue(Cookie::forget('cart_products'));
+        }
 
         return \View::make('store.pages.cart', array('items' => $items, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'materialTypes' => $materialTypes, 'productothertypes' => $productothertypes, 'stores' => $stores, 'countitems' => $countitems, 'conditions' => $cartConditions));
     }
 
-    public function addItem($item, $quantity = 1){
-        $session_id = Auth::user()->getId();
+    public function addItem($item, $quantity = 1)
+    {
+        if (Auth::check()) {
+            $session_id = Auth::user()->getId();
+        } else {
+            $session_id = Session::getId();
+        }
 
-        $product = Product::where([
-            ['barcode', '=', $item],
-            ['status', '=', 'available']
-        ])->first();
+        if (!empty(request()->cookie('cart_products')) && Auth::check()) {
+            $product = Product::where([
+                ['barcode', '=', $item]
+            ])->first();
+        } else {
+            $product = Product::where([
+                ['barcode', '=', $item],
+                ['status', '=', 'available']
+            ])->first();
+        }
+
         $type = '';
         $itemQuantity = 1;
 
-        if($product){
+        if ($product) {
             $item = $product;
             $type = 'product';
 
             $product->status = 'selling';
             $product->save();
-        }else{
+        } else {
             $box = ProductOther::where([
                 ['barcode', '=', $item],
                 ['quantity', '>=', $quantity]
             ])->first();
-            
-            if($box){
-                // $box->quantity = $box->quantity-$quantity;
-                // $box->save();
+
+            if ($box) {
+                $box->quantity = $box->quantity - $quantity;
+                $box->save();
+
                 $item = $box;
                 $type = 'box';
             }
 
-            if($type == 'box'){
+            if ($type == 'box') {
                 $itemQuantity = $quantity;
             }
         }
 
-        if($type != ''){
+        if ($type != '') {
             Cart::session($session_id)->add(array(
                 'id' => $item->barcode,
                 'name' => $item->name,
@@ -184,24 +236,27 @@ class CartController extends BaseController
                 )
             ));
 
-            $total = round(Cart::session($session_id)->getTotal(),2);
-            $subtotal = round(Cart::session($session_id)->getSubTotal(),2);
+            $total = round(Cart::session($session_id)->getTotal(), 2);
+            $subtotal = round(Cart::session($session_id)->getSubTotal(), 2);
             $quantity = Cart::session($session_id)->getTotalQuantity();
 
             return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'message' => 'Продукта беше успешно добавен в количката!'));
-        }else{
+        } else {
             return Response::json(array('success' => false, 'error' => 'Продукта не е намерен или е извън наличност!'));
         }
     }
 
 
     public function removeItem($item){
-        $userId = Auth::user()->getId(); 
-        //dd($item);
+        if (Auth::check()) {
+            $session_id  = Auth::user()->getId();
+        } else {
+            $session_id  = Session::getId();
+        }
 
         $items = [];
         
-        Cart::session($userId)->getContent()->each(function($singleitem) use (&$items)
+        Cart::session($session_id)->getContent()->each(function($singleitem) use (&$items)
         {
             $items[] = $singleitem;
         });
@@ -219,16 +274,21 @@ class CartController extends BaseController
                 $product->status = 'available';
                 $product->save();
             }else if($product_box){
-                //$product_box->quantity = $product_box->quantity+$singleitem->quantity;
+                if($singleitem->id == $item){
+                    $currentProductOtherItem = ProductOther::where('barcode', $item)->first();
+                    $currentProductOtherItem->quantity = $currentProductOtherItem->quantity + $singleitem->quantity;
+                    $currentProductOtherItem->save();
+                }
+
                 $product_box->save();
             }
         }
 
-        $remove = Cart::session($userId)->remove($item);
+        $remove = Cart::session($session_id)->remove($item);
         
-        $total = round(Cart::session($userId)->getTotal(),2);
-        $subtotal = round(Cart::session($userId)->getSubTotal(),2);
-        $quantity = Cart::session($userId)->getTotalQuantity();
+        $total = round(Cart::session($session_id)->getTotal(),2);
+        $subtotal = round(Cart::session($session_id)->getSubTotal(),2);
+        $quantity = Cart::session($session_id)->getTotalQuantity();
 
         $dds = round($subtotal - ($subtotal/1.2), 2);
 
@@ -237,27 +297,36 @@ class CartController extends BaseController
         }
     }
 
-    public function updateItem($item, $quantity){
-        $userId = Auth::user()->getId(); 
-        
-        if($quantity > 0){
-            Cart::session($userId)->update($item, array(
+    public function updateItem($item, $quantity)
+    {
+        if (Auth::check()) {
+            $session_id = Auth::user()->getId();
+        } else {
+            $session_id = Session::getId();
+        }
+
+        if ($quantity > 0) {
+            Cart::session($session_id)->update($item, array(
                 'quantity' => array(
                     'relative' => false,
                     'value' => $quantity
                 ),
             ));
 
-            $item = Cart::session($userId)->get($item);
+            $box = ProductOther::where([
+                ['barcode', '=', $item],
+                ['quantity', '>=', $quantity]
+            ])->first();
 
-            $price = $item->price;
-            $priceWithQuantity = $item->price*$item->quantity;
-            $total = round(Cart::session($userId)->getTotal(),2);
+            if ($box) {
+                $item = Cart::session($session_id)->get($item);
+
+                $price = $item->price;
+                $priceWithQuantity = $item->price * $item->quantity;
+                $total = round(Cart::session($session_id)->getTotal(), 2);
+            }
 
             return Response::json(array('success' => true, 'itemID' => $item->id, 'total' => $total, 'price' => $price, 'quantity' => $quantity, 'priceWithQuantity' => $priceWithQuantity));
         }
     }
-
-   
-
 }

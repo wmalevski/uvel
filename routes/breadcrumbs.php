@@ -8,7 +8,7 @@ Breadcrumbs::register('store', function ($breadcrumbs) {
 // Home > About
 Breadcrumbs::register('web_blog', function ($breadcrumbs) {
     $breadcrumbs->parent('store');
-    $breadcrumbs->push('Блог', route('translated_articles', ['locale', app()->getLocale()]));
+    $breadcrumbs->push('Блог', route('translated_articles', [app()->getLocale()]));
 });
 
 Breadcrumbs::register('single_translated_article', function ($breadcrumbs, $article) {
@@ -38,7 +38,7 @@ Breadcrumbs::register('stores', function ($breadcrumbs) {
 
 Breadcrumbs::register('settings', function ($breadcrumbs) {
     $breadcrumbs->parent('store');
-    $breadcrumbs->push('Настройки', route('settings'));
+    $breadcrumbs->push('Настройки', route('user_settings'));
 });
 
 Breadcrumbs::register('prices', function ($breadcrumbs) {
@@ -103,7 +103,7 @@ Breadcrumbs::register('wishlist', function ($breadcrumbs) {
 
 Breadcrumbs::register('single_product', function ($breadcrumbs, $product) {
     $breadcrumbs->parent('products');
-    $breadcrumbs->push($product->name, route('single_product', $product->id));
+    $breadcrumbs->push($product->code, route('single_product', $product->id));
 });
 
 Breadcrumbs::register('single_product_other', function ($breadcrumbs, $product) {

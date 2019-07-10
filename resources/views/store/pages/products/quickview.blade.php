@@ -28,29 +28,37 @@
 				<h1 id="quick-shop-title">
 					<span>
 						<a href="{{ route('single_product', ['product' => $product->id])  }}">
-							{{ $product->name }}
+							{{ implode(" ", str_split($product->code, 3)) }}
 						</a>
 					</span>
 				</h1>
 				<div id="quick-shop-infomation" class="description">
 					<div id="quick-shop-description" class="text-left">
 						<p>
-							No: {{ $product->code }}
-							<br/>
-							{{ $product->weight }}гр.
+							No: {{ implode(" ", str_split($product->code, 3)) }}
 							<br/>
 							Модел: {{ $product->model->name }}
 							<br/>
+							{{ $product->material->name }} - {{ $product->material->code }} - {{ $product->material->color }}
+							<br/>
+							{{ $product->weight['weight'] }}гр.
+							<br/>
+							@if (isset($product->weight['stone']))
+								{{ $product->weight['stone'] }}кт.
+								<br/>
+							@endif
 							Бижу: {{ $product->jewel->name }}
 							<br/>
 							Размер: {{ $product->model->size }}
+							<br/>
+							Налично в: {{ $product->store_info->name }}
 						</p>
 					</div>
 				</div>
 				<div id="quick-shop-container">
 					<div id="quick-shop-price-container" class="detail-price">
 						<span class="price_sale">
-							{{ number_format($product->price) }} лв
+							{{ number_format($product->price) }} лв.
 						</span>
 						<span class="dash"></span>
 					</div>

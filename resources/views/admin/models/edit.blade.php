@@ -119,6 +119,7 @@
             <input type="number" class="form-control calculate" id="weight" name="weight" value="{{ $model->weight }}"
                    data-calculatePrice-netWeight placeholder="Тегло:">
             <span class="input-group-addon">гр.</span>
+            <input type="number" class="form-control form-control--hidden" name="gross_weight" id="grossWeight_edit" value="0" data-calculateprice-grossweight="" disabled="">
           </div>
         </div>
 
@@ -266,7 +267,8 @@
       <div class="form-row bot-row">
         <div class="form-group col-md-6">
           <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
-            <input type="checkbox" id="checkbox_release_product" name="release_product" class="peer">
+            <input type="checkbox" id="checkbox_release_product" name="release_product" class="peer"
+                @if($model->release_product == 'yes') checked @endif>
             <label for="checkbox_release_product" class="peers peer-greed js-sb ai-c">
               <span class="peer peer-greed">
                 Добави като продукт

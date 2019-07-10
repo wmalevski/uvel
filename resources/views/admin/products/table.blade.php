@@ -1,7 +1,10 @@
-<tr>
+<tr data-id="{{ $product->id }}">
 	<td class="thumbnail--tooltip">
 		@if(count($product->photos)) <img class="admin-product-image" src="{{ asset("uploads/products/" . $product->photos->first()['photo']) }}">
 			<ul class="product-hover-image" style="background-image: url({{ asset("uploads/products/".$product->photos->first()['photo']) }});"></ul>
+		@else
+			<img class="admin-product-image" src="{{ asset("uploads/models/" . $product->model->photos->first()['photo']) }}">
+			<ul class="product-hover-image" style="background-image: url({{ asset("uploads/models/".$product->model->photos->first()['photo']) }});"></ul>
 		@endif
 	</td>
 	
@@ -14,6 +17,12 @@
 	</td>
 	<td>
 		@if($product->model) {{ $product->jewel->name }} @endif
+	</td>
+	<td>
+		{{ $product -> code }} <!-- ADD PRODUCT SHOP HERE -->
+	</td>
+	<td>
+		@if($product->material) {{ $product->material->name }} - {{ $product->material->color}} - {{ $product->material->code}} @endif
 	</td>
 	<td>
 		{{ $product->retailPrice->price }}

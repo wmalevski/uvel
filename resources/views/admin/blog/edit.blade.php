@@ -5,10 +5,10 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    
+
     <form method="POST" data-type="edit" name="blog" action="blog/{{ $article->id }}">
         <input name="_method" type="hidden" value="PUT">
-        <div class="modal-body">    
+        <div class="modal-body">
                 <div class="info-cont">
                 </div>
             {{ csrf_field() }}
@@ -50,22 +50,27 @@
                             <div class="form-group col-md-12">
                                 <label for="1">Снимка: </label>
                                 <div class="drop-area" name="edit">
-                                    <input type="file" name="images" class="drop-area-input" id="fileElem-edit-{{ $locale }}"
+                                    <input type="file" name="images[{{$locale}}]" class="drop-area-input" id="fileElem-edit-{{ $locale }}"
                                            data-locale="{{ $locale }}" accept="image/*">
                                     <label class="button" for="fileElem-edit-{{ $locale }}">Select some files</label>
-                                    <div class="drop-area-gallery"></div>
+                                    <div class="drop-area-gallery">
+                                        @if ( !empty($article->thumbnail[0]))
+                                            <div class="uploaded-images-area">
+                                                @foreach( $article->thumbnail as $thumb)
+                                                    @if($thumb->language == $locale)
+                                                        <div class="image-wrapper">
+                                                            <div class="close" >
+                                                                <span data-url="gallery/delete/{{$thumb->id}}">&#215;</span>
+                                                            </div>
+                                                            <img  src="{{ asset("uploads/blog/" . $thumb->photo) }}" alt="{{ $article->slug }}"/>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="uploaded-images-area">
-                            @if($article->thumbnail())
-                                <div class="image-wrapper">
-                                    <div class="close">
-                                        <span data-url="gallery/delete/{{$article->thumbnail()->id}}">&#215;</span>
-                                    </div>
-                                    <img src="{{ asset("uploads/blog/" . $article->thumbnail()->photo) }}" alt="{{ $article->slug }}"/>  
-                                </div>
-                            @endif
                         </div>
                     </div>
                 @endforeach

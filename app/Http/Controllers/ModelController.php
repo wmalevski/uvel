@@ -114,11 +114,11 @@ class ModelController extends Controller
         $model->totalStones =  $request->totalStones;
         $model->code = 'M'.unique_random('models', 'code', 7);
 
-        if($request->website_visible == 'true'){
-            $model->website_visible =  'yes';
-        }else{
-            $model->website_visible =  'no';
-        }
+        $model->website_visible =  'no';
+        if($request->website_visible == 'true') $model->website_visible =  'yes';
+        
+        $model->release_product =  'no';
+        if($request->release_product == 'true') $model->release_product =  'yes';
 
         $model->save();
 
@@ -159,7 +159,6 @@ class ModelController extends Controller
                 }else{
                     $ext = $extension[1];
                 }
-                
 
                 $file_name = 'modelimage_'.uniqid().time().'.'.$ext;
             
@@ -214,12 +213,13 @@ class ModelController extends Controller
 
             $product = new Product();
             $product->name = $request->name;
-            $product->model_id = $default->material_id;
+            $product->model_id = $model->id;
             $product->jewel_id= $request->jewel_id;
             $product->weight = $request->weight;
+            $product->gross_weight = $request->weight;
             $product->material_id = $default->material_id;
-            $product->material_type_id = $request->material_id;
-            $product->retail_price_id = $default->retail_price_id;
+            $product->material_type_id = array_values($request->material_id)[0];
+            $product->retail_price_id = array_values($request->retail_price_id)[0];
             $product->size = $request->size;
             $product->workmanship = $request->workmanship;
             $product->price = $request->price;
@@ -453,12 +453,12 @@ class ModelController extends Controller
         $model->totalStones =  $request->totalStones;
         $model->size = $request->size;
 
-        if($request->website_visible == 'true'){
-            $model->website_visible =  'yes';
-        }else{
-            $model->website_visible =  'no';
-        }
-        
+        $model->website_visible =  'no';
+        if($request->website_visible == 'true') $model->website_visible =  'yes';
+
+        $model->release_product =  'no';
+        if($request->release_product == 'true') $model->release_product =  'yes';
+
         $model->save();
 
         $path = public_path('storage/models/');
@@ -599,7 +599,6 @@ class ModelController extends Controller
 
             $product->website_visible =  'yes';
            
-            
             $product->save();
 
             $stoneQuantity = 1;

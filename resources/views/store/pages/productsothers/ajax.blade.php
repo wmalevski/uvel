@@ -12,11 +12,14 @@
 		</li>
 		<li class="row-right parent-fly animMix @if($listType == 'goList') col-md-16 @endif">
 			<div class="product-content-left">
-				<a class="title-5" href="{{ route('single_product', ['product' => $product->id])  }}">
-					{{ $product->name }}
+				<a class="title-5" href="{{ route('single_product_other', ['product' => $product->id]) }}">
+					Модел: {{ $product->name }}
 				</a>
 				<br/>
 				No: {{ $product->code }}
+				<br/>
+				Налично в: {{ App\Store::where('id',$product->store_id)->first()->name }}
+				<br/>
 				<br/>
 				<span class="spr-badge">
 					<span class="spr-starrating spr-badge-starrating">
@@ -27,7 +30,7 @@
 			<div class="product-content-right">
 				<div class="product-price">
 					<span class="price">
-						{{ number_format($product->price) }} лв
+						{{ number_format($product->price) }} лв.
 					</span>
 				</div>
 			</div>

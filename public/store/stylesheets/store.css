@@ -2,6 +2,90 @@
 body {
     overflow-x: hidden;
 }
+
+.article-page .blogs-item .article-content .blogs-image {
+    width: 100% !important;
+    margin: 30px 0;
+}
+
+.home-blog .home-blog__article {
+    margin-bottom: 30px;
+}
+
+.home-blog .home-blog__article:last-child {
+    margin-bottom: 0;
+}
+
+.home-bottom_banner_wrapper .image-wrapper {
+    width: auto !important;
+}
+
+.home-bottom_banner_wrapper .image-wrapper img {
+    max-height: 250px;
+}
+
+.home-bottom_banner_wrapper a {
+    text-align: center;
+}
+
+.top-navigation .dropdown-menu {
+    margin: 0px !important;
+    left: 14px;
+}
+
+#product-header {
+    display: flex; 
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#product-info-left .description ul li {
+    line-height: 30px;
+}
+
+#product-info-left .description ul li span {
+    margin-right: 6px;
+}
+
+#product-info-left .description .sub {
+    padding: 0 10px;
+}
+
+#product-info-left .description .sub li {
+    padding: 0 10px;
+}
+
+#product-info-left .description ul li h5 {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eaeaea;
+    padding: 20px 0;
+    font-size: 15px;
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#breadcrumb, .breadcrumb {
+    background: #f3f3f3;
+}
+
+#quick-shop-container .wrapper {
+    position: relative;
+}
+
+#quick-shop-container .qty-wrapper .qty-up,
+#quick-shop-container .qty-wrapper .qty-down {
+    top: 0 !important;
+}
+
+.quantity-wrapper .qty-wrapper .qty-up {
+    right: 0 !important;
+}
+
+.quantity-wrapper .qty-wrapper .qty-down {
+    left: 0 !important;
+}
+
 /* selected check box */
 .selected .fe-checkbox {
     background-image: url(../images/fancybox_overlay.png) !important;
@@ -199,9 +283,30 @@ header .col-md-18 {
     .contact-content {
         padding: 0;
     }
+
+    .top-navigation .dropdown-menu {
+        left: 8px;
+    }
 }
 
 @media (max-width: 767px) {
+    .product-page #product-information #product-info-left {
+        display: block !important;
+    }
+    
+    #product-info-left,
+    #product-info-right {
+        width: 100%;
+    }
+
+    #product-info-left {
+        margin-bottom: 30px;
+    }
+
+    #product-info-right {
+        border: none;
+    }
+
     .sidebar {
         display: block !important;
     }
@@ -220,6 +325,16 @@ header .col-md-18 {
 
     .collection-page {
         padding-left: 0px !important;
+    }
+
+    .top-navigation .dropdown-menu {
+        left: 0;
+    }
+}
+
+@media (max-width: 540px) {
+    #product-info-left .description .sub li {
+        padding: 0;
     }
 }
 

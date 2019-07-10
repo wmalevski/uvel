@@ -13,6 +13,8 @@ use App\Product;
 use App\UserPaymentProduct;
 use Auth;
 use Cart;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
 
 class UserPaymentController extends Controller
 {
@@ -46,6 +48,24 @@ class UserPaymentController extends Controller
     {
         if($request->amount > 0){
             session()->forget('cart_info');
+
+            $restrictions = [
+                'shipping_method' => 'required',
+                'payment_method' => 'required'
+            ];
+
+            if ($request->shipping_method == 'ekont') {
+                $restrictions['city'] = 'required';
+                $restrictions['street'] = 'required';
+                $restrictions['street_number'] = 'required';
+                $restrictions['postcode'] = 'required';
+                $restrictions['phone'] = 'required';
+            } elseif ($request->shipping_method == 'store') {
+                $restrictions['store_id'] = 'required';
+            }
+
+            $validator = Validator::make($request->all(), $restrictions);
+
             $user_info = [
                 'user_id' => Auth::user()->getId(),
                 'shipping_method' => $request->shipping_method,
@@ -67,7 +87,13 @@ class UserPaymentController extends Controller
             } else if ($request->payment_method == 'borika'){
                 
             }
+
+            if ($validator->fails()) {
+                return Redirect::back()->withErrors($validator);
+            }
+
         }
+        return Redirect::to('\online');
     }
 
     /**

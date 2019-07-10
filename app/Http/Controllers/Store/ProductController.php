@@ -46,6 +46,10 @@ class ProductController extends BaseController
 
         $jewels = Jewel::all();
 
+        foreach ($products as $product) {
+            $product->weight = calculate_product_weight($product);
+        }
+
         return \View::make('store.pages.products.index', array('products' => $products, 'stores' => $stores, 'materials' => $materials, 'jewels' => $jewels, 'productothertypes' => $productothertypes, 'materialTypes' => $materialTypes));
     }
 
@@ -60,8 +64,14 @@ class ProductController extends BaseController
         $allProducts = Product::select('*')->where('jewel_id',$product->jewel_id )->whereNotIn('id', [$product->id]);
         $similarProducts = $allProducts->orderBy(DB::raw('ABS(`price` - '.$product->price.')'))->take(5)->get();
         
-        if($product){
-            return \View::make('store.pages.products.single', array('materialTypes' => $materialTypes, 'product' => $product, 'products' => $products, 'similarProducts' => $similarProducts, 'productAvgRating' => $product->getProductAvgRating($product)));
+        if($product) {
+            $weightWithoutStone = $product->weight;
+            $product->weight = calculate_product_weight($product);
+            foreach ($similarProducts as $similarProduct){
+                $similarProduct->weight = calculate_product_weight($similarProduct);
+            }
+
+            return \View::make('store.pages.products.single', array( 'weightWithoutStone' => $weightWithoutStone, 'materialTypes' => $materialTypes, 'product' => $product, 'products' => $products, 'similarProducts' => $similarProducts, 'productAvgRating' => $product->getProductAvgRating($product)));
         }
     }
 
@@ -78,6 +88,7 @@ class ProductController extends BaseController
 
         $response = '';
         foreach($products as $product){
+            $product->weight = calculate_product_weight($product);
             $response .= \View::make('store/pages/products/ajax', array('product' => $product, 'listType' => $request->listType));
         }
 
@@ -90,6 +101,8 @@ class ProductController extends BaseController
     public function quickView(Product $product)
     {
         if($product){
+            $product->weight = calculate_product_weight($product);
+
             return \View::make('store/pages/products/quickview', array('product' => $product));
         }
     }

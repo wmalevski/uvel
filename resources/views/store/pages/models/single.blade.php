@@ -85,18 +85,27 @@
 										<div id="product-header" class="clearfix">
 											<div id="product-info-left">
 												<div class="description">
-													<span>Описание</span>
-													<p>
-														Модел: {{ $model->name }} <br />
-														Бижу: {{ $model->jewel->name }} <br />
-														Размер: {{ $model->size }}
-													</p>
+													<ul>
+														<li>
+															<h5>Информация за продукта</h5>
+															<ul class="sub">
+																<li><span>Модел:</span> {{ $model->name }}</li>
+																<li><span>{{ $model->weight }}гр.</li>
+																<li><span>Бижу:</span> {{ $model->jewel->name }}</li>
+																<li><span>Размер:</span> {{ $model->size }}</li>
+															</ul>
+														</li>
+													</ul>
 												</div>
 												<div class="description">
-													<span>Обмяна</span>
-													<p>
-														{{ $model->weight }} гр. + {{ $model->workmanship }} лв.
-													</p>
+													<ul>
+														<li>
+															<h5>Обмяна</h5>
+															<ul class="sub">
+																<li>{{ $model->weight }} гр. + {{ $model->workmanship }} лв.</li>
+															</ul>
+														</li>
+													</ul>
 												</div>
 											</div>
 											<div id="product-info-right">
@@ -112,8 +121,8 @@
 																</style>
 															<div id="purchase-1293235843">
 																<div class="detail-price" itemprop="price">
-																	<span class="price">{{ number_format($model->price) }} лв</span>
-																	*с ДДС.
+																	<span class="price">{{ number_format($model->price) }} лв.</span>
+																	*с ДДС
 																</div>
 															</div>
 															<div class="others-bottom clearfix">
@@ -208,9 +217,13 @@
 											<div class="spr-content">
 												<div class="spr-form" id="form_1293236931">
 													<form method="post" action="{{ route('product_review', ['model' => $model->id])  }}" id="new-review-form_{{$model->id}}"
-													 class="new-review-form">
+													 class="new-review-form" data-form-captcha>
 														{{ csrf_field() }}
 														<input type="hidden" name="rating" value="5">
+														<div 
+															id="review_form"
+															data-size="invisible" data-captcha="review_form" data-callback="formSubmit">
+														</div>
 														<h3 class="spr-form-title">Напиши ревю</h3>
 														<fieldset class="spr-form-review">
 															<div class="spr-form-review-rating">
@@ -235,8 +248,7 @@
 															</div>
 														</fieldset>
 														<fieldset class="spr-form-actions">
-															<input id="btnSubmitReview" type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary"
-																		 value="Добави рейтинг" disabled>
+															<button id="btnSubmitReview" type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary" disabled>Добави рейтинг</button>
 														</fieldset>
 														<input type="hidden" name="model_id" value="{{$model->id}}">
 														<input type="hidden" name="type" value="model">
@@ -296,8 +308,12 @@
 												<li class="row-right parent-fly animMix">
 													<div class="product-content-left">
 														<a class="title-5" href="{{ route('single_model', ['model' => $model->id])  }}">
-															{{ $model->name }}
+															Модел: {{ $model->name }}
 														</a>
+														<br/>
+														{{ $model->weight }}гр.
+														<br/>
+														<strong class="text-danger">По Поръчка за 10 дни</strong>
 														<span class="spr-badge" data-rating="0.0">
 															<span class="spr-starrating spr-badge-starrating">
 																{{$model->listModelAvgRatingStars($model)}}
@@ -308,9 +324,9 @@
 													<div class="product-content-right">
 														<div class="product-price">
 															<span class="price">
-																{{ number_format($model->price) }} лв
+																{{ number_format($model->price) }} лв.
 															</span>
-															*с ДДС.
+															*с ДДС
 														</div>
 													</div>
 

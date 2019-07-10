@@ -61,7 +61,7 @@ class ProductTravellingController extends Controller
                 $check = Product::find($product);
 
                 if($check){
-                    if($check->store_id == $request->store_to_id){
+                    if($check->store_id == $request->store_to_id || Auth::user()->getStore()->id == $request->store_to_id){
                         return Response::json(['errors' => array('quantity' => [trans('admin/products_travelling.error_same_store')])], 401);
                     }
                 }else{
@@ -107,7 +107,7 @@ class ProductTravellingController extends Controller
         if($item){
             $pass_item = (object)[
                 'id' => $item->id,
-                'name' => $item->name,
+                'name' => $item->code,
                 'weight' => $item->weight,
                 'barcode' => $item->barcode
             ];

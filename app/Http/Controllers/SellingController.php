@@ -259,31 +259,53 @@ class SellingController extends Controller
 
         if($request->amount_check == false){
             if($request->type_repair == true){
-                $item = Repair::where(
-                    [
-                        ['barcode', '=', $request->barcode],
-                        ['status', '=', 'done']
-                    ]       
-                )->first();
+                if($request->barcode){
+                    $item = Repair::where(
+                        [
+                            ['barcode', '=', $request->barcode],
+                            ['status', '=', 'done']
+                        ]       
+                    )->first();
+                } else if($request->catalog_number){
+                    $item = Repair::where(
+                        [
+                            ['code', '=', $request->catalog_number],
+                            ['status', '=', 'done']
+                        ]       
+                    )->first();
+                }
+
                 $type = "repair";
             }else{
                 if($request->barcode){
-                    $item = Product::where('barcode', $request->barcode)->first();
+                    $request_type = 'barcode';
+                    $request_var = $request->barcode;
                 } else if($request->catalog_number){
-                    $item = Product::where('code', $request->catalog_number)->first();
+                    $request_type = 'code';
+                    $request_var = $request->catalog_number;
                 }
 
+                $item = Product::where($request_type, $request_var)->first();
                 $type = "product";
-
-                // if($item->order){
-                //     $checkOrder = 
-                // } 
+                if (!$item) {
+                    $item = ProductOther::where($request_type, $request_var)->first();
+                    $type = "box";
+                }
             }
 
             if($item){
+                $available = true;
                 if($item->status == 'selling'){
+                    $message = 'Продуктът в момента принадлежи на друга продажба.';
+                    $available = false;
+                } elseif($item->status == 'sold'){
+                    $message = 'Продуктът е продаден.';
+                    $available = false;
+                }
+
+                if (!$available) {
                     return Response::json(['errors' => array(
-                        'selling' => 'Продукта в момента принадлежи на друга продажба.'
+                        'selling' => $message
                     )], 401);
                 }
 
@@ -304,23 +326,26 @@ class SellingController extends Controller
                     }else{
                         $calculated_weight = $item->weight;
                     }
-
-
                 } else if($type == 'repair'){
                     $item->status = 'returning';
                     $item->save();
 
                     $calculated_weight = '';
-                }           
+                } else {
+                    if ($item->quantity) {
+                        $item->quantity -= 1;
+                        $item->save();
+                    }
+
+                    $calculated_weight = '';
+                }
             }
         }else{
             if($request->barcode){
                 $item = ProductOther::where('barcode', $request->barcode)->first();
-
                 $type = "box";
             } else if($request->catalog_number){
                 $item = ProductOther::where('code', $request->catalog_number)->first();
-
                 $type = "box";
             }
 
@@ -331,14 +356,14 @@ class SellingController extends Controller
                 )], 401);
             }
             
-            $item->quantity = $item->quantity-$request->quantity;
+            $item->quantity = $item->quantity - $request->quantity;
             $item->save();
 
             $calculated_weight = '';
            }
         }
 
-        if($item){       
+        if($item){
             $userId = Auth::user()->getId(); // or any string represents user identifier
             
             $find = Cart::session($userId)->get($item->barcode);
@@ -352,7 +377,7 @@ class SellingController extends Controller
 
                 if($type == "repair"){
                     Cart::session($userId)->add(array(
-                        'id' => $item->barcode,
+                        'id' => $item->code,
                         'name' => 'Връщане на ремонт - '.$item->customer_name,
                         'price' => $item->price,
                         'quantity' => 1,
@@ -362,6 +387,17 @@ class SellingController extends Controller
                         )
                     ));
             
+                }else if ($type == "box") {
+                    Cart::session($userId)->add(array(
+                        'id' => $item->code,
+                        'name' => $item->name,
+                        'price' => $item->price,
+                        'quantity' => $request->quantity,
+                        'attributes' => array(
+                            'weight' => $item->weight,
+                            'type' => 'box'
+                        )
+                    ));
                 }else{
                     $code = '';
                     if($item->material){
@@ -387,26 +423,25 @@ class SellingController extends Controller
                     }
 
                     Cart::session($userId)->add(array(
-                        'id' => $item->barcode,
+                        'id' => $item->code,
                         'name' => $item->name,
                         'price' => $item->price,
                         'quantity' => $request->quantity,
                         'attributes' => array(
                             'carat' => $carat,
                             'weight' => $item->weight,
-                            'type' => $type,
+                            'price' => $item->price,
                             'calculated_weight' => $calculated_weight,
                             'order' => $order,
                             'order_item_id' => $order_item_id,
-                            'mat' => $mat,
-                            'code' => $code,
-                            'defCode' => $defCode
+                            'name' => $item->name,
+                            'product_id' => $item->id,
+                            'type' => $type,
+                            'barcode' => $item->barcode
                         )
                     ));
                 }
-            }
-
-        
+            } 
 
             $total = round(Cart::session($userId)->getTotal(),2);
             $subtotal = round(Cart::session($userId)->getSubTotal(),2);

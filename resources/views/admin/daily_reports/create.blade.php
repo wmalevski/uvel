@@ -1,8 +1,4 @@
 @extends('admin.layout')
-@php
-  $denominations = array("100", "50", "20", "10", "5", "2", "1", "0.5", "0.2", "0.1", "0.05", "0.02", "0.01");
-@endphp
-
 @section('content')
 <div id='mainContent'>
   <div class="row gap-20 masonry pos-r daily-report-create-page">
@@ -37,7 +33,7 @@
               </div>
             </div>
 
-            @foreach($denominations as $denomination)
+            @foreach(config('constants.DENOMINATIONS') as $denomination)
               <div class="form-row">
                 <div class="form-group col-md-4">
                   <input class="input-denomination form-control" type="number" data-row="{{ $denomination }}" 
@@ -103,11 +99,11 @@
             @foreach($materials as $material)
             <div class="form-row">
               <div class="form-group col-md-6">
-                <input type="number" class="form-control" placeholder="{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->code }}" readonly>
+                <input type="number" class="form-control" placeholder="{{ $material->name }} - {{ $material->color }} - {{ $material->code }}" readonly>
                 <input type="hidden" class="form-control" value="{{ $material->id }}" name="material_id[]">
               </div>
               <div class="form-group col-md-6">
-                <input type="number" min="0" name="quantity[]" class="form-control" placeholder="0">
+                <input type="number" min="0" name="quantity[]" class="form-control" placeholder="0" step="0.01">
               </div>
             </div>
             @endforeach
@@ -115,7 +111,7 @@
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label>Стойност</label> 
-                <input type="number" class="form-control" min="0" placeholder="0" name="fiscal_amount">
+                <input type="number" class="form-control" min="0" placeholder="0" name="fiscal_amount" step="0.01">
               </div>
             </div>
             <button type="submit" class="btn btn-primary">Пускане</button>
@@ -154,11 +150,11 @@
             <div class="form-row">
               <div class="form-group col-md-6">
                 
-                <input type="number" class="form-control" placeholder="{{ $material->material->parent->name }} - {{ $material->material->color }} - {{ $material->material->code }}" readonly>
-                <input type="hidden" class="form-control" value="{{ $material->id }}" name="material_id[]">
+                <input type="number" class="form-control" placeholder="{{ $material->name }} - {{ $material->color }} - {{ $material->code }}" readonly>
+                <input type="hidden" class="form-control" value="{{ $material->id }}" name="material_id[]" >
               </div>
               <div class="form-group col-md-6">
-                <input type="number" min="0" name="quantity[]" class="form-control" placeholder="0">
+                <input type="number" min="0" name="quantity[]" class="form-control" placeholder="0" step="0.01">
               </div>
             </div>
             @endforeach

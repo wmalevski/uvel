@@ -1,5 +1,9 @@
-<tr @if($item->attributes->type == 'product') data-saleProduct data-type="{{ $item->attributes->mat }}" @endif>
-    <td data-default-sample="{{ $item->attributes->defCode }}" data-sample="{{ $item->attributes->code }}" data-carat="{{ $item->attributes->carat }}">{{ $item->name }}</th>
+<tr @if($item->attributes->type == 'product') data-saleProduct @endif>
+    @if($item->attributes->type == 'product')
+        <td>{{ App\Product::where('id', $item->attributes->product_id)->first()->model->name }} {{ App\Product::where('id', $item->attributes->product_id)->first()->code }}</th>
+    @elseif($item->attributes->type == 'box' || $item->attributes->type == 'repair' )
+        <td>{{ $item->name }} {{ $item->id }}</th>
+    @endif
     <td data-quantity>{{ $item->quantity }}</td>
     <td data-weight="{{ $item->attributes->weight }}">{{ $item->attributes->weight }}</td>
     <td>{{ $item->price }}</td>

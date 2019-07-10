@@ -28,7 +28,7 @@
 								<div id="product" class="content clearfix">
 									<h1 id="page-title" class="text-center">
 										<span itemprop="name">
-											{{ $product->name }}
+											{{ implode(" ", str_split($product->code, 3)) }}
 										</span>
 									</h1>
 									<div id="product-image" class="product-image row ">
@@ -88,18 +88,33 @@
 										<div id="product-header" class="clearfix">
 											<div id="product-info-left">
 												<div class="description">
-													<span>Описание</span>
-													<p>
-														Модел: {{ $product->model->name }} <br />
-														Бижу: {{ $product->jewel->name }} <br />
-														Размер: {{ $product->model->size }}
-													</p>
+													<ul>
+														<li>
+															<h5>Информация за продукта</h5>
+															<ul class="sub">
+																<li><span>No:</span> {{ implode(" ", str_split($product->code, 3)) }}</li>
+																<li><span>Модел:</span> {{ $product->model->name }}</li>
+																<li><span>{{ $product->material->name }} - {{ $product->material->code }} - {{ $product->material->color }}</li>
+																<li>{{ $product->weight['weight'] }}гр.</li>
+																@if (isset($product->weight['stone']))
+																	<li>{{ $product->weight['stone'] }}кт.</li>
+																@endif
+																<li><span>Бижу:</span> {{ $product->jewel->name }}</li>
+																<li><span>Размер:</span> {{ $product->model->size }}</li>
+																<li><span>Налично в:</span> {{ $product->store_info->name }}</li>
+															</ul>
+														</li>
+													</ul>
 												</div>
 												<div class="description">
-													<span>Обмяна</span>
-													<p>
-														{{ $product->weight }} гр. + {{ $product->workmanship }} лв.
-													</p>
+													<ul>
+														<li>
+															<h5>Обмяна</h5>
+															<ul class="sub">
+																<li>{{ $weightWithoutStone }} гр. + {{ $product->workmanship }} лв.</li>
+															</ul>
+														</li>
+													</ul>
 												</div>
 											</div>
 											<div id="product-info-right">
@@ -111,9 +126,9 @@
 															<div id="purchase-1293235843">
 																<div class="detail-price" itemprop="price">
 																	<span class="price">
-																		{{ number_format($product->price) }} лв
+																		{{ number_format($product->price) }} лв.
 																	</span>
-																	*с ДДС.
+																	*с ДДС
 																</div>
 															</div>
 															<div class="others-bottom clearfix">
@@ -228,10 +243,14 @@
 											@endif
 											<div class="spr-content">
 												<div class="spr-form" id="form_{{$product->id}}">
-													<form method="post" action="{{ route('product_review', ['product' => $product->id])  }}" id="new-review-form_{{$product->id}}"
+													<form method="post" data-form-captcha action="{{ route('product_review', ['product' => $product->id])  }}" id="new-review-form_{{$product->id}}"
 													 class="new-review-form">
 														{{ csrf_field() }}
 														<input type="hidden" name="rating" value="5">
+														<div 
+															id="review_form"
+															data-size="invisible" data-captcha="review_form" data-callback="formSubmit">
+														</div>
 														<h3 class="spr-form-title">Напиши ревю</h3>
 														<fieldset class="spr-form-review">
 															<div class="spr-form-review-rating">
@@ -258,8 +277,7 @@
 
 														</fieldset>
 														<fieldset class="spr-form-actions">
-															<input id="btnSubmitReview" type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary"
-															 			 value="Добави рейтинг" disabled>
+															<button id="btnSubmitReview" type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary" disabled>Добави рейтинг</button>
 														</fieldset>
 														<input type="hidden" name="product_id" value="{{$product->id}}">
 														<input type="hidden" name="type" value="product">
@@ -307,61 +325,75 @@
 								<div id="prod-related-wrapper">
 									<div class="prod-related clearfix">
 										@foreach($similarProducts as $product)
-										<div class="element no_full_width not-animated" data-animate="bounceIn" data-delay="0">
-											<ul class="row-container list-unstyled clearfix">
-												<li class="row-left">
-													<a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">
-														<img class="img-fill" alt="{{ $product->name }}"
-														src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif">
-													</a>
-													<div class="hbw">
-														<span class="hoverBorderWrapper"></span>
-													</div>
-												</li>
-												<li class="row-right parent-fly animMix">
-													<div class="product-content-left">
-														<a class="title-5" href="{{ route('single_product', ['product' => $product->id])  }}">
-															{{ $product->name }}
+											@if (Illuminate\Support\Str::lower($product->store_info->name) != 'склад')
+											<div class="element no_full_width not-animated" data-animate="bounceIn" data-delay="0">
+												<ul class="row-container list-unstyled clearfix">
+													<li class="row-left">
+														<a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">
+															<img class="img-fill" alt="{{ $product->name }}"
+															src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif">
 														</a>
-														<span class="spr-badge" id="spr_badge_{{$product->id}}" data-rating="{{$product->getProductAvgRating($product)}}">
-															@if($product->getProductAvgRating($product) > 0)
-															<span class="spr-starrating spr-badge-starrating">
-																{{$product->listProductAvgRatingStars($product)}}
-															</span>
-															@else
-															<span class="spr-badge-caption">No reviews</span>
-															@endif
-														</span>
-													</div>
-													<div class="product-content-right">
-														<div class="product-price">
-															<span class="price">{{ number_format($product->price) }} лв</span>
+														<div class="hbw">
+															<span class="hoverBorderWrapper"></span>
 														</div>
-													</div>
+													</li>
+													<li class="row-right parent-fly animMix">
+														<div class="product-content-left">
+															<a class="title-5" href="{{ route('single_product', ['product' => $product->id]) }}">
+																No: {{ implode(" ", str_split($product->code, 3)) }}
+															</a>
+															<br>
+															Модел: {{ $product->model->name }}
+															<br>
+															{{ $product->material->name }} - {{ $product->material->code }} - {{ $product->material->color }}
+															<br>
+															{{ $product->weight['weight'] }}гр.
+															<br>
+															@if (isset($product->weight['stone']))
+																{{ $product->weight['stone'] }}кт.
+																<br>
+															@endif
+															Налично в: {{ $product->store_info->name }}
+															<span class="spr-badge" id="spr_badge_{{$product->id}}" data-rating="{{$product->getProductAvgRating($product)}}">
+																@if($product->getProductAvgRating($product) > 0)
+																	<span class="spr-starrating spr-badge-starrating">
+																	{{$product->listProductAvgRatingStars($product)}}
+																</span>
+																@else
+																	<span class="spr-badge-caption">No reviews</span>
+																@endif
+															</span>
+														</div>
+														<div class="product-content-right">
+															<div class="product-price">
+																<span class="price">{{ number_format($product->price) }} лв.</span>
+															</div>
+														</div>
 
-													<div class="hover-appear">
-														<a href="{{ route('single_product', ['product' => $product->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
-															<input name="quantity" value="1" type="hidden">
-															<i class="fa fa-lg fa-th-list"></i>
-															<span class="list-mode">Преглед</span>
-														</a>
+														<div class="hover-appear">
+															<a href="{{ route('single_product', ['product' => $product->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
+																<input name="quantity" value="1" type="hidden">
+																<i class="fa fa-lg fa-th-list"></i>
+																<span class="list-mode">Преглед</span>
+															</a>
 
-														<button class="quick_shop product-ajax-qs hidden-xs hidden-sm" data-target="#quick-shop-modal" data-toggle="modal"
-															 			data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}" title="Бърз Преглед">
-															<i class="fa fa-lg fa-eye"></i>
-															<span class="list-mode">Бърз преглед</span>
-														</button>
+															<button class="quick_shop product-ajax-qs hidden-xs hidden-sm" data-target="#quick-shop-modal"
+																	data-toggle="modal" data-url="products/{{ $product->id }}/" title="Бърз Преглед">
+																<i class="fa fa-lg fa-eye"></i>
+																<span class="list-mode">Бърз преглед</span>
+															</button>
 
-														<button class="wish-list" title="Добави в желани"
-															 			data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
-															<i class="fa fa-lg fa-heart"></i>
-															<span class="list-mode">Добави в желани</span>
-														</button>
-													</div>
+															<button class="wish-list" title="Добави в желани"
+																			data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
+																<i class="fa fa-lg fa-heart"></i>
+																<span class="list-mode">Добави в желани</span>
+															</button>
+														</div>
 
-												</li>
-											</ul>
-										</div>
+													</li>
+												</ul>
+											</div>
+											@endif
 										@endforeach
 									</div>
 								</div>

@@ -45,7 +45,7 @@ class CreateForeignKeys extends Migration {
 		});
 
 		Schema::table('materials_travellings', function(Blueprint $table) {
-			$table->foreign('material_id')->references('id')->on('materials_quantities')
+			$table->foreign('material_id')->references('id')->on('materials')
 						->onDelete('cascade')
 						->onUpdate('cascade');
 
@@ -110,21 +110,6 @@ class CreateForeignKeys extends Migration {
 						->onUpdate('cascade');
 		});
 
-		Schema::table('exchange_materials', function (Blueprint $table) {
-			
-			$table->foreign('material_id')->references('id')->on('materials_quantities')
-						->onDelete('cascade')
-						->onUpdate('cascade');
-
-			$table->foreign('payment_id')->references('id')->on('payments')
-						->onDelete('cascade')
-						->onUpdate('cascade');
-
-			$table->foreign('order_id')->references('id')->on('orders')
-						->onDelete('cascade')
-						->onUpdate('cascade');
-		});
-
 		Schema::table('order_items', function (Blueprint $table) {
 			
 			$table->foreign('product_id')->references('id')->on('products')
@@ -142,18 +127,6 @@ class CreateForeignKeys extends Migration {
 
 	public function down()
 	{
-
-		Schema::table('exchange_materials', function(Blueprint $table) {
-			$table->dropForeign('exchange_materials_material_id_foreign');
-			$table->dropForeign('exchange_materials_payment_id_foreign');
-			$table->dropForeign('exchange_materials_order_id_foreign');
-
-			$table->dropColumn('material_id');
-			$table->dropColumn('payment_id');
-			$table->dropColumn('order_id');
-		});
-
-
 		Schema::table('users', function(Blueprint $table) {
 			$table->dropForeign('users_store_id_foreign');
 			$table->dropColumn('store_id');

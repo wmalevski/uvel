@@ -16,7 +16,7 @@ class CreateDailyReportBanknotesTable extends Migration
         Schema::create('daily_report_banknotes', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('report_id');
-            $table->integer('banknote');
+            $table->float('banknote');
             $table->float('quantity');
             $table->timestamps();
         });

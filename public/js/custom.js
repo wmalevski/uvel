@@ -47,7 +47,7 @@ var uvel,
       },
       materials: {
         selector: '[name="materials"]',
-        controllers: [],
+        controllers: ['newMaterialInit'],
         initialized: false
       },
       materialsQuantity: {
@@ -142,6 +142,7 @@ var uvel,
         selector: '[name="products"]',
         controllers: [
           'addStonesInit',
+          'productLocationChange',
           'removeStoneInit',
           'calculateStonesInit',
           'calculatePriceInit',
@@ -176,6 +177,16 @@ var uvel,
           'calculateRepairAfterPrice',
           'focusDatePicker'
         ],
+        initialized: false
+      },
+      returnRepair: {
+        selector: '[name="returnRepair"]',
+        controllers: [],
+        initialized: false
+      },
+      scanRepair: {
+        selector: '[name="scanRepair"]',
+        controllers: [],
         initialized: false
       },
       customOrders: {
@@ -994,9 +1005,13 @@ var uvel,
         if (dataKey.startsWith('images')) {
           var imagesHolder = $(element).siblings('.drop-area-gallery').find('img');
 
+          if (form[0].name == 'blog') {
+            imagesHolder = imagesHolder.length ? imagesHolder : $(element).closest('.tab-pane').find('.uploaded-images-area img');
+          }
+
           if (imagesHolder.length) {
             if (element.dataset.locale) {
-              data[dataKey] = imagesHolder[0].getAttribute('src');
+              data[dataKey] = $self.getBase64Image(imagesHolder[0]);
             } else {
               imagesHolder.each(function(index, element) {
                 var imgSource = element.getAttribute('src');
@@ -1149,14 +1164,12 @@ var uvel,
       var responseHTML = response.success,
           table;
 
-      if (response.place == 'active') {
-        table = form.parents('.main-content').find('table.active tbody');
-      } else if (response.place == 'inactive') {
-        table = form.parents('.main-content').find('table.inactive tbody');
+      if (response.targetTable) {
+        table = form.parents('.main-content').find('table#' + response.targetTable + ' tbody');
       } else if (response.type == 'buy') {
-        table = form.parents('.main-content').find('table#buy tbody');
+        table = form.parents('.main-content').find('table#table-price-buy tbody');
       } else if (response.type == 'sell') {
-        table = form.parents('.main-content').find('table#sell tbody');
+        table = form.parents('.main-content').find('table#table-price-sell tbody');
       } else {
         table = form.parents('.main-content').find('table tbody:not(form table tbody)');
       }
@@ -1189,13 +1202,7 @@ var uvel,
       } else if (formType == 'edit') {
         text = 'Редактирахте успешно записа!';
         if (form.find('.drop-area-gallery').length) {
-          // Move the uploaded images to the product area
-          var newImages = form.find('.drop-area-gallery .image-wrapper');
-          form.find('.uploaded-images-area').append(newImages);
-          
-          // Clear images area and reset input[type=file] for the images
-          form.find('.drop-area-input').val('');
-          form.find('.drop-area-gallery').empty();
+          appendImages();
         }
       } else if (formType == 'sell' || formType == 'partner-sell') {
         text = 'Извършихте успешно плащане!';
@@ -1213,6 +1220,23 @@ var uvel,
       setTimeout(function() {
         form.find('.modal-body .info-cont .alert-success').remove();
       }, 2000); // How long te message will be shown on the screen
+
+      function appendImages() {
+        var formTabs = [form.find('#bg_store'), form.find('#en_store')],
+            dropAreaImages;
+
+        for (var i = 0; i < formTabs.length; i++) {
+          dropAreaImages = formTabs[i].find('.drop-area-gallery .image-wrapper')[0];
+
+          if (dropAreaImages) {
+            formTabs[i].find('.uploaded-images-area').html(dropAreaImages);
+
+            // Clear images area and reset input[type=file] for the images
+            formTabs[i].find('.drop-area-input').val('');
+            formTabs[i].find('.drop-area-gallery').empty();
+          }
+        }
+      }
 
     }
 
@@ -1264,6 +1288,18 @@ var uvel,
               });
             }
 
+            if (openedForm == 'products' && formType == 'edit') {
+              var storeSelected = modal.find('[name="store_id"]')[0].selectedOptions[0].value,
+                  websiteVisible = modal.find('[name="website_visible"]');
+
+              if (storeSelected == 1) {
+                websiteVisible.attr({
+                  disabled: true,
+                  checked: false
+                });
+              }
+            }
+
             setTimeout(function() {
               $('button[type="submit"]').prop('disabled', false);
 
@@ -1281,10 +1317,10 @@ var uvel,
     this.replaceResponseRowToTheTable = function(form, response) {
       var replaceRowHTML = response.table,
           rowId = response.ID,
-          rowToChange = form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]'),
+          targetTable = response.targetTable || 'main_table',
+          rowToChange = form.parents('.main-content').find('table[id="' + targetTable + '"] tbody tr[data-id="' + rowId + '"]'),
           iscurrentlyActive = rowToChange.closest('table').hasClass('active'),
           isCurrentlyBuy = rowToChange.closest('table').hasClass('buy');
-
       if (response.place == 'active' && !iscurrentlyActive) {
         $self.moveRowToTheTable(rowToChange, form.parents('.main-content').find('table.active tbody'), replaceRowHTML);
       } else if (response.place == 'inactive' && iscurrentlyActive) {
@@ -1400,6 +1436,20 @@ var uvel,
       });
     }
 
+    this.newMaterialInit = function(form) {
+      var materialType = form.find('[name="parent_id"]'),
+          materialCarat = form.find('[name="carat"]')[0];
+
+      materialType.on('change', function() {
+        if (this.selectedOptions[0].value == 2) {
+          materialCarat.value = '';
+          materialCarat.disabled = true;
+        } else {
+          materialCarat.disabled = false;
+        }
+      });
+    }
+
     this.addMaterialsInit = function(form) {
       var addMaterialsTrigger = form.find('[data-addMaterials-add]'),
           defaultBtnsCollection = $('.default_material');
@@ -1478,6 +1528,24 @@ var uvel,
       addStoneTrigger.on('click', function() {
         $self.addStone(form);
       });
+    }
+
+    this.productLocationChange = function(form) {
+      var storeSelect = form.find('[name="store_id"]');
+
+      storeSelect.on('change', function() {
+        var websiteVisible = form.find('[name="website_visible"]');
+
+        if (this.selectedOptions[0].value == 1) {
+          websiteVisible.prop({
+            disabled: true,
+            checked: false
+          });
+
+        } else if (websiteVisible.prop('disabled')) {
+          websiteVisible.prop('disabled', false);
+        }
+      })
     }
 
     this.addStone = function(form, stone) {
@@ -2199,7 +2267,7 @@ var uvel,
 
       givenHolder[0].setAttributeNode(disable);
       currencySelector.attr('disabled', true);
-      currencySelector.val(defaultCurrrency);
+      currencySelector.val(defaultCurrrency).trigger('change');
       $self.getWantedSum(form);
 
       var wantedSum = form.find('[data-calculatePayment-wanted]').val();
@@ -2382,6 +2450,21 @@ var uvel,
       $self.appendImages(collectionFiles, form, event);
     }
 
+    this.getBase64Image = function(img) {
+      var canvas = document.createElement("canvas");
+      
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+
+      var ctx = canvas.getContext("2d");
+      
+      ctx.drawImage(img, 0, 0);
+      
+      var dataURL = canvas.toDataURL("image/png");
+      
+      return dataURL;
+    }
+
     this.appendImages = function(collectionFiles, form, event) {
       var _instanceFiles = [],
           filesInput = event.currentTarget;
@@ -2532,11 +2615,18 @@ var uvel,
     }
     
     this.transferCheckboxInit = function() {
-      $('#send-to-store').on('change', function(event) {
-        if (event.target.checked) {
-          $('.transfer-store-row').show();
+      $('[data-transfer]').on('change', function(event) {
+        var target = this.dataset.transfer;
+
+        $('[data-transfer]').not(this).prop('checked', false);
+        $('[data-transferTarget]').hide();
+
+        if (this.checked) {
+          $('[data-transferTarget="' + target + '"]').show();
+
+          this.classList.add('active-transfer');
         } else {
-          $('.transfer-store-row').hide();
+          $('[data-transferTarget="' + target + '"]').hide();
         }
       });
     }
@@ -2715,6 +2805,12 @@ var uvel,
       
       $(select).select2(options);
       $(select).on('select2:select', callback);
+      $(select).on("select2:opening", function (event) {
+        if ($(this).is(":disabled")) {
+          event.preventDefault();
+        }
+      });
+
       $(select).on('select2:open', function () {
         if( this.selectedIndex > 0) {
           var viewport = $('.select2-results__options'),

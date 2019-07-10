@@ -96,7 +96,8 @@ class ProductController extends Controller
             $pass_products[] = [
                 'attributes' => [
                     'value' => $product->id,
-                    'label' => $product->name,
+                    'name' => $product->name,
+                    'label' => $product->code,
                     'barcode' => $product->barcode,
                     'weight' => $product->weight,
                     'data-product-id' => $product->id,

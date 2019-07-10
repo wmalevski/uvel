@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\BlogTranslation;
 use File;
 use Storage;
 use Response;
@@ -22,18 +23,7 @@ class BlogController extends Controller
     public function index()
     {
         $articles = Blog::all();
-        
         return view('admin.blog.index', compact('articles'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        
     }
 
     /**
@@ -47,7 +37,7 @@ class BlogController extends Controller
         $validator = Validator::make( $request->all(), [
             'title.*' => 'required',
             'content.*' => 'required',
-            'images' => 'required',
+            'images.*' => 'required',
             'excerpt.*' => 'required'
         ]);
 
@@ -71,43 +61,8 @@ class BlogController extends Controller
 
         $article->save();
 
-        $path = public_path('uploads/blog/');
-        
-        File::makeDirectory($path, 0775, true, true);
-        Storage::disk('public')->makeDirectory('blog', 0775, true);
-
-        $file_data = $request->input('images'); 
-        
-        if($file_data){
-            foreach($file_data as $img){
-                $memi = substr($img, 5, strpos($img, ';')-5);
-
-                $extension = explode('/',$memi);
-
-                if($extension[1] == "svg+xml"){
-                    $ext = 'png';
-                }else{
-                    $ext = $extension[1];
-                }
-                
-
-                $file_name = 'productimage_'.uniqid().time().'.'.$ext;
-            
-                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                file_put_contents(public_path('uploads/blog/').$file_name, $data);
-
-                Storage::disk('public')->put('blog/'.$file_name, file_get_contents(public_path('uploads/blog/').$file_name));
-
-                $photo = new Gallery();
-                $photo->photo = $file_name;
-                $photo->blog_id = $article->id;
-                $photo->table = 'blog';
-
-                $photo->save();
-            }
-
-            $article->thumbnail_id = $photo->id;
-            $article->save();
+        if($request->input('images')) {
+            $this->uploadPhotos($request->input('images'), $article);
         }
 
         return Response::json(array('success' => View::make('admin/blog/table',array('article'=>$article))->render()));
@@ -132,6 +87,7 @@ class BlogController extends Controller
      */
     public function edit(Blog $article)
     {
+        // print_r($article->thumbnail[0]->language);die;
         return \View::make('admin/blog/edit',array('article'=>$article));
     }
 
@@ -147,6 +103,7 @@ class BlogController extends Controller
         $validator = Validator::make( $request->all(), [
             'title.*' => 'required',
             'content.*' => 'required',
+            'images.*' => 'required',
             'excerpt.*' => 'required'
         ]);
 
@@ -165,45 +122,9 @@ class BlogController extends Controller
         $article->slug = $article->slug.'-'.$article->id;
         $article->save();
 
-        $path = public_path('uploads/blog/');
-        
-        File::makeDirectory($path, 0775, true, true);
-        //Storage::disk('public')->makeDirectory('blog', 0775, true);
-
-        $file_data = $request->input('images'); 
-        
-        if($file_data){
-            foreach($file_data as $img){
-                $memi = substr($img, 5, strpos($img, ';')-5);
-
-                $extension = explode('/',$memi);
-
-                if($extension[1] == "svg+xml"){
-                    $ext = 'png';
-                }else{
-                    $ext = $extension[1];
-                }
-                
-
-                $file_name = 'productimage_'.uniqid().time().'.'.$ext;
-            
-                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                file_put_contents(public_path('uploads/blog/').$file_name, $data);
-
-                Storage::disk('public')->put('blog/'.$file_name, file_get_contents(public_path('uploads/blog/').$file_name));
-
-                $photo = new Gallery();
-                $photo->photo = $file_name;
-                $photo->blog_id = $article->id;
-                $photo->table = 'blog';
-
-                $photo->save();
-            }
-            
-            $article->thumbnail_id = $photo->id;
-            $article->save();
+        if($request->input('images')) {
+            $this->uploadPhotos($request->input('images'), $article);
         }
-
         return Response::json(array('ID' => $article->id, 'table' => View::make('admin/blog/table',array('article'=>$article))->render()));
     }
 
@@ -226,5 +147,47 @@ class BlogController extends Controller
         $comments = $article->comments();
 
         return view('admin.blog.comments.index', compact('comments'));
+    }
+
+    private function uploadPhotos($file_data, $article) {
+        $path = public_path('uploads/blog/');
+
+        File::makeDirectory($path, 0775, true, true);
+
+        foreach ($file_data as $lang => $img) {
+            if (!count(Gallery::where('blog_id', $article->id)->where('language', $lang)->where('deleted_at', NULL)->get())) {
+                $memi = substr($img, 5, strpos($img, ';') - 5);
+
+                $extension = explode('/',$memi);
+
+                if($extension[1] == "svg+xml"){
+                    $ext = 'png';
+                }else{
+                    $ext = $extension[1];
+                }
+
+                $file_name = 'productimage_' . $lang . '_' .uniqid().time().'.'.$ext;
+
+                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                file_put_contents(public_path('uploads/blog/').$file_name, $data);
+
+                Storage::disk('public')->put('blog/'.$file_name, file_get_contents(public_path('uploads/blog/').$file_name));
+
+                try {
+                    $photo = new Gallery();
+                    $photo->photo = $file_name;
+                    $photo->blog_id = $article->id;
+                    $photo->language = $lang;
+                    $photo->table = 'blog';
+
+                    $photo->save();
+
+                    $translation = new BlogTranslation();
+                    $translation::where('blog_id', $article->id)->where('locale', $lang)->update(['thumbnail_id' => $photo->id]);
+                } catch (\Exception $e) {
+                    return $e->getMessage();
+                }
+            }
+        }
     }
 }
