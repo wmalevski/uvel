@@ -47,11 +47,18 @@
 													<div class="home_collections_item_inner">
 														<div class="collection-details">
 															<a href="online/products/?byMaterial[]={{ $material->id }}">
-
-																<img class="img-fill" alt="{{ $material->name }}" src="@if(count($material->materials)) @if(count($material->materials->first()->products))
-                                          @if(count($material->materials->first()->products->first()->photos))
-                                          {{ asset("uploads/products/" . $material->materials->first()->products->first()->photos->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }}
-																					@endif @endif @endif">
+																<img class="img-fill" alt="{{ $material->name }}" src="
+																@if(count($material->materials))
+																	@if(count($material->materials->first()->products))
+																		@if(count($material->materials->first()->products->first()->photos))
+																		{{ asset("uploads/products/" . $material->materials->first()->products->first()->photos->first()->photo) }}
+																		@elseif($material->materials->first()->products->first()->model->first()->photos)
+																		{{ asset("uploads/models/" . $material->materials->first()->products->first()->model->first()->photos->first()->photo) }}
+																		@else
+																		{{ asset('store/images/demo_375x375.png') }}
+																		@endif
+																	@endif
+																@endif">
 															</a>
 														</div>
 														<div class="hover-overlay">
@@ -222,8 +229,13 @@
 
 															<li class="row-left">
 																<a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">
-																	<img class="img-fill" alt="{{ $product->name }}" src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }}
-																	@else {{ asset('store/images/demo_375x375.png') }}
+																	<img  class="img-fill" class="img-zoom img-responsive image-fly" alt="{{ $product->name }}" src="
+																	@if(count($product->photos))
+																	{{ asset("uploads/products/" . $product->photos->first()['photo']) }}
+																	@elseif(count($product->model->photos))
+																	{{ asset("uploads/models/" . $product->model->photos->first()['photo']) }}
+																	@else
+																	{{ asset('store/images/demo_375x375.png') }}
 																	@endif">
 																</a>
 																<div class="hbw">

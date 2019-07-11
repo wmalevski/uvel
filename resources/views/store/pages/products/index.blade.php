@@ -139,12 +139,16 @@
 												<li class="element no_full_width"
 														data-alpha="{{ $product->code }}" data-price="{{ $product->price }}" data-id="{{$product->id}}">
 													<ul class="row-container list-unstyled clearfix">
-
 														<li class="row-left">
 															<a href="{{ route('single_product', ['product' => $product->id]) }}" class="container_item">
-																<img class="img-fill" alt="{{ $product->code }}" src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }}
-																		 @else {{ asset('store/images/demo_375x375.png') }}
-																		 @endif">
+																<img class="img-fill" alt="{{ $product->code }}" src="
+																@if(count($product->photos))
+																{{ asset("uploads/products/" . $product->photos->first()['photo']) }}
+																@elseif(count($product->model->photos))
+																{{ asset("uploads/models/" . $product->model->photos->first()['photo']) }}
+																@else
+																{{ asset('store/images/demo_375x375.png') }}
+																@endif">
 															</a>
 															<div class="hbw">
 																<span class="hoverBorderWrapper"></span>
