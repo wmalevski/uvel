@@ -1015,7 +1015,9 @@ var uvelStore,
 			ajaxURL += '&' + 'listType=' + listType;
 		}
 
-		$.ajax({
+		window.location.href = ajaxURL;
+
+		/*$.ajax({
 			method: 'GET',
 			url: ajaxURL,
 			success: function (resp) {
@@ -1034,7 +1036,7 @@ var uvelStore,
 			error: function (err) {
 				console.log(err);
 			}
-		})
+		})*/
 	}
 
 	this.addDiscountAttach = function (addDiscountBtn) {

@@ -31,7 +31,7 @@
 									<div class="group_sidebar">
 										<div class="sb-wrapper">
 											<!-- filter tags group -->
-											<div class="filter-tag-group" data-url="ajax/filter/products">
+											<div class="filter-tag-group" data-url="online/products">
 												<h6 class="sb-title">Филтри</h6>
 
 												<div class="tag-group" id="coll-filter-3">
