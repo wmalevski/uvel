@@ -41,7 +41,7 @@
 														<li>
 															<a href="#" data-id="byJewel[]={{ $jewel->id }}">
 																<span class="fe-checkbox"></span>
-																{{ $jewel->code }} ({{ count($jewel->productsOnline) }})
+																{{ $jewel->name }}{{ $jewel->code }} ({{ count($jewel->productsOnline) }})
 															</a>
 														</li>
 														@endforeach
