@@ -285,7 +285,7 @@ class Product extends BaseModel
                 }
 
                 if ($request->byName == '' && $request->byBarcode == '' && $request->byCode == '' && $request->bySize == '' && $request->byStore == '' && $request->byJewel == '' && $request->byMaterial == '') {
-                    $query = Product::all();
+                    $query = Product::where('store_id', '!=', 1)->get();
                 }
             });
 

@@ -25,7 +25,8 @@ class ProductController extends BaseController
     {
         $products = Product::where([
             ['status', '=', 'available'],
-            ['website_visible', '=', 'yes']
+            ['website_visible', '=', 'yes'],
+            ['store_id', '!=', 1]
         ])->paginate(env('RESULTS_PER_PAGE'));
 
         $products_new = new Product();
@@ -56,7 +57,8 @@ class ProductController extends BaseController
     public function show(Product $product){
 
         $products = Product::where([
-            ['status', '=', 'available']
+            ['status', '=', 'available'],
+            ['store_id', '!=', 1]
         ])->paginate(env('RESULTS_PER_PAGE'));
 
         $materialTypes = MaterialType::all();
@@ -76,13 +78,14 @@ class ProductController extends BaseController
     }
 
     public function filter(Request $request){
-        $query = Product::select('*');
+        $query = Product::where('store_id', '!=', 1)->get();
 
         $products_new = new Product();
         $products = $products_new->filterProducts($request, $query);
         $products = $products->where([
             ['status', '=', 'available'],
-            ['website_visible', '=', 'yes']
+            ['website_visible', '=', 'yes'],
+            ['store_id', '!=', 1]
         ])->orderBy('id', 'DESC')->paginate(env('RESULTS_PER_PAGE'));
 
 

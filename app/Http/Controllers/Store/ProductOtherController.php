@@ -24,14 +24,16 @@ class ProductOtherController extends BaseController
     public function index(Request $request)
     {
         $products = ProductOther::where([
-            ['quantity', '!=', 0]
+            ['quantity', '!=', 0],
+            ['store_id', '!=', 1]
         ])->paginate(env('RESULTS_PER_PAGE'));
 
         $products_new = new ProductOther();
         $products = $products_new->filterProducts($request, $products);
 
         $products = $products->where([
-            ['quantity', '!=', 0]
+            ['quantity', '!=', 0],
+            ['store_id', '!=', 1]
         ])->paginate(env('RESULTS_PER_PAGE'));
 
         $stores = Store::all()->except(1);
@@ -54,7 +56,7 @@ class ProductOtherController extends BaseController
 
         $materialTypes = MaterialType::all();
 
-        $allProducts = ProductOther::select('*')->where('type_id',$product->type_id )->whereNotIn('id', [$product->id]);
+        $allProducts = ProductOther::select('*')->where('type_id',$product->type_id )->where('store_id','!=', 1)->whereNotIn('id', [$product->id]);
         $similarProducts = $allProducts->orderBy(DB::raw('ABS(`price` - '.$product->price.')'))->take(5)->get();
         
         if($product){
@@ -63,12 +65,13 @@ class ProductOtherController extends BaseController
     }
 
     public function filter(Request $request){
-        $query = ProductOther::select('*');
+        $query = ProductOther::where('store_id','!=', 1)->get();
 
         $products_new = new ProductOther();
         $products = $products_new->filterProducts($request, $query);
         $products = $products->where([
-            ['quantity', '!=', 0]
+            ['quantity', '!=', 0],
+            ['store_id', '!=', 1]
         ])->orderBy('id', 'DESC')->paginate(env('RESULTS_PER_PAGE'));
 
         $response = '';
