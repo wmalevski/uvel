@@ -8,8 +8,14 @@
 				<div id="quick-shop-image" class="product-image-wrapper">
 
 					<a class="main-image" href="{{ route('single_product', ['product' => $product->id])  }}">
-						<img class="img-zoom img-responsive image-fly" alt="{{ $product->model->name }}"
-							src="@if($product->photos){{ asset("uploads/products/" . $product->photos->first()['photo']) }}@endif"/>
+						<img class="img-zoom img-responsive image-fly" alt="{{ $product->model->name }}" src="
+						@if(count($product->photos))
+						{{ asset("uploads/products/" . $product->photos->first()['photo']) }}
+						@elseif(count($product->model->photos))
+						{{ asset("uploads/models/" . $product->model->photos->first()['photo']) }}
+						@else
+						{{ asset('store/images/demo_375x375.png') }}
+						@endif">
 					</a>
 
 					<div id="gallery_main_qs" class="product-image-thumb">

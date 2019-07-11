@@ -3,8 +3,14 @@
 	<ul class="row-container list-unstyled clearfix">
 		<li class="row-left @if($listType == 'goList') col-md-8 @endif">
 			<a href="{{ route('single_product', ['product' => $product->id]) }}" class="container_item">
-				<img class="img-fill" alt="{{ $product->name }}"
-				 src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif">
+				<img class="img-fill" alt="{{ $product->code }}" src="
+				@if(count($product->photos))
+				{{ asset("uploads/products/" . $product->photos->first()['photo']) }}
+				@elseif(count($product->model->photos))
+				{{ asset("uploads/models/" . $product->model->photos->first()['photo']) }}
+				@else
+				{{ asset('store/images/demo_375x375.png') }}
+				@endif">
 			</a>
 			<div class="hbw">
 				<span class="hoverBorderWrapper"></span>

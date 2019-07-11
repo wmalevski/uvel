@@ -46,11 +46,16 @@
 												</ul>
 											</div>
 										</div>
-										@if(count($product->photos))
 										<div class="image featured col-smd-12 col-sm-12 fadeInUp not-animated" data-animate="fadeInUp">
-											<img src="{{ asset("uploads/products/" . $product->photos->first()['photo']) }}" alt="{{ $product->name }}">
+											<img alt="{{ $product->code }}" src="
+											@if(count($product->photos))
+											{{ asset("uploads/products/" . $product->photos->first()['photo']) }}
+											@elseif(count($product->model->photos))
+											{{ asset("uploads/models/" . $product->model->photos->first()['photo']) }}
+											@else
+											{{ asset('store/images/demo_375x375.png') }}
+											@endif">
 										</div>
-										@endif
 										<div id="gallery_main_mobile" class="visible-xs product-image-thumb thumbs mobile_full_width ">
 											<ul style="opacity: 0; display: block;" class="slide-product-image owl-carousel owl-theme">
 												@foreach($product->photos as $photo)
@@ -329,9 +334,15 @@
 											<div class="element no_full_width not-animated" data-animate="bounceIn" data-delay="0">
 												<ul class="row-container list-unstyled clearfix">
 													<li class="row-left">
-														<a href="{{ route('single_product', ['product' => $product->id])  }}" class="container_item">
-															<img class="img-fill" alt="{{ $product->name }}"
-															src="@if($product->photos) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @else {{ asset('store/images/demo_375x375.png') }} @endif">
+														<a href="{{ route('single_product', ['product' => $product->id]) }}" class="container_item">
+															<img class="img-fill" alt="{{ $product->code }}" src="
+															@if(count($product->photos))
+															{{ asset("uploads/products/" . $product->photos->first()['photo']) }}
+															@elseif(count($product->model->photos))
+															{{ asset("uploads/models/" . $product->model->photos->first()['photo']) }}
+															@else
+															{{ asset('store/images/demo_375x375.png') }}
+															@endif">
 														</a>
 														<div class="hbw">
 															<span class="hoverBorderWrapper"></span>
