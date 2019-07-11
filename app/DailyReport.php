@@ -232,7 +232,8 @@ class DailyReport extends Model
             foreach ($request->material_id as $key => $material) {
                 $total_given += $request->quantity[$key];
                 $quantity = $request->quantity[$key];
-                $check = MaterialQuantity::where('material_id', $material)->first();
+                $check = MaterialQuantity::where('material_id', $material)->where('store_id', Auth::user()->getStore()->id)->first();
+
                 if (!$quantity) {
                     $quantity = 0;
                 }
@@ -243,7 +244,9 @@ class DailyReport extends Model
                 $report_material->report_id = $report->id;
                 $report_material->save();
 
-                if ($check->quantity != $quantity) {
+                $checkQuantity = $check ? $check->quantity : 0;
+
+                if ($checkQuantity != $quantity) {
                     $flag_errors = true;
                 }
             }
