@@ -15,7 +15,7 @@ if( ! function_exists('calculate_product_weight') ) {
     function calculate_product_weight($product)
     {
         $checkWeight = false;
-        if ($product->weight_without_stones) {
+        if ($product->weight_without_stones == 'yes') {
             if (Str::lower($product->material->name) == "сребро") {
                 $weight = round($product->gross_weight, 3);
             } elseif (Str::lower($product->material->name) == "злато") {
