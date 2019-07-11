@@ -48,7 +48,7 @@ class Material extends Model
     }
 
     public function productsOnline(){
-        return $this->hasMany('App\Product')->where('status', 'available');
+        return $this->hasMany('App\Product')->where('status', 'available')->where('store_id', '!=', 1);
     }
 
     public function scopeForBuy()
