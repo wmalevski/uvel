@@ -381,6 +381,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
           </div>
         </div>
 
+      @if($order->status != 'done')
       <div class="form-row pt-3">
         <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
           <input type="checkbox" id="inputCall1" name="status" class="peer" value="ready"
@@ -390,6 +391,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
           </label>
         </div>
       </div>
+      @endif
     
     </div>
     
@@ -399,9 +401,11 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
       <button type="button" class="btn btn-secondary" data-dismiss="modal">
         Затвори
       </button>
+      @if($order->status != 'done')
       <button type="submit" id="edit" data-state="edit_state" class="action--state_button edit-btn-modal btn btn-primary">
         Промени
       </button>
+      @endif
     </div>
   </form>
 </div>
