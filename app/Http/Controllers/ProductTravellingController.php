@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
@@ -181,8 +182,16 @@ class ProductTravellingController extends Controller
     {
         if($product){
             $originProduct = Product::find($product->product_id);
-            $originProduct->status = 'available';
-            $originProduct->save();
+            if(Order::where('product_id', $product->product_id)){
+                $order = Order::where('product_id', $product->product_id)->first();
+                $order->product_id = null;
+                $order->status = 'accepted';
+                $order->save();
+                $originProduct->delete();
+            } else {
+                $originProduct->status = 'available';
+                $originProduct->save();
+            }
 
             $product->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
