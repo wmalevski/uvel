@@ -698,9 +698,9 @@ class SellingController extends Controller
     public function removeItem($item){
         $userId = Auth::user()->getId(); 
 
-        $product = Product::where('barcode', $item)->first();
-        $product_box = ProductOther::where('barcode', $item)->first();
-        $repair = Repair::where('barcode', $item)->first();
+        $product = Product::where('code', $item)->first();
+        $product_box = ProductOther::where('code', $item)->first();
+        $repair = Repair::where('code', $item)->first();
 
         $cartItem = Cart::session($userId)->get($item);
 
