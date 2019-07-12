@@ -402,6 +402,7 @@ class OrderController extends Controller
             }
 
             if($request->status == 'true'){
+                $product_id = 0;
                 for($i=1;$i<=$request->quantity;$i++){
 
                     $material = MaterialQuantity::where([
@@ -432,7 +433,7 @@ class OrderController extends Controller
 
                     $productTravelling = new ProductTravelling();
                     $productTravellingResponse = $productTravelling->store($request, 'array'); 
-                    
+
                     $order_item = new OrderItem();
                     $order_item->product_id = $productResponse->id;
                     $order_item->order_id = $order->id;
@@ -441,9 +442,11 @@ class OrderController extends Controller
                     if($productTravellingResponse['errors']){
                         return Response::json(['errors' => $productTravellingResponse['errors']], 401);
                     }
+                    $product_id = $productResponse->id;
                 }
 
                 $order = Order::find($order->id);
+                $order->product_id = $product_id;
                 $order->status = 'ready';
                 $order->save();
             }
