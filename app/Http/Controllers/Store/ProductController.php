@@ -64,7 +64,7 @@ class ProductController extends BaseController
         $materialTypes = MaterialType::all();
 
         $allProducts = Product::select('*')->where('jewel_id',$product->jewel_id )->whereNotIn('id', [$product->id]);
-        $similarProducts = $allProducts->orderBy(DB::raw('ABS(`price` - '.$product->price.')'))->take(5)->get();
+        $similarProducts = $allProducts->where('status', 'available')->orderBy(DB::raw('ABS(`price` - '.$product->price.')'))->take(5)->get();
         
         if($product) {
             $weightWithoutStone = $product->weight;
