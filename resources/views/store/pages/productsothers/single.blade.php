@@ -360,20 +360,20 @@
 													</div>
 
 													<div class="hover-appear">
-														<a href="{{ route('single_product_other', ['product' => $product->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
+														<a href="{{ route('single_product_other', ['product_other' => $product->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
 															<input name="quantity" value="1" type="hidden">
 															<i class="fa fa-lg fa-th-list"></i>
 															<span class="list-mode">Преглед</span>
 														</a>
 
-														<button data-barcode="{{ $product->barcode }}" data-target="#quick-shop-modal" class="quick_shop product-ajax-qs hidden-xs hidden-sm"
-															 data-toggle="modal" title="Бърз Преглед">
+														<button class="quick_shop product-ajax-qs hidden-xs hidden-sm" data-target="#quick-shop-modal"
+																data-toggle="modal" data-url="productsothers/{{ $product->id }}/" title="Бърз Преглед">
 															<i class="fa fa-lg fa-eye"></i>
-															<span class="list-mode">Бърз Преглед</span>
+															<span class="list-mode">Бърз преглед</span>
 														</button>
 
 														<button class="wish-list" title="Добави в Желани"
-															 data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
+															 data-url="{{ route('wishlists_store', ['type' => 'product_other', 'item' => $product->id]) }}">
 															<i class="fa fa-lg fa-heart"></i>
 															<span class="list-mode">Добави в Желани</span>
 														</button>
