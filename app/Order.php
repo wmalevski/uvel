@@ -20,7 +20,8 @@ class Order extends Model
         'comment',
         'cash_group',
         'earnest',
-        'status'
+        'status',
+        'content'
     ];
 
     protected $table = 'orders';

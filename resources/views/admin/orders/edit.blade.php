@@ -306,7 +306,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
           <label for="grossWeight">Описание:</label>
           
           <div class="input-group">
-            <textarea class="form-control" name="content" id="notes" placeholder="Описание на поръчката"></textarea>
+            <textarea class="form-control" name="content" id="notes" placeholder="Описание на поръчката">{{ $order->content }}</textarea>
           </div>
         </div>
         
