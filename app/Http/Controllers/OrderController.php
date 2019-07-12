@@ -133,6 +133,7 @@ class OrderController extends Controller
         $order->store_id = $request->store_id;
         $order->earnest = $request->earnest;
         $order->quantity = $request->quantity;
+        $order->content = $request->content;
 
         if($request->with_stones == 'false'){
             $order->weight_without_stones = 'no';
@@ -303,6 +304,7 @@ class OrderController extends Controller
             $order->store_id = $request->store_id;
             $order->earnest = $request->earnest;
             $order->quantity = $request->quantity;
+            $order->content = $request->content;
     
             if($request->with_stones == 'false'){
                 $order->weight_without_stones = 'no';
