@@ -6,6 +6,7 @@ use App\Product;
 use App\Model;
 use App\Jewel;
 use App\Price;
+use App\ProductTravelling;
 use App\Stone;
 use App\Review;
 use App\ModelStone;
@@ -408,11 +409,14 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        if($product){
-            if($product->status != 'selling'){
+        if ($product) {
+            if ($product->status != 'selling') {
+                if (($product_travelling = ProductTravelling::where('product_id', $product->id)) && $product_travelling->first()) {
+                    $product_travelling->delete();
+                }
                 $product->delete();
                 return Response::json(array('success' => 'Успешно изтрито!'));
-            }else{
+            } else {
                 return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
             }
         }
