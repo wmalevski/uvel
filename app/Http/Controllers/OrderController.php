@@ -443,6 +443,9 @@ class OrderController extends Controller
                         return Response::json(['errors' => $productTravellingResponse['errors']], 401);
                     }
                     $product_id = $productResponse->id;
+                    $current_product = Product::find($productResponse->id);
+                    $current_product->store_id = 1;
+                    $current_product->save();
                 }
 
                 $order = Order::find($order->id);
