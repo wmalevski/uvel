@@ -214,6 +214,17 @@ class DailyReport extends Model
             ['type', '=', 'materials']
         ])->whereDate('created_at', Carbon::today())->get();
 
+        foreach (Material::all() as $material) {
+            $check = MaterialQuantity::where('material_id', $material->id)->first()? false : true;
+            if ($check) {
+                $material_quantity = new MaterialQuantity();
+                $material_quantity->material_id = $material->id;
+                $material_quantity->quantity = 0;
+                $material_quantity->store_id = 1;
+                $material_quantity->save();
+            }
+        }
+
         $report = new DailyReport();
         $report->type = 'materials';
         $report->store_id = Auth::user()->getStore()->id;

@@ -142,9 +142,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="material_id"
-                                       value="{{ $material->material->material->name }} - {{ $material->material->material->code }} - {{ $material->material->material->color }}"
-                                       readonly>
+                                <input type="text" class="form-control" name="material_id" value="{{  $material->material->material->parent->name . ' - ' . $material->material->material->code . ' - ' .  $material->material->material->color }}" readonly>
                             </div>
                         </div>
 
