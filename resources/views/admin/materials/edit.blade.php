@@ -41,7 +41,7 @@
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="3">Карат: </label>
-                <input type="number" class="form-control" id="4" value="{{ $material->carat }}" name="carat" placeholder="Карати:">
+                <input type="number" class="form-control" id="4" value="{{ $material->carat }}" name="carat" placeholder="Карати:" @if($material->name == 'Сребро') readonly @endif>
             </div>
         </div>
 

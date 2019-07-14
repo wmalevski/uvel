@@ -264,7 +264,6 @@ class DatabaseSeeder extends Seeder
         $material->name = 'Сребро';
         $material->code = '525';
         $material->color = 'Бяло';
-        $material->carat = '14';
         $material->parent_id = 2;
         $material->stock_price = '24';
         $material->cash_group = 1;
