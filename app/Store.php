@@ -54,10 +54,19 @@ class Store extends Model
     {
         $query = Store::where(function ($query) use ($request) {
             if ($request->byName) {
-                $request->byName = explode("-", $request->byName);
-                $query->where('name', 'LIKE', '%' . trim($request->byName[0]) . '%');
-                if (count($request->byName) > 1) {
-                    $query->where('location', 'LIKE',  trim($request->byName[1]) . '%');
+                if (trim($request->byName) == '-') {
+                    $query = Store::all();
+                } else {
+                    $request->byName = explode("-", $request->byName);
+                    $query->where('name', 'LIKE', '%' . trim($request->byName[0]) . '%');
+
+                    if (count($request->byName) == 1) {
+                        $query->orWhere('location', 'LIKE', trim($request->byName[0]) . '%');
+                    }
+
+                    if (count($request->byName) > 1) {
+                        $query->where('location', 'LIKE', trim($request->byName[1]) . '%');
+                    }
                 }
             }
 
