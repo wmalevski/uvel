@@ -239,6 +239,7 @@ class DailyReport extends Model
         $total_given = 0;
         $errors = [];
         $flag_errors = false;
+        $full_quantity = 0;
         if ($todayReport == 'false') {
             foreach ($request->material_id as $key => $material) {
                 $total_given += $request->quantity[$key];
@@ -255,9 +256,10 @@ class DailyReport extends Model
                 $report_material->report_id = $report->id;
                 $report_material->save();
 
-                $checkQuantity = $check ? $check->quantity : 0;
+                $check_quantity = $check ? $check->quantity : 0;
+                $full_quantity += $check_quantity;
 
-                if ($checkQuantity != $quantity) {
+                if ($check_quantity != $quantity) {
                     $flag_errors = true;
                 }
             }
@@ -273,7 +275,7 @@ class DailyReport extends Model
                 $report->status = 'successful';
             }
 
-            $report->safe_materials_amount = $check->quantity;
+            $report->safe_materials_amount = $full_quantity;
             $report->given_materials_amount = $total_given;
 
             $report->save();
