@@ -170,6 +170,7 @@ return [
         'storeTo' => 'Магазин',
         'carat' => 'Карат',
         'deposit' => 'Капаро',
+        'stock_price.*' => 'Цената',
 
 
 
