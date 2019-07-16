@@ -68,18 +68,26 @@ class Material extends Model
             }
 
             if($request->byName){
-                $request->byName = explode("-", $request->byName);
+                if (trim($request->byName) == '-') {
+                    $query = Material::all();
+                } else {
+                    $request->byName = explode("-", $request->byName);
 
-                $query->whereHas('parent', function ($q) use ($request) {
-                    $q->where('name', 'LIKE', '%' . trim($request->byName[0]) . '%');
-                });
+                    $query->whereHas('parent', function ($q) use ($request) {
+                        $q->where('name', 'LIKE', '%' . trim($request->byName[0]) . '%');
+                    });
 
-                if (count($request->byName) > 1) {
-                    $query->where('color', 'LIKE', '%' . trim($request->byName[1]) . '%');
-                }
+                    if (count($request->byName) == 1) {
+                        $query->orWhere('color', 'LIKE', '%' . trim($request->byName[0]) . '%')->orWhere('code', 'LIKE', '%' . trim($request->byName[0]) . '%');
+                    }
 
-                if (count($request->byName) > 2) {
-                    $query->where('code', 'LIKE', '%' . trim($request->byName[2]) . '%');
+                    if (count($request->byName) > 1) {
+                        $query->where('color', 'LIKE', '%' . trim($request->byName[1]) . '%');
+                    }
+
+                    if (count($request->byName) > 2) {
+                        $query->where('code', 'LIKE', '%' . trim($request->byName[2]) . '%');
+                    }
                 }
             }
 
