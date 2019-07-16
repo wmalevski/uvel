@@ -83,22 +83,34 @@ class Stone extends Model
     public function filterStones(Request $request ,$query){
         $query = Stone::where(function($query) use ($request){
             if ($request->byName) {
-                $request->byName = explode("-", $request->byName);
+                if (trim($request->byName) == '-') {
+                    $query = Stone::all();
+                } else {
+                    $request->byName = explode("-", $request->byName);
 
-                $query->whereHas('Nomenclature', function ($q) use ($request) {
-                    $q->where('name', 'LIKE', '%' . trim($request->byName[0]) . '%');
-                });
-
-                if (count($request->byName) > 1) {
-                    $query->whereHas('Contour', function ($q) use ($request) {
-                        $q->where('name', 'like', '%' .  trim($request->byName[1]) . '%');
+                    $query->whereHas('Nomenclature', function ($q) use ($request) {
+                        $q->where('name', 'LIKE', '%' . trim($request->byName[0]) . '%');
                     });
-                }
 
-                if (count($request->byName) > 2) {
-                    $query->whereHas('Size', function ($q) use ($request) {
-                        $q->where('name', 'like', '%' .  trim($request->byName[2]) . '%');
-                    });
+                    if (count($request->byName) == 1) {
+                        $query->orWhereHas('Contour', function ($q) use ($request) {
+                            $q->where('name', 'like', '%' . trim($request->byName[0]) . '%');
+                        })->orWhereHas('Size', function ($q) use ($request) {
+                            $q->where('name', 'like', '%' . trim($request->byName[0]) . '%');
+                        });
+                    }
+
+                    if (count($request->byName) > 1) {
+                        $query->whereHas('Contour', function ($q) use ($request) {
+                            $q->where('name', 'like', '%' . trim($request->byName[1]) . '%');
+                        });
+                    }
+
+                    if (count($request->byName) > 2) {
+                        $query->whereHas('Size', function ($q) use ($request) {
+                            $q->where('name', 'like', '%' . trim($request->byName[2]) . '%');
+                        });
+                    }
                 }
             }
 
