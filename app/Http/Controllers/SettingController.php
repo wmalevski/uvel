@@ -36,9 +36,9 @@ class SettingController extends Controller
                     'stock_price.*' => 'required|numeric|between:0.1,10000'
                 ]);
 
-                if ($validator->fails()) {
-                    return Redirect::back();
-                }
+                 if ($validator->fails()) {
+                     return Redirect::back()->withErrors($validator);
+                 }
 
                 $material = Material::find($key);
                 $material->stock_price = $request->stock_price[$mat];
