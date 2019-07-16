@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Price;
 use Auth;
 use App\Material;
 use Illuminate\Support\Facades\Validator;
@@ -227,20 +228,18 @@ class MaterialController extends Controller
         $materials = $materials->paginate(env('RESULTS_PER_PAGE'));
         $pass_materials = array();
 
-        foreach($materials as $material){
-            if($material->pricesSell->first()){
-                $pass_materials[] = [
-                    'attributes' => [
-                        'value' => $material->id,
-                        'label' => $material->parent->name.' - '.$material->color.' - '.$material->code,
-                        'data-carat' => $material->carat,
-                        'data-transform' => $material->carat_transform,
-                        'data-pricebuy' => $material->pricesBuy->first()['price'],
-                        'data-price' => $material->pricesSell->first()['price'],
-                        'data-material' => $material->id,
-                    ]
-                ];
-            } 
+        foreach($materials as $material) {
+            $pass_materials[] = [
+                'attributes' => [
+                    'value' => $material->id,
+                    'label' => $material->parent->name.' - '.$material->color.' - '.$material->code,
+                    'data-carat' => $material->carat,
+                    'data-transform' => $material->carat_transform,
+                    'data-pricebuy' => Price::where('material_id',$material->parent_id)->first()['price'],
+                    'data-price' => Price::where('material_id',$material->parent_id)->first()['price'],
+                    'data-material' => $material->id,
+                ]
+            ];
         }
 
         return json_encode($pass_materials, JSON_UNESCAPED_SLASHES );
