@@ -183,17 +183,9 @@ class ProductTravellingController extends Controller
     {
         if($product){
             $originProduct = Product::find($product->product_id);
-            if(($order = Order::where('product_id', $product->product_id)) && $order->first()){
-                $order = Order::where('product_id', $product->product_id)->first();
-                $order->product_id = null;
-                $order->status = 'accepted';
-                $order->save();
-                $originProduct->delete();
-            } else {
-                $originProduct->store_id = $product->store_from_id;
-                $originProduct->status = 'available';
-                $originProduct->save();
-            }
+            $originProduct->store_id = $product->store_from_id;
+            $originProduct->status = 'available';
+            $originProduct->save();
 
             $product->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));

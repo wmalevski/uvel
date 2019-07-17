@@ -1,7 +1,10 @@
 <tr data-id="{{ $order->id }}">
  <td>{{ $order->id }}</td>
-    <td> @if($order->model) {{ $order->model->name }} @endif
-        @if($order->product) {{ $order->product->name }} @endif
+    <td> @if($order->model)
+            {{ $order->model->name }}
+        @elseif($order->product)
+            {{ $order->product->name }}
+        @endif
     </td>
     <td> @if($order->model) {{ $order->jewel->name }} @endif </td> 
     <td> {{ $order->retailPrice->price }} </td> 
