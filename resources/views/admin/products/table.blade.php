@@ -20,7 +20,7 @@
 		@if($product->model) {{ $product->jewel->name }} @endif
 	</td>
 	<td>
-		{{ $product -> code }} <!-- ADD PRODUCT SHOP HERE -->
+		{{$product->store_info->name }}
 	</td>
 	<td>
 		@if($product->material) {{ $product->material->name }} - {{ $product->material->color}} - {{ $product->material->code}} @endif
