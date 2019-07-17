@@ -71,7 +71,7 @@ class RepairController extends Controller
             'type_id' => $request->type_id,
             'date_recieved' => $request->date_recieved,
             'date_returned' => $request->date_returned,
-            'code' =>  'R'.unique_random('products', 'code', 7),
+            'code' =>  'R-' . unique_code('products', 'code'),
             'weight' => $request->weight,
             'price' => $request->price,
             'repair_description' => $request->repair_description,

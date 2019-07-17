@@ -338,7 +338,7 @@ class Product extends BaseModel
             $product->size = $request->size;
             $product->workmanship = $request->workmanship;
             $product->price = $request->price;
-            $product->code = 'P'.unique_random('products', 'code', 7);
+            $product->code = 'P-' . unique_code('products', 'code');
             $product->store_id = $request->store_id;
             $bar = '380'.unique_number('products', 'barcode', 7).'1';
 
