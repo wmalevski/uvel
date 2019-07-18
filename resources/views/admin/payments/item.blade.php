@@ -43,16 +43,16 @@
                 @endif
             @endforeach
         @endif
-        <br/> 
+        <br/>
         Виж артикули <br/>
         @if(isset($payment->sellings))
             @foreach($payment->sellings as $selling)
                 @if($selling->product_id)
-                    {{App\Model::where('id', App\Product::where('code', $selling->product_id)->first()->model_id)->first()->name }} {{  $selling->product_id }}
+                    {{App\Model::where('id', App\Product::where('id', $selling->product_id)->first()->model_id)->first()->name }} {{  $selling->product_id }}
                 @elseif($selling->repair_id)
-                   Ремонт - {{ App\Repair::where('code', $selling->repair_id)->first()->customer_name }} {{ $selling->repair_id }}
+                   Ремонт - {{ App\Repair::where('id', $selling->repair_id)->first()->customer_name }} {{ $selling->repair_id }}
                 @elseif($selling->product_other_id)
-                   {{App\ProductOther::where('code', $selling->product_other_id)->first()->name }} {{  $selling->product_other_id }}
+                   {{App\ProductOther::where('id', $selling->product_other_id)->first()->name }} {{ $selling->product_other_id }}
                 @endif
             @endforeach
         @endif

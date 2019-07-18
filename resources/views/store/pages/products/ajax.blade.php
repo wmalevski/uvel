@@ -3,7 +3,7 @@
 	<ul class="row-container list-unstyled clearfix">
 		<li class="row-left @if($listType == 'goList') col-md-8 @endif">
 			<a href="{{ route('single_product', ['product' => $product->id]) }}" class="container_item">
-				<img class="img-fill" alt="{{ $product->code }}" src="
+				<img class="img-fill" alt="{{ $product->id }}" src="
 				@if(count($product->photos))
 				{{ asset("uploads/products/" . $product->photos->first()['photo']) }}
 				@elseif(count($product->model->photos))
@@ -19,26 +19,25 @@
 		<li class="row-right parent-fly animMix @if($listType == 'goList') col-md-16 @endif">
 			<div class="product-content-left">
 				<a class="title-5" href="{{ route('single_product', ['product' => $product->id]) }}">
-					{{	implode(" ", str_split($product->code, 3)) }}
+					No: {{ implode(" ", str_split($product->id, 3)) }}
 				</a>
-				<div>
-					No: {{ implode(" ", str_split($product->code, 3)) }}
-					<br/>
-					{{ $product->weight['weight'] }}гр.
-					<br/>
-					@if (isset($product->weight['stone']))
-						{{ $product->weight['stone'] }}кт.
-						<br/>
-					@endif
-				</div>
-				<div>
-					Магазин: {{ $product->store_info->name }}
-				</div>
-				<span class="spr-badge" data-rating="{{$product->getProductAvgRating($product)}}">
-					<span class="spr-starrating spr-badge-starrating">
-						{{$product->listproductAvgRatingStars($product)}}
-					</span>
+				<br>
+				Модел: {{ $product->model->name }}
+				<br>
+				{{ $product->material->name }} - {{ $product->material->code }} - {{ $product->material->color }}
+				<br>
+				{{ $product->weight['weight'] }}гр.
+				<br>
+				@if (isset($product->weight['stone']))
+					{{ $product->weight['stone'] }}кт.
+					<br>
+				@endif
+				Налично в: {{ $product->store_info->name }}
+				<span class="spr-badge" data-rating="0.0">
+				<span class="spr-starrating spr-badge-starrating">
+					{{$product->listProductAvgRatingStars($product)}}
 				</span>
+			</span>
 			</div>
 			<div class="product-content-right">
 				<div class="product-price">

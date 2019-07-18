@@ -24,7 +24,6 @@ class CreateModelsTable extends Migration
             $table->enum('website_visible', ['yes', 'no'])->default('yes');
             $table->enum('release_product', ['yes', 'no'])->default('no');
             $table->float('price');
-            $table->string('code');
             $table->timestamps();
             $table->softDeletes();
         });

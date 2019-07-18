@@ -21,7 +21,6 @@ class CreateProductsOthersTable extends Migration
             $table->integer('quantity');
             $table->string('barcode');
             $table->integer('store_id')->unsigned();
-            $table->string('code')->nullable();
             $table->timestamps();
         });
     }

@@ -301,6 +301,7 @@ var uvel,
       $self.expandSideMenu();
       $self.setDailyReportsInputs();
       $self.setNumericInputsValidation($numericInputsDailyReports);
+      $self.checkboxGroupHandlerAttach();
     }
     
     this.expandSideMenu = function() {
@@ -315,6 +316,25 @@ var uvel,
         }
 
         $('.sidebar-menu').scrollTop(activeMenuOffsetTop);
+      }
+    }
+
+    this.checkboxGroupHandlerAttach = function() {
+      var inputs = document.querySelectorAll('.checkbox-group input[type="checkbox"]');
+
+      inputs.forEach(function(input) {
+        input.addEventListener('change', resetInputs);
+      });
+
+      function resetInputs() {
+        var parent = this.parentElement,
+            siblings = $(parent).siblings('.checkbox').not(parent);
+
+        siblings.each(function(index, sibling) {
+          var checkbox = sibling.querySelector('input[type="checkbox"');
+
+          checkbox.checked = false;
+        });
       }
     }
     
@@ -638,7 +658,7 @@ var uvel,
             number = _this.val(),
             moreProductsChecked = sellingForm.find('[data-sell-moreProducts]').is(':checked'),
             productsAmount = Number(sellingForm.find('[data-sell-productsAmount]').val()),
-            typeRepair = sellingForm.find('[data-sell-repair]').is(':checked'),
+            type = sellingForm.find('[data-sell-type]:checked').val(),
             ajaxUrl = sellingForm.attr('data-scan'),
             dataSend;
 
@@ -647,14 +667,14 @@ var uvel,
             'catalog_number': number,
             'quantity': productsAmount,
             'amount_check': moreProductsChecked,
-            'type_repair': typeRepair
+            'type': type,
           };
         } else if (_this[0].hasAttribute('data-sell-barcode') && number.length == 13) {
           dataSend = {
             'barcode': Number(number),
             'quantity': productsAmount,
             'amount_check': moreProductsChecked,
-            'type_repair': typeRepair
+            'type': type,
           };
         }
 

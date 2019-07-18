@@ -36,8 +36,7 @@
             "app/Helpers/string.php",
             "app/Helpers/number.php",
             "app/Helpers/slugify.php",
-            "app/Helpers/weight.php",
-            "app/Helpers/unique_code.php"
+            "app/Helpers/weight.php"
         ],
         "psr-4": {
             "App\\": "app/"

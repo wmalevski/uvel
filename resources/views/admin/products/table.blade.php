@@ -10,7 +10,7 @@
 	</td>
 	
 	<td>
-		{{ $product->code }}
+		{{ $product->id }}
 	</td>
 
 	<td>

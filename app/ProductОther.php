@@ -71,7 +71,7 @@ class ProductOther extends Model
             }
 
             if ($request->byCode) {
-                $query = $query->whereIn('code', [$request->byCode]);
+                $query = $query->whereIn('id', [$request->byCode]);
             }
 
             if( $request->byBarcode == '' && $request->byCode == '' && $request->byType == '' && $request->byStore == '' && $request->priceFrom == '' && $request->priceTo == ''){

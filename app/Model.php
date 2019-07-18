@@ -17,7 +17,6 @@ class Model extends BaseModel
         'size',
         'workmanship',
         'price',
-        'code'
     ];
 
     protected $table = 'models';

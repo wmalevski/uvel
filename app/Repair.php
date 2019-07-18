@@ -17,7 +17,6 @@ class Repair extends Model
         'repair_description',
         'date_recieved',
         'date_returned',
-        'code',
         'barcode',
         'weight',
         'weight_after',
@@ -48,7 +47,7 @@ class Repair extends Model
             }
 
             if ($request->byCode) {
-                $query->where('code','LIKE','%'.$request->byCode.'%');
+                $query->where('id','LIKE','%'.$request->byCode.'%');
             }
 
             if ($request->byName) {

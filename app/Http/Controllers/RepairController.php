@@ -71,7 +71,6 @@ class RepairController extends Controller
             'type_id' => $request->type_id,
             'date_recieved' => $request->date_recieved,
             'date_returned' => $request->date_returned,
-            'code' =>  'R-' . unique_code('products', 'code'),
             'weight' => $request->weight,
             'price' => $request->price,
             'repair_description' => $request->repair_description,
@@ -140,7 +139,7 @@ class RepairController extends Controller
 
     public function return(Repair $repair, $code)
     {
-        $repair = Repair::where('code', $code)->first();
+        $repair = Repair::where('id', $code)->first();
         $repairTypes = RepairType::all();
 
         if($repair){
@@ -164,7 +163,7 @@ class RepairController extends Controller
                 }
         
                 Cart::session($userId)->add(array(
-                    'id' => $repair->code,
+                    'id' => $repair->id,
                     'name' => 'Връщане на ремонт - '.$repair->customer_name,
                     'price' => $price,
                     'quantity' => 1,
@@ -206,7 +205,7 @@ class RepairController extends Controller
 
     public function returnRepair(Request $request, Repair $repair)
     {
-        $repair = Repair::where('code', $repair)->first();
+        $repair = Repair::where('id', $repair)->first();
 
         if($repair){
             $repair->status = 'returned';
