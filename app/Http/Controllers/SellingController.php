@@ -238,7 +238,6 @@ class SellingController extends Controller
     }
 
     public function sell(Request $request){
-        $type = "product";
 
         // $tax = new \Darryldecode\Cart\CartCondition(array(
         //     'name' => 'ДДС',
@@ -254,209 +253,210 @@ class SellingController extends Controller
 
         // Cart::condition($tax);
         // Cart::session(Auth::user()->getId())->condition($tax);
-
-        if($request->amount_check == false){
-            if($request->type_repair == true){
-                if($request->barcode){
-                    $item = Repair::where(
-                        [
-                            ['barcode', '=', $request->barcode],
-                            ['status', '=', 'done']
-                        ]       
-                    )->first();
-                } else if($request->catalog_number){
-                    $item = Repair::where(
-                        [
-                            ['code', '=', $request->catalog_number],
-                            ['status', '=', 'done']
-                        ]       
-                    )->first();
-                }
-
-                $type = "repair";
-            }else{
-                if($request->barcode){
-                    $request_type = 'barcode';
-                    $request_var = $request->barcode;
-                } else if($request->catalog_number){
-                    $request_type = 'code';
-                    $request_var = $request->catalog_number;
-                }
-
-                $item = Product::where($request_type, $request_var)->first();
-                $type = "product";
-                if (!$item) {
-                    $item = ProductOther::where($request_type, $request_var)->first();
-                    $type = "box";
-                }
-            }
-
-            if($item){
-                $available = true;
-                if($item->status == 'selling'){
-                    $message = 'Продуктът в момента принадлежи на друга продажба.';
-                    $available = false;
-                } elseif($item->status == 'sold'){
-                    $message = 'Продуктът е продаден.';
-                    $available = false;
-                }
-
-                if (!$available) {
-                    return Response::json(['errors' => array(
-                        'selling' => $message
-                    )], 401);
-                }
-
-                if($item->status == 'travelling'){
-                    return Response::json(['errors' => array(
-                        'selling' => 'Продукта в момента е на път.'
-                    )], 401);
-                }
-    
-                if($type == "product"){
-                    $item->status = 'selling';
-                    $item->save();
-
-                    //check if carates are 14k
-                    $item_material = $item->material;
-                    if($item_material->carat != '14'){
-                        $calculated_weight = floor(($item_material->carat/14*$item->weight) * 100) / 100;
-                    }else{
-                        $calculated_weight = $item->weight;
+        if($request->type) {
+            if ($request->amount_check == false) {
+                if ($request->type == 'repair') {
+                    if ($request->barcode) {
+                        $item = Repair::where(
+                            [
+                                ['barcode', '=', $request->barcode],
+                                ['status', '=', 'done']
+                            ]
+                        )->first();
+                    } else if ($request->catalog_number) {
+                        $item = Repair::where(
+                            [
+                                ['id', '=', $request->catalog_number],
+                                ['status', '=', 'done']
+                            ]
+                        )->first();
                     }
-                } else if($type == 'repair'){
-                    $item->status = 'returning';
-                    $item->save();
-
-                    $calculated_weight = '';
                 } else {
-                    if ($item->quantity) {
-                        $item->quantity -= 1;
-                        $item->save();
+                    if ($request->barcode) {
+                        $request_type = 'barcode';
+                        $request_var = $request->barcode;
+                    } else if ($request->catalog_number) {
+                        $request_type = 'id';
+                        $request_var = $request->catalog_number;
                     }
+
+                    if ($request->type == 'box') {
+                        $item = ProductOther::where($request_type, $request_var)->first();
+                    } elseif ($request->type == 'product') {
+                        $item = Product::where($request_type, $request_var)->first();
+                    }
+                }
+
+                if ($item) {
+                    $available = true;
+                    if ($item->status == 'selling') {
+                        $message = 'Продуктът в момента принадлежи на друга продажба.';
+                        $available = false;
+                    } elseif ($item->status == 'sold') {
+                        $message = 'Продуктът е продаден.';
+                        $available = false;
+                    }
+
+                    if (!$available) {
+                        return Response::json(['errors' => array(
+                            'selling' => $message
+                        )], 401);
+                    }
+
+                    if ($item->status == 'travelling') {
+                        return Response::json(['errors' => array(
+                            'selling' => 'Продукта в момента е на път.'
+                        )], 401);
+                    }
+
+                    if ($request->type == "product") {
+                        $item->status = 'selling';
+                        $item->save();
+
+                        //check if carates are 14k
+                        $item_material = $item->material;
+                        if ($item_material->carat != '14') {
+                            $calculated_weight = floor(($item_material->carat / 14 * $item->weight) * 100) / 100;
+                        } else {
+                            $calculated_weight = $item->weight;
+                        }
+                    } else if ($request->type == 'repair') {
+                        $item->status = 'returning';
+                        $item->save();
+
+                        $calculated_weight = '';
+                    } else {
+                        if ($item->quantity) {
+                            $item->quantity -= 1;
+                            $item->save();
+                        }
+
+                        $calculated_weight = '';
+                    }
+                }
+            } else {
+                if ($request->barcode && $request->type == 'box') {
+                    $item = ProductOther::where('barcode', $request->barcode)->first();
+                } else if ($request->catalog_number && $request->type == 'box') {
+                    $item = ProductOther::where('id', $request->catalog_number)->first();
+                }
+
+                if ($item) {
+                    if ($item->quantity < $request->quantity) {
+                        return Response::json(['errors' => array(
+                            'quantity' => 'Системата няма това количество, което желаете да продадете.'
+                        )], 401);
+                    }
+
+                    $item->quantity = $item->quantity - $request->quantity;
+                    $item->save();
 
                     $calculated_weight = '';
                 }
             }
-        }else{
-            if($request->barcode){
-                $item = ProductOther::where('barcode', $request->barcode)->first();
-                $type = "box";
-            } else if($request->catalog_number){
-                $item = ProductOther::where('code', $request->catalog_number)->first();
-                $type = "box";
-            }
 
-           if($item){
-            if($item->quantity < $request->quantity){
-                return Response::json(['errors' => array(
-                    'quantity' => 'Системата няма това количество, което желаете да продадете.'
-                )], 401);
-            }
-            
-            $item->quantity = $item->quantity - $request->quantity;
-            $item->save();
+            if ($item) {
+                $userId = Auth::user()->getId(); // or any string represents user identifier
 
-            $calculated_weight = '';
-           }
-        }
+                $find = Cart::session($userId)->get($item->barcode);
 
-        if($item){
-            $userId = Auth::user()->getId(); // or any string represents user identifier
-            
-            $find = Cart::session($userId)->get($item->barcode);
+                if ($find && $request->amount_check == false) {
 
-            if($find && $request->amount_check == false) {
-                
-            }else{
-                if($item->status == 'sold'){
-                    $item->price = 0;
-                }
-
-                if($type == "repair"){
-                    Cart::session($userId)->add(array(
-                        'id' => $item->code,
-                        'name' => 'Връщане на ремонт - '.$item->customer_name,
-                        'price' => $item->price,
-                        'quantity' => 1,
-                        'attributes' => array(
-                            'weight' => $item->weight,
-                            'type' => 'repair'
-                        )
-                    ));
-            
-                }else if ($type == "box") {
-                    Cart::session($userId)->add(array(
-                        'id' => $item->code,
-                        'name' => $item->name,
-                        'price' => $item->price,
-                        'quantity' => $request->quantity,
-                        'attributes' => array(
-                            'weight' => $item->weight,
-                            'type' => 'box'
-                        )
-                    ));
-                }else{
-                    if($item->material){
-                        $carat = $item->material->carat;
-                    }else{
-                        $carat = 0;
-                    }
-                    
-                    $order = '';
-                    $order_item_id = '';
-                    if($type == 'product'){
-                        $order_item = OrderItem::where('product_id', $item->id)->first();
-                        
-                        if($order_item){
-                            $order = $order_item->order_id;
-                            $order_item_id = $order_item->id;
-                        }
+                } else {
+                    if ($item->status == 'sold') {
+                        $item->price = 0;
                     }
 
-                    Cart::session($userId)->add(array(
-                        'id' => $item->code,
-                        'name' => $item->name,
-                        'price' => $item->price,
-                        'quantity' => $request->quantity,
-                        'attributes' => array(
-                            'carat' => $carat,
-                            'weight' => $item->weight,
+                    if ($request->type == "repair") {
+                        Cart::session($userId)->add(array(
+                            'id' => 'R-' . $item->id,
+                            'name' => 'Връщане на ремонт - ' . $item->customer_name,
                             'price' => $item->price,
-                            'calculated_weight' => $calculated_weight,
-                            'order' => $order,
-                            'order_item_id' => $order_item_id,
+                            'quantity' => 1,
+                            'attributes' => array(
+                                'barcode' => $item->barcode,
+                                'product_id' => $item->id,
+                                'weight' => $item->weight,
+                                'type' => $request->type
+                            )
+                        ));
+
+                    } else if ($request->type == "box") {
+                        Cart::session($userId)->add(array(
+                            'id' => 'B-' . $item->id,
                             'name' => $item->name,
-                            'product_id' => $item->id,
-                            'type' => $type,
-                            'barcode' => $item->barcode
-                        )
-                    ));
+                            'price' => $item->price,
+                            'quantity' => $request->quantity,
+                            'attributes' => array(
+                                'barcode' => $item->barcode,
+                                'product_id' => $item->id,
+                                'weight' => $item->weight,
+                                'type' => $request->type
+                            )
+                        ));
+                    } else {
+                        if ($item->material) {
+                            $carat = $item->material->carat;
+                        } else {
+                            $carat = 0;
+                        }
+
+                        $order = '';
+                        $order_item_id = '';
+                        if ($request->type == 'product') {
+                            $order_item = OrderItem::where('product_id', $item->id)->first();
+
+                            if ($order_item) {
+                                $order = $order_item->order_id;
+                                $order_item_id = $order_item->id;
+                            }
+                        }
+
+                        Cart::session($userId)->add(array(
+                            'id' => 'P-' . $item->id,
+                            'name' => $item->name,
+                            'price' => $item->price,
+                            'quantity' => $request->quantity,
+                            'attributes' => array(
+                                'carat' => $carat,
+                                'weight' => $item->weight,
+                                'price' => $item->price,
+                                'calculated_weight' => $calculated_weight,
+                                'order' => $order,
+                                'order_item_id' => $order_item_id,
+                                'name' => $item->name,
+                                'product_id' => $item->id,
+                                'type' => $request->type,
+                                'barcode' => $item->barcode
+                            )
+                        ));
+                    }
                 }
-            } 
 
-            $total = round(Cart::session($userId)->getTotal(),2);
-            $subtotal = round(Cart::session($userId)->getSubTotal(),2);
-            $quantity = Cart::session($userId)->getTotalQuantity();
+                $total = round(Cart::session($userId)->getTotal(), 2);
+                $subtotal = round(Cart::session($userId)->getSubTotal(), 2);
+                $quantity = Cart::session($userId)->getTotalQuantity();
 
-            $items = [];
-            
-            Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
-            {
-                $items[] = $item;
-            });
+                $items = [];
 
-            $table = '';
-            foreach($items as $item){
-                $table .= View::make('admin/selling/table',array('item'=>$item))->render();
+                Cart::session(Auth::user()->getId())->getContent()->each(function ($item) use (&$items) {
+                    $items[] = $item;
+                });
+
+                $table = '';
+                foreach ($items as $item) {
+                    $table .= View::make('admin/selling/table', array('item' => $item))->render();
+                }
+
+                $dds = round($subtotal - ($subtotal / 1.2), 2);
+
+                return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'dds' => $dds));
+
+            } else {
+                return Response::json(array('success' => false));
             }
-
-            $dds = round($subtotal - ($subtotal/1.2), 2);
-
-            return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'dds' => $dds));  
-
-        }else{
-            return Response::json(array('success' => false)); 
+        } else {
+            return Response::json(array('success' => false));
         }
     }
 
@@ -487,9 +487,9 @@ class SellingController extends Controller
         
         Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
         {
-            $product = Product::where('barcode', $item->id)->first();
-            $product_box = ProductOther::where('barcode', $item->id)->first();
-            $repair = Repair::where('barcode', $item->id)->first(); 
+            $product = Product::where('barcode', $item->attributes->barcode)->first();
+            $product_box = ProductOther::where('barcode',$item->attributes->barcode)->first();
+            $repair = Repair::where('barcode', $item->attributes->barcode)->first();
             if($product){
                 $product->status = 'available';
                 $product->save();
@@ -695,19 +695,26 @@ class SellingController extends Controller
         });
     }
 
-    public function removeItem($item){
-        $userId = Auth::user()->getId(); 
+    public function removeItem($type, $item){
+        $userId = Auth::user()->getId();
 
-        $product = Product::where('code', $item)->first();
-        $product_box = ProductOther::where('code', $item)->first();
-        $repair = Repair::where('code', $item)->first();
+        if ($type == 'product') {
+            $product = Product::where('id', intval($item))->first();
+            $item = 'P-' . $item;
+        } elseif ($type == 'box') {
+            $product_box = ProductOther::where('id', intval($item))->first();
+            $item = 'B-' . $item;
+        } else {
+            $repair = Repair::where('id', intval($item))->first();
+            $item = 'R-' . $item;
+        }
 
         $cartItem = Cart::session($userId)->get($item);
 
-        if($product){
+        if (isset ($product)) {
             $product->status = 'available';
             $product->save();
-        }else if($product_box){
+        } elseif (isset($product_box)) {
             $product_box->quantity += $cartItem->quantity;
             $product_box->save();
         }

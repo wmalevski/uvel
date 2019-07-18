@@ -377,11 +377,25 @@ aria-hidden="true">
                                 <span class="peer peer-greed">Повече от един продукт</span>
                             </label>
                         </div>
-                        <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                            <input type="checkbox" id="type_repair" name="type_repair" data-sell-repair class="peer">
-                            <label for="type_repair" class="peers peer-greed js-sb ai-c">
-                                <span class="peer peer-greed">Ремонт</span>
-                            </label>
+                        <div class="checkbox-group">
+                            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                                <input type="checkbox" id="type_repair" name="type_repair" data-sell-type class="peer" value="repair">
+                                <label for="type_repair" class="peers peer-greed js-sb ai-c">
+                                    <span class="peer peer-greed">Ремонт</span>
+                                </label>
+                            </div>
+                            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                                <input type="checkbox" id="type_box" name="type_box" data-sell-type class="peer" value="box">
+                                <label for="type_box" class="peers peer-greed js-sb ai-c">
+                                    <span class="peer peer-greed">Кутии/Икони</span>
+                                </label>
+                            </div>
+                            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                                <input type="checkbox" id="type_products" name="type_product" data-sell-type class="peer" value="product">
+                                <label for="type_products" class="peers peer-greed js-sb ai-c">
+                                    <span class="peer peer-greed">Продукти</span>
+                                </label>
+                            </div>
                         </div>
                         <div class="form-group form-row">
                             <label for="product_barcode" class="col-sm-9 control-label">Номер на артикула</label>

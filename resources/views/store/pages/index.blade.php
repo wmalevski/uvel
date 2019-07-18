@@ -247,7 +247,7 @@
 
 																<div class="product-content-left">
 																	<a class="title-5" href="{{ route('single_product', ['product' => $product->id]) }}">
-																		No: {{ implode(" ", str_split($product->code, 3)) }}
+																		No: {{ implode(" ", str_split($product->id, 3)) }}
 																	</a>
 																	<br>
 																	Модел: {{ $product->model->name }}

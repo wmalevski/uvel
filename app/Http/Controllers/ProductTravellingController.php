@@ -109,7 +109,7 @@ class ProductTravellingController extends Controller
         if($item){
             $pass_item = (object)[
                 'id' => $item->id,
-                'name' => $item->code,
+                'name' => $item->id,
                 'weight' => $item->weight,
                 'barcode' => $item->barcode
             ];

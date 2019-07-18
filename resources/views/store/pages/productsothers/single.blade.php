@@ -95,7 +95,7 @@
 															<h5>Информация за продукта</h5>
 															<ul class="sub">
 																<li>Модел: {{ $product->name }} </li>
-																<li>No: {{ $product->code }}</li>
+																<li>No: {{ $product->id }}</li>
 																<li>Налично в: {{ App\Store::where('id',$product->store_id)->first()->name }}</li>
 															</ul>
 														</li>
@@ -341,7 +341,7 @@
 														Модел: {{ $product->name }}
 														</a>
 														<br />
-														No: {{ $product->code }}
+														No: {{ $product->id }}
 														<br />
 														Налично в: {{ App\Store::where('id',$product->store_id)->first()->name }}
 														<span class="spr-badge" id="spr_badge_{{$product->id}}" data-rating="{{$product->getProductOtherAvgRating($product)}}">

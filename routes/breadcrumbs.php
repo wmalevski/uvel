@@ -103,7 +103,7 @@ Breadcrumbs::register('wishlist', function ($breadcrumbs) {
 
 Breadcrumbs::register('single_product', function ($breadcrumbs, $product) {
     $breadcrumbs->parent('products');
-    $breadcrumbs->push($product->code, route('single_product', $product->id));
+    $breadcrumbs->push($product->id, route('single_product', $product->id));
 });
 
 Breadcrumbs::register('single_product_other', function ($breadcrumbs, $product) {

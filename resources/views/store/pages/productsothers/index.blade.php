@@ -136,7 +136,7 @@
 															Модел: {{ $product->name }}
 															</a>
 															<br />
-															No: {{ $product->code }}
+															No: {{ $product->id }}
 															<br />
 															Налично в: {{ App\Store::where('id',$product->store_id)->first()->name }}
 															<span class="spr-badge">

@@ -15,7 +15,6 @@ class DiscountCode extends Model
         'discount',
         'expires',
         'user_id',
-        'code',
         'barcode',
         'lifetime',
         'active'

@@ -98,7 +98,7 @@ class ProductController extends Controller
                 'attributes' => [
                     'value' => $product->id,
                     'name' => $product->name,
-                    'label' => $product->code,
+                    'label' => $product->id,
                     'barcode' => $product->barcode,
                     'weight' => $product->weight,
                     'data-product-id' => $product->id,

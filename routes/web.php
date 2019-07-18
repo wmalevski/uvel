@@ -420,8 +420,8 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/repairs', 'RepairController@store');
 
-    Route::get('/repairs/return/{code}', 'RepairController@return');
-    Route::put('/repairs/return/{code}', 'RepairController@returnRepair');
+    Route::get('/repairs/return/{id}', 'RepairController@return');
+    Route::put('/repairs/return/{id}', 'RepairController@returnRepair');
 
     Route::get('/repairs/edit/{barcode}', 'RepairController@edit');
     Route::put('/repairs/edit/{barcode}', 'RepairController@update');
@@ -465,7 +465,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/sendDiscount',  'SellingController@sendDiscount')->name('send_discount');
     Route::get('/sellings/information', 'SellingController@printInfo');
 
-    Route::post('/sell/removeItem/{item}', 'SellingController@removeItem');
+    Route::post('/sell/removeItem/{type}/{item}', 'SellingController@removeItem');
 
     Route::post('/sell/payment', 'PaymentController@store');
 

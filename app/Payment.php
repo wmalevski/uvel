@@ -141,11 +141,11 @@ class Payment extends Model
                 $selling->payment_id = $payment->id;
 
                 if($item['attributes']->type == 'repair'){
-                    $selling->repair_id = $item->id;
+                    $selling->repair_id = $item->attributes->product_id;
                 } elseif($item['attributes']->type == 'product'){
-                    $selling->product_id = $item->id;
+                    $selling->product_id = $item->attributes->product_id;
                 } elseif($item['attributes']->type == 'box'){
-                    $selling->product_other_id = $item->id;
+                    $selling->product_other_id =$item->attributes->product_id;
                 }
 
                 $selling->save();
@@ -153,24 +153,24 @@ class Payment extends Model
 
             foreach(Cart::session($userId)->getContent() as $item)
             {
-                if($item['attributes']->type == 'repair'){
-                    $repair = Repair::where('code', $item->id)->first();
+                if($item->attributes->type == 'repair'){
+                    $repair = Repair::where('id', $item->attributes->product_id)->first();
 
                     if($repair){
                         $repair->status = 'returned';
                         $repair->save();
                     }
-                } else if($item['attributes']->type == 'product'){
-                    $product = Product::where('code', $item->id)->first();
+                } elseif($item->attributes->type == 'product'){
+                    $product = Product::where('id',$item->attributes->product_id)->first();
 
                     if($product){
                         $product->status = 'sold';
                         $product->save();
 
-                        if($item['attributes']->order != ''){
-                            $order_item = OrderItem::find($item['attributes']->order_item_id);
+                        if($item->attributes->order != ''){
+                            $order_item = OrderItem::find($item->attributes->order_item_id);
                             
-                            $order = Order::find($item['attributes']->order);
+                            $order = Order::find($item->attributes->order);
                             $materials = $order->materials;
 
                             if($materials){
@@ -198,8 +198,6 @@ class Payment extends Model
                             }
                         }
                     }
-                } else if($item['attributes']->type == 'box'){
-
                 }
             }
 

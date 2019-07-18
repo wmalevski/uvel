@@ -28,7 +28,7 @@
 								<div id="product" class="content clearfix">
 									<h1 id="page-title" class="text-center">
 										<span itemprop="name">
-											{{ implode(" ", str_split($product->code, 3)) }}
+											{{ implode(" ", str_split($product->id, 3)) }}
 										</span>
 									</h1>
 									<div id="product-image" class="product-image row ">
@@ -47,7 +47,7 @@
 											</div>
 										</div>
 										<div class="image featured col-smd-12 col-sm-12 fadeInUp not-animated" data-animate="fadeInUp">
-											<img alt="{{ $product->code }}" src="
+											<img alt="{{ $product->id }}" src="
 											@if(count($product->photos))
 											{{ asset("uploads/products/" . $product->photos->first()['photo']) }}
 											@elseif(count($product->model->photos))
@@ -97,7 +97,7 @@
 														<li>
 															<h5>Информация за продукта</h5>
 															<ul class="sub">
-																<li><span>No:</span> {{ implode(" ", str_split($product->code, 3)) }}</li>
+																<li><span>No:</span> {{ implode(" ", str_split($product->id, 3)) }}</li>
 																<li><span>Модел:</span> {{ $product->model->name }}</li>
 																<li><span>{{ $product->material->name }} - {{ $product->material->code }} - {{ $product->material->color }}</li>
 																<li>{{ $product->weight['weight'] }}гр.</li>
@@ -335,7 +335,7 @@
 												<ul class="row-container list-unstyled clearfix">
 													<li class="row-left">
 														<a href="{{ route('single_product', ['product' => $product->id]) }}" class="container_item">
-															<img class="img-fill" alt="{{ $product->code }}" src="
+															<img class="img-fill" alt="{{ $product->id }}" src="
 															@if(count($product->photos))
 															{{ asset("uploads/products/" . $product->photos->first()['photo']) }}
 															@elseif(count($product->model->photos))
@@ -351,7 +351,7 @@
 													<li class="row-right parent-fly animMix">
 														<div class="product-content-left">
 															<a class="title-5" href="{{ route('single_product', ['product' => $product->id]) }}">
-																No: {{ implode(" ", str_split($product->code, 3)) }}
+																No: {{ implode(" ", str_split($product->id, 3)) }}
 															</a>
 															<br>
 															Модел: {{ $product->model->name }}

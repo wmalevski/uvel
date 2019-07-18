@@ -73,7 +73,6 @@ class ProductOtherController extends Controller
             'store_id' => $request->store_id
         ]);
 
-        $product->code = 'B-' . unique_code('products_others', 'code');
         $bar = '380'.unique_number('products_others', 'barcode', 7).'2'; 
 
         $digits =(string)$bar;

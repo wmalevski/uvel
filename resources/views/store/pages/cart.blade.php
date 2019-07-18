@@ -60,11 +60,11 @@
 																	<span class="title-5">{{ $item->attributes->name }}</span>
 																	@if($item->attributes->type == 'product')
 																	<a href="{{ route('single_product', ['product' => $item->attributes->product_id])  }}">
-																		<span class="title-5">{{ \App\Product::where('id', $item->attributes->product_id)->first()->code }}</span>
+																		<span class="title-5">{{ \App\Product::where('id', $item->attributes->product_id)->first()->id }}</span>
 																	</a>
 																	@elseif($item->attributes->type == 'box')
 																	<a href="{{ route('single_product_other', ['product_other' => $item->attributes->product_id])  }}">
-																		<span class="title-5">{{ \App\ProductOther::where('id', $item->attributes->product_id)->first()->code }}</span>
+																		<span class="title-5">{{ \App\ProductOther::where('id', $item->attributes->product_id)->first()->id }}</span>
 																	</a>
 																	@endif
 																</li>

@@ -41,7 +41,7 @@
 														<li>
 															<a href="#" data-id="byJewel[]={{ $jewel->id }}">
 																<span class="fe-checkbox"></span>
-																{{ $jewel->name }}{{ $jewel->code }} ({{ count($jewel->productsOnline) }})
+																{{ $jewel->name }}{{ $jewel->id }} ({{ count($jewel->productsOnline) }})
 															</a>
 														</li>
 														@endforeach
@@ -137,11 +137,11 @@
 											@foreach($products as $product)
 												@if (Illuminate\Support\Str::lower($product->store_info->name) != 'склад')
 												<li class="element no_full_width"
-														data-alpha="{{ $product->code }}" data-price="{{ $product->price }}" data-id="{{$product->id}}">
+														data-alpha="{{ $product->id }}" data-price="{{ $product->price }}" data-id="{{$product->id}}">
 													<ul class="row-container list-unstyled clearfix">
 														<li class="row-left">
 															<a href="{{ route('single_product', ['product' => $product->id]) }}" class="container_item">
-																<img class="img-fill" alt="{{ $product->code }}" src="
+																<img class="img-fill" alt="{{ $product->id }}" src="
 																@if(count($product->photos))
 																{{ asset("uploads/products/" . $product->photos->first()['photo']) }}
 																@elseif(count($product->model->photos))
@@ -158,7 +158,7 @@
 														<li class="row-right parent-fly animMix">
 																<div class="product-content-left">
 																	<a class="title-5" href="{{ route('single_product', ['product' => $product->id]) }}">
-																		No: {{ implode(" ", str_split($product->code, 3)) }}
+																		No: {{ implode(" ", str_split($product->id, 3)) }}
 																	</a>
 																	<br>
 																	Модел: {{ $product->model->name }}
