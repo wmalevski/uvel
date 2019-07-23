@@ -26,7 +26,7 @@ aria-hidden="true">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputPassword4">Телефон</label>
-                            <input type="number" class="form-control" name="customer_phone" placeholder="Телефон на клиента">
+                            <input type="text" class="form-control" name="customer_phone" placeholder="Телефон на клиента">
                         </div>
                     </div>
 
