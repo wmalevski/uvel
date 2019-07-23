@@ -46,41 +46,43 @@ class UserPayment extends Model
                 $payment->store_id = session('cart_info.0.store_id');
             }
 
-            if($payment->payment_method == 'paypal' && $payment->shipping_method == 'ekont'){
+            if($payment->payment_method == 'paypal' || $payment->shipping_method == 'ekont'){
                 $payment->status = 'done';
             }else{
                 $payment->status = 'waiting_user';
             }
 
-           
-
             $payment->save();
 
+            $elements = ['App\UserPaymentProduct', 'App\Selling'];
+
             foreach($items as $item){
-                $selling = new UserPaymentProduct();
-                $selling->weight = $item['attributes']->weight;
-                $selling->quantity = $item->quantity;
-                $selling->price = $item->price;
-                $selling->payment_id = $payment->id;
+                foreach ($elements as $elem) {
+                    $selling = new $elem();
+                    $selling->weight = $item->attributes->weight;
+                    $selling->quantity = $item->quantity;
+                    $selling->price = $item->price;
+                    $selling->payment_id = $payment->id;
 
-                if($item['attributes']->type == 'model'){
-                    $selling->model_id = $item->id;
-                } elseif($item['attributes']->type == 'product'){
-                    $selling->product_id = $item->id;
-                } elseif($item['attributes']->type == 'box'){
-                    $selling->product_other_id = $item->id;
+                    if ($item->attributes->type == 'model') {
+                        $selling->model_id = $item->attributes->product_id;
+                    } elseif ($item->attributes->type == 'product') {
+                        $selling->product_id = $item->attributes->product_id;
+                    } elseif ($item->attributes->type == 'box') {
+                        $selling->product_other_id = $item->attributes->product_id;
+                    }
+
+                    $selling->save();
                 }
-
-                $selling->save();
             }
             
             foreach(Cart::session($userId)->getContent() as $item)
             {
-                if($item['attributes']->type == 'product'){
-                    $product = Product::where('barcode', $item->id)->first();
+                if($item->attributes->type == 'product'){
+                    $product = Product::where('id', $item->attributes->product_id)->first();
 
                     if($product){
-                        if($payment->payment_method == 'paypal' && $payment->shipping_method == 'ekont'){
+                        if($payment->payment_method == 'paypal' || $payment->shipping_method == 'ekont'){
                             $product->status = 'sold';
                         } else{
                             $payment->status = 'reserved';
@@ -88,15 +90,26 @@ class UserPayment extends Model
                         
                         $product->save();
                     }
-                } else if($item['attributes']->type == 'box'){
-                    $box = ProductOther::where('barcode', $item->id)->first();
+                } else if($item->attributes->type == 'box'){
+                    $box = ProductOther::where('id', $item->attributes->product_id)->first();
 
                     if($box){
-                        $box->quantity = $box->quantity-$quantity;
+                        $box->quantity = $box->quantity - $quantity;
                         $box->save();
                     }
                 }
             }
+
+            //Store the notification
+            $history = new History();
+
+            $history->action = 'payment';
+            $history->subaction = 'successful';
+            $history->user_id = Auth::user()->getId();
+            $history->table = 'payments';
+            $history->payment_id = $payment->id;
+
+            $history->save();
 
             Cart::clear();
             Cart::clearCartConditions();
@@ -104,7 +117,7 @@ class UserPayment extends Model
             Cart::session($session_id)->clearCartConditions();
 
             session()->forget('cart_info');
-            return Redirect::back()->with('success', 'Нямате продукти в количката!');
+            return Redirect::to('/online')->with('success', 'Нямате продукти в количката!');
         }else{
             return Redirect::back()->with('error', 'Нямате продукти в количката!');
         }
