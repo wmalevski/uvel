@@ -214,9 +214,12 @@
 											<div class="form-group col-xs-24">
 												<label>Моля изберете магазин:</label>
 												<select name="store_id">
-													<option>Избери магазин</option>
-													@foreach($stores as $store)
+													@foreach($stores as $store1 => $store)
+														@if($store1 == 0)
+														<option value="{{ $store->id }}" selected="selected">{{ $store->name }}</option>
+														@else
 														<option value="{{ $store->id }}">{{ $store->name }}</option>
+														@endif
 													@endforeach
 												</select>
 											</div>

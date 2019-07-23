@@ -76,6 +76,11 @@ class UserPaymentController extends Controller
             ];
     
             Session::push('cart_info', $user_info);
+
+            if ($validator->fails()) {
+                return Redirect::back()->withErrors($validator);
+            }
+
     
             if($request->payment_method == 'on_delivery'){
                 $payment = new UserPayment();
@@ -88,12 +93,9 @@ class UserPaymentController extends Controller
                 
             }
 
-            if ($validator->fails()) {
-                return Redirect::back()->withErrors($validator);
-            }
-
         }
-        return Redirect::to('\online');
+
+        return Redirect::to('online');
     }
 
     /**
