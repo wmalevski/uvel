@@ -282,6 +282,11 @@ class SellingController extends Controller
 
                     if ($request->type == 'box') {
                         $item = ProductOther::where($request_type, $request_var)->first();
+                        if ($item->quantity < $request->quantity) {
+                            return Response::json(['errors' => array(
+                                'quantity' => 'Системата няма това количество, което желаете да продадете.'
+                            )], 401);
+                        }
                     } elseif ($request->type == 'product') {
                         $item = Product::where($request_type, $request_var)->first();
                     }
