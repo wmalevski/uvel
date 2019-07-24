@@ -176,73 +176,78 @@ class CartController extends BaseController
 
     public function addItem($item, $quantity = 1)
     {
-        if (Auth::check()) {
-            $session_id = Auth::user()->getId();
-        } else {
-            $session_id = Session::getId();
-        }
-
-        if (!empty(request()->cookie('cart_products')) && Auth::check()) {
-            $product = Product::where([
-                ['barcode', '=', $item]
-            ])->first();
-        } else {
-            $product = Product::where([
-                ['barcode', '=', $item],
-                ['status', '=', 'available']
-            ])->first();
-        }
-
-        $type = '';
-        $itemQuantity = 1;
-
-        if ($product) {
-            $item = $product;
-            $type = 'product';
-
-            $product->status = 'selling';
-            $product->save();
-        } else {
-            $box = ProductOther::where([
-                ['barcode', '=', $item],
-                ['quantity', '>=', $quantity]
-            ])->first();
-
-            if ($box) {
-                $box->quantity = $box->quantity - $quantity;
-                $box->save();
-
-                $item = $box;
-                $type = 'box';
+        $checkNegativeQuantity = ($quantity > 0)? true : false;
+        if ($checkNegativeQuantity) {
+            if (Auth::check()) {
+                $session_id = Auth::user()->getId();
+            } else {
+                $session_id = Session::getId();
             }
 
-            if ($type == 'box') {
-                $itemQuantity = $quantity;
+            if (!empty(request()->cookie('cart_products')) && Auth::check()) {
+                $product = Product::where([
+                    ['barcode', '=', $item]
+                ])->first();
+            } else {
+                $product = Product::where([
+                    ['barcode', '=', $item],
+                    ['status', '=', 'available']
+                ])->first();
             }
-        }
 
-        if ($type != '') {
-            Cart::session($session_id)->add(array(
-                'id' => $item->barcode,
-                'name' => $item->name,
-                'price' => $item->price,
-                'quantity' => $itemQuantity,
-                'attributes' => array(
-                    'weight' => $item->weight,
-                    'price' => $item->price,
+            $type = '';
+            $itemQuantity = 1;
+
+            if ($product) {
+                $item = $product;
+                $type = 'product';
+
+                $product->status = 'selling';
+                $product->save();
+            } else {
+                $box = ProductOther::where([
+                    ['barcode', '=', $item],
+                    ['quantity', '>=', $quantity]
+                ])->first();
+
+                if ($box) {
+                    $box->quantity = $box->quantity - $quantity;
+                    $box->save();
+
+                    $item = $box;
+                    $type = 'box';
+                }
+
+                if ($type == 'box') {
+                    $itemQuantity = $quantity;
+                }
+            }
+
+            if ($type != '') {
+                Cart::session($session_id)->add(array(
+                    'id' => $item->barcode,
                     'name' => $item->name,
-                    'product_id' => $item->id,
-                    'type' => $type
-                )
-            ));
+                    'price' => $item->price,
+                    'quantity' => $itemQuantity,
+                    'attributes' => array(
+                        'weight' => $item->weight,
+                        'price' => $item->price,
+                        'name' => $item->name,
+                        'product_id' => $item->id,
+                        'type' => $type
+                    )
+                ));
 
-            $total = round(Cart::session($session_id)->getTotal(), 2);
-            $subtotal = round(Cart::session($session_id)->getSubTotal(), 2);
-            $quantity = Cart::session($session_id)->getTotalQuantity();
+                $total = round(Cart::session($session_id)->getTotal(), 2);
+                $subtotal = round(Cart::session($session_id)->getSubTotal(), 2);
+                $quantity = Cart::session($session_id)->getTotalQuantity();
 
-            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'message' => 'Продукта беше успешно добавен в количката!'));
+                return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'message' => 'Продукта беше успешно добавен в количката!'));
+            } else {
+                return Response::json(array('success' => false, 'error' => 'Продукта не е намерен или е извън наличност!'));
+            }
         } else {
-            return Response::json(array('success' => false, 'error' => 'Продукта не е намерен или е извън наличност!'));
+            return Response::json(array('success' => false, 'error' => 'Желаното от Вас количество не е въведено коректно!'));
         }
     }
 
