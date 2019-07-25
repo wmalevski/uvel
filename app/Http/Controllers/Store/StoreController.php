@@ -12,7 +12,7 @@ use App\Slider;
 use App\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Blog;;
+use App\Blog;
 
 class StoreController extends BaseController
 {
@@ -31,7 +31,7 @@ class StoreController extends BaseController
 
         $productothertypes = ProductOtherType::all();
 
-        $materials = Material::groupBy('parent_id')->get();
+        $materials = Material::get()->groupBy('parent_id');
 
         $jewels = Jewel::all();
 
@@ -39,9 +39,11 @@ class StoreController extends BaseController
 
         $slides = Slider::all();
 
-        foreach($materials as $material) {
-            foreach ($material->productsOnline->take(10) as $key => $product) {
-                $product->weight = calculate_product_weight($product);
+        foreach($materials as $collect) {
+            foreach($collect as $material) {
+                foreach ($material->productsOnline->take(10) as $key => $product) {
+                    $product->weight = calculate_product_weight($product);
+                }
             }
         }
 
