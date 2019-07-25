@@ -34,8 +34,33 @@ class Price extends Model
 
     public function filterMaterials(Request $request ,$query){
         $query = Material::where(function($query) use ($request){
-            if ($request->byName) {
-                $query->where('name', 'LIKE', "%$request->byName%")->orWhere('color', 'LIKE', "%$request->byName%")->orWhere('code', 'LIKE', "%$request->byName%");
+            if($request->byCode){
+                $query = $query->whereIn('code', [$request->byCode]);
+            }
+
+            if($request->byName){
+                if (trim($request->byName) == '-') {
+                    $query = Material::all();
+                } else {
+                    $request->byName = explode("-", $request->byName);
+
+                    $query->whereHas('parent', function ($q) use ($request) {
+                        $q->where('name', 'LIKE', '%' . trim($request->byName[0]) . '%');
+                    });
+
+                    $name = count($request->byName);
+                    
+                    switch ($name) {
+                        case 1:
+                            $query->orWhere('color', 'LIKE', '%' . trim($request->byName[0]) . '%')->orWhere('code', 'LIKE', '%' . trim($request->byName[0]) . '%');
+                            break;
+                        case ($name > 1):
+                            $query->where('color', 'LIKE', '%' . trim($request->byName[1]) . '%');
+                            break;
+                        case ($name > 2):
+                            $query->where('code', 'LIKE', '%' . trim($request->byName[2]) . '%');
+                    }
+                }
             }
 
             if ($request->byName == '') {
