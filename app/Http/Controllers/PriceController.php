@@ -140,13 +140,16 @@ class PriceController extends Controller
         try {
             if(count($products = Product::where('material_id', $price->material_id)->get())) {
                 foreach ($products as $product) {
-                    $product->price = $sell * $product->weight;
-                    $product->workmanship = ($sell - $buy) * $product->weight;
+                    $product_price = $sell * $product->weight;
+                    $product->price = round($product_price);
+                    $product_workmanship = ($sell - $buy) * $product->weight;
+                    $product->workmanship = round($product_workmanship);
                     $product->save();
 
                     $model = Model::find($product->model_id);
-                    $model->price = $sell * $model->weight;
-                    $model->workmanship = ($sell - $buy) * $product->weight;
+                    $model_price = $sell * $model->weight;
+                    $model->price = round($model_price);
+                    $model->workmanship =  round($product_workmanship);
                     $model->save();
                 }
             }
