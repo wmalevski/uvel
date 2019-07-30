@@ -17,7 +17,7 @@ class CreateStonesTable extends Migration
             $table->increments('id');
             $table->string('nomenclature_id');
             $table->integer('type');
-            $table->float('weight');
+            $table->decimal('weight', 10, 3);
             $table->float('carat');
             $table->unsignedInteger('size_id');
             $table->unsignedInteger('style_id');
