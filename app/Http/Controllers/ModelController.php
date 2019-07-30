@@ -109,8 +109,8 @@ class ModelController extends Controller
         $model->jewel_id = $request->jewel_id;
         $model->weight = $request->weight;
         $model->size = $request->size;
-        $model->workmanship = $request->workmanship;
-        $model->price = $request->price;
+        $model->workmanship = round($request->workmanship);
+        $model->price = round($request->price);
         $model->totalStones =  $request->totalStones;
 
         $model->website_visible =  'no';
@@ -220,8 +220,8 @@ class ModelController extends Controller
             $product->material_type_id = array_values($request->material_id)[0];
             $product->retail_price_id = array_values($request->retail_price_id)[0];
             $product->size = $request->size;
-            $product->workmanship = $request->workmanship;
-            $product->price = $request->price;
+            $product->workmanship = round($request->workmanship);
+            $product->price = round($request->price);
             $product->store_id = 1;
             $bar = '380'.unique_number('products', 'barcode', 7).'1';
 
@@ -448,8 +448,8 @@ class ModelController extends Controller
         
         $model->name = $request->name;
         $model->jewel_id = $request->jewel_id;
-        $model->price = $request->price;
-        $model->workmanship = $request->workmanship;
+        $model->price = round($request->price);
+        $model->workmanship = round($request->workmanship);
         $model->weight = $request->weight;
         $model->totalStones =  $request->totalStones;
         $model->size = $request->size;
@@ -578,9 +578,8 @@ class ModelController extends Controller
             $product->material_type_id = $default->material_id;
             $product->retail_price_id = $default->retail_price_id;
             $product->size = $request->size;
-            $product->workmanship = $request->workmanship;
-            $product->price = $request->price;
-//            $product->code = 'P'.unique_random('products', 'code', 7);
+            $product->workmanship = round($request->workmanship);
+            $product->price = round($request->price);
             $product->store_id = 1;
             $bar = '380'.unique_number('products', 'barcode', 7).'1'; 
             

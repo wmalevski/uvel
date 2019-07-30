@@ -284,8 +284,8 @@ class ProductController extends Controller
             $product->gross_weight = $request->gross_weight;
             $product->retail_price_id = $request->retail_price_id;
             $product->size = $request->size;
-            $product->workmanship = $request->workmanship;
-            $product->price = $request->price;
+            $product->workmanship = round($request->workmanship);
+            $product->price = round($request->price);
             $product->store_id = $request->store_id;
 
             if($request->with_stones == 'false'){

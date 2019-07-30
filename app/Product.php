@@ -210,8 +210,8 @@ class Product extends BaseModel
                 'stones' => $pass_stones,
                 'weight' => $model->weight,
                 'size'   => $model->size,
-                'workmanship' => $model->workmanship,
-                'price' => $model->price,
+                'workmanship' => round($model->workmanship),
+                'price' => round($model->price),
                 'materials' => $pass_materials,
                 'photos' => $pass_photos,
                 'pricebuy' => $default->material->pricesBuy->first()->price,
@@ -335,8 +335,8 @@ class Product extends BaseModel
             $product->gross_weight = $request->gross_weight;
             $product->retail_price_id = $request->retail_price_id;
             $product->size = $request->size;
-            $product->workmanship = $request->workmanship;
-            $product->price = $request->price;
+            $product->workmanship = round($request->workmanship);
+            $product->price = round($request->price);
             $product->store_id = $request->store_id;
             $bar = '380'.unique_number('products', 'barcode', 7).'1';
 
