@@ -18,7 +18,7 @@ class CreateModelStonesTable extends Migration
             $table->integer('model_id')->unsigned();
             $table->integer('stone_id')->unsigned();
             $table->integer('amount');
-            $table->integer('weight');
+            $table->decimal('weight', 10, 3);
             $table->enum('flow', ['yes', 'no'])->default('no');
             $table->timestamps();
         });
