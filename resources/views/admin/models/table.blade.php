@@ -31,11 +31,18 @@
 	<td class="stones--tooltip">
 		Виж камъни
 		<ul>
-			@foreach($model->stones as $stone)
+			@if(!empty($model->stones->first()))
+				@foreach($model->stones as $stone)
+				<li>
+					Име: {{$stone->stone->nomenclature->name }} - {{$stone->stone->contour->name }} - {{$stone->stone->size->name }} , Количество: {{ $stone->amount }}
+				</li>
+				@endforeach
+			@else
 			<li>
-				{{ $stone->stone->name }} , {{ $stone->amount }}
+				Няма налични камъни.
 			</li>
-			@endforeach
+			@endif
 		</ul>
 	</td>
 </tr>
+
