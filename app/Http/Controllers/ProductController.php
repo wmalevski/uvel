@@ -281,7 +281,7 @@ class ProductController extends Controller
             $product->model_id = $request->model_id;
             $product->jewel_id = $request->jewel_id;
             $product->weight = $request->weight;
-            $product->gross_weight = $request->gross_weight;
+            $product->gross_weight = round($request->gross_weight, 3);
             $product->retail_price_id = $request->retail_price_id;
             $product->size = $request->size;
             $product->workmanship = round($request->workmanship);

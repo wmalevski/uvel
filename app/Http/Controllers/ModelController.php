@@ -215,7 +215,7 @@ class ModelController extends Controller
             $product->model_id = $model->id;
             $product->jewel_id= $request->jewel_id;
             $product->weight = $request->weight;
-            $product->gross_weight = $request->weight;
+            $product->gross_weight = round($request->weight, 3);
             $product->material_id = $default->material_id;
             $product->material_type_id = array_values($request->material_id)[0];
             $product->retail_price_id = array_values($request->retail_price_id)[0];
