@@ -279,7 +279,9 @@
 										<input class="w3-btn w3-blue" type="submit" value="Плати">
 									@else
 										<div class="row form-row">
-											<label>Влезте в профила си, за да продължите.</label>
+											<a href="/online/login">
+											Влезте в профила си, за да продължите.
+											</a>
 										</div>
 									@endauth
 								</form>
