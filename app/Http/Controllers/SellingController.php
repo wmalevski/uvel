@@ -146,9 +146,12 @@ class SellingController extends Controller
             $priceCon = 0;
         }
         $items = [];
-        
-        Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
+        $check_box_type = false;
+        Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items, &$check_box_type)
         {
+            if ($item->attributes->type == 'box') {
+                $check_box_type = true;
+            }
             $items[] = $item;
         });
 
@@ -168,7 +171,7 @@ class SellingController extends Controller
         }
         //To add kaparo from the orders when branches are merged
         
-        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner, 'second_default_price' => $second_default_price));
+        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'checkBoxType' =>  $check_box_type, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner, 'second_default_price' => $second_default_price));
     }
 
     /**
