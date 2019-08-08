@@ -231,8 +231,9 @@ class Product extends BaseModel
                 foreach($product->reviews as $review) {
                     $productTotalRating = $productTotalRating + $review->rating;
                 }
-                return $productAvgRating = round($productTotalRating/count($product->reviews));
+                $productTotalRating = round($productTotalRating/count($product->reviews));
             }
+            return $productTotalRating;
         }
 
         public function listProductAvgRatingStars($product) {
