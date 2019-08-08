@@ -366,13 +366,9 @@
 															@endif
 															Налично в: {{ $product->store_info->name }}
 															<span class="spr-badge" id="spr_badge_{{$product->id}}" data-rating="{{$product->getProductAvgRating($product)}}">
-																@if($product->getProductAvgRating($product) > 0)
-																	<span class="spr-starrating spr-badge-starrating">
+																<span class="spr-starrating spr-badge-starrating">
 																	{{$product->listProductAvgRatingStars($product)}}
 																</span>
-																@else
-																	<span class="spr-badge-caption">No reviews</span>
-																@endif
 															</span>
 														</div>
 														<div class="product-content-right">
