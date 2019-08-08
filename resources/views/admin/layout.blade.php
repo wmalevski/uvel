@@ -155,7 +155,7 @@
               <span class="title">Отстъпки</span>
             </a>
           </li>
-          <li class="nav-item dropdown {{ Active::ifRouteIn(['stores', 'daily_reports', 'expenses', 'expenses_types']) }}">
+        <li class="nav-item dropdown {{ Active::ifRouteIn(['stores', 'daily_reports', 'expenses', 'expenses_types', 'create_report']) }}">
               <a class="sidebar-link" href="javascript:void(0);">
                 <span class="icon-holder">
                   <i class=" ti-location-arrow"></i>
@@ -169,7 +169,7 @@
                 <li class="{{ Active::ifRouteIn('stores') }}">
                   <a class="sidebar-link" href="{{ route('stores') }}">Магазини</a>
                 </li>
-                <li class="{{ Active::ifRouteIn('daily_reports') }}">
+                <li class="{{ Active::ifRouteIn(['daily_reports', 'create_report']) }}">
                   <a class="sidebar-link" href="{{ route('daily_reports') }}">Дневни отчети</a>
                 </li>
                 <li class="{{ Active::ifRouteIn('expenses') }}">
@@ -189,7 +189,6 @@
                 <span class="title">Блог</span>
               </a>
             </li>
-            
             <li class="nav-item {{ Active::ifRouteIn('slides') }}">
               <a class="sidebar-link" href="{{ route('slides') }}">
                 <span class="icon-holder">
@@ -198,7 +197,6 @@
                 <span class="title">Слайдове</span>
               </a>
             </li>
-            
             <li class="nav-item {{ Active::ifRouteIn(['prices', 'view_price']) }}">
                 <a class="sidebar-link" href="{{ route('prices') }}">
                   <span class="icon-holder">
@@ -381,7 +379,7 @@
 
                 </ul>
               </li>
-          <li class="nav-item dropdown {{ Active::ifRouteIn(['stones', 'sizes', 'stones', 'contours', 'styles']) }}">
+        <li class="nav-item dropdown {{ Active::ifRouteIn(['stones', 'nomenclatures', 'sizes', 'stones', 'contours', 'styles']) }}">
             <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
                 <i class=" ti-hummer"></i>
@@ -429,7 +427,7 @@
             </ul>
           </li>
 
-          <li class="nav-item dropdown {{ Active::ifRouteIn(['stock_prices', 'currencies']) }}">
+        <li class="nav-item dropdown {{ Active::ifRouteIn(['daily_reports', 'expenses', 'create_report']) }}">
             <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
                 <i class=" ti-slice"></i>
@@ -440,7 +438,7 @@
               </span>
             </a>
             <ul class="dropdown-menu">
-              <li class="{{ Active::ifRouteIn('daily_reports') }}">
+              <li class="{{ Active::ifRouteIn(['daily_reports', 'create_report']) }}">
                 <a class="sidebar-link" href="{{ route('daily_reports') }}">Дневни</a>
               </li>
               <li class="{{ Active::ifRouteIn('expenses') }}">
@@ -449,7 +447,7 @@
             </ul>
           </li>
 
-          <li class="nav-item dropdown {{ Active::ifRouteIn('settings') }}">
+        <li class="nav-item dropdown {{ Active::ifRouteIn(['stock_prices', 'currencies', 'cashgroups']) }}">
             <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
                 <i class="ti-settings"></i>
