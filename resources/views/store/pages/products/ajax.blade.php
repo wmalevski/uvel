@@ -28,8 +28,11 @@
 				<br>
 				{{ $product->weight['weight'] }}гр.
 				<br>
-				@if (isset($product->weight['stone']))
-					{{ $product->weight['stone'] }}кт.
+				@if(isset($product->weight['stone']))
+					@foreach($product->weight['stone'] as $productStone => $stone)
+						{{ $stone}}
+						@if(1 + $productStone < count($product->weight['stone'])) , @endif
+					@endforeach
 					<br>
 				@endif
 				Налично в: {{ $product->store_info->name }}

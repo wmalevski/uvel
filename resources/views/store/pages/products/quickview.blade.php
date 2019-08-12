@@ -49,9 +49,12 @@
 							<br/>
 							{{ $product->weight['weight'] }}гр.
 							<br/>
-							@if (isset($product->weight['stone']))
-								{{ $product->weight['stone'] }}кт.
-								<br/>
+							@if(isset($product->weight['stone']))
+								@foreach($product->weight['stone'] as $productStone => $stone)
+									{{ $stone}}
+									@if(1 + $productStone < count($product->weight['stone'])) , @endif
+								@endforeach
+								<br>
 							@endif
 							Бижу: {{ $product->jewel->name }}
 							<br/>

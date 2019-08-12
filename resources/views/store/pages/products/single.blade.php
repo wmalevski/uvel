@@ -101,8 +101,12 @@
 																<li><span>Модел:</span> {{ $product->model->name }}</li>
 																<li><span>{{ $product->material->name }} - {{ $product->material->code }} - {{ $product->material->color }}</li>
 																<li>{{ $product->weight['weight'] }}гр.</li>
-																@if (isset($product->weight['stone']))
-																	<li>{{ $product->weight['stone'] }}кт.</li>
+																@if(isset($product->weight['stone']))
+																	@foreach($product->weight['stone'] as $productStone => $stone)
+																		{{ $stone}}
+																		@if(1 + $productStone < count($product->weight['stone'])) , @endif
+																	@endforeach
+																	<br>
 																@endif
 																<li><span>Бижу:</span> {{ $product->jewel->name }}</li>
 																<li><span>Размер:</span> {{ $product->model->size }}</li>
@@ -360,8 +364,11 @@
 															<br>
 															{{ $product->weight['weight'] }}гр.
 															<br>
-															@if (isset($product->weight['stone']))
-																{{ $product->weight['stone'] }}кт.
+															@if(isset($product->weight['stone']))
+																@foreach($product->weight['stone'] as $productStone => $stone)
+																	{{ $stone}}
+																	@if(1 + $productStone < count($product->weight['stone'])) , @endif
+																@endforeach
 																<br>
 															@endif
 															Налично в: {{ $product->store_info->name }}
