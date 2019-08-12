@@ -157,9 +157,12 @@ class DashboardController extends Controller
         }
 
         $items = [];
-        
-        Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
+        $check_box_type = false;
+        Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items, &$check_box_type)
         {
+            if ($item->attributes->type == 'box') {
+                $check_box_type = true;
+            }
             $items[] = $item;
         });
 
@@ -178,7 +181,7 @@ class DashboardController extends Controller
             $todayReport = 'false';
         }
 
-        return \View::make('admin/selling/index', array('items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'priceCon' => $priceCon, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner, 'second_default_price' => $second_default_price));
+        return \View::make('admin/selling/index', array('items' => $items, 'checkBoxType' =>  $check_box_type, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'priceCon' => $priceCon, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner, 'second_default_price' => $second_default_price));
     }
 
     /**
