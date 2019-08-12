@@ -57,14 +57,15 @@
 
 																</li>
 																<li class="link">
-																	<span class="title-5">{{ $item->attributes->name }}</span>
 																	@if($item->attributes->type == 'product')
+																		<span class="title-5">{{ $item->attributes->name }}</span>
 																		<span class="title-5">
 																		<a class="title-5" href="{{ route('single_product', ['product' => $item->attributes->product_id])  }}">
 																		{{ \App\Product::where('id', $item->attributes->product_id)->first()->id }}
 																		</a>
 																	</span>
 																	@elseif($item->attributes->type == 'box')
+																		<span class="title-5">{{ $item->name }}</span>
 																		<span class="title-5">
 																		<a href="{{ route('single_product_other', ['product_other' => $item->attributes->product_id])  }}">
 																		{{ \App\ProductOther::where('id', $item->attributes->product_id)->first()->id }}
