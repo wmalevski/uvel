@@ -1,9 +1,9 @@
 <tr data-id="{{ $product->id }}">
 	<td class="thumbnail--tooltip">
-		@if(count($product->photos))
+		@if(isset($product->photos))
 			<img class="admin-product-image" src="{{ asset("uploads/products/" . $product->photos->first()['photo']) }}">
 			<ul class="product-hover-image" style="background-image: url({{ asset("uploads/products/".$product->photos->first()['photo']) }});"></ul>
-		@elseif(count($product->model))
+		@elseif(isset($product->model))
 			<img class="admin-product-image" src="{{ asset("uploads/models/" . $product->model->photos->first()['photo']) }}">
 			<ul class="product-hover-image" style="background-image: url({{ asset("uploads/models/".$product->model->photos->first()['photo']) }});"></ul>
 		@endif
