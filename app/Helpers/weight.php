@@ -19,7 +19,7 @@ if (!function_exists('calculate_product_weight')) {
             foreach ($product->stones as $productStone) {
                 $stoneId = $productStone->stone_id;
                 $stoneName = Nomenclature::where('id', $stoneId)->first()->name;
-                $stoneWeight = $product->gross_weight - $product->weight;
+                $stoneWeight = $productStone->weight;
                 if ($product->weight_without_stones == 'yes' && Str::lower($product->material->name) == "сребро") {
                     $weight = round($product->gross_weight, 3);
                 } else {
