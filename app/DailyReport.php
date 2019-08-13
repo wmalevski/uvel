@@ -152,18 +152,18 @@ class DailyReport extends Model
             foreach ($request->material_id as $key => $material) {
                 $total_given += $request->quantity[$key];
                 $quantity = $request->quantity[$key];
-                $check = Product::where('material_id', $material)->where('status', 'available')->orWhere('status', 'travelling')->count();
+                $check = Product::where('material_id', $material)->where('store_id', Auth::user()->getStore()->id)->where('status', 'available')->count();
                 $total_check += $check;
-                if (isset($request->quantity[$key])) {
-                    if ($check == $quantity) {
-                        $report->save();
-                        $report_jewel = new DailyReportJewel();
-                        $report_jewel->material_id = $material;
-                        $report_jewel->quantity = $quantity;
-                        $report_jewel->report_id = $report->id;
-                        $report_jewel->save();
-                    }
+                if (!$quantity) {
+                    $quantity = 0;
                 }
+                $report->save();
+                $report_jewel = new DailyReportJewel();
+                $report_jewel->material_id = $material;
+                $report_jewel->quantity = $quantity;
+                $report_jewel->report_id = $report->id;
+                $report_jewel->save();
+
                 if ($check != $quantity) {
                     $flag_errors = true;
                 }
