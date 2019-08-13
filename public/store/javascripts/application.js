@@ -1015,26 +1015,7 @@ var uvelStore,
 			ajaxURL += '&' + 'listType=' + listType;
 		}
 
-		$.ajax({
-			method: 'GET',
-			url: ajaxURL,
-			success: function (resp) {
-				productsContainer.animate({
-					opacity: 0
-				}, 400, function () {
-					productsContainer.html(resp);
-					$self.quickviewAttach($('.quick_shop'));
-					$self.addToWishlistAttach();
-				});
-
-				productsContainer.animate({
-					opacity: 1
-				}, 400)
-			},
-			error: function (err) {
-				console.log(err);
-			}
-		})
+		window.location = ajaxURL;
 	}
 
 	this.addDiscountAttach = function (addDiscountBtn) {
