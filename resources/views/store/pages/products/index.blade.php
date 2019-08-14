@@ -214,6 +214,11 @@
 												@endif
 											@endforeach
 										</ul>
+										@if(count($products) == 0)
+											<div class="product-content-left">
+												Няма бижу по зададените критерии
+											</div>
+										@endif
 										<!-- Paginator -->
 										{{ $products->links() }}
 									</div>

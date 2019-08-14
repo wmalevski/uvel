@@ -30,13 +30,13 @@
 									<div class="group_sidebar">
 										<div class="sb-wrapper">
 
-											<div class="filter-tag-group" data-url="ajax/filter/productsothers">
+											<div class="filter-tag-group" data-url="online/productsothers">
 												<h6 class="sb-title">Филтри</h6>
 												<div id="coll-filter-3" class="tag-group">
 													<p class="title">Тип</p>
 													<ul>
 														@foreach($productothertypes as $type)
-														<li>
+														<li class="{{ filter_products('byType', $type->id) }}">
 															<a data-id="byType[]={{ $type->id }}" href="#">
 																<span class="fe-checkbox"></span>
 																{{ $type->name }}
@@ -50,7 +50,7 @@
 													<p class="title">Налично в</p>
 													<ul>
 														@foreach($stores as $store)
-														<li>
+														<li class="{{ filter_products('byStore', $store->id) }}">
 															<a href="#" data-id="byStore[]={{ $store->id }}">
 																<span class="fe-checkbox"></span>
 																{{ $store->name }} ({{ count($store->productsOther) }})
@@ -178,6 +178,11 @@
 											</li>
 											@endforeach
 										</ul>
+										@if(count($products) == 0)
+											<div class="product-content-left">
+												Няма бижу по зададените критерии
+											</div>
+										@endif
 										{{ $products->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
 									</div>
 								</div>
