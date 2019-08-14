@@ -38,10 +38,10 @@
 													<p class="title">Вид бижу</p>
 													<ul>
 														@foreach($jewels as $jewel)
-														<li>
+														<li class="{{ filter_products('byJewel',$jewel->id) }}">
 															<a href="#" data-id="byJewel[]={{ $jewel->id }}">
 																<span class="fe-checkbox"></span>
-																{{ $jewel->name }}{{ $jewel->id }} ({{ count($jewel->productsOnline) }})
+																{{ $jewel->name }} ({{ count($jewel->productsOnline) }})
 															</a>
 														</li>
 														@endforeach
@@ -52,7 +52,7 @@
 													<p class="title">Материал</p>
 													<ul>
 														@foreach($materials as $material)
-														<li>
+														<li  class="{{ filter_products('byMaterial', $material->id) }}">
 															<a href="#" data-id="byMaterial[]={{ $material->id }}">
 																<span class="fe-checkbox"></span>
 																{{ $material->parent->name }} ({{ $material->color }}) ({{ count($material->productsOnline) }})
@@ -77,7 +77,7 @@
 													<p class="title">Налично в</p>
 													<ul>
 														@foreach($stores as $store)
-														<li>
+														<li class="{{ filter_products('byStore', $store->id) }}">
 															<a data-id="byStore[]={{ $store->id }}" href="#">
 																<span class="fe-checkbox"></span>
 																{{ $store->name }} ({{ count($store->productsOnline) }})
