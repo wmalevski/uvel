@@ -18,9 +18,12 @@ class ModelController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $models = Model::where('website_visible', 'yes')->paginate(env('RESULTS_PER_PAGE'));
+        $models_new = new Model();
+        $models = $models_new->filterModels($request, $models);
+        $models = $models->where('website_visible', 'yes')->paginate(env('RESULTS_PER_PAGE'));
 
         $stores = Store::all()->except(1);
 
