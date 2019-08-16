@@ -31,14 +31,14 @@
 									<div class="group_sidebar">
 										<div class="sb-wrapper">
 											<!-- filter tags group -->
-											<div class="filter-tag-group" data-url="ajax/filter/models">
+											<div class="filter-tag-group" data-url="online/models">
 												<h6 class="sb-title">Филтри</h6>
 
 												<div class="tag-group" id="coll-filter-3">
 													<p class="title">Вид бижу</p>
 													<ul>
 														@foreach($jewels as $jewel)
-														<li>
+														<li class="{{ filter_products('byJewel', $jewel->id) }}">
 															<a href="#" data-id="byJewel[]={{ $jewel->id }}">
 																<span class="fe-checkbox"></span>
 																{{ $jewel->name }} ({{ count($jewel->models) }})
@@ -152,6 +152,11 @@
 												</ul>
 											</li>
 											@endforeach
+											@if(count($models) == 0)
+												<div class="product-content-left">
+													Няма бижу по зададените критерии
+												</div>
+											@endif
 										</ul>
 										<!-- Paginator -->
 										{{ $models->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
