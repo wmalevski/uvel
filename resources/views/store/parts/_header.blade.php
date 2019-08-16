@@ -131,10 +131,13 @@
 											<i class="sub-dropdown visible-sm visible-md visible-lg"></i>
 										</a>
 										<ul class="dropdown-menu" style="display: none;">
-											@foreach($materialTypes as $material)
-												<li class="">
-													<a tabindex="-1" href="{{ route('products') }}?byMaterial[]={{ $material->id }}">
-														{{ $material->name }}
+											@foreach($materialTypes as $material => $type)
+												<li  class="{{ filter_products('byMaterial', $type->id) }}">
+													<a tabindex="-1" href="{{ route('products') }}?
+													@foreach(\App\Material::where('parent_id', $type->id)->get() as $material_type => $current_type)byMaterial[]={{trim($current_type->id)}}
+														@if(1 + $material_type < count(\App\Material::where('parent_id', $type->id)->get()))& @else &listType=goGrid @endif
+													@endforeach">
+														{{ $type->name }}
 													</a>
 												</li>
 											@endforeach
