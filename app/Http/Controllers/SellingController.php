@@ -623,8 +623,9 @@ class SellingController extends Controller
         } else{
             $priceCon = 0;
         }
+        $dds = round($subTotal - ($subTotal/1.2), 2);
 
-        return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subTotal, 'condition' => $conds, 'con' => $priceCon));  
+        return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subTotal, 'condition' => $conds, 'con' => $priceCon,  'dds' => $dds));
     }
 
     public function sendDiscount(Request $request){
@@ -677,11 +678,12 @@ class SellingController extends Controller
 
         $total = round(Cart::session($userId)->getTotal(),2);
         $subtotal = round(Cart::session($userId)->getSubTotal(),2);
+        $dds = round(($subTotal - $priceCon) - (($subTotal - $priceCon)/1.2), 2);
 
         // Todo Sending mails and SMS
 //        $this->sendDiscountNotification($total, $request->discount.'%', $request->description, Auth::user());
 
-        return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon));  
+        return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon, 'dds' => $dds));
         
     }
 
