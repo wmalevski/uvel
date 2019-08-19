@@ -101,7 +101,7 @@ class SliderController extends Controller
      */
     public function edit(Slider $slider)
     {
-        //
+        return \View::make('admin/sliders/edit', array('slider' => $slider));
     }
 
     /**
