@@ -115,3 +115,8 @@ Breadcrumbs::register('single_model', function ($breadcrumbs, $model) {
     $breadcrumbs->parent('models');
     $breadcrumbs->push($model->name, route('single_model', $model->id));
 });
+
+Breadcrumbs::register('user_account', function ($breadcrumbs) {
+    $breadcrumbs->parent('store');
+    $breadcrumbs->push('Профил', route('user_account'));
+});
