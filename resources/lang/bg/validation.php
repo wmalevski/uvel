@@ -158,9 +158,35 @@ return [
         'customer_phone' => 'Телефон на клиент',
         'date_returned'=> 'Дата на връщане',
 
+        //Orders
+        'store_id' => 'Магазин',
+        'gross_weight' => 'Брутно тегло',
+        'material_id' => 'Материал',
+        'retail_price_id' => 'Цена на грам',
+        'mat_quantity.*' => 'Количество',
+
+        //ProductOthers
+        'type_id' => 'Тип',
+
+        //Products
+        'store_to_id' => 'Магазин',
+
+        //Materials
+        'parent_id' => 'Наследява',
+        'cash_group' => 'Касова група',
+
+        //Stones
+        'nomenclature_id' => 'Име(Номенклатура)',
+        'size_id' => 'Размер',
+        'style_id' => 'Стил',
+        'contour_id' => 'Контур',
+
+        //Currencies
+        'currency' => 'Валута',
 
         //Models
         'jewel' => 'Бижу',
+        'jewel_id' => 'Бижу',
         'jewelsTypes'  => 'Вид',
         'wholesale_prices' => 'Цена на едро',
         'workmanship' => 'Изработка',
@@ -171,6 +197,8 @@ return [
         'carat' => 'Карат',
         'deposit' => 'Капаро',
         'stock_price.*' => 'Цената',
+        'material_id.*' => 'Материал',
+        'retail_price_id.*' => 'Цена на грам',
 
 
 
