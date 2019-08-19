@@ -5,7 +5,7 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<form method="POST" id="edit-slides-form" action="slides/{{  }}" name="slides" data-type="edit" autocomplete="off">
+<form method="POST" id="edit-slides-form" action="slides/{{ $slider->id }}" name="slides" data-type="edit">
     <div class="modal-body">
         <div class="info-cont">
         </div>
