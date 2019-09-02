@@ -271,6 +271,12 @@ header.affix .container.top {
 	}
 }
 
+@media (max-width: 991px) {
+	.article-page .blogs-item .blog-article-title {
+		max-width: 100% !important;
+	}
+}
+
 @media (max-width: 767px) {
 	header .navbar-nav .nav-item,
 	header .dropdown-menu li {
