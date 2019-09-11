@@ -1116,3 +1116,7 @@ li.element {
 		padding: 0 0 0 140px;
 	}
 }
+
+.blog-content-wrapper {
+	width: 100%;
+}
