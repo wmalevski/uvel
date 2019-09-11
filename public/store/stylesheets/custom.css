@@ -1121,3 +1121,7 @@ li.element {
 .owl-theme .owl-controls {
 	margin-right: 0 !important;
 }
+
+.blog-content-wrapper {
+	width: 100%;
+}
