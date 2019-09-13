@@ -32,7 +32,7 @@ class MaterialTravellingController extends Controller
         $materials_types = Material::take(env('SELECT_PRELOADED'))->get();
 
         $travelling = MaterialTravelling::where('store_from_id', '=', Auth::user()->getStore()->id)->orWhere('store_to_id', '=', Auth::user()->getStore()->id)->paginate(env('RESULTS_PER_PAGE'));
-        
+
 // dd($materials);
         return \View::make('admin/materials_travelling/index', array('materials' => $materials, 'types' => $materials_types, 'stores' => $stores, 'travelling' => $travelling));
     }
@@ -45,6 +45,13 @@ class MaterialTravellingController extends Controller
     public function create()
     {
         //
+    }
+
+    public function mtravellingReport()
+    {
+        $materials_travellings = MaterialTravelling::all();
+
+        return view('admin.reports.mtravelling_reports.index', compact(['materials_travellings']));
     }
 
     /**
@@ -130,7 +137,7 @@ class MaterialTravellingController extends Controller
     
                 $quantity->save();
             }
-
+            $material->user_received_id = Auth::user()->id;
             $material->status = 'accepted';
             $material->dateReceived = Carbon::now()->format('Y-m-d H:i:s');
             $material->save();

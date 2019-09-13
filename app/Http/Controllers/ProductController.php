@@ -80,6 +80,14 @@ class ProductController extends Controller
         
     }
 
+    public function productsReport()
+    {
+        $products = Product::selectRaw('material_id')->selectRaw('store_id')->selectRaw('id')->selectRaw('model_id')->groupBy('store_id')->selectRaw('COUNT(id) as count')->get();
+        $stores = Store::all();
+
+        return view('admin.reports.products_reports.index', compact(['stores', 'products']));
+    }
+
     public function chainedSelects(Request $request, Model $model){
         $product = new Product;
         return $product->chainedSelects($model);

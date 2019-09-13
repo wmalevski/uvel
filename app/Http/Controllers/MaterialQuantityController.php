@@ -105,6 +105,14 @@ class MaterialQuantityController extends Controller
         return \View::make('admin/materials_quantity/edit',array('material'=>$materialQuantity, 'types' => $materials_types, 'stores' => $stores));
     }
 
+    public function materialReport()
+    {
+        $materials_quantities = MaterialQuantity::all();
+        $stores = Store::all();
+
+        return view('admin.reports.materials_reports.index', compact(['stores', 'materials_quantities']));
+    }
+
     /**
      * Update the specified resource in storage.
      *
