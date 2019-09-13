@@ -214,7 +214,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
     Route::post('/logout', 'UserController@logout')->name('admin_logout');
 
     Route::get('/orders/{order}', 'OrderController@edit');
-    Route::get('/expenses', 'ExpenseController@index')->name('expenses');   
+    Route::get('/expenses', 'ExpenseController@index')->name('expenses');
     Route::get('/expenses/{expense}', 'ExpenseController@edit');    
 
     Route::get('/expensetypes', 'ExpenseTypeController@index')->name('expenses_types'); 
@@ -222,7 +222,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/dailyreports', 'DailyReportController@index')->name('daily_reports'); 
     Route::get('/dailyreports/create', 'DailyReportController@create')->name('create_report');
-          
+
+    Route::get('/sellingreportsexport', 'SellingReportController@index')->name('selling_report_export');
+    Route::get('/sellingreportsexport/{store}', 'SellingReportController@edit');
+
+    Route::get('/materialsreports', 'MaterialQuantityController@materialReport')->name('materials_reports');
+    Route::get('/mtravellingreports', 'MaterialTravellingController@mtravellingReport')->name('mtravelling_reports');
+
+    Route::get('/productstravellingreports', 'ProductTravellingController@productstravellingReport')->name('productstravelling_reports');
+    Route::get('/productsreports', 'ProductController@productsReport')->name('products_reports');
+
     Route::post('/dailyreports/create/moneyreport', 'DailyReportController@moneyreport');
     Route::post('/dailyreports/create/jewelreport', 'DailyReportController@jewelreport');
     Route::post('/dailyreports/create/materialreport', 'DailyReportController@materialreport');

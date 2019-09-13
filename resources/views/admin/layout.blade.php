@@ -432,14 +432,29 @@
               <span class="icon-holder">
                 <i class=" ti-slice"></i>
               </span>
-              <span class="title">Отчети</span>
+              <span class="title">Справки</span>
               <span class="arrow">
                 <i class="ti-angle-right"></i>
               </span>
             </a>
             <ul class="dropdown-menu">
+              <li class="{{ Active::ifRouteIn(['selling_report_export']) }}">
+                <a class="sidebar-link" href="{{ route('selling_report_export') }}">Продажби - Експорт</a>
+              </li>
               <li class="{{ Active::ifRouteIn(['daily_reports', 'create_report']) }}">
                 <a class="sidebar-link" href="{{ route('daily_reports') }}">Дневни</a>
+              </li>
+              <li class="{{ Active::ifRouteIn(['materials_reports']) }}">
+                <a class="sidebar-link" href="{{ route('materials_reports') }}">Материали</a>
+              </li>
+              <li class="{{ Active::ifRouteIn(['mtravelling_reports']) }}">
+                <a class="sidebar-link" href="{{ route('mtravelling_reports') }}">Материали на път</a>
+              </li>
+              <li class="{{ Active::ifRouteIn(['products_reports']) }}">
+                <a class="sidebar-link" href="{{ route('products_reports') }}">Продукти</a>
+              </li>
+              <li class="{{ Active::ifRouteIn(['productstravelling_reports']) }}">
+                <a class="sidebar-link" href="{{ route('productstravelling_reports') }}">Продукти на път</a>
               </li>
               <li class="{{ Active::ifRouteIn('expenses') }}">
                 <a class="sidebar-link" href="{{ route('expenses') }}">Разходи</a>

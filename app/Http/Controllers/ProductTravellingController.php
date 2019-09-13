@@ -40,6 +40,13 @@ class ProductTravellingController extends Controller
         //
     }
 
+    public function productstravellingReport()
+    {
+        $products_travellings = ProductTravelling::all();
+
+        return view('admin.reports.productstravelling_reports.index', compact(['products_travellings']));
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -128,6 +135,7 @@ class ProductTravellingController extends Controller
         if($product->status == 0){
 
             $travel->status = '1';
+            $travel->user_received = Auth::user()->id;
             $travel->date_received = new \DateTime();
             $travel->save();
 

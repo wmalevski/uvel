@@ -19,8 +19,9 @@ class CreateProductTravellingsTable extends Migration
             $table->integer('store_from_id')->references('id')->on('stores');
             $table->integer('store_to_id')->references('id')->on('stores');
             $table->dateTime('date_sent');
-            $table->dateTime('date_received')->nullable();
             $table->integer('user_sent');
+            $table->dateTime('date_received')->nullable();
+            $table->integer('user_received');
             $table->enum('status', ['0', '1'])->default(0);	
             $table->timestamps();
         });
