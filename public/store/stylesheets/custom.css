@@ -486,21 +486,22 @@ li.element {
 
 .element.no_full_width .row-container .product-content-right {
 	position: absolute;
-  bottom: 0;
+  	bottom: 0;
 	right: 0;
 	width: 60%;
+	padding: 10px !important;
 }
 
-.element.no_full_width .row-container .product-content-left,
-.element.no_full_width .row-container .product-content-right {
-	padding: 10px !important;
+.element.no_full_width .row-container .product-content-left {
+	padding: 10px 10px 38px 10px !important;
 }
 
 .element.no_full_width .spr-badge {
 	position: absolute;
-  bottom: 0;
-  left: 0;
-  padding: 0 0 6px 10px;
+	bottom: 0;
+	left: 0;
+	padding: 0 0 6px 10px;
+	margin-bottom: 0px !important;
 }
 
 .element.no_full_width .spr-badge .spr-icon,
@@ -1115,6 +1116,10 @@ li.element {
 	.right-block.contact-content {
 		padding: 0 0 0 140px;
 	}
+}
+
+.owl-theme .owl-controls {
+	margin-right: 0 !important;
 }
 
 .blog-content-wrapper {
