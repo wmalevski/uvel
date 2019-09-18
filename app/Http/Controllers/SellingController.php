@@ -27,6 +27,7 @@ use App\MaterialQuantity;
 use App\OrderItem;
 use Mail;
 use App\Material;
+use App\MaterialType;
 
 Class CartCustomCondition extends CartCondition {
     public function apply($totalOrSubTotalOrPrice, $conditionValue){
@@ -170,8 +171,42 @@ class SellingController extends Controller
             $todayReport = 'false';
         }
         //To add kaparo from the orders when branches are merged
+
+        $materials = Material::all();
+
+        $result_materials = [];
+        $parents_used = [];
+
+        foreach($materials as $material){
+
+            if(isset($parents_used[$material->parent_id])) continue;
+
+            $parents_used[$material->parent_id] = $material->parent_id;
+
+            $defaultPrice = $material->pricesBuy->first()['price'];
+            $secondPrice = null;
+
+            foreach($material->pricesBuy as $currPrice) {
+                $prices[] = $currPrice->price;
+                if(!$secondPrice && $currPrice->price < $defaultPrice ) {
+                    $secondPrice = $currPrice->price;
+                } else if($secondPrice && $currPrice->price < $defaultPrice && $currPrice->price > $secondPrice) {
+                    $secondPrice = $currPrice->price;
+                }
+            }
+
+            $result_materials[] = [
+                'value' => $material->parent_id,
+                'label' => $material->parent->name,
+                'data-sample' => $material->code,
+                'data-default-price' => $defaultPrice,
+                'data-second-price' => $secondPrice
+            ];
+            
+        }
+
         
-        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'checkBoxType' =>  $check_box_type, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner, 'second_default_price' => $second_default_price));
+        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'checkBoxType' =>  $check_box_type, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner, 'second_default_price' => $second_default_price, 'parents' => $result_materials));
     }
 
     /**
