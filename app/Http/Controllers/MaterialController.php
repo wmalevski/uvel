@@ -245,6 +245,29 @@ class MaterialController extends Controller
         return json_encode($pass_materials, JSON_UNESCAPED_SLASHES );
     }
 
+    public function select_materials(Request $request){
+        $materials = Material::where('parent_id', $request->type_id)->get();
+
+        $result_materials = array();
+
+        foreach($materials as $material){
+            $defaultPrice = $material->pricesBuy->first()['price'];
+            $secondPrice = null;
+
+            $result_materials[] = [
+                'attributes' => [
+                    'value' => $material->parent_id,
+                    'label' => $material->parent->name .' - '. $material->code,
+                    'data-sample' => $material->code,
+                ]
+            ];
+            
+        }
+
+        // return json_encode($result_materials, JSON_UNESCAPED_SLASHES );
+        return $result_materials;
+    }
+
     /**
      * Remove the specified resource from storage.
      *
