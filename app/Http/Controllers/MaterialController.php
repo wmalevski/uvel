@@ -264,8 +264,27 @@ class MaterialController extends Controller
             
         }
 
-        // return json_encode($result_materials, JSON_UNESCAPED_SLASHES );
-        return $result_materials;
+        return json_encode($result_materials, JSON_UNESCAPED_SLASHES );
+        // return $result_materials;
+    }
+
+    public function select_material_prices(Request $request){
+        $materials = Material::findOrFail($request->id);
+
+        $result_materials = array();
+
+        foreach($materials->pricesBuy as $prices) {
+            $result_materials[] = [
+                'attributes' => [
+                    'value' => $prices->id,
+                    'label' => $prices->slug .' - '. $prices->price .' лв.',
+                    'data-price' => $prices->price,
+                ]
+            ];
+        }
+
+        return json_encode($result_materials, JSON_UNESCAPED_SLASHES );
+        // return $result_materials;
     }
 
     /**

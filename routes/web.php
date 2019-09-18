@@ -284,6 +284,7 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::get('/select_search/parentmaterials', 'MaterialController@select_search');
     Route::get('/select_materials/{type_id}', 'MaterialController@select_materials');
+    Route::get('/select_material_prices/{id}', 'MaterialController@select_material_prices');
 
     Route::get('/select_search/global/materials/{type}', 'MaterialController@select_search_withPrice');
 

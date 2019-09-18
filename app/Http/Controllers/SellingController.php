@@ -196,7 +196,8 @@ class SellingController extends Controller
             }
 
             $result_materials[] = [
-                'value' => $material->parent_id,
+                'value' => $material->id,
+                'type_id' => $material->parent_id,
                 'label' => $material->parent->name,
                 'data-sample' => $material->code,
                 'data-default-price' => $defaultPrice,
