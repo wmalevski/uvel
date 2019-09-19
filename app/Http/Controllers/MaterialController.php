@@ -256,7 +256,7 @@ class MaterialController extends Controller
 
             $result_materials[] = [
                 'attributes' => [
-                    'value' => $material->parent_id,
+                    'value' => $material->id,
                     'label' => $material->parent->name .' - '. $material->code,
                     'data-sample' => $material->code,
                 ]
@@ -264,8 +264,8 @@ class MaterialController extends Controller
             
         }
 
-        return json_encode($result_materials, JSON_UNESCAPED_SLASHES );
-        // return $result_materials;
+        // return json_encode($result_materials, JSON_UNESCAPED_SLASHES );
+        return $result_materials;
     }
 
     public function select_material_prices(Request $request){
