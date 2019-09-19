@@ -20,7 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function() {
-    Route::get('/', 'DashboardController@index')->name('admin');
+    Route::get('/', 'SellingController@index')->name('admin');
 
     Route::get('/infoemails', 'InfoMailController@index')->name('info_emails');
     Route::get('/infoemails/{email}', 'InfoMailController@edit');

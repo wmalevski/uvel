@@ -152,7 +152,6 @@ class PaymentController extends Controller
     {
         //Getting all products in the cart related with orders
         $items = [];
-        
         Cart::session(Auth::user()->getID())->getContent()->each(function($item) use (&$items)
         {
             if($item['attributes']->type == 'product' && $item['attributes']->order != ''){
@@ -169,27 +168,44 @@ class PaymentController extends Controller
         $orders_earnest = [];
         //Get all materials from all products orders
         $materials = array();
-        $i = 0;
-        foreach($orders as $order){
-            $i++;
+
+        foreach($orders as $i => $order){
             $order = Order::find($order);
+            $orders_earnest[$i]['id'] = $order->id;
+
             if($order->earnest_used == 'no'){
-                $orders_earnest[$i]['order_id'] = $order->id;
-                $orders_earnest[$i]['order_earnest'] = $order->earnest;
+                $orders_earnest[$i]['deposit'] = $order->earnest;
             }
 
             if($order->materials){
+                $responseMaterials = [];
+
                 $materials[] = $order->materials;
+
+                foreach($order->materials as $material) {
+
+                    $materialQuantity = MaterialQuantity::where([
+                        ['material_id', '=', $material['material_id']],
+                        ['store_id', '=', Auth::user()->getStore()->id]
+                    ])->first();
+
+                    $responseMaterials[] = [
+                        'label' => $materialQuantity->material->parent->name.' - '.$materialQuantity->material->code,
+                        'sample' => $materialQuantity->material->code,
+                        'material-type' => $materialQuantity->material->parent->id
+                    ];
+                }
+
+                $orders_earnest[$i]['materials'] = $responseMaterials;
             }
         }
 
-        //Passing the given materials to the FE for showing them in the modal
-        $pass_materials = array();
+        $pass_materials = [];
         foreach($materials as $material){
             $material = $material[0];
             $order = $material->order;
             $order_items = count($material->order->items);
-            $parent = MaterialQuantity::where([
+            $materialQuantity = MaterialQuantity::where([
                 ['material_id', '=', $material['material_id']],
                 ['store_id', '=', Auth::user()->getStore()->id]
             ])->first();
@@ -200,9 +216,9 @@ class PaymentController extends Controller
             $count_products = 0;
             foreach($items as $item){
                 if($item['attributes']->order == $material->order_id){
-                    $product = Product::where('barcode', $item->id)->first();
+                    $product = Product::where('barcode', $item['attributes']->barcode)->first();
 
-                    if($product->material_id == $parent->id){
+                    if($product->material_id == $materialQuantity->material_id){
                         $count_products++;
                         $products_weight += $item['attributes']->weight;
                     }
@@ -219,20 +235,17 @@ class PaymentController extends Controller
                 }
             }
 
-            $pass_materials[] = [
-                'label' => $parent->material->parent->name.' - '.$parent->material->color.' - '.$parent->material->code,
-                'value' => $parent->id,
-                'price' => $parent->material->pricesSell->first()->price,
-                'for_buy'  => $parent->material->for_buy,
-                'for_exchange' => $parent->material->for_exchange,
-                'carat_transform' => $parent->material->carat_transform,
-                'carat' => $parent->material->carat,
-                'order_id' => $material->order_id,
-                'weight' => $weight
-            ];
+            if(isset($pass_materials[$materialQuantity->material->parent->id])) {
+                $pass_materials[$materialQuantity->material->parent->id]['weight'] += $weight;
+            } else {
+                $pass_materials[$materialQuantity->material->parent->id] = [
+                    'id' => $materialQuantity->material->parent->id,
+                    'weight' => $weight
+                ];
+            }
         }
 
-        return Response::json(array('materials' => $pass_materials, 'earnest' => $orders_earnest));
+        return Response::json(array('equalization' => $pass_materials, 'orders' => $orders_earnest));
     }
 
     /**
