@@ -152,10 +152,13 @@ class PaymentController extends Controller
     {
         //Getting all products in the cart related with orders
         $items = [];
+        $boxInList = false;
         Cart::session(Auth::user()->getID())->getContent()->each(function($item) use (&$items)
         {
             if($item['attributes']->type == 'product' && $item['attributes']->order != ''){
                 $items[] = $item;
+            } else if ($item['attributes']->type == 'box') {
+                $boxInList = true;
             }
         });
 
@@ -181,6 +184,7 @@ class PaymentController extends Controller
                 $responseMaterials = [];
 
                 $materials[] = $order->materials;
+                $defMaterial = false;
 
                 foreach($order->materials as $material) {
 
@@ -189,10 +193,14 @@ class PaymentController extends Controller
                         ['store_id', '=', Auth::user()->getStore()->id]
                     ])->first();
 
+                    if(!$defMaterial) $defMaterial = $materialQuantity->material;
+
                     $responseMaterials[] = [
                         'label' => $materialQuantity->material->parent->name.' - '.$materialQuantity->material->code,
                         'sample' => $materialQuantity->material->code,
-                        'material-type' => $materialQuantity->material->parent->id
+                        'material-type' => $materialQuantity->material->parent->id,
+                        'value' => $materialQuantity->material->id,
+                        'weight_equalized' => $defMaterial->code / $materialQuantity->material->code * $order->product->weight
                     ];
                 }
 
@@ -245,7 +253,7 @@ class PaymentController extends Controller
             }
         }
 
-        return Response::json(array('equalization' => $pass_materials, 'orders' => $orders_earnest));
+        return Response::json(array('equalization' => $pass_materials, 'orders' => $orders_earnest, 'boxes_in_order' => $boxInList));
     }
 
     /**
