@@ -82,11 +82,18 @@ class GalleryController extends Controller
     public function destroy(gallery $gallery, $photo)
     {
         $photo = $gallery::find($photo);
+        if($photo && $photo->model_id) {
+            $countImagesModel = $gallery::where('model_id', $photo->model_id)->count();
+        }
 
-        if($photo){
-            unlink(public_path('uploads\\' . $photo->table . '\\').$photo->photo);
-            $photo->delete();
-            return Response::json(array('success' => 'Успешно изтрито!'));
+        if ($countImagesModel && $countImagesModel == 1) {
+            return Response::json(['errors' => ['using' => [trans('admin/models.model_edit_picture_error')]]], 401);
+        } else {
+            if ($photo) {
+                unlink(public_path('uploads\\' . $photo->table . '\\') . $photo->photo);
+                $photo->delete();
+                return Response::json(array('success' => 'Успешно изтрито!'));
+            }
         }
     }
 }

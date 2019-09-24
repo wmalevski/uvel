@@ -104,6 +104,11 @@ class ModelController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
+        $file_data = $request->input('images');
+        if (!$file_data) {
+            return Response::json(['errors' => ['using' => [trans('admin/models.model_edit_picture_error')]]], 401);
+        }
+
         $model = new Model();
         $model->name = $request->name;
         $model->jewel_id = $request->jewel_id;
@@ -145,7 +150,6 @@ class ModelController extends Controller
         File::makeDirectory($path, 0775, true, true);
         Storage::disk('public')->makeDirectory('models', 0775, true);
 
-        $file_data = $request->input('images'); 
         
         if($file_data){
             foreach($file_data as $img){
@@ -385,7 +389,6 @@ class ModelController extends Controller
             $ext_url = Storage::url('public/models/'.$photo->photo);
 
             $info = pathinfo($ext_url);
-            
             $image_name =  basename($ext_url,'.'.$info['extension']);
 
             $base64 = base64_encode($url);
@@ -545,7 +548,6 @@ class ModelController extends Controller
         )->get();
 
         $photosHtml = '';
-        
         foreach($model_photos as $photo){
             $photosHtml .= '
                 <div class="image-wrapper">
