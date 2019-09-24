@@ -15,21 +15,33 @@ if (!function_exists('calculate_product_weight')) {
     function calculate_product_weight($product)
     {
         if ($product->stones->first() && ($stone = Stone::where('id', $product->stones->first()->stone_id)->first())) {
+            $checkMaterial = false;
+            if (Str::lower($product->material->name) == "сребро") {
+                $checkMaterial = true;
+            }
             $stoneAbb = [];
             foreach ($product->stones as $productStone) {
                 $stoneId = $productStone->stone_id;
                 $stoneName = Nomenclature::where('id', $stoneId)->first()->name;
                 $stoneWeight = $productStone->weight;
-                if ($product->weight_without_stones == 'yes' && Str::lower($product->material->name) == "сребро") {
+                if ($product->weight_without_stones == 'yes' && $checkMaterial) {
                     $weight = round($product->gross_weight, 3);
                 } else {
                     $weight = round($product->weight, 3);
                 }
                 if (Stone::where('id', $stoneId)->first()->type != 1) {
-                    $stoneCarat = Stone::where('id', $stoneId)->first()->carat;
-                    $stoneAbb[] = $stoneName . ' ' . $stoneCarat . 'кт.';
+                    if (!$checkMaterial) {
+                        $stoneCarat = Stone::where('id', $stoneId)->first()->carat;
+                        $stoneAbb[] = $stoneName . ' ' . $stoneCarat . 'кт.';
+                    } else {
+                        $stoneAbb[] = $stoneName;
+                    }
                 } else {
-                    $stoneAbb[] = $stoneName . ' ' . $stoneWeight . 'гр.';
+                    if (!$checkMaterial) {
+                        $stoneAbb[] = $stoneName . ' ' . $stoneWeight . 'гр.';
+                    } else {
+                        $stoneAbb[] = $stoneName;
+                    }
                 }
             }
         } else {

@@ -47,8 +47,12 @@ class ProductController extends BaseController
 
         $jewels = Jewel::all();
 
+        $count = 0;
         foreach ($products as $product) {
-            $product->weight = calculate_product_weight($product);
+            if ($count < 2) {
+                $product->weight = calculate_product_weight($product);
+            }
+            $count++;
         }
 
         return \View::make('store.pages.products.index', array('products' => $products, 'stores' => $stores, 'materials' => $materials, 'jewels' => $jewels, 'productothertypes' => $productothertypes, 'materialTypes' => $materialTypes));
@@ -90,8 +94,12 @@ class ProductController extends BaseController
 
 
         $response = '';
+        $count = 0;
         foreach($products as $product){
-            $product->weight = calculate_product_weight($product);
+            if ($count < 2) {
+                $product->weight = calculate_product_weight($product);
+            }
+            $count++;
             $response .= \View::make('store/pages/products/ajax', array('product' => $product, 'listType' => $request->listType));
         }
 
