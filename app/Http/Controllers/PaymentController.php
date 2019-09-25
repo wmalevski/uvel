@@ -152,12 +152,15 @@ class PaymentController extends Controller
     public function order_materials(Request $request)
     {
         //Getting all products in the cart related with orders
-        $items = [];
+        $allItems = [];
         $boxInList = false;
+        $orders = [];
+        dd(Cart::session(Auth::user()->getID())->getContent());
         Cart::session(Auth::user()->getID())->getContent()->each(function($item) use (&$items)
         {
+            $allItems[] = $item;
             if($item['attributes']->type == 'product' && $item['attributes']->order != ''){
-                $items[] = $item;
+                $orders[] = $item['attributes']->order;
             } else if ($item['attributes']->type == 'box') {
                 $boxInList = true;
             }
@@ -168,15 +171,21 @@ class PaymentController extends Controller
                 ->groupBy('parent_id')
                 ->get();
 
-        $orders = array();
-        foreach($items as $item){
-            $orders[] = $item['attributes']->order;
-        }
-
         $orders = array_unique($orders);
         $orders_earnest = [];
         //Get all materials from all products orders
         $materials = array();
+
+        foreach($allItems as $i => $tmpItem){
+            $obj = null;
+            if($tmpItem['attributes']->type == 'product' && $tmpItem['attributes']->order != '') {
+                $obj = Order::find($tmpItem);
+            } else if ( $tmpItem['attributes']->type == 'product' && $tmpItem['attributes']->order == '' ) {
+                $obj = Product::find($ $tmpItem['attributes']->product_id);
+            }
+
+            if($obj && $obj->materials) $materials[] = $order->materials;
+        }
 
         foreach($orders as $i => $order){
             $order = Order::find($order);
@@ -188,9 +197,7 @@ class PaymentController extends Controller
 
             if($order->materials){
                 $responseMaterials = [];
-
-                $materials[] = $order->materials;
-
+                
                 foreach($order->materials as $material) {
 
                     $materialQuantity = MaterialQuantity::where([
@@ -233,8 +240,8 @@ class PaymentController extends Controller
 
             $products_weight = 0;
             $count_products = 0;
-            foreach($items as $item){
-                if($item['attributes']->order == $material->order_id){
+            foreach($orders as $tmpOrder){
+                if($tmpOrder == $material->order_id){
                     $product = Product::where('barcode', $item['attributes']->barcode)->first();
 
                     if($product->material_id == $materialQuantity->material_id){
