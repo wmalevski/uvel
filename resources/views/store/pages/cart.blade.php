@@ -211,8 +211,7 @@
 												<label for="shipping_shop"><i class="fas fa-store"></i> Вземи от магазин</label>
 												<input type="radio" class="cart-radio" name="shippingMethod"
 													   id="shipping_address" data-method="ekont">
-												<label for="shipping_address"><i class="fas fa-truck"></i> Доставка чрез
-													Еконт</label>
+												<label for="shipping_address"><i class="fas fa-truck"></i> Получаване от Офис на Еконт</label>
 											</div>
 										</div>
 										<div class="form-row row shipping-method shipping_shop">
