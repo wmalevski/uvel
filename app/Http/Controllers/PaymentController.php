@@ -156,8 +156,6 @@ class PaymentController extends Controller
         $boxInList = false;
         $orders = [];
 
-        $test = false;
-
         Cart::session(Auth::user()->getID())->getContent()->each(function($item) use (&$allItems)
         {
             if($item['attributes']->type == 'product' && $item['attributes']->order != ''){
@@ -177,7 +175,7 @@ class PaymentController extends Controller
         $orders = array_unique($orders);
         $orders_earnest = [];
         //Get all materials from all products orders
-        $materials = array();
+        $materials = [];
 
         foreach($allItems as $i => $tmpItem){
             $obj = null;
@@ -187,7 +185,12 @@ class PaymentController extends Controller
                 $obj = Product::find($tmpItem['attributes']->product_id);
             }
 
-            if($obj && $obj->material) $materials[] = [$obj->material];
+            if($obj && $obj->material) {
+                $materials[] = [
+                    'material_id' => $obj->material_id;
+                    'weight' => $obj->weight;
+                ]
+            }
         }
 
         foreach($orders as $i => $order){
@@ -231,14 +234,12 @@ class PaymentController extends Controller
 
         $pass_materials = [];
         foreach($materials as $material){
-            $material = $material[0];
-            dd($material);
             $materialQuantity = MaterialQuantity::where([
                 ['material_id', '=', $material['material_id']],
                 ['store_id', '=', Auth::user()->getStore()->id]
             ])->first();
 
-            $weight = $material->weight;
+            $weight = $material['weight'];
 
             $products_weight = 0;
             $count_products = 0;
@@ -254,7 +255,6 @@ class PaymentController extends Controller
             }
 
             foreach($defaultMaterials as $mat) {
-                dd($materialQuantity);
                 if($materialQuantity->material->parent->id == $mat->id) {
                     $defMaterial = $mat;
                     break;
