@@ -167,7 +167,7 @@ class PaymentController extends Controller
                 ->orderBy('id', 'asc')
                 ->groupBy('parent_id')
                 ->get();
-dd($defaultMaterials);
+
         $orders = array();
         foreach($items as $item){
             $orders[] = $item['attributes']->order;
@@ -190,7 +190,6 @@ dd($defaultMaterials);
                 $responseMaterials = [];
 
                 $materials[] = $order->materials;
-                $defMaterial = false;
 
                 foreach($order->materials as $material) {
 
@@ -199,7 +198,12 @@ dd($defaultMaterials);
                         ['store_id', '=', Auth::user()->getStore()->id]
                     ])->first();
 
-                    if(!$defMaterial) $defMaterial = $materialQuantity->material;
+                    foreach($defaultMaterials as $mat) {
+                        if($materialQuantity->material->parent->id == $mat->id) {
+                            $defMaterial = $mat;
+                            break;
+                        }
+                    }
 
                     $responseMaterials[] = [
                         'label' => $materialQuantity->material->parent->name.' - '.$materialQuantity->material->code,
