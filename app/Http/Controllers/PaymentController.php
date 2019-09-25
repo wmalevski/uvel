@@ -266,8 +266,7 @@ class PaymentController extends Controller
             } else {
                 $pass_materials[$materialQuantity->material->parent->id] = [
                     'id' => $materialQuantity->material->parent->id,
-                    'weight' => $weight,
-                    'weight_equalized' => $weight + $materialQuantity->material->code / $defMaterial->code * $weight,
+                    'weight' => $weight + $materialQuantity->material->code / $defMaterial->code * $weight,
                 ];
             }
         }
