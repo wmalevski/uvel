@@ -210,7 +210,7 @@ class PaymentController extends Controller
                         'sample' => $materialQuantity->material->code,
                         'material-type' => $materialQuantity->material->parent->id,
                         'value' => $materialQuantity->material->id,
-                        'weight_equalized' => $defMaterial->code / $materialQuantity->material->code * $order->product->weight,
+                        'weight_equalized' => $materialQuantity->material->code / $defMaterial->code * $order->product->weight,
                         'weight' => $order->product->weight
                     ];
                 }
