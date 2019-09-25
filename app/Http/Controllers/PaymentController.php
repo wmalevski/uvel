@@ -180,14 +180,12 @@ class PaymentController extends Controller
         foreach($allItems as $i => $tmpItem){
             $obj = null;
             if($tmpItem['attributes']->type == 'product' && $tmpItem['attributes']->order != '') {
-                $obj = Order::find($tmpItem);
-                $obj = $obj[0];
+                $obj = Order::find($tmpItem['attributes']->order);
             } else if ( $tmpItem['attributes']->type == 'product' && $tmpItem['attributes']->order == '' ) {
                 $obj = Product::find($tmpItem['attributes']->product_id);
             }
-// if($i == 1) dd($obj);
+
             if($obj && $obj->material_id) {
-                
                 $materials[] = [
                     'material_id' => $obj->material_id,
                     'weight' => $obj->weight
@@ -261,9 +259,9 @@ class PaymentController extends Controller
 
             if($products_weight === 0) $products_weight = $material['weight'];
             $weight = $products_weight;
-            
+
             if(isset($pass_materials[$materialQuantity->material->parent->id])) {
-                $pass_materials[$materialQuantity->material->parent->id]['weight'] += $weight;
+                $pass_materials[$materialQuantity->material->parent->id]['weight'] += $materialQuantity->material->code / $defMaterial->code * $weight;
             } else {
                 $pass_materials[$materialQuantity->material->parent->id] = [
                     'id' => $materialQuantity->material->parent->id,
