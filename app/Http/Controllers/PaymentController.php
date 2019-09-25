@@ -21,6 +21,7 @@ use App\Currency;
 use Response;
 use Auth;
 use Cart;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
