@@ -156,14 +156,17 @@ class PaymentController extends Controller
         $boxInList = false;
         $orders = [];
 
-        Cart::session(Auth::user()->getID())->getContent()->each(function($item) use (&$items)
+        $test = false;
+
+        Cart::session(Auth::user()->getID())->getContent()->each(function($item) use (&$allItems)
         {
-            $allItems[] = $item;
             if($item['attributes']->type == 'product' && $item['attributes']->order != ''){
                 $orders[] = $item['attributes']->order;
             } else if ($item['attributes']->type == 'box') {
                 $boxInList = true;
             }
+
+            $allItems[] = $item;
         });
 
         $defaultMaterials = DB::table('materials')
@@ -181,10 +184,10 @@ class PaymentController extends Controller
             if($tmpItem['attributes']->type == 'product' && $tmpItem['attributes']->order != '') {
                 $obj = Order::find($tmpItem);
             } else if ( $tmpItem['attributes']->type == 'product' && $tmpItem['attributes']->order == '' ) {
-                $obj = Product::find($ $tmpItem['attributes']->product_id);
+                $obj = Product::find($tmpItem['attributes']->product_id);
             }
 
-            if($obj && $obj->materials) $materials[] = $order->materials;
+            if($obj && $obj->material) $materials[] = [$obj->material];
         }
 
         foreach($orders as $i => $order){
@@ -229,8 +232,7 @@ class PaymentController extends Controller
         $pass_materials = [];
         foreach($materials as $material){
             $material = $material[0];
-            $order = $material->order;
-            $order_items = count($material->order->items);
+            dd($material);
             $materialQuantity = MaterialQuantity::where([
                 ['material_id', '=', $material['material_id']],
                 ['store_id', '=', Auth::user()->getStore()->id]
@@ -252,20 +254,17 @@ class PaymentController extends Controller
             }
 
             foreach($defaultMaterials as $mat) {
+                dd($materialQuantity);
                 if($materialQuantity->material->parent->id == $mat->id) {
                     $defMaterial = $mat;
                     break;
                 }
             }
 
-            if($order_items == $count_products || $order_items == 1){
+            if($weight <= $products_weight){
                 $weight = $material->weight;
             }else{
-                if($weight <= $products_weight){
-                    $weight = $material->weight;
-                }else{
-                    $weight = $products_weight;
-                }
+                $weight = $products_weight;
             }
 
             if(isset($pass_materials[$materialQuantity->material->parent->id])) {
