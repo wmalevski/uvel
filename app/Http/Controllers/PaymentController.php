@@ -155,7 +155,7 @@ class PaymentController extends Controller
         $allItems = [];
         $boxInList = false;
         $orders = [];
-        dd(Cart::session(Auth::user()->getID())->getContent());
+
         Cart::session(Auth::user()->getID())->getContent()->each(function($item) use (&$items)
         {
             $allItems[] = $item;
