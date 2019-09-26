@@ -175,9 +175,11 @@ class PaymentController extends Controller
 
         foreach($allItems as $i => $tmpItem){
             $obj = null;
+            $order_id = null;
             if($tmpItem['attributes']->type == 'product' && $tmpItem['attributes']->order != '') {
                 $orders[] = $tmpItem['attributes']->order;
                 $obj = Order::find($tmpItem['attributes']->order);
+                $order_id = $tmpItem['attributes']->order;
             } else if ( $tmpItem['attributes']->type == 'product' && $tmpItem['attributes']->order == '' ) {
                 $obj = Product::find($tmpItem['attributes']->product_id);
             }
@@ -185,7 +187,8 @@ class PaymentController extends Controller
             if($obj && $obj->material_id) {
                 $materials[] = [
                     'material_id' => $obj->material_id,
-                    'weight' => $obj->weight
+                    'weight' => $obj->weight,
+                    'order_id' => $order_id
                 ];
             }
         }
@@ -241,7 +244,7 @@ class PaymentController extends Controller
 
             $products_weight = $material['weight'];
             foreach($orders as $tmpOrder){
-                if($tmpOrder == $material->order_id){
+                if($tmpOrder == $material['order_id']){
                     $product = Product::where('barcode', $item['attributes']->barcode)->first();
 
                     if($product->material_id == $materialQuantity->material_id){
