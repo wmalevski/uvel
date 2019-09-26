@@ -257,13 +257,13 @@ class Product extends BaseModel
                 }
 
                 if ($request->byName) {
-                    $query->where('name','LIKE','%'.$request->byName.'%');
+                    $query->where('id','LIKE','%'.$request->byName.'%');
                 }
 
                 if ($request->byBarcode) {
                     $query->where('barcode','LIKE','%'.$request->byBarcode.'%');
                 }
-                
+
                 if ($request->byCode) {
                     $query->where('id','LIKE','%'.$request->byCode.'%');
                 }
