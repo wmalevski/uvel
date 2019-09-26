@@ -251,7 +251,7 @@ class PaymentController extends Controller
                     $product = Product::where('id', $material['product_id'])->first();
 
                     if($product && $product->material_id == $materialQuantity->material_id){
-                        $products_weight += $item['attributes']->weight;
+                        $products_weight += $product->weight;
                     }
                 }
             }
