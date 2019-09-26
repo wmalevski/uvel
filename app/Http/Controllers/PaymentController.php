@@ -216,7 +216,6 @@ class PaymentController extends Controller
 
             if($order->materials){
                 $responseMaterials = [];
-                
                 foreach($order->materials as $material) {
 
                     $materialQuantity = MaterialQuantity::where([
@@ -232,12 +231,13 @@ class PaymentController extends Controller
                     }
 
                     $responseMaterials[] = [
-                        'label' => $materialQuantity->material->parent->name.' - '.$material['code'],
-                        'sample' => $material['code'],
+                        'label' => $materialQuantity->material->parent->name.' - '.$materialQuantity->material->code,
+                        'sample' => $materialQuantity->material->code,
                         'material-type' => $materialQuantity->material->parent->id,
                         'value' => $materialQuantity->material->id,
-                        'weight_equalized' => $material['code'] / $defMaterial->code * $order->product->weight,
-                        'weight' => $order->product->weight
+                        'weight_equalized' => $materialQuantity->material->code / $defMaterial->code * $order->product->weight,
+                        'weight' => $order->product->weight,
+                        'weight_exchange' => $material['weight']
                     ];
                 }
 
