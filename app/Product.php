@@ -189,6 +189,8 @@ class Product extends BaseModel
             $pass_photos = array();
 
             foreach($model_photos as $photo){
+                if(!Storage::exists('public/models/'.$photo->photo)) continue;
+                
                 $url =  Storage::get('public/models/'.$photo->photo);
                 $ext_url = Storage::url('public/models/'.$photo->photo);
 

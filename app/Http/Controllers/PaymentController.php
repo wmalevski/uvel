@@ -182,6 +182,7 @@ class PaymentController extends Controller
                 $obj = Order::find($tmpItem['attributes']->order);
                 $order_id = $tmpItem['attributes']->order;
                 $product_id = $obj->product_id;
+                
             } else if ( $tmpItem['attributes']->type == 'product' && $tmpItem['attributes']->order == '' ) {
                 $obj = Product::find($tmpItem['attributes']->product_id);
             }
@@ -191,7 +192,13 @@ class PaymentController extends Controller
                     'material_id' => $obj->material_id,
                     'weight' => $obj->weight,
                     'order_id' => $order_id,
-                    'product_id' => $product_id
+                    'product_id' => $product_id,
+
+                    //material info:
+                    'code' => $obj->material->code,
+                    'parent_id' => $obj->material->parent->id,
+
+                    'exchange_materials' => $obj->materials ? $obj->materials : false
                 ];
             }
         }
@@ -225,11 +232,11 @@ class PaymentController extends Controller
                     }
 
                     $responseMaterials[] = [
-                        'label' => $materialQuantity->material->parent->name.' - '.$materialQuantity->material->code,
-                        'sample' => $materialQuantity->material->code,
+                        'label' => $materialQuantity->material->parent->name.' - '.$material['code'],
+                        'sample' => $material['code'],
                         'material-type' => $materialQuantity->material->parent->id,
                         'value' => $materialQuantity->material->id,
-                        'weight_equalized' => $materialQuantity->material->code / $defMaterial->code * $order->product->weight,
+                        'weight_equalized' => $material['code'] / $defMaterial->code * $order->product->weight,
                         'weight' => $order->product->weight
                     ];
                 }
@@ -239,40 +246,34 @@ class PaymentController extends Controller
         }
 
         $pass_materials = [];
-        foreach($materials as $material){
-            $materialQuantity = MaterialQuantity::where([
-                ['material_id', '=', $material['material_id']],
-                ['store_id', '=', Auth::user()->getStore()->id]
-            ])->first();
-
-            $products_weight = $material['weight'];
-            foreach($orders as $tmpOrder){
-                if($tmpOrder == $material['order_id']){
-                    $product = Product::where('id', $material['product_id'])->first();
-
-                    if($product && $product->material_id == $materialQuantity->material_id){
-                        $products_weight += $product->weight;
-                    }
-                }
-            }
+        foreach($materials as $material) {
 
             foreach($defaultMaterials as $mat) {
-                if($materialQuantity->material->parent->id == $mat->id) {
+                if($material['parent_id'] == $mat->id) {
                     $defMaterial = $mat;
                     break;
                 }
             }
 
-            if($products_weight === 0) $products_weight = $material['weight'];
-            $weight = $products_weight;
+            $weight = $material['weight'];
 
-            if(isset($pass_materials[$materialQuantity->material->parent->id])) {
-                $pass_materials[$materialQuantity->material->parent->id]['weight'] += $materialQuantity->material->code / $defMaterial->code * $weight;
+            if(isset($pass_materials[$material['parent_id']])) {
+                $pass_materials[$material['parent_id']]['weight'] += $material['code'] / $defMaterial->code * $weight;
             } else {
-                $pass_materials[$materialQuantity->material->parent->id] = [
-                    'id' => $materialQuantity->material->parent->id,
-                    'weight' => $materialQuantity->material->code / $defMaterial->code * $weight,
+                $pass_materials[$material['parent_id']] = [
+                    'id' => $material['parent_id'],
+                    'weight' => $material['code'] / $defMaterial->code * $weight,
+                    'exchange_weight' => 0
                 ];
+            }
+
+            //Check with Peev what we need here.
+            $exch_mat_weight = 0;
+            if($material['exchange_materials']) {
+                foreach($material['exchange_materials'] as $tmpMat) {
+                    //Could use $tmpMat['material_id']
+                    $exch_mat_weight += $tmpMat['weight'];
+                }
             }
         }
 
