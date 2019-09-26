@@ -248,9 +248,9 @@ class PaymentController extends Controller
             $products_weight = $material['weight'];
             foreach($orders as $tmpOrder){
                 if($tmpOrder == $material['order_id']){
-                    $product = Product::where('id', $tmpOrder['product_id'])->first();
+                    $product = Product::where('id', $material['product_id'])->first();
 
-                    if($product->material_id == $materialQuantity->material_id){
+                    if($product && $product->material_id == $materialQuantity->material_id){
                         $products_weight += $item['attributes']->weight;
                     }
                 }
