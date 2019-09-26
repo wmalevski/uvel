@@ -176,7 +176,7 @@ class PaymentController extends Controller
         foreach($allItems as $i => $tmpItem){
             $obj = null;
             if($tmpItem['attributes']->type == 'product' && $tmpItem['attributes']->order != '') {
-                $orders[] = $item['attributes']->order;
+                $orders[] = $tmpItem['attributes']->order;
                 $obj = Order::find($tmpItem['attributes']->order);
             } else if ( $tmpItem['attributes']->type == 'product' && $tmpItem['attributes']->order == '' ) {
                 $obj = Product::find($tmpItem['attributes']->product_id);
