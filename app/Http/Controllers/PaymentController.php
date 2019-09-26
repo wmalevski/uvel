@@ -158,9 +158,7 @@ class PaymentController extends Controller
 
         Cart::session(Auth::user()->getID())->getContent()->each(function($item) use (&$allItems)
         {
-            if($item['attributes']->type == 'product' && $item['attributes']->order != ''){
-                $orders[] = $item['attributes']->order;
-            } else if ($item['attributes']->type == 'box') {
+            if ($item['attributes']->type == 'box') {
                 $boxInList = true;
             }
 
@@ -172,14 +170,13 @@ class PaymentController extends Controller
                 ->groupBy('parent_id')
                 ->get();
 
-        $orders = array_unique($orders);
-        $orders_earnest = [];
         //Get all materials from all products orders
         $materials = [];
 
         foreach($allItems as $i => $tmpItem){
             $obj = null;
             if($tmpItem['attributes']->type == 'product' && $tmpItem['attributes']->order != '') {
+                $orders[] = $item['attributes']->order;
                 $obj = Order::find($tmpItem['attributes']->order);
             } else if ( $tmpItem['attributes']->type == 'product' && $tmpItem['attributes']->order == '' ) {
                 $obj = Product::find($tmpItem['attributes']->product_id);
@@ -192,6 +189,9 @@ class PaymentController extends Controller
                 ];
             }
         }
+
+        $orders = array_unique($orders);
+        $orders_earnest = [];
 
         foreach($orders as $i => $order){
             $order = Order::find($order);
