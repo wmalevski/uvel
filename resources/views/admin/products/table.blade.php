@@ -1,11 +1,11 @@
 <tr data-id="{{ $product->id }}">
 	<td class="thumbnail--tooltip">
-		@if(isset($product->photos))
-			<img class="admin-product-image" src="{{ asset("uploads/products/" . $product->photos->first()['photo']) }}">
-			<ul class="product-hover-image" style="background-image: url({{ asset("uploads/products/".$product->photos->first()['photo']) }});"></ul>
-		@elseif(isset($product->model))
+		@if($product->model)
 			<img class="admin-product-image" src="{{ asset("uploads/models/" . $product->model->photos->first()['photo']) }}">
 			<ul class="product-hover-image" style="background-image: url({{ asset("uploads/models/".$product->model->photos->first()['photo']) }});"></ul>
+		@elseif($product->photos)
+			<img class="admin-product-image" src="{{ asset("uploads/products/" . $product->photos->first()['photo']) }}">
+			<ul class="product-hover-image" style="background-image: url({{ asset("uploads/products/".$product->photos->first()['photo']) }});"></ul>
 		@endif
 	</td>
 	
