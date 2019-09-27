@@ -230,6 +230,13 @@ class PaymentController extends Controller
                         }
                     }
 
+                    foreach($defaultMaterials as $mat) {
+                        if($tmpMat->material->parent_id == $mat->id) {
+                            $defMaterialExchange = $mat;
+                            break;
+                        }
+                    }
+
                     $responseMaterials[] = [
                         'label' => $materialQuantity->material->parent->name.' - '.$materialQuantity->material->code,
                         'sample' => $materialQuantity->material->code,
@@ -237,7 +244,8 @@ class PaymentController extends Controller
                         'value' => $materialQuantity->material->id,
                         'weight_equalized' => $materialQuantity->material->code / $defMaterial->code * $order->product->weight,
                         'weight' => $order->product->weight,
-                        'weight_exchange' => $material['weight']
+                        'weight_exchange' => $material['weight'],
+                        'exchange_weight_eq' => $material->code / $defMaterialExchange->code * $material['weight'];
                     ];
                 }
 
@@ -262,18 +270,8 @@ class PaymentController extends Controller
             } else {
                 $pass_materials[$material['parent_id']] = [
                     'id' => $material['parent_id'],
-                    'weight' => $material['code'] / $defMaterial->code * $weight,
-                    'exchange_weight' => 0
+                    'weight' => $material['code'] / $defMaterial->code * $weight
                 ];
-            }
-
-            //Check with Peev what we need here.
-            $exch_mat_weight = 0;
-            if($material['exchange_materials']) {
-                foreach($material['exchange_materials'] as $tmpMat) {
-                    //Could use $tmpMat['material_id']
-                    $exch_mat_weight += $tmpMat['weight'];
-                }
             }
         }
 
