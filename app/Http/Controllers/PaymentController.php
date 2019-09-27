@@ -231,7 +231,7 @@ class PaymentController extends Controller
                     }
 
                     foreach($defaultMaterials as $mat) {
-                        if($tmpMat->material->parent_id == $mat->id) {
+                        if($material->material->parent_id == $mat->id) {
                             $defMaterialExchange = $mat;
                             break;
                         }
@@ -245,7 +245,7 @@ class PaymentController extends Controller
                         'weight_equalized' => $materialQuantity->material->code / $defMaterial->code * $order->product->weight,
                         'weight' => $order->product->weight,
                         'weight_exchange' => $material['weight'],
-                        'exchange_weight_eq' => $material->code / $defMaterialExchange->code * $material['weight']
+                        'exchange_weight_eq' => $material->material->code / $defMaterialExchange->code * $material['weight']
                     ];
                 }
 
