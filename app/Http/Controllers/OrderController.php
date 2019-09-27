@@ -284,8 +284,7 @@ class OrderController extends Controller
                 ['material_id', '=', $request->material_id],
                 ['store_id', '=', Auth::user()->getStore()->id]
             ])->first();
-            
-            if($material && $material->quantity < $request->weight){
+            if($material && $material->quantity && $material->quantity < $request->weight){
                 return Response::json(['errors' => ['using' => [trans('admin/orders.material_quantity_not_matching')]]], 401);
             }
     
