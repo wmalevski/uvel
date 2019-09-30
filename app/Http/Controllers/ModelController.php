@@ -211,7 +211,7 @@ class ModelController extends Controller
             ])->first();
 
             if(!$material || $material->quantity < $request->weight){
-                return Response::json(['errors' => ['using' => [trans('admin/models.model_product_mquantity_error')]]], 401);
+                return Response::json(['success' => ['using' => [trans('admin/models.model_product_mquantity_error')]]], 200);
             }
 
             $product = new Product();
