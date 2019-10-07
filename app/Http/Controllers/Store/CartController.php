@@ -115,6 +115,9 @@ class CartController extends BaseController
             $session_id = Session::getId();
         }
 
+        setcookie('cookie_name', $session_id, time()+(180*30));
+        setcookie('cookie_name_time', true, time()+(120*30));
+
         $total = round(Cart::session($session_id)->getTotal(), 2);
         $subtotal = round(Cart::session($session_id)->getSubTotal(), 2);
         $quantity = Cart::session($session_id)->getTotalQuantity();
