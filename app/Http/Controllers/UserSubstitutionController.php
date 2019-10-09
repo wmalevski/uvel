@@ -73,6 +73,10 @@ class UsersubstitutionController extends Controller
             if ($validator->fails()) {
                 return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
             }
+
+            if ($request->dateFrom > $request->dateTo) {
+                return Response::json(['errors' => ['same_store' => ['Невалидни дати.']]], 401);
+            }
             
             $user = User::find($request->user_id);
 
@@ -164,6 +168,10 @@ class UsersubstitutionController extends Controller
             
             if ($validator->fails()) {
                 return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+            }
+
+            if ($request->dateFrom > $request->dateTo) {
+                return Response::json(['errors' => ['same_store' => ['Невалидни дати.']]], 401);
             }
 
             $place = 'user-substitute-active';
