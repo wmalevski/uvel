@@ -212,9 +212,9 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 					<div class="form-row">
 						<div class="form-group col-md-12">
 							<label>Магазин:</label>
-							
+
 							<select name="store_id" class="form-control" data-search="/ajax/select_search/stores/">
-								<option value="">Избери магазин</option>
+								<option value="{{ $user_store->id }}">{{ $user_store->name }} - {{ $user_store->location }}</option>
 							</select>
 						</div>
 					</div>

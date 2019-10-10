@@ -44,6 +44,7 @@ class OrderController extends Controller
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::take(env('SELECT_PRELOADED'))->get();
         $stores = Store::take(env('SELECT_PRELOADED'))->get();
+        $user_store = Store::where('id', Auth::user()->store_id)->first();
         $mats = MaterialQuantity::currentStore()->take(env('SELECT_PRELOADED'));
 
         $pass_stones = array();
@@ -70,7 +71,7 @@ class OrderController extends Controller
             }
         }
 
-        return \View::make('admin/orders/index', array('mats' => $mats, 'materials' => $materials, 'orders' => $orders, 'stores' => $stores ,'products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials->scopeCurrentStore(), 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
+        return \View::make('admin/orders/index', array('mats' => $mats, 'materials' => $materials, 'orders' => $orders, 'stores' => $stores ,'products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials->scopeCurrentStore(), 'user_store' => $user_store, 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
     }
 
     /**
