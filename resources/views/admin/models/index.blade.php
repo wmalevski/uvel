@@ -249,7 +249,6 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 		<tr data-sort-method="thead">
 			<th>Снимка</th>
 			<th>Име</th>
-			<th>Вид бижу</th>
 			<th>Тегло</th>
 			<th>Цена</th>
 			<th>Изработка</th>

@@ -7,9 +7,6 @@
 	</td>
 	<td>{{ $model->name }}</td>
 	<td>
-		{{ $model->jewel->name }}
-	</td>
-	<td>
 		{{ $model->weight }}
 	</td>
 	<td>
