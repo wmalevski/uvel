@@ -32,7 +32,10 @@
 		{{ $product->weight }}
 	</td>
 	<td>
-		{{ $product->price }}
+		{{ $product->price }}лв.
+	</td>
+	<td>
+		{{ $product->workmanship }}лв.
 	</td>
 
 	{{-- <td> {{ ($product->retailPrice->price)*$product->weight }} </td> --}}

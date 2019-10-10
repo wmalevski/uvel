@@ -13,10 +13,10 @@
 		{{ $model->weight }}
 	</td>
 	<td>
-		{{ $model->workmanship }}лв.
+		{{ $model->price }}лв.
 	</td>
 	<td>
-		{{ $model->price }}лв.
+		{{ $model->workmanship }}лв.
 	</td>
 	<td>
 		<span data-url="models/{{$model->id}}" class="edit-btn" data-form-type="edit" data-form="models" data-toggle="modal"
