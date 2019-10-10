@@ -398,13 +398,13 @@ aria-hidden="true">
                             </div>
                         </div>
                         <div class="form-group form-row">
-                            <label for="product_barcode" class="col-sm-9 control-label">Номер на артикула</label>
+                            <label for="product_barcode" class="col-sm-9 control-label">Баркод</label>
                             <div class="col-sm-3">
                                 <input type="text" class="form-control" name="product_barcode" id="product_barcode" data-sell-barcode placeholder="Баркод:">
                             </div>
                         </div>
                         <div class="form-group form-row">
-                            <label for="catalog_number" class="col-sm-9 control-label">Каталожен номер</label>
+                            <label for="catalog_number" class="col-sm-9 control-label">Номер на артикула</label>
                             <div class="col-sm-3">
                                 <input type="text" class="form-control" id="catalog_number" name="catalog_number" data-sell-catalogNumber placeholder="Номер от каталога:">
                             </div>
