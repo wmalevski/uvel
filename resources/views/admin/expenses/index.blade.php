@@ -31,6 +31,13 @@ aria-hidden="true">
                                     <span class="peer peer-greed">Трансфер към банка</span>
                                 </label>
                             </div>
+
+                            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                                <input id="expense"  data-transfer type="checkbox" name="expense">
+                                <label for="expense" class="peers peer-greed js-sb ai-c">
+                                    <span class="peer peer-greed">Разход</span>
+                                </label>
+                            </div>
                         </div>
                     </div>
 
