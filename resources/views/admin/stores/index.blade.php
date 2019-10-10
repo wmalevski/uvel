@@ -17,8 +17,8 @@ aria-hidden="true">
                 <div class="modal-body">    
                     <div class="info-cont">
                     </div>
-                    {{ csrf_field() }}  
-                                
+                    {{ csrf_field() }}
+
                     <div class="form-group">
                         <label for="1">Име: </label>
                         <input type="text" class="form-control" id="1" name="name" placeholder="Име на магазин:">
@@ -59,14 +59,15 @@ aria-hidden="true">
         <h4 class="c-grey-900 mB-20">Магазини <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="stores" data-toggle="modal" data-target="#addStore">Добави</button></h4>
         <p>Преглед на магазините.</p>
         <table id="main_table" class="table">
-          <thead>
+            <thead>
             <tr>
-              <th scope="col">Име</th> 
-              <th scope="col">Адрес</th>
-              <th scope="col">Телефон</th>
-              <th scope="col" data-sort-method="none">Действия</th>
+                <th scope="col">Уникален номер</th>
+                <th scope="col">Име</th>
+                <th scope="col">Адрес</th>
+                <th scope="col">Телефон</th>
+                <th scope="col" data-sort-method="none">Действия</th>
             </tr>
-          </thead>
+            </thead>
           <tbody>
             @foreach($stores as $store)
                 @include('admin.stores.table')
