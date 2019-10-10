@@ -24,7 +24,7 @@ class CreateProductsTable extends Migration
             $table->float('weight');
             $table->float('gross_weight');
             $table->integer('retail_price_id')->unsigned();
-            $table->integer('size');
+            $table->float('size');
             $table->float('workmanship');
             $table->float('price');
             $table->string('barcode');

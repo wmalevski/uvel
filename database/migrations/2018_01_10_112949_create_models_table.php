@@ -18,7 +18,7 @@ class CreateModelsTable extends Migration
             $table->string('name');
             $table->integer('jewel_id')->unsigned();
             $table->float('weight');
-            $table->integer('size');
+            $table->float('size');
             $table->float('workmanship');
             $table->float('totalStones')->nullable();
             $table->enum('website_visible', ['yes', 'no'])->default('yes');
