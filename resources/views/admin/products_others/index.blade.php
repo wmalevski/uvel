@@ -55,7 +55,6 @@ aria-hidden="true">
                     <div class="form-group">
                         <label>Магазин: </label>
                         <select id="store " name="store_id" class="form-control">
-                            <option value="">Избери</option>
                     
                             @foreach($stores as $store)
                                 <option value="{{ $store->id }}">{{ $store->name }}</option>
