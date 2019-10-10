@@ -61,7 +61,7 @@ class StoneController extends Controller
         $validator = Validator::make( $request->all(), [
             'nomenclature_id' => 'required',
             'type' => 'required',
-            'weight' => 'required|numeric|between:0.01,100000',
+            'weight' => 'required|numeric|between:0.001,100000',
             'carat' => 'required|numeric',
             'size_id' => 'required|numeric',
             'style_id' => 'required',
@@ -150,7 +150,7 @@ class StoneController extends Controller
         $validator = Validator::make( $request->all(), [
             'nomenclature_id' => 'required',
             'type' => 'required',
-            'weight' => 'required|numeric|between:0.01,100000',
+            'weight' => 'required|numeric|between:0.001,100000',
             'carat' => 'required|numeric',
             'size_id' => 'required|numeric',
             'style_id' => 'required',
