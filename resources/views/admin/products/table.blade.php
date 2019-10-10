@@ -17,9 +17,6 @@
 		@if($product->model) {{ $product->model->name }} @endif
 	</td>
 	<td>
-		@if($product->model) {{ $product->jewel->name }} @endif
-	</td>
-	<td>
 		{{$product->store_info->name }}
 	</td>
 	<td>
