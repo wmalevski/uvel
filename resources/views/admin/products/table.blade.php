@@ -17,7 +17,7 @@
 		@if($product->model) {{ $product->model->name }} @endif
 	</td>
 	<td>
-		{{$product->store_info->name }}
+		{{$product->store_info->id }}
 	</td>
 	<td>
 		@if($product->material) {{ $product->material->name }} - {{ $product->material->color}} - {{ $product->material->code}} @endif
