@@ -251,8 +251,8 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 			<th>Име</th>
 			<th>Вид бижу</th>
 			<th>Тегло</th>
-			<th>Изработка</th>
 			<th>Цена</th>
+			<th>Изработка</th>
 			<th data-sort-method="none">Действия</th>
 			<th data-sort-method="none"></th>
 		</tr>
