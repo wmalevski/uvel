@@ -112,11 +112,13 @@ class UserController extends Controller
         $users = $users->paginate(env('RESULTS_PER_PAGE'));
         $pass_users = array();
 
-        foreach($users as $user){
+        foreach ($users as $user) {
+            $user_label = ($user->store_id) ? $user->name . ' - ' . $user->store->name : $user->name;
+
             $pass_users[] = [
                 'attributes' => [
                     'value' => $user->id,
-                    'label' => $user->name.' - '.$user->store->name,
+                    'label' => $user_label,
                 ]
             ];
         }
