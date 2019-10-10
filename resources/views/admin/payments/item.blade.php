@@ -6,7 +6,7 @@
         @if($payment->method == 'cash')
             Кеш
         @elseif($payment->method == 'post')
-            Пост терминал
+            Пос терминал
         @endif
     </td>
 
