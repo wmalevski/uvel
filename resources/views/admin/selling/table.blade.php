@@ -1,8 +1,8 @@
 <tr @if($item->attributes->type == 'product') data-saleProduct @endif>
     @if($item->attributes->type == 'product')
-        <td>{{ App\Product::where('id', $item->attributes->product_id)->first()->model->name }} {{ App\Product::where('id', $item->attributes->product_id)->first()->id }}</th>
+        <td>{{ App\Product::where('id', $item->attributes->product_id)->first()->id }} {{ App\Product::where('id', $item->attributes->product_id)->first()->model->name }} </th>
     @elseif($item->attributes->type == 'box' || $item->attributes->type == 'repair' )
-        <td>{{ $item->name }} {{ $item->attributes->product_id}}</th>
+        <td>{{ $item->attributes->product_id}} {{ $item->name }}</th>
     @endif
     <td data-quantity>{{ $item->quantity }}</td>
     <td data-weight="{{ $item->attributes->weight }}">{{ $item->attributes->weight }}</td>
