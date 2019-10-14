@@ -74,7 +74,10 @@
               <table class="table table-condensed">
                 <thead>
                     <tr data-sort-method="none">
-                        <th>Продукт</th>
+                        <th>Снимка</th>
+                        <th>Уникален номер</th>
+                        <th>Тегло</th>
+                        <th>Приеми продукт</th>
                         <th>Изпратен на</th>
                         <th>От магазин</th>
                         <th>До магазин</th>
