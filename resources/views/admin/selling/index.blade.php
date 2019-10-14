@@ -115,11 +115,11 @@
                         </div>
                         <div class="form-group col-md-4">
                             <div class="radio radio-info">
-                                <input type="radio" id="partner-modal-certificate" class="not-clear" name="partner-modal-certificate" value="yes" checked>
+                                <input type="radio" id="partner-modal-certificate" class="not-clear" name="partner-modal-certificate" value="yes">
                                 <label for="partner-modal-certificate">С цена</label>
                             </div>
                             <div class="radio radio-info">
-                                <input type="radio" id="partner-modal-non-certificate" name="partner-modal-certificate" value="no">
+                                <input type="radio" id="partner-modal-non-certificate" name="partner-modal-certificate" value="no" checked>
                                 <label for="partner-modal-non-certificate">Без цена</label>
                             </div>
                         </div>
@@ -335,11 +335,11 @@ aria-hidden="true">
                         </div>
                         <div class="form-group col-md-4">
                             <div class="radio radio-info">
-                                <input type="radio" id="modal-certificate" class="not-clear" name="modal_certificate" value="yes" checked>
+                                <input type="radio" id="modal-certificate" class="not-clear" name="modal_certificate" value="yes">
                                 <label for="modal-certificate">С цена</label>
                             </div>
                             <div class="radio radio-info">
-                                <input type="radio" id="modal-non-certificate" name="modal_certificate" value="no">
+                                <input type="radio" id="modal-non-certificate" name="modal_certificate" value="no" checked>
                                 <label for="modal-non-certificate">Без цена</label>
                             </div>
                         </div>
