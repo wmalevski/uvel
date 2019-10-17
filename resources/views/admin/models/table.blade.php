@@ -25,6 +25,13 @@
 		</span>
 	</td>
 
+	<td>
+		@if(!empty($model->stones->first()))
+			{{ App\StoneContour::where('id', App\Stone::where('id', $model->stones->first()->stone_id)->first()->contour_id)->first()->name }}
+			- {{ App\StoneSize::where('id', App\Stone::where('id', $model->stones->first()->stone_id)->first()->size_id)->first()->name }}
+		@endif
+	</td>
+
 	<td class="stones--tooltip">
 		Виж камъни
 		<ul>
