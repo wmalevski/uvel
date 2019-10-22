@@ -469,7 +469,7 @@ li.element {
 }
 
 .element.no_full_width .row-container .row-right {
-	height: 180px !important;
+	height: 190px !important;
 }
 
 .element.no_full_width .row-left .container_item,
@@ -481,7 +481,7 @@ li.element {
 	display: block;
 	position: relative;
 	width: 100%;
-	height: 180px;
+	height: 190px;
 }
 
 .element.no_full_width .row-container .product-content-right {
