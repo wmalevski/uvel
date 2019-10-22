@@ -1123,5 +1123,6 @@ li.element {
 }
 
 .blog-content-wrapper {
+	display: block !important;
 	width: 100%;
 }

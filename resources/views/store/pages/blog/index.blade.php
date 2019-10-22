@@ -33,11 +33,8 @@
 								<div id="col-main" class="blog blog-page col-sm-24 col-md-24 blog-full-width blog-3-col ">
 									<div class="blog-content-wrapper">
 										@foreach($articles as $article)
-										<div class="blogs col-sm-8 col-md-8 clearfix">
+										<div class="blogs col-sm-12 col-md-8 clearfix">
 											<article class="blogs-item article-content">
-
-
-
 												<div class="blogs-image">
 													@if(!empty($lng))
 													<a class="img-fill-container" href="{{ route('single_translated_article', ['locale'=>$lng, 'product' => $article->slug])  }}">														
@@ -49,12 +46,7 @@
 													</a>
 													@endif
 												</div>
-
-
-
-
 												<div class="title-container">
-
 													<div class="article-title-container">
 														<h4 class="article-title">
 															<a href="{{ route('single_translated_article', ['locale'=>$lng, 'product' => $article->slug])  }}">
