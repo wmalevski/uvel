@@ -176,6 +176,7 @@ return [
         Darryldecode\Cart\CartServiceProvider::class,
         App\Providers\CartCustomConditionServiceProvider::class,
         AlbertCht\InvisibleReCaptcha\InvisibleReCaptchaServiceProvider::class,
+        niklasravnsborg\LaravelPdf\PdfServiceProvider::class
     ],
 
     /*
@@ -228,6 +229,7 @@ return [
         'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
         'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
         'Active' => Arcesilas\ActiveState\ActiveFacade::class,
+        'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class
     ],
 
 ];

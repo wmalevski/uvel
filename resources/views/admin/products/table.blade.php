@@ -59,7 +59,7 @@
 		 data-target="#editProduct"><i class="c-brown-500 ti-pencil"></i></span>
 		@endcan
 		<a href="reviews/product/{{$product->id}}"><i class="c-brown-500 ti-star"></i></a>
-		<a href="products/print/{{$product->id}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a>
+		<a data-print-label="true" target="_blank" href="/ajax/products/generatelabel/{{$product->barcode}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a>
 		@can('delete-products')
 		<span data-url="products/delete/{{$product->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></span>
 		@endcan
