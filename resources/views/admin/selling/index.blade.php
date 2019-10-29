@@ -1,19 +1,17 @@
 @extends('admin.layout') @section('content')
 @php
-    $newExchangeField = '<div class="form-row">
-                                <div class="form-group col-md-5">
+    $newExchangeField = '   <div class="form-group col-md-7">
                                     <label for="">Вид</label>
-                                    <select name="material_id[]" data-select2-skip data-calculateprice-material class="material_type form-control calculate not-clear" data-search="/ajax/select_search/global/materials/payment/">
-                                        <option value="0">Избери</option>
+                                    <select name="material_type_id[]" data-calculateprice-material class="material_type form-control calculate" data-search-url="/ajax/select_materials/" disabled>
+                                        <option value="">Избери</option>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-5">
+                                <div class="form-group col-md-4">
                                     <label for="">Грамаж</label>
-                                    <input type="number" id="" class="form-control not-clear" value="0" name="weight[]" placeholder="" data-weight>
+                                    <input type="number" id="" class="form-control not-clear" value="0" name="weight[]" placeholder="" data-weight disabled>
                                 </div>
                                 <div class="form-group col-md-1">
                                     <span class="delete-material remove_field" data-exchangeRowRemove-trigger=""><i class="c-brown-500 ti-trash"></i></span>
-                                </div>
                             </div>';
 
     $newExchangeField = str_replace("\n", "", str_replace("\r", "", $newExchangeField));
@@ -58,6 +56,15 @@
                             </table>
                         </div>    
                     </div>
+
+                    <div class="form-row">
+                        <div class="col-md-12" style="text-align: right;">
+                            <button class="btn btn-primary" data-add-partnermaterial>Добави</button>
+                        </div>
+                    </div>
+
+                    <div id="partner-materials"></div>
+
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="partner-information">Информация за партнъора:</label>
@@ -115,11 +122,11 @@
                         </div>
                         <div class="form-group col-md-4">
                             <div class="radio radio-info">
-                                <input type="radio" id="partner-modal-certificate" class="not-clear" name="partner-modal-certificate" value="yes">
+                                <input type="radio" id="partner-modal-certificate" class="not-clear" name="partner-modal-certificate" value="yes" checked>
                                 <label for="partner-modal-certificate">С цена</label>
                             </div>
                             <div class="radio radio-info">
-                                <input type="radio" id="partner-modal-non-certificate" name="partner-modal-certificate" value="no" checked>
+                                <input type="radio" id="partner-modal-non-certificate" name="partner-modal-certificate" value="no">
                                 <label for="partner-modal-non-certificate">Без цена</label>
                             </div>
                         </div>
@@ -127,7 +134,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="submit" class="btn btn-primary btn-finish-payment">Завърши плащането</button>
+                    <button type="submit" class="btn btn-primary">Завърши плащането</button>
                 </div>
             </form>
         </div>
@@ -228,7 +235,7 @@ aria-hidden="true">
                             <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
                                 <input type="checkbox" id="exchange" class="exchange-method" name="exchange_method" class="peer" data-exchange-trigger>
                                 <label for="exchange" class="peers peer-greed js-sb ai-c">
-                                    <span class="peer peer-greed">Обмяна</span>
+                                    <span class="peer peer-greed">Обмяна / Изкупуване</span>
                                 </label>
                             </div>
                         </div>
@@ -240,32 +247,57 @@ aria-hidden="true">
                                 <span data-expected-material='0'>Даден материал</span>
                             </div>
                             <div class="form-group col-md-4">
-                                <button type="button" class="btn btn-primary" data-newExchangeField-trigger>Добави</button>
+                                <button type="button" class="btn btn-primary" data-newExchangeField-trigger disabled>Добави</button>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="">Тип</label>
+                                <select name="material_id[]" class="material_type form-control" data-material-type>
+                                    <option value="">Избери тип</option>
+                                    @foreach($parents as $key => $parent)
+                                        <option value="{{ $parent['value'] }}" data-type-id="{{ $parent['type_id'] }}" data-sample="{{ $parent['data-sample'] }}" data-default-price="{{ $parent['data-default-price'] }}" data-second-price="{{ $parent['data-second-price'] }}">{{ $parent["label"] }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
                         <div class="exchange-row-fields">
                             
                         </div>
+                    </div>
 
-                        <div class="exchange-row-total form-row">
+                    <div class="exchange-order-panel" style="display: none;">
+                        <div class="form-row">
+                            <div class="col-12">
+                                <hr>
+                            </div>
+                            
+                            <div class="form-group col-md-8">
+                                <span>Материали от поръчки</span>
+                            </div>
+                        </div>
+
+                        <div class="exchange-order-fields"></div>
+                    </div>
+
+                    <div class="exchange-row-total" style="display: none;">
+                        <div class="form-row">
+                            <div class="col-12">
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="given-sum">Сума от материали</label>
                                 <input type="number" @if($second_default_price != 0) data-secondDefaultPrice={{ $second_default_price }} @endif data-defaultPrice="@if(count($materials) > 0){{ $materials->first()->pricesBuy->first()['price'] }}@endif" class="form-control not-clear" value="0" name="exchangeRows_total" placeholder="Дължима сума" data-exchangeRows-total readonly>
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label for="given-sum">Цена на грамаж</label>
-                                <select name="calculating_price" class="form-control not-clear">
-                                    <option value="0">Избери</option>
-                                    @if(count($materials) > 0)
-                                        @if($materials->first()->pricesBuy)
-                                            @foreach($materials->first()->pricesBuy as $price)
-                                                {{ print_r($price) }}
-                                                <option value="{{ $price->id }}" data-defaultPrice="{{ $materials->first()->pricesBuy->first()->price }}" data-price="{{ $price->price }}">{{ $price->slug }} - {{ $price->price }}</option>
-                                            @endforeach
-                                        @endif
-                                    @endif
+                                <label for="">Цена на грам</label>
+                                <select name="calculating_price" data-material-price class="form-control" data-search-url="/ajax/select_material_prices/" disabled>
+                                    <option value="">Избери</option>
                                 </select>
                             </div>
                         </div>
