@@ -1426,9 +1426,14 @@ var uvel,
 
     this.print = function(btn) {
       btn.on('click', function(e) {
-        e.preventDefault();
-        var ajaxRequestLink = $self.buildAjaxRequestLink('print', $(this).attr('href'));
-        $self.handlePrintResponse(ajaxRequestLink);
+        var isLabelPrint = this.dataset.printLabel === "true";
+
+        if(!isLabelPrint) {
+          e.preventDefault();
+          var ajaxRequestLink = $self.buildAjaxRequestLink('print', $(this).attr('href'));
+
+          $self.handlePrintResponse(ajaxRequestLink)
+        }
       });
     }
 
