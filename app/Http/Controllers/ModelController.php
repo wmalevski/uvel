@@ -416,7 +416,7 @@ class ModelController extends Controller
 
         foreach($model->stones as $stone){
             $model_stones[] = array(
-                "name"      => $this->getModelStoneName($stone->id),
+                "name"      => $this->getModelStoneName($stone->stone_id),
                 "amount"    => $stone->amount,
                 "weight"    => $stone->weight,
                 "flow"      => $stone->flow,
@@ -446,7 +446,7 @@ class ModelController extends Controller
             "photos"            => $this->getModelPhotos($photos)
         );
 
-        return Response::json(['model' => $model_info], 200);
+        return Response::json($model_info, 200);
     }
 
     /**
