@@ -353,7 +353,7 @@ class ModelController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Model  $model
+     * @param Model $model
      * @return \Illuminate\Http\Response
      */
     public function edit(Model $model)
@@ -372,17 +372,158 @@ class ModelController extends Controller
         $options = $model->options;
 
         $materials = Material::take(env('SELECT_PRELOADED'))->get();
-        $pass_photos = array();        
         $pass_stones = array();
         
-        foreach($stones as $stone){
+        foreach($stones as $stone) {
             $pass_stones[] = [
                 'value' => $stone->id,
-                'label' => $stone->nomenclature->name.' ('.$stone->contour->name.', '.$stone->style->name.' )',
-                'type'  => $stone->type,
+                'label' => $stone->nomenclature->name . ' (' . $stone->contour->name . ', ' . $stone->style->name . ' )',
+                'type' => $stone->type,
                 'price' => $stone->price
             ];
         }
+
+        $pass_materials = array();
+        
+        foreach($materials as $material){
+            $pass_materials[] = [
+                'value' => $material->id,
+                'label' => $material->parent->name.' - '. $material->color.  ' - '  .$material->code,
+                'pricebuy' => $material->pricesBuy->first()['price'],
+            ];
+        }
+
+        return \View::make('admin/models/edit', array('photos' => $photos, 'model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones, 'modelStones' => $modelStones, 'options' => $options, 'stones' => $stones, 'materials' => $materials, 'jsMaterials' =>  json_encode($pass_materials), 'jsStones' =>  json_encode($pass_stones), 'basephotos' => $this->getModelPhotos($photos)));
+    }
+
+    /**
+     * Send information for specific model
+     *
+     * @param Model $model
+     * @return \Illuminate\Http\Response
+     */
+    public function getModelInformation(Model $model)
+    {
+
+        $photos = Gallery::where(
+            [
+                ['table', '=', 'models'],
+                ['model_id', '=', $model->id]
+            ]
+        )->get();
+
+        $model_stones = array();
+
+        foreach($model->stones as $stone){
+            $model_stones[] = array(
+                "name"      => $this->getModelStoneName($stone->id),
+                "amount"    => $stone->amount,
+                "weight"    => $stone->weight,
+                "flow"      => $stone->flow,
+            );
+        }
+
+        $model_materials = array();
+
+        foreach($model->options as $option){
+            $model_materials[] = $this->getModelMaterials($option->material_id, $option->retail_price_id, $option->material->pricesSell);
+        }
+
+        $model_info = array(
+            "name"              => $model->name,
+            "jewelName"         => $this->getModelJewelId($model->jewel_id),
+            "workmanshipPrice"  => $model->workmanship,
+            "size"              => $model->size,
+            "weight"            => $model->weight,
+            "materials"         => $model_materials,
+            "stones"            => $model_stones,
+            "totalStones"       => $model->totalStones,
+            "websiteVisible"    => $model->website_visible,
+            "release_product"   => $model->release_product,
+            "price"             => $model->price,
+            "created"           => $model->created_at,
+            "updated"           => $model->updated_at,
+            "photos"            => $this->getModelPhotos($photos)
+        );
+
+        return Response::json(['model' => $model_info], 200);
+    }
+
+    /**
+     * Get model stone name
+     *
+     * @param $modelStoneId
+     *
+     * @return string
+     */
+    private function getModelStoneName($modelStoneId)
+    {
+        $preloaded_stones = Stone::take(env('SELECT_PRELOADED'))->get();
+
+        foreach($preloaded_stones  as $stone) {
+            if($stone->id == $modelStoneId){
+                return $stone->nomenclature->name . ' (' . $stone->contour->name . ', ' . $stone->style->name . ')';
+            }
+        }
+    }
+
+    /**
+     * Get model materials
+     *
+     * @param $modelOptionId
+     * @param $retailPriceId
+     * @param $pricesSell
+     *
+     * @return array
+     */
+    private function getModelMaterials($modelOptionId, $retailPriceId, $pricesSell)
+    {
+        $preloaded_materials = Material::take(env('SELECT_PRELOADED'))->get();
+
+        $materials = array();
+
+        foreach($preloaded_materials  as $material) {
+            if($material->id == $modelOptionId){
+                $materials["name"] = $material->parent->name .' - '. $material->color .' - '. $material->code;
+            }
+        }
+
+        foreach($pricesSell as $key => $price){
+            if($price->id == $retailPriceId){
+                $materials["price"] = $price->slug . ' - ' . $price->price . "лв.";
+            }
+        }
+
+        return $materials;
+    }
+
+    /**
+     * Get model jewel name
+     *
+     * @param $modelJewelId
+     *
+     * @return string
+     */
+    private function getModelJewelId($modelJewelId)
+    {
+        $preloaded_jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
+
+        foreach($preloaded_jewels  as $jewel) {
+            if($jewel->id == $modelJewelId){
+                return $jewel->name;
+            }
+        }
+    }
+
+    /**
+     * Get model images
+     *
+     * @param $photos
+     * @return array
+     */
+    private function getModelPhotos($photos)
+    {
+        $pass_photos = array();
 
         foreach($photos as $photo){
             $url =  Storage::get('public/models/'.$photo->photo);
@@ -405,25 +546,14 @@ class ModelController extends Controller
             ];
         }
 
-
-        $pass_materials = array();
-        
-        foreach($materials as $material){
-            $pass_materials[] = [
-                'value' => $material->id,
-                'label' => $material->parent->name.' - '. $material->color.  ' - '  .$material->code,
-                'pricebuy' => $material->pricesBuy->first()['price'],
-            ];
-        }
-
-        return \View::make('admin/models/edit', array('photos' => $photos, 'model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones, 'modelStones' => $modelStones, 'options' => $options, 'stones' => $stones, 'materials' => $materials, 'jsMaterials' =>  json_encode($pass_materials), 'jsStones' =>  json_encode($pass_stones), 'basephotos' => $pass_photos));
+        return $pass_photos;
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Model  $model
+     * @param Model $model
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Model $model)
@@ -723,7 +853,7 @@ class ModelController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Model  $model
+     * @param Model $model
      * @return \Illuminate\Http\Response
      */
     public function destroy(Model $model)
