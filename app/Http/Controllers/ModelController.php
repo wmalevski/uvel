@@ -340,14 +340,21 @@ class ModelController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Calculate stone's weight based on the total stones
      *
-     * @param  \App\Models  $models
-     * @return \Illuminate\Http\Response
+     * @param Stone $stone
+     * @param stonesTotal
+     *
+     * @return json
      */
-    public function show(Models $models)
+    public function calculateStonesTotalWeight(Stone $stone, $stonesTotal)
     {
-        //
+        if($stone && $stonesTotal){
+
+            $totalWeight = ($stone->weight * $stonesTotal) * 1000;
+
+            return Response::json(['weight' => $totalWeight], 200);
+        }
     }
 
     /**
