@@ -175,8 +175,7 @@ return [
         Milon\Barcode\BarcodeServiceProvider::class,
         Darryldecode\Cart\CartServiceProvider::class,
         App\Providers\CartCustomConditionServiceProvider::class,
-        AlbertCht\InvisibleReCaptcha\InvisibleReCaptchaServiceProvider::class,
-        niklasravnsborg\LaravelPdf\PdfServiceProvider::class
+        AlbertCht\InvisibleReCaptcha\InvisibleReCaptchaServiceProvider::class
     ],
 
     /*
@@ -228,8 +227,7 @@ return [
         'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
         'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
         'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
-        'Active' => Arcesilas\ActiveState\ActiveFacade::class,
-        'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class
+        'Active' => Arcesilas\ActiveState\ActiveFacade::class
     ],
 
 ];

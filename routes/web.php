@@ -148,6 +148,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/models/{model}', 'ModelController@edit');
     Route::put('/models/{model}', 'ModelController@update');
+    Route::get('/models/view/{model}', 'ModelController@getModelInformation');
 
     Route::get('/products/{product}', 'ProductController@edit');
     Route::get('/products', 'ProductController@index')->name('admin_products');
