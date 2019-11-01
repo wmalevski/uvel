@@ -84,7 +84,7 @@
 
                                     <li class="clearfix"></li>
                                     <li id="passwordf" class="">
-                                    <label class="control-label" for="password">Парола <span class="req">*</span></label>
+                                    <label class="control-label" for="password">Парола (Минимум 6 символа)<span class="req">*</span></label>
                                     <input value="" name="password" id="password" class="form-control password" type="password">
                                     </li>
                                     <li id="password_repear" class="">
