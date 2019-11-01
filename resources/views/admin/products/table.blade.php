@@ -17,6 +17,9 @@
 		@if($product->model) {{ $product->model->name }} @endif
 	</td>
 	<td>
+		{{ $product->size }}
+	</td>
+	<td>
 		{{$product->store_info->id }}
 	</td>
 	<td>
