@@ -2,10 +2,12 @@
     {{-- <td>{{ $payment->user->getStore()->name }}</td>  --}}
     <td>{{ $selling->user->name }}</td> 
     <td>
-            @if($selling->shipping_method == 'ekont')
-                Еконт
+            @if($selling->shipping_method == 'office_address')
+                Вземане от офис на куриер
             @elseif($selling->shipping_method == 'store') 
-                Взимане от магазин
+                Вземане от магазин
+            @elseif($selling->shipping_method == 'home_address')
+                Доставка до адрес
             @endif
         </td>
     <td>

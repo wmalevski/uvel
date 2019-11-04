@@ -40,13 +40,13 @@ class UserPayment extends Model
             $payment->price = $subtotal;
             $payment->information = session('cart_info.0.information');
 
-            if(session('cart_info.0.shipping_method') == 'ekont'){
+            if(session('cart_info.0.shipping_method') == 'office_address' || session('cart_info.0.shipping_method') == 'home_address'){
                 $payment->shipping_address = session('cart_info.0.shipping_address');
             } else if(session('cart_info.0.shipping_method') == 'store'){
                 $payment->store_id = session('cart_info.0.store_id');
             }
 
-            if($payment->payment_method == 'paypal' || $payment->shipping_method == 'ekont'){
+            if($payment->payment_method == 'paypal' || $payment->shipping_method == 'office_address' || $payment->shipping_method == 'home_address'){
                 $payment->status = 'done';
             }else{
                 $payment->status = 'waiting_user';
@@ -82,7 +82,7 @@ class UserPayment extends Model
                     $product = Product::where('id', $item->attributes->product_id)->first();
 
                     if($product){
-                        if($payment->payment_method == 'paypal' || $payment->shipping_method == 'ekont'){
+                        if($payment->payment_method == 'paypal' || $payment->shipping_method == 'office_address' || $payment->shipping_method == 'home_address'){
                             $product->status = 'sold';
                         } else{
                             $payment->status = 'reserved';

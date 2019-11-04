@@ -31,10 +31,12 @@
                     @endif
                     </div>
                     <div class="form-group col-md-6">
-                        Начин на получаване: @if($selling->shipping_method == 'ekont')
-                        Еконт
+                        Начин на получаване: @if($selling->shipping_method == 'office_address')
+                        Вземане от офис на куриер
                     @elseif($selling->shipping_method == 'store') 
-                        Взимане от магазин ({{ $selling->store->name }})
+                        Вземане от магазин ({{ $selling->store->name }})
+                    @elseif($selling->shipping_method == 'home_address')
+                        Доставка до адрес
                     @endif
                     </div>
                 </div>
