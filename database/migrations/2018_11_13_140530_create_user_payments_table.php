@@ -16,7 +16,7 @@ class CreateUserPaymentsTable extends Migration
         Schema::create('user_payments', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable();
-            $table->enum('shipping_method', ['store', 'ekont']);
+            $table->enum('shipping_method', ['store', 'office_address', 'home_address']);
             $table->enum('payment_method', ['paypal', 'borika', 'on_delivery']);
             $table->integer('store_id')->unsigned()->nullable();
             $table->string('shipping_address')->nullable();

@@ -54,7 +54,7 @@ class UserPaymentController extends Controller
                 'payment_method' => 'required'
             ];
 
-            if ($request->shipping_method == 'ekont') {
+            if ($request->shipping_method == 'office_address' || $request->shipping_method == 'home_address' ) {
                 $restrictions['city'] = 'required';
                 $restrictions['street'] = 'required';
                 $restrictions['street_number'] = 'required';

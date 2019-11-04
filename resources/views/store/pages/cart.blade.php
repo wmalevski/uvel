@@ -210,8 +210,11 @@
 													   id="shipping_shop" data-method="store">
 												<label for="shipping_shop"><i class="fas fa-store"></i> Вземи от магазин</label>
 												<input type="radio" class="cart-radio" name="shippingMethod"
-													   id="shipping_address" data-method="ekont">
-												<label for="shipping_address"><i class="fas fa-truck"></i>Получаване от Офис на Еконт</label>
+													   id="shipping_address" data-method="office_address">
+												<label for="shipping_address"><i class="fas fa-truck"></i>Получаване от офис на куриер</label>
+												<input type="radio" class="cart-radio" name="shippingMethod"
+													   id="shipping_home_address" data-method="home_address">
+												<label for="shipping_home_address"><i class="fas fa-truck"></i>Получаване на адрес</label>
 											</div>
 										</div>
 										<div class="form-row row shipping-method shipping_shop">
@@ -229,6 +232,30 @@
 											</div>
 										</div>
 										<div class="form-row row shipping-method shipping_address">
+											<label>Данни за доставка</label>
+											<hr>
+											<div class="form-group col-xs-24">
+												<label>Град:</label>
+												<input type="text" name="city">
+											</div>
+											<div class="form-group col-xs-24">
+												<label>Улица:</label>
+												<input type="text" name="street">
+											</div>
+											<div class="form-group col-xs-24">
+												<label>Номер:</label>
+												<input type="text" name="street_number">
+											</div>
+											<div class="form-group col-xs-24">
+												<label>Пощенски код:</label>
+												<input type="text" name="postcode">
+											</div>
+											<div class="form-group col-xs-24">
+												<label>Телефон за връзка:</label>
+												<input type="text" name="phone">
+											</div>
+										</div>
+										<div class="form-row row shipping-method shipping_home_address">
 											<label>Данни за доставка</label>
 											<hr>
 											<div class="form-group col-xs-24">
