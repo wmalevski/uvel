@@ -26,7 +26,6 @@
                            <table class="table">
                             <thead>
                                 <tr>
-                                  <th scope="col">Име</th> 
                                   <th scope="col">Email</th> 
                                   <th scope="col">Телефон</th> 
                                   <th scope="col">Град</th> 
@@ -38,7 +37,6 @@
                               <tbody>
                                   @foreach($orders as $order)
                                   <tr data-id="{{ $order->id }}">
-                                    <td>{{ $order->user->name }}</td> 
                                     <td>{{ $order->user->email }}</td> 
                                     <td>{{ $order->user->phone }}</td> 
                                     <td>{{ $order->user->city }}</td> 

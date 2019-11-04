@@ -1,6 +1,6 @@
 <tr data-id="{{ $selling->id }}">
     {{-- <td>{{ $payment->user->getStore()->name }}</td>  --}}
-    <td>{{ $selling->user->name }}</td> 
+    <td>{{ $selling->user->email }}</td>
     <td>
             @if($selling->shipping_method == 'office_address')
                 Вземане от офис на куриер

@@ -1,5 +1,5 @@
 <tr data-id="{{ $substitution->id }}">
-    <td>{{ $substitution->user->name }}</td> 
+    <td>{{ $substitution->user->email }}</td>
     <td>{{ $substitution->store->name }}</td> 
     <td>{{ Carbon\Carbon::parse($substitution->date_from)->format('d-m-Y') }}</td> 
     <td>{{ Carbon\Carbon::parse($substitution->date_to)->format('d-m-Y') }}</td>

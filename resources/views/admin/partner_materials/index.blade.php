@@ -13,7 +13,7 @@
 <div class="row">
     <div class="col-md-12">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
-        <h4 class="c-grey-900 mB-20">Материали на партньор {{ $partner->user->name }}</h4>
+        <h4 class="c-grey-900 mB-20">Материали на партньор {{ $partner->user->email }}</h4>
         <p>Преглед на материалите на партньора.</p>
         <table id="main_table" class="table tablesort">
           <thead>

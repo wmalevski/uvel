@@ -11,7 +11,7 @@
 						<ul id="accounts" class="list-inline">
 							@auth
 								<li class="login">
-									<a href="{{ route('user_account') }}" id="customer_register_link">{{ Auth::user()->name }}</a>
+									<a href="{{ route('user_account') }}" id="customer_register_link">{{ Auth::user()->email }}</a>
 								</li>
 							@endauth
 

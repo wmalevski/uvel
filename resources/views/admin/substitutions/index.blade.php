@@ -43,7 +43,7 @@
                         <div class="form-group">
                             <label>Магазин: </label>
                             <select name="store_id" class="form-control" data-search="/ajax/select_search/stores/">
-                                <option value="">Избер магазин</option>
+                                <option value="">Избери магазин</option>
                             </select>
                         </div>
                     </div>
@@ -92,7 +92,7 @@
         <table id="user-substitute-active" class="table active table-fixed">
           <thead>
             <tr>
-              <th scope="col">Потребител</th> 
+              <th scope="col">Имейл</th>
               <th scope="col">Магазин</th>
               <th scope="col">Дата от</th>
               <th scope="col">Дата до</th>
@@ -117,7 +117,7 @@
         <table id="user-substitute-inactive" class="table inactive table-fixed">
           <thead>
             <tr>
-              <th scope="col">Потребител</th> 
+              <th scope="col">Имeйл</th>
               <th scope="col">Магазин</th>
               <th scope="col">Дата от</th>
               <th scope="col">Дата до</th>

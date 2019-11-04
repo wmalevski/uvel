@@ -732,7 +732,7 @@ class SellingController extends Controller
             'total' => $total,
             'condition' => $condition,
             'description' => $description,
-            'user' => $user->name,
+            'user' => $user->email,
             'location' => $user->store->name
         ), function($message) use ($emails)
         {

@@ -46,7 +46,7 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $validator = Validator::make( $request->all(), [
-            'name' => 'required|string|max:255',
+            'email' => 'required',
             'role' => 'required',
             'store_id' => 'required'
          ]);
@@ -55,7 +55,7 @@ class UserController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
         
-        $user->name = $request->name;
+        $user->email = $request->email;
         $user->store_id = $request->store_id;
 
         $user->save();
@@ -75,7 +75,6 @@ class UserController extends Controller
     {
 
         $validator = Validator::make( $request->all(), [
-            'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'role' => 'required',
@@ -87,7 +86,6 @@ class UserController extends Controller
         }
 
         $user = User::create([
-            'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'store_id' => $request->store_id
@@ -113,7 +111,7 @@ class UserController extends Controller
         $pass_users = array();
 
         foreach ($users as $user) {
-            $user_label = ($user->store_id) ? $user->name . ' - ' . $user->store->name : $user->name;
+            $user_label = ($user->store_id) ? $user->email . ' - ' . $user->store->name : $user->email;
 
             $pass_users[] = [
                 'attributes' => [

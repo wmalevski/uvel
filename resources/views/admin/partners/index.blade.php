@@ -97,7 +97,7 @@ aria-hidden="true">
         <table id="main_table" class="table tablesort">
           <thead>
             <tr>
-              <th scope="col">Име</th> 
+              <th scope="col">Имейл</th>
               <th scope="col">Дължима сума</th> 
               {{-- <th data-sort-method="none" scope="col">Email</th>
               <th scope="col">Вид</th>

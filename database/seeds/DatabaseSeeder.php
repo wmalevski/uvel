@@ -211,7 +211,6 @@ class DatabaseSeeder extends Seeder
         }
 
         $user = new User();
-        $user->name = 'Admin';
         $user->email = 'admin@uvel.com';
         $user->password = bcrypt('administrator');
         $user->store_id = 2;
@@ -220,7 +219,6 @@ class DatabaseSeeder extends Seeder
         Bouncer::assign('admin')->to($user);
 
         $merchant = new User();
-        $merchant->name = 'Merchant';
         $merchant->email = 'merchant@uvel.com';
         $merchant->password = bcrypt('merchant');
         $merchant->store_id = 3;
@@ -229,7 +227,6 @@ class DatabaseSeeder extends Seeder
         Bouncer::assign('merchant')->to($merchant);
 
         $corporate_partner = new User();
-        $corporate_partner->name = 'Partner';
         $corporate_partner->email = 'Partner@uvel.com';
         $corporate_partner->password = bcrypt('partner');
         $corporate_partner->store_id = 3;

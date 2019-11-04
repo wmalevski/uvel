@@ -59,7 +59,7 @@
                 <label for="2">Потребител: </label>
                 <select name="user_id" class="form-control">
                     @foreach($users as $user)
-                        <option value="{{ $user->id }}" @if($discount->user_id) @if($discount->user_id == $user->id) selected @endif @endif>{{ $user->name }} - {{ $user->store->name }}</option>
+                        <option value="{{ $user->id }}" @if($discount->user_id) @if($discount->user_id == $user->id) selected @endif @endif>{{ $user->email }} - {{ $user->store->name }}</option>
                     @endforeach
                 </select>
             </div>

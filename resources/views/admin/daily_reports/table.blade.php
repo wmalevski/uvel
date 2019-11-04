@@ -1,6 +1,6 @@
 <tr data-id="{{ $report->id }}">
     <td>{{ $report->store->name }}</td>
-    <td>{{ $report->user->name }}</td>
+    <td>{{ $report->user->email }}</td>
     <td>
         @if($report->type == 'money')
 		    Паричен отчет

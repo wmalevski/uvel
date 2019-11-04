@@ -44,7 +44,7 @@ class Selling extends Model
                     $partner = Partner::where('user_id', $user->id)->first();
 
                     $partner_info = [
-                        'name' => $user->name,
+                        'name' => $user->email,
                         'money' => $partner->money
                     ];
                 }

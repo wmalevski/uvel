@@ -34,7 +34,7 @@
         @endif
     </td>
 
-    <td>{{ $payment->user->name }}</td>
+    <td>{{ $payment->user->email }}</td>
     <td>Виж отстъпки
         @if(isset($payment->discounts))
            @foreach($payment->discounts as $discount)
