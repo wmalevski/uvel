@@ -1,5 +1,5 @@
 <tr data-id="{{ $partner->id }}">
-    <td>{{ $partner->user->name }}</td> 
+    <td>{{ $partner->user->email }}</td>
     <td>{{ $partner->money }}</td> 
     {{-- <td>{{ $user->email }}</td> 
     <td>{{ $user->roles->first()['title'] }}</td>

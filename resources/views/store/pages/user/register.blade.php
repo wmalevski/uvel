@@ -28,11 +28,6 @@
                                 <input value="create_customer" name="form_type" type="hidden"><input name="utf8" value="✓" type="hidden">
                                 <ul id="register-form" class="row list-unstyled">
                                     <li class="clearfix"></li>
-                                    <li id="last_namef">
-                                    <label class="control-label" for="name">Потребителско име</label>
-                                    <input name="name" id="name" class="form-control " type="text">
-                                    </li>
-                                    <li class="clearfix"></li>
                                     <li id="emailf" class="">
                                     <label class="control-label" for="email">Email <span class="req">*</span></label>
                                     <input name="email" id="email" class="form-control " type="email">
@@ -68,7 +63,7 @@
 
                                     <li id="country" class="">
                                         <label class="control-label" for="country">Държава <span class="req">*</span></label>
-                                        <input name="country" id="country" class="form-control " type="text">
+                                        <input name="country" id="country" class="form-control " type="text" value="България">
                                     </li>
 
                                     <li id="postcode" class="">

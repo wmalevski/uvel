@@ -16,15 +16,10 @@ aria-hidden="true">
                  
                 <div class="modal-body">    
                     <div class="info-cont"></div>
-                    {{ csrf_field() }}  
-                                
-                    <div class="form-group">
-                        <label for="1">Име: </label>
-                        <input type="text" class="form-control" id="name-1" name="name" placeholder="Име на потребител:">
-                    </div>
+                    {{ csrf_field() }}
 
                     <div class="form-group">
-                        <label for="1">Email: </label>
+                        <label for="1">Имейл: </label>
                         <input type="email" class="form-control" id="email-1" name="email" placeholder="Имейл на потребител:">
                     </div>
 
@@ -88,17 +83,13 @@ aria-hidden="true">
         <table id="main_table" class="table tablesort table-fixed">
           <thead>
             <tr data-sort-method="thead">
-              <th scope="col">Име</th> 
-              <th scope="col">Email</th>
+              <th scope="col">Имейл</th>
               <th scope="col">Вид</th>
               <th scope="col">Магазин</th>
               <th data-sort-method="none" scope="col">Действия</th>
             </tr>
             
             <tr class="search-inputs" data-dynamic-search-url="ajax/search/users/">
-                <th>
-                    <input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Търси по име">
-                </th>
                 <th>
                     <input class="filter-input form-control" type="text" data-dynamic-search-param="byEmail=" placeholder="Търси по имейл">
                 </th>

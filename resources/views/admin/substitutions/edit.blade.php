@@ -22,7 +22,7 @@
                         <option value="">Избери потребител</option>
                 
                         @foreach($users as $user)
-                            <option value="{{ $user->id }}" @if($substitution->user_id == $user->id) selected @endif>{{ $user->name }} - {{ $user->store->name }}</option>
+                            <option value="{{ $user->id }}" @if($substitution->user_id == $user->id) selected @endif>{{ $user->email }} - {{ $user->store->name }}</option>
                         @endforeach
                     </select>
                 </div>

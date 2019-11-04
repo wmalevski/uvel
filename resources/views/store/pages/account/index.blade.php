@@ -30,7 +30,6 @@
 												<div class="info">
 													<i class="fa fa-user"></i>
 													<span class="address-group">
-														<span class="author">{{Auth::user()->name}}</span>
 														<span class="email">{{Auth::user()->email}}</span>
 													</span>
 												</div>
