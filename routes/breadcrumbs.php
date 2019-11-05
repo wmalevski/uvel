@@ -1,4 +1,5 @@
 <?php
+use Session;
 
 // Home
 Breadcrumbs::register('store', function ($breadcrumbs) {
@@ -91,6 +92,11 @@ Breadcrumbs::register('products', function ($breadcrumbs) {
     $breadcrumbs->push('Налични бижута', route('products'));
 });
 
+Breadcrumbs::register('products_active_filters', function ($breadcrumbs) {
+    $breadcrumbs->parent('store');
+    $breadcrumbs->push('Налични бижута', urldecode(Session::get('products_active_filters')));
+});
+
 Breadcrumbs::register('productsothers', function ($breadcrumbs) {
     $breadcrumbs->parent('store');
     $breadcrumbs->push('Каталог с продукти', route('productsothers'));
@@ -102,7 +108,7 @@ Breadcrumbs::register('wishlist', function ($breadcrumbs) {
 });
 
 Breadcrumbs::register('single_product', function ($breadcrumbs, $product) {
-    $breadcrumbs->parent('products');
+    $breadcrumbs->parent('products_active_filters');
     $breadcrumbs->push($product->id, route('single_product', $product->id));
 });
 

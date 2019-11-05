@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\User;
 use Illuminate\Support\Facades\Input;
+use Session;
 
 class ProductController extends BaseController
 {
@@ -37,6 +38,8 @@ class ProductController extends BaseController
             ['website_visible', '=', 'yes']
         ])->paginate(env('RESULTS_PER_PAGE'));
 
+        Session::put('products_active_filters', $request->fullUrl() );
+        
         $stores = Store::all()->except(1);
 
         $productothertypes = ProductOtherType::all();
