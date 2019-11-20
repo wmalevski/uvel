@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ModelOrder;
 use App\Order;
 use App\Product;
 use App\Model;
@@ -11,6 +12,7 @@ use App\Stone;
 use App\ModelStone;
 use App\ProductStone;
 use App\ModelOption;
+use App\User;
 use Illuminate\Http\Request;
 use App\Gallery;
 use Illuminate\Support\Facades\Validator;
@@ -244,6 +246,35 @@ class OrderController extends Controller
         $stores = Store::take(env('SELECT_PRELOADED'))->get();
 
         return \View::make('admin/orders/edit', array('stores' => $stores , 'order_stones' => $order_stones, 'order' => $order, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials));
+    }
+
+    /**
+     * Print order.
+     *
+     * @param $id
+     */
+    public function generate($id)
+    {
+        $order = Order::where('id', $id)->first();
+        $model_order = ModelOrder::where('id', $id)->first();
+
+        if($order && $model_order) {
+            $store = Store::where('id', $order->store_id)->first();
+            $user = User::where('id', $model_order->user_id)->first();
+            $material = Material::where('id', $order->material_id)->first();
+            $mpdf = new \Mpdf\Mpdf([
+                'mode' => 'utf-8',
+                'format' => [148, 210]
+            ]);
+
+            $html = view('pdf.order', compact('order', 'store', 'user', 'material'))->render();
+
+            $mpdf->WriteHTML($html);
+
+            $mpdf->Output(str_replace(' ', '_', $order->id).'_order.pdf',\Mpdf\Output\Destination::DOWNLOAD);
+        }
+
+        abort(404, 'Product not found.');
     }
 
     /**

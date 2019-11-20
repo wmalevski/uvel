@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Store;
 use Response;
 use App\Price;
 use App\Repair;
@@ -106,18 +107,21 @@ class RepairController extends Controller
     }
 
     public function certificate($id){
-        $repair = Repair::where('id', $id)->get();
+        $repair = Repair::where('id', $id)->first();
+
         if($repair) {
+            $store = Store::where('id', Auth::user()->store_id)->first();
+            $material = Material::where('id', $repair->material_id)->first();
             $mpdf = new \Mpdf\Mpdf([
                 'mode' => 'utf-8',
                 'format' => [148, 210]
             ]);
 
-            $html = view('pdf.repair', compact('repair'))->render();
+            $html = view('pdf.repair', compact('repair', 'store', 'material'))->render();
 
             $mpdf->WriteHTML($html);
 
-            $mpdf->Output(str_replace(' ', '_', $repair->name).'_repair.pdf',\Mpdf\Output\Destination::DOWNLOAD);
+            $mpdf->Output(str_replace(' ', '_', $repair->id).'_repair.pdf',\Mpdf\Output\Destination::DOWNLOAD);
         }
 
         abort(404, 'Product not found.');
