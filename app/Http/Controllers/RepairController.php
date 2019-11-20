@@ -106,8 +106,21 @@ class RepairController extends Controller
     }
 
     public function certificate($id){
-        $repair = Repair::find($id);
-        return Response::json(array('success' => 'yes', 'html' => View::make('admin/repairs/certificate',array('repair'=>$repair))->render()));
+        $repair = Repair::where('id', $id)->get();
+        if($repair) {
+            $mpdf = new \Mpdf\Mpdf([
+                'mode' => 'utf-8',
+                'format' => [148, 210]
+            ]);
+
+            $html = view('pdf.repair', compact('repair'))->render();
+
+            $mpdf->WriteHTML($html);
+
+            $mpdf->Output(str_replace(' ', '_', $repair->name).'_repair.pdf',\Mpdf\Output\Destination::DOWNLOAD);
+        }
+
+        abort(404, 'Product not found.');
     }
 
     /**
