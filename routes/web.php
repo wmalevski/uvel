@@ -198,8 +198,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function(
 
     Route::get('/stones/contours/{stoneContour}', 'StoneContourController@edit');
 
-    Route::get('/repairs/certificate/{barcode}', 'RepairController@certificate');
-
     Route::get('/repairs/return/{repair}', 'RepairController@return');
     Route::get('/repairs/edit/{repair}', 'RepairController@edit');
 
@@ -248,6 +246,10 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/dailyreports/delete/{report}', 'DailyReportController@destroy');
 
     Route::get('/products/generatelabel/{barcode}', 'GenerateLabelController@generate');
+
+    Route::get('/orders/print/{id}', 'OrderController@generate');
+
+    Route::get('/repairs/certificate/{id}', 'RepairController@certificate');
 
     Route::get('/search/repairs', 'RepairController@filter');
 

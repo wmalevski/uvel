@@ -16,9 +16,9 @@
         {{-- @can('edit-orders') --}}
             <span data-url="orders/{{$order->id}}" class="edit-btn" data-form-type="edit" data-form="orders" data-toggle="modal" data-target="#editOrder"><i class="c-brown-500 ti-pencil"></i></span> 
         {{-- @endcan --}}
-        <a href="orders/print/{{$order->id}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a> 
+        <a data-print-label="true" target="_blank" href="/ajax/orders/print/{{$order->id}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a>
         {{-- @can('delete-orders') --}}
-            <span data-url="orders/delete/{{$order->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></span> 
+            <span data-url="orders/delete/{{$order->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></span>
         {{-- @endcan --}}
     </td>
 </tr>

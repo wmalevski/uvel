@@ -1,12 +1,10 @@
-<h1 style="text-align: center;">Магазин за златна и сребърна бижутерия</h1>
-<h1 style="text-align: center;">ул. "Позитано" №20</h1>
-<h1 style="text-align: center;">Тел: 0887977322</h1>
+<h2 style="text-align: center;">Магазин за златна и сребърна бижутерия</h2>
+<h2 style="text-align: center;">{{ $store->name }} - {{ $store->location }}</h2>
+<h2 style="text-align: center;">тел.: {{ $store->phone }}</h2>
 <hr/>
 
 <h1 style="text-align: center;"><strong>РЕМОНТ №: {{ $repair->id }}</strong></h1>
 <h2 style="text-align: center;">бижутерско изделие</h2>
-
-{!! DNS1D::getBarcodeSVG($repair->barcode, "EAN13",1,33,"black", true) !!}
 
 <div>
     <strong>Клиент: </strong> {{ $repair->customer_name }}
@@ -29,10 +27,21 @@
 <hr/>
 
 <div>
-    <strong>Цена: </strong> {{ $repair->price }}лв.
+    <strong>Прог.цена: </strong> {{ $repair->price }}лв.
+    <strong>Капаро: </strong> {{ $repair->deposit }}лв.
+    <strong>Остатък: </strong> {{ $repair->price - $repair->deposit }}лв.
 </div>
 <hr/>
-
+<div>
+    <strong>Материал: </strong> {{ $material->name }} - {{ $material->code }} - {{ $material->color }}
+</div>
+<div>
+    <strong>Бижу на клиента: </strong>
+    @if (Illuminate\Support\Str::lower($material->name) == "злато")
+        Карат: {{ $material->carat }}
+    @endif
+    Грам: {{ $repair->weight }}
+</div>
 <div>
     <strong>Клиент: </strong>
     <strong style="margin-left: 200px;">Приемчик: </strong>
@@ -42,4 +51,4 @@
 <div>
     <strong>Дата за получаване: </strong> {{ $repair->date_returned }}
 </div>
-<hr/>
+
