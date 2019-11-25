@@ -249,6 +249,8 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::get('/orders/print/{id}', 'OrderController@generate');
 
+    Route::get('/selling/certificate/{id}', 'SellingController@certificate');
+
     Route::get('/repairs/certificate/{id}', 'RepairController@certificate');
 
     Route::get('/search/repairs', 'RepairController@filter');

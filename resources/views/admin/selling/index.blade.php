@@ -380,7 +380,7 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <button type="button" class="btn btn-primary btn-print" disabled>Печат</button>
+                    <a data-print-label="true"  target="_blank" href="@if($items && $items[0]->attributes->type == 'product')/ajax/selling/certificate/{{ $items[0]->attributes->product_id }}@endif" class="print-btn">Печат</a>
                     <button type="submit" class="btn btn-primary btn-finish-payment" disabled>Завърши плащането</button>
                 </div>
             </form>

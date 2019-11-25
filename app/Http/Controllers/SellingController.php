@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model;
 use DB;
 use App\Selling;
 use App\Price;
@@ -502,6 +503,28 @@ class SellingController extends Controller
         } else {
             return Response::json(array('success' => false));
         }
+    }
+
+    public function certificate($id) {
+        $product = Product::where('id', $id)->first();
+
+        if($product) {
+            $material = Material::where('id', $product->material_id)->first();
+            $model = Model::where('id', $product->model_id)->first();
+            $weight = calculate_product_weight($product);
+            $mpdf = new \Mpdf\Mpdf([
+                'mode' => 'utf-8',
+                'format' => [62, 40]
+            ]);
+
+            $html = view('pdf.certificate', compact('product', 'material', 'model', 'weight'))->render();
+
+            $mpdf->WriteHTML($html);
+
+            $mpdf->Output(str_replace(' ', '_', $product->name).'_certificate.pdf',\Mpdf\Output\Destination::DOWNLOAD);
+        }
+
+        abort(404, 'Product not found.');
     }
 
     public function getCartTable(){

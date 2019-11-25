@@ -1,5 +1,5 @@
 <?php
-use Session;
+use Illuminate\Support\Facades\Session;
 
 // Home
 Breadcrumbs::register('store', function ($breadcrumbs) {
