@@ -1,5 +1,4 @@
 <tr data-id="{{ $order->id }}">
-    <td>{{ $order->name }}</td> 
     <td>{{ $order->email }}</td> 
     <td>{{ $order->phone }}</td> 
     <td>{{ $order->city }}</td> 
