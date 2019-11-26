@@ -20,7 +20,6 @@ aria-hidden="true">
       <table id="main_table" class="table">
         <thead>
           <tr>
-            <th scope="col">Име</th> 
             <th scope="col">Email</th> 
             <th scope="col">Телефон</th> 
             <th scope="col">Град</th> 
