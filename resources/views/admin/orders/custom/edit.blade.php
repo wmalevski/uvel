@@ -12,7 +12,7 @@
                 <div class="info-cont">
                 </div>
             {{ csrf_field() }}
-            
+
             <div class="form-group">
                 <label for="2">Email на клиент: </label>
                 <input type="email" class="form-control" value="{{ $order->email }}" id="2" name="email" placeholder="Email:">

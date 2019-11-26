@@ -145,7 +145,7 @@ class CustomOrderController extends Controller
         $orders = $orders->paginate(env('RESULTS_PER_PAGE'));
 
         $response = '';
-        foreach($orders as $material){
+        foreach($orders as $order){
             $response .= \View::make('admin/orders/custom/table', array('order' => $order, 'listType' => $request->listType));
         }
 
