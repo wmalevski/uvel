@@ -21,11 +21,6 @@ class ModelOrder extends Model
 
     public function filterOrders(Request $request ,$query){
         $query = ModelOrder::where(function($query) use ($request){
-            if ($request->byName) {
-                $query->with('Model')->whereHas('Model', function($q) use ($request){
-                    $q->where('name', 'LIKE', "%$request->byName%");
-                });
-            }
 
             if ($request->byЕmail) {
                 $query->with('User')->whereHas('User', function($q) use ($request){

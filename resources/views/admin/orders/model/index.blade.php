@@ -17,7 +17,7 @@ aria-hidden="true">
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
       <h4 class="c-grey-900 mB-20">Поръчки</h4>
       <p>Поръчки по модел на клиента.</p>
-      <table id="main_table" class="table">
+      <table id="main_table" class="table tablesort table-fixed">
         <thead>
           <tr>
             <th scope="col">Email</th> 
@@ -26,6 +26,15 @@ aria-hidden="true">
             <th scope="col">Модел</th> 
             <th scope="col">Статус</th> 
             <th scope="col" data-sort-method="none">Действия</th>
+          </tr>
+
+          <tr class="search-inputs" data-dynamic-search-url="ajax/search/orders/model">
+            <th>
+              <input class="filter-input form-control" type="text" data-dynamic-search-param="byEmail=" placeholder="Търси по имейл">
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>

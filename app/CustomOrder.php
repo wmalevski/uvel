@@ -29,9 +29,6 @@ class CustomOrder extends Model
 
     public function filterOrders(Request $request ,$query){
         $query = CustomOrder::where(function($query) use ($request){
-            if ($request->byName) {
-                $query->where('name','LIKE','%'.$request->byName.'%');
-            }
 
             if ($request->byEmail) {
                 $query = $query->where('email','LIKE','%'.$request->byEmail.'%');

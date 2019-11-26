@@ -277,6 +277,10 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::get('/search/users', 'UserController@filter');
 
+    Route::get('/search/orders/model', 'ModelOrderController@filter');
+
+    Route::get('/search/orders/custom', 'CustomOrderController@filter');
+
     Route::get('/select_search/repairtypes', 'RepairTypeController@select_search');
 
     Route::get('/select_search/stones/nomenclatures', 'NomenclatureController@select_search');
