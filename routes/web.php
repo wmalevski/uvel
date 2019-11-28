@@ -19,227 +19,239 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function() {
-    Route::get('/', 'SellingController@index')->name('admin');
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function () {
 
-    Route::get('/infoemails', 'InfoMailController@index')->name('info_emails');
-    Route::get('/infoemails/{email}', 'InfoMailController@edit');
+    //Active urls for roles: CASHIER, MANAGER and ADMIN.
+    Route::group(['middleware' => ['check_user_role:' . \App\Role\UserRole::ROLE_CASHIER]], function () {
+        //Selling section
+        Route::get('/', 'SellingController@index')->name('admin');
+        Route::get('/selling', 'SellingController@index')->name('selling');
+        Route::post('/selling', 'SellingController@store');
+        Route::get('/selling/online', 'OnlineSellingsController@index')->name('online_selling');
+        Route::get('/selling/online/{selling}', 'OnlineSellingsController@edit');
+        Route::put('/selling/online/{selling}', 'OnlineSellingsController@update');
 
-    Route::get('/infophones', 'InfoPhoneController@index')->name('info_phones');
-    Route::get('/infophones/{phone}', 'InfoPhoneController@edit');
+        //Dailyreports section
+        Route::get('/dailyreports', 'DailyReportController@index')->name('daily_reports');
+        Route::get('/dailyreports/create', 'DailyReportController@create')->name('create_report');
+        Route::post('/dailyreports/create/moneyreport', 'DailyReportController@moneyreport');
+        Route::post('/dailyreports/create/jewelreport', 'DailyReportController@jewelreport');
+        Route::post('/dailyreports/create/materialreport', 'DailyReportController@materialreport');
+        Route::get('/dailyreports/{report}', 'DailyReportController@edit');
+    });
 
-    Route::get('/blog', 'BlogController@index')->name('admin_blog');
-    Route::get('/blog/{article}', 'BlogController@edit');
-    Route::get('/blog/{article}/comments', 'BlogController@showComments');
-    Route::post('/blog', 'BlogController@store');
-    Route::get('/sell/partner', 'PaymentController@partner_payment');
+    //Active urls for roles: MANAGER and ADMIN.
+    Route::group(['middleware' => ['check_user_role:' . \App\Role\UserRole::ROLE_MANAGER]], function () {
+        Route::get('/discounts', 'DiscountCodeController@index')->name('discounts');
+        Route::get('/discounts/{discountCode}', 'DiscountCodeController@edit');
+    });
 
-    Route::get('/cartMaterialsInfo', 'SellingController@cartMaterialsInfo')->name('cart_materials');
+    //Active urls for ADMIN role.
+    Route::group(['middleware' => ['check_user_role:' . \App\Role\UserRole::ROLE_ADMIN]], function () {
 
-    Route::get('/repairtypes', 'RepairTypeController@index')->name('repair_types');
-    Route::post('/repairtypes', 'RepairTypeController@store');
-    Route::get('/repairtypes/{repairType}', 'RepairTypeController@edit');
+        //Blog section
+        Route::get('/blog', 'BlogController@index')->name('admin_blog');
+        Route::get('/blog/{article}', 'BlogController@edit');
+        Route::get('/blog/{article}/comments', 'BlogController@showComments');
+        Route::post('/blog', 'BlogController@store');
 
-    Route::get('/repairs', 'RepairController@index')->name('repairs');
-    Route::post('/repairs', 'RepairController@store');
-    Route::get('/repairs/{barcode}', 'RepairController@edit');
+        //Slides section
+        Route::get('/slides', 'SliderController@index')->name('slides');
+        Route::post('/slides', 'SliderController@store');
+        Route::get('/slides/{slide}', 'SliderController@edit');
 
-    Route::get('/selling', 'SellingController@index')->name('selling');
-    Route::post('/selling', 'SellingController@store');
+        Route::get('/infoemails', 'InfoMailController@index')->name('info_emails');
+        Route::get('/infoemails/{email}', 'InfoMailController@edit');
 
-    Route::get('/selling/online', 'OnlineSellingsController@index')->name('online_selling');
+        Route::get('/infophones', 'InfoPhoneController@index')->name('info_phones');
+        Route::get('/infophones/{phone}', 'InfoPhoneController@edit');
 
-    Route::get('/stones/sizes', 'StoneSizeController@index')->name('sizes');
-    Route::post('/stones/sizes', 'StoneSizeController@store');
+        Route::get('/sell/partner', 'PaymentController@partner_payment');
 
-    Route::get('/stones/styles', 'StoneStyleController@index')->name('styles');
-    Route::post('/stones/styles', 'StoneStyleController@store');
+        Route::get('/cartMaterialsInfo', 'SellingController@cartMaterialsInfo')->name('cart_materials');
 
-    Route::get('/stones/contours', 'StoneContourController@index')->name('contours');
-    Route::post('/stones/contours', 'StoneContourController@store');
+        Route::get('/repairtypes', 'RepairTypeController@index')->name('repair_types');
+        Route::post('/repairtypes', 'RepairTypeController@store');
+        Route::get('/repairtypes/{repairType}', 'RepairTypeController@edit');
 
-    Route::get('/orders', 'OrderController@index')->name('orders');
+        Route::get('/repairs', 'RepairController@index')->name('repairs');
+        Route::post('/repairs', 'RepairController@store');
+        Route::get('/repairs/{barcode}', 'RepairController@edit');
 
-    //Route::get('/users/substitution/{user}', 'UserSubstitutionController@show');
+        Route::get('/stones/sizes', 'StoneSizeController@index')->name('sizes');
+        Route::post('/stones/sizes', 'StoneSizeController@store');
 
-    Route::get('/users/substitutions', 'UserSubstitutionController@index')->name('substitutions');
-    Route::get('/users/substitutions/{userSubstitution}', 'UserSubstitutionController@edit');
+        Route::get('/stones/styles', 'StoneStyleController@index')->name('styles');
+        Route::post('/stones/styles', 'StoneStyleController@store');
 
-    Route::get('/users', 'UserController@index')->name('users');
-    Route::get('/users/{user}', 'UserController@edit');
+        Route::get('/stones/contours', 'StoneContourController@index')->name('contours');
+        Route::post('/stones/contours', 'StoneContourController@store');
 
-    Route::get('/partners', 'PartnerController@index')->name('partners');
-    Route::get('/partners/{partner}', 'PartnerController@edit');
+        Route::get('/orders', 'OrderController@index')->name('orders');
 
-    Route::get('/partnermaterials/{partner}', 'PartnerMaterialController@index')->name('partner_materials');
-    Route::get('/partnermaterials/{partner}/{material}', 'PartnerMaterialController@edit');
+        //Route::get('/users/substitution/{user}', 'UserSubstitutionController@show');
 
-    Route::get('/stones', 'StoneController@index')->name('stones');
-    Route::post('/stones', 'StoneController@store');
+        Route::get('/users/substitutions', 'UserSubstitutionController@index')->name('substitutions');
+        Route::get('/users/substitutions/{userSubstitution}', 'UserSubstitutionController@edit');
 
-    Route::get('/stones/{stone}', 'StoneController@edit');
+        Route::get('/users', 'UserController@index')->name('users');
+        Route::get('/users/{user}', 'UserController@edit');
 
-    Route::get('/slides', 'SliderController@index')->name('slides');
-    Route::post('/slides', 'SliderController@store');
+        Route::get('/partners', 'PartnerController@index')->name('partners');
+        Route::get('/partners/{partner}', 'PartnerController@edit');
 
-    Route::get('/slides/{slide}', 'SliderController@edit');
+        Route::get('/partnermaterials/{partner}', 'PartnerMaterialController@index')->name('partner_materials');
+        Route::get('/partnermaterials/{partner}/{material}', 'PartnerMaterialController@edit');
 
-    Route::get('/stores', 'StoreController@index')->name('stores');
-    Route::post('/stores', 'StoreController@store');
-    Route::get('/stores/info/{store}', 'StoreController@show');
+        Route::get('/stones', 'StoneController@index')->name('stones');
+        Route::post('/stones', 'StoneController@store');
 
-    Route::get('/payments', 'PaymentController@index')->name('payments');
+        Route::get('/stones/{stone}', 'StoneController@edit');
 
-    Route::get('/stores/{store}', 'StoreController@edit');
-    //Route::put('/stores/{store}', 'StoreController@update');
+        Route::get('/stores', 'StoreController@index')->name('stores');
+        Route::post('/stores', 'StoreController@store');
+        Route::get('/stores/info/{store}', 'StoreController@show');
 
-    Route::get('/selling/online/{selling}', 'OnlineSellingsController@edit');
-    Route::put('/selling/online/{selling}', 'OnlineSellingsController@update');
+        Route::get('/payments', 'PaymentController@index')->name('payments');
 
-    Route::get('/nomenclatures', 'NomenclatureController@index')->name('nomenclatures');
+        Route::get('/stores/{store}', 'StoreController@edit');
+        //Route::put('/stores/{store}', 'StoreController@update');
 
-    Route::get('/nomenclatures/{nomenclature}', 'NomenclatureController@edit');
 
-    Route::get('/materials', 'MaterialController@index')->name('materials');
-    Route::post('/materials', 'MaterialController@store');
+        Route::get('/nomenclatures', 'NomenclatureController@index')->name('nomenclatures');
 
-    Route::get('/materialstypes', 'MaterialTypeController@index')->name('materials_types');
-    Route::post('/materialstypes', 'MaterialTypeController@store');
+        Route::get('/nomenclatures/{nomenclature}', 'NomenclatureController@edit');
 
-    Route::get('/materialstypes/{materialType}', 'MaterialTypeController@edit');
+        Route::get('/materials', 'MaterialController@index')->name('materials');
+        Route::post('/materials', 'MaterialController@store');
 
-    Route::get('/materials/{material}', 'MaterialController@edit');
-    Route::put('/materials/{material}', 'MaterialController@update');
+        Route::get('/materialstypes', 'MaterialTypeController@index')->name('materials_types');
+        Route::post('/materialstypes', 'MaterialTypeController@store');
 
-    Route::post('/materials/accept/{material}', 'MaterialTravellingController@accept');
-    Route::post('/materials/decline/{material}', 'MaterialTravellingController@decline');
+        Route::get('/materialstypes/{materialType}', 'MaterialTypeController@edit');
 
-    Route::get('/mquantity', 'MaterialQuantityController@index')->name('materials_quantity');
-    Route::post('/mquantity', 'MaterialQuantityController@store');
+        Route::get('/materials/{material}', 'MaterialController@edit');
+        Route::put('/materials/{material}', 'MaterialController@update');
 
-    Route::get('/mtravelling', 'MaterialTravellingController@index')->name('materials_travelling');
-    Route::post('/mtravelling', 'MaterialTravellingController@store');
+        Route::post('/materials/accept/{material}', 'MaterialTravellingController@accept');
+        Route::post('/materials/decline/{material}', 'MaterialTravellingController@decline');
 
-    Route::get('/mquantity/{materialQuantity}', 'MaterialQuantityController@edit');
+        Route::get('/mquantity', 'MaterialQuantityController@index')->name('materials_quantity');
+        Route::post('/mquantity', 'MaterialQuantityController@store');
 
-    Route::get('/prices', 'PriceController@index')->name('prices');
-    Route::post('/prices', 'PriceController@index');
+        Route::get('/mtravelling', 'MaterialTravellingController@index')->name('materials_travelling');
+        Route::post('/mtravelling', 'MaterialTravellingController@store');
 
-    Route::get('/prices/{material}', 'PriceController@show')->name('view_price');
-    Route::post('/prices/{material}', 'PriceController@store');
+        Route::get('/mquantity/{materialQuantity}', 'MaterialQuantityController@edit');
 
-    Route::get('/prices/edit/{price}', 'PriceController@edit');
+        Route::get('/prices', 'PriceController@index')->name('prices');
+        Route::post('/prices', 'PriceController@index');
 
-    Route::get('/jewels', 'JewelController@index')->name('jewels');
-    Route::post('/jewels', 'JewelController@store');
+        Route::get('/prices/{material}', 'PriceController@show')->name('view_price');
+        Route::post('/prices/{material}', 'PriceController@store');
 
-    Route::get('/jewels/{jewel}', 'JewelController@edit');
+        Route::get('/prices/edit/{price}', 'PriceController@edit');
 
-    Route::get('/orders/custom', 'CustomOrderController@index')->name('custom_orders');
+        Route::get('/jewels', 'JewelController@index')->name('jewels');
+        Route::post('/jewels', 'JewelController@store');
 
-    Route::get('/orders/custom/{order}', 'CustomOrderController@edit');
+        Route::get('/jewels/{jewel}', 'JewelController@edit');
 
-    Route::get('/orders/model', 'ModelOrderController@index')->name('model_orders_web');
-    
-    Route::get('/orders/model/{order}', 'ModelOrderController@edit');
+        Route::get('/orders/custom', 'CustomOrderController@index')->name('custom_orders');
 
-    Route::get('/models', 'ModelController@index')->name('admin_models');
-    Route::post('/models', 'ModelController@store');
+        Route::get('/orders/custom/{order}', 'CustomOrderController@edit');
 
-    Route::get('/models/{model}', 'ModelController@edit');
-    Route::put('/models/{model}', 'ModelController@update');
-    Route::get('/models/view/{model}', 'ModelController@getModelInformation');
+        Route::get('/orders/model', 'ModelOrderController@index')->name('model_orders_web');
 
-    Route::get('/models/calculateStonesTotalWeight/{stone}/{stonesTotal}', 'ModelController@calculateStonesTotalWeight');
+        Route::get('/orders/model/{order}', 'ModelOrderController@edit');
 
-    Route::get('/products/{product}', 'ProductController@edit');
-    Route::get('/products', 'ProductController@index')->name('admin_products');
-    Route::post('/products', 'ProductController@store');
+        Route::get('/models', 'ModelController@index')->name('admin_models');
+        Route::post('/models', 'ModelController@store');
 
-    Route::get('/productsothers', 'ProductOtherController@index')->name('products_others');
-    Route::get('/productsothers/{productOther}', 'ProductOtherController@edit');
-    //Route::put('/productsothers/{product}', 'ProductOtherController@update');
+        Route::get('/models/{model}', 'ModelController@edit');
+        Route::put('/models/{model}', 'ModelController@update');
+        Route::get('/models/view/{model}', 'ModelController@getModelInformation');
 
-    Route::get('/productstravelling', 'ProductTravellingController@index')->name('products_travelling');
+        Route::get('/models/calculateStonesTotalWeight/{stone}/{stonesTotal}', 'ModelController@calculateStonesTotalWeight');
 
-    Route::post('/productstravelling', 'ProductTravellingController@store');
+        Route::get('/products/{product}', 'ProductController@edit');
+        Route::get('/products', 'ProductController@index')->name('admin_products');
+        Route::post('/products', 'ProductController@store');
 
-    Route::get('/productstravelling/accept/{product}', 'ProductTravellingController@accept');
+        Route::get('/productsothers', 'ProductOtherController@index')->name('products_others');
+        Route::get('/productsothers/{productOther}', 'ProductOtherController@edit');
+        //Route::put('/productsothers/{product}', 'ProductOtherController@update');
 
-    Route::get('productstravelling/addByScan/{product}', 'ProductTravellingController@addByScan');
+        Route::get('/productstravelling', 'ProductTravellingController@index')->name('products_travelling');
 
-    Route::get('/productsotherstypes', 'ProductOtherTypeController@index')->name('products_others_types');
-    Route::get('/productsotherstypes/{productOtherType}', 'ProductOtherTypeController@edit');
+        Route::post('/productstravelling', 'ProductTravellingController@store');
 
-    Route::get('/settings/stock', 'SettingController@stockPrices')->name('stock_prices');
-    Route::post('/settings/stock', 'SettingController@updatePrices');
+        Route::get('/productstravelling/accept/{product}', 'ProductTravellingController@accept');
 
-    Route::get('/settings/currencies', 'SettingController@currencies')->name('currencies');
-    Route::post('/settings/currencies', 'CurrencyController@store');
+        Route::get('productstravelling/addByScan/{product}', 'ProductTravellingController@addByScan');
 
-    Route::get('/settings/currencies/{currency}', 'CurrencyController@edit');
+        Route::get('/productsotherstypes', 'ProductOtherTypeController@index')->name('products_others_types');
+        Route::get('/productsotherstypes/{productOtherType}', 'ProductOtherTypeController@edit');
 
-    Route::get('/settings/cashgroups', 'CashGroupController@index')->name('cashgroups');
-    Route::get('/settings/cashgroups/{cashGroup}', 'CashGroupController@edit');
+        Route::get('/settings/stock', 'SettingController@stockPrices')->name('stock_prices');
+        Route::post('/settings/stock', 'SettingController@updatePrices');
 
-    Route::get('/discounts', 'DiscountCodeController@index')->name('discounts');
+        Route::get('/settings/currencies', 'SettingController@currencies')->name('currencies');
+        Route::post('/settings/currencies', 'CurrencyController@store');
 
-    Route::get('/discounts/{discountCode}', 'DiscountCodeController@edit');
+        Route::get('/settings/currencies/{currency}', 'CurrencyController@edit');
 
-    Route::get('/setDiscount/{barcode}',  'SellingController@setDiscount');
+        Route::get('/settings/cashgroups', 'CashGroupController@index')->name('cashgroups');
+        Route::get('/settings/cashgroups/{cashGroup}', 'CashGroupController@edit');
 
-    Route::get('/sell/clearCart', 'SellingController@clearCart')->name('clear_cart');
 
-    Route::get('/stones/sizes/{stoneSize}', 'StoneSizeController@edit');
+        Route::get('/setDiscount/{barcode}', 'SellingController@setDiscount');
 
-    Route::get('/stones/styles/{stoneStyle}', 'StoneStyleController@edit');
+        Route::get('/sell/clearCart', 'SellingController@clearCart')->name('clear_cart');
 
-    Route::get('/stones/{stone}', 'StoneController@edit');
+        Route::get('/stones/sizes/{stoneSize}', 'StoneSizeController@edit');
 
-    Route::get('/stones/contours/{stoneContour}', 'StoneContourController@edit');
+        Route::get('/stones/styles/{stoneStyle}', 'StoneStyleController@edit');
 
-    Route::get('/repairs/return/{repair}', 'RepairController@return');
-    Route::get('/repairs/edit/{repair}', 'RepairController@edit');
+        Route::get('/stones/{stone}', 'StoneController@edit');
 
-    Route::get('/mailchimp', 'NewsletterController@index')->name('mailchimp');
+        Route::get('/stones/contours/{stoneContour}', 'StoneContourController@edit');
 
-    Route::get('/reviews', 'ReviewController@index')->name('reviews');
-    Route::get('/reviews/{review}', 'ReviewController@show')->name('show_review');
-    Route::post('/reviews/delete/{review}', 'ReviewController@destroy')->name('destroy_review');
+        Route::get('/repairs/return/{repair}', 'RepairController@return');
+        Route::get('/repairs/edit/{repair}', 'RepairController@edit');
 
-    Route::get('/reviews/product/{product}', 'ReviewController@index')->name('show_product_reviews');
+        Route::get('/mailchimp', 'NewsletterController@index')->name('mailchimp');
 
-    Route::get('/products/reviews/all', 'ProductController@showReviews')->name('products_reviews');
-    Route::get('/productsothers/reviews/all', 'ProductOtherController@showReviews')->name('show_products_others_reviews');
-    Route::get('/models/reviews/all', 'ModelController@showReviews')->name('show_model_reviews');
-    Route::post('/logout', 'UserController@logout')->name('admin_logout');
+        Route::get('/reviews', 'ReviewController@index')->name('reviews');
+        Route::get('/reviews/{review}', 'ReviewController@show')->name('show_review');
+        Route::post('/reviews/delete/{review}', 'ReviewController@destroy')->name('destroy_review');
 
-    Route::get('/orders/{order}', 'OrderController@edit');
-    Route::get('/expenses', 'ExpenseController@index')->name('expenses');
-    Route::get('/expenses/{expense}', 'ExpenseController@edit');    
+        Route::get('/reviews/product/{product}', 'ReviewController@index')->name('show_product_reviews');
 
-    Route::get('/expensetypes', 'ExpenseTypeController@index')->name('expenses_types'); 
-    Route::get('/expensetypes/edit/{type}', 'ExpenseTypeController@edit');   
+        Route::get('/products/reviews/all', 'ProductController@showReviews')->name('products_reviews');
+        Route::get('/productsothers/reviews/all', 'ProductOtherController@showReviews')->name('show_products_others_reviews');
+        Route::get('/models/reviews/all', 'ModelController@showReviews')->name('show_model_reviews');
+        Route::post('/logout', 'UserController@logout')->name('admin_logout');
 
-    Route::get('/dailyreports', 'DailyReportController@index')->name('daily_reports'); 
-    Route::get('/dailyreports/create', 'DailyReportController@create')->name('create_report');
+        Route::get('/orders/{order}', 'OrderController@edit');
+        Route::get('/expenses', 'ExpenseController@index')->name('expenses');
+        Route::get('/expenses/{expense}', 'ExpenseController@edit');
 
-    Route::get('/sellingreportsexport', 'SellingReportController@index')->name('selling_report_export');
-    Route::get('/sellingreportsexport/{store}', 'SellingReportController@edit');
+        Route::get('/expensetypes', 'ExpenseTypeController@index')->name('expenses_types');
+        Route::get('/expensetypes/edit/{type}', 'ExpenseTypeController@edit');
 
-    Route::get('/materialsreports', 'MaterialQuantityController@materialReport')->name('materials_reports');
-    Route::get('/mtravellingreports', 'MaterialTravellingController@mtravellingReport')->name('mtravelling_reports');
 
-    Route::get('/productstravellingreports', 'ProductTravellingController@productstravellingReport')->name('productstravelling_reports');
-    Route::get('/productsreports', 'ProductController@productsReport')->name('products_reports');
+        Route::get('/sellingreportsexport', 'SellingReportController@index')->name('selling_report_export');
+        Route::get('/sellingreportsexport/{store}', 'SellingReportController@edit');
 
-    Route::post('/dailyreports/create/moneyreport', 'DailyReportController@moneyreport');
-    Route::post('/dailyreports/create/jewelreport', 'DailyReportController@jewelreport');
-    Route::post('/dailyreports/create/materialreport', 'DailyReportController@materialreport');
+        Route::get('/materialsreports', 'MaterialQuantityController@materialReport')->name('materials_reports');
+        Route::get('/mtravellingreports', 'MaterialTravellingController@mtravellingReport')->name('mtravelling_reports');
 
-    Route::get('/dailyreports/{report}', 'DailyReportController@edit');
+        Route::get('/productstravellingreports', 'ProductTravellingController@productstravellingReport')->name('productstravelling_reports');
+        Route::get('/productsreports', 'ProductController@productsReport')->name('products_reports');
 
-    Route::get('/safe', 'SafeController@index');
+        Route::get('/safe', 'SafeController@index');
+    });
 });
 
 Route::group(['prefix' => 'ajax'], function() {

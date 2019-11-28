@@ -23,7 +23,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'store_id',
+        'name', 'email', 'password', 'store_id', 'role',
         'first_name', 'last_name', 'city', 'street', 'postcode', 'country', 'street_number', 'phone'
     ];
 
@@ -131,5 +131,68 @@ class User extends Authenticatable
         });
 
         return $query;
+    }
+
+    /***
+     * @param string $role
+     * @return $this
+     */
+    public function addRole(string $role)
+    {
+        $roles = $this->getRoles();
+        $roles[] = $role;
+
+        $roles = array_unique($roles);
+        $this->setRoles($roles);
+
+        return $this;
+    }
+
+    /**
+     * @param array $roles
+     * @return $this
+     */
+    public function setRoles(array $roles)
+    {
+        $this->setAttribute('role', $roles);
+        return $this;
+    }
+
+    /***
+     * @param $role
+     * @return mixed
+     */
+    public function hasRole($role)
+    {
+        return in_array($role, [$this->getRoles()]);
+    }
+
+    /***
+     * @param $roles
+     * @return mixed
+     */
+    public function hasRoles($roles)
+    {
+        $currentRoles = $this->getRoles();
+        foreach($roles as $role) {
+            if ( ! in_array($role, $currentRoles )) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRoles()
+    {
+        $roles = $this->getAttribute('role');
+
+        if (is_null($roles)) {
+            $roles = [];
+        }
+
+        return $roles;
     }
 }

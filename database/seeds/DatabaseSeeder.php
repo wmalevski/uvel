@@ -39,9 +39,9 @@ class DatabaseSeeder extends Seeder
             'title' => 'Админ',
         ]);
 
-        $merchant = Bouncer::role()->create([
-            'name' => 'merchant',
-            'title' => 'Магазинер',
+        $cashier = Bouncer::role()->create([
+            'name' => 'cashier',
+            'title' => 'Касиер',
         ]);
 
         $partner = Bouncer::role()->create([
@@ -57,6 +57,11 @@ class DatabaseSeeder extends Seeder
         $customer = Bouncer::role()->create([
             'name' => 'customer',
             'title' => 'Клиент',
+        ]);
+
+        $storehouse = Bouncer::role()->create([
+            'name' => 'storehouse',
+            'title' => 'Склад',
         ]);
         
 
@@ -154,13 +159,13 @@ class DatabaseSeeder extends Seeder
         Bouncer::allow($manager)->to($addingSafe);
         Bouncer::allow($manager)->to($accessDashboard);
 
-        //Merchant permissions 
-        Bouncer::allow($merchant)->to($sellingProducts);
-        Bouncer::allow($merchant)->to($manageOrders);
-        Bouncer::allow($merchant)->to($manageRepairs);
-        Bouncer::allow($merchant)->to($sellingStatus);
-        Bouncer::allow($merchant)->to($jewelStatus);
-        Bouncer::allow($merchant)->to($accessDashboard);
+        //Cashier permissions
+        Bouncer::allow($cashier)->to($sellingProducts);
+        Bouncer::allow($cashier)->to($manageOrders);
+        Bouncer::allow($cashier)->to($manageRepairs);
+        Bouncer::allow($cashier)->to($sellingStatus);
+        Bouncer::allow($cashier)->to($jewelStatus);
+        Bouncer::allow($cashier)->to($accessDashboard);
 
         $stores = new Store();
         $stores->name = 'Склад';
@@ -212,22 +217,25 @@ class DatabaseSeeder extends Seeder
 
         $user = new User();
         $user->email = 'admin@uvel.com';
+        $user->role = 'admin';
         $user->password = bcrypt('administrator');
         $user->store_id = 2;
         $user->save();
 
         Bouncer::assign('admin')->to($user);
 
-        $merchant = new User();
-        $merchant->email = 'merchant@uvel.com';
-        $merchant->password = bcrypt('merchant');
-        $merchant->store_id = 3;
-        $merchant->save();
+        $cashier = new User();
+        $cashier->email = 'cashier@uvel.com';
+        $cashier->role = 'cashier';
+        $cashier->password = bcrypt('cashier');
+        $cashier->store_id = 3;
+        $cashier->save();
 
-        Bouncer::assign('merchant')->to($merchant);
+        Bouncer::assign('cashier')->to($cashier);
 
         $corporate_partner = new User();
         $corporate_partner->email = 'Partner@uvel.com';
+        $corporate_partner->role = 'corporate_partner';
         $corporate_partner->password = bcrypt('partner');
         $corporate_partner->store_id = 3;
         $corporate_partner->save();
