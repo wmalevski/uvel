@@ -1,5 +1,5 @@
 <tr data-id="{{ $user->id }}">
-    <td>{{ $user->email }}</td> 
+    <td>{{ $user->email }}</td>
     <td>{{ $user->roles->first()['title'] }}</td>
     <td>@if($user->store_id != '') {{ $user->store->name }} @endif</td> 
     <td>

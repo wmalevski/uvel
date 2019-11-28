@@ -54,9 +54,10 @@ class UserController extends Controller
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
-        
+
         $user->email = $request->email;
         $user->store_id = $request->store_id;
+        $user->role = $request->role;
 
         $user->save();
 
