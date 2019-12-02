@@ -135,7 +135,7 @@
                             <div class="input-group">
                                 <input type="number" value="{{  $modelStone->weight  }}" class="form-control calculate-stones"
                                     id="1" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1"
-                                    max="100">
+                                    max="100" disabled>
                                 <span class="input-group-addon">гр.</span>
                             </div>
                         </div>

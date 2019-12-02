@@ -43,7 +43,7 @@ $newStoneRow =
 					<div class="form-group">
 						<label>Тегло: </label>
 						<div class="input-group">
-							<input type="number" value="" class="form-control calculate-stones" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">
+							<input type="number" value="" class="form-control calculate-stones" name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100" disabled>
 							<span class="input-group-addon">гр.</span>
 						</div>
 					</div>

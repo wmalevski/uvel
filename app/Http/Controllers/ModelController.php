@@ -351,7 +351,7 @@ class ModelController extends Controller
     {
         if($stone && $stonesTotal){
 
-            $totalWeight = ($stone->weight * $stonesTotal) * 1000;
+            $totalWeight = ($stone->weight * $stonesTotal);
 
             return Response::json(['weight' => $totalWeight], 200);
         }
