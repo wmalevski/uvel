@@ -57,13 +57,14 @@
 		<span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">Наличен</span> @endif</td>
 
 	<td>
-		@can('edit-products')
-		<span data-url="products/{{$product->id}}" class="edit-btn" data-form-type="edit" data-form="products" data-toggle="modal"
-		 data-target="#editProduct"><i class="c-brown-500 ti-pencil"></i></span>
+		@can('update')
+			<span data-url="products/{{$product->id}}" class="edit-btn" data-form-type="edit" data-form="products"
+				  data-toggle="modal"
+				  data-target="#editProduct"><i class="c-brown-500 ti-pencil"></i></span>
 		@endcan
 		<a href="reviews/product/{{$product->id}}"><i class="c-brown-500 ti-star"></i></a>
 		<a data-print-label="true" target="_blank" href="/ajax/products/generatelabel/{{$product->barcode}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a>
-		@can('delete-products')
+		@can('delete')
 		<span data-url="products/delete/{{$product->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></span>
 		@endcan
 	</td>
