@@ -70,7 +70,11 @@
               <h4 class="c-grey-900 mB-20">Продукти на път
                     <button type="button" class="btn btn-primary" data-form-type="add" data-form="productsTravelling" data-toggle="modal" data-target="#sendProduct">Изпрати</button>
               </h4>
-              <p>Преглед на пътуващите продукти.</p>
+                <p>Преглед на пътуващите продукти.</p>
+                <div class="form-group col-md-6">
+                    <label>Сканирай: </label>
+                    <input id="barcodeScanAccept" type="text" class="form-control" name="product_accept_barcode" placeholder="Приеми продукт" data-url="ajax/productstravelling/accept/">
+                </div>
               <table class="table table-condensed">
                 <thead>
                     <tr data-sort-method="none">
