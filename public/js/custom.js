@@ -218,7 +218,8 @@ var uvel,
           'removeStoneInit',
           'calculateStonesInit',
           'calculatePriceInit',
-          'materialPricesRequestInit'
+          'materialPricesRequestInit',
+          'resetOrderExchangeFieldsAttach'
         ],
         select2obj: [{
           selector: 'select[name="model_id"]',
@@ -317,6 +318,25 @@ var uvel,
         $('.sidebar-menu').scrollTop(activeMenuOffsetTop);
       }
     }
+
+    this.resetOrderExchangeFieldsAttach = function(form) {
+      var material = form.find('[data-calculateprice-material]');
+      
+      material.on('change', function() {
+        $self.resetOrderExchangeFields(form);
+      });
+    };
+
+    this.resetOrderExchangeFields = function(form) {
+      var materialContainer = form.find('.given-material')[0],    
+          rows = materialContainer.querySelectorAll('.form-row');
+
+      for (var i = 1; i < rows.length; i++) {
+        rows[i].remove();
+      }
+
+      $self.addOrderExchangeRow(form);
+    };
 
     this.checkboxGroupHandlerAttach = function() {
       var inputs = document.querySelectorAll('.checkbox-group input[type="checkbox"]');
@@ -1833,6 +1853,8 @@ var uvel,
       } else if (formName == 'orders') {
         var modelId = form.find('[data-calculateprice-model] option:selected').val();
         requestLink += '/' + modelId;
+
+        $self.resetOrderExchangeFields(form);
       } else {
         requestLink += '/0';
       }
@@ -2481,24 +2503,35 @@ var uvel,
       $self.ajaxFn('GET', ajaxUrl, $self.modelRequestResponseHandler, '', form);
     }
 
-    this.addAnother = function(form) {
+    this.addAnother = function(form, type) {
       var addAnother = form.find('#btnAddAnother');
 
       addAnother.on('click', function(event) {
         event.preventDefault();
 
+        $self.addOrderExchangeRow(form, type);
+      });
+    }
+
+    this.addOrderExchangeRow = function(form) {
         var container = form.find('.given-material'),
-            newRow = $(givenMaterialRow);
+            newRow = $(givenMaterialRow),
+            type = form.find('[data-calculateprice-material]')[0].selectedOptions[0].dataset.material;
 
         var newRemoveTrigger = newRow.find('[data-materials-remove]');
         $self.removeMaterialsAttach(newRemoveTrigger);
 
         var select = newRow.find('select');
 
+        if (type) {
+          var url = select[0].dataset.search;
+
+          select[0].dataset.search = url + type;
+        }
+
         $self.select2Looper(select);
 
         container.append(newRow)
-      });
     }
 
     this.dragNdropImages = function(dropArea, form) {
