@@ -160,3 +160,31 @@ input[type="number"][readonly],
 input[type="number"][disabled] {
 	-moz-appearance: textfield;
 }
+
+.product-information-btn {
+	padding: 0;
+    border: none;
+    background: none;
+}
+
+.product-information-modal .product-image {
+	width: 100%;
+	max-height: 300px;
+	margin-bottom: 16px;
+	object-fit: cover;
+}
+
+.product-information-modal ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+.product-information-modal ul span, .product-information-modal .product-name {
+	color: #000;
+}
+
+.product-information-modal .product-stones-inner {
+	padding-left: 24px;
+	color: #000;
+}

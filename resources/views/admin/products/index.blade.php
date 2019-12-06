@@ -292,6 +292,40 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 		</h3>
 	@endcan
 
+
+<div class="modal fade product-information-modal" id="productInformation" role="dialog" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="editModelLabel">Информация за модела</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="info-cont"></div>
+				{{ csrf_field() }}
+				<h3><span class="product-name">Тест</span></h3>
+				<h6><span class="product-jewel">Бижу 1</span><h6>
+				<hr>
+				<img class="product-image" src="" />
+				<ul>
+					<li>Цена - <span class="product-price"></span></li>
+					<li>Размер - <span class="product-size"></span></li>
+					<li>Тегло - <span class="product-weight"></span></li>
+					<li>Изработка - <span class="product-workmanship"></span></li>
+					<li>Камъни -  
+						<span class="product-stones"></span>
+						<ul class="product-stones-inner">
+							
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
 <table id="main_table" class="table table-condensed tablesort table-fixed">
 	<thead>
 		<tr data-sort-method="thead">

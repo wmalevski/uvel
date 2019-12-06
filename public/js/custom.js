@@ -303,7 +303,80 @@ var uvel,
       $self.setDailyReportsInputs();
       $self.setNumericInputsValidation($numericInputsDailyReports);
       $self.checkboxGroupHandlerAttach();
-    }    
+      $self.modelImageClickAttach();
+    };
+
+    this.modelImageClickAttach = function(row) {
+      var buttons = document.querySelectorAll('.product-information-btn'),
+          rowButton = row ? row.querySelector('.product-information-btn') : null;
+
+      if (row && rowButton) {
+        rowButton.addEventListener('click', getModelInformation, false);
+      } else if (buttons) {
+
+        buttons.forEach(function(button) {
+          button.addEventListener('click', getModelInformation, false);
+        });
+      }
+
+      function getModelInformation() {
+        var productId = this.closest('tr').dataset.id,
+            url = '/admin/models/view/' + productId;
+
+        $.ajax({
+          method: 'GET',
+          url: url,
+          success: function(response) {
+            $self.productInformationModalOpen(response);
+          },
+          error: function(response) {
+            console.log(response);
+          }
+        }); 
+      }
+    };
+
+    this.productInformationModalOpen = function(data) {
+      if (data) {
+        var model = data.model,
+            modal = document.querySelector('#productInformation'),
+            imageContainer = modal.querySelector('.product-image'),
+            nameContainer = modal.querySelector('.product-name'),
+            jewelContainer = modal.querySelector('.product-jewel'),
+            weightContainer = modal.querySelector('.product-weight'),
+            workmanshipContainer = modal.querySelector('.product-workmanship');
+            sizeContainer = modal.querySelector('.product-size'),
+            priceContainer = modal.querySelector('.product-price'),
+            stoneContainer = modal.querySelector('.product-stones'),
+            stoneInnerContainer = modal.querySelector('.product-stones-inner'),
+            stones = model.stones;
+
+        imageContainer.src = model.photos[0].photo;
+        nameContainer.innerHTML = model.name;
+        jewelContainer.innerHTML = model.jewelName;
+        weightContainer.innerHTML = model.weight + 'гр.';
+        workmanshipContainer.innerHTML = model.workmanshipPrice + 'лв.';
+        sizeContainer.innerHTML = model.size;
+        priceContainer.innerHTML = model.price + 'лв.';
+
+        if (stones.length) {
+          stoneContainer.innerHTML = stones.length;
+          stoneInnerContainer.innerHTML = '';
+
+          stones.forEach(function(stone) {
+            var li = document.createElement(li);
+
+            li.innerHTML = '- ' + stone.amount + ' x ' + stone.name + '(' + stone.weight + ' гр.)';
+
+            stoneInnerContainer.appendChild(li);
+          });
+        } else {
+          stoneContainer.innerHTML = '0';
+          stoneInnerContainer.innerHTML = '';
+        }
+      }
+    };
+
     this.expandSideMenu = function() {
       var $activeMenu = $('.nav-item.active');
       
@@ -1399,6 +1472,7 @@ var uvel,
       $self.deleteRow(deleteBtn);
       $self.print(printBtn);
       $self.returnRepairBtnAction(returnRepairBtn);
+      $self.modelImageClickAttach(form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]')[0]);
     }
 
     // FUNCTION TO MOVE ROW FROM ONE TABLE TO ANOTHER WHEN EDITING ON SCREENS WITH MULTIPLE TABLES
