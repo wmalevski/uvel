@@ -1,6 +1,6 @@
 <tr data-id="{{ $material->id }}">
     <td style="width: 16%;">{{ $material->parent->name }}</td> 
-    <td style="width: 14%;">{{ $material->code }}</td> 
+    <td style="width: 14%;">{{ $material->code }}</td>
     <td style="width: 14%;">{{ $material->color }}</td> 
     <td style="width: 14%;">{{ $material->carat }}@if($material->carat)к@endif</td> 
     <td style="width: 14%;">{{ $material->cash_group }}</td> 

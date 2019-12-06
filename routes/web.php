@@ -186,7 +186,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
 
         Route::post('/productstravelling', 'ProductTravellingController@store');
 
-        Route::get('/productstravelling/accept/{product}', 'ProductTravellingController@accept');
 
         Route::get('productstravelling/addByScan/{product}', 'ProductTravellingController@addByScan');
 
@@ -256,6 +255,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
 
 Route::group(['prefix' => 'ajax'], function() {
     Route::post('/dailyreports/delete/{report}', 'DailyReportController@destroy');
+
+    Route::get('/productstravelling/accept', 'ProductTravellingController@accept');
 
     Route::get('/products/generatelabel/{barcode}', 'GenerateLabelController@generate');
 
