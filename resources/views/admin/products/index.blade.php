@@ -35,7 +35,7 @@ $newStoneRow =
 $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 @endphp
 @section('content')
-	@can('create')
+	@if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['storehouse', 'admin']))
 		<div class="modal fade" id="addProduct" role="dialog" aria-labelledby="addProductlLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -290,7 +290,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 				Добави
 			</button>
 		</h3>
-	@endcan
+	@endif
 
 
 <div class="modal fade product-information-modal" id="productInformation" role="dialog" aria-hidden="true">
