@@ -381,7 +381,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
           </div>
         </div>
 
-      @if($order->status != 'done')
+      @if($order->status != 'done' && in_array(\Illuminate\Support\Facades\Auth::user()->role, ['storehouse', 'admin']))
       <div class="form-row pt-3">
         <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
           <input type="checkbox" id="inputCall1" name="status" class="peer" value="ready"

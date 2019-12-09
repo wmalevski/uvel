@@ -22,10 +22,10 @@
         <span data-url="dailyreports/{{$report->id}}" class="edit-btn" data-form-type="edit" data-form="dailyReports" data-toggle="modal" data-target="#editDailyReport">
             <i class="c-brown-500 ti-info-alt"></i>
         </span>
-        @can('delete')
+        @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['storehouse', 'admin']))
             <span data-url="dailyreports/delete/{{$report->id}}" class="delete-btn">
                 <i class="c-brown-500 ti-trash"></i>
              </span>
-        @endcan
+        @endif
     </td>
 </tr>
