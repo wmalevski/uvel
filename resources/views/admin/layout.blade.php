@@ -355,9 +355,11 @@
                             <li class="{{ Active::ifRouteIn('products_others') }}">
                                 <a class="sidebar-link" href="{{ route('products_others') }}">Наличности</a>
                             </li>
-                            <li class="{{ Active::ifRouteIn('products_others_types') }}">
-                                <a class="sidebar-link" href="{{ route('products_others_types') }}">Типове</a>
-                            </li>
+                            @if(\Illuminate\Support\Facades\Auth::user()->role =='admin')
+                                <li class="{{ Active::ifRouteIn('products_others_types') }}">
+                                    <a class="sidebar-link" href="{{ route('products_others_types') }}">Типове</a>
+                                </li>
+                            @endif
                             <li class="{{ Active::ifRouteIn('show_products_others_reviews') }}">
                                 <a class="sidebar-link" href="{{ route('show_products_others_reviews') }}">Ревюта</a>
                             </li>

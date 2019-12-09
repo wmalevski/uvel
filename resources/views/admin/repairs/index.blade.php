@@ -301,14 +301,14 @@ aria-hidden="true">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
             <h4 class="c-grey-900 mB-20">Ремонти 
                 <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="repairs" data-toggle="modal" data-target="#addRepair">Добави</button>
-                @can('update')
+                @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['storehouse', 'admin']))
                     <button type="button" class="return-repair btn btn-primary" data-form-type="add"
                             data-form="returnRepair" data-toggle="modal" data-target="#returnRepair">Върни
                     </button>
                     <button type="button" class="scan-repair btn btn-primary" data-form-type="add"
                             data-form="scanRepair" data-toggle="modal" data-target="#scanRepair">Обработи
                     </button>
-                @endcan
+                @endif
             </h4>
             <p>Артикули за ремонт</p>
             <table id="main_table" class="table repair-records-table tablesort table-fixed">

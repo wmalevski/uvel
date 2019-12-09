@@ -24,13 +24,15 @@ aria-hidden="true">
                                     <span class="peer peer-greed">Трансфер</span>
                                 </label>
                             </div>
-
-                            <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
-                                <input id="send_to_bank" data-transfer="transfer-to-bank" type="checkbox" name="send_to_bank">
-                                <label for="send_to_bank" class="peers peer-greed js-sb ai-c">
-                                    <span class="peer peer-greed">Трансфер към банка</span>
-                                </label>
-                            </div>
+                            @if(\Illuminate\Support\Facades\Auth::user()->role =='admin')
+                                <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                                    <input id="send_to_bank" data-transfer="transfer-to-bank" type="checkbox"
+                                           name="send_to_bank">
+                                    <label for="send_to_bank" class="peers peer-greed js-sb ai-c">
+                                        <span class="peer peer-greed">Трансфер към банка</span>
+                                    </label>
+                                </div>
+                            @endif
 
                             <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
                                 <input id="expense"  data-transfer type="checkbox" name="expense">
