@@ -39,7 +39,7 @@ aria-hidden="true">
                             <option value="">Избери роля</option>
                     
                             @foreach(Bouncer::role()->all() as $role)
-                                <option value="{{ $role->id }}">{{ $role->title }}</option>
+                                <option value="{{ $role->name }}">{{ $role->title }}</option>
                             @endforeach
                         </select>
                     </div>
