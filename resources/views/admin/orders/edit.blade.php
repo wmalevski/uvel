@@ -198,7 +198,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
               
               <div class="input-group">
                 <input type="number" value="{{  $order_stone->weight  }}" class="form-control calculate-stones" id="1"
-                       name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100">
+                       name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100" disabled>
                 <span class="input-group-addon">гр.</span>
               </div>
             </div>

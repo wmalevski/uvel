@@ -1771,7 +1771,49 @@ var uvel,
       var calculateStonesTrigger = form.find('[data-calculateStones-weight], .stone-flow');
       $self.calculateStones(form);
       $self.calculateStonesAttach(calculateStonesTrigger, form);
+      $self.calculateStoneWeightAttach(form);
     }
+
+    this.calculateStoneWeightAttach = function(form) {
+      var priceSelector = '[data-calculateprice-stone]',
+          amountSelector = '[data-calculatestones-amount]';
+
+      form.on('change', priceSelector, calculateStoneWeight);
+
+      form.on('change', amountSelector, calculateStoneWeight);
+
+      function calculateStoneWeight() {
+        var row = this.closest('.form-row'),
+            id = row.querySelector(priceSelector).selectedOptions[0].value,
+            amount = row.querySelector(amountSelector).value > 0 ? row.querySelector(amountSelector).value : 0,
+            weightHolder = row.querySelector('[data-calculatestones-weight]');
+
+        if (amount && id) {
+          getStoneWeight(id, amount, weightHolder);
+        } else {
+          weightHolder.value = '0';
+          $(weightHolder).trigger('change');
+        }
+      };
+
+      function getStoneWeight(id, amount, weightHolder) {
+        var url = '/admin/models/calculateStonesTotalWeight/' + id + '/' + amount;
+
+        $.ajax({
+          method: "GET",
+          url: url,
+          success: function(resp) {
+            var weight = resp.weight;
+
+            weightHolder.value = weight.toFixed(3);
+            $(weightHolder).trigger('change');
+          },
+          error: function(err) {
+            console.log(err);
+          }
+        });
+      }
+    };
 
     this.calculateStonesAttach = function(collection, form) {
       collection.on('change', function() {
