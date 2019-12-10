@@ -39,7 +39,7 @@ aria-hidden="true">
                             <option value="">Избери роля</option>
                     
                             @foreach(Bouncer::role()->all() as $role)
-                                <option value="{{ $role->id }}">{{ $role->title }}</option>
+                                <option value="{{ $role->name }}">{{ $role->title }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -78,7 +78,13 @@ aria-hidden="true">
 <div class="row">
     <div class="col-md-12">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
-        <h4 class="c-grey-900 mB-20">Потребители <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="users" data-toggle="modal" data-target="#addUser">Добави</button></h4>
+        <h4 class="c-grey-900 mB-20">Потребители
+            @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+                <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="users"
+                        data-toggle="modal" data-target="#addUser">Добави
+                </button>
+            @endif
+        </h4>
         <p>Преглед на потребителите.</p>
         <table id="main_table" class="table tablesort table-fixed">
           <thead>
@@ -86,7 +92,9 @@ aria-hidden="true">
               <th scope="col">Имейл</th>
               <th scope="col">Вид</th>
               <th scope="col">Магазин</th>
-              <th data-sort-method="none" scope="col">Действия</th>
+                @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+                    <th data-sort-method="none" scope="col">Действия</th>
+                @endif
             </tr>
             
             <tr class="search-inputs" data-dynamic-search-url="ajax/search/users/">

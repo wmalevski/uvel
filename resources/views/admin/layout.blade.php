@@ -169,7 +169,7 @@
                 </span>
                     </a>
                     <ul class="dropdown-menu">
-                        @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin'))
+                        @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
                         <li class="{{ Active::ifRouteIn('stores') }}">
                             <a class="sidebar-link" href="{{ route('stores') }}">Магазини</a>
                         </li>
@@ -180,7 +180,7 @@
                         <li class="{{ Active::ifRouteIn('expenses') }}">
                             <a class="sidebar-link" href="{{ route('expenses') }}">Разходи</a>
                         </li>
-                        @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin'))
+                        @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
                         <li class="{{ Active::ifRouteIn('expenses_types') }}">
                             <a class="sidebar-link" href="{{ route('expenses_types') }}">Типове разходи</a>
                         </li>
@@ -188,7 +188,7 @@
                     </ul>
                 </li>
 
-                @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin'))
+                @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
                 <li class="nav-item {{ Active::ifRouteIn('admin_blog') }}">
                     <a class="sidebar-link" href="{{ route('admin_blog') }}">
                 <span class="icon-holder">
@@ -298,14 +298,14 @@
                         <li class="{{ Active::ifRouteIn('admin_models') }}">
                             <a class="sidebar-link" href="{{ route('admin_models') }}">Наличности</a>
                         </li>
-                        @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin'))
+                        @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
                         <li class="{{ Active::ifRouteIn('show_model_reviews') }}">
                             <a class="sidebar-link" href="{{ route('show_model_reviews') }}">Ревюта</a>
                         </li>
                         @endif
                     </ul>
                 </li>
-                @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin'))
+                @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
                 <li class="nav-item {{ Active::ifRouteIn('reviews') }}">
                     <a class="sidebar-link" href="{{ route('reviews') }}">
                   <span class="icon-holder">
@@ -333,7 +333,7 @@
                         <li class="{{ Active::ifRouteIn('products_travelling') }}">
                             <a class="sidebar-link" href="{{ route('products_travelling') }}">На път</a>
                         </li>
-                        @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin'))
+                        @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
                         <li class="{{ Active::ifRouteIn('products_reviews') }}">
                             <a class="sidebar-link" href="{{ route('products_reviews') }}">Ревюта</a>
                         </li>
@@ -355,9 +355,11 @@
                             <li class="{{ Active::ifRouteIn('products_others') }}">
                                 <a class="sidebar-link" href="{{ route('products_others') }}">Наличности</a>
                             </li>
-                            <li class="{{ Active::ifRouteIn('products_others_types') }}">
-                                <a class="sidebar-link" href="{{ route('products_others_types') }}">Типове</a>
-                            </li>
+                            @if(\Illuminate\Support\Facades\Auth::user()->role =='admin')
+                                <li class="{{ Active::ifRouteIn('products_others_types') }}">
+                                    <a class="sidebar-link" href="{{ route('products_others_types') }}">Типове</a>
+                                </li>
+                            @endif
                             <li class="{{ Active::ifRouteIn('show_products_others_reviews') }}">
                                 <a class="sidebar-link" href="{{ route('show_products_others_reviews') }}">Ревюта</a>
                             </li>
@@ -443,7 +445,7 @@
               </span>
                     </a>
                     <ul class="dropdown-menu">
-                        @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin'))
+                        @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
                         <li class="{{ Active::ifRouteIn('repair_types') }}">
                             <a class="sidebar-link" href="{{ route('repair_types') }}">Видове</a>
                         </li>
@@ -501,7 +503,7 @@
                     </ul>
                 </li>
 
-                @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin'))
+                @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
                 <li class="nav-item dropdown {{ Active::ifRouteIn(['stock_prices', 'currencies', 'cashgroups']) }}">
                     <a class="dropdown-toggle" href="javascript:void(0);">
                 <span class="icon-holder">

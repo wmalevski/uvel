@@ -3,7 +3,7 @@
 $givenMaterialRowTpl = '<div class="form-row">
 						<div class="form-group col-md-6"> 
 							<label for="">Вид</label>
-							<select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate" data-search="/ajax/select_search/global/materials/">
+							<select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate" data-search="/ajax/select_materials/">
 								<option value="">Избери</option>';
 								
 							$givenMaterialRowTpl .= '</select>

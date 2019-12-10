@@ -218,7 +218,8 @@ var uvel,
           'removeStoneInit',
           'calculateStonesInit',
           'calculatePriceInit',
-          'materialPricesRequestInit'
+          'materialPricesRequestInit',
+          'resetOrderExchangeFieldsAttach'
         ],
         select2obj: [{
           selector: 'select[name="model_id"]',
@@ -302,7 +303,80 @@ var uvel,
       $self.setDailyReportsInputs();
       $self.setNumericInputsValidation($numericInputsDailyReports);
       $self.checkboxGroupHandlerAttach();
-    }    
+      $self.modelImageClickAttach();
+    };
+
+    this.modelImageClickAttach = function(row) {
+      var buttons = document.querySelectorAll('.product-information-btn'),
+          rowButton = row ? row.querySelector('.product-information-btn') : null;
+
+      if (row && rowButton) {
+        rowButton.addEventListener('click', getModelInformation, false);
+      } else if (buttons) {
+
+        buttons.forEach(function(button) {
+          button.addEventListener('click', getModelInformation, false);
+        });
+      }
+
+      function getModelInformation() {
+        var productId = this.closest('tr').dataset.id,
+            url = '/admin/models/view/' + productId;
+
+        $.ajax({
+          method: 'GET',
+          url: url,
+          success: function(response) {
+            $self.productInformationModalOpen(response);
+          },
+          error: function(response) {
+            console.log(response);
+          }
+        }); 
+      }
+    };
+
+    this.productInformationModalOpen = function(data) {
+      if (data) {
+        var model = data.model,
+            modal = document.querySelector('#productInformation'),
+            imageContainer = modal.querySelector('.product-image'),
+            nameContainer = modal.querySelector('.product-name'),
+            jewelContainer = modal.querySelector('.product-jewel'),
+            weightContainer = modal.querySelector('.product-weight'),
+            workmanshipContainer = modal.querySelector('.product-workmanship');
+            sizeContainer = modal.querySelector('.product-size'),
+            priceContainer = modal.querySelector('.product-price'),
+            stoneContainer = modal.querySelector('.product-stones'),
+            stoneInnerContainer = modal.querySelector('.product-stones-inner'),
+            stones = model.stones;
+
+        imageContainer.src = model.photos[0].photo;
+        nameContainer.innerHTML = model.name;
+        jewelContainer.innerHTML = model.jewelName;
+        weightContainer.innerHTML = model.weight + 'гр.';
+        workmanshipContainer.innerHTML = model.workmanshipPrice + 'лв.';
+        sizeContainer.innerHTML = model.size;
+        priceContainer.innerHTML = model.price + 'лв.';
+
+        if (stones.length) {
+          stoneContainer.innerHTML = stones.length;
+          stoneInnerContainer.innerHTML = '';
+
+          stones.forEach(function(stone) {
+            var li = document.createElement(li);
+
+            li.innerHTML = '- ' + stone.amount + ' x ' + stone.name + '(' + stone.weight + ' гр.)';
+
+            stoneInnerContainer.appendChild(li);
+          });
+        } else {
+          stoneContainer.innerHTML = '0';
+          stoneInnerContainer.innerHTML = '';
+        }
+      }
+    };
+
     this.expandSideMenu = function() {
       var $activeMenu = $('.nav-item.active');
       
@@ -317,6 +391,25 @@ var uvel,
         $('.sidebar-menu').scrollTop(activeMenuOffsetTop);
       }
     }
+
+    this.resetOrderExchangeFieldsAttach = function(form) {
+      var material = form.find('[data-calculateprice-material]');
+      
+      material.on('change', function() {
+        $self.resetOrderExchangeFields(form);
+      });
+    };
+
+    this.resetOrderExchangeFields = function(form) {
+      var materialContainer = form.find('.given-material')[0],    
+          rows = materialContainer.querySelectorAll('.form-row');
+
+      for (var i = 1; i < rows.length; i++) {
+        rows[i].remove();
+      }
+
+      $self.addOrderExchangeRow(form);
+    };
 
     this.checkboxGroupHandlerAttach = function() {
       var inputs = document.querySelectorAll('.checkbox-group input[type="checkbox"]');
@@ -1379,6 +1472,7 @@ var uvel,
       $self.deleteRow(deleteBtn);
       $self.print(printBtn);
       $self.returnRepairBtnAction(returnRepairBtn);
+      $self.modelImageClickAttach(form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]')[0]);
     }
 
     // FUNCTION TO MOVE ROW FROM ONE TABLE TO ANOTHER WHEN EDITING ON SCREENS WITH MULTIPLE TABLES
@@ -1875,6 +1969,8 @@ var uvel,
       } else if (formName == 'orders') {
         var modelId = form.find('[data-calculateprice-model] option:selected').val();
         requestLink += '/' + modelId;
+
+        $self.resetOrderExchangeFields(form);
       } else {
         requestLink += '/0';
       }
@@ -2523,24 +2619,35 @@ var uvel,
       $self.ajaxFn('GET', ajaxUrl, $self.modelRequestResponseHandler, '', form);
     }
 
-    this.addAnother = function(form) {
+    this.addAnother = function(form, type) {
       var addAnother = form.find('#btnAddAnother');
 
       addAnother.on('click', function(event) {
         event.preventDefault();
 
+        $self.addOrderExchangeRow(form, type);
+      });
+    }
+
+    this.addOrderExchangeRow = function(form) {
         var container = form.find('.given-material'),
-            newRow = $(givenMaterialRow);
+            newRow = $(givenMaterialRow),
+            type = form.find('[data-calculateprice-material]')[0].selectedOptions[0].dataset.material;
 
         var newRemoveTrigger = newRow.find('[data-materials-remove]');
         $self.removeMaterialsAttach(newRemoveTrigger);
 
         var select = newRow.find('select');
 
+        if (type) {
+          var url = select[0].dataset.search;
+
+          select[0].dataset.search = url + type;
+        }
+
         $self.select2Looper(select);
 
         container.append(newRow)
-      });
     }
 
     this.dragNdropImages = function(dropArea, form) {
