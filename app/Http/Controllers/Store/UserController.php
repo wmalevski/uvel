@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Store;
+use Cookie;
 use Response;
 use Auth;
 use App\MaterialType;
@@ -37,6 +38,7 @@ class UserController extends BaseController
      */
     public function store(Request $request)
     {
+        setcookie('register_data', json_encode($request->all()), time()+(180*30));
 
         $validator = Validator::make( $request->all(), [
             'email' => 'required|string|email|max:255|unique:users',
@@ -54,6 +56,8 @@ class UserController extends BaseController
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator);
         }
+
+        Cookie::queue(Cookie::forget('register_data'));
 
         $user = User::create([
             'email' => $request->email,
