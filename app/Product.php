@@ -283,11 +283,7 @@ class Product extends BaseModel
                 }
 
                 if ($request->byMaterial) {
-                    $main_material = [];
-                    foreach(Material::where('parent_id', $request->byMaterial)->get() as $material_type) {
-                        $main_material[] =  $material_type->id;
-                    }
-                    $query->whereIn('material_id', $main_material);
+                    $query->whereIn('material_id', $request->byMaterial);
                 }
 
                 if ($request->byName == '' && $request->byBarcode == '' && $request->byCode == '' && $request->bySize == '' && $request->byStore == '' && $request->byJewel == '' && $request->byMaterial == '') {
