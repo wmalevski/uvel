@@ -339,7 +339,6 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 			<th>Тегло</th>
 			<th>Цена</th>
 			<th>Изработка</th>
-			<th data-sort-method="none">Баркод</th>
 			<th>Статус</th>
 			<th data-sort-method="none">Действия</th>
 		</tr>
