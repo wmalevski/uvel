@@ -346,6 +346,7 @@ var uvel,
             weightContainer = modal.querySelector('.product-weight'),
             workmanshipContainer = modal.querySelector('.product-workmanship');
             sizeContainer = modal.querySelector('.product-size'),
+            materialContainer = modal.querySelector('.product-material'),
             priceContainer = modal.querySelector('.product-price'),
             stoneContainer = modal.querySelector('.product-stones'),
             stoneInnerContainer = modal.querySelector('.product-stones-inner'),
@@ -354,6 +355,7 @@ var uvel,
         imageContainer.src = model.photos[0].photo;
         nameContainer.innerHTML = model.name;
         jewelContainer.innerHTML = model.jewelName;
+        materialContainer.innerHTML = model.materials[0].name;
         weightContainer.innerHTML = model.weight + 'гр.';
         workmanshipContainer.innerHTML = model.workmanshipPrice + 'лв.';
         sizeContainer.innerHTML = model.size;
