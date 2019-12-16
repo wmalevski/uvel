@@ -51,7 +51,8 @@ class DiscountCodeController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make( $request->all(), [
-            'discount' => 'required|integer|between:0,100'
+            'discount' => 'required|integer|between:0,100',
+            'barcode' => 'required|integer',
         ]);
         
         if ($validator->fails()) {
@@ -63,27 +64,14 @@ class DiscountCodeController extends Controller
             'discount' => $request->discount,
             'expires' => $request->date_expires,
             'user_id' => $request->user_id,
+            'barcode' => $request->barcode,
         ]);
 
         if($request->lifetime == 'true' || !$request->date_expires){
             $discount->lifetime = 'yes';
         }
-        
-        $bar = '380'.unique_number('discount_codes', 'barcode', 7).'2'; 
-        
-        $digits =(string)$bar;
-        // 1. Add the values of the digits in the even-numbered positions: 2, 4, 6, etc.
-        $even_sum = $digits{1} + $digits{3} + $digits{5} + $digits{7} + $digits{9} + $digits{11};
-        // 2. Multiply this result by 3.
-        $even_sum_three = $even_sum * 3;
-        // 3. Add the values of the digits in the odd-numbered positions: 1, 3, 5, etc.
-        $odd_sum = $digits{0} + $digits{2} + $digits{4} + $digits{6} + $digits{8} + $digits{10};
-        // 4. Sum the results of steps 2 and 3.
-        $total_sum = $even_sum_three + $odd_sum;
-        // 5. The check character is the smallest number which, when added to the result in step 4,  produces a multiple of 10.
-        $next_ten = (ceil($total_sum/10))*10;
-        $check_digit = $next_ten - $total_sum;
-        $discount->barcode = $digits . $check_digit;
+
+        $discount->barcode = $request->barcode;
 
         $discount->active = 'yes';
 
@@ -144,7 +132,8 @@ class DiscountCodeController extends Controller
     public function update(Request $request, DiscountCode $discountCode)
     {
         $validator = Validator::make( $request->all(), [
-            'discount' => 'required|integer|between:0,100'
+            'discount' => 'required|integer|between:0,100',
+            'barcode' => 'required|integer',
         ]);
         
         if ($validator->fails()) {
@@ -156,6 +145,7 @@ class DiscountCodeController extends Controller
         $discountCode->discount = $request->discount;
         $discountCode->expires = $request->date_expires;
         $discountCode->user_id = $request->user_id;
+        $discountCode->barcode = $request->barcode;
 
         if($request->active == 'false'){
             $discountCode->active = 'no';

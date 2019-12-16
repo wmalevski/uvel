@@ -64,6 +64,13 @@
                 </select>
             </div>
         </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="barcode">Баркод: </label>
+                <input type="text" class="form-control"  name="barcode"  value="{{ $discount->barcode }}">
+            </div>
+        </div>
         <div id="errors-container"></div>
     </div>
 

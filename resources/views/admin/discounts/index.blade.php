@@ -56,6 +56,13 @@ aria-hidden="true">
                             </select>
                         </div>
                     </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="barcode">Баркод: </label>
+                            <input type="text" class="form-control"  name="barcode" placeholder="Добави баркод">
+                        </div>
+                    </div>
                     <div id="errors-container"></div>
                 </div>
 
