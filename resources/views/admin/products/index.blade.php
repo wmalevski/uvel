@@ -310,9 +310,10 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 				<hr>
 				<img class="product-image" src="" />
 				<ul>
-					<li>Цена - <span class="product-price"></span></li>
-					<li>Размер - <span class="product-size"></span></li>
+					<li>Материал - <span class="product-material"></span></li>
 					<li>Тегло - <span class="product-weight"></span></li>
+					<li>Размер - <span class="product-size"></span></li>
+					<li>Цена - <span class="product-price"></span></li>
 					<li>Изработка - <span class="product-workmanship"></span></li>
 					<li>Камъни -  
 						<span class="product-stones"></span>
