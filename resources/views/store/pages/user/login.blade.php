@@ -30,8 +30,8 @@
                                     <li class="clearfix"></li>
                                     <li class="clearfix"></li>
                                     <li id="emailf" class="">
-                                    <label class="control-label" for="email">Email <span class="req">*</span></label>
-                                    <input name="email" id="email" class="form-control " type="email">
+                                    <label class="control-label" for="email">Имейл <span class="req">*</span></label>
+                                    <input name="email" id="email" class="form-control " type="text">
                                     </li>
                                     <li class="clearfix"></li>
                                     <li id="passwordf" class="">
