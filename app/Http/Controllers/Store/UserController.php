@@ -87,7 +87,7 @@ class UserController extends BaseController
     public function userlogin()
     {
         $rules = array(
-            'email'    => 'required|email', 
+            'email'    => 'required',
             'password' => 'required|alphaNum|min:3'
         );
         

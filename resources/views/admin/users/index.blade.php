@@ -19,8 +19,8 @@ aria-hidden="true">
                     {{ csrf_field() }}
 
                     <div class="form-group">
-                        <label for="1">Имейл: </label>
-                        <input type="email" class="form-control" id="email-1" name="email" placeholder="Имейл на потребител:">
+                        <label for="1">Имейл/Име: </label>
+                        <input type="text" class="form-control" id="email-1" name="email" placeholder="Имейл/Име на потребител:">
                     </div>
 
                     <div class="form-group">
@@ -89,7 +89,7 @@ aria-hidden="true">
         <table id="main_table" class="table tablesort table-fixed">
           <thead>
             <tr data-sort-method="thead">
-              <th scope="col">Имейл</th>
+              <th scope="col">Потребител</th>
               <th scope="col">Вид</th>
               <th scope="col">Магазин</th>
                 @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
@@ -99,7 +99,7 @@ aria-hidden="true">
             
             <tr class="search-inputs" data-dynamic-search-url="ajax/search/users/">
                 <th>
-                    <input class="filter-input form-control" type="text" data-dynamic-search-param="byEmail=" placeholder="Търси по имейл">
+                    <input class="filter-input form-control" type="text" data-dynamic-search-param="byEmail=" placeholder="Търси по Имейл/Име">
                 </th>
                 <th></th>
                 <th></th>

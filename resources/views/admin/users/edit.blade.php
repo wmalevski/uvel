@@ -15,7 +15,7 @@
         {{ csrf_field() }}
 
         <div class="form-group">
-            <label for="1">Имейл: </label>
+            <label for="1">Потребител: </label>
             <input type="text" class="form-control" value="{{ $user->email }}" name="email" placeholder="Имейл на потребителя:">
         </div>
 
