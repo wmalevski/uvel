@@ -23,9 +23,11 @@
     <td>{{ App\Store::withTrashed()->find($product->store_from_id)->name }}</td>
     <td>{{ App\Store::withTrashed()->find($product->store_to_id)->name }}</td>
     <td>@if($product->status == 0) На път @else Приет @endif</td>
-    <td>
-        @if($product->status == 0)
-            <span data-url="productstravelling/delete/{{$product->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></span>
-        @endif
-    </td>
+    @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+        <td>
+            @if($product->status == 0)
+                <span data-url="productstravelling/delete/{{$product->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></span>
+            @endif
+        </td>
+    @endif
 </tr>

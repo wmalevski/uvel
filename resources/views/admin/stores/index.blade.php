@@ -56,7 +56,11 @@ aria-hidden="true">
 <div class="row">
     <div class="col-md-12">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
-        <h4 class="c-grey-900 mB-20">Магазини <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="stores" data-toggle="modal" data-target="#addStore">Добави</button></h4>
+        <h4 class="c-grey-900 mB-20">Магазини
+            @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+                <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="stores" data-toggle="modal" data-target="#addStore">Добави</button>
+            @endif
+        </h4>
         <p>Преглед на магазините.</p>
         <table id="main_table" class="table">
             <thead>
