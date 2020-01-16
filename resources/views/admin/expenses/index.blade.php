@@ -149,8 +149,10 @@ aria-hidden="true">
             <th scope="col">Сума</th> 
             <th scope="col">Магазин </th> 
             <th scope="col">Валута</th> 
-            <th scope="col">Пояснение</th> 
-            <th scope="col" data-sort-method="none">Действия</th>
+            <th scope="col">Пояснение</th>
+              @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+                <th scope="col" data-sort-method="none">Действия</th>
+              @endif
           </tr>
         </thead>
         <tbody>

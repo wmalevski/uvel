@@ -144,8 +144,12 @@
 <div class="row">
   <div class="col-md-12">
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
-      <h4 class="c-grey-900 mB-20">Камъни <button class="add-btn btn btn-primary" type="button" id="dropdownMenuButton"
-          data-form-type="add" data-form="stones" data-toggle="modal" data-target="#addStone">Добави</button></h4>
+      <h4 class="c-grey-900 mB-20">Камъни
+        @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+          <button class="add-btn btn btn-primary" type="button" id="dropdownMenuButton"
+            data-form-type="add" data-form="stones" data-toggle="modal" data-target="#addStone">Добави</button>
+         @endif
+      </h4>
       <p>Преглед на камъни</p>
       <table id="main_table" class="table tablesort table-fixed">
         <thead>
@@ -160,7 +164,9 @@
             <th scope="col">Количество</th>
             <th scope="col">Магазин</th>
             <th scope="col">Цена</th>
-            <th data-sort-method="none" scope="col">Действия</th>
+            @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+              <th data-sort-method="none" scope="col">Действия</th>
+            @endif
           </tr>
           
           <tr class="search-inputs" data-dynamic-search-url="ajax/search/stones/">

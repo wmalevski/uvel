@@ -273,9 +273,11 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 
 <h3>
 	Модели
-	<button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="models" data-toggle="modal" data-target="#addModel">
-		Добави
-	</button>
+	@if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+		<button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="models" data-toggle="modal" data-target="#addModel">
+			Добави
+		</button>
+	@endif
 </h3>
 
 <table id="main_table" class="table table-condensed models-table tablesort table-fixed">
@@ -286,7 +288,9 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 			<th>Тегло</th>
 			<th>Цена</th>
 			<th>Изработка</th>
-			<th data-sort-method="none">Действия</th>
+			@if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+				<th data-sort-method="none">Действия</th>
+			@endif
 			<th data-sort-method="none">Камъни</th>
 		</tr>
 
