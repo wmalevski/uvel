@@ -169,10 +169,10 @@
                 </span>
                     </a>
                     <ul class="dropdown-menu">
-                        @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
                         <li class="{{ Active::ifRouteIn('stores') }}">
                             <a class="sidebar-link" href="{{ route('stores') }}">Магазини</a>
                         </li>
+                        @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
                         <li class="{{ Active::ifRouteIn(['daily_reports', 'create_report']) }}">
                             <a class="sidebar-link" href="{{ route('daily_reports') }}">Дневни отчети</a>
                         </li>
@@ -386,13 +386,9 @@
                                 <a class="sidebar-link" href="{{ route('materials') }}">Видове</a>
                             </li>
                         @endif
-                        @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, [ 'manager', 'admin']))
-                            {{-- @if(Auth::user()->hasRole('admin')) --}}
                             <li class="{{ Active::ifRouteIn('materials_quantity') }}">
                                 <a class="sidebar-link" href="{{ route('materials_quantity') }}">Наличности</a>
                             </li>
-                            {{-- @endif --}}
-                        @endif
                         <li class="{{ Active::ifRouteIn('materials_travelling') }}">
                             <a class="sidebar-link" href="{{ route('materials_travelling') }}">На път</a>
                         </li>

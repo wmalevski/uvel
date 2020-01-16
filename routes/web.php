@@ -254,7 +254,24 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
 });
 
 Route::group(['prefix' => 'ajax'], function() {
-    Route::post('/dailyreports/delete/{report}', 'DailyReportController@destroy');
+    Route::group(['middleware' => ['check_user_role:' . \App\Role\UserRole::ROLE_ADMIN]], function () {
+        //Blog section
+        Route::post('/blog', 'BlogController@store');
+        Route::post('/blog/delete/{blog}', 'BlogController@destroy');
+
+        //Expenses section
+        Route::put('/expenses/{expense}', 'ExpenseController@update');
+        Route::post('/expenses/delete/{expense}', 'ExpenseController@destroy');
+
+        //Slides section
+        Route::post('/slides', 'SliderController@store');
+        Route::post('/slides/delete/{slider}', 'SliderController@destroy');
+
+        //Dailyreports section
+        Route::post('/dailyreports/delete/{report}', 'DailyReportController@destroy');
+
+    });
+
 
     Route::get('/productstravelling/accept', 'ProductTravellingController@accept');
 
@@ -360,14 +377,8 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/infoemails', 'InfoEmailController@store');
     Route::post('/infoemails/delete/{phone}', 'InfoEmailController@destroy');
 
-    Route::post('/slides', 'SliderController@store');
-    Route::post('/slides/delete/{slider}', 'SliderController@destroy');
 
-    Route::post('/blog', 'BlogController@store');
-    Route::post('/blog/delete/{blog}', 'BlogController@destroy');
     Route::post('/expenses', 'ExpenseController@store');
-    Route::put('/expenses/{expense}', 'ExpenseController@update');
-    Route::post('/expenses/delete/{expense}', 'ExpenseController@destroy');
 
     Route::post('/dailyreports', 'DailyReportController@store');
 
