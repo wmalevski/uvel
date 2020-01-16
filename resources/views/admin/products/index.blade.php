@@ -290,7 +290,13 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 				Добави
 			</button>
 		</h3>
+	@else
+		<h3>
+			Продукти
+		</h3>
+		<p>Преглед на продукти</p>
 	@endif
+
 
 
 <div class="modal fade product-information-modal" id="productInformation" role="dialog" aria-hidden="true">
