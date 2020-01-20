@@ -32,8 +32,12 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        $payments = Payment::all();
-        
+        if(Auth::user()->role != 'admin'){
+            $payments = Payment::where('receipt', 'yes')->get();
+        } else {
+            $payments = Payment::all();
+        }
+
         return view('admin.payments.index', compact('payments'));
     }
 

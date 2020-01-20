@@ -49,8 +49,10 @@ aria-hidden="true">
             <table id="main_table" class="table table-condensed tablesort">
                 <thead>
                     <tr>
-                        <th>Име</th> 
-                        <th data-sort-method="none">Действия</th> 
+                        <th>Име</th>
+                        @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+                            <th data-sort-method="none">Действия</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
