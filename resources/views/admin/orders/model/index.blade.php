@@ -24,8 +24,10 @@ aria-hidden="true">
             <th scope="col">Телефон</th> 
             <th scope="col">Град</th> 
             <th scope="col">Модел</th> 
-            <th scope="col">Статус</th> 
-            <th scope="col" data-sort-method="none">Действия</th>
+            <th scope="col">Статус</th>
+            @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+              <th scope="col" data-sort-method="none">Действия</th>
+            @endif
           </tr>
 
           <tr class="search-inputs" data-dynamic-search-url="ajax/search/orders/model">

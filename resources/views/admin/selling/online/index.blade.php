@@ -25,7 +25,9 @@ aria-hidden="true">
                         <th>Цена</th>
                         <th>Дата</th>
                         <th>Статус</th>
-                        <th data-sort-method="none">Действия</th>
+                        @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+                             <th data-sort-method="none">Действия</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>

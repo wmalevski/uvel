@@ -340,7 +340,7 @@
                         @endif
                     </ul>
                 </li>
-                @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, [ 'manager', 'admin', 'storehouse']))
+
                     <li class="nav-item dropdown {{ Active::ifRouteIn(['products_others', 'products_others_types', 'show_products_others_reviews']) }}">
                         <a class="dropdown-toggle" href="javascript:void(0);">
                   <span class="icon-holder">
@@ -359,13 +359,13 @@
                                 <li class="{{ Active::ifRouteIn('products_others_types') }}">
                                     <a class="sidebar-link" href="{{ route('products_others_types') }}">Типове</a>
                                 </li>
-                            @endif
                             <li class="{{ Active::ifRouteIn('show_products_others_reviews') }}">
                                 <a class="sidebar-link" href="{{ route('show_products_others_reviews') }}">Ревюта</a>
                             </li>
+                            @endif
                         </ul>
                     </li>
-                @endif
+
                 <li class="nav-item dropdown {{ Active::ifRouteIn(['materials_types', 'materials', 'materials_quantity', 'materials_travelling']) }}">
                     <a class="dropdown-toggle" href="javascript:void(0);">
                   <span class="icon-holder">
