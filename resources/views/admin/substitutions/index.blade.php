@@ -96,7 +96,9 @@
               <th scope="col">Магазин</th>
               <th scope="col">Дата от</th>
               <th scope="col">Дата до</th>
-              <th scope="col" data-sort-method="none">Действия</th>
+                @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+                    <th scope="col" data-sort-method="none">Действия</th>
+                @endif
             </tr>
           </thead>
           <tbody>
@@ -121,7 +123,9 @@
               <th scope="col">Магазин</th>
               <th scope="col">Дата от</th>
               <th scope="col">Дата до</th>
-              <th scope="col">Действия</th>
+                @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+                    <th scope="col">Действия</th>
+                @endif
             </tr>
           </thead>
           <tbody>

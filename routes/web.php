@@ -42,8 +42,26 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
 
     //Active urls for roles: MANAGER and ADMIN.
     Route::group(['middleware' => ['check_user_role:' . \App\Role\UserRole::ROLE_MANAGER]], function () {
+        //Discounts section
         Route::get('/discounts', 'DiscountCodeController@index')->name('discounts');
         Route::get('/discounts/{discountCode}', 'DiscountCodeController@edit');
+
+        //Substitutions section
+        Route::get('/users/substitutions', 'UserSubstitutionController@index')->name('substitutions');
+    });
+
+    //Active urls for roles: STOREHOUSE and ADMIN.
+    Route::group(['middleware' => ['check_user_role:' . \App\Role\UserRole::ROLE_STOREHOUSE]], function () {
+        //Stones section
+        Route::get('/stones/sizes', 'StoneSizeController@index')->name('sizes');
+        Route::post('/stones/sizes', 'StoneSizeController@store');
+
+        Route::get('/stones/styles', 'StoneStyleController@index')->name('styles');
+        Route::post('/stones/styles', 'StoneStyleController@store');
+
+        Route::get('/stones/contours', 'StoneContourController@index')->name('contours');
+        Route::post('/stones/contours', 'StoneContourController@store');
+
     });
 
     //Active urls for ADMIN role.
@@ -58,6 +76,26 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::get('/slides', 'SliderController@index')->name('slides');
         Route::post('/slides', 'SliderController@store');
         Route::get('/slides/{slide}', 'SliderController@edit');
+
+        //Partners
+        Route::get('/partners/{partner}', 'PartnerController@edit');
+        Route::get('/partnermaterials/{partner}/{material}', 'PartnerMaterialController@edit');
+
+        //Substitutions
+        Route::get('/users/substitutions/{userSubstitution}', 'UserSubstitutionController@edit');
+
+        //Products section
+        Route::get('/products/{product}', 'ProductController@edit');
+
+       //Users section
+        Route::get('/users/{user}', 'UserController@edit');
+
+        //Stones
+        Route::get('/stones/{stone}', 'StoneController@edit');
+        Route::get('/stones/sizes/{stoneSize}', 'StoneSizeController@edit');
+        Route::get('/stones/styles/{stoneStyle}', 'StoneStyleController@edit');
+        Route::get('/stones/{stone}', 'StoneController@edit');
+        Route::get('/stones/contours/{stoneContour}', 'StoneContourController@edit');
     });
 
         Route::get('/infoemails', 'InfoMailController@index')->name('info_emails');
@@ -78,35 +116,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::post('/repairs', 'RepairController@store');
         Route::get('/repairs/{barcode}', 'RepairController@edit');
 
-        Route::get('/stones/sizes', 'StoneSizeController@index')->name('sizes');
-        Route::post('/stones/sizes', 'StoneSizeController@store');
-
-        Route::get('/stones/styles', 'StoneStyleController@index')->name('styles');
-        Route::post('/stones/styles', 'StoneStyleController@store');
-
-        Route::get('/stones/contours', 'StoneContourController@index')->name('contours');
-        Route::post('/stones/contours', 'StoneContourController@store');
-
         Route::get('/orders', 'OrderController@index')->name('orders');
 
-        //Route::get('/users/substitution/{user}', 'UserSubstitutionController@show');
-
-        Route::get('/users/substitutions', 'UserSubstitutionController@index')->name('substitutions');
-        Route::get('/users/substitutions/{userSubstitution}', 'UserSubstitutionController@edit');
-
         Route::get('/users', 'UserController@index')->name('users');
-        Route::get('/users/{user}', 'UserController@edit');
 
         Route::get('/partners', 'PartnerController@index')->name('partners');
-        Route::get('/partners/{partner}', 'PartnerController@edit');
 
         Route::get('/partnermaterials/{partner}', 'PartnerMaterialController@index')->name('partner_materials');
-        Route::get('/partnermaterials/{partner}/{material}', 'PartnerMaterialController@edit');
 
         Route::get('/stones', 'StoneController@index')->name('stones');
         Route::post('/stones', 'StoneController@store');
-
-        Route::get('/stones/{stone}', 'StoneController@edit');
 
         Route::get('/stores', 'StoreController@index')->name('stores');
         Route::post('/stores', 'StoreController@store');
@@ -115,8 +134,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::get('/payments', 'PaymentController@index')->name('payments');
 
         Route::get('/stores/{store}', 'StoreController@edit');
-        //Route::put('/stores/{store}', 'StoreController@update');
-
 
         Route::get('/nomenclatures', 'NomenclatureController@index')->name('nomenclatures');
 
@@ -174,7 +191,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
 
         Route::get('/models/calculateStonesTotalWeight/{stone}/{stonesTotal}', 'ModelController@calculateStonesTotalWeight');
 
-        Route::get('/products/{product}', 'ProductController@edit');
         Route::get('/products', 'ProductController@index')->name('admin_products');
         Route::post('/products', 'ProductController@store');
 
@@ -207,14 +223,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::get('/setDiscount/{barcode}', 'SellingController@setDiscount');
 
         Route::get('/sell/clearCart', 'SellingController@clearCart')->name('clear_cart');
-
-        Route::get('/stones/sizes/{stoneSize}', 'StoneSizeController@edit');
-
-        Route::get('/stones/styles/{stoneStyle}', 'StoneStyleController@edit');
-
-        Route::get('/stones/{stone}', 'StoneController@edit');
-
-        Route::get('/stones/contours/{stoneContour}', 'StoneContourController@edit');
 
         Route::get('/repairs/return/{repair}', 'RepairController@return');
         Route::get('/repairs/edit/{repair}', 'RepairController@edit');
@@ -253,6 +261,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
 });
 
 Route::group(['prefix' => 'ajax'], function() {
+    Route::group(['middleware' => ['check_user_role:' . \App\Role\UserRole::ROLE_MANAGER]], function () {
+        //Substitutions section
+        Route::post('/users/substitutions', 'UserSubstitutionController@store');
+    });
+
+    Route::group(['middleware' => ['check_user_role:' . \App\Role\UserRole::ROLE_STOREHOUSE]], function () {
+        //Stones section
+        Route::post('/stones', 'StoneController@store');
+        Route::post('/stones/sizes', 'StoneSizeController@store');
+        Route::post('/stones/styles', 'StoneStyleController@store');
+        Route::post('/stones/contours', 'StoneContourController@store');
+    });
+
     Route::group(['middleware' => ['check_user_role:' . \App\Role\UserRole::ROLE_ADMIN]], function () {
         //Blog section
         Route::post('/blog', 'BlogController@store');
@@ -272,6 +293,33 @@ Route::group(['prefix' => 'ajax'], function() {
         //Orders section
         Route::post('/orders/delete/{order}', 'OrderController@destroy');
 
+        //Discounts section
+        Route::post('discounts/delete/{discountCode}', 'DiscountCodeController@destroy');
+
+        //Substitutions section
+        Route::put('/users/substitutions/{userSubstitution}', 'UserSubstitutionController@update');
+        Route::post('/users/substitutions/delete/{userSubstitution}', 'UserSubstitutionController@destroy');
+
+        //Products section
+        Route::post('/products/delete/{product}', 'ProductController@destroy');
+        Route::put('/products/{product}', 'ProductController@update');
+
+        //Products travelling section
+        Route::post('/productstravelling/delete/{product}', 'ProductTravellingController@destroy');
+
+        //Stones section
+        Route::post('/stones/delete/{stone}', 'StoneController@destroy');
+        Route::get('/stones/sizes/{stoneSize}', 'StoneSizeController@edit');
+        Route::get('/stones/styles/{stoneStyle}', 'StoneStyleController@edit');
+        Route::put('/stones/{stone}', 'StoneController@update');
+        Route::get('/stones/{stone}', 'StoneController@edit');
+        Route::get('/stones/contours/{stoneContour}', 'StoneContourController@edit');
+        Route::post('/stones/sizes/delete/{stoneSize}', 'StoneSizeController@destroy');
+        Route::post('/stones/styles/delete/{stoneStyle}', 'StoneStyleController@destroy');
+        Route::post('/stones/contours/delete/{stoneContour}', 'StoneContourController@destroy');
+        Route::put('/stones/sizes/{stoneSize}', 'StoneSizeController@update');
+        Route::put('/stones/styles/{stoneStyle}', 'StoneStyleController@update');
+        Route::put('/stones/contours/{stoneContour}', 'StoneContourController@update');
     });
 
     Route::get('/productstravelling/accept', 'ProductTravellingController@accept');
@@ -367,10 +415,6 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::get('productstravelling/addByScan/{product}', 'ProductTravellingController@addByScan');
 
-    Route::get('productstravelling/addByScan/{product}', 'ProductTravellingController@addByScan');
-
-    //Route::post('/blog/{article}/{comment}/delete', 'BlogCommentController@destroy');
-
     Route::post('/infophones', 'InfoPhoneController@store');
     Route::post('/infophones/delete/{phone}', 'InfoPhoneController@destroy');
 
@@ -405,31 +449,8 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::get('/selling/online/{selling}', 'OnlineSellingsController@edit');
     Route::put('/selling/online/{selling}', 'OnlineSellingsController@update');
 
-    Route::post('/stones', 'StoneController@store');
-    Route::post('/stones/delete/{stone}', 'StoneController@destroy');
-
-    Route::post('/stones/sizes', 'StoneSizeController@store');
-    Route::get('/stones/sizes/{stoneSize}', 'StoneSizeController@edit');
-
-    Route::post('/stones/styles', 'StoneStyleController@store');
-    Route::get('/stones/styles/{stoneStyle}', 'StoneStyleController@edit');
-
     Route::put('/blog/{article}', 'BlogController@update');
     Route::post('/blog/{article}', 'BlogController@destroy');
-
-    Route::put('/stones/{stone}', 'StoneController@update');
-    Route::get('/stones/{stone}', 'StoneController@edit');
-
-    Route::post('/stones/contours', 'StoneContourController@store');
-    Route::get('/stones/contours/{stoneContour}', 'StoneContourController@edit');
-
-    Route::post('/stones/sizes/delete/{stoneSize}', 'StoneSizeController@destroy');
-    Route::post('/stones/styles/delete/{stoneStyle}', 'StoneStyleController@destroy');
-    Route::post('/stones/contours/delete/{stoneContour}', 'StoneContourController@destroy');
-
-    Route::put('/stones/sizes/{stoneSize}', 'StoneSizeController@update');
-    Route::put('/stones/styles/{stoneStyle}', 'StoneStyleController@update');
-    Route::put('/stones/contours/{stoneContour}', 'StoneContourController@update');
 
     Route::post('/prices/{material}', 'PriceController@store');
     Route::post('/prices/delete/{price}', 'PriceController@destroy');
@@ -489,12 +510,8 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::get('/products/{model}', 'ProductController@chainedSelects');
 
     Route::post('/products', 'ProductController@store');
-    Route::post('/products/delete/{product}', 'ProductController@destroy');
-    Route::put('/products/{product}', 'ProductController@update');
 
     Route::post('/productstravelling', 'ProductTravellingController@store');
-
-    Route::post('/productstravelling/delete/{product}', 'ProductTravellingController@destroy');
 
     Route::post('/productsotherstypes', 'ProductOtherTypeController@store');
     Route::put('/productsotherstypes/{productOtherType}', 'ProductOtherTypeController@update');
@@ -505,7 +522,6 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/productsothers/delete/{productOther}', 'ProductOtherController@destroy');
 
     Route::get('discounts/check/{barcode}', 'DiscountCodeController@check');
-    Route::post('discounts/delete/{discountCode}', 'DiscountCodeController@destroy');
 
     Route::post('/sell', 'SellingController@sell')->name('sellScan');
     Route::get('/setDiscount/{barcode}',  'SellingController@setDiscount')->name('add_discount');
@@ -528,11 +544,6 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::get('/getPrices/{material}/{model}', 'PriceController@getByMaterial');
 
     Route::get('/getPricesExchange/{material}/{model}', 'PriceController@getByMaterialExchange');
-
-    Route::post('/users/substitutions', 'UserSubstitutionController@store');
-
-    Route::put('/users/substitutions/{userSubstitution}', 'UserSubstitutionController@update');
-    Route::post('/users/substitutions/delete/{userSubstitution}', 'UserSubstitutionController@destroy');
 
     Route::post('/gallery/delete/{photo}', 'GalleryController@destroy');
 

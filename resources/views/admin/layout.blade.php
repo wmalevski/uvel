@@ -412,11 +412,9 @@
                                 <a class="sidebar-link" href="{{ route('nomenclatures') }}">Номенклатури</a>
                             </li>
                         @endif
-                        @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['cashier', 'admin', 'storehouse']))
                             <li class="{{ Active::ifRouteIn('stones') }}">
                                 <a class="sidebar-link" href="{{ route('stones') }}">Камъни</a>
                             </li>
-                        @endif
                         @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['admin', 'storehouse']))
                             <li class="{{ Active::ifRouteIn('sizes') }}">
                                 <a class="sidebar-link" href="{{ route('sizes') }}">Размери</a>
