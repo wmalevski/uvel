@@ -26,5 +26,7 @@
             Приключена
         @endif
     </td>
-    <td><span data-url="selling/online/{{$selling->id}}" class="edit-btn" data-form-type="edit" data-form="editPayments" data-toggle="modal" data-target="#editPayment"><i class="c-brown-500 ti-pencil"></i></span></td> 
+    @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+         <td><span data-url="selling/online/{{$selling->id}}" class="edit-btn" data-form-type="edit" data-form="editPayments" data-toggle="modal" data-target="#editPayment"><i class="c-brown-500 ti-pencil"></i></span></td>
+    @endif
 </tr>

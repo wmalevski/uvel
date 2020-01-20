@@ -48,7 +48,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
 
     //Active urls for ADMIN role.
     Route::group(['middleware' => ['check_user_role:' . \App\Role\UserRole::ROLE_ADMIN]], function () {
-
         //Blog section
         Route::get('/blog', 'BlogController@index')->name('admin_blog');
         Route::get('/blog/{article}', 'BlogController@edit');
@@ -59,6 +58,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::get('/slides', 'SliderController@index')->name('slides');
         Route::post('/slides', 'SliderController@store');
         Route::get('/slides/{slide}', 'SliderController@edit');
+    });
 
         Route::get('/infoemails', 'InfoMailController@index')->name('info_emails');
         Route::get('/infoemails/{email}', 'InfoMailController@edit');
@@ -250,7 +250,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::get('/productsreports', 'ProductController@productsReport')->name('products_reports');
 
         Route::get('/safe', 'SafeController@index');
-    });
 });
 
 Route::group(['prefix' => 'ajax'], function() {
@@ -270,8 +269,10 @@ Route::group(['prefix' => 'ajax'], function() {
         //Dailyreports section
         Route::post('/dailyreports/delete/{report}', 'DailyReportController@destroy');
 
-    });
+        //Orders section
+        Route::post('/orders/delete/{order}', 'OrderController@destroy');
 
+    });
 
     Route::get('/productstravelling/accept', 'ProductTravellingController@accept');
 
@@ -360,7 +361,6 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::put('/orders/{order}', 'OrderController@update');
     Route::get('/orders/getProductInfo/{product}', 'OrderController@getProductInfo')->name('getProductInfo');
     Route::get('/orders/getModelInfo/{model}', 'OrderController@getModelInfo')->name('getModelInfo');
-    Route::post('/orders/delete/{order}', 'OrderController@destroy');
 
     Route::put('/partners/{partner}', 'PartnerController@update');
     Route::put('/partnermaterials/{partner}/{material}', 'PartnerMaterialController@update');
