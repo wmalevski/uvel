@@ -53,7 +53,7 @@
 		<span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">Наличен</span> @endif</td>
 
 	<td>
-		@if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+		@if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['admin', 'storehouse', 'manager']))
 			<span data-url="products/{{$product->id}}" class="edit-btn" data-form-type="edit" data-form="products"
 				  data-toggle="modal"
 				  data-target="#editProduct"><i class="c-brown-500 ti-pencil"></i></span>

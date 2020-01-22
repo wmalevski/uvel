@@ -18,19 +18,20 @@
     <td>
         {{ $model->workmanship }}лв.
     </td>
-    @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
-        <td>
+    <td>
+        @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['admin', 'storehouse']))
             <span data-url="models/{{$model->id}}" class="edit-btn" data-form-type="edit" data-form="models"
                   data-toggle="modal"
                   data-target="#editModel">
                  <i class="c-brown-500 ti-pencil"></i>
-            </span>
+        </span>
+        @endif
+        @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
             <span data-url="models/delete/{{$model->id}}" class="delete-btn">
                 <i class="c-brown-500 ti-trash"></i>
             </span>
-        </td>
-    @endif
-
+        @endif
+    </td>
     <td>
         @if(!empty($model->stones->first()))
             {{ App\StoneContour::where('id', App\Stone::where('id', $model->stones->first()->stone_id)->first()->contour_id)->first()->name }}

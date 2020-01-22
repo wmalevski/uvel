@@ -92,7 +92,7 @@ aria-hidden="true">
 </div>
 
 <h3>Добави друг продукт
-    @if(\Illuminate\Support\Facades\Auth::user()->role =='admin')
+    @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['admin', 'storehouse']))
         <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="otherProducts"
                 data-toggle="modal" data-target="#addProduct">Добави
         </button>

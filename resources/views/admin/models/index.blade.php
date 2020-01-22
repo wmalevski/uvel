@@ -273,7 +273,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 
 <h3>
 	Модели
-	@if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+	@if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['admin', 'storehouse']))
 		<button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="models" data-toggle="modal" data-target="#addModel">
 			Добави
 		</button>
@@ -288,7 +288,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 			<th>Тегло</th>
 			<th>Цена</th>
 			<th>Изработка</th>
-			@if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+			@if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['admin', 'storehouse']))
 				<th data-sort-method="none">Действия</th>
 			@endif
 			<th data-sort-method="none">Камъни</th>

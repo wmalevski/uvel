@@ -50,7 +50,7 @@ aria-hidden="true">
                 <thead>
                     <tr>
                         <th>Име</th>
-                        @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+                        @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['admin', 'storehouse']))
                             <th data-sort-method="none">Действия</th>
                         @endif
                     </tr>
