@@ -69,7 +69,9 @@ aria-hidden="true">
                 <th scope="col">Име</th>
                 <th scope="col">Адрес</th>
                 <th scope="col">Телефон</th>
-                <th scope="col" data-sort-method="none">Действия</th>
+                @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['admin', 'manager']))
+                    <th scope="col" data-sort-method="none">Действия</th>
+                @endif
             </tr>
             </thead>
           <tbody>
