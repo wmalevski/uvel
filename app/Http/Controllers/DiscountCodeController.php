@@ -80,6 +80,28 @@ class DiscountCodeController extends Controller
         return Response::json(array('success' => View::make('admin/discounts/table',array('discount'=>$discount))->render()));
     }
 
+    public function generate($id) {
+        $discount = DiscountCode::where('id', $id)->first();
+
+        if($discount) {
+            $mpdf = new \Mpdf\Mpdf([
+                'mode' => 'utf-8',
+                'format' => [40, 40],
+                'margin_top' => 10,
+                'margin_left' => 10,
+                'mirrorMargins' => true
+            ]);
+
+            $html = view('pdf.discount', compact('discount'))->render();
+
+            $mpdf->WriteHTML($html);
+
+            $mpdf->Output(str_replace(' ', '_', $discount->barcode).'_discount.pdf',\Mpdf\Output\Destination::DOWNLOAD);
+        }
+
+        abort(404, 'Product not found.');
+    }
+
     public function filter(Request $request){
         $query = DiscountCode::select('*');
 

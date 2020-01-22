@@ -1,5 +1,5 @@
 <tr data-id="{{$repair->id}}">
-    <td>{!! DNS1D::getBarcodeSVG($repair->barcode, "EAN13",1,33,"black", true) !!} <br/> {{ $repair->barcode }}</td>  
+    <td>{!! DNS1D::getBarcodeSVG($repair->barcode, "EAN13",1,33,"black", true) !!}</td>
     <td>{{ $repair->id }}</td>
     <td>{{ $repair->customer_name }}</td> 
     <td>{{ $repair->customer_phone }}</td> 
@@ -12,7 +12,7 @@
                   data-toggle="modal" data-target="#fullEditRepair"><i class="c-brown-500 ti-pencil"></i></span>
         @endif
         <a data-print-label="true" target="_blank" href="/ajax/repairs/certificate/{{$repair->id}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a>
-        @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['storehouse', 'admin']))
+        @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
             <span data-url="repairs/delete/{{$repair->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></span>
         @endif
     </td>

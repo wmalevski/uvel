@@ -48,6 +48,18 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
 
         //Substitutions section
         Route::get('/users/substitutions', 'UserSubstitutionController@index')->name('substitutions');
+
+        //Users in store
+        Route::get('/stores/info/{store}', 'StoreController@show');
+
+        //Reviews section
+        Route::get('/reviews', 'ReviewController@index')->name('reviews');
+        Route::get('/reviews/{review}', 'ReviewController@show')->name('show_review');
+        Route::get('/reviews/product/{product}', 'ReviewController@index')->name('show_product_reviews');
+
+        Route::get('/products/reviews/all', 'ProductController@showReviews')->name('products_reviews');
+        Route::get('/productsothers/reviews/all', 'ProductOtherController@showReviews')->name('show_products_others_reviews');
+        Route::get('/models/reviews/all', 'ModelController@showReviews')->name('show_model_reviews');
     });
 
     //Active urls for roles: STOREHOUSE and ADMIN.
@@ -61,7 +73,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
 
         Route::get('/stones/contours', 'StoneContourController@index')->name('contours');
         Route::post('/stones/contours', 'StoneContourController@store');
-
     });
 
     //Active urls for ADMIN role.
@@ -90,12 +101,18 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
        //Users section
         Route::get('/users/{user}', 'UserController@edit');
 
-        //Stones
+        //Stones section
         Route::get('/stones/{stone}', 'StoneController@edit');
         Route::get('/stones/sizes/{stoneSize}', 'StoneSizeController@edit');
         Route::get('/stones/styles/{stoneStyle}', 'StoneStyleController@edit');
         Route::get('/stones/{stone}', 'StoneController@edit');
         Route::get('/stones/contours/{stoneContour}', 'StoneContourController@edit');
+
+        //Repairs section
+        Route::get('/repairs/{barcode}', 'RepairController@edit');
+
+        //Reviews section
+        Route::post('/reviews/delete/{review}', 'ReviewController@destroy')->name('destroy_review');
     });
 
         Route::get('/infoemails', 'InfoMailController@index')->name('info_emails');
@@ -114,7 +131,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
 
         Route::get('/repairs', 'RepairController@index')->name('repairs');
         Route::post('/repairs', 'RepairController@store');
-        Route::get('/repairs/{barcode}', 'RepairController@edit');
 
         Route::get('/orders', 'OrderController@index')->name('orders');
 
@@ -129,7 +145,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
 
         Route::get('/stores', 'StoreController@index')->name('stores');
         Route::post('/stores', 'StoreController@store');
-        Route::get('/stores/info/{store}', 'StoreController@show');
 
         Route::get('/payments', 'PaymentController@index')->name('payments');
 
@@ -229,15 +244,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
 
         Route::get('/mailchimp', 'NewsletterController@index')->name('mailchimp');
 
-        Route::get('/reviews', 'ReviewController@index')->name('reviews');
-        Route::get('/reviews/{review}', 'ReviewController@show')->name('show_review');
-        Route::post('/reviews/delete/{review}', 'ReviewController@destroy')->name('destroy_review');
-
-        Route::get('/reviews/product/{product}', 'ReviewController@index')->name('show_product_reviews');
-
-        Route::get('/products/reviews/all', 'ProductController@showReviews')->name('products_reviews');
-        Route::get('/productsothers/reviews/all', 'ProductOtherController@showReviews')->name('show_products_others_reviews');
-        Route::get('/models/reviews/all', 'ModelController@showReviews')->name('show_model_reviews');
         Route::post('/logout', 'UserController@logout')->name('admin_logout');
 
         Route::get('/orders/{order}', 'OrderController@edit');
@@ -272,6 +278,8 @@ Route::group(['prefix' => 'ajax'], function() {
         Route::post('/stones/sizes', 'StoneSizeController@store');
         Route::post('/stones/styles', 'StoneStyleController@store');
         Route::post('/stones/contours', 'StoneContourController@store');
+            //Nomenclatures
+             Route::post('/nomenclatures', 'NomenclatureController@store');
     });
 
     Route::group(['middleware' => ['check_user_role:' . \App\Role\UserRole::ROLE_ADMIN]], function () {
@@ -320,6 +328,13 @@ Route::group(['prefix' => 'ajax'], function() {
         Route::put('/stones/sizes/{stoneSize}', 'StoneSizeController@update');
         Route::put('/stones/styles/{stoneStyle}', 'StoneStyleController@update');
         Route::put('/stones/contours/{stoneContour}', 'StoneContourController@update');
+            //Nomenclatures
+            Route::put('/nomenclatures/{nomenclature}', 'NomenclatureController@update');
+            Route::post('/nomenclatures/delete/{nomenclature}', 'NomenclatureController@destroy');
+
+        //Reviews section
+        Route::post('/reviews/delete/{review}', 'ReviewController@destroy')->name('destroy_review');
+
     });
 
     Route::get('/productstravelling/accept', 'ProductTravellingController@accept');
@@ -327,6 +342,8 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::get('/products/generatelabel/{barcode}', 'GenerateLabelController@generate');
 
     Route::get('/orders/print/{id}', 'OrderController@generate');
+
+    Route::get('/discounts/print/{id}', 'DiscountCodeController@generate');
 
     Route::get('/selling/certificate/{id}', 'SellingController@certificate');
 
@@ -547,16 +564,10 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/gallery/delete/{photo}', 'GalleryController@destroy');
 
-    Route::post('/reviews/delete/{review}', 'ReviewController@destroy')->name('destroy_review');
-
     Route::post('/blog/comments/{comment}/delete', 'BlogCommentController@destroy');
 
     Route::post('/materials/accept/{material}', 'MaterialTravellingController@accept');
     Route::post('/materials/decline/{material}', 'MaterialTravellingController@decline');
-
-    Route::post('/nomenclatures', 'NomenclatureController@store');
-    Route::put('/nomenclatures/{nomenclature}', 'NomenclatureController@update');
-    Route::post('/nomenclatures/delete/{nomenclature}', 'NomenclatureController@destroy');
 });
 
 /**

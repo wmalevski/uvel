@@ -514,7 +514,12 @@ class SellingController extends Controller
             $weight = calculate_product_weight($product);
             $mpdf = new \Mpdf\Mpdf([
                 'mode' => 'utf-8',
-                'format' => [62, 40]
+                'format' => [62, 40],
+                'margin_top' => 4,
+                'margin_bottom' => 4,
+                'margin_left' => 4,
+                'margin_right' => 4,
+                'mirrorMargins' => true
             ]);
 
             $html = view('pdf.certificate', compact('product', 'material', 'model', 'weight'))->render();

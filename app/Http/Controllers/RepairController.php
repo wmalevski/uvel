@@ -114,7 +114,12 @@ class RepairController extends Controller
             $material = Material::where('id', $repair->material_id)->first();
             $mpdf = new \Mpdf\Mpdf([
                 'mode' => 'utf-8',
-                'format' => [148, 210]
+                'format' => [148, 210],
+                'margin_top' => 10,
+                'margin_bottom' => 10,
+                'margin_left' => 10,
+                'margin_right' => 10,
+                'mirrorMargins' => true
             ]);
 
             $html = view('pdf.repair', compact('repair', 'store', 'material'))->render();
