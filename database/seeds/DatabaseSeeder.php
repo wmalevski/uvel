@@ -24,6 +24,7 @@ use App\Nomenclature;
 use App\Partner;
 use App\PartnerMaterial;
 use App\CashGroup;
+use App\ExpenseType;
 
 class DatabaseSeeder extends Seeder
 {
@@ -574,6 +575,10 @@ class DatabaseSeeder extends Seeder
         $cashGroup->table = 'products_others';
         $cashGroup->cash_group = 5;
         $cashGroup->save();
+
+        $expense_type = new ExpenseType();
+        $expense_type->name = 'Други';
+        $expense_type->save();
         
         // $model = new Model();
         // $model->name = 'Модел 1';

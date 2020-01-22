@@ -164,7 +164,7 @@
             <th scope="col">Количество</th>
             <th scope="col">Магазин</th>
             <th scope="col">Цена</th>
-            @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+            @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['admin', 'storehouse']))
               <th data-sort-method="none" scope="col">Действия</th>
             @endif
           </tr>
