@@ -190,13 +190,6 @@ class DatabaseSeeder extends Seeder
             $stone_contour->name = 'Контур '.$i;
             $stone_contour->save();
 
-            $stores = new Store();
-            $stores->name = 'Магазин '.$i;
-            $stores->location = 'София'; 
-            $stores->phone = '0541587414178';
-            $stores->save();
-
-
             $stone = new Stone();
             $stone->nomenclature_id = $i;
             $stone->type = rand(1,2);
@@ -209,11 +202,57 @@ class DatabaseSeeder extends Seeder
             $stone->amount = rand(1,20);
             $stone->price = rand(20,45);
             $stone->save();
+        }
+
+            $stores = new Store();
+            $stores->name = 'Ювел';
+            $stores->location = 'София'; 
+            $stores->phone = '0541587414178';
+            $stores->save();
+
+            $stores = new Store();
+            $stores->name = 'Росица';
+            $stores->location = 'Пазарджик';
+            $stores->phone = '0541587414178';
+            $stores->save();
+
+            $stores = new Store();
+            $stores->name =  'Ювел';
+            $stores->location = 'Пазарджик';
+            $stores->phone = '0541587414178';
+            $stores->save();
 
             $jewel = new Jewel();
-            $jewel->name = 'Бижу '.$i;
+            $jewel->name = 'Дамски пръстен';
             $jewel->save();
-        }
+
+            $jewel = new Jewel();
+            $jewel->name = 'Мъжки пръстен';
+            $jewel->save();
+
+            $jewel = new Jewel();
+            $jewel->name = 'Синджир';
+            $jewel->save();
+
+            $jewel = new Jewel();
+            $jewel->name = 'Гривна';
+            $jewel->save();
+
+            $jewel = new Jewel();
+            $jewel->name = 'Обици';
+            $jewel->save();
+
+            $jewel = new Jewel();
+            $jewel->name = 'Кръст';
+            $jewel->save();
+
+            $jewel = new Jewel();
+            $jewel->name = 'Медальон';
+            $jewel->save();
+
+            $jewel = new Jewel();
+            $jewel->name = 'Колие';
+            $jewel->save();
 
         $user = new User();
         $user->email = 'admin@uvel.com';
@@ -253,8 +292,18 @@ class DatabaseSeeder extends Seeder
 
         $material = new Material();
         $material->name = 'Злато';
-        $material->code = '525';
+        $material->code = '585';
         $material->color = 'Жълто';
+        $material->carat = '14';
+        $material->parent_id = 1;
+        $material->stock_price = '24';
+        $material->cash_group = 1;
+        $material->save();
+
+        $material = new Material();
+        $material->name = 'Злато';
+        $material->code = '585';
+        $material->color = 'Бяло';
         $material->carat = '14';
         $material->parent_id = 1;
         $material->stock_price = '24';
@@ -267,9 +316,29 @@ class DatabaseSeeder extends Seeder
 
         $material = new Material();
         $material->name = 'Сребро';
-        $material->code = '525';
+        $material->code = '925';
         $material->color = 'Бяло';
         $material->parent_id = 2;
+        $material->stock_price = '24';
+        $material->cash_group = 1;
+        $material->save();
+
+        $material = new Material();
+        $material->name = 'Злато';
+        $material->code = '750';
+        $material->color = 'Жълто';
+        $material->carat = '14';
+        $material->parent_id = 1;
+        $material->stock_price = '24';
+        $material->cash_group = 1;
+        $material->save();
+
+        $material = new Material();
+        $material->name = 'Злато';
+        $material->code = '750';
+        $material->color = 'Бяло';
+        $material->carat = '14';
+        $material->parent_id = 1;
         $material->stock_price = '24';
         $material->cash_group = 1;
         $material->save();
@@ -289,13 +358,34 @@ class DatabaseSeeder extends Seeder
         $price = new Price();
         $price->material_id = 1;
         $price->slug = 'Купува 1';
-        $price->price = '30';
+        $price->price = '56';
+        $price->type = 'buy';
+        $price->save();
+
+        $price = new Price();
+        $price->material_id = 1;
+        $price->slug = 'Купува 2';
+        $price->price = '46';
         $price->type = 'buy';
         $price->save();
         
         $price = new Price();
         $price->material_id = 1;
         $price->slug = 'Продава 1';
+        $price->price = '80';
+        $price->type = 'sell';
+        $price->save();
+
+        $price = new Price();
+        $price->material_id = 1;
+        $price->slug = 'Продава 2';
+        $price->price = '86';
+        $price->type = 'sell';
+        $price->save();
+
+        $price = new Price();
+        $price->material_id = 1;
+        $price->slug = 'Продава 3';
         $price->price = '90';
         $price->type = 'sell';
         $price->save();
@@ -303,14 +393,140 @@ class DatabaseSeeder extends Seeder
         $price = new Price();
         $price->material_id = 2;
         $price->slug = 'Купува 1';
-        $price->price = '20';
+        $price->price = '56';
+        $price->type = 'buy';
+        $price->save();
+
+        $price = new Price();
+        $price->material_id = 2;
+        $price->slug = 'Купува 2';
+        $price->price = '46';
         $price->type = 'buy';
         $price->save();
         
         $price = new Price();
         $price->material_id = 2;
         $price->slug = 'Продава 1';
-        $price->price = '70';
+        $price->price = '80';
+        $price->type = 'sell';
+        $price->save();
+
+        $price = new Price();
+        $price->material_id = 2;
+        $price->slug = 'Продава 2';
+        $price->price = '86';
+        $price->type = 'sell';
+        $price->save();
+
+        $price = new Price();
+        $price->material_id = 2;
+        $price->slug = 'Продава 3';
+        $price->price = '90';
+        $price->type = 'sell';
+        $price->save();
+
+        $price = new Price();
+        $price->material_id = 3;
+        $price->slug = 'Купува 1';
+        $price->price = '1';
+        $price->type = 'buy';
+        $price->save();
+
+        $price = new Price();
+        $price->material_id = 3;
+        $price->slug = 'Купува 2';
+        $price->price = '1';
+        $price->type = 'buy';
+        $price->save();
+
+        $price = new Price();
+        $price->material_id = 3;
+        $price->slug = 'Продава 1';
+        $price->price = '10';
+        $price->type = 'sell';
+        $price->save();
+
+        $price = new Price();
+        $price->material_id = 3;
+        $price->slug = 'Продава 2';
+        $price->price = '15';
+        $price->type = 'sell';
+        $price->save();
+
+        $price = new Price();
+        $price->material_id = 3;
+        $price->slug = 'Продава 3';
+        $price->price = '20';
+        $price->type = 'sell';
+        $price->save();
+
+        $price = new Price();
+        $price->material_id = 4;
+        $price->slug = 'Купува 1';
+        $price->price = '72';
+        $price->type = 'buy';
+        $price->save();
+
+        $price = new Price();
+        $price->material_id = 4;
+        $price->slug = 'Купува 2';
+        $price->price = '59';
+        $price->type = 'buy';
+        $price->save();
+
+        $price = new Price();
+        $price->material_id = 4;
+        $price->slug = 'Продава 1';
+        $price->price = '103';
+        $price->type = 'sell';
+        $price->save();
+
+        $price = new Price();
+        $price->material_id = 4;
+        $price->slug = 'Продава 2';
+        $price->price = '110';
+        $price->type = 'sell';
+        $price->save();
+
+        $price = new Price();
+        $price->material_id = 4;
+        $price->slug = 'Продава 3';
+        $price->price = '115';
+        $price->type = 'sell';
+        $price->save();
+
+        $price = new Price();
+        $price->material_id = 5;
+        $price->slug = 'Купува 1';
+        $price->price = '72';
+        $price->type = 'buy';
+        $price->save();
+
+        $price = new Price();
+        $price->material_id = 5;
+        $price->slug = 'Купува 2';
+        $price->price = '59';
+        $price->type = 'buy';
+        $price->save();
+
+        $price = new Price();
+        $price->material_id = 5;
+        $price->slug = 'Продава 1';
+        $price->price = '103';
+        $price->type = 'sell';
+        $price->save();
+
+        $price = new Price();
+        $price->material_id = 5;
+        $price->slug = 'Продава 2';
+        $price->price = '110';
+        $price->type = 'sell';
+        $price->save();
+
+        $price = new Price();
+        $price->material_id = 5;
+        $price->slug = 'Продава 3';
+        $price->price = '115';
         $price->type = 'sell';
         $price->save();
 
