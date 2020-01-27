@@ -21,7 +21,7 @@ class GenerateLabelController extends Controller
 
             $mpdf = new \Mpdf\Mpdf([
                 'mode' => 'utf-8',
-                'format' => [96, 11.2],
+                'format' => [96, 11.4],
                 'margin_top' => 1,
                 'margin_bottom' => 0,
                 'margin_left' => 3,

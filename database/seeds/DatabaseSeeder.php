@@ -174,86 +174,122 @@ class DatabaseSeeder extends Seeder
         $stores->phone = '0541587414178';
         $stores->save();
 
-        for($i = 1; $i <= 5; $i++){
-            $nomenclature = new Nomenclature();
-            $nomenclature->name = 'Тестова '.$i;
-            $nomenclature->save();
 
-            $stone_styles = new StoneStyle();
-            $stone_styles->name = 'Стил '.$i;
-            $stone_styles->save();
+        $nomenclature = new Nomenclature();
+        $nomenclature->name = 'циркон';
+        $nomenclature->save();
 
-            $stone_sizes = new StoneSize();
-            $stone_sizes->name = 'Размер '.$i;
-            $stone_sizes->save();
+        $nomenclature = new Nomenclature();
+        $nomenclature->name = 'рубин';
+        $nomenclature->save();
 
-            $stone_contour = new StoneContour();
-            $stone_contour->name = 'Контур '.$i;
-            $stone_contour->save();
+        $nomenclature = new Nomenclature();
+        $nomenclature->name = 'оникс';
+        $nomenclature->save();
 
-            $stone = new Stone();
-            $stone->nomenclature_id = $i;
-            $stone->type = rand(1,2);
-            $stone->weight = rand(1,5);
-            $stone->carat = rand(1,5);
-            $stone->size_id = rand(1,1);
-            $stone->style_id = rand(1,1);
-            $stone->contour_id = rand(1,1);
-            $stone->store_id = 2;
-            $stone->amount = rand(1,20);
-            $stone->price = rand(20,45);
-            $stone->save();
-        }
+        $nomenclature = new Nomenclature();
+        $nomenclature->name = 'диамант';
+        $nomenclature->save();
 
-            $stores = new Store();
-            $stores->name = 'Ювел';
-            $stores->location = 'София'; 
-            $stores->phone = '0541587414178';
-            $stores->save();
+        $nomenclature = new Nomenclature();
+        $nomenclature->name = 'сапфир';
+        $nomenclature->save();
 
-            $stores = new Store();
-            $stores->name = 'Росица';
-            $stores->location = 'Пазарджик';
-            $stores->phone = '0541587414178';
-            $stores->save();
+        $nomenclature = new Nomenclature();
+        $nomenclature->name = 'смарагд';
+        $nomenclature->save();
 
-            $stores = new Store();
-            $stores->name =  'Ювел';
-            $stores->location = 'Пазарджик';
-            $stores->phone = '0541587414178';
-            $stores->save();
+        $stone_styles = new StoneStyle();
+        $stone_styles->name = 'фасет';
+        $stone_styles->save();
 
-            $jewel = new Jewel();
-            $jewel->name = 'Дамски пръстен';
-            $jewel->save();
+        $stone_styles = new StoneStyle();
+        $stone_styles->name = 'кабошон';
+        $stone_styles->save();
 
-            $jewel = new Jewel();
-            $jewel->name = 'Мъжки пръстен';
-            $jewel->save();
+        $stone_styles = new StoneStyle();
+        $stone_styles->name = 'плочка';
+        $stone_styles->save();
 
-            $jewel = new Jewel();
-            $jewel->name = 'Синджир';
-            $jewel->save();
+        $stone_sizes = new StoneSize();
+        $stone_sizes->name = 'Размер';
+        $stone_sizes->save();
 
-            $jewel = new Jewel();
-            $jewel->name = 'Гривна';
-            $jewel->save();
+        $stone_contour = new StoneContour();
+        $stone_contour->name = 'кръг';
+        $stone_contour->save();
 
-            $jewel = new Jewel();
-            $jewel->name = 'Обици';
-            $jewel->save();
+        $stone_contour = new StoneContour();
+        $stone_contour->name = 'овал';
+        $stone_contour->save();
 
-            $jewel = new Jewel();
-            $jewel->name = 'Кръст';
-            $jewel->save();
+        $stone_contour = new StoneContour();
+        $stone_contour->name = 'квадрат';
+        $stone_contour->save();
 
-            $jewel = new Jewel();
-            $jewel->name = 'Медальон';
-            $jewel->save();
+        $stone = new Stone();
+        $stone->nomenclature_id = 1;
+        $stone->type = rand(1,2);
+        $stone->weight = rand(1,5);
+        $stone->carat = rand(1,5);
+        $stone->size_id = rand(1,1);
+        $stone->style_id = rand(1,1);
+        $stone->contour_id = rand(1,1);
+        $stone->store_id = 2;
+        $stone->amount = rand(1,20);
+        $stone->price = rand(20,45);
+        $stone->save();
 
-            $jewel = new Jewel();
-            $jewel->name = 'Колие';
-            $jewel->save();
+
+        $stores = new Store();
+        $stores->name = 'Ювел';
+        $stores->location = 'София';
+        $stores->phone = '0541587414178';
+        $stores->save();
+
+        $stores = new Store();
+        $stores->name = 'Росица';
+        $stores->location = 'Пазарджик';
+        $stores->phone = '0541587414178';
+        $stores->save();
+
+        $stores = new Store();
+        $stores->name =  'Ювел';
+        $stores->location = 'Пазарджик';
+        $stores->phone = '0541587414178';
+        $stores->save();
+
+        $jewel = new Jewel();
+        $jewel->name = 'Дамски пръстен';
+        $jewel->save();
+
+        $jewel = new Jewel();
+        $jewel->name = 'Мъжки пръстен';
+        $jewel->save();
+
+        $jewel = new Jewel();
+        $jewel->name = 'Синджир';
+        $jewel->save();
+
+        $jewel = new Jewel();
+        $jewel->name = 'Гривна';
+        $jewel->save();
+
+        $jewel = new Jewel();
+        $jewel->name = 'Обици';
+        $jewel->save();
+
+        $jewel = new Jewel();
+        $jewel->name = 'Кръст';
+        $jewel->save();
+
+        $jewel = new Jewel();
+        $jewel->name = 'Медальон';
+        $jewel->save();
+
+        $jewel = new Jewel();
+        $jewel->name = 'Колие';
+        $jewel->save();
 
         $user = new User();
         $user->email = 'admin@uvel.com';
