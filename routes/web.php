@@ -98,6 +98,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         //Models section
         Route::get('/models', 'ModelController@index')->name('admin_models');
         Route::post('/models', 'ModelController@store');
+
+        //Expenses
+        Route::get('/expensetypes', 'ExpenseTypeController@index')->name('expenses_types');
+        Route::get('/expensetypes/edit/{type}', 'ExpenseTypeController@edit');
+
+        //Productsothers
+        Route::get('/productsotherstypes', 'ProductOtherTypeController@index')->name('products_others_types');
+        Route::get('/productsotherstypes/{productOtherType}', 'ProductOtherTypeController@edit');
+
+        //Materials type
+        Route::get('/materialstypes', 'MaterialTypeController@index')->name('materials_types');
+        Route::post('/materialstypes', 'MaterialTypeController@store');
+        Route::get('/materialstypes/{materialType}', 'MaterialTypeController@edit');
     });
 
     //Active urls for ADMIN role.
@@ -145,10 +158,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         //Selling section
         Route::get('/sellingreportsexport', 'SellingReportController@index')->name('selling_report_export');
         Route::get('/sellingreportsexport/{store}', 'SellingReportController@edit');
-
-        //Expenses
-        Route::get('/expensetypes', 'ExpenseTypeController@index')->name('expenses_types');
-        Route::get('/expensetypes/edit/{type}', 'ExpenseTypeController@edit');
 
         //Materials section
         Route::post('/mquantity', 'MaterialQuantityController@store');
@@ -227,11 +236,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::get('/materials', 'MaterialController@index')->name('materials');
         Route::post('/materials', 'MaterialController@store');
 
-        Route::get('/materialstypes', 'MaterialTypeController@index')->name('materials_types');
-        Route::post('/materialstypes', 'MaterialTypeController@store');
-
-        Route::get('/materialstypes/{materialType}', 'MaterialTypeController@edit');
-
         Route::get('/materials/{material}', 'MaterialController@edit');
         Route::put('/materials/{material}', 'MaterialController@update');
 
@@ -250,9 +254,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
 
         Route::get('/productsothers', 'ProductOtherController@index')->name('products_others');
         Route::get('/productsothers/{productOther}', 'ProductOtherController@edit');
-
-        Route::get('/productsotherstypes', 'ProductOtherTypeController@index')->name('products_others_types');
-        Route::get('/productsotherstypes/{productOtherType}', 'ProductOtherTypeController@edit');
 
         Route::get('/repairs/return/{repair}', 'RepairController@return');
         Route::get('/repairs/edit/{repair}', 'RepairController@edit');
@@ -328,6 +329,15 @@ Route::group(['prefix' => 'ajax'], function() {
 
         //Models section
         Route::post('/models', 'ModelController@store');
+
+        //Materials type
+        Route::post('/materialstypes', 'MaterialTypeController@store');
+        Route::put('/materialstypes/{materialType}', 'MaterialTypeController@update');
+
+        //expense types
+        Route::get('/expensetypes/edit/{type}', 'ExpenseTypeController@edit');
+        Route::post('/expensetypes', 'ExpenseTypeController@store');
+        Route::put('/expensetypes/{type}', 'ExpenseTypeController@update');
     });
 
     Route::group(['middleware' => ['check_user_role:' . \App\Role\UserRole::ROLE_ADMIN]], function () {
@@ -393,9 +403,7 @@ Route::group(['prefix' => 'ajax'], function() {
         Route::post('/repairtypes/delete/{repairType}', 'RepairTypeController@destroy');
 
         //Materials section
-        Route::post('/materialstypes', 'MaterialTypeController@store');
         Route::post('/materialstypes/delete/{materialType}', 'MaterialTypeController@destroy');
-        Route::put('/materialstypes/{materialType}', 'MaterialTypeController@update');
         Route::post('/materials', 'MaterialController@store');
         Route::post('/materials/delete/{material}', 'MaterialController@destroy');
         Route::put('/materials/{material}', 'MaterialController@update');
@@ -420,6 +428,9 @@ Route::group(['prefix' => 'ajax'], function() {
         //Models section
         Route::put('/models/{model}', 'ModelController@update');
         Route::post('/models/delete/{model}', 'ModelController@destroy');
+
+        //Expenses types
+        Route::post('/expensetypes/delete/{type}', 'ExpenseTypeController@destroy');
     });
 
     //Print
@@ -486,11 +497,6 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/expenses', 'ExpenseController@store');
 
     Route::post('/dailyreports', 'DailyReportController@store');
-
-    Route::get('/expensetypes/edit/{type}', 'ExpenseTypeController@edit');   
-    Route::post('/expensetypes', 'ExpenseTypeController@store');
-    Route::put('/expensetypes/{type}', 'ExpenseTypeController@update');
-    Route::post('/expensetypes/delete/{type}', 'ExpenseTypeController@destroy');
 
     Route::post('/stores', 'StoreController@store');
     Route::put('/stores/{store}', 'StoreController@update');
