@@ -19,14 +19,15 @@ aria-hidden="true">
             <table class="table table-condensed tablesort">
                 <thead>
                     <tr>
+                        <th></th>
                         <th>Потребител</th>
-                        <th>Метод на доставка</th>
-                        <th>Метод на плащане</th>
+                        <th>Доставка</th>
+                        <th>Плащане</th>
                         <th>Цена</th>
                         <th>Дата</th>
-                        <th>Статус</th>
-                        @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
-                             <th data-sort-method="none">Действия</th>
+                        <th>Продукти</th>
+                        @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['admin', 'manager']))
+                             <th data-sort-method="none"></th>
                         @endif
                     </tr>
                 </thead>

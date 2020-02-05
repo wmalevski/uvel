@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e36d8c2c3dcd1a7a9bab0eb89f9d3d20",
+    "content-hash": "d8ebcc58c4ad0f19ea37db7297d1091e",
     "packages": [
         {
             "name": "albertcht/invisible-recaptcha",
@@ -2300,6 +2300,58 @@
                 "roles"
             ],
             "time": "2018-02-01T03:05:24+00:00"
+        },
+        {
+            "name": "soved/laravel-gdpr",
+            "version": "v1.5.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sander3/laravel-gdpr.git",
+                "reference": "510bbc971044ba336303d895f77dddb7c2006acc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sander3/laravel-gdpr/zipball/510bbc971044ba336303d895f77dddb7c2006acc",
+                "reference": "510bbc971044ba336303d895f77dddb7c2006acc",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "~5.5|~6.0",
+                "php": ">=7.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Soved\\Laravel\\Gdpr\\GdprServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Soved\\Laravel\\Gdpr\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sander de Vos",
+                    "email": "sander@tutanota.de"
+                }
+            ],
+            "description": "GDPR compliance with ease",
+            "keywords": [
+                "data-portability",
+                "data-retention",
+                "encryption",
+                "gdpr",
+                "laravel",
+                "soved"
+            ],
+            "time": "2019-09-15T19:57:50+00:00"
         },
         {
             "name": "spatie/laravel-newsletter",

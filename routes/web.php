@@ -20,6 +20,16 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function () {
+    //Models section
+    Route::get('/models', 'ModelController@index')->name('admin_models');
+    Route::post('/models', 'ModelController@store');
+
+    //Materials section
+    Route::get('/mquantity', 'MaterialQuantityController@index')->name('materials_quantity');
+
+    //Stones section
+    Route::get('/stones', 'StoneController@index')->name('stones');
+    Route::post('/stones', 'StoneController@store');
 
     //Active urls for roles: CASHIER, MANAGER and ADMIN.
     Route::group(['middleware' => ['check_user_role:' . \App\Role\UserRole::ROLE_CASHIER]], function () {
@@ -72,12 +82,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::get('/productsothers/reviews/all', 'ProductOtherController@showReviews')->name('show_products_others_reviews');
         Route::get('/models/reviews/all', 'ModelController@showReviews')->name('show_model_reviews');
 
-        //Materials section
-        Route::get('/mquantity', 'MaterialQuantityController@index')->name('materials_quantity');
     });
 
     //Active urls for roles: STOREHOUSE and ADMIN.
     Route::group(['middleware' => ['check_user_role:' . \App\Role\UserRole::ROLE_STOREHOUSE]], function () {
+//        Route::get('/', 'StoreController@index')->name('stores');
         //Stones section
         Route::get('/stones/sizes', 'StoneSizeController@index')->name('sizes');
         Route::post('/stones/sizes', 'StoneSizeController@store');
@@ -88,16 +97,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::get('/stones/contours', 'StoneContourController@index')->name('contours');
         Route::post('/stones/contours', 'StoneContourController@store');
 
-        Route::get('/stones', 'StoneController@index')->name('stones');
-        Route::post('/stones', 'StoneController@store');
-
         //Jewels section
         Route::get('/jewels', 'JewelController@index')->name('jewels');
         Route::post('/jewels', 'JewelController@store');
-
-        //Models section
-        Route::get('/models', 'ModelController@index')->name('admin_models');
-        Route::post('/models', 'ModelController@store');
 
         //Expenses
         Route::get('/expensetypes', 'ExpenseTypeController@index')->name('expenses_types');
