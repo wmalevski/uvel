@@ -35,18 +35,18 @@
     </td>
 
     <td>{{ $payment->user->email }}</td>
-    <td>Виж отстъпки
+    <td>
         @if(isset($payment->discounts))
            @foreach($payment->discounts as $discount)
                 @if($discount->discount_code_id)
-                    {{$discount->discount_code_id }}%
+                    Отстъпка:  {{$discount->discount_code_id }}%
                 @endif
             @endforeach
+           <br/>
         @endif
-        <br/>
-        Виж артикули <br/>
+        Артикули: <br/>
         @if(isset($payment->sellings))
-            @foreach($payment->sellings as $selling)
+            @foreach($payment->sellings as $key => $selling)
                 @if($selling->product_id)
                     {{App\Model::where('id', App\Product::where('id', $selling->product_id)->first()->model_id)->first()->name }} {{  $selling->product_id }}
                 @elseif($selling->repair_id)
@@ -54,7 +54,10 @@
                 @elseif($selling->product_other_id)
                    {{App\ProductOther::where('id', $selling->product_other_id)->first()->name }} {{ $selling->product_other_id }}
                 @endif
+                    @if(1 + $key < count($payment->sellings)) , @endif
             @endforeach
         @endif
-        <br/>Допълнителна информация {{ $payment->info }}</td>
+        @if(isset($payment->info))
+            <br/>Допълнителна информация: {{ $payment->info }}</td>
+        @endif
 </tr>

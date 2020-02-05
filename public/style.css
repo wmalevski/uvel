@@ -369,3 +369,32 @@ textarea {
 .alert {
 	list-style-type: none;
 }
+
+.sell-status {
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	border-radius: 10px;
+}
+
+.sell-status.sell-status--done {
+	background-color: #388e3c;
+}
+
+.sell-status.sell-status--pending {
+	background-color: #f57c00;
+}
+
+.sell-products {
+	max-width: 330px;
+}
+
+.sell-product-thumbnail {
+	display: inline-block;
+	margin-right: 6px;
+	margin-bottom: 10px;
+}
+
+.sell-product-thumbnail img {
+	margin-right: 5px;
+}
