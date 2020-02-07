@@ -302,6 +302,7 @@ var uvel,
       $self.expandSideMenu();
       $self.setDailyReportsInputs();
       $self.setNumericInputsValidation($numericInputsDailyReports);
+      $self.productTravellingBarcodeScanAttach();
       $self.checkboxGroupHandlerAttach();
       $self.modelImageClickAttach();
     };
@@ -332,7 +333,7 @@ var uvel,
           error: function(response) {
             console.log(response);
           }
-        }); 
+        });
       }
     };
 
@@ -394,16 +395,38 @@ var uvel,
       }
     }
 
+    this.productTravellingBarcodeScanAttach = function() {
+      var input = document.querySelector('[name="product_accept_barcode"]');
+
+      if (input) {
+        input.addEventListener('change', function() {
+          var url = input.dataset.url + this.value;
+
+          $.ajax({
+            method: 'GET',
+            url: url,
+            success: function(response) {
+              $self.replaceResponseRowToTheTable($(input), response);
+            },
+            error: function(response) {
+              alert('Възникна грешка, моля опитайте отново');
+            }
+          });
+
+        }, false);
+      }
+    };
+
     this.resetOrderExchangeFieldsAttach = function(form) {
       var material = form.find('[data-calculateprice-material]');
-      
+
       material.on('change', function() {
         $self.resetOrderExchangeFields(form);
       });
     };
 
     this.resetOrderExchangeFields = function(form) {
-      var materialContainer = form.find('.given-material')[0],    
+      var materialContainer = form.find('.given-material')[0],
           rows = materialContainer.querySelectorAll('.form-row');
 
       for (var i = 1; i < rows.length; i++) {

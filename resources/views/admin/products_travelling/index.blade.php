@@ -73,9 +73,9 @@
                 <p>Преглед на пътуващите продукти.</p>
                 <div class="form-group col-md-6">
                     <label>Сканирай: </label>
-                    <input id="barcodeScanAccept" type="text" class="form-control" name="product_accept_barcode" placeholder="Приеми продукт" data-url="ajax/productstravelling/accept/">
+                    <input id="barcodeScanAccept" type="text" class="form-control" name="product_accept_barcode" placeholder="Приеми продукт" data-url="/ajax/productstravelling/accept/">
                 </div>
-              <table class="table table-condensed">
+              <table id="main_table" class="table table-condensed">
                 <thead>
                     <tr data-sort-method="none">
                         <th>Снимка</th>
