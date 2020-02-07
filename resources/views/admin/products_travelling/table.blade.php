@@ -12,14 +12,14 @@
     <td>{{ App\Product::withTrashed()->find($product->product_id)->weight }}</td>
     <td>
         @if($product->store_to_id == Auth::user()->getStore()->id && $product->status == 0)
-            <a href="/admin/productstravelling/accept/{{$product->id}}" class="btn btn-primary" data-material="{{ $product->id }}">Приеми</a>
+            Потвърди приемане на продукт
         @elseif($product->status == 1)
-            {{ $product->date_received }}
+            {{ $product->first()->date_received }}
         @else
-            В изчакване на потвърждение
+            В изчакване на потвърждение от {{ App\Store::withTrashed()->find($product->store_to_id)->name }}
         @endif
     </td>
-    <td>{{ $product->created_at }} </td> 
+    <td>{{ $product->created_at }} </td>
     <td>{{ App\Store::withTrashed()->find($product->store_from_id)->name }}</td>
     <td>{{ App\Store::withTrashed()->find($product->store_to_id)->name }}</td>
     <td>@if($product->status == 0) На път @else Приет @endif</td>

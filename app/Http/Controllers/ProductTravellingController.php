@@ -93,7 +93,7 @@ class ProductTravellingController extends Controller
                 $response .=  View::make('admin/products_travelling/table', array('product' => $travel, 'proID' => $travel->id))->render();
             }
 
-            return Response::json(array('success' =>$response));
+            return Response::json(array('success' => $response));
         }else{
             return Response::json(['errors' => array('quantity' => [trans('admin/products_travelling.error_no_products')])], 401);
         }
@@ -128,23 +128,29 @@ class ProductTravellingController extends Controller
         }
     }
 
-    public function accept($product){
-        $travel = ProductTravelling::findOrFail($product);
-        $product = Product::find($travel->product_id);
+    public function accept($product)
+    {
+        $existing_product = Product::where('barcode', $product)->first();
+        $response = '';
+        if ($existing_product) {
+            $travel = ProductTravelling::where('product_id',  $existing_product->id)->first();
 
-        if($product->status == 0){
+            if ($travel->status == 0 && Auth::user()->store_id == $travel->store_to_id) {
+                $travel->status = '1';
+                $travel->user_received = Auth::user()->id;
+                $travel->date_received = new \DateTime();
+                $travel->save();
 
-            $travel->status = '1';
-            $travel->user_received = Auth::user()->id;
-            $travel->date_received = new \DateTime();
-            $travel->save();
+                $existing_product->store_id = $travel->store_to_id;
+                $existing_product->status = 'available';
+                $existing_product->save();
 
-            $product->store_id = $travel->store_to_id;
-            $product->status = 'available';
-            $product->save();
+                $response .=  View::make('admin/products_travelling/table', array('product' => $travel))->render();
 
-            return Redirect::back();
+                return Response::json(array('ID' => $travel->id, 'table' => $response));
+            }
         }
+        return Response::json(['errors' => ['not_found' => ['Продукта не може да бъде намерен.']]], 401);
     }
 
     /**

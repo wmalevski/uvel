@@ -296,7 +296,7 @@ Route::group(['prefix' => 'ajax'], function() {
 
         //Product travelling
         Route::get('productstravelling/addByScan/{product}', 'ProductTravellingController@addByScan');
-        Route::get('/productstravelling/accept', 'ProductTravellingController@accept');
+        Route::get('/productstravelling/accept/{product}', 'ProductTravellingController@accept');
         Route::post('/productstravelling', 'ProductTravellingController@store');
     });
 
@@ -489,6 +489,14 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::put('/orders/{order}', 'OrderController@update');
     Route::get('/orders/getProductInfo/{product}', 'OrderController@getProductInfo')->name('getProductInfo');
     Route::get('/orders/getModelInfo/{model}', 'OrderController@getModelInfo')->name('getModelInfo');
+    Route::post('/orders/delete/{order}', 'OrderController@destroy');
+
+    Route::put('/partners/{partner}', 'PartnerController@update');
+    Route::put('/partnermaterials/{partner}/{material}', 'PartnerMaterialController@update');
+
+    Route::get('productstravelling/addByScan/{product}', 'ProductTravellingController@addByScan');
+
+    //Route::post('/blog/{article}/{comment}/delete', 'BlogCommentController@destroy');
 
     Route::post('/infophones', 'InfoPhoneController@store');
     Route::post('/infophones/delete/{phone}', 'InfoPhoneController@destroy');
