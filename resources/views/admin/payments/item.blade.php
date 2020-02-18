@@ -1,5 +1,5 @@
 <tr data-id="{{ $payment->id }}">
-    <td>{{ $payment->user->getStore()->name }}</td> 
+    <td>{{ $payment->user->getStore()->id }}</td>
     <td>{{ $payment->created_at }}</td> 
     <td>{{ $payment->price }}</td> 
     <td>

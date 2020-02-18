@@ -82,6 +82,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::get('/productsothers/reviews/all', 'ProductOtherController@showReviews')->name('show_products_others_reviews');
         Route::get('/models/reviews/all', 'ModelController@showReviews')->name('show_model_reviews');
 
+        //Selling section
+        Route::get('/sellingreportsexport', 'SellingReportController@index')->name('selling_report_export');
+        Route::get('/sellingreportsexport/{store}', 'SellingReportController@edit');
     });
 
     //Active urls for roles: STOREHOUSE and ADMIN.
@@ -156,10 +159,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
 
         //Reviews section
         Route::post('/reviews/delete/{review}', 'ReviewController@destroy')->name('destroy_review');
-
-        //Selling section
-        Route::get('/sellingreportsexport', 'SellingReportController@index')->name('selling_report_export');
-        Route::get('/sellingreportsexport/{store}', 'SellingReportController@edit');
 
         //Materials section
         Route::post('/mquantity', 'MaterialQuantityController@store');

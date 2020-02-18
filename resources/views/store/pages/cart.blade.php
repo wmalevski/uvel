@@ -48,7 +48,7 @@
 																				 alt="{{ $item->attributes->name }}"
 																				 width="150">
 																		@endif
-																		@if($item->attributes->type == 'box' && count(App\Gallery::where('product_other_id', $item->attributes->product_id)))
+																		@if($item->attributes->type == 'box' && App\Gallery::where('product_other_id', $item->attributes->product_id))
 																			<img src="{{ asset("uploads/products_others/" . App\Gallery::where('product_other_id', $item->attributes->product_id)->first()->photo) }}"
 																				 alt="{{ $item->attributes->name }}"
 																				 width="150">

@@ -3,8 +3,8 @@
     <td>{{ $material->quantity }}гр.</td> 
     <td>{{ $material->price }}лв.</td> 
     <td>{{ $material->created_at }} </td> 
-    <td>{{ $material->store_from->name }}</td>
-    <td>{{ $material->store_to->name }}</td>
+    <td>{{ $material->store_from->id }}</td>
+    <td>{{ $material->store_to->id }}</td>
     <td>
         @if($material->dateReceived != '' && $material->status == 'not_accepted') 
                 Отказан 
