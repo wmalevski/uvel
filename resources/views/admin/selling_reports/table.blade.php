@@ -1,5 +1,5 @@
 <tr data-id="{{ $store->id }}">
-    <td>{{ $store->name }}</td>
+    <td>{{ $store->id }}</td>
     <?php $new = 0; ?>
     @foreach(\App\Selling::where('payment_id',\App\Payment::where('store_id', $store->id)->first()->id)->get() as $data)
         <?php $new += $data->price; ?>

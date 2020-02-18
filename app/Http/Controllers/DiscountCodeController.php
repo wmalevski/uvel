@@ -87,9 +87,6 @@ class DiscountCodeController extends Controller
             $mpdf = new \Mpdf\Mpdf([
                 'mode' => 'utf-8',
                 'format' => [40, 40],
-                'margin_top' => 10,
-                'margin_left' => 10,
-                'mirrorMargins' => true
             ]);
 
             $html = view('pdf.discount', compact('discount'))->render();

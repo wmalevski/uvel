@@ -19,9 +19,9 @@
             В изчакване на потвърждение от {{ App\Store::withTrashed()->find($product->store_to_id)->name }}
         @endif
     </td>
-    <td>{{ $product->created_at }} </td>
-    <td>{{ App\Store::withTrashed()->find($product->store_from_id)->name }}</td>
-    <td>{{ App\Store::withTrashed()->find($product->store_to_id)->name }}</td>
+    <td>{{ $product->created_at }} </td> 
+    <td>{{ App\Store::withTrashed()->find($product->store_from_id)->id }}</td>
+    <td>{{ App\Store::withTrashed()->find($product->store_to_id)->id }}</td>
     <td>@if($product->status == 0) На път @else Приет @endif</td>
     @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
         <td>

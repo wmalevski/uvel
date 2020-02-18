@@ -11,7 +11,7 @@
           <tr>
             <th scope="col">Материал</th>
             @foreach($stores as $store)
-            <th scope="col">{{ $store->name }}</th>
+            <th scope="col">{{ $store->name }} - {{ $store->location }}</th>
             @endforeach
           </tr>
         </thead>
