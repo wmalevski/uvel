@@ -224,9 +224,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 									</label>
 									<select name="store_id" class="store-select form-control"
 											data-search="/ajax/select_search/stores/">
-										<option value="">
-											Избери магазин
-										</option>
+										<option value="{{ $stores->first()->id }}">{{ $stores->first()->name }} - {{ $stores->first()->location }}</option>
 									</select>
 								</div>
 
