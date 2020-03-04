@@ -210,8 +210,11 @@ class ModelController extends Controller
                 ['store_id', Auth::user()->getStore()->id]
             ])->first();
 
-            if(!$material || $material->quantity < $request->weight){
-                return Response::json(['success' => ['using' => [trans('admin/models.model_product_mquantity_error')]]], 200);
+            if(!$material){
+                $material = new MaterialQuantity();
+                $material->material_id = $default->material_id;
+                $material->quantity = 0;
+                $material->store_id = Auth::user()->store_id;
             }
 
             $product = new Product();
@@ -229,7 +232,7 @@ class ModelController extends Controller
             $product->store_id = 1;
             $bar = '380'.unique_number('products', 'barcode', 7).'1';
 
-            $material->quantity -= $request->weight;
+            $material->quantity += $request->weight;
             $material->save();
 
             $digits =(string)$bar;  
@@ -704,8 +707,12 @@ class ModelController extends Controller
                 ['store_id', Auth::user()->getStore()->id]
             ])->first();
 
-            if(!$material || $material->quantity < $request->weight){
-                return Response::json(['errors' => ['using' => [trans('admin/models.model_edit_product_mquantity_error')]]], 401);
+            if(!$material){
+                $material = new MaterialQuantity();
+                $material->material_id = $default->material_id;
+                $material->quantity = 0;
+                $material->store_id = Auth::user()->store_id;
+                $material->save();
             }
 
             if (!count(Gallery::where('model_id', $model->id)->get())) {
@@ -741,6 +748,8 @@ class ModelController extends Controller
 
                 $product->save();
 
+                $material->quantity += $request->weight;
+                $material->save();
 
                 $stoneQuantity = 1;
                 if ($request->stones) {

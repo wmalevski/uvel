@@ -320,14 +320,6 @@ class Product extends BaseModel
                 ['store_id', Auth::user()->getStore()->id]
             ])->first();
 
-            if(!$material || $material->quantity < $request->weight){
-                if($responseType == 'JSON'){
-                    return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
-                }else{
-                    return array('errors' => array('using' => ['Няма достатъчна наличност от този материал.']));
-                }
-            }
-
             $findModel = DefModel::find($request->model_id);
             $product = new Product();
             $product->name = $findModel->name;
@@ -343,7 +335,7 @@ class Product extends BaseModel
             $product->store_id = $request->store_id;
             $bar = '380'.unique_number('products', 'barcode', 7).'1';
 
-            $material->quantity = $material->quantity - $request->weight;
+            $material->quantity += $request->weight;
             $material->save();
 
             if($request->with_stones == 'false'){
