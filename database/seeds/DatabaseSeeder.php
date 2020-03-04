@@ -337,6 +337,12 @@ class DatabaseSeeder extends Seeder
         $material->cash_group = 1;
         $material->save();
 
+        $material_quantity = new MaterialQuantity();
+        $material_quantity->material_id = $material->id;
+        $material_quantity->quantity = 0;
+        $material_quantity->store_id = 1;
+        $material_quantity->save();
+
         $material = new Material();
         $material->name = 'Злато';
         $material->code = '585';
@@ -346,6 +352,12 @@ class DatabaseSeeder extends Seeder
         $material->stock_price = '24';
         $material->cash_group = 1;
         $material->save();
+
+        $material_quantity = new MaterialQuantity();
+        $material_quantity->material_id = $material->id;
+        $material_quantity->quantity = 0;
+        $material_quantity->store_id = 1;
+        $material_quantity->save();
 
         $material_type = new MaterialType();
         $material_type->name = 'Сребро';
@@ -360,6 +372,12 @@ class DatabaseSeeder extends Seeder
         $material->cash_group = 1;
         $material->save();
 
+        $material_quantity = new MaterialQuantity();
+        $material_quantity->material_id = $material->id;
+        $material_quantity->quantity = 0;
+        $material_quantity->store_id = 1;
+        $material_quantity->save();
+
         $material = new Material();
         $material->name = 'Злато';
         $material->code = '750';
@@ -369,6 +387,12 @@ class DatabaseSeeder extends Seeder
         $material->stock_price = '24';
         $material->cash_group = 1;
         $material->save();
+
+        $material_quantity = new MaterialQuantity();
+        $material_quantity->material_id = $material->id;
+        $material_quantity->quantity = 0;
+        $material_quantity->store_id = 1;
+        $material_quantity->save();
 
         $material = new Material();
         $material->name = 'Злато';

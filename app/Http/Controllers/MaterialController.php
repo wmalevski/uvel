@@ -89,6 +89,12 @@ class MaterialController extends Controller
 
         $material->save();
 
+        $material_quantity = new MaterialQuantity();
+        $material_quantity->material_id = $material->id;
+        $material_quantity->quantity = 0;
+        $material_quantity->store_id = 1;
+        $material_quantity->save();
+
         return Response::json(array('success' => View::make('admin/materials/table',array('material'=>$material))->render()));
     }
 

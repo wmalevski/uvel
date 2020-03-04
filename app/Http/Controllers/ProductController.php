@@ -264,23 +264,22 @@ class ProductController extends Controller
                     ['store_id', '=', Auth::user()->getStore()->id]
                 ])->first();
 
-                if(!$newMaterial || ($newMaterial->quantity < $request->weight)){
-                    return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
+                if (!$newMaterial) {
+                    $newMaterial = new MaterialQuantity();
+                    $newMaterial->material_id = $request->material_id;
+                    $newMaterial->quantity = 0;
+                    $newMaterial->store_id = Auth::user()->store_id;
                 }
 
-                $currentMaterial->quantity = $currentMaterial->quantity + $product->weight;
+                $currentMaterial->quantity -= $product->weight;
                 $currentMaterial->save();
 
-                $newMaterial->quantity = $newMaterial->quantity - $request->weight;
+                $newMaterial->quantity += $request->weight;
                 $newMaterial->save();
 
             }else if($request->weight != $product->weight){
-                if($currentMaterial->quantity < $request->weight){
-                    return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
-                }
-
-                $newQuantity = $product->weight - $request->weight;
-                $currentMaterial->quantity = $currentMaterial->quantity + $newQuantity;
+                $currentMaterial->quantity -= $product->weight;
+                $currentMaterial->quantity += $request->weight;
                 $currentMaterial->save();
 
             }
@@ -422,6 +421,12 @@ class ProductController extends Controller
                 if (($product_travelling = ProductTravelling::where('product_id', $product->id)) && $product_travelling->first()) {
                     $product_travelling->delete();
                 }
+                $material = MaterialQuantity::withTrashed()->where([
+                    ['material_id', '=', $product->material_id],
+                    ['store_id', '=', $product->store_id]
+                ])->first();
+                $material->quantity -= $product->weight;
+                $material->save();
                 $product->delete();
                 return Response::json(array('success' => 'Успешно изтрито!'));
             } else {
