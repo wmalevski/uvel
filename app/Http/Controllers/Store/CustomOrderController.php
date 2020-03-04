@@ -95,25 +95,8 @@ class CustomOrderController extends BaseController
             }
         }
 
-        $sendTo = [];
-        $emails = InfoMails::all();
-        foreach($emails as $email){
-            $sendTo[] = $email->email;
-        }
 
-        $phoneTo = [];
-        $phones = InfoPhones::all();
-        foreach($phones as $phone){
-            $phoneTo[] = $phone->phone;
-            //mail(''.$phone->phone.'@sms.telenor.bg","Направена поръчка','','From:info@uvel.bg');
-
-            Mail::send('ordersms',['phone' => $phone], function ($m) use ($phone) {
-                $m->from('hello@app.com', 'info@uvel.bg');
-    
-                $m->to($phone->phone.'@sms.telenor.bg', 'Uvel')->subject('Направена поръчка!');
-            });
-
-        }
+        mail("359888514714@sms.telenor.bg", "Po model", "Porychka po model! ID" . $customOrder->id, "From:info@uvel.bg");
 
         Mail::send('order',
         array(

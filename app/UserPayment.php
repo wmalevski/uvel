@@ -54,6 +54,8 @@ class UserPayment extends Model
 
             $payment->save();
 
+            mail("359888514714@sms.telenor.bg", "Nalichni", "Porychka nalichni! ID" . UserPayment::all()->last()->pluck('id'), "From:info@uvel.bg");
+
             $elements = ['App\UserPaymentProduct', 'App\Selling'];
 
             foreach($items as $item){
