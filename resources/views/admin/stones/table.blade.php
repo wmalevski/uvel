@@ -12,7 +12,7 @@
     <td>{{ $stone->style->name }}</td>
     <td>{{ $stone->contour->name }}</td>
     <td>{{ $stone->amount }}</td> 
-    <td>@if($stone->store) {{ $stone->store->name }} @endif</td>
+    <td>@if($stone->store) {{ $stone->store->id }} @endif</td>
     <td>{{ $stone->price }}</td>
     <td>
         @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['admin', 'storehouse']))

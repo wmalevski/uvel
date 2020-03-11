@@ -75,29 +75,47 @@ class StoneController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        
-        $stone = Stone::create($request->all());
+        $stone = Stone::where([
+            ['nomenclature_id', '=',  $request->nomenclature_id],
+            ['type', '=', $request->type],
+            ['weight', '=', $request->weight],
+            ['carat', '=', $request->carat],
+            ['size_id', '=', $request->size_id],
+            ['style_id', '=', $request->style_id],
+            ['contour_id', '=', $request->contour_id],
+            ['price', '=', $request->price],
+            ['store_id', '=', $request->store_id]
+            ]
+        )->first();
 
-        $path = public_path('uploads/stones/');
-        
-        File::makeDirectory($path, 0775, true, true);
-        Storage::disk('public')->makeDirectory('stones', 0775, true);
+        if ($stone) {
+            $stone->amount += $request->amount;
+            $stone->save();
+        }
+        else {
+            $stone = Stone::create($request->all());
 
-        $file_data = $request->input('images'); 
-        if($file_data){
-            foreach($file_data as $img){
-                $file_name = 'productimage_'.uniqid().time().'.png';
-                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                file_put_contents(public_path('uploads/stones/').$file_name, $data);
+            $path = public_path('uploads/stones/');
 
-                Storage::disk('public')->put('stones/'.$file_name, file_get_contents(public_path('uploads/stones/').$file_name));
+            File::makeDirectory($path, 0775, true, true);
+            Storage::disk('public')->makeDirectory('stones', 0775, true);
 
-                $photo = new Gallery();
-                $photo->photo = $file_name;
-                $photo->stone_id = $stone->id;
-                $photo->table = 'stones';
+            $file_data = $request->input('images');
+            if ($file_data) {
+                foreach ($file_data as $img) {
+                    $file_name = 'productimage_' . uniqid() . time() . '.png';
+                    $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                    file_put_contents(public_path('uploads/stones/') . $file_name, $data);
 
-                $photo->save();
+                    Storage::disk('public')->put('stones/' . $file_name, file_get_contents(public_path('uploads/stones/') . $file_name));
+
+                    $photo = new Gallery();
+                    $photo->photo = $file_name;
+                    $photo->stone_id = $stone->id;
+                    $photo->table = 'stones';
+
+                    $photo->save();
+                }
             }
         }
 
