@@ -26,6 +26,7 @@ use App\Store;
 use App\MaterialQuantity;
 use Storage;
 use Auth;
+use Milon\Barcode\DNS1D;
 
 class ProductController extends Controller
 {
@@ -406,6 +407,108 @@ class ProductController extends Controller
 
             return Response::json(array('table' => View::make('admin/products/table',array('product' => $product))->render(), 'photos' => $photosHtml, 'ID' => $product->id));
         }  
+    }
+
+    /**
+     * Send information for specific product
+     *
+     * @param Model $model
+     * @return \Illuminate\Http\Response
+     */
+    public function getProductInformation(Product $product)
+    {
+        $photos = Gallery::where(
+            [
+                ['table', '=', 'products'],
+                ['product_id', '=', $product->id]
+            ]
+        )->get();
+
+        $product_stones = array();
+        $stones = ProductStone::where('product_id', $product->id)->get();
+
+        foreach($stones as $stone){
+            $product_stones[] = array(
+                "name"      => $this->getProductStoneName($stone->stone_id),
+                "amount"    => $stone->amount,
+                "weight"    => $stone->weight,
+                "flow"      => $stone->flow,
+            );
+        }
+
+        $material =  Material::where('id', $product->material_id)->first();
+        $jewel = Jewel::where('id',$product->jewel_id)->first();
+        $barcode = DNS1D::getBarcodeSVG($product->barcode, "EAN13",1,33,"black", true);
+
+        $product_info = array(
+            "name"              => $product->name,
+            "jewelName"         => $jewel->name,
+            "workmanshipPrice"  => $product->workmanship,
+            "size"              => $product->size,
+            "weight"            => $product->weight,
+            "material"          => $material->name . '-' . $material->code . '-' . $material->color,
+            "stones"            => $product_stones,
+            "barcode"           => $barcode,
+            "websiteVisible"    => $product->website_visible,
+            "price"             => $product->price,
+            "created"           => $product->created_at,
+            "updated"           => $product->updated_at,
+            "photos"            => $this->getProductPhotos($photos)
+        );
+
+        return Response::json(['product' => $product_info], 200);
+    }
+
+    /**
+     * Get product stone name
+     *
+     * @param $productStoneId
+     *
+     * @return string
+     */
+    private function getProductStoneName($productStoneId)
+    {
+        $preloaded_stones = Stone::take(env('SELECT_PRELOADED'))->get();
+
+        foreach($preloaded_stones  as $stone) {
+            if($stone->id == $productStoneId){
+                return $stone->nomenclature->name . ' (' . $stone->contour->name . ', ' . $stone->style->name . ')';
+            }
+        }
+    }
+
+    /**
+     * Get product images
+     *
+     * @param $photos
+     * @return array
+     */
+    private function getProductPhotos($photos)
+    {
+        $pass_photos = array();
+
+        foreach($photos as $photo){
+            $url =  Storage::get('public/products/'.$photo->photo);
+            $ext_url = Storage::url('public/products/'.$photo->photo);
+
+            $info = pathinfo($ext_url);
+            $image_name =  basename($ext_url,'.'.$info['extension']);
+
+            $base64 = base64_encode($url);
+
+            if($info['extension'] == "svg"){
+                $ext = "png";
+            }else{
+                $ext = $info['extension'];
+            }
+
+            $pass_photos[] = [
+                'id' => $photo->id,
+                'photo' => 'data:image/'.$ext.';base64,'.$base64
+            ];
+        }
+
+        return $pass_photos;
     }
 
     /**

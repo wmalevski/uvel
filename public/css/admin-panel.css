@@ -161,30 +161,30 @@ input[type="number"][disabled] {
 	-moz-appearance: textfield;
 }
 
-.product-information-btn {
+.product-information-btn, .model-information-btn {
 	padding: 0;
     border: none;
     background: none;
 }
 
-.product-information-modal .product-image {
+.product-information-modal .product-image, .model-information-modal .product-image{
 	width: 100%;
 	max-height: 300px;
 	margin-bottom: 16px;
 	object-fit: cover;
 }
 
-.product-information-modal ul {
+.product-information-modal ul, .model-information-modal ul {
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
 }
 
-.product-information-modal ul span, .product-information-modal .product-name {
+.product-information-modal ul span, .product-information-modal .product-name, .model-information-modal ul span, .model-information-modal .product-name {
 	color: #000;
 }
 
-.product-information-modal .product-stones-inner {
+.product-information-modal .product-stones-inner, .model-information-modal .product-stones-inner {
 	padding-left: 24px;
 	color: #000;
 }

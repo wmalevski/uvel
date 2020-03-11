@@ -303,7 +303,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="editModelLabel">Информация за модела</h5>
+				<h5 class="modal-title" id="editModelLabel">Информация за продукта</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -311,8 +311,8 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 			<div class="modal-body">
 				<div class="info-cont"></div>
 				{{ csrf_field() }}
-				<h3><span class="product-name">Тест</span></h3>
-				<h6><span class="product-jewel">Бижу 1</span><h6>
+				<h3><span class="product-name"></span></h3>
+				<h6><span class="product-jewel"></span><h6>
 				<hr>
 				<img class="product-image" src="" />
 				<ul>
@@ -327,6 +327,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							
 						</ul>
 					</li>
+					<li><span class="product-barcode"></span></li>
 				</ul>
 			</div>
 		</div>

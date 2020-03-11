@@ -203,6 +203,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
     });
 
         Route::get('/models/view/{model}', 'ModelController@getModelInformation');
+        Route::get('/products/view/{product}', 'ProductController@getProductInformation');
         Route::get('/models/calculateStonesTotalWeight/{stone}/{stonesTotal}', 'ModelController@calculateStonesTotalWeight');
 
         Route::get('/infoemails', 'InfoMailController@index')->name('info_emails');

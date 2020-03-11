@@ -1,7 +1,7 @@
 <tr data-id="{{ $model->id }}">
     <td class="thumbnail--tooltip">
         @if(count($model->photos))
-            <button class="product-information-btn" data-toggle="modal" data-target="#productInformation">
+            <button class="model-information-btn" data-toggle="modal" data-target="#modelInformation">
                 <img class="admin-product-image" src="{{ asset("uploads/models/" . $model->photos->first()['photo']) }}">
             </button>
             <ul class="product-hover-image"
