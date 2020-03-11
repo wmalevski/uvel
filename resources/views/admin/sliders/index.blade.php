@@ -50,7 +50,7 @@
 	</div>
 </div>
 
-<div class="modal fade edit--modal_holder" id="editSlide" role="dialog" aria-labelledby="editSlide" aria-hidden="true">
+<div class="modal fade edit--modal_holder" id="editArticle" role="dialog" aria-labelledby="editArticle" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content"></div>
 	</div>

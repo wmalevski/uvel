@@ -129,7 +129,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         //Slides section
         Route::get('/slides', 'SliderController@index')->name('slides');
         Route::post('/slides', 'SliderController@store');
-        Route::get('/slides/{slide}', 'SliderController@edit');
+        Route::get('/slides/{slider}', 'SliderController@edit');
+        Route::put('/slides/{slider}', 'SliderController@update');
 
         //Partners
         Route::get('/partners/{partner}', 'PartnerController@edit');
@@ -353,6 +354,7 @@ Route::group(['prefix' => 'ajax'], function() {
         //Slides section
         Route::post('/slides', 'SliderController@store');
         Route::post('/slides/delete/{slider}', 'SliderController@destroy');
+        Route::put('/slides/{slider}', 'SliderController@update');
 
         //Dailyreports section
         Route::post('/dailyreports/delete/{report}', 'DailyReportController@destroy');

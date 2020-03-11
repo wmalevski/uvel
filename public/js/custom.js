@@ -199,7 +199,7 @@ var uvel,
         controllers: [],
         initialized: false
       },
-      sliders: {
+      slides: {
         selector: '[name="slides"]',
         controllers: ['imageHandling'],
         initialized: false
