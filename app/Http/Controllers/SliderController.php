@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Gallery;
 use File;
 use Response;
 use Storage;
@@ -59,7 +60,7 @@ class SliderController extends Controller
         File::makeDirectory($path, 0775, true, true);
         Storage::disk('public')->makeDirectory('slides', 0775, true);
 
-        $file_data = $request->input('images'); 
+        $file_data = $request->input('images');
         if($file_data){
             foreach($file_data as $img){
                 $file_name = 'slideimage_'.uniqid().time().'.png';
@@ -68,14 +69,15 @@ class SliderController extends Controller
 
                 Storage::disk('public')->put('sliders/'.$file_name, file_get_contents(public_path('uploads/slides/').$file_name));
 
-                // $photo = new Gallery();
+                $photo = new Gallery();
+                $photo->photo = $file_name;
                 $slider->photo = $file_name;
                 $slider->save();
 
-                // $photo->slider_id = $slider->id;
-                // $photo->table = 'sliders';
+                 $photo->slider_id = $slider->id;
+                 $photo->table = 'sliders';
 
-                // $photo->save();
+                 $photo->save();
             }
         }
 
@@ -113,7 +115,40 @@ class SliderController extends Controller
      */
     public function update(Request $request, Slider $slider)
     {
-        //
+        $validator = Validator::make( $request->all(), [
+            'images' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
+
+        $path = public_path('uploads/slides/');
+
+        File::makeDirectory($path, 0775, true, true);
+        Storage::disk('public')->makeDirectory('slides', 0775, true);
+
+        $file_data = $request->input('images');
+        if($file_data){
+            foreach($file_data as $img){
+                $file_name = 'slideimage_'.uniqid().time().'.png';
+                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                file_put_contents(public_path('uploads/slides/').$file_name, $data);
+
+                Storage::disk('public')->put('sliders/'.$file_name, file_get_contents(public_path('uploads/slides/').$file_name));
+
+                $slider->photo = $file_name;
+            }
+        }
+
+        $slider->title = $request->title;
+        $slider->content = $request->content;
+        $slider->button_text = $request->button_text;
+        $slider->button_link = $request->button_link;
+        $slider->save();
+
+        return Response::json(array('ID' => $slider->id, 'table' =>  View::make('admin/sliders/table',array('slide' => $slider))->render()));
     }
 
     /**
