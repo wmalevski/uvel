@@ -304,25 +304,26 @@ var uvel,
       $self.setNumericInputsValidation($numericInputsDailyReports);
       $self.productTravellingBarcodeScanAttach();
       $self.checkboxGroupHandlerAttach();
+      $self.productImageClickAttach();
       $self.modelImageClickAttach();
     };
 
-    this.modelImageClickAttach = function(row) {
+    this.productImageClickAttach = function(row) {
       var buttons = document.querySelectorAll('.product-information-btn'),
           rowButton = row ? row.querySelector('.product-information-btn') : null;
 
       if (row && rowButton) {
-        rowButton.addEventListener('click', getModelInformation, false);
+        rowButton.addEventListener('click', getProductInformation, false);
       } else if (buttons) {
 
         buttons.forEach(function(button) {
-          button.addEventListener('click', getModelInformation, false);
+          button.addEventListener('click', getProductInformation, false);
         });
       }
 
-      function getModelInformation() {
+      function getProductInformation() {
         var productId = this.closest('tr').dataset.id,
-            url = '/admin/models/view/' + productId;
+            url = '/admin/products/view/' + productId;
 
         $.ajax({
           method: 'GET',
@@ -337,10 +338,39 @@ var uvel,
       }
     };
 
-    this.productInformationModalOpen = function(data) {
+    this.modelImageClickAttach = function(row) {
+      var buttons = document.querySelectorAll('.model-information-btn'),
+          rowButton = row ? row.querySelector('.model-information-btn') : null;
+
+      if (row && rowButton) {
+        rowButton.addEventListener('click', getModelInformation, false);
+      } else if (buttons) {
+
+        buttons.forEach(function(button) {
+          button.addEventListener('click', getModelInformation, false);
+        });
+      }
+      function getModelInformation() {
+        var productId = this.closest('tr').dataset.id,
+            url = '/admin/models/view/' + productId;
+
+        $.ajax({
+          method: 'GET',
+          url: url,
+          success: function(response) {
+            $self.modelInformationModalOpen(response);
+          },
+          error: function(response) {
+            console.log(response);
+          }
+        });
+      }
+    };
+
+    this.modelInformationModalOpen = function(data) {
       if (data) {
         var model = data.model,
-            modal = document.querySelector('#productInformation'),
+            modal = document.querySelector('#modelInformation'),
             imageContainer = modal.querySelector('.product-image'),
             nameContainer = modal.querySelector('.product-name'),
             jewelContainer = modal.querySelector('.product-jewel'),
@@ -361,6 +391,51 @@ var uvel,
         workmanshipContainer.innerHTML = model.workmanshipPrice + 'лв.';
         sizeContainer.innerHTML = model.size;
         priceContainer.innerHTML = model.price + 'лв.';
+
+        if (stones.length) {
+          stoneContainer.innerHTML = stones.length;
+          stoneInnerContainer.innerHTML = '';
+
+          stones.forEach(function(stone) {
+            var li = document.createElement(li);
+
+            li.innerHTML = '- ' + stone.amount + ' x ' + stone.name + '(' + stone.weight + ' гр.)';
+
+            stoneInnerContainer.appendChild(li);
+          });
+        } else {
+          stoneContainer.innerHTML = '0';
+          stoneInnerContainer.innerHTML = '';
+        }
+      }
+    };
+
+    this.productInformationModalOpen = function(data) {
+      if (data) {
+        var product = data.product,
+            modal = document.querySelector('#productInformation'),
+            imageContainer = modal.querySelector('.product-image'),
+            nameContainer = modal.querySelector('.product-name'),
+            jewelContainer = modal.querySelector('.product-jewel'),
+            weightContainer = modal.querySelector('.product-weight'),
+            workmanshipContainer = modal.querySelector('.product-workmanship');
+            sizeContainer = modal.querySelector('.product-size'),
+            materialContainer = modal.querySelector('.product-material'),
+            priceContainer = modal.querySelector('.product-price'),
+            stoneContainer = modal.querySelector('.product-stones'),
+            barcodeContainer = modal.querySelector('.product-barcode'),
+            stoneInnerContainer = modal.querySelector('.product-stones-inner'),
+            stones = product.stones;
+
+        imageContainer.src = product.photos[0].photo;
+        nameContainer.innerHTML = product.name;
+        jewelContainer.innerHTML = product.jewelName;
+        materialContainer.innerHTML = product.material;
+        weightContainer.innerHTML = product.weight + 'гр.';
+        workmanshipContainer.innerHTML = product.workmanshipPrice + 'лв.';
+        sizeContainer.innerHTML = product.size;
+        barcodeContainer.innerHTML = product.barcode;
+        priceContainer.innerHTML = product.price + 'лв.';
 
         if (stones.length) {
           stoneContainer.innerHTML = stones.length;
@@ -1497,7 +1572,7 @@ var uvel,
       $self.deleteRow(deleteBtn);
       $self.print(printBtn);
       $self.returnRepairBtnAction(returnRepairBtn);
-      $self.modelImageClickAttach(form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]')[0]);
+      $self.productImageClickAttach(form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]')[0]);
     }
 
     // FUNCTION TO MOVE ROW FROM ONE TABLE TO ANOTHER WHEN EDITING ON SCREENS WITH MULTIPLE TABLES
