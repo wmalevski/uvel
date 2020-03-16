@@ -588,6 +588,11 @@ class ModelController extends Controller
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
+
+        $file_data = $request->input('images');
+        if (!$file_data) {
+            return Response::json(['errors' => ['using' => [trans('admin/models.model_edit_picture_error')]]], 401);
+        }
         
         $model->name = $request->name;
         $model->jewel_id = $request->jewel_id;

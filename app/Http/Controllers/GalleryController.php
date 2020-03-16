@@ -86,14 +86,8 @@ class GalleryController extends Controller
             return Response::json(['errors' => ['using' => ['Не е налична снимка.']]], 401);
         }
 
-        $countImagesModel = $photo->model_id ? $gallery::where('model_id', $photo->model_id)->count() : null;
-
-        if ($countImagesModel === 1) {
-            return Response::json(['errors' => ['using' => [trans('admin/models.model_edit_picture_error')]]], 401);
-        } else {
-            unlink(public_path('uploads\\' . $photo->table . '\\') . $photo->photo);
-            $photo->delete();
-            return Response::json(array('success' => 'Успешно изтрито!'));
-        }
+        unlink(public_path('uploads\\' . $photo->table . '\\') . $photo->photo);
+        $photo->delete();
+        return Response::json(array('success' => 'Успешно изтрито!'));
     }
 }
