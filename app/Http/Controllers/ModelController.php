@@ -588,11 +588,6 @@ class ModelController extends Controller
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
-
-        $file_data = $request->input('images');
-        if (!$file_data) {
-            return Response::json(['errors' => ['using' => [trans('admin/models.model_edit_picture_error')]]], 401);
-        }
         
         $model->name = $request->name;
         $model->jewel_id = $request->jewel_id;
@@ -656,8 +651,20 @@ class ModelController extends Controller
             }
         }
 
-        $file_data = $request->input('images'); 
-        
+        $file_data = $request->input('images');
+
+        $check_photo = Gallery::where(
+            [
+                ['table', '=', 'models'],
+                ['model_id', '=', $model->id],
+                ['deleted_at', '=', null]
+            ]
+        )->first();
+
+        if(!isset($check_photo) && !$file_data) {
+            return Response::json(['errors' => ['using' => [trans('admin/models.model_edit_picture_error')]]], 401);
+        }
+
         if($file_data){
             foreach($file_data as $img){
                 $memi = substr($img, 5, strpos($img, ';')-5);
