@@ -139,7 +139,11 @@
 														<a class="wish-list" href="#" data-url="{{ route('wishlists_store', ['type' => 'model', 'item' => $model->id]) }}"><i
 															 class="fa fa-heart"></i> Добави в желани</a>
 														<span>|</span>
-														<a href="mailto:info@yourdomain.com"><i class="fa fa-envelope"></i> Изпрати по email</a>
+														<a href="mailto:uvelgold@gmail.com?subject=По поръчка, Модел - {{ $model->id }}&body=Модел: {{ $model->id }} %0D%0A
+														Тегло: {{ $model->weight }}гр. %0D%0A
+														Бижу: {{ $model->jewel->name }} %0D%0A
+														Размер: {{ $model->size }}">
+															<i class="fa fa-envelope"></i> Изпрати по email</a>
 													</div>
 												</div>
 												<ul id="tabs_detail" class="tabs-panel-detail hidden-xs hidden-sm">
