@@ -155,7 +155,9 @@
 															Добави в желани
 														</a>
 														<span>|</span>
-														<a href="mailto:info@yourdomain.com">
+														<a href="mailto:uvelgold@gmail.com?subject={{ \App\ProductOtherType::where('id', $product->type_id)->first()->name }} - {{ $product->name }}&body=Модел: {{ $product->name }} %0D%0A
+														No: {{ $product->id }} %0D%0A
+														Налично в: {{ App\Store::where('id',$product->store_id)->first()->name }}">
 															<i class="fa fa-envelope"></i>
 															Изпрати по email
 														</a>
