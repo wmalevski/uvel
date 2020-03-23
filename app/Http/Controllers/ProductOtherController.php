@@ -137,6 +137,33 @@ class ProductOtherController extends Controller
         return \View::make('admin.products_others_reviews.index', array('reviews'=>$reviews));
     }
 
+    public function generate($barcode) {
+
+        $productOther = ProductOther::where('barcode', $barcode)->first();
+
+        if($productOther) {
+            $productOtherType = ProductOtherType::where('id', $productOther->type_id)->first()->name;
+
+            $mpdf = new \Mpdf\Mpdf([
+                'mode' => 'utf-8',
+                'format' => [96, 11.4],
+                'margin_top' => 1,
+                'margin_bottom' => 0,
+                'margin_left' => 3,
+                'margin_right' => 0,
+                'mirrorMargins' => true
+            ]);
+
+            $html = view('pdf.product_others', compact('barcode','productOther', 'productOtherType'))->render();
+
+            $mpdf->WriteHTML($html);
+
+            $mpdf->Output(str_replace(' ', '_', $productOther->name).'_product_others.pdf',\Mpdf\Output\Destination::DOWNLOAD);
+        }
+
+        abort(404, 'Product not found.');
+    }
+
     /**
      * Display the specified resource.
      *

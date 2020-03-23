@@ -11,7 +11,8 @@
                   data-form="otherProducts" data-toggle="modal" data-target="#editProduct"><i
                         class="c-brown-500 ti-pencil"></i></span>
         @endif
-        <a href="productsothers/print/{{$product->id}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a>
+        <a data-print-label="true" target="_blank" href="/ajax/productsothers/generatelabel/{{$product->barcode}}"
+           class="print-btn"><i class="c-brown-500 ti-printer"></i></a>
         @if(\Illuminate\Support\Facades\Auth::user()->role =='admin')
             <span data-url="productsothers/delete/{{$product->id}}" class="delete-btn"><i
                         class="c-brown-500 ti-trash"></i></span>
