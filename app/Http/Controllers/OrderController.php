@@ -460,6 +460,23 @@ class OrderController extends Controller
 
                     $productResponse = $product->store($request, 'array');
 
+                    $model_pictures = Gallery::where(
+                        [
+                            ['table', '=', 'models'],
+                            ['model_id', '=', $request->model],
+                            ['deleted_at', '=', null]
+                        ]
+                    )->get();
+
+                    foreach($model_pictures as $model_picture) {
+                        $photo = new Gallery();
+                        $photo->photo = $model_picture->photo;
+                        $photo->product_id = $product->id;
+                        $photo->table = 'products';
+
+                        $photo->save();
+                    }
+
                     if($productResponse['errors']){
                         return Response::json(['errors' => $productResponse['errors']], 401);
                     }
