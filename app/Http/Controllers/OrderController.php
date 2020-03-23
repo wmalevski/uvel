@@ -258,16 +258,22 @@ class OrderController extends Controller
         $order = Order::where('id', $id)->first();
         $model_order = ModelOrder::where('id', $id)->first();
 
-        if($order && $model_order) {
+        if($order) {
             $store = Store::where('id', $order->store_id)->first();
-            $user = User::where('id', $model_order->user_id)->first();
+            if($model_order) {
+                $user = User::where('id', $model_order->user_id)->first();
+            } else {
+                $user = Auth::user();
+            }
+            $barcode = Product::where('id', $order->product_id)->first()->barcode;
             $material = Material::where('id', $order->material_id)->first();
+
             $mpdf = new \Mpdf\Mpdf([
                 'mode' => 'utf-8',
                 'format' => [148, 210]
             ]);
 
-            $html = view('pdf.order', compact('order', 'store', 'user', 'material'))->render();
+            $html = view('pdf.order', compact('order', 'store', 'user', 'barcode', 'material'))->render();
 
             $mpdf->WriteHTML($html);
 

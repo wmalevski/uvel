@@ -80,6 +80,6 @@
     </div>
 
     <div style="float: left; width: 30%;">
-        {!! str_replace( '<?xml version="1.0" standalone="no"?>', '' ,DNS1D::getBarcodeSVG($order->barcode, "EAN13",1,33,"black", true)) !!}
+        {!! str_replace( '<?xml version="1.0" standalone="no"?>', '' ,DNS1D::getBarcodeSVG($barcode, "EAN13",1,33,"black", true)) !!}
     </div>
 </div>
