@@ -50,6 +50,11 @@ class Product extends BaseModel
         return $this->belongsTo('App\Model');
     }
 
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
+
     public function jewel()
     {
         return $this->belongsTo('App\Jewel');
