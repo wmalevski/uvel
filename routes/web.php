@@ -439,6 +439,7 @@ Route::group(['prefix' => 'ajax'], function() {
 
     //Print
     Route::get('/products/generatelabel/{barcode}', 'GenerateLabelController@generate');
+    Route::get('/productsothers/generatelabel/{barcode}', 'ProductOtherController@generate');
     Route::get('/orders/print/{id}', 'OrderController@generate');
     Route::get('/repairs/certificate/{id}', 'RepairController@certificate');
 
