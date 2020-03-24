@@ -86,7 +86,7 @@ class GalleryController extends Controller
             return Response::json(['errors' => ['using' => ['Не е налична снимка.']]], 401);
         }
 
-        unlink(public_path('uploads\\' . $photo->table . '\\') . $photo->photo);
+        unlink(public_path('uploads/' . $photo->table . '/') . $photo->photo);
         $photo->delete();
         return Response::json(array('success' => 'Успешно изтрито!'));
     }
