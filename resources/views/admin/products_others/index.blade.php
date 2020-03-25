@@ -127,7 +127,11 @@ aria-hidden="true">
     
     <tbody>
         @foreach($products_others as $product)
-            @include('admin.products_others.table')
+            @if(\Illuminate\Support\Facades\Auth::user()->role == 'cashier' && $product->store->id == \Illuminate\Support\Facades\Auth::user()->store_id)
+                @include('admin.products_others.table')
+            @elseif(\Illuminate\Support\Facades\Auth::user()->role != 'cashier')
+                @include('admin.products_others.table')
+            @endif
         @endforeach
     </tbody>
 </table>
