@@ -373,7 +373,11 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 
 	<tbody>
 		@foreach($products as $product)
-		@include('admin.products.table')
+			@if(\Illuminate\Support\Facades\Auth::user()->role == 'cashier' && $product->store_info->id == \Illuminate\Support\Facades\Auth::user()->store_id)
+				@include('admin.products.table')
+			@elseif(\Illuminate\Support\Facades\Auth::user()->role != 'cashier')
+				@include('admin.products.table')
+			@endif
 		@endforeach
 	</tbody>
 </table>
