@@ -55,7 +55,7 @@
 														<li  class="{{ filter_products('byMaterial', $material->id) }}">
 															<a href="#" data-id="byMaterial[]={{ $material->id }}">
 																<span class="fe-checkbox"></span>
-																{{ $material->parent->name }} ({{ $material->color }}) ({{ count($material->productsOnline) }})
+																{{ $material->parent->name }}-{{ $material->code }} ({{ $material->color }}) ({{ count($material->productsOnline) }})
 															</a>
 														</li>
 														@endforeach
