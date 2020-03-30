@@ -15,6 +15,10 @@
 
             <div class="form-row">
                 <div class="form-group col-md-12">
+                    <label for="3">За : </label>
+                    <input type="text" class="form-control" value="{{ $cashgroup->label }}" name="label" placeholder="Име:">
+                </div>
+                <div class="form-group col-md-12">
                     <label for="3">Касова група : </label>
                     <input type="number" class="form-control" value="{{ $cashgroup->cash_group }}" name="cash_group" placeholder="Касова група:">
                 </div>
