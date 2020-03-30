@@ -98,17 +98,19 @@ class CustomOrderController extends BaseController
 
         mail("359888514714@sms.telenor.bg", "Po model", "Porychka po model! ID" . $customOrder->id, "From:info@uvel.bg");
 
+        $requestEmail = $request->email;
+
         Mail::send('order',
         array(
             'ID' => $customOrder->id,
             'name' => $request->name,
-            'email' => $request->email,
+            'email' => $requestEmail,
             'city' => $request->city,
             'phone' => $request->phone,
             'content' => $request->content
-        ), function($message) use ($sendTo) {
-            $message->from('galabin@rubberduck.xyz');
-            $message->to($sendTo)->subject('Uvel Поръчка');
+        ), function($message) use ($requestEmail) {
+            $message->from($requestEmail);
+            $message->to("uvelgold@gmail.com")->subject('Uvel Поръчка');
         });
 
         return Response::json(array('success' => 'Поръчката ви беше изпратено успешно'));
