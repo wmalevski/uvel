@@ -76,6 +76,7 @@ class CashGroupController extends Controller
     {
         $validator = Validator::make( $request->all(), [
             'cash_group' => 'required',
+            'label' => 'required',
         ]);
         
         if ($validator->fails()) {
@@ -83,6 +84,7 @@ class CashGroupController extends Controller
         }
 
         $cashGroup->cash_group = $request->cash_group;
+        $cashGroup->label = $request->label;
         
         $cashGroup->save();
         
