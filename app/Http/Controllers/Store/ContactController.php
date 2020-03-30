@@ -46,17 +46,8 @@ class ContactController extends BaseController
     public function contactUSPost(Request $request) 
     {
         $this->validate($request, [ 'name' => 'required', 'email' => 'required|email', 'message' => 'required' ]);; 
-    
-        Mail::send('email',
-        array(
-            'name' => $request->name,
-            'email' => $request->email,
-            'user_message' => $request->message
-        ), function($message)
-        {
-            $message->from('galabin@rubberduck.xyz');
-            $message->to('galabin@rubberduck.xyz', 'Admin')->subject('Uvel Contact');
-        });
+
+        mail("uvelgold@gmail.com", $request->name, $request->message, "From:" . $request->email);
     }
 
 }
