@@ -318,6 +318,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 				<hr>
 				<img class="product-image" src="" />
 				<ul>
+					<li>Уникален номер - <span class="product-id"></span></li>
 					<li>Материал - <span class="product-material"></span></li>
 					<li>Тегло - <span class="product-weight"></span></li>
 					<li>Размер - <span class="product-size"></span></li>

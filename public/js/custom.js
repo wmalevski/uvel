@@ -421,6 +421,7 @@ var uvel,
             workmanshipContainer = modal.querySelector('.product-workmanship');
             sizeContainer = modal.querySelector('.product-size'),
             materialContainer = modal.querySelector('.product-material'),
+            idContainer = modal.querySelector('.product-id'),
             priceContainer = modal.querySelector('.product-price'),
             stoneContainer = modal.querySelector('.product-stones'),
             barcodeContainer = modal.querySelector('.product-barcode'),
@@ -431,6 +432,7 @@ var uvel,
         nameContainer.innerHTML = product.name;
         jewelContainer.innerHTML = product.jewelName;
         materialContainer.innerHTML = product.material;
+        idContainer.innerHTML = product.id;
         weightContainer.innerHTML = product.weight + 'гр.';
         workmanshipContainer.innerHTML = product.workmanshipPrice + 'лв.';
         sizeContainer.innerHTML = product.size;
