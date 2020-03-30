@@ -300,7 +300,7 @@ class Product extends BaseModel
         }
 
         public function store($request, $responseType = 'JSON'){
-            $validator = Validator::make( $request->all(), [
+            $validate_data = [
                 'jewel_id' => 'required',
                 'material_id' => 'required',
                 'retail_price_id' => 'required|numeric|min:1',
@@ -309,8 +309,13 @@ class Product extends BaseModel
                 'size' => 'required|numeric|between:0.1,10000',
                 'workmanship' => 'required|numeric|between:0.1,500000',
                 'price' => 'required|numeric|between:0.1,500000',
-                'store_id' => 'required|numeric'
-            ]);
+            ];
+
+            if(Auth::user()->role != 'storehouse') {
+               $validate_data['store_id'] = 'required|numeric';
+            }
+
+            $validator = Validator::make( $request->all(), $validate_data);
 
             if ($validator->fails()) {
                 if($responseType == 'JSON'){
@@ -320,10 +325,9 @@ class Product extends BaseModel
                 }
             }
 
-            $material = MaterialQuantity::where([
-                ['material_id', $request->material_id],
-                ['store_id', Auth::user()->getStore()->id]
-            ])->first();
+            $material = MaterialQuantity::where('material_id', $request->material_id)->first();
+
+            $store_data = Auth::user()->role == 'storehouse' && !isset($request->store_id)? "1" : $request->store_id;
 
             $findModel = DefModel::find($request->model_id);
             $product = new Product();
@@ -337,7 +341,7 @@ class Product extends BaseModel
             $product->size = $request->size;
             $product->workmanship = round($request->workmanship);
             $product->price = round($request->price);
-            $product->store_id = $request->store_id;
+            $product->store_id = $store_data;
             $bar = '380'.unique_number('products', 'barcode', 7).'1';
 
             $material->quantity += $request->weight;

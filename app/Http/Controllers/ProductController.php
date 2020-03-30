@@ -239,7 +239,7 @@ class ProductController extends Controller
                 ]
             )->get();
 
-            $validator = Validator::make( $request->all(), [
+            $validate_data = [
                 'jewel_id' => 'required',
                 'retail_price_id' => 'required|numeric|min:1',
                 'weight' => 'required|numeric|between:0.1,10000',
@@ -247,23 +247,22 @@ class ProductController extends Controller
                 'size' => 'required|numeric|between:0.1,10000',
                 'workmanship' => 'required|numeric|between:0.1,500000',
                 'price' => 'required|numeric|between:0.1,500000',
-                'store_id' => 'required|numeric'
-            ]); 
+            ];
+
+            if(Auth::user()->role != 'storehouse') {
+                $validate_data['store_id'] = 'required|numeric';
+            }
+
+            $validator = Validator::make( $request->all(), $validate_data);
     
             if ($validator->fails()) {
                 return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
             }
 
-            $currentMaterial = MaterialQuantity::withTrashed()->where([
-                ['material_id', '=', $product->material_id],
-                ['store_id', '=', Auth::user()->getStore()->id]
-            ])->first();
+            $currentMaterial = MaterialQuantity::withTrashed()->where('material_id', '=', $product->material_id)->first();
 
             if($request->material_id != $product->material_id){
-                $newMaterial = MaterialQuantity::withTrashed()->where([
-                    ['material_id', '=', $request->material_id],
-                    ['store_id', '=', Auth::user()->getStore()->id]
-                ])->first();
+                $newMaterial = MaterialQuantity::withTrashed()->where('material_id', '=', $request->material_id)->first();
 
                 if (!$newMaterial) {
                     $newMaterial = new MaterialQuantity();
@@ -284,6 +283,8 @@ class ProductController extends Controller
                 $currentMaterial->save();
 
             }
+
+            $store_data = Auth::user()->role == 'storehouse' && !isset($request->store_id)? "1" : $request->store_id;
     
             $product->material_id = $request->material_id;
             $product->model_id = $request->model_id;
@@ -294,7 +295,7 @@ class ProductController extends Controller
             $product->size = $request->size;
             $product->workmanship = round($request->workmanship);
             $product->price = round($request->price);
-            $product->store_id = $request->store_id;
+            $product->store_id = $store_data;
 
             if($request->with_stones == 'false'){
                 $product->weight_without_stones = 'no';

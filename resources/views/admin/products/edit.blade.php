@@ -210,14 +210,18 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label>Магазин: </label>
-                    <select name="store_id" class="form-control" data-search="/ajax/select_search/stores/">
-                        <option value="">Избери магазин</option>
+                    @if(\Illuminate\Support\Facades\Auth::user()->role != 'storehouse')
+                        <select name="store_id" class="form-control" data-search="/ajax/select_search/stores/">
+                            <option value="">Избери магазин</option>
 
-                        @foreach($stores as $store)
-                        <option value="{{ $store->id }}" @if($store->id == $product->store_id) selected @endif>{{
+                            @foreach($stores as $store)
+                                <option value="{{ $store->id }}" @if($store->id == $product->store_id) selected @endif>{{
                             $store->name }} - {{ $store->location }}</option>
-                        @endforeach
-                    </select>
+                            @endforeach
+                        </select>
+                    @else
+                        {{ $stores->first()->name }} - {{ $stores->first()->location }}
+                    @endif
                 </div>
             </div>
 
