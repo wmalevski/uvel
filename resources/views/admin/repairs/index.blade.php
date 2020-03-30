@@ -325,16 +325,16 @@ aria-hidden="true">
                     </tr>
                     <tr class="search-inputs" data-dynamic-search-url="ajax/search/repairs/">
                         <th>
-                            <input class="filter-input form-control" type="text" data-dynamic-search-param="byBarcode=" placeholder="Търси по баркод">
+                            <input class="filter-input form-control" type="text" data-dynamic-search-param="byBarcode=" placeholder="Баркод">
                         </th>
                         <th>
-                            <input class="filter-input form-control" type="text" data-dynamic-search-param="byCode=" placeholder="Търси по номер">
+                            <input class="filter-input form-control" type="text" data-dynamic-search-param="byCode=" placeholder="Номер">
                         </th>
                         <th>
-                            <input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Търси по име">
+                            <input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Име">
                         </th>
                         <th>
-                            <input class="filter-input form-control" type="text" data-dynamic-search-param="byPhone=" placeholder="Търси по телефон">
+                            <input class="filter-input form-control" type="text" data-dynamic-search-param="byPhone=" placeholder="Телефон">
                         </th>
                         <th></th>
                         <th></th>

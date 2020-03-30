@@ -60,7 +60,7 @@ aria-hidden="true">
                     </tr>
                     <tr class="search-inputs" data-dynamic-search-url="ajax/search/repairs_types/">
                         <th>
-                            <input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Търси по име">
+                            <input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Име">
                         </th>
                         <th></th>
                         <th></th>

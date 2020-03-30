@@ -356,10 +356,10 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 		<tr class="search-inputs" data-dynamic-search-url="ajax/search/products/">
 			<th></th>
 			<th>
-				<input class="filter-input form-control" type="text" data-dynamic-search-param="byCode=" placeholder="Търси по номер">
+				<input class="filter-input form-control" type="text" data-dynamic-search-param="byCode=" placeholder="Номер">
 			</th>
 			<th>
-				<input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Търси по модел">
+				<input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Модел">
 			</th>
 			<th></th>
 			<th></th>

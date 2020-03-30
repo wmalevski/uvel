@@ -107,13 +107,13 @@ aria-hidden="true">
                 </tr>
                 <tr class="search-inputs" data-dynamic-search-url="ajax/search/discounts/">
                     <th>
-                        <input class="filter-input form-control" type="text" data-dynamic-search-param="byBarcode=" placeholder="Търси по баркод">
+                        <input class="filter-input form-control" type="text" data-dynamic-search-param="byBarcode=" placeholder="Баркод">
                     </th>
                     <th></th>
                     <th></th>
                     <th></th>
                     <th>
-                        <input class="filter-input form-control" type="text" data-dynamic-search-param="byUser=" placeholder="Търси по потребител">
+                        <input class="filter-input form-control" type="text" data-dynamic-search-param="byUser=" placeholder="Потребител">
                     </th>
                     <th></th>
                     <th></th>

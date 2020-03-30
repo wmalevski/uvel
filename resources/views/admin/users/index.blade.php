@@ -99,7 +99,7 @@ aria-hidden="true">
             
             <tr class="search-inputs" data-dynamic-search-url="ajax/search/users/">
                 <th>
-                    <input class="filter-input form-control" type="text" data-dynamic-search-param="byEmail=" placeholder="Търси по Имейл/Име">
+                    <input class="filter-input form-control" type="text" data-dynamic-search-param="byEmail=" placeholder="Имейл/Име">
                 </th>
                 <th></th>
                 <th></th>

@@ -31,7 +31,7 @@ aria-hidden="true">
 
           <tr class="search-inputs" data-dynamic-search-url="ajax/search/orders/custom">
             <th>
-              <input class="filter-input form-control" type="text" data-dynamic-search-param="byEmail=" placeholder="Търси по имейл">
+              <input class="filter-input form-control" type="text" data-dynamic-search-param="byEmail=" placeholder="Имейл">
             </th>
             <th></th>
             <th></th>
