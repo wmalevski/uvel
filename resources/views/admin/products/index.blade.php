@@ -222,10 +222,14 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 									<label>
 										Магазин:
 									</label>
-									<select name="store_id" class="store-select form-control"
-											data-search="/ajax/select_search/stores/">
-										<option value="{{ $stores->first()->id }}">{{ $stores->first()->name }} - {{ $stores->first()->location }}</option>
-									</select>
+									@if(\Illuminate\Support\Facades\Auth::user()->role != 'storehouse')
+                                        <select name="store_id" class="store-select form-control"
+                                                data-search="/ajax/select_search/stores/">
+                                                <option value="{{ $stores->first()->id }}">{{ $stores->first()->name }} - {{ $stores->first()->location }}</option>
+                                        </select>
+									@else
+										{{ $stores->first()->name }} - {{ $stores->first()->location }}
+									@endif
 								</div>
 
 								<div class="col-12">
