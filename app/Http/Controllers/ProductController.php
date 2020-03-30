@@ -442,6 +442,7 @@ class ProductController extends Controller
         $barcode = DNS1D::getBarcodeSVG($product->barcode, "EAN13",1,33,"black", true);
 
         $product_info = array(
+            "id"                => $product->id,
             "name"              => $product->name,
             "jewelName"         => $jewel->name,
             "workmanshipPrice"  => $product->workmanship,
