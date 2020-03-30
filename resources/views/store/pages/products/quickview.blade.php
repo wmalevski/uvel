@@ -58,7 +58,7 @@
 							@endif
 							Бижу: {{ $product->jewel->name }}
 							<br/>
-							Размер: {{ $product->model->size }}
+							Размер: {{ $product->size }}
 							<br/>
 							Налично в: {{ $product->store_info->name }}
 						</p>
