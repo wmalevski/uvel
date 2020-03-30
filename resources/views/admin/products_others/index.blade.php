@@ -112,14 +112,14 @@ aria-hidden="true">
         </tr>
         <tr class="search-inputs" data-dynamic-search-url="ajax/search/products_others/">
             <th>
-                <input class="filter-input form-control" type="text" data-dynamic-search-param="byBarcode=" placeholder="Търси по баркод">
+                <input class="filter-input form-control" type="text" data-dynamic-search-param="byBarcode=" placeholder="Баркод">
             </th>
             <th></th>
             <th></th>
             <th></th>
             <th></th>
             <th>
-                <input class="filter-input form-control" type="text" data-dynamic-search-param="byCode=" placeholder="Търси по уникален номер">
+                <input class="filter-input form-control" type="text" data-dynamic-search-param="byCode=" placeholder="Уникален номер">
             </th>
             <th></th>
         </tr>

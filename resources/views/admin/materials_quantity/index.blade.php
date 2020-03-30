@@ -90,7 +90,7 @@ aria-hidden="true">
                 </tr>
                 <tr class="search-inputs" data-dynamic-search-url="ajax/search/materialquantities/">
                     <th>
-                        <input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Търси по тип">
+                        <input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Тип">
                     </th>
                     <th></th>
                     <th></th>
