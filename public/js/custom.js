@@ -1202,7 +1202,8 @@ var uvel,
       var data = {
             _token: $self.formsConfig.globalSettings.token
           },
-          imageCollection = [];
+          imageCollection = [],
+          imageCollectionNames = [];
 
       if (formType == 'edit') {
         data._method = 'PUT';
@@ -1241,12 +1242,19 @@ var uvel,
             if (element.dataset.locale) {
               data[dataKey] = $self.getBase64Image(imagesHolder[0]);
             } else {
-              imagesHolder.each(function(index, element) {
-                var imgSource = element.getAttribute('src');
+              imagesHolder.each(function(index, element) {;
+                var imgSource = element.getAttribute('src'),
+                    imgName = element.getAttribute('data-name');
                 imageCollection.push(imgSource);
+
+                if(imgName) imageCollectionNames.push(imgName);
               });
   
               data.images = imageCollection;
+              
+              if(!!imageCollectionNames) {
+                data.imageNames = imageCollectionNames;
+              }
             }
           }
         }

@@ -62,7 +62,7 @@
 			<h4 class="c-grey-900 mB-20">
 				Слайдове
 				<button class="add-btn btn btn-primary" type="button" id="dropdownMenuButton"
-				 data-form-type="add" data-form="sliders" data-toggle="modal" data-target="#addSlide">
+				 data-form-type="add" data-form="slides" data-toggle="modal" data-target="#addSlide">
 				 	Добави
 				</button>
 			</h4>

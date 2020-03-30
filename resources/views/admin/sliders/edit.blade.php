@@ -18,7 +18,7 @@
             <div class="drop-area-gallery">
                 <div class='image-wrapper'>
                     <div class='close'><span data-url="gallery/delete/{{$slider->id}}">&#215;</span></div>
-                    <img src={{ asset("uploads/slides/". $slider->photo) }} alt="" class="img-responsive" />
+                    <img src={{ asset("uploads/slides/". $slider->photo) }} data-name="{{$slider->photo}}" alt="" class="img-responsive" />
                 </div>
             </div>
         </div>

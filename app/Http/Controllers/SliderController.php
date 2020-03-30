@@ -52,7 +52,6 @@ class SliderController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        
         $slider = Slider::create($request->all());
 
         $path = public_path('uploads/slides/');
@@ -123,23 +122,25 @@ class SliderController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
+        // always one picture, I know it's ugly
+        if($request->imageNames[0] !== $slider->photo) {
+          $path = public_path('uploads/slides/');
 
-        $path = public_path('uploads/slides/');
-
-        File::makeDirectory($path, 0775, true, true);
-        Storage::disk('public')->makeDirectory('slides', 0775, true);
-
-        $file_data = $request->input('images');
-        if($file_data){
-            foreach($file_data as $img){
-                $file_name = 'slideimage_'.uniqid().time().'.png';
-                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                file_put_contents(public_path('uploads/slides/').$file_name, $data);
-
-                Storage::disk('public')->put('sliders/'.$file_name, file_get_contents(public_path('uploads/slides/').$file_name));
-
-                $slider->photo = $file_name;
-            }
+          File::makeDirectory($path, 0775, true, true);
+          Storage::disk('public')->makeDirectory('slides', 0775, true);
+  
+          $file_data = $request->input('images');
+          if($file_data){
+              foreach($file_data as $img){
+                  $file_name = 'slideimage_'.uniqid().time().'.png';
+                  $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+                  file_put_contents(public_path('uploads/slides/').$file_name, $data);
+  
+                  Storage::disk('public')->put('sliders/'.$file_name, file_get_contents(public_path('uploads/slides/').$file_name));
+  
+                  $slider->photo = $file_name;
+              }
+          }
         }
 
         $slider->title = $request->title;
