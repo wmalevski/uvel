@@ -279,7 +279,12 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
         <div class="form-group col-md-12">
           <label>Магазин:</label>
           
-          <select name="store_id" class="form-control" data-search="/ajax/select_search/stores/">
+          <select 
+            name="store_id"
+            class="form-control"
+            data-search="/ajax/select_search/stores/"
+            @if ($disable_store_select) disabled @endif
+          >
             <option value="">Избери магазин</option>
 
             @foreach($stores as $store)

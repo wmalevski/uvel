@@ -39,6 +39,7 @@ class OrderController extends Controller
      */
     public function index(MaterialQuantity $materials)
     {
+        $user = Auth::user();
         $orders = Order::all();
         $products = Product::all();
         $models = Model::take(env('SELECT_PRELOADED'))->get();
@@ -46,11 +47,12 @@ class OrderController extends Controller
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::take(env('SELECT_PRELOADED'))->get();
         $stores = Store::take(env('SELECT_PRELOADED'))->get();
-        $user_store = Store::where('id', Auth::user()->store_id)->first();
+        $user_store = Store::where('id', $user->store_id)->first();
+        $disable_store_select = $user->shUserSelectStore();
         $mats = MaterialQuantity::currentStore()->take(env('SELECT_PRELOADED'));
 
         $pass_stones = array();
-        
+
         foreach($stones as $stone){
             $pass_stones[] = [
                 'value' => $stone->id,
@@ -73,7 +75,7 @@ class OrderController extends Controller
             }
         }
 
-        return \View::make('admin/orders/index', array('mats' => $mats, 'materials' => $materials, 'orders' => $orders, 'stores' => $stores ,'products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials->scopeCurrentStore(), 'user_store' => $user_store, 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
+        return \View::make('admin/orders/index', array('mats' => $mats, 'materials' => $materials, 'orders' => $orders, 'stores' => $stores ,'products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials->scopeCurrentStore(), 'user_store' => $user_store, 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES), 'disable_store_select' => $disable_store_select));
     }
 
     /**
@@ -236,6 +238,7 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
+        $user = Auth::user();
         $order_stones = $order->stones;
         $order_materials = $order->materials;
         $models = Model::take(env('SELECT_PRELOADED'))->get();
@@ -244,8 +247,9 @@ class OrderController extends Controller
         $stones = Stone::take(env('SELECT_PRELOADED'))->get();
         $materials = Material::take(env('SELECT_PRELOADED'))->get();
         $stores = Store::take(env('SELECT_PRELOADED'))->get();
+        $disable_store_select = $user->shUserSelectStore();
 
-        return \View::make('admin/orders/edit', array('stores' => $stores , 'order_stones' => $order_stones, 'order' => $order, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials));
+        return \View::make('admin/orders/edit', array('stores' => $stores , 'order_stones' => $order_stones, 'order' => $order, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials, 'disable_store_select' => $disable_store_select));
     }
 
     /**
