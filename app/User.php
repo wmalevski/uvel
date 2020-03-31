@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use App\DiscountCode;
 use App\UserSubstitution;
 use App\Store;
+use App\Role\UserRole;
+use App\Role\RoleChecker;
 
 class User extends Authenticatable
 {
@@ -199,5 +201,15 @@ class User extends Authenticatable
         }
 
         return $roles;
+    }
+
+    /**
+     * @return bool
+     */
+    public function shUserSelectStore()
+    {
+      $roleChecker = new RoleChecker();
+
+      return !$roleChecker->check($this, UserRole::ROLE_ADMIN) && !$roleChecker->check($this, UserRole::ROLE_STOREHOUSE);
     }
 }
