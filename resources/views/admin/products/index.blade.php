@@ -369,7 +369,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 			<th></th>
 			<th></th>
 			<th>
-				<input class="filter-input form-control" type="number" data-dynamic-search-param="byBarcode=" placeholder="Търси по баркод">
+				<input class="filter-input form-control" type="number" data-dynamic-search-param="byBarcode=" placeholder="Баркод">
 			</th>
 			<th></th>
 			<th></th>
