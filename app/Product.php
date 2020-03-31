@@ -264,7 +264,7 @@ class Product extends BaseModel
                 }
 
                 if ($request->byName) {
-                    $query->where('id','LIKE','%'.$request->byName.'%');
+                    $query->where('name','LIKE','%'.$request->byName.'%');
                 }
 
                 if ($request->byBarcode) {
