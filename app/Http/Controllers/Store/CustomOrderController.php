@@ -95,9 +95,16 @@ class CustomOrderController extends BaseController
             }
         }
 
+        //send sms to the admin
+        Mail::send('sms',
+            array(
+                'content' => "Porychka po model! ID $customOrder->id"
+            ), function($message) {
+                $message->from("info@uvel.bg");
+                $message->to("359888514714@sms.telenor.bg")->subject('Po model');
+            });
 
-        mail("359888514714@sms.telenor.bg", "Po model", "Porychka po model! ID" . $customOrder->id, "From:info@uvel.bg");
-
+        //send email to uvelgold@gmail.com from the customer
         $requestEmail = $request->email;
 
         Mail::send('order',

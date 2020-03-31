@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Store;
+use App\UserPayment;
 use Auth;
 use Response;
 use App\Model;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Mail;
 
 class ModelOrderController extends BaseController
 {
@@ -50,7 +52,14 @@ class ModelOrderController extends BaseController
             $order->user_id = Auth::user()->getId();
             $order->save();
 
-            mail("359888514714@sms.telenor.bg", "Katalog", "Porychka katalog! ID" . $model->id, "From:info@uvel.bg");
+            //send sms to the admin
+            Mail::send('sms',
+                array(
+                    'content' => "Porychka katalog! ID $model->id"
+                ), function($message) {
+                    $message->from("info@uvel.bg");
+                    $message->to("359888514714@sms.telenor.bg")->subject('Katalog');
+            });
 
             return Response::json(array('success' => 'Поръчката беше изпратена успешно. Можете да следите найният статус в страницата с поръчки във вашият профил!'));
         }else{
