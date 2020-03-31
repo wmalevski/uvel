@@ -24,7 +24,7 @@
 
                         <div class="form-group col-md-6">
                         <label>Избери: </label>
-                            <select name="product_select" class="form-control" data-url="ajax/productstravelling/addByScan/" data-search="/ajax/select_search/products/">
+                            <select name="product_select" class="form-control" data-url="ajax/productstravelling/addByScan/" data-search="/ajax/select_search/products/" data-search-param-name="byCode">
                                 <option value="">Избери продукт</option>
                             </select>
                         </div>
