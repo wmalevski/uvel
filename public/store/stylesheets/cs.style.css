@@ -468,7 +468,6 @@ button.close{color:#ffffff;text-shadow:none;opacity:1;-ms-filter:"progid: DXImag
 .collection-details{position:relative;background-color:#f7f7f7;-webkit-transition:all 0.5s ease-in-out;-moz-transition:all 0.5s ease-in-out;-o-transition:all 0.5s ease-in-out;transition:all 0.5s ease-in-out;}
 .collection-details:hover{background-color:#f2e4cc;}
 .left-slidebar{float:left;}
-.collection-page.no_full_width.have-left-slidebar{float:right;}
 .allcollections-page h6.general-title{margin-top:0;margin-bottom:30px;}
 #content #product.content{padding-bottom:0;background-color:#f7f7f7;}
 /*
