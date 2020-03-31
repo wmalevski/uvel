@@ -21,6 +21,15 @@
 							<h1 id="page-title">Контакти</h1>
 						</div>
 					</div>
+					@if(session()->get('success'))
+						<div class="row">
+							<div class="col-md-12">
+								<div class="alert alert-success">
+									{{ session()->get('success')['contact'] }}
+								</div>
+							</div>
+						</div>
+					@endif
 				</div>
 				<div id="col-main" class="contact-page clearfix">
 					<div class="group-contact clearfix">

@@ -14,6 +14,7 @@ use App\Product;
 use App\UserPaymentProduct;
 use Auth;
 use Cart;
+use Mail;
 
 class UserPayment extends Model
 {
@@ -54,7 +55,14 @@ class UserPayment extends Model
 
             $payment->save();
 
-            mail("359888514714@sms.telenor.bg", "Nalichni", "Porychka nalichni! ID" . UserPayment::all()->last()->pluck('id'), "From:info@uvel.bg");
+            //send sms to the admin
+            Mail::send('sms',
+                array(
+                    'content' => "Porychka nalichni! ID " . UserPayment::all()->last()->pluck('id')
+                ), function($message) {
+                    $message->from("info@uvel.bg");
+                    $message->to("359888514714@sms.telenor.bg")->subject('Nalichni');
+            });
 
             $elements = ['App\UserPaymentProduct', 'App\Selling'];
 

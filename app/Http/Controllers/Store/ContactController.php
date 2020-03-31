@@ -38,16 +38,19 @@ class ContactController extends BaseController
         }
 
         //Send email to support mail
-        $this->contactUSPost($request);
+        $requestEmail   = $request->email;
+        $requestName    = $request->name;
+
+        Mail::send('email',
+            array(
+                'name'          => $requestName,
+                'email'         => $requestEmail,
+                'user_message'  => $request->message
+            ), function($message) use ($requestName, $requestEmail) {
+                $message->from($requestEmail);
+                $message->to("uvelgold@gmail.com")->subject("Контактна форма: $requestName");
+        });
+
         return Redirect::back()->with('success.contact', 'Съобщението ви беше изпратено успешно');
     }
-
-    /** * Show the application dashboard. * * @return \Illuminate\Http\Response */
-    public function contactUSPost(Request $request) 
-    {
-        $this->validate($request, [ 'name' => 'required', 'email' => 'required|email', 'message' => 'required' ]);; 
-
-        mail("uvelgold@gmail.com", $request->name, $request->message, "From:" . $request->email);
-    }
-
 }
