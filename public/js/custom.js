@@ -3143,6 +3143,8 @@ var uvel,
       }
 
       function generateAjaxOption(url, select) {
+        var searchParamName = select.dataset.searchParamName;
+
         return {
           ajax: {
             url: url,
@@ -3151,7 +3153,7 @@ var uvel,
             delay: 1000,
             data: function(params) {
               var query = {
-                byName: params.term,
+                [`${searchParamName ? searchParamName : 'byName'}`]: params.term,
                 page: params.page || 1
               }
               return query;
