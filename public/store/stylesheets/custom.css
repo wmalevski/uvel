@@ -464,9 +464,6 @@ li.element {
 }
 
 /* Grid alignment */
-.element.no_full_width .row-container .row-left {
-	height: 200px;
-}
 
 .element.no_full_width .row-container .row-right {
 	height: 190px !important;
@@ -486,10 +483,16 @@ li.element {
 
 .element.no_full_width .row-container .product-content-right {
 	position: absolute;
-  	bottom: 0;
+  bottom: 0;
 	right: 0;
 	width: 60%;
 	padding: 10px !important;
+}
+
+.element.no_full_width .row-container .row-left a.container_item:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
 }
 
 .element.no_full_width .row-container .product-content-left {
