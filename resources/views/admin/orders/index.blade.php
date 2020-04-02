@@ -322,6 +322,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 	<thead>
 		<tr>
 			<th data-sort-method="none">Уникален номер</th>
+			<th>Магазин номер</th>
 			<th>Модел</th>
 			<th>Вид бижу</th>
 			<th data-sort-method="none">Цена на грам</th>
