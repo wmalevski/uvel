@@ -48,7 +48,7 @@ class ProductOther extends Model
         }
     }
 
-    public function filterProducts($request ,$query){
+    public static function filterProducts($request){
         $query = ProductOther::where(function($query) use ($request){
             if ($request->priceFrom && $request->priceTo) {
                 $query = $query->whereBetween('price', [$request->priceFrom, $request->priceTo]);

@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'Store\StoreController@index')->name('store');
 
 Auth::routes();
 
@@ -504,9 +502,6 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/infophones', 'InfoPhoneController@store');
     Route::post('/infophones/delete/{phone}', 'InfoPhoneController@destroy');
 
-    Route::post('/infoemails', 'InfoEmailController@store');
-    Route::post('/infoemails/delete/{phone}', 'InfoEmailController@destroy');
-
     Route::post('/expenses', 'ExpenseController@store');
 
     Route::post('/dailyreports', 'DailyReportController@store');
@@ -623,9 +618,7 @@ Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
     });  
     
     Route::get('/model_orders/', 'ModelOrderController@index')->name('model_orders');
-});
 
-Route::group(['prefix' => 'online',  'namespace' => 'Store'], function() {
     Route::get('/cart', 'CartController@index')->name('cart');
     Route::get('/cart/addItem/{item}/{quantity}', 'CartController@addItem')->name('CartAddItem');
 });

@@ -92,12 +92,8 @@ class ProductOtherTypeController extends Controller
         return Response::json(array('ID' => $productOtherType->id, 'table' => View::make('admin/products_others_types/table',array('type'=>$productOtherType))->render()));
     }
 
-    public function filter(Request $request){
-        $query = ProductOtherType::select('*');
-
-        $products_new = new ProductOtherType();
-        $products = $products_new->filterProducts($request, $query);
-        $products = $products->paginate(env('RESULTS_PER_PAGE'));
+    public function filter(Request $request) {
+        $products = ProductOtherType::filterProducts($request)->paginate(env('RESULTS_PER_PAGE'));
 
         $response = '';
         foreach($products as $type){

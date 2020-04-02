@@ -298,11 +298,7 @@ class ProductOtherController extends Controller
     
 
     public function filter(Request $request){
-        $query = ProductOther::select('*');
-
-        $products_new = new ProductOther();
-        $products = $products_new->filterProducts($request, $query);
-        $products = $products->paginate(env('RESULTS_PER_PAGE'));
+        $products = ProductOther::filterProducts($request)->paginate(env('RESULTS_PER_PAGE'));
 
         $response = '';
         foreach($products as $product){

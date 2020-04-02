@@ -95,11 +95,7 @@ class ProductController extends Controller
     }
 
     public function select_search(Request $request){
-        $query = Product::select('*');
-
-        $products_new = new Product();
-        $products = $products_new->filterProducts($request, $query);
-        $products = $products->where('status', 'available')->paginate(env('RESULTS_PER_PAGE'));
+        $products = Product::filterProducts($request)->where('status', 'available')->paginate(env('RESULTS_PER_PAGE'));
         $pass_products = array();
 
         foreach($products as $product){
@@ -120,11 +116,7 @@ class ProductController extends Controller
     }
 
     public function filter(Request $request){
-        $query = Product::select('*');
-
-        $products_new = new Product();
-        $products = $products_new->filterProducts($request, $query);
-        $products = $products->paginate(env('RESULTS_PER_PAGE'));
+        $products = Product::filterProducts($request)->paginate(env('RESULTS_PER_PAGE'));
         $response = '';
         foreach($products as $product){
             $response .= \View::make('admin/products/table', array('product' => $product, 'listType' => $request->listType));

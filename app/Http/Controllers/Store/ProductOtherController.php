@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Store;
-use App\Product;
 use App\ProductOther;
 use App\ProductOtherType;
 use App\Store;
@@ -9,10 +8,7 @@ use App\Material;
 use App\MaterialType;
 use App\Jewel;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use App\User;
-use App\Http\Controllers\Store\ProductOtherController;
 
 class ProductOtherController extends BaseController
 {
@@ -23,13 +19,7 @@ class ProductOtherController extends BaseController
      */
     public function index(Request $request)
     {
-        $products = ProductOther::where([
-            ['quantity', '!=', 0],
-            ['store_id', '!=', 1]
-        ])->paginate(env('RESULTS_PER_PAGE'));
-
-        $products_new = new ProductOther();
-        $products = $products_new->filterProducts($request, $products);
+        $products = ProductOther::filterProducts($request);
 
         $products = $products->where([
             ['quantity', '!=', 0],
@@ -65,11 +55,7 @@ class ProductOtherController extends BaseController
     }
 
     public function filter(Request $request){
-        $query = ProductOther::where('store_id','!=', 1)->get();
-
-        $products_new = new ProductOther();
-        $products = $products_new->filterProducts($request, $query);
-        $products = $products->where([
+        $products = ProductOther::filterProducts($request)->where([
             ['quantity', '!=', 0],
             ['store_id', '!=', 1]
         ])->orderBy('id', 'DESC')->paginate(env('RESULTS_PER_PAGE'));

@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers\Store;
 use App\Product;
-use App\ProductOther;
 use App\ProductOtherType;
 use App\Store;
 use App\Material;
 use App\MaterialType;
 use App\Jewel;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use App\User;
 use Illuminate\Support\Facades\Input;
 use Session;
 
@@ -24,18 +21,11 @@ class ProductController extends BaseController
      */
     public function index(Request $request)
     {
-        $products = Product::where([
+
+        $products = Product::filterProducts($request)->where([
             ['status', '=', 'available'],
             ['website_visible', '=', 'yes'],
             ['store_id', '!=', 1]
-        ])->paginate(env('RESULTS_PER_PAGE'));
-
-        $products_new = new Product();
-        $products = $products_new->filterProducts($request, $products);
-
-        $products = $products->where([
-            ['status', '=', 'available'],
-            ['website_visible', '=', 'yes']
         ])->paginate(env('RESULTS_PER_PAGE'));
 
         Session::put('products_active_filters', $request->fullUrl() );
@@ -50,12 +40,12 @@ class ProductController extends BaseController
 
         $jewels = Jewel::all();
 
-        $count = 0;
+        // $count = 0;
         foreach ($products as $product) {
-            if ($count < 2) {
+            // if ($count < 2) {
                 $product->weight = calculate_product_weight($product);
-            }
-            $count++;
+            // }
+            // $count++;
         }
 
         return \View::make('store.pages.products.index', array('products' => $products, 'stores' => $stores, 'materials' => $materials, 'jewels' => $jewels, 'productothertypes' => $productothertypes, 'materialTypes' => $materialTypes));
@@ -85,11 +75,7 @@ class ProductController extends BaseController
     }
 
     public function filter(Request $request){
-        $query = Product::where('store_id', '!=', 1)->get();
-
-        $products_new = new Product();
-        $products = $products_new->filterProducts($request, $query);
-        $products = $products->where([
+        $products = Product::filterProducts($request)->where([
             ['status', '=', 'available'],
             ['website_visible', '=', 'yes'],
             ['store_id', '!=', 1]

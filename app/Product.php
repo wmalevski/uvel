@@ -253,7 +253,7 @@ class Product extends BaseModel
             }
         }
 
-        public function filterProducts(Request $request ,$query){
+        public static function filterProducts(Request $request){
             $query = Product::where(function($query) use ($request){
                 if ($request->priceFrom && $request->priceTo) {
                     $query->whereBetween('price', [$request->priceFrom, $request->priceTo]);
