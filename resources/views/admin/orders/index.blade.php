@@ -12,7 +12,7 @@ $givenMaterialRowTpl = '<div class="form-row">
 							<label for="grossWeight">Количество:</label>
 							
 							<div class="input-group">
-								<input type="number" class="form-control mat-quantity" name="mat_quantity[]" placeHolder="0">
+								<input type="number" class="form-control mat-quantity" name="mat_quantity[]" placeHolder="0" step="0.01">
 							</div>
 						</div>
 						<div class="form-group col-md-1">
