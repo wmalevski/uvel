@@ -359,41 +359,50 @@ class OrderController extends Controller
                 $option->save;
             }
 
+            $order_stones = OrderStone::where('order_id', $order->id);
+
             if($request->stones){
-              //remove stone quantity
-              $order_stones = OrderStone::where('order_id', $order->id)->get();
-              OrderStone::where('order_id', $order->id)->delete();
-              foreach($request->stones as $key => $stone){
-                if($stone) {
-                  //remove stone quantity
-                  $checkStone = Stone::find($stone);
+              $order_stones= $order_stones->whereNotIn('id', $request->orderStoneIds ? $request->orderStoneIds : []);
+
+              if($order_stones->count()) {
+                $order_stones->delete();
+              }
+
+              foreach($request->stones as $key => $stoneId){
+                if($stoneId) {
+                  $checkStone = Stone::find($stoneId);
+
                   if($checkStone->amount < $request->stone_amount[$key]){
                       return Response::json(['errors' => ['stone_weight' => [trans('admin/orders.stone_quantity_not_found')]]], 401);
                   }
 
-                  // $stoneDifference = $request->stone_amount[$key] - $order_stones->where('id', $stone)->amount;
-                  dd($order_stones);
-                  $checkStone->amount = $checkStone->amount - $stoneDifference;
-                  $checkStone->save();
+                  $currentOrderStoneId = isset($request->orderStoneIds[$key]) ? $request->orderStoneIds[$key] : null;
 
-                  //store order stones
-                  $order_stone = new OrderStone();
+                  $order_stone = OrderStone::firstOrCreate(array('id' => $currentOrderStoneId));
+                  $stoneDifference = $order_stone->amount ? (int)$request->stone_amount[$key] - $order_stone->amount : $request->stone_amount[$key];
+
                   $order_stone->order_id = $order->id;
-                  $order_stone->stone_id = $stone;
+                  $order_stone->stone_id = $stoneId;
                   $order_stone->amount = $request->stone_amount[$key];
                   $order_stone->weight = $request->stone_weight[$key];
+
                   if($request->stone_flow[$key] == 'true'){
                       $order_stone->flow = 'yes';
                   }else{
                       $order_stone->flow = 'no';
                   }
+
                   $order_stone->save();
+
+                  $checkStone->amount = $checkStone->amount - $stoneDifference;
+                  $checkStone->save();
                 }
               }
+            } else {
+              $order_stones->delete();
             }
             
             $order->save();
-
     
             if($request->given_material_id){
                 $materials = ExchangeMaterial::where('order_id', $order->id)->delete();
