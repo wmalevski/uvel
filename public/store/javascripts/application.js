@@ -918,8 +918,9 @@ var uvelStore,
 				button = form.find('button[type="submit"]');
 
 			button.on('click', function(e) {
-				e.preventDefault();
-				$self.executeCaptcha(captcha);
+        e.preventDefault();
+        this.disabled = true;
+        $self.executeCaptcha(captcha);
 			});
 		}
 	}
@@ -1396,7 +1397,10 @@ var uvelStore,
 				}
 
 				$self.ajaxReturnMessage(messages, 'error');
-			}
+      },
+      complete: function() {
+        $(form).find('button[type=submit]').prop('disabled', false);
+      }
 		});
 	}
 };
