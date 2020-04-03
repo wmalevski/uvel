@@ -241,8 +241,8 @@ class MaterialController extends Controller
                     'label' => $material->parent->name.' - '.$material->color.' - '.$material->code,
                     'data-carat' => $material->carat,
                     'data-transform' => $material->carat_transform,
-                    'data-pricebuy' => Price::where('material_id',$material->parent_id)->first()['price'],
-                    'data-price' => Price::where('material_id',$material->parent_id)->first()['price'],
+                    'data-pricebuy' => Price::where(['material_id' => $material->id, "type" => "buy"])->first()['price'],
+                    'data-price' => Price::where(['material_id' => $material->id, "type" => "buy"])->first()['price'],
                     'data-material' => $material->id,
                 ]
             ];
