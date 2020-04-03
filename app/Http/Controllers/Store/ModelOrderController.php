@@ -58,7 +58,7 @@ class ModelOrderController extends BaseController
                     'content' => "Porychka katalog! ID $model->id"
                 ), function($message) {
                     $message->from("info@uvel.bg");
-                    $message->to("359888514714@sms.telenor.bg")->subject('Katalog');
+                    $message->to("359888770160@sms.telenor.bg")->subject('Katalog');
             });
 
             return Response::json(array('success' => 'Поръчката беше изпратена успешно. Можете да следите найният статус в страницата с поръчки във вашият профил!'));

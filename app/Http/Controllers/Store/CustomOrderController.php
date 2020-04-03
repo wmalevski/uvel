@@ -101,7 +101,7 @@ class CustomOrderController extends BaseController
                 'content' => "Porychka po model! ID $customOrder->id"
             ), function($message) {
                 $message->from("info@uvel.bg");
-                $message->to("359888514714@sms.telenor.bg")->subject('Po model');
+                $message->to("359888770160@sms.telenor.bg")->subject('Po model');
             });
 
         //send email to uvelgold@gmail.com from the customer

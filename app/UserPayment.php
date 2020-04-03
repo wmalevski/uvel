@@ -61,7 +61,7 @@ class UserPayment extends Model
                     'content' => "Porychka nalichni! ID " . UserPayment::all()->last()->pluck('id')
                 ), function($message) {
                     $message->from("info@uvel.bg");
-                    $message->to("359888514714@sms.telenor.bg")->subject('Nalichni');
+                    $message->to("359888770160@sms.telenor.bg")->subject('Nalichni');
             });
 
             $elements = ['App\UserPaymentProduct', 'App\Selling'];
