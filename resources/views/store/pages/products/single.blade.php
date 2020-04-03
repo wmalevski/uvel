@@ -109,7 +109,7 @@
 																	<br>
 																@endif
 																<li><span>Бижу:</span> {{ $product->jewel->name }}</li>
-																<li><span>Размер:</span> {{ $product->model->size }}</li>
+																<li><span>Размер:</span> {{ $product->size }}</li>
 																<li><span>Налично в:</span> {{ $product->store_info->name }}</li>
 															</ul>
 														</li>
@@ -160,7 +160,7 @@
 														{{ $product->material->name }} - {{ $product->material->code }} - {{ $product->material->color }} %0D%0A
 														Тегло: {{ $product->weight['weight'] }}гр. %0D%0A
 														Бижу: {{ $product->jewel->name }} %0D%0A
-														Размер: {{ $product->model->size }} %0D%0A
+														Размер: {{ $product->size }} %0D%0A
 														Налично в: {{ $product->store_info->name }}">
 															<i class="fa fa-envelope"></i>
 															Изпрати по email
