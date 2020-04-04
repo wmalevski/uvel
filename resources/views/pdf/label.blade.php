@@ -9,12 +9,14 @@
             <tr>
                 <td text-rotate="-90" style="font-size: 20px;">{{ $product->price }}лв.</td>
                 <td style="padding-left: 10px;">
-                    Гр: {{ $weight }} <br/>
-                    @if(isset($stone['stone']))
-                        {{ $stone[0]}} <br/>
+                    Гр: {{ $weight }}<br/>
+                    @if(is_array($stone) && !empty($stone['stone']))
+                        @foreach($stone['stone'] as $singleStone)
+                            {{$singleStone}}<br/>
+                        @endforeach
                     @endif
-                    Р-р: {{ $product->size }} <br/>
-                    Изр: {{ $workmanship }}лв. <br/>
+                    Р-р: {{ $product->size }}<br/>
+                    Изр: {{ $workmanship }}лв.<br/>
                 </td>
             </tr>
         </table>
