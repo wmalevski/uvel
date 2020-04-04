@@ -279,20 +279,6 @@ class SellingController extends Controller
 
     public function sell(Request $request){
 
-        // $tax = new \Darryldecode\Cart\CartCondition(array(
-        //     'name' => 'ДДС',
-        //     'type' => 'tax',
-        //     'target' => 'subtotal',
-        //     'value' => '+20%',
-        //     'attributes' => array(
-        //         'description' => 'Value added tax',
-        //         'more_data' => 'more data here'
-        //     ),
-        //     'order' => 2
-        // ));
-
-        // Cart::condition($tax);
-        // Cart::session(Auth::user()->getId())->condition($tax);
         if($request->type) {
             if ($request->amount_check == false) {
                 if ($request->type == 'repair') {
@@ -791,6 +777,9 @@ class SellingController extends Controller
         } elseif (isset($product_box)) {
             $product_box->quantity += $cartItem->quantity;
             $product_box->save();
+        }else {
+            $repair->status = 'done';
+            $repair->save();
         }
 
         $remove = Cart::session($userId)->remove($item);
