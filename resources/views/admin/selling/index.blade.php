@@ -473,13 +473,6 @@ aria-hidden="true">
                         <div class="form-group">
                             <button type="submit" id="add_discount" data-url="sendDiscount" class="btn btn-primary" data-sell-discountApply>Приложи</button>
                         </div>
-
-                        {{-- <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Обмяна</button>
-                            <button type="submit" class="btn btn-primary">Поръчка/Ремонт</button>
-                            <button type="submit" class="btn btn-primary">Материали</button>
-                            <button type="submit" class="btn btn-primary">Транзакции </button>
-                        </div> --}}
                     </div>
                     <div class="col-md-6 masonry-item form-horizontal">
                         <table class="table" id="shopping-table">
@@ -555,17 +548,6 @@ aria-hidden="true">
                                 </div>
                             </div>
                         </div>
-
-                        {{-- <div class="form-group form-row">
-                            <label for="inputEmail3" class="col-sm-9 control-label">Количество</label>
-                            <div class="col-sm-3">
-                                <input type="totalQuantity" value="{{ Cart::session(Auth::user()->id)->getTotalQuantity() }}" class="form-control" id="inputEmail3" placeholder="" readonly>
-                            </div>
-                        </div> --}}
-
-                        {{-- @foreach(Cart::content() as $row)
-                            {{ $row->name }}
-                        @endforeach --}}
                     </div>
                 </div>
             </form>

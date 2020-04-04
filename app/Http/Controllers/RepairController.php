@@ -161,17 +161,11 @@ class RepairController extends Controller
 
     public function return(Repair $repair, $code)
     {
-        $repair = Repair::where('id', $code)->first();
-        $repairTypes = RepairType::all();
+        $repair = Repair::where('barcode', $code)->first();
 
         if($repair){
             if($repair->status == 'done'){
-                $userId = Auth::user()->getId(); 
-                
-                Cart::clear();
-                Cart::clearCartConditions();
-                Cart::session($userId)->clear();
-                Cart::session($userId)->clearCartConditions();
+                $userId = Auth::user()->getId();
         
                 $price = $repair->price;
                 $weight = $repair->weight;
@@ -183,33 +177,24 @@ class RepairController extends Controller
                 if($repair->weight_after != ''){
                     $weight = $repair->weight_after;
                 }
-        
+
                 Cart::session($userId)->add(array(
-                    'id' => $repair->id,
-                    'name' => 'Връщане на ремонт - '.$repair->customer_name,
-                    'price' => $price,
+                    'id' => 'R-' . $repair->id,
+                    'name' => 'Връщане на ремонт - ' . $repair->customer_name,
+                    'price' => $repair->price,
                     'quantity' => 1,
                     'attributes' => array(
-                        'weight' => $weight,
+                        'barcode' => $repair->barcode,
+                        'product_id' => $repair->id,
+                        'weight' => $repair->weight,
                         'type' => 'repair'
                     )
                 ));
-        
-                // $tax = new \Darryldecode\Cart\CartCondition(array(
-                //     'name' => 'ДДС',
-                //     'type' => 'tax',
-                //     'target' => 'subtotal',
-                //     'value' => '+20%',
-                //     'attributes' => array(
-                //         'description' => 'Value added tax',
-                //         'more_data' => 'more data here'
-                //     )
-                // ));
-        
-                // Cart::condition($tax);
-                // Cart::session($userId)->condition($tax);
-        
-                //return redirect()->route('admin');
+
+
+                $repair->status = 'returning';
+                $repair->save();
+
                 return Response::json(array('success' => '', 'redirect' => route('admin')));
             }elseif($repair->status == 'returned') {
                 return Response::json(['errors' => ['not_done' => ['Ремонтът е отбелязан като завършен.']]], 401);
@@ -219,10 +204,6 @@ class RepairController extends Controller
         }else{
             return Response::json(['errors' => ['not_exist' => ['Не съществува такъв ремонт.']]], 401);
         }
-
-        //return \View::make('admin/repairs/return', array('repair' => $repair, 'repairTypes' => $repairTypes));
-
-        
     }
 
     public function returnRepair(Request $request, Repair $repair)
