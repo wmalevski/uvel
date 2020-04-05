@@ -10,6 +10,7 @@ use App\Jewel;
 use Illuminate\Http\Request as Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class ModelController extends BaseController
 {
@@ -24,6 +25,8 @@ class ModelController extends BaseController
         $models_new = new Model();
         $models = $models_new->filterModels($request, $models);
         $models = $models->where('website_visible', 'yes')->paginate(env('RESULTS_PER_PAGE'));
+
+        Session::put('models_active_filters', $request->fullUrl() );
 
         $stores = Store::all()->except(1);
 

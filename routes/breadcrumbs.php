@@ -84,7 +84,7 @@ Breadcrumbs::register('model_orders', function ($breadcrumbs) {
 
 Breadcrumbs::register('models', function ($breadcrumbs) {
     $breadcrumbs->parent('store');
-    $breadcrumbs->push('Модели по поръчка', route('models'));
+    $breadcrumbs->push('Модели по поръчка', urldecode(Session::get('models_active_filters')));
 });
 
 Breadcrumbs::register('products', function ($breadcrumbs) {
