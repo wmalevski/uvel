@@ -24,7 +24,12 @@ class ProductTravellingController extends Controller
     public function index()
     {
         $products = Product::where('status', 'available')->take(env('SELECT_PRELOADED'))->get();
-        $travelling = ProductTravelling::all();
+
+        if(Auth::user()->getRoles() == 'cashier') {
+          $travelling = ProductTravelling::whereRaw('store_from_id='. Auth::user()->store_id .' OR store_to_id = '. Auth::user()->store_id)->get();
+        } else {
+          $travelling = ProductTravelling::all();
+        }
         $stores = Store::all();
 
         return \View::make('admin/products_travelling/index', array('products' => $products, 'travelling' => $travelling, 'stores' => $stores));

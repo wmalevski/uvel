@@ -141,31 +141,6 @@ class User extends Authenticatable
     }
 
     /***
-     * @param string $role
-     * @return $this
-     */
-    public function addRole(string $role)
-    {
-        $roles = $this->getRoles();
-        $roles[] = $role;
-
-        $roles = array_unique($roles);
-        $this->setRoles($roles);
-
-        return $this;
-    }
-
-    /**
-     * @param array $roles
-     * @return $this
-     */
-    public function setRoles(array $roles)
-    {
-        $this->setAttribute('role', $roles);
-        return $this;
-    }
-
-    /***
      * @param $role
      * @return mixed
      */
@@ -197,7 +172,7 @@ class User extends Authenticatable
         $roles = $this->getAttribute('role');
 
         if (is_null($roles)) {
-            $roles = [];
+            $roles = null;
         }
 
         return $roles;
