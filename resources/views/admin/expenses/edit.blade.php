@@ -26,8 +26,8 @@
 
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="amount">Сума: </label>
-                    <input type="number" class="form-control" id="amount" value="{{ $expense->amount }}" name="amount" placeholder="Сума:">
+                    <label for="expense_amount">Сума: </label>
+                    <input type="number" class="form-control" id="expense_amount" value="{{ $expense->amount }}" name="expense_amount" placeholder="Сума:">
                 </div>
             </div>
 
