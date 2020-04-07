@@ -1456,6 +1456,8 @@ var uvel,
         message = resp.success;
       }
 
+      form.parents('.modal.in.show').scrollTop();
+
       var successMessage = '<div class="alert alert-success">' + text + '</div>';
       form.find('.modal-body .info-cont').append(successMessage);
 
