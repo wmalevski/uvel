@@ -1377,7 +1377,9 @@ var uvel,
           // scroll to top of form window
           form[0].scrollIntoView();
           // re-enable submit buttons
-          form.find('[type="submit"]').prop('disabled', false);
+          if(formType !== 'edit') {
+            form.find('[type="submit"]').prop('disabled', false);
+          }
         }
       });
     }
@@ -1459,6 +1461,10 @@ var uvel,
 
       setTimeout(function() {
         form.find('.modal-body .info-cont .alert-success').remove();
+
+        if(formType == 'edit') {
+          $self.closeModal(form.parents('.modal.show.in'));
+        }
       }, 2000); // How long te message will be shown on the screen
 
       function appendImages() {
@@ -1477,7 +1483,6 @@ var uvel,
           }
         }
       }
-
     }
 
     // APPENDING EDIT FORM TO THE MODAL

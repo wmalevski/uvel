@@ -162,6 +162,9 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
       <div class="model_stones">
         @foreach($order->stones as $order_stone)
         <div class="form-row fields">
+          @if ($order_stone->id)
+          <input type="hidden" name="orderStoneIds[]" value="{{$order_stone->id}}">
+          @endif
           <div class="form-group col-md-6">
             <label>Камъни:</label>
 
