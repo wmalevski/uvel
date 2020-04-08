@@ -29,7 +29,7 @@ class RepairController extends Controller
     public function index()
     {
         $repairTypes = RepairType::take(env('SELECT_PRELOADED'))->get();
-        $repairs = Repair::all();
+        $repairs = Repair::all()->sortByDesc('created_at');
         $materials = Material::take(env('SELECT_PRELOADED'))->get();
         
         return \View::make('admin/repairs/index', array('repairTypes' => $repairTypes, 'repairs' => $repairs, 'materials' => $materials));
