@@ -1428,6 +1428,7 @@ var uvel,
       $self.openForm(newRowFormTrigger);
       $self.deleteRow(newDeleteRowTrigger);
       $self.print(newPrintTrigger);
+      $self.productImageClickAttach(form.parents('.main-content').find('table tbody tr').last()[0]);
     }
 
     // FUNCTION THAT APPENDS SUCCESS MESSAGES TO THE FORM WHEN THE REQUEST IS SUCCESS
@@ -1589,6 +1590,7 @@ var uvel,
       $self.deleteRow(deleteBtn);
       $self.print(printBtn);
       $self.returnRepairBtnAction(returnRepairBtn);
+      console.log(form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]')[0]);
       $self.productImageClickAttach(form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]')[0]);
     }
 
@@ -1789,7 +1791,7 @@ var uvel,
       storeSelect.on('change', function() {
         var websiteVisible = form.find('[name="website_visible"]');
 
-        if (this.selectedOptions[0].value == 1) {
+        if (this.selectedOptions.length && this.selectedOptions[0].value == 1) {
           websiteVisible.prop({
             disabled: true,
             checked: false
