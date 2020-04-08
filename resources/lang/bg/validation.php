@@ -119,8 +119,8 @@ return [
     'attributes' => [
         //Global
         'name' => 'Име',
-				'slug' => 'Име',
-				'title' => 'Заглавие',
+        'slug' => 'Име',
+        'title' => 'Заглавие',
         'material' => 'Материал',
         'discount' => 'Отстъпка',
         'location' => 'Адрес',
@@ -200,8 +200,6 @@ return [
         'material_id.*' => 'Материал',
         'retail_price_id.*' => 'Цена на грам',
 
-
-
         //Blog
         'images' => 'за снимка',
         'title.bg' => 'Заглавие на Български',
@@ -212,6 +210,10 @@ return [
         'content.en' => 'Съдържение на Английски',
         'excerpt.bg' => 'Описание на Български',
         'excerpt.en' => 'Описание на Английски',
+
+        //Expenses
+        'additional_info' => 'Кратко Описание',
+        'expense_amount' => 'Сума'
     ],
 
 ];

@@ -48,15 +48,17 @@ class ExpenseController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make( $request->all(), [
-            'type_id' => 'required',
-            'amount' => 'required',
-            'currency_id' => 'required',
+            'type_id'           => 'required',
+            'expense_amount'    => 'required',
+            'currency_id'       => 'required',
+            'additional_info'   => 'required'
         ]);
 
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
+        $request->request->add(['amount' => $request->expense_amount]);
         $request->request->add(['user_id' => Auth::user()->getId()]);
         $request->request->add(['store_id' => Auth::user()->getStore()->id]);
 
@@ -101,8 +103,9 @@ class ExpenseController extends Controller
     {
         $validator = Validator::make( $request->all(), [
             'type_id' => 'required',
-            'amount' => 'required',
+            'expense_amount' => 'required',
             'currency_id' => 'required',
+            'additional_info'   => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -110,7 +113,7 @@ class ExpenseController extends Controller
         }
 
         $expense->type_id = $request->type_id;
-        $expense->amount = $request->amount;
+        $expense->amount = $request->expense_amount;
         $expense->given = $request->given;
         $expense->currency_id = $request->currency_id;
         $expense->additional_info = $request->additional_info;
