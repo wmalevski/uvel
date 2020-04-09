@@ -17,6 +17,7 @@
     <td>
         @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['admin', 'storehouse']))
             <span data-url="stones/{{$stone->id}}" class="edit-btn" data-form-type="edit" data-form="stones" data-toggle="modal" data-target="#editStone"><i class="c-brown-500 ti-pencil"></i></span>
+            <span class="edit-btn" data-url="stones/{{$stone->id}}/topUp" data-form-type="quantity" data-form="stonesQuantity" data-toggle="modal" data-target="#topUpStones"><i class="c-brown-500 ti-upload"></i></span>
         @endif
         @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
             <span data-url="stones/delete/{{$stone->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></span>
