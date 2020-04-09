@@ -261,6 +261,11 @@ var uvel,
         selector: '[name="cashgroup"]',
         controllers: [],
         initialized: false
+      },
+      stonesQuantity: {
+        selector: '[name="stonesQuantity"]',
+        controllers: [],
+        initialized: false
       }
     }
 
@@ -618,6 +623,13 @@ var uvel,
         var ajaxUrl = currentPressedBtn.attr('data-url');
 
         $self.ajaxFn('GET', ajaxUrl, $self.partnerPaymentLoad);
+      }
+
+      if (formType == 'quantity') {
+        var form = document.querySelector(`form[name=${openedForm}]`);
+
+        form.action = currentPressedBtn[0].dataset.url;
+        $self.initializeForm(formSettings, formType);
       }
 
       if ((formType == 'add' || formType == 'sell' || formType == 'partner-sell') && !formSettings.initialized) {
@@ -1365,7 +1377,7 @@ var uvel,
           if (formType == 'add') {
             $self.appendResponseToTable(response, form);
             $('form').find('table tbody').empty();
-          } else if (formType == 'edit') {
+          } else if (formType == 'edit' || formType == 'quantity') {
             $self.replaceResponseRowToTheTable(form, response);
           }
           $self.formSuccessHandler(form, formType);
@@ -1455,6 +1467,8 @@ var uvel,
         text = resp.success;
       } else if (formType == 'dailyReport') {
         message = resp.success;
+      } else if (formType == 'quantity') {
+        text = 'Успешно добавихте количество!'
       }
 
       form.parents('.modal.in.show').scrollTop();
@@ -1465,7 +1479,7 @@ var uvel,
       setTimeout(function() {
         form.find('.modal-body .info-cont .alert-success').remove();
 
-        if(formType == 'edit') {
+        if(formType == 'edit' || formType == 'quantity') {
           $self.closeModal(form.parents('.modal.show.in'));
         }
       }, 2000); // How long te message will be shown on the screen

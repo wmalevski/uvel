@@ -156,6 +156,40 @@ class StoneController extends Controller
         return \View::make('admin/stones/edit', array('stone' => $stone, 'stone_sizes' => $stone_sizes, 'stone_contours' => $stone_contours, 'stone_styles' => $stone_styles, 'stone_photos' => $stone_photos, 'stores' => $stores, 'nomenclatures' => $nomenclatures));
     }
 
+    public function topUp(Request $request, Stone $stone)
+    {
+      $validator = Validator::make( $request->all(), [
+        'amount' => 'required|numeric|between:1,100000'
+    ]);
+
+    if ($validator->fails()) {
+        return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+    }
+
+    $stone->amount += $request->amount;
+
+    $stone->save();
+
+    $stone_photos = Gallery::where(
+        [
+            ['table', '=', 'stones'],
+            ['stone_id', '=', $stone->id]
+        ]
+    )->get();
+
+    $photosHtml = '';
+
+    foreach($stone_photos as $photo){
+        $photosHtml .= '
+            <div class="image-wrapper">
+            <div class="close"><span data-url="gallery/delete/'.$photo->id.'">&#215;</span></div>
+            <img src="'.asset("uploads/stones/" . $photo->photo).'" alt="" class="img-responsive" />
+        </div>';
+    }
+
+    return Response::json(array('ID' => $stone->id, 'table' => View::make('admin/stones/table',array('stone'=>$stone))->render(), 'photos' => $photosHtml));
+    }
+
     /**
      * Update the specified resource in storage.
      *
