@@ -29,7 +29,7 @@
                 <div class="form-group col-md-12">
                     <label for="2">Количество: </label>
                     <div class="input-group">
-                        <input type="number" class="form-control" id="2" value="{{ $material->quantity }}" name="quantity" placeholder="Количество:" min="1">
+                        <input type="number" class="form-control" id="2" value="{{ $material->quantity }}" name="quantity" disabled placeholder="Количество:" min="1">
                         <span class="input-group-addon">гр.</span>
                     </div>
                 </div>

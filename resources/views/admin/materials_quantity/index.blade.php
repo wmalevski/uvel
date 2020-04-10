@@ -71,11 +71,11 @@ aria-hidden="true">
     <div class="col-md-12">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
         <h4 class="c-grey-900 mB-20">Налични материали
-            @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+            <!-- @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
                 <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="materialsQuantity"
                         data-toggle="modal" data-target="#addMQuantity">Добави
                 </button>
-            @endif
+            @endif -->
         </h4>
         <p>Преглед на наличност.</p>
         <table id="main_table" class="table table-condensed table-fixed">
