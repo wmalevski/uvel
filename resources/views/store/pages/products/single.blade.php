@@ -102,11 +102,12 @@
 																<li><span>{{ $product->material->name }} - {{ $product->material->code }} - {{ $product->material->color }}</li>
 																<li>{{ $product->weight['weight'] }}гр.</li>
 																@if(isset($product->weight['stone']))
+                                  <li>
 																	@foreach($product->weight['stone'] as $productStone => $stone)
 																		{{ $stone}}
 																		@if(1 + $productStone < count($product->weight['stone'])) , @endif
 																	@endforeach
-																	<br>
+                                  </li>
 																@endif
 																<li><span>Бижу:</span> {{ $product->jewel->name }}</li>
 																<li><span>Размер:</span> {{ $product->size }}</li>
