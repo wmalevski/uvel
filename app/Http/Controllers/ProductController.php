@@ -522,8 +522,10 @@ class ProductController extends Controller
                     ['material_id', '=', $product->material_id],
                     ['store_id', '=', $product->store_id]
                 ])->first();
-                $material->quantity -= $product->weight;
-                $material->save();
+                if($material) {
+                  $material->quantity -= $product->weight;
+                  $material->save();
+                }
                 $product->delete();
                 return Response::json(array('success' => 'Успешно изтрито!'));
             } else {
