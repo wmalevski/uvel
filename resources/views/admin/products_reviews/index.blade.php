@@ -9,6 +9,8 @@
         <table class="table table-condensed tablesort">
             <thead>
                 <tr>
+                    <th>Снимка</th>
+                    <th>Уникален номер продукт</th>
                     <th>Потребител</th> 
                     <th>Заглавие</th>
                     <th>Рейтинг</th>

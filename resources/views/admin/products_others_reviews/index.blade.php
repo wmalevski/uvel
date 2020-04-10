@@ -9,6 +9,8 @@
         <table id="main_table" class="table table-condensed tablesort">
             <thead>
                 <tr>
+                    <th>Снимка</th> 
+                    <th>Уникален номер Кутия/Икона</th> 
                     <th>Потребител</th> 
                     <th>Заглавие</th>
                     <th>Рейтинг</th>

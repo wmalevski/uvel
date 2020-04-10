@@ -37,6 +37,11 @@ class ProductOther extends Model
     {
         return $this->hasMany('App\WishList');
     }
+
+    public function photos()
+    {
+      return $this->hasMany('App\Gallery');
+    }
     
     public function getSimilarProductAvgRating($product) {
         $productTotalRating = 0;

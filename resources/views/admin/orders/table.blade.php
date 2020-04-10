@@ -1,11 +1,19 @@
 <tr data-id="{{ $order->id }}">
  <td>{{ $order->id }}</td>
  <td>{{ $order->store_id }}</td>
-  <td> @if($order->model)
-          {{ $order->model->name }}
-      @elseif($order->product)
-          {{ $order->product->name }}
-      @endif
+  <td> 
+    @if($order->model)
+      {{ $order->model->name }} [{{ $order->model->id }}]
+    @elseif($order->product)
+      {{ $order->product->name }} [{{ $order->product->id }}]
+    @endif
+  </td>
+  <td>
+    @if($order->model)
+      <img class="admin-product-image" src="{{ asset("uploads/models/" . $order->model->photos->first()['photo']) }}">
+    @elseif($order->product)
+      <img class="admin-product-image" src="{{ asset("uploads/products/" . $order->product->photos->first()['photo']) }}">
+    @endif
   </td>
   <td> @if($order->model) {{ $order->jewel->name }} @endif </td> 
   <td> {{ $order->retailPrice->price }} </td> 

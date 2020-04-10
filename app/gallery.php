@@ -24,6 +24,11 @@ class Gallery extends Model
         return $this->hasOne('App\Product', 'product_id', 'product_id');
     }
 
+    public function productOther()
+    {
+        return $this->hasOne('App\ProductOther', 'product_other_id', 'product_other_id');
+    }
+
     public function model()
     {
         return $this->hasOne('App\Models', 'model_id');

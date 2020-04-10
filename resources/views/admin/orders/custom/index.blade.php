@@ -20,6 +20,7 @@ aria-hidden="true">
       <table id="main_table" class="table tablesort table-fixed">
         <thead>
           <tr>
+            <th scope="col">Снимка</th> 
             <th scope="col">Email</th> 
             <th scope="col">Телефон</th> 
             <th scope="col">Град</th> 

@@ -36,7 +36,7 @@
 
     <td>{{ $payment->user->email }}</td>
     <td>
-        @if(isset($payment->discounts))
+        @if(!!count($payment->discounts))
            @foreach($payment->discounts as $discount)
                 @if($discount->discount_code_id)
                     Отстъпка:  {{$discount->discount_code_id }}%
@@ -44,15 +44,19 @@
             @endforeach
            <br/>
         @endif
-        Артикули: <br/>
+        Артикули: Име [id]<br/>
         @if(isset($payment->sellings))
             @foreach($payment->sellings as $key => $selling)
                 @if($selling->product_id)
-                    {{App\Model::where('id', App\Product::where('id', $selling->product_id)->first()->model_id)->first()->name }} {{  $selling->product_id }}
+                    <?php $product = App\Product::where('id', $selling->product_id)->first(); ?>
+                    <img class="admin-product-image" src="{{ asset("uploads/products/" . $product->photos->first()['photo']) }}">
+                    {{App\Model::where('id', $product->model_id)->first()->name }} [{{  $selling->product_id }}]
                 @elseif($selling->repair_id)
-                   Ремонт - {{ App\Repair::where('id', $selling->repair_id)->first()->customer_name }} {{ $selling->repair_id }}
+                   Ремонт - {{ App\Repair::where('id', $selling->repair_id)->first()->customer_name }} [{{ $selling->repair_id }}]
                 @elseif($selling->product_other_id)
-                   {{App\ProductOther::where('id', $selling->product_other_id)->first()->name }} {{ $selling->product_other_id }}
+                    <?php $productOther = App\ProductOther::where('id', $selling->product_other_id)->first(); ?>
+                    <img class="admin-product-image" src="{{ asset("uploads/products_others/" . $productOther->photos->first()['photo']) }}">
+                   {{$productOther->name }} [{{ $selling->product_other_id }}]
                 @endif
                     @if(1 + $key < count($payment->sellings)) , @endif
             @endforeach

@@ -1365,6 +1365,10 @@ var uvel,
         form.find('#deposit').val(0).attr('data-initial', 0);
       }
 
+      if (formName == 'orders') {
+        form.find('.presentation-image-group').remove();
+      }
+
     }
 
     this.sendFormRequest = function(form, ajaxRequestUrl, formType, data) {
@@ -2154,6 +2158,10 @@ var uvel,
         $self.fillPhotos(response.photos, form);
       }
 
+      if(form[0].name == 'orders') {
+        $self.fillPresentationPhoto(response.photos, form);
+      }
+
       if ($('[data-calculatePrice-withStones]').is(':checked')) {
         $self.calculatePrice(form);
       }
@@ -2172,6 +2180,21 @@ var uvel,
       var selectField = form.find('[data-calculateprice-model]')
 
       $self.addOptionToSelect(model, selectField, true);
+    }
+
+    this.fillPresentationPhoto = function(photos, form) {
+      var imgEl = document.createElement('img');
+      var wrapper = document.createElement('div');
+      var $lastRowEl = form.find('[name=model_id]').parents('.form-row').find('.form-group.col-md-6').last();
+
+      imgEl.className = 'admin-product-image';
+      imgEl.src = photos[0].base64;
+
+      wrapper.className = 'form-group col-md-6 presentation-image-group';
+      wrapper.append(imgEl);
+
+
+      $lastRowEl.hasClass('presentation-image-group') ? $lastRowEl.replaceWith(wrapper) : $lastRowEl.after(wrapper);
     }
 
     this.fillMaterials = function(material, form) {
