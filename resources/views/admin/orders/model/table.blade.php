@@ -1,4 +1,8 @@
 <tr data-id="{{ $order->id }}">
+    <td>
+      <img class="admin-product-image" src="{{ asset("uploads/models/" . $order->model->photos->first()['photo']) }}"> 
+    </td> 
+    <td>{{ $order->model->id }}</td> 
     <td>{{ $order->user->email }}</td> 
     <td>{{ $order->user->phone }}</td> 
     <td>{{ $order->user->city }}</td> 

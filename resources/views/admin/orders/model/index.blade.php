@@ -16,10 +16,12 @@ aria-hidden="true">
   <div class="col-md-12">
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
       <h4 class="c-grey-900 mB-20">Поръчки</h4>
-      <p>Поръчки по модел на клиента.</p>
+      <p>Поръчки по готов модел.</p>
       <table id="main_table" class="table tablesort table-fixed">
         <thead>
           <tr>
+            <th scope="col">Снимка</th> 
+            <th scope="col">Уникален номер модел</th> 
             <th scope="col">Email</th> 
             <th scope="col">Телефон</th> 
             <th scope="col">Град</th> 

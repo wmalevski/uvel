@@ -1,10 +1,13 @@
 <tr data-id="{{ $product->id }}">
+    <td>
+      <img class="admin-product-image" src="{{ asset("uploads/products_others/" . $product->photos->first()['photo']) }}"> 
+    </td> 
+    <td>{{ $product->id }}</td> 
     <td> {!! DNS1D::getBarcodeSVG($product->barcode, "EAN13",1,33,"black", true) !!}</td>
     <td> {{ $product->name }} </td>
     <td> {{ $product->price }} </td>
     <td> {{ $product->quantity }} </td>
     <td> {{ $product->store->id}} </td>
-    <td> {{ $product->id }} </td>
     <td>
         @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['admin', 'storehouse']))
             <span data-url="productsothers/{{$product->id}}" class="edit-btn" data-form-type="edit"

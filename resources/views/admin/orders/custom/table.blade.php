@@ -1,4 +1,6 @@
 <tr data-id="{{ $order->id }}">
+    <!-- todo: vij linka bonak -->
+    <td><img class="admin-product-image" src="{{ asset("uploads/orders/" . $order->photos->first()['photo']) }}"></td>
     <td>{{ $order->email }}</td> 
     <td>{{ $order->phone }}</td> 
     <td>{{ $order->city }}</td> 

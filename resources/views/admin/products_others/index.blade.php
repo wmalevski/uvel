@@ -102,25 +102,27 @@ aria-hidden="true">
 <table id="main_table" class="table table-condensed tablesort table-fixed">
     <thead>
         <tr data-sort-method="thead">
+            <th>Снимка</th>
+            <th>Уникален номер</th>
             <th data-sort-method="none">Баркод</th> 
             <th>Модел</th>
             <th>Цена/бр</th>
             <th>Количество</th>
             <th>Магазин</th>
-            <th>Уникален номер</th>
             <th data-sort-method="none">Опции</th>
         </tr>
         <tr class="search-inputs" data-dynamic-search-url="ajax/search/products_others/">
+            
+            <th></th>
+            <th>
+                <input class="filter-input form-control" type="text" data-dynamic-search-param="byCode=" placeholder="Уникален номер">
+            </th>
             <th>
                 <input class="filter-input form-control" type="text" data-dynamic-search-param="byBarcode=" placeholder="Баркод">
             </th>
             <th></th>
             <th></th>
             <th></th>
-            <th></th>
-            <th>
-                <input class="filter-input form-control" type="text" data-dynamic-search-param="byCode=" placeholder="Уникален номер">
-            </th>
             <th></th>
         </tr>
     </thead>
