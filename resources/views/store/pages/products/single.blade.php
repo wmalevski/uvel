@@ -99,8 +99,7 @@
 															<ul class="sub">
 																<li><span>No:</span> {{ implode(" ", str_split($product->id, 3)) }}</li>
 																<li><span>Модел:</span> {{ $product->model->name }}</li>
-																<li><span>{{ $product->material->name }} - {{ $product->material->code }} - {{ $product->material->color }}</li>
-																<li>{{ $product->weight['weight'] }}гр.</li>
+																<li><span>{{ $product->material->name }} - {{ $product->material->code }} - {{ $product->material->color }}: {{ $product->weight['weight'] }}гр.</li>
 																@if(isset($product->weight['stone']))
                                   <li>
 																	@foreach($product->weight['stone'] as $productStone => $stone)
