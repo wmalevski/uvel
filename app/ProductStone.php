@@ -13,6 +13,7 @@ class ProductStone extends Model
         'product',
         'model',
         'stone',
+        'nomenclature_id',
         'amount',
         'weight',
         'flow'
