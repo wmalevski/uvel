@@ -24,13 +24,12 @@ class MaterialQuantityController extends Controller
      */
     public function index(MaterialTravelling $travelling)
     {
-        //$materials = Materials_quantity::where('store', Auth::user()->store)->get();
-        //$stores = Store::where('id', '!=', Auth::user()->store)->get();
+        $loggedUser = Auth::user();
         $materials = MaterialQuantity::all();
         $stores = Store::take(env('SELECT_PRELOADED'))->get();
         $materials_types = Material::take(env('SELECT_PRELOADED'))->get();
         
-        return \View::make('admin/materials_quantity/index', array('materials' => $materials, 'types' => $materials_types, 'stores' => $stores, 'travelling' => $travelling::current()));
+        return \View::make('admin/materials_quantity/index', array('loggedUser' => $loggedUser ,'materials' => $materials, 'types' => $materials_types, 'stores' => $stores, 'travelling' => $travelling::current()));
     }
 
     /**
