@@ -43,6 +43,7 @@ class ProductController extends Controller
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::take(env('SELECT_PRELOADED'))->get();
         $stores = Store::take(env('SELECT_PRELOADED'))->get();
+        $loggedUser = Auth::user();
 
         $pass_stones = array();
         
@@ -55,7 +56,7 @@ class ProductController extends Controller
             ];
         }
 
-        return \View::make('admin/products/index', array('stores' => $stores ,'products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials->scopeCurrentStore(), 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
+        return \View::make('admin/products/index', array('loggedUser' => $loggedUser,'stores' => $stores ,'products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials->scopeCurrentStore(), 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
     }
 
     /**
@@ -97,19 +98,35 @@ class ProductController extends Controller
     public function select_search(Request $request){
         $products = Product::filterProducts($request)->where('status', 'available')->paginate(env('RESULTS_PER_PAGE'));
         $pass_products = array();
+        $loggedUser = Auth::user();
 
         foreach($products as $product){
-            $pass_products[] = [
-                'attributes' => [
-                    'value' => $product->id,
-                    'name' => $product->name,
-                    'label' => $product->id,
-                    'barcode' => $product->barcode,
-                    'weight' => $product->weight,
-                    'data-product-id' => $product->id,
-                    'data-barcode' => $product->barcode
-                ]
-            ];
+            if($loggedUser->role != 'admin' && $loggedUser->store_id == $product->store_info->id) {
+                $pass_products[] = [
+                    'attributes' => [
+                        'value' => $product->id,
+                        'name' => $product->name,
+                        'label' => $product->id,
+                        'barcode' => $product->barcode,
+                        'weight' => $product->weight,
+                        'data-product-id' => $product->id,
+                        'data-barcode' => $product->barcode
+                    ]
+                ];
+            } elseif ($loggedUser->role == 'admin') {
+                $pass_products[] = [
+                    'attributes' => [
+                        'value' => $product->id,
+                        'name' => $product->name,
+                        'label' => $product->id,
+                        'barcode' => $product->barcode,
+                        'weight' => $product->weight,
+                        'data-product-id' => $product->id,
+                        'data-barcode' => $product->barcode
+                    ]
+                ];
+            }
+
         }
 
         return json_encode($pass_products, JSON_UNESCAPED_SLASHES );

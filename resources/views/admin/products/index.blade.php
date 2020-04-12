@@ -35,7 +35,7 @@ $newStoneRow =
 $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 @endphp
 @section('content')
-	@if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['storehouse', 'admin']))
+	@if(in_array($loggedUser->role, ['storehouse', 'admin']))
 		<div class="modal fade" id="addProduct" role="dialog" aria-labelledby="addProductlLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -216,13 +216,12 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 									<hr>
 								</div>
 							</div>
-
 							<div class="form-row">
 								<div class="form-group col-md-12">
 									<label>
 										Магазин:
 									</label>
-									@if(\Illuminate\Support\Facades\Auth::user()->role != 'storehouse')
+									@if($loggedUser->role != 'storehouse')
                                         <select name="store_id" class="store-select form-control"
                                                 data-search="/ajax/select_search/stores/">
                                                 <option value="{{ $stores->first()->id }}">{{ $stores->first()->name }} - {{ $stores->first()->location }}</option>
@@ -375,12 +374,11 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 			<th></th>
 		</tr>
 	</thead>
-
 	<tbody>
 		@foreach($products as $product)
-			@if(\Illuminate\Support\Facades\Auth::user()->role == 'cashier' && $product->store_info->id == \Illuminate\Support\Facades\Auth::user()->store_id)
+			@if($loggedUser->role != 'admin' && $product->store_info->id == $loggedUser->store_id)
 				@include('admin.products.table')
-			@elseif(\Illuminate\Support\Facades\Auth::user()->role != 'cashier')
+			@elseif($loggedUser->role == 'admin')
 				@include('admin.products.table')
 			@endif
 		@endforeach

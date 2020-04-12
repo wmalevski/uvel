@@ -24,15 +24,16 @@ class ProductTravellingController extends Controller
     public function index()
     {
         $products = Product::where('status', 'available')->take(env('SELECT_PRELOADED'))->get();
+        $loggedUser = Auth::user();
 
-        if(Auth::user()->getRoles() == 'cashier') {
-          $travelling = ProductTravelling::whereRaw('store_from_id='. Auth::user()->store_id .' OR store_to_id = '. Auth::user()->store_id)->get();
+        if($loggedUser->getRoles() == 'cashier') {
+          $travelling = ProductTravelling::whereRaw('store_from_id='. $loggedUser->store_id .' OR store_to_id = '. $loggedUser->store_id)->get();
         } else {
           $travelling = ProductTravelling::all();
         }
         $stores = Store::all();
 
-        return \View::make('admin/products_travelling/index', array('products' => $products, 'travelling' => $travelling, 'stores' => $stores));
+        return \View::make('admin/products_travelling/index', array('loggedUser' => $loggedUser, 'products' => $products, 'travelling' => $travelling, 'stores' => $stores));
     }
 
     /**
@@ -102,17 +103,6 @@ class ProductTravellingController extends Controller
         }else{
             return Response::json(['errors' => array('quantity' => [trans('admin/products_travelling.error_no_products')])], 401);
         }
-
-
-        //
-        // $history = new History();
-
-        // $history->action = '1';
-        // $history->user = Auth::user()->getId();
-        // $history->table = 'products_travelling';
-        // $history->result_id = $travel->id;
-
-        // $history->save();
     }
 
     public function addByScan($product){
