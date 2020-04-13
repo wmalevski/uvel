@@ -96,17 +96,19 @@
 															</ul>
 														</li>
 													</ul>
-												</div>
-												<div class="description">
-													<ul>
-														<li>
-															<h5>Обмяна</h5>
-															<ul class="sub">
-																<li>{{ $model->weight }} гр. + {{ $model->workmanship }} лв.</li>
-															</ul>
-														</li>
-													</ul>
-												</div>
+                        </div>
+                        @if($model->options->first()->material->for_exchange == 'yes') 
+                          <div class="description">
+                            <ul>
+                              <li>
+                                <h5>Обмяна</h5>
+                                <ul class="sub">
+                                  <li>{{ $model->weight }} гр. + {{ $model->workmanship }} лв.</li>
+                                </ul>
+                              </li>
+                            </ul>
+                          </div>
+                        @endif
 											</div>
 											<div id="product-info-right">
 												<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="col-sm-24 group-variants">
