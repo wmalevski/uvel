@@ -3364,7 +3364,7 @@ var uvel,
           });
           
           $self.deleteRow($deleteButtons);
-
+          $self.productImageClickAttach();
           $table.removeClass('inactive');
         };
 
