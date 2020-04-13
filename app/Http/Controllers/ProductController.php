@@ -443,6 +443,7 @@ class ProductController extends Controller
                 "amount"    => $stone->amount,
                 "weight"    => $stone->weight,
                 "flow"      => $stone->flow,
+                "size"      => $stone->stone->size->name
             );
         }
 
