@@ -627,12 +627,11 @@ var uvel,
 
       if (formType == 'quantity') {
         var form = document.querySelector(`form[name=${openedForm}]`);
-
-        form.action = currentPressedBtn[0].dataset.url;
-        $self.initializeForm(formSettings, formType);
+        
+        form.action = currentPressedBtn[0].dataset.url; 
       }
 
-      if ((formType == 'add' || formType == 'sell' || formType == 'partner-sell') && !formSettings.initialized) {
+      if ((formType == 'add' || formType == 'sell' || formType == 'partner-sell' || formType == 'quantity') && !formSettings.initialized) {
         $self.initializeForm(formSettings, formType);
         formSettings.initialized = true;
       } else {
@@ -1472,7 +1471,8 @@ var uvel,
       } else if (formType == 'dailyReport') {
         message = resp.success;
       } else if (formType == 'quantity') {
-        text = 'Успешно добавихте количество!'
+        text = 'Успешно добавихте количество!';
+        $self.clearForm(form);
       }
 
       form.parents('.modal.in.show').scrollTop();
@@ -1484,7 +1484,7 @@ var uvel,
         form.find('.modal-body .info-cont .alert-success').remove();
 
         if(formType == 'edit' || formType == 'quantity') {
-          $self.closeModal(form.parents('.modal.show.in'));
+          form.parents('.modal.show.in').find('[data-dismiss="modal"]').click();
         }
       }, 2000); // How long te message will be shown on the screen
 
@@ -3096,8 +3096,8 @@ var uvel,
     }
 
     this.closeModal = function(modal) {
-      modal.removeClass('show in');
-      modal.css('display', 'none');
+        modal.removeClass('show in');
+        modal.css('display', 'none');
       $('.modal-backdrop').remove();
       $('body').removeClass('modal-open');
     }
