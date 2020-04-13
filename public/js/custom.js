@@ -451,7 +451,7 @@ var uvel,
           stones.forEach(function(stone) {
             var li = document.createElement(li);
 
-            li.innerHTML = '- ' + stone.amount + ' x ' + stone.name + '(' + stone.weight + ' гр.)';
+            li.innerHTML = '- ' + stone.name + ' - ' + stone.amount + 'бр. x ' + stone.size + '(' + stone.weight + ' гр.)';
 
             stoneInnerContainer.appendChild(li);
           });
