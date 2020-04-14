@@ -376,9 +376,9 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 	</thead>
 	<tbody>
 		@foreach($products as $product)
-			@if($loggedUser->role != 'admin' && $product->store_info->id == $loggedUser->store_id)
+			@if($loggedUser->role != 'admin' && $loggedUser->role != 'storehouse' && $product->store_info->id == $loggedUser->store_id)
 				@include('admin.products.table')
-			@elseif($loggedUser->role == 'admin')
+			@elseif($loggedUser->role == 'admin' || $loggedUser->role == 'storehouse')
 				@include('admin.products.table')
 			@endif
 		@endforeach

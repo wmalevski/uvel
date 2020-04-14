@@ -101,7 +101,7 @@ class ProductController extends Controller
         $loggedUser = Auth::user();
 
         foreach($products as $product){
-            if($loggedUser->role != 'admin' && $loggedUser->store_id == $product->store_info->id) {
+            if($loggedUser->role != 'admin' && $loggedUser->role != 'storehouse' && $loggedUser->store_id == $product->store_info->id) {
                 $pass_products[] = [
                     'attributes' => [
                         'value' => $product->id,
@@ -113,7 +113,7 @@ class ProductController extends Controller
                         'data-barcode' => $product->barcode
                     ]
                 ];
-            } elseif ($loggedUser->role == 'admin') {
+            } elseif ($loggedUser->role == 'admin' || $loggedUser->role == 'storehouse') {
                 $pass_products[] = [
                     'attributes' => [
                         'value' => $product->id,
