@@ -81,15 +81,6 @@
 												<div id="comment-form">
 													<h6>Оставете коментар</h6>
 													<ul class="contact-form row list-unstyled">
-														{{-- <li class="col-md-24">
-															<label for="comment_author" class="control-label">Your name <span class="req">*</span></label>
-															<input id="comment_author" name="comment[author]" class="form-control" type="text">
-														</li>
-														<li class="clearfix"></li>
-														<li class="col-md-24">
-															<label for="comment_email" class="control-label">Your email <span class="req">*</span></label>
-															<input id="comment_email" name="comment[email]" class="form-control" type="text">
-														</li> --}}
 														<li class="clearfix"></li>
 														<li class="col-md-24">
 															<label for="comment_body" class="control-label">Вашият коментар <span class="req">*</span></label>

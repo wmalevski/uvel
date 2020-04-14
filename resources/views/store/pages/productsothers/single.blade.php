@@ -101,13 +101,6 @@
 														</li>
 													</ul>
 												</div>
-												{{-- <div class="description">
-													<span>Изработка</span>
-													<p>
-														{{-- {{ $product->weight }} гр. + {{ $product->workmanship }} лв.
-													</p>
-												</div> --}}
-
 											</div>
 											<div id="product-info-right">
 												<div itemprop="offers" itemtype="http://schema.org/Offer" class="col-sm-24 group-variants">
@@ -238,10 +231,6 @@
 														</span>
 													</span>
 													@endif
-													{{-- <span class="spr-summary-actions">
-														<a href="#" class="spr-summary-actions-newreview" onclick="SPR.toggleForm({{$product->id}});return false">Напиши
-															ревю</a>
-													</span> --}}
 												</div>
 											</div>
 											<div class="spr-content">

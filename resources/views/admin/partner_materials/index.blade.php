@@ -20,13 +20,9 @@
             <tr>
               <th scope="col">Име</th> 
               <th scope="col">Количество</th> 
-              {{-- <th data-sort-method="none" scope="col">Email</th>
-              <th scope="col">Вид</th>
-              <th scope="col">Магазин</th>
-              --}}
-                @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
-                    <th data-sort-method="none" scope="col">Действия</th>
-                @endif
+              @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
+                  <th data-sort-method="none" scope="col">Действия</th>
+              @endif
             </tr>
           </thead>
           <tbody>

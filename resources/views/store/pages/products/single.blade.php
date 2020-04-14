@@ -251,10 +251,6 @@
 															@endif
 														</span>
 													</span>
-													{{-- <span class="spr-summary-actions">
-														<a href="#" class="spr-summary-actions-newreview" onclick="SPR.toggleForm({{$product->id}});return false">Напиши
-															ревю</a>
-													</span> --}}
 												</div>
 											</div>
 											@endif
