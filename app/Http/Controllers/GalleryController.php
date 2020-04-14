@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\gallery;
+use App\Gallery;
 use Illuminate\Http\Request;
 use Response;
 
@@ -42,7 +42,7 @@ class GalleryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\gallery  $gallery
+     * @param  \App\Gallery  $gallery
      * @return \Illuminate\Http\Response
      */
     public function show(gallery $gallery)
@@ -53,7 +53,7 @@ class GalleryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\gallery  $gallery
+     * @param  \App\Gallery  $gallery
      * @return \Illuminate\Http\Response
      */
     public function edit(gallery $gallery)
@@ -65,7 +65,7 @@ class GalleryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\gallery  $gallery
+     * @param  \App\Gallery  $gallery
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, gallery $gallery)
@@ -76,7 +76,7 @@ class GalleryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\gallery  $gallery
+     * @param  \App\Gallery  $gallery
      * @return \Illuminate\Http\Response
      */
     public function destroy(gallery $gallery, $photo)
