@@ -11,6 +11,7 @@ class Repair extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        'store_id',
         'customer_name',
         'customer_phone',
         'type_id',
