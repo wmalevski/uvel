@@ -24,7 +24,7 @@ if (!function_exists('calculate_product_weight')) {
                 $stoneId = $productStone->stone_id;
                 $stoneName = Nomenclature::where('id', $productStone->stone()->first()->nomenclature_id)->first()->name;
                 $stoneWeight = $productStone->weight;
-                if ($product->weight_without_stones == 'yes' && $checkMaterial) {
+                if ($product->weight_without_stones == 'no' && $checkMaterial) {
                     $weight = round($product->gross_weight, 3);
                 } else {
                     $weight = round($product->weight, 3);

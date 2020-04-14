@@ -141,9 +141,9 @@ class OrderController extends Controller
     $order->content = $request->content;
 
     if ($request->with_stones == 'false') {
-      $order->weight_without_stones = 'no';
-    } else {
       $order->weight_without_stones = 'yes';
+    } else {
+      $order->weight_without_stones = 'no';
     }
 
     $findModel = ModelOption::where([
@@ -340,9 +340,9 @@ class OrderController extends Controller
       $order->content = $request->content;
 
       if ($request->with_stones == 'false') {
-        $order->weight_without_stones = 'no';
-      } else {
         $order->weight_without_stones = 'yes';
+      } else {
+        $order->weight_without_stones = 'no';
       }
 
       $findModel = ModelOption::where([

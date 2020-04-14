@@ -31,7 +31,11 @@
 		{{ $product->retailPrice->price }}
 	</td>
 	<td>
-		{{ $product->weight }}
+    @if($product->weight_without_stones == 'yes')
+      {{ $product->weight }}
+    @else
+      {{ $product->gross_weight }}
+    @endif
 	</td>
 	<td>
 		{{ $product->price }}лв.

@@ -307,9 +307,9 @@ class ProductController extends Controller
             $product->store_id = $store_data;
 
             if($request->with_stones == 'false'){
-                $product->weight_without_stones = 'no';
-            } else{
                 $product->weight_without_stones = 'yes';
+            } else{
+                $product->weight_without_stones = 'no';
             }
 
             if($request->website_visible == 'true'){
