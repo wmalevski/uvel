@@ -92,9 +92,9 @@
                   
                 <tbody>
                     @foreach($travelling as $product)
-                        @if($loggedUser->role != 'admin' && $product->store_to_id == $loggedUser->store_id)
+                        @if($loggedUser->role != 'admin' && $loggedUser->role != 'storehouse' && $product->store_to_id == $loggedUser->store_id)
                             @include('admin.products_travelling.table')
-                        @elseif($loggedUser->role == 'admin')
+                        @elseif($loggedUser->role == 'admin' || $loggedUser->role == 'storehouse')
                             @include('admin.products_travelling.table')
                         @endif
                     @endforeach

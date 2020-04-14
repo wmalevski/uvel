@@ -86,9 +86,9 @@ aria-hidden="true">
             </thead>
             <tbody>
                 @foreach($materials as $material)
-                    @if($loggedUser->role != 'admin' && $loggedUser->store_id == $material->store_id)
+                    @if($loggedUser->role != 'admin' && $loggedUser->role != 'storehouse' && $loggedUser->store_id == $material->store_id)
                         @include('admin.materials_quantity.table')
-                    @elseif($loggedUser->role == 'admin')
+                    @elseif($loggedUser->role == 'admin' || $loggedUser->role == 'storehouse')
                         @include('admin.materials_quantity.table')
                     @endif
                 @endforeach
