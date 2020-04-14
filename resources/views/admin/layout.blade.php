@@ -452,7 +452,7 @@
                     </ul>
                 </li>
 
-                <li class="nav-item dropdown {{ Active::ifRouteIn(['daily_reports', 'expenses', 'create_report']) }}">
+                <li class="nav-item dropdown {{ Active::ifRouteIn(['daily_reports', 'expenses', 'create_report', 'selling_report_export', 'materials_reports', 'mtravelling_reports', 'products_reports', 'productstravelling_reports']) }}">
                     <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
                 <i class=" ti-slice"></i>

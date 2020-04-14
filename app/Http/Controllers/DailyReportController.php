@@ -24,7 +24,11 @@ class DailyReportController extends Controller
      */
     public function index()
     {
-        $dailyReports = DailyReport::whereDate('created_at', Carbon::today())->get();
+        $dailyReport = DailyReport::whereDate('created_at', Carbon::today());
+        
+        if(Auth::user()->role != 'admin') $dailyReport->where('store_id', Auth::user()->getStore()->id);
+
+        $dailyReports = $dailyReport->get();
         
         return view('admin.daily_reports.index', compact('dailyReports'));
     }

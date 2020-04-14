@@ -53,7 +53,7 @@ aria-hidden="true">
 
 						<div class="form-group col-md-12">
 							<label>До магазин:</label>
-							<select name="store_id" class="store-select form-control" data-search="/ajax/select_search/stores/">
+							<select name="store_to_id" class="store-select form-control" data-search="/ajax/select_search/stores/">
 								<option value="">Избери магазин</option>
 							</select>
 						</div>
@@ -147,7 +147,8 @@ aria-hidden="true">
           <tr>
             <th scope="col">Основание</th> 
             <th scope="col">Сума</th> 
-            <th scope="col">Магазин </th> 
+            <th scope="col">От магазин </th> 
+            <th scope="col">До магазин </th> 
             <th scope="col">Валута</th> 
             <th scope="col">Пояснение</th>
               @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')

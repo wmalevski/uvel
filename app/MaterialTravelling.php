@@ -21,7 +21,7 @@ class MaterialTravelling extends Model
 
     public function scopeCurrent($query)
     {
-        return $query->where('store_from_id', Auth::user()->getStore()->id)->orWhere('store_to_id', Auth::user()->store)->get();
+        return $query->where('store_from_id', Auth::user()->getStore()->id)->orWhere('store_to_id', Auth::user()->getStore()->id)->get();
     }
 
     public function store_from(){

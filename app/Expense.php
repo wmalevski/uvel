@@ -11,7 +11,8 @@ class Expense extends Model
         'amount',
         'currency_id',
         'user_id',
-        'store_id',
+        'store_from_id',
+        'store_to_id',
         'additional_info'
     ];
 
@@ -26,10 +27,14 @@ class Expense extends Model
     }
 
     public function user(){
-        return $this->belongsTo('App\User');
+      return $this->belongsTo('App\User');
     }
 
-    public function store(){
-        return $this->belongsTo('App\Store');
+    public function store_from(){
+      return $this->belongsTo('App\Store')->withTrashed();
+    }
+
+    public function store_to(){
+        return $this->belongsTo('App\Store')->withTrashed();
     }
 }

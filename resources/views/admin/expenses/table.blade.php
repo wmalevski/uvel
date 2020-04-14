@@ -1,7 +1,8 @@
 <tr data-id="{{ $expense->id }}">
     <td>{{ $expense->type->name }}</td> 
     <td>{{ $expense->amount }}</td> 
-    <td>{{ $expense->store->id }}</td>
+    <td>{{ $expense->store_from ? $expense->store_from->name : 'Няма данни' }}</td>
+    <td>{{ $expense->store_to ? $expense->store_to->name : 'Няма данни' }}</td>
     <td>{{ $expense->currency->name }}</td> 
     <td>{{ $expense->additional_info }}</td>
     @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
