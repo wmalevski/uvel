@@ -212,11 +212,10 @@ class RepairController extends Controller
 
         if($repair){
             $repair->status = 'returned';
-            $repair->date_received = Carbon::parse(Carbon::now())->format('d-m-Y');
 
             $repair->customer_name = $request->customer_name;
             $repair->customer_phone = $request->customer_phone;
-            $repair->date_returned = $request->date_returned;
+            $repair->date_returned = Carbon::parse(Carbon::now())->format('d-m-Y');
             $repair->price_after = $request->price_after; 
             $repair->repair_description = $request->repair_description;
             $repair->material_id = $request->material_id;
