@@ -46,7 +46,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
       <div class="form-row">
         <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
           <input id="weightWithStones_edit" class="peer" type="checkbox" name="with_stones"
-                 data-calculatePrice-withStones @if($order->weight_without_stones == 'yes') checked @endif >
+                 data-calculatePrice-withStones @if($order->weight_without_stones == 'no') checked @endif >
           <label for="weightWithStones_edit" class="peers peer-greed js-sb ai-c">
             <span class="peer peer-greed">Тегло с камъни</span>
           </label>

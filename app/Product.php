@@ -353,9 +353,9 @@ class Product extends BaseModel
     $material->save();
 
     if ($request->with_stones == 'false') {
-      $product->weight_without_stones = 'no';
-    } else {
       $product->weight_without_stones = 'yes';
+    } else {
+      $product->weight_without_stones = 'no';
     }
 
     $digits = (string) $bar;
