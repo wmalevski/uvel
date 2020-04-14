@@ -32,7 +32,7 @@ class RepairController extends Controller
         $repairs = Repair::all()->sortByDesc('created_at');
         $materials = Material::take(env('SELECT_PRELOADED'))->get();
         
-        return \View::make('admin/repairs/index', array('repairTypes' => $repairTypes, 'repairs' => $repairs, 'materials' => $materials));
+        return \View::make('admin/repairs/index', array('loggedUser' => Auth::user(), 'repairTypes' => $repairTypes, 'repairs' => $repairs, 'materials' => $materials));
     }
 
     /**
@@ -67,6 +67,7 @@ class RepairController extends Controller
         }
 
         $repair = Repair::create([
+            'store_id'      => Auth::user()->store_id,
             'customer_name' => $request->customer_name,
             'customer_phone' => $request->customer_phone,
             'type_id' => $request->type_id,

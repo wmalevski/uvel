@@ -220,6 +220,7 @@ aria-hidden="true">
                         <th data-sort-method="none" scope="col">Телефон</th>
                         <th scope="col">Тип ремонт</th>
                         <th scope="col">Дата</th>
+                        <th scope="col">Магазин</th>
                         <th scope="col">Статус</th>
                         <th data-sort-method="none" scope="col">Действия</th>
                     </tr>
@@ -244,7 +245,11 @@ aria-hidden="true">
                 </thead>
                 <tbody>
                     @foreach($repairs as $repair)
-                        @include('admin.repairs.table')
+                        @if($loggedUser->role != 'admin' && $loggedUser->role != 'storehouse' && $repair->store_id == $loggedUser->store_id)
+                            @include('admin.repairs.table')
+                        @elseif($loggedUser->role == 'admin' || $loggedUser->role == 'storehouse')
+                            @include('admin.repairs.table')
+                        @endif
                     @endforeach
                 </tbody>
             </table>
