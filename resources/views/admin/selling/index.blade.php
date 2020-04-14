@@ -187,10 +187,6 @@ aria-hidden="true">
                     {{ csrf_field() }}
                     <div class="form-row">
                         <div class="col-md-4"></div>
-                        {{-- <div class="form-group col-md-12">
-                            <label for="1">Пари в касата: </label>
-                            <input type="number" class="form-control" name="safe_amount" placeholder="Въведете колко пари има в касата:">
-                        </div> --}}
                     </div>
                 </div>
 

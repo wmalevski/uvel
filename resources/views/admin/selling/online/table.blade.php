@@ -1,5 +1,4 @@
 <tr data-id="{{ $selling->id }}">
-    {{-- <td>{{ $payment->user->getStore()->name }}</td>  --}}
     <td style="padding-right: 0;">
         @if($selling->status == 'waiting_user')
             <span class="sell-status sell-status--pending"></span>

@@ -68,42 +68,6 @@
 											<a href="@if (Auth::check()) {{ route('user_account') }} @else {{ route('login') }} @endif ">
 												<i class="fa fa-user"></i>
 											</a>
-										
-										
-										
-										<!--
-										{{--
-											<div class="dropdown-toggle" data-toggle="dropdown">
-												<i class="fa fa-user"></i>
-											</div>
-											@if (Auth::check())
-
-											<ul class="customer dropdown-menu">
-												<li class="logout">
-													<a href="{{ route('user_account') }}">Профил</a>
-												</li>
-												<li class="logout">
-													<a href="{{ route('logout') }}">Изход</a>
-												</li>
-
-											</ul>
-											@else
-											<ul class="customer dropdown-menu">
-												<li class="logout">
-													<a href="{{ route('login') }}">Вход</a>
-												</li>
-												<li class="account last">
-													<a href="{{ route('register') }}">Регистрация</a>
-												</li>
-											</ul>
-											
-											@endif
-											--}}
-										-->
-											
-											
-											
-											
 										</div>
 									</li>
 									@if (Auth::check())
@@ -180,26 +144,6 @@
 						</div>
 					</nav>
 				</li>
-				
-				{{--
-				<li class="top-search hidden-xs">
-					<div class="header-search">
-						<a href="#">
-							<span data-toggle="dropdown">
-								<i class="fa fa-search"></i>
-								<i class="sub-dropdown1"></i>
-								<i class="sub-dropdown"></i>
-							</span>
-						</a>
-						<form id="header-search" class="search-form dropdown-menu" action="search.html" method="get">
-							<input type="hidden" name="type" value="product">
-							<input type="text" name="q" value="" accesskey="4" autocomplete="off" placeholder="Напиши нещо...">
-							<button type="submit" class="btn">Търси</button>
-						</form>
-					</div>
-				</li>
-				--}}
-
 				<li class="umbrella hidden-xs">
 					<div id="umbrella" class="navbar list-inline unmargin">
 						<div class="cart-link">
@@ -219,45 +163,9 @@
 									</span>
 								</div>
 							</a>
-							{{-- <div id="cart-info" class="dropdown-menu" style="display: none;">
-								<div id="cart-content">
-									<div class="items control-container">
-										<div class="row items-wrapper">
-											<a class="cart-close" title="Remove" href="javascript:void(0);"><i class="fa fa-times"></i></a>
-											<div class="col-md-8 cart-left">
-												<a class="cart-image" href="./product.html"><img src="{{ asset('store/images/demo_77x77.png') }}" alt=""
-													 title=""></a>
-											</div>
-											<div class="col-md-16 cart-right">
-												<div class="cart-title">
-													<a href="./product.html">Product with left sidebar - black / small</a>
-												</div>
-												<div class="cart-price">
-													200.00 лв.<span class="x"> x </span>1
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="subtotal">
-										<span>Тотал:</span><span class="cart-total-right">200.00 лв.</span>
-									</div>
-									<div class="action">
-										<button class="btn" onclick="window.location='{{ route('cart') }}'">Чекаут</button><a class="btn btn-1" href="{{ route('cart') }}">Виж
-											количката</a>
-									</div>
-								</div>
-							</div> --}}
 						</div>
 					</div>
 				</li>
-
-				{{-- <li class="mobile-search visible-xs">
-					<form id="mobile-search" class="search-form" action="search.html" method="get">
-						<input type="hidden" name="type" value="product">
-						<input type="text" class="" name="q" value="" accesskey="4" autocomplete="off" placeholder="Search something...">
-						<button type="submit" class="search-submit" title="search"><i class="fa fa-search"></i></button>
-					</form>
-				</li> --}}
 			</ul>
 		</div>
 		<!--End Navigation-->

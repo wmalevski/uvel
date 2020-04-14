@@ -348,18 +348,7 @@
 															<i class="fa fa-lg fa-eye"></i>
 															<span class="list-mode">Бърз преглед</span>
 														</button>
-
-														<!--
-														{{--
-														<a class="wish-list" href="#" title="Добави в желани"
-															 data-url="{{ route('wishlists_store', ['type' => 'model', 'item' => $model->id]) }}">
-															 <i class="fa fa-lg fa-heart"></i>
-															 <span class="list-mode">Добави в желани</span>
-														</a>
-														--}}
-														-->
 													</div>
-
 												</li>
 											</ul>
 										</div>

@@ -17,7 +17,6 @@
             <span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">Получен</span>  @endif</td>
     @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
         <td><span data-url="orders/model/{{$order->id}}" class="edit-btn" data-toggle="modal" data-target="#editOrder" data-form-type="edit" data-form="modelOrders"><i class="c-brown-500 ti-pencil"></i></span>
-            {{-- <span data-url="jewels/delete/{{$jewel->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></span> --}}
         </td>
     @endif
 </tr>
