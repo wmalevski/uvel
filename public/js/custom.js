@@ -2029,6 +2029,7 @@ var uvel,
       var workmanshipHolder = form.find('[data-calculatePrice-worksmanship]'),
           grossWeightHolder = form.find('[data-calculatePrice-grossWeight]'),
           stones = form.find('.model_stones .fields'),
+          weightWithStones = form.find('[name=with_stones]').is(':checked'),
           finalHolder = form.find('[data-calculatePrice-final]'),
           defaultMaterialRow = form.find('[data-calculatePrice-default]:checked').closest('.form-row'),
           sellPrice = defaultMaterialRow.length ? defaultMaterialRow.find('[data-calculatePrice-retail] :selected').attr('data-price') * 1 : form.find('[data-calculatePrice-retail] :selected').attr('data-price') * 1,
@@ -2057,9 +2058,11 @@ var uvel,
 
       grossWeightHolder.val(grossWeight);
 
-      if (sellPrice && buyPrice && netWeight) {
-        var worksmanShipPrice = parseFloat(((sellPrice - buyPrice) * netWeight).toFixed(2)),
-          productPrice = parseFloat(((sellPrice * netWeight) + naturalStonesPrice).toFixed(2));
+      var weightToUseForFinalPrice = weightWithStones ? grossWeight : netWeight;
+
+      if (sellPrice && buyPrice && weightToUseForFinalPrice) {
+        var worksmanShipPrice = parseFloat(((sellPrice - buyPrice) * weightToUseForFinalPrice).toFixed(2)),
+          productPrice = parseFloat(((sellPrice * weightToUseForFinalPrice) + naturalStonesPrice).toFixed(2));
 
         workmanshipHolder.val(worksmanShipPrice);
         finalHolder.val(productPrice);
