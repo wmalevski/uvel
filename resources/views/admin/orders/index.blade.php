@@ -94,7 +94,16 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							<hr>
 						</div>
 					</div>
-
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="inputEmail4">Име</label>
+							<input type="text" class="form-control" name="customer_name" placeholder="Име на клиент">
+						</div>
+						<div class="form-group col-md-6">
+							<label for="inputPassword4">Телефон</label>
+							<input type="text" class="form-control" name="customer_phone" placeholder="Телефон на клиента">
+						</div>
+					</div>
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label>Модел:</label>
