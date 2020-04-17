@@ -103,19 +103,21 @@ class OrderController extends Controller
   {
 
     $validator = Validator::make($request->all(), [
-      'jewel_id' => 'required',
-      'material_id' => 'required',
-      'retail_price_id' => 'required|numeric|min:1',
-      'weight' => 'required|numeric|between:0.1,10000',
-      'gross_weight' => 'required|numeric|between:0.1,10000',
-      'size' => 'required|numeric|between:0.1,10000',
-      'workmanship' => 'required|numeric|between:0.1,500000',
-      'price' => 'required|numeric|between:0.1,500000',
-      'store_id' => 'required|numeric',
-      'earnest' => 'numeric|nullable',
-      'safe_group' => 'numeric|nullable',
-      'quantity' => 'required',
-      'mat_quantity.*' => 'numeric|min:1'
+        'customer_name' => 'required',
+        'customer_phone' => 'required',
+        'jewel_id' => 'required',
+        'material_id' => 'required',
+        'retail_price_id' => 'required|numeric|min:1',
+        'weight' => 'required|numeric|between:0.1,10000',
+        'gross_weight' => 'required|numeric|between:0.1,10000',
+        'size' => 'required|numeric|between:0.1,10000',
+        'workmanship' => 'required|numeric|between:0.1,500000',
+        'price' => 'required|numeric|between:0.1,500000',
+        'store_id' => 'required|numeric',
+        'earnest' => 'numeric|nullable',
+        'safe_group' => 'numeric|nullable',
+        'quantity' => 'required',
+        'mat_quantity.*' => 'numeric|min:1'
     ]);
 
     if ($validator->fails()) {
@@ -125,6 +127,8 @@ class OrderController extends Controller
     $model = Model::find($request->model_id);
 
     $order = new Order();
+    $order->customer_name = $request->customer_name;
+    $order->customer_phone = $request->customer_phone;
     $order->model_id = $request->model_id;
     $order->jewel_id = $request->jewel_id;
     $order->product_id = $request->product_id;
@@ -260,15 +264,9 @@ class OrderController extends Controller
   public function generate($id)
   {
     $order = Order::where('id', $id)->first();
-    $model_order = ModelOrder::where('id', $id)->first();
 
     if ($order) {
       $store = Store::where('id', $order->store_id)->first();
-      if ($model_order) {
-        $user = User::where('id', $model_order->user_id)->first();
-      } else {
-        $user = Auth::user();
-      }
       $barcode = Product::where('id', $order->product_id)->first()->barcode;
       $material = Material::where('id', $order->material_id)->first();
 
@@ -277,7 +275,7 @@ class OrderController extends Controller
         'format' => [148, 210]
       ]);
 
-      $html = view('pdf.order', compact('order', 'store', 'user', 'barcode', 'material'))->render();
+      $html = view('pdf.order', compact('order', 'store', 'barcode', 'material'))->render();
 
       $mpdf->WriteHTML($html);
 
@@ -324,6 +322,8 @@ class OrderController extends Controller
         return Response::json(['errors' => ['using' => [trans('admin/orders.material_quantity_not_matching')]]], 401);
       }
 
+      $order->customer_name = $request->customer_name;
+      $order->customer_phone = $request->customer_phone;
       $order->model_id = $request->model_id;
       $order->jewel_id = $request->jewel_id;
       $order->product_id = $request->product_id;

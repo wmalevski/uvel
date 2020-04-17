@@ -8,12 +8,12 @@
 <h3 style="margin: 5px 0 20px; text-align: center;">бижутерско изделие</h3>
 
 <div>
-    <strong>Клиент: </strong> {{ $user->first_name }} {{ $user->last_name }}
+    <strong>Клиент: </strong> {{$order->customer_name}}
 </div>
 <hr/>
 
 <div>
-    <strong>Тел: </strong> {{ $user->phone }}
+    <strong>Тел: </strong> {{$order->customer_phone}}
 </div>
 <hr/>
 
