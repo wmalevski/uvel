@@ -402,12 +402,12 @@ class SellingController extends Controller
                         Cart::session($userId)->add(array(
                             'id' => 'R-' . $item->id,
                             'name' => 'Връщане на ремонт - ' . $item->customer_name,
-                            'price' => $item->price,
+                            'price' => $item->price_after,
                             'quantity' => 1,
                             'attributes' => array(
                                 'barcode' => $item->barcode,
                                 'product_id' => $item->id,
-                                'weight' => $item->weight,
+                                'weight' => $item->weight_after,
                                 'type' => $request->type
                             )
                         ));

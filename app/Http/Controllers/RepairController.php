@@ -182,12 +182,12 @@ class RepairController extends Controller
                 Cart::session($userId)->add(array(
                     'id' => 'R-' . $repair->id,
                     'name' => 'Връщане на ремонт - ' . $repair->customer_name,
-                    'price' => $repair->price,
+                    'price' => $repair->price_after,
                     'quantity' => 1,
                     'attributes' => array(
                         'barcode' => $repair->barcode,
                         'product_id' => $repair->id,
-                        'weight' => $repair->weight,
+                        'weight' => $repair->weight_after,
                         'type' => 'repair'
                     )
                 ));
