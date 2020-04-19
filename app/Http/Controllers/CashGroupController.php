@@ -23,35 +23,28 @@ class CashGroupController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     * @param CashGroup $cashGroup
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, CashGroup $cashGroup)
     {
-        //
-    }
+        $validator = Validator::make( $request->all(), [
+            'cash_group' => 'required|integer',
+            'label' => 'required|string',
+        ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\CashGroup  $cashGroup
-     * @return \Illuminate\Http\Response
-     */
-    public function show(CashGroup $cashGroup)
-    {
-        //
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
+        $cashGroup->cash_group = $request->cash_group;
+        $cashGroup->label = $request->label;
+        $cashGroup->save();
+
+        return Response::json(array('ID' => $cashGroup->id, 'table' => View::make('admin/settings/cashgroups/table', array('cashgroup' => $cashGroup))->render()));
     }
 
     /**
@@ -75,8 +68,8 @@ class CashGroupController extends Controller
     public function update(Request $request, CashGroup $cashGroup)
     {
         $validator = Validator::make( $request->all(), [
-            'cash_group' => 'required',
-            'label' => 'required',
+            'cash_group' => 'required|integer',
+            'label' => 'required|string',
         ]);
         
         if ($validator->fails()) {
@@ -85,7 +78,6 @@ class CashGroupController extends Controller
 
         $cashGroup->cash_group = $request->cash_group;
         $cashGroup->label = $request->label;
-        
         $cashGroup->save();
         
         return Response::json(array('ID' => $cashGroup->id, 'table' => View::make('admin/settings/cashgroups/table', array('cashgroup' => $cashGroup))->render()));
@@ -99,6 +91,12 @@ class CashGroupController extends Controller
      */
     public function destroy(CashGroup $cashGroup)
     {
-        //
+        $cashGroup = CashGroup::find($cashGroup)->first();
+
+        if($cashGroup){
+            $cashGroup->delete();
+
+            return Response::json(array('success' => 'Успешно изтрито!'));
+        }
     }
 }
