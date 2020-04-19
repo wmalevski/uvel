@@ -213,7 +213,10 @@ return [
 
         //Expenses
         'additional_info' => 'Кратко Описание',
-        'expense_amount' => 'Сума'
+        'expense_amount' => 'Сума',
+
+        //Cash groups
+        'label' => 'За'
     ],
 
 ];

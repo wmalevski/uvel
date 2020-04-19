@@ -10,7 +10,6 @@ class CashGroup extends Model
 
     protected $fillable = [
         'label',
-        'table',
         'cash_group'
     ];
 }

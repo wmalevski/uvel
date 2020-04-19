@@ -620,19 +620,16 @@ class DatabaseSeeder extends Seeder
 
         $cashGroup = new CashGroup();
         $cashGroup->label = 'Ремонти';
-        $cashGroup->table = 'repairs';
         $cashGroup->cash_group = 3;
         $cashGroup->save();
 
         $cashGroup = new CashGroup();
         $cashGroup->label = 'Поръчки';
-        $cashGroup->table = 'orders';
         $cashGroup->cash_group = 4;
         $cashGroup->save();
 
         $cashGroup = new CashGroup();
         $cashGroup->label = 'Кутии';
-        $cashGroup->table = 'products_others';
         $cashGroup->cash_group = 5;
         $cashGroup->save();
 
