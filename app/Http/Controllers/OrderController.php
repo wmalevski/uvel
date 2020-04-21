@@ -296,6 +296,8 @@ class OrderController extends Controller
   {
     if ($order) {
       $validator = Validator::make($request->all(), [
+        'customer_name' => 'required',
+        'customer_phone' => 'required',
         'jewel_id' => 'required',
         'material_id' => 'required',
         'retail_price_id' => 'required|numeric|min:1',
