@@ -18,17 +18,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function () {
-    //Models section
-    Route::get('/models', 'ModelController@index')->name('admin_models');
-    Route::post('/models', 'ModelController@store');
-
-    //Materials section
-    Route::get('/mquantity', 'MaterialQuantityController@index')->name('materials_quantity');
-
-    //Stones section
-    Route::get('/stones', 'StoneController@index')->name('stones');
-    Route::post('/stones', 'StoneController@store');
-
     //Active urls for roles: CASHIER, MANAGER and ADMIN.
     Route::group(['middleware' => ['check_user_role:' . \App\Role\UserRole::ROLE_CASHIER]], function () {
         //Selling section
@@ -57,6 +46,93 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::get('/productstravelling', 'ProductTravellingController@index')->name('products_travelling');
         Route::post('/productstravelling', 'ProductTravellingController@store');
         Route::get('productstravelling/addByScan/{product}', 'ProductTravellingController@addByScan');
+
+
+        //Things Vizo moved to be at least protected somehow..
+        Route::get('/models/view/{model}', 'ModelController@getModelInformation');
+        Route::get('/products/view/{product}', 'ProductController@getProductInformation');
+        Route::get('/models/calculateStonesTotalWeight/{stone}/{stonesTotal}', 'ModelController@calculateStonesTotalWeight');
+
+        Route::get('/infoemails', 'InfoMailController@index')->name('info_emails');
+        Route::get('/infoemails/{email}', 'InfoMailController@edit');
+
+        Route::get('/infophones', 'InfoPhoneController@index')->name('info_phones');
+        Route::get('/infophones/{phone}', 'InfoPhoneController@edit');
+
+        Route::get('/sell/partner', 'PaymentController@partner_payment');
+
+        Route::get('/repairs', 'RepairController@index')->name('repairs');
+        Route::post('/repairs', 'RepairController@store');
+
+        Route::get('/orders', 'OrderController@index')->name('orders');
+
+        Route::get('/users', 'UserController@index')->name('users');
+
+        Route::get('/partners', 'PartnerController@index')->name('partners');
+
+        Route::get('/partnermaterials/{partner}', 'PartnerMaterialController@index')->name('partner_materials');
+
+        Route::get('/stores', 'StoreController@index')->name('stores');
+        Route::post('/stores', 'StoreController@store');
+
+        Route::get('/payments', 'PaymentController@index')->name('payments');
+
+        Route::get('/stores/{store}', 'StoreController@edit');
+
+        Route::get('/nomenclatures', 'NomenclatureController@index')->name('nomenclatures');
+
+        Route::get('/nomenclatures/{nomenclature}', 'NomenclatureController@edit');
+
+        Route::get('/materials', 'MaterialController@index')->name('materials');
+        Route::post('/materials', 'MaterialController@store');
+
+        Route::get('/materials/{material}', 'MaterialController@edit');
+        Route::put('/materials/{material}', 'MaterialController@update');
+
+        Route::post('/materials/accept/{material}', 'MaterialTravellingController@accept');
+        Route::post('/materials/decline/{material}', 'MaterialTravellingController@decline');
+
+        Route::get('/mtravelling', 'MaterialTravellingController@index')->name('materials_travelling');
+        Route::post('/mtravelling', 'MaterialTravellingController@store');
+
+        Route::get('/orders/model', 'ModelOrderController@index')->name('model_orders_web');
+
+        Route::get('/orders/model/{order}', 'ModelOrderController@edit');
+
+        Route::get('/products', 'ProductController@index')->name('admin_products');
+        Route::post('/products', 'ProductController@store');
+
+        Route::get('/productsothers', 'ProductOtherController@index')->name('products_others');
+        Route::get('/productsothers/{productOther}', 'ProductOtherController@edit');
+
+        Route::get('/repairs/return/{repair}', 'RepairController@return');
+        Route::get('/repairs/edit/{repair}', 'RepairController@edit');
+
+        Route::get('/mailchimp', 'NewsletterController@index')->name('mailchimp');
+
+        Route::post('/logout', 'UserController@logout')->name('admin_logout');
+
+        Route::get('/orders/{order}', 'OrderController@edit');
+
+        //Expenses
+        Route::get('/expenses', 'ExpenseController@index')->name('expenses');
+        Route::get('/expenses/{expense}', 'ExpenseController@edit');
+
+        Route::get('/materialsreports', 'MaterialQuantityController@materialReport')->name('materials_reports');
+
+        Route::get('/productsreports', 'ProductController@productsReport')->name('products_reports');
+
+        Route::get('/safe', 'SafeController@index');  
+        //Models section
+        Route::get('/models', 'ModelController@index')->name('admin_models');
+        Route::post('/models', 'ModelController@store');
+
+        //Materials section
+        Route::get('/mquantity', 'MaterialQuantityController@index')->name('materials_quantity');
+
+        //Stones section
+        Route::get('/stones', 'StoneController@index')->name('stones');
+        Route::post('/stones', 'StoneController@store');
     });
 
     //Active urls for roles: MANAGER and ADMIN.
@@ -201,80 +277,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::put('/models/{model}', 'ModelController@update');
     });
 
-        Route::get('/models/view/{model}', 'ModelController@getModelInformation');
-        Route::get('/products/view/{product}', 'ProductController@getProductInformation');
-        Route::get('/models/calculateStonesTotalWeight/{stone}/{stonesTotal}', 'ModelController@calculateStonesTotalWeight');
-
-        Route::get('/infoemails', 'InfoMailController@index')->name('info_emails');
-        Route::get('/infoemails/{email}', 'InfoMailController@edit');
-
-        Route::get('/infophones', 'InfoPhoneController@index')->name('info_phones');
-        Route::get('/infophones/{phone}', 'InfoPhoneController@edit');
-
-        Route::get('/sell/partner', 'PaymentController@partner_payment');
-
-        Route::get('/repairs', 'RepairController@index')->name('repairs');
-        Route::post('/repairs', 'RepairController@store');
-
-        Route::get('/orders', 'OrderController@index')->name('orders');
-
-        Route::get('/users', 'UserController@index')->name('users');
-
-        Route::get('/partners', 'PartnerController@index')->name('partners');
-
-        Route::get('/partnermaterials/{partner}', 'PartnerMaterialController@index')->name('partner_materials');
-
-        Route::get('/stores', 'StoreController@index')->name('stores');
-        Route::post('/stores', 'StoreController@store');
-
-        Route::get('/payments', 'PaymentController@index')->name('payments');
-
-        Route::get('/stores/{store}', 'StoreController@edit');
-
-        Route::get('/nomenclatures', 'NomenclatureController@index')->name('nomenclatures');
-
-        Route::get('/nomenclatures/{nomenclature}', 'NomenclatureController@edit');
-
-        Route::get('/materials', 'MaterialController@index')->name('materials');
-        Route::post('/materials', 'MaterialController@store');
-
-        Route::get('/materials/{material}', 'MaterialController@edit');
-        Route::put('/materials/{material}', 'MaterialController@update');
-
-        Route::post('/materials/accept/{material}', 'MaterialTravellingController@accept');
-        Route::post('/materials/decline/{material}', 'MaterialTravellingController@decline');
-
-        Route::get('/mtravelling', 'MaterialTravellingController@index')->name('materials_travelling');
-        Route::post('/mtravelling', 'MaterialTravellingController@store');
-
-        Route::get('/orders/model', 'ModelOrderController@index')->name('model_orders_web');
-
-        Route::get('/orders/model/{order}', 'ModelOrderController@edit');
-
-        Route::get('/products', 'ProductController@index')->name('admin_products');
-        Route::post('/products', 'ProductController@store');
-
-        Route::get('/productsothers', 'ProductOtherController@index')->name('products_others');
-        Route::get('/productsothers/{productOther}', 'ProductOtherController@edit');
-
-        Route::get('/repairs/return/{repair}', 'RepairController@return');
-        Route::get('/repairs/edit/{repair}', 'RepairController@edit');
-
-        Route::get('/mailchimp', 'NewsletterController@index')->name('mailchimp');
-
-        Route::post('/logout', 'UserController@logout')->name('admin_logout');
-
-        Route::get('/orders/{order}', 'OrderController@edit');
-
-        //Expenses
-        Route::get('/expenses', 'ExpenseController@index')->name('expenses');
-        Route::get('/expenses/{expense}', 'ExpenseController@edit');
-
-        Route::get('/materialsreports', 'MaterialQuantityController@materialReport')->name('materials_reports');
-
-        Route::get('/productsreports', 'ProductController@productsReport')->name('products_reports');
-
-        Route::get('/safe', 'SafeController@index');
 });
 
 Route::group(['prefix' => 'ajax'], function() {
