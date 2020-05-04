@@ -457,7 +457,6 @@ class ProductController extends Controller
             "jewelName"         => $jewel->name,
             "workmanshipPrice"  => $product->workmanship,
             "size"              => $product->size,
-            "weight"            => $product->weight,
             "material"          => $material->name . '-' . $material->code . '-' . $material->color,
             "stones"            => $product_stones,
             "barcode"           => $barcode,
@@ -467,6 +466,12 @@ class ProductController extends Controller
             "updated"           => $product->updated_at,
             "photos"            => $this->getProductPhotos($photos)
         );
+
+        if($product->weight_without_stones == 'no') {
+            $product_info["weight"] = $product->gross_weight;
+        }else {
+            $product_info["weight"] = $product->weight;
+        }
 
         return Response::json(['product' => $product_info], 200);
     }

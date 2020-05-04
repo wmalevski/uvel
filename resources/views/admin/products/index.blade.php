@@ -313,7 +313,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 				<div class="info-cont"></div>
 				{{ csrf_field() }}
 				<h3><span class="product-name"></span></h3>
-				<h6><span class="product-jewel"></span><h6>
+				<h6><span class="product-jewel"></span></h6>
 				<hr>
 				<img class="product-image" src="" />
 				<ul>
