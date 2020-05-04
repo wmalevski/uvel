@@ -66,6 +66,10 @@ class ExpenseController extends Controller
     $request->request->add(['user_id' => Auth::user()->getId()]);
     $request->request->add(['store_from_id' => Auth::user()->getStore()->id]);
 
+    if($request->send_to_store == true) {
+        $request->request->add(['store_to_id' => $request->store_to_id]);
+    }
+
     $expense = Expense::create($request->all());
 
     return Response::json(array('success' => View::make('admin/expenses/table', array('expense' => $expense))->render()));
@@ -122,7 +126,6 @@ class ExpenseController extends Controller
     $expense->currency_id = $request->currency_id;
     $expense->additional_info = $request->additional_info;
     $expense->user_id = Auth::user()->getId();
-    $expense->store_id = Auth::user()->getStore()->id;
 
     $expense->save();
 
