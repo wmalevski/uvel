@@ -17,11 +17,9 @@ class EditExpensesStoreToIdColumn extends Migration
             if(Schema::hasColumn('expenses', 'store_from_id') && Schema::hasColumn('expenses', 'store_to_id')) {
                 $table->dropColumn('store_from_id');
                 $table->dropColumn('store_to_id');
-            }else {
-                $table->integer('store_from_id')->references('id')->on('stores')->nullable();
-                $table->integer('store_to_id')->references('id')->on('stores')->nullable();
             }
-
+            $table->integer('store_from_id')->references('id')->on('stores')->nullable();
+            $table->integer('store_to_id')->references('id')->on('stores')->nullable();
         });
     }
 
