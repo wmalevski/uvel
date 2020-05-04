@@ -30,6 +30,9 @@ class EditExpensesStoreToIdColumn extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('expenses', function (Blueprint $table) {
+            $table->dropColumn('store_from_id');
+            $table->dropColumn('store_to_id');
+        });
     }
 }
