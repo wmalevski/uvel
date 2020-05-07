@@ -146,6 +146,8 @@ class Payment extends Model
                     $selling->product_id = $item->attributes->product_id;
                 } elseif($item['attributes']->type == 'box'){
                     $selling->product_other_id =$item->attributes->product_id;
+                } elseif($item['attributes']->type == 'order'){
+                    $selling->order_id = $item->attributes->product_id;
                 }
 
                 $selling->save();
@@ -159,6 +161,13 @@ class Payment extends Model
                     if($repair){
                         $repair->status = 'returned';
                         $repair->save();
+                    }
+                } elseif($item->attributes->type == 'order'){
+                    $order = Order::where('id', $item->attributes->product_id)->first();
+
+                    if($order){
+                        $order->status = 'done';
+                        $order->save();
                     }
                 } elseif($item->attributes->type == 'product'){
                     $product = Product::where('id',$item->attributes->product_id)->first();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model;
+use App\Order;
 use DB;
 use App\Selling;
 use App\Price;
@@ -315,6 +316,8 @@ class SellingController extends Controller
                         }
                     } elseif ($request->type == 'product') {
                         $item = Product::where($request_type, $request_var)->first();
+                    } elseif ($request->type == 'order') {
+                        $item = Order::where($request_type, $request_var)->first();
                     }
                 }
 
@@ -325,6 +328,12 @@ class SellingController extends Controller
                         $available = false;
                     } elseif ($item->status == 'sold') {
                         $message = 'Продуктът е продаден.';
+                        $available = false;
+                    } elseif ($request->type == 'order' && $item->status == 'returning') {
+                        $message = 'Поръчката е в процес на връщане.';
+                        $available = false;
+                    } elseif ($request->type == 'order' && $item->status == 'done') {
+                        $message = 'Поръчката е върната.';
                         $available = false;
                     }
 
@@ -356,6 +365,9 @@ class SellingController extends Controller
                         $item->save();
 
                         $calculated_weight = '';
+                    } elseif($request->type == 'order') {
+                        $item->status = "returning";
+                        $item->save();
                     } else {
                         if ($item->quantity) {
                             $item->quantity -= 1;
@@ -411,7 +423,24 @@ class SellingController extends Controller
                                 'type' => $request->type
                             )
                         ));
+                    } elseif($request->type == "order") {
+                        if ($item->weight_without_stones == 'no') {
+                            $weight = $item->gross_weight;
+                        }else {
+                            $weight = $item->weight;
+                        }
 
+                        Cart::session($userId)->add(array(
+                            'id' => 'O-' . $item->id,
+                            'name' => 'Издаване на поръчка - ' . $item->customer_name,
+                            'price' => $item->price,
+                            'quantity' => 1,
+                            'attributes' => array(
+                                'product_id' => $item->id,
+                                'weight' => $weight,
+                                'type' => $request->type
+                            )
+                        ));
                     } else if ($request->type == "box") {
                         Cart::session($userId)->add(array(
                             'id' => 'B-' . $item->id,
@@ -548,6 +577,7 @@ class SellingController extends Controller
             $product = Product::where('barcode', $item->attributes->barcode)->first();
             $product_box = ProductOther::where('barcode',$item->attributes->barcode)->first();
             $repair = Repair::where('barcode', $item->attributes->barcode)->first();
+            $order = Order::where('id', $item->attributes->product_id)->first();
             if($product){
                 $product->status = 'available';
                 $product->save();
@@ -557,6 +587,9 @@ class SellingController extends Controller
             }else if($repair){
                 $repair->status = 'done';
                 $repair->save();
+            }else if($order){
+                $order->status = 'ready';
+                $order->save();
             }
         });
 
@@ -764,6 +797,9 @@ class SellingController extends Controller
         } elseif ($type == 'box') {
             $product_box = ProductOther::where('id', intval($item))->first();
             $item = 'B-' . $item;
+        } elseif ($type == 'order') {
+            $order = Order::where('id', intval($item))->first();
+            $item = 'O-' . $item;
         } else {
             $repair = Repair::where('id', intval($item))->first();
             $item = 'R-' . $item;
@@ -777,7 +813,10 @@ class SellingController extends Controller
         } elseif (isset($product_box)) {
             $product_box->quantity += $cartItem->quantity;
             $product_box->save();
-        }else {
+        }elseif (isset($order)) {
+            $order->status = 'ready';
+            $order->save();
+        } else {
             $repair->status = 'done';
             $repair->save();
         }
