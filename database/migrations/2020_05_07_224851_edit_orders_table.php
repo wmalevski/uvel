@@ -14,6 +14,10 @@ class EditOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
+            $table->dropColumn('status');
+        });
+
+        Schema::table('orders', function (Blueprint $table) {
             $table->enum('status', ['accepted', 'ready', 'returning', 'done'])->default('accepted');
         });
     }
