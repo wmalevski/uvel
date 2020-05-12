@@ -14,10 +14,11 @@ class EditExpensesStoreToIdColumn extends Migration
     public function up()
     {
         Schema::table('expenses', function (Blueprint $table) {
-            if(Schema::hasColumn('expenses', 'store_from_id') && Schema::hasColumn('expenses', 'store_to_id')) {
-                $table->dropColumn('store_from_id');
-                $table->dropColumn('store_to_id');
-            }
+            $table->dropColumn('store_from_id');
+            $table->dropColumn('store_to_id');
+        });
+
+        Schema::table('expenses', function (Blueprint $table) {
             $table->integer('store_from_id')->references('id')->on('stores')->nullable();
             $table->integer('store_to_id')->references('id')->on('stores')->nullable();
         });
