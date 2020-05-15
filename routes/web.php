@@ -252,7 +252,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::get('/settings/currencies/{currency}', 'CurrencyController@edit');
 
         //Cashgroups
-        Route::post('/settings/cashgroups/store', 'CashGroupController@store')->name('store_cashgroup');
         Route::get('/settings/cashgroups', 'CashGroupController@index')->name('cashgroups');
         Route::get('/settings/cashgroups/{cashGroup}', 'CashGroupController@edit');
 
@@ -424,6 +423,7 @@ Route::group(['prefix' => 'ajax'], function() {
         Route::put('/settings/currencies/{currency}', 'CurrencyController@update');
 
         //Cashgroups
+        Route::post('/settings/cashgroups/store', 'CashGroupController@store')->name('store_cashgroup');
         Route::put('/settings/cashgroups/{cashGroup}', 'CashGroupController@update');
         Route::post('/settings/cashgroups/delete/{cashGroup}', 'CashGroupController@destroy')->name('destroy_cashgroup');
 
