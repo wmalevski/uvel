@@ -44,7 +44,7 @@ class CashGroupController extends Controller
         $cashGroup->label = $request->label;
         $cashGroup->save();
 
-        return Response::json(array('ID' => $cashGroup->id, 'table' => View::make('admin/settings/cashgroups/table', array('cashgroup' => $cashGroup))->render()));
+        return Response::json(array('ID' => $cashGroup->id, 'success' => View::make('admin/settings/cashgroups/table', array('cashgroup' => $cashGroup))->render()));
     }
 
     /**
