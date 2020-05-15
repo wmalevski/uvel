@@ -484,17 +484,21 @@ var uvel,
         input.addEventListener('change', function() {
           var url = input.dataset.url + this.value;
 
-          $.ajax({
-            method: 'GET',
-            url: url,
-            success: function(response) {
-              $self.replaceResponseRowToTheTable($(input), response);
-            },
-            error: function(response) {
-              alert('Възникна грешка, моля опитайте отново');
-            }
-          });
+          if(this.value.length) {
+            $.ajax({
+              method: 'GET',
+              url: url,
+              success: function(response) {
+                $self.replaceResponseRowToTheTable($(input), response);
+              },
+              error: function(response) {
+                var errorMessage = response.responseJSON.errors.not_found,
+                    alertHolder = $(input).parent();
 
+                $self.appendAlertMessageToMainContent('alert-danger', errorMessage, alertHolder, 'append');
+              }
+            });
+          }
         }, false);
       }
     };
@@ -586,7 +590,7 @@ var uvel,
 
     this.openForm = function(openFormTrigger) {
       var enterKeyCode = 13;
-      
+
       $('body').on('show.bs.modal', function() {
         $('.modal-backdrop, .modal').addClass('inactive');
         openFormTrigger.disabled = true;
@@ -644,6 +648,7 @@ var uvel,
           $('button[type="submit"]').prop('disabled', false);
         }
         $('.modal-backdrop, .modal').removeClass('inactive');
+
         currentPressedBtn.disabled = false;
       }, timeToOpenModal);
     }
@@ -1022,6 +1027,17 @@ var uvel,
           $self.ajaxFn('POST', ajaxUrl, $self.discountSuccess, dataSend, '', '');
         }
       });
+    }
+
+    // TODO - Replace on other places where this functionality is used.
+    this.appendAlertMessageToMainContent = function(alertType, alertMessage, alertHolder, holderAction) {
+      var _alertMessage = '<div class="alert ' + alertType + '">' + alertMessage + '</div>';
+
+      $(alertHolder)[holderAction](_alertMessage);
+
+      setTimeout(function () {
+        $('.' + alertType).remove();
+      }, 3000);
     }
 
     this.addCardDiscount = function(addCardDiscountTrigger) {

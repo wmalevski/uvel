@@ -126,9 +126,10 @@ class ProductTravellingController extends Controller
     public function accept($product)
     {
         $existing_product = Product::where('barcode', $product)->first();
+
         $response = '';
         if ($existing_product) {
-            $travel = ProductTravelling::where('product_id',  $existing_product->id)->first();
+            $travel = ProductTravelling::where('product_id',  $existing_product->id)->latest()->first();
 
             if ($travel->status == 0 && Auth::user()->store_id == $travel->store_to_id) {
                 $travel->status = '1';
