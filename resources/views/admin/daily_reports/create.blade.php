@@ -119,7 +119,8 @@
         </div>
       </div>
     </div>
-    <div class="masonry-item col-md-4">
+    @if(\Illuminate\Support\Facades\Auth::user()->role != "cashier")
+      <div class="masonry-item col-md-4">
       <div class="bgc-white p-20 bd">
         <h6 class="c-grey-900">Дневен отчет материали</h6>
         <div class="mT-30">
@@ -136,7 +137,7 @@
               @endforeach
             </ul>
             @endif
-            
+
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label>Материал</label>
@@ -149,7 +150,7 @@
             @foreach($materials as $material)
             <div class="form-row">
               <div class="form-group col-md-6">
-                
+
                 <input type="number" class="form-control" placeholder="{{ $material->name }} - {{ $material->color }} - {{ $material->code }}" readonly>
                 <input type="hidden" class="form-control" value="{{ $material->id }}" name="material_id[]" >
               </div>
@@ -164,6 +165,7 @@
         </div>
       </div>
     </div>
+    @endif
   </div>
 </div>
 @endsection

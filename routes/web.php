@@ -31,14 +31,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::get('/cartMaterialsInfo', 'SellingController@cartMaterialsInfo')->name('cart_materials');
         Route::get('/sell/clearCart', 'SellingController@clearCart')->name('clear_cart');
 
-        //Dailyreports section
-        Route::get('/dailyreports', 'DailyReportController@index')->name('daily_reports');
-        Route::get('/dailyreports/create', 'DailyReportController@create')->name('create_report');
-        Route::post('/dailyreports/create/moneyreport', 'DailyReportController@moneyreport');
-        Route::post('/dailyreports/create/jewelreport', 'DailyReportController@jewelreport');
-        Route::post('/dailyreports/create/materialreport', 'DailyReportController@materialreport');
-        Route::get('/dailyreports/{report}', 'DailyReportController@edit');
-
         //Orders section
         Route::get('/orders/custom', 'CustomOrderController@index')->name('custom_orders');
 
@@ -137,6 +129,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
 
     //Active urls for roles: MANAGER and ADMIN.
     Route::group(['middleware' => ['check_user_role:' . \App\Role\UserRole::ROLE_MANAGER]], function () {
+        //Dailyreports section
+        Route::get('/dailyreports', 'DailyReportController@index')->name('daily_reports');
+        Route::get('/dailyreports/create', 'DailyReportController@create')->name('create_report');
+        Route::post('/dailyreports/create/moneyreport', 'DailyReportController@moneyreport');
+        Route::post('/dailyreports/create/jewelreport', 'DailyReportController@jewelreport');
+        Route::post('/dailyreports/create/materialreport', 'DailyReportController@materialreport');
+        Route::get('/dailyreports/{report}', 'DailyReportController@edit');
+
         //Discounts section
         Route::get('/discounts', 'DiscountCodeController@index')->name('discounts');
         Route::get('/discounts/{discountCode}', 'DiscountCodeController@edit');
