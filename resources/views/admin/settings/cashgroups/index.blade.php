@@ -16,7 +16,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" data-type="add" name="cashGroups" action="{{route('store_cashgroup')}}" autocomplete="off">
+            <form method="POST" data-type="add" name="cashgroup" action="settings/cashgroups/store" autocomplete="off">
                 <div class="modal-body">
                     <div class="info-cont"></div>
                     {{ csrf_field() }}
@@ -43,7 +43,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
-            <h4 class="c-grey-900 mB-20">Касови групи <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addCashGroup" data-form-type="add" data-form="repairTypes">Добави</button></h4>
+            <h4 class="c-grey-900 mB-20">Касови групи <button type="button" class="add-btn btn btn-primary" data-toggle="modal" data-target="#addCashGroup" data-form-type="add" data-form="cashgroups">Добави</button></h4>
             <p>Преглед на касовите групи.</p>
             <table id="main_table" class="table">
               <thead>
