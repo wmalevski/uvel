@@ -464,11 +464,9 @@
                                 <a class="sidebar-link" href="{{ route('selling_report_export') }}">Продажби -
                                     Експорт</a>
                             </li>
-                        @endif
-                        <li class="{{ Active::ifRouteIn(['daily_reports', 'create_report']) }}">
-                            <a class="sidebar-link" href="{{ route('daily_reports') }}">Дневни</a>
-                        </li>
-                        @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, [ 'manager', 'admin', 'storehouse']))
+                            <li class="{{ Active::ifRouteIn(['daily_reports', 'create_report']) }}">
+                                <a class="sidebar-link" href="{{ route('daily_reports') }}">Дневни</a>
+                            </li>
                             <li class="{{ Active::ifRouteIn(['materials_reports']) }}">
                                 <a class="sidebar-link" href="{{ route('materials_reports') }}">Материали</a>
                             </li>
