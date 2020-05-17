@@ -63,7 +63,7 @@ class DailyReport extends Model
         ])->whereDate('created_at', Carbon::today())->sum('given');
 
         $expenses = Expense::where([
-            ['store_id', '=', Auth::user()->getStore()->id]
+            ['store_form_id', '=', Auth::user()->getStore()->id]
         ])->whereDate('created_at', Carbon::today())->sum('amount');
 
         $allSold = $allSold - $expenses;
