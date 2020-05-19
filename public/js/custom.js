@@ -1403,12 +1403,18 @@ var uvel,
         },
         error: function(error) {
           $self.formsErrorHandler(error, form);
+          
+          if(formType === 'edit') {
+            form.find('[type="submit"]').prop('disabled', false); 
+          }
         },
         complete: function() {
           // scroll to top of form window
           form[0].scrollIntoView();
           // re-enable submit buttons
-          form.find('[type="submit"]').prop('disabled', false);
+          if(formType !== 'edit') {
+            form.find('[type="submit"]').prop('disabled', false);
+          }
         }
       });
     }
