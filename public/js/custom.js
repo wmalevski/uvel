@@ -631,8 +631,8 @@ var uvel,
 
       if (formType == 'quantity') {
         var form = document.querySelector(`form[name=${openedForm}]`);
-        
-        form.action = currentPressedBtn[0].dataset.url; 
+
+        form.action = currentPressedBtn[0].dataset.url;
       }
 
       if ((formType == 'add' || formType == 'sell' || formType == 'partner-sell' || formType == 'quantity') && !formSettings.initialized) {
@@ -1166,10 +1166,10 @@ var uvel,
 
     this.submitForm = function(form) {
       var submitButton = form.find('[type="submit"]'),
-          ajaxRequestLink = $self.buildAjaxRequestLink('submitForm', form.attr('action')),
           formType = form.attr('data-type');
 
       submitButton.click(function(e) {
+        var ajaxRequestLink = $self.buildAjaxRequestLink('submitForm', form.attr('action'));
         e.preventDefault();
 
         this.disabled = true;
@@ -1601,6 +1601,7 @@ var uvel,
           rowToChange = form.parents('.main-content').find('table[id="' + targetTable + '"] tbody tr[data-id="' + rowId + '"]'),
           iscurrentlyActive = rowToChange.closest('table').hasClass('active'),
           isCurrentlyBuy = rowToChange.closest('table').hasClass('buy');
+
       if (response.place == 'active' && !iscurrentlyActive) {
         $self.moveRowToTheTable(rowToChange, form.parents('.main-content').find('table.active tbody'), replaceRowHTML);
       } else if (response.place == 'inactive' && iscurrentlyActive) {
@@ -1651,7 +1652,6 @@ var uvel,
     }
 
     // FUNCTION THAT BUILDS THE AJAX REQUEST LINK
-
     this.buildAjaxRequestLink = function(type, path) {
       var prefix;
 
