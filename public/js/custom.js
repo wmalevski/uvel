@@ -275,6 +275,21 @@ var uvel,
 
       $self.initializeTableSort();
       // $self.checkAllForms();
+      $self.makeTableHeaderSticky();
+    }
+
+    this.makeTableHeaderSticky = function () {
+      // On some screens the first <tr> is taller because the word may drop on 2 rows.
+      var firstTableHeaderRow = $('#main_table thead tr:nth-child(1)'),
+          tableSearchInputs = $('#main_table thead tr:nth-child(2) th');
+
+      if(tableSearchInputs.length) {
+        tableSearchInputs.each(function() {
+          $(this).css({
+            'top': (65 + firstTableHeaderRow.height()) + 'px' // 65px is the height of the fixed header.
+          })
+        });
+      }
     }
 
     this.attachInitialEvents = function() {
