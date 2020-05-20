@@ -192,3 +192,20 @@ input[type="number"][disabled] {
 .alert-danger {
 	margin-top: 10px;
 }
+
+/* Fixing the table headers on scroll */
+
+.table thead .search-inputs, .table thead th {
+	border: 0 !important;
+}
+
+.table thead th {
+	position: sticky;
+	background-color: #f9fafb;
+	z-index: 10;
+	box-shadow: inset 0 1px #e9ecef, 0 1px #e9ecef;
+}
+
+.table thead tr:nth-child(1) th {
+	top: 65px;
+}
