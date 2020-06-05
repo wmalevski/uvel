@@ -96,11 +96,11 @@
               </div>
             </div>
 
-            @foreach($materials as $material)
+            @foreach($materialTypes as $materialType)
             <div class="form-row">
               <div class="form-group col-md-6">
-                <input type="number" class="form-control" placeholder="{{ $material->name }} - {{ $material->color }} - {{ $material->code }}" readonly>
-                <input type="hidden" class="form-control" value="{{ $material->id }}" name="material_id[]">
+                <input type="number" class="form-control" placeholder="{{ $materialType->name }}" readonly>
+                <input type="hidden" class="form-control" value="{{ $materialType->id }}" name="materialType_id[]">
               </div>
               <div class="form-group col-md-6">
                 <input type="number" min="0" name="quantity[]" class="form-control" placeholder="0" step="0.01">
