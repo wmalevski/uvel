@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
 use App\Material;
-use App\MaterialQuantity;
+use App\MaterialType;
 use App\Jewel;
 use App\Currency;
 
@@ -42,11 +42,12 @@ class DailyReportController extends Controller
     {
         $jewels = Jewel::all();
         $materials = Material::all();
+        $materialTypes = MaterialType::all();
         $currencies = Currency::where('default', 'no')->get();
 
         $dailyReports = DailyReport::whereDate('created_at', Carbon::today())->get();
 
-        return view('admin.daily_reports.create', compact('dailyReports', 'materials', 'jewels', 'currencies'));
+        return view('admin.daily_reports.create', compact('dailyReports', 'materials', 'materialTypes', 'jewels', 'currencies'));
     }
 
     /**
