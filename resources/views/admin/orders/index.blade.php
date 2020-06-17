@@ -344,7 +344,11 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 	</thead>
 	<tbody>
 		@foreach($orders as $order)
-			@include('admin.orders.table')
+			@if($loggedUser->role != 'admin' && $loggedUser->role != 'storehouse' && $loggedUser->store_id == $order->store_id)
+				@include('admin.orders.table')
+			@elseif($loggedUser->role == 'admin' || $loggedUser->role == 'storehouse')
+				@include('admin.orders.table')
+			@endif
 		@endforeach
 	</tbody>
 </table>

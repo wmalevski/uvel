@@ -263,7 +263,7 @@ class MaterialController extends Controller
             $result_materials[] = [
                 'attributes' => [
                     'value' => $material->id,
-                    'label' => $material->parent->name .' - '. $material->code,
+                    'label' => $material->parent->name .' - '. $material->color . ' - ' .$material->code,
                     'data-sample' => $material->code,
                 ]
             ];
