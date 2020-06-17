@@ -57,7 +57,7 @@
           <label for="carat">Карат: </label>
           
           <input type="number" class="form-control carat" id="carat" value="{{ $stone->carat }}" value="0"
-                data-calculateCarats-carat name="carat" placeholder="Карат:" readonly>
+                 data-calculateCarats-carat name="carat" placeholder="Карат:" readonly>
         </div>
       </div>
 
@@ -111,7 +111,7 @@
         <div class="form-group col-md-12">
           <label for="4">Количество:</label>
           
-          <input type="number" class="form-control" value="{{ $stone->amount }}" id="4" name="amount" placeholder="Количество:">
+          <input type="number" class="form-control" value="{{ $stone->amount }}" id="4" name="amount" placeholder="Количество:" readonly>
         </div>
       </div>
 

@@ -190,6 +190,44 @@ class StoneController extends Controller
     return Response::json(array('ID' => $stone->id, 'table' => View::make('admin/stones/table',array('stone'=>$stone))->render(), 'photos' => $photosHtml));
     }
 
+    public function decreaseQnty(Request $request, Stone $stone)
+    {
+        $validator = Validator::make( $request->all(), [
+            'amount' => 'required|numeric|between:1,100000'
+        ]);
+
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
+        $stone->amount -= $request->amount;
+
+        if($stone->amount < 0) {
+            return Response::json(['errors' => ['using' => ['Камъните не могат да бъдат отрицателна бройка.']]], 401);
+        } else {
+            $stone->save();
+        }
+
+        $stone_photos = Gallery::where(
+            [
+                ['table', '=', 'stones'],
+                ['stone_id', '=', $stone->id]
+            ]
+        )->get();
+
+        $photosHtml = '';
+
+        foreach($stone_photos as $photo){
+            $photosHtml .= '
+            <div class="image-wrapper">
+            <div class="close"><span data-url="gallery/delete/'.$photo->id.'">&#215;</span></div>
+            <img src="'.asset("uploads/stones/" . $photo->photo).'" alt="" class="img-responsive" />
+        </div>';
+        }
+
+        return Response::json(array('ID' => $stone->id, 'table' => View::make('admin/stones/table',array('stone'=>$stone))->render(), 'photos' => $photosHtml));
+    }
+
     /**
      * Update the specified resource in storage.
      *

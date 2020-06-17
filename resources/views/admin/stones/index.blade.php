@@ -12,7 +12,7 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" data-type="quantity" name="stonesQuantity" action="stones/">
+            <form method="POST" data-type="quantity" name="stonesQuantityIncrease" action="stones/">
                 <div class="modal-body">    
                     <div class="info-cont">
                     </div>
@@ -30,6 +30,36 @@ aria-hidden="true">
             </form>
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="decreaseStones" role="dialog" aria-labelledby="decreaseStones"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addNomenclatureLabel">Извади камъни</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST" data-type="quantity" name="stonesQuantityDecrease" action="stones/">
+        <div class="modal-body">
+          <div class="info-cont">
+          </div>
+          {{ csrf_field() }}
+          <div class="form-group">
+            <label for="1">Извади бройка: </label>
+            <input type="number" class="form-control" id="1" name="amount" placeholder="Бройка на камъните:">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+          <button type="submit" data-state="add_state" class="action--state_button btn btn-primary add-btn-modal">Добави</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 
 <div class="modal fade" id="addStone" role="dialog" aria-labelledby="addStoneLabel" aria-hidden="true">
