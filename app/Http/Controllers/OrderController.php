@@ -75,7 +75,7 @@ class OrderController extends Controller
       }
     }
 
-    return \View::make('admin/orders/index', array('mats' => $mats, 'materials' => $materials, 'orders' => $orders, 'stores' => $stores, 'products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials->scopeCurrentStore(), 'user_store' => $user_store, 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES), 'disable_store_select' => $disable_store_select));
+    return \View::make('admin/orders/index', array('loggedUser' => Auth::user() ,'mats' => $mats, 'materials' => $materials, 'orders' => $orders, 'stores' => $stores, 'products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials->scopeCurrentStore(), 'user_store' => $user_store, 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES), 'disable_store_select' => $disable_store_select));
   }
 
   /**
@@ -104,7 +104,7 @@ class OrderController extends Controller
 
     $validator = Validator::make($request->all(), [
         'customer_name' => 'required',
-        'customer_phone' => 'required',
+        'customer_phone' => 'required|numeric',
         'jewel_id' => 'required',
         'material_id' => 'required',
         'retail_price_id' => 'required|numeric|min:1',
@@ -204,20 +204,36 @@ class OrderController extends Controller
     }
 
     if ($request->given_material_id) {
-      foreach ($request->given_material_id as $key => $material) {
-        if ($material) {
-          $price = Material::find($material)->pricesSell()->first()->price;
+        foreach ($request->given_material_id as $key => $material) {
+            if ($material) {
+              $price = Material::find($material)->pricesSell()->first()->price;
+              $exchange_material = new ExchangeMaterial();
+              $exchange_material->material_id = $material;
+              $exchange_material->order_id = $order->id;
+              $exchange_material->weight = $request->mat_quantity[$key];
+              $exchange_material->sum_price = $request->mat_quantity[$key] * $price;
+              $exchange_material->additional_price = 0;
+              $exchange_material->save();
 
-          $exchange_material = new ExchangeMaterial();
-          $exchange_material->material_id = $material;
-          $exchange_material->order_id = $order->id;
-          $exchange_material->weight = $request->mat_quantity[$key];
-          $exchange_material->sum_price = $request->mat_quantity[$key] * $price;
-          $exchange_material->additional_price = 0;
+                $findMaterial = MaterialQuantity::where([
+                    ['material_id', '=', $material],
+                    ['store_id', '=', $order->store_id]
+                ])->first();
 
-          $exchange_material->save();
+                if (is_null($findMaterial)) {
+                    $material_quantity = new MaterialQuantity();
+                    $material_quantity->material_id = $material;
+                    $material_quantity->quantity = $request->mat_quantity[$key];
+                    $material_quantity->store_id = $order->store_id;
+                    $material_quantity->save();
+                } else {
+                    $findMaterial->material_id = $material;
+                    $findMaterial->quantity = $findMaterial->quantity + $request->mat_quantity[$key];
+                    $findMaterial->store_id = $order->store_id;
+                    $findMaterial->save();
+                }
+            }
         }
-      }
     }
 
     return Response::json(array('success' => View::make('admin/orders/table', array('order' => $order))->render()));
@@ -297,7 +313,7 @@ class OrderController extends Controller
     if ($order) {
       $validator = Validator::make($request->all(), [
         'customer_name' => 'required',
-        'customer_phone' => 'required',
+        'customer_phone' => 'required|numeric',
         'jewel_id' => 'required',
         'material_id' => 'required',
         'retail_price_id' => 'required|numeric|min:1',
@@ -407,28 +423,43 @@ class OrderController extends Controller
       $order->save();
 
       if ($request->given_material_id) {
-        $materials = ExchangeMaterial::where('order_id', $order->id)->delete();
+        $materials = ExchangeMaterial::where('order_id', $order->id)->get();
+        ExchangeMaterial::where('order_id', $order->id)->delete();
 
         foreach ($request->given_material_id as $key => $material) {
-          if ($material) {
-            $price = Material::find($material)->pricesSell()->first()->price;
+            if ($material) {
+                $price = Material::find($material)->pricesSell()->first()->price;
 
-            $exchange_material = new ExchangeMaterial();
-            $exchange_material->material_id = $material;
-            $exchange_material->order_id = $order->id;
-            $exchange_material->weight = $request->mat_quantity[$key];
-            $exchange_material->sum_price = $request->mat_quantity[$key] * $price;
-            $exchange_material->additional_price = 0;
+                $exchangeMaterial = $materials->filter(function ($exch_material) use ($material){
+                    return $exch_material->material_id = $material;
+                });
 
-            $exchange_material->save();
+                $exchange_material = new ExchangeMaterial();
+                $exchange_material->material_id = $material;
+                $exchange_material->order_id = $order->id;
+                $exchange_material->weight = $request->mat_quantity[$key];
+                $exchange_material->sum_price = $request->mat_quantity[$key] * $price;
+                $exchange_material->additional_price = 0;
 
-            $material_quantity = MaterialQuantity::where('material_id', $material)->first();
+                $exchange_material->save();
 
-            if ($material_quantity) {
-              $material_quantity->quantity = $material_quantity->quantity + $request->weight[$key];
-              $material_quantity->save();
+                $findMaterial = MaterialQuantity::where([
+                  ['material_id', '=', $material],
+                  ['store_id', '=', $order->store_id]
+                ])->first();
+
+                if (is_null($findMaterial)) {
+                    $material_quantity = new MaterialQuantity();
+                    $material_quantity->material_id = $material;
+                    $material_quantity->quantity = $request->mat_quantity[$key];
+                    $material_quantity->store_id = $order->store_id;
+                    $material_quantity->save();
+                } else {
+                    $new_quantity = $exchangeMaterial[0]->weight - $request->mat_quantity[$key];
+                    $findMaterial->quantity -= $new_quantity;
+                    $findMaterial->save();
+                }
             }
-          }
         }
       }
 
