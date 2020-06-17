@@ -262,8 +262,13 @@ var uvel,
         controllers: [],
         initialized: false
       },
-      stonesQuantity: {
-        selector: '[name="stonesQuantity"]',
+      stonesQuantityIncrease: {
+        selector: '[name="stonesQuantityIncrease"]',
+        controllers: [],
+        initialized: false
+      },
+      stonesQuantityDecrease: {
+        selector: '[name="stonesQuantityDecrease"]',
         controllers: [],
         initialized: false
       }

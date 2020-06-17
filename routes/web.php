@@ -384,6 +384,7 @@ Route::group(['prefix' => 'ajax'], function() {
         Route::put('/stones/{stone}', 'StoneController@update');
         Route::get('/stones/{stone}', 'StoneController@edit');
         Route::post('/stones/{stone}/topUp', 'StoneController@topUp');
+        Route::post('/stones/{stone}/decreaseQnty', 'StoneController@decreaseQnty');
         Route::get('/stones/contours/{stoneContour}', 'StoneContourController@edit');
         Route::post('/stones/sizes/delete/{stoneSize}', 'StoneSizeController@destroy');
         Route::post('/stones/styles/delete/{stoneStyle}', 'StoneStyleController@destroy');
