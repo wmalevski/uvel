@@ -56,28 +56,32 @@ class DailyReport extends Model
         $defaultCurrency = Currency::where('default', 'yes')->first();
         
         $allSold = Payment::where([
-            ['method', '=', 'cash'],
-            ['receipt', '=', 'yes'],
-            ['store_id', '=', Auth::user()->getStore()->id],
-            ['currency_id', '=', $defaultCurrency->id]
-        ])->whereDate('created_at', Carbon::today())->sum('given');
+              ['method', '=', 'cash'],
+              ['receipt', '=', 'yes'],
+              ['store_id', '=', $request->store_id],
+              ['currency_id', '=', $defaultCurrency->id]
+          ])
+          ->whereDate('created_at', Carbon::today())
+          ->sum('given');
 
-        $expenses = Expense::where([
-            ['store_id', '=', Auth::user()->getStore()->id]
-        ])->whereDate('created_at', Carbon::today())->sum('amount');
+        $expenses = Expense::where('store_from_id', $request->store_id)
+          ->whereDate('created_at', Carbon::today())
+          ->sum('amount');
 
         $allSold = $allSold - $expenses;
 
         $todayReport = DailyReport::where([
-            ['store_id', '=', Auth::user()->getStore()->id],
-            ['status', '=', 'successful'],
-            ['type', '=', 'money']
-        ])->whereDate('created_at', Carbon::today())->get();
+              ['store_id', '=', $request->store_id],
+              ['status', '=', 'successful'],
+              ['type', '=', 'money']
+          ])
+          ->whereDate('created_at', Carbon::today())
+          ->get();
 
         $report = new DailyReport();
         $report->safe_money_amount = $allSold;
         $report->given_money_amount = $sum;
-        $report->store_id = Auth::user()->getStore()->id;
+        $report->store_id = $request->store_id;
         $report->user_id = Auth::user()->getId();
         
         if(count($todayReport)){
