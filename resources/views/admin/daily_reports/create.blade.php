@@ -3,11 +3,22 @@
 <div id='mainContent'>
   <div class="row gap-20 masonry pos-r daily-report-create-page">
     <div class="masonry-sizer col-md-4"></div>
+    @if($shUserAccessDailyMoneyReport)
     <div class="masonry-item col-md-4">
       <div class="bgc-white p-20 bd">
         <h6 class="c-grey-900">Дневен отчет пари</h6>
         <div class="mT-30">
           <form method="POST" action="create/moneyreport">
+            <div class="form-group">
+              <label>Магазин: </label>
+              <select name="store_id" class="form-control" data-search="/ajax/select_search/stores/" @if(!$shUserChooseDailyMoneyReportStore) readonly @endif>
+                  <option value="">Избери магазин</option>
+          
+                  @foreach($stores as $store)
+                      <option value="{{ $store->id }}" @if($store->id == $storesSelectValue) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
+                  @endforeach
+              </select>
+            </div>
             @if(session()->has('success.money'))
             <div class="alert alert-success">
               {{ session()->get('success.money') }}
@@ -69,6 +80,7 @@
         </div>
       </div>
     </div>
+    @endif
     <div class="masonry-item col-md-4">
       <div class="bgc-white p-20 bd">
         <h6 class="c-grey-900">Дневен отчет бижута</h6>
@@ -119,7 +131,7 @@
         </div>
       </div>
     </div>
-    @if(\Illuminate\Support\Facades\Auth::user()->role != "cashier")
+    @if($shUserAccessDailyMaterialReport)
       <div class="masonry-item col-md-4">
       <div class="bgc-white p-20 bd">
         <h6 class="c-grey-900">Дневен отчет материали</h6>

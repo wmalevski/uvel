@@ -14,6 +14,7 @@ use App\Material;
 use App\MaterialType;
 use App\Jewel;
 use App\Currency;
+use App\Store;
 
 class DailyReportController extends Controller
 {
@@ -44,10 +45,30 @@ class DailyReportController extends Controller
         $materials = Material::all();
         $materialTypes = MaterialType::all();
         $currencies = Currency::where('default', 'no')->get();
+        $stores = Store::all();
+        $user = Auth::user();
+        $shUserAccessDailyMoneyReport = $user->shUserAccessDailyMoneyReport();
+        $shUserChooseDailyMoneyReportStore = $user->shUserChooseDailyMoneyReportStore();
+        $storesSelectValue = $user->store_id;
+        $shUserAccessDailyMaterialReport = $user->shUserAccessDailyMaterialReport();
 
         $dailyReports = DailyReport::whereDate('created_at', Carbon::today())->get();
 
-        return view('admin.daily_reports.create', compact('dailyReports', 'materials', 'materialTypes', 'jewels', 'currencies'));
+        return view(
+          'admin.daily_reports.create', 
+          compact(
+            'dailyReports',
+            'materials',
+            'materialTypes', 
+            'jewels', 
+            'currencies',
+            'stores',
+            'shUserAccessDailyMoneyReport',
+            'shUserChooseDailyMoneyReportStore',
+            'storesSelectValue',
+            'shUserAccessDailyMaterialReport',
+          )
+        );
     }
 
     /**

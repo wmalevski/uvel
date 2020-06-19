@@ -187,4 +187,42 @@ class User extends Authenticatable
 
       return !$roleChecker->check($this, UserRole::ROLE_ADMIN) && !$roleChecker->check($this, UserRole::ROLE_STOREHOUSE);
     }
+
+    /**
+     * @return bool
+     */
+    public function shUserAccessDailyMoneyReport()
+    {
+      $roleChecker = new RoleChecker();
+
+      return (
+        $roleChecker->check($this, UserRole::ROLE_ADMIN) ||
+        $roleChecker->check($this, UserRole::ROLE_MANAGER) ||
+        $roleChecker->check($this, UserRole::ROLE_STOREHOUSE)
+      );
+    }
+
+    /**
+     * @return bool
+     */
+    public function shUserChooseDailyMoneyReportStore()
+    {
+      $roleChecker = new RoleChecker();
+
+      return $roleChecker->check($this, UserRole::ROLE_ADMIN);
+    }
+
+    /**
+     * @return bool
+     */
+    public function shUserAccessDailyMaterialReport()
+    {
+      $roleChecker = new RoleChecker();
+
+      return (
+        $roleChecker->check($this, UserRole::ROLE_ADMIN) ||
+        $roleChecker->check($this, UserRole::ROLE_MANAGER) ||
+        $roleChecker->check($this, UserRole::ROLE_STOREHOUSE)
+      );
+    }
 }
