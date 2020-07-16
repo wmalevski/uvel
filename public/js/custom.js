@@ -2633,9 +2633,7 @@ var uvel,
         if (typeIDs[i] == 1) {
           // MATERIAL IS GOLD
           if (exchangeMaterialWeight > cartMaterialWeight && cartHasItems) {
-            selectedPrice = selectedPrice || secondPrice || defaultPrice;
-
-            total += (((exchangeMaterialWeight - aboveExpected) * defaultPrice) + (aboveExpected * selectedPrice)) * selectedCurrency;
+            total += (((exchangeMaterialWeight - aboveExpected) * defaultPrice) + (aboveExpected * secondPrice)) * selectedCurrency;
 
           } else {
             total += (exchangeMaterialWeight * defaultPrice) * selectedCurrency;
