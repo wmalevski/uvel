@@ -195,17 +195,17 @@ input[type="number"][disabled] {
 
 /* Fixing the table headers on scroll */
 
-.table thead .search-inputs, .table thead th {
+.table:not(#shopping-table) thead .search-inputs, .table:not(#shopping-table) thead th {
 	border: 0 !important;
 }
 
-.table thead th {
+.table:not(#shopping-table) thead th {
 	position: sticky;
 	background-color: #f9fafb;
 	z-index: 10;
 	box-shadow: inset 0 1px #e9ecef, 0 1px #e9ecef;
 }
 
-.table thead tr:nth-child(1) th {
+.table:not(#shopping-table) thead tr:nth-child(1) th {
 	top: 65px;
 }
