@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\MaterialQuantity;
 use Illuminate\Database\Eloquent\Model;
 use Auth;
 use App\DiscountCode;
@@ -12,7 +13,6 @@ use App\PaymentDiscount;
 use App\History;
 use App\OrderItem;
 use Cart;
-use App\MaterialQuantity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
@@ -73,7 +73,6 @@ class Payment extends Model
             $payment->store_id = Auth::user()->getStore()->id;
             $payment->user_id = $userId;
 
-
             if($request->pay_method == 'false'){
                 $payment->method = 'cash';
             } else{
@@ -123,7 +122,7 @@ class Payment extends Model
 
                     $history->save();
                 }
-            };
+            }
             
             $items = [];
             
@@ -211,22 +210,27 @@ class Payment extends Model
             }
 
             if($request->exchange_method == 'true'){
-                if($request->material_id){
-                    foreach($request->material_id as $key => $material){
+                if($request->data_material_price){
+                    foreach($request->data_material_price as $key => $material){
                         if($material){
                             $exchange_material = new ExchangeMaterial();
-                            $exchange_material->material_id = $material;
+                            $exchange_material->material_id = $material['material_id'];
                             $exchange_material->payment_id = $paymentID;
                             $exchange_material->weight = $request->weight[$key];
                             $exchange_material->sum_price = $request->exchangeRows_total;
                             $exchange_material->additional_price = $request->calculating_price;
-
+                            $exchange_material->material_price_id = $material['material_price'];
                             $exchange_material->save();
 
-                            $material_quantity = MaterialQuantity::find($material);
+                            $material_quantity = MaterialQuantity::where(
+                                [
+                                    ['material_id', '=', $material['material_id']],
+                                    ['store_id', '=', Auth::user()->getStore()->id],
+                                ]
+                            )->first();
 
                             if($material_quantity){
-                                $material_quantity->quantity = $material_quantity->quantity+$request->weight[$key];
+                                $material_quantity->quantity += $request->weight[$key];
                                 $material_quantity->save();
                             }
                         }

@@ -282,6 +282,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::group(['middleware' => ['check_user_role:' . \App\Role\UserRole::ROLE_CASHIER]], function () {
         //Print
         Route::get('/selling/certificate/{id}', 'SellingController@certificate');
+        Route::get('/generate/exchangeacquittance/{id}', 'PaymentController@generateExchangeAcquittance');
 
         //Selling section
         Route::post('/sell', 'SellingController@sell')->name('sellScan');

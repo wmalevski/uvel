@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Price;
+use App\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Payment;
@@ -281,49 +283,34 @@ class PaymentController extends Controller
 
         return Response::json(array('equalization' => $pass_materials, 'orders' => $orders_earnest, 'boxes_in_order' => $boxInList));
     }
+     public function generateExchangeAcquittance($id)
+     {
+         $payment = Payment::find($id);
+         $store = Store::where('id', $payment->store_id)->first();
+         $currency = Currency::find($payment->currency_id);
+         $exchangeMaterials = $payment->exchange_materials;
+         $materials = [];
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Payment  $payments
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Payments $payment)
-    {
-        //
-    }
+         foreach ($exchangeMaterials as $exchangeMaterial) {
+             $materials[] = array(
+                 "name" => $exchangeMaterial->material->name . ' - ' . $exchangeMaterial->material->color . ' - ' . $exchangeMaterial->material->code,
+                 "carat" => $exchangeMaterial->material->carat,
+                 "price_per_weight" => Price::where(['id' => $exchangeMaterial->material_price_id])->first()->price,
+                 "weight" => $exchangeMaterial->weight
+             );
+         }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Payment  $payments
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Payment $payment)
-    {
-        //
-    }
+         if ($payment) {
+             $mpdf = new \Mpdf\Mpdf([
+                 'mode' => 'utf-8',
+                 'format' => [148, 210]
+             ]);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Payment  $payments
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Payment $payment)
-    {
-        //
-    }
+             $html = view('pdf.exchange_acquittance', compact('payment', 'store', 'materials', 'currency'))->render();
+             $mpdf->WriteHTML($html);
+             $mpdf->Output(str_replace(' ', '_', $payment->id) . '_exchange_material.pdf', \Mpdf\Output\Destination::DOWNLOAD);
+         }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Payment  $payments
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Payment $payment)
-    {
-        //
-    }
+         abort(404, 'Product not found.');
+     }
 }

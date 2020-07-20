@@ -62,6 +62,14 @@
             @endforeach
         @endif
         @if(isset($payment->info))
-            <br/>Допълнителна информация: {{ $payment->info }}</td>
+            <br/>Допълнителна информация: {{ $payment->info }}
         @endif
+    </td>
+    <td>
+        @if($payment->sellings->isEmpty() === true && $payment->exchange_materials->isEmpty() === false )
+            <a data-print-label="true" target="_blank" href="/ajax/generate/exchangeacquittance/{{$payment->id}}" class="print-btn">
+                <i class="c-brown-500 ti-printer"></i>
+            </a>
+        @endif
+    </td>
 </tr>
