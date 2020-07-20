@@ -10,6 +10,7 @@ class ExchangeMaterial extends Model
         'material_id',
         'weight',
         'retail_price_id',
+        'material_price_id',
         'payment_id',
         'order_id',
     ];

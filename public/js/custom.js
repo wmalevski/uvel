@@ -1250,7 +1250,8 @@ var uvel,
             _token: $self.formsConfig.globalSettings.token
           },
           imageCollection = [],
-          imageCollectionNames = [];
+          imageCollectionNames = [],
+          dataMaterialPrice = [];
 
       if (formType == 'edit') {
         data._method = 'PUT';
@@ -1274,6 +1275,15 @@ var uvel,
         } else if (dataKey.indexOf('[]') !== -1) {
           dataKey = dataKey.replace('[]', '');
           (data[dataKey] = data[dataKey] || []).push(dataKeyValue);
+
+          if(element.hasAttribute('data-material-id-price')) {
+            var chosenMaterialPrice = $(element).parents('.form-row').find('[name="calculating_price"]')[0].value;
+
+            dataMaterialPrice.push({
+              material_id: dataKeyValue,
+              material_price: chosenMaterialPrice
+            });
+          }
         } else {
           data[dataKey] = dataKeyValue;
         }
@@ -1307,6 +1317,7 @@ var uvel,
         }
       });
 
+      data.data_material_price = dataMaterialPrice;
       $self.sendFormRequest(form, ajaxRequestLink, formType, data);
     }
 
@@ -2334,8 +2345,7 @@ var uvel,
           exchangeTrigger = form.find('[data-exchange-trigger]'),
           newExchangeFieldTrigger = form.find('[data-newExchangeField-trigger]'),
           exchangeRow = form.find('#exchange-row'),
-          materialTypeSelect = form.find('[data-material-type ]'),
-          calculatingPrice = $('[name="calculating_price"]');
+          materialTypeSelect = form.find('[data-material-type ]');
 
       $('#paymentModal').on('click', $self.closePayments);
 
@@ -2345,15 +2355,6 @@ var uvel,
         if (newExchangeFieldTrigger.prop('disabled')) {
           newExchangeFieldTrigger.prop('disabled', false);
         }
-
-        var materialType = materialTypeSelect[0].selectedOptions[0].dataset.typeId,
-            url = calculatingPrice[0].dataset.searchUrl + materialType;
-
-        calculatingPrice[0].dataset.search = url;
-        calculatingPrice[0].disabled = false;
-
-        $self.select2Looper(calculatingPrice);
-        calculatingPrice.val('').trigger('change');
       });
 
       exchangeTrigger.on('change', function() {
@@ -2379,6 +2380,17 @@ var uvel,
       exchangeRow.on('click', '[data-exchangeRowRemove-trigger]', $self.removeSingleExchangeRow);
 
       exchangeRow.on('change', '[data-calculateprice-material]', function() {
+        var calculatingPrice = $(this).parents('.form-row').find('[name="calculating_price"]'),
+            materialId = $(this)[0].selectedOptions[0].value,
+            url = calculatingPrice[0].dataset.searchUrl + materialId;
+        
+        calculatingPrice[0].dataset.search = url;
+        calculatingPrice[0].disabled = false;
+
+        $self.select2Looper(calculatingPrice);
+        calculatingPrice.val('').trigger('change');
+        $(this).parents('.form-row').find('[data-weight]').val(0);
+
         var formRow = this.closest('.form-row'),
             disabledInputs = formRow.querySelectorAll('[disabled]');
 
@@ -2389,9 +2401,13 @@ var uvel,
         $self.exchangeSampleConvert($(this).closest('.form-row'));
       });
 
-      exchangeRow.on('change', '[data-weight]', $self.setExchangeMaterialWeight);
+      exchangeRow.on('change', '[data-weight]', function() {
+        var isPriceChosen = $(this).parents('.form-row').find('[name="calculating_price"]')[0].value.length;
 
-      calculatingPrice.on('change', function() {
+        $self.setExchangeMaterialWeight(this, isPriceChosen);
+      });
+
+      exchangeRow.on('change', '[name="calculating_price"]', function() {
         setTimeout(function() {
           $self.calculateExchangeMaterialTotal();
         }, 0);
@@ -2412,8 +2428,7 @@ var uvel,
 
     this.hideExchangeRow = function() {
       var row = $('#exchange-row'),
-          materialTypeSelect = $('[data-material-type]'),
-          calculatingPrice = document.querySelector('[name="calculating_price"]');
+          materialTypeSelect = $('[data-material-type]');
 
       row.animate({
         opacity: 0,
@@ -2422,7 +2437,6 @@ var uvel,
 
         document.querySelector('#exchange').checked = false;
         materialTypeSelect.val('').trigger('change');
-        calculatingPrice.disabled = true;
 
         $self.removeExchangeRows();
         $self.calculatePaymentInit($('[name="selling"]'));
@@ -2508,10 +2522,9 @@ var uvel,
   
         document.querySelector('.exchange-row-fields').insertAdjacentElement('beforeend', formRow);
         
-        var materials = document.querySelectorAll('.exchange-row-fields [data-calculateprice-material]'),
-            materialHolder = materials[materials.length - 1];
-  
-        $self.select2Looper($(materialHolder));
+        var materials = document.querySelectorAll('.exchange-row-fields [data-calculateprice-material], .exchange-row-fields [data-material-price]');
+
+        $self.select2Looper($(materials));
       } else if (type == 'order' && data['weight_exchange']) {
         var materialOption = $self.generateMaterialOption(data, true);
 
@@ -2562,17 +2575,17 @@ var uvel,
       }
     }
 
-    this.setExchangeMaterialWeight = function() {
-      var $this = $(this),
+    this.setExchangeMaterialWeight = function(weighInput, shCalculateMaterialsTotal) {
+      var $this = $(weighInput),
           weight = $this.val().replace(/^0+/, '');
 
       $this.val(weight);
       $this.attr('value', weight);
 
-      $self.exchangeSampleConvert($this.closest('.form-row'));
+      $self.exchangeSampleConvert($this.closest('.form-row'), shCalculateMaterialsTotal);
     }
 
-    this.exchangeSampleConvert = function(row) {
+    this.exchangeSampleConvert = function(row, shCalculateMaterialsTotal) {
       var defaultSample = parseFloat($('[data-material-type] :selected')[0].dataset.sample),
           sample = parseFloat(row.find('[data-calculateprice-material] :selected')[0].dataset.sample),
           weightHolder = row.find('[data-weight]'),
@@ -2580,8 +2593,8 @@ var uvel,
           convertedWeight = (sample / defaultSample) * currentWeight;
 
       weightHolder.attr('data-weight', convertedWeight || currentWeight);
-
-      $self.calculateExchangeMaterialTotal();
+      
+      if(shCalculateMaterialsTotal) $self.calculateExchangeMaterialTotal();
     }
 
     this.flattenExchangeMaterials = function(fields) {
@@ -2619,7 +2632,6 @@ var uvel,
           calculatingPriceHolder = document.querySelector('[name="calculating_price"]'),
           total = 0;
 
-
       for (var i = 0; i < typeIDs.length; i++) {
         var cartMaterialWeight = expectedMaterial[typeIDs[i]] ? expectedMaterial[typeIDs[i]].weight : 0,
             exchangeMaterialWeight = combinedMaterials[typeIDs[i]],
@@ -2632,19 +2644,21 @@ var uvel,
 
         if (typeIDs[i] == 1) {
           // MATERIAL IS GOLD
+
           if (exchangeMaterialWeight > cartMaterialWeight && cartHasItems) {
             total += (((exchangeMaterialWeight - aboveExpected) * defaultPrice) + (aboveExpected * secondPrice)) * selectedCurrency;
 
           } else {
-            total += (exchangeMaterialWeight * defaultPrice) * selectedCurrency;
+            if(selectedPrice) {
+              total += (exchangeMaterialWeight * selectedPrice) * selectedCurrency;
+            } else {
+              total += (exchangeMaterialWeight * defaultPrice) * selectedCurrency;
+            }
           }
-
         } else {
           selectedPrice = selectedPrice || defaultPrice;
-
           total += (exchangeMaterialWeight * selectedPrice) * selectedCurrency;
         }
-
       }
 
       document.querySelector('[data-exchangerows-total]').value = Number(total.toFixed(2)) || 0;
