@@ -106,6 +106,30 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 					</div>
 					<div class="form-row">
 						<div class="form-group col-md-6">
+							<label for="inputCity">Приемане</label>
+							<div class="input-icon form-group date-recieved">
+								<div class="input-group">
+									<div class="input-group-addon bgc-white bd bdwR-0">
+										<i class="ti-calendar"></i>
+									</div>
+									<input readonly type="text" value="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" class="form-control bdc-grey-200 not-clear" name="date_received" placeholder="Дата на приемане">
+								</div>
+							</div>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="inputZip">Срок</label>
+							<div class="timepicker-input input-icon form-group date-returned">
+								<div class="input-group">
+									<div class="input-group-addon bgc-white bd bdwR-0">
+										<i class="ti-calendar"></i>
+									</div>
+									<input type="text" data-date-autoclose="true" data-date-format="dd-mm-yyyy" name="date_returned" class="form-control bdc-grey-200 start-date" value="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" placeholder="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" data-date-start-date="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d-m-Y')}}" data-provide="datepicker">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-6">
 							<label>Модел:</label>
 							
 							<select data-url="ajax/orders/getModelInfo/" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model data-search="/ajax/select_search/models/">
@@ -338,6 +362,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 			<th data-sort-method="none">Цена на грам</th>
 			<th data-sort-method="none">Тегло</th>
 			<th>Цена</th>
+			<th>Дата</th>
 			<th>Статус</th>
 			<th data-sort-method="none">Действия</th>
 		</tr>

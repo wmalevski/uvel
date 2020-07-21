@@ -107,6 +107,8 @@ class OrderController extends Controller
         'customer_phone' => 'required|numeric',
         'jewel_id' => 'required',
         'material_id' => 'required',
+        'date_received' => 'required',
+        'date_returned' => 'required',
         'retail_price_id' => 'required|numeric|min:1',
         'weight' => 'required|numeric|between:0.1,10000',
         'gross_weight' => 'required|numeric|between:0.1,10000',
@@ -129,6 +131,8 @@ class OrderController extends Controller
     $order = new Order();
     $order->customer_name = $request->customer_name;
     $order->customer_phone = $request->customer_phone;
+    $order->date_received = $request->date_received;
+    $order->date_returned = $request->date_returned;
     $order->model_id = $request->model_id;
     $order->jewel_id = $request->jewel_id;
     $order->product_id = $request->product_id;
@@ -316,6 +320,8 @@ class OrderController extends Controller
         'customer_phone' => 'required|numeric',
         'jewel_id' => 'required',
         'material_id' => 'required',
+        'date_received' => 'required',
+        'date_returned' => 'required',
         'retail_price_id' => 'required|numeric|min:1',
         'weight' => 'required|numeric|between:0.1,10000',
         'gross_weight' => 'required|numeric|between:0.1,10000',
@@ -340,22 +346,24 @@ class OrderController extends Controller
         return Response::json(['errors' => ['using' => [trans('admin/orders.material_quantity_not_matching')]]], 401);
       }
 
-      $order->customer_name = $request->customer_name;
-      $order->customer_phone = $request->customer_phone;
-      $order->model_id = $request->model_id;
-      $order->jewel_id = $request->jewel_id;
-      $order->product_id = $request->product_id;
-      $order->material_id = $request->material_id;
-      $order->weight = $request->weight;
-      $order->gross_weight = $request->gross_weight;
-      $order->retail_price_id = $request->retail_price_id;
-      $order->size = $request->size;
-      $order->workmanship = $request->workmanship;
-      $order->price = $request->price;
-      $order->store_id = $request->store_id;
-      $order->earnest = $request->earnest;
-      $order->quantity = $request->quantity;
-      $order->content = $request->content;
+        $order->customer_name = $request->customer_name;
+        $order->customer_phone = $request->customer_phone;
+        $order->date_received = $request->date_received;
+        $order->date_returned = $request->date_returned;
+        $order->model_id = $request->model_id;
+        $order->jewel_id = $request->jewel_id;
+        $order->product_id = $request->product_id;
+        $order->material_id = $request->material_id;
+        $order->weight = $request->weight;
+        $order->gross_weight = $request->gross_weight;
+        $order->retail_price_id = $request->retail_price_id;
+        $order->size = $request->size;
+        $order->workmanship = $request->workmanship;
+        $order->price = $request->price;
+        $order->store_id = $request->store_id;
+        $order->earnest = $request->earnest;
+        $order->quantity = $request->quantity;
+        $order->content = $request->content;
 
       if ($request->with_stones == 'false') {
         $order->weight_without_stones = 'yes';
