@@ -24,7 +24,10 @@
       {{ $order->gross_weight }}
     @endif
   </td>
-  <td> {{ $order->price }} </td> 
+  <td> {{ $order->price }} </td>
+    <td>
+        {{$order->date_returned}}
+    </td>
   <td>
       @if($order->status == 'ready')
           <span class="badge bgc-deep-purple-50 c-deep-purple-700 p-10 lh-0 tt-c badge-pill">Обработена</span>
