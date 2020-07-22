@@ -41,10 +41,7 @@
   </td>
   <td>
       <span data-url="orders/{{$order->id}}" class="edit-btn" data-form-type="edit" data-form="orders" data-toggle="modal" data-target="#editOrder"><i class="c-brown-500 ti-pencil"></i></span>
-      @if($order->status == 'ready')
-          <a data-print-label="true" target="_blank" href="/ajax/orders/print/{{$order->id}}"
-              class="print-btn"><i class="c-brown-500 ti-printer"></i></a>
-      @endif
+      <a data-print-label="true" target="_blank" href="/ajax/orders/print/{{$order->id}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a>
       @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
           <span data-url="orders/delete/{{$order->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></span>
       @endif
