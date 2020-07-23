@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\ExpenseType;
+use App\MaterialTravelling;
+use App\Product;
+use App\ProductTravelling;
+use App\Selling;
 use Auth;
 use Carbon\Carbon;
 use App\DailyReport;
 use App\Payment;
 use App\Expense;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
 use Response;
 use App\Material;
 use App\MaterialType;
@@ -54,9 +61,7 @@ class DailyReportController extends Controller
 
         $dailyReports = DailyReport::whereDate('created_at', Carbon::today())->get();
 
-        return view(
-          'admin.daily_reports.create', 
-          compact(
+        return view('admin.daily_reports.create', compact(
             'dailyReports',
             'materials',
             'materialTypes', 
@@ -66,8 +71,8 @@ class DailyReportController extends Controller
             'shUserAccessDailyMoneyReport',
             'shUserChooseDailyMoneyReportStore',
             'storesSelectValue',
-            'shUserAccessDailyMaterialReport',
-          )
+            'shUserAccessDailyMaterialReport'
+            )
         );
     }
 
@@ -162,6 +167,113 @@ class DailyReportController extends Controller
             
             $report->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
+        }
+    }
+
+    public function filterInquiryDate(Request $request)
+    {
+        $validator = Validator::make( $request->all(), [
+            'dateStart' => 'required',
+            'dateEnd' => 'required',
+            'reportKey' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
+        if($request->reportKey == 'sellingreportsexport') {
+            $payments = Payment::join('sellings', 'sellings.payment_id', '=', 'payments.id')->where('payments.store_id', $request->reportStoreId)->selectRaw('sellings.product_id')->selectRaw('payments.id')->selectRaw('payments.method')->selectRaw('payments.user_id')->get();
+            $products = Product::all();
+            $store = Store::find($request->reportStoreId)->first();
+            $result = '';
+
+            foreach($payments as $payment) {
+                foreach($products as $product) {
+                    $sale = new DateTime(Selling::where('product_id', $payment->product_id )->first()->created_at);
+                    $saleDate = $sale->format('Y-m-d');
+
+                    if($product->id == $payment->product_id && $saleDate >= $request->dateStart &&  $saleDate <= $request->dateEnd) {
+                        $result .= View::make('admin.selling_reports.table_edit',array('store' => $store, 'payment' => $payment))->render();
+                    }
+                }
+            }
+
+            if(empty($result)) {
+                $result = "<div class=\"alert alert-danger\">Няма продажби между $request->dateStart и $request->dateEnd!</div>";
+
+                return Response::json(array('error' => $result));
+            }
+
+            return Response::json(array('table' => $result));
+
+        }elseif($request->reportKey == 'mtravellingreports') {
+            $materials_travellings = MaterialTravelling::all();
+            $result = '';
+
+            foreach($materials_travellings as $materials_travelling) {
+                $materialTravellingDate = new DateTime($materials_travelling->dateReceived);
+                $dateMaterialReceived = $materialTravellingDate->format('Y-m-d');
+
+                if($dateMaterialReceived >= $request->dateStart &&  $dateMaterialReceived <= $request->dateEnd) {
+                    $result .= View::make('admin.reports.mtravelling_reports.table',array('materials_travelling' => $materials_travelling))->render();
+                }
+            }
+
+            if(empty($result)) {
+                $result = "<div class=\"alert alert-danger\">Няма материали между $request->dateStart и $request->dateEnd!</div>";
+
+                return Response::json(array('error' => $result));
+            }
+
+            return Response::json(array('table' => $result));
+
+        }elseif($request->reportKey == 'productstravellingreports') {
+            $products_travellings = ProductTravelling::all();
+            $result = '';
+
+            foreach($products_travellings as $products_travelling) {
+                $productTravellingDate = new DateTime($products_travelling->date_received);
+                $dateProductReceived = $productTravellingDate->format('Y-m-d');
+
+                if($dateProductReceived >= $request->dateStart &&  $dateProductReceived <= $request->dateEnd) {
+                    $result .= View::make('admin.reports.productstravelling_reports.table',array('products_travelling' => $products_travelling))->render();
+                }
+            }
+
+            if(empty($result)) {
+                $result = "<div class=\"alert alert-danger\">Няма продукти между $request->dateStart и $request->dateEnd!</div>";
+
+                return Response::json(array('error' => $result));
+            }
+
+            return Response::json(array('table' => $result));
+
+        }elseif($request->reportKey == 'expenses') {
+            if(Auth::user()->role != 'admin') {
+                $expenses = Expense::where('store_from_id', Auth::user()->getStore()->id)->orWhere('store_to_id', Auth::user()->getStore()->id)->get();
+            } else {
+                $expenses = Expense::all();
+            }
+
+            $result = '';
+
+            foreach($expenses as $expense) {
+                $expenseDate = new DateTime($expense->created_at);
+                $dateExpenseCreatedAt = $expenseDate->format('Y-m-d');
+
+                if($dateExpenseCreatedAt >= $request->dateStart &&  $dateExpenseCreatedAt <= $request->dateEnd) {
+                    $result .= View::make('admin.expenses.table',array('expense' => $expense))->render();
+                }
+            }
+
+            if(empty($result)) {
+                $result = "<div class=\"alert alert-danger\">Няма разходи между $request->dateStart и $request->dateEnd!</div>";
+
+                return Response::json(array('error' => $result));
+            }
+
+            return Response::json(array('table' => $result));
         }
     }
 }
