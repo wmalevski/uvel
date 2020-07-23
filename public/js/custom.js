@@ -281,6 +281,59 @@ var uvel,
       $self.initializeTableSort();
       // $self.checkAllForms();
       $self.makeTableHeaderSticky();
+      $self.datepickerReportsFilter();
+    }
+
+    this.datepickerReportsFilter = function() {
+      var datepickerHolder = $('[data-filter="reports"]'),
+          dateFrom = datepickerHolder.find('input[name="date_from"]'),
+          dateTo = datepickerHolder.find('input[name="date_to"]'),
+          reportKey = datepickerHolder.attr('data-report-key'),
+          filterButton = datepickerHolder.find('#filter-reports'),
+          tableBody = $('#main_table').find('tbody'),
+          reportStoreId = $('.table').attr('data-store-id');
+
+      filterButton.click(function() {
+        if(!dateFrom[0].value || !dateTo[0].value) {
+          $self.datepickerReportsErrorsHandle(datepickerHolder);
+        } else {
+          $self.datepickerReportsRequest(reportKey, dateFrom, dateTo, tableBody, reportStoreId);
+        }
+      });
+    }
+
+    this.datepickerReportsErrorsHandle = function(datepickerHolder) {
+      var errorHolder = $('<div class="col-12"></div>');
+
+      datepickerHolder.append(errorHolder);
+      $self.appendAlertMessageToMainContent('alert-danger', 'Моля изберете валидни дати.', errorHolder, 'append', true);
+    }
+
+    this.datepickerReportsRequest = function(reportKey, dateFrom, dateTo, tableBody, reportStoreId) {
+      $.ajax({
+        method: 'POST',
+        url: '/ajax/filterInquiryDate',
+        data: {
+          dateStart: dateFrom[0].value,
+          dateEnd: dateTo[0].value,
+          reportKey: reportKey,
+          reportStoreId: reportStoreId
+        },
+        success: function(response) {
+          if(response.error) {
+            $self.replaceDatepickerResponseTable(tableBody);
+            tableBody.parents('.table').parent().append(response.error);
+          } else {
+            $self.replaceDatepickerResponseTable(tableBody);
+            tableBody.append(response.table);
+          }
+        }
+      });
+    }
+
+    this.replaceDatepickerResponseTable = function(tableBody) {
+      $('.alert-danger').remove();
+      tableBody.empty();
     }
 
     this.makeTableHeaderSticky = function () {
@@ -1050,13 +1103,17 @@ var uvel,
     }
 
     // TODO - Replace on other places where this functionality is used.
-    this.appendAlertMessageToMainContent = function(alertType, alertMessage, alertHolder, holderAction) {
+    this.appendAlertMessageToMainContent = function(alertType, alertMessage, alertHolder, holderAction, shRemoveContainerWrapper) {
       var _alertMessage = '<div class="alert ' + alertType + '">' + alertMessage + '</div>';
 
       $(alertHolder)[holderAction](_alertMessage);
 
       setTimeout(function () {
-        $('.' + alertType).remove();
+        if(shRemoveContainerWrapper) {
+          $('.' + alertType).parent().remove();
+        } else {
+          $('.' + alertType).remove();
+        }
       }, 3000);
     }
 

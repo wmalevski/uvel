@@ -440,6 +440,8 @@ Route::group(['prefix' => 'ajax'], function() {
 
         //Expenses types
         Route::post('/expensetypes/delete/{type}', 'ExpenseTypeController@destroy');
+
+        Route::post('/filterInquiryDate', 'DailyReportController@filterInquiryDate');
     });
 
     //Print
