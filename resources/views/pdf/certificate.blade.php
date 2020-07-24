@@ -30,9 +30,11 @@
             Грамаж: <strong>{{ $product->gross_weight }} гр.</strong>
         @endif
     </div>
-    <div>
-        Цена: <strong>{{ $product->price }} лв.</strong>
-    </div>
+    @if($payment->certificate == 'yes')
+        <div>
+            Цена: <strong>{{ $product->price }} лв.</strong>
+        </div>
+    @endif
     <div>
         {{ date('d-m-y') }} cм.№: {{ $product->id }}
     </div>

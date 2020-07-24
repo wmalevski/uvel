@@ -135,7 +135,6 @@ class OrderController extends Controller
         $order->date_returned = $request->date_returned;
         $order->model_id = $request->model_id;
         $order->jewel_id = $request->jewel_id;
-        $order->product_id = Product::where(['barcode' => $request->product_id])->first()->id;
         $order->material_id = $request->material_id;
         $order->weight = $request->weight;
         $order->gross_weight = $request->gross_weight;
@@ -147,6 +146,10 @@ class OrderController extends Controller
         $order->earnest = $request->earnest;
         $order->quantity = $request->quantity;
         $order->content = $request->content;
+
+        if(!is_null(Product::where(['barcode' => $request->product_id])->first())) {
+            $order->product_id = Product::where(['barcode' => $request->product_id])->first()->id;
+        }
 
         if ($request->with_stones == 'false') {
             $order->weight_without_stones = 'yes';
@@ -381,7 +384,6 @@ class OrderController extends Controller
             $order->date_returned = $request->date_returned;
             $order->model_id = $request->model_id;
             $order->jewel_id = $request->jewel_id;
-            $order->product_id = Product::where(['barcode' => $request->product_id])->first()->id;
             $order->material_id = $request->material_id;
             $order->weight = $request->weight;
             $order->gross_weight = $request->gross_weight;

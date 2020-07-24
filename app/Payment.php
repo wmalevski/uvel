@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Controllers\SellingController;
 use App\MaterialQuantity;
 use Illuminate\Database\Eloquent\Model;
 use Auth;
@@ -131,6 +132,9 @@ class Payment extends Model
                 $items[] = $item;
             });
 
+            $certificates = [];
+            $receipts = [];
+
             //Saving the sold item to a database
             foreach($items as $item){
                 $selling = new Selling();
@@ -143,10 +147,15 @@ class Payment extends Model
                     $selling->repair_id = $item->attributes->product_id;
                 } elseif($item['attributes']->type == 'product'){
                     $selling->product_id = $item->attributes->product_id;
+                    $certificates[] = route('selling_certificate', ['id' => $item->attributes->product_id, 'orderId' => null]);
+                    $receipts[] = route('selling_receipt', ['id' => $item->attributes->product_id, 'type' => 'product', 'orderId' => null]);
                 } elseif($item['attributes']->type == 'box'){
-                    $selling->product_other_id =$item->attributes->product_id;
+                    $selling->product_other_id = $item->attributes->product_id;
+                    $receipts[] = route('selling_receipt', ['id' => $item->attributes->product_id, 'type' => 'box', 'orderId' => null]);
                 } elseif($item['attributes']->type == 'order'){
                     $selling->order_id = $item->attributes->product_id;
+                    $certificates[] = route('selling_certificate', ['id' => $item->attributes->product_id, 'orderId' => $item->attributes->product_id]);
+                    $receipts[] = route('order_receipt', ['id' => $item->attributes->product_id]);
                 }
 
                 $selling->save();
@@ -255,9 +264,9 @@ class Payment extends Model
             Cart::session($session_id)->clearCartConditions();
 
             if($responseType == 'JSON'){
-                return Response::json(['success' => ['Успешно продадено!']]);
+                return Response::json(['success' => ['Успешно продадено!'], 'certificates' => $certificates, 'receipts' => $receipts]);
             }else{
-                return array('success' => ['Успешно продадено!']);
+                return array('success' => ['Успешно продадено!', 'certificates' => $certificates, 'receipts' => $receipts]);
             }
 
         }else{

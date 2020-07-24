@@ -1487,7 +1487,7 @@ var uvel,
           } else if (formType == 'edit' || formType == 'quantity') {
             $self.replaceResponseRowToTheTable(form, response);
           }
-          $self.formSuccessHandler(form, formType);
+          $self.formSuccessHandler(form, formType, response);
         },
         error: function(error) {
           $self.formsErrorHandler(error, form);
@@ -1554,6 +1554,12 @@ var uvel,
       $self.productImageClickAttach(form.parents('.main-content').find('table tbody tr').last()[0]);
     }
 
+    this.openSellingUrls = function(urlsArray) {
+      urlsArray.forEach(function(url) {
+        window.open(url);
+      });
+    }
+
     // FUNCTION THAT APPENDS SUCCESS MESSAGES TO THE FORM WHEN THE REQUEST IS SUCCESS
 
     this.formSuccessHandler = function(form, formType, resp) {
@@ -1574,6 +1580,14 @@ var uvel,
         text = 'Извършихте успешно плащане!';
         $self.clearForm(form, formType);
         $self.clearForm($('#selling-form'));
+
+        if(resp.certificates && resp.certificates.length) {
+          $self.openSellingUrls(resp.certificates);
+        }
+
+        if(resp.receipts && resp.receipts.length) {
+          $self.openSellingUrls(resp.receipts);
+        }
       } else if (formType == 'images') {
         text = resp.success;
       } else if (formType == 'dailyReport') {
