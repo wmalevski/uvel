@@ -63,12 +63,16 @@
         @elseif($payment->sellings->isEmpty() === false)
             @foreach($payment->sellings as $selling)
                 @if($selling->product_id)
-                    Сертификат ({{$product = App\Product::where('id', $selling->product_id)->first()->name}} - №: {{  $selling->product_id }}):
+                    @if(App\Product::where('id', $selling->product_id)->first())
+                        Сертификат ({{$product = App\Product::where('id', $selling->product_id)->first()->name}} - №: {{  $selling->product_id }}):
+                    @endif
                     <a data-print-label="true" target="_blank" href="{{route('selling_certificate', ['id' => $selling->product_id, 'orderId' => null])}}" class="print-btn">
                         <i class="c-brown-500 ti-printer"></i>
                     </a><br>
 
+                    @if(App\Product::where('id', $selling->product_id)->first())
                     Разсписка ({{$product = App\Product::where('id', $selling->product_id)->first()->name}} - №: {{  $selling->product_id }}):
+                    @endif
                     <a data-print-label="true" target="_blank" href="{{route('selling_receipt', ['id' => $selling->product_id, 'type' => 'product', 'orderId' => null])}}" class="print-btn">
                         <i class="c-brown-500 ti-printer"></i>
                     </a><br>
@@ -80,17 +84,24 @@
                     @elseif(!App\Order::where(['id' => $selling->order_id])->first()->product_other_id)
                         <?php $id = App\Order::where(['id' => $selling->order_id])->first()->product_other_id; ?>
                     @endif
-                    Сертификат ({{$product = App\Product::where('id', $id)->first()->name}} - №: {{  $id }}):
+
+                    @if(App\Product::where('id', $id)->first())
+                        Сертификат ({{$product = App\Product::where('id', $id)->first()->name}} - №: {{  $id }}):
+                    @endif
                     <a data-print-label="true" target="_blank" href="{{route('selling_certificate', [$id, $selling->order_id])}}" class="print-btn">
                         <i class="c-brown-500 ti-printer"></i>
                     </a><br>
 
-                    Разсписка ({{$product = App\Product::where('id', $id)->first()->name}} - №: {{  $id }}):
+                    @if(App\Product::where('id', $id)->first())
+                        Разсписка ({{$product = App\Product::where('id', $id)->first()->name}} - №: {{  $id }}):
+                    @endif
                     <a data-print-label="true" target="_blank" href="{{route('order_receipt',[$id])}}" class="print-btn">
                         <i class="c-brown-500 ti-printer"></i>
                     </a><br>
                 @elseif($selling->product_other_id)
-                    Разсписка ({{$product = App\ProductOther::where('id', $selling->product_other_id)->first()->name}} - №: {{  $selling->product_other_id }}):
+                    @if($product = App\ProductOther::where('id', $selling->product_other_id)->first())
+                        Разсписка ({{$product = App\ProductOther::where('id', $selling->product_other_id)->first()->name}} - №: {{  $selling->product_other_id }}):
+                    @endif
                     <a data-print-label="true" target="_blank" href="{{route('selling_receipt', ['id' => $selling->product_other_id, 'type' => 'box', 'orderId' => null])}}" class="print-btn">
                         <i class="c-brown-500 ti-printer"></i>
                     </a><br>
