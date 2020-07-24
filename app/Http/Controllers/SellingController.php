@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Model;
 use App\Order;
+use App\Stone;
+use App\Store;
 use DB;
 use App\Selling;
 use App\Price;
@@ -520,8 +522,22 @@ class SellingController extends Controller
         }
     }
 
-    public function certificate($id) {
+    /**
+     * Print certificate after successful admin order (selling)
+     * @param $id
+     * @throws \Mpdf\MpdfException
+     * @throws \Throwable
+     */
+    public function certificate($id, $orderID = false) {
         $product = Product::where('id', $id)->first();
+
+        if($orderID) {
+            $selling = Selling::where(['order_id' => $orderID])->first();
+        } else {
+            $selling = Selling::where(['product_id' => $id])->first();
+        }
+
+        $payment = Payment::where(['id' => $selling->payment_id])->first();
 
         if($product) {
             $material = Material::where('id', $product->material_id)->first();
@@ -537,11 +553,91 @@ class SellingController extends Controller
                 'mirrorMargins' => true
             ]);
 
-            $html = view('pdf.certificate', compact('product', 'material', 'model', 'weight'))->render();
+            $html = view('pdf.certificate', compact('product', 'material', 'model', 'weight', 'payment'))->render();
 
             $mpdf->WriteHTML($html);
 
             $mpdf->Output(str_replace(' ', '_', $product->name).'_certificate.pdf',\Mpdf\Output\Destination::DOWNLOAD);
+        }
+
+        abort(404, 'Product not found.');
+    }
+
+    /**
+     * Print receipt after successful admin order (selling)
+     * @param $id
+     * @param bool $type
+     * @param bool $orderID
+     * @throws \Mpdf\MpdfException
+     * @throws \Throwable
+     */
+    public function receipt($id, $type = false, $orderID = false)
+    {
+        if($orderID) {
+            $selling = Selling::where(['order_id' => $orderID])->first();
+        } else {
+            $selling = Selling::where(['product_id' => $id])->first();
+        }
+
+        $payment = Payment::where(['id' => $selling->payment_id])->first();
+        $store = Store::where(['id' => $payment->store_id])->first();
+
+        if($type == 'product') {
+            $product = Product::where('id', $id)->first();
+            $material = Material::where('id', $product->material_id)->first();
+            $model = Model::where('id', $product->model_id)->first();
+            $barcode = Product::where('id', $id)->first()->barcode;
+            $weight = calculate_product_weight($product);
+
+            $orderStones = [];
+            $orderExchangeMaterials = [];
+
+            if($product->stones) {
+                foreach($product->stones  as $stone) {
+                    $nomenclature = Stone::where(['id' => $stone->stone_id])->first()->nomenclature->name;
+                    $contour = Stone::where(['id' => $stone->stone_id])->first()->contour->name;
+                    $size = Stone::where(['id' => $stone->stone_id])->first()->size->name;
+                    $style = Stone::where(['id' => $stone->stone_id])->first()->style->name;
+                    $orderStones[] = "$nomenclature ($contour, $size, $style)";
+                }
+            }
+
+            if($payment->exchange_materials) {
+                foreach($payment->exchange_materials as $exchangeMaterial) {
+                    $material = Material::where('id', $exchangeMaterial->material_id)->first();
+
+                    $orderExchangeMaterials[] = array(
+                        'name' => "$material->name - $material->code - $material->color",
+                        'weight' => $exchangeMaterial->weight
+                    );
+                }
+            }
+
+        }elseif($type == 'box') {
+            $product = ProductOther::where('id', $id)->first();
+            $barcode = ProductOther::where('id', $id)->first()->barcode;
+        }
+
+        if($product) {
+            $mpdf = new \Mpdf\Mpdf([
+                'mode' => 'utf-8',
+                'format' => [148, 210],
+                'margin_top' => 4,
+                'margin_bottom' => 4,
+                'margin_left' => 4,
+                'margin_right' => 4,
+                'mirrorMargins' => true
+            ]);
+
+            if($type == 'product') {
+                $html = view('pdf.receipt', compact('product', 'material', 'model', 'weight', 'payment', 'barcode', 'store', 'orderStones', 'orderExchangeMaterials'))->render();
+            }elseif($type == 'box') {
+                $html = view('pdf.receipt', compact('product', 'payment', 'barcode', 'store'))->render();
+            }
+
+            $mpdf->WriteHTML($html);
+
+            $mpdf->Output(str_replace(' ', '_', $product->name).'_receipt.pdf',\Mpdf\Output\Destination::DOWNLOAD);
         }
 
         abort(404, 'Product not found.');

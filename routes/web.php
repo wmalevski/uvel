@@ -281,7 +281,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
 Route::group(['prefix' => 'ajax'], function() {
     Route::group(['middleware' => ['check_user_role:' . \App\Role\UserRole::ROLE_CASHIER]], function () {
         //Print
-        Route::get('/selling/certificate/{id}', 'SellingController@certificate');
+        Route::get('/selling/certificate/{id}/{orderId?}', 'SellingController@certificate')->name('selling_certificate');
+        Route::get('/selling/receipt/{id}/{type}/{orderId?}', 'SellingController@receipt')->name('selling_receipt');
         Route::get('/generate/exchangeacquittance/{id}', 'PaymentController@generateExchangeAcquittance');
 
         //Selling section
@@ -447,8 +448,7 @@ Route::group(['prefix' => 'ajax'], function() {
     //Print
     Route::get('/products/generatelabel/{barcode}', 'GenerateLabelController@generate');
     Route::get('/productsothers/generatelabel/{barcode}', 'ProductOtherController@generate');
-    Route::get('/orders/print/{id}', 'OrderController@generate');
-    Route::get('/repairs/certificate/{id}', 'RepairController@certificate');
+    Route::get('/orders/print/{id}', 'OrderController@generate')->name('order_receipt');
 
     //Search
     Route::get('/search/repairs', 'RepairController@filter');
@@ -544,7 +544,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::put('/repairs/edit/{barcode}', 'RepairController@update');
 
     Route::get('/repairs/{barcode}', 'RepairController@scan');
-    Route::get('/repairs/certificate/{id}', 'RepairController@certificate');
+    Route::get('/repairs/certificate/{id}', 'RepairController@certificate')->name('repair_receipt');
     Route::post('/repairs/delete/{repair}', 'RepairController@destroy');
 
     Route::put('/repairs/{repair}', 'RepairController@update');

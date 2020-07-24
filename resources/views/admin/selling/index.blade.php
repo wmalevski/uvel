@@ -107,16 +107,7 @@
                                 <label for="partner-modal-non-receipt">Без фискален</label>
                             </div>
                         </div>
-                        <div class="form-group col-md-4">
-                            <div class="radio radio-info">
-                                <input type="radio" id="partner-modal-ticket" class="not-clear" name="partner-modal-ticket" value="yes" checked>
-                                <label for="partner-modal-ticket">С разписка</label>
-                            </div>
-                            <div class="radio radio-info">
-                                <input type="radio" id="partner-modal-non-ticket" name="partner-modal-ticket" value="no">
-                                <label for="partner-modal-non-ticket">Без разписка</label>
-                            </div>
-                        </div>
+                        <input type="hidden" id="partner-modal-ticket" class="not-clear" name="partner-modal-ticket" value="yes">
                         <div class="col-12">
 							<hr>
 						</div>
@@ -342,16 +333,7 @@ aria-hidden="true">
                                 <label for="modal-non-receipt">Без фискален</label>
                             </div>
                         </div>
-                        <div class="form-group col-md-4">
-                            <div class="radio radio-info">
-                                <input type="radio" id="modal-ticket" class="not-clear" name="modal_ticket" value="yes" checked>
-                                <label for="modal-ticket">С разписка</label>
-                            </div>
-                            <div class="radio radio-info">
-                                <input type="radio" id="modal-non-ticket" name="modal_ticket" value="no">
-                                <label for="modal-non-ticket">Без разписка</label>
-                            </div>
-                        </div>
+                        <input type="hidden" id="modal-ticket" class="not-clear" name="modal_ticket" value="yes" checked>
                         <div class="col-12">
 							<hr>
 						</div>
@@ -375,7 +357,6 @@ aria-hidden="true">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-                    <a data-print-label="true"  target="_blank" href="@if($items && $items[0]->attributes->type == 'product')/ajax/selling/certificate/{{ $items[0]->attributes->product_id }}@endif" class="print-btn">Печат</a>
                     <button type="submit" class="btn btn-primary btn-finish-payment" disabled>Завърши плащането</button>
                 </div>
             </form>
