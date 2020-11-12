@@ -1,16 +1,16 @@
 @extends('admin.layout')
 @php
 $givenMaterialRowTpl = '<div class="form-row">
-						<div class="form-group col-md-6"> 
+						<div class="form-group col-md-6">
 							<label for="">Вид</label>
-							<select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate" data-search="/ajax/select_materials/">
+							<select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate" data-search="/ajax/select_search/parentmaterials">
 								<option value="">Избери</option>';
-								
+
 							$givenMaterialRowTpl .= '</select>
 						</div>
 						<div class="form-group col-md-5">
 							<label for="grossWeight">Количество:</label>
-							
+
 							<div class="input-group">
 								<input type="number" class="form-control mat-quantity" name="mat_quantity[]" placeHolder="0" step="0.01">
 							</div>
@@ -70,7 +70,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 				<div class="modal-body">
 					<div class="info-cont"></div>
 					{{ csrf_field() }}
-					
+
 					<div class="form-row">
 						<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
 							<input type="checkbox" id="weightWithStones" name="with_stones" class="peer" data-calculatePrice-withStones>
@@ -83,13 +83,13 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 					<div class="form-row">
 						<div class="form-group col-md-12">
 							<label for="weight">Сканирай продукт:</label>
-							
+
 							<div class="input-group">
-								<input type="text" data-url="ajax/orders/getProductInfo/" class="form-control" id="calculate_product" 
+								<input type="text" data-url="ajax/orders/getProductInfo/" class="form-control" id="calculate_product"
 											 name="product_id" placeholder="Сканирай продукт:">
 							</div>
 						</div>
-						
+
 						<div class="col-12">
 							<hr>
 						</div>
@@ -131,20 +131,20 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label>Модел:</label>
-							
+
 							<select data-url="ajax/orders/getModelInfo/" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model data-search="/ajax/select_search/models/">
 								<option value="">Избери</option>
 							</select>
 						</div>
-						
+
 						<div class="form-group col-md-6">
 							<label>Вид:</label>
-							
+
 							<select name="jewel_id" class="jewels_types form-control" data-modelFilled-jewel disabled data-search="/ajax/select_search/jewels/">
 								<option value="">Избери</option>
 							</select>
 						</div>
-						
+
 						<div class="col-12">
 							<hr>
 						</div>
@@ -153,7 +153,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 					<div class="form-row model_materials">
 						<div class="form-group col-md-12">
 							<label>Материал:</label>
-							
+
 							<select name="material_id" class="material_type form-control material calculate" data-calculatePrice-material disabled data-search="/ajax/select_search/global/materials/">
 								<option value="">Избери</option>
 							</select>
@@ -161,14 +161,14 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 
 						<div class="form-group col-md-6">
 							<label>Цена:</label>
-							
+
 							<select name="retail_price_id" class="form-control calculate prices-filled retail-price retail_prices" data-calculatePrice-retail disabled>
 								<option value="0">Избери</option>
 							</select>
 						</div>
 						<div class="form-group col-md-3 weight-holder">
 							<label for="weight">Нетно тегло:</label>
-							
+
 							<div class="input-group">
 								<input type="text" class="form-control weight calculate" id="weight" name="weight" data-calculatePrice-netWeight placeholder="Тегло:" min="1" max="10000">
 								<span class="input-group-addon">гр.</span>
@@ -177,10 +177,10 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 
 						<div class="form-group col-md-3">
 							<label for="size">Размер:</label>
-							
+
 							<input type="text" class="form-control size" id="size" name="size" placeholder="Размер:" min="1" data-modelFilld-size max="10000">
 						</div>
-						
+
 						<div class="col-12">
 							<hr>
 						</div>
@@ -197,7 +197,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 
 						<div class="form-group col-md-6">
 							<label for="totalStones">Общо за леене:</label>
-							
+
 							<div class="input-group">
 								<input type="text" class="form-control" id="totalStones" name="totalStones" data-calculateStones-total disabled>
 								<span class="input-group-addon">гр.</span>
@@ -212,7 +212,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 					<div class="form-row">
 						<div class="form-group col-md-4">
 							<label for="grossWeight">Брутно тегло:</label>
-							
+
 							<div class="input-group">
 								<input type="number" class="form-control" name="gross_weight" id="grossWeight" value="0" data-calculatePrice-grossWeight disabled>
 								<span class="input-group-addon">гр.</span>
@@ -221,7 +221,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 
 						<div class="form-group col-md-4">
 							<label for="workmanship">Изработка:</label>
-							
+
 							<div class="input-group">
 								<input type="number" class="form-control workmanship worksmanship_price" name="workmanship" id="workmanship" value="0" data-calculatePrice-worksmanship>
 								<span class="input-group-addon">лв</span>
@@ -230,13 +230,13 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 
 						<div class="form-group col-md-4">
 							<label for="price">Цена:</label>
-							
+
 							<div class="input-group">
 								<input type="number" class="form-control final_price price" name="price" id="price" value="0" data-calculatePrice-final>
 								<span class="input-group-addon">лв</span>
 							</div>
 						</div>
-						
+
 						<div class="col-12">
 							<hr>
 						</div>
@@ -246,10 +246,10 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 						<div class="form-group col-md-12">
 							<label>Магазин:</label>
 
-              <select 
-                name="store_id" 
+              <select
+                name="store_id"
                 class="form-control"
-                data-search="/ajax/select_search/stores/" 
+                data-search="/ajax/select_search/stores/"
                 @if ($disable_store_select) disabled @endif
               >
 								<option value="{{ $user_store->id }}">{{ $user_store->name }} - {{ $user_store->location }}</option>
@@ -260,7 +260,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 					<div class="form-row">
 						<div class="form-group col-md-4">
 							<label for="grossWeight">Брой:</label>
-							
+
 							<div class="input-group">
 								<input type="number" class="form-control" name="quantity" id="quantity" value="1">
 							</div>
@@ -270,12 +270,12 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 					<div class="form-row">
 						<div class="form-group col-md-12">
 							<label for="grossWeight">Описание:</label>
-							
+
 							<div class="input-group">
 								<textarea class="form-control" name="content" id="notes" placeholder="Описание на поръчката"></textarea>
 							</div>
 						</div>
-						
+
 						<div class="col-12">
 							<hr>
 						</div>
@@ -296,16 +296,16 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 								Добави друг
 							</button>
 						</div>
-						
+
 						<div class="col-12">
 							<hr>
 						</div>
 					</div>
-					
+
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label for="grossWeight">Капаро:</label>
-							
+
 							<div class="input-group">
 								<input type="number" class="form-control" name="earnest" id="earnest" placeholder="0">
 							</div>
@@ -319,10 +319,10 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							</button>
 						</div>
 					</div>
-					
-					
+
+
 				</div>
-				
+
 				<div id="errors-container"></div>
 
 				<div class="modal-footer">
@@ -382,6 +382,6 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 @section('footer-scripts')
 <script>
 	var newStoneRow = '{!! $newStoneRow !!}',
-		givenMaterialRow = '{!! $givenMaterialRowTpl !!}';				
+		givenMaterialRow = '{!! $givenMaterialRowTpl !!}';
 </script>
 @endsection
