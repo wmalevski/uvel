@@ -298,7 +298,7 @@ class OrderController extends Controller
             if(!is_null($order->product_id)) {
                 $barcode = Product::where('id', $order->product_id)->first()->barcode;
             }elseif(!is_null($order->model_id)) {
-                $barcode = Product::where('id', $order->model_id)->first()->barcode;
+                $barcode = Product::where('model_id', $order->model_id)->first()->barcode;
             }
 
             if($order->materials) {
@@ -324,12 +324,24 @@ class OrderController extends Controller
 
             $mpdf = new \Mpdf\Mpdf([
                 'mode' => 'utf-8',
-                'format' => [148, 210]
+                'format' => 'A6',
+                'default_font_size' => '10',
+                'margin-left' => 10,
+                'margin-right' => 10,
+                'margin-top' => 0,
+                'margin-bottom' => 0,
+                'margin-header' => 80,
+                'margin-footer' => 0,
+                'title' => "Поръчка №".$order->id
             ]);
 
-            $html = view('pdf.order', compact('order', 'store', 'barcode', 'material', 'model', 'orderStones', 'orderExchangeMaterials'))->render();
+            $html = '<style>@page{margin: 30px;}</style>'.view('pdf.order', compact('order', 'store', 'barcode', 'material', 'model', 'orderStones', 'orderExchangeMaterials'))->render();
 
             $mpdf->WriteHTML($html);
+
+            // For development purposes
+            // $mpdf->Output();
+            // exit;
 
             $mpdf->Output(str_replace(' ', '_', $order->id) . '_order.pdf', \Mpdf\Output\Destination::DOWNLOAD);
         }
