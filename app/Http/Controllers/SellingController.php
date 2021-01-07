@@ -45,7 +45,7 @@ Class CartCustomCondition extends CartCondition {
                 }elseif($this->getTarget() == 'total'){
                     $price = \Cart::getTotal();
                 }
-                
+
                 $value = Helpers::normalizePrice( $this->cleanValue($conditionValue) );
                 $this->parsedRawValue = $price * ($value / 100);
                 $result = floatval($totalOrSubTotalOrPrice - $this->parsedRawValue);
@@ -166,9 +166,9 @@ class SellingController extends Controller
             ['method', '=', 'cash'],
             ['store_id', '=', Auth::user()->getStore()]
         ])->whereDate('created_at', Carbon::today())->sum('given');
-            
+
         $todayReport = DailyReport::where('store_id', Auth::user()->getStore())->whereDate('created_at', Carbon::today())->get();
-        
+
         if(count($todayReport)){
             $todayReport = 'true';
         }else{
@@ -207,10 +207,10 @@ class SellingController extends Controller
                 'data-default-price' => $defaultPrice,
                 'data-second-price' => $secondPrice
             ];
-            
+
         }
 
-        
+
         return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'checkBoxType' =>  $check_box_type, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner, 'second_default_price' => $second_default_price, 'parents' => $result_materials));
     }
 
@@ -281,113 +281,123 @@ class SellingController extends Controller
     }
 
     public function sell(Request $request){
-
-        if($request->type) {
-            if ($request->amount_check == false) {
-                if ($request->type == 'repair') {
-                    if ($request->barcode) {
-                        $item = Repair::where(
-                            [
-                                ['barcode', '=', $request->barcode],
-                                ['status', '=', 'done']
-                            ]
-                        )->first();
-                    } else if ($request->catalog_number) {
-                        $item = Repair::where(
-                            [
-                                ['id', '=', $request->catalog_number],
-                                ['status', '=', 'done']
-                            ]
-                        )->first();
+        if($request->type){
+            if($request->amount_check==false){
+                if($request->type=='repair'){
+                    if($request->barcode){
+                        $item = Repair::where(array(
+                            array('barcode','=',$request->barcode),
+                            array('status','=','done')
+                        ))->first();
                     }
-                } else {
-                    if ($request->barcode) {
+                    elseif($request->catalog_number){
+                        $item = Repair::where(array(
+                            array('id','=',$request->catalog_number),
+                            array('status','=','done')
+                        ))->first();
+                    }
+                }
+                else{
+                    if($request->barcode){
                         $request_type = 'barcode';
                         $request_var = $request->barcode;
-                    } else if ($request->catalog_number) {
+                    }
+                    elseif($request->catalog_number){
                         $request_type = 'id';
                         $request_var = $request->catalog_number;
                     }
 
-                    if ($request->type == 'box') {
+                    if($request->type == 'box'){
                         $item = ProductOther::where($request_type, $request_var)->first();
-                        if ($item->quantity < $request->quantity) {
+                        if($item->quantity < $request->quantity){
                             return Response::json(['errors' => array(
                                 'quantity' => 'Системата няма това количество, което желаете да продадете.'
                             )], 401);
                         }
-                    } elseif ($request->type == 'product') {
+                    }
+                    elseif($request->type == 'product'){
                         $item = Product::where($request_type, $request_var)->first();
-                    } elseif ($request->type == 'order') {
+                    }
+                    elseif ($request->type == 'order') {
                         $item = Order::where($request_type, $request_var)->first();
                     }
                 }
 
-                if ($item) {
+                if($item){
                     $available = true;
-                    if ($item->status == 'selling') {
+                    if($item->status == 'selling'){
                         $message = 'Продуктът в момента принадлежи на друга продажба.';
                         $available = false;
-                    } elseif ($item->status == 'sold') {
+                    }
+                    elseif($item->status == 'sold'){
                         $message = 'Продуктът е продаден.';
                         $available = false;
-                    } elseif ($request->type == 'order' && $item->status == 'returning') {
+                    }
+                    elseif($request->type == 'order' && $item->status == 'returning'){
                         $message = 'Поръчката е в процес на връщане.';
                         $available = false;
-                    } elseif ($request->type == 'order' && $item->status == 'done') {
+                    }
+                    elseif($request->type == 'order' && $item->status == 'done'){
                         $message = 'Поръчката е върната.';
                         $available = false;
                     }
 
-                    if (!$available) {
+
+                    if(!$available){
                         return Response::json(['errors' => array(
                             'selling' => $message
                         )], 401);
                     }
 
-                    if ($item->status == 'travelling') {
+                    if($item->status == 'travelling'){
                         return Response::json(['errors' => array(
                             'selling' => 'Продукта в момента е на път.'
                         )], 401);
                     }
 
-                    if ($request->type == "product") {
+                    if($request->type == "product"){
                         $item->status = 'selling';
                         $item->save();
 
                         //check if carates are 14k
                         $item_material = $item->material;
-                        if ($item_material->carat != '14') {
+                        if($item_material->carat != '14'){
                             $calculated_weight = floor(($item_material->carat / 14 * $item->weight) * 100) / 100;
-                        } else {
+                        }
+                        else{
                             $calculated_weight = $item->weight;
                         }
-                    } else if ($request->type == 'repair') {
+                    }
+                    elseif($request->type == 'repair'){
                         $item->status = 'returning';
                         $item->save();
 
                         $calculated_weight = '';
-                    } elseif($request->type == 'order') {
+                    }
+                    elseif($request->type == 'order'){
                         $item->status = "returning";
                         $item->save();
-                    } else {
-                        if ($item->quantity) {
-                            $item->quantity -= 1;
+                    }
+                    else{
+                        if($item->quantity){
+                            $item->quantity-=1;
                             $item->save();
                         }
 
                         $calculated_weight = '';
                     }
                 }
-            } else {
-                if ($request->barcode && $request->type == 'box') {
+            }
+            else{
+                if($request->barcode && $request->type == 'box'){
                     $item = ProductOther::where('barcode', $request->barcode)->first();
-                } else if ($request->catalog_number && $request->type == 'box') {
+                }
+                elseif($request->catalog_number && $request->type == 'box'){
                     $item = ProductOther::where('id', $request->catalog_number)->first();
                 }
 
-                if ($item) {
-                    if ($item->quantity < $request->quantity) {
+                if($item){
+                    if($item->quantity < $request->quantity){
                         return Response::json(['errors' => array(
                             'quantity' => 'Системата няма това количество, което желаете да продадете.'
                         )], 401);
@@ -400,19 +410,20 @@ class SellingController extends Controller
                 }
             }
 
-            if ($item) {
+            if($item){
                 $userId = Auth::user()->getId(); // or any string represents user identifier
 
                 $find = Cart::session($userId)->get($item->barcode);
 
-                if ($find && $request->amount_check == false) {
+                if($find && $request->amount_check == false){
 
-                } else {
-                    if ($item->status == 'sold') {
+                }
+                else{
+                    if($item->status == 'sold'){
                         $item->price = 0;
                     }
 
-                    if ($request->type == "repair") {
+                    if($request->type == "repair"){
                         Cart::session($userId)->add(array(
                             'id' => 'R-' . $item->id,
                             'name' => 'Връщане на ремонт - ' . $item->customer_name,
@@ -425,11 +436,11 @@ class SellingController extends Controller
                                 'type' => $request->type
                             )
                         ));
-                    } elseif($request->type == "order") {
-                        if ($item->weight_without_stones == 'no') {
+                    }
+                    elseif($request->type == "order"){
+                        $weight = $item->weight;
+                        if($item->weight_without_stones == 'no'){
                             $weight = $item->gross_weight;
-                        }else {
-                            $weight = $item->weight;
                         }
 
                         Cart::session($userId)->add(array(
@@ -443,7 +454,8 @@ class SellingController extends Controller
                                 'type' => $request->type
                             )
                         ));
-                    } else if ($request->type == "box") {
+                    }
+                    elseif($request->type == "box"){
                         Cart::session($userId)->add(array(
                             'id' => 'B-' . $item->id,
                             'name' => $item->name,
@@ -456,19 +468,19 @@ class SellingController extends Controller
                                 'type' => $request->type
                             )
                         ));
-                    } else {
-                        if ($item->material) {
+                    }
+                    else{
+                        $carat = 0;
+                        if($item->material){
                             $carat = $item->material->carat;
-                        } else {
-                            $carat = 0;
                         }
 
                         $order = '';
                         $order_item_id = '';
-                        if ($request->type == 'product') {
+                        if($request->type == 'product'){
                             $order_item = OrderItem::where('product_id', $item->id)->first();
 
-                            if ($order_item) {
+                            if($order_item){
                                 $order = $order_item->order_id;
                                 $order_item_id = $order_item->id;
                             }
@@ -513,11 +525,12 @@ class SellingController extends Controller
                 $dds = round($subtotal - ($subtotal / 1.2), 2);
 
                 return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'dds' => $dds));
-
-            } else {
+            }
+            else{
                 return Response::json(array('success' => false));
             }
-        } else {
+        }
+        else{
             return Response::json(array('success' => false));
         }
     }
@@ -651,7 +664,7 @@ class SellingController extends Controller
         $quantity = Cart::session($userId)->getTotalQuantity();
 
         $items = [];
-        
+
         Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
         {
             $items[] = $item;
@@ -662,12 +675,12 @@ class SellingController extends Controller
             $table .= View::make('admin/selling/table',array('item'=>$item))->render();
         }
 
-        return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity));  
+        return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity));
     }
 
     public function clearCart(){
-        $userId = Auth::user()->getId(); 
-        
+        $userId = Auth::user()->getId();
+
         Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
         {
             $product = Product::where('barcode', $item->attributes->barcode)->first();
@@ -698,8 +711,8 @@ class SellingController extends Controller
     }
 
     public function setDiscount(Request $request, $barcode){
-        
-        $userId = Auth::user()->getId(); 
+
+        $userId = Auth::user()->getId();
 
         if(strlen($barcode) == 13){
             $discount = new DiscountCode;
@@ -713,7 +726,7 @@ class SellingController extends Controller
             $result = false;
             $setDiscount = $barcode;
         }
-        
+
 
         if(isset($setDiscount)){
             $partner = 'false';
@@ -724,7 +737,7 @@ class SellingController extends Controller
                         $partner = 'true';
                     }
                 }
-                
+
             }
 
             $partner_id = '';
@@ -755,7 +768,7 @@ class SellingController extends Controller
             $cartConditions = Cart::session($userId)->getConditions();
             $conds = array();
             $priceCon = 0;
-    
+
             if(count($cartConditions) > 0){
                 foreach(Cart::session(Auth::user()->getId())->getConditions() as $cc){
                     $priceCon += $cc->getCalculatedValue($subTotal);
@@ -771,12 +784,12 @@ class SellingController extends Controller
 
             $dds = round($subTotal - ($subTotal/1.2), 2);
 
-            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon, 'dds' => $dds));  
-        } 
+            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon, 'dds' => $dds));
+        }
     }
 
     public function removeDiscount(Request $request, $name){
-        $userId = Auth::user()->getId(); 
+        $userId = Auth::user()->getId();
         $conds = array();
 
         Cart::removeCartCondition($name);
@@ -808,8 +821,8 @@ class SellingController extends Controller
     }
 
     public function sendDiscount(Request $request){
-        
-        $userId = Auth::user()->getId(); 
+
+        $userId = Auth::user()->getId();
 
         $partner = 'false';
 
@@ -848,7 +861,7 @@ class SellingController extends Controller
         } else{
             $priceCon = 0;
         }
-        
+
         foreach($cartConditions as $key => $condition){
             $conds[$key]['value'] = $condition->getValue();
             $conds[$key]['name'] = $condition->getValue();
@@ -863,13 +876,13 @@ class SellingController extends Controller
 //        $this->sendDiscountNotification($total, $request->discount.'%', $request->description, Auth::user());
 
         return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon, 'dds' => $dds));
-        
+
     }
 
-    public function sendDiscountNotification($total, $condition, $description, $user) 
+    public function sendDiscountNotification($total, $condition, $description, $user)
     {
         $emails = explode(',', env('NOTIFICATIONS_EMAILS'));
-        
+
         Mail::send('ordernotification',
         array(
             'total' => $total,
@@ -924,7 +937,7 @@ class SellingController extends Controller
         $quantity = Cart::session($userId)->getTotalQuantity();
 
         $items = [];
-        
+
         Cart::session($userId)->getContent()->each(function($singleitem) use (&$items)
         {
             $items[] = $singleitem;
@@ -936,22 +949,22 @@ class SellingController extends Controller
         }
 
         $dds = round($subtotal - ($subtotal/1.2), 2);
-        
+
 
         if($remove){
-            return Response::json(array('success' => trans('admin/cart.item_deleted'), 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'dds' => $dds));  
+            return Response::json(array('success' => trans('admin/cart.item_deleted'), 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'dds' => $dds));
         }
     }
 
     public function printInfo(){
         //$repair = Repairs::find($id);
 
-        $userId = Auth::user()->getId(); 
+        $userId = Auth::user()->getId();
         $total = round(Cart::session($userId)->getTotal(),2);
         $subtotal = round(Cart::session($userId)->getSubTotal(),2);
 
         $items = [];
-        
+
         Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items)
         {
             $items[] = $item;

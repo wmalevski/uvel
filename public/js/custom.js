@@ -282,6 +282,7 @@ var uvel,
       // $self.checkAllForms();
       $self.makeTableHeaderSticky();
       $self.datepickerReportsFilter();
+      $self.cashRegisterFilter();
     }
 
     this.datepickerReportsFilter = function() {
@@ -335,6 +336,41 @@ var uvel,
       $('.alert-danger').remove();
       tableBody.empty();
     }
+
+
+    this.cashRegisterFilter = function(){
+      var cashRegisterHolder = $('[data-filter="cash_register"'),
+        selectedStore = cashRegisterHolder.find('select[name="store_selector"]'),
+        filterButton = cashRegisterHolder.find('button#cash_register_filter'),
+        tableBody = $('#main_table').find('tbody');
+
+      filterButton.click(function(){
+        $self.cashRegisterRequest(selectedStore[0].value, tableBody);
+      });
+    }
+    this.cashRegisterRequest = function(selectedStore, tableBody){
+      $.ajax({
+        method: 'POST',
+        url: '/ajax/filterCashRegister',
+        data: {
+          selectedStore: selectedStore
+        },
+        success: function(response) {
+          if(response.error) {
+            $self.replaceCashRegisterTable(tableBody);
+            tableBody.parents('.table').parent().append(response.error);
+          } else {
+            $self.replaceCashRegisterTable(tableBody);
+            tableBody.append(response.table);
+          }
+        }
+      });
+    }
+    this.replaceCashRegisterTable = function(tableBody){
+      $('.alert-danger').remove();
+      tableBody.empty();
+    }
+
 
     this.makeTableHeaderSticky = function () {
       // On some screens the first <tr> is taller because the word may drop on 2 rows.
@@ -537,11 +573,11 @@ var uvel,
 
     this.expandSideMenu = function() {
       var $activeMenu = $('.nav-item.active');
-      
+
       if ($activeMenu.length) {
         var activeMenuOffsetTop = $activeMenu[0].offsetTop;
 
-        if ($activeMenu.find('.dropdown-menu').length) {  
+        if ($activeMenu.find('.dropdown-menu').length) {
           $activeMenu.addClass('open');
           $activeMenu.find('.dropdown-menu').show();
         }
@@ -613,7 +649,7 @@ var uvel,
         });
       }
     }
-    
+
     this.setDailyReportsInputs = function() {
       if ($('.daily-report-create-page').length) {
         $('.input-quantity').on('input', function(event) {
@@ -728,7 +764,7 @@ var uvel,
 
     this.checkOrder = function(form) {
       var orderedProducts = document.querySelectorAll('#shopping-table [data-order-id]');
-      
+
       $.ajax({
         method: 'GET',
         url: '/ajax/sell/order_materials',
@@ -738,7 +774,7 @@ var uvel,
         error: function(response) {
           console.log(response);
         }
-      }); 
+      });
 
       if (!orderedProducts.length) {
         form.find('#deposit').val(0).attr('data-initial', 0);
@@ -849,7 +885,7 @@ var uvel,
 
         var materials = materialContainer.querySelectorAll('[data-calculateprice-material]'),
             materialHolder = materials[materials.length - 1];
-      
+
         $self.select2Looper($(materialHolder));
       } else {
         alert('Не може да добавите повече от 5 допълнителни материала!')
@@ -864,10 +900,10 @@ var uvel,
           submit = form[0].querySelector('button[type="submit"]'),
           addMaterial = form[0].querySelector('[data-add-partnermaterial]'),
           materialsHolder = form[0].querySelector('#partner-materials');
-      
+
       submit.disabled = false;
       wantedSumHolder.value = wantedWorksmanship.value;
-      
+
       addMaterial.addEventListener('click', function(e) {
         e.preventDefault();
 
@@ -1069,7 +1105,7 @@ var uvel,
           textareaDescription.prop('disabled', true);
         }
       });
-      
+
       inputDiscount.on('focusout', function (event) {
         var input = event.currentTarget,
             value = input.value;
@@ -1363,9 +1399,9 @@ var uvel,
 
                 if(imgName) imageCollectionNames.push(imgName);
               });
-  
+
               data.images = imageCollection;
-              
+
               if(!!imageCollectionNames) {
                 data.imageNames = imageCollectionNames;
               }
@@ -1410,7 +1446,7 @@ var uvel,
             $(element).prop('checked', true).change();
           } else {
             $(element).prop('checked', false).change();
-          } 
+          }
         } else {
           element.value = '';
         }
@@ -1491,9 +1527,9 @@ var uvel,
         },
         error: function(error) {
           $self.formsErrorHandler(error, form);
-          
+
           if(formType === 'edit') {
-            form.find('[type="submit"]').prop('disabled', false); 
+            form.find('[type="submit"]').prop('disabled', false);
           }
         },
         complete: function() {
@@ -1957,7 +1993,7 @@ var uvel,
         if (stone) {
           $(fieldsHolder).find('[data-calculateStones-amount]').attr('value', stone.amount);
           $(fieldsHolder).find('[data-calculateStones-weight]').attr('value', stone.attributes['data-weight']);
-          
+
           var selectField = $(fieldsHolder).find('[data-calculateprice-stone]');
 
           $self.addOptionToSelect(stone, selectField, true);
@@ -1976,7 +2012,7 @@ var uvel,
         var selects = $(currentRow).find('select');
 
         $self.select2Looper(selects);
-       
+
 
         var forFlowCollection = $('.stone-flow');
         $self.giveElementsIds(forFlowCollection);
@@ -2000,7 +2036,7 @@ var uvel,
 
       $(option).attr(data.attributes);
       selectField.append(option);
-      
+
       if (selectField.hasClass('jewels_types')) {
         selectField.attr('disabled', true);
       } else {
@@ -2134,7 +2170,7 @@ var uvel,
     this.calculatePriceHandler = function(form, _this) {
       var row = _this.closest('.form-row');
       if (row.find('[data-calculatePrice-default]:checked').length > 0 || row.find('[data-calculatePrice-netWeight]').length > 0 || form.attr('name') == 'products' || _this.closest('.model_stones').length > 0 || _this[0].hasAttribute('data-calculateprice-withstones')) {
-                
+
         if (_this[0].hasAttribute('data-calculatePrice-default')) {
           form.find('[data-calculatePrice-default].not-clear').removeClass('not-clear');
           form.find('.form-row.not-clear').removeClass('not-clear');
@@ -2142,7 +2178,7 @@ var uvel,
           _this.addClass('not-clear');
           _this.closest('.form-row').addClass('not-clear');
         }
-        
+
         $self.calculatePrice(form);
       }
     }
@@ -2454,7 +2490,7 @@ var uvel,
         var calculatingPrice = $(this).parents('.form-row').find('[name="calculating_price"]'),
             materialId = $(this)[0].selectedOptions[0].value,
             url = calculatingPrice[0].dataset.searchUrl + materialId;
-        
+
         calculatingPrice[0].dataset.search = url;
         calculatingPrice[0].disabled = false;
 
@@ -2586,13 +2622,13 @@ var uvel,
           var material = formRow.querySelector('[data-calculateprice-material]'),
               materialSelected = materialType.selectedOptions[0].dataset.typeId,
               url = material.dataset.searchUrl + materialSelected;
-  
+
           material.disabled = false;
           material.dataset.search = url;
         }
-  
+
         document.querySelector('.exchange-row-fields').insertAdjacentElement('beforeend', formRow);
-        
+
         var materials = document.querySelectorAll('.exchange-row-fields [data-calculateprice-material], .exchange-row-fields [data-material-price]');
 
         $self.select2Looper($(materials));
@@ -2664,7 +2700,7 @@ var uvel,
           convertedWeight = (sample / defaultSample) * currentWeight;
 
       weightHolder.attr('data-weight', convertedWeight || currentWeight);
-      
+
       if(shCalculateMaterialsTotal) $self.calculateExchangeMaterialTotal();
     }
 
@@ -2684,7 +2720,7 @@ var uvel,
           var material = fields[i].querySelector('[data-calculateprice-material]'),
               weight = parseFloat(fields[i].querySelector('[data-weight]').dataset.weight) || 0,
               type = material.selectedOptions[0].dataset.materialType ? material.selectedOptions[0].dataset.materialType : materialTypeSelect.selectedOptions[0].dataset.typeId;
-          
+
           flatten[type] = flatten[type] ? flatten[type] + weight : weight;
         }
       }
@@ -2771,12 +2807,12 @@ var uvel,
         returnSum = Number(exchangeSum.toFixed(2));
       }
 
-      if (returnSum >= 0) {        
+      if (returnSum >= 0) {
         form.find('.btn-finish-payment, .btn-print').prop('disabled', false);
       } else {
         form.find('.btn-finish-payment, .btn-print').prop('disabled', true);
       }
-      
+
       returnHolder.val(returnSum);
     }
 
@@ -2784,7 +2820,7 @@ var uvel,
       var deposit = form.find('#deposit'),
           selectedCurrency = parseFloat(document.querySelector('[data-calculatepayment-currency]').selectedOptions[0].dataset.currency);
           depositNew = parseFloat((deposit[0].dataset.initial * selectedCurrency).toFixed(2));
-      
+
       deposit.val(depositNew);
       $self.getWantedSum(form);
 
@@ -2995,7 +3031,7 @@ var uvel,
     this.uploadImages = function(event, form) {
       var files = event.target.files,
           collectionFiles = [];
-      
+
       for (var file of files) {
         if (file.type == "image/svg+xml") {
           alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
@@ -3009,16 +3045,16 @@ var uvel,
 
     this.getBase64Image = function(img) {
       var canvas = document.createElement("canvas");
-      
+
       canvas.width = img.naturalWidth;
       canvas.height = img.naturalHeight;
 
       var ctx = canvas.getContext("2d");
-      
+
       ctx.drawImage(img, 0, 0);
-      
+
       var dataURL = canvas.toDataURL("image/png");
-      
+
       return dataURL;
     }
 
@@ -3170,7 +3206,7 @@ var uvel,
         $('#website_visible').prop('checked', false);
       });
     }
-    
+
     this.transferCheckboxInit = function() {
       $('[data-transfer]').on('change', function(event) {
         var target = this.dataset.transfer;
@@ -3361,7 +3397,7 @@ var uvel,
     }
 
     this.initializeSelect = function(select, callback, options) {
-      
+
       $(select).select2(options);
       $(select).on('select2:select', callback);
       $(select).on("select2:opening", function (event) {
@@ -3474,21 +3510,21 @@ var uvel,
           timeout;
 
       inputsDynamicSearch.on('input', function(event) {
-        
+
         var inputElement = event.currentTarget;
 
         var ajaxResultsResponse = function(response) {
           var $table = $(inputElement).parents('table').find('tbody');
-          
+
           $table.html(response);
-          
+
           var $editButtons = $table.find('[data-form]'),
               $deleteButtons = $table.find('.delete-btn');
 
           $editButtons.on('click', function() {
             $self.openFormAction($(this));
           });
-          
+
           $self.deleteRow($deleteButtons);
           $self.productImageClickAttach();
           $table.removeClass('inactive');

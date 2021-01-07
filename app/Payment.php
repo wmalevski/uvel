@@ -17,10 +17,11 @@ use Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
+use App\CashRegister;
 
 class Payment extends Model
 {
-    protected $fillable = [
+    protected $fillable = array(
         'currency',
         'method',
         'receipt',
@@ -28,7 +29,7 @@ class Payment extends Model
         'price',
         'given',
         'store_id'
-    ];
+    );
 
     protected $table = 'payments';
 
@@ -57,11 +58,12 @@ class Payment extends Model
             $validator = Validator::make( $request->all(), [
                 'given_sum'  => 'required|numeric|between:0,10000000',
             ]);
-    
-            if ($validator->fails()) {
+
+            if($validator->fails()){
                 if($responseType == 'JSON'){
                     return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
-                }else{
+                }
+                else{
                     return array('errors' => $validator->errors());
                 }
             }
@@ -74,39 +76,25 @@ class Payment extends Model
             $payment->store_id = Auth::user()->getStore()->id;
             $payment->user_id = $userId;
 
-            if($request->pay_method == 'false'){
-                $payment->method = 'cash';
-            } else{
-                $payment->method = 'post';
-            }
-
-            if($request->modal_receipt == 'no'){
-                $payment->receipt = 'no';
-            } else{
-                $payment->receipt = 'yes';
-            }
-
-            if($request->modal_ticket == 'no'){
-                $payment->ticket = 'no';
-            } else{
-                $payment->ticket = 'yes';
-            }
-
-            if($request->modal_certificate == 'no'){
-                $payment->certificate = 'no';
-            } else{
-                $payment->certificate = 'yes';
-            }
+            $payment->method = ($request->pay_method == 'false'?'cash':'post');
+            $payment->receipt = ($request->modal_receipt == 'no'?'no':'yes');
+            $payment->ticket = ($request->modal_ticket == 'no'?'no':'yes');
+            $payment->certificate = ($request->modal_certificate=='no'?'no':'yes');
 
             $payment->save();
 
+
+            // Add the payment to the Cash Register
+            $cashRegister = new CashRegister();
+            $cashRegister->RecordIncome($request->wanted_sum, $request->pay_currency, $payment->store_id);
+
+
             $paymentID = $payment->id;
             $session_id = session()->getId();
-            //Saving car's conditions(discounts only) to the database.
+            //Saving cart's conditions(discounts only) to the database.
             $cartConditions = Cart::session($userId)->getConditions();
             foreach($cartConditions as $condition){
-                if($condition->getName() != 'ДДС')
-                {
+                if($condition->getName() != 'ДДС'){
                     $discount = new PaymentDiscount();
                     $discount->discount_code_id = $condition->getAttributes()['discount_id'];
                     $discount->payment_id = $paymentID;
@@ -114,9 +102,9 @@ class Payment extends Model
 
                     //Store the notification
                     $history = new History();
-                    
-                    $history->action = 'discount'; 
-                    $history->subaction = 'used'; 
+
+                    $history->action = 'discount';
+                    $history->subaction = 'used';
                     $history->user_id = Auth::user()->getId();
                     $history->table = 'discount_codes';
                     $history->discount_id = $condition->getAttributes()['discount_id'];
@@ -124,16 +112,15 @@ class Payment extends Model
                     $history->save();
                 }
             }
-            
-            $items = [];
-            
-            Cart::session($userId)->getContent()->each(function($item) use (&$items)
-            {
+
+            $items = array();
+
+            Cart::session($userId)->getContent()->each(function($item) use (&$items){
                 $items[] = $item;
             });
 
-            $certificates = [];
-            $receipts = [];
+            $certificates = array();
+            $receipts = array();
 
             //Saving the sold item to a database
             foreach($items as $item){
@@ -145,14 +132,17 @@ class Payment extends Model
 
                 if($item['attributes']->type == 'repair'){
                     $selling->repair_id = $item->attributes->product_id;
-                } elseif($item['attributes']->type == 'product'){
+                }
+                elseif($item['attributes']->type == 'product'){
                     $selling->product_id = $item->attributes->product_id;
                     $certificates[] = route('selling_certificate', ['id' => $item->attributes->product_id, 'orderId' => null]);
                     $receipts[] = route('selling_receipt', ['id' => $item->attributes->product_id, 'type' => 'product', 'orderId' => null]);
-                } elseif($item['attributes']->type == 'box'){
+                }
+                elseif($item['attributes']->type == 'box'){
                     $selling->product_other_id = $item->attributes->product_id;
                     $receipts[] = route('selling_receipt', ['id' => $item->attributes->product_id, 'type' => 'box', 'orderId' => null]);
-                } elseif($item['attributes']->type == 'order'){
+                }
+                elseif($item['attributes']->type == 'order'){
                     $selling->order_id = $item->attributes->product_id;
                     $certificates[] = route('selling_certificate', ['id' => $item->attributes->product_id, 'orderId' => $item->attributes->product_id]);
                     $receipts[] = route('order_receipt', ['id' => $item->attributes->product_id]);
@@ -161,8 +151,7 @@ class Payment extends Model
                 $selling->save();
             }
 
-            foreach(Cart::session($userId)->getContent() as $item)
-            {
+            foreach(Cart::session($userId)->getContent() as $item){
                 if($item->attributes->type == 'repair'){
                     $repair = Repair::where('id', $item->attributes->product_id)->first();
 
@@ -170,14 +159,16 @@ class Payment extends Model
                         $repair->status = 'returned';
                         $repair->save();
                     }
-                } elseif($item->attributes->type == 'order'){
+                }
+                elseif($item->attributes->type == 'order'){
                     $order = Order::where('id', $item->attributes->product_id)->first();
 
                     if($order){
                         $order->status = 'done';
                         $order->save();
                     }
-                } elseif($item->attributes->type == 'product'){
+                }
+                elseif($item->attributes->type == 'product'){
                     $product = Product::where('id',$item->attributes->product_id)->first();
 
                     if($product){
@@ -186,17 +177,16 @@ class Payment extends Model
 
                         if($item->attributes->order != ''){
                             $order_item = OrderItem::find($item->attributes->order_item_id);
-                            
+
                             $order = Order::find($item->attributes->order);
                             $materials = $order->materials;
 
                             if($materials){
                                 foreach($materials as $material){
                                     if($material->material_id == $order->material_id){
+                                        $material->weight = $material->weight - $order_item->product->weight;
                                         if($material->weight - $order_item->product->weight <= 0){
                                             $material->weight = 0;
-                                        }else{
-                                            $material->weight = $material->weight - $order_item->product->weight;
                                         }
 
                                         $material->save();
@@ -231,12 +221,10 @@ class Payment extends Model
                             $exchange_material->material_price_id = $material['material_price'];
                             $exchange_material->save();
 
-                            $material_quantity = MaterialQuantity::where(
-                                [
-                                    ['material_id', '=', $material['material_id']],
-                                    ['store_id', '=', Auth::user()->getStore()->id],
-                                ]
-                            )->first();
+                            $material_quantity = MaterialQuantity::where(array(
+                                array('material_id','=',$material['material_id']),
+                                array('store_id','=',Auth::user()->getStore()->id)
+                            ))->first();
 
                             if($material_quantity){
                                 $material_quantity->quantity += $request->weight[$key];
@@ -249,15 +237,15 @@ class Payment extends Model
 
             //Store the notification
             $history = new History();
-            
-            $history->action = 'payment'; 
-            $history->subaction = 'successful'; 
+
+            $history->action = 'payment';
+            $history->subaction = 'successful';
             $history->user_id = Auth::user()->getId();
             $history->table = 'payments';
             $history->payment_id = $payment->id;
 
             $history->save();
-            
+
             Cart::clear();
             Cart::clearCartConditions();
             Cart::session($session_id)->clear();
@@ -265,14 +253,16 @@ class Payment extends Model
 
             if($responseType == 'JSON'){
                 return Response::json(['success' => ['Успешно продадено!'], 'certificates' => $certificates, 'receipts' => $receipts]);
-            }else{
+            }
+            else{
                 return array('success' => ['Успешно продадено!', 'certificates' => $certificates, 'receipts' => $receipts]);
             }
-
-        }else{
+        }
+        else{
             if($responseType == 'JSON'){
                 return Response::json(['errors' => ['more_money' => ['Магазинера трябва да приеме сума равна или по-голяма от дължимата сума.']]], 401);
-            }else{
+            }
+            else{
                 return array('errors' => array('more_money' => ['Магазинера трябва да приеме сума равна или по-голяма от дължимата сума.']));
             }
         }

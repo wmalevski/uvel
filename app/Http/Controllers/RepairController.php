@@ -18,6 +18,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Input;
 use App\MaterialQuantity;
+use App\CashRegister;
 
 class RepairController extends Controller
 {
@@ -31,7 +32,7 @@ class RepairController extends Controller
         $repairTypes = RepairType::take(env('SELECT_PRELOADED'))->get();
         $repairs = Repair::all()->sortByDesc('created_at');
         $materials = Material::take(env('SELECT_PRELOADED'))->get();
-        
+
         return \View::make('admin/repairs/index', array('loggedUser' => Auth::user(), 'repairTypes' => $repairTypes, 'repairs' => $repairs, 'materials' => $materials));
     }
 
@@ -51,22 +52,21 @@ class RepairController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $validator = Validator::make( $request->all(), [
+    public function store(Request $request){
+        $validator = Validator::make( $request->all(), array(
             'customer_name' => 'required',
             "customer_phone" => 'required|phone',
             'type_id' => 'required',
             'date_returned' => 'required',
             'weight' => 'required|numeric',
             'price' => 'required|numeric|between:0.1,5000'
-         ]);
-        
-        if ($validator->fails()) {
+        ));
+
+        if($validator->fails()){
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $repair = Repair::create([
+        $repair = Repair::create(array(
             'store_id'      => Auth::user()->store_id,
             'customer_name' => $request->customer_name,
             'customer_phone' => $request->customer_phone,
@@ -78,11 +78,11 @@ class RepairController extends Controller
             'repair_description' => $request->repair_description,
             'material_id' => $request->material_id,
             'status' => 'repairing'
-        ]);
-        
-        $bar = '380'.unique_number('repairs', 'barcode', 7).'1'; 
+        ));
 
-        $digits =(string)$bar;
+        $bar = '380'.unique_number('repairs', 'barcode', 7).'1';
+
+        $digits = (string)$bar;
         // 1. Add the values of the digits in the even-numbered positions: 2, 4, 6, etc.
         $even_sum = $digits{1} + $digits{3} + $digits{5} + $digits{7} + $digits{9} + $digits{11};
         // 2. Multiply this result by 3.
@@ -167,14 +167,14 @@ class RepairController extends Controller
         if($repair){
             if($repair->status == 'done'){
                 $userId = Auth::user()->getId();
-        
+
                 $price = $repair->price;
                 $weight = $repair->weight;
-        
+
                 if($repair->price_after != ''){
                     $price = $repair->price_after;
                 }
-        
+
                 if($repair->weight_after != ''){
                     $weight = $repair->weight_after;
                 }
@@ -217,12 +217,12 @@ class RepairController extends Controller
             $repair->customer_name = $request->customer_name;
             $repair->customer_phone = $request->customer_phone;
             $repair->date_returned = Carbon::parse(Carbon::now())->format('d-m-Y');
-            $repair->price_after = $request->price_after; 
+            $repair->price_after = $request->price_after;
             $repair->repair_description = $request->repair_description;
             $repair->material_id = $request->material_id;
             $repair->weight_after = $request->weight_after;
             $repair->type_id = $request->type_id;
-            
+
             $repair->save();
 
             // $history = new History;
@@ -241,8 +241,7 @@ class RepairController extends Controller
      * @param  \App\Repair  $repairs
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $barcode)
-    {
+    public function update(Request $request, $barcode){
 
         $repair = Repair::where('barcode', $barcode)->first();
         if($request->status == 'true'){
@@ -275,7 +274,7 @@ class RepairController extends Controller
          $repair->customer_name = $request->customer_name;
          $repair->customer_phone = $request->customer_phone;
          $repair->date_returned = $request->date_returned;
-         $repair->price_after = $request->price_after; 
+         $repair->price_after = $request->price_after;
          $repair->repair_description = $request->repair_description;
          $repair->material_id = $request->material_id;
          $repair->weight_after = $request->weight_after;
@@ -294,9 +293,16 @@ class RepairController extends Controller
                 }
             }
         }
-    
+
         $repair->save();
-        
+
+
+        // Add the payment for the repair to the Cash Register
+        $cashRegister = new CashRegister();
+        $cashRegister->RecordIncome($repair->price_after, false, $repair->store_id);
+
+
+
         return Response::json(array('ID' => $repair->id, 'table' => View::make('admin/repairs/table',array('repair'=>$repair))->render(), 'ID' => $repair->id));
     }
 

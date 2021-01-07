@@ -15,6 +15,7 @@ use App\UserPaymentProduct;
 use Auth;
 use Cart;
 use Mail;
+use App\CashRegister;
 
 class UserPayment extends Model
 {
@@ -24,11 +25,10 @@ class UserPayment extends Model
         $total = round(Cart::session($session_id)->getTotal(),2);
         $subtotal = round(Cart::session($session_id)->getSubTotal(),2);
         $quantity = Cart::session($session_id)->getTotalQuantity();
-        
+
         $items = [];
-        
-        Cart::session($session_id)->getContent()->each(function($item) use (&$items)
-        {
+
+        Cart::session($session_id)->getContent()->each(function($item) use (&$items){
             $items[] = $item;
         });
 
@@ -43,26 +43,34 @@ class UserPayment extends Model
 
             if(session('cart_info.0.shipping_method') == 'office_address' || session('cart_info.0.shipping_method') == 'home_address'){
                 $payment->shipping_address = session('cart_info.0.shipping_address');
-            } else if(session('cart_info.0.shipping_method') == 'store'){
+            }
+            elseif(session('cart_info.0.shipping_method') == 'store'){
                 $payment->store_id = session('cart_info.0.store_id');
             }
 
+            $payment->status = 'waiting_user';
             if($payment->payment_method == 'paypal' || $payment->shipping_method == 'office_address' || $payment->shipping_method == 'home_address'){
                 $payment->status = 'done';
-            }else{
-                $payment->status = 'waiting_user';
             }
 
             $payment->save();
 
-            //send sms to the admin
-            Mail::send('sms',
-                array(
-                    'content' => "Porychka nalichni! ID " . UserPayment::all()->last()->pluck('id')
-                ), function($message) {
-                    $message->from("info@uvel.bg");
-                    $message->to("359888770160@sms.telenor.bg")->subject('Nalichni');
-            });
+
+            // Add the payment to the Cash Register
+            $cashRegister = new CashRegister();
+            $cashRegister->RecordIncome($payment->price, false, $payment->store_id);
+
+
+            // Send Email-to-SMS to the admin, only if the environment is not LOCAL or DEVELOPMENT
+            if(strtolower(env('APP_ENV')) !== 'local' && strtolower(env('APP_ENV')) !== 'development'){
+                Mail::send('sms',
+                    array(
+                        'content' => "Porychka nalichni! ID " . UserPayment::all()->last()->pluck('id')
+                    ), function($message) {
+                        $message->from("info@uvel.bg");
+                        $message->to("359888770160@sms.telenor.bg")->subject('Nalichni');
+                });
+            }
 
             $elements = ['App\UserPaymentProduct', 'App\Selling'];
 
@@ -74,33 +82,34 @@ class UserPayment extends Model
                     $selling->price = $item->price;
                     $selling->payment_id = $payment->id;
 
-                    if ($item->attributes->type == 'model') {
+                    if($item->attributes->type == 'model'){
                         $selling->model_id = $item->attributes->product_id;
-                    } elseif ($item->attributes->type == 'product') {
+                    }
+                    elseif($item->attributes->type == 'product'){
                         $selling->product_id = $item->attributes->product_id;
-                    } elseif ($item->attributes->type == 'box') {
+                    }
+                    elseif ($item->attributes->type == 'box'){
                         $selling->product_other_id = $item->attributes->product_id;
                     }
 
                     $selling->save();
                 }
             }
-            
-            foreach(Cart::session($userId)->getContent() as $item)
-            {
+
+            foreach(Cart::session($userId)->getContent() as $item){
                 if($item->attributes->type == 'product'){
                     $product = Product::where('id', $item->attributes->product_id)->first();
 
                     if($product){
+                        $payment->status = 'reserved';
                         if($payment->payment_method == 'paypal' || $payment->shipping_method == 'office_address' || $payment->shipping_method == 'home_address'){
                             $product->status = 'sold';
-                        } else{
-                            $payment->status = 'reserved';
                         }
-                        
+
                         $product->save();
                     }
-                } else if($item->attributes->type == 'box'){
+                }
+                elseif($item->attributes->type == 'box'){
                     $box = ProductOther::where('id', $item->attributes->product_id)->first();
 
                     if($box){

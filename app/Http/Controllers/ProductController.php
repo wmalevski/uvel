@@ -46,7 +46,7 @@ class ProductController extends Controller
         $loggedUser = Auth::user();
 
         $pass_stones = array();
-        
+
         foreach($stones as $stone){
             $pass_stones[] = [
                 'value' => $stone->id,
@@ -60,7 +60,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Show all products reviews 
+     * Show all products reviews
      */
     public function showReviews()
     {
@@ -79,7 +79,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        
+
     }
 
     public function productsReport()
@@ -161,7 +161,7 @@ class ProductController extends Controller
         }else{
             return $product;
         }
-        
+
     }
 
     /**
@@ -203,11 +203,11 @@ class ProductController extends Controller
         foreach($photos as $photo){
             $url =  Storage::get('public/products/'.$photo->photo);
             $ext_url = Storage::url('public/products/'.$photo->photo);
-            
+
             $info = pathinfo($ext_url);
-            
+
             $image_name =  basename($ext_url,'.'.$info['extension']);
-            
+
             $base64 = base64_encode($url);
 
             if($info['extension'] == "svg"){
@@ -240,7 +240,7 @@ class ProductController extends Controller
             $jewels = Jewel::all();
             $prices = Price::where('type', 'sell')->get();
             $stones = Stone::all();
-    
+
             $photos = Gallery::where(
                 [
                     ['table', '=', 'products'],
@@ -263,7 +263,7 @@ class ProductController extends Controller
             }
 
             $validator = Validator::make( $request->all(), $validate_data);
-    
+
             if ($validator->fails()) {
                 return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
             }
@@ -294,7 +294,7 @@ class ProductController extends Controller
             }
 
             $store_data = Auth::user()->role == 'storehouse' && !isset($request->store_id)? "1" : $request->store_id;
-    
+
             $product->material_id = $request->material_id;
             $product->model_id = $request->model_id;
             $product->jewel_id = $request->jewel_id;
@@ -317,39 +317,39 @@ class ProductController extends Controller
             }else{
                 $product->website_visible =  'no';
             }
-    
+
             $product->save();
 
             $path = public_path('uploads/products/');
-            
+
             File::makeDirectory($path, 0775, true, true);
-    
-            $file_data = $request->input('images'); 
+
+            $file_data = $request->input('images');
             if($file_data){
                 foreach($file_data as $img){
                     $memi = substr($img, 5, strpos($img, ';')-5);
-                    
+
                     $extension = explode('/',$memi);
-        
+
                     if($extension[1] == "svg+xml"){
                         $ext = 'png';
                     }else{
                         $ext = $extension[1];
                     }
-                    
-        
+
+
                     $file_name = 'productimage_'.uniqid().time().'.'.$ext;
-                    
+
                     $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
                     file_put_contents(public_path('uploads/products/').$file_name, $data);
 
                     Storage::disk('public')->put('products/'.$file_name, file_get_contents(public_path('uploads/products/').$file_name));
-        
+
                     $photo = new Gallery();
                     $photo->photo = $file_name;
                     $photo->product_id = $product->id;
                     $photo->table = 'products';
-        
+
                     $photo->save();
                 }
             }
@@ -404,9 +404,9 @@ class ProductController extends Controller
                     ['product_id', '=', $product->id]
                 ]
             )->get();
-    
+
             $photosHtml = '';
-            
+
             foreach($product_photos as $photo){
                 $photosHtml .= '
                     <div class="image-wrapper">
@@ -416,7 +416,7 @@ class ProductController extends Controller
             }
 
             return Response::json(array('table' => View::make('admin/products/table',array('product' => $product))->render(), 'photos' => $photosHtml, 'ID' => $product->id));
-        }  
+        }
     }
 
     /**
@@ -449,7 +449,8 @@ class ProductController extends Controller
 
         $material =  Material::where('id', $product->material_id)->first();
         $jewel = Jewel::where('id',$product->jewel_id)->first();
-        $barcode = DNS1D::getBarcodeSVG($product->barcode, "EAN13",1,33,"black", true);
+        $barcode = new DNS1D();
+        $barcode = $barcode->getBarcodeSVG($product->barcode, "EAN13",1,33,"black", true);
 
         $product_info = array(
             "id"                => $product->id,

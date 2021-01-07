@@ -29,6 +29,7 @@ use App\ProductTravelling;
 use App\ExchangeMaterial;
 use Auth;
 use App\OrderItem;
+use App\CashRegister;
 
 class OrderController extends Controller
 {
@@ -99,10 +100,8 @@ class OrderController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-
-        $validator = Validator::make($request->all(), [
+    public function store(Request $request){
+        $validator = Validator::make($request->all(), array(
             'customer_name' => 'required',
             'customer_phone' => 'required|numeric',
             'jewel_id' => 'required',
@@ -120,9 +119,9 @@ class OrderController extends Controller
             'safe_group' => 'numeric|nullable',
             'quantity' => 'required',
             'mat_quantity.*' => 'numeric|min:1'
-        ]);
+        ));
 
-        if ($validator->fails()) {
+        if($validator->fails()){
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
@@ -147,22 +146,18 @@ class OrderController extends Controller
         $order->quantity = $request->quantity;
         $order->content = $request->content;
 
-        if(!is_null(Product::where(['barcode' => $request->product_id])->first())) {
+        if(!is_null(Product::where(['barcode' => $request->product_id])->first())){
             $order->product_id = Product::where(['barcode' => $request->product_id])->first()->id;
         }
 
-        if ($request->with_stones == 'false') {
-            $order->weight_without_stones = 'yes';
-        } else {
-            $order->weight_without_stones = 'no';
-        }
+        $order->weight_without_stones = ($request->with_stones == 'false'? 'yes' : 'no');
 
-        $findModel = ModelOption::where([
-            ['material_id', '=', $request->material],
-            ['model_id', '=', $request->model]
-        ])->get();
+        $findModel = ModelOption::where(array(
+            array('material_id','=',$request->material),
+            array('model_id','=',$request->model)
+        ))->get();
 
-        if (!$findModel) {
+        if(!$findModel){
             $option = new ModelOption();
             $option->material_id = $request->material_id;
             $option->model_id = $request->model_id;
@@ -172,11 +167,11 @@ class OrderController extends Controller
         }
 
         $stoneQuantity = 1;
-        if ($request->stones) {
-            foreach ($request->stones as $key => $stone) {
-                if ($stone) {
+        if($request->stones){
+            foreach($request->stones as $key => $stone){
+                if($stone){
                     $checkStone = Stone::find($stone);
-                    if ($checkStone->amount < $request->stone_amount[$key]) {
+                    if($checkStone->amount < $request->stone_amount[$key]){
                         $stoneQuantity = 0;
                         return Response::json(['errors' => ['stone_weight' => [trans('admin/orders.stone_quantity_not_matching')]]], 401);
                     }
@@ -189,30 +184,29 @@ class OrderController extends Controller
 
         $order->save();
 
-        if ($request->stones) {
-            if ($stoneQuantity == 1) {
 
-                foreach ($request->stones as $key => $stone) {
-                    if ($stone) {
-                        $order_stones = new OrderStone();
-                        $order_stones->order_id = $order->id;
-                        $order_stones->stone_id = $stone;
-                        $order_stones->amount = $request->stone_amount[$key];
-                        $order_stones->weight = $request->stone_weight[$key];
-                        if ($request->stone_flow[$key] == 'true') {
-                            $order_stones->flow = 'yes';
-                        } else {
-                            $order_stones->flow = 'no';
-                        }
-                        $order_stones->save();
-                    }
+        // Add the payment for the order to the Cash Register
+        $cashRegister = new CashRegister();
+        $cashRegister->RecordIncome($order->price, false, $order->store_id);
+
+
+        if($request->stones && $stoneQuantity == 1){
+            foreach($request->stones as $key => $stone){
+                if($stone){
+                    $order_stones = new OrderStone();
+                    $order_stones->order_id = $order->id;
+                    $order_stones->stone_id = $stone;
+                    $order_stones->amount = $request->stone_amount[$key];
+                    $order_stones->weight = $request->stone_weight[$key];
+                    $order_stones->flow = ($request->stone_flow[$key] == 'true'?'yes':'no');
+                    $order_stones->save();
                 }
             }
         }
 
-        if ($request->given_material_id) {
-            foreach ($request->given_material_id as $key => $material) {
-                if ($material) {
+        if($request->given_material_id){
+            foreach($request->given_material_id as $key => $material){
+                if($material){
                     $price = Material::find($material)->pricesSell()->first()->price;
                     $exchange_material = new ExchangeMaterial();
                     $exchange_material->material_id = $material;
@@ -227,13 +221,14 @@ class OrderController extends Controller
                         ['store_id', '=', $order->store_id]
                     ])->first();
 
-                    if (is_null($findMaterial)) {
+                    if(is_null($findMaterial)){
                         $material_quantity = new MaterialQuantity();
                         $material_quantity->material_id = $material;
                         $material_quantity->quantity = $request->mat_quantity[$key];
                         $material_quantity->store_id = $order->store_id;
                         $material_quantity->save();
-                    } else {
+                    }
+                    else{
                         $findMaterial->material_id = $material;
                         $findMaterial->quantity = $findMaterial->quantity + $request->mat_quantity[$key];
                         $findMaterial->store_id = $order->store_id;
@@ -298,7 +293,7 @@ class OrderController extends Controller
             if(!is_null($order->product_id)) {
                 $barcode = Product::where('id', $order->product_id)->first()->barcode;
             }elseif(!is_null($order->model_id)) {
-                $barcode = Product::where('id', $order->model_id)->first()->barcode;
+                $barcode = Product::where('model_id', $order->model_id)->first()->barcode;
             }
 
             if($order->materials) {
@@ -324,12 +319,24 @@ class OrderController extends Controller
 
             $mpdf = new \Mpdf\Mpdf([
                 'mode' => 'utf-8',
-                'format' => [148, 210]
+                'format' => 'A6',
+                'default_font_size' => '10',
+                'margin-left' => 10,
+                'margin-right' => 10,
+                'margin-top' => 0,
+                'margin-bottom' => 0,
+                'margin-header' => 80,
+                'margin-footer' => 0,
+                'title' => "Поръчка №".$order->id
             ]);
 
-            $html = view('pdf.order', compact('order', 'store', 'barcode', 'material', 'model', 'orderStones', 'orderExchangeMaterials'))->render();
+            $html = '<style>@page{margin: 30px;}</style>'.view('pdf.order', compact('order', 'store', 'barcode', 'material', 'model', 'orderStones', 'orderExchangeMaterials'))->render();
 
             $mpdf->WriteHTML($html);
+
+            // For development purposes
+            $mpdf->Output();
+            exit;
 
             $mpdf->Output(str_replace(' ', '_', $order->id) . '_order.pdf', \Mpdf\Output\Destination::DOWNLOAD);
         }

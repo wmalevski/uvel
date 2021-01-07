@@ -49,48 +49,50 @@ class UserPaymentController extends Controller
         if($request->amount > 0){
             session()->forget('cart_info');
 
-            $restrictions = [
+            $restrictions = array(
                 'shipping_method' => 'required',
                 'payment_method' => 'required'
-            ];
+            );
 
-            if ($request->shipping_method == 'office_address' || $request->shipping_method == 'home_address' ) {
+            if($request->shipping_method == 'office_address' || $request->shipping_method == 'home_address' ){
                 $restrictions['city'] = 'required';
                 $restrictions['street'] = 'required';
                 $restrictions['street_number'] = 'required';
                 $restrictions['postcode'] = 'required';
                 $restrictions['phone'] = 'required';
-            } elseif ($request->shipping_method == 'store') {
+            }
+            elseif($request->shipping_method == 'store'){
                 $restrictions['store_id'] = 'required';
             }
 
             $validator = Validator::make($request->all(), $restrictions);
 
-            $user_info = [
+            $user_info = array(
                 'user_id' => Auth::user()->getId(),
                 'shipping_method' => $request->shipping_method,
                 'payment_method' => $request->payment_method,
                 'information' => $request->information,
                 'store_id' => $request->store_id,
                 'shipping_address' => $request->city.', '.$request->postcode.', '.$request->street.', '.$request->street_number
-            ];
-    
+            );
+
             Session::push('cart_info', $user_info);
 
-            if ($validator->fails()) {
+            if($validator->fails()){
                 return Redirect::back()->withErrors($validator);
             }
 
-    
+
             if($request->payment_method == 'on_delivery'){
                 $payment = new UserPayment();
                 return $payment->storePayment();
-    
-            } else if ($request->payment_method == 'paypal'){
+            }
+            elseif($request->payment_method == 'paypal'){
                 $pay = new PaypalPay();
                 return $pay->payWithpaypal($request);
-            } else if ($request->payment_method == 'borika'){
-                
+            }
+            elseif($request->payment_method == 'borika'){
+
             }
 
         }

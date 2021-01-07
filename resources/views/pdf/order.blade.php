@@ -1,118 +1,76 @@
-<h3 style="margin: 5px 0; text-align: center;">Магазин за златна и сребърна бижутерия</h3>
-<h3 style="margin: 5px 0; text-align: center;">{{ $store->name }} - {{ $store->location }}</h3>
-<h4 style="margin: 5px 0; text-align: center;">тел.: {{ $store->phone }}</h4>
-<hr/>
+<div style="text-align: center;">
+    <h3 style="font-size:14px;font-weight:bold;margin:0 0 5px 0;padding:0;">Магазин за златна и сребърна бижутерия</h3>
+    <h3 style="font-size:14px;font-weight:bold;margin:0 0 5px 0 ;padding:0;">{{$store->name}} - {{$store->location}}</h3>
+    <h3 style="font-size:12px;font-weight:normal;margin:0 0 5px 0;padding:0;">тел.: {{$store->phone}}</h3>
 
-<h2 style="margin: 10px 0; text-align: center;"><strong>ПОРЪЧКА №: {{ $order->id }} / {{$order->date_received}}</strong></h2>
+    <hr style="margin:10px 0 15px 0">
 
-<div>
-    <strong>Клиент: </strong> {{$order->customer_name}}
-</div>
-<hr/>
+    <div id="orderDetails" style="width:100%;font-size:0;line-height:20px;">
 
-<div>
-    <strong>Тел: </strong> {{$order->customer_phone}}
-</div>
-<hr/>
-
-@if($model->name)
-<div>
-    <strong>Модел: </strong> {{$model->name}}
-</div>
-<hr/>
-@endif
-
-
-<div>
-    <strong>Материал: </strong> {{ $material->name }} - {{ $material->code }} - {{ $material->color }}
-</div>
-<hr/>
-
-@if($orderStones)
-    <h4>Камъни:</h4>
-    @foreach($orderStones as $stone)
-        <div>
-            {{$stone}}
+        <div style="width:50%;margin:0;padding:0;font-size:10px;text-align:left;float:left;">
+            <div>ПОРЪЧКА №: <b>{{$order->id}}</b> / <b>{{$order->date_received}}</b></div>
+            @if($model->name)<div>Модел: <b>{{$model->name}}</b></div>@endif
         </div>
-    @endforeach
-    <hr/>
-@endif
 
-@if (Illuminate\Support\Str::lower($material->name) == "злато")
-    <div style="clear: both;">
-        <div  style="float: left; width: 33.3%;">
-            <strong>Грам: </strong> {{ $order->weight }}
-        </div>
-        <div  style="float: left; width: 33.3%;">
-            <strong>Изработка: </strong> {{ $order->workmanship }} лв.
-        </div>
-        <div  style="float: left; width: 33.3%;">
-            <strong>Цена: </strong> {{ $order->price }} лв.
-        </div>
-    </div>
-    <hr/>
-@else
-    <div style="clear: both;">
-        <div  style="float: left; width: 33.3%;">
-            <strong>Грам: </strong> {{ $order->gross_weight }}
-        </div>
-        <div  style="float: left; width: 33.3%;">
-            <strong>Изработка: </strong> {{ $order->workmanship }} лв.
-        </div>
-        <div  style="float: left; width: 33.3%;">
-            <strong>Цена: </strong> {{ $order->price }} лв.
-        </div>
-    </div>
-    <hr/>
-@endif
 
-@if($order->earnest)
-    <div style="clear: both">
-        <div style="float: left; width: 50%;">
-            <strong>Капаро: {{$order->earnest}} лв.</strong>
+        <div style="width:50%;margin:0;padding:0;font-size:10px;text-align:right;float:left;">
+            <div>КЛИЕНТ: {{$order->customer_name}}</div>
+            <div>ТЕЛ: <b>{{$order->customer_phone}}</b></div>
+            <div>Капаро: <b> @if($order->earnest) {{$order->earnest}} @else 0 @endif лв.</b></div>
         </div>
-    </div>
-    <hr/>
-@endif
 
-@if ($orderExchangeMaterials)
-    <h4>Дадени материали от клиента:</h4>
-    @foreach($orderExchangeMaterials as $orderExchangeMaterial)
-        <div style="clear: both;">
-            <div  style="float: left; width: 50%;">
-                <strong>Вид: </strong> {{ $orderExchangeMaterial['name'] }}
+        <hr style="margin:5px 0 5px 0;clear: both;height:0;width:0;">
+
+        <div style="width:100%;margin:0;padding:0;font-size:10px;text-align:left;">
+            <div>Камъни:
+                @if($orderStones)
+                @foreach($orderStones as $stone)
+                    <b style="padding-right: 15px;">{{$stone}}</b>
+                @endforeach
+                @endif
             </div>
-            <div  style="float: left; width: 50%;">
-                <strong>Тегло: </strong> {{ $orderExchangeMaterial['weight'] }}
+            <div>Материал: <b>{{$material->name}} {{$material->code}}, {{$material->color}}</b></div>
+
+            <div style="clear: both;">
+            @if (Illuminate\Support\Str::lower($material->name) == "злато")
+                <div style="float: left; width: 33.3%;">Грам: <b>{{$order->weight}}</b></div>
+                <div style="float: left; width: 33.3%;text-align:center;">Изработка: <b>{{$order->workmanship}}лв.</b></div>
+                <div style="float: left; width: 33.3%;text-align:right;">Цена: <b>{{$order->price}}лв.</b></div>
+            @else
+                <div style="float: left; width: 33.3%;">Грам: <b>{{$order->gross_weight}}</b></div>
+                <div style="float: left; width: 33.3%;text-align:center;">Изработка: <b>{{$order->workmanship}}лв.</b></div>
+                <div style="float: left; width: 33.3%;text-align:right;">Цена: <b>{{$order->price}}лв.</b></div>
+            @endif
             </div>
         </div>
-    @endforeach
-    <hr/>
-@endif
 
-<div style="height: 100px">
-    <strong>Описание: </strong> {{ $order->content }}
-</div>
-<hr/>
+        <hr style="margin:5px 0 5px 0;clear: both;height:0;width:0;">
 
-<div style="clear: both">
-    <br>
-    <div style="float: left; width: 50%;">
-        <strong>Клиент:</strong>
-    </div>
-    <div style="float: left; width: 50%;">
-        <strong style="margin-left: 200px;">Приемчик:</strong>
-    </div>
-    <br>
-</div>
-<hr/>
+        <div style="width:100%;margin:0;padding:0;font-size:10px;text-align:left;">
+            <div style="font-size:12px;font-weight:bold;display:block;text-align:center;">Дадени материали от клиента:</div>
+                @if ($orderExchangeMaterials)
+                @foreach($orderExchangeMaterials as $orderExchangeMaterial)
+                    <div style="clear: both;">
+                        <div style="text-align:center;float:left;width:50%;">Вид: <b>{{$orderExchangeMaterial['name']}}</b></div>
+                        <div style="text-align:center;float:left;width:50%;">Тегло: <b>{{$orderExchangeMaterial['weight']}}</b></div>
+                    </div>
+                @endforeach
+                @endif
+        </div>
 
-<div style="clear: both">
-    <div  style="float: left; width: 70%;">
-        <strong>Дата за получаване: {{$order->date_returned}}</strong>
-    </div>
+        <hr style="margin:5px 0 10px 0;clear: both;">
 
-    <div style="float: left; width: 30%;">
-        {!! str_replace( '<?xml version="1.0" standalone="no"?>', '' ,DNS1D::getBarcodeSVG($barcode, "EAN13",1,33,"black", true)) !!}
+        <div style="font-size:12px;min-height:340px;"><b style="font-size:12px;">Описание:</b><br> @if ($order->content) {{ $order->content }} @endif</div>
+
+        <hr style="margin:20px 0 10px 0;clear: both;">
+
+        <div style="font-size:12px;float:left;width:50%;height:60px"><b>Клиент:<b></div>
+        <div style="font-size:12px;float:left;width:50%;height:60px"><b>Приемчик:</b></div>
+
+        <hr style="margin:5px 0 10px 0;clear: both;">
+
+        <div style="float:left;width:50%;font-size:12px;"><b>За получаване: {{$order->date_returned}}</b></div>
+        <div style="float:left;width:50%;padding-top:5px;">{!! str_replace( '<?xml version="1.0" standalone="no"?>', '' ,DNS1D::getBarcodeSVG($barcode, "EAN13",1,33,"black", true)) !!}</div>
+
     </div>
 </div>

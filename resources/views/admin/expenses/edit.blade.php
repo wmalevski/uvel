@@ -5,14 +5,14 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    
+
     <form method="POST" data-type="edit" name="expenses" action="expenses/{{ $expense->id }}">
         <input name="_method" type="hidden" value="PUT">
-        <div class="modal-body">    
+        <div class="modal-body">
                 <div class="info-cont">
                 </div>
             {{ csrf_field() }}
-    
+
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="type">Основание: </label>
@@ -27,7 +27,8 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="expense_amount">Сума: </label>
-                    <input type="number" class="form-control" id="expense_amount" value="{{ $expense->amount }}" name="expense_amount" placeholder="Сума:">
+                    <input type="number" class="form-control" id="expense_amount" value="{{ $expense->amount }}" name="expense_amount" placeholder="Сума:" />
+                    <input type="hidden" class="form-control" id="expense_amount_old" value="{{ $expense->amount }}" name="expense_amount_old" />
                 </div>
             </div>
 
@@ -39,6 +40,7 @@
                             <option value="{{ $currency->id }}" data-default="{{$currency->default }}" data-currency="{{ $currency->currency }}" @if($currency->id == $expense->currency_id) selected @endif >{{ $currency->name }}</option>
                         @endforeach
                     </select>
+                    <input type="hidden" class="form-control" id="currency_id_old" value="{{ $expense->currency_id }}" name="currency_id_old" />
                 </div>
             </div>
 
@@ -49,7 +51,7 @@
                 </div>
             </div>
         </div>
-    
+
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
             <button type="submit" id="edit" data-state="edit_state" class="action--state_button edit-btn-modal btn btn-primary">Промени</button>

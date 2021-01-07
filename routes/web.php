@@ -114,7 +114,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
 
         Route::get('/productsreports', 'ProductController@productsReport')->name('products_reports');
 
-        Route::get('/safe', 'SafeController@index');  
+        Route::get('/safe', 'SafeController@index');
         //Models section
         Route::get('/models', 'ModelController@index')->name('admin_models');
         Route::post('/models', 'ModelController@store');
@@ -270,6 +270,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         //Reports
         Route::get('/mtravellingreports', 'MaterialTravellingController@mtravellingReport')->name('mtravelling_reports');
         Route::get('/productstravellingreports', 'ProductTravellingController@productstravellingReport')->name('productstravelling_reports');
+
+        // Cash register
+        Route::get('/cash_register', 'CashRegisterController@index')->name('cash_register');
 
         //Models section
         Route::get('/models/{model}', 'ModelController@edit');
@@ -443,6 +446,9 @@ Route::group(['prefix' => 'ajax'], function() {
         Route::post('/expensetypes/delete/{type}', 'ExpenseTypeController@destroy');
 
         Route::post('/filterInquiryDate', 'DailyReportController@filterInquiryDate');
+
+        // Cash Register filter
+        Route::post('/filterCashRegister', 'CashRegisterController@ajaxFilter');
     });
 
     //Print
@@ -494,7 +500,7 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::post('/mailchimp', 'NewsletterController@store');
     Route::post('/mailchimp/unsubscribe/{subscriber}', 'NewsletterController@destroy');
-    
+
     Route::post('/orders', 'OrderController@store');
     Route::put('/orders/{order}', 'OrderController@update');
     Route::get('/orders/getProductInfo/{product}', 'OrderController@getProductInfo')->name('getProductInfo');
@@ -609,7 +615,7 @@ Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
 
     Route::get('/custom_order', 'CustomOrderController@index')->name('custom_order');
     Route::post('/custom_order', 'CustomOrderController@store')->name('submit_custom_order');
-    
+
     Route::group(['prefix' => 'products'], function() {
         Route::get('/', 'ProductController@index')->name('products');
         Route::get('/{product}', 'ProductController@show')->name('single_product');
@@ -619,13 +625,13 @@ Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
     Route::group(['prefix' => 'productsothers'], function() {
         Route::get('/', 'ProductOtherController@index')->name('productsothers');
         Route::get('/{product}', 'ProductOtherController@show')->name('single_product_other');
-    });  
+    });
 
     Route::group(['prefix' => 'models'], function() {
         Route::get('/', 'ModelController@index')->name('models');
         Route::get('/{model}', 'ModelController@show')->name('single_model');
-    });  
-    
+    });
+
     Route::get('/model_orders/', 'ModelOrderController@index')->name('model_orders');
 
     Route::get('/cart', 'CartController@index')->name('cart');

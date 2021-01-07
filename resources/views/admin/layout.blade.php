@@ -483,9 +483,13 @@
                         @endif
                         @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
                             <li class="{{ Active::ifRouteIn(['productstravelling_reports']) }}">
-                                <a class="sidebar-link" href="{{ route('productstravelling_reports') }}">Продукти на
-                                    път</a>
+                                <a class="sidebar-link" href="{{ route('productstravelling_reports') }}">Продукти на път</a>
                             </li>
+
+                            <li class="{{ Active::ifRouteIn(['cash_register']) }}">
+                                <a class="sidebar-link" href="{{ route('cash_register') }}">Движения</a>
+                            </li>
+
                         @endif
                         <li class="{{ Active::ifRouteIn('expenses') }}">
                             <a class="sidebar-link" href="{{ route('expenses') }}">Разходи</a>

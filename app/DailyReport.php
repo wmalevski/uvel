@@ -12,6 +12,7 @@ use App\Currency;
 use App\DailyReportBanknote;
 use App\DailyReportJewel;
 use App\DailyReportMaterial;
+use App\CashRegister;
 use Response;
 use Redirect;
 use Auth;
@@ -54,49 +55,58 @@ class DailyReport extends Model
         }
 
         $defaultCurrency = Currency::where('default', 'yes')->first();
-        
-        $allSold = Payment::where([
-              ['method', '=', 'cash'],
-              ['receipt', '=', 'yes'],
-              ['store_id', '=', $request->store_id],
-              ['currency_id', '=', $defaultCurrency->id]
-          ])
-          ->whereDate('created_at', Carbon::today())
-          ->sum('given');
+
+        $allSold = Payment::where(array(
+            array('method','=','cash'),
+            array('receipt','=','yes'),
+            array('store_id','=',$request->store_id),
+            array('currency_id','=',$defaultCurrency->id)
+        ))
+            ->whereDate('created_at',Carbon::today())
+            ->sum('given');
 
         $expenses = Expense::where('store_from_id', $request->store_id)
-          ->whereDate('created_at', Carbon::today())
-          ->sum('amount');
+            ->whereDate('created_at',Carbon::today())
+            ->sum('amount');
 
         $allSold = $allSold - $expenses;
 
-        $todayReport = DailyReport::where([
-              ['store_id', '=', $request->store_id],
-              ['status', '=', 'successful'],
-              ['type', '=', 'money']
-          ])
-          ->whereDate('created_at', Carbon::today())
-          ->get();
+        $todayReport = DailyReport::where(array(
+            array('store_id','=',$request->store_id),
+            array('status','=','successful'),
+            array('type','=','money')
+        ))
+            ->whereDate('created_at',Carbon::today())
+            ->get();
 
         $report = new DailyReport();
         $report->safe_money_amount = $allSold;
         $report->given_money_amount = $sum;
         $report->store_id = $request->store_id;
         $report->user_id = Auth::user()->getId();
-        
-        if(count($todayReport)){
-            $todayReport = 'true';
-        }else{
-            $todayReport = 'false';
-        }
-        
-        if($allSold != $sum){
+
+
+        $todayReport = (count($todayReport)?'true':'false');
+
+        $report->status = 'successful';
+
+
+        $register = new CashRegister;
+        $register = CashRegister::where(array(
+            array('store_id','=',$request->store_id),
+            array('date','=',CashRegister::$date)
+        ))->get();
+        $register->status = 'success';
+
+
+        if ( $allSold !== $sum || $allSold !== $register->total){
+            $register->status = 'failed';
             $report->status = 'unsuccessful';
-        }else{
-            $report->status = 'successful';
         }
 
+
         if($todayReport == 'false'){
+            $register->save();
             $report->save();
 
             foreach($request->banknote as $key => $banknote) {
@@ -122,10 +132,12 @@ class DailyReport extends Model
 
             if($allSold == $sum){
                 return Redirect::back()->with(['success.money' => trans('admin/reports.success')]);
-            }else{
+            }
+            else{
                 return Redirect::back()->withErrors(['not_matching.money' => trans('admin/reports.quantity_not_matching')], 'form_money');
             }
-        }else{
+        }
+        else{
             return Redirect::back()->withErrors(['already_exists.money' => trans('admin/reports.already_exists')], 'form_money');
         }
     }

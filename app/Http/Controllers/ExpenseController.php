@@ -11,9 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
+use App\CashRegister;
 
-class ExpenseController extends Controller
-{
+class ExpenseController extends Controller{
   /**
    * Display a listing of the resource.
    *
@@ -49,25 +49,35 @@ class ExpenseController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(Request $request)
-  {
-    $validator = Validator::make($request->all(), [
+  public function store(Request $request){
+    $validator = Validator::make($request->all(), array(
       'type_id'           => 'required',
       'expense_amount'    => 'required',
       'currency_id'       => 'required',
       'additional_info'   => 'required'
-    ]);
+    ));
 
-    if ($validator->fails()) {
+    if($validator->fails()){
       return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
     }
 
-    $request->request->add(['amount' => $request->expense_amount]);
-    $request->request->add(['user_id' => Auth::user()->getId()]);
-    $request->request->add(['store_from_id' => Auth::user()->getStore()->id]);
+    $request->request->add(array(
+      'amount' => $request->expense_amount,
+      'user_id' => Auth::user()->getId(),
+      'store_from_id' => Auth::user()->getStore()->id
+    ));
 
-    if($request->send_to_store == true) {
-        $request->request->add(['store_to_id' => $request->store_to_id]);
+
+    // Add the expense to the Cash Register
+    $cashRegister = new CashRegister();
+    $cashRegister->RecordExpense($request->expense_amount, $request->currency_id, Auth::user()->getStore()->id);
+
+
+    if($request->send_to_store == true && (is_int($request->store_to_id)&& $request->store_to_id > 0)){
+      $request->request->add(['store_to_id' => $request->store_to_id]);
+
+      // Add the Income (from the transfer) to the Cash Register
+      $cashRegister->RecordIncome($request->expense_amount, $request->currency_id, $request->store_to_id);
     }
 
     $expense = Expense::create($request->all());
@@ -107,16 +117,15 @@ class ExpenseController extends Controller
    * @param  \App\Expenses  $expenses
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, Expense $expense)
-  {
-    $validator = Validator::make($request->all(), [
+  public function update(Request $request, Expense $expense){
+    $validator = Validator::make($request->all(),array(
       'type_id' => 'required',
       'expense_amount' => 'required',
       'currency_id' => 'required',
-      'additional_info'   => 'required'
-    ]);
+      'additional_info' => 'required'
+    ));
 
-    if ($validator->fails()) {
+    if($validator->fails()){
       return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
     }
 
@@ -128,6 +137,12 @@ class ExpenseController extends Controller
     $expense->user_id = Auth::user()->getId();
 
     $expense->save();
+
+
+    // Reflect the change in the Cash Register
+    $register = new CashRegister;
+    $register::updateExpense($request->currency_id_old, $request->currency_id, $request->expense_amount_old, $request->expense_amount);
+
 
     return Response::json(array('ID' => $expense->id, 'table' => View::make('admin/expenses/table', array('expense' => $expense))->render()));
   }
