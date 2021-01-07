@@ -16,19 +16,16 @@
         <div style="width:50%;margin:0;padding:0;font-size:10px;text-align:right;float:left;">
             <div>КЛИЕНТ: {{$order->customer_name}}</div>
             <div>ТЕЛ: <b>{{$order->customer_phone}}</b></div>
-            <div>Капаро: <b> @if($order->earnest) {{$order->earnest}} @else 0 @endif лв.</b></div>
         </div>
 
         <hr style="margin:5px 0 5px 0;clear: both;height:0;width:0;">
 
         <div style="width:100%;margin:0;padding:0;font-size:10px;text-align:left;">
-            <div>Камъни:
-                @if($orderStones)
+            @if($orderStones)<div>Камъни:
                 @foreach($orderStones as $stone)
                     <b style="padding-right: 15px;">{{$stone}}</b>
                 @endforeach
-                @endif
-            </div>
+            </div>@endif
             <div>Материал: <b>{{$material->name}} {{$material->code}}, {{$material->color}}</b></div>
 
             <div style="clear: both;">
@@ -46,23 +43,26 @@
 
         <hr style="margin:5px 0 5px 0;clear: both;height:0;width:0;">
 
-        <div style="width:100%;margin:0;padding:0;font-size:10px;text-align:left;">
-            <div style="font-size:12px;font-weight:bold;display:block;text-align:center;">Дадени материали от клиента:</div>
-                @if ($orderExchangeMaterials)
+        <div style="width:50%;margin:0;padding:0;font-size:10px;text-align:left;float:left;">
+            @if($order->earnest)Капаро: <b>{{$order->earnest}}лв.</b>@endif
+        </div>
+
+        <div style="width:50%;margin:0;padding:0;font-size:10px;text-align:left;float:left;">
+            @if ($orderExchangeMaterials)Дадени материали от клиента:
                 @foreach($orderExchangeMaterials as $orderExchangeMaterial)
                     <div style="clear: both;">
-                        <div style="text-align:center;float:left;width:50%;">Вид: <b>{{$orderExchangeMaterial['name']}}</b></div>
-                        <div style="text-align:center;float:left;width:50%;">Тегло: <b>{{$orderExchangeMaterial['weight']}}</b></div>
+                        <div style="float:left;width:50%;">Вид: <b>{{$orderExchangeMaterial['name']}}</b></div>
+                        <div style="float:left;width:50%;">Тегло: <b>{{$orderExchangeMaterial['weight']}}</b></div>
                     </div>
                 @endforeach
-                @endif
+            @endif
         </div>
 
         <hr style="margin:5px 0 10px 0;clear: both;">
 
-        <div style="font-size:12px;min-height:340px;"><b style="font-size:12px;">Описание:</b><br> @if ($order->content) {{ $order->content }} @endif</div>
-
-        <hr style="margin:20px 0 10px 0;clear: both;">
+        @if ($order->content)
+        <div style="font-size:12px;"><b>Описание:<b><br>{{ $order->content }}</div>
+        @endif
 
         <div style="font-size:12px;float:left;width:50%;height:60px"><b>Клиент:<b></div>
         <div style="font-size:12px;float:left;width:50%;height:60px"><b>Приемчик:</b></div>
