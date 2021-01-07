@@ -40,6 +40,7 @@
                                     </li>
                                     <li class="clearfix"></li>
                                     <li class="unpadding-top action-last">
+                                    <button class="btn" onclick="window.location.href='{{ route('register') }}'" type="button">Регистрация</button>
                                     <button class="btn" type="submit">Влез</button>
                                     </li>
                                 </ul>
