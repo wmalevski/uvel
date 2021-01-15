@@ -8,9 +8,6 @@ var GLOBAL = {
   common : {
     init: function(){
       $('html').removeClass('no-js').addClass('js');
-      
-      searchPlaceholder();
-
     }
   },
 
@@ -22,13 +19,13 @@ var GLOBAL = {
 
   templateProduct : {
     init: function(){
-      
+
     }
   },
 
   templateCart : {
     init: function(){
-      
+
     }
   }
 
@@ -73,12 +70,12 @@ $(document).ready(UTIL.loadEvents);
 ** Fly image to Cart
 */
 function flyToCart(imgobj, cart, time){
-  
+
   if(imgobj){
     var imgsrc = imgobj.attr('src');
 
     imgobj.animate_from_to(cart, {
-      pixels_per_second: time, 
+      pixels_per_second: time,
       initial_css: {
         'image': imgsrc
       },
@@ -96,7 +93,7 @@ function notifyProduct($info){
   var wait = setTimeout(function(){
     $.jGrowl($info,{
       life: 5000
-    });	
+    });
   });
 }
 
@@ -109,7 +106,7 @@ function addToCart(e){
   if (typeof e !== 'undefined') e.preventDefault();
 
   var $this = $(this);
-  
+
   var form = $this.parents('form');
 
   $.ajax({
@@ -125,7 +122,7 @@ function addToCart(e){
 
   // Hide Modal
   $('.modal').modal('hide');
-  
+
 }
 
 function addToCartSuccess (jqXHR, textStatus, errorThrown){
@@ -142,49 +139,15 @@ function addToCartSuccess (jqXHR, textStatus, errorThrown){
   var $info = '<div class="row"><div class="col-md-8"><a href="'+ jqXHR['url'] +'"><img src="'+ Shopify.resizeImage(jqXHR['image'], 'small') +'" alt="'+ jqXHR['title'] +'"/></a></div><div class="col-md-16"><div class="jGrowl-note">Product Added To <a href="/cart" class="your_cart">Shopping Cart</a></div><a class="jGrowl-title" href="'+ jqXHR['url'] +'">'+ jqXHR['title'] +'</a></div></div>';
   notifyProduct($info);
 
-  // Let's get the cart and show what's in it in the cart box.	
+  // Let's get the cart and show what's in it in the cart box.
   Shopify.getCart(function(cart) {
-    Shopify.updateCartInfo(cart, '#cart-info #cart-content');		
+    Shopify.updateCartInfo(cart, '#cart-info #cart-content');
   });
 }
 
 function addToCartFail(jqXHR, textStatus, errorThrown){
   var response = $.parseJSON(jqXHR.responseText);
-  
+
   var $info = '<div class="error">'+ response.description +'</div>';
   notifyProduct($info);
-}
-
-
-
-/**
- * Enable placeholder switcheroo in older browsers.
- * @see http://webdesignerwall.com/tutorials/cross-browser-html5-placeholder-text
- */
-function searchPlaceholder(){
-
-  if(!Modernizr.input.placeholder){
-    $('#top-search-input').focus(function() {
-      var input = $(this);
-      if (input.val() == input.attr('placeholder')) {
-      input.val('');
-      input.removeClass('placeholder');
-      }
-    }).blur(function() {
-      var input = $(this);
-      if (input.val() == '' || input.val() == input.attr('placeholder')) {
-      input.addClass('placeholder');
-      input.val(input.attr('placeholder'));
-      }
-    }).blur();
-    $('[placeholder]').parents('form').submit(function() {
-      $(this).find('[placeholder]').each(function() {
-      var input = $(this);
-      if (input.val() == input.attr('placeholder')) {
-        input.val('');
-      }
-      })
-    });
-  }
-
 }

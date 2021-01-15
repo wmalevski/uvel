@@ -38,7 +38,7 @@
 			<ul class="list-inline">
 				<li class="top-logo">
 					<a id="site-title" href="{{ route('store') }}" title="UVEL">
-						<img class="img-responsive" src="{{ asset('store/images/logo.png') }}" alt="UVEL">
+						<img class="img-responsive" src="{{ App\Setting::get('website_logo') }}" alt="{{ App\Setting::get('website_title') }}">
 					</a>
 				</li>
 				<li class="navigation">

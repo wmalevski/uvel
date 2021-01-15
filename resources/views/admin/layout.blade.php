@@ -60,7 +60,13 @@
                 opacity: 0
             }
         }
-
+        div.sidebar-logo a.sidebar-link div.logo{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
     <link href="{{ URL::asset('../css/admin-panel.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('style.css') }}" rel="stylesheet">
@@ -89,15 +95,8 @@
                 <div class="peers ai-c fxw-nw">
                     <div class="peer peer-greed">
                         <a class="sidebar-link td-n" href="{{ route('admin') }}" class="td-n">
-                            <div class="peers ai-c fxw-nw">
-                                <div class="peer">
-                                    <div class="logo">
-                                        <img src="assets/static/images/logo.png" alt="">
-                                    </div>
-                                </div>
-                                <div class="peer peer-greed">
-                                    <h5 class="lh-1 mB-0 logo-text">UVEL</h5>
-                                </div>
+                            <div class="logo">
+                                <img src="{{ App\Setting::get('website_logo') }}" alt="" style="max-height: 64px;">
                             </div>
                         </a>
                     </div>
@@ -498,7 +497,7 @@
                 </li>
 
                 @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
-                <li class="nav-item dropdown {{ Active::ifRouteIn(['stock_prices', 'currencies', 'cashgroups']) }}">
+                <li class="nav-item dropdown {{ Active::ifRouteIn(['stock_prices', 'currencies', 'cashgroups', 'system_settings']) }}">
                     <a class="dropdown-toggle" href="javascript:void(0);">
                 <span class="icon-holder">
                   <i class="ti-settings"></i>
@@ -517,6 +516,9 @@
                         </li>
                         <li class="{{ Active::ifRouteIn('cashgroups') }}">
                             <a class="sidebar-link" href="{{ route('cashgroups') }}">Касови групи</a>
+                        </li>
+                        <li class="{{ Active::ifRouteIn('system_settings') }}">
+                            <a class="sidebar-link" href="{{ route('system_settings') }}">Системни Настройки</a>
                         </li>
                     </ul>
                 </li>
@@ -582,10 +584,6 @@
                 @yield('content')
             </div>
         </main>
-        <!-- <footer class="bdT ta-c p-30 lh-0 fsz-sm c-grey-600">
-        <span>Copyright © 2017 Designed by
-          <a href="https://colorlib.com" target="_blank" title="Colorlib">Colorlib</a>. All rights reserved.</span>
-        </footer> -->
     </div>
 </div>
 <form id="logout-form" action="{{ route('admin_logout') }}" method="POST" style="display: none;">

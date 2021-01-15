@@ -194,7 +194,8 @@ function ssc_wheel(e) {
 		i *= ssc_stepsize / 120
 	}
 	ssc_scrollArray(n, -r, -i);
-	e.preventDefault()
+	// e.preventDefault()
+	// [Intervention] Unable to preventDefault inside passive event listener due to target being treated as passive. See https://www.chromestatus.com/features/6662647093133312
 }
 
 function ssc_keydown(e) {
@@ -273,8 +274,14 @@ function ssc_overflowingAncestor(e) {
 				return ssc_setCache(t, document.body)
 			}
 		} else if (e.clientHeight + 10 < e.scrollHeight) {
-			overflow = getComputedStyle(e, "").getPropertyValue("overflow");
-			if (overflow === "scroll" || overflow === "auto") {
+			try{
+				overflow = getComputedStyle(e, "").getPropertyValue("overflow");
+				if (overflow === "scroll" || overflow === "auto") {
+					return ssc_setCache(t, e)
+				}
+			}
+			catch(err){
+				// overflow is not set -> revert to default behaviour
 				return ssc_setCache(t, e)
 			}
 		}
@@ -1377,10 +1384,9 @@ var uvelStore,
 	}
 
 	this.sendCustomOrderForm = function (form, ajaxRequestLink, data) {
-		var requestUrl = ajaxRequestLink;
 		$.ajax({
 			method: 'POST',
-			url: requestUrl,
+			url: ajaxRequestLink,
 			dataType: 'json',
 			data: data,
 			success: function (response) {

@@ -163,7 +163,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
 
     //Active urls for roles: STOREHOUSE and ADMIN.
     Route::group(['middleware' => ['check_user_role:' . \App\Role\UserRole::ROLE_STOREHOUSE]], function () {
-//        Route::get('/', 'StoreController@index')->name('stores');
+        // Route::get('/', 'StoreController@index')->name('stores');
         //Stones section
         Route::get('/stones/sizes', 'StoneSizeController@index')->name('sizes');
         Route::post('/stones/sizes', 'StoneSizeController@store');
@@ -254,6 +254,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         //Cashgroups
         Route::get('/settings/cashgroups', 'CashGroupController@index')->name('cashgroups');
         Route::get('/settings/cashgroups/{cashGroup}', 'CashGroupController@edit');
+
+        // System Settings
+        Route::get('/settings/system', 'SettingController@SystemSettings')->name('system_settings');
+        Route::get('/system_settings/edit/{setting_type}', 'SettingController@EditSetting');
+        Route::put('/system_settings/update/{key}', 'SettingController@UpdateSetting');
 
         //Orders section
         Route::get('/orders/custom/{order}', 'CustomOrderController@edit');
@@ -680,5 +685,6 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Store'], function() {
 
     Route::get('/cart/setDiscount/{barcode}',  'CartController@setDiscount')->name('add_discount');
 
+    Route::post('/search', 'StoreController@search');
 });
 

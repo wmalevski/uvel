@@ -11,7 +11,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Title -->
-    <title>{{ config('app.name') }}</title>
+    <title>{{ App\Setting::get('website_title') }}</title>
 
     <!-- Fonts -->
     <link href="{{ asset('store/stylesheets/font.css') }}" rel='stylesheet' type='text/css'>
@@ -19,7 +19,7 @@
     <!-- Styles -->
 		<link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-	<link href="{{ asset('store/stylesheets/font-awesome.min.css') }}" rel="stylesheet" type="text/css" media="all"> 
+	<link href="{{ asset('store/stylesheets/font-awesome.min.css') }}" rel="stylesheet" type="text/css" media="all">
 	<link href="{{ asset('store/stylesheets/jquery.camera.css') }}" rel="stylesheet" type="text/css" media="all">
 	<link href="{{ asset('store/stylesheets/jquery.fancybox-buttons.css') }}" rel="stylesheet" type="text/css" media="all">
 	<link href="{{ asset('store/stylesheets/cs.animate.css') }}" rel="stylesheet" type="text/css" media="all">
@@ -35,23 +35,23 @@
 	<link href="{{ asset('store/stylesheets/spr.css') }}" rel="stylesheet" type="text/css" media="all">
 	<link href="{{ asset('store/stylesheets/addthis.css') }}" rel="stylesheet" type="text/css" media="all">
     <link href="{{ asset('store/stylesheets/store.css') }}" rel="stylesheet" type="text/css" media="all">
-	
+
 	<link href="{{ asset('store/stylesheets/custom.css') }}" rel="stylesheet" type="text/css" media="all">
-    
+
 	<!-- JavaScript -->
 	<script src="{{ asset('store/javascripts/jquery-1.9.1.min.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('store/javascripts/jquery.imagesloaded.min.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('store/javascripts/bootstrap.min.3x.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('store/javascripts/jquery.easing.1.3.js') }}" type="text/javascript"></script>
-	<script src="{{ asset('store/javascripts/jquery.camera.min.js') }}" type="text/javascript"></script>	
+	<script src="{{ asset('store/javascripts/jquery.camera.min.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('store/javascripts/cookies.js') }}" type="text/javascript"></script>
-	<script src="{{ asset('store/javascripts/modernizr.js') }}" type="text/javascript"></script>  
+	<script src="{{ asset('store/javascripts/modernizr.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('store/javascripts/application.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('store/javascripts/jquery.owl.carousel.min.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('store/javascripts/jquery.bxslider.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('store/javascripts/skrollr.min.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('store/javascripts/jquery.fancybox-buttons.js') }}" type="text/javascript"></script>
-	<script src="{{ asset('store/javascripts/jquery.zoom.js') }}" type="text/javascript"></script>	
+	<script src="{{ asset('store/javascripts/jquery.zoom.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('store/javascripts/cs.script.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('store/javascripts/lodash.custom.min.js') }}" type="text/javascript"></script>
 	<script src="https://www.google.com/recaptcha/api.js?onload=renderCaptcha&render=explicit" async defer></script>
@@ -67,11 +67,11 @@
 
     <!-- Footer -->
     @include('store.parts._footer')
-    
+
 <script src="{{ asset('store/javascripts/cs.global.js') }}" type="text/javascript"></script>
 <script>
 	var renderCaptcha = function() {
-		uvelStore.renderCaptcha('{{ env('INVISIBLE_RECAPTCHA_SITEKEY') }}');
+		uvelStore.renderCaptcha('{{ env("INVISIBLE_RECAPTCHA_SITEKEY") }}');
 	}
 </script>
 </body>

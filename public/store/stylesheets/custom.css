@@ -3,7 +3,7 @@
 header {
 	z-index: 1;
 	width: 100%;
-	background: none;
+	background: white;
 	transition: margin-top 0.3s, background-color 0.3s;
 }
 
@@ -43,6 +43,63 @@ header .container.top {
 /* Header hidden */
 header.affix .container.top {
 	margin-top: -40px;
+}
+
+header .top-logo img{
+	max-height: 75px;
+	margin:0 auto;
+}
+
+div#homeSearch{
+	width:100%;
+	background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
+    text-align: center;
+    position: relative;
+}
+div#homeSearch::before{
+	content:"";
+	display: block;
+	width:100%;
+	height:120px;
+}
+div#homeSearch div.searchBox{
+    max-width: 80%;
+	min-height: 350px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-bottom: 35px;
+    flex-wrap: wrap;
+}
+div#homeSearch div.searchBox div {
+    width: 50%;
+    margin-right: 15px;
+    min-width: 200px;
+}
+div#homeSearch div.searchBox div input{
+	max-height: 34px;
+    margin: 0;
+}
+div#homeSearch div.searchBox button:not(:hover){
+	background-color: white;
+}
+
+div#homeSearch div.searchError {
+    display: inline-flex;
+    height: 35px;
+    background: rgb(125 93 76 / 80%);
+    text-align: center;
+    line-height: 28px;
+    border: 3px solid #a86d3f;
+    color: white;
+    font-weight: bold;
+    padding: 0 20px;
+    position: absolute;
+    bottom: 80px;
+    left: calc(50% - 120px);
 }
 
 /* Header responsive styles */
@@ -122,24 +179,24 @@ header.affix .container.top {
 }
 
 /* iPad Pro specific styles */
-@media only screen 
-  and (min-width: 1024px) 
-  and (max-height: 1366px) 
-  and (orientation: portrait) 
+@media only screen
+  and (min-width: 1024px)
+  and (max-height: 1366px)
+  and (orientation: portrait)
   and (-webkit-min-device-pixel-ratio: 1.5) {
 	header {
 		position: fixed;
 	}
-	
+
 	header.affix .top-logo {
 		margin-top: -54px;
 		transition: margin-top 0.3s ease-out;
 	}
-	
+
 	header.affix {
 		display: block !important;
 	}
-	
+
 	header.affix .top-navigation {
 		height: 50px;
 		transition: height 0.5s;
@@ -800,24 +857,24 @@ li.element {
 	input.btn {
 		height: 50px;
 	}
-	
+
 	.element .row-container .row-left {
 		height: 300px !important;
 	}
-	
+
 	.effect-ajax-cart {
 		display: inline;
 	}
-	
+
 	#product-image.product-image .image,
 	#product-image.product-image #detail-right-column {
 		padding: 0;
 	}
-	
+
 	#product-image.product-image .product-image-thumb {
 		padding-top: 14px;
 	}
-	
+
 	.product-page .at-svc-facebook {
 		margin-left: -10px;
 	}
@@ -825,7 +882,7 @@ li.element {
 	.product-page #product-information .wls {
 		text-align: center;
 	}
-	
+
 	.view-product #product .image {
 		padding: 0;
 	}
@@ -849,7 +906,7 @@ li.element {
 	.view-product .spr-button {
 		width: 100%;
 	}
-	
+
 	#gallery_main_mobile {
 		padding-top: 12px;
 	}
@@ -865,7 +922,7 @@ li.element {
 	#product-image #detail-right-column {
 		padding: 0;
 	}
-	
+
 	#shopify-product-reviews .spr-container {
 		border: 0;
 	}
@@ -883,7 +940,7 @@ li.element {
 	}
 }
 
-@media (min-width: 376px) and (max-width: 414px) {	
+@media (min-width: 376px) and (max-width: 414px) {
 	#product-header > div {
 		display: block;
 		width: 100%;
@@ -904,7 +961,7 @@ li.element {
 		padding: 4px;
 		object-fit: cover;
 	}
-	
+
 	.product-image .owl-wrapper {
 		padding: auto -2px !important;
 	}
@@ -914,17 +971,17 @@ li.element {
 	.owl-wrapper .owl-item .collection-details {
 		height: 200px !important;
 	}
-	
+
 	#product-header > div {
 		display: block;
 		width: 100%;
 	}
-	
+
 	#product-header #product-info-right {
 		padding: 0;
 		border: 0;
 	}
-	
+
 	#sandBox .element.no_full_width {
 		padding: 0;
 	}

@@ -81,8 +81,7 @@ class CurrencyController extends Controller
      * @param  \App\Currency  $currencies
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Currency $currency)
-    {
+    public function update(Request $request, Currency $currency){
         if($currency){
             $validator = Validator::make( $request->all(), [
                 'name' => 'required',

@@ -262,6 +262,11 @@ var uvel,
         controllers: [],
         initialized: false
       },
+      system_settings: {
+        selector: '[name="system_setting"]',
+        controllers: ['imageHandling'],
+        initialized: false
+      },
       stonesQuantityIncrease: {
         selector: '[name="stonesQuantityIncrease"]',
         controllers: [],

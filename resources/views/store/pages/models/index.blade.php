@@ -50,8 +50,8 @@
 
 												<div class="tag-group" id="coll-filter-3">
 													<p class="title">Цена</p>
-													<input type="number" class="form-control" placeholder="От" data-id="priceFrom[]=" value="{{isset($_GET['priceFrom'][0]) ? $_GET['priceFrom'][0] : ''}}">
-													<input type="number" class="form-control" placeholder="До" data-id="priceTo[]=" value="{{isset($_GET['priceTo'][0]) ? $_GET['priceTo'][0] : ''}}">
+													<input type="number" class="form-control" placeholder="От" data-id="priceFrom[]=" value="{{isset($_GET['priceFrom'][0]) ? $_GET['priceFrom'][0] : ''}}" min=0 />
+													<input type="number" class="form-control" placeholder="До" data-id="priceTo[]=" value="{{isset($_GET['priceTo'][0]) ? $_GET['priceTo'][0] : ''}}" min=0 />
 												</div>
 											</div>
 										</div>
@@ -140,14 +140,14 @@
 																<i class="fa fa-lg fa-th-list"></i>
 																<span class="list-mode">Преглед</span>
 															</a>
-															
+
 															<button class="product-ajax-qs hidden-xs hidden-sm quick_shop" data-target="#quick-shop-modal" data-toggle="modal"
 																 			data-url="models/{{ $model->id }}/" title="Бърз Преглед">
 																<i class="fa fa-lg fa-eye"></i>
 																<span class="list-mode">Бърз преглед</span>
 															</button>
 														</div>
-														
+
 													</li>
 												</ul>
 											</li>

@@ -901,9 +901,6 @@ jQuery(document).ready(function($) {
   if(touch){
     updateScrollThumbs();
   }
-  else{
-
-  }
 
   /* Handle sort by */
   handleSortBy();
@@ -925,5 +922,40 @@ jQuery(document).ready(function($) {
     return true;
   });
 
+});
 
+$(document).on('focus','input[name="search_term"]',function(){
+  $('div#homeSearch div.searchError').remove();
+});
+
+$(document).on('submit','form#headerSearch',function(e){
+  e.preventDefault();
+
+  var searchTerm = $('input[name="search_term"]').val();
+  if(searchTerm == ''){return false;}
+
+  $.ajax({
+      method: 'POST',
+      url: '/ajax/search',
+      data: { term : searchTerm },
+      dataType: "json",
+
+      success:function(response){
+        // No products were found
+        if(response === undefined || response.length == 0){
+          $('div#homeSearch').append('<div class="searchError">Няма намерени продукти</div>');
+          setTimeout(function(){
+            $('div#homeSearch div.searchError').remove();
+          },3000);
+        }
+
+        if(response.go_to_page !== undefined){
+          window.location=response.go_to_page;
+        }
+      },
+
+      error:function(response){
+        console.log(response);
+      }
+    });
 });

@@ -10,7 +10,7 @@
 						<div class="group_input">
 							<input class="form-control" type="email" placeholder="Вашият имейл адрес" name="email" id="email-input">
 							<div class="unpadding-top">
-								<div 
+								<div
 									id="subscribe_captcha"
 									data-size="invisible" data-captcha="subscribe_captcha" data-callback="formSubmit">
 								</div>
@@ -53,7 +53,7 @@
 							<li><a href="{{ route('contactus') }}">Контакт</a></li>
 							<li><a href="{{ route('about') }}">За нас</a></li>
 							<li>
-								<a target="_blank" href="#" class="btooltip swing" data-toggle="tooltip" data-placement="bottom" title=""
+								<a target="_blank" href="{{ App\Setting::get('facebook_link') }}" class="btooltip swing" data-toggle="tooltip" data-placement="bottom" title=""
 									data-original-title="Facebook">
 								 	<i class="fa fa-lg fa-facebook"></i>
 								</a>
@@ -66,7 +66,7 @@
 		<div class="footer-content footer-content-bottom clearfix">
 			<div class="container">
 				<div class="copyright col-md-12">
-					© 2018 <a href="./about-us.html">Uvel</a>. Всички права запазени!
+					<a href="./about-us.html">Uvel</a> © {{ date('Y') }}. Всички права запазени!
 				</div>
 				<div id="widget-payment" class="col-md-12">
 					<ul id="payments" class="list-inline animated">

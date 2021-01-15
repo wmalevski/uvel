@@ -9,27 +9,15 @@
 </div>
 <div id="content-wrapper-parent" class="home-page">
 	<div id="content-wrapper">
-		<div class="row" @if(!count($slides)) style="padding-top: 110px;" @endif></div>
-		<!-- Main Slideshow -->
-		@if(count($slides))
-		<div class="home-slider-wrapper clearfix">
-			<div class="camera_wrap" id="home-slider">
-				@foreach($slides as $slide)
-				<div data-src="{{ asset("uploads/slides/".$slide->photo) }}">
-					<div class="camera_caption camera_title_1 fadeIn">
-						<a href="{{ $slide->button_link }}" style="color:#010101;">{{ $slide->title }}</a>
-					</div>
-					<div class="camera_caption camera_caption_1 fadeIn" style="color: rgb(1, 1, 1);">
-						{{ $slide->content }}
-					</div>
-					<div class="camera_cta_1">
-						<a href="{{ $slide->button_link }}" class="btn">{{ $slide->button_text }}</a>
-					</div>
+		<form name="headerSearch" id="headerSearch" method="POST">
+			<div class="row" id="homeSearch" style="background-image:url('{{ App\Setting::get('website_header') }}');">
+				<div class='searchBox'>
+					<div><input name="search_term" type="text" placeholder="Намери продукт" class="form-control" /></div>
+					<button id="searchButton" class="btn btn-1" type="submit">ТЪРСИ</button>
 				</div>
-				@endforeach
 			</div>
-		</div>
-		@endif
+		</form>
+
 		<!-- Content -->
 		<div id="content" class="clearfix">
 			<section class="content">
