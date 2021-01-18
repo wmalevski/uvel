@@ -55,12 +55,6 @@ class UserPayment extends Model
 
             $payment->save();
 
-
-            // Add the payment to the Cash Register
-            $cashRegister = new CashRegister();
-            $cashRegister->RecordIncome($payment->price, false, $payment->store_id);
-
-
             // Send Email-to-SMS to the admin, only if the environment is not LOCAL or DEVELOPMENT
             if(strtolower(env('APP_ENV')) !== 'local' && strtolower(env('APP_ENV')) !== 'development'){
                 Mail::send('sms',

@@ -110,6 +110,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::get('/expenses', 'ExpenseController@index')->name('expenses');
         Route::get('/expenses/{expense}', 'ExpenseController@edit');
 
+        // Income
+        Route::get('/income', 'IncomeController@index')->name('income');
+        Route::get('/income/{income}', 'IncomeController@edit');
+
         Route::get('/materialsreports', 'MaterialQuantityController@materialReport')->name('materials_reports');
 
         Route::get('/productsreports', 'ProductController@productsReport')->name('products_reports');
@@ -181,6 +185,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         //Expenses
         Route::get('/expensetypes', 'ExpenseTypeController@index')->name('expenses_types');
         Route::get('/expensetypes/edit/{type}', 'ExpenseTypeController@edit');
+
+        // Income
+        Route::get('/income_types', 'IncomeTypeController@index')->name('income_types');
+        Route::get('/income_types/edit/{type}', 'IncomeTypeController@edit');
 
         //Productsothers
         Route::get('/productsotherstypes', 'ProductOtherTypeController@index')->name('products_others_types');
@@ -351,6 +359,11 @@ Route::group(['prefix' => 'ajax'], function() {
         Route::get('/expensetypes/edit/{type}', 'ExpenseTypeController@edit');
         Route::post('/expensetypes', 'ExpenseTypeController@store');
         Route::put('/expensetypes/{type}', 'ExpenseTypeController@update');
+
+        // Income types
+        Route::get('/income_types/edit/{type}', 'IncomeTypeController@edit');
+        Route::post('/income_types', 'IncomeTypeController@store');
+        Route::put('/income_types/{type}', 'IncomeTypeController@update');
     });
 
     Route::group(['middleware' => ['check_user_role:' . \App\Role\UserRole::ROLE_ADMIN]], function () {
@@ -450,6 +463,13 @@ Route::group(['prefix' => 'ajax'], function() {
         //Expenses types
         Route::post('/expensetypes/delete/{type}', 'ExpenseTypeController@destroy');
 
+        // Income types
+        Route::post('/income_types/delete/{type}', 'IncomeTypeController@destroy');
+
+        // Income
+        Route::put('/income/{income}', 'IncomeController@update');
+        Route::post('/income/delete/{income}', 'IncomeController@destroy');
+
         Route::post('/filterInquiryDate', 'DailyReportController@filterInquiryDate');
 
         // Cash Register filter
@@ -523,6 +543,8 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/infophones/delete/{phone}', 'InfoPhoneController@destroy');
 
     Route::post('/expenses', 'ExpenseController@store');
+
+    Route::post('/income', 'IncomeController@store');
 
     Route::post('/dailyreports', 'DailyReportController@store');
 
@@ -687,4 +709,3 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Store'], function() {
 
     Route::post('/search', 'StoreController@search');
 });
-

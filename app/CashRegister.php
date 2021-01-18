@@ -34,7 +34,12 @@ class CashRegister extends Model{
 		CashRegister::$date = date('Y-m-d');
 
 		// Set the default Store
-		CashRegister::$store = Auth::user()->getStore()->id;
+		try{
+			CashRegister::$store = Auth::user()->getStore()->id;
+		}
+		catch(Exception $e){
+			CashRegister::$store = false;
+		}
 
 		// Get the currency ID for the default Currency (assumed BGN)
 		CashRegister::$default_currency = Currency::where('default', 'yes')->first()->id;
@@ -54,7 +59,7 @@ class CashRegister extends Model{
 		if($currency_id == false){$currency_id = CashRegister::$default_currency;}
 
 		// Store is not always passed
-		if($store == false){$store = CashRegister::$store;}
+		if($store == false && CashRegister::$store !== false){$store = CashRegister::$store;}
 
 		// If the passed sum is not in the default currency we need to convert it
 		if($currency_id !== CashRegister::$default_currency){
@@ -166,5 +171,47 @@ class CashRegister extends Model{
 		$register->total -= $new_expense;
 
 		$register->save();
+	}
+
+	/**
+	 * Function used to update Income via /admin/income
+	 */
+	public static function updateIncome($old_currency, $new_currency, $old_sum, $new_sum){
+		// No change on the currency and sum => no need to process this
+		if($old_currency == $new_currency && $old_sum == $new_sum){return true;}
+
+
+		$old_income = $old_sum;
+		$new_income = $new_sum;
+
+		// Ensure both sums are in the default currency
+		if($old_currency !== CashRegister::$default_currency){
+			// Get conversion rate for the passed currency
+			$old_currency_conversion_rate = Currency::where('id', $old_currency)->first()->currency;
+			// Do the "exchange" into Default currency
+			$old_income = number_format($old_sum / $old_currency_conversion_rate, 2, '.', '');
+		}
+		if($new_currency !== CashRegister::$default_currency){
+			// Get conversion rate for the passed currency
+			$new_currency_conversion_rate = Currency::where('id', $new_currency)->first()->currency;
+			// Do the "exchange" into Default currency
+			$new_income = number_format($new_sum / $new_currency_conversion_rate, 2, '.', '');
+		}
+
+
+		$register = CashRegister::firstOrNew(array('date'=>CashRegister::$date, 'store_id'=>CashRegister::$store));
+
+		// Negate the old income of the total
+		$register->income -= $old_income;
+		$register->total -= $old_income;
+
+		// Add the new income
+		$register->income += $new_income;
+		$register->total += $new_income;
+
+		CashRegister::where(array('date'=>CashRegister::$date, 'store_id'=>CashRegister::$store))->update(array(
+			'income' => $register->income,
+			'total' => $register->total
+		));
 	}
 }

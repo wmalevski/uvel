@@ -176,10 +176,16 @@
                             <a class="sidebar-link" href="{{ route('daily_reports') }}">Дневни отчети</a>
                         </li>
                         @endif
+                        <li class="{{ Active::ifRouteIn('income') }}">
+                            <a class="sidebar-link" href="{{ route('income') }}">Приходи</a>
+                        </li>
                         <li class="{{ Active::ifRouteIn('expenses') }}">
                             <a class="sidebar-link" href="{{ route('expenses') }}">Разходи</a>
                         </li>
                         @if(in_array(\Illuminate\Support\Facades\Auth::user()->role,['admin', 'storehouse']))
+                        <li class="{{ Active::ifRouteIn('income_types') }}">
+                            <a class="sidebar-link" href="{{ route('income_types') }}">Типове приходи</a>
+                        </li>
                         <li class="{{ Active::ifRouteIn('expenses_types') }}">
                             <a class="sidebar-link" href="{{ route('expenses_types') }}">Типове разходи</a>
                         </li>
@@ -196,14 +202,14 @@
                         <span class="title">Блог</span>
                     </a>
                 </li>
-                <li class="nav-item {{ Active::ifRouteIn('slides') }}">
+<!--                 <li class="nav-item {{ Active::ifRouteIn('slides') }}">
                     <a class="sidebar-link" href="{{ route('slides') }}">
                 <span class="icon-holder">
                   <i class="ti-image"></i>
                 </span>
                         <span class="title">Слайдове</span>
                     </a>
-                </li>
+                </li> -->
                 <li class="nav-item {{ Active::ifRouteIn(['prices', 'view_price']) }}">
                     <a class="sidebar-link" href="{{ route('prices') }}">
                   <span class="icon-holder">
@@ -490,6 +496,9 @@
                             </li>
 
                         @endif
+                        <li class="{{ Active::ifRouteIn('income') }}">
+                            <a class="sidebar-link" href="{{ route('income') }}">Приходи</a>
+                        </li>
                         <li class="{{ Active::ifRouteIn('expenses') }}">
                             <a class="sidebar-link" href="{{ route('expenses') }}">Разходи</a>
                         </li>

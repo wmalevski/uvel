@@ -21,7 +21,7 @@ class CashRegisterController extends Controller{
 	 */
 	public function index(){
 		$register = new CashRegister;
-		$register = CashRegister::where('store_id', CashRegister::$store)->get();
+		$register = CashRegister::where('store_id', CashRegister::$store)->orderBy('date','DESC')->get();
 
 		$stores = Store::all();
 
@@ -51,7 +51,7 @@ class CashRegisterController extends Controller{
 		$result = '';
 
 		$register = new CashRegister;
-		$register = CashRegister::where('store_id', $store_id)->get();
+		$register = CashRegister::where('store_id', $store_id)->orderBy('date','DESC')->get();
 
 		foreach($register as $entry){
 			$result .= View::make('admin/cash_register/table', array(

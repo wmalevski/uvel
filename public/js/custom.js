@@ -247,6 +247,16 @@ var uvel,
         controllers: ['transferCheckboxInit'],
         initialized: false
       },
+      incomeTypes: {
+        selector: '[name="incomeTypes"]',
+        controllers: [],
+        initialized: false
+      },
+      income: {
+        selector: '[name="income"]',
+        controllers: [],
+        initialized: false
+      },
       dailyReports: {
         selector: '[name="dailyReports"]',
         controllers: [],
