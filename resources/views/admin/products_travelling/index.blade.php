@@ -78,26 +78,24 @@
               <table id="main_table" class="table table-condensed">
                 <thead>
                     <tr data-sort-method="none">
-                        <th>Снимка</th>
-                        <th>Уникален номер</th>
-                        <th>Тегло</th>
-                        <th>Приеми продукт</th>
-                        <th>Изпратен на</th>
-                        <th>От магазин</th>
-                        <th>До магазин</th>
-                        <th>Статус</th>
-                        <th data-sort-method="none"></th>
+                        <th width="10%">Снимка</th>
+                        <th width="15%">Уникален номер</th>
+                        <th width="5%">Тегло</th>
+                        <th width="15%">Приеми продукт</th>
+                        <th width="15%">Изпратен на</th>
+                        <th width="15%">От магазин</th>
+                        <th width="15%">До магазин</th>
+                        <th width="5%">Статус</th>
+                        <th width="5%" data-sort-method="none"></th>
                     </tr>
                 </thead>
-                  
+
                 <tbody>
-                    @foreach($travelling as $product)
-                        @if($loggedUser->role != 'admin' && $loggedUser->role != 'storehouse' && $product->store_to_id == $loggedUser->store_id)
+                    @if( in_array($loggedUser->role,array('admin','storehouse')) || $product->store_to_id == $loggedUser->store_id )
+                        @foreach($travelling as $product)
                             @include('admin.products_travelling.table')
-                        @elseif($loggedUser->role == 'admin' || $loggedUser->role == 'storehouse')
-                            @include('admin.products_travelling.table')
-                        @endif
-                    @endforeach
+                        @endforeach
+                    @endif
                 </tbody>
               </table>
             </div>

@@ -150,7 +150,7 @@ aria-hidden="true">
                     <div class="input-group-addon bgc-white bd bdwR-0">
                         <i class="ti-calendar"></i>
                     </div>
-                    
+
                     <input type="text" name="date_from" class="form-control bdc-grey-200 start-date"
                             placeholder="От дата: " data-date-autoclose="true" data-provide="datepicker" data-date-format="yyyy-mm-dd" />
                 </div>
@@ -163,7 +163,7 @@ aria-hidden="true">
                     <div class="input-group-addon bgc-white bd bdwR-0">
                         <i class="ti-calendar"></i>
                     </div>
-                    
+
                     <input type="text" name="date_to" class="form-control bdc-grey-200 end-date"
                             placeholder="До дата: " data-date-autoclose="true" data-provide="datepicker" data-date-format="yyyy-mm-dd"/>
                 </div>
@@ -178,11 +178,12 @@ aria-hidden="true">
       <table id="main_table" class="table">
         <thead>
           <tr>
-            <th scope="col">Основание</th> 
-            <th scope="col">Сума</th> 
-            <th scope="col">От магазин </th> 
-            <th scope="col">До магазин </th> 
-            <th scope="col">Валута</th> 
+            <th scope="col">Основание</th>
+            <th scope="col">Сума</th>
+            <th scope="col">От магазин </th>
+            <th scope="col">До магазин </th>
+            <th scope="col">Валута</th>
+            <th scope="col">Дата</th>
             <th scope="col">Пояснение</th>
               @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
                 <th scope="col" data-sort-method="none">Действия</th>
