@@ -88,7 +88,7 @@
 										</a>
 									</li>
 									<li class="nav-item dropdown">
-										<a href="{{ route('products') }}" class="dropdown-toggle dropdown-link" data-toggle="dropdown">
+										<a href="{{ route('products') }}?byJewel[]={{ trim(\App\Jewel::where('deleted_at', NULL)->take(1)->get()[0]['id']) }}&byMaterial[]={{ trim(\App\Material::where('parent_id', \App\MaterialType::where('deleted_at', NULL)->take(1)->get()[0]['id'])->take(1)->get()[0]['id']) }}&listType=goGrid" class="dropdown-toggle dropdown-link" data-toggle="dropdown">
 											<span>Налични Бижута</span>
 											<i class="fa fa-caret-down"></i>
 											<i class="sub-dropdown1 visible-sm visible-md visible-lg"></i>
@@ -97,12 +97,7 @@
 										<ul class="dropdown-menu" style="display: none;">
 											@foreach($materialTypes as $material => $type)
 												<li  class="{{ filter_products('byMaterial', $type->id) }}">
-													<a tabindex="-1" href="{{ route('products') }}?
-													@foreach(\App\Material::where('parent_id', $type->id)->get() as $material_type => $current_type)byMaterial[]={{trim($current_type->id)}}
-														@if(1 + $material_type < count(\App\Material::where('parent_id', $type->id)->get()))& @else &listType=goGrid @endif
-													@endforeach">
-														{{ $type->name }}
-													</a>
+													<a tabindex="-1" href="{{ route('products') }}?byJewel[]={{ trim(\App\Jewel::where('deleted_at', NULL)->take(1)->get()[0]['id']) }}&byMaterial[]={{ trim(\App\Material::where('parent_id', $type->id)->take(1)->get()[0]['id']) }}&listType=goGrid">{{ $type->name }}</a>
 												</li>
 											@endforeach
 
@@ -117,7 +112,7 @@
 									</li>
 
 									<li class="nav-item">
-										<a href="{{ route('models') }}">
+										<a href="{{ route('models') }}?byJewel[]={{ trim(\App\Jewel::where('deleted_at', NULL)->take(1)->get()[0]['id']) }}&listType=goGrid">
 											<span>По поръчка</span>
 										</a>
 									</li>

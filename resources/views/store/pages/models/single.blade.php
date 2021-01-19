@@ -26,13 +26,10 @@
 							<div itemscope="" itemtype="http://schema.org/Product">
 								<div id="product" class="content clearfix">
 									<h1 id="page-title" class="text-center">
-										<span itemprop="name">
-											{{ $model->name }}
-										</span>
+										<span itemprop="name">{{ $model->name }}</span>
 									</h1>
 									<div id="product-image" class="product-image row">
-										<div id="detail-left-column" class="hidden-xs left-coloum col-sm-6 col-sm-6 fadeInRight not-animated"
-										 data-animate="fadeInRight">
+										<div id="detail-left-column" class="hidden-xs left-coloum col-sm-6 col-sm-6 fadeInRight not-animated" data-animate="fadeInRight">
 											<div id="gallery_main" class="product-image-thumb thumbs full_width ">
 												<ul class="slide-product-image">
 													@foreach($model->photos as $image)
@@ -62,21 +59,11 @@
 										<div id="detail-right-column" class="right-coloum col-sm-6 fadeInLeft not-animated" data-animate="fadeInLeft">
 											<div class="addthis_sharing_toolbox" data-url="#">
 												<div id="atstbx" class="at-share-tbx-element addthis_32x32_style addthis-smartlayers addthis-animated at4-show">
-													<a class="at-share-btn at-svc-facebook">
-														<span class="at4-icon aticon-facebook" title="Facebook"></span>
-													</a>
-													<a class="at-share-btn at-svc-twitter">
-														<span class="at4-icon aticon-twitter" title="Twitter"></span>
-													</a>
-													<a class="at-share-btn at-svc-email">
-														<span class="at4-icon aticon-email" title="Email"></span>
-													</a>
-													<a class="at-share-btn at-svc-print">
-														<span class="at4-icon aticon-print" title="Print"></span>
-													</a>
-													<a class="at-share-btn at-svc-compact">
-														<span class="at4-icon aticon-compact" title="More"></span>
-													</a>
+													<a class="at-share-btn at-svc-facebook"><span class="at4-icon aticon-facebook" title="Facebook"></span></a>
+													<a class="at-share-btn at-svc-twitter"><span class="at4-icon aticon-twitter" title="Twitter"></span></a>
+													<a class="at-share-btn at-svc-email"><span class="at4-icon aticon-email" title="Email"></span></a>
+													<a class="at-share-btn at-svc-print"><span class="at4-icon aticon-print" title="Print"></span></a>
+													<a class="at-share-btn at-svc-compact"><span class="at4-icon aticon-compact" title="More"></span></a>
 												</div>
 											</div>
 										</div>
@@ -96,19 +83,17 @@
 															</ul>
 														</li>
 													</ul>
-                        </div>
-                        @if($model->options->first()->material->for_exchange == 'yes') 
-                          <div class="description">
-                            <ul>
-                              <li>
-                                <h5>Обмяна</h5>
-                                <ul class="sub">
-                                  <li>{{ $model->weight }} гр. + {{ $model->workmanship }} лв.</li>
-                                </ul>
-                              </li>
-                            </ul>
-                          </div>
-                        @endif
+                        						</div>
+						                        @if(isset($model->options->first()->material) && $model->options->first()->material->for_exchange == 'yes')
+						                        <div class="description">
+						                        	<ul>
+						                        		<li>
+						                        			<h5>Обмяна</h5>
+						                        			<ul class="sub"><li>{{ $model->weight }} гр. + {{ $model->workmanship }} лв.</li></ul>
+						                        		</li>
+						                        	</ul>
+						                        </div>
+						                        @endif
 											</div>
 											<div id="product-info-right">
 												<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="col-sm-24 group-variants">
@@ -160,7 +145,7 @@
 													</li>
 												</ul>
 												<div id="pop-one" style="display: none;">
-													<img src="./assets/images/demo_870x580.png" alt="">
+													<img src="" alt="">
 												</div>
 												<div id="pop-two" style="display: none;">
 													<h5>Returns Policy</h5>
@@ -226,7 +211,7 @@
 													 class="new-review-form" data-form-captcha>
 														{{ csrf_field() }}
 														<input type="hidden" name="rating" value="5">
-														<div 
+														<div
 															id="review_form"
 															data-size="invisible" data-captcha="review_form" data-callback="formSubmit">
 														</div>
@@ -363,5 +348,4 @@
 		</div>
 	</div>
 </div>
-
 @endsection

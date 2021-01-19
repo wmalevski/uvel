@@ -92,9 +92,9 @@ class StoneStyleController extends Controller
         }
 
         $stoneStyle->name = $request->name;
-        
+
         $stoneStyle->save();
-        
+
         return Response::json(array('ID' => $stoneStyle->id, 'table' => View::make('admin/stone_styles/table', array('style' => $stoneStyle))->render()));
     }
 
@@ -103,7 +103,7 @@ class StoneStyleController extends Controller
 
         $styles_new = new StoneStyle();
         $styles = $styles_new->filterStyles($request, $query);
-        $styles = $styles->paginate(env('RESULTS_PER_PAGE'));
+        $styles = $styles->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         $pass_styles = array();
 

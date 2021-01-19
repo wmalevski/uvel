@@ -42,7 +42,7 @@ class ModelController extends Controller
         $stones = Stone::take(env('SELECT_PRELOADED'))->get();
         $materials = Material::take(env('SELECT_PRELOADED'));
         $pass_stones = array();
-        
+
         foreach($stones as $stone){
             $pass_stones[] = [
                 'value' => $stone->id,
@@ -53,7 +53,7 @@ class ModelController extends Controller
         }
 
         $pass_materials = array();
-        
+
         foreach($materials as $material){
             if($material->pricesSell->first()){
                 $pass_materials[] = [
@@ -120,7 +120,7 @@ class ModelController extends Controller
 
         $model->website_visible =  'no';
         if($request->website_visible == 'true') $model->website_visible =  'yes';
-        
+
         $model->release_product =  'no';
         if($request->release_product == 'true') $model->release_product =  'yes';
 
@@ -139,18 +139,18 @@ class ModelController extends Controller
                     }else{
                         $model_stones->flow = 'no';
                     }
-                    
+
                     $model_stones->save();
                 }
             }
         }
 
         $path = public_path('uploads/models/');
-        
+
         File::makeDirectory($path, 0775, true, true);
         Storage::disk('public')->makeDirectory('models', 0775, true);
 
-        
+
         if($file_data){
             foreach($file_data as $img){
                 $memi = substr($img, 5, strpos($img, ';')-5);
@@ -164,7 +164,7 @@ class ModelController extends Controller
                 }
 
                 $file_name = 'modelimage_'.uniqid().time().'.'.$ext;
-            
+
                 $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
                 file_put_contents(public_path('uploads/models/').$file_name, $data);
 
@@ -187,13 +187,13 @@ class ModelController extends Controller
                     $model_option->material_id = $material;
                     $model_option->retail_price_id = $request->retail_price_id[$key];
                     $model_option->default = $request->default_material[$key];
-    
+
                     if($request->default_material[$key] == 'true'){
                         $model_option->default = "yes";
                     }else{
                         $model_option->default = "no";
                     }
-    
+
                     $model_option->save();
                 }
             }
@@ -235,7 +235,7 @@ class ModelController extends Controller
             $material->quantity += $request->weight;
             $material->save();
 
-            $digits =(string)$bar;  
+            $digits =(string)$bar;
             // 1. Add the values of the digits in the even-numbered positions: 2, 4, 6, etc.
             $even_sum = $digits{1} + $digits{3} + $digits{5} + $digits{7} + $digits{9} + $digits{11};
             // 2. Multiply this result by 3.
@@ -250,8 +250,8 @@ class ModelController extends Controller
             $product->barcode = $digits . $check_digit;
 
             $product->website_visible =  'yes';
-           
-            
+
+
             $product->save();
 
             $stoneQuantity = 1;
@@ -294,34 +294,34 @@ class ModelController extends Controller
             }
 
             $path = public_path('uploads/products/');
-        
+
             File::makeDirectory($path, 0775, true, true);
             Storage::disk('public')->makeDirectory('models', 0775, true);
 
             if($file_data){
                 foreach($file_data as $img){
                     $memi = substr($img, 5, strpos($img, ';')-5);
-                    
+
                     $extension = explode('/',$memi);
-        
+
                     if($extension[1] == "svg+xml"){
                         $ext = 'png';
                     }else{
                         $ext = $extension[1];
                     }
-                    
-        
+
+
                     $file_name = 'productimage_'.uniqid().time().'.'.$ext;
                     $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
                     file_put_contents(public_path('uploads/products/').$file_name, $data);
 
                     Storage::disk('public')->put('products/'.$file_name, file_get_contents(public_path('uploads/products/').$file_name));
-        
+
                     $photo = new Gallery();
                     $photo->photo = $file_name;
                     $photo->product_id = $product->id;
                     $photo->table = 'products';
-        
+
                     $photo->save();
                 }
             }
@@ -383,7 +383,7 @@ class ModelController extends Controller
 
         $materials = Material::take(env('SELECT_PRELOADED'))->get();
         $pass_stones = array();
-        
+
         foreach($stones as $stone) {
             $pass_stones[] = [
                 'value' => $stone->id,
@@ -394,7 +394,7 @@ class ModelController extends Controller
         }
 
         $pass_materials = array();
-        
+
         foreach($materials as $material){
             $pass_materials[] = [
                 'value' => $material->id,
@@ -588,7 +588,7 @@ class ModelController extends Controller
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
-        
+
         $model->name = $request->name;
         $model->jewel_id = $request->jewel_id;
         $model->price = round($request->price);
@@ -606,7 +606,7 @@ class ModelController extends Controller
         $model->save();
 
         $path = public_path('storage/models/');
-        
+
         File::makeDirectory($path, 0775, true, true);
 
         $deleteStones = ModelStone::where('model_id', $model->id)->delete();
@@ -639,13 +639,13 @@ class ModelController extends Controller
                     $model_option->material_id = $material;
                     $model_option->retail_price_id = $request->retail_price_id[$key];
                     $model_option->default = $request->default_material[$key];
-    
+
                     if($request->default_material[$key] == 'true'){
                         $model_option->default = "yes";
                     }else{
                         $model_option->default = "no";
                     }
-    
+
                     $model_option->save();
                 }
             }
@@ -668,14 +668,14 @@ class ModelController extends Controller
         if($file_data){
             foreach($file_data as $img){
                 $memi = substr($img, 5, strpos($img, ';')-5);
-                
+
                 $extension = explode('/',$memi);
                 if($extension[1] == "svg+xml"){
                     $ext = 'svg';
                 }else{
                     $ext = $extension[1];
-                }         
-                
+                }
+
                 $file_name = 'modelimage_'.uniqid().time().'.'.$ext;
 
                 $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
@@ -845,7 +845,7 @@ class ModelController extends Controller
 
         $models_new = new Model();
         $models = $models_new->filterModels($request, $query);
-        $models = $models->paginate(env('RESULTS_PER_PAGE'));
+        $models = $models->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         $pass_models = array();
 
@@ -860,13 +860,13 @@ class ModelController extends Controller
 
         return json_encode($pass_models, JSON_UNESCAPED_SLASHES );
     }
-    
+
     public function filter(Request $request){
         $query = Model::select('*');
 
         $models_new = new Model();
-        $models = $models_new->filterModels($request, $query)->paginate(env('RESULTS_PER_PAGE'));
-        
+        $models = $models_new->filterModels($request, $query)->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+
         $response = '';
         foreach($models as $model){
             $response .= \View::make('admin/models/table', array('model' => $model, 'listType' => $request->listType));
@@ -888,7 +888,7 @@ class ModelController extends Controller
     {
         if($model){
             $using = Product::where('model_id', $model->id)->count();
-            
+
             if($using){
                 return Response::json(['errors' => ['using' => ['Този елемент се използва от системата и не може да бъде изтрит.']]], 401);
             }else{
@@ -896,7 +896,7 @@ class ModelController extends Controller
                 $model->save();
                 $model->photos()->delete();
                 $model->delete();
-                
+
                 return Response::json(array('success' => 'Успешно изтрито!'));
             }
         }

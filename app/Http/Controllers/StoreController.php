@@ -48,13 +48,13 @@ class StoreController extends Controller
             'location' => 'required',
             'phone' => 'required|numeric',
          ]);
-        
+
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
         $store = Store::create($request->all());
-        
+
         return Response::json(array('success' => View::make('admin/stores/table',array('store'=>$store))->render()));
     }
 
@@ -90,23 +90,23 @@ class StoreController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Store $store)
-    {   
+    {
         $validator = Validator::make( $request->all(), [
             'name' => 'required',
             'location' => 'required',
             'phone' => 'required|numeric',
          ]);
-        
+
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
-        
+
         $store->name = $request->name;
         $store->location = $request->location;
         $store->phone = $request->phone;
-        
+
         $store->save();
-        
+
         return Response::json(array('ID' => $store->id, 'table' => View::make('admin/stores/table', array('store' => $store))->render()));
     }
 
@@ -115,7 +115,7 @@ class StoreController extends Controller
 
         $stores_new = new Store();
         $stores = $stores_new->filterStores($request, $query);
-        $stores = $stores->paginate(env('RESULTS_PER_PAGE'));
+        $stores = $stores->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         $pass_stores = array();
 

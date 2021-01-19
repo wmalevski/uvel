@@ -157,7 +157,7 @@
                         </a>
                     </li>
                 @endif
-                <li class="nav-item dropdown {{ Active::ifRouteIn(['stores', 'daily_reports', 'expenses', 'expenses_types', 'create_report']) }}">
+                <li class="nav-item dropdown {{ Active::ifRouteIn(['stores', 'daily_reports', 'expenses', 'expenses_types', 'create_report', 'income', 'income_types']) }}">
                     <a class="sidebar-link" href="javascript:void(0);">
                 <span class="icon-holder">
                   <i class=" ti-location-arrow"></i>
@@ -453,7 +453,7 @@
                     </ul>
                 </li>
 
-                <li class="nav-item dropdown {{ Active::ifRouteIn(['daily_reports', 'expenses', 'create_report', 'selling_report_export', 'materials_reports', 'mtravelling_reports', 'products_reports', 'productstravelling_reports']) }}">
+                <li class="nav-item dropdown {{ Active::ifRouteIn(['daily_reports', 'expenses', 'create_report', 'selling_report_export', 'materials_reports', 'mtravelling_reports', 'products_reports', 'productstravelling_reports', 'income', 'cash_register']) }}">
                     <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
                 <i class=" ti-slice"></i>

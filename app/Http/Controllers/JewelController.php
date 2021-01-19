@@ -98,9 +98,9 @@ class JewelController extends Controller
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
-        
+
         $jewel->name = $request->name;
-        
+
         $jewel->save();
 
         return Response::json(array('ID' => $jewel->id, 'table' => View::make('admin/jewels/table',array('jewel'=>$jewel))->render()));
@@ -111,7 +111,7 @@ class JewelController extends Controller
 
         $jewels_new = new Jewel();
         $jewels = $jewels_new->filterJewels($request, $query);
-        $jewels = $jewels->paginate(env('RESULTS_PER_PAGE'));
+        $jewels = $jewels->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
         $pass_jewels = array();
 
         foreach($jewels as $jewel){
@@ -131,7 +131,7 @@ class JewelController extends Controller
 
         $jewels_new = new Jewel();
         $jewels = $jewels_new->filterJewels($request, $query);
-        $jewels = $jewels->paginate(env('RESULTS_PER_PAGE'));
+        $jewels = $jewels->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         $response = '';
         foreach($jewels as $jewel){

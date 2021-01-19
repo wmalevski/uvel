@@ -22,7 +22,7 @@ class DiscountCodeController extends Controller
     {
         $discounts = DiscountCode::all();
         $users = User::take(env('SELECT_PRELOADED'))->get();
-        
+
         return \View::make('admin/discounts/index', array('discounts' => $discounts, 'users' => $users));
     }
 
@@ -54,7 +54,7 @@ class DiscountCodeController extends Controller
             'discount' => 'required|integer|between:0,100',
             'barcode' => 'required|integer',
         ]);
-        
+
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
@@ -104,7 +104,7 @@ class DiscountCodeController extends Controller
 
         $discounts_new = new DiscountCode();
         $discounts = $discounts_new->filterDiscountCodes($request, $query);
-        $discounts = $discounts->paginate(env('RESULTS_PER_PAGE'));
+        $discounts = $discounts->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         $response = '';
         foreach($discounts as $discount){
@@ -137,7 +137,7 @@ class DiscountCodeController extends Controller
     public function edit(DiscountCode $discountCode)
     {
         $users = User::all();
-        
+
         return \View::make('admin/discounts/edit', array('users' => $users, 'discount' => $discountCode));
     }
 
@@ -154,7 +154,7 @@ class DiscountCodeController extends Controller
             'discount' => 'required|integer|between:0,100',
             'barcode' => 'required|integer',
         ]);
-        
+
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }

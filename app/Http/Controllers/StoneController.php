@@ -152,7 +152,7 @@ class StoneController extends Controller
                 ['stone_id', '=', $stone->id]
             ]
         )->get();
-        
+
         return \View::make('admin/stones/edit', array('stone' => $stone, 'stone_sizes' => $stone_sizes, 'stone_contours' => $stone_contours, 'stone_styles' => $stone_styles, 'stone_photos' => $stone_photos, 'stores' => $stores, 'nomenclatures' => $nomenclatures));
     }
 
@@ -267,10 +267,10 @@ class StoneController extends Controller
 
         $stone->save();
 
-        $file_data = $request->input('images'); 
+        $file_data = $request->input('images');
 
         $path = public_path('uploads/stones/');
-        
+
         File::makeDirectory($path, 0775, true, true);
 
         if($file_data){
@@ -337,7 +337,7 @@ class StoneController extends Controller
 
         $stones_new = new Stone();
         $stones = $stones_new->filterStones($request, $query);
-        $stones = $stones->paginate(env('RESULTS_PER_PAGE'));
+        $stones = $stones->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         $response = '';
         foreach($stones as $stone){

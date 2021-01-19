@@ -25,7 +25,7 @@ class CustomOrderController extends Controller
     public function index()
     {
         $orders = CustomOrder::all();
-        
+
         return view('admin.orders.custom.index', compact('orders'));
     }
 
@@ -47,7 +47,7 @@ class CustomOrderController extends Controller
      */
     public function store(Request $request)
     {
-        
+
     }
 
     /**
@@ -71,15 +71,15 @@ class CustomOrderController extends Controller
     {
         $photos = $order->photos()->get();
         $pass_photos = array();
-        
+
         foreach($photos as $photo){
             $url =  Storage::get('public/orders/'.$photo->photo);
             $ext_url = Storage::url('public/orders/'.$photo->photo);
-            
+
             $info = pathinfo($ext_url);
-            
+
             $image_name =  basename($ext_url,'.'.$info['extension']);
-            
+
             $base64 = base64_encode($url);
 
             if($info['extension'] == "svg"){
@@ -131,7 +131,7 @@ class CustomOrderController extends Controller
         } else if($request->status_delivered == 'true'){
             $order->status = 'delivered';
         }
-        
+
         $order->save();
 
         return Response::json(array('ID' => $order->id, 'table' => View::make('admin/orders/custom/table',array('order'=>$order))->render()));
@@ -142,7 +142,7 @@ class CustomOrderController extends Controller
 
         $orders_new = new CustomOrder();
         $orders = $orders_new->filterOrders($request, $query);
-        $orders = $orders->paginate(env('RESULTS_PER_PAGE'));
+        $orders = $orders->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         $response = '';
         foreach($orders as $order){

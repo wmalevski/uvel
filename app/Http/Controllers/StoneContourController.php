@@ -92,9 +92,9 @@ class StoneContourController extends Controller
         }
 
         $stoneContour->name = $request->name;
-        
+
         $stoneContour->save();
-        
+
         return Response::json(array('ID' => $stoneContour->id, 'table' => View::make('admin/stone_contours/table', array('contour' => $stoneContour))->render()));
     }
 
@@ -103,7 +103,7 @@ class StoneContourController extends Controller
 
         $contours_new = new Stonecontour();
         $contours = $contours_new->filterContours($request, $query);
-        $contours = $contours->paginate(env('RESULTS_PER_PAGE'));
+        $contours = $contours->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         $pass_contours = array();
 

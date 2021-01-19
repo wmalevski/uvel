@@ -311,7 +311,7 @@ class RepairController extends Controller
 
         $repairs_new = new Repair();
         $repairs = $repairs_new->filterRepairs($request, $query);
-        $repairs = $repairs->paginate(env('RESULTS_PER_PAGE'));
+        $repairs = $repairs->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         $response = '';
         foreach($repairs as $repair){

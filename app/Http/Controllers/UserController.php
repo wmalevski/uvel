@@ -26,7 +26,7 @@ class UserController extends Controller
     {
         $users = User::all();
         $stores = Store::take(env('SELECT_PRELOADED'))->get();
-        
+
         return \View::make('admin/users/index', array('users' => $users, 'stores' => $stores));
     }
 
@@ -39,7 +39,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $stores = Store::all();
-        
+
         return \View::make('admin/users/edit', array('user' => $user, 'stores' => $stores));
     }
 
@@ -50,7 +50,7 @@ class UserController extends Controller
             'role' => 'required',
             'store_id' => 'required'
          ]);
-        
+
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
@@ -62,7 +62,7 @@ class UserController extends Controller
         $user->save();
 
         Bouncer::sync($user)->roles([$request->role]);
-    
+
         return Response::json(array('ID' => $user->id, 'table' => View::make('admin/users/table',array('user'=>$user))->render()));
     }
 
@@ -81,7 +81,7 @@ class UserController extends Controller
             'role' => 'required',
             'store_id' => 'required'
          ]);
-        
+
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
@@ -100,7 +100,7 @@ class UserController extends Controller
             $partner->user_id = $user->id;
             $partner->save();
         }
-        
+
         return Response::json(array('success' => View::make('admin/users/table',array('user'=>$user))->render()));
     }
 
@@ -109,7 +109,7 @@ class UserController extends Controller
 
         $users_new = new User();
         $users = $users_new->filterUsers($request, $query);
-        $users = $users->paginate(env('RESULTS_PER_PAGE'));
+        $users = $users->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
         $pass_users = array();
 
         foreach ($users as $user) {
@@ -131,7 +131,7 @@ class UserController extends Controller
 
         $users_new = new User();
         $users = $users_new->filterUsers($request, $query);
-        $users = $users->paginate(env('RESULTS_PER_PAGE'));
+        $users = $users->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         $response = '';
         foreach($users as $user){
@@ -159,7 +159,7 @@ class UserController extends Controller
                    $discountCode->save();
                 }
             }
-            
+
             $user->delete();
             return Response::json(array('success' => 'Успешно изтрито!'));
         }

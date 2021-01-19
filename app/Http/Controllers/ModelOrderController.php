@@ -22,7 +22,7 @@ class ModelOrderController extends Controller
     public function index()
     {
         $orders = ModelOrder::all();
-        
+
         return view('admin.orders.model.index', compact('orders'));
     }
 
@@ -44,7 +44,7 @@ class ModelOrderController extends Controller
      */
     public function store(Request $request, $model)
     {
-        
+
     }
 
     /**
@@ -97,7 +97,7 @@ class ModelOrderController extends Controller
         } else if($request->status_delivered == 'true'){
             $order->status = 'delivered';
         }
-        
+
         $order->save();
 
         return Response::json(array('ID' => $order->id, 'table' => View::make('admin/orders/model/table',array('order'=>$order))->render()));
@@ -108,7 +108,7 @@ class ModelOrderController extends Controller
 
         $orders_new = new ModelOrder();
         $orders = $orders_new->filterOrders($request, $query);
-        $orders = $orders->paginate(env('RESULTS_PER_PAGE'));
+        $orders = $orders->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         $response = '';
         foreach($orders as $order){

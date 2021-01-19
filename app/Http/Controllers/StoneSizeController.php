@@ -43,7 +43,7 @@ class StoneSizeController extends Controller
         $validator = Validator::make( $request->all(), [
             'name' => 'required|unique:stone_sizes',
         ]);
-        
+
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
@@ -88,15 +88,15 @@ public function edit(StoneSize $stoneSize)
         $validator = Validator::make( $request->all(), [
             'name' => 'required',
         ]);
-        
+
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
         $stoneSize->name = $request->name;
-        
+
         $stoneSize->save();
-        
+
         return Response::json(array('ID' => $stoneSize->id, 'table' => View::make('admin/stone_sizes/table', array('size' => $stoneSize))->render()));
     }
 
@@ -105,7 +105,7 @@ public function edit(StoneSize $stoneSize)
 
         $sizes_new = new Stonesize();
         $sizes = $sizes_new->filterSizes($request, $query);
-        $sizes = $sizes->paginate(env('RESULTS_PER_PAGE'));
+        $sizes = $sizes->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         $pass_sizes = array();
 

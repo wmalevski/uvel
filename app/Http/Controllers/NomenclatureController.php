@@ -87,15 +87,15 @@ class NomenclatureController extends Controller
         $validator = Validator::make( $request->all(), [
             'name' => 'required',
         ]);
-        
+
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
         $nomenclature->name = $request->name;
-        
+
         $nomenclature->save();
-        
+
         return Response::json(array('ID' => $nomenclature->id, 'table' => View::make('admin/nomenclatures/table', array('nomenclature' => $nomenclature))->render()));
     }
 
@@ -104,7 +104,7 @@ class NomenclatureController extends Controller
 
         $nomenclatures_new = new Nomenclature();
         $nomenclatures = $nomenclatures_new->filterNomenclatures($request, $query);
-        $nomenclatures = $nomenclatures->paginate(env('RESULTS_PER_PAGE'));
+        $nomenclatures = $nomenclatures->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         $pass_nomenclatures = array();
 

@@ -25,13 +25,13 @@ class MaterialTravellingController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {  
+    {
         $materials = MaterialQuantity::CurrentStore()->take(env('SELECT_PRELOADED'));
-        
+
         $stores = Store::where('id', '!=', Auth::user()->getStore()->id)->take(env('SELECT_PRELOADED'))->get();
         $materials_types = Material::take(env('SELECT_PRELOADED'))->get();
 
-        $travelling = MaterialTravelling::where('store_from_id', '=', Auth::user()->getStore()->id)->orWhere('store_to_id', '=', Auth::user()->getStore()->id)->paginate(env('RESULTS_PER_PAGE'));
+        $travelling = MaterialTravelling::where('store_from_id', '=', Auth::user()->getStore()->id)->orWhere('store_to_id', '=', Auth::user()->getStore()->id)->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
 // dd($materials);
         return \View::make('admin/materials_travelling/index', array('materials' => $materials, 'types' => $materials_types, 'stores' => $stores, 'travelling' => $travelling));
@@ -124,7 +124,7 @@ class MaterialTravellingController extends Controller
                 ['material_id', '=', $material->material_id],
                 ['store_id', '=', $material->store_to_id]
             ])->first();
-    
+
             if($check){
                 $check->quantity = $check->quantity + $material->quantity;
                 $check->save();
@@ -134,7 +134,7 @@ class MaterialTravellingController extends Controller
                 $quantity->quantity = $material->quantity;
                 $quantity->store_id = $material->store_to_id;
                 $quantity->carat = '';
-    
+
                 $quantity->save();
             }
             $material->user_received_id = Auth::user()->id;

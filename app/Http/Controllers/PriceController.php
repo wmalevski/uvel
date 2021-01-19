@@ -27,7 +27,7 @@ class PriceController extends Controller
     {
 
         $materials = Material::take(env('SELECT_PRELOADED'))->get();
-        
+
         if ($request->isMethod('post')){
             return redirect()->route('view_price', ['material' => $request->material_id]);
         }
@@ -89,7 +89,7 @@ class PriceController extends Controller
         if($material){
             $prices = $price->materialPrices($material);
             $material = Material::find($material);
-          
+
             return view('admin/prices/show', compact('prices', 'material'));
         }
     }
@@ -113,7 +113,7 @@ class PriceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Price $price)
-    {       
+    {
         $validator = Validator::make( $request->all(), [
             'slug' => 'required',
             'price' => 'required|regex:/^\d*(\.\d{1,3})?$/',
@@ -127,7 +127,7 @@ class PriceController extends Controller
         $price->slug = $request->slug;
         $price->price = $request->price;
         $price->type = $request->type;
-        
+
         $price->save();
 
         if ($request->type == 'sell') {
@@ -162,11 +162,11 @@ class PriceController extends Controller
             ['type', '=', $price->type],
             ['material_id', '=', $price->material_id]
         ])->orderBy('id', 'ASC')->first();
-        
+
         if($getIndicatePrice && $getIndicatePrice->id == $price->id){
             $indicatePrice = true;
         }
-        
+
         if($request->type == 'buy') {
             $targetTable = 'table-price-buy';
         }elseif($request->type == 'sell') {
@@ -182,7 +182,7 @@ class PriceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Price $price, ModelOption $modelOption)
-    { 
+    {
         if($price){
             $usingRModel = ModelOption::where('retail_price_id', $price->id)->get();
             if(count($usingRModel)){
@@ -228,14 +228,14 @@ class PriceController extends Controller
         )->get();
 
         $pass_models = array();
-        
+
         foreach($models as $model){
             $pass_models[] = (object)[
                 'value' => $model->id,
                 'label' => $model->name,
             ];
         }
-        
+
         foreach($retail_prices as $price){
 
             if($checkExisting){
@@ -258,8 +258,8 @@ class PriceController extends Controller
         }
 
         return Response::json(array(
-            'retail_prices' => $prices_retail, 
-            'pass_models' => $models, 
+            'retail_prices' => $prices_retail,
+            'pass_models' => $models,
             'pricebuy' => $priceBuy->price));
     }
 
@@ -303,14 +303,14 @@ class PriceController extends Controller
         )->get();
 
         $pass_models = array();
-        
+
         foreach($models as $model){
             $pass_models[] = (object)[
                 'value' => $model->id,
                 'label' => $model->name,
             ];
         }
-        
+
         foreach($retail_prices as $price){
 
             if($checkExisting){
@@ -347,8 +347,8 @@ class PriceController extends Controller
         }
 
         return Response::json(array(
-            'retail_prices' => $prices_retail, 
-            'pass_models' => $models, 
+            'retail_prices' => $prices_retail,
+            'pass_models' => $models,
             'secondary_price' => $secondary_price,
             'pricebuy' => $priceBuy->price));
     }
@@ -357,11 +357,11 @@ class PriceController extends Controller
         $query = Material::select('*');
 
         $materials_new = new Price();
-        
+
         $materials = $materials_new->filterMaterials($request, $query);
 
-        $materials = $materials->paginate(env('RESULTS_PER_PAGE'));
-        
+        $materials = $materials->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+
         $pass_materials = array();
 
         foreach($materials as $material){

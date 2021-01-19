@@ -19,7 +19,7 @@ class RepairTypeController extends Controller
     public function index()
     {
         $repairTypes = RepairType::all();
-        
+
         return \View::make('admin/repair_types/index', array('repairTypes' => $repairTypes));
     }
 
@@ -45,7 +45,7 @@ class RepairTypeController extends Controller
             'name' => 'required',
             'price' => 'required|numeric|between:0.1,50000',
         ]);
-        
+
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
@@ -89,7 +89,7 @@ class RepairTypeController extends Controller
             'name' => 'required',
             'price' => 'required|numeric|between:0.1,50000',
         ]);
-        
+
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
@@ -98,7 +98,7 @@ class RepairTypeController extends Controller
         $repairType->price = $request->price;
 
         $repairType->save();
-        
+
         return Response::json(array('ID' => $repairType->id, 'table' => View::make('admin/repair_types/table',array('repairType'=>$repairType))->render()));
     }
 
@@ -107,7 +107,7 @@ class RepairTypeController extends Controller
 
         $repairs_new = new RepairType();
         $repairs = $repairs_new->filterRepairTypes($request, $query);
-        $repairs = $repairs->paginate(env('RESULTS_PER_PAGE'));
+        $repairs = $repairs->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         $response = '';
         foreach($repairs as $type){
@@ -125,7 +125,7 @@ class RepairTypeController extends Controller
 
         $repairs_new = new RepairType();
         $repairs = $repairs_new->filterRepairTypes($request, $query);
-        $repairs = $repairs->paginate(env('RESULTS_PER_PAGE'));
+        $repairs = $repairs->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
         $pass_repairs = array();
 
         foreach($repairs as $repair){

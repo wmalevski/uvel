@@ -96,7 +96,7 @@ class ProductController extends Controller
     }
 
     public function select_search(Request $request){
-        $products = Product::filterProducts($request)->where('status', 'available')->paginate(env('RESULTS_PER_PAGE'));
+        $products = Product::filterProducts($request)->where('status', 'available')->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
         $pass_products = array();
         $loggedUser = Auth::user();
 
@@ -133,7 +133,7 @@ class ProductController extends Controller
     }
 
     public function filter(Request $request){
-        $products = Product::filterProducts($request)->paginate(env('RESULTS_PER_PAGE'));
+        $products = Product::filterProducts($request)->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
         $response = '';
         foreach($products as $product){
             $response .= \View::make('admin/products/table', array('product' => $product, 'listType' => $request->listType));

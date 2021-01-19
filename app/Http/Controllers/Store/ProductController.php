@@ -26,10 +26,10 @@ class ProductController extends BaseController
             ['status', '=', 'available'],
             ['website_visible', '=', 'yes'],
             ['store_id', '!=', 1]
-        ])->paginate(env('RESULTS_PER_PAGE'));
+        ])->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         Session::put('products_active_filters', $request->fullUrl() );
-        
+
         $stores = Store::all()->except(1);
 
         $productothertypes = ProductOtherType::all();
@@ -56,13 +56,13 @@ class ProductController extends BaseController
         $products = Product::where([
             ['status', '=', 'available'],
             ['store_id', '!=', 1]
-        ])->paginate(env('RESULTS_PER_PAGE'));
+        ])->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         $materialTypes = MaterialType::all();
 
         $allProducts = Product::select('*')->where('jewel_id',$product->jewel_id )->whereNotIn('id', [$product->id]);
         $similarProducts = $allProducts->where('status', 'available')->orderBy(DB::raw('ABS(`price` - '.$product->price.')'))->take(5)->get();
-        
+
         if($product) {
             $weightWithoutStone = $product->weight;
             $product->weight = calculate_product_weight($product);
@@ -79,7 +79,7 @@ class ProductController extends BaseController
             ['status', '=', 'available'],
             ['website_visible', '=', 'yes'],
             ['store_id', '!=', 1]
-        ])->orderBy('id', 'DESC')->paginate(env('RESULTS_PER_PAGE'));
+        ])->orderBy('id', 'DESC')->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
 
         $response = '';

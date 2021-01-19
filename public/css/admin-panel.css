@@ -171,7 +171,7 @@ input[type="number"][disabled] {
 	width: 100%;
 	max-height: 300px;
 	margin-bottom: 16px;
-	object-fit: cover;
+	object-fit: contain;
 }
 
 .product-information-modal ul, .model-information-modal ul {

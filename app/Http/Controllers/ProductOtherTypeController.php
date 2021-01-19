@@ -20,7 +20,7 @@ class ProductOtherTypeController extends Controller
     public function index()
     {
         $products_others_types = ProductOtherType::all();
-        
+
         return \View::make('admin/products_others_types/index', array('products_others_types' => $products_others_types));
     }
 
@@ -88,12 +88,12 @@ class ProductOtherTypeController extends Controller
     {
         $productOtherType->name = $request->name;
         $productOtherType->save();
-        
+
         return Response::json(array('ID' => $productOtherType->id, 'table' => View::make('admin/products_others_types/table',array('type'=>$productOtherType))->render()));
     }
 
     public function filter(Request $request) {
-        $products = ProductOtherType::filterProducts($request)->paginate(env('RESULTS_PER_PAGE'));
+        $products = ProductOtherType::filterProducts($request)->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         $response = '';
         foreach($products as $type){

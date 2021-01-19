@@ -57,7 +57,7 @@ class ProductOtherController extends Controller
             'price' => 'required|numeric|between:0.1,10000',
             'quantity' => 'required|numeric|between:1,10000',
             'store_id' => 'required'
-        ]); 
+        ]);
 
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
@@ -73,7 +73,7 @@ class ProductOtherController extends Controller
             'store_id' => $request->store_id
         ]);
 
-        $bar = '380'.unique_number('products_others', 'barcode', 7).'2'; 
+        $bar = '380'.unique_number('products_others', 'barcode', 7).'2';
 
         $digits =(string)$bar;
         // 1. Add the values of the digits in the even-numbered positions: 2, 4, 6, etc.
@@ -90,22 +90,22 @@ class ProductOtherController extends Controller
         $product->barcode = $digits . $check_digit;
 
         $product->save();
-        
+
         $path = public_path('uploads/products_others/');
         File::makeDirectory($path, 0775, true, true);
 
-        $file_data = $request->input('images'); 
+        $file_data = $request->input('images');
         if($file_data){
             foreach($file_data as $img){
                 $memi = substr($img, 5, strpos($img, ';')-5);
-                
+
                 $extension = explode('/',$memi);
                 if($extension[1] == "svg+xml"){
                     $ext = 'png';
                 }else{
                     $ext = $extension[1];
                 }
-                
+
 
                 $file_name = 'productotherimage_'.uniqid().time().'.'.$ext;
 
@@ -198,11 +198,11 @@ class ProductOtherController extends Controller
         foreach($photos as $photo){
             $url =  Storage::get('public/products_others/'.$photo->photo);
             $ext_url = Storage::url('public/products_others/'.$photo->photo);
-            
+
             $info = pathinfo($ext_url);
-            
+
             $image_name =  basename($ext_url,'.'.$info['extension']);
-            
+
             $base64 = base64_encode($url);
 
             if($info['extension'] == "svg"){
@@ -253,29 +253,29 @@ class ProductOtherController extends Controller
             'price' => 'required|numeric|between:0.1,10000',
             'quantity' => 'required|numeric|between:1,10000',
             'store_id' => 'required'
-        ]); 
+        ]);
 
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
-        
+
         $productOther->save();
 
         $path = public_path('uploads/products_others/');
         File::makeDirectory($path, 0775, true, true);
 
-        $file_data = $request->input('images'); 
+        $file_data = $request->input('images');
         if($file_data){
             foreach($file_data as $img){
                 $memi = substr($img, 5, strpos($img, ';')-5);
-                
+
                 $extension = explode('/',$memi);
                 if($extension[1] == "svg+xml"){
                     $ext = 'png';
                 }else{
                     $ext = $extension[1];
                 }
-                
+
 
                 $file_name = 'productotherimage_'.uniqid().time().'.'.$ext;
 
@@ -291,14 +291,14 @@ class ProductOtherController extends Controller
                 $photo->save();
             }
         }
-        
+
         return Response::json(array('table' => View::make('admin/products_others/table',array('product'=>$productOther))->render(), 'ID' => $productOther->id));
     }
 
-    
+
 
     public function filter(Request $request){
-        $products = ProductOther::filterProducts($request)->paginate(env('RESULTS_PER_PAGE'));
+        $products = ProductOther::filterProducts($request)->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         $response = '';
         foreach($products as $product){

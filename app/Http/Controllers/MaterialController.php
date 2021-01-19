@@ -25,10 +25,10 @@ class MaterialController extends Controller
      */
     public function index()
     {
-        
+
         $materials = Material::all();
         $parents = MaterialType::all();
-        
+
         return \View::make('admin/materials/index', array('materials' => $materials, 'parents' => $parents));
     }
 
@@ -68,7 +68,7 @@ class MaterialController extends Controller
 
         $name = $material->parent->name;
         $material->name = $name;
-        
+
         if($request->for_buy == 'false'){
             $material->for_buy = 'no';
         } else{
@@ -166,7 +166,7 @@ class MaterialController extends Controller
         } else{
             $material->carat_transform = 'yes';
         }
-        
+
         $material->save();
 
         return Response::json(array('ID' => $material->id,'table' => View::make('admin/materials/table',array('material'=>$material))->render()));
@@ -177,7 +177,7 @@ class MaterialController extends Controller
 
         $materials_new = new Material();
         $materials = $materials_new->filterMaterials($request, $query);
-        $materials = $materials->paginate(env('RESULTS_PER_PAGE'));
+        $materials = $materials->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         $response = '';
         foreach($materials as $material){
@@ -194,14 +194,14 @@ class MaterialController extends Controller
         $query = Material::select('*');
 
         $materials_new = new Material();
-        
+
         if($request->type && $request->type == 'payment'){
             $materials = $materials_new->filterMaterialsPayment($request, $query);
         }else{
             $materials = $materials_new->filterMaterials($request, $query);
         }
 
-        $materials = $materials->paginate(env('RESULTS_PER_PAGE'));
+        $materials = $materials->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
         $pass_materials = array();
 
         foreach($materials as $material){
@@ -216,7 +216,7 @@ class MaterialController extends Controller
                     'data-material' => $material->id,
                 ]
             ];
-            
+
         }
 
         return json_encode($pass_materials, JSON_UNESCAPED_SLASHES );
@@ -231,7 +231,7 @@ class MaterialController extends Controller
         }else{
             $materials = $materials_new->filterMaterials($request, $query);
         }
-        $materials = $materials->paginate(env('RESULTS_PER_PAGE'));
+        $materials = $materials->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
         $pass_materials = array();
 
         foreach($materials as $material) {

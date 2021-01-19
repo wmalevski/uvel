@@ -21,10 +21,10 @@ class ModelController extends BaseController
      */
     public function index(Request $request)
     {
-        $models = Model::where('website_visible', 'yes')->paginate(env('RESULTS_PER_PAGE'));
+        $models = Model::where('website_visible', 'yes')->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
         $models_new = new Model();
         $models = $models_new->filterModels($request, $models);
-        $models = $models->where('website_visible', 'yes')->paginate(env('RESULTS_PER_PAGE'));
+        $models = $models->where('website_visible', 'yes')->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         Session::put('models_active_filters', $request->fullUrl() );
 
@@ -38,7 +38,7 @@ class ModelController extends BaseController
     }
 
     public function show(Model $model){
-        $models = Model::paginate(env('RESULTS_PER_PAGE'));
+        $models = Model::paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         $allModels = Model::select('*')->where('jewel_id',$model->jewel_id )->whereNotIn('id', [$model->id]);
         $similarModels = $allModels->orderBy(DB::raw('ABS(`price` - '.$model->price.')'))->take(5)->get();
@@ -53,7 +53,7 @@ class ModelController extends BaseController
 
         $products_new = new Model();
         $products = $products_new->filterModels($request, $query);
-        $products = $products->where('website_visible', 'yes')->orderBy('id', 'DESC')->paginate(env('RESULTS_PER_PAGE'));
+        $products = $products->where('website_visible', 'yes')->orderBy('id', 'DESC')->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         $response = '';
         foreach($products as $product){

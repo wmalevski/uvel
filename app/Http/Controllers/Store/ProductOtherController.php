@@ -24,7 +24,7 @@ class ProductOtherController extends BaseController
         $products = $products->where([
             ['quantity', '!=', 0],
             ['store_id', '!=', 1]
-        ])->paginate(env('RESULTS_PER_PAGE'));
+        ])->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         $stores = Store::all()->except(1);
 
@@ -42,13 +42,13 @@ class ProductOtherController extends BaseController
     public function show(ProductOther $product){
         $productothertypes = ProductOtherType::all();
 
-        $products = ProductOther::paginate(env('RESULTS_PER_PAGE'));
+        $products = ProductOther::paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         $materialTypes = MaterialType::all();
 
         $allProducts = ProductOther::select('*')->where('type_id',$product->type_id )->where('store_id','!=', 1)->whereNotIn('id', [$product->id]);
         $similarProducts = $allProducts->orderBy(DB::raw('ABS(`price` - '.$product->price.')'))->take(5)->get();
-        
+
         if($product){
             return \View::make('store.pages.productsothers.single', array('productothertypes' => $productothertypes, 'materialTypes' => $materialTypes, 'product' => $product, 'products' => $products, 'similarProducts' => $similarProducts, 'productAvgRating' => $product->getSimilarProductAvgRating($product)));
         }
@@ -58,7 +58,7 @@ class ProductOtherController extends BaseController
         $products = ProductOther::filterProducts($request)->where([
             ['quantity', '!=', 0],
             ['store_id', '!=', 1]
-        ])->orderBy('id', 'DESC')->paginate(env('RESULTS_PER_PAGE'));
+        ])->orderBy('id', 'DESC')->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         $response = '';
         foreach($products as $product){

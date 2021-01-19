@@ -71,6 +71,10 @@ class CashRegister extends Model{
 
 		$register = CashRegister::firstOrNew(array('date'=>CashRegister::$date));
 
+		$register->date = CashRegister::$date;
+		$register->store_id = $store;
+		$register->income += $add;
+
 		// If status is NULL then this is a new record and we need to take the total of the previous work day for this store
 		if($register->status == NULL){
 			$previous_total = CashRegister::where('store_id', $store)->orderBy('date', 'DESC')->first()['total'];
@@ -80,13 +84,20 @@ class CashRegister extends Model{
 
 			// Add the total of the previous day to today's total
 			$register->total += $previous_total;
+
+			$register->total += $add;
+
+			$register->save();
+		}
+		else{
+			$register->total += $add;
+
+			CashRegister::where(array('date'=>CashRegister::$date, 'store_id'=>$store))->update(array(
+			'income' => $register->income,
+			'total' => $register->total
+			));
 		}
 
-		$register->date = CashRegister::$date;
-		$register->store_id = $store;
-		$register->income += $add;
-		$register->total += $add;
-		$register->save();
 	}
 
 	/**
@@ -115,6 +126,10 @@ class CashRegister extends Model{
 
 		$register = CashRegister::firstOrNew(array('date'=>CashRegister::$date));
 
+		$register->date = CashRegister::$date;
+		$register->store_id = $store;
+		$register->expenses += $subtract;
+
 		// If status is NULL then this is a new record and we need to take the total of the previous work day for this store
 		if($register->status == NULL){
 			$previous_total = CashRegister::where('store_id', $store)->orderBy('date', 'DESC')->first()['total'];
@@ -124,13 +139,19 @@ class CashRegister extends Model{
 
 			// Add the total of the previous day to today's total
 			$register->total += $previous_total;
-		}
 
-		$register->date = CashRegister::$date;
-		$register->store_id = $store;
-		$register->expenses += $subtract;
-		$register->total -= $subtract;
-		$register->save();
+			$register->total -= $subtract;
+
+			$register->save();
+		}
+		else{
+			$register->total -= $subtract;
+
+			CashRegister::where(array('date'=>CashRegister::$date, 'store_id'=>$store))->update(array(
+			'expenses' => $register->expenses,
+			'total' => $register->total
+			));
+		}
 	}
 
 	/**
@@ -159,8 +180,7 @@ class CashRegister extends Model{
 		}
 
 
-		$register = CashRegister::firstOrNew(array('date'=>CashRegister::$date));
-		$register->store_id = CashRegister::$store;
+		$register = CashRegister::firstOrNew(array('date'=>CashRegister::$date, 'store_id'=>CashRegister::$store));
 
 		// Negate the subtraction of the old expense
 		$register->expenses -= $old_expense;
@@ -170,7 +190,10 @@ class CashRegister extends Model{
 		$register->expenses += $new_expense;
 		$register->total -= $new_expense;
 
-		$register->save();
+		CashRegister::where(array('date'=>CashRegister::$date, 'store_id'=>CashRegister::$store))->update(array(
+			'expenses' => $register->expenses,
+			'total' => $register->total
+		));
 	}
 
 	/**
