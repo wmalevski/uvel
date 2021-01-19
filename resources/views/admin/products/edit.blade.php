@@ -13,6 +13,20 @@
             <div class="info-cont">
             </div>
             {{ csrf_field() }}
+
+            <div class="form-row model_materials">
+                <div class="form-group col-md-12">
+                    <label>Статус: </label>
+                    <select name="status" class="form-control calculate">
+                        <option value="available" @if($product->status=='available') selected="selected" @endif>Наличен</option>
+                        <option value="selling" @if($product->status=='selling') selected="selected" @endif>Продава се</option>
+                        <option value="travelling" @if($product->status=='travelling') selected="selected" @endif>Пътуващ</option>
+                        <option value="reserved" @if($product->status=='reserved') selected="selected" @endif>Резервиран</option>
+                        <option value="sold" @if($product->status=='sold') selected="selected" @endif>Продаден</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="form-row">
                 <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
                     <input type="checkbox" id="weightWithStones_edit" name="with_stones" class="peer"
@@ -94,7 +108,7 @@
                     <input type="text" class="form-control size" id="size_edit" value="{{ $product->size }}" name="size"
                         data-modelFilld-size placeholder="Размер:" min="1" max="10000">
                 </div>
-                
+
                 <div class="col-12">
                     <hr>
                 </div>
@@ -201,7 +215,7 @@
                         <span class="input-group-addon">лв</span>
                     </div>
                 </div>
-                
+
                 <div class="col-12">
                     <hr>
                 </div>
@@ -225,7 +239,7 @@
                 </div>
             </div>
 
-           
+
 
             <div class="drop-area" name="edit">
                 <input type="file" name="images" class="drop-area-input" id="fileElem-edit" multiple accept="image/*">
@@ -241,11 +255,11 @@
                 </div>
                 @endforeach
             </div>
-            
+
             <div class="col-12 p-0">
                 <hr>
             </div>
-            
+
             <div class="form-row bot-row mt-neg15px">
                 <div class="form-group col-md-6">
                     <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">

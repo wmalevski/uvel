@@ -249,6 +249,7 @@ class ProductController extends Controller
             )->get();
 
             $validate_data = [
+                'status' => 'required',
                 'jewel_id' => 'required',
                 'retail_price_id' => 'required|numeric|min:1',
                 'weight' => 'required|numeric|between:0.1,10000',
@@ -304,6 +305,7 @@ class ProductController extends Controller
             $product->size = $request->size;
             $product->workmanship = round($request->workmanship);
             $product->price = round($request->price);
+            $product->status = $request->status;
             $product->store_id = $store_data;
 
             if($request->with_stones == 'false'){
