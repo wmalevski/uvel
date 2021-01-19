@@ -214,7 +214,7 @@
 											</div>
 										@endif
 										<!-- Paginator -->
-										{{ $products->links() }}
+										{{ $products->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
 									</div>
 								</div>
 							</div>
