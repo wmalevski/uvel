@@ -11,23 +11,20 @@ use Illuminate\Support\Facades\View;
 use \Darryldecode\Cart\CartCondition as CartCondition;
 use \Darryldecode\Cart\Helpers\Helpers as Helpers;
 use Illuminate\Support\Facades\Session;
+use App\Helpers\StoreNav;
 
-class BaseController extends Controller
-{
-  public function __construct()
-  {
-    $materialTypes = MaterialType::all();
-    $productothertypes = ProductOtherType::all();
+class BaseController extends Controller{
+	public function __construct(){
+		new StoreNav;
+		$countitems = 0;
+		$materialTypes = MaterialType::all();
+		$productothertypes = ProductOtherType::all();
 
-    if(Auth::user()){
-      $session_id = Auth::user()->getId();
-      
-      $countitems = Cart::session($session_id)->getTotalQuantity();
+		if(Auth::user()){
+			$session_id = Auth::user()->getId();
+			$countitems = Cart::session($session_id)->getTotalQuantity();
+		}
 
-    }else{
-        $countitems = 0;
-    }
-
-    View::share(['productothertypes' => $productothertypes, 'materialTypes' => $materialTypes, 'countitems' => $countitems]);
-  }
+		View::share(['productothertypes' => $productothertypes, 'materialTypes' => $materialTypes, 'countitems' => $countitems]);
+	}
 }

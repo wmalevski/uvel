@@ -38,7 +38,7 @@
 			<ul class="list-inline">
 				<li class="top-logo">
 					<a id="site-title" href="{{ route('store') }}" title="UVEL">
-						<img class="img-responsive" src="{{ asset('store/images/logo.png') }}" alt="UVEL">
+						<img class="img-responsive" src="{{ App\Setting::get('website_logo') }}" alt="{{ App\Setting::get('website_title') }}">
 					</a>
 				</li>
 				<li class="navigation">
@@ -83,44 +83,11 @@
 							<div class="collapse navbar-collapse">
 								<ul class="nav navbar-nav hoverMenuWrapper">
 									<li class="nav-item active">
-										<a href="{{ route('store') }}">
-											<span>Начало</span>
-										</a>
+										<a href="{{ route('store') }}"><span>Начало</span></a>
 									</li>
-									<li class="nav-item dropdown">
-										<a href="{{ route('products') }}" class="dropdown-toggle dropdown-link" data-toggle="dropdown">
-											<span>Налични Бижута</span>
-											<i class="fa fa-caret-down"></i>
-											<i class="sub-dropdown1 visible-sm visible-md visible-lg"></i>
-											<i class="sub-dropdown visible-sm visible-md visible-lg"></i>
-										</a>
-										<ul class="dropdown-menu" style="display: none;">
-											@foreach($materialTypes as $material => $type)
-												<li  class="{{ filter_products('byMaterial', $type->id) }}">
-													<a tabindex="-1" href="{{ route('products') }}?
-													@foreach(\App\Material::where('parent_id', $type->id)->get() as $material_type => $current_type)byMaterial[]={{trim($current_type->id)}}
-														@if(1 + $material_type < count(\App\Material::where('parent_id', $type->id)->get()))& @else &listType=goGrid @endif
-													@endforeach">
-														{{ $type->name }}
-													</a>
-												</li>
-											@endforeach
+									<li class="nav-item dropdown">{{ StoreNav::nav_catalogue() }}</li>
 
-											@foreach($productothertypes as $type)
-												<li class="">
-													<a tabindex="-1" href="{{ route('productsothers') }}?byType[]={{ $type->id }}">
-														{{ $type->name }}
-													</a>
-												</li>
-											@endforeach
-										</ul>
-									</li>
-
-									<li class="nav-item">
-										<a href="{{ route('models') }}">
-											<span>По поръчка</span>
-										</a>
-									</li>
+									<li class="nav-item">{{ StoreNav::nav_catalogue_by_model() }}</li>
 
 									<li class="nav-item">
 										<a href="{{ route('custom_order') }}">
