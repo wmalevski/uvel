@@ -171,7 +171,7 @@
 																	Налично в: {{ $product->store_info->name }}
 																	<span class="spr-badge" data-rating="0.0">
 																		<span class="spr-starrating spr-badge-starrating">
-																			{{$product->listProductAvgRatingStars($product)}}
+																			{!! $product->listProductAvgRatingStars($product) !!}
 																		</span>
 																	</span>
 																</div>
@@ -190,17 +190,18 @@
 																	<span class="list-mode">Преглед</span>
 																</a>
 
-																<button class="quick_shop product-ajax-qs hidden-xs hidden-sm" data-target="#quick-shop-modal"
-																				data-toggle="modal" data-url="products/{{ $product->id }}/" title="Бърз Преглед">
+																<a href="{{ route('single_product', ['product' => $product->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
 																	<i class="fa fa-lg fa-eye"></i>
 																	<span class="list-mode">Бърз преглед</span>
-																</button>
+																</a>
 
+																@if (Auth::user() !== NULL)
 																<button class="wish-list" title="Добави в желани"
 																				data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
 																	<i class="fa fa-lg fa-heart"></i>
 																	<span class="list-mode">Добави в желани</span>
 																</button>
+																@endif
 															</div>
 														</li>
 													</ul>

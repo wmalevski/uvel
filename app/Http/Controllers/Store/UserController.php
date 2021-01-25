@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Store;
 use Cookie;
 use Response;
 use Auth;
+use Cart;
+use Session;
 use App\MaterialType;
 use App\ProductOtherType;
 use App\User;
@@ -12,6 +14,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
+use DB;
 
 class UserController extends BaseController
 {
@@ -22,7 +25,7 @@ class UserController extends BaseController
      */
     public function index()
     {
-        
+
     }
 
     public function create()
@@ -50,9 +53,9 @@ class UserController extends BaseController
             'country' => 'required',
             'phone' => 'required',
             'first_name' => 'required',
-            'last_name' => 'required' 
+            'last_name' => 'required'
          ]);
-        
+
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator);
         }
@@ -75,7 +78,7 @@ class UserController extends BaseController
         $user->assign('customer');
 
         auth()->login($user);
-        
+
         return redirect()->to('/online');
     }
 
@@ -84,33 +87,50 @@ class UserController extends BaseController
         return \View::make('store.pages.user.login');
     }
 
-    public function userlogin()
-    {
+    public function userlogin(){
         $rules = array(
             'email'    => 'required',
             'password' => 'required|alphaNum|min:3'
         );
-        
+
         $validator = Validator::make(Input::all(), $rules);
-        
-        if ($validator->fails()) {
+
+        if($validator->fails()){
             return Redirect::to('/online/login')
-                ->withErrors($validator) 
-                ->withInput(Input::except('password'));  
-        } else {
-            $userdata = array(
-                'email'     => Input::get('email'),
-                'password'  => Input::get('password')
-            );
-        
-            // attempt to do the login
-            if (Auth::attempt($userdata)) {
-                return redirect()->to('/online');
-        
-            } else {        
-                return Redirect::back()->withErrors(['credentials' => 'Грешно потребителско име или парола!']);
-            }
+                ->withErrors($validator)
+                ->withInput(Input::except('password'));
         }
+
+        $userdata = array(
+            'email'     => Input::get('email'),
+            'password'  => Input::get('password')
+        );
+
+        // Save the session before the Auth attempt as it recreates it
+        $session_id = Session::getId();
+
+        // attempt to do the login
+        if(!Auth::attempt($userdata)){
+            return Redirect::back()->withErrors(['credentials' => 'Грешно потребителско име или парола!']);
+        }
+
+
+        $guest_cart = Cart::session($session_id);
+
+        // Check if there's a Cart for this Session ID and transfer it over to the logged in user
+        if($guest_cart->getContent()->count()>0){
+            // Cart is not empty, we should transfer it over to the logged in user.
+            // Since there's no supported way of doing this, we need to approach this manually.
+
+            $guestCartID = $session_id.'_cart_items';
+            $userCartID = Auth::user()->getId().'_cart_items';
+
+            // Before we transfer the cart, we need to ensure the logged in user doesn't have a previous cart
+            DB::table('cart_storage')->where('id',$userCartID)->delete();
+            DB::table('cart_storage')->where('id',$guestCartID)->update(array('id'=>$userCartID));
+        }
+
+        return redirect()->to('/online');
     }
 
     public function edit()
@@ -133,7 +153,7 @@ class UserController extends BaseController
             'country' => 'required',
             'phone' => 'required',
             'first_name' => 'required',
-            'last_name' => 'required' 
+            'last_name' => 'required'
          ]);
 
         $user->first_name = $request->first_name;
@@ -146,7 +166,7 @@ class UserController extends BaseController
         $user->postcode = $request->postcode;
 
         $user->save();
-        
+
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator);
         }

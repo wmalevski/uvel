@@ -25,7 +25,7 @@
                     </span>
                 </span>
             </div>
-            
+
             <div class="product-content-right">
                 <div class="product-price">
                     <span class="price">
@@ -40,14 +40,14 @@
                     <i class="fa fa-lg fa-th-list"></i>
                     <span class="list-mode">Преглед</span>
                 </a>
-                
-                <button data-target="#quick-shop-modal" class="effect-ajax-cart quick_shop product-ajax-qs hidden-xs hidden-sm" data-toggle="modal"
-                        data-url="models/{{ $model->id }}/" title="Бърз Преглед">
+
+                <a href="{{ route('single_model', ['model' => $model->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
+                    <input name="quantity" value="1" type="hidden">
                     <i class="fa fa-lg fa-eye"></i>
-                    <span class="list-mode">Бърз преглед</span>
-                </button>
+                    <span class="list-mode">Бърз Преглед</span>
+                </a>
             </div>
-            
+
         </li>
     </ul>
 </li>

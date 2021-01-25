@@ -245,15 +245,13 @@ class Product extends BaseModel
     return $productTotalRating;
   }
 
-  public function listProductAvgRatingStars($product)
-  {
-    for ($i = 1; $i <= 5; $i++) {
-      if ($this->getProductAvgRating($product) >= $i) {
-        echo '<i class="spr-icon spr-icon-star"></i>';
-      } elseif ($product->getProductAvgRating($product) < $i) {
-        echo '<i class="spr-icon spr-icon-star-empty"></i>';
-      }
+  public function listProductAvgRatingStars($product){
+    $return = '';
+    for($i=1; $i<=5;$i++){
+      if($this->getProductAvgRating($product)>=$i){ $return .= '<i class="spr-icon spr-icon-star"></i>';}
+      elseif($product->getProductAvgRating($product)<$i){ $return .= '<i class="spr-icon spr-icon-star-empty"></i>';}
     }
+    return $return;
   }
 
   public static function filterProducts(Request $request)

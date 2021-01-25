@@ -1053,6 +1053,9 @@ li.element {
 .cart-page .item .cart-item-image {
 	position: absolute;
 	width: 150px;
+	display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .cart-page textarea {

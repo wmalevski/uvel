@@ -37,9 +37,7 @@
 				@endif
 				Налично в: {{ $product->store_info->name }}
 				<span class="spr-badge" data-rating="0.0">
-				<span class="spr-starrating spr-badge-starrating">
-					{{$product->listProductAvgRatingStars($product)}}
-				</span>
+				<span class="spr-starrating spr-badge-starrating">{!! $product->listProductAvgRatingStars($product) !!}</span>
 			</span>
 			</div>
 			<div class="product-content-right">
@@ -60,12 +58,13 @@
 					<i class="fa fa-lg fa-eye" title="Бърз Преглед"></i>
 					<span class="list-mode">Бърз преглед</span>
 				</button>
-
+				@if (Auth::user() !== NULL)
 				<button class="wish-list" title="Добави в желани"
 								data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
 					<i class="fa fa-lg fa-heart"></i>
 					<span class="list-mode">Добави в желани</span>
 				</button>
+				@endif
 			</div>
 
 		</li>

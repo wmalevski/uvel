@@ -11,29 +11,16 @@ use Illuminate\Support\Facades\Validator;
 use Auth;
 use Response;
 
-class WishListController extends BaseController
-{
+class WishListController extends BaseController{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(){
         $wishList = WishList::where([['user_id', '=', Auth::user()->getId()]])->get();
 
         return \View::make('store.pages.wishlists.index', array('wishList' => $wishList));
-
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -42,62 +29,36 @@ class WishListController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $type, $item)
-    {
+    public function store(Request $request, $type, $item){
         $wishList = new WishList();
-        $wishList->user_id = Auth::user()->getId();
+
+        // Anonymous
+        if(Auth::user() == NULL){
+            return redirect()->route('login');
+        }
 
         $check = WishList::where('product_id', $item)->orWhere('model_id', $item)->orWhere('product_others_id', $item)->first();
 
-        if(!$check){
-            if ($type == 'product') {
-                $wishList->product_id = $item;
-            } elseif ($type == 'model') {
-                $wishList->model_id = $item;
-            } elseif ($type == 'product_other') {
-                $wishList->product_others_id = $item;
-            }
-            
-            $wishList->save();
-
-            return Response::json(array('success' => 'Продуктът беше запазен успешно!'));
-        }else{
+        if($check){
             return Response::json(array('success' => 'Този продукт вече го имате запазен!'));
         }
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\WishList  $wishList
-     * @return \Illuminate\Http\Response
-     */
-    public function show(WishList $wishList)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\WishList  $wishList
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(WishList $wishList)
-    {
-        //
-    }
+        switch($type){
+            case 'product':
+                $wishList->product_id = $item;
+                break;
+            case 'model':
+                $wishList->model_id = $item;
+                break;
+            case 'product_other':
+                $wishList->product_others_id = $item;
+                break;
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\WishList  $wishList
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, WishList $wishList)
-    {
-        //
+        $wishList->save();
+
+        return Response::json(array('success' => 'Продуктът беше запазен успешно!'));
     }
 
     /**
@@ -106,8 +67,7 @@ class WishListController extends BaseController
      * @param  \App\WishList  $wishList
      * @return \Illuminate\Http\Response
      */
-    public function destroy(WishList $wishList)
-    {
+    public function destroy(WishList $wishList){
         if($wishList){
             $wishList->delete();
             return Redirect::back()->with('success.wishlist', 'Продуктът беше успешно премахнат от списъка.');

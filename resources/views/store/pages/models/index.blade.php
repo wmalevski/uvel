@@ -141,11 +141,11 @@
 																<span class="list-mode">Преглед</span>
 															</a>
 
-															<button class="product-ajax-qs hidden-xs hidden-sm quick_shop" data-target="#quick-shop-modal" data-toggle="modal"
-																 			data-url="models/{{ $model->id }}/" title="Бърз Преглед">
+															<a href="{{ route('single_model', ['model' => $model->id]) }}" title="Преглед" class="effect-ajax-cart product-ajax-qs">
+																<input name="quantity" value="1" type="hidden">
 																<i class="fa fa-lg fa-eye"></i>
-																<span class="list-mode">Бърз преглед</span>
-															</button>
+																<span class="list-mode">Бърз Преглед</span>
+															</a>
 														</div>
 
 													</li>
@@ -153,9 +153,7 @@
 											</li>
 											@endforeach
 											@if(count($models) == 0)
-												<div class="product-content-left">
-													Няма бижу по зададените критерии
-												</div>
+												<div class="product-content-left">Няма бижу по зададените критерии</div>
 											@endif
 										</ul>
 										<!-- Paginator -->

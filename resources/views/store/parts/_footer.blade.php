@@ -1,5 +1,6 @@
 <footer id="footer">
 	<div id="footer-content">
+		<!--
 		<h6 class="general-title contact-footer-title">Абониране</h6>
 		<div id="widget-newsletter">
 			<div class="container">
@@ -23,6 +24,7 @@
 				</div>
 			</div>
 		</div>
+		-->
 
 		<div class="footer-content footer-content-top clearfix">
 			<div class="container">

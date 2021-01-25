@@ -113,12 +113,7 @@
 																</div>
 															</div>
 															<div class="others-bottom clearfix">
-																<!--<a data-url="{{ route('order_model', ['model' => $model->id]) }}" class="order_product btn btn-1">Поръчай</a>-->
-
-																<button id="add-to-cart" class="btn btn-1 order_product"  type="submit" name="add"
-																				data-url="{{ route('order_model', ['model' => $model->id]) }}">
-																	Поръчай
-																</button>
+																<button id="quick-shop-add" class="btn btn-1 add-to-cart" type="submit" data-url="{{ route('CartAddItem', ['item' => $model->barcode, 'quantity' => 1]) }}">Добави в количката</button>
 															</div>
 														</div>
 													</form>
@@ -174,7 +169,7 @@
 													</p>
 												</div>
 												<div id="pop-three" style="display: none;">
-													<img src="./assets/images/demo_870x580.png" alt="">
+													<img src="" alt="">
 												</div>
 											</div>
 										</div>
@@ -328,11 +323,11 @@
 															<span class="list-mode">Преглед</span>
 														</a>
 
-														<button data-barcode="{{ $model->barcode }}" data-target="#quick-shop-modal" class="quick_shop product-ajax-qs hidden-xs hidden-sm"
-															 			data-url="models/{{ $model->id }}/" data-toggle="modal" title="Бърз преглед">
+														<a href="{{ route('single_model', ['model' => $model->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
+															<input name="quantity" value="1" type="hidden">
 															<i class="fa fa-lg fa-eye"></i>
-															<span class="list-mode">Бърз преглед</span>
-														</button>
+															<span class="list-mode">Бърз Преглед</span>
+														</a>
 													</div>
 												</li>
 											</ul>

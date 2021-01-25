@@ -168,7 +168,7 @@
 													</li>
 												</ul>
 												<div id="pop-one" style="display: none;">
-													<img src="./assets/images/demo_870x580.png" alt="">
+													<img src="" alt="">
 												</div>
 												<div id="pop-two" style="display: none;">
 													<h5>Returns Policy</h5>
@@ -239,7 +239,7 @@
 													 class="new-review-form">
 														{{ csrf_field() }}
 														<input type="hidden" name="rating" value="5">
-														<div 
+														<div
 															id="review_form"
 															data-size="invisible" data-captcha="review_form" data-callback="formSubmit">
 														</div>

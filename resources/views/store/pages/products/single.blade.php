@@ -99,7 +99,8 @@
 															<ul class="sub">
 																<li><span>No:</span> {{ implode(" ", str_split($product->id, 3)) }}</li>
 																<li><span>Модел:</span> {{ $product->model->name }}</li>
-																<li><span>{{ $product->material->name }} - {{ $product->material->code }} - {{ $product->material->color }}: {{ $product->weight['weight'] }}гр.</li>
+																<li><span>{{ $product->material->name }} - {{ $product->material->code }} - {{ $product->material->color }}</span></li>
+																<li><span>Тегло: {{ $product->weight['weight'] }}гр.</span></li>
 																@if(isset($product->weight['stone']))
                                   <li>
 																	@foreach($product->weight['stone'] as $productStone => $stone)
@@ -108,7 +109,7 @@
 																	@endforeach
                                   </li>
 																@endif
-																<li><span>Бижу:</span> {{ $product->jewel->name }}</li>
+																<li><span>Вид:</span> {{ $product->jewel->name }}</li>
 																<li><span>Размер:</span> {{ $product->size }}</li>
 																<li><span>Налично в:</span> {{ $product->store_info->name }}</li>
 															</ul>
@@ -154,9 +155,12 @@
 														</div>
 													</form>
 													<div class="wls">
+														@if (Auth::user() !== NULL)
 														<a class="wish-list" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
 															<i class="fa fa-heart"></i> Добави в желани</a>
 														<span>|</span>
+														@endif
+
 														<a href="mailto:uvelgold@gmail.com?subject=Продукт - {{ $product->id }}&body=No: {{ $product->id }} %0D%0A
 														Модел: {{ $product->model->name }} %0D%0A
 														{{ $product->material->name }} - {{ $product->material->code }} - {{ $product->material->color }} %0D%0A
@@ -193,7 +197,7 @@
 													</li>
 												</ul>
 												<div id="pop-one" style="display: none;">
-													<img src="./assets/images/demo_870x580.png" alt="">
+													<img src="" alt="">
 												</div>
 												<div id="pop-two" style="display: none;">
 													<h5>Returns Policy</h5>
@@ -260,7 +264,7 @@
 													 class="new-review-form">
 														{{ csrf_field() }}
 														<input type="hidden" name="rating" value="5">
-														<div 
+														<div
 															id="review_form"
 															data-size="invisible" data-captcha="review_form" data-callback="formSubmit">
 														</div>
@@ -377,9 +381,7 @@
 															@endif
 															Налично в: {{ $product->store_info->name }}
 															<span class="spr-badge" id="spr_badge_{{$product->id}}" data-rating="{{$product->getProductAvgRating($product)}}">
-																<span class="spr-starrating spr-badge-starrating">
-																	{{$product->listProductAvgRatingStars($product)}}
-																</span>
+																<span class="spr-starrating spr-badge-starrating">{!! $product->listProductAvgRatingStars($product) !!}</span>
 															</span>
 														</div>
 														<div class="product-content-right">

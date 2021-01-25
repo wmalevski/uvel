@@ -11,51 +11,18 @@ use Illuminate\Support\Facades\Redirect;
 use Response;
 use App\Http\Controllers\Store\ModelController;
 use Illuminate\Support\Facades\Input;
+use App\Selling;
 
-class ModelOrderController extends Controller
-{
+class ModelOrderController extends Controller{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $orders = ModelOrder::all();
+    public function index(){
+        $orders = Selling::where(array(array('model_id','!=',NULL)))->get();
 
         return view('admin.orders.model.index', compact('orders'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request, $model)
-    {
-
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\ModelOrder  $modelOrder
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ModelOrder $modelOrder)
-    {
-        //
     }
 
     /**
@@ -64,8 +31,7 @@ class ModelOrderController extends Controller
      * @param  \App\ModelOrder  $modelOrder
      * @return \Illuminate\Http\Response
      */
-    public function edit(ModelOrder $order)
-    {
+    public function edit(Selling $order){
         $models = Model::all();
         return \View::make('admin/orders/model/edit',array('order'=>$order, 'models' => $models));
     }
@@ -77,26 +43,19 @@ class ModelOrderController extends Controller
      * @param  \App\ModelOrder  $modelOrder
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ModelOrder $order)
-    {
-        $validator = Validator::make( $request->all(), [
-            'model_id' => 'required'
-        ]);
+    public function update(Request $request, Selling $order){
+        $validator = Validator::make( $request->all(), array('model_id'=>'required'));
 
-        if ($validator->fails()) {
-            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        if($validator->fails()){
+            return Response::json(array('errors'=>$validator->getMessageBag()->toArray()),401);
         }
 
         $order->model_id = $request->model_id;
-        $order->additional_description = $request->additional_description;
+        $order->user_payment->information = $request->information;
 
-        if($request->status_accept == 'true'){
-            $order->status = 'accepted';
-        } else if($request->status_ready == 'true'){
-            $order->status = 'ready';
-        } else if($request->status_delivered == 'true'){
-            $order->status = 'delivered';
-        }
+        if($request->status_accept == 'true'){          $order->model_status = 'accepted';}
+        elseif($request->status_ready == 'true'){       $order->model_status = 'ready';}
+        elseif($request->status_delivered == 'true'){   $order->model_status = 'delivered';}
 
         $order->save();
 

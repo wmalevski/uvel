@@ -50,9 +50,7 @@
 						<span class="dash"></span>
 					</div>
 					<div class="others-bottom">
-						<button id="quick-shop-add" class="btn small add-to-cart" type="submit" data-url="{{ route('order_model', ['model' => $model->id]) }}">
-							Поръчай
-						</button>
+						<button id="quick-shop-add" class="btn small add-to-cart" type="submit" data-url="{{ route('CartAddItem', ['item' => $model->barcode, 'quantity' => 1]) }}">Добави в количката</button>
 					</div>
 				</div>
 			</div>

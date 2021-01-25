@@ -21,10 +21,26 @@ class Selling extends Model
         return $this->belongsTo('App\ProductOther');
     }
 
+    public function user(){
+        return $this->belongsTo('App\User');
+    }
+
+    public function photos(){
+        return $this->hasMany('App\Gallery','model_id','model_id');
+    }
+
+    public function user_payment(){
+        return $this->belongsTo('App\UserPayment','payment_id','id');
+    }
+
+    public function model(){
+        return $this->belongsTo('App\Model','model_id','id');
+    }
+
     public function cartMaterialsInfo(){
         $items = [];
         $products = [];
-        
+
         Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items) {
             $items[] = $item->id;
         });
@@ -57,7 +73,7 @@ class Selling extends Model
 
             if(array_key_exists($material->id, $materials)) {
                 $materials[$material->id]['weight'] = $materials[$material->id]['weight']+$product->weight;
-            } else {  
+            } else {
                 $partner_material = '';
                 $partner_material_weight = '';
 
@@ -66,7 +82,7 @@ class Selling extends Model
                         $partner_material = $p_material->id;
                         $partner_material_weight = $p_material->quantity;
                     }
-                }    
+                }
 
                 $materials[$material->id] = [
                     'material_id' => $material->id,
@@ -75,9 +91,9 @@ class Selling extends Model
                     'code' => $material->code,
                     'weight' => $product->weight,
                     'partner_material' => $partner_material,
-                    'partner_material_weight' => $partner_material_weight 
+                    'partner_material_weight' => $partner_material_weight
                 ];
-            }   
+            }
         }
 
         return array('materials' =>  json_encode($materials, JSON_UNESCAPED_SLASHES), 'workmanship' => $workmanship, 'partner' => $partner_info);

@@ -29,7 +29,7 @@ class OnlineSellingsController extends Controller
     public function index()
     {
         $sellings = UserPayment::all();
-        
+
         return view('admin.selling.online.index', compact('sellings'));
     }
 
@@ -51,7 +51,7 @@ class OnlineSellingsController extends Controller
      */
     public function store(Request $request, $model)
     {
-        
+
     }
 
     /**UserPayment
@@ -105,8 +105,8 @@ class OnlineSellingsController extends Controller
     }
 
     public function setDiscount(Request $request, $barcode){
-        
-        $userId = Auth::user()->getId(); 
+
+        $userId = Auth::user()->getId();
 
         if(strlen($barcode) == 13){
             $discount = new DiscountCode;
@@ -120,7 +120,7 @@ class OnlineSellingsController extends Controller
             $result = false;
             $setDiscount = $barcode;
         }
-        
+
 
         if(isset($setDiscount)){
             $condition = new CartCustomCondition(array(
@@ -144,7 +144,7 @@ class OnlineSellingsController extends Controller
             $cartConditions = Cart::session($userId)->getConditions();
             $conds = array();
             $priceCon = 0;
-    
+
             if(count($cartConditions) > 0){
                 foreach(Cart::session(Auth::user()->getId())->getConditions() as $cc){
                     $priceCon += $cc->getCalculatedValue($subTotal);
@@ -160,7 +160,7 @@ class OnlineSellingsController extends Controller
 
             $dds = round($subTotal - ($subTotal/1.2), 2);
 
-            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon, 'dds' => $dds));  
-        } 
+            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon, 'dds' => $dds));
+        }
     }
 }
