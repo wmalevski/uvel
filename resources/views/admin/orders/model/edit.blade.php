@@ -8,7 +8,7 @@
 		<input name="_method" type="hidden" value="PUT">
 		<div class="modal-body">
 			<div class="info-cont"></div>
-			{{ csrf_field() }}
+			{{csrf_field()}}
 
 			<div class="form-group">
 				<label for="2">Email на клиент: </label>
