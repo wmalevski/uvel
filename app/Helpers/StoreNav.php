@@ -15,7 +15,10 @@ class StoreNav{
 		$j = Jewel::where('deleted_at',NULL)->take(1)->get();
 		StoreNav::$jewel = ( is_object($j) && isset($j[0]) && isset($j[0]->id) ? $j[0]->id : null );
 
-		$mt = MaterialType::where('deleted_at', NULL)->get();
+		$mt = MaterialType::where(array(
+			'deleted_at'=>NULL,
+			'site_navigation'=>'yes'
+		))->get();
 		foreach ($mt as $k=>$v){
 			array_push(StoreNav::$material_types,array(
 				'id'=>$v->id,

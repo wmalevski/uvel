@@ -51,11 +51,12 @@ aria-hidden="true">
         <table id="main_table" class="table">
             <thead>
                 <tr>
-                    <th>Име</th> 
-                    <th data-sort-method="none">Действия</th> 
+                    <th width="60%">Име</th>
+                    <th width="30%">Покажи в навигация</th>
+                    <th width="10%" data-sort-method="none">Действия</th>
                 </tr>
             </thead>
-            
+
             <tbody>
                 @foreach($materials as $material)
                     @include('admin.materials_types.table')
