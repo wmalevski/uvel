@@ -12,12 +12,6 @@
 				</div>
 			</div>
 
-			@if(session('success'))
-			<div class="info-message success" style="display:block;position:relative;">{{ session('success') }}</div>
-			@elseif(session('error'))
-			<div class="info-message error" style="display:block;position:relative;">{{ session('error') }}</div>
-			@endif
-
 			<section class="content">
 				<div class="container">
 					<div class="row">

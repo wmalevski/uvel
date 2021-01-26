@@ -8,19 +8,13 @@
 					<li class="customer-links hidden-xs">
 						<ul id="accounts" class="list-inline">
 							@auth
-								<li class="login">
-									<a href="{{ route('user_account') }}" id="customer_register_link">{{ Auth::user()->email }}</a>
-								</li>
+								<li class="login"><a href="{{ route('user_account') }}" id="customer_register_link">{{ Auth::user()->email }}</a></li>
 							@endauth
 
 							@guest
-								<li class="login">
-									<a href="{{ route('login') }}" id="customer_register_link">Вход</a>
-								</li>
+								<li class="login"><a href="{{ route('login') }}" id="customer_register_link">Вход</a></li>
 								<li>/</li>
-								<li class="register">
-									<a href="{{ route('register') }}" id="customer_register_link">Регистрирай се</a>
-								</li>
+								<li class="register"><a href="{{ route('register') }}" id="customer_register_link">Регистрирай се</a></li>
 							@endguest
 						</ul>
 					</li>
@@ -80,30 +74,12 @@
 							</div>
 							<div class="collapse navbar-collapse">
 								<ul class="nav navbar-nav hoverMenuWrapper">
-									<li class="nav-item active">
-										<a href="{{ route('store') }}"><span>Начало</span></a>
-									</li>
+									<li class="nav-item active"><a href="{{ route('store') }}"><span>Начало</span></a></li>
 									<li class="nav-item dropdown">{{ StoreNav::nav_catalogue() }}</li>
-
 									<li class="nav-item">{{ StoreNav::nav_catalogue_by_model() }}</li>
-
-									<li class="nav-item">
-										<a href="{{ route('custom_order') }}">
-											<span>По ваш модел</span>
-										</a>
-									</li>
-
-									<li class="nav-item">
-										<a href="{{ route('translated_articles', ['locale'=>app()->getLocale()]) }}">
-											<span>Блог</span>
-										</a>
-									</li>
-
-									<li class="nav-item">
-										<a href="{{ route('contactus') }}">
-											<span>Контакти</span>
-										</a>
-									</li>
+									<li class="nav-item"><a href="{{ route('custom_order') }}"><span>По ваш модел</span></a></li>
+									<li class="nav-item"><a href="{{ route('translated_articles', ['locale'=>app()->getLocale()]) }}"><span>Блог</span></a></li>
+									<li class="nav-item"><a href="{{ route('contactus') }}"><span>Контакти</span></a></li>
 								</ul>
 							</div>
 						</div>
@@ -136,40 +112,35 @@
 		<!--End Navigation-->
 		<script>
 			function addaffix(scr) {
-				if ($(window).innerWidth() >= 1024) {
-					if (scr > $('header').innerHeight()) {
-						if (!$('header').hasClass('affix')) {
+				if($(window).innerWidth()>=1024){
+					if(scr > $('header').innerHeight()){
+						if(!$('header').hasClass('affix')){
 							$('header').addClass('affix').addClass('animated');
 						}
-					} else {
-						if ($('header').hasClass('affix')) {
+					}
+					else{
+						if($('header').hasClass('affix')){
 							$('header').prev().remove();
 							$('header').removeClass('affix').removeClass('animated');
 						}
 					}
-				} else {
+				}
+				else{
 					$('header').removeClass('affix');
 				}
 			}
-			$(window).scroll(function () {
+			$(window).scroll(function(){
 				var scrollTop = $(this).scrollTop();
 				addaffix(scrollTop);
 			});
-			$(window).resize(function () {
+			$(window).resize(function(){
 				var scrollTop = $(this).scrollTop();
 				addaffix(scrollTop);
 			});
 		</script>
 	</div>
-	@if($errors->any())
-		<div class="info-message error">
-			@foreach ($errors->all() as $error)
-				<li>{{ $error }}</li>
-			@endforeach
-		</div>
-	@elseif(session()->has('success'))
-		<div class="info-message success">
-			{{ session()->get('success->first()') }}
-		</div>
+
+	@if(session('success'))<div class="info-message success">{{ session('success') }}</div>
+	@elseif(session('error'))<div class="info-message error">{{ session('error') }}</div>
 	@endif
 </header>
