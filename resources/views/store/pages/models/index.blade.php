@@ -137,14 +137,8 @@
 														<div class="hover-appear hidden-xs hidden-sm">
 															<a href="{{ route('single_model', ['model' => $model->id]) }}" title="Преглед" class="effect-ajax-cart product-ajax-qs">
 																<input name="quantity" value="1" type="hidden">
-																<i class="fa fa-lg fa-th-list"></i>
-																<span class="list-mode">Преглед</span>
-															</a>
-
-															<a href="{{ route('single_model', ['model' => $model->id]) }}" title="Преглед" class="effect-ajax-cart product-ajax-qs">
-																<input name="quantity" value="1" type="hidden">
 																<i class="fa fa-lg fa-eye"></i>
-																<span class="list-mode">Бърз Преглед</span>
+																<span class="list-mode">Преглед</span>
 															</a>
 														</div>
 

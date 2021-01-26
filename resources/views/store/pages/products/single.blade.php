@@ -393,15 +393,9 @@
 														<div class="hover-appear">
 															<a href="{{ route('single_product', ['product' => $product->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
 																<input name="quantity" value="1" type="hidden">
-																<i class="fa fa-lg fa-th-list"></i>
+																<i class="fa fa-lg fa-eye"></i>
 																<span class="list-mode">Преглед</span>
 															</a>
-
-															<button class="quick_shop product-ajax-qs hidden-xs hidden-sm" data-target="#quick-shop-modal"
-																	data-toggle="modal" data-url="products/{{ $product->id }}/" title="Бърз Преглед">
-																<i class="fa fa-lg fa-eye"></i>
-																<span class="list-mode">Бърз преглед</span>
-															</button>
 
 															<button class="wish-list" title="Добави в желани"
 																			data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
