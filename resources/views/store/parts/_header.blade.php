@@ -75,8 +75,8 @@
 							<div class="collapse navbar-collapse">
 								<ul class="nav navbar-nav hoverMenuWrapper">
 									<li class="nav-item active"><a href="{{ route('store') }}"><span>Начало</span></a></li>
-									<li class="nav-item dropdown">{{ StoreNav::nav_catalogue() }}</li>
-									<li class="nav-item">{{ StoreNav::nav_catalogue_by_model() }}</li>
+									<li class="nav-item dropdown">{!! StoreNav::nav_catalogue() !!}</li>
+									<li class="nav-item">{!! StoreNav::nav_catalogue_by_model() !!}</li>
 									<li class="nav-item"><a href="{{ route('custom_order') }}"><span>По ваш модел</span></a></li>
 									<li class="nav-item"><a href="{{ route('translated_articles', ['locale'=>app()->getLocale()]) }}"><span>Блог</span></a></li>
 									<li class="nav-item"><a href="{{ route('contactus') }}"><span>Контакти</span></a></li>

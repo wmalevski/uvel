@@ -12,9 +12,7 @@
 			<div id="breadcrumb" class="breadcrumb">
 				<div itemprop="breadcrumb" class="container">
 					<div class="row">
-						<div class="col-md-24">
-							{{ Breadcrumbs::render('products') }}
-						</div>
+						<div class="col-md-24">{{ Breadcrumbs::render('products') }}</div>
 					</div>
 				</div>
 			</div>
@@ -23,9 +21,7 @@
 				<div id="products" class="container">
 					<div class="row">
 						<div id="collection-content">
-							<div id="page-header">
-								<h1 id="page-title">Налични бижута</h1>
-							</div>
+							<div id="page-header"><h1 id="page-title">Налични бижута</h1></div>
 							<div class="collection-main-content">
 								<div id="prodcoll" class="col-sm-6 col-md-6 sidebar hidden-xs">
 									<div class="group_sidebar">
@@ -36,31 +32,14 @@
 
 												<div class="tag-group" id="coll-filter-3">
 													<p class="title">Вид бижу</p>
-													<ul>
-														@foreach($jewels as $jewel)
-														<li class="{{ filter_products('byJewel',$jewel->id) }}">
-															<a href="#" data-id="byJewel[]={{ $jewel->id }}">
-																<span class="fe-checkbox"></span>
-																{{ $jewel->name }} ({{ count($jewel->productsOnline) }})
-															</a>
-														</li>
-														@endforeach
-													</ul>
+													<ul>{!! StoreNav::jewelsFilters() !!}</ul>
 												</div>
 
 												<div class="tag-group" id="coll-filter-3">
 													<p class="title">Материал</p>
-													<ul>
-														@foreach($materials as $material)
-														<li  class="{{ filter_products('byMaterial', $material->id) }}">
-															<a href="#" data-id="byMaterial[]={{ $material->id }}">
-																<span class="fe-checkbox"></span>
-																{{ $material->parent->name }}-{{ $material->code }} ({{ $material->color }}) ({{ count($material->productsOnline) }})
-															</a>
-														</li>
-														@endforeach
-													</ul>
+													<ul>{!! StoreNav::materialFilters() !!}</ul>
 												</div>
+
 												<div class="tag-group" id="coll-filter-3">
 													<p class="title">Размер</p>
 													<input type="number" class="form-control" placeholder="Въведи размер" data-id="bySize[]=" value="{{isset($_GET['bySize'][0]) ? $_GET['bySize'][0] : ''}}" min=1 />
@@ -74,16 +53,7 @@
 
 												<div class="tag-group" id="coll-filter-3">
 													<p class="title">Налично в</p>
-													<ul>
-														@foreach($stores as $store)
-														<li class="{{ filter_products('byStore', $store->id) }}">
-															<a data-id="byStore[]={{ $store->id }}" href="#">
-																<span class="fe-checkbox"></span>
-																{{ $store->name }} ({{ count($store->productsOnline) }})
-															</a>
-														</li>
-														@endforeach
-													</ul>
+													<ul>{!! StoreNav::storeFilters() !!}</ul>
 												</div>
 											</div>
 										</div>
@@ -96,14 +66,8 @@
 											<ul class="list-inline text-right">
 												<li class="grid_list">
 													<ul class="list-inline option-set hidden-xs" data-option-key="layoutMode">
-														<li data-original-title="Грид" data-option-value="fitRows" id="goGrid" class="goAction btooltip active"
-														 data-toggle="tooltip" data-placement="top" title="">
-															<span></span>
-														</li>
-														<li data-original-title="Лист" data-option-value="straightDown" id="goList" class="goAction btooltip"
-														 data-toggle="tooltip" data-placement="top" title="">
-															<span></span>
-														</li>
+														<li data-original-title="Грид" data-option-value="fitRows" id="goGrid" class="goAction btooltip active" data-toggle="tooltip" data-placement="top" title=""><span></span></li>
+														<li data-original-title="Лист" data-option-value="straightDown" id="goList" class="goAction btooltip" data-toggle="tooltip" data-placement="top" title=""><span></span></li>
 													</ul>
 												</li>
 												<li class="sortBy">
@@ -132,82 +96,55 @@
 									</div>
 									<div id="sandBox-wrapper" class="group-product-item row collection-full">
 										<ul id="sandBox" class="list-unstyled">
-
 											@foreach($products as $product)
-												@if (Illuminate\Support\Str::lower($product->store_info->name) != 'склад')
-												<li class="element no_full_width"
-														data-alpha="{{ $product->id }}" data-price="{{ $product->price }}" data-id="{{$product->id}}">
-													<ul class="row-container list-unstyled clearfix">
-														<li class="row-left">
-															<a href="{{ route('single_product', ['product' => $product->id]) }}" class="container_item">
-																<img class="img-fill" alt="{{ $product->id }}" src="
-																@if(count($product->photos))
-																{{ asset("uploads/products/" . $product->photos->first()['photo']) }}
-																@elseif(count($product->model->photos))
-																{{ asset("uploads/models/" . $product->model->photos->first()['photo']) }}
-																@else
-																{{ asset('store/images/demo_375x375.png') }}
-																@endif">
+											@if (strtolower($product->store_info->name)!=='склад')
+											<li class="element no_full_width" data-alpha="{{ $product->id }}" data-price="{{ $product->price }}" data-id="{{$product->id}}">
+												<ul class="row-container list-unstyled clearfix">
+													<li class="row-left">
+														<a href="{{ route('single_product', ['product' => $product->id]) }}" class="container_item">
+															<img class="img-fill" alt="{{ $product->id }}" src="@if(count($product->photos)) {{ asset("uploads/products/" . $product->photos->first()['photo']) }} @elseif(count($product->model->photos)){{ asset("uploads/models/" . $product->model->photos->first()['photo']) }}@else {{ asset('store/images/demo_375x375.png') }}@endif">
+														</a>
+														<div class="hbw"><span class="hoverBorderWrapper"></span></div>
+													</li>
+													<li class="row-right parent-fly animMix">
+														<div class="product-content-left">
+															<a class="title-5" href="{{ route('single_product', ['product' => $product->id]) }}">No: {{ implode(" ", str_split($product->id, 3)) }}</a>
+															<br>Модел: {{ $product->model->name }}
+															<br>{{ $product->material->name }} - {{ $product->material->code }} - {{ $product->material->color }}
+															<br>{{ $product->weight['weight'] }}гр.
+															<br>Размер: {{$product->size}}
+															<br>Налично в: {{ $product->store_info->name }}
+															<span class="spr-badge" data-rating="0.0">
+																<span class="spr-starrating spr-badge-starrating">{!! $product->listProductAvgRatingStars($product) !!}</span>
+															</span>
+														</div>
+														<div class="product-content-right">
+															<div class="product-price">
+																<span class="price">{{ number_format($product->price) }} лв.</span>
+															</div>
+														</div>
+														<div class="hover-appear">
+															<a href="{{ route('single_product', ['product' => $product->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
+																<input name="quantity" value="1" type="hidden" />
+																<i class="fa fa-lg fa-eye"></i>
+																<span class="list-mode">Преглед</span>
 															</a>
-															<div class="hbw">
-																<span class="hoverBorderWrapper"></span>
-															</div>
-														</li>
 
-														<li class="row-right parent-fly animMix">
-																<div class="product-content-left">
-																	<a class="title-5" href="{{ route('single_product', ['product' => $product->id]) }}">
-																		No: {{ implode(" ", str_split($product->id, 3)) }}
-																	</a>
-																	<br>
-																	Модел: {{ $product->model->name }}
-																	<br>
-																	{{ $product->material->name }} - {{ $product->material->code }} - {{ $product->material->color }}
-																	<br>
-																	{{ $product->weight['weight'] }}гр.
-																	<br>
-																	Размер: {{$product->size}}
-																	<br>
-																	Налично в: {{ $product->store_info->name }}
-																	<span class="spr-badge" data-rating="0.0">
-																		<span class="spr-starrating spr-badge-starrating">
-																			{!! $product->listProductAvgRatingStars($product) !!}
-																		</span>
-																	</span>
-																</div>
-															<div class="product-content-right">
-																<div class="product-price">
-																	<span class="price">
-																		{{ number_format($product->price) }} лв.
-																	</span>
-																</div>
-															</div>
-
-															<div class="hover-appear">
-																<a href="{{ route('single_product', ['product' => $product->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
-																	<input name="quantity" value="1" type="hidden">
-																	<i class="fa fa-lg fa-eye"></i>
-																	<span class="list-mode">Преглед</span>
-																</a>
-
-																@if (Auth::user() !== NULL)
-																<button class="wish-list" title="Добави в желани"
-																				data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
-																	<i class="fa fa-lg fa-heart"></i>
-																	<span class="list-mode">Добави в желани</span>
-																</button>
-																@endif
-															</div>
-														</li>
-													</ul>
-												</li>
-												@endif
+															@auth
+															<button class="wish-list" title="Добави в желани" data-url="{{ route('wishlists_store', ['type' => 'product', 'item' => $product->id]) }}">
+																<i class="fa fa-lg fa-heart"></i>
+																<span class="list-mode">Добави в желани</span>
+															</button>
+															@endauth
+														</div>
+													</li>
+												</ul>
+											</li>
+											@endif
 											@endforeach
 										</ul>
 										@if(count($products) == 0)
-											<div class="product-content-left">
-												Няма бижу по зададените критерии
-											</div>
+										<div class="product-content-left">Няма бижу по зададените критерии</div>
 										@endif
 										<!-- Paginator -->
 										{{ $products->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}

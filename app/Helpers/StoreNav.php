@@ -6,20 +6,29 @@ use App\Jewel;
 use App\Material;
 use App\MaterialType;
 use App\ProductOtherType;
+use App\Store;
 
 class StoreNav{
 
-	private static $jewel,$material,$material_types=array();
+	private static $jewel=null;
+	private static $jewel_model=null;
+	private static $material=null;
+	private static $material_types=array();
 
 	public function __construct(){
-		$j = Jewel::where('deleted_at',NULL)->take(1)->get();
-		StoreNav::$jewel = ( is_object($j) && isset($j[0]) && isset($j[0]->id) ? $j[0]->id : null );
+		foreach(Jewel::where('deleted_at',NULL)->get() as $jewel){
+			// Get the first filter with products in it for Products and Models and set it
+			// Don't break the loop so both can be set
+			if(StoreNav::$jewel==null && count($jewel->productsOnline)>0){
+				StoreNav::$jewel=$jewel->id;
+			}
+			if(StoreNav::$jewel_model==null && count($jewel->models)>0){
+				StoreNav::$jewel_model=$jewel->id;
+			}
+		}
 
-		$mt = MaterialType::where(array(
-			'deleted_at'=>NULL,
-			'site_navigation'=>'yes'
-		))->get();
-		foreach ($mt as $k=>$v){
+		// Set MaterialTypes so they can be quickly reused later
+		foreach(MaterialType::where(array('deleted_at'=>NULL,'site_navigation'=>'yes'))->get() as $k=>$v){
 			array_push(StoreNav::$material_types,array(
 				'id'=>$v->id,
 				'name'=>$v->name
@@ -28,10 +37,14 @@ class StoreNav{
 
 		if(!empty(StoreNav::$material_types)){
 			$first_material = StoreNav::$material_types[0]['id'];
-			$m = Material::where('parent_id', $first_material )->take(1)->get();
-			StoreNav::$material = ( is_object($m) && isset($m[0]) && isset($m[0]->id) ? $m[0]->id : null );
+			foreach(Material::where('parent_id', $first_material)->get() as $material){
+				// Get the first material with products in it, set it, and break the loop
+				if(count($material->productsOnline)>0){
+					StoreNav::$material = $material->id;
+					break;
+				}
+			}
 		}
-
 	}
 
 	public static function nav_catalogue(){
@@ -89,11 +102,43 @@ class StoreNav{
 
 		}
 
-		echo '<a href="'.$mainLink.'" class="dropdown-toggle dropdown-link" data-toggle="dropdown"><span>Налични Бижута</span><i class="fa fa-caret-down"></i><i class="sub-dropdown1 visible-sm visible-md visible-lg"></i><i class="sub-dropdown visible-sm visible-md visible-lg"></i></a><ul class="dropdown-menu" style="display: none;">'.$subNav.'</ul>';
-
+		return '<a href="'.$mainLink.'" class="dropdown-toggle dropdown-link" data-toggle="dropdown"><span>Налични Бижута</span><i class="fa fa-caret-down"></i><i class="sub-dropdown1 visible-sm visible-md visible-lg"></i><i class="sub-dropdown visible-sm visible-md visible-lg"></i></a><ul class="dropdown-menu" style="display: none;">'.$subNav.'</ul>';
 	}
 
 	public static function nav_catalogue_by_model(){
-		echo '<a href="'.route('models').'?byJewel[]='.StoreNav::$jewel.'&listType=goGrid"><span>По поръчка</span></a>';
+		return '<a href="'.route('models').'?byJewel[]='.StoreNav::$jewel_model.'&listType=goGrid"><span>По поръчка</span></a>';
+	}
+
+	public static function jewelsFilters($type = null){
+		$type = ($type ? $type : 'productsOnline');
+		$output = '';
+		foreach(Jewel::all() as $jewel){
+			$productsCount = count($jewel->$type);
+			if($productsCount > 0){
+				$output .= '<li class="'.filter_products('byJewel',$jewel->id).'"><a href="#" data-id="byJewel[]='.$jewel->id.'"><span class="fe-checkbox"></span>'.$jewel->name.' ['.$productsCount.']</a></li>';
+			}
+		}
+		return $output;
+	}
+	public static function materialFilters(){
+		$output = '';
+		foreach(Material::all() as $material){
+			$productCount = count($material->productsOnline);
+			if($productCount > 0){
+				$output .= '<li class="'.filter_products('byMaterial', $material->id).'"><a href="#" data-id="byMaterial[]='.$material->id.'"><span class="fe-checkbox"></span>'.$material->parent->name.'-'.$material->code.' ('.$material->color.') ['.$productCount.']</a></li>';
+			}
+		}
+		return $output;
+	}
+	public static function storeFilters($type = 'Online'){
+		$output = '';
+		$type = 'products'.$type;
+		foreach(Store::all()->except(1) as $store){
+			$productCount = count($store->$type);
+			if($productCount > 0){
+				$output .= '<li class="'.filter_products('byStore', $store->id).'"><a data-id="byStore[]='.$store->id.'" href="#"><span class="fe-checkbox"></span>'.$store->name.' ['.$productCount.']</a></li>';
+			}
+		}
+		return $output;
 	}
 }

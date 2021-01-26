@@ -13,9 +13,7 @@
 			<div id="breadcrumb" class="breadcrumb">
 				<div itemprop="breadcrumb" class="container">
 					<div class="row">
-						<div class="col-md-24">
-							{{ Breadcrumbs::render('model_orders') }}
-						</div>
+						<div class="col-md-24">{{ Breadcrumbs::render('model_orders') }}</div>
 					</div>
 				</div>
 			</div>
@@ -33,19 +31,9 @@
 											<!-- filter tags group -->
 											<div class="filter-tag-group" data-url="online/models">
 												<h6 class="sb-title">Филтри</h6>
-
 												<div class="tag-group" id="coll-filter-3">
 													<p class="title">Вид бижу</p>
-													<ul>
-														@foreach($jewels as $jewel)
-														<li class="{{ filter_products('byJewel', $jewel->id) }}">
-															<a href="#" data-id="byJewel[]={{ $jewel->id }}">
-																<span class="fe-checkbox"></span>
-																{{ $jewel->name }} ({{ count($jewel->models) }})
-															</a>
-														</li>
-														@endforeach
-													</ul>
+													<ul>{!! StoreNav::jewelsFilters('models') !!}</ul>
 												</div>
 
 												<div class="tag-group" id="coll-filter-3">

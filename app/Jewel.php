@@ -6,40 +6,36 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 
-class Jewel extends Model
-{
-    use SoftDeletes;
-    
-    protected $fillable = [
-        'name'
-    ];
+class Jewel extends Model{
+	use SoftDeletes;
 
-    protected $table = 'jewels';
-    protected $dates = ['deleted_at'];
+	protected $fillable = array('name');
+	protected $table = 'jewels';
+	protected $dates = array('deleted_at');
 
-    public function products() {
-    	return $this->hasMany('App\Product');
-    }
+	public function products(){
+		return $this->hasMany('App\Product');
+	}
 
-    public function productsOnline() {
-    	return $this->hasMany('App\Product')->where('status', 'available')->where('store_id', '!=', 1)->where('website_visible', 'yes');
-    }
+	public function productsOnline(){
+		return $this->hasMany('App\Product')->where('status', 'available')->where('store_id', '!=', 1)->where('website_visible', 'yes');
+	}
 
-    public function models() {
-    	return $this->hasMany('App\Model');
-    }
+	public function models(){
+		return $this->hasMany('App\Model');
+	}
 
-    public function filterJewels(Request $request ,$query){
-        $query = Jewel::where(function($query) use ($request){
-            if ($request->byName) {
-                $query->where('name','LIKE','%'.$request->byName.'%');
-            }
+	public function filterJewels(Request $request ,$query){
+		$query = Jewel::where(function($query) use ($request){
+			if($request->byName){
+				$query->where('name','LIKE','%'.$request->byName.'%');
+			}
 
-            if( $request->byName == '' ) {
-                $query = Jewel::all();
-            }
-        });
+			if($request->byName==''){
+				$query = Jewel::all();
+			}
+		});
 
-        return $query;
-    }
+		return $query;
+	}
 }

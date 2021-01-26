@@ -9,44 +9,38 @@ use App\MaterialType;
 use App\Jewel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Setting;
 
-class ProductOtherController extends BaseController
-{
+class ProductOtherController extends BaseController{
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request){
         $products = ProductOther::filterProducts($request);
+        $products = $products->where(array(
+            array('quantity','!=',0),
+            array('store_id','!=',1)
+        ))->paginate(Setting::where('key','per_page')->first()->value);
 
-        $products = $products->where([
-            ['quantity', '!=', 0],
-            ['store_id', '!=', 1]
-        ])->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        // $stores = Store::all()->except(1);
+        // $productothertypes = ProductOtherType::all();
+        // $materials = Material::all();
+        // $materialTypes = MaterialType::all();
+        // $jewels = Jewel::all();
 
-        $stores = Store::all()->except(1);
-
-        $productothertypes = ProductOtherType::all();
-
-        $materials = Material::all();
-
-        $materialTypes = MaterialType::all();
-
-        $jewels = Jewel::all();
-
-        return \View::make('store.pages.productsothers.index', array('products' => $products, 'stores' => $stores, 'materials' => $materials, 'jewels' => $jewels, 'productothertypes' => $productothertypes, 'materialTypes' => $materialTypes));
+        return \View::make('store.pages.productsothers.index', array('products' => $products
+            // 'stores' => $stores, 'materials' => $materials, 'jewels' => $jewels, 'productothertypes' => $productothertypes, 'materialTypes' => $materialTypes
+        ));
     }
 
     public function show(ProductOther $product){
         $productothertypes = ProductOtherType::all();
-
-        $products = ProductOther::paginate(\App\Setting::where('key','per_page')->get()[0]->value);
-
+        $products = ProductOther::paginate(Setting::where('key','per_page')->first()->value);
         $materialTypes = MaterialType::all();
-
-        $allProducts = ProductOther::select('*')->where('type_id',$product->type_id )->where('store_id','!=', 1)->whereNotIn('id', [$product->id]);
+        $allProducts = ProductOther::where('type_id',$product->type_id)->where('store_id','!=',1)->whereNotIn('id', array($product->id));
         $similarProducts = $allProducts->orderBy(DB::raw('ABS(`price` - '.$product->price.')'))->take(5)->get();
 
         if($product){
@@ -55,10 +49,10 @@ class ProductOtherController extends BaseController
     }
 
     public function filter(Request $request){
-        $products = ProductOther::filterProducts($request)->where([
-            ['quantity', '!=', 0],
-            ['store_id', '!=', 1]
-        ])->orderBy('id', 'DESC')->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $products = ProductOther::filterProducts($request)->where(array(
+            array('quantity','!=',0),
+            array('store_id','!=',1)
+        ))->orderBy('id', 'DESC')->paginate(Setting::where('key','per_page')->first()->value);
 
         $response = '';
         foreach($products as $product){
@@ -66,11 +60,9 @@ class ProductOtherController extends BaseController
         }
 
         return $response;
-
     }
 
-    public function quickView(ProductOther $product)
-    {
+    public function quickView(ProductOther $product){
         if($product){
             return \View::make('store/pages/productsothers/quickview', array('product' => $product));
         }
