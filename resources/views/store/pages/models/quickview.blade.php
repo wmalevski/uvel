@@ -35,7 +35,7 @@
 						<p>
 							Модел: {{ $model->name }}
 							<br/>
-							{{ $model->weight }}гр.
+							Тегло: {{ $model->weight }}гр.
 							<br/>
 							<strong class="text-danger">По Поръчка за 10 дни</strong>
 							<br/>

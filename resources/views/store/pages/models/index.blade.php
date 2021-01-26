@@ -119,7 +119,7 @@
 															Модел: {{ $model->name }}
 															</a>
 															<br/>
-															{{ $model->weight }}гр.
+															Тегло: {{ $model->weight }}гр.
 															<br>
 															<strong class="text-danger">По Поръчка за 10 дни</strong>
 															<span class="spr-badge" data-rating="{{$model->getModelAvgRating($model)}}">

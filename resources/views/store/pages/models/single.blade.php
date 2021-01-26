@@ -77,8 +77,8 @@
 															<h5>Информация за продукта</h5>
 															<ul class="sub">
 																<li><span>Модел:</span> {{ $model->name }}</li>
-																<li><span>{{ $model->weight }}гр.</li>
-																<li><span>Бижу:</span> {{ $model->jewel->name }}</li>
+																<li><span>Тегло: {{ $model->weight }}гр.</li>
+																<li><span>Вид:</span> {{ $model->jewel->name }}</li>
 																<li><span>Размер:</span> {{ $model->size }}</li>
 															</ul>
 														</li>

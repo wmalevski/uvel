@@ -2,9 +2,7 @@
 	<!--top-->
 	<div class="container top">
 		<div class="top row">
-			<div class="col-md-6 phone-shopping">
-				<span>За поръчки 08786248579</span>
-			</div>
+			<div class="col-md-6 phone-shopping"></div>
 			<div class="col-md-18">
 				<ul class="text-right">
 					<li class="customer-links hidden-xs">
