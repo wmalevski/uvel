@@ -20,7 +20,7 @@
         <h5 class="c-grey-900 mB-20">Заглавие:</h5>
         <p><strong>{{$review->title}}</strong></p>
         <h5 class="c-grey-900 mB-20">Потребител:</h5>
-        <p><strong>{{$review->user->name}}, {{$review->created_at}}</strong></p>
+        <p><strong>{{ $review->user ? $review->user->name : "Анонимен"}}, {{$review->created_at}}</strong></p>
         <h5 class="c-grey-900 mB-20">Рейтинг:</h5>
         <p><strong>{{$review->rating}}</strong></p>
         <h5 class="c-grey-900 mB-20">Текст:</h5>

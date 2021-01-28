@@ -16,7 +16,7 @@
       @elseif($review->product_others_id)
         {{ $review->productOther->id }}
       @endif
-    </td> 
+    </td>
     <td>
       @if($review->product_id)
         Продукт
@@ -25,8 +25,8 @@
       @elseif($review->product_others_id)
         Кутии/Икони
       @endif
-    </td> 
-    <td>{{ $review->user->email }}</td> 
+    </td>
+    <td>{{ $review->user ? $review->user->email : "Анонимен"}}</td>
     <td>{{ $review->content }}</td>
     <td>{{ $review->rating }}</td>
     <td>
@@ -37,9 +37,9 @@
       @elseif($review->product_others_id)
         {{ $review->productOther->name }} [{{ $review->productOther->id }}]
       @endif
-    </td> 
+    </td>
     <td>
-        <a href="{{ route('show_review', ['review' => $review->id]) }}"><i class="c-brown-500 ti-star"></i></a>        
+        <a href="{{ route('show_review', ['review' => $review->id]) }}"><i class="c-brown-500 ti-star"></i></a>
         <span data-url="reviews/delete/{{$review->id}}" class="delete-btn"><i class="c-brown-500 ti-trash"></i></span>
     </td>
 </tr>

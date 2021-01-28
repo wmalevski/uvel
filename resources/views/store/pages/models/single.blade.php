@@ -174,7 +174,7 @@
 											</div>
 										</div>
 									</div>
-									<div id="shopify-product-reviews">
+									<div id="product-reviews">
 
 										<div class="spr-container">
 											<div class="spr-header">
@@ -252,7 +252,7 @@
 																		@endfor
 															</span>
 															<h3 class="spr-review-header-title">
-																{{$review->user->name}}
+																{{ ($review->user ? $review->user->name : "Анонимен") }}
 															</h3>
 															<span class="spr-review-header-byline">
 																<strong>
