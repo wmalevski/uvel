@@ -1139,6 +1139,8 @@ var uvelStore,
 			hiddenShippingInput = $('[type="hidden"][name="shipping_method"]'),
 			method = _this.attr('data-method');
 
+		$('div.shipping-method.'+id+' input').attr('required','required');
+
 		hiddenShippingInput.val(method);
 
 		toHide.slideUp('fast');
@@ -1153,11 +1155,9 @@ var uvelStore,
 
 		paymentMethod.slideDown('fast');
 
-		if (id == 'shipping_shop') {
-			var deliveryPaymentInput = form.find('#payment_delivery');
-			deliveryPaymentInput.prop('checked', true);
-			$self.paymentMethodChange(deliveryPaymentInput);
-		}
+		var deliveryPaymentInput = form.find('#payment_delivery');
+		deliveryPaymentInput.prop('checked', true);
+		$self.paymentMethodChange(deliveryPaymentInput);
 	}
 
 	this.paymentMethodAttach = function (paymentMethodTrigger) {

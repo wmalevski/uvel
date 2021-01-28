@@ -122,23 +122,33 @@
 										<hr>
 										<div class="form-group col-xs-24">
 											<label>Град:</label>
-											<input type="text" name="city" />
+											<input type="text" name="city"
+											oninvalid="this.setCustomValidity('Моля въведете Град')"
+											oninput="setCustomValidity('')"/>
 										</div>
 										<div class="form-group col-xs-24">
 											<label>Улица:</label>
-											<input type="text" name="street" />
+											<input type="text" name="street"
+											oninvalid="this.setCustomValidity('Моля въведете Име на Улица')"
+											oninput="setCustomValidity('')"/>
 										</div>
 										<div class="form-group col-xs-24">
 											<label>Номер:</label>
-											<input type="text" name="street_number" />
+											<input type="text" name="street_number"
+											oninvalid="this.setCustomValidity('Моля въведете Номер на Улица')"
+											oninput="setCustomValidity('')"/>
 										</div>
 										<div class="form-group col-xs-24">
 											<label>Пощенски код:</label>
-											<input type="text" name="postcode" />
+											<input type="text" name="postcode"
+											oninvalid="this.setCustomValidity('Моля въведете Пощенски Код')"
+											oninput="setCustomValidity('')"/>
 										</div>
 										<div class="form-group col-xs-24">
 											<label>Телефон за връзка:</label>
-											<input type="text" name="phone" />
+											<input type="text" name="phone"
+											oninvalid="this.setCustomValidity('Моля въведете Телефон за Връзка')"
+											oninput="setCustomValidity('')"/>
 										</div>
 									</div>
 									<div class="form-row row shipping-method shipping_home_address">
@@ -146,23 +156,33 @@
 										<hr>
 										<div class="form-group col-xs-24">
 											<label>Град:</label>
-											<input type="text" name="city" value="@if (Auth::check()){{  Auth::user()->city }} @endif" />
+											<input type="text" name="city" value="{{Auth::user()->city}}"
+											oninvalid="this.setCustomValidity('Моля въведете Град за доставка');this.scrollIntoView({block: 'center'})"
+											oninput="setCustomValidity('')"/>
 										</div>
 										<div class="form-group col-xs-24">
 											<label>Улица:</label>
-											<input type="text" name="street" value="@if (Auth::check()){{ Auth::user()->street }} @endif" />
+											<input type="text" name="street" value="{{Auth::user()->street}}"
+											oninvalid="this.setCustomValidity('Моля въведете Име на Улица');this.scrollIntoView({block: 'center'})"
+											oninput="setCustomValidity('')"/>
 										</div>
 										<div class="form-group col-xs-24">
 											<label>Номер:</label>
-											<input type="text" name="street_number" value="@if (Auth::check()){{ Auth::user()->street_number }} @endif" />
+											<input type="text" name="street_number" value="{{Auth::user()->street_number}}"
+											oninvalid="this.setCustomValidity('Моля въведете Номер на Улица');this.scrollIntoView({block: 'center'})"
+											oninput="setCustomValidity('')"/>
 										</div>
 										<div class="form-group col-xs-24">
 											<label>Пощенски код:</label>
-											<input type="text" name="postcode" value="@if (Auth::check()){{ Auth::user()->postcode }} @endif" />
+											<input type="text" name="postcode" value="{{Auth::user()->postcode}}"
+											oninvalid="this.setCustomValidity('Моля въведете Пощенски Код');this.scrollIntoView({block: 'center'})"
+											oninput="setCustomValidity('')"/>
 										</div>
 										<div class="form-group col-xs-24">
 											<label>Телефон за връзка:</label>
-											<input type="text" name="phone" value="@if (Auth::check()){{ Auth::user()->phone }} @endif" />
+											<input type="phone" name="phone" value="{{Auth::user()->phone}}"
+											oninvalid="this.setCustomValidity('Моля въведете Телефон за Връзка');this.scrollIntoView({block: 'center'})"
+											oninput="setCustomValidity('')" />
 										</div>
 									</div>
 									<div class="form-row row payment-method">
@@ -222,4 +242,37 @@ td.modelSize div label{
 	line-height: 40px;
 }
 </style>
+<script type="text/javascript">
+$(document).ready(function(){
+
+	$("form#cartform").on("submit",function(e){
+		try{
+			// Validate Shipping method
+			let shipMet=$('input[name="shippingMethod"]:checked');
+			if(shipMet.length==0){
+				var tOffset=$('input[name="shippingMethod"]').offset();
+				$('html').animate({ scrollTop: tOffset.top - 100 },400,function(){
+					alert("Моля изберете Начин на Получаване");
+				});
+				throw false;
+			}
+
+			// Validate Payment method
+			let payMet = $('input[name="paymentMethod"]:checked');
+			if(payMet.length==0){
+				var tOffset=$('input[name="paymentMethod"]').offset();
+				$('html').animate({ scrollTop: tOffset.top - 100 },400,function(){
+					alert("Моля изберете Начин на Плащане");
+				});
+				throw false;
+			}
+		}
+		catch(err){
+			console.log(err);
+			e.preventDefault();
+		}
+
+	});
+});
+</script>
 @endsection
