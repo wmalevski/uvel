@@ -12,65 +12,65 @@ use Auth;
 use Response;
 
 class WishListController extends BaseController{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(){
-        $wishList = WishList::where([['user_id', '=', Auth::user()->getId()]])->get();
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function index(){
+		$wishList = WishList::where('user_id',Auth::user()->getId())->get();
 
-        return \View::make('store.pages.wishlists.index', array('wishList' => $wishList));
-    }
+		return \View::make('store.pages.wishlists.index', array('wishList'=>$wishList));
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request, $type, $item){
-        $wishList = new WishList();
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function store(Request $request, $type, $item){
+		$wishList = new WishList();
 
-        // Anonymous
-        if(Auth::user() == NULL){
-            return redirect()->route('login');
-        }
+		// Anonymous
+		if(Auth::user() == NULL){
+			return redirect()->route('login');
+		}
 
-        $check = WishList::where('product_id', $item)->orWhere('model_id', $item)->orWhere('product_others_id', $item)->first();
+		$check = WishList::where('product_id', $item)->orWhere('model_id', $item)->orWhere('product_others_id', $item)->first();
 
-        if($check){
-            return Response::json(array('success' => 'Този продукт вече го имате запазен!'));
-        }
+		if($check){
+			return Response::json(array('success' => 'Този продукт вече го имате запазен!'));
+		}
 
 
-        switch($type){
-            case 'product':
-                $wishList->product_id = $item;
-                break;
-            case 'model':
-                $wishList->model_id = $item;
-                break;
-            case 'product_other':
-                $wishList->product_others_id = $item;
-                break;
-        }
+		switch($type){
+			case 'product':
+				$wishList->product_id = $item;
+				break;
+			case 'model':
+				$wishList->model_id = $item;
+				break;
+			case 'product_other':
+				$wishList->product_others_id = $item;
+				break;
+		}
+		$wishList->user_id=Auth::id();
+		$wishList->save();
 
-        $wishList->save();
+		return Response::json(array('success' => 'Продуктът беше запазен успешно!'));
+	}
 
-        return Response::json(array('success' => 'Продуктът беше запазен успешно!'));
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\WishList  $wishList
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(WishList $wishList){
-        if($wishList){
-            $wishList->delete();
-            return Redirect::back()->with('success.wishlist', 'Продуктът беше успешно премахнат от списъка.');
-        }
-    }
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  \App\WishList  $wishList
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy(WishList $wishList){
+		if($wishList){
+			$wishList->delete();
+			return Redirect::back()->with('success.wishlist', 'Продуктът беше успешно премахнат от списъка.');
+		}
+	}
 }
