@@ -384,6 +384,9 @@ textarea {
 .sell-status.sell-status--pending {
 	background-color: #f57c00;
 }
+.sell-status.sell-status--pendingStaff{
+  background-color: #ff9f10;
+}
 
 .sell-products {
 	max-width: 330px;

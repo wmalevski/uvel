@@ -43,6 +43,8 @@ class UserPayment extends Model{
 		switch(session('cart_info.0.shipping_method')){
 			case 'office_address':
 			case 'home_address':
+				$payment->city = $request->city;
+				$payment->phone = $request->phone;
 				$payment->shipping_address = session('cart_info.0.shipping_address');
 				break;
 			case 'store':
@@ -52,7 +54,7 @@ class UserPayment extends Model{
 
 		$payment->status = 'waiting_user';
 		if($payment->payment_method == 'paypal' || $payment->shipping_method == 'office_address' || $payment->shipping_method == 'home_address'){
-			$payment->status = 'done';
+			$payment->status = 'waiting_staff';
 		}
 
 		$payment->save();
