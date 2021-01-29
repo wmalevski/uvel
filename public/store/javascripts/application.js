@@ -985,6 +985,9 @@ var uvelStore,
 			productsContainer = $('#sandBox'),
 			listType = document.querySelector('.option-set .active').id;
 
+		// Only one filter active at a time for a section
+		filterBtn.parent('ul').find('li.selected').removeClass('selected');
+
 		if (_this.is('input') && _this.val() !== '' && _this.val() != 0) {
 			_this.addClass('selected');
 		} else if (_this.is('input')) {
