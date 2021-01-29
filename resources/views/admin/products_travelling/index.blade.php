@@ -91,11 +91,11 @@
                 </thead>
 
                 <tbody>
+                @foreach($travelling as $product)
                     @if( in_array($loggedUser->role,array('admin','storehouse')) || $product->store_to_id == $loggedUser->store_id )
-                        @foreach($travelling as $product)
-                            @include('admin.products_travelling.table')
-                        @endforeach
+                        @include('admin.products_travelling.table')
                     @endif
+                @endforeach
                 </tbody>
               </table>
             </div>
