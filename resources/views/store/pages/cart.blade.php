@@ -204,7 +204,7 @@
 									<input class="w3-input w3-border" name="amount" value="{{ $subtotal }}" type="hidden" />
 									<input type="hidden" name="payment_method" />
 									<input type="hidden" name="shipping_method" />
-									<input class="w3-btn w3-blue" type="submit" value="Плати" />
+									<input class="w3-btn w3-blue" type="submit" value="Поръчай" />
 									@else
 									<div class="row form-row">
 										<a href="/online/login">Влезте в профила си, за да продължите.</a>
