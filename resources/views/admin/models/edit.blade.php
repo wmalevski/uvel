@@ -46,13 +46,9 @@
           </div>
           @endif
           <div class="form-group col-md-6">
-            <label>
-              Избери материал:
-            </label>
+            <label>Избери материал:</label>
             <select name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material data-search="/ajax/select_search/global/materials/">
-              <option value="">
-                Избери
-              </option>
+              <option value="">Избери</option>
               @foreach($materials as $material)
               @if($material->pricesSell->first())
               <option value="{{ $material->id }}" data-material="{{ $material->id }}" data-pricebuy="{{ $material->pricesBuy->first()->price }}"
@@ -247,7 +243,7 @@
         </div>
         @endforeach
       </div>
-      
+
       <div class="col-12 p-0">
         <hr>
       </div>
@@ -263,7 +259,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="form-row bot-row">
         <div class="form-group col-md-6">
           <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15 mt-3">
@@ -277,7 +273,7 @@
           </div>
         </div>
       </div>
-      
+
     </div>
 
     <div class="modal-footer">

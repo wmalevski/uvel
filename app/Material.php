@@ -12,13 +12,14 @@ class Material extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = [
+    protected $fillable = array(
+        'name',
         'code',
         'color',
         'carat',
         'parent_id',
         'cash_group'
-    ];
+    );
 
     protected $table = 'materials';
     protected $dates = ['deleted_at'];

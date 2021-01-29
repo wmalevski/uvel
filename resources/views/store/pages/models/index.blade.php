@@ -107,6 +107,10 @@
 															Модел: {{ $model->name }}
 															</a>
 															<br/>
+															@foreach($model->materials() as $material)
+															{{ $material->name }} {{ $material->code }} ({{ $material->color }})
+															<br/>
+															@endforeach
 															Тегло: {{ $model->weight }}гр.
 															<br>
 															<strong class="text-danger">По Поръчка за 10 дни</strong>
