@@ -21,6 +21,9 @@ class AddPhoneAndCityToUserPayments extends Migration{
 
 			// Add Processing status to the order
 			if(Schema::hasColumn('user_payments', 'status')){
+				$table->dropColumn('phone');
+			}
+			if(Schema::hasColumn('user_payments', 'status')){
 				$table->dropColumn('status');
 	            $table->enum('status', array('waiting_user', 'waiting_staff','done'))->default('waiting_user');
 			}

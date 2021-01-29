@@ -104,18 +104,16 @@ class MaterialQuantityController extends Controller
         return \View::make('admin/materials_quantity/edit',array('material'=>$materialQuantity, 'types' => $materials_types, 'stores' => $stores));
     }
 
-    public function materialReport()
-    {
-        $materials_quantity = MaterialQuantity::all();
-
-        // if(Auth::user()->role != 'admin') {
-        //   $materials_quantities = MaterialQuantity::where('store_id', Auth::user()->getStore()->id)->get();
-        // }
-        // else {
-          $materials_quantities = MaterialQuantity::all();
-        // }
-
-        $stores = Store::all();
+    public function materialReport(){
+        if(Auth::user()->role == 'manager') {
+            $user_store_id = Auth::user()->getStore()->id;
+            $materials_quantities = MaterialQuantity::where('store_id', $user_store_id)->get();
+            $stores = Store::where('id', $user_store_id)->get();
+        }
+        else{
+            $materials_quantities = MaterialQuantity::all();
+            $stores = Store::all();
+        }
 
         return view('admin.reports.materials_reports.index', compact(['stores', 'materials_quantities']));
     }
