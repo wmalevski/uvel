@@ -72,18 +72,10 @@
 				</div>
 				<div id="widget-payment" class="col-md-12">
 					<ul id="payments" class="list-inline animated">
-						<li class="btooltip" data-toggle="tooltip" data-placement="top" title="Visa" data-original-title="Visa">
-							<span class="icons visa"></span>
-						</li>
-						<li class="btooltip" data-toggle="tooltip" data-placement="top" title="Mastercard" data-original-title="Mastercard">
-							<span class="icons mastercard"></span>
-						</li>
-						<li class="btooltip" data-toggle="tooltip" data-placement="top" title="American Express" data-original-title="American Express">
-							<span class="icons amex"></span>
-						</li>
-						<li class="btooltip" data-toggle="tooltip" data-placement="top" title="Paypal" data-original-title="Paypal">
-							<span class="icons paypal"></span>
-						</li>
+						<li class="btooltip" data-toggle="tooltip" data-placement="top" title="Visa" data-original-title="Visa"><span class="icons visa"></span></li>
+						<li class="btooltip" data-toggle="tooltip" data-placement="top" title="Mastercard" data-original-title="Mastercard"><span class="icons mastercard"></span></li>
+						<!-- <li class="btooltip" data-toggle="tooltip" data-placement="top" title="American Express" data-original-title="American Express"><span class="icons amex"></span></li>
+						<li class="btooltip" data-toggle="tooltip" data-placement="top" title="Paypal" data-original-title="Paypal"><span class="icons paypal"></span></li> -->
 					</ul>
 				</div>
 			</div>
