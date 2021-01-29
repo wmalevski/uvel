@@ -25,33 +25,24 @@ use Auth;
 use Cart;
 use Illuminate\Support\Facades\DB;
 
-class PaymentController extends Controller
-{
+class PaymentController extends Controller{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        if(Auth::user()->role != 'admin'){
-            $payments = Payment::where('receipt', 'yes')->get();
-        } else {
-            $payments = Payment::all();
+    public function index(){
+        $payments = new Payment::orderBy('created_at','DESC');
+
+        if(Auth::user()->role !== 'admin'){
+            $payments = $payments->where('receipt', 'yes');
         }
+
+        $payments = $payments->get();
 
         return view('admin.payments.index', compact('payments'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -60,7 +51,7 @@ class PaymentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {       
+    {
         $payment = new Payment;
         return $payment->store_payment($request);
     }
@@ -95,60 +86,60 @@ class PaymentController extends Controller
                     $create_quantity->quantity = 0;
                     $create_quantity_material_id = $material['material_id'];
                 }
-    
+
                 if($material['material_given'] > $material['material_weight']){
-                    
+
                     $quantity->quantity = $quantity->quantity + ($material['material_given']);
                     $quantity->save();
-    
+
                     foreach($partner->materials as $partner_material){
                         if($partner_material->material_id = $material['material_id']){
                             $partner_material->quantity = $partner_material + ($material['material_weight'] - $material['material_given']);
-    
+
                             $partner_material->save();
                         }else{
                             $p_material = new PartnerMaterial();
                             $p_material->material_id = $material['material_id'];
                             $p_material->partner_id = $partner->id;
                             $p_material->quantity = $partner_material + ($material['material_weight'] - $material['material_given']);
-    
+
                             $p_material->save();
                         }
                     }
                 } else {
                     $quantity->quantity = $quantity->quantity + ($material['material_given']);
                     $quantity->save();
-    
+
                     foreach($partner->materials as $partner_material){
                         if($partner_material->material_id = $material['material_id']){
                             $partner_material->quantity = $partner_material->quantity - ($material['material_weight'] - $material['material_given']);
-    
+
                             $partner_material->save();
                         }else{
                             $p_material = new PartnerMaterial();
                             $p_material->material_id = $material['material_id'];
                             $p_material->partner_id = $partner->id;
                             $p_material->quantity = $partner_material + ($material['material_weight'] - $material['material_given']);
-    
+
                             $p_material->save();
                         }
                     }
                 }
-    
+
                 $partner->money = $partner->money + ($request->workmanship['given'] - $request->workmanship['wanted']);
                 $partner->save();
-    
+
                 $request->request->add(['given_sum' => $request->workmanship['given']]);
                 $request->request->add(['pay_currency' => $defaultCurrency->id]);
                 $request->request->add(['wanted_sum' => $request->workmanship['wanted']]);
                 $request->request->add(['partner_method' => true]);
-    
+
                 if($request->pay_method == 'false'){
                     $request->request->add(['method' => 'cash']);
                 } else{
                     $request->request->add(['method' => 'post']);
                 }
-    
+
                 $payment = new Payment;
                 return $payment->store_payment($request);
             }
@@ -188,7 +179,7 @@ class PaymentController extends Controller
                 $obj = Order::find($tmpItem['attributes']->order);
                 $order_id = $tmpItem['attributes']->order;
                 $product_id = $obj->product_id;
-                
+
             } else if ( $tmpItem['attributes']->type == 'product' && $tmpItem['attributes']->order == '' ) {
                 $obj = Product::find($tmpItem['attributes']->product_id);
             }

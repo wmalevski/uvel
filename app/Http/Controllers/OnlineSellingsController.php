@@ -26,7 +26,7 @@ class OnlineSellingsController extends Controller{
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index(){
-		$sellings = UserPayment::all();
+		$sellings = UserPayment::orderBy("created_at","DESC")->get();
 		return view('admin.selling.online.index', compact('sellings'));
 	}
 

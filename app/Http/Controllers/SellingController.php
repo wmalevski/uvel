@@ -169,13 +169,9 @@ class SellingController extends Controller
 
         $todayReport = DailyReport::where('store_id', Auth::user()->getStore())->whereDate('created_at', Carbon::today())->get();
 
-        if(count($todayReport)){
-            $todayReport = 'true';
-        }else{
-            $todayReport = 'false';
-        }
-        //To add kaparo from the orders when branches are merged
+        $todayReport = (Boolean)count($todayReport);
 
+        //To add kaparo from the orders when branches are merged
         $materials = Material::all();
 
         $result_materials = [];
