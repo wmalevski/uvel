@@ -32,7 +32,7 @@ class PaymentController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $payments = new Payment::orderBy('created_at','DESC');
+        $payments = Payment::orderBy('created_at','DESC');
 
         if(Auth::user()->role !== 'admin'){
             $payments = $payments->where('receipt', 'yes');
