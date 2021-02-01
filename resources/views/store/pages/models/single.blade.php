@@ -77,6 +77,9 @@
 															<h5>Информация за продукта</h5>
 															<ul class="sub">
 																<li><span>Модел:</span> {{ $model->name }}</li>
+															@foreach($model->materials() as $material)
+																<li><span>{{ $material->name }} {{ $material->code }} ({{ $material->color }})</span></li>
+															@endforeach
 																<li><span>Тегло: {{ $model->weight }}гр.</li>
 																<li><span>Вид:</span> {{ $model->jewel->name }}</li>
 																<li><span>Размер:</span> {{ $model->size }}</li>
