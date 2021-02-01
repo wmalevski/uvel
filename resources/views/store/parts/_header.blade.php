@@ -140,7 +140,21 @@
 		</script>
 	</div>
 
-	@if(session('success'))<div class="info-message success">{{ session('success') }}</div>
-	@elseif(session('error'))<div class="info-message error">{{ session('error') }}</div>
+	@if(session('success'))
+		@if(is_array(session('success')))
+			@foreach(session('success') as $k=>$v)
+			<div class="info-message success">{{ $v }}</div>
+			@endforeach
+		@else
+		<div class="info-message success">{{ session('success') }}</div>
+		@endif
+	@elseif(session('error'))
+		@if(is_array(session('error')))
+			@foreach(session('error') as $k=>$v)
+			<div class="info-message error">{{ $v }}</div>
+			@endforeach
+		@else
+		<div class="info-message error">{{ session('error') }}</div>
+		@endif
 	@endif
 </header>
