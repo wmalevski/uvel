@@ -37,7 +37,16 @@ class WishListController extends BaseController{
 			return redirect()->route('login');
 		}
 
-		$check = WishList::where('product_id', $item)->orWhere('model_id', $item)->orWhere('product_others_id', $item)->first();
+		$check = WishList::where(array(
+			'product_id'=>$item,
+			'user_id'=>Auth::user()->getId()
+		))->orWhere(array(
+			'model_id'=>$item,
+			'user_id'=>Auth::user()->getId()
+		))->orWhere(array(
+			'product_others_id'=>$item,
+			'user_id'=>Auth::user()->getId()
+		))->first();
 
 		if($check){
 			return Response::json(array('success' => 'Този продукт вече го имате запазен!'));
