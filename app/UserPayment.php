@@ -42,6 +42,10 @@ class UserPayment extends Model{
 
 		switch(session('cart_info.0.shipping_method')){
 			case 'office_address':
+				$payment->city = $request->courier_city;
+				$payment->phone = $request->courier_phone;
+				$payment->shipping_address = session('cart_info.0.shipping_address');
+				break;
 			case 'home_address':
 				$payment->city = $request->city;
 				$payment->phone = $request->phone;

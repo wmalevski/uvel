@@ -122,31 +122,31 @@
 										<hr>
 										<div class="form-group col-xs-24">
 											<label>Град:</label>
-											<input type="text" name="city"
+											<input type="text" name="courier_city"
 											oninvalid="this.setCustomValidity('Моля въведете Град')"
 											oninput="setCustomValidity('')"/>
 										</div>
 										<div class="form-group col-xs-24">
 											<label>Улица:</label>
-											<input type="text" name="street"
+											<input type="text" name="courier_street"
 											oninvalid="this.setCustomValidity('Моля въведете Име на Улица')"
 											oninput="setCustomValidity('')"/>
 										</div>
 										<div class="form-group col-xs-24">
 											<label>Номер:</label>
-											<input type="text" name="street_number"
+											<input type="text" name="courier_street_number"
 											oninvalid="this.setCustomValidity('Моля въведете Номер на Улица')"
 											oninput="setCustomValidity('')"/>
 										</div>
 										<div class="form-group col-xs-24">
 											<label>Пощенски код:</label>
-											<input type="text" name="postcode"
+											<input type="text" name="courier_postcode"
 											oninvalid="this.setCustomValidity('Моля въведете Пощенски Код')"
 											oninput="setCustomValidity('')"/>
 										</div>
 										<div class="form-group col-xs-24">
 											<label>Телефон за връзка:</label>
-											<input type="text" name="phone"
+											<input type="text" name="courier_phone"
 											oninvalid="this.setCustomValidity('Моля въведете Телефон за Връзка')"
 											oninput="setCustomValidity('')"/>
 										</div>
