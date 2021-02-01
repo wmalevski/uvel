@@ -372,13 +372,6 @@
 															<br>
 															{{ $product->weight['weight'] }}гр.
 															<br>
-															@if(isset($product->weight['stone']))
-																@foreach($product->weight['stone'] as $productStone => $stone)
-																	{{ $stone}}
-																	@if(1 + $productStone < count($product->weight['stone'])) , @endif
-																@endforeach
-																<br>
-															@endif
 															Налично в: {{ $product->store_info->name }}
 															<span class="spr-badge" id="spr_badge_{{$product->id}}" data-rating="{{$product->getProductAvgRating($product)}}">
 																<span class="spr-starrating spr-badge-starrating">{!! $product->listProductAvgRatingStars($product) !!}</span>
