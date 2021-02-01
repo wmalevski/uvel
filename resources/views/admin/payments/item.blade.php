@@ -43,8 +43,8 @@
                         <?php $productOther = App\ProductOther::where('id', $selling->product_other_id)->first(); ?>
                         @if($productOther && $productOther->photos && $productOther->photos->first())
                             <img class="admin-product-image" src="{{ asset("uploads/products_others/" . $productOther->photos->first()['photo']) }}">
-                        @endif
                         {{$productOther->name }} - №: {{ $selling->product_other_id }}
+                        @endif
                     @elseif($selling->order_id)
                         Поръчка - №: {{$selling->order_id}} - {{App\Order::where(['id' => $selling->order_id])->first()->customer_name}}
                 @endif
