@@ -41,6 +41,10 @@
 													</ul>
 												</div>
 												<div class="tag-group" id="coll-filter-3">
+													<p class="title">Налично в</p>
+													<ul>{!! StoreNav::storeFilters('Other') !!}</ul>
+												</div>
+												<div class="tag-group" id="coll-filter-3">
 													<p class="title">Размер</p>
 													<input type="number" class="form-control" placeholder="Въведи размер">
 												</div>
@@ -48,10 +52,6 @@
 													<p class="title">Цена</p>
 													<input type="number" class="form-control" placeholder="От" min=0 />
 													<input type="number" class="form-control" placeholder="До" min=0 />
-												</div>
-												<div class="tag-group" id="coll-filter-3">
-													<p class="title">Налично в</p>
-													<ul>{!! StoreNav::storeFilters('Other') !!}</ul>
 												</div>
 											</div>
 										</div>

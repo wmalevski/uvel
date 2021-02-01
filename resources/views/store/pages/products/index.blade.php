@@ -41,6 +41,11 @@
 												</div>
 
 												<div class="tag-group" id="coll-filter-3">
+													<p class="title">Налично в</p>
+													<ul>{!! StoreNav::storeFilters() !!}</ul>
+												</div>
+
+												<div class="tag-group" id="coll-filter-3">
 													<p class="title">Размер</p>
 													<input type="number" class="form-control" placeholder="Въведи размер" data-id="bySize[]=" value="{{isset($_GET['bySize'][0]) ? $_GET['bySize'][0] : ''}}" min=1 />
 												</div>
@@ -49,11 +54,6 @@
 													<p class="title">Цена</p>
 													<input type="number" class="form-control" placeholder="От" data-id="priceFrom[]=" value="{{isset($_GET['priceFrom'][0]) ? $_GET['priceFrom'][0] : ''}}" min=1 />
 													<input type="number" class="form-control" placeholder="До" data-id="priceTo[]=" value="{{isset($_GET['priceTo'][0]) ? $_GET['priceTo'][0] : ''}}" min=1 />
-												</div>
-
-												<div class="tag-group" id="coll-filter-3">
-													<p class="title">Налично в</p>
-													<ul>{!! StoreNav::storeFilters() !!}</ul>
 												</div>
 											</div>
 										</div>
