@@ -66,7 +66,7 @@ class UserPayment extends Model{
 
 		$elements = array('App\UserPaymentProduct', 'App\Selling');
 
-		Cart::session($session_id)->getContent()->each(function($item) use ($elements,$payment,$request){
+		Cart::session($session_id)->getContent()->each(function($item) use ($elements,$payment,$request,$quantity){
 			foreach($elements as $elem){
 				$selling = new $elem();
 				$selling->weight = $item->attributes->weight;

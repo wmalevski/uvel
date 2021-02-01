@@ -35,7 +35,7 @@
 		@elseif($product->product_other_id)
 			<img class="admin-product-image" rel="product_other" src="{{ asset("uploads/products_others/".App\Gallery::where(array(
 				'table'=>'products_others',
-				'product_others_id'=>$product->product_other_id
+				'product_other_id'=>$product->product_other_id
 			))->first()['photo']) }}" />
 		@elseif($product->model_id)
 			<img class="admin-product-image" rel="model" src="{{ asset("uploads/models/".App\Gallery::where(array(
