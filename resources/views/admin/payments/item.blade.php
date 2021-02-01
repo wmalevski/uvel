@@ -32,7 +32,7 @@
                 @if($selling->product_id)
                     <br/>
                     <?php $product = App\Product::where('id', $selling->product_id)->first(); ?>
-                    @if($product->photos->first())
+                    @if($product->photos && $product->photos->first())
                         <img class="admin-product-image" src="{{ asset("uploads/products/" . $product->photos->first()['photo']) }}">
                     @endif
                     {{App\Model::where('id', $product->model_id)->first()->name }} - №: {{  $selling->product_id }}
@@ -41,7 +41,7 @@
                     @elseif($selling->product_other_id)
                         <br/>
                         <?php $productOther = App\ProductOther::where('id', $selling->product_other_id)->first(); ?>
-                        @if($productOther->photos->first())
+                        @if($productOther->photos && $productOther->photos->first())
                             <img class="admin-product-image" src="{{ asset("uploads/products_others/" . $productOther->photos->first()['photo']) }}">
                         @endif
                         {{$productOther->name }} - №: {{ $selling->product_other_id }}
