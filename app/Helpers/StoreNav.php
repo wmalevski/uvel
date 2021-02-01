@@ -115,7 +115,7 @@ class StoreNav{
 		foreach(Jewel::all() as $jewel){
 			$productsCount = count($jewel->$type);
 			if($productsCount > 0){
-				$output .= '<li class="'.filter_products('byJewel',$jewel->id).'"><a href="#" data-id="byJewel[]='.$jewel->id.'"><span class="fe-checkbox"></span>'.$jewel->name.' ['.$productsCount.']</a></li>';
+				$output .= '<li class="'.filter_products('byJewel',$jewel->id).'"><a href="#" data-id="byJewel[]='.$jewel->id.'"><span class="fe-checkbox"></span>'.$jewel->name.'</a></li>';
 			}
 		}
 		return $output;
@@ -125,7 +125,7 @@ class StoreNav{
 		foreach(Material::all() as $material){
 			$productCount = count($material->productsOnline);
 			if($productCount > 0){
-				$output .= '<li class="'.filter_products('byMaterial', $material->id).'"><a href="#" data-id="byMaterial[]='.$material->id.'"><span class="fe-checkbox"></span>'.$material->parent->name.'-'.$material->code.' ('.$material->color.') ['.$productCount.']</a></li>';
+				$output .= '<li class="'.filter_products('byMaterial', $material->id).'"><a href="#" data-id="byMaterial[]='.$material->id.'"><span class="fe-checkbox"></span>'.$material->parent->name.'-'.$material->code.' ('.$material->color.')</a></li>';
 			}
 		}
 		return $output;
@@ -136,7 +136,7 @@ class StoreNav{
 		foreach(Store::all()->except(1) as $store){
 			$productCount = count($store->$type);
 			if($productCount > 0){
-				$output .= '<li class="'.filter_products('byStore', $store->id).'"><a data-id="byStore[]='.$store->id.'" href="#"><span class="fe-checkbox"></span>'.$store->name.' ['.$productCount.']</a></li>';
+				$output .= '<li class="'.filter_products('byStore', $store->id).'"><a data-id="byStore[]='.$store->id.'" href="#"><span class="fe-checkbox"></span>'.$store->name.'</a></li>';
 			}
 		}
 		return $output;
