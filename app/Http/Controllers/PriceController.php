@@ -16,33 +16,20 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
 use Response;
 
-class PriceController extends Controller
-{
+class PriceController extends Controller{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
-
+    public function index(Request $request){
         $materials = Material::take(env('SELECT_PRELOADED'))->get();
 
-        if ($request->isMethod('post')){
+        if($request->isMethod('post')){
             return redirect()->route('view_price', ['material' => $request->material_id]);
         }
 
         return \View::make('admin/prices/index', array('materials' => $materials));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -51,25 +38,24 @@ class PriceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $validator = Validator::make( $request->all(), [
+    public function store(Request $request){
+        $validator = Validator::make($request->all(),array(
             'slug' => 'required',
             'price' => 'required|regex:/^\d*(\.\d{1,3})?$/',
-            'type' => 'required',
-        ]);
+            'type' => 'required'
+        ));
 
-        if ($validator->fails()) {
-            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        if($validator->fails()){
+            return Response::json(array('errors'=>$validator->getMessageBag()->toArray()), 401);
         }
 
         $price = Price::create($request->all());
 
         $indicatePrice = false;
-        $getIndicatePrice = Price::where([
-            ['type', '=', $price->type],
-            ['material_id', '=', $price->material_id]
-        ])->orderBy('id', 'ASC')->first();
+        $getIndicatePrice = Price::where(array(
+            'type'=>$price->type,
+            'material_id'=>$price->material_id
+        ))->orderBy('id', 'ASC')->first();
 
         if($getIndicatePrice && $getIndicatePrice->id == $price->id){
             $indicatePrice = true;
@@ -84,8 +70,7 @@ class PriceController extends Controller
      * @param  \App\Price  $prices
      * @return \Illuminate\Http\Response
      */
-    public function show(Price $price, $material)
-    {
+    public function show(Price $price, $material){
         if($material){
             $prices = $price->materialPrices($material);
             $material = Material::find($material);
@@ -100,8 +85,7 @@ class PriceController extends Controller
      * @param  \App\Prices  $prices
      * @return \Illuminate\Http\Response
      */
-    public function edit(Price $price)
-    {
+    public function edit(Price $price){
         return \View::make('admin/prices/edit', array('price' => $price));
     }
 
@@ -112,33 +96,35 @@ class PriceController extends Controller
      * @param  \App\Price  $prices
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Price $price)
-    {
-        $validator = Validator::make( $request->all(), [
+    public function update(Request $request, Price $price){
+        $validator = Validator::make( $request->all(),array(
             'slug' => 'required',
             'price' => 'required|regex:/^\d*(\.\d{1,3})?$/',
-            'type' => 'required',
-        ]);
+            'type' => 'required'
+        ));
 
-        if ($validator->fails()) {
+        if($validator->fails()){
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
         $price->slug = $request->slug;
         $price->price = $request->price;
         $price->type = $request->type;
-
         $price->save();
 
-        if ($request->type == 'sell') {
-            $buy = Price::where('material_id', $price->material_id)->where('type', 'buy')->first()->price;
-            $sell = $request->price;
-        } else {
-            $sell = Price::where('material_id', $price->material_id)->where('type', 'sell')->first()->price;
-            $buy = $request->price;
-        }
+        $sell = Price::where(array(
+            'material_id'=>$price->material_id,
+            'type'=>($request->type == 'sell' ? 'buy' : 'sell')
+        ))->first()->price;
+
+        $buy = $request->price;
+
         try {
-            if(count($products = Product::where('material_id', $price->material_id)->get())) {
+            $products = Product::where(array(
+                'material_id'=>$price->material_id,
+                'retail_price_id'=>$price->id
+            ))->get();
+            if($products->count()>0){
                 foreach ($products as $product) {
                     $product_price = $sell * $product->weight;
                     $product->price = round($product_price);
@@ -153,7 +139,8 @@ class PriceController extends Controller
                     $model->save();
                 }
             }
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             return $e->getMessage();
         }
 
