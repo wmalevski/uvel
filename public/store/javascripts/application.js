@@ -997,10 +997,11 @@ var uvelStore,
 		}
 
 		var filterBtns = filterForm.find('.tag-group').find('li.selected');
-
 		var filterInputs = filterForm.find('.tag-group').find('input.selected');
+		var priceRangeInputs = filterForm.find('.tag-group').find('input.form-control[type="number"]');
 
 		Array.prototype.push.apply(filterBtns, filterInputs);
+		Array.prototype.push.apply(filterBtns, priceRangeInputs);
 
 		for (var i = 0; i < filterBtns.length; i++) {
 			if (i == 0) {
