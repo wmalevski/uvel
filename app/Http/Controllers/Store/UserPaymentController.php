@@ -47,6 +47,7 @@ class UserPaymentController extends Controller{
 					$shipping['street_number'] = $request->courier_street_number;
 					$shipping['postcode'] = $request->courier_postcode;
 					$shipping['phone'] = $request->courier_phone;
+					$shipping_address = $shipping['city'].', '.$shipping['postcode'].', '.$shipping['street'].', '.$shipping['street_number'];
 					break;
 				case 'home_address':
 					$restrictions['city'] = 'required';
@@ -59,9 +60,11 @@ class UserPaymentController extends Controller{
 					$shipping['street_number'] = $request->street_number;
 					$shipping['postcode'] = $request->postcode;
 					$shipping['phone'] = $request->phone;
+					$shipping_address = $shipping['city'].', '.$shipping['postcode'].', '.$shipping['street'].', '.$shipping['street_number'];
 					break;
 				case 'store':
 					$restrictions['store_id'] = 'required';
+					$shipping_address=null;
 					break;
 			}
 
@@ -73,7 +76,7 @@ class UserPaymentController extends Controller{
 				'payment_method' => $request->payment_method,
 				'information' => $request->information,
 				'store_id' => $request->store_id,
-				'shipping_address' => $shipping['city'].', '.$shipping['postcode'].', '.$shipping['street'].', '.$shipping['street_number']
+				'shipping_address' => $shipping_address
 			);
 
 			Session::push('cart_info', $user_info);

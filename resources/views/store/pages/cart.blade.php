@@ -266,6 +266,11 @@ $(document).ready(function(){
 				});
 				throw false;
 			}
+
+			// Remove the non-selected delivery form fields to bypass false-positive "required" fails
+			$('div.shipping-method').each(function(){
+				if($(this).is(":hidden")){$(this).remove();}
+			});
 		}
 		catch(err){
 			console.log(err);
