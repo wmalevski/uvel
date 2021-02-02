@@ -276,10 +276,11 @@
 										<div class="element no_full_width not-animated" data-animate="bounceIn" data-delay="0">
 											<ul class="row-container list-unstyled clearfix">
 												<li class="row-left">
-													<a href="{{ route('single_model', ['model' => $model->id]) }}" class="img-fill-container">
-														<img class="img-fill" alt="{{ $model->name }}"
-																 src="@if($model->photos) {{ asset("uploads/models/" . $model->photos->first()['photo']) }}
-																 @else {{ asset('store/images/demo_375x375.png') }} @endif">
+													<a href="{{ route('single_model', ['model' => $model->id]) }}" class="container_item">
+														<img class="img-fill" alt="{{ $model->name }}" src="
+														@if($model->photos) {{ asset("/uploads/models/".$model->photos->first()['photo']) }}
+														@else {{ asset('store/images/demo_375x375.png') }}
+														@endif">
 													</a>
 													<div class="hbw hidden-xs hidden-sm">
 														<span class="hoverBorderWrapper"></span>
