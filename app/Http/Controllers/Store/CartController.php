@@ -236,6 +236,7 @@ class CartController extends BaseController{
 			$type = 'product';
 
 			$product->status = 'selling';
+			$product->selling_to = $session_id;
 			$product->save();
 		}
 		else{
