@@ -9,7 +9,6 @@
                 <table id="main_table" class="table">
                     <thead>
                     <tr>
-                        <th scope="col">Модел</th>
                         <th scope="col">Материал</th>
                         @foreach($stores as $store)
                             <th scope="col">{{ $store->name }} - {{ $store->location }}</th>

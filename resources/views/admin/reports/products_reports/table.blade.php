@@ -1,5 +1,4 @@
 <tr data-id="{{ $product->id }}">
-    <td>{{ \App\Model::where('id', $product->model_id)->first()->name }}</td>
     <td>{{ \App\Material::where('id',$product->material_id)->first()->name }}
         - {{ \App\Material::where('id',$product->material_id)->first()->code }}
         - {{ \App\Material::where('id',$product->material_id)->first()->color }}</td>
