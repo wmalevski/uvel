@@ -254,42 +254,48 @@ class Product extends BaseModel
     return $return;
   }
 
-  public static function filterProducts(Request $request)
-  {
-    $query = Product::where(function ($query) use ($request) {
-      if ($request->priceFrom && $request->priceTo) {
+  public static function filterProducts(Request $request){
+
+    $query = Product::where(function($query) use ($request){
+      if(
+        (is_array($request->priceFrom) && (int)$request->priceFrom[0]>0)
+        &&
+        (is_array($request->priceTo) && (int)$request->priceTo[0]>0)
+      ){
         $query->whereBetween('price', [$request->priceFrom, $request->priceTo]);
-      } else if ($request->priceFrom) {
+      }
+      elseif(is_array($request->priceFrom) && (int)$request->priceFrom[0]>0){
         $query->where('price', '>=', $request->priceFrom);
-      } else if ($request->priceTo) {
+      }
+      elseif(is_array($request->priceTo) && (int)$request->priceTo[0]>0){
         $query->where('price', '<=', $request->priceTo);
       }
 
-      if ($request->byName) {
-        $query->where('name', 'LIKE', '%' . $request->byName . '%');
+      if(isset($request->byName) && $request->byName!==''){
+        $query->where('name', 'LIKE', '%'.$request->byName.'%');
       }
 
-      if ($request->byBarcode) {
-        $query->where('barcode', 'LIKE', '%' . $request->byBarcode . '%');
+      if(isset($request->byBarcode) && $request->byBarcode!==''){
+        $query->where('barcode', 'LIKE', '%'.$request->byBarcode.'%');
       }
 
-      if ($request->byCode) {
-        $query->where('id', 'LIKE', '%' . $request->byCode . '%');
+      if(isset($request->byCode) && $request->byCode!==''){
+        $query->where('id', 'LIKE', '%'.$request->byCode.'%');
       }
 
-      if ($request->bySize) {
+      if(is_array($request->bySize) && !empty($request->bySize) && $request->bySize[0]!==NULL){
         $query->whereIn('size', $request->bySize);
       }
 
-      if ($request->byStore) {
+      if(is_array($request->byStore) && !empty($request->byStore) && $request->byStore[0]!==NULL){
         $query->whereIn('store_id', $request->byStore);
       }
 
-      if ($request->byJewel) {
+      if(is_array($request->byJewel) && !empty($request->byJewel) && $request->byJewel[0]!==NULL){
         $query->whereIn('jewel_id', $request->byJewel);
       }
 
-      if ($request->byMaterial) {
+      if(is_array($request->byMaterial) && !empty($request->byMaterial) && $request->byMaterial[0]!==NULL){
         $query->whereIn('material_id', $request->byMaterial);
       }
 
