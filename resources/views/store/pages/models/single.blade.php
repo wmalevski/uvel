@@ -332,4 +332,9 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('ol.breadcrumb li:nth-child(2) a').attr('href', $('ul.navbar-nav li.dropdown a').attr('href'));
+	});
+</script>
 @endsection

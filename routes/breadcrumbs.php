@@ -84,7 +84,9 @@ Breadcrumbs::register('model_orders', function ($breadcrumbs) {
 
 Breadcrumbs::register('models', function ($breadcrumbs) {
     $breadcrumbs->parent('store');
-    $breadcrumbs->push('Модели по поръчка', urldecode(Session::get('models_active_filters')));
+    $breadcrumbs->push('Модели по поръчка',
+        urldecode(Session::get('models_active_filters')) ?: route('model_orders')
+    );
 });
 
 Breadcrumbs::register('products', function ($breadcrumbs) {
@@ -94,12 +96,14 @@ Breadcrumbs::register('products', function ($breadcrumbs) {
 
 Breadcrumbs::register('products_active_filters', function ($breadcrumbs) {
     $breadcrumbs->parent('store');
-    $breadcrumbs->push('Налични бижута', urldecode(Session::get('products_active_filters')));
+    $breadcrumbs->push('Налични бижута',
+        urldecode(Session::get('products_active_filters')) ?: route('products')
+    );
 });
 
 Breadcrumbs::register('productsothers', function ($breadcrumbs) {
     $breadcrumbs->parent('store');
-    $breadcrumbs->push('Каталог с продукти', route('productsothers'));
+    $breadcrumbs->push('Налични продукти', route('productsothers'));
 });
 
 Breadcrumbs::register('wishlist', function ($breadcrumbs) {
