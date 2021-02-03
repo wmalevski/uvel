@@ -41,12 +41,12 @@ class BringCartedItemsBackToAvailable extends Command{
 		$products = Product::whereRaw('`status`="selling" AND `updated_at` < DATE_ADD(NOW(), INTERVAL -1 HOUR) ');
 		if($products->count()>0){
 			foreach($products->get() as $product){
-				if(isset($product->selling_to) && $product->selling_to!==''){
+				if($product->selling_to !== ''){ // Legacy support
 					Cart::session($product->selling_to)->remove($product->barcode);
-					$product->selling_to = NULL;
-					$product->status='available';
-					$product->save();
 				}
+				$product->selling_to = NULL;
+				$product->status='available';
+				$product->save();
 			}
 		}
 	}
