@@ -985,15 +985,17 @@ var uvelStore,
 			productsContainer = $('#sandBox'),
 			listType = document.querySelector('.option-set .active').id;
 
-		// Only one filter active at a time for a section
-		filterBtn.parent('ul').find('li.selected').removeClass('selected');
+		// Store filters should act as a toggle
+		if(filterBtn.hasClass('selected') && filterBtn.children('a').attr('data-id').startsWith('byStore[]=')){
+			filterBtn.removeClass('selected');
+		}
+		else{
+			// Only one filter active at a time for a section
+			filterBtn.parent('ul').find('li.selected').removeClass('selected');
 
-		if (_this.is('input') && _this.val() !== '' && _this.val() != 0) {
-			_this.addClass('selected');
-		} else if (_this.is('input')) {
-			_this.removeClass('selected');
-		} else {
-			_this.toggleClass('selected');
+			if(_this.is('input') && _this.val() !== '' && _this.val() != 0){ _this.addClass('selected'); }
+			else if(_this.is('input')){ _this.removeClass('selected'); }
+			else{ _this.toggleClass('selected'); }
 		}
 
 		var filterBtns = filterForm.find('.tag-group').find('li.selected');
