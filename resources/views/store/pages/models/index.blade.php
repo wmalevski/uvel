@@ -38,8 +38,8 @@
 
 												<div class="tag-group" id="coll-filter-3">
 													<p class="title">Цена</p>
-													<input type="number" class="form-control" placeholder="От" data-id="priceFrom[]=" value="{{isset($_GET['priceFrom'][0]) ? $_GET['priceFrom'][0] : ''}}" min=0 />
-													<input type="number" class="form-control" placeholder="До" data-id="priceTo[]=" value="{{isset($_GET['priceTo'][0]) ? $_GET['priceTo'][0] : ''}}" min=0 />
+													<input type="number" class="form-control {{ isset($_GET['priceFrom'][0]) ? 'selected' : '' }}" placeholder="От" data-id="priceFrom[]=" value="{{isset($_GET['priceFrom'][0]) ? $_GET['priceFrom'][0] : ''}}" min=0 />
+													<input type="number" class="form-control {{ isset($_GET['priceTo'][0]) ? 'selected' : '' }}" placeholder="До" data-id="priceTo[]=" value="{{isset($_GET['priceTo'][0]) ? $_GET['priceTo'][0] : ''}}" min=0 />
 												</div>
 											</div>
 										</div>

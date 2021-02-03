@@ -986,24 +986,22 @@ var uvelStore,
 			listType = document.querySelector('.option-set .active').id;
 
 		// Store filters should act as a toggle
-		if(filterBtn.hasClass('selected') && filterBtn.children('a').attr('data-id').startsWith('byStore[]=')){
+		if(filterBtn.hasClass('selected') && filterBtn.children('a').length>0 && filterBtn.children('a').attr('data-id').startsWith('byStore[]=')){
 			filterBtn.removeClass('selected');
 		}
 		else{
 			// Only one filter active at a time for a section
 			filterBtn.parent('ul').find('li.selected').removeClass('selected');
 
-			if(_this.is('input') && _this.val() !== '' && _this.val() != 0){ _this.addClass('selected'); }
+			if(_this.is('input') && _this.val() !== '' && _this.val() !== 0){ _this.addClass('selected'); }
 			else if(_this.is('input')){ _this.removeClass('selected'); }
 			else{ _this.toggleClass('selected'); }
 		}
 
 		var filterBtns = filterForm.find('.tag-group').find('li.selected');
 		var filterInputs = filterForm.find('.tag-group').find('input.selected');
-		var priceRangeInputs = filterForm.find('.tag-group').find('input.form-control[type="number"]');
 
 		Array.prototype.push.apply(filterBtns, filterInputs);
-		Array.prototype.push.apply(filterBtns, priceRangeInputs);
 
 		for (var i = 0; i < filterBtns.length; i++) {
 			if (i == 0) {
