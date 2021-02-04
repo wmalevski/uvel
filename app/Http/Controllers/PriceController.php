@@ -126,16 +126,16 @@ class PriceController extends Controller{
             ))->get();
             if($products->count()>0){
                 foreach ($products as $product) {
-                    $product_price = $sell * $product->weight;
-                    $product->price = round($product_price);
-                    $product_workmanship = ($sell - $buy) * $product->weight;
+                    $product_workmanship = ($buy - $sell) * $product->weight;
                     $product->workmanship = round($product_workmanship);
+                    $product_price = $request->price * $product->weight + $product_workmanship;
+                    $product->price = round($product_price);
                     $product->save();
 
                     $model = Model::find($product->model_id);
-                    $model_price = $sell * $model->weight;
+                    $model_price = $sell * $model->weight + $product_workmanship;
                     $model->price = round($model_price);
-                    $model->workmanship =  round($product_workmanship);
+                    $model->workmanship = round($product_workmanship);
                     $model->save();
                 }
             }
