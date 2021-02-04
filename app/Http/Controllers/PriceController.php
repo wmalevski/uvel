@@ -128,12 +128,12 @@ class PriceController extends Controller{
                 foreach ($products as $product) {
                     $product_workmanship = ($buy - $sell) * $product->weight;
                     $product->workmanship = round($product_workmanship);
-                    $product_price = $request->price * $product->weight + $product_workmanship;
+                    $product_price = $request->price * $product->weight;
                     $product->price = round($product_price);
                     $product->save();
 
                     $model = Model::find($product->model_id);
-                    $model_price = $sell * $model->weight + $product_workmanship;
+                    $model_price = $sell * $model->weight;
                     $model->price = round($model_price);
                     $model->workmanship = round($product_workmanship);
                     $model->save();
