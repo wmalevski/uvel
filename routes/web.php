@@ -639,6 +639,11 @@ Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
     Route::get('/login', 'UserController@login')->name('login');
     Route::post('/login', 'UserController@userlogin')->name('userlogin');
     Route::get('/logout', 'UserController@logout')->name('logout');
+    // Password Reset
+    Route::get('/password_reset', 'PasswordResetController@showForm')->name('password_reset');
+    Route::post('/password_reset', 'PasswordResetController@tokenRequest');
+    Route::get('/password_reset/{token}', 'PasswordResetController@validateToken')->name('password_reset_validate');
+    Route::post('/password_reset/{token}', 'PasswordResetController@changeUserPassword');
 
     Route::get('/custom_order', 'CustomOrderController@index')->name('custom_order');
     Route::post('/custom_order', 'CustomOrderController@store')->name('submit_custom_order');

@@ -39,6 +39,7 @@
                                     <input value="" name="password" id="password" class="form-control password" type="password">
                                     </li>
                                     <li class="clearfix"></li>
+                                    <a href="{{ route('password_reset') }}" taget="_self">Забравена парола?</a>
                                     <li class="unpadding-top action-last">
                                     <button class="btn" onclick="window.location.href='{{ route('register') }}'" type="button">Регистрация</button>
                                     <button class="btn" type="submit">Влез</button>

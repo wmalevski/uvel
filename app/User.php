@@ -37,7 +37,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'password_reset_token','remember_token',
     ];
 
     public function getId()
@@ -89,7 +89,7 @@ class User extends Authenticatable
         return $this->hasMany('App\Review');
     }
 
-    public function wishLists() 
+    public function wishLists()
     {
         return $this->hasMany('App\WishList');
     }
