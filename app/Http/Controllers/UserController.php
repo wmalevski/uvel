@@ -109,7 +109,8 @@ class UserController extends Controller
 
         $users_new = new User();
         $users = $users_new->filterUsers($request, $query);
-        $users = $users->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        // $users = $users->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $users = $users->paginate(1);
         $pass_users = array();
 
         foreach ($users as $user) {

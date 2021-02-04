@@ -40,7 +40,7 @@ Class CartCustomCondition extends CartCondition {
                 }elseif($this->getTarget() == 'total'){
                     $price = \Cart::getTotal();
                 }
-                
+
                 $value = Helpers::normalizePrice( $this->cleanValue($conditionValue) );
                 $this->parsedRawValue = $price * ($value / 100);
                 $result = floatval($totalOrSubTotalOrPrice - $this->parsedRawValue);
@@ -102,7 +102,7 @@ Class CartCustomCondition extends CartCondition {
 class PayController extends Controller
 {
     public function pay(Request $request){
-        
+
        return PaypalPay($request);
     }
 
@@ -112,21 +112,24 @@ class PayController extends Controller
     }
 
     public function setDiscount(Request $request, $barcode){
-        
-        $userId = Auth::user()->getId(); 
+        $userId = Auth::user()->getId();
 
-        if(strlen($barcode) == 13){
-            $discount = new DiscountCode;
-            $result = json_encode($discount->check($barcode));
+        $discount = new DiscountCode;
+        $result = json_encode($discount->check($barcode));
+        $setDiscount = false;
 
-            if($result == 'true'){
-                $card = DiscountCode::where('barcode', $barcode)->first();
-                $setDiscount = $card->discount;
+        if($result == 'true'){
+            $card = DiscountCode::where('barcode', $barcode)->first();
+            $setDiscount = $card->discount;
+            if($card->user_id!==NULL){
+                if($card->user_id !== $userId){
+                    $setDiscount = false;
+                }
             }
         }
-        
 
-        if(isset($setDiscount)){
+
+        if($setDiscount){
             $condition = new CartCustomCondition(array(
                 'name' => $setDiscount,
                 'type' => 'discount',
@@ -148,7 +151,7 @@ class PayController extends Controller
             $cartConditions = Cart::session($userId)->getConditions();
             $conds = array();
             $priceCon = 0;
-    
+
             if(count($cartConditions) > 0){
                 foreach(Cart::session($userId)->getConditions() as $cc){
                     $priceCon += $cc->getCalculatedValue($subTotal);
@@ -164,14 +167,14 @@ class PayController extends Controller
 
             $dds = round($subTotal - ($subTotal/1.2), 2);
 
-            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon, 'dds' => $dds));  
+            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon, 'dds' => $dds));
         } else{
-            return Response::json(array('success' => false));  
+            return Response::json(array('success' => false));
         }
     }
 
     public function removeDiscount(Request $request, $name){
-        $userId = Auth::user()->getId(); 
+        $userId = Auth::user()->getId();
         $conds = array();
 
         Cart::removeCartCondition($name);
@@ -198,6 +201,6 @@ class PayController extends Controller
             $priceCon = 0;
         }
 
-        return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subTotal, 'condition' => $conds, 'con' => $priceCon));  
+        return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subTotal, 'condition' => $conds, 'con' => $priceCon));
     }
 }

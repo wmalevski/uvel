@@ -108,27 +108,28 @@ class User extends Authenticatable
         $query = User::where(function($query) use ($request){
 
             if ($request->byName) {
-                if (trim($request->byName) == '-') {
+                if(trim($request->byName)=='-'){
                     $query = User::all();
-                } else {
+                }
+                else{
                     $request->byName = explode("-", $request->byName);
-                    $query->where('name', 'LIKE', '%' . trim($request->byName[0]) . '%');
+                    $query->where('email', 'LIKE', '%'.trim($request->byName[0]).'%');
 
-                    if (count($request->byName) == 1) {
-                        $query->orWhereHas('Store', function ($q) use ($request) {
-                            $q->where('name', 'like', '%' . trim($request->byName[0]) . '%');
+                    if(count($request->byName) == 1) {
+                        $query->orWhereHas('Store', function($q) use ($request){
+                            $q->where('name', 'LIKE', '%'.trim($request->byName[0]).'%');
                         });
                     }
 
-                    if (count($request->byName) > 1) {
-                        $query->whereHas('Store', function ($q) use ($request) {
-                            $q->where('name', 'like', '%' . trim($request->byName[1]) . '%');
+                    if(count($request->byName)>1){
+                        $query->whereHas('Store', function($q) use ($request){
+                            $q->where('name', 'LIKE', '%'.trim($request->byName[1]).'%');
                         });
                     }
                 }
             }
 
-            if ($request->byEmail) {
+            if($request->byEmail){
                 $query->where('email','LIKE','%'.$request->byEmail.'%');
             }
 
