@@ -9,6 +9,8 @@
 						<ul id="accounts" class="list-inline">
 							@auth
 								<li class="login"><a href="{{ route('user_account') }}" id="customer_register_link">{{ Auth::user()->email }}</a></li>
+								|
+								<li class="logout"><a href="{{ route('logout') }}" id="customer_register_link">Изход</a></li>
 							@endauth
 
 							@guest
