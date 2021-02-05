@@ -17,7 +17,7 @@ class PasswordResetController extends BaseController{
 
 	public function tokenRequest(Request $request){
 		$user = User::where(array('email'=>$request->email));
-		if($user->count()>0){
+		if($user->count()>0 && filter_var($request->email, FILTER_VALIDATE_EMAIL)){
 			$token = base64_encode(Hash::make(str_random(8)));
 			$user = $user->first();
 			$user->password_reset_token = $token;
@@ -28,12 +28,9 @@ class PasswordResetController extends BaseController{
 				'requested_at' => date('H:i часа на d-M-Y'),
 				'requested_from' => $_SERVER['REMOTE_ADDR']
 			),
-			function($message){
+			function($message) use ($request){
 				$message
-					->from(array(
-						'address'=>$_ENV['MAIL_USERNAME'],
-						'name'=>$_ENV['APP_NAME']
-					))
+					->from($_ENV['MAIL_USERNAME'],$_ENV['APP_NAME'])
 					->to($request->email)
 					->subject('Смяна на парола');
 			});

@@ -123,12 +123,17 @@ class UserPayment extends Model{
 		if(
 			(strtolower($_ENV['APP_ENV'])!=='local'&&strtolower($_ENV['APP_ENV'])!=='development')
 			&&
-			$email2sms!==''
+			filter_var($email2sms, FILTER_VALIDATE_EMAIL)
 		){
-			Mail::send('sms',array('content' => "Porychka nalichni! ID " . $payment->id), function($message){
-				$message->from($_ENV['MAIL_USERNAME']);
-				$message->to($email2sms)->subject('Nalichni');
-			});
+			Mail::send('store.emails.sms',array(
+				'content' => "Porychka nalichni! ID ".$payment->id),
+				function($message) use ($email2sms){
+					$message
+						->from($_ENV['MAIL_USERNAME'],$_ENV['APP_NAME'])
+						->to($email2sms)
+						->subject('Nalichni');
+				}
+			);
 		}
 
 
@@ -148,7 +153,6 @@ class UserPayment extends Model{
 
 		session()->forget('cart_info');
 		return Redirect::back()->with('success', 'Поръчката Ви бе успешно изпратена!');
-		// return Redirect::to('/online')->with('success', 'Поръчката Ви бе успешно изпратена!');
 	}
 
 	public function user() {
