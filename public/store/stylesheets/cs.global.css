@@ -229,3 +229,13 @@ div.jGrowl div.jGrowl-closer{font-size:1.2em;font-weight:500;padding:10px 20px;t
 .req{color:#f00 !important;}
 .sortBy .dropdown-menu:after,
 .sortBy .dropdown-menu:before{border:none !important;}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus{
+	background-color: #a67825;
+	color: #fff;
+	border-color: #a87c2d;
+}
+.pagination > li > a, .pagination > li > span,
+.pagination > li > a:hover, .pagination > li > span:hover, .pagination > li > a:focus, .pagination > li > span:focus{
+	color: black;
+}
