@@ -58,9 +58,9 @@
             <div class="form-group col-md-12">
                 <label for="2">Потребител: </label>
                 <select name="user_id" class="form-control">
-                    @foreach($users as $user)
-                        <option value="{{ $user->id }}" @if($discount->user_id) @if($discount->user_id == $user->id) selected @endif @endif>{{ $user->email }} - {{ $user->store->name }}</option>
-                    @endforeach
+                @foreach($users as $user)
+                    <option value="{{ $user->id }}" @if($discount->user_id) @if($discount->user_id == $user->id) selected @endif @endif>{{ $user->email }}</option>
+                @endforeach
                 </select>
             </div>
         </div>
