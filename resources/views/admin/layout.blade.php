@@ -506,7 +506,7 @@
                 </li>
 
                 @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
-                <li class="nav-item dropdown {{ Active::ifRouteIn(['stock_prices', 'currencies', 'cashgroups', 'system_settings']) }}">
+                <li class="nav-item dropdown {{ Active::ifRouteIn(['stock_prices', 'currencies', 'cashgroups', 'cms', 'system_settings']) }}">
                     <a class="dropdown-toggle" href="javascript:void(0);">
                 <span class="icon-holder">
                   <i class="ti-settings"></i>
@@ -525,6 +525,9 @@
                         </li>
                         <li class="{{ Active::ifRouteIn('cashgroups') }}">
                             <a class="sidebar-link" href="{{ route('cashgroups') }}">Касови групи</a>
+                        </li>
+                        <li class="{{ Active::ifRouteIn('cms') }}">
+                            <a class="sidebar-link" href="{{ route('cms') }}">Информационни блокове</a>
                         </li>
                         <li class="{{ Active::ifRouteIn('system_settings') }}">
                             <a class="sidebar-link" href="{{ route('system_settings') }}">Системни Настройки</a>

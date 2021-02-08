@@ -15,6 +15,11 @@ var uvel,
         controllers: ['imageHandling'],
         initialized: false
       },
+      cms: {
+        selector: '[name="cms"]',
+        controllers: [],
+        initialized: false
+      },
       discounts: {
         selector: '[name="discounts"]',
         controllers: ['lifetimeDiscount'],

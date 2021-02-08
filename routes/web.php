@@ -268,6 +268,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::get('/system_settings/edit/{setting_type}', 'SettingController@EditSetting');
         Route::put('/system_settings/update/{key}', 'SettingController@UpdateSetting');
 
+        // Info Blocks [CMS]
+        Route::get('/cms', 'CMSController@ListBlocks')->name('cms');
+        Route::get('/cms/edit/{info_block}', 'CMSController@EditBlock');
+        Route::put('/cms/update/{info_block}', 'CMSController@Update')->name('cms_update');
+
         //Orders section
         Route::get('/orders/custom/{order}', 'CustomOrderController@edit');
 
