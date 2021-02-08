@@ -54,6 +54,7 @@
 													<p class="title">Цена</p>
 													<input type="number" class="form-control {{isset($_GET['priceFrom'][0]) ? 'selected' : ''}}" placeholder="От" data-id="priceFrom[]=" value="{{isset($_GET['priceFrom'][0]) ? $_GET['priceFrom'][0] : ''}}" min=1 />
 													<input type="number" class="form-control {{ isset($_GET['priceTo'][0]) ? 'selected' : '' }}" placeholder="До" data-id="priceTo[]=" value="{{isset($_GET['priceTo'][0]) ? $_GET['priceTo'][0] : ''}}" min=1 />
+													<a href="#" id="resetPriceFilters">Изчисти ценови филтър</a>
 												</div>
 											</div>
 										</div>
@@ -158,4 +159,20 @@
 		</div>
 	</div>
 </div>
+<style>
+a#resetPriceFilters,a#resetPriceFilters:visited{
+    font-size: 0.9em;
+    color: #a67825;
+    margin-left: 8%;
+}
+a#resetPriceFilters:hover, a#resetPriceFilters:active{
+	text-decoration:underline;
+}
+</style>
+<script type="text/javascript">
+	$('body').on('click','a#resetPriceFilters',function(e){
+		e.preventDefault();
+		$('input[data-id="priceTo[]="],input[data-id="priceFrom[]="]').val('').change();
+	});
+</script>
 @endsection
