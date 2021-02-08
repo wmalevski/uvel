@@ -33,7 +33,8 @@
 						<h5 class="general-title">Информация</h5>
 						<ul>
 							<li><a href="{{ route('online_stores') }}">Магазини</a></li>
-							<li><a href="./account.html">Политика за поверителност</a></li>
+							<li><a href="{{ route('privacy_policy') }}">Политика за поверителност</a></li>
+							<li><a href="{{ route('cookies_policy') }}">Политика за бисквитки</a></li>
 							<li><a href="./account.html">Карта на сайта</a></li>
 						</ul>
 					</div>

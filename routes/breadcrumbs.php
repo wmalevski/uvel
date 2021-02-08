@@ -22,6 +22,16 @@ Breadcrumbs::register('contactus', function ($breadcrumbs) {
     $breadcrumbs->push('Контакти', route('contactus'));
 });
 
+Breadcrumbs::register('privacy_policy', function($breadcrumbs){
+    $breadcrumbs->parent('store');
+    $breadcrumbs->push(App\CMS::get('privacy_policy', true), route('privacy_policy'));
+});
+
+Breadcrumbs::register('cookies_policy', function($breadcrumbs){
+    $breadcrumbs->parent('store');
+    $breadcrumbs->push(App\CMS::get('cookies_policy', true), route('cookies_policy'));
+});
+
 Breadcrumbs::register('cart', function ($breadcrumbs) {
     $breadcrumbs->parent('store');
     $breadcrumbs->push('Количка', route('cart'));
@@ -52,9 +62,9 @@ Breadcrumbs::register('warranty', function ($breadcrumbs) {
     $breadcrumbs->push('Гаранция', route('warranty'));
 });
 
-Breadcrumbs::register('about', function ($breadcrumbs) {
+Breadcrumbs::register('about_us', function ($breadcrumbs) {
     $breadcrumbs->parent('store');
-    $breadcrumbs->push('За Нас', route('about'));
+    $breadcrumbs->push(App\CMS::get('about_us', true), route('about'));
 });
 
 Breadcrumbs::register('howtoorder', function ($breadcrumbs) {

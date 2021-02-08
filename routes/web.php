@@ -629,8 +629,11 @@ Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
     Route::get('/prices', 'StorePricesController@index')->name('storePrices');
     Route::get('/warranty', 'WarrantyController@index')->name('warranty');
     Route::get('/howtoorder', 'HowToOrderController@index')->name('howtoorder');
-    Route::get('/about', 'AboutController@index')->name('about');
     Route::get('/stores', 'ListStoresController@index')->name('online_stores');
+
+    Route::get('/privacy_policy', 'CMSController@showPrivacyPolicyPage')->name('privacy_policy');
+    Route::get('/cookies_policy', 'CMSController@showCookiesPolicyPage')->name('cookies_policy');
+    Route::get('/about', 'CMSController@showAboutUsPage')->name('about');
 
     Route::get('/contact', 'ContactController@index')->name('contactus');
     Route::post('/contact', 'ContactController@store');
