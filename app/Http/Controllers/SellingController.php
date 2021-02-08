@@ -139,16 +139,16 @@ class SellingController extends Controller
         }
 
         $partner = false;
+        $priceCon = 0;
+
         if(count($cartConditions) > 0){
             foreach(Cart::session(Auth::user()->getId())->getConditions() as $cc){
                 $priceCon += $cc->getCalculatedValue($subTotal);
 
-                if($cc->getAttributes()['partner'] != 'false'){
+                if(isset($cc->getAttributes()['partner']) && $cc->getAttributes()['partner'] !== 'false'){
                     $partner = true;
                 }
             }
-        } else{
-            $priceCon = 0;
         }
         $items = [];
         $check_box_type = false;
