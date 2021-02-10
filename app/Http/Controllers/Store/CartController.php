@@ -360,19 +360,12 @@ class CartController extends BaseController{
 				),
 			));
 
-			$box = ProductOther::where(array(
-				'barcode'=>$item,
-				array('quantity','>=',$quantity)
-			))->first();
+			$item = Cart::session($session_id)->get($item);
 
-			if($box){
-				$item = Cart::session($session_id)->get($item);
-
-				$price = $item->price;
-				$priceWithQuantity = $item->price * $item->quantity;
-				$subtotal = round(Cart::session($session_id)->getSubTotal(), 2);
-				$total = round(Cart::session($session_id)->getTotal(), 2);
-			}
+			$price = $item->price;
+			$priceWithQuantity = $item->price * $item->quantity;
+			$subtotal = round(Cart::session($session_id)->getSubTotal(), 2);
+			$total = round(Cart::session($session_id)->getTotal(), 2);
 
 			return Response::json(array(
 				'success' => true,
