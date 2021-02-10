@@ -17,11 +17,11 @@ use Cart;
 use Mail;
 use App\CashRegister;
 use App\Setting;
+use App\PaymentDiscount;
 
 class UserPayment extends Model{
 
 	public function storePayment(Request $request){
-
 		$session_id = Auth::user()->getId();
 		$userId = Auth::user()->getId();
 		$total = round(Cart::session($session_id)->getTotal(),2);
@@ -39,6 +39,15 @@ class UserPayment extends Model{
 		$payment->user_id = Auth::user()->getId();
 		$payment->price = $subtotal;
 		$payment->information = session('cart_info.0.information');
+
+		// Process applied Discount Codes
+		$discount_codes = array();
+		foreach(Cart::session($session_id)->getConditions() as $k=>$v){
+			$attr = $v->getAttributes();
+			if(isset($attr['barcode']) && $attr['discount_value']){
+				array_push($discount_codes, $attr['barcode']);
+			}
+		}
 
 		switch(session('cart_info.0.shipping_method')){
 			case 'office_address':
@@ -63,6 +72,14 @@ class UserPayment extends Model{
 
 		$payment->save();
 
+		if(!empty($discount_codes)){
+			foreach($discount_codes as $k=>$v){
+				$payment_discount = new PaymentDiscount();
+				$payment_discount->discount_code_id = $v;
+				$payment_discount->payment_id = $payment->id;
+				$payment_discount->save();
+			}
+		}
 
 		$elements = array('App\UserPaymentProduct', 'App\Selling');
 
@@ -114,7 +131,6 @@ class UserPayment extends Model{
 					break;
 			}
 		});
-
 
 		$email2sms = new Setting();
 		$email2sms = $email2sms->get('email2sms_on_order');

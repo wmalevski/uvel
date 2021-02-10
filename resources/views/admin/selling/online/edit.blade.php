@@ -36,6 +36,17 @@
 			</div>
 			@endif
 
+			@if(!empty($discount_codes))
+			<hr>
+			<div class="form-row">
+				<div class="form-group col-md-12"><b>Отстъпки</b></div>
+				@foreach($discount_codes as $barcode=>$value)
+				<div class="form-group col-md-6">Код: <b>{{$barcode}}</b></div>
+				<div class="form-group col-md-6">Отстъпка: <b>-{{$value}}%</b></div>
+				@endforeach
+			</div>
+			@endif
+
 			<div class="form-row">
 				<table class="table">
 					<thead>

@@ -27,6 +27,8 @@ use App\DiscountCode;
 use App\Http\Controllers\Controller;
 use \Darryldecode\Cart\CartCondition as CartCondition;
 use \Darryldecode\Cart\Helpers\Helpers as Helpers;
+use Carbon\Carbon;
+
 
 Class CartCustomCondition extends CartCondition {
     public function apply($totalOrSubTotalOrPrice, $conditionValue){
@@ -126,6 +128,13 @@ class PayController extends Controller
                     $setDiscount = false;
                 }
             }
+            // Validate Discount's expiration date
+            if($card->lifetime=='no' && isset($card->expires)){
+                $expires = Carbon::createFromFormat('d-m-Y', $card->expires);
+                if($expires->lt(Carbon::now())){
+                    $setDiscount = false;
+                }
+            }
         }
 
 
@@ -137,6 +146,7 @@ class PayController extends Controller
                 'value' => '-'.$setDiscount.'%',
                 'attributes' => array(
                     'discount_id' => $setDiscount,
+                    'barcode' => $barcode,
                     'description' => 'Value added tax',
                     'more_data' => 'more data here'
                 )
@@ -156,8 +166,6 @@ class PayController extends Controller
                 foreach(Cart::session($userId)->getConditions() as $cc){
                     $priceCon += $cc->getCalculatedValue($subTotal);
                 }
-            } else{
-                $priceCon = 0;
             }
 
             foreach($cartConditions as $key => $condition){

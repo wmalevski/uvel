@@ -1092,7 +1092,7 @@ var uvelStore,
 				var newDiscount =
 					'<div class="col-xs-24">' +
 					'<span class="discount discount-label">' + label + '</span>' +
-					'<span data-url="/ajax/removeDiscount/' + discountID + '" class="discount discount-remove">' +
+					'<span data-url="/ajax/removeDiscount/' + discountID + '" class="discount discount-remove" rel-code="'+discountInput.val()+'">' +
 					'<i class="fas fa-times"></i>' +
 					'</span>' +
 					'</div>';

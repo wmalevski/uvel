@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Redirect;
 use \Darryldecode\Cart\CartCondition as CartCondition;
 use \Darryldecode\Cart\Helpers\Helpers as Helpers;
 use Response;
+use App\PaymentDiscount;
 
 class OnlineSellingsController extends Controller{
 	/**
@@ -41,10 +42,19 @@ class OnlineSellingsController extends Controller{
 	public function edit(UserPayment $selling){
 		$stores = Store::all();
 		$products = UserPaymentProduct::where('payment_id', $selling->id)->get();
+		$discounts = PaymentDiscount::where('payment_id', $selling->id)->get();
+		$discount_codes = array();
+		if($discounts->count()>0){
+			foreach($discounts as $k=>$v){
+				$discount_codes[$v->discount_code_id]=DiscountCode::where('barcode',$v->discount_code_id)->first()->discount;
+			}
+		}
+
 		return \View::make('admin/selling/online/edit', array(
 			'selling' => $selling,
 			'stores' => $stores,
-			'products' => $products
+			'products' => $products,
+			'discount_codes' => $discount_codes
 		));
 	}
 
