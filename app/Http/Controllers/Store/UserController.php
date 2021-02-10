@@ -16,20 +16,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
 use DB;
 
-class UserController extends BaseController
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
+class UserController extends BaseController{
 
-    }
-
-    public function create()
-    {
+    public function create(){
         return \View::make('store.pages.user.register');
     }
 
@@ -39,8 +28,7 @@ class UserController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         setcookie('register_data', json_encode($request->all()), time()+(180*30));
 
         $validator = Validator::make( $request->all(), [
@@ -82,8 +70,7 @@ class UserController extends BaseController
         return redirect()->to('/online');
     }
 
-    public function login()
-    {
+    public function login(){
         return \View::make('store.pages.user.login');
     }
 

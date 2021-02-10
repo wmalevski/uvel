@@ -19,8 +19,8 @@ use Illuminate\Support\Facades\Validator;
 use Response;
 use App\CashRegister;
 
-class Payment extends Model
-{
+class Payment extends Model{
+
     protected $fillable = array(
         'currency',
         'method',

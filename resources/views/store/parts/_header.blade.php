@@ -150,13 +150,17 @@
 		@else
 		<div class="info-message success">{{ session('success') }}</div>
 		@endif
-	@elseif(session('error'))
-		@if(is_array(session('error')))
-			@foreach(session('error') as $k=>$v)
+	@elseif(session('errors') !== null && session('errors')->any())
+		@if(is_array(session('errors')))
+			@foreach(session('errors') as $k=>$v)
 			<div class="info-message error">{{ $v }}</div>
 			@endforeach
+		@elseif(is_object(session('errors')))
+			@foreach(session('errors')->all() as $error)
+			<div class="info-message error">{{ $error }}</div>
+			@endforeach
 		@else
-		<div class="info-message error">{{ session('error') }}</div>
+		<div class="info-message error">not array</div>
 		@endif
 	@endif
 </header>

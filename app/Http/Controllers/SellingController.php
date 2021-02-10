@@ -24,7 +24,7 @@ use Response;
 use App\ProductOther;
 use App\DailyReport;
 use Carbon\Carbon;
-use App\Payment;
+use App\Payment as Payment;
 use \Darryldecode\Cart\CartCondition as CartCondition;
 use \Darryldecode\Cart\Helpers\Helpers as Helpers;
 use App\MaterialQuantity;
@@ -96,23 +96,19 @@ Class CartCustomCondition extends CartCondition {
         return $result < 0 ? 0.00 : $result;
     }
 
-    public function getCalculatedValue($totalOrSubTotalOrPrice)
-    {
+    public function getCalculatedValue($totalOrSubTotalOrPrice){
         $this->apply($totalOrSubTotalOrPrice, $this->getValue());
-
         return $this->parsedRawValue;
     }
 }
 
-class SellingController extends Controller
-{
+class SellingController extends Controller{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(){
         $repairTypes = RepairType::all();
         $discounts = DiscountCode::all();
         $currencies = Currency::all();
@@ -208,72 +204,6 @@ class SellingController extends Controller
 
 
         return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'checkBoxType' =>  $check_box_type, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner, 'second_default_price' => $second_default_price, 'parents' => $result_materials));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Selling  $selling
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Selling $selling)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Selling  $selling
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Selling $selling)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Selling  $selling
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Selling $selling)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Selling  $selling
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Selling $selling)
-    {
-        //
     }
 
     public function sell(Request $request){
@@ -580,14 +510,31 @@ class SellingController extends Controller
      * @throws \Mpdf\MpdfException
      * @throws \Throwable
      */
-    public function receipt($id, $type = false, $orderID = false)
-    {
-        if($orderID) {
-            $selling = Selling::where(['order_id' => $orderID])->first();
-        } else {
-            $selling = Selling::where(['product_id' => $id])->first();
+    public function receipt($id, $type = false, $orderID = false){
+        $selling = new Selling();
+        if($orderID){
+            $selling = $selling::where(array('order_id'=>$oderID));
+        }
+        else{
+            switch($type){
+                case 'box':
+                    $order_type='product_other_id';
+                    break;
+                case 'model':
+                    $order_type='model_id';
+                    break;
+                case 'repair':
+                    $order_type='repair_id';
+                    break;
+                case 'product':
+                default:
+                    $order_type='product_id';
+                    break;
+            }
+            $selling::where(array($order_type=>$id));
         }
 
+        $selling = $selling->orderBy('id','DESC')->first();
         $payment = Payment::where(['id' => $selling->payment_id])->first();
         $store = Store::where(['id' => $payment->store_id])->first();
 
@@ -869,7 +816,7 @@ class SellingController extends Controller
         $dds = round(($subTotal - $priceCon) - (($subTotal - $priceCon)/1.2), 2);
 
         // Todo Sending mails and SMS
-//        $this->sendDiscountNotification($total, $request->discount.'%', $request->description, Auth::user());
+        // $this->sendDiscountNotification($total, $request->discount.'%', $request->description, Auth::user());
 
         return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon, 'dds' => $dds));
 
@@ -896,46 +843,46 @@ class SellingController extends Controller
     public function removeItem($type, $item){
         $userId = Auth::user()->getId();
 
-        if ($type == 'product') {
-            $product = Product::where('id', intval($item))->first();
-            $item = 'P-' . $item;
-        } elseif ($type == 'box') {
-            $product_box = ProductOther::where('id', intval($item))->first();
-            $item = 'B-' . $item;
-        } elseif ($type == 'order') {
-            $order = Order::where('id', intval($item))->first();
-            $item = 'O-' . $item;
-        } else {
-            $repair = Repair::where('id', intval($item))->first();
-            $item = 'R-' . $item;
+        switch($type){
+            case 'product':
+                $product = Product::where('id', intval($item))->first();
+                $item = 'P-' . $item;
+                $product->status = 'available';
+                $product->save();
+                break;
+            case 'box':
+                $product_box = ProductOther::where('id', intval($item))->first();
+                $item = 'B-' . $item;
+                $product_box->quantity += $cartItem->quantity;
+                $product_box->save();
+                break;
+            case 'order':
+                $order = Order::where('id', intval($item))->first();
+                $item = 'O-' . $item;
+                $order->status = 'ready';
+                $order->save();
+                break;
+            case 'model':
+                $model = Model::where('id', intval($item))->first();
+                $item = $model->barcode;
+                break;
+            default:
+                $repair = Repair::where('id', intval($item))->first();
+                $item = 'R-' . $item;
+                $repair->status = 'done';
+                $repair->save();
+                break;
         }
 
         $cartItem = Cart::session($userId)->get($item);
-
-        if (isset ($product)) {
-            $product->status = 'available';
-            $product->save();
-        } elseif (isset($product_box)) {
-            $product_box->quantity += $cartItem->quantity;
-            $product_box->save();
-        }elseif (isset($order)) {
-            $order->status = 'ready';
-            $order->save();
-        } else {
-            $repair->status = 'done';
-            $repair->save();
-        }
-
         $remove = Cart::session($userId)->remove($item);
-
         $total = round(Cart::session($userId)->getTotal(),2);
         $subtotal = round(Cart::session($userId)->getSubTotal(),2);
         $quantity = Cart::session($userId)->getTotalQuantity();
 
         $items = [];
 
-        Cart::session($userId)->getContent()->each(function($singleitem) use (&$items)
-        {
+        Cart::session($userId)->getContent()->each(function($singleitem) use (&$items){
             $items[] = $singleitem;
         });
 

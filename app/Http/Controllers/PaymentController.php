@@ -50,8 +50,7 @@ class PaymentController extends Controller{
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $payment = new Payment;
         return $payment->store_payment($request);
     }
