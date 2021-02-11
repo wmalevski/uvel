@@ -6,8 +6,8 @@
     <td>{{ $order->model->name }}</td>
     <td>{{ $order->model_size }}</td>
     <td>{{ $order->user_payment->user->email }}</td>
-    <td>{{ $order->user_payment->user->phone }}</td>
-    <td>{{ $order->user_payment->user->city }}</td>
+    <td>{{ $order->user_payment->phone }}</td>
+    <td>{{ $order->user_payment->city }}</td>
     <td>@switch($order->model_status)
         @case('pending')
             <span class="badge bgc-deep-purple-50 c-deep-purple-700 p-10 lh-0 tt-c badge-pill">Очаква одобрение</span>

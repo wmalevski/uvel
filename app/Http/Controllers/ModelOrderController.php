@@ -12,6 +12,7 @@ use Response;
 use App\Http\Controllers\Store\ModelController;
 use Illuminate\Support\Facades\Input;
 use App\Selling;
+use App\Store;
 
 class ModelOrderController extends Controller{
     /**
@@ -20,8 +21,7 @@ class ModelOrderController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $orders = Selling::where(array(array('model_id','!=',NULL)))->get();
-
+        $orders = Selling::where(array(array('model_id','!=',NULL)))->orderBy('id','DESC')->get();
         return view('admin.orders.model.index', compact('orders'));
     }
 
@@ -33,7 +33,9 @@ class ModelOrderController extends Controller{
      */
     public function edit(Selling $order){
         $models = Model::all();
-        return \View::make('admin/orders/model/edit',array('order'=>$order, 'models' => $models));
+        $stores = Store::all();
+        $store_info = ($order->user_payment->store_id ? Store::where('id',$order->user_payment->store_id)->first() : null);
+        return \View::make('admin/orders/model/edit', compact('order', 'models', 'stores', 'store_info'));
     }
 
     /**
@@ -50,13 +52,25 @@ class ModelOrderController extends Controller{
             return Response::json(array('errors'=>$validator->getMessageBag()->toArray()),401);
         }
 
+        $order->user_payment->phone = $request->phone;
+        $order->user_payment->city = $request->city;
+
+        if(isset($request->store_id)){
+            $order->user_payment->store_id = $request->store_id;
+        }
+        else{
+            $order->user_payment->shipping_address = $request->shipping_address;
+        }
+
         $order->model_id = $request->model_id;
+        $order->model_size = $request->model_size;
         $order->user_payment->information = $request->information;
 
         if($request->status_accept == 'true'){          $order->model_status = 'accepted';}
         elseif($request->status_ready == 'true'){       $order->model_status = 'ready';}
         elseif($request->status_delivered == 'true'){   $order->model_status = 'delivered';}
 
+        $order->user_payment->save();
         $order->save();
 
         return Response::json(array('ID' => $order->id, 'table' => View::make('admin/orders/model/table',array('order'=>$order))->render()));
