@@ -372,7 +372,7 @@ class OrderController extends Controller{
             'margin-bottom' => 0,
             'margin-header' => 80,
             'margin-footer' => 0,
-            'showImageErrors' => true,
+            // 'showImageErrors' => true, // Dev purposes
             'title' => "Поръчка №".$order->id
         ]);
 
