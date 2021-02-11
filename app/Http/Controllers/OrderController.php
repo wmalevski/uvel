@@ -381,10 +381,10 @@ class OrderController extends Controller{
         $mpdf->WriteHTML($html);
 
         // For development purposes
-        $mpdf->Output();
+        // $mpdf->Output();
         // exit;
 
-        // $mpdf->Output(str_replace(' ', '_', $order->id) . '_order.pdf', \Mpdf\Output\Destination::DOWNLOAD);
+        $mpdf->Output(str_replace(' ', '_', $order->id) . '_order.pdf', \Mpdf\Output\Destination::DOWNLOAD);
 
     }
 
