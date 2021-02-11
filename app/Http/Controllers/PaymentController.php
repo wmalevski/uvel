@@ -33,9 +33,11 @@ class PaymentController extends Controller{
      */
     public function index(){
         $payments = Payment::orderBy('created_at','DESC');
-
         if(Auth::user()->role !== 'admin'){
             $payments = $payments->where('receipt', 'yes');
+            if(Auth::user()->role == 'manager'){
+                $payments = $payments->where('store_id', Auth::user()->store_id);
+            }
         }
 
         $payments = $payments->get();
