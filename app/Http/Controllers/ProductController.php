@@ -82,10 +82,14 @@ class ProductController extends Controller
 
     }
 
-    public function productsReport()
-    {
+    public function productsReport(){
         $products = Product::selectRaw('material_id')->selectRaw('store_id')->selectRaw('id')->selectRaw('model_id')->groupBy('store_id')->selectRaw('COUNT(id) as count')->get();
-        $stores = Store::all();
+        if(Auth::user()->role == 'manager'){
+            $stores = Store::where('id',Auth::user()->store_id)->get();
+        }
+        else{
+            $stores = Store::all();
+        }
 
         return view('admin.reports.products_reports.index', compact(['stores', 'products']));
     }
