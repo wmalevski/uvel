@@ -1,16 +1,16 @@
 @php
 $givenMaterialRowTpl = '<div class="form-row">
-						<div class="form-group col-md-6"> 
+						<div class="form-group col-md-6">
 							<label for="">Вид</label>
 							<select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate" data-search="/ajax/select_search/global/materials/">
 								<option value="">Избери</option>';
 								foreach($materials as $material) {
 									if($material->pricesBuy->first() && $material->pricesSell->first()) {
 									$givenMaterialRowTpl .= '<option value="'. $material->id .'" data-carat="'. $material->carat  .'" data-material="'. $material->id  .'"
-										data-pricebuy="'. $material->pricesBuy->first()->price  .'"> 
-										'. $material->parent->name  .' - 
-										'. $material->color  .' - 
-										'. $material->code  .' 
+										data-pricebuy="'. $material->pricesBuy->first()->price  .'">
+										'. $material->parent->name  .' -
+										'. $material->color  .' -
+										'. $material->code  .'
 									</option>';
 									}
 								}
@@ -18,7 +18,7 @@ $givenMaterialRowTpl = '<div class="form-row">
 						</div>
 						<div class="form-group col-md-5">
 							<label for="grossWeight">Количество:</label>
-							
+
 							<div class="input-group">
 								<input type="number" class="form-control mat-quantity" name="mat_quantity[]" placeHolder="0" step="0.01">
 							</div>
@@ -33,6 +33,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
 <div class="editModalWrapper">
   <div class="modal-header">
     <h5 class="modal-title" id="addorderLabel">Редактиране на поръчка</h5>
+    <button type="button" class="print" id="internalPrint" onclick="window.open('/ajax/orders/print_internal/{{$order->id}}', '_blank').focus();"><span aria-hidden="true"><i class="c-brown-500 ti-printer"></i></span></button>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -42,7 +43,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
     <div class="modal-body">
       <div class="info-cont"></div>
       {{ csrf_field() }}
-      
+
       <div class="form-row">
         <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
           <input id="weightWithStones_edit" class="peer" type="checkbox" name="with_stones"
@@ -56,13 +57,13 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
       <div class="form-row">
         <div class="form-group col-md-12">
           <label for="weight">Сканирай продукт:</label>
-          
+
           <div class="input-group">
             <input id="calculate_product" class="form-control" type="text" data-url="ajax/orders/getProductInfo/"
                    name="product_id" placeholder="Сканирай продукт:">
           </div>
         </div>
-        
+
         <div class="col-12">
           <hr>
         </div>
@@ -104,7 +105,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
       <div class="form-row">
         <div class="form-group col-md-6">
           <label>Модел:</label>
-          
+
           <select data-url="ajax/orders/getModelInfo/" name="model_id" class="model-select form-control model-filled" data-calculatePrice-model data-search="/ajax/select_search/models/">
             <option value="">Избери</option>
             @foreach($models as $model)
@@ -117,10 +118,10 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
         </div>
         <div class="form-group col-md-6">
           <label>Вид:</label>
-          
+
           <select name="jewel_id" class="form-control jewels_types" data-modelFilled-jewel disabled data-search="/ajax/select_search/jewels/">
             <option value="">Избери</option>
-            
+
             @foreach($jewels as $jewel)
             <option @if($order->jewel_id == $jewel->id) selected @endif value="{{ $jewel->id }}">
               {{ $jewel->name }}
@@ -128,7 +129,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
             @endforeach
           </select>
         </div>
-        
+
         <div class="col-12">
           <hr>
         </div>
@@ -137,10 +138,10 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
       <div class="form-row model_materials">
         <div class="form-group col-md-12">
           <label>Материал:</label>
-          
+
           <select name="material_id" class="material_type form-control calculate" data-calculatePrice-material data-search="/ajax/select_search/global/materials/">
             <option value="">Избери</option>
-            
+
             @foreach($materials as $material)
               @if($material->pricesSell->first())
                 <option value="{{ $material->id }}" data-material="{{ $material->id }}"
@@ -154,10 +155,10 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
             @endforeach
           </select>
         </div>
-        
+
         <div class="form-group col-md-6">
           <label>Цена:</label>
-          
+
           <select class="form-control calculate prices-filled retail-price retail_prices"
                   name="retail_price_id" data-calculatePrice-retail>
             <option value="">Избери</option>
@@ -172,7 +173,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
         </div>
         <div class="form-group col-md-3 weight-holder weight-holder-edit">
           <label for="weight_edit">Нетно тегло:</label>
-          
+
           <div class="input-group">
             <input id="weight_edit" class="form-control weight calculate" type="text" value="{{ $order->weight }}"
                    name="weight" data-calculatePrice-netWeight placeholder="Тегло:" min="1" max="10000">
@@ -182,11 +183,11 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
 
         <div class="form-group col-md-3">
           <label for="size_edit">Размер:</label>
-          
+
           <input type="text" class="form-control size" id="size_edit" value="{{ $order->size }}" name="size"
                  data-modelFilld-size placeholder="Размер:" min="1" max="10000">
         </div>
-        
+
         <div class="col-12">
           <hr>
         </div>
@@ -208,7 +209,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
               <option value="{{ $stone->id }}" @if($order_stone->stone_id == $stone->id) selected @endif
                       data-type="{{ $stone->type }}" data-price="{{ $stone->price }}">
                 {{ $stone->nomenclature->name }}
-                ({{ $stone->contour->name }}, 
+                ({{ $stone->contour->name }},
                 {{ $stone->size->name }})
               </option>
               @endforeach
@@ -217,7 +218,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
 
           <div class="form-group col-md-4">
             <label for="1">Брой:</label>
-            
+
             <input type="number" class="form-control calculate-stones" name="stone_amount[]" placeholder="Брой" value="{{  $order_stone->amount  }}"
                    data-calculateStones-amount min="1" max="50">
           </div>
@@ -231,7 +232,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
           <div class="form-group col-md-6">
             <div class="form-group">
               <label for="1">Тегло:</label>
-              
+
               <div class="input-group">
                 <input type="number" value="{{  $order_stone->weight  }}" class="form-control calculate-stones" id="1"
                        name="stone_weight[]" data-calculateStones-weight placeholder="Тегло:" min="0.1" max="100" disabled>
@@ -263,7 +264,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
 
         <div class="form-group col-md-6">
           <label for="totalStones_edit">Общо за леене:</label>
-          
+
           <div class="input-group">
             <input type="number" class="form-control" id="totalStones" name="totalStones_edit" data-calculateStones-total disabled>
             <span class="input-group-addon">гр.</span>
@@ -278,7 +279,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
       <div class="form-row">
         <div class="form-group col-md-4">
           <label for="grossWeight_edit">Брутно тегло:</label>
-          
+
           <div class="input-group">
             <input id="grossWeight_edit" class="form-control" type="number" name="gross_weight"
                    value="{{ $order->gross_weight }}" data-calculatePrice-grossWeight disabled>
@@ -288,7 +289,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
 
         <div class="form-group col-md-4">
           <label for="workmanship">Изработка:</label>
-          
+
           <div class="input-group">
             <input id="workmanship" class="form-control worksmanship_price workmanship" type="number"
                    value="{{ $order->workmanship }}" name="workmanship" value="0" data-calculatePrice-worksmanship>
@@ -298,14 +299,14 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
 
         <div class="form-group col-md-4">
           <label for="price">Цена:</label>
-          
+
           <div class="input-group">
             <input type="number" class="form-control final_price price" value="{{ $order->price }}"
                    name="price" id="price" value="0" data-calculatePrice-final>
             <span class="input-group-addon">лв</span>
           </div>
         </div>
-        
+
         <div class="col-12">
           <hr>
         </div>
@@ -314,8 +315,8 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
       <div class="form-row">
         <div class="form-group col-md-12">
           <label>Магазин:</label>
-          
-          <select 
+
+          <select
             name="store_id"
             class="form-control"
             data-search="/ajax/select_search/stores/"
@@ -335,7 +336,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
       <div class="form-row">
         <div class="form-group col-md-4">
           <label for="grossWeight">Бройка:</label>
-          
+
           <div class="input-group">
             <input type="number" class="form-control" name="quantity" id="quantity" value="{{ $order->quantity }}">
           </div>
@@ -345,17 +346,17 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
       <div class="form-row">
         <div class="form-group col-md-12">
           <label for="grossWeight">Описание:</label>
-          
+
           <div class="input-group">
             <textarea class="form-control" name="content" id="notes" placeholder="Описание на поръчката">{{ $order->content }}</textarea>
           </div>
         </div>
-        
+
         <div class="col-12">
           <hr>
         </div>
       </div>
-      
+
       <div class="given-material">
 					<div class="form-row">
 						<div class="form-group col-md-12">
@@ -364,23 +365,23 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
 					</div>
           @foreach($order->materials as $material)
           <div class="form-row">
-            <div class="form-group col-md-6"> 
+            <div class="form-group col-md-6">
               <label for="">Вид</label>
               <select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate" data-search="/ajax/select_search/global/materials/">
                 <option value="">Избери</option>
                   @if($material->material->pricesBuy->first())
                   <option value="{{ $material->material->id }} " data-carat="{{ $material->carat  }}" data-material="{{ $material->material->id  }}"
-                    data-pricebuy="{{ $material->material->pricesBuy->first()->price }}" selected> 
-                    {{ $material->material->parent->name }}  - 
-                    {{ $material->material->color }}  - 
-                    {{ $material->material->code }}   
+                    data-pricebuy="{{ $material->material->pricesBuy->first()->price }}" selected>
+                    {{ $material->material->parent->name }}  -
+                    {{ $material->material->color }}  -
+                    {{ $material->material->code }}
                   </option>
                   @endif
               </select>
             </div>
             <div class="form-group col-md-5">
               <label for="grossWeight">Количество:</label>
-              
+
               <div class="input-group">
                 <input type="number" class="form-control mat-quantity" name="mat_quantity[]" value="{{ $material->weight }}" placeHolder="0">
               </div>
@@ -391,14 +392,14 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
           </div>
         @endforeach
       </div>
-   
+
       <div class="form-row pt-3">
           <div class="form-group col-md-6 mt-auto">
             <button id="btnAddAnother" class="action--state_button add-btn-modal btn btn-primary">
               Добави друг
             </button>
           </div>
-          
+
           <div class="col-12">
             <hr>
           </div>
@@ -407,7 +408,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="grossWeight">Капаро:</label>
-            
+
             <div class="input-group">
               <input type="number" class="form-control" name="earnest" id="earnest" placeholder="0" value="{{ $order->earnest }}">
             </div>
@@ -433,9 +434,9 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
         </div>
       </div>
       @endif
-    
+
     </div>
-    
+
     <div id="errors-container"></div>
 
     <div class="modal-footer">
@@ -450,7 +451,17 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
     </div>
   </form>
 </div>
-
+<style type="text/css">
+  button#internalPrint{
+    position: absolute;
+    right: 40px;
+    top: 17px;
+    border: none;
+    background: transparent;
+  }
+  button#internalPrint i{color:silver!important;}
+  button#internalPrint:hover i{color:black!important;}
+</style>
 <script>
   var givenMaterialRow = '{!! $givenMaterialRowTpl !!}';
 </script>

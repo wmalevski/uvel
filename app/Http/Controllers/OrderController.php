@@ -31,15 +31,13 @@ use Auth;
 use App\OrderItem;
 use App\CashRegister;
 
-class OrderController extends Controller
-{
+class OrderController extends Controller{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(MaterialQuantity $materials)
-    {
+    public function index(MaterialQuantity $materials){
         $user = Auth::user();
         $orders = Order::all();
         $products = Product::all();
@@ -79,17 +77,7 @@ class OrderController extends Controller
         return \View::make('admin/orders/index', array('loggedUser' => Auth::user(), 'mats' => $mats, 'materials' => $materials, 'orders' => $orders, 'stores' => $stores, 'products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials->scopeCurrentStore(), 'user_store' => $user_store, 'jsStones' => json_encode($pass_stones, JSON_UNESCAPED_SLASHES), 'disable_store_select' => $disable_store_select));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-    }
-
-    public function chainedSelects(Request $request, Model $model)
-    {
+    public function chainedSelects(Request $request, Model $model){
         $product = new Product;
         return $product->chainedSelects($model);
     }
@@ -242,24 +230,12 @@ class OrderController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param \App\Product $products
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Order $order)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param \App\Product $products
      * @return \Illuminate\Http\Response
      */
-    public function edit(Order $order)
-    {
+    public function edit(Order $order){
         $user = Auth::user();
         $order_stones = $order->stones;
         $order_materials = $order->materials;
@@ -279,8 +255,7 @@ class OrderController extends Controller
      *
      * @param $id
      */
-    public function generate($id)
-    {
+    public function generate($id){
         $order = Order::where('id', $id)->first();
 
         if ($order) {
@@ -344,6 +319,75 @@ class OrderController extends Controller
         abort(404, 'Product not found.');
     }
 
+    public function generateInternalReceipt($id){
+    	$order = Order::where('id', $id)->first();
+    	if(!$order){
+    		abort(404, 'Възникна проблем при намирането на поръчката!');
+    	}
+
+    	$material = Material::where('id', $order->material_id)->first();
+    	$model = Model::where('id', $order->model_id)->first();
+    	$jewel = Jewel::where('id', $order->jewel_id)->first();
+    	$store = Store::where('id', $order->store_id)->first();
+
+    	$photo = Gallery::where('product_id', $order->product_id)->first();
+    	$photo = (isset($photo->photo) ? $photo->photo : null);
+
+    	$photo = null;
+    	$orderImage = null;
+    	if($order->model){
+    		$photo = $order->model->photos->first();
+    		$photo = (isset($photo['photo']) ? $photo['photo'] : null );
+    		if($photo){
+    			$orderImage = asset("uploads/models/".$photo);
+    		}
+    	}
+    	elseif($order->product){
+    		$photo = $order->product->photos->first();
+    		$photo = (isset($photo['photo']) ? $photo['photo'] : null );
+    		if($photo){
+    			$orderImage = asset("uploads/products/".$photo);
+    		}
+    	}
+    	$orderImage='http://uvel.macducky.xyz/uploads/uvel_header.png';
+    	$orderStone = array();
+
+		if($order->stones){
+			foreach($order->stones  as $stone){
+				$nomenclature = Stone::where('id',$stone->stone_id)->first()->nomenclature->name;
+				$contour = Stone::where('id',$stone->stone_id)->first()->contour->name;
+				$size = Stone::where('id',$stone->stone_id)->first()->size->name;
+                $style = Stone::where('id',$stone->stone_id)->first()->style->name;
+                $orderStones[] = $nomenclature." (".$contour.", ".$size.", ".$style.") [x".$stone->amount."]";
+            }
+        }
+
+        $mpdf = new \Mpdf\Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'A6',
+            'default_font_size' => '10',
+            'margin-left' => 10,
+            'margin-right' => 10,
+            'margin-top' => 0,
+            'margin-bottom' => 0,
+            'margin-header' => 80,
+            'margin-footer' => 0,
+            'showImageErrors' => true,
+            'title' => "Поръчка №".$order->id
+        ]);
+
+        $html = '<style>@page{margin: 30px;}</style>'.view('pdf.order_internal', compact('order', 'material', 'model', 'jewel', 'orderStones', 'orderImage', 'store'))->render();
+
+        $mpdf->WriteHTML($html);
+
+        // For development purposes
+        $mpdf->Output();
+        // exit;
+
+        // $mpdf->Output(str_replace(' ', '_', $order->id) . '_order.pdf', \Mpdf\Output\Destination::DOWNLOAD);
+
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -351,8 +395,7 @@ class OrderController extends Controller
      * @param \App\Product $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)
-    {
+    public function update(Request $request, Order $order){
         if ($order) {
             $validator = Validator::make($request->all(), [
                 'customer_name' => 'required',
@@ -588,27 +631,25 @@ class OrderController extends Controller
      * @param \App\Product $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order)
-    {
+    public function destroy(Order $order){
         if ($order) {
             $order->delete();
             return Response::json(array('success' => trans('admin/orders.order_deleted')));
         }
     }
 
-    public function getProductInfo($product)
-    {
-        if ($product) {
+    public function getProductInfo($product){
+        if($product){
             $product = Product::where('barcode', $product)->first();
-            if ($product) {
-                return $product->chainedSelects($product->model);
+            if(!$product){
+                return Response::json(['errors' => 'Продукт с такъв Баркод не бе намерен'], 401);
             }
+            return $product->chainedSelects($product->model);
         }
     }
 
-    public function getModelInfo(Request $request, Model $model)
-    {
-        if ($model) {
+    public function getModelInfo(Request $request, Model $model){
+        if($model){
             $product = new Product;
             return $product->chainedSelects($model);
         }
