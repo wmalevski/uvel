@@ -1031,8 +1031,18 @@ var uvelStore,
 	}
 
 	this.addDiscountAttach = function (addDiscountBtn) {
-		addDiscountBtn.on('click', function () {
-			$self.addDiscount($(this));
+		addDiscountBtn.on('click', function(){
+			$self.pendingDiscount = addDiscountBtn;
+			var enabledDiscounts = $('div.discount-container span.discount-remove');
+			if(enabledDiscounts.length){
+				enabledDiscounts.each(function(){
+				    $(this).click();
+				});
+			}
+			else{
+				$self.addDiscount($self.pendingDiscount);
+				$self.pendingDiscount = false;
+			}
 		})
 	}
 
@@ -1065,12 +1075,12 @@ var uvelStore,
 			method: 'GET',
 			url: ajaxUrl,
 			success: function (response) {
-				$self.dicountResponseHandler(response);
+				$self.dicountResponseHandler(response, true);
 			}
 		})
 	}
 
-	this.dicountResponseHandler = function (response) {
+	this.dicountResponseHandler = function(response, remove = false) {
 		var success = response.success;
 
 		if (success) {
@@ -1108,8 +1118,15 @@ var uvelStore,
 			totalDisplay.html(total + ' лв');
 			subtotalDisplay.html(subtotal + 'лв');
 
-			discountInput.val('');
-		} else {
+			if(remove && $self.pendingDiscount){
+				$self.addDiscount($self.pendingDiscount);
+				$self.pendingDiscount = false;
+			}
+			else{
+				discountInput.val('');
+			}
+		}
+		else {
 			$self.ajaxReturnMessage('Системата не открива карта за отстъпка с такъв номер.', 'error');
 		}
 	}

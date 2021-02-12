@@ -40,12 +40,17 @@ class UserPayment extends Model{
 		$payment->price = $subtotal;
 		$payment->information = session('cart_info.0.information');
 
+		// Used for calculating the discount amount
+		$one_percent = $subtotal / 100;
+
 		// Process applied Discount Codes
 		$discount_codes = array();
 		foreach(Cart::session($session_id)->getConditions() as $k=>$v){
 			$attr = $v->getAttributes();
-			if(isset($attr['barcode']) && $attr['discount_value']){
+			var_dump($attr);
+			if(isset($attr['discount_id']) && isset($attr['barcode'])){
 				array_push($discount_codes, $attr['barcode']);
+				$payment->price -= $attr['discount_id'] * $one_percent; // The passed discount_id is the value in percents of the discount, thus the need to multiply it by 1% of the price
 			}
 		}
 
