@@ -50,11 +50,15 @@ class OnlineSellingsController extends Controller{
 			}
 		}
 
+		$orderInfo = UserPayment::where('id',$selling->id)->first();
+		$orderInfo = ($orderInfo->count()>0 ? $orderInfo->information : null );
+
 		return \View::make('admin/selling/online/edit', array(
 			'selling' => $selling,
 			'stores' => $stores,
 			'products' => $products,
-			'discount_codes' => $discount_codes
+			'discount_codes' => $discount_codes,
+			'orderInfo' => $orderInfo
 		));
 	}
 
