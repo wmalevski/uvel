@@ -96,7 +96,7 @@ class User extends Authenticatable
 
     public function sellings()
     {
-        return $this->hasMany('App\UserPayment');
+        return $this->hasMany('App\UserPayment')->orderBy('id','DESC');
     }
 
     public function partnerInfo()

@@ -15,18 +15,14 @@ use Illuminate\Support\Facades\DB;
 use App\User;
 use Auth;
 
-class AccountController extends BaseController
-{
+class AccountController extends BaseController{
 
-    public function index()
-    {
-        if (Auth::check()) {
-            $sellings = Auth::user()->sellings;
+	public function index(){
+		if(!Auth::check()){
+			return redirect()->route('login');
+		}
 
-            return \View::make('store.pages.account.index', array('sellings' => $sellings));
-        } else {
-            return redirect()->route('login');
-        }
-
-    }
+		$sellings = Auth::user()->sellings;
+		return \View::make('store.pages.account.index', array('sellings' => $sellings));
+	}
 }
