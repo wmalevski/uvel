@@ -206,8 +206,8 @@
 									<input type="hidden" name="shipping_method" />
 									<input class="w3-btn w3-blue" type="submit" value="Поръчай" />
 									@else
-									<div class="row form-row">
-										<a href="/online/login">Влезте в профила си, за да продължите.</a>
+									<div>
+										<a class="pleaseLogin" href="/online/login">Моля влезте в профила си, за да продължите</a>
 									</div>
 								@endauth
 								@endif
@@ -241,6 +241,23 @@ td.modelSize div label{
 	margin-right: 10px;
 	line-height: 40px;
 }
+a.pleaseLogin{
+    font-size: 1.2em;
+    width: 500px;
+    margin: 0 calc(50% - 250px);
+    text-align: center;
+    display: inline-block;
+    padding: 5px 0;
+    background: #b5930e;
+    color: white;
+    text-shadow: 0 1px black;
+    box-shadow: 0px 5px 10px -3px black;
+    position: relative;
+    top:0;
+    transition: all 200ms ease-in-out;
+}
+a.pleaseLogin:active, a.pleaseLogin:hover{background: #caa412;}
+a.pleaseLogin:active{top:3px;box-shadow: 0px 0 5px -4px black;}
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
