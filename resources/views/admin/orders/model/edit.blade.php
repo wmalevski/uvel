@@ -25,7 +25,7 @@
 					<div class="timepicker-input input-icon form-group deadline">
 						<div class="input-group">
 							<div class="input-group-addon bgc-white bd bdwR-0"><i class="ti-calendar"></i></div>
-							<input type="text" data-date-autoclose="true" data-date-format="dd/mm/yyyy" name="deadline" class="form-control bdc-grey-20$ data-date-start-date="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d/m/Y')}}" data-provide="datepicker" value="{{$order->deadline->format('d/m/Y')}}" />
+							<input type="text" data-date-autoclose="true" data-date-format="dd/mm/yyyy" name="deadline" class="form-control bdc-grey-20$ data-date-start-date="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d/m/Y')}}" data-provide="datepicker" value="{{ $order->deadline ? $order->deadline->format('d/m/Y') : '' }}" />
 						</div>
 					</div>
 				</div>
@@ -39,12 +39,12 @@
 			@if($store_info)
 			<div class="form-group">
 				<label for="3">Телефон: </label>
-				<input type="tel" class="form-control" value="{{ $order->user->phone }}" id="3" name="phone" placeholder="Телефон:" />
+				<input type="tel" class="form-control" value="{{ $order->user_payment->user->phone }}" id="3" name="phone" placeholder="Телефон:" />
 			</div>
 
 			<div class="form-group">
 				<label for="4">Град: </label>
-				<input type="text" class="form-control" value="{{ $order->user->city }}" id="4" name="city" placeholder="Град:" />
+				<input type="text" class="form-control" value="{{ $order->user_payment->user->city }}" id="4" name="city" placeholder="Град:" />
 			</div>
 
 			<div class="form-group">
@@ -76,11 +76,13 @@
 				<label>Модел: </label>
 				<select name="model_id" class="model-select form-control model-filled" data-calculatePrice-model>
 					<option value="">Избери</option>
-
 					@foreach($models as $model)
 						<option value="{{ $model->id }}" data-jewel="{{ $model->jewel->id }}" @if($order->model->id == $model->id) selected @endif>{{ $model->name }}</option>
 					@endforeach
 				</select>
+				<div id="modelPicture">
+					<img src="{{ asset("uploads/models/" . $order->model->photos->first()['photo']) }}">
+				</div>
 			</div>
 
 			<div class="form-group">
@@ -123,3 +125,7 @@
 		</div>
 	</form>
 </div>
+<style type="text/css">
+	div#modelPicture{text-align:center;}
+	div#modelPicture img{max-width:300px;max-height:300px;}
+</style>
