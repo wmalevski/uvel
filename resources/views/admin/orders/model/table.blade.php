@@ -3,6 +3,7 @@
       <img class="admin-product-image" src="{{ asset("uploads/models/" . $order->photos->first()['photo']) }}">
     </td>
     <td>{{ $order->id }}</td>
+    <td>{{ $order->deadline ? $order->deadline->format('d/m/Y') : ''}}</td>
     <td>{{ $order->model->name }}</td>
     <td>{{ $order->model_size }}</td>
     <td>{{ $order->user_payment->user->email }}</td>

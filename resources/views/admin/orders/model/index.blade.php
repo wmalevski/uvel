@@ -18,6 +18,7 @@ aria-hidden="true">
 					<tr>
 						<th scope="col">Снимка</th>
 						<th scope="col">Уникален номер модел</th>
+						<th scope="col">Срок</th>
 						<th scope="col">Модел</th>
 						<th scope="col">Размер</th>
 						<th scope="col">Email</th>
@@ -29,6 +30,7 @@ aria-hidden="true">
 						@endif
 					</tr>
 					<tr class="search-inputs" data-dynamic-search-url="ajax/search/orders/model">
+						<th></th>
 						<th></th>
 						<th></th>
 						<th></th>
