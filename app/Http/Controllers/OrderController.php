@@ -30,6 +30,7 @@ use App\ExchangeMaterial;
 use Auth;
 use App\OrderItem;
 use App\CashRegister;
+use App\Selling;
 
 class OrderController extends Controller{
     /**
@@ -349,9 +350,8 @@ class OrderController extends Controller{
     			$orderImage = asset("uploads/products/".$photo);
     		}
     	}
-    	$orderImage='http://uvel.macducky.xyz/uploads/uvel_header.png';
-    	$orderStone = array();
 
+    	$orderStone = array();
 		if($order->stones){
 			foreach($order->stones  as $stone){
 				$nomenclature = Stone::where('id',$stone->stone_id)->first()->nomenclature->name;
@@ -385,7 +385,6 @@ class OrderController extends Controller{
         // exit;
 
         $mpdf->Output(str_replace(' ', '_', $order->id) . '_order.pdf', \Mpdf\Output\Destination::DOWNLOAD);
-
     }
 
     /**

@@ -30,7 +30,11 @@
 					@case('home_address')Доставка до адрес@break;
 				@endswitch
 				</div>
+				@if($selling->shipping_method=='store')
+				<div class="form-group col-md-6">Телефон: {{ $selling->user->phone }}<br>Град: {{ $selling->user->city }}</div>
+				@else
 				<div class="form-group col-md-6">Телефон: {{ $selling->phone }}</div>
+				@endif
 			</div>
 
 			@if (in_array($selling->shipping_method,array('home_address','office_address')))

@@ -99,14 +99,36 @@ class ModelOrderController extends Controller{
         return $response;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\ModelOrder  $modelOrder
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(ModelOrder $modelOrder)
-    {
-        //
+    public function generatePDF($id){
+        $selling = Selling::where('id', $id)->first();
+        if(!$selling){
+            abort(404, 'Възникна проблем при намирането на поръчката!');
+        }
+
+        $store_info = ($selling->user_payment->store_id ? Store::where('id',$selling->user_payment->store_id)->first() : null);
+
+        $mpdf = new \Mpdf\Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'default_font_size' => '12',
+            'margin-left' => 20,
+            'margin-right' => 20,
+            'margin-top' => 20,
+            'margin-bottom' => 20,
+            'margin-header' => 80,
+            'margin-footer' => 0,
+            // 'showImageErrors' => true, // Dev purposes
+            'title' => "Поръчка №".$selling->id
+        ]);
+
+        $html = '<style>@page{margin: 30px;}</style>'.view('pdf.order_ready_model', compact('selling','store_info'))->render();
+
+        $mpdf->WriteHTML($html);
+
+        // For development purposes
+        $mpdf->Output();
+        exit;
+
+        $mpdf->Output(str_replace(' ', '_', $order->id) . '_order_ready_model.pdf', \Mpdf\Output\Destination::DOWNLOAD);
     }
 }

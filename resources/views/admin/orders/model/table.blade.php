@@ -25,7 +25,9 @@
     @endswitch</td>
 
     @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
-        <td align="center"><span data-url="orders/model/{{$order->id}}" class="edit-btn" data-toggle="modal" data-target="#editOrder" data-form-type="edit" data-form="modelOrders"><i class="c-brown-500 ti-pencil"></i></span>
+        <td align="center">
+            <span data-url="orders/model/{{$order->id}}" class="edit-btn" data-toggle="modal" data-target="#editOrder" data-form-type="edit" data-form="modelOrders"><i class="c-brown-500 ti-pencil"></i></span>
+            <a data-print-label="true" target="_blank" href="{{ route('order_model_receipt', $order->id) }}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a>
         </td>
     @endif
 </tr>

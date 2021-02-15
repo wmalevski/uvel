@@ -210,7 +210,9 @@ var uvel,
         initialized: false
       },
       editPayments: {
-        selector: '[name="editPayments"]'
+        selector: '[name="editPayments"]',
+        controllers: [],
+        initialized: false
       },
       orders: {
         selector: '[name="orders"]',

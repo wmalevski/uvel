@@ -485,6 +485,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::get('/products/generatelabel/{barcode}', 'GenerateLabelController@generate');
     Route::get('/productsothers/generatelabel/{barcode}', 'ProductOtherController@generate');
     Route::get('/orders/print/{id}', 'OrderController@generate')->name('order_receipt');
+    Route::get('/orders/print/model/{id}', 'ModelOrderController@generatePDF')->name('order_model_receipt');
     Route::get('/orders/print_internal/{id}', 'OrderController@generateInternalReceipt')->name('order_receipt');
 
     //Search
