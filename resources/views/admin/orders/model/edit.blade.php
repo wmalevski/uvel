@@ -10,11 +10,52 @@
 			<div class="info-cont"></div>
 			{{csrf_field()}}
 
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label for="date_received">Приемане</label>
+					<div class="input-icon form-group date-recieved">
+						<div class="input-group">
+							<div class="input-group-addon bgc-white bd bdwR-0"><i class="ti-calendar"></i></div>
+							<input readonly type="text" value="{{ Carbon\Carbon::parse($order->created_at)->format('H:i d/m/Y')}}" class="form-control bdc-grey-200 not-clear" name="date_received" placeholder="Дата на приемане" >
+						</div>
+					</div>
+				</div>
+				<div class="form-group col-md-6">
+					<label for="deadline">Срок</label>
+					<div class="timepicker-input input-icon form-group deadline">
+						<div class="input-group">
+							<div class="input-group-addon bgc-white bd bdwR-0"><i class="ti-calendar"></i></div>
+							<input type="text" data-date-autoclose="true" data-date-format="dd/mm/yyyy" name="deadline" class="form-control bdc-grey-20$ data-date-start-date="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d/m/Y')}}" data-provide="datepicker" value="{{$order->deadline->format('d/m/Y')}}" />
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<div class="form-group">
 				<label for="2">Email на клиента: </label>
 				<input type="email" class="form-control" value="{{ $order->user_payment->user->email }}" id="2" name="email" placeholder="Email:" readonly>
 			</div>
 
+			@if($store_info)
+			<div class="form-group">
+				<label for="3">Телефон: </label>
+				<input type="tel" class="form-control" value="{{ $order->user->phone }}" id="3" name="phone" placeholder="Телефон:" />
+			</div>
+
+			<div class="form-group">
+				<label for="4">Град: </label>
+				<input type="text" class="form-control" value="{{ $order->user->city }}" id="4" name="city" placeholder="Град:" />
+			</div>
+
+			<div class="form-group">
+				<label for="store">Магазин: </label>
+				<select name="store_id" class="form-control" data-search="/ajax/select_search/stores/">
+				@foreach($stores as $store)
+					<option value="{{ $store->id }}" @if($store->id == $order->user_payment->store_id) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
+				@endforeach
+				</select>
+			</div>
+			@else
 			<div class="form-group">
 				<label for="3">Телефон: </label>
 				<input type="tel" class="form-control" value="{{ $order->user_payment->phone }}" id="3" name="phone" placeholder="Телефон:" />
@@ -25,16 +66,6 @@
 				<input type="text" class="form-control" value="{{ $order->user_payment->city }}" id="4" name="city" placeholder="Град:" />
 			</div>
 
-			@if($store_info)
-			<div class="form-group">
-				<label for="store">Магазин: </label>
-				<select name="store_id" class="form-control" data-search="/ajax/select_search/stores/">
-				@foreach($stores as $store)
-					<option value="{{ $store->id }}" @if($store->id == $order->user_payment->store_id) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
-				@endforeach
-				</select>
-			</div>
-			@else
 			<div class="form-group">
 				<label for="shipping_address">Адрес за доставка: </label>
 				<textarea id="shipping_address" class="form-control" name="shipping_address">{{ $order->user_payment->shipping_address }}</textarea>

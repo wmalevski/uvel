@@ -63,22 +63,22 @@ class CustomOrderController extends BaseController
         $customOrder = CustomOrder::create($request->all());
 
         $path = public_path('uploads/orders/');
-        
+
         File::makeDirectory($path, 0775, true, true);
         Storage::disk('public')->makeDirectory('orders', 0775, true);
 
-        $file_data = $request->input('images'); 
+        $file_data = $request->input('images');
         if($file_data){
             foreach($file_data as $img){
                 $memi = substr($img, 5, strpos($img, ';')-5);
-                
+
                 $extension = explode('/',$memi);
                 if($extension[1] == "svg+xml"){
                     $ext = 'png';
                 }else{
                     $ext = $extension[1];
                 }
-                
+
 
                 $file_name = 'orderimage_'.uniqid().time().'.'.$ext;
 

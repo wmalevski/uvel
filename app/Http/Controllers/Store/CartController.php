@@ -204,7 +204,7 @@ class CartController extends BaseController{
 
 				// Print "Size" tr for models
 				if($item->attributes->type == 'model'){
-					$table_items .= '<tr class="modelSize"><td></td><td colspan="3" class="modelSize"><div><label for="modelSize">Размер:</label><textarea name="modelSize['.$item->id.']" id="modelSize" oninvalid="this.setCustomValidity(\'Моля въведете Размер\');this.scrollIntoView({block: \'center\'})" oninput="setCustomValidity(\'\')" required></textarea></div></td><td></td></tr>';
+					$table_items .= '<tr class="modelSize"><td></td><td colspan="3" class="modelSize"><div><label for="modelSize">Размер:</label><textarea name="modelSize['.$item->id.']" id="modelSize" oninvalid="this.setCustomValidity(\'Моля въведете Размер\');this.scrollIntoView({block: \'center\'})" oninput="setCustomValidity(\'\')"></textarea></div></td><td></td></tr>';
 				}
 
 			}

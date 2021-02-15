@@ -7,95 +7,97 @@ use Auth;
 use App\Partner;
 use Illuminate\Database\Eloquent\Model;
 
-class Selling extends Model
-{
-    public function repair(){
-        return $this->belongsTo('App\Repair');
-    }
+class Selling extends Model{
 
-    public function product(){
-        return $this->belongsTo('App\Product');
-    }
+	protected $dates = ['deadline'];
 
-    public function product_other(){
-        return $this->belongsTo('App\ProductOther');
-    }
+	public function repair(){
+		return $this->belongsTo('App\Repair');
+	}
 
-    public function user(){
-        return $this->belongsTo('App\User');
-    }
+	public function product(){
+		return $this->belongsTo('App\Product');
+	}
 
-    public function photos(){
-        return $this->hasMany('App\Gallery','model_id','model_id');
-    }
+	public function product_other(){
+		return $this->belongsTo('App\ProductOther');
+	}
 
-    public function user_payment(){
-        return $this->belongsTo('App\UserPayment','payment_id','id');
-    }
+	public function user(){
+		return $this->belongsTo('App\User');
+	}
 
-    public function model(){
-        return $this->belongsTo('App\Model','model_id','id');
-    }
+	public function photos(){
+		return $this->hasMany('App\Gallery','model_id','model_id');
+	}
 
-    public function cartMaterialsInfo(){
-        $items = [];
-        $products = [];
+	public function user_payment(){
+		return $this->belongsTo('App\UserPayment','payment_id','id');
+	}
 
-        Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items) {
-            $items[] = $item->id;
-        });
+	public function model(){
+		return $this->belongsTo('App\Model','model_id','id');
+	}
 
-        $products = Product::whereIn('barcode', $items)->get();
-        $workmanship = $products->sum('workmanship');
+	public function cartMaterialsInfo(){
+		$items = [];
+		$products = [];
 
-        $cartConditions = Cart::getConditions();
-        $partner_info = [];
+		Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items) {
+			$items[] = $item->id;
+		});
 
-        foreach($cartConditions as $condition) {
-            $attributes = $condition->getAttributes();
+		$products = Product::whereIn('barcode', $items)->get();
+		$workmanship = $products->sum('workmanship');
 
-            if($attributes['partner'] == 'true'){
-                if($attributes['partner_id'] && $attributes['partner_id'] != ''){
-                    $user = User::find($attributes['partner_id']);
-                    $partner = Partner::where('user_id', $user->id)->first();
+		$cartConditions = Cart::getConditions();
+		$partner_info = [];
 
-                    $partner_info = [
-                        'name' => $user->email,
-                        'money' => $partner->money
-                    ];
-                }
-            }
-        }
+		foreach($cartConditions as $condition) {
+			$attributes = $condition->getAttributes();
 
-        $materials = [];
-        foreach($products as $key => $product){
-            $material = $product->material;
+			if($attributes['partner'] == 'true'){
+				if($attributes['partner_id'] && $attributes['partner_id'] != ''){
+					$user = User::find($attributes['partner_id']);
+					$partner = Partner::where('user_id', $user->id)->first();
 
-            if(array_key_exists($material->id, $materials)) {
-                $materials[$material->id]['weight'] = $materials[$material->id]['weight']+$product->weight;
-            } else {
-                $partner_material = '';
-                $partner_material_weight = '';
+					$partner_info = [
+						'name' => $user->email,
+						'money' => $partner->money
+					];
+				}
+			}
+		}
 
-                foreach($partner->materials as $p_material){
-                    if($p_material->material_id == $material->id && $p_material->quantity > 0){
-                        $partner_material = $p_material->id;
-                        $partner_material_weight = $p_material->quantity;
-                    }
-                }
+		$materials = [];
+		foreach($products as $key => $product){
+			$material = $product->material;
 
-                $materials[$material->id] = [
-                    'material_id' => $material->id,
-                    'name' => $material->parent->name,
-                    'carat' => $material->carat,
-                    'code' => $material->code,
-                    'weight' => $product->weight,
-                    'partner_material' => $partner_material,
-                    'partner_material_weight' => $partner_material_weight
-                ];
-            }
-        }
+			if(array_key_exists($material->id, $materials)) {
+				$materials[$material->id]['weight'] = $materials[$material->id]['weight']+$product->weight;
+			} else {
+				$partner_material = '';
+				$partner_material_weight = '';
 
-        return array('materials' =>  json_encode($materials, JSON_UNESCAPED_SLASHES), 'workmanship' => $workmanship, 'partner' => $partner_info);
-    }
+				foreach($partner->materials as $p_material){
+					if($p_material->material_id == $material->id && $p_material->quantity > 0){
+						$partner_material = $p_material->id;
+						$partner_material_weight = $p_material->quantity;
+					}
+				}
+
+				$materials[$material->id] = [
+					'material_id' => $material->id,
+					'name' => $material->parent->name,
+					'carat' => $material->carat,
+					'code' => $material->code,
+					'weight' => $product->weight,
+					'partner_material' => $partner_material,
+					'partner_material_weight' => $partner_material_weight
+				];
+			}
+		}
+
+		return array('materials' =>  json_encode($materials, JSON_UNESCAPED_SLASHES), 'workmanship' => $workmanship, 'partner' => $partner_info);
+	}
 }

@@ -52,6 +52,11 @@ class ModelOrderController extends Controller{
             return Response::json(array('errors'=>$validator->getMessageBag()->toArray()),401);
         }
 
+        if(isset($request->deadline)){
+            $temp = explode('/', $request->deadline);
+            $order->deadline = $temp[2].'-'.$temp[1].'-'.$temp[0];
+        }
+
         $order->user_payment->phone = $request->phone;
         $order->user_payment->city = $request->city;
 
