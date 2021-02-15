@@ -207,7 +207,7 @@
 									<input class="w3-btn w3-blue" type="submit" value="Поръчай" />
 									@else
 									<div>
-										<a class="pleaseLogin" href="/online/login">Моля влезте в профила си, за да продължите</a>
+										<a class="pleaseLogin" href="/online/login">Моля, влезте в профила си, за да продължите</a>
 									</div>
 								@endauth
 								@endif
