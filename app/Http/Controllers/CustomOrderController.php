@@ -15,50 +15,15 @@ use Mail;
 use File;
 use Storage;
 
-class CustomOrderController extends Controller
-{
+class CustomOrderController extends Controller{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $orders = CustomOrder::all();
-
+    public function index(){
+        $orders = CustomOrder::orderBy('id','DESC')->get();
         return view('admin.orders.custom.index', compact('orders'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\CustomOrder  $customOrder
-     * @return \Illuminate\Http\Response
-     */
-    public function show(CustomOrder $customOrder)
-    {
-        //
     }
 
     /**
@@ -67,8 +32,7 @@ class CustomOrderController extends Controller
      * @param  \App\CustomOrder  $customOrder
      * @return \Illuminate\Http\Response
      */
-    public function edit(CustomOrder $order)
-    {
+    public function edit(CustomOrder $order){
         $photos = $order->photos()->get();
         $pass_photos = array();
 
@@ -104,8 +68,7 @@ class CustomOrderController extends Controller
      * @param  \App\CustomOrder  $customOrder
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CustomOrder $order)
-    {
+    public function update(Request $request, CustomOrder $order){
         $validator = Validator::make( $request->all(), [
             'name' => 'required|string',
             'email' => 'required|string|email|max:255',
@@ -155,14 +118,4 @@ class CustomOrderController extends Controller
         return $response;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\CustomOrder  $customOrder
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(CustomOrder $customOrder)
-    {
-        //
-    }
 }
