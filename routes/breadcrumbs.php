@@ -100,7 +100,7 @@ Breadcrumbs::register('models', function ($breadcrumbs) {
 });
 
 Breadcrumbs::register('products', function ($breadcrumbs) {
-		$breadcrumbs->parent('store');
+	$breadcrumbs->parent('store');
     $breadcrumbs->push('Налични бижута', route('products'));
 });
 
@@ -122,18 +122,24 @@ Breadcrumbs::register('wishlist', function ($breadcrumbs) {
 });
 
 Breadcrumbs::register('single_product', function ($breadcrumbs, $product) {
-    $breadcrumbs->parent('products_active_filters');
-    $breadcrumbs->push($product->id, route('single_product', $product->id));
+    // $breadcrumbs->parent('products_active_filters');
+    // $breadcrumbs->push($product->id, route('single_product', $product->id));
+    $breadcrumbs->parent('store');
+    $breadcrumbs->push('Налични бижута', route('products'));
 });
 
 Breadcrumbs::register('single_product_other', function ($breadcrumbs, $product) {
-    $breadcrumbs->parent('productsothers');
-    $breadcrumbs->push($product->name, route('single_product_other', $product->id));
+    // $breadcrumbs->parent('productsothers');
+    // $breadcrumbs->push($product->name, route('single_product_other', $product->id));
+    $breadcrumbs->parent('store');
+    $breadcrumbs->push('Налични бижута', route('products'));
 });
 
 Breadcrumbs::register('single_model', function ($breadcrumbs, $model) {
-    $breadcrumbs->parent('models');
-    $breadcrumbs->push($model->name, route('single_model', $model->id));
+    // $breadcrumbs->parent('models');
+    // $breadcrumbs->push($model->name, route('single_model', $model->id));
+    $breadcrumbs->parent('store');
+    $breadcrumbs->push('Налични бижута', route('products'));
 });
 
 Breadcrumbs::register('user_account', function ($breadcrumbs) {
