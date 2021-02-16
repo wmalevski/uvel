@@ -620,6 +620,7 @@ var uvel,
               method: 'GET',
               url: url,
               success: function(response) {
+                $self.appendAlertMessageToMainContent('alert-success', response.success, $(input).parent(), 'append');
                 $self.replaceResponseRowToTheTable($(input), response);
               },
               error: function(response) {

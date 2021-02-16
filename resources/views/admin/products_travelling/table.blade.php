@@ -12,7 +12,7 @@
     <td>{{ App\Product::withTrashed()->find($product->product_id)->weight }}</td>
     <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $product->created_at)->format('H:i d/m/Y') }} </td>
     <td>@if($product->store_to_id == Auth::user()->getStore()->id && $product->status == 0) Потвърди приемане на продукт
-    @elseif($product->status == 1) {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $product->date_received)->format('H:i d/m/Y') }}
+    @elseif($product->status == 1) {{ $product->date_received ? $product->date_received->format('H:i d/m/Y') : '' }}
     @else В изчакване на потвърждение от {{ App\Store::withTrashed()->find($product->store_to_id)->name }}
     @endif
     </td>

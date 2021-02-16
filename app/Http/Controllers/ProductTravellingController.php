@@ -114,26 +114,37 @@ class ProductTravellingController extends Controller{
 	public function accept($product){
 		$existing_product = Product::where('barcode', $product)->first();
 
-		$response = '';
 		if(!$existing_product){
 			return Response::json(['errors' => ['not_found' => ['Продукта не може да бъде намерен.']]], 401);
 		}
 
-		$travel = ProductTravelling::where('product_id',  $existing_product->id)->latest()->first();
+		$travel = ProductTravelling::where('product_id',  $existing_product->id)->orderBy('id','DESC')->first();
 
-		if ($travel->status == 0 && Auth::user()->store_id == $travel->store_to_id) {
-			$travel->status = '1';
-			$travel->user_received = Auth::user()->id;
-			$travel->date_received = new \DateTime();
-			$travel->save();
+		if($travel->status=="0"){
+			if(in_array(Auth::user()->role, array("admin", "manager"))
+				||
+				Auth::user()->store_id==$travel->store_to_id
+			){
+				$travel->status = '1';
+				$travel->user_received = Auth::user()->id;
+				$travel->date_received = new \DateTime();
+				$travel->save();
 
-			$existing_product->store_id = $travel->store_to_id;
-			$existing_product->status = 'available';
-			$existing_product->save();
+				$existing_product->store_id = $travel->store_to_id;
+				$existing_product->status = 'available';
+				$existing_product->save();
 
-			$response .=  View::make('admin/products_travelling/table', array('product' => $travel))->render();
+				$response = View::make('admin/products_travelling/table', array('product' => $travel))->render();
 
-			return Response::json(array('ID' => $travel->id, 'table' => $response));
+				return Response::json(array(
+					'ID' => $travel->id,
+					'table' => $response,
+					'success' => 'Продукта бе успешно приет!'
+				), 200);
+			}
+			else{
+				return Response::json(['errors' => ['not_found' => ['Продукта не може да бъде намерен като пътуващ към Вашия магазин.']]], 401);
+			}
 		}
 	}
 

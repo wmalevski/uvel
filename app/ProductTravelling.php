@@ -14,10 +14,11 @@ use Response;
 use Redirect;
 use Auth;
 
-class ProductTravelling extends BaseModel
-{
-    public function store($request, $responseType = 'JSON')
-    {
+class ProductTravelling extends BaseModel{
+
+    protected $dates = array('date_sent', 'date_received');
+
+    public function store($request, $responseType = 'JSON'){
         $validator = Validator::make( $request->all(), [
             'product_id' => 'required',
             'store_to_id' => 'required',
@@ -42,7 +43,7 @@ class ProductTravelling extends BaseModel
         if($check){
             if($store_from == $request->store_to_id){
                 if($responseType == 'JSON'){
-                    return Response::json(['errors' => array('quantity' => ['Не може да изпращате бижу към същия магазин'])], 401);  
+                    return Response::json(['errors' => array('quantity' => ['Не може да изпращате бижу към същия магазин'])], 401);
                 }else{
                     return array('errors' => array('quantity' => ['Не може да изпращате бижу към същия магазин']));
                 }
