@@ -10,13 +10,7 @@
         @endif
     </td>
 
-    <td>
-        @if($payment->receipt == 'yes')
-            С фискален бон
-        @else
-            Без фискален бон
-        @endif
-    </td>
+    <td>@if($payment->receipt == 'yes') 1 @else 0 @endif</td>
     <td>{{ $payment->user->email }}</td>
     <td>
         @if(!!count($payment->discounts))
