@@ -14,16 +14,16 @@
                         <th>Дата</th>
                         <th>Сума</th>
                         <th>Метод на плащане</th>
-                        <th>Фискален бон</th>
+                        <th>Тик</th>
                         <th>Обслужващ</th>
                         <th>Още</th>
                         <th>Действия</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($payments as $payment)
-                        @include('admin.payments.item')
-                    @endforeach
+                @foreach($payments as $payment)
+                    @include('admin.payments.item')
+                @endforeach
                 </tbody>
             </table>
         </div>
