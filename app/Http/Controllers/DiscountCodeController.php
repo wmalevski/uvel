@@ -11,29 +11,17 @@ use Illuminate\Http\JsonResponse;
 use Response;
 use Illuminate\Support\Facades\View;
 
-class DiscountCodeController extends Controller
-{
+class DiscountCodeController extends Controller{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(){
         $discounts = DiscountCode::all();
         $users = User::take(env('SELECT_PRELOADED'))->get();
 
         return \View::make('admin/discounts/index', array('discounts' => $discounts, 'users' => $users));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     public function check($barcode){
@@ -48,8 +36,7 @@ class DiscountCodeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $validator = Validator::make( $request->all(), [
             'discount' => 'required|integer|between:0,100',
             'barcode' => 'required|integer',
@@ -80,7 +67,7 @@ class DiscountCodeController extends Controller
         return Response::json(array('success' => View::make('admin/discounts/table',array('discount'=>$discount))->render()));
     }
 
-    public function generate($id) {
+    public function generate($id){
         $discount = DiscountCode::where('id', $id)->first();
 
         if($discount) {
@@ -100,10 +87,7 @@ class DiscountCodeController extends Controller
     }
 
     public function filter(Request $request){
-        $query = DiscountCode::select('*');
-
-        $discounts_new = new DiscountCode();
-        $discounts = $discounts_new->filterDiscountCodes($request, $query);
+        $discounts = DiscountCode::filterDiscountCodes($request, new DiscountCode());
         $discounts = $discounts->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
 
         $response = '';
