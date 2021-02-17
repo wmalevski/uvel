@@ -340,14 +340,14 @@ class OrderController extends Controller{
     		$photo = $order->model->photos->first();
     		$photo = (isset($photo['photo']) ? $photo['photo'] : null );
     		if($photo){
-    			$orderImage = asset("uploads/models/".$photo);
+    			$orderImage = public_path("uploads/models/".$photo);
     		}
     	}
     	elseif($order->product){
     		$photo = $order->product->photos->first();
     		$photo = (isset($photo['photo']) ? $photo['photo'] : null );
     		if($photo){
-    			$orderImage = asset("uploads/products/".$photo);
+    			$orderImage = public_path("uploads/products/".$photo);
     		}
     	}
 
@@ -372,7 +372,7 @@ class OrderController extends Controller{
             'margin-bottom' => 0,
             'margin-header' => 80,
             'margin-footer' => 0,
-            // 'showImageErrors' => true, // Dev purposes
+            'showImageErrors' => true, // Dev purposes
             'title' => "Поръчка №".$order->id
         ]);
 
@@ -381,8 +381,8 @@ class OrderController extends Controller{
         $mpdf->WriteHTML($html);
 
         // For development purposes
-        // $mpdf->Output();
-        // exit;
+        $mpdf->Output();
+        exit;
 
         $mpdf->Output(str_replace(' ', '_', $order->id) . '_order.pdf', \Mpdf\Output\Destination::DOWNLOAD);
     }
