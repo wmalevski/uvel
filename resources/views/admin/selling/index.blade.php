@@ -33,10 +33,10 @@
                 </button>
             </div>
             <form method="POST" action="sell/partner" name="sellingPartners" data-type="partner-sell">
-                <div class="modal-body">    
+                <div class="modal-body">
                     <div class="info-cont">
                     </div>
-                    {{ csrf_field() }}  
+                    {{ csrf_field() }}
 
                     <div class="form-row">
                         <div class="form-group col-md-12">
@@ -50,7 +50,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
+
                                 </tbody>
                                 <tfoot>
                                     <tr class="partner-worksmanship">
@@ -60,7 +60,7 @@
                                     </tr>
                                 </tfoot>
                             </table>
-                        </div>    
+                        </div>
                     </div>
 
                     <div class="form-row">
@@ -89,7 +89,7 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-4">    
+                        <div class="form-group col-md-4">
                             <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
                                 <input type="checkbox" id="partner-pay-method" class="pay-method" name="partner-pay-method" data-calculatepayment-method="">
                                 <label for="partner-pay-method" class="peers peer-greed js-sb ai-c">
@@ -112,7 +112,7 @@
 							<hr>
 						</div>
                     </div>
-                    
+
                     <div class="form-row">
                         <div class="form-group col-md-8">
                             <span>Принтиране на сертификат:</span>
@@ -148,13 +148,13 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="repairs" name="fullEditRepair"> 
-                <div class="modal-body">    
+            <form method="POST" action="repairs" name="fullEditRepair">
+                <div class="modal-body">
                     <div class="info-cont">
                     </div>
 
-                    {{ csrf_field() }}  
-                                
+                    {{ csrf_field() }}
+
                 </div>
 
                 <div class="modal-footer">
@@ -257,7 +257,7 @@ aria-hidden="true">
                         </div>
 
                         <div class="exchange-row-fields">
-                            
+
                         </div>
                     </div>
 
@@ -266,7 +266,7 @@ aria-hidden="true">
                             <div class="col-12">
                                 <hr>
                             </div>
-                            
+
                             <div class="form-group col-md-8">
                                 <span>Материали от поръчки</span>
                             </div>
@@ -351,6 +351,10 @@ aria-hidden="true">
                                 <input type="radio" id="modal-non-certificate" name="modal_certificate" value="no" checked>
                                 <label for="modal-non-certificate">Без цена</label>
                             </div>
+                            <div class="radio radio-info">
+                                <input type="radio" id="modal-exclude-certificate" name="modal_certificate" value="exclude">
+                                <label for="modal-exclude-certificate">Без сертификат</label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -368,7 +372,7 @@ aria-hidden="true">
 <div class="row">
     <div class="col-md-12">
         <div class="bgc-white bd bdrs-3 p-20 mB-20">
-            <h4 class="c-grey-900 mB-20">Продажби 
+            <h4 class="c-grey-900 mB-20">Продажби
                 <a href="{{ route('clear_cart') }}" class="btn btn-primary">Изчисти продажбата</a>
                 @if($todayReport == 'false')
                     <a href="{{ route('create_report') }}" class="add-btn btn btn-primary" >Пусни дневен отчет</a>

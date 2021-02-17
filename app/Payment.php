@@ -251,6 +251,11 @@ class Payment extends Model{
             Cart::session($session_id)->clear();
             Cart::session($session_id)->clearCartConditions();
 
+            // Orders with request for no certificates
+            if(isset($request->modal_certificate) && $request->modal_certificate == 'exclude'){
+                $certificates = array();
+            }
+
             if($responseType == 'JSON'){
                 return Response::json(['success' => ['Успешно продадено!'], 'certificates' => $certificates, 'receipts' => $receipts]);
             }
