@@ -2,13 +2,10 @@
     <td>{{ $payment->user->getStore()->id }}</td>
     <td>{{ $payment->created_at }}</td>
     <td>{{ $payment->price }}</td>
-    <td>
-        @if($payment->method == 'cash')
-            Кеш
-        @elseif($payment->method == 'post')
-            Пос терминал
-        @endif
-    </td>
+    <td>@switch($payment->method)
+        @case('cash') Кеш @break;
+        @case('post') ПОС Терминал @break;
+    @endswitch</td>
 
     <td>@if($payment->receipt == 'yes') 1 @else 0 @endif</td>
     <td>{{ $payment->user->email }}</td>

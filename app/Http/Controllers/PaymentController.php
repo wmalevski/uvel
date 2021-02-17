@@ -24,6 +24,7 @@ use Response;
 use Auth;
 use Cart;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class PaymentController extends Controller{
     /**
@@ -33,11 +34,20 @@ class PaymentController extends Controller{
      */
     public function index(){
         $payments = Payment::orderBy('created_at','DESC');
-        if(Auth::user()->role !== 'admin'){
-            $payments = $payments->where('receipt', 'yes');
-            if(Auth::user()->role == 'manager'){
+
+        switch(Auth::user()->role){
+            case'admin':
+            case'storehouse':
+                break;
+            case'manager':
                 $payments = $payments->where('store_id', Auth::user()->store_id);
-            }
+                break;
+            case'cashier':
+                $payments = $payments->where(array(
+                    'store_id'=>Auth::user()->store_id,
+                    'receipt'=>'yes'
+                ))->whereDate('created_at', Carbon::today());
+                break;
         }
 
         $payments = $payments->get();
