@@ -47,7 +47,7 @@
         <br style="clear:both;">
         <br style="clear:both;">
         <div style="width:100%;margin:0;padding:0;text-align:center;">
-            <img style="max-width:100%;" src="{{ asset("uploads/models/" . $selling->photos->first()['photo']) }}" />
+            <img style="max-width:100%;" src="{{ public_path("uploads/models/" . $selling->photos->first()['photo']) }}" />
         </div>
 
     </div>

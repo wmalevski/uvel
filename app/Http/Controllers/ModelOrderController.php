@@ -126,8 +126,8 @@ class ModelOrderController extends Controller{
         $mpdf->WriteHTML($html);
 
         // For development purposes
-        $mpdf->Output();
-        exit;
+        // $mpdf->Output();
+        // exit;
 
         $mpdf->Output(str_replace(' ', '_', $order->id) . '_order_ready_model.pdf', \Mpdf\Output\Destination::DOWNLOAD);
     }
