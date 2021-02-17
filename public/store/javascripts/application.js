@@ -924,10 +924,10 @@ var uvelStore,
 			var captcha = form.find('[data-captcha]')[0],
 				button = form.find('button[type="submit"]');
 
-			button.on('click', function(e) {
-        e.preventDefault();
-        this.disabled = true;
-        $self.executeCaptcha(captcha);
+			button.on('click', function(e){
+				e.preventDefault();
+				this.disabled = true;
+				$self.executeCaptcha(captcha);
 			});
 		}
 	}
@@ -1412,6 +1412,10 @@ var uvelStore,
 			data: data,
 			success: function (response) {
 				var message = response.success;
+				if(response.hideForm && response.showSuccess){
+					$(form).fadeOut().html(response.showSuccess).fadeIn();
+					$('html').animate({ scrollTop: $(form).offset().top - 200 },400);
+				}
 				$self.ajaxReturnMessage(message, 'success');
 			},
 			error: function (err) {

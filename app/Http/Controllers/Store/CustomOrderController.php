@@ -16,27 +16,16 @@ use File;
 use Storage;
 use Mail;
 use Auth;
+use App\CMS;
 
-class CustomOrderController extends BaseController
-{
+class CustomOrderController extends BaseController{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(){
         return \View::make('store.pages.orders.index');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -45,8 +34,7 @@ class CustomOrderController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $validator = Validator::make( $request->all(), [
             'name' => 'required|string',
             'email' => 'required|string|email|max:255',
@@ -120,51 +108,11 @@ class CustomOrderController extends BaseController
             $message->to("uvelgold@gmail.com")->subject('Uvel Поръчка');
         });
 
-        return Response::json(array('success' => 'Поръчката ви беше изпратено успешно'));
+        return Response::json(array(
+            'success' => 'Поръчката Ви беше изпратено успешно',
+            'hideForm' => 'true',
+            'showSuccess' => CMS::get('customOrderReceived')
+        ));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\CustomOrder  $customOrder
-     * @return \Illuminate\Http\Response
-     */
-    public function show(CustomOrder $customOrder)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\CustomOrder  $customOrder
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(CustomOrder $customOrder)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\CustomOrder  $customOrder
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, CustomOrder $customOrder)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\CustomOrder  $customOrder
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(CustomOrder $customOrder)
-    {
-        //
-    }
 }
