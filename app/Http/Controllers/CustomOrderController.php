@@ -87,6 +87,14 @@ class CustomOrderController extends Controller{
         $order->phone = $request->phone;
         $order->city = $request->city;
 
+        if(isset($request->deadline)){
+            $temp = explode('/', $request->deadline);
+            $order->deadline = $temp[2].'-'.$temp[1].'-'.$temp[0];
+        }
+
+        $order->offer = $request->offer;
+        $order->ready_product = $request->ready_product;
+
         if($request->status_accept == 'true'){
             $order->status = 'accepted';
         } else if($request->status_ready == 'true'){

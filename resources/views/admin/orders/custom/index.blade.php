@@ -6,7 +6,7 @@
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            
+
         </div>
     </div>
 </div>
@@ -21,10 +21,11 @@ aria-hidden="true">
         <thead>
           <tr>
             <th data-sort-method="none">Уникален номер</th>
-            <th scope="col">Снимка</th> 
-            <th scope="col">Email</th> 
-            <th scope="col">Телефон</th> 
-            <th scope="col">Град</th> 
+            <th scope="col">Срок</th>
+            <th scope="col">Снимка</th>
+            <th scope="col">Email</th>
+            <th scope="col">Телефон</th>
+            <th scope="col">Град</th>
             <th scope="col">Статус</th>
             @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
               <th scope="col" data-sort-method="none">Действия</th>
