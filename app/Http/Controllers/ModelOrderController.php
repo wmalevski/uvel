@@ -129,6 +129,6 @@ class ModelOrderController extends Controller{
         // $mpdf->Output();
         // exit;
 
-        $mpdf->Output(str_replace(' ', '_', $order->id) . '_order_ready_model.pdf', \Mpdf\Output\Destination::DOWNLOAD);
+        $mpdf->Output(str_replace(' ', '_', $selling->id) . '_order_ready_model.pdf', \Mpdf\Output\Destination::DOWNLOAD);
     }
 }

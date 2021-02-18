@@ -487,6 +487,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::get('/orders/print/{id}', 'OrderController@generate')->name('order_receipt');
     Route::get('/orders/print/model/{id}', 'ModelOrderController@generatePDF')->name('order_model_receipt');
     Route::get('/orders/print_internal/{id}', 'OrderController@generateInternalReceipt')->name('order_receipt');
+    Route::get('/orders/print/custom/{id}', 'CustomOrderController@generatePDF')->name('custom_order_model_receipt');
 
     //Search
     Route::get('/search/repairs', 'RepairController@filter');
