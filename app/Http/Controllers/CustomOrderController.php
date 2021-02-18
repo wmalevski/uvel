@@ -151,8 +151,8 @@ class CustomOrderController extends Controller{
         $mpdf->WriteHTML($html);
 
         // For development purposes
-        $mpdf->Output();
-        exit;
+        // $mpdf->Output();
+        // exit;
 
         $mpdf->Output(str_replace(' ', '_', $custom->id) . '_custom_order.pdf', \Mpdf\Output\Destination::DOWNLOAD);
 	}
