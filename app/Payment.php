@@ -18,6 +18,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
 use App\CashRegister;
+use App\Expense;
+use App\Currency;
 
 class Payment extends Model{
 
@@ -222,8 +224,8 @@ class Payment extends Model{
                             $exchange_material->save();
 
                             $material_quantity = MaterialQuantity::where(array(
-                                array('material_id','=',$material['material_id']),
-                                array('store_id','=',Auth::user()->getStore()->id)
+                                array('material_id',$material['material_id']),
+                                array('store_id',Auth::user()->getStore()->id)
                             ))->first();
 
                             if($material_quantity){
@@ -232,6 +234,18 @@ class Payment extends Model{
                             }
                         }
                     }
+
+
+                    $expenseRegister = new CashRegister();
+                    $expenseRegister->RecordExpense($request->exchangeRows_total, false, Auth::user()->getStore()->id);
+
+                    Expense::create(array(
+                        'type_id' => 1,
+                        'amount' => $request->exchangeRows_total,
+                        'currency' => Currency::where('default', 'yes')->first()->id,
+                        'user_id' => Auth::user()->id,
+                        'additional_info' => 'Изкупуване на материали'
+                    ));
                 }
             }
 
