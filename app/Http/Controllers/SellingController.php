@@ -513,7 +513,9 @@ class SellingController extends Controller{
     public function receipt($id, $type = false, $orderID = false){
         $selling = new Selling();
         if($orderID){
-            $selling = $selling::where(array('order_id'=>$oderID));
+            $selling = $selling::where(array('order_id'=>$orderID))->orderBy('id','DESC')->get();
+            $payment = Payment::where(['id' => $selling->first()->payment_id])->first();
+            $store = Store::where(['id' => $payment->first()->store_id])->first();
         }
         else{
             switch($type){
@@ -531,14 +533,12 @@ class SellingController extends Controller{
                     $order_type='product_id';
                     break;
             }
-            $selling::where(array($order_type=>$id));
+            $selling::where(array($order_type=>$id))->orderBy('id','DESC')->first();
+            $payment = Payment::where(['id' => $selling->payment_id])->first();
+            $store = Store::where(['id' => $payment->store_id])->first();
         }
 
-        $selling = $selling->orderBy('id','DESC')->first();
-        $payment = Payment::where(['id' => $selling->payment_id])->first();
-        $store = Store::where(['id' => $payment->store_id])->first();
-
-        if($type == 'product') {
+        if($type == 'product'){
             $product = Product::where('id', $id)->first();
             $material = Material::where('id', $product->material_id)->first();
             $model = Model::where('id', $product->model_id)->first();
@@ -568,13 +568,74 @@ class SellingController extends Controller{
                     );
                 }
             }
-
-        }elseif($type == 'box') {
+        }
+        elseif($type == 'box'){
             $product = ProductOther::where('id', $id)->first();
             $barcode = ProductOther::where('id', $id)->first()->barcode;
         }
+        elseif($type == 'order'){
+            $receipt_items = array();
+            foreach($selling as $item){
+                $product = true;
 
-        if($product) {
+                // Product
+                if(isset($item->product_id)){
+                    $product=Product::where('id', $item->product_id)->first();
+                    $material=Material::where('id', $product->material_id)->first();
+                    $weight=calculate_product_weight($product);
+                    $orderStones=array();
+                    $orderExchangeMaterials=array();
+
+                    if($product->stones){
+                        foreach($product->stones as $stone){
+                            $nomenclature=Stone::where('id', $stone->stone_id)->first()->nomenclature->name;
+                            $contour=Stone::where('id',$stone->stone_id)->first()->contour->name;
+                            $size=Stone::where('id',$stone->stone_id)->first()->size->name;
+                            $style=Stone::where('id',$stone->stone_id)->first()->style->name;
+                            $orderStones[]=$nomenclature." (".$contour.", ".$size.", ".$style.")";
+                        }
+                    }
+
+                    if($payment->exchange_materials){
+                        foreach($payment->exchange_materials as $exchangeMaterial){
+                            $material=Material::where('id', $exchangeMaterial->material_id)->first();
+                            $orderExchangeMaterials[] = array(
+                                'name' => "$material->name - $material->code - $material->color",
+                                'weight' => $exchangeMaterial->weight
+                            );
+                        }
+                    }
+
+                    array_push($receipt_items,array(
+                        'type'=>'product',
+                        'product'=>$product,
+                        'material'=>$material,
+                        'weight'=>$weight,
+                        'orderStones'=>$orderStones,
+                        'orderExchangeMaterials'=>$orderExchangeMaterials
+                    ));
+                }
+
+                // Product Other [Box]
+                if(isset($item->product_other_id)){
+                    array_push($receipt_items,array(
+                        'type'=>'box',
+                        'product'=>ProductOther::where('id', $item->product_other_id)->first()
+                    ));
+                }
+
+                // Model
+                if(isset($item->model_id)){
+                    array_push($receipt_items,array(
+                        'type'=>'model',
+                        'product'=>Model::where('id', $item->model_id)->first(),
+                        'model_size'=>$item->model_size
+                    ));
+                }
+            }
+        }
+
+        if($product){
             $mpdf = new \Mpdf\Mpdf([
                 'mode' => 'utf-8',
                 'format' => [148, 210],
@@ -585,13 +646,25 @@ class SellingController extends Controller{
                 'mirrorMargins' => true
             ]);
 
-            if($type == 'product') {
-                $html = view('pdf.receipt', compact('product', 'material', 'model', 'weight', 'payment', 'barcode', 'store', 'orderStones', 'orderExchangeMaterials'))->render();
-            }elseif($type == 'box') {
-                $html = view('pdf.receipt', compact('product', 'payment', 'barcode', 'store'))->render();
+            switch($type){
+                case 'product':
+                    $html = view('pdf.receipt', compact('product', 'material', 'model', 'weight', 'payment', 'barcode', 'store', 'orderStones', 'orderExchangeMaterials'));
+                    break;
+                case 'box':
+                    $html = view('pdf.receipt', compact('product', 'payment', 'barcode', 'store'));
+                    break;
+                case 'order':
+                    $html = view('pdf.receipt_multiple_items', compact(
+                        'store', 'payment', 'receipt_items'
+                    ));
+                    break;
             }
 
-            $mpdf->WriteHTML($html);
+            $mpdf->WriteHTML($html->render());
+
+            // For development purposes
+            $mpdf->Output();
+            exit;
 
             $mpdf->Output(str_replace(' ', '_', $product->name).'_receipt.pdf',\Mpdf\Output\Destination::DOWNLOAD);
         }

@@ -122,7 +122,11 @@ class Payment extends Model{
             });
 
             $certificates = array();
-            $receipts = array();
+            $receipts = array(route('selling_receipt', array(
+                'id' => $payment->id,
+                'type' => 'order',
+                'orderId' => $payment->id
+            )));
 
             //Saving the sold item to a database
             foreach($items as $item){
@@ -131,6 +135,7 @@ class Payment extends Model{
                 $selling->quantity = $item->quantity;
                 $selling->price = $item->price;
                 $selling->payment_id = $payment->id;
+                $selling->order_id = $payment->id;
 
                 if($item['attributes']->type == 'repair'){
                     $selling->repair_id = $item->attributes->product_id;
@@ -138,16 +143,16 @@ class Payment extends Model{
                 elseif($item['attributes']->type == 'product'){
                     $selling->product_id = $item->attributes->product_id;
                     $certificates[] = route('selling_certificate', ['id' => $item->attributes->product_id, 'orderId' => null]);
-                    $receipts[] = route('selling_receipt', ['id' => $item->attributes->product_id, 'type' => 'product', 'orderId' => null]);
+                    // $receipts[] = route('selling_receipt', ['id' => $item->attributes->product_id, 'type' => 'product', 'orderId' => null]);
                 }
                 elseif($item['attributes']->type == 'box'){
                     $selling->product_other_id = $item->attributes->product_id;
-                    $receipts[] = route('selling_receipt', ['id' => $item->attributes->product_id, 'type' => 'box', 'orderId' => null]);
+                    // $receipts[] = route('selling_receipt', ['id' => $item->attributes->product_id, 'type' => 'box', 'orderId' => null]);
                 }
                 elseif($item['attributes']->type == 'order'){
                     $selling->order_id = $item->attributes->product_id;
                     $certificates[] = route('selling_certificate', ['id' => $item->attributes->product_id, 'orderId' => $item->attributes->product_id]);
-                    $receipts[] = route('order_receipt', ['id' => $item->attributes->product_id]);
+                    // $receipts[] = route('order_receipt', ['id' => $item->attributes->product_id]);
                 }
 
                 $selling->save();
