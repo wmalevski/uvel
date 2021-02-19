@@ -261,6 +261,8 @@ class MaterialController extends Controller
                     'value' => $material->id,
                     'label' => $material->parent->name .' - '. $material->color . ' - ' .$material->code,
                     'data-sample' => $material->code,
+                    'data-price-1' => $material->pricesExchange[0]->price,
+                    'data-price-2' => $material->pricesExchange[1]->price
                 ]
             ];
         }

@@ -40,6 +40,10 @@ class Material extends Model
         return $this->hasMany('App\Price')->where('type', 'buy');
     }
 
+    public function pricesExchange(){
+        return $this->hasMany('App\Price')->where('type', 'buy')->whereIn('slug',array('Купува 1', 'Купува 2'));
+    }
+
     public function pricesSell(){
         return $this->hasMany('App\Price')->where('type', 'sell');
     }
