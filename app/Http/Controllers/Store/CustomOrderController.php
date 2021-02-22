@@ -17,6 +17,7 @@ use Storage;
 use Mail;
 use Auth;
 use App\CMS;
+use App\Setting;
 
 class CustomOrderController extends BaseController{
     /**
@@ -83,30 +84,47 @@ class CustomOrderController extends BaseController{
             }
         }
 
-        //send sms to the admin
-        Mail::send('sms',
-            array(
-                'content' => "Porychka po model! ID $customOrder->id"
-            ), function($message) {
-                $message->from("info@uvel.bg");
-                $message->to("359888770160@sms.telenor.bg")->subject('Po model');
-            });
+        $email2sms = new Setting();
+        $email2sms = $email2sms->get('email2sms_on_order');
+
+        // Send Email-to-SMS to the admin, only if the environment is not LOCAL or DEVELOPMENT
+        if(
+            (strtolower($_ENV['APP_ENV'])!=='local'&&strtolower($_ENV['APP_ENV'])!=='development')
+            &&
+            filter_var($email2sms, FILTER_VALIDATE_EMAIL)
+        ){
+            Mail::send('store.emails.sms',array(
+                'content' => "Porychka po model! ID ".$customOrder->id),
+                function($message) use ($email2sms){
+                    $message
+                        ->from($_ENV['MAIL_USERNAME'],$_ENV['APP_NAME'])
+                        ->to($email2sms)
+                        ->subject('Po model');
+                }
+            );
+        }
+
 
         //send email to uvelgold@gmail.com from the customer
         $requestEmail = $request->email;
 
         Mail::send('order',
-        array(
-            'ID' => $customOrder->id,
-            'name' => $request->name,
-            'email' => $requestEmail,
-            'city' => $request->city,
-            'phone' => $request->phone,
-            'content' => $request->content
-        ), function($message) use ($requestEmail) {
-            $message->from($requestEmail);
-            $message->to("uvelgold@gmail.com")->subject('Uvel Поръчка');
-        });
+            array(
+                'ID' => $customOrder->id,
+                'name' => $request->name,
+                'email' => $requestEmail,
+                'city' => $request->city,
+                'phone' => $request->phone,
+                'content' => $request->content
+            ),
+            function($message) use ($requestEmail){
+                $message
+                    ->replyTo($requestEmail)
+                    ->from($_ENV['MAIL_USERNAME'],$_ENV['APP_NAME'])
+                    ->to("uvelgold@gmail.com")
+                    ->subject('Uvel Поръчка');
+            }
+        );
 
         return Response::json(array(
             'success' => 'Поръчката Ви беше изпратено успешно',
