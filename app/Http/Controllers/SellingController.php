@@ -512,10 +512,11 @@ class SellingController extends Controller{
      */
     public function receipt($id, $type = false, $orderID = false){
         $selling = new Selling();
+
         if($orderID){
-            $selling = $selling::where(array('order_id'=>$orderID))->orderBy('id','DESC')->get();
-            $payment = Payment::where(['id' => $selling->first()->payment_id])->first();
-            $store = Store::where(['id' => $payment->first()->store_id])->first();
+            $selling = $selling::where('order_id', $orderID)->orderBy('id','DESC')->get();
+            $payment = Payment::where('id', $selling->first()->payment_id)->first();
+            $store = Store::where('id', $payment->first()->store_id)->first();
         }
         else{
             switch($type){
@@ -533,9 +534,9 @@ class SellingController extends Controller{
                     $order_type='product_id';
                     break;
             }
-            $selling::where(array($order_type=>$id))->orderBy('id','DESC')->first();
-            $payment = Payment::where(['id' => $selling->payment_id])->first();
-            $store = Store::where(['id' => $payment->store_id])->first();
+            $selling = $selling::where($order_type, $id)->orderBy('id','DESC')->first();
+            $payment = Payment::where('id', $selling->payment_id)->first();
+            $store = Store::where('id', $payment->store_id)->first();
         }
 
         if($type == 'product'){
@@ -548,7 +549,7 @@ class SellingController extends Controller{
             $orderStones = [];
             $orderExchangeMaterials = [];
 
-            if($product->stones) {
+            if(isset($product->stones)){
                 foreach($product->stones  as $stone) {
                     $nomenclature = Stone::where(['id' => $stone->stone_id])->first()->nomenclature->name;
                     $contour = Stone::where(['id' => $stone->stone_id])->first()->contour->name;
@@ -558,7 +559,7 @@ class SellingController extends Controller{
                 }
             }
 
-            if($payment->exchange_materials) {
+            if(isset($payment->exchange_materials)){
                 foreach($payment->exchange_materials as $exchangeMaterial) {
                     $material = Material::where('id', $exchangeMaterial->material_id)->first();
 
