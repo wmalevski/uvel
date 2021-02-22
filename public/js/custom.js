@@ -2534,7 +2534,7 @@ var uvel,
       exchangeRow.on('change', '[data-weight]', function() {
         var isPriceChosen = $(this).parents('.form-row').find('[name="calculating_price"]')[0].value.length;
 
-        $self.setExchangeMaterialWeight(this, isPriceChosen);
+        $self.setExchangeMaterialWeight(this, true);
       });
 
       exchangeRow.on('change', '[name="calculating_price"]', function() {
@@ -2705,17 +2705,17 @@ var uvel,
       }
     }
 
-    this.setExchangeMaterialWeight = function(weighInput, shCalculateMaterialsTotal) {
+    this.setExchangeMaterialWeight = function(weighInput) {
       var $this = $(weighInput),
           weight = $this.val().replace(/^0+/, '');
 
       $this.val(weight);
       $this.attr('value', weight);
 
-      $self.exchangeSampleConvert($this.closest('.form-row'), shCalculateMaterialsTotal);
+      $self.exchangeSampleConvert($this.closest('.form-row'));
     }
 
-    this.exchangeSampleConvert = function(row, shCalculateMaterialsTotal) {
+    this.exchangeSampleConvert = function(row) {
       var defaultSample = parseFloat($('[data-material-type] :selected')[0].dataset.sample),
           sample = parseFloat(row.find('[data-calculateprice-material] :selected')[0].dataset.sample),
           weightHolder = row.find('[data-weight]'),
@@ -2724,7 +2724,7 @@ var uvel,
 
       weightHolder.attr('data-weight', convertedWeight || currentWeight);
 
-      if(shCalculateMaterialsTotal) $self.calculateExchangeMaterialTotal();
+      $self.calculateExchangeMaterialTotal();
     }
 
     this.flattenExchangeMaterials = function(fields) {
@@ -2756,40 +2756,64 @@ var uvel,
           combinedMaterials = $self.flattenExchangeMaterials([orderMaterials, exchangeMaterials]),
           materialTypes = document.querySelector('[data-material-type]'),
           selectedMaterialType = materialTypes.selectedOptions[0].dataset.typeId,
-          typeIDs = Object.keys(combinedMaterials),
+
           selectedCurrency = parseFloat(document.querySelector('[data-calculatepayment-currency]').selectedOptions[0].dataset.currency),
-          expectedMaterial = JSON.parse(document.querySelector('[data-expected-material]').dataset.expectedMaterial),
-          calculatingPriceHolder = document.querySelector('[name="calculating_price"]'),
-          total = 0;
 
-      for (var i = 0; i < typeIDs.length; i++) {
-        var cartMaterialWeight = expectedMaterial[typeIDs[i]] ? expectedMaterial[typeIDs[i]].weight : 0,
-            exchangeMaterialWeight = combinedMaterials[typeIDs[i]],
-            aboveExpected = exchangeMaterialWeight - cartMaterialWeight,
-            priceHolder = materialTypes.querySelector('option[data-type-id="' + typeIDs[i] + '"]'),
-            defaultPrice = priceHolder ? parseFloat(priceHolder.dataset.defaultPrice) || 0 : 0,
-            secondPrice = priceHolder ? parseFloat(priceHolder.dataset.secondPrice) || defaultPrice : 0,
-            useSelectedPrice = selectedMaterialType == typeIDs[i],
-            selectedPrice = useSelectedPrice ? parseFloat(calculatingPriceHolder.selectedOptions[0].dataset.price) : null;
+          total = 0,
+          cartMaterialWeight = false,
+          exchangedWeightSoFar = 0,
+          overflow = 0;
 
-        if (typeIDs[i] == 1) {
-          // MATERIAL IS GOLD
-
-          if (exchangeMaterialWeight > cartMaterialWeight && cartHasItems) {
-            total += (((exchangeMaterialWeight - aboveExpected) * defaultPrice) + (aboveExpected * secondPrice)) * selectedCurrency;
-
-          } else {
-            if(selectedPrice) {
-              total += (exchangeMaterialWeight * selectedPrice) * selectedCurrency;
-            } else {
-              total += (exchangeMaterialWeight * defaultPrice) * selectedCurrency;
-            }
-          }
-        } else {
-          selectedPrice = selectedPrice || defaultPrice;
-          total += (exchangeMaterialWeight * selectedPrice) * selectedCurrency;
+      var cartDataset = JSON.parse(document.querySelector('[data-expected-material]').dataset.expectedMaterial);
+      for(prop in cartDataset){
+        if(cartDataset[prop] && cartDataset[prop].weight){
+          cartMaterialWeight = cartDataset[prop].weight;
+          break;
         }
       }
+
+      exchangeMaterials.forEach(function(mat,v){
+        var toAdd = 0;
+        var price1 = parseFloat($(mat).find('select[name="material_type_id[]"] option:last-child').attr('data-price-1'));
+        var price2 = parseFloat($(mat).find('select[name="material_type_id[]"] option:last-child').attr('data-price-2'));
+        var materialWeight = parseFloat($(mat).find('input[name="weight[]"]').val());
+        var selectedBuyingPrice = parseFloat(
+          $(mat).find('select[name="calculating_price"]').val() !== "" ?
+            $(mat).find('select[name="calculating_price"] option:selected').attr('data-price')
+          :
+            price1
+        );
+
+        var overflowPrice = parseFloat(
+          $(mat).find('select[name="calculating_price"]').val() !== "" ?
+            $(mat).find('select[name="calculating_price"] option:selected').attr('data-price')
+          :
+            price2
+        );
+
+        var moreThanNeeded = exchangedWeightSoFar + materialWeight;
+        if(cartMaterialWeight >= moreThanNeeded && overflow == 0){
+          exchangedWeightSoFar += materialWeight;
+          toAdd += materialWeight * selectedBuyingPrice;
+        }
+        else{
+          var overflowWith = moreThanNeeded - cartMaterialWeight;
+          var withinFlow = materialWeight - overflowWith;
+          overflow += overflowWith;
+
+          toAdd += withinFlow * selectedBuyingPrice;
+
+          // Price2 ALWAYS
+          toAdd += overflowWith * overflowPrice;
+        }
+
+        if($(mat).find('input[name="weight[]"]').val()!=="" && materialWeight>0){
+          total += toAdd;
+        }
+
+      });
+
+
 
       document.querySelector('[data-exchangerows-total]').value = Number(total.toFixed(2)) || 0;
 

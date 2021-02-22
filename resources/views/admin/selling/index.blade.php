@@ -13,7 +13,7 @@
                                 <div class="form-group col-md-4">
                                     <label for="">Цена на грам</label>
                                     <select name="calculating_price" data-material-price class="form-control" data-search-url="/ajax/select_material_prices/" disabled>
-                                        <option value="">Избери</option>
+                                        <option value="">Обмяна</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-1">
