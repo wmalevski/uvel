@@ -30,6 +30,10 @@ header.affix .top-other {
 	min-height: 40px;
 }
 
+header .umbrella {
+  padding-right: 0 !important;
+}
+
 header .umbrella .dropdown-toggle {
 	transition: none;
 }
@@ -623,6 +627,10 @@ li.element {
 	text-align: start;
 }
 
+.grecaptcha-badge {
+  visibility: hidden imp !important;
+}
+
 .contact-page .right-content.social li {
 	display: inline-block;
 }
@@ -1192,4 +1200,13 @@ li.element {
 .blog-content-wrapper {
 	display: block !important;
 	width: 100%;
+}
+
+.g-recaptcha-notice-text {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.g-recaptcha-notice-text a {
+  color: rgba(0, 0, 0, 0.4);
+  text-decoration: underline;
 }

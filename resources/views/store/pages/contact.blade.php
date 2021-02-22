@@ -63,6 +63,13 @@
 											<li class="unpadding-top">
 												<button type="submit" class="btn">Изпратете</button>
 											</li>
+                      <li>
+                        <small class="g-recaptcha-notice-text">
+                          This site is protected by reCAPTCHA and the Google
+                          <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+                          <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+                        </small>
+                      </li>
 										</ul>
 									</form>
 								</div>
