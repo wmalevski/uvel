@@ -66,10 +66,6 @@
 										<div id="options" class="container-nav clearfix">
 											<ul class="list-inline text-right">
 												<li class="grid_list">
-													<ul class="list-inline option-set hidden-xs" data-option-key="layoutMode">
-														<li data-original-title="Грид" data-option-value="fitRows" id="goGrid" class="goAction btooltip active" data-toggle="tooltip" data-placement="top" title=""><span></span></li>
-														<li data-original-title="Лист" data-option-value="straightDown" id="goList" class="goAction btooltip" data-toggle="tooltip" data-placement="top" title=""><span></span></li>
-													</ul>
 												</li>
 												<li class="sortBy">
 													<div id="sortButtonWarper" class="dropdown-toggle" data-toggle="dropdown">

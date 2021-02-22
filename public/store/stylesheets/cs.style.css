@@ -572,22 +572,7 @@ h6.general-title{text-align:center;margin-top:57px;margin-bottom:67px;}
 #options .option-set li.btooltip.active,
 #options .option-set li.btooltip:hover{background-color:#a07936;}
 #options ul.option-set{display:block;float:left;}
-#options #goGrid,
-#options #goList{padding:13px;border:1px solid #eaeaea;display:inline-block;*display:block;zoom:1;float:left;background-color:#fff;}
-#options #goGrid:hover,
-#options #goList:hover,
-#options #goGrid.active,
-#options #goList.active{background-color:#a07936;}
-#options #goGrid{border-right:none;}
-#options #goGrid span,
-#options #goList span{width:11px;height:11px;text-indent:-999em;display:block;background:url(../images/icons.png) 0 0 no-repeat;line-height:11px;-webkit-transition:all 0.5s ease 0s;-moz-transition:all 0.5s ease 0s;-ms-transition:all 0.5s ease 0s;-o-transition:all 0.5s ease 0s;transition:all 0.5s ease 0s;letter-spacing:0.05em;}
 #options .option-set li.btooltip.active{cursor:text;}
-#options #goGrid span{background-position:0 0;}
-#options #goGrid:hover span,
-#options #goGrid.active span{background-position:0 -27px;}
-#options #goList span{background-position:0 -56px;}
-#options #goList:hover span,
-#options #goList.active span{background-position:0 -89px;}
 #options .list-inline > li.sortBy{padding-right:0;position:relative;}
 #sortBox.dropdown-menu{left:auto;top:50px;}
 .sortBy #sortButton{min-width:220px;height:40px;background:#fff;border:1px solid #eaeaea;box-shadow:none;text-align:left;padding:0 0 0 15px;vertical-align:middle;}

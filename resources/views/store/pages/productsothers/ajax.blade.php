@@ -1,7 +1,7 @@
-<li class="element @if($listType == 'goList') full_width @else no_full_width @endif"
+<li class="element no_full_width"
 		data-alpha="{{ $product->name }}" data-price="{{ $product->price }}" data-id="{{ $product->id }}">
 	<ul class="row-container list-unstyled clearfix">
-		<li class="row-left @if($listType == 'goList') col-md-8 @endif">
+		<li class="row-left">
 			<a href="{{ route('single_product_other', ['product' => $product->id])  }}" class="container_item">
 				<img src="@if(App\Gallery::where('product_other_id',$product->id)->get()) {{ asset("uploads/products_others/" . App\Gallery::where('product_other_id', $product->id)->first()->photo) }} @else {{ asset('store/images/demo_375x375.png') }} @endif"
 					 class="img-responsive" alt="{{ $product->name }}">
@@ -10,7 +10,7 @@
 				<span class="hoverBorderWrapper"></span>
 			</div>
 		</li>
-		<li class="row-right parent-fly animMix @if($listType == 'goList') col-md-16 @endif">
+		<li class="row-right parent-fly animMix">
 			<div class="product-content-left">
 				<a class="title-5" href="{{ route('single_product_other', ['product' => $product->id]) }}">
 					Модел: {{ $product->name }}

@@ -1,7 +1,7 @@
-<li class="element @if($listType == 'goList') full_width @else no_full_width @endif"
+<li class="element no_full_width"
 		data-alpha="{{ $product->name }}" data-price="{{ $product->price }}" data-id="{{$product->id}}">
 	<ul class="row-container list-unstyled clearfix">
-		<li class="row-left @if($listType == 'goList') col-md-8 @endif">
+		<li class="row-left">
 			<a href="{{ route('single_product', ['product' => $product->id]) }}" class="container_item">
 				<img class="img-fill" alt="{{ $product->id }}" src="
 				@if(count($product->photos))
@@ -16,7 +16,7 @@
 				<span class="hoverBorderWrapper"></span>
 			</div>
 		</li>
-		<li class="row-right parent-fly animMix @if($listType == 'goList') col-md-16 @endif">
+		<li class="row-right parent-fly animMix">
 			<div class="product-content-left">
 				<a class="title-5" href="{{ route('single_product', ['product' => $product->id]) }}">
 					No: {{ implode(" ", str_split($product->id, 3)) }}

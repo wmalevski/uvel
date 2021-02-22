@@ -140,11 +140,6 @@ div#homeSearch div.searchError {
 
 /* Header stops getting affix class below 1041px */
 @media (min-width: 1041px) and (max-width: 1199px) {
-	header .top-logo {
-		padding: 20px 0 0 0;
-		vertical-align: top !important;
-	}
-
 	header .top-navigation .navigation {
 		width: 70% !important;
 	}
@@ -539,11 +534,20 @@ li.element {
 }
 
 .element.no_full_width .row-container .product-content-right {
-	position: absolute;
-  bottom: 0;
-	right: 0;
-	width: 60%;
-	padding: 10px !important;
+  width: 100%;
+  padding: 10px !important;
+  text-align: left;
+}
+
+@media (min-width: 700px) {
+  .element.no_full_width .row-container .product-content-right {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 60%;
+    padding: 10px !important;
+    text-align: right;
+  }
 }
 
 .element.no_full_width .row-container .row-left a.container_item:after {
