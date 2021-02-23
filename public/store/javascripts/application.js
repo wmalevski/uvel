@@ -981,9 +981,7 @@ var uvelStore,
 			filterForm = _this.closest('.filter-tag-group'),
 			formUrl = filterForm.attr('data-url'),
 			baseUrl = window.location.origin + '/',
-			ajaxURL = baseUrl + formUrl,
-			productsContainer = $('#sandBox'),
-			listType = document.querySelector('.option-set .active').id;
+			ajaxURL = baseUrl + formUrl;
 
 		// Store filters should act as a toggle
 		if(filterBtn.hasClass('selected') && filterBtn.children('a').length>0 && filterBtn.children('a').attr('data-id').startsWith('byStore[]=')){
@@ -1019,12 +1017,6 @@ var uvelStore,
 			if (i < filterBtns.length - 1) {
 				ajaxURL += '&'
 			}
-		}
-
-		if (filterBtns.length == 0) {
-			ajaxURL += '?' + 'listType=' + listType;
-		} else {
-			ajaxURL += '&' + 'listType=' + listType;
 		}
 
 		window.location = ajaxURL;

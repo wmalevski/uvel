@@ -791,7 +791,6 @@ jQuery(document).ready(function($) {
   /* Handle focus */
   handleLogin();
 
-
   /* Handle scroll to top */
   handleScrollTop();
 
@@ -820,10 +819,6 @@ jQuery(document).ready(function($) {
 
   /* Handle sort by */
   handleSortBy();
-
-
-  /* Handle grid - list */
-  handleGridList();
 
   /* Handle collection tags */
   handleCollectionTags();
