@@ -87,8 +87,7 @@
 	</div>
 </div>
 
-<div class="modal fade edit--modal_holder" id="fullEditRepair" role="dialog" aria-labelledby="fullEditRepair"
-aria-hidden="true">
+<div class="modal fade edit--modal_holder" id="fullEditRepair" role="dialog" aria-labelledby="fullEditRepair" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -192,6 +191,7 @@ aria-hidden="true">
 						<th>
 							<input class="filter-input form-control" type="text" data-dynamic-search-param="byPhone=" placeholder="Телефон" />
 						</th>
+						<th></th>
 						<th></th>
 						<th></th>
 						<th></th>

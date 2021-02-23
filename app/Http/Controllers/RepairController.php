@@ -102,6 +102,7 @@ class RepairController extends Controller{
         if($repair) {
             $store = Store::where('id', Auth::user()->store_id)->first();
             $material = Material::where('id', $repair->material_id)->first();
+            $repair_type = ($repair->type_id ? RepairType::where('id', $repair->type_id)->first() : null);
             $mpdf = new \Mpdf\Mpdf([
                 'mode' => 'utf-8',
                 'format' => [148, 210],
@@ -112,7 +113,7 @@ class RepairController extends Controller{
                 'mirrorMargins' => true
             ]);
 
-            $html = view('pdf.repair', compact('repair', 'store', 'material'))->render();
+            $html = view('pdf.repair', compact('repair', 'repair_type', 'store', 'material'))->render();
 
             $mpdf->WriteHTML($html);
 
@@ -129,6 +130,8 @@ class RepairController extends Controller{
     public function receipt(){
         $repair = (object)$_GET;
         $repair->deposit = (isset($repair->deposit) ?: 0);
+        $repair_type = ($repair->type_id ? RepairType::where('id', $repair->type_id)->first() : null);
+
         $store = Store::where('id', Auth::user()->store_id)->first();
         $material = (isset($repair->material_id) && (int)$repair->material_id > 0 ?
             Material::where('id', $repair->material_id)->first()
@@ -146,12 +149,12 @@ class RepairController extends Controller{
             'mirrorMargins' => true
         ]);
 
-        $html = view('pdf.repair', compact('repair', 'store', 'material'))->render();
+        $html = view('pdf.repair', compact('repair', 'repair_type','store', 'material'))->render();
         $mpdf->WriteHTML($html);
 
         // For development purposes
-        // $mpdf->Output();
-        // exit;
+        $mpdf->Output();
+        exit;
 
         $mpdf->Output('repair_receipt.pdf',\Mpdf\Output\Destination::DOWNLOAD);
     }

@@ -17,14 +17,20 @@
 <hr style="clear:both;"/>
 <div style="width:100%"><b>Бижу на клиента: </b>
 	<ul>
+	@if($material)
 		<li>{{$material->name}} {{$material->code}}, {{$material->color}}</li>
-	@if(strtolower($material->name)=="злато")
+		@if(strtolower($material->name)=="злато")
 		<li>{{$material->carat}} кт.</li>>
+		@endif
 	@endif
 		<li>Тегло: {{$repair->weight}} гр.</li>
 	</ul>
 </div>
 <hr style="clear:both;"/>
+@if($repair_type)
+<div style="width:100%"><b>Тип ремонт: </b>{{$repair_type->name}}
+<hr style="clear:both;"/>
+@endif
 <div style="height: 100px"><b>Опис: </b> {{$repair->repair_description}}</div>
 <hr style="clear:both;"/>
 
