@@ -5,7 +5,7 @@
     <td>{{ $expense->store_to_id ? $expense->store_to_id : 'Няма данни' }}</td>
     <td>
         @if($expense->currency_id)
-        {{$expense->currency}}
+        {{$expense->currency->name}}
         @else
         {{$currency::where('default', 'yes')->first()->name}}
         @endif
