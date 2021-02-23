@@ -24,8 +24,7 @@ class ProductOtherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(){
         $products_others = ProductOther::all();
         $types = ProductOtherType::all();
         $stores = Store::take(env('SELECT_PRELOADED'))->get();
@@ -34,25 +33,15 @@ class ProductOtherController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $validator = Validator::make( $request->all(), [
-            'name' => 'required|unique:products_others,name',
+            // 'name' => 'required|unique:products_others,name',
+            'name' => 'required',
             'type_id' => 'required',
             'price' => 'required|numeric|between:0.1,10000',
             'quantity' => 'required|numeric|between:1,10000',
