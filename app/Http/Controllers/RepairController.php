@@ -20,30 +20,18 @@ use Illuminate\Support\Facades\Input;
 use App\MaterialQuantity;
 use App\CashRegister;
 
-class RepairController extends Controller
-{
+class RepairController extends Controller{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(){
         $repairTypes = RepairType::take(env('SELECT_PRELOADED'))->get();
         $repairs = Repair::all()->sortByDesc('created_at');
         $materials = Material::take(env('SELECT_PRELOADED'))->get();
 
         return \View::make('admin/repairs/index', array('loggedUser' => Auth::user(), 'repairTypes' => $repairTypes, 'repairs' => $repairs, 'materials' => $materials));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -108,6 +96,7 @@ class RepairController extends Controller
     }
 
     public function certificate($id){
+        if($id=='live'){$this->receipt();exit;}
         $repair = Repair::where('id', $id)->first();
 
         if($repair) {
@@ -127,21 +116,44 @@ class RepairController extends Controller
 
             $mpdf->WriteHTML($html);
 
+            // For development purposes
+            // $mpdf->Output();
+            // exit;
+
             $mpdf->Output(str_replace(' ', '_', $repair->id).'_repair.pdf',\Mpdf\Output\Destination::DOWNLOAD);
         }
 
         abort(404, 'Product not found.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Repair  $repairs
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Repair $repair)
-    {
-        //
+    public function receipt(){
+        $repair = (object)$_GET;
+        $repair->deposit = (isset($repair->deposit) ?: 0);
+        $store = Store::where('id', Auth::user()->store_id)->first();
+        $material = (isset($repair->material_id) && (int)$repair->material_id > 0 ?
+            Material::where('id', $repair->material_id)->first()
+            :null);
+
+        $repair->created_at = \DateTime::createFromFormat('d-m-Y', $repair->date_recieved);
+
+        $mpdf = new \Mpdf\Mpdf([
+            'mode' => 'utf-8',
+            'format' => [148, 210],
+            'margin_top' => 10,
+            'margin_bottom' => 10,
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'mirrorMargins' => true
+        ]);
+
+        $html = view('pdf.repair', compact('repair', 'store', 'material'))->render();
+        $mpdf->WriteHTML($html);
+
+        // For development purposes
+        // $mpdf->Output();
+        // exit;
+
+        $mpdf->Output('repair_receipt.pdf',\Mpdf\Output\Destination::DOWNLOAD);
     }
 
     /**
@@ -150,8 +162,7 @@ class RepairController extends Controller
      * @param  \App\Repair  $repairs
      * @return \Illuminate\Http\Response
      */
-    public function edit(Repair $repair, $barcode)
-    {
+    public function edit(Repair $repair, $barcode){
         $repair = Repair::where('barcode', $barcode)->first();
         $repairTypes = RepairType::take(env('SELECT_PRELOADED'))->get();
         $materials = Material::take(env('SELECT_PRELOADED'))->get();
@@ -160,8 +171,7 @@ class RepairController extends Controller
     }
 
 
-    public function return(Repair $repair, $code)
-    {
+    public function return(Repair $repair, $code){
         $repair = Repair::where('barcode', $code)->first();
 
         if($repair){
@@ -207,8 +217,7 @@ class RepairController extends Controller
         }
     }
 
-    public function returnRepair(Request $request, Repair $repair)
-    {
+    public function returnRepair(Request $request, Repair $repair){
         $repair = Repair::where('id', $repair)->first();
 
         if($repair){
@@ -330,8 +339,7 @@ class RepairController extends Controller
      * @param  \App\Repair  $repairs
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Repair $repair)
-    {
+    public function destroy(Repair $repair){
         $repair = Repair::find($repair)->first();
 
         if($repair){
