@@ -31,8 +31,13 @@
 <div style="width:100%"><b>Тип ремонт: </b>{{$repair_type->name}}
 <hr style="clear:both;"/>
 @endif
-<div style="height: 100px"><b>Опис: </b> {{$repair->repair_description}}</div>
+<div style="height: 80px"><b>Опис: </b> {{$repair->repair_description}}</div>
 <hr style="clear:both;"/>
+@if($repair->weight_after || $repair->price_after)
+<div style="width:50%;float:left;"><b>Тегло след ремонт</b>: {{$repair->weight_after ?: $repair->weight}}гр.</div>
+<div style="width:50%;float:left;text-align:right;"><b>Цена след ремонт</b>: {{$repair->price_after ?: $repair->price}}лв.</div>
+<hr style="clear:both;"/>
+@endif
 
 <div style="float: left; width: 33.33%;"><b>Цена: </b>{{$repair->price}}лв.</div>
 <div style="float: left; width: 33.33%;"><b>Капаро: </b>{{$repair->deposit}}лв.</div>

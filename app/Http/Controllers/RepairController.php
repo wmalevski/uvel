@@ -153,8 +153,8 @@ class RepairController extends Controller{
         $mpdf->WriteHTML($html);
 
         // For development purposes
-        $mpdf->Output();
-        exit;
+        // $mpdf->Output();
+        // exit;
 
         $mpdf->Output('repair_receipt.pdf',\Mpdf\Output\Destination::DOWNLOAD);
     }
