@@ -153,16 +153,6 @@ class ProductOtherController extends Controller
         abort(404, 'Product not found.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\ProductOther  $productOther
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ProductOther $productOther)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -237,7 +227,8 @@ class ProductOtherController extends Controller
         }
 
         $validator = Validator::make( $request->all(), [
-            'name' => 'required|unique:products_others,name,'.$productOther->id,
+            // 'name' => 'required|unique:products_others,name,'.$productOther->id,
+            'name' => 'required',
             'type_id' => 'required',
             'price' => 'required|numeric|between:0.1,10000',
             'quantity' => 'required|numeric|between:1,10000',
