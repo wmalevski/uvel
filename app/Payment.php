@@ -139,6 +139,7 @@ class Payment extends Model{
 
                 if($item['attributes']->type == 'repair'){
                     $selling->repair_id = $item->attributes->product_id;
+                    $receipts[] = route('repair_receipt', array('id'=>$item->attributes->product_id));
                 }
                 elseif($item['attributes']->type == 'product'){
                     $selling->product_id = $item->attributes->product_id;

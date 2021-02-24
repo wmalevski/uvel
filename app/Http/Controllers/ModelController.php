@@ -27,8 +27,7 @@ use Auth;
 use Uuid;
 use Storage;
 
-class ModelController extends Controller
-{
+class ModelController extends Controller{
     /**
      * Display a listing of the resource.
      *
@@ -70,23 +69,12 @@ class ModelController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $validator = Validator::make( $request->all(), [
             'name' => 'required|unique:models,name',
             'jewel_id' => 'required|numeric|min:1',
@@ -349,8 +337,7 @@ class ModelController extends Controller
      /**
      * Display all reviews
      */
-    public function showReviews()
-    {
+    public function showReviews(){
         $reviews = Review::where([
             ['model_id', '!=', '']
         ])->get();
@@ -366,12 +353,9 @@ class ModelController extends Controller
      *
      * @return json
      */
-    public function calculateStonesTotalWeight(Stone $stone, $stonesTotal)
-    {
+    public function calculateStonesTotalWeight(Stone $stone, $stonesTotal){
         if($stone && $stonesTotal){
-
             $totalWeight = ($stone->weight * $stonesTotal);
-
             return Response::json(['weight' => $totalWeight], 200);
         }
     }
@@ -382,8 +366,7 @@ class ModelController extends Controller
      * @param Model $model
      * @return \Illuminate\Http\Response
      */
-    public function edit(Model $model)
-    {
+    public function edit(Model $model){
         $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::take(env('SELECT_PRELOADED'))->get();
@@ -428,9 +411,7 @@ class ModelController extends Controller
      * @param Model $model
      * @return \Illuminate\Http\Response
      */
-    public function getModelInformation(Model $model)
-    {
-
+    public function getModelInformation(Model $model){
         $photos = Gallery::where(
             [
                 ['table', '=', 'models'],
@@ -482,8 +463,7 @@ class ModelController extends Controller
      *
      * @return string
      */
-    private function getModelStoneName($modelStoneId)
-    {
+    private function getModelStoneName($modelStoneId){
         $preloaded_stones = Stone::take(env('SELECT_PRELOADED'))->get();
 
         foreach($preloaded_stones  as $stone) {
@@ -502,8 +482,7 @@ class ModelController extends Controller
      *
      * @return array
      */
-    private function getModelMaterials($modelOptionId, $retailPriceId, $pricesSell)
-    {
+    private function getModelMaterials($modelOptionId, $retailPriceId, $pricesSell){
         $preloaded_materials = Material::take(env('SELECT_PRELOADED'))->get();
 
         $materials = array();
@@ -530,8 +509,7 @@ class ModelController extends Controller
      *
      * @return string
      */
-    private function getModelJewelId($modelJewelId)
-    {
+    private function getModelJewelId($modelJewelId){
         $preloaded_jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
 
         foreach($preloaded_jewels  as $jewel) {
@@ -547,8 +525,7 @@ class ModelController extends Controller
      * @param $photos
      * @return array
      */
-    private function getModelPhotos($photos)
-    {
+    private function getModelPhotos($photos){
         $pass_photos = array();
 
         foreach($photos as $photo){
@@ -582,8 +559,7 @@ class ModelController extends Controller
      * @param Model $model
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Model $model)
-    {
+    public function update(Request $request, Model $model){
         $jewels = Jewel::all();
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::currentStore();
@@ -619,12 +595,28 @@ class ModelController extends Controller
         $model->release_product =  'no';
         if($request->release_product == 'true') $model->release_product =  'yes';
 
-        $model->save();
 
         $path = public_path('storage/models/');
 
         File::makeDirectory($path, 0775, true, true);
 
+
+        // TODO [MAYBE]
+        // $existingStones = ModelStone::where('model_id', $model->id)->get();
+        //
+        // Check if it is a NEW Stone added to the Model
+        // if($existingStones->where('stone_id', '5')->count()){
+        //  reduce the quantity for that Stone with the $request->stone_amount[$key];
+        // }
+        //
+        // If it's an existing Stone, calculate a DIFFERENCE between the current value and the previous value
+        // If there's a difference, ADD that difference to the Stone's quantity
+        // [this way even if the difference is NEGATIVE, it will Subtract from the quantity]
+        // else{
+        //
+        // }
+
+        $model->save();
         $deleteStones = ModelStone::where('model_id', $model->id)->delete();
 
         if($request->stones){
@@ -900,8 +892,7 @@ class ModelController extends Controller
      * @param Model $model
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Model $model)
-    {
+    public function destroy(Model $model){
         if($model){
             $using = Product::where('model_id', $model->id)->count();
 

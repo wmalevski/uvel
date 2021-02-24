@@ -896,8 +896,7 @@ class SellingController extends Controller{
 
     }
 
-    public function sendDiscountNotification($total, $condition, $description, $user)
-    {
+    public function sendDiscountNotification($total, $condition, $description, $user){
         $emails = explode(',', env('NOTIFICATIONS_EMAILS'));
 
         Mail::send('ordernotification',
