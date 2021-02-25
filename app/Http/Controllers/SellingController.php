@@ -496,8 +496,8 @@ class SellingController extends Controller{
             $mpdf->WriteHTML($html);
 
             // For development purposes
-            $mpdf->Output();
-            exit;
+            // $mpdf->Output();
+            // exit;
 
             $mpdf->Output(str_replace(' ', '_', $product->name).'_certificate.pdf',\Mpdf\Output\Destination::DOWNLOAD);
         }
