@@ -11,7 +11,7 @@
 	<td>
 	@if(count($payment->discounts))
 		@foreach($payment->discounts as $discount)
-		@if($discount->discount_code_id) Отстъпка: {{$discount->discount_code_id}}% @endif
+		@if($discount->discount_code_id) Приложена Отстъпка: {{$discount->discount_code_id}} @endif
 		@endforeach
 		<br/>
 	@endif
@@ -19,7 +19,7 @@
 	@if(isset($payment->sellings))
 	@foreach($payment->sellings as $key => $selling)
 		<br/>
-		@if($selling->product_id)
+		@if($selling->product_id && $selling->product_id !== 'exchange_material')
 			<?php $product = App\Product::where('id', $selling->product_id)->first(); ?>
 			@if($product && $product->photos && $product->photos->first())
 				<img class="admin-product-image" src="{{ asset("uploads/products/" . $product->photos->first()['photo']) }}">
@@ -33,6 +33,9 @@
 				<img class="admin-product-image" src="{{ asset("uploads/products_others/" . $productOther->photos->first()['photo']) }}" />
 				{{$productOther->name}} - №: {{$selling->product_other_id}}
 			@endif
+		@elseif($selling->product_id && $selling->product_id == 'exchange_material')
+			<?php $exchangeMaterial = App\ExchangeMaterial::where('payment_id', $payment->id)->first(); ?>
+			Изкупуване на материали - №: {{$exchangeMaterial->id}}
 		@elseif($selling->order_id)
 			<?php $customer = App\Order::where('id', $selling->order_id)->first(); ?>
 			Поръчка - №: {{$selling->order_id}} @if($customer) - {{$customer->customer_name}} @endif
@@ -49,7 +52,7 @@
 			Разсписка (Обмяна): <a data-print-label="true" target="_blank" href="/ajax/generate/exchangeacquittance/{{$payment->id}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a>
 		@elseif($payment->sellings->isEmpty() === false)
 			@foreach($payment->sellings as $selling)
-				@if(isset($selling->product_id))
+				@if(isset($selling->product_id) && $selling->product_id !=='exchange_material')
 					<?php $product = App\Product::where('id', $selling->product_id)->first(); ?>
 					@if($product)
 						Сертификат ({{$product->name}} - №: {{$selling->product_id}}):
@@ -72,6 +75,9 @@
 				@elseif(isset($selling->repair_id))
 					Разсписка (Ремонт - №: {{$selling->repair_id}}):
 					<a data-print-label="true" target="_blank" href="{{route('repair_receipt', array('id'=>$selling->repair_id))}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a><br>
+				@elseif(isset($selling->product_id) && $selling->product_id =='exchange_material')
+					Разсписка №: {{$exchangeMaterial->id}}:
+					<a data-print-label="true" target="_blank" href="{{route('selling_receipt', array('id'=>$payment->id,'type'=>'order','orderId'=>$payment->id))}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a><br>
 				@elseif(isset($selling->order_id))
 					<b>Разсписка за цялата поръчка (№: {{$selling->order_id}}): <a data-print-label="true" target="_blank" href="{{route('selling_receipt',array('id'=>$selling->order_id, 'type'=>'order', 'orderId'=>$selling->order_id ))}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a></b><br>
 				@endif

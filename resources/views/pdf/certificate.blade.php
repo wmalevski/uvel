@@ -12,23 +12,21 @@
         @endforeach
     </div>
     @endif
-    <div>Размер: <strong>{{ $product->size }}</strong></div>
-    <div>Грамаж: <b>
+    <div style="float:left;width:50%;">Размер: <b>{{$product->size}}</b></div>
+    <div style="float:left;width:50%;text-align:right;">Грамаж: <b>
         @if (Illuminate\Support\Str::lower($material->name) == "злато") {{ $weight['weight'] }} гр.
         @else {{ $product->gross_weight }} гр.
         @endif
-        </b>
+    </b></div>
+    <div style="float:left;width:50%;">
+        @if(isset($payment->certificate) && $payment->certificate == 'yes')
+        <div>Цена: <b>{{ $product->price }} лв.</b></div>
+        @endif
+        <div>{{ date('d-m-y') }} cм.№: {{ $product->id }}</div>
     </div>
-    @if(isset($payment->certificate) && $payment->certificate == 'yes')
-    <div>Цена: <strong>{{ $product->price }} лв.</strong>/div>
-    @endif
-    <div>{{ date('d-m-y') }} cм.№: {{ $product->id }}</div>
-</div>
-
-<div style="position: absolute; bottom: 20px; right: 10px;">
-    <div style="padding-bottom: 2px; font-size: 8px; text-align: center;">№:{{ $product->id }}</div>
-    <div>
-        {!! str_replace( '<?xml version="1.0" standalone="no"?>', '' ,DNS1D::getBarcodeSVG($product->barcode, "EAN13",1,33,"black", false)) !!}
+    <div style="float:left;width:50%;text-align:right;">
+        <div style="text-align:center;font-size:8px;">№:{{ $product->id }}</div>
+        <div>{!! str_replace( '<?xml version="1.0" standalone="no"?>', '' ,DNS1D::getBarcodeSVG($product->barcode, "EAN13",1,33,"black", false)) !!}</div>
     </div>
 </div>
 </body>

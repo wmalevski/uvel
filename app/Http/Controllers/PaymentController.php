@@ -67,8 +67,7 @@ class PaymentController extends Controller{
         return $payment->store_payment($request);
     }
 
-    public function partner_payment(Request $request)
-    {
+    public function partner_payment(Request $request){
         $cartConditions = Cart::getConditions();
         $defaultCurrency = Currency::where('default', 'yes')->first();
 
@@ -157,8 +156,7 @@ class PaymentController extends Controller{
         }
     }
 
-    public function order_materials(Request $request)
-    {
+    public function order_materials(Request $request){
         //Getting all products in the cart related with orders
         $allItems = [];
         $boxInList = false;
@@ -285,34 +283,35 @@ class PaymentController extends Controller{
 
         return Response::json(array('equalization' => $pass_materials, 'orders' => $orders_earnest, 'boxes_in_order' => $boxInList));
     }
-     public function generateExchangeAcquittance($id)
-     {
-         $payment = Payment::find($id);
-         $store = Store::where('id', $payment->store_id)->first();
-         $currency = Currency::find($payment->currency_id);
-         $exchangeMaterials = $payment->exchange_materials;
-         $materials = [];
 
-         foreach ($exchangeMaterials as $exchangeMaterial) {
-             $materials[] = array(
-                 "name" => $exchangeMaterial->material->name . ' - ' . $exchangeMaterial->material->color . ' - ' . $exchangeMaterial->material->code,
-                 "carat" => $exchangeMaterial->material->carat,
-                 "price_per_weight" => Price::where(['id' => $exchangeMaterial->material_price_id])->first()->price,
-                 "weight" => $exchangeMaterial->weight
-             );
-         }
+    public function generateExchangeAcquittance($id){
+        $payment = Payment::find($id);
+        $store = Store::where('id', $payment->store_id)->first();
+        $currency = Currency::find($payment->currency_id);
+        $exchangeMaterials = $payment->exchange_materials;
+        $materials = [];
 
-         if ($payment) {
-             $mpdf = new \Mpdf\Mpdf([
-                 'mode' => 'utf-8',
-                 'format' => [148, 210]
-             ]);
+        foreach ($exchangeMaterials as $exchangeMaterial) {
+            $materials[] = array(
+                "name" => $exchangeMaterial->material->name . ' - ' . $exchangeMaterial->material->color . ' - ' . $exchangeMaterial->material->code,
+                "carat" => $exchangeMaterial->material->carat,
+                "price_per_weight" => Price::where(['id' => $exchangeMaterial->material_price_id])->first()->price,
+                "weight" => $exchangeMaterial->weight
+            );
+        }
 
-             $html = view('pdf.exchange_acquittance', compact('payment', 'store', 'materials', 'currency'))->render();
-             $mpdf->WriteHTML($html);
-             $mpdf->Output(str_replace(' ', '_', $payment->id) . '_exchange_material.pdf', \Mpdf\Output\Destination::DOWNLOAD);
-         }
+        if($payment){
+            $mpdf = new \Mpdf\Mpdf([
+                'mode' => 'utf-8',
+                'format' => [148, 210]
+            ]);
 
-         abort(404, 'Product not found.');
-     }
+            $html = view('pdf.exchange_acquittance', compact('payment', 'store', 'materials', 'currency'))->render();
+
+            $mpdf->WriteHTML($html);
+            $mpdf->Output(str_replace(' ', '_', $payment->id) . '_exchange_material.pdf', \Mpdf\Output\Destination::DOWNLOAD);
+        }
+
+        abort(404, 'Product not found.');
+    }
 }

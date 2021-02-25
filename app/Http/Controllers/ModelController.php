@@ -600,22 +600,6 @@ class ModelController extends Controller{
 
         File::makeDirectory($path, 0775, true, true);
 
-
-        // TODO [MAYBE]
-        // $existingStones = ModelStone::where('model_id', $model->id)->get();
-        //
-        // Check if it is a NEW Stone added to the Model
-        // if($existingStones->where('stone_id', '5')->count()){
-        //  reduce the quantity for that Stone with the $request->stone_amount[$key];
-        // }
-        //
-        // If it's an existing Stone, calculate a DIFFERENCE between the current value and the previous value
-        // If there's a difference, ADD that difference to the Stone's quantity
-        // [this way even if the difference is NEGATIVE, it will Subtract from the quantity]
-        // else{
-        //
-        // }
-
         $model->save();
         $deleteStones = ModelStone::where('model_id', $model->id)->delete();
 

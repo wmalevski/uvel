@@ -32,6 +32,7 @@ use App\OrderItem;
 use Mail;
 use App\Material;
 use App\MaterialType;
+use App\ExchangeMaterial;
 
 Class CartCustomCondition extends CartCondition {
     public function apply($totalOrSubTotalOrPrice, $conditionValue){
@@ -470,13 +471,11 @@ class SellingController extends Controller{
     public function certificate($id, $orderID = false) {
         $product = Product::where('id', $id)->first();
 
-        if($orderID) {
-            $selling = Selling::where(['order_id' => $orderID])->first();
-        } else {
-            $selling = Selling::where(['product_id' => $id])->first();
-        }
+        $selling = new Selling();
+        $selling = ( $orderID ? $selling->where('order_id', $orderID) : $selling->where('product_id', $id));
+        $selling = $selling->orderBy('id','DESC')->first();
 
-        $payment = Payment::where(['id' => $selling->payment_id])->first();
+        $payment = Payment::where('id', $selling->payment_id)->first();
 
         if($product) {
             $material = Material::where('id', $product->material_id)->first();
@@ -495,6 +494,10 @@ class SellingController extends Controller{
             $html = view('pdf.certificate', compact('product', 'material', 'model', 'weight', 'payment'))->render();
 
             $mpdf->WriteHTML($html);
+
+            // For development purposes
+            $mpdf->Output();
+            exit;
 
             $mpdf->Output(str_replace(' ', '_', $product->name).'_certificate.pdf',\Mpdf\Output\Destination::DOWNLOAD);
         }
@@ -580,7 +583,7 @@ class SellingController extends Controller{
                 $product = true;
 
                 // Product
-                if(isset($item->product_id)){
+                if(isset($item->product_id) && $item->product_id!=='exchange_material'){
                     $product=Product::where('id', $item->product_id)->first();
                     $material=Material::where('id', $product->material_id)->first();
                     $weight=calculate_product_weight($product);
@@ -633,6 +636,14 @@ class SellingController extends Controller{
                         'model_size'=>$item->model_size
                     ));
                 }
+
+                // Materials Exchange
+                if(isset($item->product_id) && $item->product_id == 'exchange_material'){
+                    array_push($receipt_items,array(
+                        'type'=>'material_exchange',
+                        'exchanged_materials'=>ExchangeMaterial::where('order_id', $item->payment_id)->get()
+                    ));
+                }
             }
         }
 
@@ -655,8 +666,9 @@ class SellingController extends Controller{
                     $html = view('pdf.receipt', compact('product', 'payment', 'barcode', 'store'));
                     break;
                 case 'order':
+                    $exchangedMaterials = null;
                     $html = view('pdf.receipt_multiple_items', compact(
-                        'store', 'payment', 'receipt_items'
+                        'store', 'payment', 'receipt_items', 'exchangedMaterials'
                     ));
                     break;
             }
@@ -667,7 +679,7 @@ class SellingController extends Controller{
             // $mpdf->Output();
             // exit;
 
-            $mpdf->Output(str_replace(' ', '_', $product->name).'_receipt.pdf',\Mpdf\Output\Destination::DOWNLOAD);
+            $mpdf->Output('receipt_'.$payment->id.'.pdf',\Mpdf\Output\Destination::DOWNLOAD);
         }
 
         abort(404, 'Product not found.');
@@ -838,11 +850,8 @@ class SellingController extends Controller{
     }
 
     public function sendDiscount(Request $request){
-
         $userId = Auth::user()->getId();
-
         $partner = 'false';
-
         if(isset($card)){
             if($card->user->isA('corporate_partner')){
                 $partner = 'true';
@@ -893,7 +902,6 @@ class SellingController extends Controller{
         // $this->sendDiscountNotification($total, $request->discount.'%', $request->description, Auth::user());
 
         return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon, 'dds' => $dds));
-
     }
 
     public function sendDiscountNotification($total, $condition, $description, $user){

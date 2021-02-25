@@ -52,9 +52,15 @@ class Payment extends Model{
     }
 
     public function store_payment($request, $responseType = 'JSON'){
+        $userId = Auth::user()->getId();
+
+        // Make sure the button is not clicked on an empty cart with no Exchange
+        if(Cart::session($userId)->getConditions()->count() == 0 && $request->exchangeRows_total == 0){
+            return Response::json(array('errors' => array('Плащане не може да бъде извършено на празна количка')), 401);
+        }
+
         //Store the payment
         if(($request->given_sum >= $request->wanted_sum) || (isset($request->partner_method) && $request->partner_method == true || (isset($request->return_sum) && $request->return_sum >= 0))){
-            $userId = Auth::user()->getId();
 
             //Check if the given sum is more or equal to the wanted sum
             $validator = Validator::make( $request->all(), [
@@ -96,7 +102,7 @@ class Payment extends Model{
             //Saving cart's conditions(discounts only) to the database.
             $cartConditions = Cart::session($userId)->getConditions();
             foreach($cartConditions as $condition){
-                if($condition->getName() != 'ДДС'){
+                if($condition->getName() !== 'ДДС'){
                     $discount = new PaymentDiscount();
                     $discount->discount_code_id = $condition->getAttributes()['discount_id'];
                     $discount->payment_id = $paymentID;
@@ -218,11 +224,22 @@ class Payment extends Model{
 
             if($request->exchange_method == 'true'){
                 if($request->data_material_price){
+                    // If the Cart's empty then this operation is for Buying Materials
+                    // In such case, we need to add a new Selling for the transaction
+                    if(empty($items)){
+                        $selling = new Selling();
+                        $selling->product_id = 'exchange_material';
+                        $selling->payment_id = $payment->id;
+                        $selling->order_id = $payment->id;
+                        $selling->save();
+                    }
+
                     foreach($request->data_material_price as $key => $material){
                         if($material){
                             $exchange_material = new ExchangeMaterial();
                             $exchange_material->material_id = $material['material_id'];
-                            $exchange_material->payment_id = $paymentID;
+                            $exchange_material->payment_id = $payment->id;
+                            $exchange_material->order_id = $payment->id;
                             $exchange_material->weight = $request->weight[$key];
                             $exchange_material->sum_price = $request->exchangeRows_total;
                             $exchange_material->additional_price = $request->calculating_price;
@@ -240,7 +257,6 @@ class Payment extends Model{
                             }
                         }
                     }
-
 
                     $expenseRegister = new CashRegister();
                     $expenseRegister->RecordExpense($request->exchangeRows_total, false, Auth::user()->getStore()->id);

@@ -1393,7 +1393,15 @@ var uvel,
           (data[dataKey] = data[dataKey] || []).push(dataKeyValue);
 
           if(element.hasAttribute('data-material-id-price')) {
-            var chosenMaterialPrice = $(element).parents('.form-row').find('[name="calculating_price"]')[0].value;
+            var calculatingPrice = $(element).parents('.form-row').find('[name="calculating_price"]');
+            var chosenMaterialPrice = calculatingPrice[0].value;
+
+            if(chosenMaterialPrice == "" ){
+              chosenMaterialPrice = parseFloat(
+                $(element).parents('.form-row').find('select[name="material_type_id[]"] option:last-child').attr('data-price-1')
+              );
+              calculatingPrice.find('option:last-child').attr('value', chosenMaterialPrice);
+            }
 
             dataMaterialPrice.push({
               material_id: dataKeyValue,
@@ -1647,6 +1655,8 @@ var uvel,
         if(resp.receipts && resp.receipts.length) {
           $self.openSellingUrls(resp.receipts);
         }
+
+        $('div#paymentModal button[data-dismiss="modal"]')[0].click();
       } else if (formType == 'images') {
         text = resp.success;
       } else if (formType == 'dailyReport') {
