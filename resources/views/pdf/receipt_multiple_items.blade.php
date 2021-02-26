@@ -14,42 +14,36 @@
     @endphp
     @switch($item['type'])
     @case('product')
-        <div style="width:70%;float:left;">Артикул: <b>{{$item['product']->name}}</b></div>
+        <div style="width:70%;float:left;"><b>Артикул</b>: {{$item['product']->name}}</div>
         <div style="width:30%;float:left;text-align:right;">{!! str_replace( '<?xml version="1.0" standalone="no"?>', '' ,DNS1D::getBarcodeSVG($item['product']->barcode, "EAN13",1,33,"black", true)) !!}</div>
 
         @if(isset($item['material']) && !empty($item['material']))
-        <div style="width:100%;float:left;">Материал: <b>{{$item['material']->name}} {{$item['material']->code}}</b>, <b>{{$item['material']->color}}</b></div>
+        <div style="width:100%;float:left;"><b>Материал</b>: {{$item['material']->name}} {{$item['material']->code}}, {{$item['material']->color}}</div>
         @endif
 
         @if(isset($item['orderStones']) && !empty($item['orderStones']))
-        <div style="width:100%;float:left;">Камъни:
+        <div style="width:100%;float:left;"><b>Камъни</b>:
             <ul>
             @foreach($item['orderStones'] as $stone)<li>{{$stone}}</li>@endforeach
             </ul>
         </div>
         @endif
 
-        @if(isset($item['material']) && !empty($item['material']) && strtolower($item['material']->name) == "злато")
-        <div style="float: left; width: 33.3%;">Грам: <b>{{$item['weight']}}</b></div>
-        <div style="float: left; width: 33.3%;">Изработка: <b>{{$item['product']->workmanship}} лв.</b></div>
-        <div style="float: left; width: 33.3%;text-align: right;">Цена: <b>{{$item['product']->price}} лв.</b></div>
-        @else
-            @if($item['product']->gross_weight)
-            <div style="float: left; width: 33.3%;">Грам: <b>{{$item['product']->gross_weight}} гр.</b></div>
-            @endif
+        @if(isset($item['material']) && !empty($item['material']))
+            <div style="float:left;width:33.3%;"><b>Грам</b>:
+                {{(strtolower($item['material']->name)!=="злато" && $item['product']->gross_weight ? $item['product']->gross_weight : $item['product']->weight )}} гр.</div>
 
             @if($item['product']->workmanship)
-            <div style="float: left; width: 33.3%;">Изработка: <b>{{$item['product']->workmanship}} лв.</b></div>
+                <div style="float:left;width:33.3%;"><b>Изработка</b>: {{$item['product']->workmanship}} лв.</div>
             @endif
-
-            <div style="float: left; width: 33.3%;text-align: right;">Цена: <b>{{$item['product']->price }} лв.</b></div>
+            <div style="float:left;width:33.3%;text-align:right;"><b>Цена</b>: {{$item['product']->price }} лв.</div>
         @endif
 
         @break
     @case('box')
     @case('model')
-        <div style="width:70%;float:left;">Артикул: <b>{{$item['product']->name}}</b>
-            @if($item['type']=='model')<br>Размер: <b>{{$item->model_size}}</b>@endif
+        <div style="width:70%;float:left;"><b>Артикул</b>: {{$item['product']->name}}
+            @if($item['type']=='model')<br><b>Размер</b>: {{$item->model_size}}@endif
         </div>
         <div style="width:30%;float:left;text-align:right;">{!! str_replace( '<?xml version="1.0" standalone="no"?>', '' ,DNS1D::getBarcodeSVG($item['product']->barcode, "EAN13",1,33,"black", true)) !!}</div>
         <div style="clear: both"></div>
@@ -73,31 +67,33 @@
         @endif
         @break
     @endswitch
-    <div style="clear: both;height:20px;"></div>
 @endforeach
 
+<div style="clear: both;height:20px;"></div>
+
+<div style="text-align:right;"><b>Обменен материал</b>: {{$exchange_material_sum}}лв.</div>
+<div style="text-align:right;"><b>Дадена сума</b>: {{$payment->given}} лв.</div>
+<div style="text-align:right;"><b>Ресто</b>: {{ floatval( ($exchange_material_sum + $payment->given) - $payment->price )}}лв.</div>
+
+<div style="clear: both;height:20px;"></div>
+
 @if(is_array($exchangedMaterials)&&!empty($exchangedMaterials))
-<hr>
-<div style="width:100%;float:left;"><b>Дадени материали от клиента:</b>
-    <ul>
-        @foreach($exchangedMaterials as $orderExchangeMaterial)
-        <li>
-            <div style="width:50%;float:left;"><b>Вид</b>: {{$orderExchangeMaterial['name']}}</div>
-            <div style="width:50%;float:left;"><b>Тегло</b>: {{$orderExchangeMaterial['weight']}} гр.</div>
-        </li>
-        @endforeach
-    </ul>
-</div>
+    <hr>
+    <div style="width:100%;float:left;"><b>Дадени материали от клиента:</b>
+        <ul>
+            @foreach($exchangedMaterials as $orderExchangeMaterial)
+            <li>
+                <div style="width:50%;float:left;"><b>Вид</b>: {{$orderExchangeMaterial['name']}}</div>
+                <div style="width:50%;float:left;"><b>Тегло</b>: {{$orderExchangeMaterial['weight']}} гр.</div>
+            </li>
+            @endforeach
+        </ul>
+    </div>
 @endif
 
 <div style="clear: both">
     <br>
-    <div style="float: left; width: 50%;">
-        <strong>Клиент:</strong>
-    </div>
-    <div style="float: left; width: 50%;">
-        <strong style="margin-left: 200px;">Приемчик:</strong>
-    </div>
+    <div style="float: left; width: 50%;"><b>Клиент:</b></div>
+    <div style="float: left; width: 50%;"><b style="margin-left: 200px;">Приемчик:</b></div>
     <br>
 </div>
-<hr/>

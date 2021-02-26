@@ -542,6 +542,8 @@ class SellingController extends Controller{
             $store = Store::where('id', $payment->store_id)->first();
         }
 
+        $exchange_material_sum = 0;
+
         if($type == 'product'){
             $product = Product::where('id', $id)->first();
             $material = Material::where('id', $product->material_id)->first();
@@ -563,11 +565,13 @@ class SellingController extends Controller{
             }
 
             if(isset($payment->exchange_materials)){
-                foreach($payment->exchange_materials as $exchangeMaterial) {
+                foreach($payment->exchange_materials as $exchangeMaterial){
+                    if(isset($exchangeMaterial->sum_price) && $exchange_material_sum == 0){
+                        $exchange_material_sum = $exchangeMaterial->sum_price;
+                    }
                     $material = Material::where('id', $exchangeMaterial->material_id)->first();
-
                     $orderExchangeMaterials[] = array(
-                        'name' => "$material->name - $material->code - $material->color",
+                        'name' => $material->name." ".$material->code.", ".$material->color,
                         'weight' => $exchangeMaterial->weight
                     );
                 }
@@ -602,9 +606,12 @@ class SellingController extends Controller{
 
                     if($payment->exchange_materials){
                         foreach($payment->exchange_materials as $exchangeMaterial){
+                            if(isset($exchangeMaterial->sum_price) && $exchange_material_sum == 0){
+                                $exchange_material_sum = $exchangeMaterial->sum_price;
+                            }
                             $material=Material::where('id', $exchangeMaterial->material_id)->first();
                             $orderExchangeMaterials[] = array(
-                                'name' => "$material->name - $material->code - $material->color",
+                                'name' => $material->name." ".$material->code.", ".$material->color,
                                 'weight' => $exchangeMaterial->weight
                             );
                         }
@@ -660,7 +667,7 @@ class SellingController extends Controller{
 
             switch($type){
                 case 'product':
-                    $html = view('pdf.receipt', compact('product', 'material', 'model', 'weight', 'payment', 'barcode', 'store', 'orderStones', 'orderExchangeMaterials'));
+                    $html = view('pdf.receipt', compact('product', 'material', 'model', 'weight', 'payment', 'barcode', 'store', 'orderStones', 'orderExchangeMaterials', 'exchange_material_sum'));
                     break;
                 case 'box':
                     $html = view('pdf.receipt', compact('product', 'payment', 'barcode', 'store'));
@@ -668,7 +675,7 @@ class SellingController extends Controller{
                 case 'order':
                     $exchangedMaterials = null;
                     $html = view('pdf.receipt_multiple_items', compact(
-                        'store', 'payment', 'receipt_items', 'exchangedMaterials'
+                        'store', 'payment', 'receipt_items', 'exchangedMaterials', 'exchange_material_sum'
                     ));
                     break;
             }
@@ -676,8 +683,8 @@ class SellingController extends Controller{
             $mpdf->WriteHTML($html->render());
 
             // For development purposes
-            // $mpdf->Output();
-            // exit;
+            $mpdf->Output();
+            exit;
 
             $mpdf->Output('receipt_'.$payment->id.'.pdf',\Mpdf\Output\Destination::DOWNLOAD);
         }

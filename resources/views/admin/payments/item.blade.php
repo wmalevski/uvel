@@ -51,6 +51,9 @@
 		@if($payment->sellings->isEmpty() === true && $payment->exchange_materials->isEmpty() === false )
 			Разсписка (Обмяна): <a data-print-label="true" target="_blank" href="/ajax/generate/exchangeacquittance/{{$payment->id}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a>
 		@elseif($payment->sellings->isEmpty() === false)
+			@if(isset($payment->sellings->last()->order_id))
+				<b>Разсписка на Поръчка №:{{$payment->sellings->last()->order_id}}: <a data-print-label="true" target="_blank" href="{{route('selling_receipt',array('id'=>$payment->sellings->last()->order_id, 'type'=>'order', 'orderId'=>$payment->sellings->last()->order_id ))}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a></b><br><br>
+			@endif
 			@foreach($payment->sellings as $selling)
 				@if(isset($selling->product_id) && $selling->product_id !=='exchange_material')
 					<?php $product = App\Product::where('id', $selling->product_id)->first(); ?>
@@ -78,8 +81,6 @@
 				@elseif(isset($selling->product_id) && $selling->product_id =='exchange_material')
 					Разсписка №: {{$exchangeMaterial->id}}:
 					<a data-print-label="true" target="_blank" href="{{route('selling_receipt', array('id'=>$payment->id,'type'=>'order','orderId'=>$payment->id))}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a><br>
-				@elseif(isset($selling->order_id))
-					<b>Разсписка за цялата поръчка (№: {{$selling->order_id}}): <a data-print-label="true" target="_blank" href="{{route('selling_receipt',array('id'=>$selling->order_id, 'type'=>'order', 'orderId'=>$selling->order_id ))}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a></b><br>
 				@endif
 			@endforeach
 		@endif
