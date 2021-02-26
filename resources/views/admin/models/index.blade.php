@@ -5,7 +5,7 @@ $newMaterialRow =
 					<label>Избери материал: </label>
 					<select data-search="/ajax/select_search/global/materials/" name="material_id[]" class="material_type form-control calculate" data-calculatePrice-material>
 						<option value="">Избери</option>';
-						
+
 						$newMaterialRow .= '</select>
 				</div>
 				<div class="form-group col-md-5">
@@ -67,9 +67,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="addModelLabel">Добавяне на модел</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			</div>
 			<form method="POST" action="models" name="models" data-type="add" autocomplete="off">
 				<div class="modal-body">
@@ -81,37 +79,24 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 							<input type="text" class="form-control" id="1" name="name" placeholder="Име:">
 						</div>
 						<div class="form-group col-md-6">
-							<label>
-								Избери вид бижу:
-							</label>
+							<label>Избери вид бижу:</label>
 							<select name="jewel_id" class="form-control calculate" data-search="/ajax/select_search/jewels/">
-								<option value="">
-									Избери
-								</option>
+								<option value="">Избери</option>
 							</select>
 						</div>
-
-						<div class="col-12">
-							<hr>
-						</div>
+						<div class="col-12"><hr></div>
 					</div>
 
 					<div class="model_materials">
-						<div class="form-row not-clear">
-							{!! $newMaterialRow !!}
-						</div>
+						<div class="form-row not-clear">{!! $newMaterialRow !!}</div>
 					</div>
 
 					<div class="form-row">
 						<div class="form-group col-md-6">
-							<button type="button" class="btn btn-primary add_field_variation" data-addMaterials-add>
-								Добави нова комбинация
-							</button>
+							<button type="button" class="btn btn-primary add_field_variation" data-addMaterials-add>Добави нова комбинация</button>
 						</div>
-						
-						<div class="col-12">
-							<hr>
-						</div>
+
+						<div class="col-12"><hr></div>
 					</div>
 
 					<div class="form-row">
@@ -135,14 +120,14 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 					</div>
 
 					<div class="model_stones"></div>
-					
+
 					<div class="form-row">
 						<div class="form-group col-md-6 mt-auto">
 							<button type="button" class="btn btn-primary add_field_button" data-addStone-add>
 								Добави камък
 							</button>
 						</div>
-						
+
 						<div class="form-group col-md-6">
 							<label for="totalStones">Общо за леене:</label>
 							<div class="input-group">
@@ -150,7 +135,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 								<span class="input-group-addon">гр.</span>
 							</div>
 						</div>
-						
+
 						<div class="col-12">
 							<hr>
 						</div>
@@ -172,7 +157,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 								<span class="input-group-addon">лв</span>
 							</div>
 						</div>
-						
+
 						<div class="col-12">
 							<hr>
 						</div>
@@ -259,10 +244,10 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 					<li>Размер - <span class="product-size"></span></li>
 					<li>Цена - <span class="product-price"></span></li>
 					<li>Изработка - <span class="product-workmanship"></span></li>
-					<li>Камъни -  
+					<li>Камъни -
 						<span class="product-stones"></span>
 						<ul class="product-stones-inner">
-							
+
 						</ul>
 					</li>
 				</ul>
@@ -271,43 +256,38 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 	</div>
 </div>
 
-<h3>
-	Модели
-	@if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['admin', 'storehouse']))
-		<button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="models" data-toggle="modal" data-target="#addModel">
-			Добави
-		</button>
-	@endif
-</h3>
+<h3>Модели
+@if(in_array(Auth::user()->role, array('admin', 'storehouse')))
+<button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="models" data-toggle="modal" data-target="#addModel">Добави</button>
+@endif</h3>
 
 <table id="main_table" class="table table-condensed models-table tablesort table-fixed">
 	<thead>
 		<tr data-sort-method="thead">
-			<th>Снимка</th>
-			<th>Име</th>
-			<th>Тегло</th>
-			<th>Цена</th>
-			<th>Изработка</th>
-			@if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['admin', 'storehouse']))
-				<th data-sort-method="none">Действия</th>
-			@endif
-			<th data-sort-method="none">Камъни</th>
+			<th width="8%">Снимка</th>
+			<th width="17%">Име</th>
+			<th width="10%">Тегло</th>
+			<th width="20%">Цена/гр</th>
+			<th width="8%">Цена</th>
+			<th width="10%">Изработка</th>
+			@if(in_array(Auth::user()->role, array('admin', 'storehouse')))<th width="7%" data-sort-method="none">Действия</th>@endif
+			<th width="13%" data-sort-method="none">Камъни</th>
+			<th width="7%" data-sort-method="none"></th>
 		</tr>
 
 		<tr class="search-inputs" data-dynamic-search-url="ajax/search/models/">
-			<th></th>
-			<th>
-				<input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Име">
-			</th>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th></th>
+			<th width="8%"></th>
+			<th width="17%"><input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Име"/></th>
+			<th width="10%"></th>
+			<th width="20%"></th>
+			<th width="8%"></th>
+			<th width="10%"></th>
+			@if(in_array(Auth::user()->role, array('admin', 'storehouse')))<th width="7%"></th>@endif
+			<th width="13%"></th>
+			<th width="7%"></th>
 		</tr>
 	</thead>
-	
+
 	<tbody>
 		@foreach($models as $model)
 			@include('admin.models.table')
