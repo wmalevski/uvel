@@ -30,8 +30,7 @@
         @endif
 
         @if(isset($item['material']) && !empty($item['material']))
-            <div style="float:left;width:33.3%;"><b>Грам</b>:
-                {{(strtolower($item['material']->name)!=="злато" && $item['product']->gross_weight ? $item['product']->gross_weight : $item['product']->weight )}} гр.</div>
+            <div style="float:left;width:33.3%;"><b>Грам</b>: {{$item['product']->weight}} гр.</div>
 
             @if($item['product']->workmanship)
                 <div style="float:left;width:33.3%;"><b>Изработка</b>: {{$item['product']->workmanship}} лв.</div>
