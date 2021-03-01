@@ -8,12 +8,10 @@
         <table>
             <tr>
                 <td text-rotate="-90" style="font-size: 20px;">{{ $product->price }}лв.</td>
-                <td style="padding-left: 10px;">
+                <td style="padding-left: 30px;">
                     Гр: {{ $weight }}<br/>
-                    @if(is_array($stone) && !empty($stone['stone']))
-                        @foreach($stone['stone'] as $singleStone)
-                            {{$singleStone}}<br/>
-                        @endforeach
+                    @if($stone['isSet'])
+                    {{$stone['display_name']}} - {{$stone['accumulated_weight']}} гр.<br>
                     @endif
                     Р-р: {{ $product->size }}<br/>
                     Изр: {{ $workmanship }}лв.<br/>
