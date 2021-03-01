@@ -39,7 +39,7 @@
 <hr style="clear:both;"/>
 @endif
 
-<div style="float: left; width: 33.33%;"><b>Цена: </b>{{$repair->price}}лв.</div>
+<div style="float: left; width: 33.33%;"><b>Цена: </b>{{$repair->price_after > $repair->price ? $repair->price_after : $repair->price}}лв.</div>
 <div style="float: left; width: 33.33%;"><b>Капаро: </b>{{$repair->deposit}}лв.</div>
 <div style="float: left; width: 33.33%;"><b>Остатък: </b>{{$repair->price - $repair->deposit}}лв.</div>
 <hr style="clear:both;"/>
