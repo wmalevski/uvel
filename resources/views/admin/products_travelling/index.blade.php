@@ -32,7 +32,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <table class="table repair-records-table tablesort">
-                                <thead class="thead-dark">
+                                <thead class="thead-light">
                                     <tr>
                                         <th scope="col">Баркод</th>
                                         <th scope="col">Име</th>
@@ -41,6 +41,14 @@
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Общо</th>
+                                        <th></th>
+                                        <th id="travellingCounter">Брой: <b>0</b></th>
+                                        <th id="travellingWeight">Тегло: <b>0</b> гр.</th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -101,4 +109,22 @@
             </div>
           </div>
 </div>
+@endsection
+@section('footer-scripts')
+<style>
+    table thead th{color:silver;}
+</style>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("table.repair-records-table.tablesort tbody").bind("DOMSubtreeModified", function(){
+            $('table.repair-records-table.tablesort tfoot tr th#travellingCounter b').html($("table.repair-records-table.tablesort tbody tr").length);
+
+            weightCounter = 0;
+            $("table.repair-records-table.tablesort tbody tr").each(function(index,row){
+                weightCounter += parseFloat($(row).children('td:nth-child(4)').html().replace(' гр', ''));
+            });
+            $('table.repair-records-table.tablesort tfoot tr th#travellingWeight b').html(weightCounter);
+        });
+    });
+</script>
 @endsection
