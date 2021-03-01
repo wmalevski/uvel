@@ -33,8 +33,7 @@ class ModelController extends Controller{
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(){
         $models = Model::all();
         $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
         $prices = Price::all();

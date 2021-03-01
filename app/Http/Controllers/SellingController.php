@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Model;
 use App\Order;
 use App\Stone;
+use App\Nomenclature;
 use App\Store;
 use DB;
 use App\Selling;
@@ -477,10 +478,41 @@ class SellingController extends Controller{
 
         $payment = Payment::where('id', $selling->payment_id)->first();
 
+        $stone = array(
+            'isSet' => false,
+            'display_name' => '',
+            'accumulated_weight' => 0
+        );
+
         if($product) {
             $material = Material::where('id', $product->material_id)->first();
             $model = Model::where('id', $product->model_id)->first();
             $weight = calculate_product_weight($product);
+
+            if(isset($product->stones) && is_object($product->stones)){
+                foreach($product->stones as $k=>$productStone){
+
+                    // Stone Name to be displayed in the Certificate
+                    if($stone['display_name']==''){
+                        if(isset($productStone->stone_id) && $productStone->stone_id>0){
+                            $stone = Stone::where('id', $productStone->stone_id)->first();
+                            if(isset($stone->nomenclature_id)){
+                                $stoneName = Nomenclature::where('id', $stone->nomenclature_id)->first();
+                                if(isset($stoneName->name)){
+                                    $stone['display_name'] = $stoneName->name;
+                                    $stone['isSet'] = true;
+                                }
+                            }
+                        }
+                    }
+
+                    // Stone weight to accumulate
+                    if(isset($productStone->weight) && $productStone->weight>0){
+                        $stone['accumulated_weight'] += $productStone->weight;
+                    }
+                }
+            }
+
             $mpdf = new \Mpdf\Mpdf([
                 'mode' => 'utf-8',
                 'format' => [62, 40],
@@ -491,7 +523,7 @@ class SellingController extends Controller{
                 'mirrorMargins' => true
             ]);
 
-            $html = view('pdf.certificate', compact('product', 'material', 'model', 'weight', 'payment'))->render();
+            $html = view('pdf.certificate', compact('product', 'material', 'model', 'weight', 'payment', 'stone'))->render();
 
             $mpdf->WriteHTML($html);
 

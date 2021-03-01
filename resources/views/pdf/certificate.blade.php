@@ -4,17 +4,12 @@
 <body style="width: 100%; position: relative; font-family: sans-serif;">
 <div style="line-height: 20px; font-size: 10px;">
     <div>{{ $material->name }} - {{ $material->code }} - {{ $material->color }}; {{ $model->name }}</div>
-    @if(isset($weight['stone']))
-    <div>
-        @foreach($weight['stone'] as $productStone => $stone)
-            {{$stone}}
-            <br>
-        @endforeach
-    </div>
+    @if($stone['isSet'])
+    <div>{{$stone['display_name']}} - {{$stone['accumulated_weight']}} гр.</div>
     @endif
     <div style="float:left;width:50%;">Размер: <b>{{$product->size}}</b></div>
     <div style="float:left;width:50%;text-align:right;">Грамаж: <b>
-        @if (Illuminate\Support\Str::lower($material->name) == "злато") {{ $weight['weight'] }} гр.
+        @if (strtolower($material->name) == "злато") {{ $weight['weight'] }} гр.
         @else {{ $product->gross_weight }} гр.
         @endif
     </b></div>
