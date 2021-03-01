@@ -30,6 +30,10 @@
         @endif
 
         @if(isset($item['material']) && !empty($item['material']))
+            @php
+                $totalWeight += $item['product']->weight;
+                $totalPrice += $item['product']->price;
+            @endphp
             <div style="float:left;width:33.3%;"><b>Грам</b>: {{$item['product']->weight}} гр.</div>
 
             @if($item['product']->workmanship)
@@ -73,6 +77,11 @@
 <div style="text-align:right;"><b>Обменен материал</b>: {{$exchange_material_sum}}лв.</div>
 <div style="text-align:right;"><b>Дадена сума</b>: {{$payment->given}} лв.</div>
 <div style="text-align:right;"><b>Ресто</b>: {{ floatval( ($exchange_material_sum + $payment->given) - $payment->price )}}лв.</div>
+
+
+<hr />
+<div style="width:50%;float:left;"><b>Общо тегло</b>: {{$totalWeight}} гр.</div>
+<div style="width:50%;float:left;text-align:right"><b>Продуктова цена</b>: {{$totalPrice}} лв.</div>
 
 <div style="clear: both;height:20px;"></div>
 

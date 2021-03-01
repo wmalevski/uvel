@@ -697,9 +697,12 @@ class SellingController extends Controller{
                 'mirrorMargins' => true
             ]);
 
+            $totalWeight = 0;
+            $totalPrice = 0;
+
             switch($type){
                 case 'product':
-                    $html = view('pdf.receipt', compact('product', 'material', 'model', 'weight', 'payment', 'barcode', 'store', 'orderStones', 'orderExchangeMaterials', 'exchange_material_sum'));
+                    $html = view('pdf.receipt', compact('product', 'material', 'model', 'weight', 'payment', 'barcode', 'store', 'orderStones', 'orderExchangeMaterials', 'exchange_material_sum', 'totalWeight', 'totalPrice'));
                     break;
                 case 'box':
                     $html = view('pdf.receipt', compact('product', 'payment', 'barcode', 'store'));
@@ -707,7 +710,7 @@ class SellingController extends Controller{
                 case 'order':
                     $exchangedMaterials = null;
                     $html = view('pdf.receipt_multiple_items', compact(
-                        'store', 'payment', 'receipt_items', 'exchangedMaterials', 'exchange_material_sum'
+                        'store', 'payment', 'receipt_items', 'exchangedMaterials', 'exchange_material_sum', 'totalWeight', 'totalPrice'
                     ));
                     break;
             }
