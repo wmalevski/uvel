@@ -2133,7 +2133,7 @@ var uvel,
           success: function(resp) {
             var weight = resp.weight;
 
-            weightHolder.value = weight.toFixed(3);
+            weightHolder.value = ( parseInt(weight) === weight ? weight : weight.toFixed(3) );
             $(weightHolder).trigger('change');
           },
           error: function(err) {

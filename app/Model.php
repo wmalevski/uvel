@@ -58,17 +58,6 @@ class Model extends BaseModel{
 		}
 
 		return Material::whereIn('id', $used_materials)->get();
-
-/*
-@foreach($materials as $material)
-@if($material->pricesSell->first())
-<option value="{{ $material->id }}" data-material="{{ $material->id }}" data-pricebuy="{{ $material->pricesBuy->first()->price }}"
-@if($material->id == $option->material_id) selected @endif>
-{{ $material->parent->name }} - {{ $material->color }} - {{ $material->code }}
-</option>
-@endif
-@endforeach
- */
 	}
 
 	public function getModelAvgRating($model) {
