@@ -21,6 +21,7 @@ class Repair extends Model
         'barcode',
         'weight',
         'weight_after',
+        'prepaid',
         'price',
         'price_after',
         'material_id',

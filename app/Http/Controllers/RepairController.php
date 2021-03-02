@@ -55,17 +55,18 @@ class RepairController extends Controller{
         }
 
         $repair = Repair::create(array(
-            'store_id'      => Auth::user()->store_id,
-            'customer_name' => $request->customer_name,
-            'customer_phone' => $request->customer_phone,
-            'type_id' => $request->type_id,
-            'date_recieved' => $request->date_recieved,
-            'date_returned' => $request->date_returned,
-            'weight' => $request->weight,
-            'price' => $request->price,
-            'repair_description' => $request->repair_description,
-            'material_id' => $request->material_id,
-            'status' => 'repairing'
+            'store_id'          => Auth::user()->store_id,
+            'customer_name'     => $request->customer_name,
+            'customer_phone'    => $request->customer_phone,
+            'type_id'           => $request->type_id,
+            'date_recieved'     => $request->date_recieved,
+            'date_returned'     => $request->date_returned,
+            'weight'            => $request->weight,
+            'prepaid'           => $request->prepaid,
+            'price'             => $request->price,
+            'repair_description'=> $request->repair_description,
+            'material_id'       => $request->material_id,
+            'status'            => 'repairing'
         ));
 
         $bar = '380'.unique_number('repairs', 'barcode', 7).'1';
@@ -85,6 +86,12 @@ class RepairController extends Controller{
         $repair->barcode = $digits . $check_digit;
 
         $repair->save();
+
+        // If there's a PrePaid fee paid by the client, the sum should be added to the CashRegister of the respective store
+        if(isset($request->prepaid) && $request->prepaid>0){
+            $cashRegister = new CashRegister();
+            $cashRegister->RecordIncome($request->prepaid, false, false);
+        }
 
         return Response::json(array('success' => View::make('admin/repairs/table',array('repair'=>$repair))->render(), 'id' => $repair->id));
     }
@@ -172,7 +179,6 @@ class RepairController extends Controller{
 
         return \View::make('admin/repairs/edit', array('repair' => $repair, 'repairTypes' => $repairTypes, 'materials' => $materials));
     }
-
 
     public function return(Repair $repair, $code){
         $repair = Repair::where('barcode', $code)->first();
@@ -307,13 +313,6 @@ class RepairController extends Controller{
         }
 
         $repair->save();
-
-
-        // Add the payment for the repair to the Cash Register
-        $cashRegister = new CashRegister();
-        $cashRegister->RecordIncome($repair->price_after, false, $repair->store_id);
-
-
 
         return Response::json(array('ID' => $repair->id, 'table' => View::make('admin/repairs/table',array('repair'=>$repair))->render(), 'ID' => $repair->id));
     }

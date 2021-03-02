@@ -7,12 +7,12 @@
 </div>
 <form method="POST" action="repairs/{{ $repair->barcode }}" name="repairs" data-type="edit">
     <input name="_method" type="hidden" value="PUT">
-    <div class="modal-body">    
+    <div class="modal-body">
         <div class="info-cont">
         </div>
 
-        {{ csrf_field() }}  
-                    
+        {{ csrf_field() }}
+
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputEmail4">Име</label>
@@ -69,7 +69,7 @@
                     <label>Материал: </label>
                     <select name="material_id" class="form-control" data-repair-material data-search="/ajax/select_search/global/materials/">
                         <option value="">Избери материал</option>
-                
+
                         @foreach($materials as $material)
                             @if($material->pricesSell->first())
                                 <option data-price="{{ $material->pricesBuy->first()->price }}" value="{{ $material->id }}" @if($repair->material_id == $material->id) selected @endif>@if($material->parent) {{ $material->parent->name }} @endif - {{ $material->color }} - {{ $material->code }}</option>
@@ -108,7 +108,25 @@
                 <div class="form-group col-md-6">
                     <label for="inputEmail4">Цена след ремонта</label>
                     <div class="input-group">
-                        <input type="number" class="form-control" name="price_after" data-repair-priceAfter @if($repair->price_after == '') value="{{ $repair->price }}" @else value="{{ $repair->price_after }}" @endif placeholder="Цена на ремонта">
+                        <input type="number" class="form-control" name="price_after" data-repair-priceAfter
+                        value="{{ ($repair->price_after == '' ? $repair->price : $repair->price_after) }}" placeholder="Цена на ремонта">
+                        <span class="input-group-addon">лв</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="prepaid">Капаро</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" name="prepaid" value="{{$repair->prepaid}}" min=0 disabled/>
+                        <span class="input-group-addon">лв</span>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="remainder">Остатък</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" name="remainder" value="{{ ($repair->price_after == '' ? $repair->price : $repair->price_after) - $repair->prepaid }}" disabled />
                         <span class="input-group-addon">лв</span>
                     </div>
                 </div>

@@ -76,6 +76,26 @@
 							</div>
 						</div>
 					</div>
+
+
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="prepaid">Капаро</label>
+							<div class="input-group">
+								<input type="number" class="form-control" name="prepaid" placeholder="Заплатено Капаро" min=0 />
+								<span class="input-group-addon">лв</span>
+							</div>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="remainder">Остатък</label>
+							<div class="input-group">
+								<input type="number" class="form-control" name="remainder" disabled />
+								<span class="input-group-addon">лв</span>
+							</div>
+						</div>
+					</div>
+
+
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
@@ -221,6 +241,21 @@
 		$(document).on('click', 'button#certificate', function(e){
 			e.preventDefault();
 			window.location='{{route("repair_receipt", "live")}}?'+$('form[name="repairs"]').serialize();
+		});
+
+		$(document).on('change', '\
+			input[name="price"],\
+			input[name="prepaid"],\
+			select[data-repair-type]',function(){
+
+			modal=$('div.modal.in.show').attr('id');
+			if(modal){
+				var price = $('div#'+modal+' input[name="price"]').val();
+				var prepaid = $('div#'+modal+' input[name="prepaid"]').val();
+				price = price ? parseFloat(price) : 0;
+				prepaid = prepaid ? parseFloat(prepaid) : 0;
+				$('div#'+modal+' input[name="remainder"]').val(price - prepaid);
+			}
 		});
 	});
 </script>

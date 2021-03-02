@@ -97,7 +97,6 @@ class CashRegister extends Model{
 			'total' => $register->total
 			));
 		}
-
 	}
 
 	/**
@@ -200,6 +199,10 @@ class CashRegister extends Model{
 	 * Function used to update Income via /admin/income
 	 */
 	public static function updateIncome($old_currency, $new_currency, $old_sum, $new_sum){
+		// Some tools don't use currency so we need to bypass this param with a FALSE
+		if($old_currency == false){$old_currency = CashRegister::$default_currency;}
+		if($new_currency == false){$new_currency = CashRegister::$default_currency;}
+
 		// No change on the currency and sum => no need to process this
 		if($old_currency == $new_currency && $old_sum == $new_sum){return true;}
 
