@@ -8,11 +8,7 @@
     <div>{{$stone['display_name']}} - {{$stone['accumulated_weight']}} гр.</div>
     @endif
     <div style="float:left;width:50%;">Размер: <b>{{$product->size}}</b></div>
-    <div style="float:left;width:50%;text-align:right;">Грамаж: <b>
-        @if (strtolower($material->name) == "злато") {{ $weight['weight'] }} гр.
-        @else {{ $product->gross_weight }} гр.
-        @endif
-    </b></div>
+    <div style="float:left;width:50%;text-align:right;">Грамаж: <b>{{$weight['weight']}} гр.</b></div>
     <div style="float:left;width:50%;">
         @if(isset($payment->certificate) && $payment->certificate == 'yes')
         <div>Цена: <b>{{ $product->price }} лв.</b></div>
