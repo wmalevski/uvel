@@ -474,11 +474,8 @@ class ProductController extends Controller
             "photos"            => $this->getProductPhotos($photos)
         );
 
-        if($product->weight_without_stones == 'no') {
-            $product_info["weight"] = $product->gross_weight;
-        }else {
-            $product_info["weight"] = $product->weight;
-        }
+        // Quotes around the variables are necessary to convert the float to string
+        $product_info["weight"] = ($product->weight_without_stones == 'no'? "$product->gross_weight" : "$product->weight");
 
         return Response::json(['product' => $product_info], 200);
     }
