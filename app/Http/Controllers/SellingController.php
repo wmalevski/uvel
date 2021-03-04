@@ -601,9 +601,9 @@ class SellingController extends Controller{
                     if(isset($exchangeMaterial->sum_price) && $exchange_material_sum == 0){
                         $exchange_material_sum = $exchangeMaterial->sum_price;
                     }
-                    $material = Material::where('id', $exchangeMaterial->material_id)->first();
+                    $xMaterial = Material::where('id', $exchangeMaterial->material_id)->first();
                     $orderExchangeMaterials[] = array(
-                        'name' => $material->name." ".$material->code.", ".$material->color,
+                        'name' => $xMaterial->name." ".$xMaterial->code.", ".$xMaterial->color,
                         'weight' => $exchangeMaterial->weight
                     );
                 }
@@ -641,9 +641,9 @@ class SellingController extends Controller{
                             if(isset($exchangeMaterial->sum_price) && $exchange_material_sum == 0){
                                 $exchange_material_sum = $exchangeMaterial->sum_price;
                             }
-                            $material=Material::where('id', $exchangeMaterial->material_id)->first();
+                            $xMaterial=Material::where('id', $exchangeMaterial->material_id)->first();
                             $orderExchangeMaterials[] = array(
-                                'name' => $material->name." ".$material->code.", ".$material->color,
+                                'name' => $xMaterial->name." ".$xMaterial->code.", ".$xMaterial->color,
                                 'weight' => $exchangeMaterial->weight
                             );
                         }
