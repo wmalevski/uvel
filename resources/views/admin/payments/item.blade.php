@@ -35,7 +35,11 @@
 			@endif
 		@elseif($selling->product_id && $selling->product_id == 'exchange_material')
 			<?php $exchangeMaterial = App\ExchangeMaterial::where('payment_id', $payment->id)->first(); ?>
+			@if(!isset($exchangeMaterial->id))
+			<i>Изтрит запис</i>
+			@else
 			Изкупуване на материали - №: {{$exchangeMaterial->id}}
+			@endif
 		@elseif($selling->order_id)
 			<?php $customer = App\Order::where('id', $selling->order_id)->first(); ?>
 			Поръчка - №: {{$selling->order_id}} @if($customer) - {{$customer->customer_name}} @endif
@@ -79,8 +83,13 @@
 					Разсписка (Ремонт - №: {{$selling->repair_id}}):
 					<a data-print-label="true" target="_blank" href="{{route('repair_receipt', array('id'=>$selling->repair_id))}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a><br>
 				@elseif(isset($selling->product_id) && $selling->product_id =='exchange_material')
+					@if(isset($exchangeMaterial->id))
 					Разсписка №: {{$exchangeMaterial->id}}:
-					<a data-print-label="true" target="_blank" href="{{route('selling_receipt', array('id'=>$payment->id,'type'=>'order','orderId'=>$payment->id))}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a><br>
+					<a data-print-label="true" target="_blank" href="{{route('selling_receipt', array('id'=>$payment->id,'type'=>'order','orderId'=>$payment->id))}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a>
+					@else
+					<i>Изтрит запис за обмяна</i>
+					@endif
+					<br>
 				@endif
 			@endforeach
 		@endif

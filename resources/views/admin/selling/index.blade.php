@@ -295,7 +295,7 @@ aria-hidden="true">
                         </div>
                         <div class="form-group col-md-3">
                             <label for="deposit">Капаро</label>
-                            <input type="number" id="deposit" data-initial="0" class="form-control" value="0" placeholder="Дадено капаро от клиента" readonly disabled>
+                            <input type="number" id="deposit" data-initial="0" class="form-control" value="0" placeholder="Дадено капаро от клиента" readonly />
                         </div>
                         <div class="form-group col-md-3">
                             <label for="given-sum">Дадена сума</label>
@@ -492,6 +492,7 @@ aria-hidden="true">
                             <label for="subTotal" class="col-sm-9 control-label">Цена (с ДДС):</label>
                             <div class="col-sm-3">
                                 <div class="input-group">
+                                    <input type="hidden" name="deposit" value="{{ $total_prepaid }}" id="deposit_box" data-deposit/>
                                     <input type="number" name="subTotal" value="{{ Cart::session(Auth::user()->id)->getSubTotal() }}" class="form-control" id="subTotal" data-sell-subTotal placeholder="" readonly>
                                     <span class="input-group-addon">лв</span>
                                 </div>

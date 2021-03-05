@@ -150,10 +150,18 @@ class SellingController extends Controller{
         }
         $items = [];
         $check_box_type = false;
-        Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items, &$check_box_type)
+        $total_prepaid = 0;
+        Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items, &$check_box_type, &$total_prepaid)
         {
             if ($item->attributes->type == 'box') {
                 $check_box_type = true;
+            }
+            if($item->attributes->type=='repair'){
+                $repair = Repair::where('id', $item->attributes->product_id)->first();
+                if($repair->count() > 0){
+                    $item->attributes->prepaid = $repair->prepaid;
+                    $total_prepaid += $repair->prepaid;
+                }
             }
             $items[] = $item;
         });
@@ -205,7 +213,7 @@ class SellingController extends Controller{
         }
 
 
-        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'checkBoxType' =>  $check_box_type, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner, 'second_default_price' => $second_default_price, 'parents' => $result_materials));
+        return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'checkBoxType' =>  $check_box_type, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner, 'second_default_price' => $second_default_price, 'parents' => $result_materials, 'total_prepaid'=>$total_prepaid));
     }
 
     public function sell(Request $request){
@@ -343,6 +351,8 @@ class SellingController extends Controller{
 
                 $find = Cart::session($userId)->get($item->barcode);
 
+                $prepaid = 0;
+
                 if($find && $request->amount_check == false){
 
                 }
@@ -356,6 +366,7 @@ class SellingController extends Controller{
                             'id' => 'R-' . $item->id,
                             'name' => 'Връщане на ремонт - ' . $item->customer_name,
                             'price' => $item->price_after,
+                            'prepaid' => $item->prepaid,
                             'quantity' => 1,
                             'attributes' => array(
                                 'barcode' => $item->barcode,
@@ -364,6 +375,9 @@ class SellingController extends Controller{
                                 'type' => $request->type
                             )
                         ));
+                        if(isset($item->prepaid) && $item->prepaid>0){
+                            $prepaid = $item->prepaid;
+                        }
                     }
                     elseif($request->type == "order"){
                         $weight = $item->weight;
@@ -452,7 +466,7 @@ class SellingController extends Controller{
 
                 $dds = round($subtotal - ($subtotal / 1.2), 2);
 
-                return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'dds' => $dds));
+                return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'dds' => $dds, 'prepaid' => $prepaid));
             }
             else{
                 return Response::json(array('success' => false));

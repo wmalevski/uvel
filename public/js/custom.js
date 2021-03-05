@@ -800,7 +800,7 @@ var uvel,
       });
 
       if (!orderedProducts.length) {
-        form.find('#deposit').val(0).attr('data-initial', 0);
+        form.find('input#deposit').attr('data-initial', 0).val(0);
         form.find('[data-calculatepayment-return]').val(0);
         $self.getWantedSum(form);
       }
@@ -851,6 +851,10 @@ var uvel,
         if (exchangeTrigger.disabled) {
           exchangeRowTotal.style.display = 'none';
         }
+      }
+
+      if(totalDeposit == 0){
+        totalDeposit = $('input#deposit_box').val();
       }
 
       form.find('#deposit').val(totalDeposit * selectedCurrency).attr('data-initial', totalDeposit);
@@ -1242,11 +1246,16 @@ var uvel,
       var subTotalInput = $('[data-sell-subTotal]'),
           discountDisplay = $('[data-sell-discountDisplay]'),
           totalInput = $('[data-calculatePayment-total]'),
-          taxInput = $('[data-sell-tax]');
+          taxInput = $('[data-sell-tax]'),
+          depositInput = $('input#deposit_box');
 
       subTotalInput.val(response.subtotal);
       totalInput.val(response.total);
       taxInput.val(response.dds);
+
+      if(response.prepaid){
+        depositInput.val(response.prepaid);
+      }
 
       var discountsSum = response.subtotal - response.total;
       discountsSum = Math.round(discountsSum * 100) / 100;
