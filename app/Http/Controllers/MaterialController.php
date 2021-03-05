@@ -16,30 +16,17 @@ use App\MaterialType;
 use App\MaterialQuantity;
 use Illuminate\Support\Facades\Input;
 
-class MaterialController extends Controller
-{
+class MaterialController extends Controller{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-
+    public function index(){
         $materials = Material::all();
         $parents = MaterialType::all();
 
         return \View::make('admin/materials/index', array('materials' => $materials, 'parents' => $parents));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -48,8 +35,7 @@ class MaterialController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $validator = Validator::make( $request->all(), [
             'code' => 'required',
             'color' => 'required',
@@ -69,23 +55,9 @@ class MaterialController extends Controller
         $name = $material->parent->name;
         $material->name = $name;
 
-        if($request->for_buy == 'false'){
-            $material->for_buy = 'no';
-        } else{
-            $material->for_buy = 'yes';
-        }
-
-        if($request->for_exchange == 'false'){
-            $material->for_exchange = 'no';
-        } else{
-            $material->for_exchange = 'yes';
-        }
-
-        if($request->carat_transform == 'false'){
-            $material->carat_transform = 'no';
-        } else{
-            $material->carat_transform = 'yes';
-        }
+        $material->for_buy = ($request->for_buy == 'false' ? 'no' : 'yes');
+        $material->for_exchange = ($request->for_exchange == 'false' ? 'no' : 'yes');
+        $material->carat_transform = ($request->carat_transform == 'false' ? 'no' : 'yes');
 
         $material->save();
 
@@ -99,24 +71,12 @@ class MaterialController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Material  $materials
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Material $material)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Material  $materials
      * @return \Illuminate\Http\Response
      */
-    public function edit(Material $material)
-    {
+    public function edit(Material $material){
         $parents = MaterialType::all();
 
         return \View::make('admin/materials/edit',array('material'=>$material, 'parents' => $parents));
@@ -129,8 +89,7 @@ class MaterialController extends Controller
      * @param  \App\Material  $materials
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Material $material)
-    {
+    public function update(Request $request, Material $material){
         $validator = Validator::make( $request->all(), [
             'code' => 'required',
             'color' => 'required',
@@ -149,23 +108,10 @@ class MaterialController extends Controller
         $material->cash_group = $request->cash_group;
         $material->parent_id = $request->parent_id;
 
-        if($request->for_buy == 'false'){
-            $material->for_buy = 'no';
-        } else{
-            $material->for_buy = 'yes';
-        }
 
-        if($request->for_exchange == 'false'){
-            $material->for_exchange = 'no';
-        } else{
-            $material->for_exchange = 'yes';
-        }
-
-        if($request->carat_transform == 'false'){
-            $material->carat_transform = 'no';
-        } else{
-            $material->carat_transform = 'yes';
-        }
+        $material->for_buy = ($request->for_buy == 'false' ? 'no' : 'yes');
+        $material->for_exchange = ($request->for_exchange == 'false' ? 'no' : 'yes');
+        $material->carat_transform = ($request->carat_transform == 'false' ? 'no' : 'yes');
 
         $material->save();
 
@@ -262,7 +208,9 @@ class MaterialController extends Controller
                     'label' => $material->parent->name .' - '. $material->color . ' - ' .$material->code,
                     'data-sample' => $material->code,
                     'data-price-1' => $material->pricesExchange[0]->price,
-                    'data-price-2' => $material->pricesExchange[1]->price
+                    'data-price-1-id' => $material->pricesExchange[0]->id,
+                    'data-price-2' => $material->pricesExchange[1]->price,
+                    'data-price-2-id' => $material->pricesExchange[1]->id
                 ]
             ];
         }

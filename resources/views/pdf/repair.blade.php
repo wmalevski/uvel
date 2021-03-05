@@ -41,7 +41,7 @@
 
 <div style="float: left; width: 33.33%;"><b>Цена: </b>{{$repair->price_after > $repair->price ? $repair->price_after : $repair->price}}лв.</div>
 <div style="float: left; width: 33.33%;text-align:center;"><b>Капаро: </b>{{$repair->prepaid}}лв.</div>
-<div style="float: left; width: 33.33%;text-align:right;"><b>Остатък: </b>{{$repair->price - $repair->deposit}}лв.</div>
+<div style="float: left; width: 33.33%;text-align:right;"><b>Остатък: </b>{{$repair->price - $repair->prepaid}}лв.</div>
 <hr style="clear:both;"/>
 
 <div style="float: left; width: 50%;"><b>Клиент</b> :</div>

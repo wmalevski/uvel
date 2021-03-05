@@ -1397,15 +1397,16 @@ var uvel,
             var chosenMaterialPrice = calculatingPrice[0].value;
 
             if(chosenMaterialPrice == "" ){
-              chosenMaterialPrice = parseFloat(
-                $(element).parents('.form-row').find('select[name="material_type_id[]"] option:last-child').attr('data-price-1')
-              );
+              chosenMaterial=$(element).parents('.form-row').find('select[name="material_type_id[]"] option:last-child');
+              chosenMaterialPrice = parseFloat(chosenMaterial.attr('data-price-2'));
+              chosenMaterialPriceID = chosenMaterial.attr('data-price-2-id');
               calculatingPrice.find('option:last-child').attr('value', chosenMaterialPrice);
             }
 
             dataMaterialPrice.push({
               material_id: dataKeyValue,
-              material_price: chosenMaterialPrice
+              material_price: chosenMaterialPrice,
+              material_price_id: chosenMaterialPriceID
             });
           }
         } else {
@@ -3017,7 +3018,7 @@ var uvel,
         if (type) {
           var url = select[0].dataset.search;
 
-          select[0].dataset.search = url + type;
+          select[0].dataset.search = url;
         }
 
         $self.select2Looper(select);

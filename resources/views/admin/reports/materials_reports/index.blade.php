@@ -32,9 +32,9 @@
 					</tr>
 				</thead>
 				<tbody>
-						@foreach($materials_quantities as $materials_quantity)
-							@include('admin.reports.materials_reports.table')
-						@endforeach
+					@foreach($materials_quantities as $materials_quantity)
+						@include('admin.reports.materials_reports.table')
+					@endforeach
 				</tbody>
 			</table>
 		</div>
