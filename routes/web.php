@@ -115,6 +115,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::get('/income/{income}', 'IncomeController@edit');
 
         Route::get('/materialsreports', 'MaterialQuantityController@materialReport')->name('materials_reports');
+        Route::get('/materialsreports/print/{store}', 'MaterialQuantityController@printerReport')->name('printMaterialsReport');
 
         Route::get('/productsreports', 'ProductController@productsReport')->name('products_reports');
 

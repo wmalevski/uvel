@@ -15,15 +15,13 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Input;
 use App\MaterialTravelling;
 
-class MaterialQuantityController extends Controller
-{
+class MaterialQuantityController extends Controller{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(MaterialTravelling $travelling)
-    {
+    public function index(MaterialTravelling $travelling){
         $loggedUser = Auth::user();
         $materials = MaterialQuantity::all();
         $stores = Store::take(env('SELECT_PRELOADED'))->get();
@@ -33,23 +31,12 @@ class MaterialQuantityController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $validator = Validator::make( $request->all(), [
             'material_id' => 'required',
             'quantity' => 'required',
@@ -80,24 +67,12 @@ class MaterialQuantityController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\MaterialQuantity  $materials_quantity
-     * @return \Illuminate\Http\Response
-     */
-    public function show(MaterialQuantity $materialQuantity)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\MaterialQuantity  $materials_quantity
      * @return \Illuminate\Http\Response
      */
-    public function edit(MaterialQuantity $materialQuantity)
-    {
+    public function edit(MaterialQuantity $materialQuantity){
         $stores = Store::take(env('SELECT_PRELOADED'))->get();
         $materials_types = Material::withTrashed()->take(env('SELECT_PRELOADED'))->get();
 
@@ -125,8 +100,7 @@ class MaterialQuantityController extends Controller
      * @param  \App\MaterialQuantity  $materials_quantity
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MaterialQuantity $materialQuantity)
-    {
+    public function update(Request $request, MaterialQuantity $materialQuantity){
         $materialQuantity->material_id = $request->material_id;
         $materialQuantity->quantity = $request->quantity;
         $materialQuantity->store_id = $request->store_id;
@@ -215,8 +189,7 @@ class MaterialQuantityController extends Controller
      * @param  \App\MaterialQuantity  $materials_quantity
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MaterialQuantity $materialQuantity)
-    {
+    public function destroy(MaterialQuantity $materialQuantity){
         if($materialQuantity){
 
             $usingTravelling = MaterialTravelling::where('material_id', $materialQuantity->material_id)->count();
@@ -234,5 +207,44 @@ class MaterialQuantityController extends Controller
     public function deleteByMaterial($material){
         MaterialQuantity::where('material_id', $material)->delete();
         return Response::json(array('success' => 'Успешно изтрито!'));
+    }
+
+    public function printerReport($req){
+        // If the request is coming from a non-admin account, ignore the request and force the user's store
+        if(!in_array(Auth::User()->role, array('admin','storehouse'))){
+            $req = Auth::User()->store_id;
+        }
+
+        $store = new Store();
+        $materials = new MaterialQuantity();
+
+        if($req!=='all'){
+            $store = $store->where('id', $req);
+            $materials = $materials->where('store_id', $req);
+        }
+
+        $store = $store->get();
+        $materials = $materials->get();
+        $totals = array();
+
+        $mpdf = new \Mpdf\Mpdf(array(
+            'mode' => 'utf-8',
+            'format' => 'A6',
+            'margin_top' => 5,
+            'margin_bottom' => 5,
+            'margin_left' => 5,
+            'margin_right' => 5,
+        ));
+
+        $html = view('pdf.materials_report', compact('store', 'materials', 'totals'));
+
+        $mpdf->WriteHTML($html->render());
+
+        // For development purposes
+        // $mpdf->Output();
+        // exit;
+
+        $mpdf->Output('materials_report_'.$req.'_'.date('d-m-Y').'.pdf',\Mpdf\Output\Destination::DOWNLOAD);
+
     }
 }
