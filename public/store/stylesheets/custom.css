@@ -843,10 +843,6 @@ li.element {
 
 
 @media (max-width: 767px) {
-	.element .row-container .row-left {
-		height: 300px !important;
-	}
-
 	#footer .footer-content-top .container .footer-link-list {
 		width: 100%;
 		padding: 20px;
@@ -868,10 +864,6 @@ li.element {
 
 	input.btn {
 		height: 50px;
-	}
-
-	.element .row-container .row-left {
-		height: 300px !important;
 	}
 
 	.effect-ajax-cart {
@@ -937,18 +929,6 @@ li.element {
 
 	#shopify-product-reviews .spr-container {
 		border: 0;
-	}
-}
-
-@media (max-width: 580px) {
-	.element .row-container .row-left {
-		height: 240px !important;
-	}
-}
-
-@media (max-width: 360px) {
-	.element .row-container .row-left {
-		height: 250px !important;
 	}
 }
 

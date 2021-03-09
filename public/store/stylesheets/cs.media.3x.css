@@ -207,6 +207,7 @@ td:before{position:absolute;top:50%;left:2%;width:25%;margin-top:-10px;padding-r
 .element ul li.row-right .hover-appear,
 .element.no_full_width ul li.row-right .hover-appear,
 .element.no_full_width ul:hover li.row-right .hover-appear{margin-top:-55px;}
+.element.no_full_width ul li.row-right .hover-appear{display: none;}
 .element > ul:hover .row-left .hoverBorderWrapper,
 .element > ul .row-left .hoverBorderWrapper{opacity:1;-ms-filter:"progid: DXImageTransform.Microsoft.Alpha(Opacity=100)";filter:alpha(opacity=100);}
 #home_promotion .owl-wrapper .owl-item{text-align:center;}

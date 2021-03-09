@@ -162,6 +162,12 @@ body {
 	margin: 0 !important;
 }
 
+@media (max-width: 991px) {
+  .element .row-left .hbw {
+    display: none;
+  }
+}
+
 .hoverBorderWrapper {
     bottom: 0px !important;
     margin-bottom: 0px !important;
