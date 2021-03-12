@@ -171,44 +171,23 @@ class OrderController extends Controller{
             }
         }
 
-        $order->save();
-
-
-        // Add the payment for the order to the Cash Register
-        $cashRegister = new CashRegister();
-        $cashRegister->RecordIncome($order->price, false, $order->store_id);
-
-
-        if($request->stones && $stoneQuantity == 1){
-            foreach($request->stones as $key => $stone){
-                if($stone){
-                    $order_stones = new OrderStone();
-                    $order_stones->order_id = $order->id;
-                    $order_stones->stone_id = $stone;
-                    $order_stones->amount = $request->stone_amount[$key];
-                    $order_stones->weight = $request->stone_weight[$key];
-                    $order_stones->flow = ($request->stone_flow[$key] == 'true'?'yes':'no');
-                    $order_stones->save();
-                }
-            }
-        }
-
         if($request->given_material_id){
-            foreach($request->given_material_id as $key => $material){
+            $exchangedMaterials = array();
+            foreach($request->given_material_id as $key=>$material){
                 if($material){
                     $price = Material::find($material)->pricesSell()->first()->price;
-                    $exchange_material = new ExchangeMaterial();
-                    $exchange_material->material_id = $material;
-                    $exchange_material->order_id = $order->id;
-                    $exchange_material->weight = $request->mat_quantity[$key];
-                    $exchange_material->sum_price = $request->mat_quantity[$key] * $price;
-                    $exchange_material->additional_price = 0;
-                    $exchange_material->save();
 
-                    $findMaterial = MaterialQuantity::where([
-                        ['material_id', '=', $material],
-                        ['store_id', '=', $order->store_id]
-                    ])->first();
+                    array_push($exchangedMaterials,array(
+                        'material_id' => $material,
+                        'weight' => $request->mat_quantity[$key],
+                        'sum_price' => $request->mat_quantity[$key] * $price
+                    ));
+
+                    /* Alter quantity of the Materials stock */
+                    $findMaterial = MaterialQuantity::where(array(
+                        'material_id'=>$material,
+                        'store_id'=>$order->store_id
+                    ))->first();
 
                     if(is_null($findMaterial)){
                         $material_quantity = new MaterialQuantity();
@@ -225,6 +204,31 @@ class OrderController extends Controller{
                     }
                 }
             }
+            $order->exchanged_materials = serialize($exchangedMaterials);
+        }
+
+        $order->save();
+
+
+        // If a Deposit is paid, add the Deposit payment to the Cash Register
+        if(isset($request->earnest) && $request->earnest>0){
+            $cashRegister = new CashRegister();
+            $cashRegister->RecordIncome($request->earnest, false, $order->store_id);
+        }
+
+
+        if($request->stones && $stoneQuantity == 1){
+            foreach($request->stones as $key => $stone){
+                if($stone){
+                    $order_stones = new OrderStone();
+                    $order_stones->order_id = $order->id;
+                    $order_stones->stone_id = $stone;
+                    $order_stones->amount = $request->stone_amount[$key];
+                    $order_stones->weight = $request->stone_weight[$key];
+                    $order_stones->flow = ($request->stone_flow[$key] == 'true'?'yes':'no');
+                    $order_stones->save();
+                }
+            }
         }
 
         return Response::json(array('success' => View::make('admin/orders/table', array('order' => $order))->render()));
@@ -239,7 +243,7 @@ class OrderController extends Controller{
     public function edit(Order $order){
         $user = Auth::user();
         $order_stones = $order->stones;
-        $order_materials = $order->materials;
+        $exchanged_materials = ( $order->exchanged_materials ? unserialize($order->exchanged_materials) : null);
         $models = Model::take(env('SELECT_PRELOADED'))->get();
         $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
         $prices = Price::where('type', 'sell')->get();
@@ -248,7 +252,7 @@ class OrderController extends Controller{
         $stores = Store::take(env('SELECT_PRELOADED'))->get();
         $disable_store_select = $user->shUserSelectStore();
 
-        return \View::make('admin/orders/edit', array('stores' => $stores, 'order_stones' => $order_stones, 'order' => $order, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials, 'disable_store_select' => $disable_store_select));
+        return \View::make('admin/orders/edit', compact('order_stones', 'exchanged_materials', 'models', 'jewels', 'prices', 'stones', 'materials', 'stores', 'order', 'disable_store_select'));
     }
 
     /**
@@ -637,14 +641,21 @@ class OrderController extends Controller{
         }
     }
 
-    public function getProductInfo($product){
-        if($product){
-            $product = Product::where('barcode', $product)->first();
-            if(!$product){
-                return Response::json(['errors' => 'Продукт с такъв Баркод не бе намерен'], 401);
+    public function getProductInfo($barcode){
+        if($barcode){
+            $product = Product::where('barcode', $barcode)->first();
+            if($product){
+                return $product->chainedSelects($product->model);
             }
-            return $product->chainedSelects($product->model);
+
+            $model = Model::where('barcode', $barcode)->first();
+            if($model){
+                $product = new Product();
+                return $product->chainedSelects($model);
+            }
         }
+
+        return Response::json(['errors' => 'Модел или Продукт с такъв Баркод не бе намерен'], 401);
     }
 
     public function getModelInfo(Request $request, Model $model){

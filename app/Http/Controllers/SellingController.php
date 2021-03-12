@@ -153,14 +153,30 @@ class SellingController extends Controller{
         $total_prepaid = 0;
         Cart::session(Auth::user()->getId())->getContent()->each(function($item) use (&$items, &$check_box_type, &$total_prepaid)
         {
-            if ($item->attributes->type == 'box') {
+            if($item->attributes->type == 'box'){
                 $check_box_type = true;
             }
             if($item->attributes->type=='repair'){
                 $repair = Repair::where('id', $item->attributes->product_id)->first();
-                if($repair->count() > 0){
+                if($repair){
                     $item->attributes->prepaid = $repair->prepaid;
                     $total_prepaid += $repair->prepaid;
+                }
+            }
+            if($item->attributes->type=='order'){
+                $order = Order::where('id', $item->attributes->product_id)->first();
+                if($order){
+                    $item->attributes->prepaid = $order->earnest;
+                    $total_prepaid += $order->earnest;
+
+
+                    if($order->exchanged_materials){
+                        $exchanged = unserialize($order->exchanged_materials);
+                        foreach($exchanged as $xMat){
+                            $total_prepaid += $xMat['sum_price'];
+                        }
+                    }
+
                 }
             }
             $items[] = $item;
@@ -254,7 +270,7 @@ class SellingController extends Controller{
                     elseif($request->type == 'product'){
                         $item = Product::where($request_type, $request_var)->first();
                     }
-                    elseif ($request->type == 'order') {
+                    elseif($request->type == 'order'){
                         $item = Order::where($request_type, $request_var)->first();
                     }
                 }
@@ -385,10 +401,19 @@ class SellingController extends Controller{
                             $weight = $item->gross_weight;
                         }
 
+                        $prepaid = ( $item->earnest ?: 0);
+                        if($item->exchanged_materials){
+                            $exchanged = unserialize($item->exchanged_materials);
+                            foreach($exchanged as $xMat){
+                                $prepaid += $xMat['sum_price'];
+                            }
+                        }
+
                         Cart::session($userId)->add(array(
                             'id' => 'O-' . $item->id,
                             'name' => 'Издаване на поръчка - ' . $item->customer_name,
                             'price' => $item->price,
+                            'prepaid' => $prepaid,
                             'quantity' => 1,
                             'attributes' => array(
                                 'product_id' => $item->id,
@@ -483,7 +508,7 @@ class SellingController extends Controller{
      * @throws \Mpdf\MpdfException
      * @throws \Throwable
      */
-    public function certificate($id, $orderID = false) {
+    public function certificate($id, $orderID = false){
         $product = Product::where('id', $id)->first();
 
         $selling = new Selling();
@@ -552,6 +577,75 @@ class SellingController extends Controller{
     }
 
     /**
+     * Print certificates for Orders filed through the admin panel
+     * These orders don't have products, they only have Models, hence the need of a separate logic for them
+     */
+    public function certificate_orderByModel($id){
+        $order = Order::where('id', $id)->first();
+        if(!$order || !isset($order->model_id)){
+            abort(404, 'Model not found!');
+        }
+
+        $model = Model::where('id', $order->model_id)->first();
+        $material = Material::where('id', $order->material_id)->first();
+        $weight = calculate_model_weight($model);
+
+        $stone = array(
+            'isSet' => false,
+            'display_name' => '',
+            'accumulated_weight' => 0
+        );
+        if(isset($model->stones) && is_object($model->stones)){
+            foreach($model->stones as $k=>$productStone){
+
+                // Stone Name to be displayed in the Certificate
+                if($stone['display_name']==''){
+                    if(isset($productStone->stone_id) && $productStone->stone_id>0){
+                        $stone = Stone::where('id', $productStone->stone_id)->first();
+                        if(isset($stone->nomenclature_id)){
+                            $stoneName = Nomenclature::where('id', $stone->nomenclature_id)->first();
+                            if(isset($stoneName->name)){
+                                $stone['display_name'] = $stoneName->name;
+                                $stone['isSet'] = true;
+                            }
+                        }
+                    }
+                }
+
+                // Stone weight to accumulate
+                if(isset($productStone->weight) && $productStone->weight>0){
+                    $stone['accumulated_weight'] += $productStone->weight;
+                }
+            }
+        }
+
+
+        $mpdf = new \Mpdf\Mpdf(array(
+            'mode' => 'utf-8',
+            'format' => [62, 40],
+            'margin_top' => 4,
+            'margin_bottom' => 4,
+            'margin_left' => 4,
+            'margin_right' => 4,
+            'mirrorMargins' => true
+        ));
+
+        $html = view('pdf.certificate_by_model',
+            // compact('product', 'material', 'model', 'weight', 'payment', 'stone')
+            compact('order', 'model', 'material', 'weight', 'stone')
+        )->render();
+
+        $mpdf->WriteHTML($html);
+
+        // For development purposes
+        // $mpdf->Output();
+        // exit;
+
+        $mpdf->Output(str_replace(' ', '_', $model->name).'_certificate.pdf',\Mpdf\Output\Destination::DOWNLOAD);
+    }
+
+
+    /**
      * Print receipt after successful admin order (selling)
      * @param $id
      * @param bool $type
@@ -562,8 +656,8 @@ class SellingController extends Controller{
     public function receipt($id, $type = false, $orderID = false){
         $selling = new Selling();
 
-        if($orderID){
-            $selling = $selling::where('order_id', $orderID)->orderBy('id','DESC')->get();
+        if($orderID && $type !== 'order_by_model'){
+            $selling = $selling::where('order_id', $orderID)->orderBy('id','DESC');
             $payment = Payment::where('id', $selling->first()->payment_id)->first();
             $store = Store::where('id', $payment->first()->store_id)->first();
         }
@@ -577,6 +671,10 @@ class SellingController extends Controller{
                     break;
                 case 'repair':
                     $order_type='repair_id';
+                    break;
+                case 'order_by_model':
+                    $order_type='payment_id';
+                    $order = Order::where('payment_id', $orderID)->first();
                     break;
                 case 'product':
                 default:
@@ -597,8 +695,8 @@ class SellingController extends Controller{
             $barcode = Product::where('id', $id)->first()->barcode;
             $weight = calculate_product_weight($product);
 
-            $orderStones = [];
-            $orderExchangeMaterials = [];
+            $orderStones = array();
+            $orderExchangeMaterials = array();
 
             if(isset($product->stones)){
                 foreach($product->stones  as $stone) {
@@ -699,8 +797,44 @@ class SellingController extends Controller{
                 }
             }
         }
+        elseif($type == 'order_by_model'){
+            $model = Model::where('id', $order->model_id)->first();
+            $product = $model;
+            $orderPayment = $payment;
+            $payment = $selling;
+            $material = $model->materials()->first();
+            $barcode = $model->barcode;
+            $weight = calculate_model_weight($model);
 
-        if($product){
+            $orderStones = array();
+            $orderExchangeMaterials = array();
+
+            if(isset($model->stones)){
+                foreach($model->stones  as $stone) {
+                    $nomenclature = Stone::where(['id' => $stone->stone_id])->first()->nomenclature->name;
+                    $contour = Stone::where(['id' => $stone->stone_id])->first()->contour->name;
+                    $size = Stone::where(['id' => $stone->stone_id])->first()->size->name;
+                    $style = Stone::where(['id' => $stone->stone_id])->first()->style->name;
+                    $orderStones[] = "$nomenclature ($contour, $size, $style)";
+                }
+            }
+
+            if(isset($order->exchanged_materials)){
+                $exchanged = unserialize($order->exchanged_materials);
+                foreach($exchanged as $xMat){
+                    if(isset($xMat['sum_price']) && $exchange_material_sum==0){
+                        $exchange_material_sum = $xMat['sum_price'];
+                    }
+                    $xMaterial = Material::where('id', $xMat['material_id'])->first();
+                    $orderExchangeMaterials[] = array(
+                        'name' => $xMaterial->name." ".$xMaterial->code.", ".$xMaterial->color,
+                        'weight' => $xMat['weight']
+                    );
+                }
+            }
+        }
+
+        if(isset($product)){
             $mpdf = new \Mpdf\Mpdf([
                 'mode' => 'utf-8',
                 'format' => [148, 210],
@@ -725,6 +859,24 @@ class SellingController extends Controller{
                     $exchangedMaterials = null;
                     $html = view('pdf.receipt_multiple_items', compact(
                         'store', 'payment', 'receipt_items', 'exchangedMaterials', 'exchange_material_sum', 'totalWeight', 'totalPrice'
+                    ));
+                    break;
+                case 'order_by_model':
+                    $html = view('pdf.receipt_order_by_model', compact(
+                        'store',
+                        'order',
+                        'selling',
+                        'material',
+                        'model',
+                        'weight',
+                        'orderPayment',
+                        'payment',
+                        'barcode',
+                        'orderStones',
+                        'orderExchangeMaterials',
+                        'exchange_material_sum',
+                        'totalWeight',
+                        'totalPrice'
                     ));
                     break;
             }

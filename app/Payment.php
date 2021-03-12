@@ -47,6 +47,10 @@ class Payment extends Model{
         return $this->hasMany('App\Selling');
     }
 
+    public function order(){
+        return $this->hasMany('App\Order', 'payment_id', 'id');
+    }
+
     public function exchange_materials(){
         return $this->hasMany('App\ExchangeMaterial');
     }
@@ -122,7 +126,6 @@ class Payment extends Model{
             }
 
             $items = array();
-
             Cart::session($userId)->getContent()->each(function($item) use (&$items){
                 $items[] = $item;
             });
@@ -158,7 +161,7 @@ class Payment extends Model{
                 }
                 elseif($item['attributes']->type == 'order'){
                     $selling->order_id = $item->attributes->product_id;
-                    $certificates[] = route('selling_certificate', ['id' => $item->attributes->product_id, 'orderId' => $item->attributes->product_id]);
+                    $certificates[] = route('selling_certificate_orderByModel', array('id' => $item->attributes->product_id));
                     // $receipts[] = route('order_receipt', ['id' => $item->attributes->product_id]);
                 }
 
@@ -176,10 +179,16 @@ class Payment extends Model{
                 }
                 elseif($item->attributes->type == 'order'){
                     $order = Order::where('id', $item->attributes->product_id)->first();
-
                     if($order){
                         $order->status = 'done';
+                        $order->payment_id = $payment->id;
                         $order->save();
+
+                        $receipts = array(route('selling_receipt', array(
+                            'id' => $payment->id,
+                            'type' => 'order_by_model',
+                            'orderId' => $payment->id
+                        )));
                     }
                 }
                 elseif($item->attributes->type == 'product'){
@@ -270,6 +279,7 @@ class Payment extends Model{
                     ));
                 }
             }
+
 
             //Store the notification
             $history = new History();

@@ -304,6 +304,8 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::group(['middleware' => ['check_user_role:' . \App\Role\UserRole::ROLE_CASHIER]], function () {
         //Print
         Route::get('/selling/certificate/{id}/{orderId?}', 'SellingController@certificate')->name('selling_certificate');
+        Route::get('/selling/certificate_by_model/{id}', 'SellingController@certificate_orderByModel')->name('selling_certificate_orderByModel');
+
         Route::get('/selling/receipt/{id}/{type}/{orderId?}', 'SellingController@receipt')->name('selling_receipt');
         Route::get('/generate/exchangeacquittance/{id}', 'PaymentController@generateExchangeAcquittance');
 

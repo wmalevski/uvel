@@ -9,52 +9,57 @@
 	<td>@if($payment->receipt == 'yes') 1 @else 0 @endif</td>
 	<td>{{$payment->user->email}}</td>
 	<td>
-	@if(count($payment->discounts))
-		@foreach($payment->discounts as $discount)
-		@if($discount->discount_code_id) Приложена Отстъпка: {{$discount->discount_code_id}} @endif
-		@endforeach
-		<br/>
-	@endif
-
-	@if(isset($payment->sellings))
-	@foreach($payment->sellings as $key => $selling)
-		<br/>
-		@if($selling->product_id && $selling->product_id !== 'exchange_material')
-			<?php $product = App\Product::where('id', $selling->product_id)->first(); ?>
-			@if($product && $product->photos && $product->photos->first())
-				<img class="admin-product-image" src="{{ asset("uploads/products/" . $product->photos->first()['photo']) }}">
-			@endif
-			{{App\Model::where('id', $product->model_id)->first()->name}} - №: {{$selling->product_id}}
-		@elseif($selling->repair_id)
-			Ремонт - {{App\Repair::where('id', $selling->repair_id)->first()->customer_name}} - №: {{$selling->repair_id}}
-		@elseif($selling->product_other_id)
-			<?php $productOther = App\ProductOther::where('id', $selling->product_other_id)->first(); ?>
-			@if($productOther && $productOther->photos && $productOther->photos->first())
-				<img class="admin-product-image" src="{{ asset("uploads/products_others/" . $productOther->photos->first()['photo']) }}" />
-				{{$productOther->name}} - №: {{$selling->product_other_id}}
-			@endif
-		@elseif($selling->product_id && $selling->product_id == 'exchange_material')
-			<?php $exchangeMaterial = App\ExchangeMaterial::where('payment_id', $payment->id)->first(); ?>
-			@if(!isset($exchangeMaterial->id))
-			<i>Изтрит запис</i>
-			@else
-			Изкупуване на материали - №: {{$exchangeMaterial->id}}
-			@endif
-		@elseif($selling->order_id)
-			<?php $customer = App\Order::where('id', $selling->order_id)->first(); ?>
-			Поръчка - №: {{$selling->order_id}} @if($customer) - {{$customer->customer_name}} @endif
+		@if(count($payment->discounts))
+			@foreach($payment->discounts as $discount)
+			@if($discount->discount_code_id) Приложена Отстъпка: {{$discount->discount_code_id}} @endif
+			@endforeach
+			<br/>
 		@endif
-	@endforeach
-	@endif
+		@if($payment->order->first())
+			@php $order = $payment->order->first(); @endphp
+			Поръчка по модел № {{$order->id}}<br/>
+			{{$order->customer_name}}, {{$order->customer_phone}}
+			<img class="admin-product-image" src="{{asset("uploads/models/".$order->model->photos->first()['photo'])}}"> {{$order->model->name}}
+			<br/>
+		@elseif(isset($payment->sellings) && !$payment->order->first())
+		@foreach($payment->sellings as $key => $selling)
+			@if($selling->product_id && $selling->product_id !== 'exchange_material')
+				<?php $product = App\Product::where('id', $selling->product_id)->first(); ?>
+				@if($product && $product->photos && $product->photos->first())
+					<img class="admin-product-image" src="{{ asset("uploads/products/" . $product->photos->first()['photo']) }}">
+				@endif
+				{{App\Model::where('id', $product->model_id)->first()->name}} - №: {{$selling->product_id}}
+			@elseif($selling->repair_id)
+				Ремонт - {{App\Repair::where('id', $selling->repair_id)->first()->customer_name}} - №: {{$selling->repair_id}}
+			@elseif($selling->product_other_id)
+				<?php $productOther = App\ProductOther::where('id', $selling->product_other_id)->first(); ?>
+				@if($productOther && $productOther->photos && $productOther->photos->first())
+					<img class="admin-product-image" src="{{ asset("uploads/products_others/" . $productOther->photos->first()['photo']) }}" />
+					{{$productOther->name}} - №: {{$selling->product_other_id}}
+				@endif
+			@elseif($selling->product_id && $selling->product_id == 'exchange_material')
+				<?php $exchangeMaterial = App\ExchangeMaterial::where('payment_id', $payment->id)->first(); ?>
+				@if(!isset($exchangeMaterial->id))
+				<i>Изтрит запис</i>
+				@else
+				Изкупуване на материали - №: {{$exchangeMaterial->id}}
+				@endif
+			@elseif($selling->order_id)
+				<?php $customer = App\Order::where('id', $selling->order_id)->first(); ?>
+				Поръчка - №: {{$selling->order_id}} @if($customer) - {{$customer->customer_name}} @endif
+			@endif
+			<br/>
+		@endforeach
+		@endif
 
-	@if(isset($payment->info))
-		<br/>Допълнителна информация: {{ $payment->info }}
-	@endif
+		@if(isset($payment->info))
+			<br/>Допълнителна информация: {{ $payment->info }}
+		@endif
 	</td>
 	<td>
 		@if($payment->sellings->isEmpty() === true && $payment->exchange_materials->isEmpty() === false )
 			Разсписка (Обмяна): <a data-print-label="true" target="_blank" href="/ajax/generate/exchangeacquittance/{{$payment->id}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a>
-		@elseif($payment->sellings->isEmpty() === false)
+		@elseif($payment->sellings->isEmpty() === false && !$payment->order->first())
 			@if(isset($payment->sellings->last()->order_id))
 				<b>Разсписка на Поръчка №:{{$payment->sellings->last()->order_id}}: <a data-print-label="true" target="_blank" href="{{route('selling_receipt',array('id'=>$payment->sellings->last()->order_id, 'type'=>'order', 'orderId'=>$payment->sellings->last()->order_id ))}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a></b><br><br>
 			@endif
@@ -92,6 +97,11 @@
 					<br>
 				@endif
 			@endforeach
+		@elseif($payment->order->first())
+			<b>Разписка за Модел по Поръчка № {{$order->id}}: <a data-print-label="true" target="_blank" href="{{route('selling_receipt',array('id'=>$order->payment_id, 'type'=>'order_by_model', 'orderId'=>$order->payment_id ))}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a></b><br>
+			Сертификат ({{$order->model->name}} - №:{{$order->id}}):
+			<a data-print-label="true" target="_blank" href="{{route('selling_certificate_orderByModel', array('id'=>$order->id))}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a><br>
+			<br>
 		@endif
 	</td>
 </tr>
