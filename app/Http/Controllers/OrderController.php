@@ -107,7 +107,7 @@ class OrderController extends Controller{
             'earnest' => 'numeric|nullable',
             'safe_group' => 'numeric|nullable',
             'quantity' => 'required',
-            'mat_quantity.*' => 'numeric|min:1'
+            'mat_quantity.*' => 'numeric|min:0.01'
         ));
 
         if($validator->fails()){
