@@ -26,7 +26,7 @@
 @endif
 
 @if(isset($material) && !empty($material))
-	<div style="float:left;width:33.3%;"><b>Грам</b>: {{$model->weight}} гр.</div>
+	<div style="float:left;width:33.3%;"><b>Грам</b>: {{$weight['weight']}} гр.</div>
 
 	@if($model->workmanship)
 		<div style="float:left;width:33.3%;"><b>Изработка</b>: {{$model->workmanship}} лв.</div>

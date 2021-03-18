@@ -588,7 +588,8 @@ class SellingController extends Controller{
 
         $model = Model::where('id', $order->model_id)->first();
         $material = Material::where('id', $order->material_id)->first();
-        $weight = calculate_model_weight($model);
+        // $weight = calculate_model_weight($model);
+        $weight = array('weight'=>$order->weight); // Apparently, this needs to be statically fetched from the order, instead of being calculated on basis of model properties ¯\_(ツ)_/¯
 
         $stone = array(
             'isSet' => false,
@@ -804,7 +805,8 @@ class SellingController extends Controller{
             $payment = $selling;
             $material = $model->materials()->first();
             $barcode = $model->barcode;
-            $weight = calculate_model_weight($model);
+            // $weight = calculate_model_weight($model);
+            $weight = array('weight'=>$order->weight); // Apparently, this needs to be statically fetched from the order, instead of being calculated on basis of model properties ¯\_(ツ)_/¯
 
             $orderStones = array();
             $orderExchangeMaterials = array();
