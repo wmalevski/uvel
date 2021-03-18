@@ -78,10 +78,10 @@
 														<ul id="sortForm" class="list-unstyled option-set text-left list-styled" data-option-key="sortBy">
 															<li class="sort" data-option-value="price" data-order="asc">Цена: Ниска към Висока</li>
 															<li class="sort" data-option-value="price" data-order="desc">Цена: Висока към Ниска</li>
-															<li class="sort" data-option-value="title" data-order="asc">А-Я</li>
-															<li class="sort" data-option-value="title" data-order="desc">Я-А</li>
-															<li class="sort" data-option-value="created" data-order="asc">Стари към нови</li>
-															<li class="sort" data-option-value="created" data-order="desc">Нови към стари</li>
+															<li class="sort" data-option-value="name" data-order="asc">А-Я</li>
+															<li class="sort" data-option-value="name" data-order="desc">Я-А</li>
+															<li class="sort" data-option-value="created_at" data-order="asc">Стари към нови</li>
+															<li class="sort" data-option-value="created_at" data-order="desc">Нови към стари</li>
 														</ul>
 													</div>
 												</li>

@@ -304,6 +304,12 @@ class Product extends BaseModel
       }
     });
 
+    // Order by
+    if(isset($request->sortBy)){
+      $order = explode('-', $request->sortBy);
+      $query->orderBy($order[0], $order[1]);
+    }
+
     return $query;
   }
 

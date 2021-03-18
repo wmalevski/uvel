@@ -572,47 +572,30 @@ var uvelStore,
 
 	this.sortProductsAttach = function (trigger) {
 		trigger.on('click', this.sortProducts);
-		// initial sort from newest to oldest
-		var option = $('[data-option-value="created"][data-order="desc"]');
-		option.trigger('click');
+
+		// Get the value of an already selected Sorting
+		var url=new URLSearchParams(window.location.search);
+		var sortMethod='created';
+		var sortOrder='desc';
+		if(url.get('sortBy')){
+			var sort = url.get('sortBy').split('-');
+			sortMethod = sort[0];
+			sortOrder = sort[1];
+		}
+
+		window.sortBy = {method: sortMethod, order: sortOrder};
+
+		var selectedOrder = $('div#sortBox li.sort[data-option-value="'+sortMethod+'"][data-order="'+sortOrder+'"]').html();
+		$('div#sortButtonWarper button#sortButton span.name').html(selectedOrder);
 	}
 
-	this.sortProducts = function () {
-		var productsList = $('#sandBox'),
-			products = productsList.children('li'),
-			sortMethod = this.dataset.optionValue.split('-')[0],
-			sortOrder = this.dataset.order;
+	this.sortProducts = function (e) {
+		window.sortBy = {
+			method: e.target.dataset.optionValue,
+			order: e.target.dataset.order
+		};
 
-		products.sort(function (firstItem, secondItem) {
-			var firstItemValue, secondItemValue;
-
-			if (sortMethod == 'price') {
-				firstItemValue = parseInt(firstItem.dataset.price);
-				secondItemValue = parseInt(secondItem.dataset.price);
-			} else if (sortMethod == 'title') {
-				firstItemValue = firstItem.dataset.alpha.toLowerCase();
-				secondItemValue = secondItem.dataset.alpha.toLowerCase();
-			} else if (sortMethod == 'created') {
-				firstItemValue = parseInt(firstItem.dataset.id);
-				secondItemValue = parseInt(secondItem.dataset.id);
-			}
-
-			if (sortOrder == 'asc') {
-				if (firstItemValue > secondItemValue) {
-					return 1;
-				} else {
-					return -1;
-				}
-			} else {
-				if (firstItemValue > secondItemValue) {
-					return -1;
-				} else {
-					return 1;
-				}
-			}
-		});
-
-		products.detach().appendTo(productsList);
+		uvelStore.filter($('div#coll-filter-3 li.selected').first());
 	}
 
 	this.setReviewRating = function () {
@@ -1001,9 +984,12 @@ var uvelStore,
 
 		Array.prototype.push.apply(filterBtns, filterInputs);
 
+		var URLparams = false;
+
 		for (var i = 0; i < filterBtns.length; i++) {
 			if (i == 0) {
 				ajaxURL += '?';
+				URLparams = true;
 			}
 
 			var btn = $(filterBtns[i]);
@@ -1018,6 +1004,8 @@ var uvelStore,
 				ajaxURL += '&'
 			}
 		}
+
+		ajaxURL += (window.sortBy ? (URLparams ? '&' : '?') + 'sortBy='+window.sortBy.method+'-'+window.sortBy.order : '');
 
 		window.location = ajaxURL;
 	}

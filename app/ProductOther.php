@@ -28,12 +28,12 @@ class ProductOther extends Model
         return $this->belongsTo('App\Store')->withTrashed();
     }
 
-    public function reviews() 
+    public function reviews()
     {
         return $this->hasMany('App\Review', 'product_others_id');
     }
 
-    public function wishLists() 
+    public function wishLists()
     {
         return $this->hasMany('App\WishList');
     }
@@ -42,7 +42,7 @@ class ProductOther extends Model
     {
       return $this->hasMany('App\Gallery');
     }
-    
+
     public function getSimilarProductAvgRating($product) {
         $productTotalRating = 0;
         if(count($product->reviews)){
@@ -85,6 +85,14 @@ class ProductOther extends Model
 
         });
 
+        // Order by
+        if(isset($request->sortBy)){
+            $order = explode('-', $request->sortBy);
+            $query->orderBy($order[0], $order[1]);
+        }
+
+        // dd($query->toSql());
+
         return $query;
     }
 
@@ -104,7 +112,7 @@ class ProductOther extends Model
                 echo '<i class="spr-icon spr-icon-star" style=""></i>';
             }elseif($this->getProductOtherAvgRating($product_other) < $i){
                 echo'<i class="spr-icon spr-icon-star-empty" style=""></i>';
-            }   																		
+            }
         }
     }
 }
