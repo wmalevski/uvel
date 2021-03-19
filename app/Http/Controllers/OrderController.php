@@ -175,7 +175,7 @@ class OrderController extends Controller{
             $exchangedMaterials = array();
             foreach($request->given_material_id as $key=>$material){
                 if($material){
-                    $price = Material::find($material)->pricesSell()->first()->price;
+                    $price = Material::find($material)->pricesBuy()->first()->price;
 
                     array_push($exchangedMaterials,array(
                         'material_id' => $material,
@@ -517,10 +517,10 @@ class OrderController extends Controller{
             if ($request->given_material_id) {
                 $materials = ExchangeMaterial::where('order_id', $order->id)->get();
                 ExchangeMaterial::where('order_id', $order->id)->delete();
-
+                $exchangedMaterials = array();
                 foreach ($request->given_material_id as $key => $material) {
                     if ($material) {
-                        $price = Material::find($material)->pricesSell()->first()->price;
+                        $price = Material::find($material)->pricesBuy()->first()->price;
 
                         $exchangeMaterial = $materials->filter(function ($exch_material) use ($material) {
                             return $exch_material->material_id = $material;
@@ -534,6 +534,12 @@ class OrderController extends Controller{
                         $exchange_material->additional_price = 0;
 
                         $exchange_material->save();
+
+                        array_push($exchangedMaterials,array(
+                            'material_id' => $material,
+                            'weight' => $request->mat_quantity[$key],
+                            'sum_price' => $request->mat_quantity[$key] * $price
+                        ));
 
                         $findMaterial = MaterialQuantity::where([
                             ['material_id', '=', $material],
@@ -553,6 +559,7 @@ class OrderController extends Controller{
                         }
                     }
                 }
+                $order->exchanged_materials = serialize($exchangedMaterials);
             }
 
             if ($request->status == 'true') {
