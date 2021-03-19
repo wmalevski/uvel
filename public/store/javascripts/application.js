@@ -575,7 +575,7 @@ var uvelStore,
 
 		// Get the value of an already selected Sorting
 		var url=new URLSearchParams(window.location.search);
-		var sortMethod='created';
+		var sortMethod='created_at';
 		var sortOrder='desc';
 		if(url.get('sortBy')){
 			var sort = url.get('sortBy').split('-');
