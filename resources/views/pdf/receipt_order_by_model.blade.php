@@ -29,9 +29,9 @@
 	<div style="float:left;width:33.3%;"><b>Грам</b>: {{$weight['weight']}} гр.</div>
 
 	@if($model->workmanship)
-		<div style="float:left;width:33.3%;"><b>Изработка</b>: {{$model->workmanship}} лв.</div>
+		<div style="float:left;width:33.3%;"><b>Изработка</b>: {{$order->workmanship}} лв.</div>
 	@endif
-	<div style="float:left;width:33.3%;text-align:right;"><b>Цена</b>: {{$model->price }} лв.</div>
+	<div style="float:left;width:33.3%;text-align:right;"><b>Цена</b>: {{$order->price }} лв.</div>
 @endif
 
 <div style="clear: both;height:20px;"></div>
