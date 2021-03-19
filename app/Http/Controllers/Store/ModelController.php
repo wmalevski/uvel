@@ -22,7 +22,7 @@ class ModelController extends BaseController{
 	 */
 	public function index(Request $request){
 		$models = new Model();
-		$models = $models->filterModels($request, $models)->where('website_visible', 'yes')->paginate(Setting::where('key','per_page')->first()->value);
+		$models = $models->filterModels($request, $models)->where('website_visible', 'yes')->orderBy('id','desc')->paginate(Setting::where('key','per_page')->first()->value);
 
 		Session::put('models_active_filters', $request->fullUrl());
 

@@ -23,7 +23,7 @@ class ProductOtherController extends BaseController{
         $products = $products->where(array(
             array('quantity','!=',0),
             array('store_id','!=',1)
-        ))->paginate(Setting::where('key','per_page')->first()->value);
+        ))->orderBy('id','desc')->paginate(Setting::where('key','per_page')->first()->value);
 
         // $stores = Store::all()->except(1);
         // $productothertypes = ProductOtherType::all();

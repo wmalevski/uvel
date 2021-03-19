@@ -25,7 +25,7 @@ class ProductController extends BaseController{
 			'status'=>'available',
 			'website_visible'=>'yes',
 			array('store_id','!=',1)
-		))->paginate(Setting::where('key','per_page')->first()->value);
+		))->orderBy('id','desc')->paginate(Setting::where('key','per_page')->first()->value);
 
 		Session::put('products_active_filters', $request->fullUrl() );
 
