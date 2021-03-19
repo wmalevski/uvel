@@ -658,7 +658,7 @@ class SellingController extends Controller{
         $selling = new Selling();
 
         if($orderID && $type !== 'order_by_model'){
-            $selling = $selling::where('order_id', $orderID)->orderBy('id','DESC');
+            $selling = $selling::where('order_id', $orderID)->orderBy('id','DESC')->get();
             $payment = Payment::where('id', $selling->first()->payment_id)->first();
             $store = Store::where('id', $payment->first()->store_id)->first();
         }
@@ -892,7 +892,7 @@ class SellingController extends Controller{
             $mpdf->Output('receipt_'.$payment->id.'.pdf',\Mpdf\Output\Destination::DOWNLOAD);
         }
 
-        abort(404, 'Product not found.');
+        abort(400, 'Product not found.');
     }
 
     public function getCartTable(){
