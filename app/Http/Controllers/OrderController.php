@@ -40,7 +40,7 @@ class OrderController extends Controller{
      */
     public function index(MaterialQuantity $materials){
         $user = Auth::user();
-        $orders = Order::all();
+        $orders = Order::orderBy('id','DESC')->get();
         $products = Product::all();
         $models = Model::take(env('SELECT_PRELOADED'))->get();
         $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
@@ -276,14 +276,18 @@ class OrderController extends Controller{
                 $barcode = Product::where('model_id', $order->model_id)->first()->barcode;
             }
 
-            if($order->materials) {
-                foreach($order->materials as $exchangeMaterial) {
-                    $material = Material::where('id', $exchangeMaterial->material_id)->first();
+            if($order->exchanged_materials){
+                $exchanged = unserialize($order->exchanged_materials);
+                if(is_array($exchanged) && !empty($exchanged)){
+                    foreach($exchanged as $k=>$exchangeMaterial){
+                        $material = Material::where('id', $exchangeMaterial['material_id'])->first();
 
-                    $orderExchangeMaterials[] = array(
-                        'name' => "$material->name - $material->code - $material->color",
-                        'weight' => $exchangeMaterial->weight
-                    );
+                        $orderExchangeMaterials[] = array(
+                            'name' => "$material->name - $material->code - $material->color",
+                            'weight' => $exchangeMaterial['weight'],
+                            'sum_price' => $exchangeMaterial['sum_price']
+                        );
+                    }
                 }
             }
 

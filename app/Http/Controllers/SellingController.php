@@ -824,13 +824,14 @@ class SellingController extends Controller{
             if(isset($order->exchanged_materials)){
                 $exchanged = unserialize($order->exchanged_materials);
                 foreach($exchanged as $xMat){
-                    if(isset($xMat['sum_price']) && $exchange_material_sum==0){
-                        $exchange_material_sum = $xMat['sum_price'];
+                    if(isset($xMat['sum_price'])){
+                        $exchange_material_sum += $xMat['sum_price'];
                     }
                     $xMaterial = Material::where('id', $xMat['material_id'])->first();
                     $orderExchangeMaterials[] = array(
                         'name' => $xMaterial->name." ".$xMaterial->code.", ".$xMaterial->color,
-                        'weight' => $xMat['weight']
+                        'weight' => $xMat['weight'],
+                        'sum_price' => $xMat['sum_price']
                     );
                 }
             }
@@ -859,35 +860,18 @@ class SellingController extends Controller{
                     break;
                 case 'order':
                     $exchangedMaterials = null;
-                    $html = view('pdf.receipt_multiple_items', compact(
-                        'store', 'payment', 'receipt_items', 'exchangedMaterials', 'exchange_material_sum', 'totalWeight', 'totalPrice'
-                    ));
+                    $html = view('pdf.receipt_multiple_items', compact('store', 'payment', 'receipt_items', 'exchangedMaterials', 'exchange_material_sum', 'totalWeight', 'totalPrice'));
                     break;
                 case 'order_by_model':
-                    $html = view('pdf.receipt_order_by_model', compact(
-                        'store',
-                        'order',
-                        'selling',
-                        'material',
-                        'model',
-                        'weight',
-                        'orderPayment',
-                        'payment',
-                        'barcode',
-                        'orderStones',
-                        'orderExchangeMaterials',
-                        'exchange_material_sum',
-                        'totalWeight',
-                        'totalPrice'
-                    ));
+                    $html = view('pdf.receipt_order_by_model', compact('store','order','selling','material','model','weight','orderPayment','payment','barcode','orderStones','orderExchangeMaterials','exchange_material_sum','totalWeight','totalPrice'));
                     break;
             }
 
             $mpdf->WriteHTML($html->render());
 
             // For development purposes
-            // $mpdf->Output();
-            // exit;
+            $mpdf->Output();
+            exit;
 
             $mpdf->Output('receipt_'.$payment->id.'.pdf',\Mpdf\Output\Destination::DOWNLOAD);
         }

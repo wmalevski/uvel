@@ -36,7 +36,7 @@
 
 <div style="clear: both;height:20px;"></div>
 
-<div style="text-align:right;"><b>Капаро</b>: {{$order->earnest}}лв.</div>
+<div style="text-align:right;"><b>Капаро</b>: {{$order->earnest ?: 0}}лв.</div>
 <div style="text-align:right;"><b>Обменен материал</b>: {{$exchange_material_sum}}лв.</div>
 <div style="text-align:right;"><b>Дадена сума</b>: {{$orderPayment->given}} лв.</div>
 <div style="text-align:right;"><b>Ресто</b>: {{ floatval( ($exchange_material_sum + $orderPayment->given) + $order->earnest -$selling->price )}}лв.</div>
@@ -49,8 +49,9 @@
 		<ul>
 		@foreach($orderExchangeMaterials as $orderExchangeMaterial)
 			<li>
-				<div style="width:50%;float:left;"><b>Вид</b>: {{$orderExchangeMaterial['name']}}</div>
-				<div style="width:50%;float:left;"><b>Тегло</b>: {{$orderExchangeMaterial['weight']}} гр.</div>
+				<div style="width:36%;float:left;"><b>Вид</b>: {{$orderExchangeMaterial['name']}}</div>
+				<div style="width:25%;float:left;text-align:center;"><b>Тегло</b>: {{$orderExchangeMaterial['weight']}} гр.</div>
+				<div style="width:29%;float:left;text-align:right;"><b>Изкупува</b>: {{$orderExchangeMaterial['sum_price']}} лв.</div>
 			</li>
 		@endforeach
 		</ul>

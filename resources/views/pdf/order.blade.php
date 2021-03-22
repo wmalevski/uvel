@@ -47,12 +47,13 @@
             @if($order->earnest)Капаро: <b>{{$order->earnest}}лв.</b>@endif
         </div>
 
-        <div style="width:50%;margin:0;padding:0;font-size:10px;text-align:left;float:left;">
+        <div style="width:100%;margin:0;padding:0;font-size:10px;text-align:left;float:left;">
             @if ($orderExchangeMaterials)Дадени материали от клиента:
                 @foreach($orderExchangeMaterials as $orderExchangeMaterial)
                     <div style="clear: both;">
                         <div style="float:left;width:50%;">Вид: <b>{{$orderExchangeMaterial['name']}}</b></div>
-                        <div style="float:left;width:50%;">Тегло: <b>{{$orderExchangeMaterial['weight']}}</b></div>
+                        <div style="float:left;width:25%;">Тегло: <b>{{$orderExchangeMaterial['weight']}}гр</b></div>
+                        <div style="float:left;width:25%;">Изкупува: <b>{{$orderExchangeMaterial['sum_price']}}лв</b></div>
                     </div>
                 @endforeach
             @endif
