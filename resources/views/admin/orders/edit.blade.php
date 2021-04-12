@@ -146,7 +146,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
 				@if($order_stone->id)
 					<input type="hidden" name="orderStoneIds[]" value="{{$order_stone->id}}" />
 				@endif
-					<div class="form-group col-md-6">
+					<div class="form-group col-md-8">
 						<label for="stones[]">Камъни:</label>
 						<select name="stones[]" class="form-control" data-calculatePrice-stone data-search="/ajax/select_search/stones/">
 							<option value="">Избери</option>
@@ -155,11 +155,11 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
 							@endforeach
 						</select>
 					</div>
-					<div class="form-group col-md-4">
+					<div class="form-group col-md-3">
 						<label for="stone_amount">Брой:</label>
 						<input type="number" class="form-control calculate-stones" id="stone_amount" name="stone_amount[]" placeholder="Брой" value="{{$order_stone->amount}}" data-calculateStones-amount min="1" max="50" />
 					</div>
-					<div class="form-group col-md-2">
+					<div class="form-group col-md-1">
 						<span class="delete-stone remove_field" data-stone-remove><i class="c-brown-500 ti-trash"></i></span>
 					</div>
 					<div class="form-group col-md-6">

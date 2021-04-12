@@ -21,15 +21,13 @@ use Storage;
 use App\Nomenclature;
 use Auth;
 
-class StoneController extends Controller
-{
+class StoneController extends Controller{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(){
         $stones = Stone::take(env('SELECT_PRELOADED'))->get();
         $stone_sizes = StoneSize::take(env('SELECT_PRELOADED'))->get();
         $stone_contours = StoneContour::take(env('SELECT_PRELOADED'))->get();
@@ -41,23 +39,12 @@ class StoneController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $validator = Validator::make( $request->all(), [
             'nomenclature_id' => 'required',
             'type' => 'required',
@@ -123,24 +110,12 @@ class StoneController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Stone  $stone
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Stone $stone)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Stone  $stone
      * @return \Illuminate\Http\Response
      */
-    public function edit(Stone $stone)
-    {
+    public function edit(Stone $stone){
         $stone_sizes = StoneSize::take(env('SELECT_PRELOADED'))->get();
         $stone_contours = StoneContour::take(env('SELECT_PRELOADED'))->get();
         $stone_styles = StoneStyle::take(env('SELECT_PRELOADED'))->get();
@@ -156,42 +131,36 @@ class StoneController extends Controller
         return \View::make('admin/stones/edit', array('stone' => $stone, 'stone_sizes' => $stone_sizes, 'stone_contours' => $stone_contours, 'stone_styles' => $stone_styles, 'stone_photos' => $stone_photos, 'stores' => $stores, 'nomenclatures' => $nomenclatures));
     }
 
-    public function topUp(Request $request, Stone $stone)
-    {
-      $validator = Validator::make( $request->all(), [
-        'amount' => 'required|numeric|between:1,100000'
-    ]);
+    public function topUp(Request $request, Stone $stone){
+        $validator = Validator::make( $request->all(), [
+            'amount' => 'required|numeric|between:1,100000'
+        ]);
 
-    if ($validator->fails()) {
-        return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        if($validator->fails()){
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+        }
+
+        $stone->amount += $request->amount;
+        $stone->save();
+
+        $stone_photos = Gallery::where(array(
+            array('table', '=', 'stones'),
+            array('stone_id', '=', $stone->id)
+        ))->get();
+
+        $photosHtml = '';
+
+        foreach($stone_photos as $photo){
+            $photosHtml .= '<div class="image-wrapper">
+                <div class="close"><span data-url="gallery/delete/'.$photo->id.'">&#215;</span></div>
+                <img src="'.asset("uploads/stones/" . $photo->photo).'" alt="" class="img-responsive" />
+            </div>';
+        }
+
+        return Response::json(array('ID' => $stone->id, 'table' => View::make('admin/stones/table',array('stone'=>$stone))->render(), 'photos' => $photosHtml));
     }
 
-    $stone->amount += $request->amount;
-
-    $stone->save();
-
-    $stone_photos = Gallery::where(
-        [
-            ['table', '=', 'stones'],
-            ['stone_id', '=', $stone->id]
-        ]
-    )->get();
-
-    $photosHtml = '';
-
-    foreach($stone_photos as $photo){
-        $photosHtml .= '
-            <div class="image-wrapper">
-            <div class="close"><span data-url="gallery/delete/'.$photo->id.'">&#215;</span></div>
-            <img src="'.asset("uploads/stones/" . $photo->photo).'" alt="" class="img-responsive" />
-        </div>';
-    }
-
-    return Response::json(array('ID' => $stone->id, 'table' => View::make('admin/stones/table',array('stone'=>$stone))->render(), 'photos' => $photosHtml));
-    }
-
-    public function decreaseQnty(Request $request, Stone $stone)
-    {
+    public function decreaseQnty(Request $request, Stone $stone){
         $validator = Validator::make( $request->all(), [
             'amount' => 'required|numeric|between:1,100000'
         ]);
@@ -235,8 +204,7 @@ class StoneController extends Controller
      * @param  \App\Stone  $stone
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Stone $stone)
-    {
+    public function update(Request $request, Stone $stone){
         $validator = Validator::make( $request->all(), [
             'nomenclature_id' => 'required',
             'type' => 'required',
@@ -311,7 +279,7 @@ class StoneController extends Controller
     }
 
     public function select_search(Request $request){
-        $query = Stone::select('*');
+        $query = Stone::all();
 
         $stones_new = new Stone();
         $stones = $stones_new->filterStones($request, $query);
@@ -319,14 +287,14 @@ class StoneController extends Controller
         $pass_stones = array();
 
         foreach($stones as $stone){
-            $pass_stones[] = [
-                'attributes' => [
+            $pass_stones[] = array(
+                'attributes' => array(
                     'value' => $stone->id,
-                    'label' => $stone->nomenclature->name.' - '.$stone->contour->name.' - '.$stone->size->name,
+                    'label' => $stone->nomenclature->name.' - '.$stone->contour->name.' - '.$stone->size->name.' - '.$stone->weight.' гр',
                     'data-price' => $stone->price,
                     'data-type' => $stone->type
-                ]
-            ];
+                )
+            );
         }
 
         return json_encode($pass_stones, JSON_UNESCAPED_SLASHES );
@@ -356,8 +324,7 @@ class StoneController extends Controller
      * @param  \App\Stone  $stone
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Stone $stone)
-    {
+    public function destroy(Stone $stone){
         if($stone){
             $usingModel = $stone->modelStones->count();
             $usingProduct = $stone->productStones->count();

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class StoneContour extends Model
 {
     use SoftDeletes;
-    
+
     protected $fillable = [
         'name',
     ];

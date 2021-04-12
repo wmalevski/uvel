@@ -117,7 +117,7 @@
             <div class="model_stones">
                 @foreach($product_stones as $modelStone)
                 <div class="form-row fields">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-8">
                         <label>Камъни: </label>
 
                         <select name="stones[]" class="form-control" data-calculatePrice-stone data-search="/ajax/select_search/stones/">
@@ -133,13 +133,13 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         <label for="1">Брой: </label>
                         <input type="number" class="form-control calculate-stones" name="stone_amount[]" placeholder="Брой"
                             value="{{  $modelStone->amount  }}" data-calculateStones-amount min="1" max="50">
                     </div>
 
-                    <div class="form-group col-md-2">
+                    <div class="form-group col-md-1">
                         <span class="delete-stone remove_field" data-stone-remove><i class="c-brown-500 ti-trash"></i></span>
                     </div>
 

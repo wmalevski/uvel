@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Stone extends Model
 {
     use SoftDeletes;
-    
+
     protected $fillable = [
         'nomenclature_id',
         'type',
@@ -37,7 +37,7 @@ class Stone extends Model
 
     public function size()
     {
-        return $this->belongsTo('App\StoneSize');        
+        return $this->belongsTo('App\StoneSize');
     }
 
     public function style()
@@ -89,7 +89,7 @@ class Stone extends Model
                     $request->byName = explode("-", $request->byName);
 
                     $query->whereHas('Nomenclature', function ($q) use ($request) {
-                        $q->where('name', 'LIKE', '%' . trim($request->byName[0]) . '%');
+                        $q->where('name', 'LIKE', '%' . trim($request->byName[0]) . '%')->orWhere('weight', 'LIKE', '%' . trim($request->byName[0]) . '%');
                     });
 
                     if (count($request->byName) == 1) {

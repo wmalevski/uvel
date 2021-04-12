@@ -34,7 +34,7 @@ class ModelController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $models = Model::all();
+        $models = Model::orderBy('id','DESC')->get();
         $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
         $prices = Price::all();
         $stones = Stone::take(env('SELECT_PRELOADED'))->get();
@@ -160,11 +160,7 @@ class ModelController extends Controller{
 
                 $extension = explode('/',$memi);
 
-                if($extension[1] == "svg+xml"){
-                    $ext = 'png';
-                }else{
-                    $ext = $extension[1];
-                }
+                $ext = ($extension[1] == "svg+xml"?'png':$extension[1]);
 
                 $file_name = 'modelimage_'.uniqid().time().'.'.$ext;
 
@@ -232,6 +228,7 @@ class ModelController extends Controller{
             $product->size = $request->size;
             $product->workmanship = round($request->workmanship);
             $product->price = round($request->price);
+            $product->weight_without_stones = 'yes';
             $product->store_id = 1;
 
             $material->quantity += $request->weight;

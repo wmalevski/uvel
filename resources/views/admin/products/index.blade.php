@@ -1,16 +1,16 @@
 @extends('admin.layout')
 @php
 $newStoneRow =
-                '<div class="form-group col-md-6"><label>Камък:</label>
+                '<div class="form-group col-md-8"><label>Камък:</label>
                     <select name="stones[]" class="form-control" data-calculatePrice-stone data-search="/ajax/select_search/stones/">
                         <option value="">Избери</option>';
                         $newStoneRow .= '</select>
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                     <label>Брой:</label>
                     <input type="text" value="" class="form-control calculate-stones" name="stone_amount[]" data-calculateStones-amount placeholder="Брой">
                 </div>
-                <div class="form-group col-md-2">
+                <div class="form-group col-md-1">
                     <span class="delete-stone remove_field" data-stone-remove><i class="c-brown-500 ti-trash"></i></span>
                 </div>
                 <div class="form-group col-md-6">
@@ -323,10 +323,10 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 					<li>Размер - <span class="product-size"></span></li>
 					<li>Цена - <span class="product-price"></span></li>
 					<li>Изработка - <span class="product-workmanship"></span></li>
-					<li>Камъни -  
+					<li>Камъни -
 						<span class="product-stones"></span>
 						<ul class="product-stones-inner">
-							
+
 						</ul>
 					</li>
 					<li><span class="product-barcode"></span></li>
@@ -352,7 +352,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 			<th>Статус</th>
 			<th data-sort-method="none">Действия</th>
 		</tr>
-		
+
 		<tr class="search-inputs" data-dynamic-search-url="ajax/search/products/">
 			<th></th>
 			<th>

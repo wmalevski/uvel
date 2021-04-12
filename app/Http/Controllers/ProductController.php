@@ -28,16 +28,14 @@ use Storage;
 use Auth;
 use Milon\Barcode\DNS1D;
 
-class ProductController extends Controller
-{
+class ProductController extends Controller{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(MaterialQuantity $materials)
-    {
-        $products = Product::all();
+    public function index(MaterialQuantity $materials){
+        $products = Product::orderBy('id','DESC')->get();
         $models = Model::take(env('SELECT_PRELOADED'))->get();
         $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
         $prices = Price::where('type', 'sell')->get();
@@ -62,24 +60,12 @@ class ProductController extends Controller
     /**
      * Show all products reviews
      */
-    public function showReviews()
-    {
-        $reviews = Review::where([
-            ['product_id', '!=', '']
-        ])->get();
+    public function showReviews(){
+        $reviews = Review::where(array(
+            array('product_id', '!=', '')
+        ))->get();
 
         return \View::make('admin/products_reviews/index', array('reviews'=>$reviews));
-
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
     }
 
     public function productsReport(){
@@ -155,29 +141,17 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $product = new Product();
         $product = $product->store($request, 'JSON');
 
         if(isset($product->id)){
             return Response::json(array('success' => View::make('admin/products/table',array('product'=>$product))->render()));
-        }else{
-            return $product;
         }
 
+        return $product;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Product  $products
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Product $products)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -185,8 +159,7 @@ class ProductController extends Controller
      * @param  \App\Product  $products
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
-    {
+    public function edit(Product $product){
         $product_stones = $product->stones;
         $models = Model::take(env('SELECT_PRELOADED'))->get();
         $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
@@ -236,8 +209,7 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
-    {
+    public function update(Request $request, Product $product){
         if($product){
             $product_stones = ProductStone::where('product_id', $product)->get();
             $models = Model::all();
@@ -431,8 +403,7 @@ class ProductController extends Controller
      * @param Model $model
      * @return \Illuminate\Http\Response
      */
-    public function getProductInformation(Product $product)
-    {
+    public function getProductInformation(Product $product){
         $photos = Gallery::where(
             [
                 ['table', '=', 'products'],
@@ -487,8 +458,7 @@ class ProductController extends Controller
      *
      * @return string
      */
-    private function getProductStoneName($productStoneId)
-    {
+    private function getProductStoneName($productStoneId){
         $preloaded_stones = Stone::take(env('SELECT_PRELOADED'))->get();
 
         foreach($preloaded_stones  as $stone) {
@@ -504,8 +474,7 @@ class ProductController extends Controller
      * @param $photos
      * @return array
      */
-    private function getProductPhotos($photos)
-    {
+    private function getProductPhotos($photos){
         $pass_photos = array();
 
         foreach($photos as $photo){
@@ -538,8 +507,7 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
-    {
+    public function destroy(Product $product){
         if ($product) {
             if ($product->status != 'selling') {
                 if (($product_travelling = ProductTravelling::where('product_id', $product->id)) && $product_travelling->first()) {
