@@ -401,3 +401,38 @@ textarea {
 .sell-product-thumbnail img {
 	margin-right: 5px;
 }
+ul.pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+ul.pagination li {
+    font-size: 1.2em;
+    border: 1px solid #b0daf1;
+    background: white;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 150ms ease-in-out;
+}
+ul.pagination li:not(:last-child){
+  border-right: none;
+}
+ul.pagination li.disabled{cursor:default;}
+ul.pagination li:hover:not(.disabled), ul.pagination li:active:not(.disabled){
+  cursor:pointer;
+  background:#d2f2ff;
+}
+ul.pagination li.active {
+    background: #00b4f7;
+    color: white;
+}
+ul.pagination li a {
+    display: block;
+    width: 100%;
+    text-align: center;
+}

@@ -26,6 +26,7 @@ use File;
 use Auth;
 use Uuid;
 use Storage;
+use App\Setting;
 
 class ModelController extends Controller{
     /**
@@ -34,7 +35,7 @@ class ModelController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $models = Model::orderBy('id','DESC')->get();
+        $models = Model::orderBy('id','DESC')->paginate(Setting::where('key','per_page')->first()->value);
         $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
         $prices = Price::all();
         $stones = Stone::take(env('SELECT_PRELOADED'))->get();

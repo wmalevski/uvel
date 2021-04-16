@@ -27,6 +27,7 @@ use App\MaterialQuantity;
 use Storage;
 use Auth;
 use Milon\Barcode\DNS1D;
+use App\Setting;
 
 class ProductController extends Controller{
     /**
@@ -35,7 +36,7 @@ class ProductController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function index(MaterialQuantity $materials){
-        $products = Product::orderBy('id','DESC')->get();
+        $products = Product::orderBy('id','DESC')->paginate(Setting::where('key','per_page')->first()->value);
         $models = Model::take(env('SELECT_PRELOADED'))->get();
         $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
         $prices = Price::where('type', 'sell')->get();

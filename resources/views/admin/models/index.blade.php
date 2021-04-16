@@ -294,6 +294,10 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 		@endforeach
 	</tbody>
 </table>
+
+<!-- Paginator -->
+{{ $models->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
+
 @endsection
 
 @section('footer-scripts')
