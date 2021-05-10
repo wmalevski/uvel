@@ -33,9 +33,7 @@
 			<div class="col-md-12 product-information">
 				<h1 id="quick-shop-title">
 					<span>
-						<a href="{{ route('single_product', ['product' => $product->id])  }}">
-							{{ implode(" ", str_split($product->id, 3)) }}
-						</a>
+						<a href="{{ route('single_product', ['product' => $product->id])  }}">{{$product->id}}</a>
 					</span>
 				</h1>
 				<div id="quick-shop-infomation" class="description">

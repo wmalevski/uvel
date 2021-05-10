@@ -18,9 +18,7 @@
 		</li>
 		<li class="row-right parent-fly animMix">
 			<div class="product-content-left">
-				<a class="title-5" href="{{ route('single_product', ['product' => $product->id]) }}">
-					No: {{ implode(" ", str_split($product->id, 3)) }}
-				</a>
+				<a class="title-5" href="{{ route('single_product', ['product' => $product->id]) }}">No: {{$product->id}}</a>
 				<br>
 				Модел: {{ $product->model->name }}
 				<br>

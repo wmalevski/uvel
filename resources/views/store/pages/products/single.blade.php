@@ -27,9 +27,7 @@
 								<meta itemprop="url">
 								<div id="product" class="content clearfix">
 									<h1 id="page-title" class="text-center">
-										<span itemprop="name">
-											{{ implode(" ", str_split($product->id, 3)) }}
-										</span>
+										<span itemprop="name">{{$product->id}}</span>
 									</h1>
 									<div id="product-image" class="product-image row ">
 										<div id="detail-left-column" class="hidden-xs left-coloum col-sm-6 col-sm-6 fadeInRight not-animated"
