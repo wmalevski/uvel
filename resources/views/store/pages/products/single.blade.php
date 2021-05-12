@@ -76,7 +76,7 @@
 														<li>
 															<h5>Информация за продукта</h5>
 															<ul class="sub">
-																<li><span>No:</span> {{ implode(" ", str_split($product->id, 3)) }}</li>
+																<li><span>No:</span> {{$product->id}}</li>
 																<li><span>Модел:</span> {{ $product->model->name }}</li>
 																<li><span>{{ $product->material->name }} - {{ $product->material->code }} - {{ $product->material->color }}</span></li>
 																<li><span>Тегло: {{ $product->weight['weight'] }}гр.</span></li>
@@ -303,9 +303,7 @@
 													</li>
 													<li class="row-right parent-fly animMix">
 														<div class="product-content-left">
-															<a class="title-5" href="{{ route('single_product', ['product' => $product->id]) }}">
-																No: {{ implode(" ", str_split($product->id, 3)) }}
-															</a>
+															<a class="title-5" href="{{ route('single_product', ['product' => $product->id]) }}">No: {{$product->id}}</a>
 															<br>
 															Модел: {{ $product->model->name }}
 															<br>

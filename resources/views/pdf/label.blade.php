@@ -9,12 +9,12 @@
             <tr>
                 <td text-rotate="-90" style="font-size: 20px;">{{ $product->price }}лв.</td>
                 <td style="padding-left: 30px;">
-                    Гр: {{ $weight }}<br/>
+                    Гр: @if(isset($product->weight_without_stones) && $product->weight_without_stones == 'yes') {{ $product->weight }} @else {{ $product->gross_weight }} @endif<br/>
                     @if($stone['isSet'])
                     {{$stone['display_name']}} - {{$stone['accumulated_weight']}} гр.<br>
                     @endif
                     Р-р: {{ $product->size }}<br/>
-                    Изр: {{ $workmanship }}лв.<br/>
+                    Цена: {{ $product->price }}лв.<br/>
                 </td>
             </tr>
         </table>

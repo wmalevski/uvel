@@ -46,6 +46,7 @@ class GenerateLabelController extends Controller{
 						$stone['accumulated_weight'] += $productStone->weight;
 					}
 				}
+				$weight += $stone['accumulated_weight'];
 			}
 
 			$mpdf = new \Mpdf\Mpdf([
@@ -63,8 +64,8 @@ class GenerateLabelController extends Controller{
 			$mpdf->WriteHTML($html);
 
 			// For development purposes
-			// $mpdf->Output();
-			// exit;
+			$mpdf->Output();
+			exit;
 
 			$mpdf->Output(str_replace(' ', '_', $product->name).'_label.pdf',\Mpdf\Output\Destination::DOWNLOAD);
 		}
