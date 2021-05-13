@@ -41,7 +41,10 @@ class ModelController extends BaseController{
 	public function show(Model $model){
 		$models = Model::paginate(Setting::where('key','per_page')->first()->value);
 
-		$allModels = Model::where('jewel_id',$model->jewel_id)->whereNotIn('id',array($model->id));
+		$allModels = Model::where(array(
+			array('website_visible','yes'),
+			array('jewel_id',$model->jewel_id)
+		)->whereNotIn('id',array($model->id));
 		$similarModels = $allModels->orderBy(DB::raw('ABS(`price` - '.$model->price.')'))->take(5)->get();
 
 		if($model){
