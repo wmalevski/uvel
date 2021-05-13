@@ -44,7 +44,7 @@ class ModelController extends BaseController{
 		$allModels = Model::where(array(
 			array('website_visible','yes'),
 			array('jewel_id',$model->jewel_id)
-		)->whereNotIn('id',array($model->id));
+		))->whereNotIn('id',array($model->id));
 		$similarModels = $allModels->orderBy(DB::raw('ABS(`price` - '.$model->price.')'))->take(5)->get();
 
 		if($model){
