@@ -202,17 +202,19 @@ class MaterialController extends Controller{
         $result_materials = array();
 
         foreach($materials as $material){
-            $result_materials[] = [
-                'attributes' => [
-                    'value' => $material->id,
-                    'label' => $material->parent->name .' - '. $material->color . ' - ' .$material->code,
-                    'data-sample' => $material->code,
-                    'data-price-1' => $material->pricesExchange[0]->price,
-                    'data-price-1-id' => $material->pricesExchange[0]->id,
-                    'data-price-2' => $material->pricesExchange[1]->price,
-                    'data-price-2-id' => $material->pricesExchange[1]->id
-                ]
-            ];
+            if(isset($material->pricesExchange[0]) && isset($material->pricesExchange[1])){
+                $result_materials[] = [
+                    'attributes' => [
+                        'value' => $material->id,
+                        'label' => $material->parent->name .' - '. $material->color . ' - ' .$material->code,
+                        'data-sample' => $material->code,
+                        'data-price-1' => $material->pricesExchange[0]->price,
+                        'data-price-1-id' => $material->pricesExchange[0]->id,
+                        'data-price-2' => $material->pricesExchange[1]->price,
+                        'data-price-2-id' => $material->pricesExchange[1]->id
+                    ]
+                ];
+            }
         }
 
         return $result_materials;
