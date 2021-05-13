@@ -152,6 +152,10 @@ class UserController extends BaseController{
         $user->phone = $request->phone;
         $user->postcode = $request->postcode;
 
+        if($request->password && $request->password_confirmation && ($request->password===$request->password_confirmation)){
+            $user->password=bcrypt($request->password);
+        }
+
         $user->save();
 
         if ($validator->fails()) {
