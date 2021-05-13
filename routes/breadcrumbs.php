@@ -139,7 +139,7 @@ Breadcrumbs::register('single_model', function ($breadcrumbs, $model) {
     // $breadcrumbs->parent('models');
     // $breadcrumbs->push($model->name, route('single_model', $model->id));
     $breadcrumbs->parent('store');
-    $breadcrumbs->push('Налични бижута', route('products'));
+    $breadcrumbs->push('Модели по поръчка', route('products'));
 });
 
 Breadcrumbs::register('user_account', function ($breadcrumbs) {
