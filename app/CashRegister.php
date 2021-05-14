@@ -77,8 +77,8 @@ class CashRegister extends Model{
 
 		// If status is NULL then this is a new record and we need to take the total of the previous work day for this store
 		if($register->status == NULL){
-			$previous_total = CashRegister::where('store_id', $store)->orderBy('date', 'DESC')->first()['total'];
-			if($previous_total == NULL){ // No previous records for this store (probably right after setup)
+			$previous_total = CashRegister::where('store_id', $store)->orderBy('date', 'DESC')->first();
+			if(!isset($previous_total['total']) || $previous_total['total'] == NULL){ // No previous records for this store (probably right after setup)
 				$previous_total = 0;
 			}
 
@@ -93,8 +93,8 @@ class CashRegister extends Model{
 			$register->total += $add;
 
 			CashRegister::where(array('date'=>CashRegister::$date, 'store_id'=>$store))->update(array(
-			'income' => $register->income,
-			'total' => $register->total
+				'income' => $register->income,
+				'total' => $register->total
 			));
 		}
 	}
