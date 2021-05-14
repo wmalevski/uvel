@@ -181,17 +181,20 @@ class MaterialController extends Controller{
         $pass_materials = array();
 
         foreach($materials as $material) {
-            $pass_materials[] = [
-                'attributes' => [
-                    'value' => $material->id,
-                    'label' => $material->parent->name.' - '.$material->color.' - '.$material->code,
-                    'data-carat' => $material->carat,
-                    'data-transform' => $material->carat_transform,
-                    'data-pricebuy' => Price::where(['material_id' => $material->id, "type" => "buy"])->first()['price'],
-                    'data-price' => Price::where(['material_id' => $material->id, "type" => "buy"])->first()['price'],
-                    'data-material' => $material->id,
-                ]
-            ];
+            $priceBuy=Price::where(['material_id' => $material->id, "type" => "buy"])->first();
+            if(isset($priceBuy['price'])){
+                $pass_materials[] = [
+                    'attributes' => [
+                        'value' => $material->id,
+                        'label' => $material->parent->name.' - '.$material->color.' - '.$material->code,
+                        'data-carat' => $material->carat,
+                        'data-transform' => $material->carat_transform,
+                        'data-pricebuy' => $priceBuy['price'],
+                        'data-price' => $priceBuy['price'],
+                        'data-material' => $material->id,
+                    ]
+                ];
+            }
         }
 
         return json_encode($pass_materials, JSON_UNESCAPED_SLASHES );
