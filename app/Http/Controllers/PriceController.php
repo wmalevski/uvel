@@ -352,14 +352,20 @@ class PriceController extends Controller{
         $pass_materials = array();
 
         foreach($materials as $material){
+            $priceBuy=$material->pricesBuy->first();
+            $priceSell=$material->pricesSell->first();
+
+            $priceBuy=(isset($priceBuy['price'])?$priceBuy['price']:'--');
+            $priceSell=(isset($priceSell['price'])?$priceSell['price']:'--');
+
             $pass_materials[] = [
                 'attributes' => [
                     'value' => $material->id,
                     'label' => $material->parent->name.' - '.$material->color.' - '.$material->code,
                     'data-carat' => $material->carat,
                     'data-transform' => $material->carat_transform,
-                    'data-pricebuy' => $material->pricesBuy->first()['price'],
-                    'data-price' => $material->pricesSell->first()['price'],
+                    'data-pricebuy' => $priceBuy,
+                    'data-price' => $priceSell,
                     'data-material' => $material->id,
                 ]
             ];
