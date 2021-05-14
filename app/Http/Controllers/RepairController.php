@@ -62,7 +62,7 @@ class RepairController extends Controller{
             'date_recieved'     => $request->date_recieved,
             'date_returned'     => $request->date_returned,
             'weight'            => $request->weight,
-            'prepaid'           => $request->prepaid,
+            'prepaid'           => ($request->prepaid?:0),
             'price'             => $request->price,
             'repair_description'=> $request->repair_description,
             'material_id'       => $request->material_id,
