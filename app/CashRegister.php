@@ -81,6 +81,9 @@ class CashRegister extends Model{
 			if(!isset($previous_total['total']) || $previous_total['total'] == NULL){ // No previous records for this store (probably right after setup)
 				$previous_total = 0;
 			}
+			else{
+				$previous_total=$previous_total['total'];
+			}
 
 			// Add the total of the previous day to today's total
 			$register->total += $previous_total;
