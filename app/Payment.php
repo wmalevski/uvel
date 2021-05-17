@@ -98,7 +98,7 @@ class Payment extends Model{
 
             // Add the payment to the Cash Register
             $cashRegister = new CashRegister();
-            $cashRegister->RecordIncome($request->wanted_sum, $request->pay_currency, $payment->store_id);
+            $cashRegister->RecordIncome($request->wanted_sum, $request->pay_currency, Auth::user()->getStore()->id);
 
 
             $paymentID = $payment->id;

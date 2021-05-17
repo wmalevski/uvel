@@ -1,15 +1,29 @@
 <tr data-id="{{ $product->id }}">
     <td class="thumbnail--tooltip">
-        @if( App\Product::withTrashed()->find($product->product_id)->photos)
-            <img class="admin-product-image" src="{{ asset("uploads/products/" .  App\Product::withTrashed()->find($product->product_id)->photos->first()['photo']) }}">
-            <ul class="product-hover-image" style="background-image: url({{ asset("uploads/products/". App\Product::withTrashed()->find($product->product_id)->photos->first()['photo']) }});"></ul>
-        @elseif( App\Product::withTrashed()->find($product->product_id)->model)
-            <img class="admin-product-image" src="{{ asset("uploads/models/" .  App\Product::withTrashed()->find($product->product_id)->model->photos->first()['photo']) }}">
-            <ul class="product-hover-image" style="background-image: url({{ asset("uploads/models/". App\Product::withTrashed()->find($product->product_id)->model->photos->first()['photo']) }});"></ul>
+        @php
+            $prod=App\Product::withTrashed()->find($product->product_id);
+
+            if($prod){
+                $prodPhoto=$prod->photos->first();
+                $prodPhoto=($prodPhoto && isset($prodPhoto['photo'])?$prodPhoto['photo']:null);
+            }
+
+            $mod=App\Product::withTrashed()->find($product->product_id);
+            if($mod){
+                $modPhoto=$mod->model->photos->first();
+                $modPhoto=($modPhoto && isset($modPhoto['photo'])?$modPhoto['photo']:null);
+            }
+        @endphp
+        @if($prod && $prodPhoto)
+            <img class="admin-product-image" src="{{ asset("uploads/products/".$prodPhoto)}}">
+            <ul class="product-hover-image" style="background-image: url({{ asset("uploads/products/". $prodPhoto) }});"></ul>
+        @elseif($mod && $modPhoto)
+            <img class="admin-product-image" src="{{ asset("uploads/models/".$modPhoto) }}">
+            <ul class="product-hover-image" style="background-image: url({{ asset("uploads/models/". $modPhoto) }});"></ul>
         @endif
     </td>
     <td>{{ $product->product_id }}</td>
-    <td>{{ App\Product::withTrashed()->find($product->product_id)->weight }}</td>
+    <td>@if($prod) {{ $prod->weight }} @endif</td>
     <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $product->created_at)->format('H:i d/m/Y') }} </td>
     <td>@if($product->store_to_id == Auth::user()->getStore()->id && $product->status == 0) Потвърди приемане на продукт
     @elseif($product->status == 1) {{ $product->date_received ? $product->date_received->format('H:i d/m/Y') : '' }}
