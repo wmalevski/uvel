@@ -12,7 +12,7 @@
 		<form name="headerSearch" id="headerSearch" method="POST">
 			<div class="row" id="homeSearch" style="background-image:url('{{ App\Setting::get('website_header') }}');">
 				<div class='searchBox'>
-					<div><input name="search_term" type="text" placeholder="Намери продукт" class="form-control" /></div>
+					<div><input name="search_term" type="text" placeholder="Номер продукт или Модел" class="form-control" /></div>
 					<button id="searchButton" class="btn btn-1" type="submit">ТЪРСИ</button>
 				</div>
 			</div>

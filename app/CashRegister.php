@@ -69,7 +69,10 @@ class CashRegister extends Model{
 			$add = number_format($sum / $conversion_rate, 2, '.', '');
 		}
 
-		$register = CashRegister::firstOrNew(array('date'=>CashRegister::$date));
+		$register = CashRegister::firstOrNew(array(
+			'date'=>CashRegister::$date,
+			'store_id'=>$store
+		));
 
 		$register->date = CashRegister::$date;
 		$register->store_id = $store;

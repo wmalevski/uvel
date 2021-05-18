@@ -2571,9 +2571,10 @@ var uvel,
         $self.paymentCurrencyChange(form);
       });
 
-      methodChangeTrigger.on('change', function() {
-        $self.paymentMethodChange(form, $(this));
-      });
+      // Commenting out because apparently this isn't needed
+      // methodChangeTrigger.on('change', function() {
+      //   $self.paymentMethodChange(form, $(this));
+      // });
     }
 
     this.hideExchangeRow = function() {

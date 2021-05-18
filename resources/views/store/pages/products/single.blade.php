@@ -81,33 +81,22 @@
 																<li><span>{{ $product->material->name }} - {{ $product->material->code }} - {{ $product->material->color }}</span></li>
 																<li><span>Тегло: {{ $product->weight['weight'] }}гр.</span></li>
 																@if(isset($product->weight['stone']))
-                                  <li>
-																	@foreach($product->weight['stone'] as $productStone => $stone)
-																		{{ $stone}}
-																		@if(1 + $productStone < count($product->weight['stone'])) , @endif
-																	@endforeach
-                                  </li>
+																<li>
+																@foreach($product->weight['stone'] as $productStone => $stone)
+																	{{ $stone}}
+																	@if(1 + $productStone < count($product->weight['stone'])) , @endif
+																@endforeach
+                                  								</li>
 																@endif
 																<li><span>Вид:</span> {{ $product->jewel->name }}</li>
 																<li><span>Размер:</span> {{ $product->size }}</li>
 																<li><span>Налично в:</span> {{ $product->store_info->name }}</li>
+																<li><span>Обмяна: {{ $weightWithoutStone }}<span style="text-transform:initial"> гр. + {{ $product->workmanship }} лв.</span></li>
 															</ul>
 														</li>
 													</ul>
-                        </div>
-                        @if($product->material->for_exchange == 'yes')
-                          <div class="description">
-                            <ul>
-                              <li>
-                                <h5>Обмяна</h5>
-                                <ul class="sub">
-                                  <li>{{ $weightWithoutStone }} гр. + {{ $product->workmanship }} лв.</li>
-                                </ul>
-                              </li>
-                            </ul>
-                          </div>
-                        @endif
-                      </div>
+												</div>
+											</div>
 											<div id="product-info-right">
 												<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="col-sm-24 group-variants">
 													<meta itemprop="priceCurrency" content="USD">
