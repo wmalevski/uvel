@@ -91,7 +91,9 @@
 																<li><span>Вид:</span> {{ $product->jewel->name }}</li>
 																<li><span>Размер:</span> {{ $product->size }}</li>
 																<li><span>Налично в:</span> {{ $product->store_info->name }}</li>
-																<li><span>Обмяна: {{ $weightWithoutStone }}<span style="text-transform:initial"> гр. + {{ $product->workmanship }} лв.</span></li>
+@if(!in_array($product->material->name, array("сребро", "Сребро")))
+<li><span>Обмяна: {{ $weightWithoutStone }}<span style="text-transform:initial"> гр. + {{ $product->workmanship }} лв.</span></li>
+@endif
 															</ul>
 														</li>
 													</ul>
