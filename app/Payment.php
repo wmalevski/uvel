@@ -99,7 +99,7 @@ class Payment extends Model{
             // Add the payment to the Cash Register, only for Cash transactions
             if($request->pay_method!=='true'){
                 $cashRegister = new CashRegister();
-                $cashRegister->RecordIncome($request->wanted_sum, $request->pay_currency, Auth::user()->getStore()->id);
+                $cashRegister->RecordIncome($request->given_sum, $request->pay_currency, Auth::user()->getStore()->id);
             }
 
 
@@ -243,6 +243,9 @@ class Payment extends Model{
                         $selling->payment_id = $payment->id;
                         $selling->order_id = $payment->id;
                         $selling->save();
+
+                        $expenseRegister = new CashRegister();
+                        $expenseRegister->RecordExpense($request->given_sum, false, Auth::user()->getStore()->id);
                     }
 
                     foreach($request->data_material_price as $key => $material){
@@ -268,9 +271,6 @@ class Payment extends Model{
                             }
                         }
                     }
-
-                    $expenseRegister = new CashRegister();
-                    $expenseRegister->RecordExpense($request->exchangeRows_total, false, Auth::user()->getStore()->id);
 
                     Expense::create(array(
                         'type_id' => 1,
