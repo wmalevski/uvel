@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ModelOrder;
 use App\Order;
+use App\Model;
 use App\Product;
 use App\Model;
 use App\Jewel;
@@ -273,7 +274,14 @@ class OrderController extends Controller{
             if(!is_null($order->product_id)) {
                 $barcode = Product::where('id', $order->product_id)->first()->barcode;
             }elseif(!is_null($order->model_id)) {
-                $barcode = Product::where('model_id', $order->model_id)->first()->barcode;
+                $barcode = Product::where('model_id', $order->model_id)->first();
+                if($barcode->barcode){
+                    $barcode = $barcode->barcode;
+                }
+                else{
+                    $barcode = Model::where('id', $order->model_id)->first();
+                    $barcode = $barcode->barcode;
+                }
             }
 
             if($order->exchanged_materials){
@@ -329,42 +337,42 @@ class OrderController extends Controller{
     }
 
     public function generateInternalReceipt($id){
-    	$order = Order::where('id', $id)->first();
-    	if(!$order){
-    		abort(404, 'Възникна проблем при намирането на поръчката!');
-    	}
+        $order = Order::where('id', $id)->first();
+        if(!$order){
+            abort(404, 'Възникна проблем при намирането на поръчката!');
+        }
 
-    	$material = Material::where('id', $order->material_id)->first();
-    	$model = Model::where('id', $order->model_id)->first();
-    	$jewel = Jewel::where('id', $order->jewel_id)->first();
-    	$store = Store::where('id', $order->store_id)->first();
+        $material = Material::where('id', $order->material_id)->first();
+        $model = Model::where('id', $order->model_id)->first();
+        $jewel = Jewel::where('id', $order->jewel_id)->first();
+        $store = Store::where('id', $order->store_id)->first();
 
-    	$photo = Gallery::where('product_id', $order->product_id)->first();
-    	$photo = (isset($photo->photo) ? $photo->photo : null);
+        $photo = Gallery::where('product_id', $order->product_id)->first();
+        $photo = (isset($photo->photo) ? $photo->photo : null);
 
-    	$photo = null;
-    	$orderImage = null;
-    	if($order->model){
-    		$photo = $order->model->photos->first();
-    		$photo = (isset($photo['photo']) ? $photo['photo'] : null );
-    		if($photo){
-    			$orderImage = public_path("uploads/models/".$photo);
-    		}
-    	}
-    	elseif($order->product){
-    		$photo = $order->product->photos->first();
-    		$photo = (isset($photo['photo']) ? $photo['photo'] : null );
-    		if($photo){
-    			$orderImage = public_path("uploads/products/".$photo);
-    		}
-    	}
+        $photo = null;
+        $orderImage = null;
+        if($order->model){
+            $photo = $order->model->photos->first();
+            $photo = (isset($photo['photo']) ? $photo['photo'] : null );
+            if($photo){
+                $orderImage = public_path("uploads/models/".$photo);
+            }
+        }
+        elseif($order->product){
+            $photo = $order->product->photos->first();
+            $photo = (isset($photo['photo']) ? $photo['photo'] : null );
+            if($photo){
+                $orderImage = public_path("uploads/products/".$photo);
+            }
+        }
 
-    	$orderStone = array();
-		if($order->stones){
-			foreach($order->stones  as $stone){
-				$nomenclature = Stone::where('id',$stone->stone_id)->first()->nomenclature->name;
-				$contour = Stone::where('id',$stone->stone_id)->first()->contour->name;
-				$size = Stone::where('id',$stone->stone_id)->first()->size->name;
+        $orderStone = array();
+        if($order->stones){
+            foreach($order->stones  as $stone){
+                $nomenclature = Stone::where('id',$stone->stone_id)->first()->nomenclature->name;
+                $contour = Stone::where('id',$stone->stone_id)->first()->contour->name;
+                $size = Stone::where('id',$stone->stone_id)->first()->size->name;
                 $style = Stone::where('id',$stone->stone_id)->first()->style->name;
                 $orderStones[] = $nomenclature." (".$contour.", ".$size.", ".$style.") [x".$stone->amount."]";
             }
