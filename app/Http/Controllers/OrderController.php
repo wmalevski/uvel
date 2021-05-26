@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\ModelOrder;
 use App\Order;
-use App\Model;
 use App\Product;
 use App\Model;
 use App\Jewel;
