@@ -274,7 +274,7 @@ class OrderController extends Controller{
                 $barcode = Product::where('id', $order->product_id)->first()->barcode;
             }elseif(!is_null($order->model_id)) {
                 $barcode = Product::where('model_id', $order->model_id)->first();
-                if($barcode->barcode){
+                if(isset($barcode->barcode)){
                     $barcode = $barcode->barcode;
                 }
                 else{
