@@ -245,7 +245,7 @@ class Payment extends Model{
                         $selling->save();
 
                         $expenseRegister = new CashRegister();
-                        $expenseRegister->RecordExpense($request->given_sum, false, Auth::user()->getStore()->id);
+                        $expenseRegister->RecordExpense($request->exchangeRows_total, false, Auth::user()->getStore()->id);
                     }
 
                     foreach($request->data_material_price as $key => $material){
