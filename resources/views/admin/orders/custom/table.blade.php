@@ -8,7 +8,7 @@ if(isset($prodImagePhoto['photo'])){
 	<td>{{ $order->id }}</td>
 	<td>{{ $order->deadline ? $order->deadline->format('d/m/Y') : ''}}</td>
 	<td>
-		@if($productImage)
+		@if(isset($productImage))
 		<img class="admin-product-image" src="{{ asset("uploads/orders/".$productImage) }}">
 		@else
 		<i>Няма</i>
