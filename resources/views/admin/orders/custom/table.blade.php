@@ -1,8 +1,14 @@
+@php
+$prodImagePhoto=$order->photos->first();
+if(isset($prodImagePhoto['photo'])){
+	$productImage=$prodImagePhoto['photo'];
+}
+@endphp
 <tr data-id="{{ $order->id }}">
 	<td>{{ $order->id }}</td>
 	<td>{{ $order->deadline ? $order->deadline->format('d/m/Y') : ''}}</td>
 	<td>
-		@if($productImage=$order->photos->first()['photo'])
+		@if($productImage)
 		<img class="admin-product-image" src="{{ asset("uploads/orders/".$productImage) }}">
 		@else
 		<i>Няма</i>
