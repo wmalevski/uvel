@@ -269,6 +269,13 @@ class Payment extends Model{
                                 $material_quantity->quantity += $request->weight[$key];
                                 $material_quantity->save();
                             }
+                            else{
+                                MaterialQuantity::create(array(
+                                    'material_id'=>$material['material_id'],
+                                    'quantity'=>$request->weight[$key],
+                                    'store_id'=>Auth::user()->getStore()->id
+                                ));
+                            }
                         }
                     }
 
