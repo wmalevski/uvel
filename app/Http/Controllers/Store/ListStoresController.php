@@ -14,21 +14,24 @@ use Illuminate\Support\Facades\DB;
 use App\User;
 use Illuminate\Support\Facades\Input;
 
-class ListStoresController extends BaseController
-{
+class ListStoresController extends BaseController{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request){
         $stores = Store::where('id', '!=', 1)->get();
 
+        foreach($stores as $k=>$store){
+            if($store->productsOnline()->count()<1){
+                unset($stores[$k]);
+            }
+        }
+
         $productothertypes = ProductOtherType::all();
-        
+
         $materials = Material::groupBy('parent_id')->get();
-        
 
         return \View::make('store.pages.stores.index', array('stores' => $stores, 'materials' => $materials, 'productothertypes' => $productothertypes));
     }
