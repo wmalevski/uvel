@@ -303,7 +303,11 @@ class RepairController extends Controller{
             $materialQuantity = MaterialQuantity::where('material_id', $request->material_id)->first();
 
             if($materialQuantity){
-                if($materialQuantity->quantity > $request->weight_after){
+                $check=array(
+                    'materialQuantity'=>intval($materialQuantity->quantity*1000000),
+                    'difference'=>intval((floatval($request->weight_after) - floatval($request->weight))*1000000)
+                );
+                if($check['materialQuantity'] >= $check['difference']){
                     $materialQuantity->quantity = $materialQuantity->quantity - ($request->weight_after - $request->weight);
                     $materialQuantity->save();
                 }else{
