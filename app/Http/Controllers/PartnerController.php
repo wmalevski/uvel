@@ -14,17 +14,14 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
-class PartnerController extends Controller
-{
+class PartnerController extends Controller{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(){
         $partners = Partner::all();
-        
         return \View::make('admin/partners/index', array('partners' => $partners));
     }
 
@@ -34,25 +31,23 @@ class PartnerController extends Controller
      * @param  \App\User  $users
      * @return \Illuminate\Http\Response
      */
-    public function edit(Partner $partner)
-    {
+    public function edit(Partner $partner){
         return \View::make('admin/partners/edit', array('partner' => $partner));
     }
 
-    public function update(Request $request, Partner $partner)
-    {
+    public function update(Request $request, Partner $partner){
         $validator = Validator::make( $request->all(), [
             'money' => 'required',
         ]);
-        
+
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
         $partner->money = $request->money;
-        
+
         $partner->save();
-        
+
         return Response::json(array('ID' => $partner->id, 'table' => View::make('admin/partners/table', array('partner' => $partner))->render()));
     }
 
@@ -62,8 +57,7 @@ class PartnerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request){
 
         // $validator = Validator::make( $request->all(), [
         //     'name' => 'required|string|max:255',
@@ -72,7 +66,7 @@ class PartnerController extends Controller
         //     'role' => 'required',
         //     'store_id' => 'required'
         //  ]);
-        
+
         // if ($validator->fails()) {
         //     return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         // }
@@ -90,7 +84,7 @@ class PartnerController extends Controller
         // //$user->roles()->attach([$request->role]);
 
         // $user->assign($request->role);
-        
+
         // return Response::json(array('success' => View::make('admin/users/table',array('user'=>$user))->render()));
     }
 
@@ -100,8 +94,7 @@ class PartnerController extends Controller
      * @param  \App\User  $stores
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
-    {
+    public function destroy(User $user){
         // if($user){
         //     foreach($user->discountCodes as $discountCode) {
         //         if($discountCode->active == "yes") {

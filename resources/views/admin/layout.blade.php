@@ -220,7 +220,7 @@
                 </li>
                 @endif
                 @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, [ 'manager', 'admin']))
-                    <li class="nav-item dropdown {{ Active::ifRouteIn(['users', 'substitutions', 'partners']) }}">
+                    <li class="nav-item dropdown {{ Active::ifRouteIn(['users', 'substitutions', 'partners', 'partner_materials']) }}">
                         <a class="dropdown-toggle" href="javascript:void(0);">
                     <span class="icon-holder">
                       <i class=" ti-user"></i>
@@ -239,7 +239,7 @@
                                 <a class="sidebar-link" href="{{ route('substitutions') }}">Замествания</a>
                             </li>
 
-                            <li class="{{ Active::ifRouteIn('partners') }}">
+                            <li class="{{ Active::ifRouteIn(['partners','partner_materials']) }}">
                                 <a class="sidebar-link" href="{{ route('partners') }}">Партньори</a>
                             </li>
 
