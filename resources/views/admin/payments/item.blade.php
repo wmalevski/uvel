@@ -24,11 +24,18 @@
 		@elseif(isset($payment->sellings) && !$payment->order->first())
 		@foreach($payment->sellings as $key => $selling)
 			@if($selling->product_id && $selling->product_id !== 'exchange_material')
-				<?php $product = App\Product::where('id', $selling->product_id)->first(); ?>
+				@php
+					$product = App\Product::where('id', $selling->product_id)->first();
+				@endphp
 				@if($product && $product->photos && $product->photos->first())
 					<img class="admin-product-image" src="{{ asset("uploads/products/" . $product->photos->first()['photo']) }}">
+
+					@php
+						$productModel= App\Model::where('id', $product->model_id)->first();
+					@endphp
+					@if($productModel){{$productModel->name}} - @endif;№: {{$selling->product_id}}
+
 				@endif
-				{{App\Model::where('id', $product->model_id)->first()->name}} - №: {{$selling->product_id}}
 			@elseif($selling->repair_id)
 				@php
 					$customerRepair=App\Repair::where('id', $selling->repair_id)->first();
@@ -83,7 +90,9 @@
 						<a data-print-label="true" target="_blank" href="{{route('selling_receipt', array('id'=>$selling->product_other_id, 'type' => 'box', 'orderId' => null))}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a><br>
 					@endif
 				@elseif(isset($selling->model_id))
-					<?php $model = App\Model::where('id', $selling->model_id)->first(); ?>
+					@php
+						$model = App\Model::where('id', $selling->model_id)->first();
+					@endphp
 					@if($model)
 						Разсписка ({{$model->name}} - №: {{$selling->model_id}}):
 						<a data-print-label="true" target="_blank" href="{{route('selling_receipt', array('id'=>$selling->model_id, 'type' => 'box', 'orderId' => null))}}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a><br>

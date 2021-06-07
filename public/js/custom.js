@@ -1405,12 +1405,11 @@ var uvel,
             var calculatingPrice = $(element).parents('.form-row').find('[name="calculating_price"]');
             var chosenMaterialPrice = calculatingPrice[0].value;
 
-            // if(chosenMaterialPrice == "" ){
               chosenMaterial=$(element).parents('.form-row').find('select[name="material_type_id[]"] option:selected');
-              chosenMaterialPrice = parseFloat(chosenMaterial.attr('data-price-2'));
-              chosenMaterialPriceID = chosenMaterial.attr('data-price-2-id');
+              chosenMaterialPriceEl = $(element).parents('.form-row').find('select[name="calculating_price"] option:selected');
+              chosenMaterialPrice = parseFloat(chosenMaterialPriceEl.attr('data-price'));
+              chosenMaterialPriceID = chosenMaterialPriceEl.val();
               calculatingPrice.find('option:last-child').attr('value', chosenMaterialPrice);
-            // }
 
             dataMaterialPrice.push({
               material_id: dataKeyValue,
