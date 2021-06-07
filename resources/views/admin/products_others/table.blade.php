@@ -1,8 +1,14 @@
+@php
+    $productImg=$product->photos->first();
+    $productImg=(isset($productImg['photo'])?$productImg['photo']:null);
+@endphp
 <tr data-id="{{ $product->id }}">
     <td>
-      <img class="admin-product-image" src="{{ asset("uploads/products_others/" . $product->photos->first()['photo']) }}"> 
-    </td> 
-    <td>{{ $product->id }}</td> 
+        @if($productImg)
+        <img class="admin-product-image" src="{{ asset("uploads/products_others/".$productImg) }}">
+        @endif
+    </td>
+    <td>{{ $product->id }}</td>
     <td> {!! DNS1D::getBarcodeSVG($product->barcode, "EAN13",1,33,"black", true) !!}</td>
     <td> {{ $product->name }} </td>
     <td> {{ $product->price }} </td>
