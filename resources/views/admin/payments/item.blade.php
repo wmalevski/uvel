@@ -30,7 +30,11 @@
 				@endif
 				{{App\Model::where('id', $product->model_id)->first()->name}} - №: {{$selling->product_id}}
 			@elseif($selling->repair_id)
-				Ремонт - {{App\Repair::where('id', $selling->repair_id)->first()->customer_name}} - №: {{$selling->repair_id}}
+				@php
+					$customerRepair=App\Repair::where('id', $selling->repair_id)->first();
+					$customerRepair=isset($customerRepair->customer_name)?$customerRepair->customer_name:null;
+				@endphp
+				Ремонт - @if($customerRepair) {{$customerRepair}}@endif - №: {{$selling->repair_id}}
 			@elseif($selling->product_other_id)
 				<?php $productOther = App\ProductOther::where('id', $selling->product_other_id)->first(); ?>
 				@if($productOther && $productOther->photos && $productOther->photos->first())
