@@ -186,12 +186,20 @@ class Payment extends Model{
                         $order->payment_id = $payment->id;
                         $order->save();
 
+                        // The status of newly created products for Custom Orders have to be changed to "sold"
+                        $orderProduct=Product::where('id',$order->product_id)->first();
+                        if($orderProduct && isset($orderProduct->status) && !in_array($orderProduct->status, array('sold','reserved','selling'))){
+                            $orderProduct->status='sold';
+                            $orderProduct->save();
+                        }
+
                         $receipts = array(route('selling_receipt', array(
                             'id' => $payment->id,
                             'type' => 'order_by_model',
                             'orderId' => $payment->id
                         )));
                     }
+
                 }
                 elseif($item->attributes->type == 'product'){
                     $product = Product::where('id',$item->attributes->product_id)->first();
