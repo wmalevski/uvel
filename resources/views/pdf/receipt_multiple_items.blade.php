@@ -50,6 +50,10 @@
         </div>
         <div style="width:30%;float:left;text-align:right;">{!! str_replace( '<?xml version="1.0" standalone="no"?>', '' ,DNS1D::getBarcodeSVG($item['product']->barcode, "EAN13",1,33,"black", true)) !!}</div>
         <div style="clear: both"></div>
+        @if($item['type']=='box')
+        <div style="float:left;width:100%;text-align:right;"><b>Цена</b>: {{$item['product']->price }} лв.</div>
+        <br>
+        @endif
         @break
     @case('material_exchange')
         @if(is_object($item['exchanged_materials']) && !empty($item['exchanged_materials']))

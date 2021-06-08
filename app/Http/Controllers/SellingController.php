@@ -870,8 +870,8 @@ class SellingController extends Controller{
             $mpdf->WriteHTML($html->render());
 
             // For development purposes
-            $mpdf->Output();
-            exit;
+            // $mpdf->Output();
+            // exit;
 
             $mpdf->Output('receipt_'.$payment->id.'.pdf',\Mpdf\Output\Destination::DOWNLOAD);
         }

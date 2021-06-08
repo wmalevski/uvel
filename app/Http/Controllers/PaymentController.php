@@ -276,7 +276,7 @@ class PaymentController extends Controller{
             } else {
                 $pass_materials[$material['parent_id']] = [
                     'id' => $material['parent_id'],
-                    'weight' => $material['code'] / $defMaterial->code * $weight
+                    'weight' => (isset($defMaterial->code)?$material['code'] / $defMaterial->code * $weight:0)
                 ];
             }
         }
