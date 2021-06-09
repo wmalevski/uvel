@@ -1407,8 +1407,14 @@ var uvel,
 
               chosenMaterial=$(element).parents('.form-row').find('select[name="material_type_id[]"] option:selected');
               chosenMaterialPriceEl = $(element).parents('.form-row').find('select[name="calculating_price"] option:selected');
-              chosenMaterialPrice = parseFloat(chosenMaterialPriceEl.attr('data-price'));
-              chosenMaterialPriceID = chosenMaterialPriceEl.val();
+              if(chosenMaterialPriceEl[0].hasAttribute('data-price')){
+                chosenMaterialPrice = parseFloat(chosenMaterialPriceEl.attr('data-price'));
+                chosenMaterialPriceID = chosenMaterialPriceEl.val();
+              }
+              else{
+                chosenMaterialPrice = chosenMaterial.attr('data-price-2');
+                chosenMaterialPriceID = chosenMaterial.attr('data-price-2-id');
+              }
               calculatingPrice.find('option:last-child').attr('value', chosenMaterialPrice);
 
             dataMaterialPrice.push({
