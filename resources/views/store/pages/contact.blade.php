@@ -81,19 +81,54 @@
 									</h6>
 									<ul class="right-content contact">
 										<li class="title">
-											<h6>Адрес на офисите</h6>
+											<h6>Адрес на магазините</h6>
 										</li>
 										<li class="address">
 											<i class="fa fa-map-marker"></i>
-											София, бул. "Княгиня Мария Луиза" 125
+											гр.София, бул."Княгиня Мария-Луиза" 125
 										</li>
 										<li class="phone">
 											<i class="fa fa-phone"></i>
-											+359 888 770 160</li>
+											+359 887 957 766 - магазин
+										</li>	
+										<i class="fa fa-phone"></i>	
+											+359 888 770 160 - собственик
+										</li>
+										<li>
+											------------------------------------
+										</li
+										<li class="address">
+											<i class="fa fa-map-marker"></i>
+											гр.Пазарджик, ул."Търговска" 18
+
+										</li>
+										<li class="phone">
+											<i class="fa fa-phone"></i>
+											+359 888 001 054 - магазин
+										</li>	
 										<li class="email">
 											<i class="fa fa-envelope"></i>
 											uvelgold@gmail.com
 										</li>
+										<li>
+											------------------------------------
+										</li
+										<li class="title">
+										<h6>
+											<i class="fa fa-cog  fa-1x"></i>	
+											Работно време на магазините
+										</h6>
+										</li>
+										<li>											
+											Понеделник - петък: 9:30 - 18:30
+										</li>
+										<li>											
+											Събота: 10:00 - 15:00
+										</li>
+										<li>											
+											Неделя: почивен ден
+										</li>
+
 									</ul>
 								</div>
 							</div>

@@ -55,6 +55,18 @@
 											<i class="fa fa-envelope"></i>
 											uvelgold@gmail.com
 										</li>
+
+										<li class="title">
+											<h6>Работно време на магазините</h6>
+										</li>
+										<li>											
+											Понеделник - петък: 9:30 - 18:30
+										</li>
+										<li>											
+											Събота: 10:00 - 15:00
+										</li><li>											
+											Неделя: почивен ден
+										</li>
 									</ul>
 								</div>
 							</div>

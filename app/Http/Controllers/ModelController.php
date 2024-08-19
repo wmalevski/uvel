@@ -618,11 +618,15 @@ class ModelController extends Controller{
             }
         }
 
-        $deleteOptions = ModelOption::where('model_id', $model->id)->delete();
+        ModelOption::where('model_id', $model->id)->delete();
 
         if($request->material_id){
+            $retail_price_id = false;
             foreach($request->material_id as $key => $material){
                 if($material){
+                    //Take only the first material and set the retail_price_id to all products
+                    // which use it.
+                    if(!$retail_price_id) $retail_price_id = $request->retail_price_id[$key];
                     $model_option = new ModelOption();
                     $model_option->model_id = $model->id;
                     $model_option->material_id = $material;
@@ -637,6 +641,15 @@ class ModelController extends Controller{
 
                     $model_option->save();
                 }
+            }
+            //If first retail_price_id -> update products
+            if($retail_price_id) {
+              $usingProducts = Product::where('model_id', $model->id)->get();
+
+              foreach($usingProducts as $product) {
+                $product->retail_price_id = $retail_price_id;
+                $product->save();
+              }
             }
         }
 

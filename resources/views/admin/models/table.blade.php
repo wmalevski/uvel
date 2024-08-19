@@ -13,7 +13,11 @@
     <td>{{$model->weight}} гр.</td>
     <td>@if($model->options->count()>0)
         @foreach($model->options as $option)
-            {{$option->material->name}} {{$option->material->code}}, {{$option->material->color}} | {{$option->material->pricesSell->where('id', $option->retail_price_id)->first()->price}} лв/гр
+            @php($priceSell = $option->material->pricesSell->where('id', $option->retail_price_id))
+            {{$option->material->name}} {{$option->material->code}}, {{$option->material->color}} | 
+            @if(!empty($priceSell) && $priceSell->first())
+              {{$priceSell->first()->price}} лв/гр
+            @endif
         @endforeach
     @else
         Няма избран материал

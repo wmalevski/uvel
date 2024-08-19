@@ -93,15 +93,15 @@ class CustomOrderController extends BaseController{
             &&
             filter_var($email2sms, FILTER_VALIDATE_EMAIL)
         ){
-            Mail::send('store.emails.sms',array(
-                'content' => "Porychka po model! ID ".$customOrder->id),
-                function($message) use ($email2sms){
-                    $message
-                        ->from($_ENV['MAIL_USERNAME'],$_ENV['APP_NAME'])
-                        ->to($email2sms)
-                        ->subject('Po model');
-                }
-            );
+//            Mail::send('store.emails.sms',array(
+//                'content' => "Porychka po model! ID ".$customOrder->id),
+//                function($message) use ($email2sms){
+//                    $message
+//                        ->from($_ENV['MAIL_USERNAME'],$_ENV['APP_NAME'])
+//                        ->to($email2sms)
+//                        ->subject('Po model');
+//                }
+//            );
         }
 
 

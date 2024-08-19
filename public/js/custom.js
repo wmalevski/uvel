@@ -1405,17 +1405,12 @@ var uvel,
             var calculatingPrice = $(element).parents('.form-row').find('[name="calculating_price"]');
             var chosenMaterialPrice = calculatingPrice[0].value;
 
-              chosenMaterial=$(element).parents('.form-row').find('select[name="material_type_id[]"] option:selected');
-              chosenMaterialPriceEl = $(element).parents('.form-row').find('select[name="calculating_price"] option:selected');
-              if(chosenMaterialPriceEl[0].hasAttribute('data-price')){
-                chosenMaterialPrice = parseFloat(chosenMaterialPriceEl.attr('data-price'));
-                chosenMaterialPriceID = chosenMaterialPriceEl.val();
-              }
-              else{
-                chosenMaterialPrice = chosenMaterial.attr('data-price-2');
-                chosenMaterialPriceID = chosenMaterial.attr('data-price-2-id');
-              }
+            if(chosenMaterialPrice == "" ){
+              chosenMaterial=$(element).parents('.form-row').find('select[name="material_type_id[]"] option:last-child');
+              chosenMaterialPrice = parseFloat(chosenMaterial.attr('data-price-2'));
+              chosenMaterialPriceID = chosenMaterial.attr('data-price-2-id');
               calculatingPrice.find('option:last-child').attr('value', chosenMaterialPrice);
+            }
 
             dataMaterialPrice.push({
               material_id: dataKeyValue,
@@ -2576,10 +2571,9 @@ var uvel,
         $self.paymentCurrencyChange(form);
       });
 
-      // Commenting out because apparently this isn't needed
-      // methodChangeTrigger.on('change', function() {
-      //   $self.paymentMethodChange(form, $(this));
-      // });
+      methodChangeTrigger.on('change', function() {
+        $self.paymentMethodChange(form, $(this));
+      });
     }
 
     this.hideExchangeRow = function() {

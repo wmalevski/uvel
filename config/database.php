@@ -1,5 +1,5 @@
 <?php
-
+#if($_SERVER['REMOTE_ADDR']=='78.130.248.155'){phpinfo();exit;}
 return [
 
     /*
@@ -50,7 +50,7 @@ return [
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
             'strict' => false,
-            'engine' => null,
+            'engine' => 'InnoDB',
         ],
 
         'pgsql' => [

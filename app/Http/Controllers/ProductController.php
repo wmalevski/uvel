@@ -37,7 +37,7 @@ class ProductController extends Controller{
      */
     public function index(MaterialQuantity $materials){
         $products = Product::orderBy('id','DESC')->paginate(Setting::where('key','per_page')->first()->value);
-        $models = Model::take(env('SELECT_PRELOADED'))->get();
+        // $models = Model::take(env('SELECT_PRELOADED'))->get();
         $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::take(env('SELECT_PRELOADED'))->get();
@@ -55,7 +55,7 @@ class ProductController extends Controller{
             ];
         }
 
-        return \View::make('admin/products/index', array('loggedUser' => $loggedUser,'stores' => $stores ,'products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials->scopeCurrentStore(), 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
+        return \View::make('admin/products/index', array('loggedUser' => $loggedUser,'stores' => $stores ,'products' => $products, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials->scopeCurrentStore(), 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
     }
 
     /**
@@ -162,12 +162,12 @@ class ProductController extends Controller{
      */
     public function edit(Product $product){
         $product_stones = $product->stones;
-        $models = Model::take(env('SELECT_PRELOADED'))->get();
         $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
         $prices = Price::where('type', 'sell')->get();
         $stones = Stone::take(env('SELECT_PRELOADED'))->get();
         $materials = Material::take(env('SELECT_PRELOADED'))->get();
         $stores = Store::take(env('SELECT_PRELOADED'))->get();
+        $models = [$product->model];
 
         $photos = Gallery::where(
             [

@@ -1,5 +1,6 @@
 @extends('admin.layout')
 @php
+
 $newStoneRow =
                 '<div class="form-group col-md-8"><label>Камък:</label>
                     <select name="stones[]" class="form-control" data-calculatePrice-stone data-search="/ajax/select_search/stones/">

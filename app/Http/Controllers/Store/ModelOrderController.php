@@ -53,13 +53,13 @@ class ModelOrderController extends BaseController
             $order->save();
 
             //send sms to the admin
-            Mail::send('sms',
-                array(
-                    'content' => "Porychka katalog! ID $model->id"
-                ), function($message) {
-                    $message->from("info@uvel.bg");
-                    $message->to("359888770160@sms.telenor.bg")->subject('Katalog');
-            });
+//            Mail::send('sms',
+//                array(
+//                    'content' => "Porychka katalog! ID $model->id"
+//                ), function($message) {
+//                    $message->from("info@uvel.bg");
+//                    $message->to("359888770160@sms.telenor.bg")->subject('Katalog');
+//            });
 
             return Response::json(array('success' => 'Поръчката беше изпратена успешно. Можете да следите найният статус в страницата с поръчки във вашият профил!'));
         }else{

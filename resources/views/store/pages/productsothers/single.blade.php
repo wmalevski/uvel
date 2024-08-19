@@ -239,7 +239,7 @@
 																		@endfor
 															</span>
 															<h3 class="spr-review-header-title">
-																{{$review->user->name}}
+																@if(!empty($review->user)){{$review->user->name}}@endif
 															</h3>
 															<span class="spr-review-header-byline">
 																<strong>

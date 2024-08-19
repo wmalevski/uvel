@@ -146,15 +146,15 @@ class UserPayment extends Model{
 			&&
 			filter_var($email2sms, FILTER_VALIDATE_EMAIL)
 		){
-			Mail::send('store.emails.sms',array(
-				'content' => "Porychka nalichni! ID ".$payment->id),
-				function($message) use ($email2sms){
-					$message
-						->from($_ENV['MAIL_USERNAME'],$_ENV['APP_NAME'])
-						->to($email2sms)
-						->subject('Nalichni');
-				}
-			);
+//			Mail::send('store.emails.sms',array(
+//				'content' => "Porychka nalichni! ID ".$payment->id),
+//				function($message) use ($email2sms){
+//					$message
+//						->from($_ENV['MAIL_USERNAME'],$_ENV['APP_NAME'])
+//						->to($email2sms)
+//						->subject('Nalichni');
+//				}
+//			);
 		}
 
 

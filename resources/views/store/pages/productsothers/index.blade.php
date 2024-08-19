@@ -42,7 +42,7 @@
 												</div>
 												<div class="tag-group" id="coll-filter-3">
 													<p class="title">Налично в</p>
-													<ul>{!! StoreNav::storeFilters('Other') !!}</ul>
+													<ul>{!! StoreNav::storeFilters() !!}</ul>
 												</div>
 												<div class="tag-group" id="coll-filter-3">
 													<p class="title">Размер</p>

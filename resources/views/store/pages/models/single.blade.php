@@ -74,20 +74,13 @@
 																<li><span>Тегло: {{ $model->weight }}гр.</li>
 																<li><span>Вид:</span> {{ $model->jewel->name }}</li>
 																<li><span>Размер:</span> {{ $model->size }}</li>
-															</ul>
-														</li>
-													</ul>
-                        						</div>
-						                        @if(isset($model->options->first()->material) && $model->options->first()->material->for_exchange == 'yes')
-						                        <div class="description">
-						                        	<ul>
-						                        		<li>
-						                        			<h5>Обмяна</h5>
-						                        			<ul class="sub"><li>{{ $model->weight }} гр. + {{ $model->workmanship }} лв.</li></ul>
-						                        		</li>
-						                        	</ul>
-						                        </div>
-						                        @endif
+															@if(isset($model->options->first()->material) && $model->options->first()->material->for_exchange == 'no')
+                                                                <li><span>Обмяна:</span>{{ $model->weight }}<span style="text-transform:initial"> гр. + {{ $model->workmanship }} лв.</span></li>
+                                                                @endif  
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </div>
 											</div>
 											<div id="product-info-right">
 												<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="col-sm-24 group-variants">

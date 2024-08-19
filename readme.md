@@ -1,18 +1,13 @@
-##UVEL
+# Uvel
 
-“Uvel” (e-commerce project based on [Laravel](https://laravel.com/)) offers to his clients large number of gold and silver jewelries on stock and can make unique models by picture.
+- PHP Version: 7.3
+- Database: MariaDB 10.6.18-MariaDB
+- Database name: uvelbgrk_prod
 
-## Installation
+## Installation steps
 
-**To create a project from this repository:**
-
-```
-git clone git@gitlab.com:rubber-duck/uvel.git
-cd uvel/
-git checkout develop
-Copy .env.example to .env (set database, username and password).
-composer install
-php artisan key:generate
-php artisan migrate:fresh --seed
-php artisan serve
+```bash
+docker compose up -d
+docker exec -it uvel-app bash -c "composer run-script post-root-package-install"
+docker exec -it uvel-app bash -c "composer install"
 ```

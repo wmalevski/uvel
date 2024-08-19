@@ -269,7 +269,7 @@ class CartController extends BaseController{
 		$already_in_cart = false;
 		// Loop through the existing cart to ensure the item is not already in it
 		foreach(Cart::session($session_id)->getContent() as $existing){
-			if($item->barcode == $existing->id){
+			if(isset($item->barcode) && $item->barcode == $existing->id){
 				$already_in_cart = true;
 			}
 		}

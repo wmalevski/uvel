@@ -3,7 +3,7 @@
 <h4 style="margin: 5px 0; text-align: center;">тел.: {{ $store->phone }}</h4>
 <hr/>
 
-<h2 style="margin: 10px 0; text-align: center;"><b>Разсписка №: {{$payment->id}}</b></h2>
+<h2 style="margin: 10px 0; text-align: center;"><b>Разписка №: {{$payment->id}}</b></h2>
 <h4 style="margin: 10px 0; text-align: center;">{{$payment->created_at->format('H:i d/m/Y')}}</h4>
 <hr/>
 

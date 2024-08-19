@@ -28,7 +28,7 @@
 
 		<div class="footer-content footer-content-top clearfix">
 			<div class="container">
-				<div class="footer-link-list col-md-8">
+				<div class="footer-link-list col-md-5">
 					<div class="group">
 						<h5 class="general-title">Информация</h5>
 						<ul>
@@ -39,7 +39,7 @@
 						</ul>
 					</div>
 				</div>
-				<div class="footer-link-list col-md-8">
+				<div class="footer-link-list col-md-5">
 					<div class="group">
 						<h5 class="general-title">Акаунт</h5>
 						<ul>
@@ -49,7 +49,7 @@
 						</ul>
 					</div>
 				</div>
-				<div class="footer-link-list col-md-6">
+				<div class="footer-link-list col-md-5">
 					<div class="group">
 						<h5 class="general-title">За нас</h5>
 						<ul>
@@ -64,6 +64,17 @@
 						</ul>
 					</div>
 				</div>
+				<div class="footer-link-list col-md-8 ">
+                    <div class="group" style="margin-top:-40px;">
+                    	<ul>
+                        	<li>  
+                                <a  href="#" class="btooltip swing" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Европейски фонд за регионално развитие">
+                                <img src="https://uvel.bg/emo/gosoft/IMG-20211027-WA0001d.jpg" style="height: auto;width:auto;"></img></a>
+         
+                        	</li>  
+                    	</ul> 
+                    </div>
+                </div>
 			</div>
 		</div>
 		<div class="footer-content footer-content-bottom clearfix">

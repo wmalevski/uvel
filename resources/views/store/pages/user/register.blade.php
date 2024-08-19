@@ -23,9 +23,14 @@
                         </div>
 
                         <div id="col-main" class="col-md-24 register-page clearfix">
-                            <form method="POST" action="{{ route('registerform') }}" id="create_customer" accept-charset="UTF-8">
+                            <form method="POST" action="{{ route('registerform') }}" data-form-captcha id="create_customer" accept-charset="UTF-8">
                                 {{ csrf_field() }}
                                 <input value="create_customer" name="form_type" type="hidden"><input name="utf8" value="✓" type="hidden">
+                                <div 
+                                  id="create_customer_captcha"
+                                  data-size="invisible" data-captcha="create_customer_captcha" data-callback="formSubmit">
+                                </div>
+
                                 <ul id="register-form" class="row list-unstyled">
                                     <li class="clearfix"></li>
                                     <li id="emailf" class="">

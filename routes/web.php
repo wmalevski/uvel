@@ -728,3 +728,50 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Store'], function() {
 
     Route::post('/search', 'StoreController@search');
 });
+
+Route::get('/clear', function() {
+    Artisan::call('cache:clear');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
+    Artisan::call('config:clear');
+    Artisan::call('optimize');
+    return "Кеша е почистен.";
+});
+
+use Illuminate\Support\Facades\Artisan;
+
+// Маршрут за почистване на кеша
+Route::get('/clear-cache', function () {
+    Artisan::call('cache:clear');
+    return 'Кеш успешно очистен!';
+});
+
+// Маршрут за почистване конфигурационният кеш
+Route::get('/clear-config-cache', function () {
+    Artisan::call('config:clear');
+    return 'Конфигурационният кеш е успешно очистен!';
+});
+
+// Маршрут за почистване на кеша за маршрути
+Route::get('/clear-route-cache', function () {
+    Artisan::call('route:clear');
+    return 'Кеш маршрути е успешно очистен!';
+});
+
+// Маршрут за почистване на кеша представяне (View)
+Route::get('/clear-view-cache', function () {
+    Artisan::call('view:clear');
+    return 'Кеш View успешно очищен!';
+});
+
+// Маршрут za почистване на кеш собъбития
+Route::get('/clear-event-cache', function () {
+    Artisan::call('event:clear');
+    return 'Кеш събития успешно очистен!';
+});
+
+// Маршрут зa почистване на кеш оптимайзер
+Route::get('/optimize-clear', function () {
+    Artisan::call('optimize');
+    return 'Кеш събития успешно очистен!';
+});

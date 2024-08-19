@@ -1,11 +1,23 @@
-#Redirection code starts
+<FilesMatch "xmlrpc\.php$">
+order deny,allow
+deny from all
+</FilesMatch> 
 
-RewriteEngine On
-RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+#Redirection code starts
+<IfModule mod_fcgid.c>
+#AddHandler fcgid-script .php
+#FcgidWrapper /home/uvelbgrk/new.uvel.bg/public/php.fcgi .php
+</IfModule>
+#RewriteEngine On
+#RewriteCond %{HTTPS} off
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 #Redirection code Ends
 
+<IfModule mod_fcgid.c>
+#AddHandler fcgid-script .php
+#FcgidWrapper /home/uvelbgrk/public_html/php.fcgi .php
+</IfModule>
 
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
@@ -30,4 +42,3 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
-</IfModule>

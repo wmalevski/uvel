@@ -190,7 +190,7 @@
 										<hr>
 										<div class="form-goroup col-xs-24">
 											<input type="radio" class="cart-radio" name="paymentMethod" id="payment_borika" data-method="borika" />
-											<label for="payment_borika"><i class="far fa-credit-card"></i> С карта</label>
+											<!--<label for="payment_borika"><i class="far fa-credit-card"></i> С карта</label>-->
 
 											<!-- <input type="radio" class="cart-radio" name="paymentMethod" id="payment_paypal" data-method="paypal" />
 											<label for="payment_paypal"><i class="fab fa-paypal"></i> PayPal</label> -->

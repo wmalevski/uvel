@@ -43,7 +43,7 @@
                     <select name="model_id" class="model-select form-control model-filled"
                         data-calculatePrice-model data-search="/ajax/select_search/models/" data-url="ajax/products/">
                         <option value="">Избери</option>
-
+                        
                         @foreach($models as $model)
                         <option value="{{ $model->id }}" data-jewel="{{ $model->jewel->id }}" @if($product->model->id
                             == $model->id) selected @endif>{{ $model->name }}</option>
