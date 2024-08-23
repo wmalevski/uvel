@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Input;
 use DB;
 
 class UserController extends BaseController{
@@ -72,26 +71,26 @@ class UserController extends BaseController{
     }
 
     public function login(){
-        return \View::make('store.pages.user.login');
+        return view('store.pages.user.login');
     }
 
-    public function userlogin(){
+    public function userlogin(Request $request){
         $rules = array(
             'email'    => 'required',
             'password' => 'required|alphaNum|min:3'
         );
 
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make($request->all(), $rules);
 
         if($validator->fails()){
             return Redirect::to('/online/login')
                 ->withErrors($validator)
-                ->withInput(Input::except('password'));
+                ->withInput(request()->except('password'));
         }
 
         $userdata = array(
-            'email'     => Input::get('email'),
-            'password'  => Input::get('password')
+            'email'     => $request->email,
+            'password'  => $request->password
         );
 
         // Save the session before the Auth attempt as it recreates it

@@ -19,7 +19,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Input;
 use Response;
 use Illuminate\Support\Facades\View;
 use File;
@@ -875,7 +874,7 @@ class ModelController extends Controller{
         }
 
         $models->setPath('');
-        $response .= $models->appends(Input::except('page'))->links();
+        $response .= $models->appends(request()->except('page'))->links();
 
         return $response;
     }

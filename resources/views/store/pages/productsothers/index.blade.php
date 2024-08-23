@@ -117,7 +117,7 @@
 														</div>
 
 														<div class="hover-appear">
-															<a href="{{ route('single_product_other', ['products' => $product->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
+															<a href="{{ route('single_product_other', ['product' => $product->id]) }}" class="effect-ajax-cart product-ajax-qs" title="Преглед">
 																<input name="quantity" value="1" type="hidden">
 																<i class="fa fa-lg fa-eye"></i>
 																<span class="list-mode">Преглед</span>
@@ -137,7 +137,7 @@
 										@if(count($products) == 0)
 										<div class="product-content-left">Няма бижу по зададените критерии</div>
 										@endif
-										{{ $products->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
+										{{ $products->appends(request()->except('page'))->links() }}
 									</div>
 								</div>
 							</div>

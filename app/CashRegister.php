@@ -21,7 +21,7 @@ class CashRegister extends Model{
 	);
 
 	protected $table = 'cash_register';
-	protected $dates = ['date'];
+	protected $casts = ['date'];
 
 
 	// The Currency ID for BGN

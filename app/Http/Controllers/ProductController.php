@@ -15,7 +15,6 @@ use App\ModelOption;
 use Illuminate\Http\Request;
 use App\Gallery;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Redirect;
@@ -131,7 +130,7 @@ class ProductController extends Controller{
         }
 
         $products->setPath('');
-        $response .= $products->appends(Input::except('page'))->links();
+        $response .= $products->appends(request()->except('page'))->links();
 
         return $response;
     }

@@ -6,7 +6,6 @@ use App\ProductOtherType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Http\JsonResponse;
 use Response;
 
@@ -101,7 +100,7 @@ class ProductOtherTypeController extends Controller
         }
 
         $products->setPath('');
-        $response .= $products->appends(Input::except('page'))->links();
+        $response .= $products->appends(request()->except('page'))->links();
 
         return $response;
     }

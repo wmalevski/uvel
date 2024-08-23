@@ -1,4 +1,5 @@
-FROM php:7.3-apache-buster AS base
+# FROM php:7.3-apache-buster AS base
+FROM php:8.3-rc-apache-buster AS base
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ=UTC

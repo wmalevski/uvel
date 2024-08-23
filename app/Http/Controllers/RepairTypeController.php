@@ -7,7 +7,6 @@ use Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Input;
 
 class RepairTypeController extends Controller
 {
@@ -115,7 +114,7 @@ class RepairTypeController extends Controller
         }
 
         $repairs->setPath('');
-        $response .= $repairs->appends(Input::except('page'))->links();
+        $response .= $repairs->appends(request()->except('page'))->links();
 
         return $response;
     }

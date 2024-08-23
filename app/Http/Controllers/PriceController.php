@@ -11,7 +11,6 @@ use App\Jewel;
 use App\MaterialQuantity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
 use Response;

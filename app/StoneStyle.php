@@ -15,7 +15,7 @@ class StoneStyle extends Model
     ];
 
     protected $table = 'stone_styles';
-    protected $dates = ['deleted_at'];
+    protected $casts = ['deleted_at'];
 
     public function stones()
     {

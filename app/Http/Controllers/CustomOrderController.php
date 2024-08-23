@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Input;
 use Gallery;
 use Response;
 use Mail;
@@ -121,7 +120,7 @@ class CustomOrderController extends Controller{
 		}
 
 		$orders->setPath('');
-		$response .= $orders->appends(Input::except('page'))->links();
+		$response .= $orders->appends(request()->except('page'))->links();
 
 		return $response;
 	}

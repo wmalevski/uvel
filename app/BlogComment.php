@@ -13,7 +13,7 @@ class BlogComment extends Model
     ];
 
     protected $table = 'blog_comments';
-    protected $dates = ['deleted_at'];
+    protected $casts = ['deleted_at'];
 
     public function blog()
     {

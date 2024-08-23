@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Response;
 use App\Http\Controllers\Store\ModelController;
-use Illuminate\Support\Facades\Input;
 use App\Selling;
 use App\Store;
 
@@ -94,7 +93,7 @@ class ModelOrderController extends Controller{
         }
 
         $orders->setPath('');
-        $response .= $orders->appends(Input::except('page'))->links();
+        $response .= $orders->appends(request()->except('page'))->links();
 
         return $response;
     }

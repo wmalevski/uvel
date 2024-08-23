@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Store;
 use Cart;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
 use PayPal\Api\Amount;
 use PayPal\Api\Details;
 use PayPal\Api\Item;
@@ -22,7 +21,7 @@ use URL;
 use Auth;
 use PayPal;
 use Response;
-use App\PaypalPay;
+use App\PayPalPay;
 use App\DiscountCode;
 use App\Http\Controllers\Controller;
 use \Darryldecode\Cart\CartCondition as CartCondition;
@@ -105,11 +104,11 @@ class PayController extends Controller
 {
     public function pay(Request $request){
 
-       return PaypalPay($request);
+       return PayPalPay($request);
     }
 
     public function getPaymentStatus(){
-        $test = new PaypalPay();
+        $test = new PayPalPay();
         return $test->getPaymentStatus();
     }
 

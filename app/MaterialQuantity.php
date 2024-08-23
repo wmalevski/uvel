@@ -76,5 +76,5 @@ class MaterialQuantity extends Model
     }
 
     protected $table = 'materials_quantities';
-    protected $dates = ['deleted_at'];
+    protected $casts = ['deleted_at'];
 }

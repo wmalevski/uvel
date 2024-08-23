@@ -10,7 +10,7 @@ class UserSubstitution extends Model
     use SoftDeletes;
 
     protected $table = 'user_substitutions';
-    protected $dates = ['date_from', 'date_to', 'deleted_at'];
+    protected $casts = ['date_from', 'date_to', 'deleted_at'];
 
     public function store()
     {

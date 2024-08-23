@@ -134,7 +134,7 @@
 											@endif
 										</ul>
 										<!-- Paginator -->
-										{{ $models->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
+										{{ $models->appends(request()->except('page'))->links() }}
 									</div>
 								</div>
 							</div>

@@ -20,7 +20,7 @@ class DiscountCode extends Model{
     ];
 
     protected $table = 'discount_codes';
-    protected $dates = ['deleted_at'];
+    protected $casts = ['deleted_at'];
 
     public function check($barcode){
         $discount = DiscountCode::where('barcode', $barcode)->first();

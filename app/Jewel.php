@@ -11,7 +11,7 @@ class Jewel extends Model{
 
 	protected $fillable = array('name');
 	protected $table = 'jewels';
-	protected $dates = array('deleted_at');
+	protected $casts = array('deleted_at');
 
 	public function products(){
 		return $this->hasMany('App\Product');

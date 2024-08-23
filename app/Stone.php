@@ -28,7 +28,7 @@ class Stone extends Model
     ];
 
     protected $table = 'stones';
-    protected $dates = ['deleted_at'];
+    protected $casts = ['deleted_at'];
 
     public function scopeActive()
     {

@@ -10,7 +10,6 @@ use Illuminate\Http\JsonResponse;
 use Response;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Input;
 use File;
 use App\Model;
 use App\Product;
@@ -139,7 +138,7 @@ class JewelController extends Controller
         }
 
         $jewels->setPath('');
-        $response .= $jewels->appends(Input::except('page'))->links();
+        $response .= $jewels->appends(request()->except('page'))->links();
 
         return $response;
     }

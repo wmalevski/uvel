@@ -28,7 +28,7 @@ class Repair extends Model
         'status'
     ];
 
-    protected $dates = ['deleted_at'];
+    protected $casts = ['deleted_at'];
 
     protected $table = 'repairs';
 

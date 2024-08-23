@@ -15,7 +15,7 @@ class StoneContour extends Model
     ];
 
     protected $table = 'stone_contours';
-    protected $dates = ['deleted_at'];
+    protected $casts = ['deleted_at'];
 
     public function stones()
     {

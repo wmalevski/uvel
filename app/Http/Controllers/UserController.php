@@ -11,7 +11,6 @@ use Bouncer;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
@@ -140,7 +139,7 @@ class UserController extends Controller
         }
 
         $users->setPath('');
-        $response .= $users->appends(Input::except('page'))->links();
+        $response .= $users->appends(request()->except('page'))->links();
 
         return $response;
     }

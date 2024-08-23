@@ -29,7 +29,7 @@ class User extends Authenticatable
         'first_name', 'last_name', 'city', 'street', 'postcode', 'country', 'street_number', 'phone'
     ];
 
-    protected $dates = ['deleted_at'];
+    protected $casts = ['deleted_at'];
 
     /**
      * The attributes that should be hidden for arrays.

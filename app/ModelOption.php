@@ -18,7 +18,7 @@ class ModelOption extends Model
     ];
 
     protected $table = 'model_options';
-    protected $dates = ['deleted_at'];    
+    protected $casts = ['deleted_at'];
 
     public function model()
     {

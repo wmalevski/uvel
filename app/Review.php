@@ -20,7 +20,7 @@ class Review extends Model
         'product_others_id'
     ];
 
-    protected $dates = ['deleted_at'];
+    protected $casts = ['deleted_at'];
 
     public function user() {
         return $this->belongsTo('App\User');

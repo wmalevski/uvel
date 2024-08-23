@@ -9,7 +9,6 @@ use App\MaterialType;
 use App\Jewel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Input;
 use Session;
 use App\Setting;
 
@@ -45,6 +44,7 @@ class ProductController extends BaseController{
 
 		$materialTypes = MaterialType::all();
 		$allProducts = Product::where(array('jewel_id'=>$product->jewel_id))->whereNotIn('id', array($product->id));
+
 		$similarProducts = $allProducts->where('status', 'available')->orderBy(DB::raw('ABS(`price` - '.$product->price.')'))->take(5)->get();
 
 		if($product) {
@@ -84,7 +84,7 @@ class ProductController extends BaseController{
 		}
 
 		$products->setPath('');
-		$response .= $products->appends(Input::except('page'))->links();
+		$response .= $products->appends(request()->except('page'))->links();
 
 		return $response;
 	}
