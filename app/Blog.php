@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use \Dimsav\Translatable\Translatable;
+use \Astrotomic\Translatable\Translatable;
 
 class Blog extends Model
 {
@@ -12,7 +12,7 @@ class Blog extends Model
     use SoftDeletes;
 
     protected $table = 'blogs';
-    protected $dates = ['deleted_at'];
+    protected $casts = ['deleted_at'];
     protected $with = ['thumbnail'];
 
     public $translatedAttributes = [

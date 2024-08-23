@@ -5,7 +5,6 @@ use Newsletter;
 use Response;
 use App\MaterialType;
 use App\ProductOtherType;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;

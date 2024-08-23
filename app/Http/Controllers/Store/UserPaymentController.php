@@ -6,7 +6,7 @@ use App\UserPayment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Controller;
-use App\PaypalPay;
+use App\PayPalPay;
 use App\Model;
 use App\ProductOther;
 use App\Product;
@@ -91,7 +91,7 @@ class UserPaymentController extends Controller{
 					return $payment->storePayment($request);
 					break;
 				case 'paypal':
-					$pay = new PaypalPay();
+					$pay = new PayPalPay();
 					return $pay->payWithpaypal($request);
 					break;
 				case 'borika':

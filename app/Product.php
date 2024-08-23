@@ -41,7 +41,7 @@ class Product extends BaseModel
     'model_id'
   ];
 
-  protected $dates = ['deleted_at'];
+  protected $casts = ['deleted_at'];
 
   protected $table = 'products';
 

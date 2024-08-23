@@ -19,7 +19,7 @@ class StoneSize extends Model
 
     protected $table = 'stone_sizes';
 
-    protected $dates = ['deleted_at'];
+    protected $casts = ['deleted_at'];
 
     public function create($request){
 

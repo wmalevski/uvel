@@ -17,7 +17,7 @@ class Store extends Model
     ];
 
     protected $table = 'stores';
-    protected $dates = ['deleted_at'];
+    protected $casts = ['deleted_at'];
 
     public function users()
     {

@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Input;
 use Uuid;
 use App\Gallery;
 use File;
@@ -313,7 +312,7 @@ class StoneController extends Controller{
         }
 
         $stones->setPath('');
-        $response .= $stones->appends(Input::except('page'))->links();
+        $response .= $stones->appends(request()->except('page'))->links();
 
         return $response;
     }

@@ -296,7 +296,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 </table>
 
 <!-- Paginator -->
-{{ $models->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
+{{ $models->appends(request()->except('page'))->links() }}
 
 @endsection
 

@@ -20,7 +20,7 @@ class Price extends Model
     ];
 
     protected $table = 'prices';
-    protected $dates = ['deleted_at'];
+    protected $casts = ['deleted_at'];
 
     public function scopeMaterialPrices($query, $value)
     {

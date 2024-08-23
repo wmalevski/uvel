@@ -6,7 +6,6 @@ use App\DiscountCode;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Http\JsonResponse;
 use Response;
 use Illuminate\Support\Facades\View;
@@ -96,7 +95,7 @@ class DiscountCodeController extends Controller{
         }
 
         $discounts->setPath('');
-        $response .= $discounts->appends(Input::except('page'))->links();
+        $response .= $discounts->appends(request()->except('page'))->links();
 
         return $response;
     }

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Middleware\CheckUserRole;
 use App\Role\RoleChecker;
 use Illuminate\Foundation\Application;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,8 @@ class AppServiceProvider extends ServiceProvider
         Validator::replacer('phone', function($message, $attribute, $rule, $parameters) {
             return str_replace(':attribute',$attribute, ':attribute е невалиден.');
         });
+
+        Paginator::useBootstrap();
     }
 
     /**

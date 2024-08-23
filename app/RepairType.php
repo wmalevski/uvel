@@ -34,7 +34,7 @@ class RepairType extends Model
         return $query;
     }
 
-    protected $dates = ['deleted_at'];
+    protected $casts = ['deleted_at'];
 
     protected $table = 'repair_types';
 }

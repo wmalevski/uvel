@@ -5,36 +5,38 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=7.0.0",
-        "albertcht/invisible-recaptcha": "^1.8",
-        "arcesilas/active-state": "2.0",
-        "darryldecode/cart": "~3.0",
-        "davejamesmiller/laravel-breadcrumbs": "4.x",
-        "dimsav/laravel-translatable": "8.1",
-        "fideloper/proxy": "~3.3",
-        "laravel/framework": "5.5.*",
-        "laravel/tinker": "~1.0",
-        "milon/barcode": "^6.0",
+        "php": "^8.0",
+        "astrotomic/laravel-translatable": "^11.14",
+        "darryldecode/cart": "^4.0",
+        "davejamesmiller/laravel-breadcrumbs": "^5.0",
+        "guzzlehttp/guzzle": "^7.0.1",
+        "laravel/framework": "^11.0",
+        "laravel/passport": "^12.0",
+        "laravel/sanctum": "^4.0",
+        "laravel/tinker": "^2.0",
+        "laravel/ui": "^4.0",
+        "league/flysystem-aws-s3-v3": "^3.0",
+        "league/flysystem-ftp": "^3.0",
+        "league/flysystem-sftp-v3": "^3.0",
+        "milon/barcode": "^11.0",
         "mpdf/mpdf": "^8.0",
-        "paypal/rest-api-sdk-php": "^1.13",
-        "silber/bouncer": "v1.0.0-rc.1",
+        "nunomaduro/collision": "^8.0",
+        "paypal/paypal-checkout-sdk": "^1.0",
+        "silber/bouncer": "^1.0",
         "soved/laravel-gdpr": "^1.5",
-        "spatie/laravel-newsletter": "^4.2",
-        "webpatser/laravel-uuid": "3.0"
+        "spatie/laravel-ignition": "^2.0",
+        "spatie/laravel-newsletter": "^5.0",
+        "webpatser/laravel-uuid": "^4.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.4",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "~1.0",
-        "phpunit/phpunit": "~6.0",
+        "phpunit/phpunit": "^10.0",
         "symfony/thanks": "^1.0"
     },
     "autoload": {
-        "classmap": [
-            "database/seeds",
-            "database/factories"
-        ],
         "files": [
             "app/Helpers/string.php",
             "app/Helpers/number.php",
@@ -43,7 +45,9 @@
             "app/Helpers/filters.php"
         ],
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
@@ -54,7 +58,8 @@
     "extra": {
         "laravel": {
             "dont-discover": [
-                "arcesilas/active-state"
+                "arcesilas/active-state",
+                "laravel/telescope"
             ]
         }
     },
@@ -68,6 +73,9 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ]
     },
     "config": {

@@ -16,5 +16,5 @@ class Currency extends Model
     ];
 
     protected $table = 'currencies';
-    protected $dates = ['deleted_at'];
+    protected $casts = ['deleted_at'];
 }

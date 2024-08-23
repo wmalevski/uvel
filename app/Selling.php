@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Selling extends Model{
 
-	protected $dates = ['deadline'];
+	protected $casts = ['deadline'];
 
 	public function repair(){
 		return $this->belongsTo('App\Repair');

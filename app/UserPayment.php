@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
-use App\PaypalPay;
+use App\PayPalPay;
 use App\ProductOther;
 use App\Product;
 use App\UserPaymentProduct;

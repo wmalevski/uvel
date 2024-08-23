@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
 
-class UsersubstitutionController extends Controller
+class UserSubstitutionController extends Controller
 {
     /**
      * Display a listing of the resource.

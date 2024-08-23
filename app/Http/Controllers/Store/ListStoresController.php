@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\User;
-use Illuminate\Support\Facades\Input;
 
 class ListStoresController extends BaseController{
     /**

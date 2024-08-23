@@ -19,7 +19,7 @@ class Model extends BaseModel{
 	);
 
 	protected $table = 'models';
-	protected $dates = array('deleted_at');
+	protected $casts = array('deleted_at');
 
 	public function comments(){
 		return $this->hasMany('App\Comment');

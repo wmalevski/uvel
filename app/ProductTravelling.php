@@ -16,7 +16,7 @@ use Auth;
 
 class ProductTravelling extends BaseModel{
 
-    protected $dates = array('date_sent', 'date_received');
+    protected $casts = array('date_sent', 'date_received');
 
     public function store($request, $responseType = 'JSON'){
         $validator = Validator::make( $request->all(), [

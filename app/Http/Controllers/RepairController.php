@@ -16,7 +16,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Input;
 use App\MaterialQuantity;
 use App\CashRegister;
 
@@ -334,7 +333,7 @@ class RepairController extends Controller{
         }
 
         $repairs->setPath('');
-        $response .= $repairs->appends(Input::except('page'))->links();
+        $response .= $repairs->appends(request()->except('page'))->links();
 
         return $response;
     }

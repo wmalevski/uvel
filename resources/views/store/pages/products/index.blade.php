@@ -144,7 +144,7 @@
 										<div class="product-content-left">Няма бижу по зададените критерии</div>
 										@endif
 										<!-- Paginator -->
-										{{ $products->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
+										{{ $products->appends(request()->except('page'))->links() }}
 									</div>
 								</div>
 							</div>

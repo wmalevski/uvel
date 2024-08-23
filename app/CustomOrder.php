@@ -20,7 +20,7 @@ class CustomOrder extends Model
     ];
 
     protected $table = 'custom_orders';
-    protected $dates = array('deadline','deleted_at');
+    protected $casts = array('deadline','deleted_at');
 
     public function photos(){
         return $this->hasMany('App\Gallery');

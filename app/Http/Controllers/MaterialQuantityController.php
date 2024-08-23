@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Response;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Input;
 use App\MaterialTravelling;
 
 class MaterialQuantityController extends Controller{
@@ -178,7 +177,7 @@ class MaterialQuantityController extends Controller{
         }
 
         $materials->setPath('');
-        $response .= $materials->appends(Input::except('page'))->links();
+        $response .= $materials->appends(request()->except('page'))->links();
 
         return $response;
     }

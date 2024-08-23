@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Input;
 use Response;
 
 class StoreController extends Controller
@@ -20,7 +19,6 @@ class StoreController extends Controller
     public function index()
     {
         $stores = Store::all();
-
         return \View::make('admin/stores/index', array('stores' => $stores));
     }
 

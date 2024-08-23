@@ -2,7 +2,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use \Dimsav\Translatable\Translatable;
+use \Astrotomic\Translatable\Translatable;
 
 class BlogTranslation extends Model {
     
