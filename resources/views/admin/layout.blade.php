@@ -111,7 +111,7 @@
             </div>
 
             <ul class="sidebar-menu scrollable pos-r">
-                <li class="nav-item mT-30 {{ Active::ifRouteIn('admin') }}">
+                <li class="nav-item mT-30 {{ request()->routeIs('admin') }}">
                     <a class="sidebar-link" href="{{ route('admin') }}" default>
               <span class="icon-holder">
                 <i class="c-blue-500 ti-home"></i>
@@ -121,7 +121,7 @@
                 </li>
 
                 @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['cashier', 'manager', 'admin']))
-                    <li class="nav-item dropdown {{ Active::ifRouteIn(['selling', 'payments', 'online_selling']) }}">
+                    <li class="nav-item dropdown {{ request()->routeIs(['selling', 'payments', 'online_selling']) }}">
                         <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
                 <i class="ti-shopping-cart"></i>
@@ -132,15 +132,15 @@
               </span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="{{ Active::ifRouteIn('selling') }}">
+                            <li class="{{ request()->routeIs('selling') }}">
                                 <a class="sidebar-link" href="{{ route('selling') }}">Продажба</a>
                             </li>
 
-                            <li class="{{ Active::ifRouteIn('payments') }}">
+                            <li class="{{ request()->routeIs('payments') }}">
                                 <a class="sidebar-link" href="{{ route('payments') }}">Завършени</a>
                             </li>
 
-                            <li class="{{ Active::ifRouteIn('online_selling') }}">
+                            <li class="{{ request()->routeIs('online_selling') }}">
                                 <a class="sidebar-link" href="{{ route('online_selling') }}">Онлайн магазин</a>
                             </li>
 
@@ -148,7 +148,7 @@
                     </li>
                 @endif
                 @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, [ 'manager', 'admin']))
-                    <li class="nav-item {{ Active::ifRouteIn('discounts') }}">
+                    <li class="nav-item {{ request()->routeIs('discounts') }}">
                         <a class="sidebar-link" href="{{ route('discounts') }}">
                 <span class="icon-holder">
                   <i class=" ti-money"></i>
@@ -157,7 +157,7 @@
                         </a>
                     </li>
                 @endif
-                <li class="nav-item dropdown {{ Active::ifRouteIn(['stores', 'daily_reports', 'expenses', 'expenses_types', 'create_report', 'income', 'income_types']) }}">
+                <li class="nav-item dropdown {{ request()->routeIs(['stores', 'daily_reports', 'expenses', 'expenses_types', 'create_report', 'income', 'income_types']) }}">
                     <a class="sidebar-link" href="javascript:void(0);">
                 <span class="icon-holder">
                   <i class=" ti-location-arrow"></i>
@@ -168,25 +168,25 @@
                 </span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="{{ Active::ifRouteIn('stores') }}">
+                        <li class="{{ request()->routeIs('stores') }}">
                             <a class="sidebar-link" href="{{ route('stores') }}">Магазини</a>
                         </li>
                         @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
-                        <li class="{{ Active::ifRouteIn(['daily_reports', 'create_report']) }}">
+                        <li class="{{ request()->routeIs(['daily_reports', 'create_report']) }}">
                             <a class="sidebar-link" href="{{ route('daily_reports') }}">Дневни отчети</a>
                         </li>
                         @endif
-                        <li class="{{ Active::ifRouteIn('income') }}">
+                        <li class="{{ request()->routeIs('income') }}">
                             <a class="sidebar-link" href="{{ route('income') }}">Приходи</a>
                         </li>
-                        <li class="{{ Active::ifRouteIn('expenses') }}">
+                        <li class="{{ request()->routeIs('expenses') }}">
                             <a class="sidebar-link" href="{{ route('expenses') }}">Разходи</a>
                         </li>
                         @if(in_array(\Illuminate\Support\Facades\Auth::user()->role,['admin', 'storehouse']))
-                        <li class="{{ Active::ifRouteIn('income_types') }}">
+                        <li class="{{ request()->routeIs('income_types') }}">
                             <a class="sidebar-link" href="{{ route('income_types') }}">Типове приходи</a>
                         </li>
-                        <li class="{{ Active::ifRouteIn('expenses_types') }}">
+                        <li class="{{ request()->routeIs('expenses_types') }}">
                             <a class="sidebar-link" href="{{ route('expenses_types') }}">Типове разходи</a>
                         </li>
                         @endif
@@ -194,7 +194,7 @@
                 </li>
 
                 @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
-                <li class="nav-item {{ Active::ifRouteIn('admin_blog') }}">
+                <li class="nav-item {{ request()->routeIs('admin_blog') }}">
                     <a class="sidebar-link" href="{{ route('admin_blog') }}">
                 <span class="icon-holder">
                   <i class=" ti-pencil"></i>
@@ -202,7 +202,7 @@
                         <span class="title">Блог</span>
                     </a>
                 </li>
-<!--                 <li class="nav-item {{ Active::ifRouteIn('slides') }}">
+<!--                 <li class="nav-item {{ request()->routeIs('slides') }}">
                     <a class="sidebar-link" href="{{ route('slides') }}">
                 <span class="icon-holder">
                   <i class="ti-image"></i>
@@ -210,7 +210,7 @@
                         <span class="title">Слайдове</span>
                     </a>
                 </li> -->
-                <li class="nav-item {{ Active::ifRouteIn(['prices', 'view_price']) }}">
+                <li class="nav-item {{ request()->routeIs(['prices', 'view_price']) }}">
                     <a class="sidebar-link" href="{{ route('prices') }}">
                   <span class="icon-holder">
                     <i class=" ti-money"></i>
@@ -220,7 +220,7 @@
                 </li>
                 @endif
                 @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, [ 'manager', 'admin']))
-                    <li class="nav-item dropdown {{ Active::ifRouteIn(['users', 'substitutions', 'partners', 'partner_materials']) }}">
+                    <li class="nav-item dropdown {{ request()->routeIs(['users', 'substitutions', 'partners', 'partner_materials']) }}">
                         <a class="dropdown-toggle" href="javascript:void(0);">
                     <span class="icon-holder">
                       <i class=" ti-user"></i>
@@ -231,15 +231,15 @@
                     </span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="{{ Active::ifRouteIn('users') }}">
+                            <li class="{{ request()->routeIs('users') }}">
                                 <a class="sidebar-link" href="{{ route('users') }}">Потребители</a>
                             </li>
 
-                            <li class="{{ Active::ifRouteIn('substitutions') }}">
+                            <li class="{{ request()->routeIs('substitutions') }}">
                                 <a class="sidebar-link" href="{{ route('substitutions') }}">Замествания</a>
                             </li>
 
-                            <li class="{{ Active::ifRouteIn(['partners','partner_materials']) }}">
+                            <li class="{{ request()->routeIs(['partners','partner_materials']) }}">
                                 <a class="sidebar-link" href="{{ route('partners') }}">Партньори</a>
                             </li>
 
@@ -247,7 +247,7 @@
                     </li>
                 @endif
 
-                <li class="nav-item dropdown {{ Active::ifRouteIn(['custom_orders', 'model_orders_web', 'orders']) }}">
+                <li class="nav-item dropdown {{ request()->routeIs(['custom_orders', 'model_orders_web', 'orders']) }}">
                     <a class="dropdown-toggle" href="javascript:void(0);">
                     <span class="icon-holder">
                       <i class=" ti-truck"></i>
@@ -258,15 +258,15 @@
                     </span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="{{ Active::ifRouteIn('orders') }}">
+                        <li class="{{ request()->routeIs('orders') }}">
                             <a class="sidebar-link" href="{{ route('orders') }}">Поръчки</a>
                         </li>
                         @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['cashier', 'manager', 'admin']))
-                            <li class="{{ Active::ifRouteIn('custom_orders') }}">
+                            <li class="{{ request()->routeIs('custom_orders') }}">
                                 <a class="sidebar-link" href="{{ route('custom_orders') }}">По модел на клиента</a>
                             </li>
 
-                            <li class="{{ Active::ifRouteIn('model_orders_web') }}">
+                            <li class="{{ request()->routeIs('model_orders_web') }}">
                                 <a class="sidebar-link" href="{{ route('model_orders_web') }}">По готов модел</a>
                             </li>
                         @endif
@@ -275,7 +275,7 @@
                 </li>
 
                 @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['storehouse', 'admin']))
-                    <li class="nav-item {{ Active::ifRouteIn('jewels') }}">
+                    <li class="nav-item {{ request()->routeIs('jewels') }}">
                         <a class="sidebar-link" href="{{ route('jewels') }}">
                 <span class="icon-holder">
                   <i class=" ti-package"></i>
@@ -285,7 +285,7 @@
                     </li>
                 @endif
 
-                <li class="nav-item dropdown {{ Active::ifRouteIn(['admin_models', 'show_model_reviews']) }}">
+                <li class="nav-item dropdown {{ request()->routeIs(['admin_models', 'show_model_reviews']) }}">
                     <a class="dropdown-toggle" href="javascript:void(0);">
                   <span class="icon-holder">
                     <i class="ti-blackboard"></i>
@@ -296,18 +296,18 @@
                   </span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="{{ Active::ifRouteIn('admin_models') }}">
+                        <li class="{{ request()->routeIs('admin_models') }}">
                             <a class="sidebar-link" href="{{ route('admin_models') }}">Наличности</a>
                         </li>
                         @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
-                        <li class="{{ Active::ifRouteIn('show_model_reviews') }}">
+                        <li class="{{ request()->routeIs('show_model_reviews') }}">
                             <a class="sidebar-link" href="{{ route('show_model_reviews') }}">Ревюта</a>
                         </li>
                         @endif
                     </ul>
                 </li>
                 @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
-                <li class="nav-item {{ Active::ifRouteIn('reviews') }}">
+                <li class="nav-item {{ request()->routeIs('reviews') }}">
                     <a class="sidebar-link" href="{{ route('reviews') }}">
                   <span class="icon-holder">
                     <i class="ti-archive"></i>
@@ -317,7 +317,7 @@
                 </li>
                 @endif
 
-                <li class="nav-item dropdown {{ Active::ifRouteIn(['admin_products', 'products_travelling', 'products_reviews']) }}">
+                <li class="nav-item dropdown {{ request()->routeIs(['admin_products', 'products_travelling', 'products_reviews']) }}">
                     <a class="dropdown-toggle" href="javascript:void(0);">
                   <span class="icon-holder">
                     <i class="ti-package"></i>
@@ -328,21 +328,21 @@
                   </span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="{{ Active::ifRouteIn('admin_products') }}">
+                        <li class="{{ request()->routeIs('admin_products') }}">
                             <a class="sidebar-link" href="{{ route('admin_products') }}">Наличности</a>
                         </li>
-                        <li class="{{ Active::ifRouteIn('products_travelling') }}">
+                        <li class="{{ request()->routeIs('products_travelling') }}">
                             <a class="sidebar-link" href="{{ route('products_travelling') }}">На път</a>
                         </li>
                         @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
-                        <li class="{{ Active::ifRouteIn('products_reviews') }}">
+                        <li class="{{ request()->routeIs('products_reviews') }}">
                             <a class="sidebar-link" href="{{ route('products_reviews') }}">Ревюта</a>
                         </li>
                         @endif
                     </ul>
                 </li>
 
-                    <li class="nav-item dropdown {{ Active::ifRouteIn(['products_others', 'products_others_types', 'show_products_others_reviews']) }}">
+                    <li class="nav-item dropdown {{ request()->routeIs(['products_others', 'products_others_types', 'show_products_others_reviews']) }}">
                         <a class="dropdown-toggle" href="javascript:void(0);">
                   <span class="icon-holder">
                     <i class="ti-folder"></i>
@@ -353,23 +353,23 @@
                   </span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="{{ Active::ifRouteIn('products_others') }}">
+                            <li class="{{ request()->routeIs('products_others') }}">
                                 <a class="sidebar-link" href="{{ route('products_others') }}">Наличности</a>
                             </li>
                             @if(in_array(\Illuminate\Support\Facades\Auth::user()->role,['admin', 'storehouse']))
-                                <li class="{{ Active::ifRouteIn('products_others_types') }}">
+                                <li class="{{ request()->routeIs('products_others_types') }}">
                                     <a class="sidebar-link" href="{{ route('products_others_types') }}">Типове</a>
                                 </li>
                             @endif
                             @if(in_array(\Illuminate\Support\Facades\Auth::user()->role,['admin', 'manager']))
-                                <li class="{{ Active::ifRouteIn('show_products_others_reviews') }}">
+                                <li class="{{ request()->routeIs('show_products_others_reviews') }}">
                                     <a class="sidebar-link" href="{{ route('show_products_others_reviews') }}">Ревюта</a>
                                 </li>
                             @endif
                         </ul>
                     </li>
 
-                <li class="nav-item dropdown {{ Active::ifRouteIn(['materials_types', 'materials', 'materials_quantity', 'materials_travelling']) }}">
+                <li class="nav-item dropdown {{ request()->routeIs(['materials_types', 'materials', 'materials_quantity', 'materials_travelling']) }}">
                     <a class="dropdown-toggle" href="javascript:void(0);">
                   <span class="icon-holder">
                     <i class="ti-magnet"></i>
@@ -381,25 +381,25 @@
                     </a>
                     <ul class="dropdown-menu">
                         @if(in_array(\Illuminate\Support\Facades\Auth::user()->role,['admin', 'storehouse']))
-                            <li class="{{ Active::ifRouteIn('materials_types') }}">
+                            <li class="{{ request()->routeIs('materials_types') }}">
                                 <a class="sidebar-link" href="{{ route('materials_types') }}">Типове</a>
                             </li>
 
-                            <li class="{{ Active::ifRouteIn('materials') }}">
+                            <li class="{{ request()->routeIs('materials') }}">
                                 <a class="sidebar-link" href="{{ route('materials') }}">Видове</a>
                             </li>
                         @endif
-                            <li class="{{ Active::ifRouteIn('materials_quantity') }}">
+                            <li class="{{ request()->routeIs('materials_quantity') }}">
                                 <a class="sidebar-link" href="{{ route('materials_quantity') }}">Наличности</a>
                             </li>
-                        <li class="{{ Active::ifRouteIn('materials_travelling') }}">
+                        <li class="{{ request()->routeIs('materials_travelling') }}">
                             <a class="sidebar-link" href="{{ route('materials_travelling') }}">На път</a>
                         </li>
 
                     </ul>
                 </li>
 
-                <li class="nav-item dropdown {{ Active::ifRouteIn(['stones', 'nomenclatures', 'sizes', 'stones', 'contours', 'styles']) }}">
+                <li class="nav-item dropdown {{ request()->routeIs(['stones', 'nomenclatures', 'sizes', 'stones', 'contours', 'styles']) }}">
                     <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
                 <i class=" ti-hummer"></i>
@@ -411,27 +411,27 @@
                     </a>
                     <ul class="dropdown-menu">
                         @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['admin', 'storehouse']))
-                            <li class="{{ Active::ifRouteIn('nomenclatures') }}">
+                            <li class="{{ request()->routeIs('nomenclatures') }}">
                                 <a class="sidebar-link" href="{{ route('nomenclatures') }}">Номенклатури</a>
                             </li>
                         @endif
-                            <li class="{{ Active::ifRouteIn('stones') }}">
+                            <li class="{{ request()->routeIs('stones') }}">
                                 <a class="sidebar-link" href="{{ route('stones') }}">Камъни</a>
                             </li>
                         @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['admin', 'storehouse']))
-                            <li class="{{ Active::ifRouteIn('sizes') }}">
+                            <li class="{{ request()->routeIs('sizes') }}">
                                 <a class="sidebar-link" href="{{ route('sizes') }}">Размери</a>
                             </li>
-                            <li class="{{ Active::ifRouteIn('contours') }}">
+                            <li class="{{ request()->routeIs('contours') }}">
                                 <a class="sidebar-link" href="{{ route('contours') }}">Контури</a>
                             </li>
-                            <li class="{{ Active::ifRouteIn('styles') }}">
+                            <li class="{{ request()->routeIs('styles') }}">
                                 <a class="sidebar-link" href="{{ route('styles') }}">Стилове</a>
                             </li>
                         @endif
                     </ul>
                 </li>
-                <li class="nav-item dropdown {{ Active::ifRouteIn(['repair_types', 'repairs']) }}">
+                <li class="nav-item dropdown {{ request()->routeIs(['repair_types', 'repairs']) }}">
                     <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
                 <i class=" ti-slice"></i>
@@ -443,17 +443,17 @@
                     </a>
                     <ul class="dropdown-menu">
                         @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
-                        <li class="{{ Active::ifRouteIn('repair_types') }}">
+                        <li class="{{ request()->routeIs('repair_types') }}">
                             <a class="sidebar-link" href="{{ route('repair_types') }}">Видове</a>
                         </li>
                         @endif
-                        <li class="{{ Active::ifRouteIn('repairs') }}">
+                        <li class="{{ request()->routeIs('repairs') }}">
                             <a class="sidebar-link" href="{{ route('repairs') }}">Ремонти</a>
                         </li>
                     </ul>
                 </li>
 
-                <li class="nav-item dropdown {{ Active::ifRouteIn(['daily_reports', 'expenses', 'create_report', 'selling_report_export', 'materials_reports', 'mtravelling_reports', 'products_reports', 'productstravelling_reports', 'income', 'cash_register']) }}">
+                <li class="nav-item dropdown {{ request()->routeIs(['daily_reports', 'expenses', 'create_report', 'selling_report_export', 'materials_reports', 'mtravelling_reports', 'products_reports', 'productstravelling_reports', 'income', 'cash_register']) }}">
                     <a class="dropdown-toggle" href="javascript:void(0);">
               <span class="icon-holder">
                 <i class=" ti-slice"></i>
@@ -465,48 +465,48 @@
                     </a>
                     <ul class="dropdown-menu">
                         @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, [ 'manager', 'admin', 'storehouse']))
-                            <li class="{{ Active::ifRouteIn(['selling_report_export']) }}">
+                            <li class="{{ request()->routeIs(['selling_report_export']) }}">
                                 <a class="sidebar-link" href="{{ route('selling_report_export') }}">Продажби -
                                     Експорт</a>
                             </li>
-                            <li class="{{ Active::ifRouteIn(['daily_reports', 'create_report']) }}">
+                            <li class="{{ request()->routeIs(['daily_reports', 'create_report']) }}">
                                 <a class="sidebar-link" href="{{ route('daily_reports') }}">Дневни</a>
                             </li>
-                            <li class="{{ Active::ifRouteIn(['materials_reports']) }}">
+                            <li class="{{ request()->routeIs(['materials_reports']) }}">
                                 <a class="sidebar-link" href="{{ route('materials_reports') }}">Материали</a>
                             </li>
                         @endif
                         @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
-                            <li class="{{ Active::ifRouteIn(['mtravelling_reports']) }}">
+                            <li class="{{ request()->routeIs(['mtravelling_reports']) }}">
                                 <a class="sidebar-link" href="{{ route('mtravelling_reports') }}">Материали на път</a>
                             </li>
                         @endif
                         @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, [ 'manager', 'admin', 'storehouse']))
-                            <li class="{{ Active::ifRouteIn(['products_reports']) }}">
+                            <li class="{{ request()->routeIs(['products_reports']) }}">
                                 <a class="sidebar-link" href="{{ route('products_reports') }}">Продукти</a>
                             </li>
                         @endif
                         @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
-                            <li class="{{ Active::ifRouteIn(['productstravelling_reports']) }}">
+                            <li class="{{ request()->routeIs(['productstravelling_reports']) }}">
                                 <a class="sidebar-link" href="{{ route('productstravelling_reports') }}">Продукти на път</a>
                             </li>
 
-                            <li class="{{ Active::ifRouteIn(['cash_register']) }}">
+                            <li class="{{ request()->routeIs(['cash_register']) }}">
                                 <a class="sidebar-link" href="{{ route('cash_register') }}">Движения</a>
                             </li>
 
                         @endif
-                        <li class="{{ Active::ifRouteIn('income') }}">
+                        <li class="{{ request()->routeIs('income') }}">
                             <a class="sidebar-link" href="{{ route('income') }}">Приходи</a>
                         </li>
-                        <li class="{{ Active::ifRouteIn('expenses') }}">
+                        <li class="{{ request()->routeIs('expenses') }}">
                             <a class="sidebar-link" href="{{ route('expenses') }}">Разходи</a>
                         </li>
                     </ul>
                 </li>
 
                 @if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
-                <li class="nav-item dropdown {{ Active::ifRouteIn(['stock_prices', 'currencies', 'cashgroups', 'cms', 'system_settings']) }}">
+                <li class="nav-item dropdown {{ request()->routeIs(['stock_prices', 'currencies', 'cashgroups', 'cms', 'system_settings']) }}">
                     <a class="dropdown-toggle" href="javascript:void(0);">
                 <span class="icon-holder">
                   <i class="ti-settings"></i>
@@ -517,26 +517,26 @@
                 </span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="{{ Active::ifRouteIn('stock_prices') }}">
+                        <li class="{{ request()->routeIs('stock_prices') }}">
                             <a class="sidebar-link" href="{{ route('stock_prices') }}">Борсови цени</a>
                         </li>
-                        <li class="{{ Active::ifRouteIn('currencies') }}">
+                        <li class="{{ request()->routeIs('currencies') }}">
                             <a class="sidebar-link" href="{{ route('currencies') }}">Валути и курсове</a>
                         </li>
-                        <li class="{{ Active::ifRouteIn('cashgroups') }}">
+                        <li class="{{ request()->routeIs('cashgroups') }}">
                             <a class="sidebar-link" href="{{ route('cashgroups') }}">Касови групи</a>
                         </li>
-                        <li class="{{ Active::ifRouteIn('cms') }}">
+                        <li class="{{ request()->routeIs('cms') }}">
                             <a class="sidebar-link" href="{{ route('cms') }}">Информационни блокове</a>
                         </li>
-                        <li class="{{ Active::ifRouteIn('system_settings') }}">
+                        <li class="{{ request()->routeIs('system_settings') }}">
                             <a class="sidebar-link" href="{{ route('system_settings') }}">Системни Настройки</a>
                         </li>
                     </ul>
                 </li>
                 @endif
 
-                <li class="nav-item {{ Active::ifRouteIn('mailchimp') }}">
+                <li class="nav-item {{ request()->routeIs('mailchimp') }}">
                     <a class="sidebar-link" href="{{ route('mailchimp') }}">
             <span class="icon-holder">
               <i class=" ti-email"></i>
