@@ -233,6 +233,7 @@
 				</tbody>
 			</table>
 		</div>
+		{{ $repairs->links() }}
 	</div>
 </div>
 @endsection

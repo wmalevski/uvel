@@ -30,7 +30,7 @@ class PasswordResetController extends BaseController{
 			),
 			function($message) use ($request){
 				$message
-					->from($_ENV['MAIL_USERNAME'],$_ENV['APP_NAME'])
+					->from(config('mail.username'),config('app.name'))
 					->to($request->email)
 					->subject('Смяна на парола');
 			});

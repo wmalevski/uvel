@@ -13,15 +13,24 @@ use App\Store;
 use Response;
 use Redirect;
 use Auth;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ProductTravelling extends BaseModel{
 
     protected $casts = array('date_sent', 'date_received');
+    protected $filled = [
+        'date_sent',
+        'date_received',
+    ];
+    protected $fillable = [
+        'order_id',
+    ];
 
     public function store($request, $responseType = 'JSON'){
         $validator = Validator::make( $request->all(), [
             'product_id' => 'required',
             'store_to_id' => 'required',
+            'order_id' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -50,12 +59,16 @@ class ProductTravelling extends BaseModel{
             }
         }
 
-        $travel = new ProductTravelling();
+        $travel = $this->firstOrNew([
+            'order_id' => $request->order_id,
+        ]);
+
         $travel->product_id = $request->product_id;
         $travel->store_from_id = $store_from;
         $travel->store_to_id  = $request->store_to_id;
         $travel->date_sent = new \DateTime();
         $travel->user_sent = Auth::user()->getId();
+        $travel->order_id = $request->order_id;
 
         $travel->save();
 
@@ -74,5 +87,25 @@ class ProductTravelling extends BaseModel{
         // $history->save();
 
         return $product;
+    }
+
+    public function order(): HasOne
+    {
+        return $this->hasOne('App\Order', 'order_id');
+    }
+
+    public function storeFrom()
+    {
+      return $this->belongsTo('App\Store')->withTrashed();
+    }
+
+    public function storeTo()
+    {
+        return $this->belongsTo('App\Store')->withTrashed();
+    }
+
+    public function product()
+    {
+        return $this->belongsTo('App\Product');
     }
 }

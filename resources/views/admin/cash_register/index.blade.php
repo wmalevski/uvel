@@ -47,6 +47,7 @@
 				</tbody>
 			</table>
 		</div>
+		{{ $register->links() }}
 	</div>
 </div>
 @endsection

@@ -4,6 +4,7 @@
 			@php
 				$prodPhoto=$product->photos->first();
 				$prodPhoto=($prodPhoto && isset($prodPhoto['photo'])?$prodPhoto['photo']:null);
+				$productMaterial = $product->material;
 			@endphp
 			<button class="product-information-btn" data-form="" data-toggle="modal" data-target="#productInformation">
 				@if($prodPhoto)
@@ -35,7 +36,7 @@
 	<td>@if($product->model) {{$product->model->name}} @endif</td>
 	<td>{{$product->size}}</td>
 	<td>{{$product->store_info->id}}</td>
-	<td>@if($product->material) {{$product->material->name}} - {{$product->material->color}} - {{$product->material->code}} @endif</td>
+	<td>@if($productMaterial) {{$productMaterial->name}} - {{$productMaterial->color}} - {{$productMaterial->code}} @endif</td>
 	<td>{{$product->retailPrice->price}}</td>
 	<td>@if($product->weight_without_stones == 'yes')
       {{$product->weight}}

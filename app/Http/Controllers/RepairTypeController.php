@@ -106,7 +106,7 @@ class RepairTypeController extends Controller
 
         $repairs_new = new RepairType();
         $repairs = $repairs_new->filterRepairTypes($request, $query);
-        $repairs = $repairs->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $repairs = $repairs->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         $response = '';
         foreach($repairs as $type){
@@ -124,7 +124,7 @@ class RepairTypeController extends Controller
 
         $repairs_new = new RepairType();
         $repairs = $repairs_new->filterRepairTypes($request, $query);
-        $repairs = $repairs->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $repairs = $repairs->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
         $pass_repairs = array();
 
         foreach($repairs as $repair){

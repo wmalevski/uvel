@@ -111,6 +111,7 @@ class SellingController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function index(){
+
         $repairTypes = RepairType::all();
         $discounts = DiscountCode::all();
         $currencies = Currency::all();
@@ -119,7 +120,6 @@ class SellingController extends Controller{
         $condition = Cart::getConditions('discount');
         $materials = Material::take(env('SELECT_PRELOADED'))->get();
         $priceCon = 0;
-
         $second_default_price = 0;
 
         if(count($materials) > 0) {
@@ -227,7 +227,6 @@ class SellingController extends Controller{
             ];
 
         }
-
 
         return \View::make('admin/selling/index', array('priceCon' => $priceCon, 'checkBoxType' =>  $check_box_type, 'repairTypes' => $repairTypes, 'items' => $items, 'discounts' => $discounts, 'conditions' => $cartConditions, 'currencies' => $currencies, 'dds' => $dds, 'materials' => $materials, 'todayReport' => $todayReport, 'partner' => $partner, 'second_default_price' => $second_default_price, 'parents' => $result_materials, 'total_prepaid'=>$total_prepaid));
     }
@@ -960,13 +959,14 @@ class SellingController extends Controller{
                         $partner = 'true';
                     }
                 }
-
             }
 
             $partner_id = '';
 
-            if($card->user){
-                $partner_id = $card->user->id;
+            if (isset($card)) {
+                if($card->user){
+                    $partner_id = $card->user->id;
+                }
             }
 
             $condition = new CartCustomCondition(array(

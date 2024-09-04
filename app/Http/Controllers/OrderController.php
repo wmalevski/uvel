@@ -31,6 +31,8 @@ use Auth;
 use App\OrderItem;
 use App\CashRegister;
 use App\Selling;
+use Illuminate\Support\LazyCollection;
+use Illuminate\Support\Facades\Cache;
 
 class OrderController extends Controller{
     /**
@@ -38,44 +40,68 @@ class OrderController extends Controller{
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(MaterialQuantity $materials){
+    public function index(MaterialQuantity $materials)
+    {
         $user = Auth::user();
-        $orders = Order::orderBy('id','DESC')->get();
-        $products = Product::all();
-        $models = Model::take(env('SELECT_PRELOADED'))->get();
-        $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
-        $prices = Price::where('type', 'sell')->get();
-        $stones = Stone::take(env('SELECT_PRELOADED'))->get();
-        $stores = Store::take(env('SELECT_PRELOADED'))->get();
+        $orders = Order::orderBy('id','DESC')->with(['model', 'product'])->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
+        // $models = Model::take(env('SELECT_PRELOADED'))->get();
+        // $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
+        // $prices = Price::where('type', 'sell')->get();
+        // $stones = Stone::with(['contour', 'size'])->take(env('SELECT_PRELOADED'))->cursor();
+        // $stores = Store::take(env('SELECT_PRELOADED'))->get();
         $user_store = Store::where('id', $user->store_id)->first();
         $disable_store_select = $user->shUserSelectStore();
-        $mats = MaterialQuantity::currentStore()->take(env('SELECT_PRELOADED'));
+        // $mats = MaterialQuantity::currentStore()->take(env('SELECT_PRELOADED'));
+        $pass_stones = [];
 
-        $pass_stones = array();
+        // $cached_pass_stones = Cache::remember('pass_stones', 60, function () use ($pass_stones, $stones) {
+        //     foreach ($stones->chunk(50) as $chunk) {
+        //         foreach ($chunk as $stone) {
+        //             $pass_stones[] = [
+        //                 'value' => $stone->id,
+        //                 'label' => sprintf('%s (%s, %s)', $stone->name, $stone->contour->name, $stone->size->name),
+        //                 'type' => $stone->type,
+        //                 'price' => $stone->price
+        //             ];
+        //         }
+        //     }
 
-        foreach ($stones as $stone) {
-            $pass_stones[] = [
-                'value' => $stone->id,
-                'label' => $stone->name . ' (' . $stone->contour->name . ', ' . $stone->size->name . ' )',
-                'type' => $stone->type,
-                'price' => $stone->price
-            ];
-        }
+        //     return $pass_stones;
+        // });
 
-        $pass_materials = array();
+        $pass_materials = [];
 
-        foreach ($mats as $material) {
-            if ($material->material->pricesSell->first()) {
-                $pass_materials[] = [
-                    'value' => $material->id,
-                    'label' => $material->material->parent->name . ' - ' . $material->material->color . ' - ' . $material->material->carat,
-                    'pricebuy' => $material->material->pricesBuy->first()->price,
-                    'material' => $material->material->id
-                ];
-            }
-        }
+        // $cached_pass_materials = Cache::remember('pass_materials', 60, function () use ($pass_materials, $mats) {
+        //     foreach ($mats->chunk(50) as $chunk) {
+        //         foreach ($chunk as $material) {
+        //             if (!$material->material->pricesSell->first()) continue;
+        //             $pass_materials[] = [
+        //                 'value' => $material->id,
+        //                 'label' => $material->material->parent->name . ' - ' . $material->material->color . ' - ' . $material->material->carat,
+        //                 'pricebuy' => $material->material->pricesBuy->first()->price,
+        //                 'material' => $material->material->id
+        //             ];
+        //         }
+        //     }
 
-        return \View::make('admin/orders/index', array('loggedUser' => Auth::user(), 'mats' => $mats, 'materials' => $materials, 'orders' => $orders, 'stores' => $stores, 'products' => $products, 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials->scopeCurrentStore(), 'user_store' => $user_store, 'jsStones' => json_encode($pass_stones, JSON_UNESCAPED_SLASHES), 'disable_store_select' => $disable_store_select));
+        //     return $pass_materials;
+        // });
+
+        return \View::make('admin/orders/index', [
+            'loggedUser' => $user,
+            // 'mats' => $mats,
+            // 'materials' => $materials,
+            'orders' => $orders,
+            // 'stores' => $stores,
+            // 'jewels' => $jewels,
+            // 'models' => $models,
+            // 'prices' => $prices, 
+            // 'stones' => $stones,
+            // 'materials' => $materials->scopeCurrentStore(),
+            'user_store' => $user_store,
+            // 'jsStones' => json_encode($cached_pass_stones, JSON_UNESCAPED_SLASHES),
+            'disable_store_select' => $disable_store_select,
+        ]);
     }
 
     public function chainedSelects(Request $request, Model $model){
@@ -244,11 +270,11 @@ class OrderController extends Controller{
         $user = Auth::user();
         $order_stones = $order->stones;
         $exchanged_materials = ( $order->exchanged_materials ? unserialize($order->exchanged_materials) : null);
-        $models = Model::take(env('SELECT_PRELOADED'))->get();
+        $models = Model::with(['jewel'])->take(env('SELECT_PRELOADED'))->get();
         $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
         $prices = Price::where('type', 'sell')->get();
-        $stones = Stone::take(env('SELECT_PRELOADED'))->get();
-        $materials = Material::take(env('SELECT_PRELOADED'))->get();
+        $stones = Stone::with(['nomenclature', 'size', 'contour'])->take(env('SELECT_PRELOADED'))->get();
+        $materials = Material::with(['pricesBuy','pricesSell', 'parent'])->take(env('SELECT_PRELOADED'))->get();
         $stores = Store::take(env('SELECT_PRELOADED'))->get();
         $disable_store_select = $user->shUserSelectStore();
 
@@ -438,7 +464,8 @@ class OrderController extends Controller{
                 ['material_id', '=', $request->material_id],
                 ['store_id', '=', Auth::user()->getStore()->id]
             ])->first();
-            if ($material && $material->quantity && $material->quantity < $request->weight) {
+
+            if (isset($material) && $material->quantity && $material->quantity < $request->weight) {
                 return Response::json(['errors' => ['using' => [trans('admin/orders.material_quantity_not_matching')]]], 401);
             }
 
@@ -481,7 +508,6 @@ class OrderController extends Controller{
             }
 
             $order_stones = OrderStone::where('order_id', $order->id);
-
             if ($request->stones) {
                 $order_stones = $order_stones->whereNotIn('id', $request->orderStoneIds ? $request->orderStoneIds : []);
 
@@ -526,14 +552,14 @@ class OrderController extends Controller{
             $order->save();
 
             if ($request->given_material_id) {
-                $materials = ExchangeMaterial::where('order_id', $order->id)->get();
-                ExchangeMaterial::where('order_id', $order->id)->delete();
+                $materials = ExchangeMaterial::where('order_id', $order->id);
+                $materials->delete();
                 $exchangedMaterials = array();
                 foreach ($request->given_material_id as $key => $material) {
                     if ($material) {
                         $price = Material::find($material)->pricesBuy()->first()->price;
 
-                        $exchangeMaterial = $materials->filter(function ($exch_material) use ($material) {
+                        $exchangeMaterial = $materials->get()->filter(function ($exch_material) use ($material) {
                             return $exch_material->material_id = $material;
                         });
 
@@ -564,9 +590,11 @@ class OrderController extends Controller{
                             $material_quantity->store_id = $order->store_id;
                             $material_quantity->save();
                         } else {
-                            $new_quantity = $exchangeMaterial[0]->weight - $request->mat_quantity[$key];
-                            $findMaterial->quantity -= $new_quantity;
-                            $findMaterial->save();
+                            if (!$exchangeMaterial->isEmpty()) {
+                                $new_quantity = $exchangeMaterial->weight - $request->mat_quantity[$key];
+                                $findMaterial->quantity -= $new_quantity;
+                                $findMaterial->save();
+                            }
                         }
                     }
                 }
@@ -590,10 +618,12 @@ class OrderController extends Controller{
 
                     $request->merge([
                         'weight' => $order->weight / $order->quantity,
-                        'status' => 'travelling'
+                        'status' => 'travelling',
+                        'order_id' => $order->id,
                     ]);
 
                     $productResponse = $product->store($request, 'array', true);
+
 
                     $model_pictures = Gallery::where(
                         [
@@ -619,8 +649,10 @@ class OrderController extends Controller{
                     $request->request->add(['store_to_id' => $request->store_id]);
                     $request->request->add(['product_id' => $productResponse->id]);
                     $request->request->add(['store_from_id' => 1]);
+                    $request->request->add(['order_id' => $order->id]);
 
                     $productTravelling = new ProductTravelling();
+
                     $productTravellingResponse = $productTravelling->store($request, 'array');
 
                     $order_item = new OrderItem();

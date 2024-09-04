@@ -1,10 +1,17 @@
+@php
+$prodImagePhoto=$order->photos->first();
+if(isset($prodImagePhoto['photo'])){
+	$productImage=$prodImagePhoto['photo'];
+}
+@endphp
+
 <div class="editModalWrapper">
 	<div class="modal-header">
 		<h5 class="modal-title" id="fullEditRepairLabel">Промени поръчка</h5>
 		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	</div>
 
-	<form method="POST" data-type="edit" name="custom_order" action="orders/custom/{{ $order->id }}">
+	<form method="POST" data-type="edit" name="custom_order" action="orders/custom/{{ $order->id }}" enctype="multipart/form-data">
 		<input name="_method" type="hidden" value="PUT">
 		<div class="modal-body">
 			<div class="info-cont"></div>
@@ -25,7 +32,7 @@
 					<div class="timepicker-input input-icon form-group deadline">
 						<div class="input-group">
 							<div class="input-group-addon bgc-white bd bdwR-0"><i class="ti-calendar"></i></div>
-							<input type="text" data-date-autoclose="true" data-date-format="dd/mm/yyyy" name="deadline" class="form-control bdc-grey-20$ data-date-start-date="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d/m/Y')}}" data-provide="datepicker" value="{{ $order->deadline ? $order->deadline->format('d/m/Y') : '' }}" />
+							<input type="text" data-date-autoclose="true" data-date-format="dd/mm/yyyy" name="deadline" class="form-control bdc-grey-20$ data-date-start-date='{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d/m/Y')}}'" data-provide="datepicker" value="{{ $order->deadline ? $order->deadline->format('d/m/Y') : '' }}" />
 						</div>
 					</div>
 				</div>
@@ -65,6 +72,17 @@
 				<textarea class="form-control" name="ready_product">{{ $order->ready_product }}</textarea>
 			</div>
 
+			<div class="form-row">
+				<div class="form-group col-md-12">
+					<label for="1">Снимка: </label>
+					<div class="drop-area form-row justify-content-between" name="add">
+						<input type="file" name="images[]" class="drop-area-input" id="fileElem-add" accept="image/*" multiple required>
+						<label class="button" for="fileElem-add">Select some files</label>
+						<div class="drop-area-gallery"></div>
+						<img class="admin-product-image" src="{{ asset("uploads/orders/".$productImage) }}">
+					</div>
+				</div>
+			</div>
 			<div class="form-row">
 				<div class="form-group col-md-5">
 					<div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">

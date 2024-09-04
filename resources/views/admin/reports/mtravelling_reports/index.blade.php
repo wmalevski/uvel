@@ -59,6 +59,7 @@
                     </tbody>
                 </table>
             </div>
+            {{ $materials_travellings->links() }}
         </div>
     </div>
 @endsection

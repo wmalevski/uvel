@@ -65,11 +65,11 @@ class ProductOtherController extends Controller
 
         $digits =(string)$bar;
         // 1. Add the values of the digits in the even-numbered positions: 2, 4, 6, etc.
-        $even_sum = $digits{1} + $digits{3} + $digits{5} + $digits{7} + $digits{9} + $digits{11};
+        $even_sum = $digits[1] + $digits[3] + $digits[5] + $digits[7] + $digits[9] + $digits[11];
         // 2. Multiply this result by 3.
         $even_sum_three = $even_sum * 3;
         // 3. Add the values of the digits in the odd-numbered positions: 1, 3, 5, etc.
-        $odd_sum = $digits{0} + $digits{2} + $digits{4} + $digits{6} + $digits{8} + $digits{10};
+        $odd_sum = $digits[0] + $digits[2] + $digits[4] + $digits[6] + $digits[8] + $digits[10];
         // 4. Sum the results of steps 2 and 3.
         $total_sum = $even_sum_three + $odd_sum;
         // 5. The check character is the smallest number which, when added to the result in step 4,  produces a multiple of 10.
@@ -277,7 +277,7 @@ class ProductOtherController extends Controller
 
 
     public function filter(Request $request){
-        $products = ProductOther::filterProducts($request)->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $products = ProductOther::filterProducts($request)->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         $response = '';
         foreach($products as $product){

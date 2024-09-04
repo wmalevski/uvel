@@ -19,6 +19,7 @@ use \Darryldecode\Cart\CartCondition as CartCondition;
 use \Darryldecode\Cart\Helpers\Helpers as Helpers;
 use Response;
 use App\PaymentDiscount;
+use App\Setting;
 
 class OnlineSellingsController extends Controller{
 	/**
@@ -26,8 +27,9 @@ class OnlineSellingsController extends Controller{
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function index(){
-		$sellings = UserPayment::orderBy("created_at","DESC")->get();
+	public function index()
+	{
+		$sellings = UserPayment::orderBy("created_at","DESC")->paginate(Setting::where('key','per_page')->first()->value ?? 30);
 		return view('admin.selling.online.index', compact('sellings'));
 	}
 

@@ -255,7 +255,7 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
 				@if($exchanged_materials)
 				@foreach($exchanged_materials as $xMat)
 				<div class="form-row">
-					@php $xm = App\Material::where('id', $xMat['material_id'])->first(); @endphp
+					@php $xm = App\Material::with('parent', 'pricesBuy')->find($xMat['material_id']); @endphp
 					<div class="form-group col-md-6">
 						<label>Вид</label>
 						<select name="given_material_id[]" data-calculateprice-material class="material_type form-control calculate" data-search="/ajax/select_search/global/materials/">

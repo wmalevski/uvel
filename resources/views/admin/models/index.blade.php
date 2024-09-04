@@ -1,5 +1,6 @@
 @extends('admin.layout')
 @php
+$userRole = Auth::user()->role;
 $newMaterialRow =
 				'<div class="form-group col-md-6">
 					<label>Избери материал: </label>
@@ -257,7 +258,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 </div>
 
 <h3>Модели
-@if(in_array(Auth::user()->role, array('admin', 'storehouse')))
+@if(in_array($userRole, array('admin', 'storehouse')))
 <button type="button" class="add-btn btn btn-primary" data-form-type="add" data-form="models" data-toggle="modal" data-target="#addModel">Добави</button>
 @endif</h3>
 
@@ -270,7 +271,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 			<th width="20%">Цена/гр</th>
 			<th width="8%">Цена</th>
 			<th width="10%">Изработка</th>
-			@if(in_array(Auth::user()->role, array('admin', 'storehouse')))<th width="7%" data-sort-method="none">Действия</th>@endif
+			@if(in_array($userRole, array('admin', 'storehouse')))<th width="7%" data-sort-method="none">Действия</th>@endif
 			<th width="13%" data-sort-method="none">Камъни</th>
 			<th width="7%" data-sort-method="none"></th>
 		</tr>
@@ -282,7 +283,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 			<th width="20%"></th>
 			<th width="8%"></th>
 			<th width="10%"></th>
-			@if(in_array(Auth::user()->role, array('admin', 'storehouse')))<th width="7%"></th>@endif
+			@if(in_array($userRole, array('admin', 'storehouse')))<th width="7%"></th>@endif
 			<th width="13%"></th>
 			<th width="7%"></th>
 		</tr>

@@ -22,7 +22,7 @@ class ModelController extends BaseController{
 	 */
 	public function index(Request $request){
 		$models = new Model();
-		$models = $models->filterModels($request, $models)->where('website_visible', 'yes')->orderBy('id','desc')->paginate(Setting::where('key','per_page')->first()->value);
+		$models = $models->filterModels($request, $models)->where('website_visible', 'yes')->orderBy('id','desc')->paginate(Setting::where('key','per_page')->first()->value ?? 30);
 
 		Session::put('models_active_filters', $request->fullUrl());
 
@@ -39,7 +39,7 @@ class ModelController extends BaseController{
 	}
 
 	public function show(Model $model){
-		$models = Model::paginate(Setting::where('key','per_page')->first()->value);
+		$models = Model::paginate(Setting::where('key','per_page')->first()->value ?? 30);
 
 		$allModels = Model::where(array(
 			array('website_visible','yes'),
@@ -59,7 +59,7 @@ class ModelController extends BaseController{
 	public function filter(Request $request){
 		$products_new = new Model();
 		$products = $products_new->filterModels($request, Model::all());
-		$products = $products->where('website_visible', 'yes')->orderBy('id', 'DESC')->paginate(Setting::where('key','per_page')->first()->value);
+		$products = $products->where('website_visible', 'yes')->orderBy('id', 'DESC')->paginate(Setting::where('key','per_page')->first()->value ?? 30);
 		$response = '';
 		foreach($products as $product){
 			$response .= \View::make('store/pages/models/ajax', array(

@@ -110,7 +110,7 @@ class JewelController extends Controller
 
         $jewels_new = new Jewel();
         $jewels = $jewels_new->filterJewels($request, $query);
-        $jewels = $jewels->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $jewels = $jewels->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
         $pass_jewels = array();
 
         foreach($jewels as $jewel){
@@ -130,7 +130,7 @@ class JewelController extends Controller
 
         $jewels_new = new Jewel();
         $jewels = $jewels_new->filterJewels($request, $query);
-        $jewels = $jewels->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $jewels = $jewels->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         $response = '';
         foreach($jewels as $jewel){

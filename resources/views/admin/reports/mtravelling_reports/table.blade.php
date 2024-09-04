@@ -9,6 +9,6 @@
         <td>{{ \App\User::where('id',$materials_travelling->user_sent_id)->first()->email }}</td>
         <td>{{ \App\Store::where('id',$materials_travelling->store_to_id)->first()->id }}</td>
         <td>{{ $materials_travelling->dateReceived }}</td>
-        <td>{{ \App\User::where('id',$materials_travelling->user_received_id)->first()->email}}</td>
+        <td>{{ \App\User::where('id',$materials_travelling->user_received_id)->first()->email ?? ''}}</td>
     @endif
 </tr>

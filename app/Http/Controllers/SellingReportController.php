@@ -18,7 +18,7 @@ class SellingReportController  extends Controller
      */
     public function index()
     {
-        $stores = Store::where('id', '!=', 1)->get();
+        $stores = Store::where('id', '!=', 1)->orderBy('id', 'DESC')->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
         $payments = Payment::selectRaw('sum(price) as price')->selectRaw('count(*) as total, store_id')->selectRaw('avg(price) as avg_price')->groupBy('store_id')->get();
         $payments_id = Payment::groupBy('store_id')->selectRaw('id')->get();
 

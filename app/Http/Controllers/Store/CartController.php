@@ -22,7 +22,7 @@ use \Darryldecode\Cart\CartCondition as CartCondition;
 use \Darryldecode\Cart\Helpers\Helpers as Helpers;
 use Illuminate\Support\Facades\DB;
 
-Class CartCustomCondition extends CartCondition {
+class CartCustomCondition extends CartCondition {
 	public function apply($totalOrSubTotalOrPrice, $conditionValue){
 		if( $this->valueIsPercentage($conditionValue) )
 		{
@@ -169,7 +169,7 @@ class CartController extends BaseController{
 						$trClass='product';
 						break;
 					case 'box':
-						$itemLink = route('single_product_other', array('product_other'=>$item->attributes->product_id));
+						$itemLink = route('single_product_other', array('product'=>$item->attributes->product_id));
 						$galleryTable = 'products_others';
 						$galleryTableID = 'product_other_id';
 						$trClass='otherProduct';
@@ -298,7 +298,6 @@ class CartController extends BaseController{
 		$total = round(Cart::session($session_id)->getTotal(), 2);
 		$subtotal = round(Cart::session($session_id)->getSubTotal(), 2);
 		$quantity = Cart::session($session_id)->getTotalQuantity();
-
 		return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'message' => 'Продукта беше успешно добавен в количката!'));
 	}
 

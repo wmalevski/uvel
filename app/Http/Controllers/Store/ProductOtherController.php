@@ -23,7 +23,7 @@ class ProductOtherController extends BaseController{
         $products = $products->where(array(
             array('quantity','!=',0),
             array('store_id','!=',1)
-        ))->orderBy('id','desc')->paginate(Setting::where('key','per_page')->first()->value);
+        ))->orderBy('id','desc')->paginate(Setting::where('key','per_page')->first()->value ?? 30);
 
         // $stores = Store::all()->except(1);
         // $productothertypes = ProductOtherType::all();
@@ -38,7 +38,7 @@ class ProductOtherController extends BaseController{
 
     public function show(ProductOther $product){
         $productothertypes = ProductOtherType::all();
-        $products = ProductOther::paginate(Setting::where('key','per_page')->first()->value);
+        $products = ProductOther::paginate(Setting::where('key','per_page')->first()->value ?? 30);
         $materialTypes = MaterialType::all();
         $allProducts = ProductOther::where('type_id',$product->type_id)->where('store_id','!=',1)->whereNotIn('id', array($product->id));
         $similarProducts = $allProducts->orderBy(DB::raw('ABS(`price` - '.$product->price.')'))->take(5)->get();
@@ -52,7 +52,7 @@ class ProductOtherController extends BaseController{
         $products = ProductOther::filterProducts($request)->where(array(
             array('quantity','!=',0),
             array('store_id','!=',1)
-        ))->orderBy('id', 'DESC')->paginate(Setting::where('key','per_page')->first()->value);
+        ))->orderBy('id', 'DESC')->paginate(Setting::where('key','per_page')->first()->value ?? 30);
 
         $response = '';
         foreach($products as $product){

@@ -85,7 +85,7 @@ class ModelOrderController extends Controller{
 
         $orders_new = new ModelOrder();
         $orders = $orders_new->filterOrders($request, $query);
-        $orders = $orders->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $orders = $orders->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         $response = '';
         foreach($orders as $order){

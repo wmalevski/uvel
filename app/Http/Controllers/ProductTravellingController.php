@@ -13,6 +13,7 @@ use App\Store;
 use Response;
 use Redirect;
 use Auth;
+use App\Setting;
 
 class ProductTravellingController extends Controller{
 	/**
@@ -21,29 +22,31 @@ class ProductTravellingController extends Controller{
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index(){
-		$products = Product::where('status', 'available')->take(env('SELECT_PRELOADED'))->get();
+		// $products = Product::where('status', 'available')->take(env('SELECT_PRELOADED'))->orderBy('updated_at', 'DESC')->withTrashed()->get();
 		$loggedUser = Auth::user();
 
 		$travelling = new ProductTravelling;
 		if(in_array($loggedUser->getRoles(), array('admin','storehouse'))){
-			$travelling = $travelling::all();
+			$travelling = $travelling::with(['product', 'storeFrom', 'storeTo'])->orderBy('updated_at', 'DESC')->paginate(Setting::where('key','per_page')->first()->value ?? 30);
 		}
 		else{
-			$travelling = $travelling::whereRaw('store_from_id='.$loggedUser->store_id.' OR store_to_id = '.$loggedUser->store_id)->get();
+			$travelling = $travelling::with(['product', 'storeFrom', 'storeTo'])->whereRaw('store_from_id='.$loggedUser->store_id.' OR store_to_id = '.$loggedUser->store_id)->orderBy('updated_at', 'DESC')->paginate(Setting::where('key','per_page')->first()->value ?? 30);
 		}
-		$stores = Store::all();
+		// $stores = Store::all();
+		$userStoreId = $loggedUser->getStore()->id;
 
 		return \View::make('admin/products_travelling/index', array(
 			'loggedUser'=>$loggedUser,
-			'products'=>$products,
+			// 'products'=>$products,
 			'travelling'=>$travelling,
-			'stores'=>$stores
+			// 'stores'=>$stores,
+			'userStoreId' => $userStoreId,
 		));
 	}
 
 
 	public function productstravellingReport(){
-		$products_travellings = ProductTravelling::all();
+		$products_travellings = ProductTravelling::orderBy('id','DESC')->where('date_received', '!=', 'NULL')->paginate(Setting::where('key','per_page')->first()->value ?? 30);
 		return view('admin.reports.productstravelling_reports.index', compact(['products_travellings']));
 	}
 
@@ -73,7 +76,6 @@ class ProductTravellingController extends Controller{
 			if($check->store_id == $request->store_to_id){
 				return Response::json(array('errors'=>array('quantity'=>array(trans('admin/products_travelling.error_same_store')))), 401);
 			}
-
 
 			$travel = new ProductTravelling();
 			$travel->product_id = $product;

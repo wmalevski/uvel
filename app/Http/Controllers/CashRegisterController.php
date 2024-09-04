@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\DB;
 use App\CashRegister;
 use App\Store;
+use App\Setting;
 use Response;
 use Redirect;
 use Auth;
@@ -21,7 +22,7 @@ class CashRegisterController extends Controller{
 	 */
 	public function index(){
 		$register = new CashRegister;
-		$register = CashRegister::where('store_id', CashRegister::$store)->orderBy('date','DESC')->get();
+		$register = CashRegister::where('store_id', CashRegister::$store)->orderBy('date','DESC')->paginate(Setting::where('key','per_page')->first()->value ?? 30);
 
 		$stores = Store::all();
 

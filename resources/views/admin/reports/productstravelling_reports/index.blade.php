@@ -58,6 +58,7 @@
                     </tbody>
                 </table>
             </div>
+            {{ $products_travellings->links() }}
         </div>
     </div>
 @endsection

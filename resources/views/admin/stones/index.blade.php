@@ -251,6 +251,7 @@ aria-hidden="true">
         </tbody>
       </table>
     </div>
+    {{ $stones->links() }}
   </div>
 </div>
 

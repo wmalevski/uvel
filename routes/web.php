@@ -23,7 +23,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         //Selling section
         Route::get('/', 'SellingController@index')->name('admin');
         Route::get('/selling', 'SellingController@index')->name('selling');
-        Route::post('/selling', 'SellingController@store');
+        // Route::post('/selling', 'SellingController@store'); // store method does not exist in SellingController
         Route::get('/selling/online', 'OnlineSellingsController@index')->name('online_selling');
         Route::get('/selling/online/{selling}', 'OnlineSellingsController@edit');
         Route::put('/selling/online/{selling}', 'OnlineSellingsController@update');
@@ -681,7 +681,7 @@ Route::group(['prefix' => 'online', 'namespace' => 'Store'], function() {
     Route::get('/model_orders/', 'ModelOrderController@index')->name('model_orders');
 
     Route::get('/cart', 'CartController@index')->name('cart');
-    Route::get('/cart/addItem/{item}/{quantity}', 'CartController@addItem')->name('CartAddItem');
+    Route::get('/cart/addItem/{item}/{quantity?}', 'CartController@addItem')->name('CartAddItem');
 });
 
 Route::group(['prefix' => 'online',  'namespace' => 'Store', 'middleware' => 'auth'], function() {
@@ -710,7 +710,7 @@ Route::group(['prefix' => 'online',  'namespace' => 'Store', 'middleware' => 'au
 Route::group(['prefix' => 'ajax', 'namespace' => 'Store'], function() {
     //Route::get('/cart/addItem/{item}/{quantity}', 'CartController@addItem');
     Route::get('/cart/removeItem/{item}', 'CartController@removeItem')->name('CartRemoveItem');
-    Route::get('/cart/updateItem/{item}/{quantity}', 'CartController@updateItem')->name('CartUpdateItem');
+    Route::get('/cart/updateItem/{item}/{quantity?}', 'CartController@updateItem')->name('CartUpdateItem');
 
     Route::get('/products/{product}/quickview/', 'ProductController@quickview');
     Route::get('/productsothers/{product}/quickview/', 'ProductOtherController@quickview');

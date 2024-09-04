@@ -29,6 +29,7 @@
         </tbody>
       </table>
     </div>
+    {{ $stores->links() }}
   </div>
 </div>
 @endsection

@@ -105,7 +105,7 @@ public function edit(StoneSize $stoneSize)
 
         $sizes_new = new Stonesize();
         $sizes = $sizes_new->filterSizes($request, $query);
-        $sizes = $sizes->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $sizes = $sizes->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         $pass_sizes = array();
 

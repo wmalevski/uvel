@@ -88,6 +88,16 @@ class CustomOrderController extends BaseController{
         $email2sms = $email2sms->get('email2sms_on_order');
 
         // Send Email-to-SMS to the admin, only if the environment is not LOCAL or DEVELOPMENT
+           Mail::send('store.emails.sms',array(
+               'content' => "Porychka po model! ID ".$customOrder->id),
+               function($message) {
+                   $message
+                       ->from(config('mail.username'),config('app.name'))
+                       ->to(config('mail.host'))
+                       ->subject('Po model');
+               }
+           );
+
         if(
             (strtolower($_ENV['APP_ENV'])!=='local'&&strtolower($_ENV['APP_ENV'])!=='development')
             &&
@@ -120,7 +130,7 @@ class CustomOrderController extends BaseController{
             function($message) use ($requestEmail){
                 $message
                     ->replyTo($requestEmail)
-                    ->from($_ENV['MAIL_USERNAME'],$_ENV['APP_NAME'])
+                    ->from(config('mail.username'), config('app.name'))
                     ->to("uvelgold@gmail.com")
                     ->subject('Uvel Поръчка');
             }
