@@ -92,7 +92,7 @@ class ProductOtherTypeController extends Controller
     }
 
     public function filter(Request $request) {
-        $products = ProductOtherType::filterProducts($request)->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $products = ProductOtherType::filterProducts($request)->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         $response = '';
         foreach($products as $type){

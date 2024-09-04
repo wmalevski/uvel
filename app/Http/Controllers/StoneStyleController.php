@@ -103,7 +103,7 @@ class StoneStyleController extends Controller
 
         $styles_new = new StoneStyle();
         $styles = $styles_new->filterStyles($request, $query);
-        $styles = $styles->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $styles = $styles->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         $pass_styles = array();
 

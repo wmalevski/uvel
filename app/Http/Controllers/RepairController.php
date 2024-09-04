@@ -27,7 +27,7 @@ class RepairController extends Controller{
      */
     public function index(){
         $repairTypes = RepairType::take(env('SELECT_PRELOADED'))->get();
-        $repairs = Repair::all()->sortByDesc('created_at');
+        $repairs = Repair::orderBy('created_at', 'DESC')->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
         $materials = Material::take(env('SELECT_PRELOADED'))->get();
 
         return \View::make('admin/repairs/index', array('loggedUser' => Auth::user(), 'repairTypes' => $repairTypes, 'repairs' => $repairs, 'materials' => $materials));
@@ -72,11 +72,11 @@ class RepairController extends Controller{
 
         $digits = (string)$bar;
         // 1. Add the values of the digits in the even-numbered positions: 2, 4, 6, etc.
-        $even_sum = $digits{1} + $digits{3} + $digits{5} + $digits{7} + $digits{9} + $digits{11};
+        $even_sum = $digits[1] + $digits[3] + $digits[5] + $digits[7] + $digits[9] + $digits[1];
         // 2. Multiply this result by 3.
         $even_sum_three = $even_sum * 3;
         // 3. Add the values of the digits in the odd-numbered positions: 1, 3, 5, etc.
-        $odd_sum = $digits{0} + $digits{2} + $digits{4} + $digits{6} + $digits{8} + $digits{10};
+        $odd_sum = $digits[0] + $digits[2] + $digits[4] + $digits[6] + $digits[8] + $digits[10];
         // 4. Sum the results of steps 2 and 3.
         $total_sum = $even_sum_three + $odd_sum;
         // 5. The check character is the smallest number which, when added to the result in step 4,  produces a multiple of 10.
@@ -325,7 +325,7 @@ class RepairController extends Controller{
 
         $repairs_new = new Repair();
         $repairs = $repairs_new->filterRepairs($request, $query);
-        $repairs = $repairs->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $repairs = $repairs->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         $response = '';
         foreach($repairs as $repair){

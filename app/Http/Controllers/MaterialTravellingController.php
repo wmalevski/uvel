@@ -31,9 +31,8 @@ class MaterialTravellingController extends Controller
         $stores = Store::where('id', '!=', Auth::user()->getStore()->id)->take(env('SELECT_PRELOADED'))->get();
         $materials_types = Material::take(env('SELECT_PRELOADED'))->get();
 
-        $travelling = MaterialTravelling::where('store_from_id', '=', Auth::user()->getStore()->id)->orWhere('store_to_id', '=', Auth::user()->getStore()->id)->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $travelling = MaterialTravelling::where('store_from_id', '=', Auth::user()->getStore()->id)->orWhere('store_to_id', '=', Auth::user()->getStore()->id)->orderBy('id', 'DESC')->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
-// dd($materials);
         return \View::make('admin/materials_travelling/index', array('materials' => $materials, 'types' => $materials_types, 'stores' => $stores, 'travelling' => $travelling));
     }
 
@@ -49,7 +48,7 @@ class MaterialTravellingController extends Controller
 
     public function mtravellingReport()
     {
-        $materials_travellings = MaterialTravelling::all();
+        $materials_travellings = MaterialTravelling::orderBy('id', 'DESC')->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         return view('admin.reports.mtravelling_reports.index', compact(['materials_travellings']));
     }

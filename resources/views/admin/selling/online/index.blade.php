@@ -36,6 +36,7 @@ aria-hidden="true">
 				</tbody>
 			</table>
 		</div>
+		{{ $sellings->links() }}
 	</div>
 </div>
 @endsection

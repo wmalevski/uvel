@@ -50,7 +50,7 @@ class PaymentController extends Controller{
                 break;
         }
 
-        $payments = $payments->get();
+        $payments = $payments->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         return view('admin.payments.index', compact('payments'));
     }

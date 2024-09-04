@@ -122,7 +122,7 @@ class MaterialController extends Controller{
 
         $materials_new = new Material();
         $materials = $materials_new->filterMaterials($request, $query);
-        $materials = $materials->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $materials = $materials->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         $response = '';
         foreach($materials as $material){
@@ -146,7 +146,7 @@ class MaterialController extends Controller{
             $materials = $materials_new->filterMaterials($request, $query);
         }
 
-        $materials = $materials->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $materials = $materials->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
         $pass_materials = array();
 
         foreach($materials as $material){
@@ -176,7 +176,7 @@ class MaterialController extends Controller{
         }else{
             $materials = $materials_new->filterMaterials($request, $query);
         }
-        $materials = $materials->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $materials = $materials->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
         $pass_materials = array();
 
         foreach($materials as $material) {

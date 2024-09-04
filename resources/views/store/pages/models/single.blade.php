@@ -160,7 +160,7 @@
 											</div>
 											<div class="spr-content">
 												<div class="spr-form" id="form_1293236931">
-													<form method="post" action="{{ route('product_review', ['model' => $model->id])  }}" id="new-review-form_{{$model->id}}"
+													<form method="post" action="{{ route('product_review', ['product' => $model->id])  }}" id="new-review-form_{{$model->id}}"
 													 class="new-review-form" data-form-captcha>
 														{{ csrf_field() }}
 														<input type="hidden" name="rating" value="5">

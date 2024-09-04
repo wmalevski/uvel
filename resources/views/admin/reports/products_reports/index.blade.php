@@ -3,7 +3,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <div class="bgc-white bd bdrs-3 p-20 mB-20">
+            <div class="bgc-white bd bdrs-3 p-20 mB-20 table-responsive">
                 <h4 class="c-grey-900 mB-20"> Продукти </h4>
                 <p>Преглед на продуктите.</p>
                 <table id="main_table" class="table">
@@ -22,6 +22,7 @@
                     </tbody>
                 </table>
             </div>
+            {{ $products->links() }}
         </div>
     </div>
 @endsection

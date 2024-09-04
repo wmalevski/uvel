@@ -26,6 +26,8 @@ use Auth;
 use Uuid;
 use Storage;
 use App\Setting;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\LazyCollection;
 
 class ModelController extends Controller{
     /**
@@ -34,37 +36,49 @@ class ModelController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $models = Model::orderBy('id','DESC')->paginate(Setting::where('key','per_page')->first()->value);
+        $models = Model::with(['options', 'stones'])->orderBy('id','DESC')->paginate(Setting::where('key','per_page')->first()->value ?? 30);
         $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
-        $prices = Price::all();
-        $stones = Stone::take(env('SELECT_PRELOADED'))->get();
-        $materials = Material::take(env('SELECT_PRELOADED'));
-        $pass_stones = array();
+        $stones = Stone::with(['contour', 'size'])->take(env('SELECT_PRELOADED'))->get();
+        // $stones = Stone::take(env('SELECT_PRELOADED'))->get();
+        $materials = Material::take(env('SELECT_PRELOADED'))->get();
+        // $materials = Material::with(['pricesSell', 'pricesBuy', 'parent'])->take(env('SELECT_PRELOADED'));
+        $pass_stones = [];
 
-        foreach($stones as $stone){
-            $pass_stones[] = [
-                'value' => $stone->id,
-                'label' => $stone->nomenclature->name.' ('.$stone->contour->name.', '.$stone->size->name.', '.$stone->style->name.' )',
-                'type' => $stone->type,
-                'price' => $stone->price
-            ];
-        }
+        $cached_pass_stones = Cache::remember('pass_stones', 60, function () use ($pass_stones, $stones) {
+            foreach ($stones->chunk(50) as $chunk) {
+                foreach ($chunk as $stone) {
+                    $pass_stones[] = [
+                        'value' => $stone->id,
+                        'label' => sprintf('%s (%s, %s)', $stone->name, $stone->contour->name, $stone->size->name),
+                        'type' => $stone->type,
+                        'price' => $stone->price
+                    ];
+                }
+            }
+
+            return $pass_stones;
+        });
 
         $pass_materials = array();
 
-        foreach($materials as $material){
-            if($material->pricesSell->first()){
-                $pass_materials[] = [
-                    'value' => $material->id,
-                    'label' => $material->parent->name.' - '. $material->color.  ' - '  .$material->code,
-                    'price' => $material->pricesSell->first()->price,
-                    'pricebuy' => $material->pricesBuy->first()->price,
-                    'material' => $material->id
-                ];
+        $cached_materials = Cache::remember('pass_materials', 60, function () use ($pass_materials, $stones) {
+            foreach($materials as $material){
+                if($material->pricesSell->first()){
+                    $pass_materials[] = [
+                        'value' => $material->id,
+                        'label' => $material->parent->name.' - '. $material->color.  ' - '  .$material->code,
+                        'price' => $material->pricesSell->first()->price,
+                        'pricebuy' => $material->pricesBuy->first()->price,
+                        'material' => $material->id
+                    ];
+                }
             }
-        }
 
-        return \View::make('admin/models/index', array('jsMaterials' =>  json_encode($pass_materials), 'jsStones' =>  json_encode($pass_stones), 'jewels' => $jewels, 'models' => $models, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials));
+            return $pass_materials;
+        });
+
+
+        return \View::make('admin/models/index', array('jsMaterials' =>  json_encode($pass_materials), 'jsStones' =>  json_encode($cached_pass_stones), 'jewels' => $jewels, 'models' => $models, 'stones' => $stones, 'materials' => $materials));
     }
 
     /**
@@ -115,11 +129,11 @@ class ModelController extends Controller{
         $bar = '380'.unique_number('models', 'barcode', 7).'1';
         $digits =(string)$bar;
         // 1. Add the values of the digits in the even-numbered positions: 2, 4, 6, etc.
-        $even_sum = $digits{1} + $digits{3} + $digits{5} + $digits{7} + $digits{9} + $digits{11};
+        $even_sum = $digits[1] + $digits[3] + $digits[5] + $digits[7] + $digits[9] + $digits[11];
         // 2. Multiply this result by 3.
         $even_sum_three = $even_sum * 3;
         // 3. Add the values of the digits in the odd-numbered positions: 1, 3, 5, etc.
-        $odd_sum = $digits{0} + $digits{2} + $digits{4} + $digits{6} + $digits{8} + $digits{10};
+        $odd_sum = $digits[0] + $digits[2] + $digits[4] + $digits[6] + $digits[8] + $digits[10];
         // 4. Sum the results of steps 2 and 3.
         $total_sum = $even_sum_three + $odd_sum;
         // 5. The check character is the smallest number which, when added to the result in step 4,  produces a multiple of 10.
@@ -237,11 +251,11 @@ class ModelController extends Controller{
             $bar = '380'.unique_number('products', 'barcode', 7).'1';
             $digits =(string)$bar;
             // 1. Add the values of the digits in the even-numbered positions: 2, 4, 6, etc.
-            $even_sum = $digits{1} + $digits{3} + $digits{5} + $digits{7} + $digits{9} + $digits{11};
+            $even_sum = $digits[1] + $digits[3] + $digits[5] + $digits[7] + $digits[9] + $digits[11];
             // 2. Multiply this result by 3.
             $even_sum_three = $even_sum * 3;
             // 3. Add the values of the digits in the odd-numbered positions: 1, 3, 5, etc.
-            $odd_sum = $digits{0} + $digits{2} + $digits{4} + $digits{6} + $digits{8} + $digits{10};
+            $odd_sum = $digits[0] + $digits[2] + $digits[4] + $digits[6] + $digits[8] + $digits[10];
             // 4. Sum the results of steps 2 and 3.
             $total_sum = $even_sum_three + $odd_sum;
             // 5. The check character is the smallest number which, when added to the result in step 4,  produces a multiple of 10.
@@ -365,7 +379,7 @@ class ModelController extends Controller{
     public function edit(Model $model){
         $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
         $prices = Price::where('type', 'sell')->get();
-        $stones = Stone::take(env('SELECT_PRELOADED'))->get();
+        $stones = Stone::with(['nomenclature', 'contour', 'style'])->take(env('SELECT_PRELOADED'))->get();
         $modelStones = $model->stones;
         $photos = Gallery::where(
             [
@@ -376,7 +390,7 @@ class ModelController extends Controller{
 
         $options = $model->options;
 
-        $materials = Material::take(env('SELECT_PRELOADED'))->get();
+        $materials = Material::with(['parent', 'pricesBuy'])->take(env('SELECT_PRELOADED'))->get();
         $pass_stones = array();
 
         foreach($stones as $stone) {
@@ -745,11 +759,11 @@ class ModelController extends Controller{
 
                 $digits = (string)$bar;
                 // 1. Add the values of the digits in the even-numbered positions: 2, 4, 6, etc.
-                $even_sum = $digits{1} + $digits{3} + $digits{5} + $digits{7} + $digits{9} + $digits{11};
+                $even_sum = $digits[1] + $digits[3] + $digits[5] + $digits[7] + $digits[9] + $digits[11];
                 // 2. Multiply this result by 3.
                 $even_sum_three = $even_sum * 3;
                 // 3. Add the values of the digits in the odd-numbered positions: 1, 3, 5, etc.
-                $odd_sum = $digits{0} + $digits{2} + $digits{4} + $digits{6} + $digits{8} + $digits{10};
+                $odd_sum = $digits[0] + $digits[2] + $digits[4] + $digits[6] + $digits[8] + $digits[10];
                 // 4. Sum the results of steps 2 and 3.
                 $total_sum = $even_sum_three + $odd_sum;
                 // 5. The check character is the smallest number which, when added to the result in step 4,  produces a multiple of 10.
@@ -846,7 +860,7 @@ class ModelController extends Controller{
 
         $models_new = new Model();
         $models = $models_new->filterModels($request, $query);
-        $models = $models->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $models = $models->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         $pass_models = array();
 
@@ -866,7 +880,7 @@ class ModelController extends Controller{
         $query = Model::select('*');
 
         $models_new = new Model();
-        $models = $models_new->filterModels($request, $query)->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $models = $models_new->filterModels($request, $query)->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         $response = '';
         foreach($models as $model){

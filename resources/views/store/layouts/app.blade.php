@@ -74,5 +74,6 @@
 		uvelStore.renderCaptcha('{{ env("INVISIBLE_RECAPTCHA_SITEKEY") }}');
 	}
 </script>
+@stack('scripts')
 </body>
 </html>

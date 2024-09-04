@@ -16,6 +16,7 @@ class MaterialTravelling extends Model
         'dateSent',
         'dateReceived',
         'user_sent_id',
+        'user_received_id',
         'status'
     ];
 

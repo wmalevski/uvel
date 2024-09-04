@@ -20,9 +20,9 @@ class IncomeController extends Controller{
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index(){
-		$income = Income::all();
+		$income = Income::orderBy('id', 'DESC')->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 		if(Auth::user()->role != 'admin') {
-			$income = Income::where('store_id', Auth::user()->getStore()->id)->get();
+			$income = Income::where('store_id', Auth::user()->getStore()->id)->orderBy('id', 'DESC')->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 		}
 
 		$income_types = IncomeType::all();

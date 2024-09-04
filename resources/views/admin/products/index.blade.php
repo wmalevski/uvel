@@ -118,7 +118,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 											Избери
 										</option>
 
-										@foreach($prices->where('type', 'sell') as $price)
+										@foreach($prices as $price)
 											<option value="{{ $price->id }}" data-retail="{{ $price->price }}"
 													data-material="{{ $price->material }}">
 												{{ $price->slug }} - {{ $price->price }}

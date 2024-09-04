@@ -113,7 +113,7 @@ class StoreController extends Controller
 
         $stores_new = new Store();
         $stores = $stores_new->filterStores($request, $query);
-        $stores = $stores->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $stores = $stores->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         $pass_stores = array();
 

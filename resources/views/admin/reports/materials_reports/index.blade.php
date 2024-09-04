@@ -33,11 +33,12 @@
 				</thead>
 				<tbody>
 					@foreach($materials_quantities as $materials_quantity)
-						@include('admin.reports.materials_reports.table')
+					@include('admin.reports.materials_reports.table')
 					@endforeach
 				</tbody>
 			</table>
 		</div>
+		{{ $materials_quantities->links() }}
 	</div>
 </div>
 @endsection

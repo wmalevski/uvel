@@ -280,15 +280,23 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 		</tr>
 	</thead>
 	<tbody>
+	@php
+		$userMeta = [
+			'userRole' => $loggedUser->role,
+			'store_id' => $loggedUser->store_id,
+		];
+	@endphp
+
 	@foreach($orders as $order)
-	@if($loggedUser->role != 'admin' && $loggedUser->role != 'storehouse' && $loggedUser->store_id ==$order->store_id)
-		@include('admin.orders.table')
-	@elseif($loggedUser->role == 'admin' || $loggedUser->role == 'storehouse')
-		@include('admin.orders.table')
-	@endif
+		@if($userMeta['userRole'] != 'admin' && $userMeta['userRole'] != 'storehouse' && $userMeta['store_id'] ==$order->store_id)
+			@include('admin.orders.table')
+		@elseif($userMeta['userRole'] == 'admin' || $userMeta['userRole'] == 'storehouse')
+			@include('admin.orders.table')
+		@endif
 	@endforeach
 	</tbody>
 </table>
+{{ $orders->links() }}
 @endsection
 
 @section('footer-scripts')

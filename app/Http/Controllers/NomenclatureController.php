@@ -104,7 +104,7 @@ class NomenclatureController extends Controller
 
         $nomenclatures_new = new Nomenclature();
         $nomenclatures = $nomenclatures_new->filterNomenclatures($request, $query);
-        $nomenclatures = $nomenclatures->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $nomenclatures = $nomenclatures->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         $pass_nomenclatures = array();
 

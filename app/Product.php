@@ -345,7 +345,11 @@ class Product extends BaseModel
     $store_data = Auth::user()->role == 'storehouse' && !isset($request->store_id) ? "1" : $request->store_id;
 
     $findModel = DefModel::find($request->model_id);
-    $product = new Product();
+
+    $product = $this->firstOrCreate([
+      'order_id' => $request->order_id,
+    ]);
+
     $product->name = $findModel->name;
     $product->model_id = $request->model_id;
     $product->jewel_id = $request->jewel_id;
@@ -357,6 +361,7 @@ class Product extends BaseModel
     $product->workmanship = round($request->workmanship);
     $product->price = round($request->price);
     $product->store_id = $store_data;
+    $product->order_id = $request->order_id ?? null;
     $bar = '380' . unique_number('products', 'barcode', 7) . '1';
 
     $material->quantity += $request->weight;
@@ -408,7 +413,6 @@ class Product extends BaseModel
             if ($responseType == 'JSON') {
               return Response::json(['errors' => ['stone_weight' => ['Няма достатъчна наличност от този камък.']]], 401);
             } else {
-              dd('Which stone?');
               return array('errors' => array('stone_weight' => ['Няма достатъчна наличност от този камък.']));
             }
           }

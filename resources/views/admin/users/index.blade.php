@@ -113,6 +113,7 @@ aria-hidden="true">
           </tbody>
         </table>
       </div>
+      {{ $users->links() }}
     </div>
   </div>
   @endsection

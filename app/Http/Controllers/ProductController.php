@@ -27,6 +27,7 @@ use Storage;
 use Auth;
 use Milon\Barcode\DNS1D;
 use App\Setting;
+use Illuminate\Support\Facades\Cache;
 
 class ProductController extends Controller{
     /**
@@ -34,27 +35,44 @@ class ProductController extends Controller{
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(MaterialQuantity $materials){
-        $products = Product::orderBy('id','DESC')->paginate(Setting::where('key','per_page')->first()->value);
+    public function index(){
+        // $materialsInstance = new MaterialQuantity();
+        // $materials = $materialsInstance->with([''])->where('store_id', Auth::user()->getStore()->id)->get();
+        $products = Product::with(['photos', 'model', 'store_info', 'material', 'retailPrice', 'store_info'])->orderBy('id','DESC')->paginate(Setting::where('key','per_page')->first()->value ?? 30);
         // $models = Model::take(env('SELECT_PRELOADED'))->get();
         $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
-        $prices = Price::where('type', 'sell')->get();
-        $stones = Stone::take(env('SELECT_PRELOADED'))->get();
+        $prices = Price::with(['material'])->where('type', 'sell')->get();
+        $stones = Stone::with('contour', 'size')->take(env('SELECT_PRELOADED'))->get();
         $stores = Store::take(env('SELECT_PRELOADED'))->get();
         $loggedUser = Auth::user();
 
-        $pass_stones = array();
+        $pass_stones = [];
 
-        foreach($stones as $stone){
-            $pass_stones[] = [
-                'value' => $stone->id,
-                'label' => $stone->nomenclature->name.' ('. $stone->contour->name .', '. $stone->size->name .' )',
-                'type'  => $stone->type,
-                'price' => $stone->price
-            ];
-        }
+        $cached_pass_stones = Cache::remember('pass_stones', 60, function () use ($pass_stones, $stones) {
+            foreach ($stones->chunk(50) as $chunk) {
+                foreach ($chunk as $stone) {
+                    $pass_stones[] = [
+                        'value' => $stone->id,
+                        'label' => sprintf('%s (%s, %s)', $stone->name, $stone->contour->name, $stone->size->name),
+                        'type' => $stone->type,
+                        'price' => $stone->price
+                    ];
+                }
+            }
 
-        return \View::make('admin/products/index', array('loggedUser' => $loggedUser,'stores' => $stores ,'products' => $products, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones, 'materials' => $materials->scopeCurrentStore(), 'jsStones' =>  json_encode($pass_stones, JSON_UNESCAPED_SLASHES )));
+            return $pass_stones;
+        });
+
+        return \View::make('admin/products/index', array(
+            'loggedUser' => $loggedUser,
+            'stores' => $stores ,
+            'products' => $products,
+            'jewels' => $jewels,
+            'prices' => $prices,
+            'stones' => $stones,
+            // 'materials' => $materials,
+            'jsStones' =>  json_encode($cached_pass_stones, JSON_UNESCAPED_SLASHES)
+        ));
     }
 
     /**
@@ -69,7 +87,11 @@ class ProductController extends Controller{
     }
 
     public function productsReport(){
-        $products = Product::selectRaw('material_id')->selectRaw('store_id')->selectRaw('id')->selectRaw('model_id')->groupBy('store_id')->selectRaw('COUNT(id) as count')->get();
+        $products = Product::select('material_id', 'store_id', 'id', 'model_id', \DB::raw('COUNT(id) as count'))
+                       ->groupBy('store_id')
+                       ->orderBy('id', 'DESC')
+                       ->paginate(Setting::where('key','per_page')->first()->value ?? 30);
+
         if(Auth::user()->role == 'manager'){
             $stores = Store::where('id',Auth::user()->store_id)->get();
         }
@@ -86,7 +108,7 @@ class ProductController extends Controller{
     }
 
     public function select_search(Request $request){
-        $products = Product::filterProducts($request)->where('status', 'available')->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $products = Product::filterProducts($request)->where('status', 'available')->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
         $pass_products = array();
         $loggedUser = Auth::user();
 
@@ -123,7 +145,7 @@ class ProductController extends Controller{
     }
 
     public function filter(Request $request){
-        $products = Product::filterProducts($request)->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $products = Product::filterProducts($request)->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
         $response = '';
         foreach($products as $product){
             $response .= \View::make('admin/products/table', array('product' => $product, 'listType' => $request->listType));

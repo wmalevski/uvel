@@ -197,6 +197,7 @@ aria-hidden="true">
         </tbody>
       </table>
     </div>
+    {{ $expenses->links() }}
   </div>
 </div>
 @endsection

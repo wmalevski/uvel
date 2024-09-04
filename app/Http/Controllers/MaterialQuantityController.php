@@ -22,11 +22,17 @@ class MaterialQuantityController extends Controller{
      */
     public function index(MaterialTravelling $travelling){
         $loggedUser = Auth::user();
-        $materials = MaterialQuantity::all();
+        $materials = MaterialQuantity::orderBy('id', 'DESC')->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
         $stores = Store::take(env('SELECT_PRELOADED'))->get();
         $materials_types = Material::take(env('SELECT_PRELOADED'))->get();
 
-        return \View::make('admin/materials_quantity/index', array('loggedUser' => $loggedUser ,'materials' => $materials, 'types' => $materials_types, 'stores' => $stores, 'travelling' => $travelling::current()));
+        return \View::make('admin/materials_quantity/index', [
+            'loggedUser' => $loggedUser,
+            'materials' => $materials,
+            'types' => $materials_types,
+            'stores' => $stores,
+            'travelling' => $travelling::current()
+        ]);
     }
 
     /**
@@ -81,11 +87,11 @@ class MaterialQuantityController extends Controller{
     public function materialReport(){
         if(Auth::user()->role == 'manager') {
             $user_store_id = Auth::user()->getStore()->id;
-            $materials_quantities = MaterialQuantity::where('store_id', $user_store_id)->get();
+            $materials_quantities = MaterialQuantity::where('store_id', $user_store_id)->orderBy('id', 'DESC')->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
             $stores = Store::where('id', $user_store_id)->get();
         }
         else{
-            $materials_quantities = MaterialQuantity::all();
+            $materials_quantities = MaterialQuantity::orderBy('id', 'DESC')->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
             $stores = Store::all();
         }
 
@@ -137,7 +143,7 @@ class MaterialQuantityController extends Controller{
             $materials = $materials_new->filterMaterials($request, $query);
         }
 
-        $materials = $materials->where('store_id', Auth::user()->getStore()->id)->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $materials = $materials->where('store_id', Auth::user()->getStore()->id)->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         $pass_materials = array();
 
@@ -169,7 +175,7 @@ class MaterialQuantityController extends Controller{
 
         $materials_new = new MaterialQuantity();
         $materials = $materials_new->filterMaterials($request, $query);
-        $materials = $materials->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $materials = $materials->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         $response = '';
         foreach($materials as $material){

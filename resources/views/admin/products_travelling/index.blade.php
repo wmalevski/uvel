@@ -99,14 +99,15 @@
                 </thead>
 
                 <tbody>
-                @foreach($travelling as $product)
-                    @if( in_array($loggedUser->role,array('admin','storehouse')) || $product->store_to_id == $loggedUser->store_id )
+                @foreach($travelling as $item)
+                    @if( in_array($loggedUser->role,array('admin','storehouse')) || $item->store_to_id == $loggedUser->store_id )
                         @include('admin.products_travelling.table')
                     @endif
                 @endforeach
                 </tbody>
               </table>
             </div>
+            {{ $travelling->links() }}
           </div>
 </div>
 @endsection

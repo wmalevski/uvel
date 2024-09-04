@@ -95,6 +95,7 @@ aria-hidden="true">
             </tbody>
         </table>
       </div>
+      {{ $materials->links() }}
     </div>
 </div>
 @endsection

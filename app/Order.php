@@ -28,6 +28,10 @@ class Order extends Model
 
     protected $table = 'orders';
 
+    protected $casts = [
+        'deadline' => 'datetime',
+    ];
+
     public function model()
     {
         return $this->belongsTo('App\Model');

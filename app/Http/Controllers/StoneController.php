@@ -19,6 +19,7 @@ use App\Store;
 use Storage;
 use App\Nomenclature;
 use Auth;
+use Illuminate\Support\Facades\Cache;
 
 class StoneController extends Controller{
     /**
@@ -27,12 +28,34 @@ class StoneController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $stones = Stone::take(env('SELECT_PRELOADED'))->get();
-        $stone_sizes = StoneSize::take(env('SELECT_PRELOADED'))->get();
-        $stone_contours = StoneContour::take(env('SELECT_PRELOADED'))->get();
-        $stone_styles = StoneStyle::take(env('SELECT_PRELOADED'))->get();
-        $stores = Store::take(env('SELECT_PRELOADED'))->get();
-        $nomenclatures = Nomenclature::take(env('SELECT_PRELOADED'))->get();
+        $stones = Stone::take(env('SELECT_PRELOADED'))->orderBy('id','DESC')->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
+        // $stone_sizes = StoneSize::take(env('SELECT_PRELOADED'))->get();
+        // $stone_contours = StoneContour::take(env('SELECT_PRELOADED'))->get();
+        // $stone_styles = StoneStyle::take(env('SELECT_PRELOADED'))->get();
+        // $stores = Store::take(env('SELECT_PRELOADED'))->get();
+        // $nomenclatures = Nomenclature::take(env('SELECT_PRELOADED'))->get();
+        $preloadCount = env('SELECT_PRELOADED');
+
+        // Eager load related data in a single query if necessary (this depends on your actual use case)
+        $stone_sizes = Cache::remember('stone_sizes', 60, function () use ($preloadCount) {
+            return StoneSize::take($preloadCount)->get();
+        });
+
+        $stone_contours = Cache::remember('stone_contours', 60, function () use ($preloadCount) {
+            return StoneContour::take($preloadCount)->get();
+        });
+
+        $stone_styles = Cache::remember('stone_styles', 60, function () use ($preloadCount) {
+            return StoneStyle::take($preloadCount)->get();
+        });
+
+        $stores = Cache::remember('stores', 60, function () use ($preloadCount) {
+            return Store::take($preloadCount)->get();
+        });
+
+        $nomenclatures = Cache::remember('nomenclatures', 60, function () use ($preloadCount) {
+            return Nomenclature::take($preloadCount)->get();
+        });
 
         return view('admin.stones.index', compact('stones', 'stone_sizes', 'stone_contours', 'stone_styles', 'stores', 'nomenclatures'));
     }
@@ -304,7 +327,7 @@ class StoneController extends Controller{
 
         $stones_new = new Stone();
         $stones = $stones_new->filterStones($request, $query);
-        $stones = $stones->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $stones = $stones->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         $response = '';
         foreach($stones as $stone){

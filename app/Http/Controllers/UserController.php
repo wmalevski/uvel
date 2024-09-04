@@ -23,7 +23,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
         $stores = Store::take(env('SELECT_PRELOADED'))->get();
 
         return \View::make('admin/users/index', array('users' => $users, 'stores' => $stores));
@@ -108,7 +108,7 @@ class UserController extends Controller
 
         $users_new = new User();
         $users = $users_new->filterUsers($request, $query);
-        // $users = $users->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        // $users = $users->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
         $users = $users->paginate(1);
         $pass_users = array();
 
@@ -131,7 +131,7 @@ class UserController extends Controller
 
         $users_new = new User();
         $users = $users_new->filterUsers($request, $query);
-        $users = $users->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $users = $users->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         $response = '';
         foreach($users as $user){

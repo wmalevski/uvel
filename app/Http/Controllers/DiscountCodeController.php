@@ -87,7 +87,7 @@ class DiscountCodeController extends Controller{
 
     public function filter(Request $request){
         $discounts = DiscountCode::filterDiscountCodes($request, new DiscountCode());
-        $discounts = $discounts->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $discounts = $discounts->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         $response = '';
         foreach($discounts as $discount){

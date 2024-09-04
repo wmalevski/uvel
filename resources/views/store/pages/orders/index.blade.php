@@ -131,7 +131,7 @@
 										</li>
 										<li>
 											------------------------------------
-										</li
+										</li>
 										<li class="title">
 										<h6>
 											<i class="fa fa-cog  fa-1x"></i>	

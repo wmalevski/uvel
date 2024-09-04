@@ -137,6 +137,7 @@ aria-hidden="true">
 		</tbody>
 	  </table>
 	</div>
+  {{ $income->links() }}
   </div>
 </div>
 @endsection

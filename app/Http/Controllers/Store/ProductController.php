@@ -24,7 +24,7 @@ class ProductController extends BaseController{
 			'status'=>'available',
 			'website_visible'=>'yes',
 			array('store_id','!=',1)
-		))->orderBy('id','desc')->paginate(Setting::where('key','per_page')->first()->value);
+		))->orderBy('id','desc')->paginate(Setting::where('key','per_page')->first()->value ?? 30);
 
 		Session::put('products_active_filters', $request->fullUrl() );
 
@@ -40,7 +40,7 @@ class ProductController extends BaseController{
 		$products = Product::where(array(
 			'status'=>'available',
 			array('store_id','!=',1)
-		))->paginate(Setting::where('key','per_page')->first()->value);
+		))->paginate(Setting::where('key','per_page')->first()->value ?? 30);
 
 		$materialTypes = MaterialType::all();
 		$allProducts = Product::where(array('jewel_id'=>$product->jewel_id))->whereNotIn('id', array($product->id));
@@ -70,7 +70,7 @@ class ProductController extends BaseController{
 			'status'=>'available',
 			'website_visible'=>'yes',
 			array('store_id','!=',1)
-		))->orderBy('id', 'DESC')->paginate(Setting::where('key','per_page')->first()->value);
+		))->orderBy('id', 'DESC')->paginate(Setting::where('key','per_page')->first()->value ?? 30);
 
 
 		$response = '';

@@ -204,6 +204,7 @@
 									<input class="w3-input w3-border" name="amount" value="{{ $subtotal }}" type="hidden" />
 									<input type="hidden" name="payment_method" />
 									<input type="hidden" name="shipping_method" />
+									<input type="hidden" name="cart_items" value="{{ json_encode($items) }}"/>
 									<input class="w3-btn w3-blue" type="submit" value="Поръчай" />
 									@else
 									<div>

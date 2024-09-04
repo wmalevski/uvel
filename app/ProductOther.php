@@ -91,8 +91,6 @@ class ProductOther extends Model
             $query->orderBy($order[0], $order[1]);
         }
 
-        // dd($query->toSql());
-
         return $query;
     }
 

@@ -3616,6 +3616,7 @@ var uvel,
           }
 
           $self.ajaxFn('GET', ajaxUrl, ajaxResultsResponse);
+          $self.modelImageClickAttach();
         };
 
         if (timeout != null) {

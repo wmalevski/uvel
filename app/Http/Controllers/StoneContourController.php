@@ -103,7 +103,7 @@ class StoneContourController extends Controller
 
         $contours_new = new Stonecontour();
         $contours = $contours_new->filterContours($request, $query);
-        $contours = $contours->paginate(\App\Setting::where('key','per_page')->get()[0]->value);
+        $contours = $contours->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         $pass_contours = array();
 

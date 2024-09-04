@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Review;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Setting;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Auth;
@@ -17,19 +18,19 @@ class ReviewController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($product = null, $model = null, $products_other = null)
+    public function index(Request $request)
     {
-        if($product){
-            $reviews = Review::where('product_id', $product)->get();
-        } elseif($model){
-            $reviews = Review::where('model_id', $model)->get();
-        } elseif($products_other){
-            $reviews = Review::where('product_others_id', $products_other)->get();
-        } else{
-            $reviews = Review::all();
+        if (isset($request->product)) { // admin/reviews/{product}
+            $reviews = Review::where('product_id', $request->product)->orderBy('id', 'DESC')->paginate(Setting::where('key','per_page')->first()->value ?? 30);
+        } elseif (isset($request->model)) { // admin/reviews/{model}
+            $reviews = Review::where('model_id', $request->model)->orderBy('id', 'DESC')->paginate(Setting::where('key','per_page')->first()->value ?? 30);
+        } elseif (isset($request->products_other)) { // admin/reviews/{products_other}
+            $reviews = Review::where('product_others_id', $request->products_other)->orderBy('id', 'DESC')->paginate(Setting::where('key','per_page')->first()->value ?? 30);
+        } else {
+            $reviews = Review::orderBy('id', 'DESC')->paginate(Setting::where('key','per_page')->first()->value ?? 30);
         }
-        return \View::make('admin/reviews/index', array('reviews' => $reviews));
 
+        return \View::make('admin/reviews/index', array('reviews' => $reviews));
     }
 
     /**
