@@ -6,137 +6,138 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 
 class Model extends BaseModel{
-	use SoftDeletes;
+    use SoftDeletes;
 
-	protected $fillable = array(
-		'name',
-		'jewel_id',
-		'retail_price_id',
-		'weight',
-		'size',
-		'workmanship',
-		'price'
-	);
+    protected $fillable = array(
+        'name',
+        'jewel_id',
+        'retail_price_id',
+        'weight',
+        'size',
+        'workmanship',
+        'price'
+    );
 
-	protected $table = 'models';
-	protected $casts = array('deleted_at');
+    protected $table = 'models';
+    protected $casts = array('deleted_at');
 
-	public function comments(){
-		return $this->hasMany('App\Comment');
-	}
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
 
-	public function stones(){
-		return $this->hasMany('App\ModelStone');
-	}
+    public function stones(){
+        return $this->hasMany(ModelStone::class);
+    }
 
-	public function options(){
-		return $this->hasMany('App\ModelOption');
-	}
+    public function options(){
+        return $this->hasMany(ModelOption::class);
+    }
 
-	public function jewel(){
-		return $this->belongsTo('App\Jewel');
-	}
+    public function jewel(){
+        return $this->belongsTo(Jewel::class);
+    }
 
-	public function photos(){
-		return $this->hasMany('App\Gallery');
-	}
+    public function photos(){
+        return $this->hasMany(Gallery::class);
+    }
 
-	public function reviews(){
-		return $this->hasMany('App\Review');
-	}
+    public function reviews(){
+        return $this->hasMany(Review::class);
+    }
 
-	public function wishLists(){
-		return $this->hasMany('App\WishList');
-	}
+    public function wishLists(){
+        return $this->hasMany(WishList::class);
+    }
 
-	public function materials(){
-		$used_materials = array();
-		foreach($this->options as $k=>$v){
-			if(isset($v->material_id)){
-				array_push($used_materials, $v->material_id);
-			}
-		}
+    public function materials(){
+        $used_materials = array();
+        foreach($this->options as $k=>$v){
+            if(isset($v->material_id)){
+                array_push($used_materials, $v->material_id);
+            }
+        }
 
-		return Material::whereIn('id', $used_materials)->get();
-	}
+        return Material::whereIn('id', $used_materials)->get();
+    }
 
-	public function getModelAvgRating($model) {
-		$modelTotalRating = 0;
-		if(count($model->reviews)){
-			foreach($model->reviews as $review) {
-				$modelTotalRating = $modelTotalRating + $review->rating;
-			}
-			return $modelAvgRating = round($modelTotalRating/count($model->reviews));
-		}
-	}
+    public function getModelAvgRating($model) {
+        $modelTotalRating = 0;
+        if(count($model->reviews)){
+            foreach($model->reviews as $review) {
+                $modelTotalRating = $modelTotalRating + $review->rating;
+            }
+            return $modelAvgRating = round($modelTotalRating/count($model->reviews));
+        }
+    }
 
-	public function listModelAvgRatingStars($model) {
-		for($i = 1; $i <= 5; $i++){
-			if($this->getModelAvgRating($model) >= $i){
-				echo '<i class="spr-icon spr-icon-star" style=""></i>';
-			}elseif($this->getModelAvgRating($model) < $i){
-				echo'<i class="spr-icon spr-icon-star-empty" style=""></i>';
-			}
-		}
-	}
+    public function listModelAvgRatingStars($model) {
+        for($i = 1; $i <= 5; $i++){
+            if($this->getModelAvgRating($model) >= $i){
+                echo '<i class="spr-icon spr-icon-star" style=""></i>';
+            }elseif($this->getModelAvgRating($model) < $i){
+                echo'<i class="spr-icon spr-icon-star-empty" style=""></i>';
+            }
+        }
+    }
 
-	public function filterModels(Request $request ,$query){
-		$query = Model::where(function($query) use ($request){
-			if ($request->priceFrom && $request->priceTo) {
-				$query = $query->whereBetween('price', [$request->priceFrom, $request->priceTo]);
-			} else if($request->priceFrom){
-				$query = $query->where('price', '>=', $request->priceFrom);
-			} else if($request->priceTo){
-				$query = $query->where('price', '<=', $request->priceTo);
-			}
+    public function filterModels(Request $request){
+        $models = self::where(function ($query) use ($request) {
+            if ($request->priceFrom && $request->priceTo) {
+                $query = $query->whereBetween('price', [$request->priceFrom, $request->priceTo]);
+            } else if($request->priceFrom){
+                $query = $query->where('price', '>=', $request->priceFrom);
+            } else if($request->priceTo){
+                $query = $query->where('price', '<=', $request->priceTo);
+            }
 
-			if ($request->byName) {
-				$query->where('name','LIKE','%'.$request->byName.'%');
-			}
+            if ($request->search) {
+                $query->where('name','LIKE','%'.$request->search.'%');
+            }
 
-			if ($request->bySize) {
-				$query = $query->whereIn('size', $request->bySize);
-			}
+            if ($request->bySize) {
+                $query = $query->whereIn('size', $request->bySize);
+            }
 
-			if ($request->byStore) {
-				$query = $query->whereIn('store_id', $request->byStore);
-			}
+            if ($request->byStore) {
+                $query = $query->whereIn('store_id', $request->byStore);
+            }
 
-			if ($request->byJewel) {
-				$query = $query->whereIn('jewel_id', $request->byJewel);
-			}
+            if ($request->byJewel) {
+                $query = $query->whereIn('jewel_id', $request->byJewel);
+            }
 
-			if ($request->byMaterial) {
-				$query = $query->whereIn('material_id', $request->byMaterial);
-			}
+            if ($request->byMaterial) {
+                $query = $query->whereIn('material_id', $request->byMaterial);
+            }
+        })
+        ->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
-			if( $request->byName == '' && $request->bySize == '' && $request->byStore == '' && $request->byJewel == '' && $request->byMaterial == ''){
-				$query = Model::all();
-			}
-		});
+        $results = $models->map(function ($model) {
+            return [
+                'id' => $model->id,
+                'text' => $model->name,
+            ];
+        });
 
-		// Order by
-		if(isset($request->sortBy)){
-			$order = explode('-', $request->sortBy);
-			$query->orderBy($order[0], $order[1]);
-		}
+        return response()->json([
+            'results' => $results,
+            'pagination' => ['more' => $models->hasMorePages()],
+        ]);
+    }
 
-		return $query;
-	}
+    public function filterMaterials(Request $request ,$query){
+        $query = MaterialQuantity::where(function($query) use ($request){
+            if ($request->byName) {
+                $query->with('Material')->whereHas('Material', function($q) use ($request){
+                    $q->where('name', 'LIKE', "%$request->byName%")->orWhere('color', 'LIKE', "%$request->byName%")->orWhere('code', 'LIKE', "%$request->byName%");
+                });
+            }
 
-	public function filterMaterials(Request $request ,$query){
-		$query = MaterialQuantity::where(function($query) use ($request){
-			if ($request->byName) {
-				$query->with('Material')->whereHas('Material', function($q) use ($request){
-					$q->where('name', 'LIKE', "%$request->byName%")->orWhere('color', 'LIKE', "%$request->byName%")->orWhere('code', 'LIKE', "%$request->byName%");
-				});
-			}
+            if ($request->byName == '') {
+                $query = MaterialQuantity::all();
+            }
+        });
 
-			if ($request->byName == '') {
-				$query = MaterialQuantity::all();
-			}
-		});
-
-		return $query;
-	}
+        return $query;
+    }
 }

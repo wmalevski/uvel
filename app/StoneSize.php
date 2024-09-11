@@ -42,17 +42,23 @@ class StoneSize extends Model
         return $this->hasMany('App\Stone', 'size_id');
     }
 
-    public function filterSizes(Request $request ,$query){
-        $query = StoneSize::where(function($query) use ($request){
-            if ($request->byName) {
-                $query->where('name', 'LIKE', "%$request->byName%");
+    public function filterSizes($term){
+        $stonesizes = self::where(function($query) use ($term){
+            if ($term) {
+                $query->where('name', 'LIKE', "%$term%");
             }
+        })->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
-            if ($request->byName == '') {
-                $query = StoneSize::all();
-            }
+        $results = $stonesizes->map(function ($size) {
+            return [
+                'id' => $size->id,
+                'text' => $size->name
+            ];
         });
 
-        return $query;
+        return response()->json([
+            'results' => $results,
+            'pagination' => ['more' => $stonesizes->hasMorePages()],
+        ]);
     }
 }

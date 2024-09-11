@@ -13,4 +13,4 @@ yarn-error.log
 .env
 *.code-workspace
 /.vscode
-composer.lock
+/bootstrap/cache

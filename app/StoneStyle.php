@@ -22,17 +22,23 @@ class StoneStyle extends Model
         return $this->hasMany('App\Stone', 'style_id');
     }
 
-    public function filterStyles(Request $request ,$query){
-        $query = StoneStyle::where(function($query) use ($request){
-            if ($request->byName) {
-                $query->where('name', 'LIKE', "%$request->byName%");
+    public function filterStyles($term) {
+        $stoneStyles = self::where(function($query) use ($term){
+            if ($term) {
+                $query->where('name', 'LIKE', "%$term%");
             }
+        })->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
-            if ($request->byName == '') {
-                $query = StoneStyle::all();
-            }
+        $results = $stoneStyles->map(function ($style) {
+            return [
+                'id' => $style->id,
+                'text' => $style->name
+            ];
         });
 
-        return $query;
+        return response()->json([
+            'results' => $results,
+            'pagination' => ['more' => $stoneStyles->hasMorePages()],
+        ]);
     }
 }

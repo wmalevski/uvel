@@ -46,8 +46,13 @@ class DiscountCode extends Model{
         return $this->belongsTo('App\User');
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'discountcode_user');
+    }
+
     public function payments(){
-        return $this->hasMany('App\PaymentDiscount')->get();
+        return $this->hasMany('App\PaymentDiscount');
     }
 
     public static function filterDiscountCodes(Request $request, $query){

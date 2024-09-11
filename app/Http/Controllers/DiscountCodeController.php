@@ -17,8 +17,8 @@ class DiscountCodeController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $discounts = DiscountCode::all();
-        $users = User::take(env('SELECT_PRELOADED'))->get();
+        $discounts = DiscountCode::with(['users', 'payments'])->orderBy('id', 'DESC')->get();
+        $users = User::take(env('SELECT_PRELOADED'))->with('discountCodes')->get();
 
         return \View::make('admin/discounts/index', array('discounts' => $discounts, 'users' => $users));
     }
@@ -45,13 +45,14 @@ class DiscountCodeController extends Controller{
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-
         $discount = DiscountCode::create([
             'discount' => $request->discount,
             'expires' => $request->date_expires,
-            'user_id' => $request->user_id,
             'barcode' => $request->barcode,
         ]);
+
+        $userList = explode(',', $request->input('user_list'));
+        $discount->users()->sync($userList);
 
         if($request->lifetime == 'true' || !$request->date_expires){
             $discount->lifetime = 'yes';
@@ -138,6 +139,9 @@ class DiscountCodeController extends Controller{
             'barcode' => 'required|integer',
         ]);
 
+        $userList = explode(',', $request->input('user_list'));
+        $discountCode->users()->sync($userList);
+
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
@@ -146,7 +150,6 @@ class DiscountCodeController extends Controller{
 
         $discountCode->discount = $request->discount;
         $discountCode->expires = $request->date_expires;
-        $discountCode->user_id = $request->user_id;
         $discountCode->barcode = $request->barcode;
 
         if($request->active == 'false'){

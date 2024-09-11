@@ -745,7 +745,6 @@ var uvel,
           openedForm = $this.attr('data-form'),
           formType = $this.attr('data-form-type'),
           formSettings = $self.formsConfig[openedForm];
-
       $('form[name="' + openedForm + '"]').find('button[type="submit"]').prop('disabled', true);
 
       if (formType == 'edit') {
@@ -1190,7 +1189,6 @@ var uvel,
 
         if (discountBarcode.length == 13) {
           var ajaxUrl = _url + discountUrl + discountBarcode;
-
           $self.ajaxFn('GET', ajaxUrl, $self.discountSuccess, '', '', '');
           _this.val('');
         }
@@ -1200,7 +1198,6 @@ var uvel,
     this.discountSuccess = function(response) {
       var discountsHolder = $('.discount--label-holder'),
           isPartner = false;
-
       if (response.success) {
         var discounts = response.condition,
             newFields = '';
@@ -1726,9 +1723,19 @@ var uvel,
         $self.initializeForm(formSettings, formType);
       } else {
         var ajaxRequestLink = $self.buildAjaxRequestLink('requestForm', currentButton.attr('data-url'));
+        var params = {};
+        var decomposedLink = ajaxRequestLink.split('/');
+        var decomposedLinkLastIndex = decomposedLink.length - 1; // assuming this is some sort of ID
+
+        if ( !isNaN(decomposedLinkLastIndex) && typeof parseInt(decomposedLinkLastIndex) == 'number' ) {
+          params['id'] = decomposedLink[decomposedLinkLastIndex];
+        }
+
         $.ajax({
           url: ajaxRequestLink,
+          data: params,
           success: function(response) {
+
             var modal = currentButton.parents().find('.edit--modal_holder .modal-content');
             modal.html(response);
 
@@ -1810,7 +1817,6 @@ var uvel,
       $self.deleteRow(deleteBtn);
       $self.print(printBtn);
       $self.returnRepairBtnAction(returnRepairBtn);
-      console.log(form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]')[0]);
       $self.productImageClickAttach(form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]')[0]);
     }
 
@@ -2391,11 +2397,13 @@ var uvel,
       var wrapper = document.createElement('div');
       var $lastRowEl = form.find('[name=model_id]').parents('.form-row').find('.form-group.col-md-6').last();
 
-      imgEl.className = 'admin-product-image';
-      imgEl.src = photos[0].base64;
+      if ( Array.isArray(photos) && photos.length) {
+        imgEl.className = 'admin-product-image';
+        imgEl.src = photos[0].base64;
 
-      wrapper.className = 'form-group col-md-6 presentation-image-group';
-      wrapper.append(imgEl);
+        wrapper.className = 'form-group col-md-6 presentation-image-group';
+        wrapper.append(imgEl);
+      }
 
 
       $lastRowEl.hasClass('presentation-image-group') ? $lastRowEl.replaceWith(wrapper) : $lastRowEl.after(wrapper);
@@ -3391,8 +3399,17 @@ var uvel,
       if (data.element && data.attributes) {
         $(data.element).attr(data.attributes);
       }
-
       return data.text;
+    }
+
+    this.formatState = function(state) {
+      if (!state.id) {
+        return state.text;
+      }
+      var $state = $(
+        '<span>' +state.text+ '</span>'
+      );
+      return $state;
     }
 
     /*
@@ -3418,7 +3435,7 @@ var uvel,
       }
 
       function generateAjaxOption(url, select) {
-        var searchParamName = select.dataset.searchParamName;
+        var searchParamName = select.dataset.search;
 
         return {
           ajax: {
@@ -3428,31 +3445,22 @@ var uvel,
             delay: 1000,
             data: function(params) {
               var query = {
-                [`${searchParamName ? searchParamName : 'byName'}`]: params.term,
+                search: params.term,
                 page: params.page || 1
               }
               return query;
             },
             processResults: function(data, params) {
-              var data = $.map(data, function(obj) {
-                obj.id = obj.attributes.value;
-                obj.text = obj.attributes.label;
-
-                return obj;
-              });
-
-              params.page = params.page || 1;
-
               return {
-                results: data,
+                results: data.results,
                 pagination: {
-                  more: (params.page * 10) < data.total_count
+                  more: data.pagination.more
                 }
               };
             },
             cache: true
           },
-          templateResult: $self.addSelect2CustomAttributes,
+          templateResult: $self.formatState,
           templateSelection: $self.addSelect2CustomAttributes,
           minimumInputLength: 0,
           dropdownParent: $(select).parent(),
@@ -3466,7 +3474,12 @@ var uvel,
     this.initializeSelect = function(select, callback, options) {
 
       $(select).select2(options);
-      $(select).on('select2:select', callback);
+      $(select).on('select2:select', function(e) {
+        return $self.prepMultiSelectValues(e.currentTarget)
+      });
+      $(select).on('select2:unselect', function(e) {
+        return $self.prepMultiSelectValues(e.currentTarget)
+      });
       $(select).on("select2:opening", function (event) {
         if ($(this).is(":disabled")) {
           event.preventDefault();
@@ -3624,6 +3637,35 @@ var uvel,
         }
         timeout = setTimeout(searchFunc, 1000);
       });
+    }
+
+    /* Since its been quite a hassle to obtain
+    all the selected values from multiple select2 object on the backend... */
+    this.prepMultiSelectValues = function(select) {
+      if ( window.jQuery == undefined ) return;
+      if ( !$(select).attr('multiple') ) return;
+
+      try {
+        $collectedValues = $(select).siblings('input:hidden[name="user_list"]'); // prefferably the naming of select should be dynamic
+        $selectedValues  = $(select).val();
+
+        /* Create input if one doesn't exist */
+        if ( !$collectedValues.length ) {
+          const hiddenInput = document.createElement('input');
+          hiddenInput.type  = 'hidden';
+          hiddenInput.name  = 'user_list';
+          $selectParent     = $(select).parent();
+          $selectParent.append(hiddenInput);
+        }
+
+        /* Set the values and make sure this method is used on select2:select */
+        $collectedValues.val($selectedValues)
+      } catch (err) {
+        let errorBag = [];
+        errorBag['stackTrace'] = err.stack;
+        errorBag['message']    = err.message;
+        console.error(err.message, errorBag)
+      }
     }
   }
 

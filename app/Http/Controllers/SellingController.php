@@ -35,7 +35,7 @@ use App\Material;
 use App\MaterialType;
 use App\ExchangeMaterial;
 
-Class CartCustomCondition extends CartCondition {
+class CartCustomCondition extends CartCondition {
     public function apply($totalOrSubTotalOrPrice, $conditionValue){
         if( $this->valueIsPercentage($conditionValue) )
         {
@@ -111,7 +111,6 @@ class SellingController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function index(){
-
         $repairTypes = RepairType::all();
         $discounts = DiscountCode::all();
         $currencies = Currency::all();
@@ -933,15 +932,15 @@ class SellingController extends Controller{
     }
 
     public function setDiscount(Request $request, $barcode){
-
-        $userId = Auth::user()->getId();
+        $user = Auth::user();
+        $userId = $user->getId();
 
         if(strlen($barcode) == 13){
             $discount = new DiscountCode;
             $result = json_encode($discount->check($barcode));
 
             if($result == 'true'){
-                $card = DiscountCode::where('barcode', $barcode)->first();
+                $card = DiscountCode::with(['users'])->where('barcode', $barcode)->first();
                 $setDiscount = $card->discount;
             }
         }else{
@@ -952,20 +951,14 @@ class SellingController extends Controller{
 
         if(isset($setDiscount)){
             $partner = 'false';
-
-            if(isset($card)){
-                if($card->user){
-                    if($card->user->isA('corporate_partner')){
-                        $partner = 'true';
-                    }
-                }
-            }
-
             $partner_id = '';
 
-            if (isset($card)) {
-                if($card->user){
-                    $partner_id = $card->user->id;
+            if(isset($card)){
+                if($card->users->contains('id', $userId)){
+                    if($user->isA('corporate_partner')){
+                        $partner = 'true';
+                        $partner_id = $userId;
+                    }
                 }
             }
 
@@ -1014,7 +1007,6 @@ class SellingController extends Controller{
     public function removeDiscount(Request $request, $name){
         $userId = Auth::user()->getId();
         $conds = array();
-
         Cart::removeCartCondition($name);
         Cart::session($userId)->removeCartCondition($name);
 

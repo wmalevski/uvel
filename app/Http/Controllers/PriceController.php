@@ -361,19 +361,19 @@ class PriceController extends Controller{
             $priceBuy=(isset($priceBuy['price'])?$priceBuy['price']:'--');
             $priceSell=(isset($priceSell['price'])?$priceSell['price']:'--');
 
-            $pass_materials[] = [
-                'attributes' => [
-                    'value' => $material->id,
-                    'label' => $material->parent->name.' - '.$material->color.' - '.$material->code,
+            $pass_materials['results'][] = [
+                    'id' => $material->id,
+                    'text' => $material->parent->name.' - '.$material->color.' - '.$material->code,
                     'data-carat' => $material->carat,
                     'data-transform' => $material->carat_transform,
                     'data-pricebuy' => $priceBuy,
                     'data-price' => $priceSell,
                     'data-material' => $material->id,
-                ]
             ];
         }
 
-        return json_encode($pass_materials, JSON_UNESCAPED_SLASHES );
+        $pass_materials['pagination'] = ['more' => $materials->hasMorePages()];
+
+        return response()->json($pass_materials);
     }
 }

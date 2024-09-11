@@ -66,7 +66,7 @@ class User extends Authenticatable
 
     public function discountCodes()
     {
-        return $this->hasMany('App\DiscountCode');
+        return $this->belongsToMany(DiscountCode::class, 'discountcode_user');
     }
 
     public function store()

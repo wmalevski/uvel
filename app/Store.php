@@ -21,7 +21,7 @@ class Store extends Model
 
     public function users()
     {
-    	return $this->hasMany('App\User')->get();
+        return $this->hasMany('App\User')->get();
     }
 
     public function materials()
@@ -47,34 +47,30 @@ class Store extends Model
 
     public function stones()
     {
-    	return $this->hasMany('App\Stone');
+        return $this->hasMany('App\Stone');
     }
 
-    public function filterStores(Request $request ,$query)
+    public function filterStores(Request $request)
     {
-        $query = Store::where(function ($query) use ($request) {
-            if ($request->byName) {
-                if (trim($request->byName) == '-') {
-                    $query = Store::all();
-                } else {
-                    $request->byName = explode("-", $request->byName);
-                    $query->where('name', 'LIKE', '%' . trim($request->byName[0]) . '%');
+        $search = $request->input('search');
 
-                    if (count($request->byName) == 1) {
-                        $query->orWhere('location', 'LIKE', trim($request->byName[0]) . '%');
-                    }
+        $stores = Store::where(function ($query) use ($search) {
+            $query
+                ->orWhere('name', 'like', '%' .$search. '%')
+                ->orWhere('location', 'like', '%' .$search. '%');
+        })
+            ->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
-                    if (count($request->byName) > 1) {
-                        $query->where('location', 'LIKE', trim($request->byName[1]) . '%');
-                    }
-                }
-            }
-
-            if ($request->byName == '') {
-                $query = Store::all();
-            }
+        $results = $stores->map(function ($store) {
+            return [
+                'id' => $store->id,
+                'text' => $store->name.' - '.$store->location
+            ];
         });
 
-        return $query;
+        return response()->json([
+            'results' => $results,
+            'pagination' => ['more' => $stores->hasMorePages()],
+        ]);
     }
 }

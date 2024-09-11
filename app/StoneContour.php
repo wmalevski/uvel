@@ -22,17 +22,23 @@ class StoneContour extends Model
         return $this->hasMany('App\Stone', 'contour_id');
     }
 
-    public function filterContours(Request $request ,$query){
-        $query = StoneContour::where(function($query) use ($request){
-            if ($request->byName) {
-                $query->where('name', 'LIKE', "%$request->byName%");
+    public function filterContours($term){
+        $stoneContours = self::where(function($query) use ($term){
+            if ($term) {
+                $query->where('name', 'LIKE', "%$term%");
             }
+        })->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
-            if ($request->byName == '') {
-                $query = StoneContour::all();
-            }
+        $results = $stoneContours->map(function ($contour) {
+            return [
+                'id' => $contour->id,
+                'text' => $contour->name
+            ];
         });
 
-        return $query;
+        return response()->json([
+            'results' => $results,
+            'pagination' => ['more' => $stoneContours->hasMorePages()],
+        ]);
     }
 }

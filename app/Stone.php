@@ -80,45 +80,74 @@ class Stone extends Model
         return $this->belongsTo('App\Nomenclature');
     }
 
-    public function filterStones(Request $request ,$query){
-        $query = Stone::where(function($query) use ($request){
-            if ($request->byName) {
-                if (trim($request->byName) == '-') {
+    public function filterStones(Request $request){
+        $search = $request->search ?? $request->byName;
+        $query = Stone::where(function($query) use ($request, $search){
+            if ($search) {
+                if (trim($search) == '-') {
                     $query = Stone::all();
                 } else {
-                    $request->byName = explode("-", $request->byName);
-
-                    $query->whereHas('Nomenclature', function ($q) use ($request) {
-                        $q->where('name', 'LIKE', '%' . trim($request->byName[0]) . '%')->orWhere('weight', 'LIKE', '%' . trim($request->byName[0]) . '%');
+                    $search = explode("-", $search);
+                    $query->whereHas('Nomenclature', function ($q) use ($request, $search) {
+                        $q->where('name', 'LIKE', '%' . trim($search[0]) . '%')->orWhere('weight', 'LIKE', '%' . trim($search[0]) . '%');
                     });
 
-                    if (count($request->byName) == 1) {
-                        $query->orWhereHas('Contour', function ($q) use ($request) {
-                            $q->where('name', 'like', '%' . trim($request->byName[0]) . '%');
+                    if (count($search) == 1) {
+                        $query->orWhereHas('Contour', function ($q) use ($request, $search) {
+                            $q->where('name', 'like', '%' . trim($search[0]) . '%');
                         })->orWhereHas('Size', function ($q) use ($request) {
-                            $q->where('name', 'like', '%' . trim($request->byName[0]) . '%');
+                            $q->where('name', 'like', '%' . trim($search[0]) . '%');
                         });
                     }
 
-                    if (count($request->byName) > 1) {
-                        $query->whereHas('Contour', function ($q) use ($request) {
-                            $q->where('name', 'like', '%' . trim($request->byName[1]) . '%');
+                    if (count($search) > 1) {
+                        $query->whereHas('Contour', function ($q) use ($request, $search) {
+                            $q->where('name', 'like', '%' . trim($search[1]) . '%');
                         });
                     }
 
-                    if (count($request->byName) > 2) {
-                        $query->whereHas('Size', function ($q) use ($request) {
-                            $q->where('name', 'like', '%' . trim($request->byName[2]) . '%');
+                    if (count($search) > 2) {
+                        $query->whereHas('Size', function ($q) use ($request, $search) {
+                            $q->where('name', 'like', '%' . trim($search[2]) . '%');
                         });
                     }
                 }
             }
 
-            if($request->byName == ''){
+            if($search == ''){
                 $query = Stone::all();
             }
         });
 
         return $query;
+    }
+
+    public function searchQuery($term){
+        $stones = self::with(['contour', 'nomenclature', 'size'])
+            ->where(function($query) use ($term) {
+                $query->whereHas('Nomenclature', function ($q) use ($term) {
+                    $q->where('name', 'LIKE', '%' . $term . '%')
+                        ->orWhere('weight', 'LIKE', '%' . $term . '%');
+                })->orWhereHas('Contour', function ($q) use ($term) {
+                    $q->where('name', 'like', '%' . trim($term) . '%');
+                })->orWhereHas('Size', function ($q) use ($term) {
+                    $q->where('name', 'like', '%' . trim($term) . '%');
+                });
+            })
+            ->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
+
+        $results = $stones->map(function ($stone) {
+            return [
+                'id' => $stone->id,
+                'text' => $stone->nomenclature->name.' - '.$stone->contour->name.' - '.$stone->size->name.' - '.$stone->weight.' гр',
+                'data-price' => $stone->price,
+                'data-type' => $stone->type
+            ];
+        });
+
+        return response()->json([
+            'results' => $results,
+            'pagination' => ['more' => $stones->hasMorePages()],
+        ]);
     }
 }
