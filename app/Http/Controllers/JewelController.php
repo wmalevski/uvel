@@ -106,23 +106,24 @@ class JewelController extends Controller
     }
 
     public function select_search(Request $request){
-        $query = Jewel::select('*');
+        $search = $request->input('search');
+        $jewels = Jewel::select('id', 'name')
+            ->where('name', 'like', '%' . $search . '%')
+            ->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
-        $jewels_new = new Jewel();
-        $jewels = $jewels_new->filterJewels($request, $query);
-        $jewels = $jewels->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
-        $pass_jewels = array();
-
-        foreach($jewels as $jewel){
-            $pass_jewels[] = [
-                'attributes' => [
-                    'value' => $jewel->id,
-                    'label' => $jewel->name,
-                ]
+        $results = $jewels->map(function ($jewel) {
+            return [
+                'id' => $jewel->id,
+                'text' => $jewel->name,
             ];
-        }
+        });
 
-        return json_encode($pass_jewels, JSON_UNESCAPED_SLASHES );
+        return response()->json([
+            'results' => $results,
+            'pagination' => [
+                'more' => $jewels->hasMorePages()
+            ],
+        ]);
     }
 
     public function filter(Request $request){

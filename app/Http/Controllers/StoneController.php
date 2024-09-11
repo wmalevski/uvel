@@ -300,26 +300,9 @@ class StoneController extends Controller{
         return Response::json(array('ID' => $stone->id, 'table' => View::make('admin/stones/table',array('stone'=>$stone))->render(), 'photos' => $photosHtml));
     }
 
-    public function select_search(Request $request){
-        $query = Stone::all();
-
-        $stones_new = new Stone();
-        $stones = $stones_new->filterStones($request, $query);
-        $stones = $stones->get();
-        $pass_stones = array();
-
-        foreach($stones as $stone){
-            $pass_stones[] = array(
-                'attributes' => array(
-                    'value' => $stone->id,
-                    'label' => $stone->nomenclature->name.' - '.$stone->contour->name.' - '.$stone->size->name.' - '.$stone->weight.' гр',
-                    'data-price' => $stone->price,
-                    'data-type' => $stone->type
-                )
-            );
-        }
-
-        return json_encode($pass_stones, JSON_UNESCAPED_SLASHES );
+    public function select_search(Request $request, Stone $stone){
+        $search = $request->search ?? $request->byName;
+        return $stone->searchQuery($search);
     }
 
     public function filter(Request $request){

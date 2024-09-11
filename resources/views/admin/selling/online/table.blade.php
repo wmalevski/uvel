@@ -7,7 +7,7 @@
 				@case('done')sell-status--done @break;
 			@endswitch"></span>
 	</td>
-	<td>{{ $selling->user->email }}</td>
+	<td>{{ $selling->payment->user->email }}</td>
 	<td>
 	@switch($selling->shipping_method)
 		@case('office_address') От куриер @break;

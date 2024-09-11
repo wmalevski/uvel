@@ -66,65 +66,56 @@ class Material extends Model
         return $this->where('for_exchange', 'yes');
     }
 
-    public function filterMaterials(Request $request ,$query){
-        $query = Material::where(function($query) use ($request){
-            if($request->byCode){
-                $query = $query->whereIn('code', [$request->byCode]);
-            }
+    public function filterMaterials(Request $request){
+        $search = $request->input('search');
 
-            if($request->byName){
-                if (trim($request->byName) == '-') {
-                    $query = Material::all();
-                } else {
-                    $request->byName = explode("-", $request->byName);
+        $materials = Material::where(function ($query) use ($search) {
+                $query->where('name', 'like', '%' .$search. '%')
+                    ->orWhere('color', 'like', '%' .$search. '%')
+                    ->orWhere('code', 'like', '%' .$search. '%');
+            })->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
-                    $query->whereHas('parent', function ($q) use ($request) {
-                        $q->where('name', 'LIKE', '%' . trim($request->byName[0]) . '%');
-                    });
+        $results = $materials->map(function ($material) {
+            $materialCode = $material->code;
+            $materialColor = $material->color;
+            $materialName = $material->parent->name;
 
-                    if (count($request->byName) == 1) {
-                        $query->orWhere('color', 'LIKE', '%' . trim($request->byName[0]) . '%')->orWhere('code', 'LIKE', '%' . trim($request->byName[0]) . '%');
-                    }
-
-                    if (count($request->byName) > 1) {
-                        $query->where('color', 'LIKE', '%' . trim($request->byName[1]) . '%');
-                    }
-
-                    if (count($request->byName) > 2) {
-                        $query->where('code', 'LIKE', '%' . trim($request->byName[2]) . '%');
-                    }
-                }
-            }
-
-            if($request->byCode == '' && $request->byName == ''){
-                $query = Material::all();
-            }
+            return [
+                'id' => $material->id,
+                'text' => sprintf('%s %s %s', $materialName, $materialColor, $materialCode),
+                'data-carat' => $material->carat,
+                'data-transform' => $material->carat_transform,
+                'data-pricebuy' => $material->pricesBuy->first()['price'],
+                'data-price' => $material->pricesSell->first()['price'],
+                'data-material' => $material->id,
+            ];
         });
 
-        return $query;
+        $response = response()->json([
+            'results' => $results,
+            'pagination' => ['more' => $materials->hasMorePages()],
+        ]);
+
+        return $response;
     }
 
-    public function filterMaterialsPayment(Request $request ,$query){
+    public function filterMaterialsPayment(Request $request){
         $items = Cart::session(Auth::user()->getId())->getContent()->count();
+        $search = $request->search ?? $request->byName;
         $query = Material::where(function($query) use ($request, $items){
-            if ($request->byName) {
-                if($items > 0){
+            if (isset($search)) {
+                if ($items > 0){
                     $query->where('for_exchange', 'yes');
                 }else{
                     $query->where('for_buy', 'yes');
                 }
 
-                $query->where('name', 'LIKE', "%$request->byName%")->orWhere('color', 'LIKE', "%$request->byName%")->orWhere('code', 'LIKE', "%$request->byName%");
+                $query->where('name', 'LIKE', "%$search%")
+                    ->orWhere('color', 'LIKE', "%$search%")
+                    ->orWhere('code', 'LIKE', "%$search%");
             }
-
-            if ($request->byName == '') {
-                if($items > 0){
-                    $query->where('for_exchange', 'yes');
-                }else{
-                    $query->where('for_buy', 'yes');
-                }
-            }
-        });
+        })
+        ->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         return $query;
     }

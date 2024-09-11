@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Store;
+
 use Cart;
 use Illuminate\Http\Request;
 use PayPal\Api\Amount;
@@ -27,78 +28,7 @@ use App\Http\Controllers\Controller;
 use \Darryldecode\Cart\CartCondition as CartCondition;
 use \Darryldecode\Cart\Helpers\Helpers as Helpers;
 use Carbon\Carbon;
-
-
-Class CartCustomCondition extends CartCondition {
-    public function apply($totalOrSubTotalOrPrice, $conditionValue){
-        if( $this->valueIsPercentage($conditionValue) )
-        {
-            if( $this->valueIsToBeSubtracted($conditionValue) )
-            {
-                $price = $totalOrSubTotalOrPrice;
-                if($this->getTarget() == 'subtotal'){
-                    $price = \Cart::getSubTotal();
-                }elseif($this->getTarget() == 'total'){
-                    $price = \Cart::getTotal();
-                }
-
-                $value = Helpers::normalizePrice( $this->cleanValue($conditionValue) );
-                $this->parsedRawValue = $price * ($value / 100);
-                $result = floatval($totalOrSubTotalOrPrice - $this->parsedRawValue);
-            }
-            else if ( $this->valueIsToBeAdded($conditionValue) )
-            {
-                $value = Helpers::normalizePrice( $this->cleanValue($conditionValue) );
-
-                $this->parsedRawValue = $totalOrSubTotalOrPrice * ($value / 100);
-
-                $result = floatval($totalOrSubTotalOrPrice + $this->parsedRawValue);
-            }
-            else
-            {
-                $value = Helpers::normalizePrice($conditionValue);
-
-                $this->parsedRawValue = $totalOrSubTotalOrPrice * ($value / 100);
-
-                $result = floatval($totalOrSubTotalOrPrice + $this->parsedRawValue);
-            }
-        }
-
-        // if the value has no percent sign on it, the operation will not be a percentage
-        // next is we will check if it has a minus/plus sign so then we can just deduct it to total/subtotal/price
-        else
-        {
-            if( $this->valueIsToBeSubtracted($conditionValue) )
-            {
-                $this->parsedRawValue = Helpers::normalizePrice( $this->cleanValue($conditionValue) );
-
-                $result = floatval($totalOrSubTotalOrPrice - $this->parsedRawValue);
-            }
-            else if ( $this->valueIsToBeAdded($conditionValue) )
-            {
-                $this->parsedRawValue = Helpers::normalizePrice( $this->cleanValue($conditionValue) );
-
-                $result = floatval($totalOrSubTotalOrPrice + $this->parsedRawValue);
-            }
-            else
-            {
-                $this->parsedRawValue = Helpers::normalizePrice($conditionValue);
-
-                $result = floatval($totalOrSubTotalOrPrice + $this->parsedRawValue);
-            }
-        }
-
-        // Do not allow items with negative prices.
-        return $result < 0 ? 0.00 : $result;
-    }
-
-    public function getCalculatedValue($totalOrSubTotalOrPrice)
-    {
-        $this->apply($totalOrSubTotalOrPrice, $this->getValue());
-
-        return $this->parsedRawValue;
-    }
-}
+use App\Services\CartCustomCondition;
 
 class PayController extends Controller
 {
@@ -120,13 +50,21 @@ class PayController extends Controller
         $setDiscount = false;
 
         if($result == 'true'){
-            $card = DiscountCode::where('barcode', $barcode)->first();
-            $setDiscount = $card->discount;
-            if($card->user_id!==NULL){
-                if($card->user_id !== $userId){
-                    $setDiscount = false;
-                }
+
+            $card = DiscountCode::with(['users'])->where('barcode', $barcode)->first();
+
+            if (!$card) {
+                $setDiscount = false;
+                return response()->json(['message' => 'Discount code not found'], 404);
             }
+
+            $setDiscount = $card->discount;
+
+            $isEligible = $card->users->contains('id', $userId);
+            if (!$isEligible) {
+                $setDiscount = false;
+            }
+
             // Validate Discount's expiration date
             if($card->lifetime=='no' && isset($card->expires)){
                 $expires = Carbon::createFromFormat('d-m-Y', $card->expires);
@@ -135,7 +73,6 @@ class PayController extends Controller
                 }
             }
         }
-
 
         if($setDiscount){
             $condition = new CartCustomCondition(array(
@@ -150,12 +87,9 @@ class PayController extends Controller
                     'more_data' => 'more data here'
                 )
             ));
-
-            Cart::condition($condition);
-            Cart::session($userId)->condition($condition);
-
+            \Cart::condition($condition);
+            \Cart::session($userId)->condition($condition);
             $total = round(Cart::session($userId)->getTotal(),2);
-            $subtotal = round(Cart::session($userId)->getSubTotal(),2);
             $subTotal = round(Cart::session($userId)->getSubTotal(),2);
             $cartConditions = Cart::session($userId)->getConditions();
             $conds = array();
@@ -173,8 +107,7 @@ class PayController extends Controller
             }
 
             $dds = round($subTotal - ($subTotal/1.2), 2);
-
-            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon, 'dds' => $dds));
+            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subTotal, 'condition' => $conds, 'priceCon' => $priceCon, 'dds' => $dds));
         } else{
             return Response::json(array('success' => false));
         }

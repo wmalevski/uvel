@@ -109,24 +109,9 @@ class StoreController extends Controller
     }
 
     public function select_search(Request $request){
-        $query = Store::select('*');
-
         $stores_new = new Store();
-        $stores = $stores_new->filterStores($request, $query);
-        $stores = $stores->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
-
-        $pass_stores = array();
-
-        foreach($stores as $store){
-            $pass_stores[] = [
-                'attributes' => [
-                    'value' => $store->id,
-                    'label' => $store->name.' - '.$store->location
-                ]
-            ];
-        }
-
-        return json_encode($pass_stores, JSON_UNESCAPED_SLASHES );
+        $filteredStores = $stores_new->filterStores($request);
+        return $filteredStores;
     }
 
     /**

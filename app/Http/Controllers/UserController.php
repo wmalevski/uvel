@@ -104,26 +104,30 @@ class UserController extends Controller
     }
 
     public function select_search(Request $request){
-        $query = User::select('*');
+        $search = $request->input('search');
 
-        $users_new = new User();
-        $users = $users_new->filterUsers($request, $query);
-        // $users = $users->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
-        $users = $users->paginate(1);
-        $pass_users = array();
+        $users = User::where(function ($query) use ($search) {
+            $query
+                ->where('email', 'like', '%' .$search. '%')
+                ->orWhere('first_name', 'like', '%' .$search. '%')
+                ->orWhere('last_name', 'like', '%' .$search. '%');
+        })->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
-        foreach ($users as $user) {
-            $user_label = ($user->store_id) ? $user->email . ' - ' . $user->store->name : $user->email;
+        $results = $users->map(function ($user) {
+            $firstName = $user->first_name;
+            $lastName = $user->last_name;
+            $email = $user->email;
 
-            $pass_users[] = [
-                'attributes' => [
-                    'value' => $user->id,
-                    'label' => $user_label,
-                ]
+            return [
+                'id' => $user->id,
+                'text' => sprintf('%s %s %s', $firstName, $lastName, $email),
             ];
-        }
+        });
 
-        return json_encode($pass_users, JSON_UNESCAPED_SLASHES );
+        return response()->json([
+            'results' => $results,
+            'pagination' => ['more' => $users->hasMorePages()],
+        ]);
     }
 
     public function filter(Request $request){

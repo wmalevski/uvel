@@ -51,9 +51,10 @@ aria-hidden="true">
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="2">Потребител: </label>
-                            <select name="user_id" class="form-control" data-search="/ajax/select_search/users/">
+                            <select name="user_id" class="form-control" data-search="/ajax/select_search/users/" multiple>
                                 <option value="">Избери</option>
                             </select>
+                            <input type="hidden" name="user_list" value="">
                         </div>
                     </div>
 

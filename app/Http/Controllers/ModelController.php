@@ -44,41 +44,26 @@ class ModelController extends Controller{
         // $materials = Material::with(['pricesSell', 'pricesBuy', 'parent'])->take(env('SELECT_PRELOADED'));
         $pass_stones = [];
 
-        $cached_pass_stones = Cache::remember('pass_stones', 60, function () use ($pass_stones, $stones) {
-            foreach ($stones->chunk(50) as $chunk) {
-                foreach ($chunk as $stone) {
-                    $pass_stones[] = [
-                        'value' => $stone->id,
-                        'label' => sprintf('%s (%s, %s)', $stone->name, $stone->contour->name, $stone->size->name),
-                        'type' => $stone->type,
-                        'price' => $stone->price
-                    ];
-                }
+        foreach ($stones->chunk(50) as $chunk) {
+            foreach ($chunk as $stone) {
+                $pass_stones[] = [
+                    'value' => $stone->id,
+                    'label' => sprintf('%s (%s, %s)', $stone->name, $stone->contour->name, $stone->size->name),
+                    'type' => $stone->type,
+                    'price' => $stone->price
+                ];
             }
-
-            return $pass_stones;
-        });
+        }
 
         $pass_materials = array();
 
-        $cached_materials = Cache::remember('pass_materials', 60, function () use ($pass_materials, $stones) {
-            foreach($materials as $material){
-                if($material->pricesSell->first()){
-                    $pass_materials[] = [
-                        'value' => $material->id,
-                        'label' => $material->parent->name.' - '. $material->color.  ' - '  .$material->code,
-                        'price' => $material->pricesSell->first()->price,
-                        'pricebuy' => $material->pricesBuy->first()->price,
-                        'material' => $material->id
-                    ];
-                }
-            }
-
-            return $pass_materials;
-        });
-
-
-        return \View::make('admin/models/index', array('jsMaterials' =>  json_encode($pass_materials), 'jsStones' =>  json_encode($cached_pass_stones), 'jewels' => $jewels, 'models' => $models, 'stones' => $stones, 'materials' => $materials));
+        return \View::make('admin/models/index', array(
+            'jsMaterials' =>  json_encode($pass_materials),
+            'jsStones' =>  json_encode($pass_stones),
+            'jewels' => $jewels,
+            'models' => $models,
+            'stones' => $stones,
+        ));
     }
 
     /**
@@ -855,25 +840,8 @@ class ModelController extends Controller{
         return Response::json(array('ID' => $model->id, 'table' => View::make('admin/models/table',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render(), 'photos' => $photosHtml));
     }
 
-    public function select_search(Request $request){
-        $query = Model::select('*');
-
-        $models_new = new Model();
-        $models = $models_new->filterModels($request, $query);
-        $models = $models->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
-
-        $pass_models = array();
-
-        foreach($models as $model){
-            $pass_models[] = [
-                'attributes' => [
-                    'value' => $model->id,
-                    'label' => $model->name
-                ]
-            ];
-        }
-
-        return json_encode($pass_models, JSON_UNESCAPED_SLASHES );
+    public function select_search(Request $request, Model $model){
+        return $model->filterModels($request);
     }
 
     public function filter(Request $request){

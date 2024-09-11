@@ -20,18 +20,23 @@ class RepairType extends Model
         return $this->hasMany('App\Repair', 'type_id');
     }
 
-    public function filterRepairTypes(Request $request ,$query){
-        $query = RepairType::where(function($query) use ($request){
-            if ($request->byName) {
-                $query->where('name','LIKE','%'.$request->byName.'%');
-            }
+    public function searchQuery($term){
+        $repairTypes = self::where(function($query) use ($term){
+            $query->where('name','LIKE','%'.$term.'%');
+        })->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
-            if( $request->byName == ''){
-                $query = RepairType::all();
-            }
+        $results = $repairTypes->map(function ($rt) {
+            return [
+                'id' => $rt->id,
+                'text' => $rt->name,
+                'data-price' => $rt->price
+            ];
         });
 
-        return $query;
+        return response()->json([
+            'results' => $results,
+            'pagination' => ['more' => $repairTypes->hasMorePages()],
+        ]);
     }
 
     protected $casts = ['deleted_at'];

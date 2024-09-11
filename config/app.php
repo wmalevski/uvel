@@ -211,5 +211,4 @@ return [
         'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
         'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
     ],
-
 ];

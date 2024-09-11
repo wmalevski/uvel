@@ -20,6 +20,7 @@ use \Darryldecode\Cart\Helpers\Helpers as Helpers;
 use Response;
 use App\PaymentDiscount;
 use App\Setting;
+use CartCustomCondition;
 
 class OnlineSellingsController extends Controller{
 	/**
@@ -29,7 +30,7 @@ class OnlineSellingsController extends Controller{
 	 */
 	public function index()
 	{
-		$sellings = UserPayment::orderBy("created_at","DESC")->paginate(Setting::where('key','per_page')->first()->value ?? 30);
+		$sellings = UserPaymentProduct::with(['payment'])->orderBy("created_at","DESC")->paginate(Setting::where('key','per_page')->first()->value ?? 30);
 		return view('admin.selling.online.index', compact('sellings'));
 	}
 

@@ -100,25 +100,9 @@ public function edit(StoneSize $stoneSize)
         return Response::json(array('ID' => $stoneSize->id, 'table' => View::make('admin/stone_sizes/table', array('size' => $stoneSize))->render()));
     }
 
-    public function select_search(Request $request){
-        $query = StoneSize::select('*');
-
-        $sizes_new = new Stonesize();
-        $sizes = $sizes_new->filterSizes($request, $query);
-        $sizes = $sizes->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
-
-        $pass_sizes = array();
-
-        foreach($sizes as $size){
-            $pass_sizes[] = [
-                'attributes' => [
-                    'value' => $size->id,
-                    'label' => $size->name
-                ]
-            ];
-        }
-
-        return json_encode($pass_sizes, JSON_UNESCAPED_SLASHES );
+    public function select_search(Request $request, StoneSize $stonesize){
+        $term = $request->search ?? $request->byName;
+        return $stonesize->filterSizes($term);
     }
 
     /**

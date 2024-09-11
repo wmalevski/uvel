@@ -18,17 +18,23 @@ class Nomenclature extends Model
         return $this->hasMany('App\Stone');
     }
 
-    public function filterNomenclatures(Request $request ,$query){
-        $query = Nomenclature::where(function($query) use ($request){
-            if ($request->byName) {
-                $query->where('name', 'LIKE', "%$request->byName%");
+    public function filterNomenclatures($term){
+        $nomenclatures = self::where(function($query) use ($term){
+            if ($term) {
+                $query->where('name', 'LIKE', "%$term%");
             }
+        })->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
-            if ($request->byName == '') {
-                $query = Nomenclature::all();
-            }
+        $results = $nomenclatures->map(function ($n) {
+            return [
+                'id' => $n->id,
+                'text' => $n->name
+            ];
         });
 
-        return $query;
+        return response()->json([
+            'results' => $results,
+            'pagination' => ['more' => $nomenclatures->hasMorePages()],
+        ]);
     }
 }
