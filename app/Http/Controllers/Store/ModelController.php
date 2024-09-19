@@ -57,7 +57,7 @@ class ModelController extends BaseController{
 
 	public function filter(Request $request){
 		$products_new = new Model();
-		$products = $products_new->filterModels($request, Model::all());
+		$products = $products_new->filterModels($request, true);
 		$products = $products->where('website_visible', 'yes')->orderBy('id', 'DESC')->paginate(Setting::where('key','per_page')->first()->value ?? 30);
 		$response = '';
 		foreach($products as $product){

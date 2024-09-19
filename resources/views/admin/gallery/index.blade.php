@@ -78,8 +78,6 @@
       <th scope="col">Заглавие</th>
       <th scope="col">Тип</th>
       <th scope="col">Thumbnail</th>
-      <th scope="col">Път към ресурс</th>
-      <th scope="col">Прикачена снимка</th>
       <th scope="col">Действия</th>
     </tr>
   </thead>
@@ -88,31 +86,22 @@
       <tr>
         <th scope="row">{{$item->id}}</th>
         <td>{{$item->title ?? 'N/A'}}</td>
-        <td>{{$item->media_type}}</td>
+        <td>{{__('frontend.'.$item->media_type)}}</td>
         <td>
           @if (isset($item->thumbnail_path))
-            @php
-              if ( $item->media_type === 'image' ) {
-                $thumbRel = str_replace(storage_path('app/public'), '', $item->thumbnail_path);
-                $thumbUrl = Storage::url(ltrim($thumbRel, '/'));
-              } else {
-                $thumbUrl = $item->thumbnail_path;
-              }
-            @endphp
-            <img src="{{$thumbUrl}}" height="100" width="100">
-          @else
-            N/A
-          @endif
-        </td>
-        <td><a href="{{asset($item->media_path)}}" target="_blank">{{asset($item->media_path)}}</a></td>
-        <td>
-          @if($item->media_type === 'image')
-            @php
-              $imageRel = str_replace(storage_path('app/public'), '', $item->media_path);
-              $imageUrl = Storage::url(ltrim($imageRel, '/'));
-            @endphp
-            <a href="{{ $imageUrl }}" target="_blank">
-              <img class="img-fluid" src="{{ $imageUrl }}" height="100" width="100" alt="@if (isset($image->alt_text)) {{$image->alt_text}} @else Повредена &#129488 @endif">
+              @php
+                if ( $item->media_type === 'image' ) {
+                  $thumbRel = str_replace(storage_path('app/public'), '', $item->thumbnail_path);
+                  $thumbUrl = Storage::url(ltrim($thumbRel, '/'));
+                  $mediaRel = str_replace(storage_path('app/public'), '', $item->media_path);
+                  $mediaUrl = Storage::url(ltrim($mediaRel, '/'));
+                } else {
+                  $thumbUrl = $item->thumbnail_path;
+                  $mediaUrl = $item->media_path;
+                }
+              @endphp
+            <a href="{{$mediaUrl}}" target="_blank">
+              <img src="{{$thumbUrl}}" height="100" width="100">
             </a>
           @else
             N/A

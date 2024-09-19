@@ -841,14 +841,14 @@ class ModelController extends Controller{
     }
 
     public function select_search(Request $request, Model $model){
-        return $model->filterModels($request);
+        return $model->filterModels($request, false);
     }
 
     public function filter(Request $request){
         $query = Model::select('*');
 
         $models_new = new Model();
-        $models = $models_new->filterModels($request, $query)->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
+        $models = $models_new->filterModels($request, true)->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         $response = '';
         foreach($models as $model){
