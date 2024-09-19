@@ -80,7 +80,7 @@ class Model extends BaseModel{
         }
     }
 
-    public function filterModels(Request $request){
+    public function filterModels(Request $request, $returnModel = false){
         $models = self::where(function ($query) use ($request) {
             if ($request->priceFrom && $request->priceTo) {
                 $query = $query->whereBetween('price', [$request->priceFrom, $request->priceTo]);
@@ -109,15 +109,19 @@ class Model extends BaseModel{
             if ($request->byMaterial) {
                 $query = $query->whereIn('material_id', $request->byMaterial);
             }
-        })
-        ->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
+        });
 
-        $results = $models->map(function ($model) {
+        if ( $returnModel ) {
+            return $models;
+        }
+
+        $results = $models->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30)->map(function ($model) {
             return [
                 'id' => $model->id,
                 'text' => $model->name,
             ];
         });
+
 
         return response()->json([
             'results' => $results,

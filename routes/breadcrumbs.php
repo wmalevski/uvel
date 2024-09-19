@@ -146,3 +146,8 @@ Breadcrumbs::register('user_account', function ($breadcrumbs) {
     $breadcrumbs->parent('store');
     $breadcrumbs->push('Профил', route('user_account'));
 });
+
+Breadcrumbs::register('gallery', function ($breadcrumbs) {
+    $breadcrumbs->parent('store');
+    $breadcrumbs->push('Галерия', route('gallery'));
+});

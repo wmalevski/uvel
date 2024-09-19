@@ -274,6 +274,14 @@
                     </ul>
                 </li>
 
+                <li class="nav-item {{ request()->routeIs(['gallery']) }}">
+                    <a class="sidebar-link" href="{{ route('gallery') }}">
+                  <span class="icon-holder">
+                    <i class=" ti-image"></i>
+                  </span>
+                        <span class="title">Галерия</span>
+                    </a>
+                </li>
                 @if(in_array(\Illuminate\Support\Facades\Auth::user()->role, ['storehouse', 'admin']))
                     <li class="nav-item {{ request()->routeIs('jewels') }}">
                         <a class="sidebar-link" href="{{ route('jewels') }}">
@@ -616,6 +624,8 @@
 <!-- include summernote css/js -->
 <link href="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
 <script src="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js"></script>
+
 
 
 <script>
