@@ -37,10 +37,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call([
+        $this->call([
             // MaterialQuantitiesSeeder::class,
             // DiscountCodePivotSeeder::class,
-        // ]);
+        ]);
 
         // $admin = Bouncer::role()->create([
         //     'name' => 'admin',

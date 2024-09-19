@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     libicu-dev \
     unzip \
-    && docker-php-ext-configure gd \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
     opcache \
     mysqli \
@@ -26,6 +26,7 @@ RUN apt-get update && apt-get install -y \
     bcmath \
     zip \
     intl \
+    exif \
     && curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
     && apt-get install -y nodejs \
     && apt-get clean \

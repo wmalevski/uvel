@@ -15,6 +15,7 @@ use App\Http\Controllers\Controller;
 use App\Blog;
 use Response;
 use Illuminate\Support\Facades\Cache;
+use App\PublicGallery;
 
 class StoreController extends BaseController{
 

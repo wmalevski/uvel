@@ -293,7 +293,19 @@ var uvel,
         selector: '[name="stonesQuantityDecrease"]',
         controllers: [],
         initialized: false
-      }
+      },
+      formGalleryImage: {
+        selector: '[name="formGalleryImage"]',
+        controllers: ['imageHandling'],
+        initialized: false,
+        ajaxSetup: false,
+      },
+      formGalleryVideo: {
+        selector: '[name="formGalleryVideo"]',
+        controllers: [],
+        initialized: false,
+        ajaxSetup: false,
+      },
     }
 
     this.init = function() {
@@ -756,7 +768,6 @@ var uvel,
         $self.lockPaymentControllers();
       } else if (formType == 'partner-sell') {
         var ajaxUrl = currentPressedBtn.attr('data-url');
-
         $self.ajaxFn('GET', ajaxUrl, $self.partnerPaymentLoad);
       }
 
@@ -1308,9 +1319,28 @@ var uvel,
 
     this.submitForm = function(form) {
       var submitButton = form.find('[type="submit"]'),
-          formType = form.attr('data-type');
-
+          formType = form.attr('data-type'),
+          formConfig = $self.formsConfig[form.attr('name')];
       submitButton.click(function(e) {
+        if ( ("ajaxSetup" in formConfig) && formConfig.ajaxSetup === false ) { // cut the execution of ajax request and submit the form natively
+          const formInputs = form.find('input:not([type=hidden]),textarea');
+          const messages = {};
+          formInputs.each(i => {
+            const formInput = formInputs[i];
+            const inputName = $(formInput).attr('name');
+            messages[inputName] = {
+              required: "Полето е задължително!"
+            }
+          }) // feel free to add any extra custom error texts below
+
+          return form.validate({
+            submitHandler: function(form) {
+              form.submit();
+            },
+            messages
+          });
+        }
+
         var ajaxRequestLink = $self.buildAjaxRequestLink('submitForm', form.attr('action'));
         e.preventDefault();
 
@@ -1421,7 +1451,6 @@ var uvel,
 
         if (dataKey.startsWith('images')) {
           var imagesHolder = $(element).siblings('.drop-area-gallery').find('img');
-
           if (form[0].name == 'blog') {
             imagesHolder = imagesHolder.length ? imagesHolder : $(element).closest('.tab-pane').find('.uploaded-images-area img');
           }
@@ -1847,7 +1876,6 @@ var uvel,
     // FUNCTION THAT BUILDS THE AJAX REQUEST LINK
     this.buildAjaxRequestLink = function(type, path) {
       var prefix;
-
       switch (type) {
         case 'requestForm':
           prefix = '/admin/';
@@ -3114,7 +3142,6 @@ var uvel,
           collectionFiles.push(file);
         }
       }
-
       $self.appendImages(collectionFiles, form, event);
     }
 
@@ -3646,7 +3673,7 @@ var uvel,
       if ( !$(select).attr('multiple') ) return;
 
       try {
-        $collectedValues = $(select).siblings('input:hidden[name="user_list"]'); // prefferably the naming of select should be dynamic
+        $collectedValues = $(select).siblings('input:hidden[name="user_list"]'); // preferably the naming of select should be dynamic
         $selectedValues  = $(select).val();
 
         /* Create input if one doesn't exist */

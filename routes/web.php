@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,6 +13,7 @@
 */
 
 Route::get('/', 'Store\StoreController@index')->name('store');
+Route::get('/media', 'Store\GalleryController@index')->name('store_gallery');
 
 Auth::routes();
 
@@ -57,6 +59,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::post('/repairs', 'RepairController@store');
 
         Route::get('/orders', 'OrderController@index')->name('orders');
+
+        Route::get('/gallery', 'PublicGalleryController@index')->name('gallery');
+        Route::post('/gallery/store/video', 'PublicGalleryController@uploadVideo')->name('gallery_upload_video');
+        Route::post('/gallery/store/image', 'PublicGalleryController@uploadImage')->name('gallery_upload_image');
 
         Route::get('/users', 'UserController@index')->name('users');
 
@@ -482,6 +488,9 @@ Route::group(['prefix' => 'ajax'], function() {
 
         // Cash Register filter
         Route::post('/filterCashRegister', 'CashRegisterController@ajaxFilter');
+
+        // Gallery Section
+        Route::post('/gallery/delete/{item}', 'PublicGalleryController@delete')->name('gallery_delete');
     });
 
     //Print
@@ -737,8 +746,6 @@ Route::get('/clear', function() {
     Artisan::call('optimize');
     return "Кеша е почистен.";
 });
-
-use Illuminate\Support\Facades\Artisan;
 
 // Маршрут за почистване на кеша
 Route::get('/clear-cache', function () {

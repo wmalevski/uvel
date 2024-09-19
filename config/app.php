@@ -211,4 +211,18 @@ return [
         'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
         'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Invisible reCAPTCHA Site Key
+    |--------------------------------------------------------------------------
+    |
+    | This key is used for Google Invisible reCAPTCHA and should be set
+    | to the correct site key provided by the reCAPTCHA service. Without
+    | this, the reCAPTCHA validation will not work. Ensure this is set 
+    | before deploying your application!
+    |
+    */
+
+    'recaptcha_key' => env('INVISIBLE_RECAPTCHA_SITEKEY'),
 ];

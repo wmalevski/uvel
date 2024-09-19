@@ -20,9 +20,8 @@ class ModelController extends BaseController{
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function index(Request $request){
-		$models = new Model();
-		$models = $models->filterModels($request, $models)->where('website_visible', 'yes')->orderBy('id','desc')->paginate(Setting::where('key','per_page')->first()->value ?? 30);
+	public function index(Request $request, Model $model){
+		$models = $model->filterModels($request, true)->where('website_visible', 'yes')->orderBy('id','desc')->paginate(Setting::where('key','per_page')->first()->value ?? 30);
 
 		Session::put('models_active_filters', $request->fullUrl());
 
