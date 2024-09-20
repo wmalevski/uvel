@@ -200,16 +200,16 @@
 					</tr>
 					<tr class="search-inputs" data-dynamic-search-url="ajax/search/repairs/">
 						<th>
-							<input class="filter-input form-control" type="text" data-dynamic-search-param="byBarcode=" placeholder="Баркод" />
+							<input class="filter-input form-control" name="search" type="text" data-dynamic-search-param="byBarcode=" placeholder="Баркод" />
 						</th>
 						<th>
-							<input class="filter-input form-control" type="text" data-dynamic-search-param="byCode=" placeholder="Номер" />
+							<input class="filter-input form-control" name="search" type="text" data-dynamic-search-param="byCode=" placeholder="Номер" />
 						</th>
 						<th>
-							<input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Име" />
+							<input class="filter-input form-control" name="search" type="text" data-dynamic-search-param="byName=" placeholder="Име" />
 						</th>
 						<th>
-							<input class="filter-input form-control" type="text" data-dynamic-search-param="byPhone=" placeholder="Телефон" />
+							<input class="filter-input form-control" name="search" type="text" data-dynamic-search-param="byPhone=" placeholder="Телефон" />
 						</th>
 						<th></th>
 						<th></th>

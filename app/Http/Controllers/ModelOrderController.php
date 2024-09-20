@@ -20,7 +20,10 @@ class ModelOrderController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $orders = Selling::where(array(array('model_id','!=',NULL)))->orderBy('id','DESC')->get();
+        $orders = Selling::where(array(array('model_id','!=',NULL)))
+            ->with(['user_payment', 'model', 'photos'])
+            ->orderBy('id','DESC')
+            ->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
         return view('admin.orders.model.index', compact('orders'));
     }
 

@@ -1322,7 +1322,7 @@ var uvel,
           formType = form.attr('data-type'),
           formConfig = $self.formsConfig[form.attr('name')];
       submitButton.click(function(e) {
-        if ( ("ajaxSetup" in formConfig) && formConfig.ajaxSetup === false ) { // cut the execution of ajax request and submit the form natively
+        if ( formConfig != undefined && ("ajaxSetup" in formConfig) && formConfig.ajaxSetup === false ) { // cut the execution of ajax request and submit the form natively
           const formInputs = form.find('input:not([type=hidden]),textarea');
           const messages = {};
           formInputs.each(i => {

@@ -53,7 +53,12 @@ class Material extends Model
     }
 
     public function productsOnline(){
-        return $this->hasMany('App\Product')->where('status', 'available')->where('store_id', '!=', 1)->where('website_visible', 'yes')->orderBy('created_at','DESC');
+        return $this->hasMany('App\Product')
+            ->where('status', 'available')
+            ->where('store_id', '!=', 1)
+            ->where('website_visible', 'yes')
+            ->with(['store_info', 'photos', 'model', 'material'])
+            ->orderBy('created_at','DESC');
     }
 
     public function scopeForBuy()
@@ -66,16 +71,29 @@ class Material extends Model
         return $this->where('for_exchange', 'yes');
     }
 
-    public function filterMaterials(Request $request){
+    public function filterMaterials(Request $request, $returnModel = false){
         $search = $request->input('search');
+
+        // There are specific scenarios where header named 'search' is not present in the request so  we have overwrite it
+        if (is_null($search)) {
+            foreach($request->all() as $k => $v) {
+                $search = $request->input($k);
+                break;
+            }
+        }
 
         $materials = Material::where(function ($query) use ($search) {
                 $query->where('name', 'like', '%' .$search. '%')
                     ->orWhere('color', 'like', '%' .$search. '%')
                     ->orWhere('code', 'like', '%' .$search. '%');
-            })->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
+            });
+        $paginatedResult = $materials->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
-        $results = $materials->map(function ($material) {
+        if ( $returnModel ) {
+            return $materials;
+        }
+
+        $results = $paginatedResult->map(function ($material) {
             $materialCode = $material->code;
             $materialColor = $material->color;
             $materialName = $material->parent->name;
@@ -93,7 +111,7 @@ class Material extends Model
 
         $response = response()->json([
             'results' => $results,
-            'pagination' => ['more' => $materials->hasMorePages()],
+            'pagination' => ['more' => $paginatedResult->hasMorePages()],
         ]);
 
         return $response;

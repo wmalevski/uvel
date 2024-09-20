@@ -115,10 +115,10 @@ aria-hidden="true">
             
             <th></th>
             <th>
-                <input class="filter-input form-control" type="text" data-dynamic-search-param="byCode=" placeholder="Уникален номер">
+                <input class="filter-input form-control" name="search" type="text" data-dynamic-search-param="byCode=" placeholder="Уникален номер">
             </th>
             <th>
-                <input class="filter-input form-control" type="text" data-dynamic-search-param="byBarcode=" placeholder="Баркод">
+                <input class="filter-input form-control" name="search" type="text" data-dynamic-search-param="byBarcode=" placeholder="Баркод">
             </th>
             <th></th>
             <th></th>

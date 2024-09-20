@@ -37,7 +37,7 @@ aria-hidden="true">
             <th></th>
             <th></th>
             <th>
-              <input class="filter-input form-control" type="text" data-dynamic-search-param="byEmail=" placeholder="Имейл">
+              <input class="filter-input form-control" name="search" type="text" data-dynamic-search-param="byEmail=" placeholder="Имейл">
             </th>
             <th></th>
             <th></th>

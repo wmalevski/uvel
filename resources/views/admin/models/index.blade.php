@@ -278,7 +278,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 
 		<tr class="search-inputs" data-dynamic-search-url="ajax/search/models/">
 			<th width="8%"></th>
-			<th width="17%"><input class="filter-input form-control" type="text" data-dynamic-search-param="byName=" placeholder="Име"/></th>
+			<th width="17%"><input class="filter-input form-control" name="search" type="text" data-dynamic-search-param="byName=" placeholder="Име"/></th>
 			<th width="10%"></th>
 			<th width="20%"></th>
 			<th width="8%"></th>
