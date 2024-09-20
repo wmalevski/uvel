@@ -32,7 +32,7 @@ class Selling extends Model{
 	}
 
 	public function user_payment(){
-		return $this->belongsTo('App\UserPayment','payment_id','id');
+		return $this->belongsTo('App\UserPayment','payment_id','id')->with('user');
 	}
 
 	public function model(){

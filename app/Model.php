@@ -115,7 +115,8 @@ class Model extends BaseModel{
             return $models;
         }
 
-        $results = $models->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30)->map(function ($model) {
+        $paginatedResult = $models->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
+        $results = $paginatedResult->map(function ($model) {
             return [
                 'id' => $model->id,
                 'text' => $model->name,
@@ -125,7 +126,7 @@ class Model extends BaseModel{
 
         return response()->json([
             'results' => $results,
-            'pagination' => ['more' => $models->hasMorePages()],
+            'pagination' => ['more' => $paginatedResult->hasMorePages()],
         ]);
     }
 

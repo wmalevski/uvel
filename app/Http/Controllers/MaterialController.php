@@ -121,7 +121,7 @@ class MaterialController extends Controller{
         $query = Material::select('*');
 
         $materials_new = new Material();
-        $materials = $materials_new->filterMaterials($request, $query);
+        $materials = $materials_new->filterMaterials($request, true);
         $materials = $materials->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         $response = '';

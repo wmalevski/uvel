@@ -35,7 +35,7 @@ aria-hidden="true">
 						<th></th>
 						<th></th>
 						<th></th>
-						<th><input class="filter-input form-control" type="text" data-dynamic-search-param="byEmail=" placeholder="Имейл" /></th>
+						<th><input class="filter-input form-control" name="search" type="text" data-dynamic-search-param="byEmail=" placeholder="Имейл" /></th>
 						<th></th>
 						<th></th>
 						<th></th>
@@ -46,6 +46,7 @@ aria-hidden="true">
 					@include('admin.orders.model.table')
 				@endforeach</tbody>
 			</table>
+			{{$orders->links()}}
 		</div>
 	</div>
 </div>
