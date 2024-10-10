@@ -255,7 +255,6 @@ class Product extends BaseModel
   }
 
   public static function filterProducts(Request $request){
-
     $query = Product::where(function($query) use ($request){
       if(
         (is_array($request->priceFrom) && (int)$request->priceFrom[0]>0)

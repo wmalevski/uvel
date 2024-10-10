@@ -846,7 +846,6 @@ class ModelController extends Controller{
 
     public function filter(Request $request){
         $query = Model::select('*');
-
         $models_new = new Model();
         $models = $models_new->filterModels($request, true)->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 

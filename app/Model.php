@@ -90,8 +90,9 @@ class Model extends BaseModel{
                 $query = $query->where('price', '<=', $request->priceTo);
             }
 
-            if ($request->search) {
-                $query->where('name','LIKE','%'.$request->search.'%');
+            $term = $request->search ?? $request->byName;
+            if ($term) {
+                $query->where('name','LIKE','%'.$term.'%');
             }
 
             if ($request->bySize) {

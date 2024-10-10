@@ -2,8 +2,8 @@
     <td>
       <img class="admin-product-image" src="{{ asset("uploads/products_others/" . $review->productOther->photos->first()['photo']) }}"> 
     </td> 
-    <td>{{ $review->productOther->id }}</td> 
-    <td>{{ $review->user->email }}</td> 
+    <td>{{ $review->productOther->id }}</td>
+    <td>{{ isset($review->user_id) ? $review->user->email : 'N/A' }}</td>
     <td>{{ $review->content }}</td>
     <td>{{ $review->rating }}</td>
     <td>{{ $review->productOther->name }}</td>

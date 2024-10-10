@@ -7,7 +7,7 @@
         @if($expense->currency_id)
         {{$expense->currency->name}}
         @else
-        {{$currency::where('default', 'yes')->first()->name}}
+        {{App\Currency::where('default', 'yes')->first()->name}}
         @endif
     </td>
     <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $expense->created_at)->format('H:i d/m/Y') }}</td>

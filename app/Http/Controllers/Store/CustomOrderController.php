@@ -28,11 +28,35 @@ class CustomOrderController extends BaseController{
     public function index(Request $request){
         $attachment = $request->get('blob');
         $url = null;
+        $mediaType = $request->get('media') ?? 'image';
+        $thumbUrl = $request->get('thumb');
+        $archive_date = $request->get('archiveDate');
+        $weight = $request->get('weight');
+        $type = $request->get('jewelType');
+        $size = $request->get('size');
+        $unique_number = $request->get('uniqueNumber');
+
         if ($attachment) {
-            $url = Storage::url('/gallery' . '/' . $attachment);
+            switch ($mediaType) {
+                case 'video':
+                    $url = $thumbUrl;
+                    break;
+                case 'image':
+                    $url = Storage::url('/gallery' . '/' . $attachment);
+                    break;
+                default:
+                    break;
+            }
         }
+
         return \View::make('store.pages.orders.index')->with([
-            'attachment' => $url
+            'attachment'    => $url,
+            'mediaType'     => $mediaType,
+            'archive_date'  => $archive_date,
+            'size'          => $size,
+            'weight'        => $weight,
+            'type'          => $type,
+            'unique_number' => $unique_number
         ]);
     }
 
@@ -49,11 +73,12 @@ class CustomOrderController extends BaseController{
             'content' => 'required|string',
             'phone' => 'required',
             'city' => 'required',
-            'g-recaptcha-response' => 'required|captcha'
+            // 'g-recaptcha-response' => 'required|captcha'
         ]);
 
         if ($validator->fails()) {
-            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+            // return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+            return redirect()->back()->withErrors($validator->getMessageBag())->withInput();
         }
 
         $customOrder = CustomOrder::create($request->all());
@@ -76,6 +101,32 @@ class CustomOrderController extends BaseController{
                 $photo->save();
             }
         }
+
+        try {
+            Mail::send('order',
+                array(
+                    'ID' => $customOrder->id,
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'city' => $request->city,
+                    'phone' => $request->phone,
+                    'content' => $request->content,
+                    'size' => $request->size ?? null,
+                    'unique_number' => $request->unique_number ?? null,
+                    'weight' => $request->weight ?? null,
+                    'type' => $request->type ?? null,
+                    'archive_date' => $request->archive_date ?? null
+                ),
+                function($message) {
+                    $message
+                        ->to(config('mail.from.address'))
+                        ->subject('Uvel Поръчка');
+                }
+            );
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+        }
+        return redirect()->route('custom_order')->with('success', 'Поръчката Ви беше изпратена успешно');
 
         if ( !isDev() ) {
             $email2sms = new Setting();
@@ -130,6 +181,7 @@ class CustomOrderController extends BaseController{
                 }
             );
         }
+
         return redirect()->back()->with('success', 'Поръчката Ви беше изпратена успешно');
     }
 

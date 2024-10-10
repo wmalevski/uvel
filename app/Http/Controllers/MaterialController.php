@@ -157,7 +157,7 @@ class MaterialController extends Controller{
         $paginatedResult = $materialsQueryBuilder->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
         $result_materials = array();
 
-        foreach($materials as $material){
+        foreach($materials->get() as $material){
             if(isset($material->pricesExchange[0]) && isset($material->pricesExchange[1])){
                 $result_materials['results'][] = [
                     'id' => $material->id,

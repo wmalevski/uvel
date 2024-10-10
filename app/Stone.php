@@ -95,7 +95,7 @@ class Stone extends Model
                     if (count($search) == 1) {
                         $query->orWhereHas('Contour', function ($q) use ($request, $search) {
                             $q->where('name', 'like', '%' . trim($search[0]) . '%');
-                        })->orWhereHas('Size', function ($q) use ($request) {
+                        })->orWhereHas('Size', function ($q) use ($request, $search) {
                             $q->where('name', 'like', '%' . trim($search[0]) . '%');
                         });
                     }

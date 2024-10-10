@@ -33,40 +33,69 @@ class Price extends Model
     }
 
     public function filterMaterials(Request $request ,$query){
-        $query = Material::where(function($query) use ($request){
-            if($request->byCode){
-                $query = $query->whereIn('code', [$request->byCode]);
-            }
+        $search = $request->search; // Using single 'search' input
 
-            if($request->byName){
-                if (trim($request->byName) == '-') {
-                    $query = Material::all();
-                } else {
-                    $request->byName = explode("-", $request->byName);
+        // $query = Material::where(function($query) use ($request){
+        //     if($request->byCode){
+        //         $query = $query->whereIn('code', [$request->byCode]);
+        //     }
 
-                    $query->whereHas('parent', function ($q) use ($request) {
-                        $q->where('name', 'LIKE', '%' . trim($request->byName[0]) . '%');
-                    });
+        //     if($request->byName || $request->search){
+        //         if (trim($request->byName) == '-') {
+        //             $query = Material::all();
+        //         } else {
+        //             $request->byName = explode("-", $request->byName);
 
-                    $name = count($request->byName);
+        //             $query->whereHas('parent', function ($q) use ($request) {
+        //                 $q->where('name', 'LIKE', '%' . trim($request->byName[0]) . '%');
+        //             });
+
+        //             $name = count($request->byName);
                     
-                    switch ($name) {
-                        case 1:
-                            $query->orWhere('color', 'LIKE', '%' . trim($request->byName[0]) . '%')->orWhere('code', 'LIKE', '%' . trim($request->byName[0]) . '%');
-                            break;
-                        case ($name > 1):
-                            $query->where('color', 'LIKE', '%' . trim($request->byName[1]) . '%');
-                            break;
-                        case ($name > 2):
-                            $query->where('code', 'LIKE', '%' . trim($request->byName[2]) . '%');
-                    }
+        //             switch ($name) {
+        //                 case 1:
+        //                     $query->orWhere('color', 'LIKE', '%' . trim($request->byName[0]) . '%')->orWhere('code', 'LIKE', '%' . trim($request->byName[0]) . '%');
+        //                     break;
+        //                 case ($name > 1):
+        //                     $query->where('color', 'LIKE', '%' . trim($request->byName[1]) . '%');
+        //                     break;
+        //                 case ($name > 2):
+        //                     $query->where('code', 'LIKE', '%' . trim($request->byName[2]) . '%');
+        //             }
+        //         }
+        //     }
+
+        //     if ($request->byName == '') {
+        //         $query = Material::all();
+        //     }
+        // });
+
+        $query = Material::where(function($query) use ($request) {
+            $search = $request->search; // Using single 'search' input
+
+            if ($search) {
+                $searchParts = explode("-", $search);
+                $nameCount = count($searchParts);
+
+                $query->whereHas('parent', function ($q) use ($searchParts) {
+                    $q->where('name', 'LIKE', '%' . trim($searchParts[0]) . '%');
+                });
+
+                switch ($nameCount) {
+                    case 1:
+                        $query->orWhere('color', 'LIKE', '%' . trim($searchParts[0]) . '%')
+                              ->orWhere('code', 'LIKE', '%' . trim($searchParts[0]) . '%');
+                        break;
+                    case 2:
+                        $query->where('color', 'LIKE', '%' . trim($searchParts[1]) . '%');
+                        break;
+                    case 3:
+                        $query->where('code', 'LIKE', '%' . trim($searchParts[2]) . '%');
+                        break;
                 }
             }
-
-            if ($request->byName == '') {
-                $query = Material::all();
-            }
         });
+
 
         return $query;
     }

@@ -5,7 +5,6 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    
     <form method="POST" name="prices" data-type="edit" action="prices/{{ $price->id }}">
         <input name="_method" type="hidden" value="PUT">
         <div class="modal-body">    
@@ -13,7 +12,7 @@
             </div>
     
             {{ csrf_field() }}
-    
+
             <div class="form-group">
                 <label for="1">Име: </label>
                 <input type="text" class="form-control" id="1" name="slug" value="{{ $price->slug }}" placeholder="Етикет:">

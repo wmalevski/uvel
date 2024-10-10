@@ -60,6 +60,9 @@ class PriceController extends Controller{
             $indicatePrice = true;
         }
 
+        // on update we should jiggle all the model prices accordnigly to that material_id
+
+
         return Response::json(array('success' => View::make('admin/prices/table',array('price'=>$price, 'type' => $request->type, 'indicatePrice' => $indicatePrice))->render(), 'type'=>$request->type));
     }
 
@@ -123,6 +126,9 @@ class PriceController extends Controller{
                 'material_id'=>$price->material_id,
                 'retail_price_id'=>$price->id
             ))->get();
+
+
+            // WHY MODELS DONT HAVE RETAIL_PRICE_ID?
             if($products->count()>0){
                 foreach ($products as $product) {
                     if($product->status != 'sold') {
@@ -132,7 +138,6 @@ class PriceController extends Controller{
                       $product->price = round($product_price);
                       $product->save();
                     }
-
 
                     $model = Model::find($product->model_id);
                     $model_price = ($request->type == 'sell' ? $buy : $sell) * $model->weight;
@@ -349,7 +354,6 @@ class PriceController extends Controller{
         $materials_new = new Price();
 
         $materials = $materials_new->filterMaterials($request, $query);
-
         $materials = $materials->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         $pass_materials = array();
