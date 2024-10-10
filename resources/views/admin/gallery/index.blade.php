@@ -23,19 +23,53 @@
       form-trigger-text="Добави снимка" 
       class="m-2 text-uppercase"
     >
-      <div class="form-group">
-        <label for="title">Заглавие</label>
-        <input type="text" name="title" id="title" class="w-100" required>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="title">Заглавие</label>
+          <input type="text" name="title" id="title" class="w-100" required>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="description">Описание</label>
+          <input type="text" name="description" id="description" class="w-100" required>
+        </div>
+        <div class="form-group col-md-12">
+          <div class="drop-area d-flex justify-content-between" name="add">
+            <input type="file" name="images[]" class="drop-area-input" id="image" data-locale="{{ $locale }}" multiple accept="image/*">
+            <label class="button" for="image">Избери снимка/и...</label>
+            <div class="drop-area-gallery"></div>
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="alt_text">Добавете кратък текст описващ снимката (SEO friendly)</label>
-        <input type="text" name="alt_text" id="alt_text" class="w-100" required>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="unique_number">Уникален номер</label>
+          <input type="text" name="unique_number" id="unique_number" placeholder="{{ rand(1111111111, 9999999999) }}" />
+        </div>
+        <div class="form-group col-md-6">
+          <label for="weight">Тегло (гр.)</label>
+          <input type="number" step="0.1" name="weight" id="weight" placeholder="0.0" />
+        </div>
       </div>
-      <div class="form-group">
-        <div class="drop-area d-flex justify-content-between" name="add">
-          <input type="file" name="images" class="drop-area-input" id="image" data-locale="{{ $locale }}" accept="image/*">
-          <label class="button" for="image">Избери снимка...</label>
-          <div class="drop-area-gallery"></div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="size">Размер (мм)</label>
+          <input type="number" name="size" id="size">
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="type">Вид Бижу</label>
+          <select name="type" id="type">
+            @foreach($jewels as $jewel)
+              <option value="{{$jewel->id}}">{{$jewel->name}}</option>
+            @endforeach
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label for="archive_date">Дата</label>
+          {{-- <input type="date" name="archive_date"/> --}}
+          <input type="text" name="archive_date" class="form-control bdc-grey-200" placeholder="Дата: " data-date-autoclose="true" data-provide="datepicker" data-date-format="yyyy-mm-dd" value="{{Carbon\Carbon::now()->format('Y-m-d')}}"/>
         </div>
       </div>
       <input type="hidden" name="media_type" value="image">
@@ -64,6 +98,15 @@
             <input type="text" name="youtube_link" required></input>
           </div>
         </div>
+
+        <div class="form-row">
+          <label for="type">Вид Бижу</label>
+          <select name="type" id="type">
+            @foreach($jewels as $jewel)
+              <option value="{{$jewel->id}}">{{$jewel->name}}</option>
+            @endforeach
+          </select>
+        </div>
       </div>
       <input type="hidden" name="media_type" value="video">
     </x-admin.forms.create>
@@ -83,41 +126,41 @@
   </thead>
   <tbody>
   @forelse ($gallery as $item)
-      <tr>
-        <th scope="row">{{$item->id}}</th>
-        <td>{{$item->title ?? 'N/A'}}</td>
-        <td>{{__('frontend.'.$item->media_type)}}</td>
-        <td>
-          @if (isset($item->thumbnail_path))
-              @php
-                if ( $item->media_type === 'image' ) {
-                  $thumbRel = str_replace(storage_path('app/public'), '', $item->thumbnail_path);
-                  $thumbUrl = Storage::url(ltrim($thumbRel, '/'));
-                  $mediaRel = str_replace(storage_path('app/public'), '', $item->media_path);
-                  $mediaUrl = Storage::url(ltrim($mediaRel, '/'));
-                } else {
-                  $thumbUrl = $item->thumbnail_path;
-                  $mediaUrl = $item->media_path;
-                }
-              @endphp
-            <a href="{{$mediaUrl}}" target="_blank">
-              <img src="{{$thumbUrl}}" height="100" width="100">
-            </a>
-          @else
-            N/A
+    <tr>
+      <th scope="row">{{$item->id}}</th>
+      <td>{{$item->title ?? 'N/A'}}</td>
+      <td>{{__('frontend.'.$item->media_type)}}</td>
+      <td>
+        @if (isset($item->thumbnail_path))
+            @php
+              if ( $item->media_type === 'image' ) {
+                $thumbRel = str_replace(storage_path('app/public'), '', $item->thumbnail_path);
+                $thumbUrl = Storage::url(ltrim($thumbRel, '/'));
+                $mediaRel = str_replace(storage_path('app/public'), '', $item->media_path);
+                $mediaUrl = Storage::url(ltrim($mediaRel, '/'));
+              } else {
+                $thumbUrl = $item->thumbnail_path;
+                $mediaUrl = $item->media_path;
+              }
+            @endphp
+          <a href="{{$mediaUrl}}" target="_blank">
+            <img src="{{$thumbUrl}}" height="100" width="100">
+          </a>
+        @else
+          N/A
+        @endif
+      </td>
+      <td>
+          @php $loggedUser = \Illuminate\Support\Facades\Auth::user() @endphp
+          @if(isAdmin($loggedUser))
+            <span data-url="gallery/delete/{{$item->id}}" class="delete-btn">
+              <i class="c-brown-500 ti-trash"></i>
+            </span>
           @endif
-        </td>
-        <td>
-            @php $loggedUser = \Illuminate\Support\Facades\Auth::user() @endphp
-            @if(isAdmin($loggedUser))
-              <span data-url="gallery/delete/{{$item->id}}" class="delete-btn">
-                <i class="c-brown-500 ti-trash"></i>
-              </span>
-            @endif
-        </td>
-      </tr>
+      </td>
+    </tr>
   @empty
-      <tr colspan="100"><h1 class="text-center"><span style="font-size:40px;padding:15px;">&#128129;</span>Няма намерени резултати</h1></tr>
+    <tr colspan="100"><h1 class="text-center"><span style="font-size:40px;padding:15px;">&#128129;</span>Няма намерени резултати</h1></tr>
   @endforelse
   </tbody>
 </table>

@@ -44,30 +44,31 @@ class MaterialQuantity extends Model
     }
 
     public function filterMaterials(Request $request ,$query){
-        $query = MaterialQuantity::where(function($query) use ($request){
-            if($request->byName){
-                if (trim($request->byName) == '-') {
+        $term = $request->get('byName');
+        $query = MaterialQuantity::where(function($query) use ($term){
+            if($term){
+                if (trim($term) == '-') {
                     $query = Material::all();
                 } else {
-                    $request->byName = explode("-", $request->byName);
-                    $query->with('Material')->whereHas('Material', function($q) use ($request){
-                        $q->where('name', 'LIKE', '%' . trim($request->byName[0]) . '%');
-                        $name = count($request->byName);
+                    $term = explode("-", $term);
+                    $query->with('Material')->whereHas('Material', function($q) use ($term){
+                        $q->where('name', 'LIKE', '%' . trim($term[0]) . '%');
+                        $name = count($term);
                         switch ($name) {
                             case 1:
-                                $q->orWhere('color', 'LIKE', '%' . trim($request->byName[0]) . '%')->orWhere('code', 'LIKE', '%' . trim($request->byName[0]) . '%');
+                                $q->orWhere('color', 'LIKE', '%' . trim($term[0]) . '%')->orWhere('code', 'LIKE', '%' . trim($term[0]) . '%');
                                 break;
                             case ($name > 1):
-                                $q->where('code', 'LIKE', '%' . trim($request->byName[1]) . '%');
+                                $q->where('code', 'LIKE', '%' . trim($term[1]) . '%');
                                 break;
                             case ($name > 2):
-                                $q->where('color', 'LIKE', '%' . trim($request->byName[2]) . '%');
+                                $q->where('color', 'LIKE', '%' . trim($term[2]) . '%');
                         }
                     });
                 }
             }
 
-            if ($request->byName == '') {
+            if ($term == '') {
                 $query = MaterialQuantity::all();
             }
         });

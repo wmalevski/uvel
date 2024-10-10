@@ -20,8 +20,10 @@ class CustomOrderController extends Controller{
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
+    public function index(Request $request){
         $orders = CustomOrder::orderBy('id','DESC')->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
+        $attachment = $request->get('blob');
+
         return view('admin.orders.custom.index', compact('orders'));
     }
 

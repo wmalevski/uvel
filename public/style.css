@@ -98,6 +98,7 @@ p {
   cursor: pointer;
   border-radius: 5px;
   border: 1px solid #ccc;
+  height: fit-content;
 }
 .button:hover {
   background: #ddd;

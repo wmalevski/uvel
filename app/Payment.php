@@ -57,7 +57,6 @@ class Payment extends Model{
 
     public function store_payment($request, $responseType = 'JSON'){
         $userId = Auth::user()->getId();
-
         // Make sure the button is not clicked on an empty cart with no Exchange
         if(Cart::session($userId)->getContent()->count() == 0 && $request->exchangeRows_total == 0){
             return Response::json(array('errors' => array('Плащане не може да бъде извършено на празна количка')), 401);

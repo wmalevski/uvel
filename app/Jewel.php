@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\PublicGallery;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
@@ -37,5 +38,10 @@ class Jewel extends Model{
 		});
 
 		return $query;
+	}
+
+	public function galleries()
+	{
+	    return $this->hasMany(PublicGallery::class, 'jewel_id');
 	}
 }
