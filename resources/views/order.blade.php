@@ -92,6 +92,36 @@
             </section>
             @endif
 
+            @if(isset($size))
+            <section>
+                <p>Размер: <strong>{{ $size }}</strong></p>
+            </section>
+            @endif
+
+            @if(isset($unique_number))
+            <section>
+                <p>Уникален номер: <strong>{{ $unique_number }}</strong></p>
+            </section>
+            @endif
+
+            @if(isset($weight))
+            <section>
+                <p>Тегло: <strong>{{ $weight }}</strong></p>
+            </section>
+            @endif
+
+            @if(isset($type))
+            <section>
+                <p>Бижу: <strong>{{ $type }}</strong></p>
+            </section>
+            @endif
+
+            @if(isset($archive_date))
+            <section>
+                <p>Дата на архив: <strong>{{ Carbon\Carbon::parse($archive_date)->format('l, F j, Y g:i A') }}</strong></p>
+            </section>
+            @endif
+
             @if(isset($shipping_method))
             <section>
                 <p>Метод на доставка: <strong>{{ $shipping_method }}</strong></p>

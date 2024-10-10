@@ -35,11 +35,12 @@
                     </div>
                     <div id="col-main" class="col-md-24 clearfix">
                         <div class="page page-gallery">
+                            @if($assets->count())
                             <section id="albumNav">
                                 <ul>
-                                    <li>
-                                        <a href="{{ route('store_gallery') }}" class="btn btn-outline-warning {{ is_null(request()->get('jewel_id')) ? 'active' : '' }}">Всички</a>
-                                    </li>
+                                        <li>
+                                            <a href="{{ route('store_gallery') }}" class="btn btn-outline-warning {{ is_null(request()->get('jewel_id')) ? 'active' : '' }}">Всички</a>
+                                        </li>
                                     @foreach($jewels as $jewel)
                                         <li>
                                             <a href="{{ route('store_gallery', ['jewel_id' => $jewel->id]) }}" class="btn btn-outline-warning {{ request()->get('jewel_id') == $jewel->id ? 'active' : '' }}">{{$jewel->name}}</a>
@@ -47,6 +48,7 @@
                                     @endforeach
                                 </ul>
                             </section>
+                            @endif
                             <section>
                                 <div id="uvel_gallery">
                                     @if($assets->count() == 0)
@@ -66,6 +68,22 @@
 </div>
 @endsection
 
+@foreach($assetsArray['data'] as $idx => $asset)
+    @if($asset['media_type'] == 'image')
+        @php
+            $mediaPaths = [
+                'media_path' => $asset['media_path'],
+                'thumbnail_path' => $asset['thumbnail_path'],
+            ];
+            foreach ($mediaPaths as $key => $path) {
+                $relativePath = str_replace(storage_path('app/public'), '', $path);
+                $url = Storage::url(ltrim($relativePath, '/'));
+                $assetsArray['data'][$idx][$key] = $url;
+            }
+        @endphp
+    @endif
+@endforeach
+
 @push('scoped-scripts')
 <script type="text/javascript">
     $(document).ready((event) => {
@@ -75,19 +93,46 @@
         const customOrderUrl   = "{{ route('custom_order') }}";
         const sanitizedGallery = [];
 
+
+        function basketEvent( _, item ) {
+            const imageUrl             = item.src;
+            const customData           = item.customData;
+            const filename             = imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
+            const archiveDateObj       = new Date(customData.archiveDate);
+            const mediaType            = customData.mediaType;
+            const thumbnail            = mediaType == 'video'? item.thumbs.url.l1.la: null;
+            const formattedArchiveDate = archiveDateObj.toISOString();
+            const uniqueNumber         = customData.uniqueNumber;
+            const queryParams          = `?blob=${filename}&size=${customData.size}&archiveDate=${formattedArchiveDate}&weight=${customData.weight}&jewelType=${customData.type}&media=${mediaType}&thumb=${thumbnail}&uniqueNumber=${uniqueNumber}`;
+
+            window.location.href = customOrderUrl + queryParams;
+        }
+
         for (const i in gallery.data) {
-            const photo = gallery.data[i];
+            const item = gallery.data[i];
             sanitizedGallery.push({
-                src: photo.media_path,
-                srct: photo.thumbnail_path,
-                title: photo.title,
-                album: photo.type.id,
+                src: item.media_path,
+                srct: item.thumbnail_path,
+                title: item.title,
+                album: item.type.id,
+                customData: {
+                    weight: item.weight,
+                    type: item.type.name,
+                    mediaType: item.media_type,
+                    size: item.size,
+                    archiveDate: item.archive_date,
+                    uniqueNumber: item.unique_number,
+                },
             });
         }
 
         if ( gallery.total ) {
             const $nanoInit = $('#uvel_gallery').nanogallery2({
                 items: sanitizedGallery,
+                fnShoppingCartUpdated: basketEvent,
+                thumbnailToolbarImage: {
+                    topLeft: 'shoppingcart'
+                },
                 thumbnailBorderHorizontal: 1,
                 thumbnailBorderVertical: 1,
                 thumbnailWidth: '300 XS100 LA400 XL500',
@@ -96,13 +141,11 @@
                 thumbnailDisplayTransitionDuration: 500,
                 thumbnailDisplayInterval: 30,
                 thumbnailWaitImageLoaded: true,
-                thumbnailHoverEffect2: [
-                    {
+                thumbnailHoverEffect2: [{
                         name: 'image_scale_1.00_1.20',
                         duration: 500,
-                    }
-                ],
-                locationHash: false, // This will activate browser Back/Forward navigation (browser history support) and Deep Linking of images and photo albums
+                    }],
+                locationHash: false,
                 viewerGallery: 'bottom',
                 viewerTheme : {
                     background:             '#000',
@@ -111,11 +154,11 @@
                     barColor:               '#fff',
                     barDescriptionColor:    '#ccc',
                 },
-                // thumbnailToolbarImage : { topLeft: 'shoppingcart'},
                 viewerTools:            {
                     "topLeft":    "pageCounter",
                     "topRight":   "playPauseButton, zoomButton, fullscreenButton, closeButton",
                 },
+                /* This piece of code is kept in case the client request custom cart buttons in gallery
                 fnThumbnailInit: ($e) => {
                     const thumb    = $e.find('.nGY2GThumbnailSub');
                     const fragment = document.createDocumentFragment();
@@ -143,6 +186,7 @@
                     window.location.href = customOrderUrl + '?blob=' + filename;
                   });
                 },
+                */
             });
         }
     });

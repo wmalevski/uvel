@@ -31,11 +31,15 @@ class PublicGalleryController extends Controller
     public function uploadVideo(Request $request, PublicGallery $gallery)
     {
         $validator = Validator::make($request->all(), [
-            'media_type' => 'required|in:video',
-            'youtube_link' => [
+            'media_type'          => 'required|in:video',
+            'youtube_link'        => [
                 'required',
                 'string',
             ],
+            'video_size'          => 'required|numeric',
+            'video_archive_date'  => 'required|date',
+            'video_weight'        => 'required|numeric',
+            'video_unique_number' => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -55,7 +59,11 @@ class PublicGalleryController extends Controller
         $embedAttributes = $embedMeta['attributes'];
         $thumbnail       = $embedAttributes['thumbnail'];
         $embedSource     = $embedAttributes['src'];
-        $type            = $request->input('type') ?? NULL;
+        $uniqueNum       = $request->input('video_unique_number');
+        $archiveDate     = $request->input('video_archive_date');
+        $weight          = $request->input('video_weight');
+        $type            = $request->input('video_type');
+        $size            = $request->input('video_size');
 
         $gallery->create([
             'media_type'     => $request->input('media_type'),
@@ -64,6 +72,11 @@ class PublicGalleryController extends Controller
             'media_path'     => $embedSource,
             'title'          => $request->input('title') ?? NULL,
             'jewel_id'       => $type,
+            'unique_number'  => $uniqueNum,
+            'archive_date'   => $archiveDate,
+            'weight'         => $weight,
+            'jewel_id'       => $type,
+            'size'           => $size
         ]);
 
         return redirect()->back()->with('success', 'Video uploaded successfully!');
@@ -72,13 +85,13 @@ class PublicGalleryController extends Controller
     public function uploadImage(Request $request, PublicGallery $gallery)
     {
         $validator = Validator::make($request->all(), [
-            'images' => 'required|array|max:5',
-            'size'   => 'required|numeric',
-            'archive_date' => 'required|date',
-            'weight' => 'required|numeric',
+            'images'        => 'required|array|max:5',
+            'size'          => 'required|numeric',
+            'archive_date'  => 'required|date',
+            'weight'        => 'required|numeric',
             'unique_number' => 'required|numeric',
-            'images.*'     => 'image|max:2045|mimes:jpeg,png,jpg',
-            'media_type' => 'required|in:image', // Ensures media_type is 'image',
+            'images.*'      => 'image|max:2045|mimes:jpeg,png,jpg',
+            'media_type'    => 'required|in:image', // Ensures media_type is 'image',
         ], [
             'images.required' => 'Пропуснахте да качите снимка.',
             'images.image'    => 'Каченият файл трябва да бъде снимка.',
@@ -90,21 +103,20 @@ class PublicGalleryController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $images = $request->file('images');
-        $uniqueNum = $request->input('unique_number');
+        $images      = $request->file('images');
+        $uniqueNum   = $request->input('unique_number');
         $archiveDate = $request->input('archive_date');
-        $weight = $request->input('weight');
-        $type = $request->input('type');
-        $size = $request->input('size');
+        $weight      = $request->input('weight');
+        $type        = $request->input('type');
+        $size        = $request->input('size');
 
         if ( $request->hasFile('images') ) {
             foreach ($images as $image) {
-                dd($image);
-                $filename            = 'PublicGalleryPhoto_' . $image->getClientOriginalName();
-                $imagePath           = $image->storeAs('gallery', $filename);
-                $absolutePath        = storage_path('app/public/' . $imagePath);
-                $thumbnailUrl        = Storage::url('/gallery/thumb_' . $filename);
-                $thumbnailPath       = storage_path('app/public/gallery/thumb_' . $filename);
+                $filename      = 'PublicGalleryPhoto_' . $image->getClientOriginalName();
+                $imagePath     = $image->storeAs('gallery', $filename);
+                $absolutePath  = storage_path('app/public/' . $imagePath);
+                $thumbnailUrl  = Storage::url('/gallery/thumb_' . $filename);
+                $thumbnailPath = storage_path('app/public/gallery/thumb_' . $filename);
                 $this->thumbFactory($absolutePath, $thumbnailPath);
 
                 $gallery->create([
@@ -113,11 +125,11 @@ class PublicGalleryController extends Controller
                     'media_path'     => $absolutePath,
                     'description'    => $request->input('description') ?? NULL,
                     'thumbnail_path' => $thumbnailPath,
-                    'unique_number' => $uniqueNum,
-                    'archive_date' => $archiveDate,
-                    'weight' => $weight,
-                    'jewel_id' => $type,
-                    'size' => $size
+                    'unique_number'  => $uniqueNum,
+                    'archive_date'   => $archiveDate,
+                    'weight'         => $weight,
+                    'jewel_id'       => $type,
+                    'size'           => $size
                 ]);
             }
         }

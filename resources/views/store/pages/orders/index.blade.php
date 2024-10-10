@@ -97,7 +97,11 @@
                         <button type="submit" class="btn">
                           Изпратете запитване
                         </button>
-                        
+                        <input type="hidden" name="archive_date" value="{{$archive_date}}"/>
+                        <input type="hidden" name="size" value="{{$size}}"/>
+                        <input type="hidden" name="weight" value="{{$weight}}"/>
+                        <input type="hidden" name="type" value="{{$type}}"/>
+                        <input type="hidden" name="unique_number" value="{{$unique_number}}"/>
                       </li>
                       <li>
                         <small class="g-recaptcha-notice-text">
@@ -180,25 +184,62 @@
           }
 
           $(document).ready(function () {
-              const attachmentUrl = "{{ $attachment }}"; // URL of the image
-              const inputElement  = document.getElementById('fileElem-add');
-              const gallery       = document.querySelector('.drop-area-gallery');
-              const img           = document.createElement('img');
+              const attachmentUrl = "{{ $attachment }}";
+              const mediaType = "{{ $mediaType }}";
+              const inputElement = document.getElementById('fileElem-add');
+              const gallery = document.querySelector('.drop-area-gallery');
+              const img = document.createElement('img');
 
-              generateBlob(attachmentUrl).then(file => {
-                  const dataTransfer = new DataTransfer();
-                  dataTransfer.items.add(file);
-
-                  inputElement.files = dataTransfer.files;
-
-                  img.src = attachmentUrl;
-                  img.alt = 'Снимка';
-                  img.style.maxWidth = '100px';
-                  gallery.appendChild(img);
-
-                  console.log(dataTransfer);
-              }).catch(err => console.error("Error fetching the image:", err));
+              let thumbnailUrl;
+              if (mediaType === 'video') {
+                  if (attachmentUrl) {
+                      img.src = attachmentUrl;
+                      img.alt = 'YouTube Видео';
+                      img.style.maxWidth = '180px';
+                      gallery.appendChild(img);
+                      generateBlob(attachmentUrl).then(file => {
+                          const dataTransfer = new DataTransfer();
+                          dataTransfer.items.add(file);
+                          console.log(dataTransfer)
+                          inputElement.files = dataTransfer.files;
+                      }).catch(err => {
+                        return;
+                      });
+                  }
+              } else {
+                  generateBlob(attachmentUrl).then(file => {
+                      const dataTransfer = new DataTransfer();
+                      dataTransfer.items.add(file);
+                      inputElement.files = dataTransfer.files;
+                      img.src = attachmentUrl;
+                      img.alt = 'Снимка';
+                      img.style.maxWidth = '180px';
+                      gallery.appendChild(img);
+                  }).catch(err => console.error("Error fetching the image:", err));
+              }
           });
+
+          // $(document).ready(function () {
+          //     const attachmentUrl = "{{ $attachment }}"; // URL of the image
+          //     const mediaType     = "{{ $mediaType }}"
+          //     const inputElement  = document.getElementById('fileElem-add');
+          //     const gallery       = document.querySelector('.drop-area-gallery');
+          //     const img           = document.createElement('img');
+
+          //     generateBlob(attachmentUrl).then(file => {
+          //         const dataTransfer = new DataTransfer();
+          //         dataTransfer.items.add(file);
+
+          //         inputElement.files = dataTransfer.files;
+
+          //         img.src = attachmentUrl;
+          //         img.alt = 'Снимка';
+          //         img.style.maxWidth = '100px';
+          //         gallery.appendChild(img);
+
+          //         console.log(dataTransfer);
+          //     }).catch(err => console.error("Error fetching the image:", err));
+          // });
       </script>
   @endpush
 @endif

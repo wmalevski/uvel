@@ -108,6 +108,37 @@
           </select>
         </div>
       </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="video_unique_number">Уникален номер</label>
+          <input type="text" name="video_unique_number" id="video_unique_number" placeholder="{{ rand(1111111111, 9999999999) }}" />
+        </div>
+        <div class="form-group col-md-6">
+          <label for="video_weight">Тегло (гр.)</label>
+          <input type="number" step="0.1" name="video_weight" id="video_weight" placeholder="0.0" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="video_size">Размер (мм)</label>
+          <input type="number" name="video_size" id="video_size">
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="video_type">Вид Бижу</label>
+          <select name="video_type" id="video_type">
+            @foreach($jewels as $jewel)
+              <option value="{{$jewel->id}}">{{$jewel->name}}</option>
+            @endforeach
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label for="video_archive_date">Дата</label>
+          <input type="text" name="video_archive_date" class="form-control bdc-grey-200" placeholder="Дата: " data-date-autoclose="true" data-provide="datepicker" data-date-format="yyyy-mm-dd" value="{{Carbon\Carbon::now()->format('Y-m-d')}}"/>
+        </div>
+      </div>
       <input type="hidden" name="media_type" value="video">
     </x-admin.forms.create>
   </div>

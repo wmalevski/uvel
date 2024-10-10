@@ -81,12 +81,12 @@ class Material extends Model
         }
 
         // There are specific scenarios where header named 'search' is not present in the request so  we have overwrite it
-        if (is_null($search)) {
-            foreach($request->all() as $k => $v) {
-                $search = $request->input($k);
-                break;
-            }
-        }
+        // if (is_null($search)) {
+        //     foreach($request->all() as $k => $v) {
+        //         $search = $request->input($k);
+        //         break;
+        //     }
+        // }
 
         $materials = Material::where(function ($query) use ($search) {
                 $query->where('name', 'like', '%' .$search. '%')

@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Store;
-use App\Review;
 use App\Gallery;
 use App\ProductOther;
 use App\ProductOtherType;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Http\JsonResponse;
-use Response;
+use App\Review;
+use App\Setting;
+use App\Store;
 use File;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
+use Response;
 use Storage;
 
 class ProductOtherController extends Controller
@@ -120,7 +121,9 @@ class ProductOtherController extends Controller
     {
         $reviews = Review::where([
             ['product_others_id', '!=', '']
-        ])->get();
+        ])
+        ->with(['user'])
+        ->paginate(Setting::where('key','per_page')->first()->value ?? 30);
 
         return \View::make('admin.products_others_reviews.index', array('reviews'=>$reviews));
     }

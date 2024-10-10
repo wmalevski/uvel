@@ -14,3 +14,4 @@ yarn-error.log
 *.code-workspace
 /.vscode
 /bootstrap/cache
+/database/sqldump

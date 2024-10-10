@@ -11,7 +11,7 @@ class GalleryController extends BaseController
     public function index(PublicGallery $gallery, Request $request)
     {
         $selectedJewelId = $request->get('jewel_id');
-        $assets = $gallery::select('media_type', 'media_path', 'title', 'thumbnail_path', 'jewel_id')
+        $assets = $gallery::select('media_type', 'media_path', 'title', 'thumbnail_path', 'jewel_id', 'weight', 'size', 'archive_date', 'unique_number')
             ->with(['type'])
             ->orderBy('id', 'DESC');
 

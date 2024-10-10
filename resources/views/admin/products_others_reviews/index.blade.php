@@ -24,6 +24,7 @@
                 @endforeach
             </tbody>
         </table>
+        {{ $reviews->links() }}
       </div>
     </div>
 </div>

@@ -5,5 +5,5 @@
         <td>{{ \App\User::where('id',$products_travelling->user_sent)->first()->email }}</td>
         <td>{{ \App\Store::where('id',$products_travelling->store_to_id)->first()->id }}</td>
         <td>{{ $products_travelling->date_received }}</td>
-        <td>{{ \App\User::where('id', $products_travelling->user_received)->first()->email }}</td>
+        <td>{{ $products_travelling->user_received != null ? \App\User::where('id', $products_travelling->user_received)->first()->email : 'N/A' }}</td>
 </tr>
