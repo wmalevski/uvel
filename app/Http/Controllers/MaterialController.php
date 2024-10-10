@@ -152,44 +152,53 @@ class MaterialController extends Controller{
     }
 
     public function select_materials(Request $request){
-        $materials = Material::where('parent_id', $request->type_id)->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
+        $materialsQueryBuilder = Material::where('parent_id', $request->type_id);
+        $materials = $materialsQueryBuilder->get();
+        $paginatedResult = $materialsQueryBuilder->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
         $result_materials = array();
 
         foreach($materials as $material){
             if(isset($material->pricesExchange[0]) && isset($material->pricesExchange[1])){
                 $result_materials['results'][] = [
-                    'value' => $material->id,
-                    'label' => $material->parent->name .' - '. $material->color . ' - ' .$material->code,
-                    'data-sample' => $material->code,
-                    'data-price-1' => $material->pricesExchange[0]->price,
-                    'data-price-1-id' => $material->pricesExchange[0]->id,
-                    'data-price-2' => $material->pricesExchange[1]->price,
-                    'data-price-2-id' => $material->pricesExchange[1]->id
+                    'id' => $material->id,
+                    'text' => $material->parent->name .' - '. $material->color . ' - ' .$material->code,
+                    'attributes' => [
+                        'data-sample' => $material->code,
+                        'data-price-1' => $material->pricesExchange[0]->price,
+                        'data-price-1-id' => $material->pricesExchange[0]->id,
+                        'data-price-2' => $material->pricesExchange[1]->price,
+                        'data-price-2-id' => $material->pricesExchange[1]->id
+                    ],
                 ];
             }
         }
 
-        $result_materials['pagination'] = ['more' => $materials->hasMorePages()];
+        $result_materials['pagination'] = [
+            'more' => $paginatedResult->hasMorePages()
+        ];
 
         return $result_materials;
     }
 
     public function select_material_prices(Request $request){
-        $materials = Material::findOrFail($request->id)->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
+        $materials = Material::find($request->id)->first();
+        $paginatedResult = $materials->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         $result_materials = array();
 
         foreach($materials->pricesBuy as $prices) {
             $result_materials['results'][] = [
-                'value' => $prices->id,
-                'label' => $prices->slug .' - '. $prices->price .' лв.',
-                'data-price' => $prices->price,
+                'id' => $prices->id,
+                'text' => $prices->slug .' - '. $prices->price .' лв.',
+                'attributes' => [
+                    'data-price' => $prices->price,
+                ],
             ];
         }
 
-        $result_materials['pagination'] = ['more' => $materials->hasMorePages()];
+        $result_materials['pagination'] = ['more' => $paginatedResult->hasMorePages()];
 
-        return json_encode($result_materials, JSON_UNESCAPED_SLASHES );
+        return response()->json($result_materials);
     }
 
     /**

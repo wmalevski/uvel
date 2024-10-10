@@ -52,8 +52,13 @@ class Store extends Model
 
     public function filterStores(Request $request)
     {
-        $search = $request->input('search');
+        $search = $request->search;
+        $params = $request->all();
 
+        // There are specific scenarios where header named 'search' is not present in the request so we have to overwrite it
+        if (is_null($search)) {
+            $search = reset($params);
+        }
         // There are specific scenarios where header named 'search' is not present in the request so  we have overwrite it
         if (is_null($search)) {
             foreach($request->all() as $k => $v) {

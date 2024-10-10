@@ -283,6 +283,19 @@ header .col-md-18 {
     transform: translateY(-50%) !important;
 }
 
+#albumNav ul {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    padding: 50px;
+    flex-wrap: wrap;
+}
+
+#uvel_gallery .gallery-cart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 /* MEDIA QUERIES */
 @media (max-width: 991px) {
@@ -341,6 +354,20 @@ header .col-md-18 {
 @media (max-width: 540px) {
     #product-info-left .description .sub li {
         padding: 0;
+    }
+
+    #albumNav ul li .btn {
+        height: 30px;
+        font-size: 12px;
+    }
+
+    #uvel_gallery .gallery-cart {
+        height: 20px;
+        width: 10px;
+    }
+
+    #uvel_gallery .gallery-cart i {
+        font-size: 10px;
     }
 }
 

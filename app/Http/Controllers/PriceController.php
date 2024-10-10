@@ -364,11 +364,13 @@ class PriceController extends Controller{
             $pass_materials['results'][] = [
                     'id' => $material->id,
                     'text' => $material->parent->name.' - '.$material->color.' - '.$material->code,
-                    'data-carat' => $material->carat,
-                    'data-transform' => $material->carat_transform,
-                    'data-pricebuy' => $priceBuy,
-                    'data-price' => $priceSell,
-                    'data-material' => $material->id,
+                    'attributes' => [
+                        'data-carat' => $material->carat,
+                        'data-transform' => $material->carat_transform,
+                        'data-pricebuy' => $priceBuy,
+                        'data-price' => $priceSell,
+                        'data-material' => $material->id,
+                    ],
             ];
         }
 

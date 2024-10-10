@@ -115,10 +115,10 @@ class ProductController extends Controller{
         foreach($products as $product){
             if($loggedUser->role != 'admin' && $loggedUser->role != 'storehouse' && $loggedUser->store_id == $product->store_info->id) {
                 $pass_products[] = [
+                    'label' => $product->id,
+                    'id' => $product->id,
                     'attributes' => [
-                        'value' => $product->id,
                         'name' => $product->name,
-                        'label' => $product->id,
                         'barcode' => $product->barcode,
                         'weight' => $product->weight,
                         'data-product-id' => $product->id,
@@ -127,10 +127,10 @@ class ProductController extends Controller{
                 ];
             } elseif ($loggedUser->role == 'admin' || $loggedUser->role == 'storehouse') {
                 $pass_products[] = [
+                    'label' => $product->id,
+                    'id' => $product->id,
                     'attributes' => [
-                        'value' => $product->id,
                         'name' => $product->name,
-                        'label' => $product->id,
                         'barcode' => $product->barcode,
                         'weight' => $product->weight,
                         'data-product-id' => $product->id,
@@ -141,7 +141,7 @@ class ProductController extends Controller{
 
         }
 
-        return json_encode($pass_products, JSON_UNESCAPED_SLASHES );
+        return response()->json($pass_products, 200);
     }
 
     public function filter(Request $request){

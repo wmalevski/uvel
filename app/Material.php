@@ -72,7 +72,13 @@ class Material extends Model
     }
 
     public function filterMaterials(Request $request, $returnModel = false){
-        $search = $request->input('search');
+        $search = $request->search;
+        $params = $request->all();
+
+        // There are specific scenarios where header named 'search' is not present in the request so we have to overwrite it
+        if (is_null($search)) {
+            $search = reset($params);
+        }
 
         // There are specific scenarios where header named 'search' is not present in the request so  we have overwrite it
         if (is_null($search)) {
@@ -86,7 +92,11 @@ class Material extends Model
                 $query->where('name', 'like', '%' .$search. '%')
                     ->orWhere('color', 'like', '%' .$search. '%')
                     ->orWhere('code', 'like', '%' .$search. '%');
-            });
+            })->with([
+                'pricesBuy',
+                'pricesSell'
+            ]);
+
         $paginatedResult = $materials->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         if ( $returnModel ) {
@@ -101,11 +111,13 @@ class Material extends Model
             return [
                 'id' => $material->id,
                 'text' => sprintf('%s %s %s', $materialName, $materialColor, $materialCode),
-                'data-carat' => $material->carat,
-                'data-transform' => $material->carat_transform,
-                'data-pricebuy' => $material->pricesBuy->first()['price'],
-                'data-price' => $material->pricesSell->first()['price'],
-                'data-material' => $material->id,
+                'attributes' => [
+                    'data-carat' => $material->carat,
+                    'data-transform' => $material->carat_transform,
+                    'data-pricebuy' => $material->pricesBuy->first()['price'],
+                    'data-price' => $material->pricesSell->first()['price'],
+                    'data-material' => $material->id,
+                ],
             ];
         });
 

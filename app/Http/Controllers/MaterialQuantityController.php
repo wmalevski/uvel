@@ -150,9 +150,9 @@ class MaterialQuantityController extends Controller{
         foreach($materials as $material){
             if($material->material->pricesSell->first()){
                 $pass_materials[] = [
+                    'id' => $material->id,
+                    'text' => $material->material->parent->name.' - '.$material->material->color.' - '.$material->material->carat,
                     'attributes' => [
-                        'value' => $material->id,
-                        'label' => $material->material->parent->name.' - '.$material->material->color.' - '.$material->material->carat,
                         'data-carat' => $material->material->carat,
                         'data-pricebuy' => $material->material->pricesBuy->first()['price'],
                         'data-price' => $material->material->pricesSell->first()['price'],
@@ -167,7 +167,7 @@ class MaterialQuantityController extends Controller{
 
         }
 
-        return json_encode($pass_materials, JSON_UNESCAPED_SLASHES );
+        return response()->json($pass_materials, 200);
     }
 
     public function filter(Request $request){

@@ -5,6 +5,23 @@ var uvel,
       $body = $('body'),
       currentPressedBtn;
 
+    /*
+     * formsConfig: is an object containing metadata for each form.
+     *
+     * [parent]: Represents the form's name, e.g., "blog".
+     * @selector: Refers to the form's name attribute (used to select the form in the DOM).
+     * @controllers: An array of controllers or event handlers, such as 'submitForm',
+     *  that are used to manage form actions.
+     * @initialized: Boolean flag indicating whether the form has been initialized.
+     * @ajaxSetup: Determines whether the form's submit event is handled via AJAX 
+     *  (true) or a native form submission is used (false).
+     *
+     * formsConfig.globalSettings: Contains configurations that apply globally across all forms.
+     * @token: Holds the CSRF token value, retrieved from the meta tag 
+     *  for secure form submissions.
+     * @controllers: An array of controllers or event handlers, such as 'submitForm',
+     *  that are used to manage form actions.
+     */
     this.formsConfig = {
       globalSettings: {
         token: $('meta[name="csrf-token"]').attr('content'),
@@ -13,97 +30,135 @@ var uvel,
       blog: {
         selector: '[name="blog"]',
         controllers: ['imageHandling'],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       cms: {
         selector: '[name="cms"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       discounts: {
         selector: '[name="discounts"]',
         controllers: ['lifetimeDiscount'],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       jewels: {
         selector: '[name="jewels"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       stores: {
         selector: '[name="stores"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       otherProductsTypes: {
         selector: '[name="productsOthersTypes"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       otherProducts: {
         selector: '[name="productsOthers"]',
         controllers: ['imageHandling'],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       materialTypes: {
         selector: '[name="materialsTypes"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       materials: {
         selector: '[name="materials"]',
         controllers: ['newMaterialInit'],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       materialsQuantity: {
         selector: '[name="materialsQuantity"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       materailsTraveling: {
         selector: '[name="sendMaterial"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       prices: {
         selector: '[name="prices"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       currencies: {
         selector: '[name="currencies"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       substitutions: {
         selector: '[name="substitutions"]',
         controllers: ['focusDatePicker'],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       users: {
         selector: '[name="users"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       partners: {
         selector: '[name="partners"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       partnermaterials: {
         selector: '[name="partnermaterials"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       selling: {
         selector: '[name="selling"]',
         controllers: ['paymentInitializer'],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       sellingPartners: {
         selector: '[name="sellingPartners"]',
         controllers: ['partnerPaymentInit'],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       stones: {
         selector: '[name="stones"]',
@@ -111,22 +166,30 @@ var uvel,
           'calculateCaratsInitializer',
           'imageHandling'
         ],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       stoneStyles: {
         selector: '[name="stoneStyles"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       stoneContours: {
         selector: '[name="stoneContours"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       stoneSizes: {
         selector: '[name="stoneSizes"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       models: {
         selector: '[name="models"]',
@@ -141,7 +204,9 @@ var uvel,
           'materialPricesRequestInit',
           'imageHandling'
         ],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       products: {
         selector: '[name="products"]',
@@ -158,7 +223,9 @@ var uvel,
           selector: 'select[name="model_id"]',
           callback: 'productsModelSelectCallback'
         }],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       productsTravelling: {
         selector: '[name="productsTravelling"]',
@@ -167,12 +234,16 @@ var uvel,
           selector: 'select[name="product_select"]',
           callback: 'productTravellingSelectCallback'
         }],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       repairTypes: {
         selector: '[name="repairTypes"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       repairs: {
         selector: '[name="repairs"]',
@@ -182,37 +253,51 @@ var uvel,
           'calculateRepairAfterPrice',
           'focusDatePicker'
         ],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       returnRepair: {
         selector: '[name="returnRepair"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       scanRepair: {
         selector: '[name="scanRepair"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       customOrders: {
         selector: '[name="custom_order"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       modelOrders: {
         selector: '[name="model_order"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       slides: {
         selector: '[name="slides"]',
         controllers: ['imageHandling'],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       editPayments: {
         selector: '[name="editPayments"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       orders: {
         selector: '[name="orders"]',
@@ -232,67 +317,93 @@ var uvel,
           selector: 'select[name="model_id"]',
           callback: 'onOrdersFormSelectCallback'
         }],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       nomenclatures: {
         selector: '[name="nomenclatures"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       dailyReport: {
         selector: '[name="dailyReport"]',
         controllers: ['dailyReportAttach'],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       expenseTypes: {
         selector: '[name="expenseTypes"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       expenses: {
         selector: '[name="expenses"]',
         controllers: ['transferCheckboxInit'],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       incomeTypes: {
         selector: '[name="incomeTypes"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       income: {
         selector: '[name="income"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       dailyReports: {
         selector: '[name="dailyReports"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       subscribe: {
         selector: '[name="subscribe"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       cashgroups: {
         selector: '[name="cashgroup"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       system_settings: {
         selector: '[name="system_setting"]',
         controllers: ['imageHandling'],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       stonesQuantityIncrease: {
         selector: '[name="stonesQuantityIncrease"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       stonesQuantityDecrease: {
         selector: '[name="stonesQuantityDecrease"]',
         controllers: [],
-        initialized: false
+        initialized: false,
+        ajaxSetup: true,
+
       },
       formGalleryImage: {
         selector: '[name="formGalleryImage"]',
@@ -1431,11 +1542,11 @@ var uvel,
           if(element.hasAttribute('data-material-id-price')) {
             var calculatingPrice = $(element).parents('.form-row').find('[name="calculating_price"]');
             var chosenMaterialPrice = calculatingPrice[0].value;
+            var chosenMaterial=$(element).parents('.form-row').find('select[name="material_type_id[]"] option').last();
+            var chosenMaterialPriceID = chosenMaterial.attr('data-price-2-id');
 
             if(chosenMaterialPrice == "" ){
-              chosenMaterial=$(element).parents('.form-row').find('select[name="material_type_id[]"] option:last-child');
               chosenMaterialPrice = parseFloat(chosenMaterial.attr('data-price-2'));
-              chosenMaterialPriceID = chosenMaterial.attr('data-price-2-id');
               calculatingPrice.find('option:last-child').attr('value', chosenMaterialPrice);
             }
 
@@ -1444,6 +1555,7 @@ var uvel,
               material_price: chosenMaterialPrice,
               material_price_id: chosenMaterialPriceID
             });
+            console.log(dataMaterialPrice)
           }
         } else {
           data[dataKey] = dataKeyValue;
@@ -2110,7 +2222,6 @@ var uvel,
 
       data.attributes.selected = selectedBool;
       option.text = data.label;
-
       $(option).attr(data.attributes);
       selectField.append(option);
 
@@ -2589,7 +2700,6 @@ var uvel,
 
       exchangeRow.on('change', '[data-weight]', function() {
         var isPriceChosen = $(this).parents('.form-row').find('[name="calculating_price"]')[0].value.length;
-
         $self.setExchangeMaterialWeight(this, true);
       });
 
@@ -2779,7 +2889,6 @@ var uvel,
           convertedWeight = (sample / defaultSample) * currentWeight;
 
       weightHolder.attr('data-weight', convertedWeight || currentWeight);
-
       $self.calculateExchangeMaterialTotal();
     }
 
@@ -2814,7 +2923,6 @@ var uvel,
           selectedMaterialType = materialTypes.selectedOptions[0].dataset.typeId,
 
           selectedCurrency = parseFloat(document.querySelector('[data-calculatepayment-currency]').selectedOptions[0].dataset.currency),
-
           total = 0,
           cartMaterialWeight = false,
           exchangedWeightSoFar = 0,
@@ -2903,7 +3011,6 @@ var uvel,
     this.calculatePayment = function(form, givenSum, wantedSum, exchangeSum) {
       var returnHolder = form.find('[data-calculatePayment-return]'),
           returnSum;
-
       if (wantedSum > 0) {
         returnSum = Number((givenSum + exchangeSum - wantedSum).toFixed(2));
       } else {
@@ -3353,10 +3460,6 @@ var uvel,
       closeModalTrigger.on('click', function() {
         $self.closeModal(modal);
       });
-
-      modal.on('click', function(e) {
-        console.log($(e.target));
-      });
     }
 
     this.closeModal = function(modal) {
@@ -3430,12 +3533,13 @@ var uvel,
     }
 
     this.formatState = function(state) {
+      var displayText = state.text || state.label;
+
       if (!state.id) {
-        return state.text;
+        return displayText;
       }
-      var $state = $(
-        '<span>' +state.text+ '</span>'
-      );
+
+      var $state = $('<span>' + displayText + '</span>');
       return $state;
     }
 
@@ -3502,10 +3606,10 @@ var uvel,
 
       $(select).select2(options);
       $(select).on('select2:select', function(e) {
-        return $self.prepMultiSelectValues(e.currentTarget)
+        return $self.prepMultiSelectValues(e.currentTarget, 'user_list')
       });
       $(select).on('select2:unselect', function(e) {
-        return $self.prepMultiSelectValues(e.currentTarget)
+        return $self.prepMultiSelectValues(e.currentTarget, 'user_list')
       });
       $(select).on("select2:opening", function (event) {
         if ($(this).is(":disabled")) {
@@ -3666,21 +3770,20 @@ var uvel,
       });
     }
 
-    /* Since its been quite a hassle to obtain
-    all the selected values from multiple select2 object on the backend... */
-    this.prepMultiSelectValues = function(select) {
+    /* To pass all the selected values to BE we need to temporarly store them inside of a hidden input */
+    this.prepMultiSelectValues = function(select, nodeName) {
       if ( window.jQuery == undefined ) return;
       if ( !$(select).attr('multiple') ) return;
 
       try {
-        $collectedValues = $(select).siblings('input:hidden[name="user_list"]'); // preferably the naming of select should be dynamic
+        $collectedValues = $(select).siblings('input:hidden[name="'+ nodeName +'"]');
         $selectedValues  = $(select).val();
 
         /* Create input if one doesn't exist */
         if ( !$collectedValues.length ) {
           const hiddenInput = document.createElement('input');
           hiddenInput.type  = 'hidden';
-          hiddenInput.name  = 'user_list';
+          hiddenInput.name  = nodeName;
           $selectParent     = $(select).parent();
           $selectParent.append(hiddenInput);
         }

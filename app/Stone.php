@@ -140,8 +140,10 @@ class Stone extends Model
             return [
                 'id' => $stone->id,
                 'text' => $stone->nomenclature->name.' - '.$stone->contour->name.' - '.$stone->size->name.' - '.$stone->weight.' гр',
-                'data-price' => $stone->price,
-                'data-type' => $stone->type
+                'attributes' => [
+                    'data-price' => $stone->price,
+                    'data-type' => $stone->type
+                ],
             ];
         });
 

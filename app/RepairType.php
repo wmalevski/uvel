@@ -29,7 +29,9 @@ class RepairType extends Model
             return [
                 'id' => $rt->id,
                 'text' => $rt->name,
-                'data-price' => $rt->price
+                'attributes' => [
+                    'data-price' => $rt->price
+                ],
             ];
         });
 

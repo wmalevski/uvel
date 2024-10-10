@@ -67,7 +67,6 @@ class PayPalPay extends Model
                         ->setPayer($payer)
                         ->setRedirectUrls($redirect_urls)
                         ->setTransactions(array($transaction));
-                    /** dd($payment->create($this->_api_context));exit; **/
             try {
                 $payment->create($this->_api_context);
             } catch (\PayPal\Exception\PPConnectionException $ex) {

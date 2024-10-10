@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jewel;
 use App\PublicGallery;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -14,8 +15,7 @@ use Intervention\Image\ImageManager;
 
 class PublicGalleryController extends Controller
 {
-    const IMAGE_QUALITY = 80;
-
+    const IMAGE_QUALITY = 20;
 
     public function index(PublicGallery $gallery)
     {
@@ -23,8 +23,9 @@ class PublicGalleryController extends Controller
         $userRole = $user->role;
         $gallery  = $gallery->orderBy('id', 'DESC')->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
         $locale   = app()->getLocale();
+        $jewels   = Jewel::select('id', 'name')->get();
 
-        return view('admin.gallery.index')->with(compact('userRole', 'gallery', 'locale'));
+        return view('admin.gallery.index')->with(compact('userRole', 'gallery', 'locale', 'jewels'));
     }
 
     public function uploadVideo(Request $request, PublicGallery $gallery)
@@ -50,10 +51,11 @@ class PublicGalleryController extends Controller
         }
 
         $embedMeta       = aggregateLink($request->input('youtube_link')); // Sanitize the embed code to prevent XSS
-        $embed           = $embedMeta['sanitized_embed_code'] ?? null;
+        $embed           = $embedMeta['sanitized_embed_code'] ?? NULL;
         $embedAttributes = $embedMeta['attributes'];
         $thumbnail       = $embedAttributes['thumbnail'];
         $embedSource     = $embedAttributes['src'];
+        $type            = $request->input('type') ?? NULL;
 
         $gallery->create([
             'media_type'     => $request->input('media_type'),
@@ -61,6 +63,7 @@ class PublicGalleryController extends Controller
             'thumbnail_path' => $thumbnail,
             'media_path'     => $embedSource,
             'title'          => $request->input('title') ?? NULL,
+            'jewel_id'       => $type,
         ]);
 
         return redirect()->back()->with('success', 'Video uploaded successfully!');
@@ -69,7 +72,12 @@ class PublicGalleryController extends Controller
     public function uploadImage(Request $request, PublicGallery $gallery)
     {
         $validator = Validator::make($request->all(), [
-            'images'     => 'required|image|max:2045|mimes:jpeg,png,jpg',
+            'images' => 'required|array|max:5',
+            'size'   => 'required|numeric',
+            'archive_date' => 'required|date',
+            'weight' => 'required|numeric',
+            'unique_number' => 'required|numeric',
+            'images.*'     => 'image|max:2045|mimes:jpeg,png,jpg',
             'media_type' => 'required|in:image', // Ensures media_type is 'image',
         ], [
             'images.required' => 'Пропуснахте да качите снимка.',
@@ -82,46 +90,37 @@ class PublicGalleryController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $image               = $request->file('images');
-        $filename            = 'PublicGalleryPhoto_' . now()->timestamp . '.' . $image->extension();
-        $imagePath           = $image->storeAs('gallery', $filename);
-        $absolutePath        = storage_path('app/public/' . $imagePath);
-        $thumbnailUrl        = Storage::url('/gallery/thumb_' . $filename);
-        $thumbnailPath       = storage_path('app/public/gallery/thumb_' . $filename);
-        $interventionManager = new ImageManager(
-            new InterventionDriver()
-        );
+        $images = $request->file('images');
+        $uniqueNum = $request->input('unique_number');
+        $archiveDate = $request->input('archive_date');
+        $weight = $request->input('weight');
+        $type = $request->input('type');
+        $size = $request->input('size');
 
-        if (!file_exists($absolutePath)) {
-            \Log::error(
-                PHP_EOL . '    File: ' . __FILE__ . PHP_EOL .
-                '    Line: ' . __LINE__ . PHP_EOL .
-                '    File does not exist at path: ' . $absolutePath
-            );
-            return redirect()->back()->withErrors('File does not exist.');
+        if ( $request->hasFile('images') ) {
+            foreach ($images as $image) {
+                dd($image);
+                $filename            = 'PublicGalleryPhoto_' . $image->getClientOriginalName();
+                $imagePath           = $image->storeAs('gallery', $filename);
+                $absolutePath        = storage_path('app/public/' . $imagePath);
+                $thumbnailUrl        = Storage::url('/gallery/thumb_' . $filename);
+                $thumbnailPath       = storage_path('app/public/gallery/thumb_' . $filename);
+                $this->thumbFactory($absolutePath, $thumbnailPath);
+
+                $gallery->create([
+                    'title'          => $request->input('title') ?? NULL,
+                    'media_type'     => $request->input('media_type'),
+                    'media_path'     => $absolutePath,
+                    'description'    => $request->input('description') ?? NULL,
+                    'thumbnail_path' => $thumbnailPath,
+                    'unique_number' => $uniqueNum,
+                    'archive_date' => $archiveDate,
+                    'weight' => $weight,
+                    'jewel_id' => $type,
+                    'size' => $size
+                ]);
+            }
         }
-
-        try {
-            $interventionManager
-                ->read($absolutePath)
-                ->resize(250,250)
-                ->encode(new AutoEncoder(quality: self::IMAGE_QUALITY))
-                ->save($thumbnailPath);
-        } catch (\Exception $e) {
-            \Log::error(
-                PHP_EOL . '    File: ' . __FILE__ . PHP_EOL .
-                '    Line: ' . __LINE__ . PHP_EOL .
-                '    Error while processing image: ' . $e->getMessage()
-            );
-        }
-
-        $gallery->create([
-            'title'          => $request->input('title') ?? NULL,
-            'media_type'     => $request->input('media_type'),
-            'media_path'     => $absolutePath,
-            'alt_text'       => $request->input('alt_text') ?? NULL,
-            'thumbnail_path' => $thumbnailPath,
-        ]);
 
         return redirect()->back()->with('success', 'Image uploaded successfully!');
     }
@@ -142,5 +141,47 @@ class PublicGalleryController extends Controller
 
         $media->delete();
         return response()->json(['success' => 'Изтрито успешно!', 'message' => 'Media deleted successfully.'], 200);
+    }
+
+    /**
+     * Creates an image that is suitable for thumbnail
+     * @param $path - Absolute path to original image
+     * @param $tpath - Generated thumb image storage
+     */
+    private function thumbFactory(string $path, string $tpath)
+    {
+        if (!file_exists($path)) {
+            \Log::error(
+                PHP_EOL . '    File: ' . __FILE__ . PHP_EOL .
+                '    Line: ' . __LINE__ . PHP_EOL .
+                '    File does not exist at path: ' . $path
+            );
+            return redirect()->back()->withErrors('File does not exist.');
+        }
+
+        try {
+            $imageManager = new ImageManager(
+                new InterventionDriver()
+            );
+
+            $blob = $imageManager
+                ->read($path);
+
+            $blobWidth = $blob->width();
+            $blobHeight = $blob->height();
+
+            if ( $blobWidth > 1280 ) {
+                $blob->resize(1280, 720);
+            }
+
+            $blob->encode(new AutoEncoder(quality: self::IMAGE_QUALITY))
+                ->save($tpath);
+        } catch (\Exception $e) {
+            \Log::error(
+                PHP_EOL . '    File: ' . __FILE__ . PHP_EOL .
+                '    Line: ' . __LINE__ . PHP_EOL .
+                '    Error while processing image: ' . $e->getMessage()
+            );
+        }
     }
 }

@@ -104,14 +104,12 @@ class UserController extends Controller
     }
 
     public function select_search(Request $request){
-        $search = $request->input('search');
+        $search = $request->search;
+        $params = $request->all();
 
-        // There are specific scenarios where header named 'search' is not present in the request so  we have overwrite it
+        // There are specific scenarios where header named 'search' is not present in the request so we have to overwrite it
         if (is_null($search)) {
-            foreach($request->all() as $k => $v) {
-                $search = $request->input($k);
-                break;
-            }
+            $search = reset($params);
         }
 
         $users = User::where(function ($query) use ($search) {
