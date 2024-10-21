@@ -291,13 +291,105 @@ header .col-md-18 {
     flex-wrap: wrap;
 }
 
-#uvel_gallery .gallery-cart {
+/*#uvel_gallery .gallery-cart {
     display: flex;
     justify-content: center;
     align-items: center;
+}*/
+
+#uvel_gallery { /* Masonry container */
+    -webkit-column-count: 4;
+    -moz-column-count:4;
+    column-count: 4;
+    -webkit-column-gap: 10px;
+    -moz-column-gap: 10px;
+    column-gap: 10px;
+/*    margin: 1.5em;*/
+    padding: 0;
+    font-size: .85em;
+}
+
+#uvel_gallery .gallery-item {
+    display: inline-block;
+    position: relative;
+    background: #fff;
+    border: 1px solid #bf8f00;
+    border-radius: 10px;
+    margin: 0 0 1.5em;
+    width: 100%;
+    -webkit-transition:0.5s ease all;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-shadow: 2px 2px 4px 0 #ccc;
+    backface-visibility: hidden;
+    z-index: 1;
+    min-height: 75px;
+}
+
+#uvel_gallery .gallery-item .image-footer-content {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    backdrop-filter: blur(5px);
+    font-size: 10px;
+    color: white;
+    mix-blend-mode: difference;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+    z-index: 1;
+}
+
+#uvel_gallery .gallery-item:hover {
+    transform: scale(0.95);
+}
+
+#uvel_gallery .gallery-item img {
+    max-width:100%;
+    width: 100%;
+    height: auto;
+    border-radius: 9.5px;
+    z-index: 1;
+}
+
+#uvel_gallery .gallery-item .basket {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    background-color: #bf8f00;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    cursor: pointer;
+    -webkit-transition:0.2s ease transform;
+    z-index: 2;
+}
+
+#uvel_gallery .gallery-item .basket i {
+    z-index: 2;
+}
+
+#uvel_gallery .gallery-item .basket:hover {
+    transform: scale(1.2);
 }
 
 /* MEDIA QUERIES */
+@media only screen and (min-width: 1201px) {
+    #uvel_gallery {
+        -moz-column-count: 4;
+        -webkit-column-count: 4;
+        column-count: 4;
+    }
+}
+
 @media (max-width: 991px) {
     .contact-content {
         padding: 0;
@@ -349,6 +441,12 @@ header .col-md-18 {
     .top-navigation .dropdown-menu {
         left: 0;
     }
+
+    #uvel_gallery {
+        -moz-column-count: 3;
+        -webkit-column-count: 3;
+        column-count: 3;
+    }
 }
 
 @media (max-width: 540px) {
@@ -371,9 +469,23 @@ header .col-md-18 {
     }
 }
 
+@media only screen and (min-width: 321px) and (max-width: 768px){
+    #uvel_gallery {
+        -moz-column-count: 2;
+        -webkit-column-count: 2;
+        column-count: 2;
+    }
+}
+
 @media (max-width: 320px) {
     .navbar-toggle {
         padding-left: 16px;
         padding-right: 16px;
+    }
+
+    #uvel_gallery {
+        -moz-column-count: 1;
+        -webkit-column-count: 1;
+        column-count: 1;
     }
 }

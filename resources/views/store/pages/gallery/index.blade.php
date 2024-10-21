@@ -1,4 +1,5 @@
 @extends('store.layouts.app', ['bodyClass' => 'templateGallery'])
+
 @foreach($assetsArray['data'] as $idx => $asset)
     @if($asset['media_type'] == 'image')
         @php
@@ -38,13 +39,13 @@
                             @if($assets->count())
                             <section id="albumNav">
                                 <ul>
-                                        <li>
-                                            <a href="{{ route('store_gallery') }}" class="btn btn-outline-warning {{ is_null(request()->get('jewel_id')) ? 'active' : '' }}">Всички</a>
-                                        </li>
+                                    <li>
+                                        <a href="{{ route('store_gallery') }}" class="btn btn-outline-warning {{ is_null(request()->get('jewel_id')) ? 'active' : '' }}">Всички</a>
+                                    </li>
                                     @foreach($jewels as $jewel)
-                                        <li>
-                                            <a href="{{ route('store_gallery', ['jewel_id' => $jewel->id]) }}" class="btn btn-outline-warning {{ request()->get('jewel_id') == $jewel->id ? 'active' : '' }}">{{$jewel->name}}</a>
-                                        </li>
+                                    <li>
+                                        <a href="{{ route('store_gallery', ['jewel_id' => $jewel->id]) }}" class="btn btn-outline-warning {{ request()->get('jewel_id') == $jewel->id ? 'active' : '' }}">{{$jewel->name}}</a>
+                                    </li>
                                     @endforeach
                                 </ul>
                             </section>
@@ -56,6 +57,46 @@
                                             <span style="font-size:40px;padding:15px;">💁</span>Няма намерени резултати
                                         </h1>
                                     @endif
+                                    @php
+                                        $groupedAssets = collect($assetsArray['data'])->groupBy(function($asset) {
+                                            return Carbon\Carbon::parse($asset['archive_date'])->format('m-d-y H:i:s');
+                                        });
+                                    @endphp
+                                    @foreach($groupedAssets as $archiveDate => $asset)
+                                        @php
+                                            $fancyboxTimestamp = Carbon\Carbon::createFromFormat('m-d-y H:i:s', $archiveDate)->timestamp;
+                                        @endphp
+                                        <a href="{{ $asset->first()['media_path'] }}" data-fancybox="gallery-{{ $fancyboxTimestamp }}" data-caption="{{ $asset->first()['title'] }}" class="gallery-item">
+                                            <img src="{{ $asset->first()['thumbnail_path'] }}" />
+                                            <div class="image-footer-content">
+                                                <span>Тегло: {{ $asset->first()['weight'] }}гр.</span>
+                                                <span>{{ $asset->first()['title'] }}</span>
+                                                @if(!is_null($asset->first()['size']))<span>Размер: {{ $asset->first()['size'] }}</span>@endif
+                                            </div>
+                                            <span class="basket">
+                                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                            </span>
+
+                                            <input name="archiveData[{{$fancyboxTimestamp}}]" type="hidden"
+                                                data-weight="{{$asset->first()['weight']}}"
+                                                data-size="{{$asset->first()['size']}}"
+                                                data-type="{{$asset->first()['type']['name']}}"
+                                                data-archiveDate="{{$asset->first()['archive_date']}}"
+                                                data-uniqueNum="{{$asset->first()['unique_number']}}"
+                                                data-src="{{$asset->first()['media_path']}}"
+                                                data-mediaType="{{$asset->first()['media_type']}}"
+                                                data-thumbnail="{{$asset->first()['thumbnail_path']}}"
+                                            />
+                                        </a>
+
+                                        <div style="display: none;">
+                                            @foreach($asset->slice(1) as $asset)
+                                                <a href="{{ $asset['media_path'] }}" data-fancybox="gallery-{{ $fancyboxTimestamp }}" data-caption="{{ $asset['title'] }}">
+                                                    <img src="{{ $asset['thumbnail_path'] }}" />
+                                                </a>
+                                            @endforeach
+                                        </div>
+                                    @endforeach
                                 </div>
                             </section>
                           {{ $assets->links() }}
@@ -67,127 +108,51 @@
     </div>
 </div>
 @endsection
+{{-- 
+@push('css')
+    <style>
+        /* Your custom styles */
+/*        .nanogallery_gallerytheme_dark_uvel_gallery */
+        .nGY2GThumbnail {
+            border-radius: 20px!important;
+            border: 1px solid #bf8f00!important;
+        }
+    </style>
+@endpush
+--}}
 
-@foreach($assetsArray['data'] as $idx => $asset)
-    @if($asset['media_type'] == 'image')
-        @php
-            $mediaPaths = [
-                'media_path' => $asset['media_path'],
-                'thumbnail_path' => $asset['thumbnail_path'],
-            ];
-            foreach ($mediaPaths as $key => $path) {
-                $relativePath = str_replace(storage_path('app/public'), '', $path);
-                $url = Storage::url(ltrim($relativePath, '/'));
-                $assetsArray['data'][$idx][$key] = $url;
-            }
-        @endphp
-    @endif
-@endforeach
 
 @push('scoped-scripts')
+
 <script type="text/javascript">
     $(document).ready((event) => {
         "use strict";
 
         const gallery          = {{ Illuminate\Support\Js::from($assetsArray) }};
         const customOrderUrl   = "{{ route('custom_order') }}";
-        const sanitizedGallery = [];
 
-
-        function basketEvent( _, item ) {
-            const imageUrl             = item.src;
-            const customData           = item.customData;
-            const filename             = imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
-            const archiveDateObj       = new Date(customData.archiveDate);
-            const mediaType            = customData.mediaType;
-            const thumbnail            = mediaType == 'video'? item.thumbs.url.l1.la: null;
+        function basketEventCallback( data ) {
+            console.log(data)
+            const imageUrl             = data.src;
+            const mediaType            = data.mediatype;
+            const filename             = mediaType.toLowerCase() == 'image' ? imageUrl.substring(imageUrl.lastIndexOf('/') + 1) : data.thumbnail;
+            const archiveDateObj       = new Date(data.archivedate);
             const formattedArchiveDate = archiveDateObj.toISOString();
-            const uniqueNumber         = customData.uniqueNumber;
-            const queryParams          = `?blob=${filename}&size=${customData.size}&archiveDate=${formattedArchiveDate}&weight=${customData.weight}&jewelType=${customData.type}&media=${mediaType}&thumb=${thumbnail}&uniqueNumber=${uniqueNumber}`;
+            const uniqueNumber         = data.uniquenum;
+            const queryParams          = `?blob=${filename}&size=${data.size}&archiveDate=${formattedArchiveDate}&weight=${data.weight}&jewelType=${data.type}&media=${mediaType}&uniqueNumber=${uniqueNumber}`;
 
             window.location.href = customOrderUrl + queryParams;
         }
 
-        for (const i in gallery.data) {
-            const item = gallery.data[i];
-            sanitizedGallery.push({
-                src: item.media_path,
-                srct: item.thumbnail_path,
-                title: item.title,
-                album: item.type.id,
-                customData: {
-                    weight: item.weight,
-                    type: item.type.name,
-                    mediaType: item.media_type,
-                    size: item.size,
-                    archiveDate: item.archive_date,
-                    uniqueNumber: item.unique_number,
-                },
-            });
-        }
-
         if ( gallery.total ) {
-            const $nanoInit = $('#uvel_gallery').nanogallery2({
-                items: sanitizedGallery,
-                fnShoppingCartUpdated: basketEvent,
-                thumbnailToolbarImage: {
-                    topLeft: 'shoppingcart'
-                },
-                thumbnailBorderHorizontal: 1,
-                thumbnailBorderVertical: 1,
-                thumbnailWidth: '300 XS100 LA400 XL500',
-                thumbnailHeight: '200 XS80 LA250 XL350',
-                thumbnailDisplayTransition: 'slideUp2',
-                thumbnailDisplayTransitionDuration: 500,
-                thumbnailDisplayInterval: 30,
-                thumbnailWaitImageLoaded: true,
-                thumbnailHoverEffect2: [{
-                        name: 'image_scale_1.00_1.20',
-                        duration: 500,
-                    }],
-                locationHash: false,
-                viewerGallery: 'bottom',
-                viewerTheme : {
-                    background:             '#000',
-                    barBackground:          'rgba(4, 4, 4, 0.2)',
-                    barBorder:              '0px solid #111',
-                    barColor:               '#fff',
-                    barDescriptionColor:    '#ccc',
-                },
-                viewerTools:            {
-                    "topLeft":    "pageCounter",
-                    "topRight":   "playPauseButton, zoomButton, fullscreenButton, closeButton",
-                },
-                /* This piece of code is kept in case the client request custom cart buttons in gallery
-                fnThumbnailInit: ($e) => {
-                    const thumb    = $e.find('.nGY2GThumbnailSub');
-                    const fragment = document.createDocumentFragment();
-                    const btn      = document.createElement('a');
-                    const icon     = document.createElement('i');
+            const fancyBox = Fancybox.bind("[data-fancybox]", {});
 
-                    btn.classList = "btn btn-outline gallery-cart";
-                    $(btn).css({
-                        position: 'absolute',
-                        top: 5,
-                        left: 5,
-                    });
-                    icon.classList = "fa fa-shopping-cart";
-                    btn.appendChild(icon);
-                    fragment.appendChild(btn);
-                    thumb.append(fragment);
-
-                  $('.gallery-cart').off('click').on('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    const imageUrl = $(e.currentTarget).siblings().find('.nGY2GThumbnailImg').attr('src');
-                    const filename = imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
-
-                    window.location.href = customOrderUrl + '?blob=' + filename;
-                  });
-                },
-                */
-            });
+            $(".gallery-item .basket").on("click", e => {
+                e.preventDefault();
+                const $target = $(e.currentTarget);
+                const $imageMeta = $target.siblings('[name^="archiveData"]').data();
+                return basketEventCallback($imageMeta);
+            })
         }
     });
 </script>

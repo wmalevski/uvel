@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Price;
+use App\Jewel;
 use App\Material;
+use App\MaterialQuantity;
 use App\Model;
 use App\ModelOption;
+use App\Price;
 use App\Product;
-use App\Jewel;
-use App\MaterialQuantity;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
+use Mavinoo\Batch\Batch;
 use Response;
 
 class PriceController extends Controller{
@@ -59,9 +60,6 @@ class PriceController extends Controller{
         if($getIndicatePrice && $getIndicatePrice->id == $price->id){
             $indicatePrice = true;
         }
-
-        // on update we should jiggle all the model prices accordnigly to that material_id
-
 
         return Response::json(array('success' => View::make('admin/prices/table',array('price'=>$price, 'type' => $request->type, 'indicatePrice' => $indicatePrice))->render(), 'type'=>$request->type));
     }
@@ -118,38 +116,77 @@ class PriceController extends Controller{
             'material_id'=>$price->material_id,
             'type'=>($request->type == 'sell' ? 'buy' : 'sell')
         ))->first()->price;
-
         $buy = $request->price;
 
         try {
             $products = Product::where(array(
                 'material_id'=>$price->material_id,
                 'retail_price_id'=>$price->id
-            ))->get();
+            ))->with(['model']);
 
+            if ( ( strtolower($price->type) == 'buy' ) ) {
+                $getFirstBuyPrice = Price::where('type', 'buy')
+                    ->where('material_id', $price->material_id)
+                    ->orderBy('id')
+                    ->first();
 
-            // WHY MODELS DONT HAVE RETAIL_PRICE_ID?
-            if($products->count()>0){
-                foreach ($products as $product) {
-                    if($product->status != 'sold') {
-                      $product_workmanship = ($buy - $sell) * $product->weight;
-                      $product->workmanship = round($product_workmanship);
-                      $product_price = $request->price * $product->weight;
-                      $product->price = round($product_price);
-                      $product->save();
-                    }
-
-                    $model = Model::find($product->model_id);
-                    $model_price = ($request->type == 'sell' ? $buy : $sell) * $model->weight;
-                    $model->price = round($model_price);
-                    $model_workmanship = ($buy - $sell) * $model->weight;
-                    $model->workmanship = round($model_workmanship);
-                    $model->save();
+                if ( $getFirstBuyPrice->id == $price->id ) {
+                    $products = Product::where(array(
+                        'material_id'=>$price->material_id,
+                        // 'retail_price_id'=>$price->id
+                    ))->with(['model']);
                 }
             }
-        }
-        catch (\Exception $e) {
-            return $e->getMessage();
+
+            $products = $products->get();
+            $totalProductsUpdated = 0;
+            $totalModelsUpdated   = 0;
+            $productsBatch        = [];
+            $modelsBatch          = [];
+
+            foreach ($products->chunk(5000) as $chunk) {
+                foreach ($chunk as $product) {
+                    if( $product->status != 'sold' ) {
+                      $productsBatch[] = [
+                        'id' => $product->id,
+                        'price' => round($request->price * $product->weight),
+                        'workmanship' => round(($buy - $sell) * $product->weight),
+                      ];
+                    }
+
+                    $model = $product->model;
+                    if ($model) {
+                        $modelsBatch[] = [
+                            'id' => $model->id,
+                            'price' => round(($request->type == 'sell' ? $buy : $sell) * $model->weight),
+                            'workmanship' => round(($buy - $sell) * $model->weight),
+                        ];
+                    }
+                }
+            }
+
+           if (!empty($productsBatch)) {
+                $indexColumn          = 'id';
+                $batchSize            = 1000;
+                $productInstance      = new Product;
+                $productChunks        = array_chunk($productsBatch, $batchSize);
+
+                foreach ($productChunks as $chunk) {
+                    $productInstance->batchUpdate($chunk, $indexColumn);
+                    $totalProductsUpdated += count($chunk);
+                }
+
+                if (!empty($modelsBatch)) {
+                    $modelInstance = new Model;
+                    $modelChunks = array_chunk($modelsBatch, $batchSize);
+                    foreach ($modelChunks as $chunk) {
+                        $modelInstance->batchUpdate($chunk, $indexColumn);
+                        $totalModelsUpdated += count($chunk);
+                    }
+                }
+           }
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
 
         $indicatePrice = false;
@@ -167,7 +204,16 @@ class PriceController extends Controller{
         }elseif($request->type == 'sell') {
             $targetTable = 'table-price-sell';
         }
-        return Response::json(array('ID' => $price->id, 'table' => View::make('admin/prices/table', array('price' => $price, 'indicatePrice' => $indicatePrice))->render(), 'type'=>$request->type, 'targetTable' => $targetTable));
+
+        return Response::json(array('ID' => $price->id, 'table' => View::make('admin/prices/table', array(
+            'price' => $price,
+            'indicatePrice' => $indicatePrice,
+        ))->render(),
+            'type'=>$request->type,
+            'targetTable' => $targetTable,
+            'totalProductsUpdated' => "Total products updated: $totalProductsUpdated\n",
+            'totalModelsUpdated' => "Total models updated: $totalModelsUpdated\n",
+        ));
     }
 
     /**

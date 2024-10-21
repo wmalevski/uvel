@@ -32,12 +32,12 @@ class PublicGalleryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'media_type'          => 'required|in:video',
+            'video_archive_date'  => 'required',
             'youtube_link'        => [
                 'required',
                 'string',
             ],
             'video_size'          => 'required|numeric',
-            'video_archive_date'  => 'required|date',
             'video_weight'        => 'required|numeric',
             'video_unique_number' => 'required|numeric',
         ]);
@@ -60,7 +60,10 @@ class PublicGalleryController extends Controller
         $thumbnail       = $embedAttributes['thumbnail'];
         $embedSource     = $embedAttributes['src'];
         $uniqueNum       = $request->input('video_unique_number');
-        $archiveDate     = $request->input('video_archive_date');
+        $archiveDate     = Carbon::createFromFormat('d m y', $request->input('video_archive_date'));
+        $archiveDate->setTime(now()->hour, now()->minute, now()->second);
+
+        $formattedDate   = $archiveDate->format('Y-m-d H:i:s');
         $weight          = $request->input('video_weight');
         $type            = $request->input('video_type');
         $size            = $request->input('video_size');
@@ -87,10 +90,10 @@ class PublicGalleryController extends Controller
         $validator = Validator::make($request->all(), [
             'images'        => 'required|array|max:5',
             'size'          => 'required|numeric',
-            'archive_date'  => 'required|date',
+            'archive_date'  => 'required',
             'weight'        => 'required|numeric',
             'unique_number' => 'required|numeric',
-            'images.*'      => 'image|max:2045|mimes:jpeg,png,jpg',
+            'images.*'      => 'image|max:3045|mimes:jpeg,png,jpg,gif',
             'media_type'    => 'required|in:image', // Ensures media_type is 'image',
         ], [
             'images.required' => 'Пропуснахте да качите снимка.',
@@ -105,14 +108,17 @@ class PublicGalleryController extends Controller
 
         $images      = $request->file('images');
         $uniqueNum   = $request->input('unique_number');
-        $archiveDate = $request->input('archive_date');
-        $weight      = $request->input('weight');
-        $type        = $request->input('type');
-        $size        = $request->input('size');
+        $archiveDate = Carbon::createFromFormat('d m y', $request->input('archive_date'));
+        $archiveDate->setTime(now()->hour, now()->minute, now()->second);
+
+        $formattedDate = $archiveDate->format('Y-m-d H:i:s');
+        $weight        = $request->input('weight');
+        $type          = $request->input('type');
+        $size          = $request->input('size');
 
         if ( $request->hasFile('images') ) {
             foreach ($images as $image) {
-                $filename      = 'PublicGalleryPhoto_' . $image->getClientOriginalName();
+                $filename      = 'PublicGalleryPhoto_' . Carbon::now()->timestamp;
                 $imagePath     = $image->storeAs('gallery', $filename);
                 $absolutePath  = storage_path('app/public/' . $imagePath);
                 $thumbnailUrl  = Storage::url('/gallery/thumb_' . $filename);
@@ -126,7 +132,7 @@ class PublicGalleryController extends Controller
                     'description'    => $request->input('description') ?? NULL,
                     'thumbnail_path' => $thumbnailPath,
                     'unique_number'  => $uniqueNum,
-                    'archive_date'   => $archiveDate,
+                    'archive_date'   => $formattedDate,
                     'weight'         => $weight,
                     'jewel_id'       => $type,
                     'size'           => $size

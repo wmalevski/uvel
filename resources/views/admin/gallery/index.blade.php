@@ -67,9 +67,8 @@
       </div>
       <div class="form-row">
         <div class="form-group col-md-12">
-          <label for="archive_date">Дата</label>
-          {{-- <input type="date" name="archive_date"/> --}}
-          <input type="text" name="archive_date" class="form-control bdc-grey-200" placeholder="Дата: " data-date-autoclose="true" data-provide="datepicker" data-date-format="yyyy-mm-dd" value="{{Carbon\Carbon::now()->format('Y-m-d')}}"/>
+          <label for="archive_date">Дата на архив</label>
+          <input type="text" name="archive_date" class="form-control bdc-grey-200" placeholder="Дата: " data-date-autoclose="true" data-provide="datepicker" data-date-format="yy m d"/>
         </div>
       </div>
       <input type="hidden" name="media_type" value="image">
@@ -97,15 +96,6 @@
             <label for="youtube_link">Youtube (Постави копираният линк тук):</label>
             <input type="text" name="youtube_link" required></input>
           </div>
-        </div>
-
-        <div class="form-row">
-          <label for="type">Вид Бижу</label>
-          <select name="type" id="type">
-            @foreach($jewels as $jewel)
-              <option value="{{$jewel->id}}">{{$jewel->name}}</option>
-            @endforeach
-          </select>
         </div>
       </div>
       <div class="form-row">
@@ -135,8 +125,8 @@
       </div>
       <div class="form-row">
         <div class="form-group col-md-12">
-          <label for="video_archive_date">Дата</label>
-          <input type="text" name="video_archive_date" class="form-control bdc-grey-200" placeholder="Дата: " data-date-autoclose="true" data-provide="datepicker" data-date-format="yyyy-mm-dd" value="{{Carbon\Carbon::now()->format('Y-m-d')}}"/>
+          <label for="video_archive_date">Дата на архив</label>
+          <input type="text" name="video_archive_date" class="form-control bdc-grey-200" placeholder="Дата: " data-date-autoclose="true" data-provide="datepicker" data-date-format="yy m d"/>
         </div>
       </div>
       <input type="hidden" name="media_type" value="video">

@@ -26,20 +26,23 @@ class CustomOrderController extends BaseController{
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request){
-        $attachment = $request->get('blob');
-        $url = null;
-        $mediaType = $request->get('media') ?? 'image';
-        $thumbUrl = $request->get('thumb');
-        $archive_date = $request->get('archiveDate');
-        $weight = $request->get('weight');
-        $type = $request->get('jewelType');
-        $size = $request->get('size');
+        $attachment    = $request->get('blob');
+        $url           = null;
+        $mediaType     = $request->get('media') ?? 'image';
+        $archive_date  = $request->get('archiveDate');
+        $weight        = $request->get('weight');
+        $type          = $request->get('jewelType');
+        $size          = $request->get('size');
         $unique_number = $request->get('uniqueNumber');
 
         if ($attachment) {
             switch ($mediaType) {
                 case 'video':
-                    $url = $thumbUrl;
+                    $imageContents = file_get_contents($attachment);
+                    $imageName = 'thumbnail_' . time() . '.jpg';
+
+                    Storage::put('temp/' . $imageName, $imageContents);
+                    $url = Storage::url('temp/' . $imageName);
                     break;
                 case 'image':
                     $url = Storage::url('/gallery' . '/' . $attachment);
@@ -68,16 +71,15 @@ class CustomOrderController extends BaseController{
      */
     public function store(Request $request){
         $validator = Validator::make( $request->all(), [
-            'name' => 'required|string',
-            'email' => 'required|string|email|max:255',
-            'content' => 'required|string',
-            'phone' => 'required',
-            'city' => 'required',
-            // 'g-recaptcha-response' => 'required|captcha'
+            'name'                    => 'required|string',
+            'email'                   => 'required|string|email|max:255',
+            'content'                 => 'required|string',
+            'phone'                   => 'required',
+            'city'                    => 'required',
+            'g-recaptcha-response'    => 'required|captcha'
         ]);
 
         if ($validator->fails()) {
-            // return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
             return redirect()->back()->withErrors($validator->getMessageBag())->withInput();
         }
 
@@ -86,103 +88,115 @@ class CustomOrderController extends BaseController{
         $path = public_path('uploads/orders/');
 
         File::makeDirectory($path, 0775, true, true);
-        Storage::disk('public')->makeDirectory('orders', 0775, true);
+        if ( !Storage::disk('public')->exists('orders') ) {
+            Storage::disk('public')->makeDirectory('orders', 0775, true);
+        }
+ 
+        // Clean up the temp folder if it exists. Related to uploading thumb files from youtube videos
 
-        $file_data = $request->file('images');
-        if($file_data){
-            foreach($file_data as $img) {
-                $file_name              = 'orderimage_' . uniqid().time() . '.' . $img->getClientOriginalExtension();
-                $imagePath              = $img->storeAs('orders', $file_name);
-                $absolutePath           = storage_path('app/public/' . $imagePath);
-                $photo                  = new Gallery();
-                $photo->photo           = $file_name;
-                $photo->custom_order_id = $customOrder->id;
-                $photo->table           = 'orders';
-                $photo->save();
-            }
+        if (Storage::exists('temp')) {
+            Storage::deleteDirectory('temp');
         }
 
+        $file_data = $request->file('images');
         try {
             Mail::send('order',
                 array(
-                    'ID' => $customOrder->id,
-                    'name' => $request->name,
-                    'email' => $request->email,
-                    'city' => $request->city,
-                    'phone' => $request->phone,
-                    'content' => $request->content,
-                    'size' => $request->size ?? null,
+                    'ID'            => $customOrder->id,
+                    'name'          => $request->name,
+                    'email'         => $request->email,
+                    'city'          => $request->city,
+                    'phone'         => $request->phone,
+                    'content'       => $request->content,
+                    'size'          => $request->size ?? null,
                     'unique_number' => $request->unique_number ?? null,
-                    'weight' => $request->weight ?? null,
-                    'type' => $request->type ?? null,
-                    'archive_date' => $request->archive_date ?? null
+                    'weight'        => $request->weight ?? null,
+                    'type'          => $request->type ?? null,
+                    'archive_date'  => $request->archive_date ?? null
                 ),
-                function($message) {
+                function($message) use ($file_data, $customOrder) {
                     $message
                         ->to(config('mail.from.address'))
                         ->subject('Uvel Поръчка');
+
+                    if($file_data){
+                        foreach($file_data as $img) {
+                            $file_name              = 'orderimage_' . uniqid().time() . '.' . $img->getClientOriginalExtension();
+                            $imagePath              = $img->storeAs('orders', $file_name);
+                            $absolutePath           = storage_path('app/public/' . $imagePath);
+                            $url                    = Storage::url($imagePath);
+                            $photo                  = new Gallery();
+                            $photo->photo           = $file_name;
+                            $photo->custom_order_id = $customOrder->id;
+                            $photo->table           = 'orders';
+                            $photo->save();
+                        }
+
+                        $message->attach($url);
+                    }
                 }
             );
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }
+
         return redirect()->route('custom_order')->with('success', 'Поръчката Ви беше изпратена успешно');
 
-        if ( !isDev() ) {
-            $email2sms = new Setting();
-            $email2sms = $email2sms->get('email2sms_on_order');
+    //     if ( !isDev() ) {
+    //         $email2sms = new Setting();
+    //         $email2sms = $email2sms->get('email2sms_on_order');
 
-            // Send Email-to-SMS to the admin, only if the environment is not LOCAL or DEVELOPMENT
-               Mail::send('store.emails.sms',array(
-                   'content' => "Porychka po model! ID ".$customOrder->id),
-                   function($message) {
-                       $message
-                           ->from(config('mail.username'),config('app.name'))
-                           ->to(config('mail.host'))
-                           ->subject('Po model');
-                   }
-               );
-
-            if(
-                (strtolower($_ENV['APP_ENV'])!=='local'&&strtolower($_ENV['APP_ENV'])!=='development')
-                &&
-                filter_var($email2sms, FILTER_VALIDATE_EMAIL)
-            ){
+    //         // Send Email-to-SMS to the admin, only if the environment is not LOCAL or DEVELOPMENT
     //            Mail::send('store.emails.sms',array(
     //                'content' => "Porychka po model! ID ".$customOrder->id),
-    //                function($message) use ($email2sms){
+    //                function($message) {
     //                    $message
-    //                        ->from($_ENV['MAIL_USERNAME'],$_ENV['APP_NAME'])
-    //                        ->to($email2sms)
+    //                        ->from(config('mail.username'),config('app.name'))
+    //                        ->to(config('mail.host'))
     //                        ->subject('Po model');
     //                }
     //            );
-            }
+
+    //         if(
+    //             (strtolower($_ENV['APP_ENV'])!=='local'&&strtolower($_ENV['APP_ENV'])!=='development')
+    //             &&
+    //             filter_var($email2sms, FILTER_VALIDATE_EMAIL)
+    //         ){
+    // //            Mail::send('store.emails.sms',array(
+    // //                'content' => "Porychka po model! ID ".$customOrder->id),
+    // //                function($message) use ($email2sms){
+    // //                    $message
+    // //                        ->from($_ENV['MAIL_USERNAME'],$_ENV['APP_NAME'])
+    // //                        ->to($email2sms)
+    // //                        ->subject('Po model');
+    // //                }
+    // //            );
+    //         }
 
 
-            //send email to uvelgold@gmail.com from the customer
-            $requestEmail = $request->email;
+    //         //send email to uvelgold@gmail.com from the customer
+    //         $requestEmail = $request->email;
 
-            Mail::send('order',
-                array(
-                    'ID' => $customOrder->id,
-                    'name' => $request->name,
-                    'email' => $requestEmail,
-                    'city' => $request->city,
-                    'phone' => $request->phone,
-                    'content' => $request->content
-                ),
-                function($message) use ($requestEmail){
-                    $message
-                        ->replyTo($requestEmail)
-                        ->from(config('mail.username'), config('app.name'))
-                        ->to("uvelgold@gmail.com")
-                        ->subject('Uvel Поръчка');
-                }
-            );
-        }
+    //         Mail::send('order',
+    //             array(
+    //                 'ID' => $customOrder->id,
+    //                 'name' => $request->name,
+    //                 'email' => $requestEmail,
+    //                 'city' => $request->city,
+    //                 'phone' => $request->phone,
+    //                 'content' => $request->content
+    //             ),
+    //             function($message) use ($requestEmail){
+    //                 $message
+    //                     ->replyTo($requestEmail)
+    //                     ->from(config('mail.username'), config('app.name'))
+    //                     ->to("uvelgold@gmail.com")
+    //                     ->subject('Uvel Поръчка');
+    //             }
+    //         );
+    //     }
 
-        return redirect()->back()->with('success', 'Поръчката Ви беше изпратена успешно');
+    //     return redirect()->back()->with('success', 'Поръчката Ви беше изпратена успешно');
     }
 
 }

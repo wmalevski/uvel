@@ -2,31 +2,32 @@
 
 namespace App;
 
+use App\Gallery;
 use App\Jewel;
-use App\Price;
+use App\MaterialQuantity;
 use App\Model as DefModel;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Response;
+use App\ModelOption;
+use App\Price;
 use App\Stone;
-use App\StoneStyle;
 use App\StoneContour;
 use App\StoneSize;
-use App\Gallery;
-use App\ModelOption;
+use App\StoneStyle;
+use Auth;
 use File;
+use Illuminate\Database\Eloquent\Model as BaseModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\MaterialQuantity;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
-use Illuminate\Database\Eloquent\Model as BaseModel;
-use Auth;
+use Mavinoo\Batch\Traits\HasBatch;
+use Response;
 
 class Product extends BaseModel
 {
-  use SoftDeletes;
+  use SoftDeletes, HasBatch;
 
   protected $fillable = [
     'id',
