@@ -38,7 +38,9 @@
     <link href="{{ asset('store/stylesheets/custom.css') }}" rel="stylesheet" type="text/css" media="all">
     <link href="https://unpkg.com/nanogallery2@3.0.5/dist/css/nanogallery2.woff.min.css" rel="stylesheet" type="text/css" media="all">
     <link href="https://unpkg.com/nanogallery2@3.0.5/dist/css/nanogallery2.min.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css"/>
     <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+    @stack('css')
 
     <!-- JavaScript -->
     <script src="{{ asset('store/javascripts/jquery-1.9.1.min.js') }}" type="text/javascript"></script>
@@ -58,6 +60,7 @@
     <script src="{{ asset('store/javascripts/lodash.custom.min.js') }}" type="text/javascript"></script>
     <script src="https://www.google.com/recaptcha/api.js?onload=renderCaptcha&render=explicit"></script>
     <script src="https://unpkg.com/nanogallery2@3.0.5/dist/jquery.nanogallery2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
 </head>
 
 <body {{ !Request::routeIs('store') ? 'itemscope="" itemtype="http://schema.org/WebPage"' : '' }} class="{{ $bodyClass }} notouch">

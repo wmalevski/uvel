@@ -4,9 +4,10 @@ namespace App;
 use Illuminate\Database\Eloquent\Model as BaseModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
+use Mavinoo\Batch\Traits\HasBatch;
 
 class Model extends BaseModel{
-    use SoftDeletes;
+    use SoftDeletes, HasBatch;
 
     protected $fillable = array(
         'name',

@@ -627,7 +627,6 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js"></script>
 
 
-
 <script>
     $(document).ready(function () {
         $('.summernote').summernote({

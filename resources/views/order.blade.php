@@ -118,7 +118,7 @@
 
             @if(isset($archive_date))
             <section>
-                <p>Дата на архив: <strong>{{ Carbon\Carbon::parse($archive_date)->format('l, F j, Y g:i A') }}</strong></p>
+                <p>Дата на архив: <strong>{{ Carbon\Carbon::parse($archive_date)->format('y m d') }}</strong></p>
             </section>
             @endif
 

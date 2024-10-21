@@ -1,5 +1,20 @@
-@extends('store.layouts.app', ['bodyClass' => 'templatePage'])
+@php
 
+$username = '';
+$useremail = '';
+$usercity = '';
+$userphone = '';
+
+if (Auth::check()) {
+  $user = Auth::user();
+  $username = $user->first_name . ' ' . $user->last_name;
+  $useremail = $user->email;
+  $usercity = $user->city;
+  $userphone = $user->phone;
+}
+@endphp
+
+@extends('store.layouts.app', ['bodyClass' => 'templatePage'])
 @section('content')
 <div id="content-wrapper-parent">
   <div id="content-wrapper">
@@ -49,7 +64,7 @@
                           Вашето име
                           <span class="req">*</span>
                         </label>
-                        <input type="text" id="name" value="" class="form-control" name="name">
+                        <input type="text" id="name" value="{{$username}}" class="form-control" name="name">
                       </li>
                       <li class="clearfix"></li>
                       <li class="">
@@ -57,14 +72,14 @@
                           Вашият Email
                           <span class="req">*</span>
                         </label>
-                        <input type="email" id="email" value="" class="form-control email" name="email">
+                        <input type="email" id="email" value="{{$useremail}}" class="form-control email" name="email">
                       </li>
                       <li class="">
                         <label class="control-label" for="city">
                           Град
                           <span class="req">*</span>
                         </label>
-                        <input type="text" id="city" value="" class="form-control email" name="city">
+                        <input type="text" id="city" value="{{$usercity}}" class="form-control email" name="city">
                       </li>
 
                       <li class="">
@@ -72,7 +87,7 @@
                           Телефон
                           <span class="req">*</span>
                         </label>
-                        <input type="tel" id="phone" value="" class="form-control email" name="phone">
+                        <input type="tel" id="phone" value="{{$userphone}}" class="form-control email" name="phone">
                       </li>
                       <li class="clearfix"></li>
                       <li class="">
@@ -80,7 +95,7 @@
                           Описание
                           <span class="req">*</span>
                         </label>
-                        <textarea id="message" rows="5" class="form-control" name="content"></textarea>
+                        <textarea id="message" rows="5" class="description form-control" name="content" value=""></textarea>
                       </li>
                       <li>
                         <label class="control-label">Снимки</label>
@@ -171,6 +186,24 @@
 
 <!-- Script for pre-filling the file input with the attachment -->
 @if(isset($attachment))
+  @php
+    $descriptionContent = '';
+    if (isset($archive_date)) {
+      $descriptionContent .= 'Дата на архив: ' . Carbon\Carbon::parse($archive_date)->format('y m d') . '\n';
+    }
+    if (isset($size)) {
+      $descriptionContent .= 'Размер: '. $size . '\n';
+    }
+    if (isset($weight)) {
+      $descriptionContent .= 'Тегло: '. $weight . '\n';
+    }
+    if (isset($type)) {
+      $descriptionContent .= 'Тип: '. $type . '\n';
+    }
+    if (isset($unique_number)) {
+      $descriptionContent .= 'Уникален номер: '. $unique_number . '\n';
+    }
+  @endphp
   @push('scoped-scripts')
       <script>
           function generateBlob(url) {
@@ -185,61 +218,36 @@
 
           $(document).ready(function () {
               const attachmentUrl = "{{ $attachment }}";
-              const mediaType = "{{ $mediaType }}";
-              const inputElement = document.getElementById('fileElem-add');
-              const gallery = document.querySelector('.drop-area-gallery');
-              const img = document.createElement('img');
+              const mediaType     = "{{ $mediaType }}";
+              const inputElement  = document.getElementById('fileElem-add');
+              const gallery       = document.querySelector('.drop-area-gallery');
+              const img           = document.createElement('img');
+              const description   = $(".description");
+              description.val("{{$descriptionContent}}").change();
 
               let thumbnailUrl;
-              if (mediaType === 'video') {
-                  if (attachmentUrl) {
-                      img.src = attachmentUrl;
-                      img.alt = 'YouTube Видео';
-                      img.style.maxWidth = '180px';
-                      gallery.appendChild(img);
-                      generateBlob(attachmentUrl).then(file => {
-                          const dataTransfer = new DataTransfer();
-                          dataTransfer.items.add(file);
-                          console.log(dataTransfer)
-                          inputElement.files = dataTransfer.files;
-                      }).catch(err => {
-                        return;
-                      });
-                  }
-              } else {
-                  generateBlob(attachmentUrl).then(file => {
-                      const dataTransfer = new DataTransfer();
-                      dataTransfer.items.add(file);
-                      inputElement.files = dataTransfer.files;
-                      img.src = attachmentUrl;
-                      img.alt = 'Снимка';
-                      img.style.maxWidth = '180px';
-                      gallery.appendChild(img);
-                  }).catch(err => console.error("Error fetching the image:", err));
-              }
+              generateBlob(attachmentUrl).then(file => {
+                  const dataTransfer = new DataTransfer();
+                  dataTransfer.items.add(file);
+                  inputElement.files = dataTransfer.files;
+                  img.src = attachmentUrl;
+                  img.alt = 'Снимка';
+                  img.style.maxWidth = '180px';
+
+                  const createImageWrapper = document.createElement('div');
+                  createImageWrapper.classList.add('image-wrapper');
+                  const createCloseBtn = document.createElement('div');
+                  createCloseBtn.classList.add('close');
+                  createCloseBtn.innerText = 'x'
+                  createImageWrapper.appendChild(createCloseBtn);
+                  createImageWrapper.appendChild(img);
+                  $(createCloseBtn).on('click', e => {
+                    $(e.currentTarget).parent('.image-wrapper').remove();
+                  });
+
+                  gallery.appendChild(createImageWrapper);
+              }).catch(err => console.error("Error fetching the image:", err));
           });
-
-          // $(document).ready(function () {
-          //     const attachmentUrl = "{{ $attachment }}"; // URL of the image
-          //     const mediaType     = "{{ $mediaType }}"
-          //     const inputElement  = document.getElementById('fileElem-add');
-          //     const gallery       = document.querySelector('.drop-area-gallery');
-          //     const img           = document.createElement('img');
-
-          //     generateBlob(attachmentUrl).then(file => {
-          //         const dataTransfer = new DataTransfer();
-          //         dataTransfer.items.add(file);
-
-          //         inputElement.files = dataTransfer.files;
-
-          //         img.src = attachmentUrl;
-          //         img.alt = 'Снимка';
-          //         img.style.maxWidth = '100px';
-          //         gallery.appendChild(img);
-
-          //         console.log(dataTransfer);
-          //     }).catch(err => console.error("Error fetching the image:", err));
-          // });
       </script>
   @endpush
 @endif
