@@ -61,7 +61,7 @@
 											<div class="home-blog-content col-md-20">
 												<h4>
 													<a href="{{ route('single_translated_article', ['locale'=>app()->getLocale(), 'article' => $article->slug])  }}">
-														{{ str_limit($article->title, 40) }}
+													{{ \Illuminate\Support\Str::limit($article->title ?? '',40,' ...') }}
 													</a>
 												</h4>
 												<ul class="list-inline">
@@ -80,7 +80,7 @@
 													</li>
 												</ul>
 												<div class="intro">
-													{{ str_limit($article->excerpt, 220) }}
+													{{ \Illuminate\Support\Str::limit($article->excerpt ?? '',220,' ...') }}
 												</div>
 											</div>
 										</div>
