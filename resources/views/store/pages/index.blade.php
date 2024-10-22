@@ -37,7 +37,7 @@
 								<div class="home-bottom_banner_wrapper col-md-12">
 									@foreach( $article->thumbnail as $thumb)
 										<div id="home-bottom_banner" class="home-bottom_banner">
-											<a  href="{{ route('single_translated_article', ['locale'=>app()->getLocale(), 'product' =>$article->slug])  }}">
+											<a  href="{{ route('single_translated_article', ['locale'=>app()->getLocale(), 'article' =>$article->slug])  }}">
 												@if($thumb->language == 'bg')
 													<div class="image-wrapper">
 														<img src="{{ asset("uploads/blog/" . $thumb->photo) }}" alt="{{ $article->slug }}"/>
@@ -60,7 +60,7 @@
 											</div>
 											<div class="home-blog-content col-md-20">
 												<h4>
-													<a href="{{ route('single_translated_article', ['locale'=>app()->getLocale(), 'product' => $article->slug])  }}">
+													<a href="{{ route('single_translated_article', ['locale'=>app()->getLocale(), 'article' => $article->slug])  }}">
 														{{ str_limit($article->title, 40) }}
 													</a>
 												</h4>
@@ -71,7 +71,7 @@
 													</li>
 													<li>/</li>
 													<li class="comment">
-														<a href="{{ route('single_translated_article', ['locale'=>app()->getLocale(), 'product' => $article->slug])  }}">
+														<a href="{{ route('single_translated_article', ['locale'=>app()->getLocale(), 'article' => $article->slug])  }}">
 															<span>
 																<i class="fa fa-pencil-square-o"></i>
 																{{count($article->comments())}}
