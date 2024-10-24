@@ -124,6 +124,8 @@ class PublicGalleryController extends Controller
                 $thumbnailUrl  = Storage::url('/gallery/thumb_' . $filename);
                 $thumbnailPath = storage_path('app/public/gallery/thumb_' . $filename);
                 $this->thumbFactory($absolutePath, $thumbnailPath);
+                dump($imagePath, $thumbnailUrl);
+                die();
 
                 $gallery->create([
                     'title'          => $request->input('title') ?? NULL,
