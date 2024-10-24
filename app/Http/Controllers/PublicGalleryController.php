@@ -118,15 +118,12 @@ class PublicGalleryController extends Controller
 
         if ( $request->hasFile('images') ) {
             foreach ($images as $image) {
-
-                $filename      = 'PublicGalleryPhoto_' . Carbon::now()->timestamp . '_' . uniqid('', false);
+                $filename      = str_replace(' ', '', $image->getClientOriginalName());
                 $imagePath     = $image->storeAs('gallery', $filename);
                 $absolutePath  = storage_path('app/public/' . $imagePath);
-                $thumbnailUrl  = Storage::url('/gallery/thumb_' . $filename);
+                $thumbnailUrl  = Storage::url('gallery/thumb_' . $filename);
                 $thumbnailPath = storage_path('app/public/gallery/thumb_' . $filename);
                 $this->thumbFactory($absolutePath, $thumbnailPath);
-                dump($image->extension(), $imagePath, $thumbnailUrl);
-                die();
 
                 $gallery->create([
                     'title'          => $request->input('title') ?? NULL,
