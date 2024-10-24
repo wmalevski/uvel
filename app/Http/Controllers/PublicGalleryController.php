@@ -120,7 +120,7 @@ class PublicGalleryController extends Controller
             foreach ($images as $image) {
                 dump($image, $imagePath, $thumbnailUrl);
                 die();
-                $filename      = 'PublicGalleryPhoto_' . Carbon::now()->timestamp . '_' . uniqid('', false) . '.' . ;
+                $filename      = 'PublicGalleryPhoto_' . Carbon::now()->timestamp . '_' . uniqid('', false);
                 $imagePath     = $image->storeAs('gallery', $filename);
                 $absolutePath  = storage_path('app/public/' . $imagePath);
                 $thumbnailUrl  = Storage::url('/gallery/thumb_' . $filename);
