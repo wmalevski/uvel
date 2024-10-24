@@ -109,11 +109,6 @@ class JewelController extends Controller
         $search = $request->search;
         $params = $request->all();
 
-        // There are specific scenarios where header named 'search' is not present in the request so we have to overwrite it
-        if (is_null($search)) {
-            $search = reset($params);
-        }
-
         $jewels = Jewel::select('id', 'name')
             ->where('name', 'like', '%' . $search . '%')
             ->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
@@ -135,7 +130,6 @@ class JewelController extends Controller
 
     public function filter(Request $request){
         $query = Jewel::select('*');
-
         $jewels_new = new Jewel();
         $jewels = $jewels_new->filterJewels($request, $query);
         $jewels = $jewels->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
