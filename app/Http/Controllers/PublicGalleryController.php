@@ -117,8 +117,13 @@ class PublicGalleryController extends Controller
         $size          = $request->input('size');
 
         if ( $request->hasFile('images') ) {
+            if (!Storage::exists('gallery')) {
+                Storage::makeDirectory('gallery');
+            }
+
             foreach ($images as $image) {
                 $filename      = str_replace(' ', '', $image->getClientOriginalName());
+
                 $imagePath     = $image->storeAs('gallery', $filename);
                 $absolutePath  = storage_path('app/public/' . $imagePath);
                 $thumbnailUrl  = Storage::url('gallery/thumb_' . $filename);
