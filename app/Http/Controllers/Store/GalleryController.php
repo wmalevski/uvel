@@ -11,28 +11,36 @@ class GalleryController extends BaseController
     public function index(PublicGallery $gallery, Request $request)
     {
         $selectedJewelId = $request->get('jewel_id');
+        $videosParam     = $request->get('videos');
+        $videosCount     = $gallery::select('id')->where('media_type', 'video')->count();
+
         $assets = $gallery::select('media_type', 'media_path', 'title', 'thumbnail_path', 'jewel_id', 'weight', 'size', 'archive_date', 'unique_number')
             ->with(['type'])
             ->orderBy('id', 'DESC');
 
-         $availableTypes = $gallery::select('jewel_id')
+
+        $availableTypes = $gallery::select('jewel_id')
             ->distinct()
             ->pluck('jewel_id')
             ->toArray();
 
         if ($selectedJewelId) {
-            $assets->where('jewel_id', $selectedJewelId);
+            $assets->where('jewel_id', $selectedJewelId)
+                ->where('media_type', 'image');
         }
 
-        $paginatedResult = $assets->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30)->appends(['jewel_id' => $selectedJewelId]);
+        if ($videosParam) {
+            $assets->where('media_type', 'video');
+        }
 
-        $jewels = Jewel::whereIn('id', $availableTypes)->get();
+        $paginatedAssets = $assets->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30)->appends(['jewel_id' => $selectedJewelId]);
+        $jewels          = Jewel::whereIn('id', $availableTypes)->get();
 
         return view('store.pages.gallery.index')
             ->with([
-                'assets'      => $paginatedResult,
-                'assetsArray' => $paginatedResult->toArray(),
-                'pagination'  => $paginatedResult->hasMorePages(),
+                'images'      => $paginatedAssets,
+                'imagesArray' => $paginatedAssets->toArray(),
+                'videosCount' => $videosCount,
                 'jewels'      => $jewels
             ]);
     }

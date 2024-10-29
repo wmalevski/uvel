@@ -1,6 +1,6 @@
 @extends('store.layouts.app', ['bodyClass' => 'templateGallery'])
 
-@foreach($assetsArray['data'] as $idx => $asset)
+@foreach($imagesArray['data'] as $idx => $asset)
     @if($asset['media_type'] == 'image')
         @php
             $mediaPaths = [
@@ -10,7 +10,7 @@
             foreach ($mediaPaths as $key => $path) {
                 $relativePath = str_replace(storage_path('app/public'), '', $path);
                 $url = Storage::url(ltrim($relativePath, '/'));
-                $assetsArray['data'][$idx][$key] = $url;
+                $imagesArray['data'][$idx][$key] = $url;
             }
         @endphp
     @endif
@@ -36,7 +36,7 @@
                     </div>
                     <div id="col-main" class="col-md-24 clearfix">
                         <div class="page page-gallery">
-                            @if($assets->count())
+                            @if($images->count())
                             <section id="albumNav">
                                 <ul>
                                     <li>
@@ -47,18 +47,24 @@
                                         <a href="{{ route('store_gallery', ['jewel_id' => $jewel->id]) }}" class="btn btn-outline-warning {{ request()->get('jewel_id') == $jewel->id ? 'active' : '' }}">{{$jewel->name}}</a>
                                     </li>
                                     @endforeach
+
+                                    @if($videosCount)
+                                        <li>
+                                            <a href="{{ route('store_gallery', ['videos' => true]) }}" class="btn btn-outline-warning {{ request()->get('videos') == true ? 'active' : '' }}">{{__('Видео')}}</a>
+                                        </li>
+                                    @endif
                                 </ul>
                             </section>
                             @endif
                             <section>
                                 <div id="uvel_gallery">
-                                    @if($assets->count() == 0)
+                                    @if($images->count() == 0)
                                         <h1 class="text-center">
                                             <span style="font-size:40px;padding:15px;">💁</span>Няма намерени резултати
                                         </h1>
                                     @endif
                                     @php
-                                        $groupedAssets = collect($assetsArray['data'])->groupBy(function($asset) {
+                                        $groupedAssets = collect($imagesArray['data'])->groupBy(function($asset) {
                                             return Carbon\Carbon::parse($asset['archive_date'])->format('m-d-y H:i:s');
                                         });
                                     @endphp
@@ -99,7 +105,7 @@
                                     @endforeach
                                 </div>
                             </section>
-                          {{ $assets->links() }}
+                          {{ $images->links() }}
                         </div>
                     </div>
                 </div>
@@ -108,31 +114,16 @@
     </div>
 </div>
 @endsection
-{{-- 
-@push('css')
-    <style>
-        /* Your custom styles */
-/*        .nanogallery_gallerytheme_dark_uvel_gallery */
-        .nGY2GThumbnail {
-            border-radius: 20px!important;
-            border: 1px solid #bf8f00!important;
-        }
-    </style>
-@endpush
---}}
-
 
 @push('scoped-scripts')
-
 <script type="text/javascript">
     $(document).ready((event) => {
         "use strict";
 
-        const gallery          = {{ Illuminate\Support\Js::from($assetsArray) }};
+        const gallery          = {{ Illuminate\Support\Js::from($imagesArray) }};
         const customOrderUrl   = "{{ route('custom_order') }}";
 
         function basketEventCallback( data ) {
-            console.log(data)
             const imageUrl             = data.src;
             const mediaType            = data.mediatype;
             const filename             = mediaType.toLowerCase() == 'image' ? imageUrl.substring(imageUrl.lastIndexOf('/') + 1) : data.thumbnail;
