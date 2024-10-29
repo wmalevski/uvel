@@ -153,6 +153,7 @@ form .bot-row .form-group .checkbox {
 /* Selling -> Payment form */
 label[for="pay-method"] {
 	margin-top: 0 !important;
+	pointer-events: none;
 }
 
 /* Fix for disabled inputs on Mozilla to not show arrows */
