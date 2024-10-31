@@ -91,7 +91,7 @@ main() {
     echo "║    Prerequisites script                ║"
     echo "║    completed successfully!             ║"
     echo "║                                        ║"
-    echo "║    Please run make seutp next          ║"
+    echo "║    Please run make setup next          ║"
     echo "╚════════════════════════════════════════╝"
     echo -e "${NC}"
 }
