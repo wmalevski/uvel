@@ -29,7 +29,12 @@ class AppServiceProvider extends ServiceProvider
             return str_replace(':attribute',$attribute, ':attribute е невалиден.');
         });
 
-        if (strtolower(config('app.env')) === 'production') {
+        $envs = [
+            'production',
+            'development'
+        ];
+
+        if (in_array(strtolower(config('app.env')), $envs)) {
             URL::forceScheme('https');
         }
 
