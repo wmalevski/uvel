@@ -29,6 +29,10 @@ class AppServiceProvider extends ServiceProvider
             return str_replace(':attribute',$attribute, ':attribute е невалиден.');
         });
 
+        if (strtolower(config('app.env')) === 'production') {
+            URL::forceScheme('https');
+        }
+
         Paginator::useBootstrap();
     }
 
