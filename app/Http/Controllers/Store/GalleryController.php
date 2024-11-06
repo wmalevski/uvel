@@ -16,7 +16,7 @@ class GalleryController extends BaseController
 
         $assets = $gallery::select('media_type', 'media_path', 'title', 'thumbnail_path', 'jewel_id', 'weight', 'size', 'archive_date', 'unique_number')
             ->with(['type'])
-            ->orderBy('id', 'DESC');
+            ->orderBy('id', 'ASC');
 
 
         $availableTypes = $gallery::select('jewel_id')
