@@ -20,5 +20,8 @@ setup:
 	$(MAKE) install
 	$(MAKE) down
 
+clean:
+	rm -rf node_modules vendor 
+
 check-status:
 	docker compose ps | grep uvel-app || (echo "uvel-app is not running!" && exit 1)
