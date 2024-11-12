@@ -226,27 +226,30 @@ if (Auth::check()) {
               description.val("{{$descriptionContent}}").change();
 
               let thumbnailUrl;
-              generateBlob(attachmentUrl).then(file => {
-                  const dataTransfer = new DataTransfer();
-                  dataTransfer.items.add(file);
-                  inputElement.files = dataTransfer.files;
-                  img.src = attachmentUrl;
-                  img.alt = 'Снимка';
-                  img.style.maxWidth = '180px';
 
-                  const createImageWrapper = document.createElement('div');
-                  createImageWrapper.classList.add('image-wrapper');
-                  const createCloseBtn = document.createElement('div');
-                  createCloseBtn.classList.add('close');
-                  createCloseBtn.innerText = 'x'
-                  createImageWrapper.appendChild(createCloseBtn);
-                  createImageWrapper.appendChild(img);
-                  $(createCloseBtn).on('click', e => {
-                    $(e.currentTarget).parent('.image-wrapper').remove();
-                  });
+              if (mediaType == 'image') {
+                generateBlob(attachmentUrl).then(file => {
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    inputElement.files = dataTransfer.files;
+                    img.src = attachmentUrl;
+                    img.alt = 'Снимка';
+                    img.style.maxWidth = '180px';
 
-                  gallery.appendChild(createImageWrapper);
-              }).catch(err => console.error("Error fetching the image:", err));
+                    const createImageWrapper = document.createElement('div');
+                    createImageWrapper.classList.add('image-wrapper');
+                    const createCloseBtn = document.createElement('div');
+                    createCloseBtn.classList.add('close');
+                    createCloseBtn.innerText = 'x'
+                    createImageWrapper.appendChild(createCloseBtn);
+                    createImageWrapper.appendChild(img);
+                    $(createCloseBtn).on('click', e => {
+                        $(e.currentTarget).parent('.image-wrapper').remove();
+                    });
+
+                    gallery.appendChild(createImageWrapper);
+                }).catch(err => console.error("Error fetching the image:", err));
+              }
           });
       </script>
   @endpush

@@ -20,22 +20,19 @@
       form-name="formGalleryImage" 
       form-action="{{ route('gallery_upload_image') }}" 
       form-label="label" 
-      form-trigger-text="Добави снимка" 
+      form-trigger-text="Добави" 
       class="m-2 text-uppercase"
     >
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="title">Заглавие</label>
-          <input type="text" name="title" id="title" class="w-100" required>
-        </div>
-        <div class="form-group col-md-6">
-          <label for="description">Описание</label>
-          <input type="text" name="description" id="description" class="w-100" required>
+          <input type="text" name="title" id="title" class="w-100 form-control" required value="{{old('title')}}">
+          <input type="hidden" name="description" id="description" class="w-100">
         </div>
         <div class="form-group col-md-12">
           <div class="drop-area d-flex justify-content-between" name="add">
-            <input type="file" name="images[]" class="drop-area-input" id="image" data-locale="{{ $locale }}" multiple accept="image/*">
-            <label class="button" for="image">Избери снимка/и...</label>
+            <input type="file" name="images[]" class="drop-area-input" id="image" data-locale="{{ $locale }}" multiple accept="image/*, video/*" required>
+            <label class="button" for="image">Избери файл</label>
             <div class="drop-area-gallery"></div>
           </div>
         </div>
@@ -43,32 +40,31 @@
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="unique_number">Уникален номер</label>
-          <input type="text" name="unique_number" id="unique_number" placeholder="{{ rand(1111111111, 9999999999) }}" />
+          <input type="text" class="form-control" name="unique_number" id="unique_number" value="{{old('unique_number')}}" required/>
         </div>
         <div class="form-group col-md-6">
-          <label for="weight">Тегло (гр.)</label>
-          <input type="number" step="0.1" name="weight" id="weight" placeholder="0.0" />
+          <label for="archive_date">Дата на архив</label>
+          <input type="text" name="archive_date" class="form-control" required value="{{old('archive_date')}}"/>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="size">Размер (мм)</label>
-          <input type="number" name="size" id="size">
+          <input type="number" class="form-control" name="size" id="size" value="{{old('size')}}" required>
         </div>
-
+        <div class="form-group col-md-6">
+          <label for="weight">Тегло (гр.)</label>
+          <input type="number" class="form-control" step="0.01" name="weight" id="weight" placeholder="0.00" value="{{old('weight')}}" required/>
+        </div>
         <div class="form-group col-md-6">
           <label for="type">Вид Бижу</label>
-          <select name="type" id="type">
+          <select name="type" id="type" class="form-control">
             @foreach($jewels as $jewel)
-              <option value="{{$jewel->id}}">{{$jewel->name}}</option>
+              <option value="{{ $jewel->id }}" @selected(old('type') == $jewel->id)>
+                  {{ $jewel->name }}
+              </option>
             @endforeach
           </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-12">
-          <label for="archive_date">Дата на архив</label>
-          <input type="text" name="archive_date" class="form-control bdc-grey-200" placeholder="Дата: " data-date-autoclose="true" data-provide="datepicker" data-date-format="yy m d"/>
         </div>
       </div>
       <input type="hidden" name="media_type" value="image">
@@ -82,30 +78,30 @@
       form-action="{{ route('gallery_upload_video') }}" 
       form-label="label" 
       form-trigger-text="Добави видео" 
-      class="m-2 text-uppercase"
+      class="m-2 text-uppercase d-none"
     >
       <div class="form-group">
         <div class="form-row">
           <div class="d-flex flex-column w-100 justify-content-center align-content-center">
             <label for="title">Заглавие</label>
-            <input type="text" name="title" required></input>
+            <input type="text" name="title" required>
           </div>
         </div>
         <div class="form-row">
           <div class="d-flex flex-column w-100 justify-content-center align-content-center">
             <label for="youtube_link">Youtube (Постави копираният линк тук):</label>
-            <input type="text" name="youtube_link" required></input>
+            <input type="text" name="youtube_link" required>
           </div>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="video_unique_number">Уникален номер</label>
-          <input type="text" name="video_unique_number" id="video_unique_number" placeholder="{{ rand(1111111111, 9999999999) }}" />
+          <input type="text" name="video_unique_number" id="video_unique_number" />
         </div>
         <div class="form-group col-md-6">
-          <label for="video_weight">Тегло (гр.)</label>
-          <input type="number" step="0.1" name="video_weight" id="video_weight" placeholder="0.0" />
+          <label for="video_archive_date">Дата на архив</label>
+          <input type="text" name="video_archive_date" class="form-control bdc-grey-200" placeholder="Дата: " data-date-autoclose="true" data-provide="datepicker" data-date-format="yy m d"/>
         </div>
       </div>
       <div class="form-row">
@@ -115,18 +111,17 @@
         </div>
 
         <div class="form-group col-md-6">
+          <label for="video_weight">Тегло (гр.)</label>
+          <input type="number" step="0.01" name="video_weight" id="video_weight" placeholder="0.00" />
+        </div>
+
+        <div class="form-group col-md-6">
           <label for="video_type">Вид Бижу</label>
           <select name="video_type" id="video_type">
             @foreach($jewels as $jewel)
               <option value="{{$jewel->id}}">{{$jewel->name}}</option>
             @endforeach
           </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-12">
-          <label for="video_archive_date">Дата на архив</label>
-          <input type="text" name="video_archive_date" class="form-control bdc-grey-200" placeholder="Дата: " data-date-autoclose="true" data-provide="datepicker" data-date-format="yy m d"/>
         </div>
       </div>
       <input type="hidden" name="media_type" value="video">
@@ -154,19 +149,24 @@
       <td>
         @if (isset($item->thumbnail_path))
             @php
-              if ( $item->media_type === 'image' ) {
                 $thumbRel = str_replace(storage_path('app/public'), '', $item->thumbnail_path);
                 $thumbUrl = Storage::url(ltrim($thumbRel, '/'));
                 $mediaRel = str_replace(storage_path('app/public'), '', $item->media_path);
                 $mediaUrl = Storage::url(ltrim($mediaRel, '/'));
-              } else {
-                $thumbUrl = $item->thumbnail_path;
-                $mediaUrl = $item->media_path;
-              }
             @endphp
-          <a href="{{$mediaUrl}}" target="_blank">
-            <img src="{{$thumbUrl}}" height="100" width="100">
-          </a>
+            <a href="{{$mediaUrl}}" target="_blank">
+                @switch($item->media_type)
+                    @case('image')
+                        <img src="{{$thumbUrl}}" height="100" width="100">
+                        @break
+                    @case('video')
+                        <video height="100" width="100">
+                            <source src="{{$mediaUrl}}">
+                        </video>
+                        @break
+                    @default
+                @endswitch
+            </a>
         @else
           N/A
         @endif
@@ -185,7 +185,11 @@
   @endforelse
   </tbody>
 </table>
-
+@push('scripts')
+    @once
+        <script src="{{ asset('js/modules/gallery/index.js') }}" type="module"></script>
+    @endonce
+@endpush
 {{ $gallery->links() }}
 
 @endsection

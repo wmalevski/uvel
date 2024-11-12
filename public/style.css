@@ -186,6 +186,7 @@ p {
 	color: #ffffff;
 	cursor: pointer;
 	text-shadow: none;
+    z-index: 1;
 }
 
 

@@ -1,19 +1,17 @@
 @extends('store.layouts.app', ['bodyClass' => 'templateGallery'])
 
 @foreach($imagesArray['data'] as $idx => $asset)
-    @if($asset['media_type'] == 'image')
-        @php
-            $mediaPaths = [
-                'media_path' => $asset['media_path'],
-                'thumbnail_path' => $asset['thumbnail_path'],
-            ];
-            foreach ($mediaPaths as $key => $path) {
-                $relativePath = str_replace(storage_path('app/public'), '', $path);
-                $url = Storage::url(ltrim($relativePath, '/'));
-                $imagesArray['data'][$idx][$key] = $url;
-            }
-        @endphp
-    @endif
+    @php
+        $mediaPaths = [
+            'media_path' => $asset['media_path'],
+            'thumbnail_path' => $asset['thumbnail_path'],
+        ];
+        foreach ($mediaPaths as $key => $path) {
+            $relativePath = str_replace(storage_path('app/public'), '', $path);
+            $url = Storage::url(ltrim($relativePath, '/'));
+            $imagesArray['data'][$idx][$key] = $url;
+        }
+    @endphp
 @endforeach
 
 @section('content')
@@ -21,13 +19,13 @@
     <div id="content-wrapper">
         <div id="content" class="clearfix">
             <div id="breadcrumb" class="breadcrumb">
-                    <div itemprop="breadcrumb" class="container">
-                            <div class="row">
-                                    <div class="col-md-24">
-                                            {{ Breadcrumbs::render('gallery') }}
-                                    </div>
+                <div itemprop="breadcrumb" class="container">
+                        <div class="row">
+                            <div class="col-md-24">
+                                {{ Breadcrumbs::render('gallery') }}
                             </div>
-                    </div>
+                        </div>
+                </div>
             </div>
             <section class="content">
                 <div class="container">
@@ -71,35 +69,57 @@
                                     @foreach($groupedAssets as $archiveDate => $asset)
                                         @php
                                             $fancyboxTimestamp = Carbon\Carbon::createFromFormat('m-d-y H:i:s', $archiveDate)->timestamp;
+                                            $blob = $asset->first();
                                         @endphp
-                                        <a href="{{ $asset->first()['media_path'] }}" data-fancybox="gallery-{{ $fancyboxTimestamp }}" data-caption="{{ $asset->first()['title'] }}" class="gallery-item">
-                                            <img src="{{ $asset->first()['thumbnail_path'] }}" />
+                                        <a href="{{ $blob['media_path'] }}" data-fancybox="gallery-{{ $fancyboxTimestamp }}" data-caption="{{ $blob['unique_number'] }}" class="gallery-item">
+                                            @switch($blob['media_type'])
+                                                @case('image')
+                                                    <img src="{{ $blob['thumbnail_path'] }}"/>
+                                                    @break
+                                                @case('video')
+                                                    <video>
+                                                        <source src="{{$blob['media_path']}}">
+                                                    </video>
+                                                    @break
+                                                @default
+                                            @endswitch
                                             <div class="image-footer-content">
-                                                <span>Тегло: {{ $asset->first()['weight'] }}гр.</span>
-                                                <span>{{ $asset->first()['title'] }}</span>
-                                                @if(!is_null($asset->first()['size']))<span>Размер: {{ $asset->first()['size'] }}</span>@endif
+                                                <span>Тегло: {{ $blob['weight'] }}гр.</span>
+                                                <span>{{ $blob['unique_number'] }}</span>
+                                                @if(!is_null($blob['size']))<span>Размер: {{ $blob['size'] }}</span>@endif
                                             </div>
                                             <span class="basket">
                                                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                             </span>
 
                                             <input name="archiveData[{{$fancyboxTimestamp}}]" type="hidden"
-                                                data-weight="{{$asset->first()['weight']}}"
-                                                data-size="{{$asset->first()['size']}}"
-                                                data-type="{{$asset->first()['type']['name']}}"
-                                                data-archiveDate="{{$asset->first()['archive_date']}}"
-                                                data-uniqueNum="{{$asset->first()['unique_number']}}"
-                                                data-src="{{$asset->first()['media_path']}}"
-                                                data-mediaType="{{$asset->first()['media_type']}}"
-                                                data-thumbnail="{{$asset->first()['thumbnail_path']}}"
+                                                data-weight="{{$blob['weight']}}"
+                                                data-size="{{$blob['size']}}"
+                                                data-type="{{$blob['type']['name']}}"
+                                                data-archiveDate="{{$blob['archive_date']}}"
+                                                data-uniqueNum="{{$blob['unique_number']}}"
+                                                data-src="{{$blob['media_path']}}"
+                                                data-mediaType="{{$blob['media_type']}}"
+                                                data-thumbnail="{{$blob['thumbnail_path']}}"
                                             />
                                         </a>
 
                                         <div style="display: none;">
                                             @foreach($asset->slice(1) as $asset)
-                                                <a href="{{ $asset['media_path'] }}" data-fancybox="gallery-{{ $fancyboxTimestamp }}" data-caption="{{ $asset['title'] }}">
+                                                <a href="{{ $asset['media_path'] }}" data-fancybox="gallery-{{ $fancyboxTimestamp }}" data-caption="{{ $asset['unique_number'] }}">
                                                     <img src="{{ $asset['thumbnail_path'] }}" />
                                                 </a>
+                                                @switch($asset['media_type'])
+                                                    @case('image')
+                                                        <img src="{{ $blob['thumbnail_path'] }}"/>
+                                                        @break
+                                                    @case('video')
+                                                        <video>
+                                                            <source src="{{$blob['media_path']}}">
+                                                        </video>
+                                                        @break
+                                                    @default
+                                                @endswitch
                                             @endforeach
                                         </div>
                                     @endforeach

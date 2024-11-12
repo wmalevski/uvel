@@ -38,11 +38,7 @@ class CustomOrderController extends BaseController{
         if ($attachment) {
             switch ($mediaType) {
                 case 'video':
-                    $imageContents = file_get_contents($attachment);
-                    $imageName = 'thumbnail_' . time() . '.jpg';
-
-                    Storage::put('temp/' . $imageName, $imageContents);
-                    $url = Storage::url('temp/' . $imageName);
+                    $url = '';
                     break;
                 case 'image':
                     $url = Storage::url('/gallery' . '/' . $attachment);
