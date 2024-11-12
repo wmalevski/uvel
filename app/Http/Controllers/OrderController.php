@@ -42,64 +42,17 @@ class OrderController extends Controller{
      */
     public function index(MaterialQuantity $materials)
     {
-        $user = Auth::user();
-        $orders = Order::orderBy('id','DESC')->with(['model', 'product'])->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
-        // $models = Model::take(env('SELECT_PRELOADED'))->get();
-        // $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
-        // $prices = Price::where('type', 'sell')->get();
-        // $stones = Stone::with(['contour', 'size'])->take(env('SELECT_PRELOADED'))->cursor();
-        // $stores = Store::take(env('SELECT_PRELOADED'))->get();
-        $user_store = Store::where('id', $user->store_id)->first();
+        $user                 = Auth::user();
+        $orders               = Order::orderBy('id','DESC')->with(['model', 'product'])->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
+        $user_store           = Store::where('id', $user->store_id)->first();
         $disable_store_select = $user->shUserSelectStore();
-        // $mats = MaterialQuantity::currentStore()->take(env('SELECT_PRELOADED'));
-        $pass_stones = [];
-
-        // $cached_pass_stones = Cache::remember('pass_stones', 60, function () use ($pass_stones, $stones) {
-        //     foreach ($stones->chunk(50) as $chunk) {
-        //         foreach ($chunk as $stone) {
-        //             $pass_stones[] = [
-        //                 'value' => $stone->id,
-        //                 'label' => sprintf('%s (%s, %s)', $stone->name, $stone->contour->name, $stone->size->name),
-        //                 'type' => $stone->type,
-        //                 'price' => $stone->price
-        //             ];
-        //         }
-        //     }
-
-        //     return $pass_stones;
-        // });
-
-        $pass_materials = [];
-
-        // $cached_pass_materials = Cache::remember('pass_materials', 60, function () use ($pass_materials, $mats) {
-        //     foreach ($mats->chunk(50) as $chunk) {
-        //         foreach ($chunk as $material) {
-        //             if (!$material->material->pricesSell->first()) continue;
-        //             $pass_materials[] = [
-        //                 'value' => $material->id,
-        //                 'label' => $material->material->parent->name . ' - ' . $material->material->color . ' - ' . $material->material->carat,
-        //                 'pricebuy' => $material->material->pricesBuy->first()->price,
-        //                 'material' => $material->material->id
-        //             ];
-        //         }
-        //     }
-
-        //     return $pass_materials;
-        // });
+        $pass_stones          = [];
+        $pass_materials       = [];
 
         return \View::make('admin/orders/index', [
-            'loggedUser' => $user,
-            // 'mats' => $mats,
-            // 'materials' => $materials,
-            'orders' => $orders,
-            // 'stores' => $stores,
-            // 'jewels' => $jewels,
-            // 'models' => $models,
-            // 'prices' => $prices, 
-            // 'stones' => $stones,
-            // 'materials' => $materials->scopeCurrentStore(),
-            'user_store' => $user_store,
-            // 'jsStones' => json_encode($cached_pass_stones, JSON_UNESCAPED_SLASHES),
+            'loggedUser'           => $user,
+            'orders'               => $orders,
+            'user_store'           => $user_store,
             'disable_store_select' => $disable_store_select,
         ]);
     }
