@@ -347,7 +347,8 @@ header .col-md-18 {
     transform: scale(0.95);
 }
 
-#uvel_gallery .gallery-item img {
+#uvel_gallery .gallery-item img,
+#uvel_gallery .gallery-item video {
     max-width:100%;
     width: 100%;
     height: auto;

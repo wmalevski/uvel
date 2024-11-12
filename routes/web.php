@@ -61,8 +61,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::get('/orders', 'OrderController@index')->name('orders');
 
         Route::get('/gallery', 'PublicGalleryController@index')->name('gallery');
-        Route::post('/gallery/store/video', 'PublicGalleryController@uploadVideo')->name('gallery_upload_video');
-        Route::post('/gallery/store/image', 'PublicGalleryController@uploadImage')->name('gallery_upload_image');
+        Route::post('/gallery/store/video', 'PublicGalleryController@uploadYoutubeVideo')->name('gallery_upload_video');
+        Route::post('/gallery/store/image', 'PublicGalleryController@store')->name('gallery_upload_image');
 
         Route::get('/users', 'UserController@index')->name('users');
 

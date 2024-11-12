@@ -3270,14 +3270,41 @@ var uvel,
     this.appendImages = function(collectionFiles, form, event) {
       var _instanceFiles = [],
           filesInput = event.currentTarget;
+      form.find('.drop-area-gallery').empty();
 
       collectionFiles.forEach(function(element) {
         var reader = new FileReader();
         reader.readAsDataURL(element);
         reader.onloadend = function() {
+          var getMimeType = function (uploadedObject) {
+            if ( uploadedObject && 'type' in uploadedObject ) {
+                return uploadedObject.type.split('/')[0]
+            }
+            return '';
+          }
           var imageWrapper = document.createElement('div'),
               closeBtn = document.createElement('div'),
-              img = document.createElement('img');
+              mediaBlob,
+              sourceTemp = URL.createObjectURL(element);
+
+              switch (getMimeType(element)) {
+                case 'image':
+                    mediaBlob = document.createElement('img')
+                    break;
+                case 'video':
+                    mediaBlob = document.createElement('video');
+                    mediaBlob.setAttribute('width', 140)
+                    mediaBlob.setAttribute('height', 100)
+
+                    var sourceTag = document.createElement('source')
+                    sourceTag.setAttribute('src', sourceTemp)
+                    sourceTag.setAttribute('type', element.type)
+                    mediaBlob.appendChild(sourceTag)
+                    break;
+                default:
+                    console.error('The uploaded file is not recognized as image or video');
+                    return;
+              }
 
           _instanceFiles.push(reader.result);
 
@@ -3286,9 +3313,9 @@ var uvel,
           closeBtn.innerHTML = '&#215;';
           $self.deleteImagesDropArea($(closeBtn));
 
-          img.src = reader.result;
+          mediaBlob.setAttribute('src', sourceTemp);
           imageWrapper.append(closeBtn);
-          imageWrapper.append(img);
+          imageWrapper.append(mediaBlob);
 
           if (filesInput.attributes.multiple) {
             $(filesInput).siblings('.drop-area-gallery').append(imageWrapper);
@@ -3301,6 +3328,18 @@ var uvel,
 
     this.deleteImagesDropArea = function(deleteBtn) {
       deleteBtn.on('click', function() {
+        const fileInput  = $(this).parents('.drop-area-gallery').siblings('input');
+        const filesStack = fileInput[0].files;
+        const itemIndex  = $(this).parents('.image-wrapper').index();
+        const dt         = new DataTransfer();
+
+        for (let i = 0; i < filesStack.length; i++) {
+            if (i !== itemIndex) {
+                dt.items.add(filesStack[i]);
+            }
+        }
+        fileInput[0].files = dt.files;
+
         $(this).parent('.image-wrapper').remove();
       });
     }
