@@ -28,7 +28,8 @@ class PublicGalleryController extends Controller
         return view('admin.gallery.index')->with(compact('userRole', 'gallery', 'locale', 'jewels'));
     }
 
-    public function uploadVideo(Request $request, PublicGallery $gallery)
+    // Deprecated: retained in case the client wishes to reinstate this functionality.
+    public function uploadYoutubeVideo(Request $request, PublicGallery $gallery)
     {
         $validator = Validator::make($request->all(), [
             'media_type'          => 'required|in:video',
@@ -85,21 +86,20 @@ class PublicGalleryController extends Controller
         return redirect()->back()->with('success', 'Video uploaded successfully!');
     }
 
-    public function uploadImage(Request $request, PublicGallery $gallery)
+    public function store(Request $request, PublicGallery $gallery)
     {
         $validator = Validator::make($request->all(), [
             'images'        => 'required|array|max:5',
             'size'          => 'required|numeric',
-            'archive_date'  => 'required',
+            'archive_date'  => 'required|numeric|digits:6',
             'weight'        => 'required|numeric',
             'unique_number' => 'required|numeric',
-            'images.*'      => 'image|max:3045|mimes:jpeg,png,jpg,gif',
+            'images.*'      => 'file|max:30720|mimes:jpeg,png,jpg,gif,mp4,mov,avi,wmv,mkv',
             'media_type'    => 'required|in:image', // Ensures media_type is 'image',
         ], [
-            'images.required' => 'Пропуснахте да качите снимка.',
-            'images.image'    => 'Каченият файл трябва да бъде снимка.',
-            'images.mimes'    => 'Каченият файл трябва да бъде в един от тези формати [jpeg,png,jpg].',
-            'images.max'      => 'Каченият файл не трябва да надвишава 2MB.',
+            'images.required' => 'Пропуснахте да качите файл.',
+            'images.mimes'    => 'Каченият файл трябва да бъде в един от тези формати [jpeg,png,jpg,gif,mp4,mov,avi,wmv,mkv].',
+            'images.max'      => 'Каченият файл не трябва да надвишава 30MB.',
         ]);
 
         if ($validator->fails()) {
@@ -122,8 +122,14 @@ class PublicGalleryController extends Controller
             }
 
             foreach ($images as $image) {
-                $filename      = str_replace(' ', '', $image->getClientOriginalName());
+                $mediaType = '';
+                if ( strpos($image->getMimeType(), 'video') === 0 ) {
+                    $mediaType = 'video';
+                } else {
+                    $mediaType = 'image';
+                }
 
+                $filename      = str_replace(' ', '', $image->getClientOriginalName());
                 $imagePath     = $image->storeAs('gallery', $filename);
                 $absolutePath  = storage_path('app/public/' . $imagePath);
                 $thumbnailUrl  = Storage::url('gallery/thumb_' . $filename);
@@ -132,7 +138,7 @@ class PublicGalleryController extends Controller
 
                 $gallery->create([
                     'title'          => $request->input('title') ?? NULL,
-                    'media_type'     => $request->input('media_type'),
+                    'media_type'     => $mediaType,
                     'media_path'     => $absolutePath,
                     'description'    => $request->input('description') ?? NULL,
                     'thumbnail_path' => $thumbnailPath,
