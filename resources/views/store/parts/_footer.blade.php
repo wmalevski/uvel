@@ -64,19 +64,19 @@
             </ul>
           </div>
         </div>
-        <div class="footer-link-list col-md-8 ">
+        <div class="footer-link-list col-md-9 ">
           <div class="row">
             <div class="col-md-8 ">
               <a href="/assets/static/pdf/inov-1.pdf" target="_blank" class="btooltip swing" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Европейски фонд за регионално развитие">
-                <img src="/assets/static/images/inov-1.jpg" style="width:150px;"></a>
+                <img src="/assets/static/images/inov-1.jpg"></a>
             </div>
             <div class="col-md-8 ">
               <a href="/assets/static/pdf/inov-2.pdf" target="_blank" class="btooltip swing" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Европейски фонд за регионално развитие">
-                <img src="/assets/static/images/inov-2.jpg" style=" width:150px;"></a>
+                <img src="/assets/static/images/inov-2.jpg"></a>
             </div>
             <div class="col-md-8">
               <a href="/assets/static/pdf/inov-3.pdf" target="_blank" class="btooltip swing" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Европейски фонд за регионално развитие">
-                <img src="/assets/static/images/inov-3.jpg" style="width:150px;"></a>
+                <img src="/assets/static/images/inov-3.jpg"></a>
             </div>
           </div>
 
