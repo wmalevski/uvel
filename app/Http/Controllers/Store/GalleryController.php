@@ -10,11 +10,6 @@ use Illuminate\Support\Facades\Validator;
 
 class GalleryController extends BaseController
 {
-    public array $searchCriteria = [
-        'BY_DATE' => 1,
-        'BY_NUM'  => 2
-    ];
-
     public function index(PublicGallery $gallery, Request $request)
     {
         $selectedJewelId = $request->get('jewel_id');
@@ -31,7 +26,7 @@ class GalleryController extends BaseController
             $criteria = $request->input('criteria');
 
             switch ($criteria) {
-                case $this->searchCriteria['BY_DATE'] == $criteria:
+                case '1':
                     $validate_data = [
                         'search' => 'numeric|digits:6',
                     ];
@@ -48,7 +43,7 @@ class GalleryController extends BaseController
 
                     $assets->where('archive_date', 'like', "%$formattedDate%");
                     break;
-                case $this->searchCriteria['BY_NUM'] == $criteria:
+                case '2':
                     $assets->where('unique_number', 'like', "%$searchTerm%");
                     break;
                 default:
