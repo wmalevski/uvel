@@ -64,7 +64,6 @@ class PublicGalleryController extends Controller
         $archiveDate     = Carbon::createFromFormat('d m y', $request->input('video_archive_date'));
         $archiveDate->setTime(now()->hour, now()->minute, now()->second);
 
-        $formattedDate   = $archiveDate->format('Y-m-d H:i:s');
         $weight          = $request->input('video_weight');
         $type            = $request->input('video_type');
         $size            = $request->input('video_size');
@@ -79,7 +78,6 @@ class PublicGalleryController extends Controller
             'unique_number'  => $uniqueNum,
             'archive_date'   => $archiveDate,
             'weight'         => $weight,
-            'jewel_id'       => $type,
             'size'           => $size
         ]);
 
@@ -108,7 +106,7 @@ class PublicGalleryController extends Controller
 
         $images      = $request->file('images');
         $uniqueNum   = $request->input('unique_number');
-        $archiveDate = Carbon::createFromFormat('d m y', $request->input('archive_date'));
+        $archiveDate = Carbon::createFromFormat('y m d', $request->input('archive_date'));
         $archiveDate->setTime(now()->hour, now()->minute, now()->second);
 
         $formattedDate = $archiveDate->format('Y-m-d H:i:s');
@@ -132,7 +130,6 @@ class PublicGalleryController extends Controller
                 $filename      = str_replace(' ', '', $image->getClientOriginalName());
                 $imagePath     = $image->storeAs('gallery', $filename);
                 $absolutePath  = storage_path('app/public/' . $imagePath);
-                $thumbnailUrl  = Storage::url('gallery/thumb_' . $filename);
                 $thumbnailPath = storage_path('app/public/gallery/thumb_' . $filename);
                 $this->thumbFactory($absolutePath, $thumbnailPath);
 

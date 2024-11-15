@@ -45,9 +45,9 @@
     <!-- JavaScript -->
     <script src="{{ asset('store/javascripts/jquery-1.9.1.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('store/javascripts/jquery.imagesloaded.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('store/javascripts/bootstrap.min.3x.js') }}" type="text/javascript"></script>
     <script src="{{ asset('store/javascripts/jquery.easing.1.3.js') }}" type="text/javascript"></script>
     <script src="{{ asset('store/javascripts/jquery.camera.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('store/javascripts/bootstrap.min.3x.js') }}" type="text/javascript"></script>
     <script src="{{ asset('store/javascripts/cookies.js') }}" type="text/javascript"></script>
     <script src="{{ asset('store/javascripts/modernizr.js') }}" type="text/javascript"></script>
     <script src="{{ asset('store/javascripts/application.js') }}" type="text/javascript"></script>

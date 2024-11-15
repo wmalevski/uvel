@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\Store\GalleryController as StoreGalleryController;
 
 /*
 |--------------------------------------------------------------------------

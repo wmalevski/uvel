@@ -417,6 +417,12 @@ var uvel,
         initialized: false,
         ajaxSetup: false,
       },
+      formGallerySearch: {
+        selector: '[name="gallerySearchForm"]',
+        controllers: [],
+        initialized: false,
+        ajaxSetup: false,
+      },
     }
 
     this.init = function() {

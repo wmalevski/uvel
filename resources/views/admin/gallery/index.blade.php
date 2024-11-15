@@ -181,14 +181,12 @@
       </td>
     </tr>
   @empty
-    <tr colspan="100"><h1 class="text-center"><span style="font-size:40px;padding:15px;">&#128129;</span>Няма намерени резултати</h1></tr>
+    <tr colspan="100"><h1 class="text-center"><span style="font-size:40px;padding:15px;">&#128129;</span>{{__('Няма намерени резултати')}}</h1></tr>
   @endforelse
   </tbody>
 </table>
 @push('scripts')
-    @once
-        <script src="{{ asset('js/modules/gallery/index.js') }}" type="module"></script>
-    @endonce
+    <script src="{{ asset('js/modules/admin/gallery/index.js') }}" type="module"></script>
 @endpush
 {{ $gallery->links() }}
 
