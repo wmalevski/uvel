@@ -72,7 +72,7 @@ class RepairController extends Controller{
 
         $digits = (string)$bar;
         // 1. Add the values of the digits in the even-numbered positions: 2, 4, 6, etc.
-        $even_sum = $digits[1] + $digits[3] + $digits[5] + $digits[7] + $digits[9] + $digits[1];
+        $even_sum = $digits[1] + $digits[3] + $digits[5] + $digits[7] + $digits[9] + $digits[11];
         // 2. Multiply this result by 3.
         $even_sum_three = $even_sum * 3;
         // 3. Add the values of the digits in the odd-numbered positions: 1, 3, 5, etc.
