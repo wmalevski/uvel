@@ -36,6 +36,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
 
         //Orders section
         Route::get('/orders/custom', 'CustomOrderController@index')->name('custom_orders');
+        Route::post('/orders/custom/{order}', 'CustomOrderController@update')->name('update_custom_order');
 
         //Product travelling
         Route::get('/productstravelling', 'ProductTravellingController@index')->name('products_travelling');

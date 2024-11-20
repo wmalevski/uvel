@@ -82,7 +82,6 @@ class OnlineSellingsController extends Controller{
 
 	public function setDiscount(Request $request, $barcode){
 		$userId = Auth::user()->getId();
-
 		$result = false;
 		$setDiscount = $barcode;
 

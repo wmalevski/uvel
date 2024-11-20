@@ -271,11 +271,13 @@ var uvel,
         ajaxSetup: true,
 
       },
-      customOrders: {
-        selector: '[name="custom_order"]',
-        controllers: [],
+      customOrder: {
+        selector: '[name="customOrder"]',
+        controllers: [
+            'imageHandling',
+        ],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSetup: false,
 
       },
       modelOrders: {
@@ -875,7 +877,6 @@ var uvel,
           formType = $this.attr('data-form-type'),
           formSettings = $self.formsConfig[openedForm];
       $('form[name="' + openedForm + '"]').find('button[type="submit"]').prop('disabled', true);
-
       if (formType == 'edit') {
         $self.appendingEditFormToTheModal($this, data, timeToOpenModal);
       }
@@ -1152,9 +1153,10 @@ var uvel,
             moreProductsChecked = sellingForm.find('[data-sell-moreProducts]').is(':checked'),
             productsAmount = Number(sellingForm.find('[data-sell-productsAmount]').val()),
             type = sellingForm.find('[data-sell-type]:checked').val(),
+            discount = sellingForm.find('[name="discount"]').val(),
+            discountCode = sellingForm.find('[name="discount_card"]').val(),
             ajaxUrl = sellingForm.attr('data-scan'),
             dataSend;
-
         if (_this[0].hasAttribute('data-sell-catalogNumber')) {
           dataSend = {
             'catalog_number': number,
@@ -1166,6 +1168,8 @@ var uvel,
           dataSend = {
             'barcode': Number(number),
             'quantity': productsAmount,
+            'discount': discount,
+            'discountCode': Number(discountCode),
             'amount_check': moreProductsChecked,
             'type': type,
           };
@@ -1277,12 +1281,14 @@ var uvel,
             discountInput = _this.closest('form').find('[data-sell-discount]'),
             discountAmount = Number(discountInput.val()),
             description = _this.closest('form').find('[data-sell-description]').val(),
+            dscCode = _this.closest('form').find('[name="discount_card"]').val(),
             urlTaken = window.location.href.split('/'),
             _url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/',
             discountUrl = _this.attr('data-url'),
             dataSend = {
               discount: discountAmount,
-              description: description
+              description: description,
+              discountCode: dscCode,
             };
 
         if (discountAmount > 0) {
@@ -1402,7 +1408,6 @@ var uvel,
       var form = $(formSettings.selector + '[data-type="' + formType + '"]'),
           customControllers = formSettings.controllers,
           select2obj = formSettings.select2obj;
-
       $self.initializeGlobalFormControllers(form);
       $self.initializeControllers(customControllers, form);
       if (select2obj) {
@@ -1561,7 +1566,6 @@ var uvel,
               material_price: chosenMaterialPrice,
               material_price_id: chosenMaterialPriceID
             });
-            console.log(dataMaterialPrice)
           }
         } else {
           data[dataKey] = dataKeyValue;
@@ -1572,7 +1576,6 @@ var uvel,
           if (form[0].name == 'blog') {
             imagesHolder = imagesHolder.length ? imagesHolder : $(element).closest('.tab-pane').find('.uploaded-images-area img');
           }
-
           if (imagesHolder.length) {
             if (element.dataset.locale) {
               data[dataKey] = $self.getBase64Image(imagesHolder[0]);
@@ -1596,6 +1599,7 @@ var uvel,
       });
 
       data.data_material_price = dataMaterialPrice;
+
       $self.sendFormRequest(form, ajaxRequestLink, formType, data);
     }
 
@@ -1866,7 +1870,6 @@ var uvel,
             selects = $('form[data-type="edit"] select');
 
         $self.select2Looper(selects);
-
         $self.initializeForm(formSettings, formType);
       } else {
         var ajaxRequestLink = $self.buildAjaxRequestLink('requestForm', currentButton.attr('data-url'));
@@ -3277,7 +3280,6 @@ var uvel,
       var _instanceFiles = [],
           filesInput = event.currentTarget;
       form.find('.drop-area-gallery').empty();
-
       collectionFiles.forEach(function(element) {
         var reader = new FileReader();
         reader.readAsDataURL(element);

@@ -9,7 +9,9 @@ if(isset($prodImagePhoto['photo'])){
 	<td>{{ $order->deadline ? Carbon\Carbon::createFromTimestamp($order->deadline)->format('d/m/Y') : ''}}</td>
 	<td>
 		@if(isset($productImage))
-		<img class="admin-product-image" src="{{ asset("uploads/orders/".$productImage) }}">
+            <img class="admin-product-image" 
+                src="{{ Storage::exists('uploads/orders/' . $productImage) ? Storage::url('uploads/orders/' . $productImage) : asset('uploads/orders/' . $productImage) }}" 
+                alt="Product Image">
 		@else
 		<i>Няма</i>
 		@endif
@@ -25,7 +27,7 @@ if(isset($prodImagePhoto['photo'])){
 	@endswitch</td>
 	<td>
 		@if(\Illuminate\Support\Facades\Auth::user()->role == 'admin')
-			<span data-url="orders/custom/{{$order->id}}" class="edit-btn" data-toggle="modal" data-target="#editOrder" data-form-type="edit" data-form="customOrders"><i class="c-brown-500 ti-pencil"></i></span>
+			<span data-url="orders/custom/{{$order->id}}" class="edit-btn" data-toggle="modal" data-target="#editOrder" data-form-type="edit" data-form="customOrder"><i class="c-brown-500 ti-pencil"></i></span>
 		@endif
 		<a data-print-label="true" target="_blank" href="{{ route('custom_order_model_receipt', $order->id) }}" class="print-btn"><i class="c-brown-500 ti-printer"></i></a>
 	</td>

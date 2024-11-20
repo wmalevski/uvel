@@ -34,77 +34,17 @@ use Mail;
 use App\Material;
 use App\MaterialType;
 use App\ExchangeMaterial;
-
-class CartCustomCondition extends CartCondition {
-    public function apply($totalOrSubTotalOrPrice, $conditionValue){
-        if( $this->valueIsPercentage($conditionValue) )
-        {
-            if( $this->valueIsToBeSubtracted($conditionValue) )
-            {
-                $price = $totalOrSubTotalOrPrice;
-                if($this->getTarget() == 'subtotal'){
-                    $price = \Cart::getSubTotal();
-                }elseif($this->getTarget() == 'total'){
-                    $price = \Cart::getTotal();
-                }
-
-                $value = Helpers::normalizePrice( $this->cleanValue($conditionValue) );
-                $this->parsedRawValue = $price * ($value / 100);
-                $result = floatval($totalOrSubTotalOrPrice - $this->parsedRawValue);
-            }
-            else if ( $this->valueIsToBeAdded($conditionValue) )
-            {
-                $value = Helpers::normalizePrice( $this->cleanValue($conditionValue) );
-
-                $this->parsedRawValue = $totalOrSubTotalOrPrice * ($value / 100);
-
-                $result = floatval($totalOrSubTotalOrPrice + $this->parsedRawValue);
-            }
-            else
-            {
-                $value = Helpers::normalizePrice($conditionValue);
-
-                $this->parsedRawValue = $totalOrSubTotalOrPrice * ($value / 100);
-
-                $result = floatval($totalOrSubTotalOrPrice + $this->parsedRawValue);
-            }
-        }
-
-        // if the value has no percent sign on it, the operation will not be a percentage
-        // next is we will check if it has a minus/plus sign so then we can just deduct it to total/subtotal/price
-        else
-        {
-            if( $this->valueIsToBeSubtracted($conditionValue) )
-            {
-                $this->parsedRawValue = Helpers::normalizePrice( $this->cleanValue($conditionValue) );
-
-                $result = floatval($totalOrSubTotalOrPrice - $this->parsedRawValue);
-            }
-            else if ( $this->valueIsToBeAdded($conditionValue) )
-            {
-                $this->parsedRawValue = Helpers::normalizePrice( $this->cleanValue($conditionValue) );
-
-                $result = floatval($totalOrSubTotalOrPrice + $this->parsedRawValue);
-            }
-            else
-            {
-                $this->parsedRawValue = Helpers::normalizePrice($conditionValue);
-
-                $result = floatval($totalOrSubTotalOrPrice + $this->parsedRawValue);
-            }
-        }
-
-        // Do not allow items with negative prices.
-        return $result < 0 ? 0.00 : $result;
-    }
-
-    public function getCalculatedValue($totalOrSubTotalOrPrice){
-        $this->apply($totalOrSubTotalOrPrice, $this->getValue());
-        return $this->parsedRawValue;
-    }
-}
+use App\Services\CartService;
+use App\Services\CartCustomCondition;
 
 class SellingController extends Controller{
+    private $cartService;
+
+    public function __construct(CartService $cartService)
+    {
+        $this->cartService = $cartService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -360,6 +300,10 @@ class SellingController extends Controller{
                 }
             }
 
+            if ( $request->discount != '' ) {
+                $this->cartService->storeDiscount($request, $request->discountCode);
+            };
+
             if($item){
                 $userId = Auth::user()->getId(); // or any string represents user identifier
 
@@ -433,8 +377,7 @@ class SellingController extends Controller{
                                 'type' => $request->type
                             )
                         ));
-                    }
-                    else{
+                    } else {
                         $carat = 0;
                         if($item->material){
                             $carat = $item->material->carat;
@@ -488,7 +431,7 @@ class SellingController extends Controller{
                 }
 
                 $dds = round($subtotal - ($subtotal / 1.2), 2);
-
+                
                 return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'dds' => $dds, 'prepaid' => $prepaid));
             }
             else{
@@ -931,35 +874,45 @@ class SellingController extends Controller{
         return redirect()->route('admin');
     }
 
-    public function setDiscount(Request $request, $barcode){
-        $user = Auth::user();
-        $userId = $user->getId();
+    public function setDiscount(Request $request){
+
+        // if ( $request->discountCode != "" && $request->discount != "" ) {
+        //     return $this->cartService->storeDiscount($request, $barcode);
+        // } else {
+        //     return redirect()->back()->withErrors('Моля сканирайте/въведете карта за отстъпка');
+        // }
+        $userId = Auth::user()->getId(); 
 
         if(strlen($barcode) == 13){
             $discount = new DiscountCode;
             $result = json_encode($discount->check($barcode));
 
             if($result == 'true'){
-                $card = DiscountCode::with(['users'])->where('barcode', $barcode)->first();
+                $card = DiscountCode::where('barcode', $barcode)->first();
                 $setDiscount = $card->discount;
             }
         }else{
             $result = false;
             $setDiscount = $barcode;
         }
-
+        
 
         if(isset($setDiscount)){
             $partner = 'false';
-            $partner_id = '';
 
             if(isset($card)){
-                if($card->users->contains('id', $userId)){
-                    if($user->isA('corporate_partner')){
+                if($card->user){
+                    if($card->user->isA('corporate_partner')){
                         $partner = 'true';
-                        $partner_id = $userId;
                     }
                 }
+                
+            }
+
+            $partner_id = '';
+
+            if($card->user){
+                $partner_id = $card->user->id;
             }
 
             $condition = new CartCustomCondition(array(
@@ -984,7 +937,7 @@ class SellingController extends Controller{
             $cartConditions = Cart::session($userId)->getConditions();
             $conds = array();
             $priceCon = 0;
-
+    
             if(count($cartConditions) > 0){
                 foreach(Cart::session(Auth::user()->getId())->getConditions() as $cc){
                     $priceCon += $cc->getCalculatedValue($subTotal);
@@ -1000,8 +953,8 @@ class SellingController extends Controller{
 
             $dds = round($subTotal - ($subTotal/1.2), 2);
 
-            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon, 'dds' => $dds));
-        }
+            return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon, 'dds' => $dds));  
+        } 
     }
 
     public function removeDiscount(Request $request, $name){
@@ -1035,16 +988,18 @@ class SellingController extends Controller{
         return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subTotal, 'condition' => $conds, 'con' => $priceCon,  'dds' => $dds));
     }
 
-    public function sendDiscount(Request $request){
-        $userId = Auth::user()->getId();
+    public function sendDiscount(Request $request, $barcode = ''){
+        $userId = Auth::user()->getId(); 
+
         $partner = 'false';
+
         if(isset($card)){
             if($card->user->isA('corporate_partner')){
                 $partner = 'true';
             }
         }
 
-        $condition = new CartCustomCondition(array(
+        $condition = new \Darryldecode\Cart\CartCondition(array(
             'name' => $request->discount,
             'type' => 'discount',
             'target' => 'subtotal',
@@ -1058,7 +1013,6 @@ class SellingController extends Controller{
             'order' => 1
         ));
 
-        Cart::condition($condition);
         Cart::session($userId)->condition($condition);
 
         $cartConditions = Cart::session($userId)->getConditions();
@@ -1073,7 +1027,7 @@ class SellingController extends Controller{
         } else{
             $priceCon = 0;
         }
-
+        
         foreach($cartConditions as $key => $condition){
             $conds[$key]['value'] = $condition->getValue();
             $conds[$key]['name'] = $condition->getValue();
@@ -1085,9 +1039,10 @@ class SellingController extends Controller{
         $dds = round(($subTotal - $priceCon) - (($subTotal - $priceCon)/1.2), 2);
 
         // Todo Sending mails and SMS
-        // $this->sendDiscountNotification($total, $request->discount.'%', $request->description, Auth::user());
+//        $this->sendDiscountNotification($total, $request->discount.'%', $request->description, Auth::user());
 
         return Response::json(array('success' => true, 'total' => $total, 'subtotal' => $subtotal, 'condition' => $conds, 'priceCon' => $priceCon, 'dds' => $dds));
+
     }
 
     public function sendDiscountNotification($total, $condition, $description, $user){
@@ -1109,7 +1064,6 @@ class SellingController extends Controller{
 
     public function removeItem($type, $item){
         $userId = Auth::user()->getId();
-
         switch($type){
             case 'product':
                 $product = Product::where('id', intval($item))->first();
@@ -1120,6 +1074,7 @@ class SellingController extends Controller{
             case 'box':
                 $product_box = ProductOther::where('id', intval($item))->first();
                 $item = 'B-' . $item;
+                $cartItem = Cart::session($userId)->get($item);
                 $product_box->quantity += $cartItem->quantity;
                 $product_box->save();
                 break;
@@ -1141,7 +1096,6 @@ class SellingController extends Controller{
                 break;
         }
 
-        $cartItem = Cart::session($userId)->get($item);
         $remove = Cart::session($userId)->remove($item);
         $total = round(Cart::session($userId)->getTotal(),2);
         $subtotal = round(Cart::session($userId)->getSubTotal(),2);

@@ -23,23 +23,23 @@ class DiscountCode extends Model{
     protected $casts = ['deleted_at'];
 
     public function check($barcode){
-        $discount = DiscountCode::where('barcode', $barcode)->first();
-
+        $discount = DiscountCode::with(['users'])->where('barcode', $barcode)->first();
+        $bool = false;
         if($discount){
             if($discount->expires != ''){
                 if($discount->expires >= date('dd-mm-yyyy') && $discount->active == 'yes'){
-                    return true;
+                    $bool = true;
                 }else{
-                    return false;
+                    $bool = false;
                 }
             }else{
                 if($discount->active == 'yes'){
-                    return true;
+                    $bool = true;
                 }
             }
-        }else{
-            return false;
         }
+
+        return $discount ?? false;
     }
 
     public function user(){
