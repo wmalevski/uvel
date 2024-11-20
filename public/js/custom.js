@@ -3056,7 +3056,7 @@ var uvel,
           returnHolder = form.find('[data-calculatePayment-return]');
 
       if (_this.is(':checked')) {
-        $self.paymentPOS(form, currencySelector, givenHolder, returnHolder);
+        // $self.paymentPOS(form, currencySelector, givenHolder, returnHolder);
       } else {
         $self.paymentCash(form, currencySelector, givenHolder, returnHolder);
       }
