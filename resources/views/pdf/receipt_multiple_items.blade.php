@@ -15,7 +15,7 @@
     @switch($item['type'])
     @case('product')
         <div style="width:70%;float:left;"><b>Артикул</b>: {{$item['product']->name}}</div>
-        <div style="width:30%;float:left;text-align:right;">{!! str_replace( '<?xml version="1.0" standalone="no"?>', '' ,DNS1D::getBarcodeSVG($item['product']->barcode, "EAN13",1,33,"black", true)) !!}</div>
+        <div style="width:30%;float:left;text-align:right;">{!! $barcode !!}</div>
 
         @if(isset($item['material']) && !empty($item['material']))
         <div style="width:100%;float:left;"><b>Материал</b>: {{$item['material']->name}} {{$item['material']->code}}, {{$item['material']->color}}</div>
@@ -48,7 +48,7 @@
         <div style="width:70%;float:left;"><b>Артикул</b>: {{$item['product']->name}}
             @if($item['type']=='model')<br><b>Размер</b>: {{$item->model_size}}@endif
         </div>
-        <div style="width:30%;float:left;text-align:right;">{!! str_replace( '<?xml version="1.0" standalone="no"?>', '' ,DNS1D::getBarcodeSVG($item['product']->barcode, "EAN13",1,33,"black", true)) !!}</div>
+        <div style="width:30%;float:left;text-align:right;">{!! $item['product']->barcode !!}</div>
         <div style="clear: both"></div>
         @if($item['type']=='box')
         <div style="float:left;width:100%;text-align:right;"><b>Цена</b>: {{$item['product']->price }} лв.</div>

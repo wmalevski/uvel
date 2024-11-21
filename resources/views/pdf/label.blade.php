@@ -1,7 +1,7 @@
 <div style="clear: both; font-family: Helvetica;">
     <div style="box-sizing: border-box; width: 20%; float: left; padding-right: 10px; font-size: 8px; text-align: center;">
         {{ $material->name }} - {{ $material->code }}
-        <div style="margin: 2px 0">{!! str_replace( '<?xml version="1.0" standalone="no"?>', '' ,DNS1D::getBarcodeSVG($barcode, "EAN13",0.9,14,"black", false)) !!}</div>
+        <div style="margin: 2px 0">{!! $barcode !!}</div>
         {{ $barcode }}
     </div>
     <div style="width: 25%; float: left;">

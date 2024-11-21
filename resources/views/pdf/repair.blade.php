@@ -4,7 +4,7 @@
 
 <hr/>
 @if(isset($repair->barcode))
-<div style="position:fixed;top: 120px;right: 0;">{!! str_replace( '<?xml version="1.0" standalone="no"?>', '' ,DNS1D::getBarcodeSVG($repair->barcode, "EAN13",1,33,"black", true)) !!}</div>@endif
+<div style="position:fixed;top: 120px;right: 0;">{!! $barcode !!}</div>@endif
 <h2 style="margin: 10px 0; text-align: center;"><strong>РЕМОНТ @if(isset($repair->id))№: {{$repair->id}}@endif</strong></h2>
 <h3 style="margin: 5px 0 20px; text-align: center;">бижутерско изделие</h3>
 

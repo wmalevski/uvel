@@ -17,9 +17,7 @@ use App\Product;
 use App\Repair;
 use Auth;
 use App\Currency;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
-use Illuminate\Http\JsonResponse;
 use App\DiscountCode;
 use Response;
 use App\ProductOther;
@@ -36,6 +34,7 @@ use App\MaterialType;
 use App\ExchangeMaterial;
 use App\Services\CartService;
 use App\Services\CartCustomCondition;
+use Milon\Barcode\DNS1D;
 
 class SellingController extends Controller{
     private $cartService;
@@ -503,7 +502,18 @@ class SellingController extends Controller{
                 'mirrorMargins' => true
             ]);
 
-            $html = view('pdf.certificate', compact('product', 'material', 'model', 'weight', 'payment', 'stone'))->render();
+            $barcode = null;
+            if ($product->barcode) {
+              $barcodeHTML = new DNS1D();
+              $barcodeHTML = $barcodeHTML->getBarcodeSVG($product->barcode, "EAN13", 1, 33, "black", true);
+              $barcode = str_replace(
+                [
+                  '<?xml version="1.0" standalone="no"?>', 
+                  '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">'
+                ], '', $barcodeHTML);
+            }
+
+            $html = view('pdf.certificate', compact('product', 'material', 'model', 'weight', 'payment', 'stone', 'barcode'))->render();
 
             $mpdf->WriteHTML($html);
 
@@ -571,6 +581,15 @@ class SellingController extends Controller{
             'margin_right' => 4,
             'mirrorMargins' => true
         ));
+        if ($model->barcode) {
+          $barcodeHTML = new DNS1D();
+          $barcodeHTML = $barcodeHTML->getBarcodeSVG($model->barcode, "EAN13", 1, 33, "black", true);
+          $model->barcode = str_replace(
+            [
+              '<?xml version="1.0" standalone="no"?>', 
+              '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">'
+            ], '', $barcodeHTML);
+        }
 
         $html = view('pdf.certificate_by_model',
             // compact('product', 'material', 'model', 'weight', 'payment', 'stone')
@@ -723,9 +742,19 @@ class SellingController extends Controller{
 
                 // Model
                 if(isset($item->model_id)){
+                  $productTmp = Model::where('id', $item->model_id)->first();
+                  if ($productTmp->barcode) {
+                    $barcodeHTML = new DNS1D();
+                    $barcodeHTML = $barcodeHTML->getBarcodeSVG($productTmp->barcode, "EAN13", 1, 33, "black", true);
+                    $productTmp->barcode = str_replace(
+                      [
+                        '<?xml version="1.0" standalone="no"?>', 
+                        '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">'
+                      ], '', $barcodeHTML);
+                  }
                     array_push($receipt_items,array(
                         'type'=>'model',
-                        'product'=>Model::where('id', $item->model_id)->first(),
+                        'product'=> $productTmp,
                         'model_size'=>$item->model_size
                     ));
                 }
@@ -792,6 +821,16 @@ class SellingController extends Controller{
             $totalWeight = 0;
             $totalPrice = 0;
 
+            if ($barcode) {
+              $barcodeHTML = new DNS1D();
+              $barcodeHTML = $barcodeHTML->getBarcodeSVG($barcode, "EAN13", 1, 33, "black", true);
+              $barcode = str_replace(
+                [
+                  '<?xml version="1.0" standalone="no"?>', 
+                  '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">'
+                ], '', $barcodeHTML);
+            }
+
             switch($type){
                 case 'product':
                     $html = view('pdf.receipt', compact('product', 'material', 'model', 'weight', 'payment', 'barcode', 'store', 'orderStones', 'orderExchangeMaterials', 'exchange_material_sum', 'totalWeight', 'totalPrice'));
@@ -801,7 +840,7 @@ class SellingController extends Controller{
                     break;
                 case 'order':
                     $exchangedMaterials = null;
-                    $html = view('pdf.receipt_multiple_items', compact('store', 'payment', 'receipt_items', 'exchangedMaterials', 'exchange_material_sum', 'totalWeight', 'totalPrice'));
+                    $html = view('pdf.receipt_multiple_items', compact('store', 'payment', 'receipt_items', 'exchangedMaterials', 'exchange_material_sum', 'totalWeight', 'totalPrice', 'barcode'));
                     break;
                 case 'order_by_model':
                     $html = view('pdf.receipt_order_by_model', compact('store','order','selling','material','model','weight','orderPayment','payment','barcode','orderStones','orderExchangeMaterials','exchange_material_sum','totalWeight','totalPrice'));

@@ -8,6 +8,8 @@ use App\Material;
 use App\ProductOther;
 use App\Stone;
 use App\Nomenclature;
+use Milon\Barcode\DNS1D;
+
 
 class GenerateLabelController extends Controller{
 
@@ -58,6 +60,15 @@ class GenerateLabelController extends Controller{
 				'margin_right' => 0,
 				'mirrorMargins' => true
 			]);
+      if ($barcode) {
+        $barcodeHTML = new DNS1D();
+        $barcodeHTML = $barcodeHTML->getBarcodeSVG($barcode, "EAN13", 1, 33, "black", true);
+        $barcode = str_replace(
+          [
+            '<?xml version="1.0" standalone="no"?>', 
+            '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">'
+          ], '', $barcodeHTML);
+      }
 
 			$html = view('pdf.label', compact('barcode', 'weight', 'workmanship', 'product', 'material', 'stone'))->render();
 

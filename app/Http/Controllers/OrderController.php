@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\ModelOrder;
 use App\Order;
 use App\Product;
 use App\Model;

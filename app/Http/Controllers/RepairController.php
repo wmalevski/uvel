@@ -18,6 +18,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
 use App\MaterialQuantity;
 use App\CashRegister;
+use Milon\Barcode\DNS1D;
 
 class RepairController extends Controller{
     /**
@@ -118,8 +119,19 @@ class RepairController extends Controller{
                 'margin_right' => 10,
                 'mirrorMargins' => true
             ]);
+            
+            $barcode = null;
+            if ($repair->barcode) {
+              $barcodeHTML = new DNS1D();
+              $barcodeHTML = $barcodeHTML->getBarcodeSVG($repair->barcode, "EAN13", 1, 33, "black", true);
+              $barcode = str_replace(
+                [
+                  '<?xml version="1.0" standalone="no"?>', 
+                  '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">'
+                ], '', $barcodeHTML);
+            }
 
-            $html = view('pdf.repair', compact('repair', 'repair_type', 'store', 'material'))->render();
+            $html = view('pdf.repair', compact('repair', 'repair_type', 'store', 'material', 'barcode'))->render();
 
             $mpdf->WriteHTML($html);
 
@@ -155,7 +167,18 @@ class RepairController extends Controller{
             'mirrorMargins' => true
         ]);
 
-        $html = view('pdf.repair', compact('repair', 'repair_type','store', 'material'))->render();
+        $barcode = null;
+        if ($repair->barcode) {
+          $barcodeHTML = new DNS1D();
+          $barcodeHTML = $barcodeHTML->getBarcodeSVG($repair->barcode, "EAN13", 1, 33, "black", true);
+          $barcode = str_replace(
+            [
+              '<?xml version="1.0" standalone="no"?>', 
+              '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">'
+            ], '', $barcodeHTML);
+        }
+
+        $html = view('pdf.repair', compact('repair', 'repair_type','store', 'material', 'barcode'))->render();
         $mpdf->WriteHTML($html);
 
         // For development purposes

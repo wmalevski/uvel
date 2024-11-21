@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Response;
 use Illuminate\Support\Facades\View;
+use Milon\Barcode\DNS1D;
 
 class DiscountCodeController extends Controller{
     /**
@@ -76,7 +77,18 @@ class DiscountCodeController extends Controller{
                 'format' => [40, 40],
             ]);
 
-            $html = view('pdf.discount', compact('discount'))->render();
+            $barcode = null;
+            if ($discount->barcode) {
+              $barcodeHTML = new DNS1D();
+              $barcodeHTML = $barcodeHTML->getBarcodeSVG($discount->barcode, "EAN13", 1, 33, "black", true);
+              $barcode = str_replace(
+                [
+                  '<?xml version="1.0" standalone="no"?>', 
+                  '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">'
+                ], '', $barcodeHTML);
+            }
+
+            $html = view('pdf.discount', compact('discount', 'barcode'))->render();
 
             $mpdf->WriteHTML($html);
 

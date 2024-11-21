@@ -10,7 +10,7 @@
 <br><br>
 @if(isset($product))
 <div style="width:70%;float:left;"><b>Артикул</b>: {{$product->name}}</div>
-<div style="width:30%;float:left;text-align:right;">{!! str_replace( '<?xml version="1.0" standalone="no"?>', '' ,DNS1D::getBarcodeSVG($barcode, "EAN13",1,33,"black", true)) !!}</div>
+<div style="width:30%;float:left;text-align:right;">{!! $barcode !!}</div>
 @endif
 
 @if(isset($material) && !empty($material))

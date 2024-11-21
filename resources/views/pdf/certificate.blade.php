@@ -17,7 +17,7 @@
 	</div>
 	<div style="float:left;width:50%;text-align:right;">
 		<div style="text-align:center;font-size:8px;">№:{{$product->id}}</div>
-		<div>{!! str_replace( '<?xml version="1.0" standalone="no"?>', '' ,DNS1D::getBarcodeSVG($product->barcode, "EAN13",1,33,"black", false)) !!}</div>
+		<div>{!! $barcode !!}</div>
 	</div>
 </div>
 </body>
