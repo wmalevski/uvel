@@ -36,7 +36,13 @@
         <td>{{$product->id}}</td>
         <td>@if($product->model) {{$product->model->name}} @endif</td>
         <td>{{$product->size}}</td>
-        <td>{{$product->store_info->id}}</td>
+        @php
+            $storeInfo = false;
+            if ( isset($product->store_info) ) {
+                $storeInfo = $product->store_info;
+            }
+        @endphp
+        <td>{{$storeInfo ? $storeInfo->id : ''}}</td>
         <td>@if($productMaterial) {{$productMaterial->name}} - {{$productMaterial->color}} - {{$productMaterial->code}} @endif</td>
         <td>{{$product->retailPrice->price}}</td>
         <td>@if($product->weight_without_stones == 'yes')
@@ -68,4 +74,4 @@
             @endif
         </td>
     </tr>
-@endif
+@endif 
