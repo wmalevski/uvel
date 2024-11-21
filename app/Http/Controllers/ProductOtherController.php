@@ -146,17 +146,18 @@ class ProductOtherController extends Controller
                 'mirrorMargins' => true
             ]);
 
+            $barcodeSVG = NULL;
             if ($barcode) {
               $barcodeHTML = new DNS1D();
               $barcodeHTML = $barcodeHTML->getBarcodeSVG($barcode, "EAN13", 0.9, 14, "black", true);
-              $barcode = str_replace(
+              $barcodeSVG = str_replace(
                 [
                   '<?xml version="1.0" standalone="no"?>', 
                   '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">'
                 ], '', $barcodeHTML);
             }
 
-            $html = view('pdf.product_others', compact('barcode','productOther', 'productOtherType'))->render();
+            $html = view('pdf.product_others', compact('barcode', 'barcodeSVG','productOther', 'productOtherType'))->render();
 
             $mpdf->WriteHTML($html);
 
