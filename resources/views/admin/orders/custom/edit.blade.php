@@ -11,8 +11,7 @@ if(isset($prodImagePhoto['photo'])){
 		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	</div>
 
-	<form method="POST" data-type="edit" name="custom_order" action="orders/custom/{{ $order->id }}" enctype="multipart/form-data">
-		<input name="_method" type="hidden" value="PUT">
+	<form method="POST" data-type="edit" name="customOrder" action="custom/{{ $order->id }}" autocomplete="off" enctype="multipart/form-data">
 		<div class="modal-body">
 			<div class="info-cont"></div>
 			{{ csrf_field() }}
@@ -32,7 +31,7 @@ if(isset($prodImagePhoto['photo'])){
 					<div class="timepicker-input input-icon form-group deadline">
 						<div class="input-group">
 							<div class="input-group-addon bgc-white bd bdwR-0"><i class="ti-calendar"></i></div>
-							<input type="text" data-date-autoclose="true" data-date-format="dd/mm/yyyy" name="deadline" class="form-control bdc-grey-20$ data-date-start-date='{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d/m/Y')}}'" data-provide="datepicker" value="{{ $order->deadline ? $order->deadline->format('d/m/Y') : '' }}" />
+							<input type="text" data-date-autoclose="true" data-date-format="dd/mm/yyyy" name="deadline" class="form-control bdc-grey-20$ data-date-start-date='{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d/m/Y')}}'" data-provide="datepicker" value="{{ $order->deadline ? Carbon\Carbon::parse($order->deadline)->format('d/m/Y') : '' }}" />
 						</div>
 					</div>
 				</div>
@@ -40,7 +39,7 @@ if(isset($prodImagePhoto['photo'])){
 
 			<div class="form-group">
 				<label for="2">Име на клиент: </label>
-				<input type="email" class="form-control" value="{{ $order->name }}" id="2" name="name" placeholder="Name:">
+				<input type="text" class="form-control" value="{{ $order->name }}" id="2" name="name" placeholder="Name:">
 			</div>
 
 			<div class="form-group">
@@ -76,10 +75,16 @@ if(isset($prodImagePhoto['photo'])){
 				<div class="form-group col-md-12">
 					<label for="1">Снимка: </label>
 					<div class="drop-area form-row justify-content-between" name="add">
-						<input type="file" name="images[]" class="drop-area-input" id="fileElem-add" accept="image/*" multiple required>
-						<label class="button" for="fileElem-add">Select some files</label>
-						<div class="drop-area-gallery"></div>
-						<img class="admin-product-image" src="{{ asset("uploads/orders/".$productImage) }}">
+						<input type="file" name="images" class="drop-area-input" id="images" accept="image/*">
+						<label class="button" for="images">{{__("Избери снимка")}}</label>
+						<div class="drop-area-gallery">
+                            @if( $productImage != '' )
+                                <div class="image-wrapper">
+                                    <div class="close">×</div>
+                                    <img src="{{ asset("uploads/orders/".$productImage) }}">
+                                </div>
+                            @endif
+                        </div>
 					</div>
 				</div>
 			</div>
@@ -107,15 +112,6 @@ if(isset($prodImagePhoto['photo'])){
 					</div>
 				</div>
 			</div>
-
-			<div class="uploaded-images-area">
-				@foreach($basephotos as $photo)
-					<div class='image-wrapper'>
-						<img src="{{$photo['photo']}}" alt="" class="img-responsive" />
-					</div>
-				@endforeach
-			</div>
-
 		</div>
 
 		<div class="modal-footer">

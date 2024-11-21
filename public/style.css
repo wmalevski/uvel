@@ -167,7 +167,7 @@ p {
 
 .image-wrapper {
 	position: relative;
-	width: 150px;
+	/* width: 150px;*/
 	margin: 5px 10px 5px 0;
 }
 
@@ -206,7 +206,7 @@ p {
 
 .drop-area-gallery img,
 .drop-area-gallery .image-wrapper {
-	width: 140px;
+	/* width: 140px; */
 	vertical-align: middle;
 }
 
@@ -358,7 +358,8 @@ textarea {
   right: 0;
 } */
 
-.admin-product-image {
+.admin-product-image,
+.drop-area-gallery img {
 	display: inline-block;
 	width: 60px;
 	height: 60px;

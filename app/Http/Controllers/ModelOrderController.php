@@ -12,6 +12,7 @@ use Response;
 use App\Http\Controllers\Store\ModelController;
 use App\Selling;
 use App\Store;
+use Illuminate\Support\Facades\Cache;
 
 class ModelOrderController extends Controller{
     /**
@@ -34,10 +35,36 @@ class ModelOrderController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function edit(Selling $order){
-        $models = Model::all();
-        $stores = Store::all();
-        $store_info = ($order->user_payment->store_id ? Store::where('id',$order->user_payment->store_id)->first() : null);
-        return \View::make('admin/orders/model/edit', compact('order', 'models', 'stores', 'store_info'));
+        $order->load($order->getRelations() ?: $order->getEagerLoads());
+        $modelOptions = Cache::remember(__CLASS__.'.model_options', 86400, function () use ($order) {
+            $models = Model::with('jewel')->get(); // Ensure jewels are preloaded
+            $options = '';
+
+            foreach ($models as $model) {
+                $selected = $order->model->id == $model->id ? 'selected' : '';
+                $options .= "<option value=\"{$model->id}\" data-jewel=\"{$model->jewel->id}\" {$selected}>{$model->name}</option>";
+            }
+
+            return $options;
+        });
+
+        $storeOptions = Cache::remember('store_options', 60*60*24*30, function () use ($order) { // 30 days in seconds
+            $stores = Store::all();
+            $options = '';
+
+            foreach ($stores as $store) {
+                $selected = $store->id == $order->user_payment->store_id ? 'selected' : '';
+                $options .= "<option value=\"{$store->id}\" {$selected}>{$store->name} - {$store->location}</option>";
+            }
+
+            return $options;
+        });
+
+        $store_info = $order->user_payment->store_id
+            ? Store::find($order->user_payment->store_id)
+            : null;
+
+        return \View::make('admin/orders/model/edit', compact('order', 'modelOptions', 'storeOptions', 'store_info'));
     }
 
     /**

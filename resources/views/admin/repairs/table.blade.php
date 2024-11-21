@@ -1,5 +1,13 @@
 <tr data-id="{{$repair->id}}">
-	<td>{!! DNS1D::getBarcodeSVG($repair->barcode, "EAN13",1,33,"black", true) !!}</td>
+    @php
+        $showBarcode = false;
+        $barcode = '';
+        if ($repair->barcode) {
+            $showBarcode = true;
+            $barcode = DNS1D::getBarcodeSVG($repair->barcode, "EAN13",1,33,"black", true);
+        }
+    @endphp
+	@if($showBarcode)<td>{!! $barcode !!}</td>@endif
 	<td>{{$repair->id}}</td>
 	<td>{{$repair->customer_name}}</td>
 	<td>{{$repair->customer_phone}}</td>

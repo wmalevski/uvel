@@ -38,24 +38,23 @@ class CustomOrderController extends Controller{
         $pass_photos = array();
 
         foreach($photos as $photo){
-            $url =  Storage::get('public/orders/'.$photo->photo);
-            $ext_url = Storage::url('public/orders/'.$photo->photo);
-
+            $ext_url = Storage::url('uploads/orders/'.$photo->photo);
             $info = pathinfo($ext_url);
-
+            
             $image_name =  basename($ext_url,'.'.$info['extension']);
-
-            $base64 = base64_encode($url);
-
+            
+            $base64 = base64_encode($ext_url);
+            
             if($info['extension'] == "svg"){
                 $ext = "png";
             }else{
                 $ext = $info['extension'];
             }
-
+            
             $pass_photos[] = [
                 'id' => $photo->id,
-                'photo' => 'data:image/'.$ext.';base64,'.$base64
+                'photo' => 'data:image/'.$ext.';base64,'.$base64,
+                'src' => $ext_url,
             ];
         }
 
@@ -76,11 +75,11 @@ class CustomOrderController extends Controller{
             'content' => 'required|string',
             'phone' => 'required',
             'city' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images' => 'file|max:2048|mimes:jpeg,png,jpg,gif',
         ]);
 
         if ($validator->fails()) {
-            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
         $order->name = $request->name;
@@ -89,33 +88,26 @@ class CustomOrderController extends Controller{
         $order->phone = $request->phone;
         $order->city = $request->city;
 
-        // If an image is uploaded
-        $file_data = $request->input('images');
-        if (isset($request->images)) {
-
-            $path = public_path('uploads/orders/');
-            File::makeDirectory($path, 0775, true, true);
-            Storage::disk('public')->makeDirectory('orders', 0775, true);
-
-            foreach($file_data as $img){
-                $ext       = pathinfo($img, PATHINFO_EXTENSION);
-                $file_name = 'orderimage_'.uniqid().time().'.'.$ext;
-                $data      = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-
-                file_put_contents(public_path('uploads/orders/').$file_name, $data);
-
-                Storage::disk('public')->put('orders/'.$file_name, file_get_contents(public_path('uploads/orders/').$file_name));
-                $photo = $order->photos->first();
-                if ( !$photo ) {
-                    $photo = new Gallery();
-                }
-
-                $photo->photo = $file_name;
-                $photo->custom_order_id = $order->id;
-                $photo->table = 'orders';
-
-                $photo->save();
+        $image = $request->file('images');
+        if ( $request->hasFile('images') ) {
+            if (!Storage::exists('orders')) {
+                Storage::makeDirectory('orders');
             }
+
+            $mediaType = '';
+            $filename      = str_replace(' ', '', $image->getClientOriginalName());
+            $imagePath     = $image->storeAs('uploads/orders/', $filename);
+            $absolutePath  = storage_path('app/public/' . $imagePath);
+            $photo = $order->photos->first();
+            if ( !$photo ) {
+                $photo = new Gallery();
+            }
+
+            $photo->photo = $filename;
+            $photo->custom_order_id = $order->id;
+            $photo->table = 'orders';
+
+            $photo->save();
         }
 
         if(isset($request->deadline)){
@@ -135,8 +127,7 @@ class CustomOrderController extends Controller{
         }
 
         $order->save();
-
-        return Response::json(array('ID' => $order->id, 'table' => View::make('admin/orders/custom/table',array('order'=>$order))->render()));
+        return redirect()->back()->with('success', 'Image uploaded successfully!');
     }
 
     public function filter(Request $request){
