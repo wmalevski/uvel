@@ -2,7 +2,6 @@
     <div style="box-sizing: border-box; width: 20%; float: left; padding-right: 10px; font-size: 8px; text-align: center;">
         {{ $material->name }} - {{ $material->code }}
         <div style="margin: 2px 0">{!! $barcodeSVG !!}</div>
-        {{ $barcode }}
     </div>
     <div style="width: 25%; float: left;">
         <table>
