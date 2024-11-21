@@ -25,7 +25,7 @@
 					<div class="timepicker-input input-icon form-group deadline">
 						<div class="input-group">
 							<div class="input-group-addon bgc-white bd bdwR-0"><i class="ti-calendar"></i></div>
-							<input type="text" data-date-autoclose="true" data-date-format="dd/mm/yyyy" name="deadline" class="form-control bdc-grey-20$ data-date-start-date="{{ Carbon\Carbon::parse(Carbon\Carbon::now())->format('d/m/Y')}}" data-provide="datepicker" value="{{ $order->deadline ? $order->deadline->format('d/m/Y') : '' }}" />
+							<input type="text" data-date-autoclose="true" data-date-format="dd/mm/yyyy" name="deadline" class="form-control bdc-grey-20" data-date-start-date="{{ Carbon\Carbon::now()->format('d/m/Y') }}" data-provide="datepicker" value="{{ $order->deadline ? Carbon\Carbon::parse($order->deadline)->format('d/m/Y') : '' }}" />
 						</div>
 					</div>
 				</div>
@@ -50,9 +50,7 @@
 			<div class="form-group">
 				<label for="store">Магазин: </label>
 				<select name="store_id" class="form-control" data-search="/ajax/select_search/stores/">
-				@foreach($stores as $store)
-					<option value="{{ $store->id }}" @if($store->id == $order->user_payment->store_id) selected @endif>{{ $store->name }} - {{ $store->location }}</option>
-				@endforeach
+                    {{!! $storeOptions !!}}
 				</select>
 			</div>
 			@else
@@ -76,9 +74,7 @@
 				<label>Модел: </label>
 				<select name="model_id" class="model-select form-control model-filled" data-calculatePrice-model>
 					<option value="">Избери</option>
-					@foreach($models as $model)
-						<option value="{{ $model->id }}" data-jewel="{{ $model->jewel->id }}" @if($order->model->id == $model->id) selected @endif>{{ $model->name }}</option>
-					@endforeach
+                    {!! $modelOptions !!}
 				</select>
 				<div id="modelPicture">
 					<img src="{{ asset("uploads/models/" . $order->model->photos->first()['photo']) }}">

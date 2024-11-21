@@ -11,6 +11,13 @@ aria-hidden="true">
     </div>
 </div>
 
+@if($errors->any())
+  <div class="d-flex flex-column justify-content-center align-items-center p-2">
+    @foreach($errors->all() as $error)
+      <p class="alert-danger">{{$error}}</p>
+    @endforeach
+  </div>
+@endif
 
 <div class="row">
   <div class="col-md-12">

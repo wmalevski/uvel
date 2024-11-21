@@ -44,36 +44,32 @@ class PayController extends Controller
 
     public function setDiscount(Request $request, $barcode){
         $userId = Auth::user()->getId();
-
         $discount = new DiscountCode;
-        $result = json_encode($discount->check($barcode));
+        $result = $discount->check($barcode);
         $setDiscount = false;
 
-        if($result == 'true'){
+        if (!$result) {
+            $setDiscount = false;
+            return response()->json(['message' => 'Discount code not found'], 404);
+        }
 
-            $card = DiscountCode::with(['users'])->where('barcode', $barcode)->first();
+        if($result){
+            $setDiscount = $result->discount;
 
-            if (!$card) {
-                $setDiscount = false;
-                return response()->json(['message' => 'Discount code not found'], 404);
-            }
+            $isEligible = $result->users->contains('id', $userId);
 
-            $setDiscount = $card->discount;
-
-            $isEligible = $card->users->contains('id', $userId);
             if (!$isEligible) {
                 $setDiscount = false;
             }
 
             // Validate Discount's expiration date
-            if($card->lifetime=='no' && isset($card->expires)){
-                $expires = Carbon::createFromFormat('d-m-Y', $card->expires);
+            if($result->lifetime=='no' && isset($result->expires)){
+                $expires = Carbon::createFromFormat('d-m-Y', $result->expires);
                 if($expires->lt(Carbon::now())){
                     $setDiscount = false;
                 }
             }
         }
-
         if($setDiscount){
             $condition = new CartCustomCondition(array(
                 'name' => $setDiscount,
@@ -89,14 +85,14 @@ class PayController extends Controller
             ));
             \Cart::condition($condition);
             \Cart::session($userId)->condition($condition);
-            $total = round(Cart::session($userId)->getTotal(),2);
-            $subTotal = round(Cart::session($userId)->getSubTotal(),2);
-            $cartConditions = Cart::session($userId)->getConditions();
+            $total = round(\Cart::session($userId)->getTotal(),2);
+            $subTotal = round(\Cart::session($userId)->getSubTotal(),2);
+            $cartConditions = \Cart::session($userId)->getConditions();
             $conds = array();
             $priceCon = 0;
 
             if(count($cartConditions) > 0){
-                foreach(Cart::session($userId)->getConditions() as $cc){
+                foreach(\Cart::session($userId)->getConditions() as $cc){
                     $priceCon += $cc->getCalculatedValue($subTotal);
                 }
             }
@@ -117,24 +113,24 @@ class PayController extends Controller
         $userId = Auth::user()->getId();
         $conds = array();
 
-        Cart::removeCartCondition($name);
-        Cart::session($userId)->removeCartCondition($name);
+        \Cart::removeCartCondition($name);
+        \Cart::session($userId)->removeCartCondition($name);
 
-        $cartConditions = Cart::session($userId)->getConditionsByType('discount');
+        $cartConditions = \Cart::session($userId)->getConditionsByType('discount');
         foreach($cartConditions as $key => $condition){
             $conds[$key]['value'] = $condition->getValue();
             $conds[$key]['name'] = $condition->getValue();
             $conds[$key]['attributes'] = $condition->getAttributes();
         }
 
-        $total = round(Cart::session($userId)->getTotal(),2);
-        $subTotal = round(Cart::session(Auth::user()->getId())->getSubTotal(),2);
-        $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
-        $condition = Cart::getConditions('discount');
+        $total = round(\Cart::session($userId)->getTotal(),2);
+        $subTotal = round(\Cart::session(Auth::user()->getId())->getSubTotal(),2);
+        $cartConditions = \Cart::session(Auth::user()->getId())->getConditions();
+        $condition = \Cart::getConditions('discount');
         $priceCon = 0;
 
         if(count($cartConditions) > 0){
-            foreach(Cart::session(Auth::user()->getId())->getConditionsByType('discount') as $cc){
+            foreach(\Cart::session(Auth::user()->getId())->getConditionsByType('discount') as $cc){
                 $priceCon += $cc->getCalculatedValue($subTotal);
             }
         } else{
