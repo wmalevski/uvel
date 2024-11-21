@@ -20,7 +20,7 @@ use \Darryldecode\Cart\Helpers\Helpers as Helpers;
 use Response;
 use App\PaymentDiscount;
 use App\Setting;
-use CartCustomCondition;
+use App\Services\CartCustomCondition;
 
 class OnlineSellingsController extends Controller{
 	/**

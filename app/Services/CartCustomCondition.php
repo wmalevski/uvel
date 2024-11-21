@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use Darryldecode\Cart\CartCondition;
+use Darryldecode\Cart;
 
 class CartCustomCondition extends CartCondition {
     public function apply($totalOrSubTotalOrPrice, $conditionValue)
@@ -10,9 +11,9 @@ class CartCustomCondition extends CartCondition {
             if ( $this->valueIsToBeSubtracted($conditionValue) ) {
                 $price = $totalOrSubTotalOrPrice;
                 if ($this->getTarget() == 'subtotal') {
-                    $price = \Cart::getSubTotal();
+                    $price = Cart::getSubTotal();
                 } elseif ($this->getTarget() == 'total'){
-                    $price = \Cart::getTotal();
+                    $price = Cart::getTotal();
                 }
 
                 $value = Helpers::normalizePrice( $this->cleanValue($conditionValue) );
