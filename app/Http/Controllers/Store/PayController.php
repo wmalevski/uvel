@@ -92,7 +92,7 @@ class PayController extends Controller
             $priceCon = 0;
 
             if(count($cartConditions) > 0){
-                foreach(Cart::session($userId)->getConditions() as $cc){
+                foreach(\Cart::session($userId)->getConditions() as $cc){
                     $priceCon += $cc->getCalculatedValue($subTotal);
                 }
             }
@@ -113,24 +113,24 @@ class PayController extends Controller
         $userId = Auth::user()->getId();
         $conds = array();
 
-        Cart::removeCartCondition($name);
-        Cart::session($userId)->removeCartCondition($name);
+        \Cart::removeCartCondition($name);
+        \Cart::session($userId)->removeCartCondition($name);
 
-        $cartConditions = Cart::session($userId)->getConditionsByType('discount');
+        $cartConditions = \Cart::session($userId)->getConditionsByType('discount');
         foreach($cartConditions as $key => $condition){
             $conds[$key]['value'] = $condition->getValue();
             $conds[$key]['name'] = $condition->getValue();
             $conds[$key]['attributes'] = $condition->getAttributes();
         }
 
-        $total = round(Cart::session($userId)->getTotal(),2);
-        $subTotal = round(Cart::session(Auth::user()->getId())->getSubTotal(),2);
-        $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
-        $condition = Cart::getConditions('discount');
+        $total = round(\Cart::session($userId)->getTotal(),2);
+        $subTotal = round(\Cart::session(Auth::user()->getId())->getSubTotal(),2);
+        $cartConditions = \Cart::session(Auth::user()->getId())->getConditions();
+        $condition = \Cart::getConditions('discount');
         $priceCon = 0;
 
         if(count($cartConditions) > 0){
-            foreach(Cart::session(Auth::user()->getId())->getConditionsByType('discount') as $cc){
+            foreach(\Cart::session(Auth::user()->getId())->getConditionsByType('discount') as $cc){
                 $priceCon += $cc->getCalculatedValue($subTotal);
             }
         } else{
