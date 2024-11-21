@@ -9,30 +9,22 @@ use App\Model;
 use App\Jewel;
 use App\Price;
 use App\Stone;
-use App\ModelStone;
-use App\ProductStone;
 use App\ModelOption;
-use App\User;
 use Illuminate\Http\Request;
 use App\Gallery;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
-use Illuminate\Http\JsonResponse;
 use Response;
-use File;
 use App\Material;
 use App\Store;
 use App\MaterialQuantity;
-use Storage;
 use App\OrderStone;
 use App\ProductTravelling;
 use App\ExchangeMaterial;
 use Auth;
 use App\OrderItem;
 use App\CashRegister;
-use App\Selling;
-use Illuminate\Support\LazyCollection;
-use Illuminate\Support\Facades\Cache;
+use Milon\Barcode\DNS1D;
 
 class OrderController extends Controller{
     /**
@@ -260,6 +252,12 @@ class OrderController extends Controller{
                     $barcode = Model::where('id', $order->model_id)->first();
                     $barcode = $barcode->barcode;
                 }
+            }
+
+            if($barcode) {
+              $barcodeHTML = new DNS1D();
+              $barcodeHTML = $barcodeHTML->getBarcodeSVG($barcode, "EAN13",1,33,"black", true);
+              $barcode = str_replace( '<?xml version="1.0" standalone="no"?>', '', $barcodeHTML);
             }
 
             if($order->exchanged_materials){
