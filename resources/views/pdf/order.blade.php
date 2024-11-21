@@ -71,7 +71,7 @@
         <hr style="margin:5px 0 10px 0;clear: both;">
 
         <div style="float:left;width:50%;font-size:12px;"><b>За получаване: {{$order->date_returned}}</b></div>
-        <div style="float:left;width:50%;padding-top:5px;">{{ $barcode }}</div>
+        <div style="float:left;width:50%;padding-top:5px;">{!! $barcode !!}</div>
 
     </div>
 </div>
