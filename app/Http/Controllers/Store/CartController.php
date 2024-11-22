@@ -42,6 +42,11 @@ class CartController extends BaseController{
 		$cartConditions = Cart::session($session_id)->getConditions();
 		$productothertypes = ProductOtherType::all();
 		$stores = Store::where(array(array('id', '!=', 1)))->get();
+		foreach($stores as $k=>$store){
+            if($store->productsOnline()->count()<1){
+                unset($stores[$k]);
+            }
+        }
 
 		$countitems = (Auth::check() ? Cart::session($session_id)->getTotalQuantity() : 0);
 
