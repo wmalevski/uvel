@@ -86,7 +86,7 @@ class UserPaymentController extends Controller{
 
             $storeMeta = [];
             if ($request->has('store_id')) {
-                $store = Store::find($request->has('store_id'));
+                $store = Store::find($request->store_id);
                 $storeMeta['name'] = $store->name;
                 $storeMeta['location'] = $store->location;
             }
