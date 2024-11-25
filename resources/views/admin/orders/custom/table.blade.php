@@ -10,7 +10,7 @@ if(isset($prodImagePhoto['photo'])){
 	<td>
 		@if(isset($productImage))
             <img class="admin-product-image" 
-                src="{{ Storage::exists('uploads/orders/' . $productImage) ? Storage::url('uploads/orders/' . $productImage) : asset('uploads/orders/' . $productImage) }}" 
+                src="{{ getPhoto('uploads/orders/' . $productImage) }}" 
                 alt="Product Image">
 		@else
 		<i>Няма</i>

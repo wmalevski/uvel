@@ -81,7 +81,7 @@ if(isset($prodImagePhoto['photo'])){
                             @if( $productImage != '' )
                                 <div class="image-wrapper">
                                     <div class="close">×</div>
-                                    <img src="{{ asset("uploads/orders/".$productImage) }}">
+                                    <img src="{{ getPhoto("uploads/orders/".$productImage) }}">
                                 </div>
                             @endif
                         </div>

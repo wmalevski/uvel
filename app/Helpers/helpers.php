@@ -2,7 +2,6 @@
 
 use App\User;
 
-
 if( ! function_exists('isDev') ){
     /**
      *
@@ -102,6 +101,24 @@ if ( ! function_exists('getVideoThumbnail') ) {
         $urlBlocks = array_filter($urlBlocks, fn ($block) => ! empty($block));
 
         return implode('/', $urlBlocks);
+    }
+}
+
+if ( ! function_exists('getPhoto') ) {
+    /**
+     * Retrieves existing photo for provided @path argument
+     * @var $path - relative file path
+     */
+    function getPhoto(string $path) : string
+    {
+        try {
+            if (\Storage::exists($path)) {
+                return \Storage::url($path);
+            }
+            return asset($path);
+        } catch (\Throwable $th) {
+            return '';
+        }
     }
 }
 

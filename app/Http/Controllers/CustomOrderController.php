@@ -98,7 +98,7 @@ class CustomOrderController extends Controller{
             $filename      = str_replace(' ', '', $image->getClientOriginalName());
             $imagePath     = $image->storeAs('uploads/orders/', $filename);
             $absolutePath  = storage_path('app/public/' . $imagePath);
-            $photo = $order->photos->first();
+            $photo         = $order->photos->first();
             if ( !$photo ) {
                 $photo = new Gallery();
             }
@@ -118,11 +118,11 @@ class CustomOrderController extends Controller{
         $order->offer = $request->offer;
         $order->ready_product = $request->ready_product;
 
-        if($request->status_accept == 'true'){
+        if($request->has('status_accept')){
             $order->status = 'accepted';
-        } else if($request->status_ready == 'true'){
+        } else if($request->has('status_ready')){
             $order->status = 'ready';
-        } else if($request->status_delivered == 'true'){
+        } else if($request->has('status_delivered')){
             $order->status = 'delivered';
         }
 
