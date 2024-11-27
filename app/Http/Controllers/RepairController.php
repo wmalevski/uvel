@@ -18,7 +18,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
 use App\MaterialQuantity;
 use App\CashRegister;
-use Milon\Barcode\DNS1D;
 
 class RepairController extends Controller{
     /**
@@ -117,18 +116,14 @@ class RepairController extends Controller{
                 'margin_bottom' => 10,
                 'margin_left' => 10,
                 'margin_right' => 10,
-                'mirrorMargins' => true
+                'mirrorMargins' => true,
+                'tempDir' => storage_path('app/public/mpdf'),
+                'user' => auth()->user(),
             ]);
             
             $barcode = null;
             if ($repair->barcode) {
-              $barcodeHTML = new DNS1D();
-              $barcodeHTML = $barcodeHTML->getBarcodeSVG($repair->barcode, "EAN13", 1, 33, "black", true);
-              $barcode = str_replace(
-                [
-                  '<?xml version="1.0" standalone="no"?>', 
-                  '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">'
-                ], '', $barcodeHTML);
+              $barcode = $barcodeHTML->generateBarcodeSVG($repair->barcode, "C128", 1, 33, "black");
             }
 
             $html = view('pdf.repair', compact('repair', 'repair_type', 'store', 'material', 'barcode'))->render();
@@ -169,13 +164,7 @@ class RepairController extends Controller{
 
         $barcode = null;
         if ($repair->barcode) {
-          $barcodeHTML = new DNS1D();
-          $barcodeHTML = $barcodeHTML->getBarcodeSVG($repair->barcode, "EAN13", 1, 33, "black", true);
-          $barcode = str_replace(
-            [
-              '<?xml version="1.0" standalone="no"?>', 
-              '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">'
-            ], '', $barcodeHTML);
+          $barcode = $barcodeHTML->generateBarcodeSVG($repair->barcode, "C128", 1, 33, "black");
         }
 
         $html = view('pdf.repair', compact('repair', 'repair_type','store', 'material', 'barcode'))->render();

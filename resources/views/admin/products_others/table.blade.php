@@ -9,7 +9,13 @@
         @endif
     </td>
     <td>{{ $product->id }}</td>
-    <td> {!! DNS1D::getBarcodeSVG($product->barcode, "EAN13",1,33,"black", true) !!}</td>
+    
+    <td>
+        <div style="display:flex;flex-direction:column;">
+            <div class="barcode" style="text-align:center;">{!! generateBarcodeSVG($product->barcode, "C128", 1, 33) !!}</div>
+            <div class="barcode-identifier" style="text-align:center;">{{$product->barcode}}</div>
+        </div>
+    </td>
     <td> {{ $product->name }} </td>
     <td> {{ $product->price }} </td>
     <td> {{ $product->quantity }} </td>

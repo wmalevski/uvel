@@ -23,7 +23,6 @@ use App\ExchangeMaterial;
 use Auth;
 use App\OrderItem;
 use App\CashRegister;
-use Milon\Barcode\DNS1D;
 
 class OrderController extends Controller
 {
@@ -257,13 +256,7 @@ class OrderController extends Controller
       }
 
       if ($barcode) {
-        $barcodeHTML = new DNS1D();
-        $barcodeHTML = $barcodeHTML->getBarcodeSVG($barcode, "EAN13", 1, 33, "black", true);
-        $barcode = str_replace(
-          [
-            '<?xml version="1.0" standalone="no"?>', 
-            '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">'
-          ], '', $barcodeHTML);
+        $barcode = $barcodeHTML->generateBarcodeSVG($barcode, "C128", 1, 33, "black");
       }
 
       if ($order->exchanged_materials) {
@@ -301,7 +294,9 @@ class OrderController extends Controller
         'margin-bottom' => 0,
         'margin-header' => 80,
         'margin-footer' => 0,
-        'title' => "Поръчка №" . $order->id
+        'title' => "Поръчка №" . $order->id,
+        'tempDir' => storage_path('app/public/mpdf'),
+        'user' => auth()->user(),
       ]);
 
       $html = '<style>@page{margin: 30px;}</style>' . view('pdf.order', compact('order', 'store', 'barcode', 'material', 'model', 'orderStones', 'orderExchangeMaterials'))->render();

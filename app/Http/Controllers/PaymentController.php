@@ -305,7 +305,9 @@ class PaymentController extends Controller{
         if($payment){
             $mpdf = new \Mpdf\Mpdf([
                 'mode' => 'utf-8',
-                'format' => [148, 210]
+                'format' => [148, 210],
+                'tempDir' => storage_path('app/public/mpdf'),
+                'user' => auth()->user(),
             ]);
 
             $html = view('pdf.exchange_acquittance', compact('payment', 'store', 'materials', 'currency'))->render();

@@ -19,6 +19,8 @@ class DiscountCodePivotSeeder extends Seeder
         foreach ($discountCodes as $key => $code) {
             $data[$key]['discount_code_id'] = $code->id;
             $data[$key]['user_id'] = $code->user_id;
+            $data[$key]['created_at'] = now();
+            $data[$key]['updated_at'] = now();
         }
 
         DB::table('discountcode_user')->insert($data);

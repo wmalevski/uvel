@@ -147,7 +147,9 @@ class ModelOrderController extends Controller{
             'margin-header' => 80,
             'margin-footer' => 0,
             // 'showImageErrors' => true, // Dev purposes
-            'title' => "Поръчка №".$selling->id
+            'title' => "Поръчка №".$selling->id,
+            'tempDir' => storage_path('app/public/mpdf'),
+            'user' => auth()->user(),
         ]);
 
         $html = '<style>@page{margin: 30px;}</style>'.view('pdf.order_ready_model', compact('selling','store_info'))->render();

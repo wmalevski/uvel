@@ -34,7 +34,6 @@ use App\MaterialType;
 use App\ExchangeMaterial;
 use App\Services\CartService;
 use App\Services\CartCustomCondition;
-use Milon\Barcode\DNS1D;
 
 class SellingController extends Controller{
     private $cartService;
@@ -499,18 +498,14 @@ class SellingController extends Controller{
                 'margin_bottom' => 4,
                 'margin_left' => 4,
                 'margin_right' => 4,
-                'mirrorMargins' => true
+                'mirrorMargins' => true,
+                'tempDir' => storage_path('app/public/mpdf'),
+                'user' => auth()->user(),
             ]);
 
             $barcode = null;
             if ($product->barcode) {
-              $barcodeHTML = new DNS1D();
-              $barcodeHTML = $barcodeHTML->getBarcodeSVG($product->barcode, "EAN13", 1, 33, "black", true);
-              $barcode = str_replace(
-                [
-                  '<?xml version="1.0" standalone="no"?>', 
-                  '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">'
-                ], '', $barcodeHTML);
+              $barcode = generateBarcodeSVG($product->barcode, "C128", 1, 33, "black");
             }
 
             $html = view('pdf.certificate', compact('product', 'material', 'model', 'weight', 'payment', 'stone', 'barcode'))->render();
@@ -579,16 +574,12 @@ class SellingController extends Controller{
             'margin_bottom' => 4,
             'margin_left' => 4,
             'margin_right' => 4,
-            'mirrorMargins' => true
+            'mirrorMargins' => true,
+            'tempDir' => storage_path('app/public/mpdf'),
+            'user' => auth()->user(),
         ));
         if ($model->barcode) {
-          $barcodeHTML = new DNS1D();
-          $barcodeHTML = $barcodeHTML->getBarcodeSVG($model->barcode, "EAN13", 1, 33, "black", true);
-          $model->barcode = str_replace(
-            [
-              '<?xml version="1.0" standalone="no"?>', 
-              '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">'
-            ], '', $barcodeHTML);
+          $model->barcode = generateBarcodeSVG($model->barcode, "C128", 1, 33, "black");
         }
 
         $html = view('pdf.certificate_by_model',
@@ -648,7 +639,6 @@ class SellingController extends Controller{
         }
 
         $exchange_material_sum = 0;
-
         if($type == 'product'){
             $product = Product::where('id', $id)->first();
             $material = Material::where('id', $product->material_id)->first();
@@ -744,13 +734,7 @@ class SellingController extends Controller{
                 if(isset($item->model_id)){
                   $productTmp = Model::where('id', $item->model_id)->first();
                   if ($productTmp->barcode) {
-                    $barcodeHTML = new DNS1D();
-                    $barcodeHTML = $barcodeHTML->getBarcodeSVG($productTmp->barcode, "EAN13", 1, 33, "black", true);
-                    $productTmp->barcode = str_replace(
-                      [
-                        '<?xml version="1.0" standalone="no"?>', 
-                        '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">'
-                      ], '', $barcodeHTML);
+                    $productTmp->barcode = generateBarcodeSVG($productTmp->barcode, "C128", 1, 33, "black");
                   }
                     array_push($receipt_items,array(
                         'type'=>'model',
@@ -777,7 +761,6 @@ class SellingController extends Controller{
             $barcode = $model->barcode;
             // $weight = calculate_model_weight($model);
             $weight = array('weight'=>$order->weight); // Apparently, this needs to be statically fetched from the order, instead of being calculated on basis of model properties ¯\_(ツ)_/¯
-
             $orderStones = array();
             $orderExchangeMaterials = array();
 
@@ -815,20 +798,16 @@ class SellingController extends Controller{
                 'margin_bottom' => 4,
                 'margin_left' => 4,
                 'margin_right' => 4,
-                'mirrorMargins' => true
+                'mirrorMargins' => true,
+                'tempDir' => storage_path('app/public/mpdf'),
+                'user' => auth()->user(),
             ]);
-
             $totalWeight = 0;
             $totalPrice = 0;
+            $barcode = $product->barcode;
 
             if ($barcode) {
-              $barcodeHTML = new DNS1D();
-              $barcodeHTML = $barcodeHTML->getBarcodeSVG($barcode, "EAN13", 1, 33, "black", true);
-              $barcode = str_replace(
-                [
-                  '<?xml version="1.0" standalone="no"?>', 
-                  '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">'
-                ], '', $barcodeHTML);
+                $barcode = generateBarcodeSVG($barcode, "C128", 1, 33, "black");
             }
 
             switch($type){
@@ -836,7 +815,7 @@ class SellingController extends Controller{
                     $html = view('pdf.receipt', compact('product', 'material', 'model', 'weight', 'payment', 'barcode', 'store', 'orderStones', 'orderExchangeMaterials', 'exchange_material_sum', 'totalWeight', 'totalPrice'));
                     break;
                 case 'box':
-                    $html = view('pdf.receipt', compact('product', 'payment', 'barcode', 'store'));
+                    $html = view('pdf.receipt', compact('product', 'payment', 'barcode', 'store', 'exchange_material_sum'));
                     break;
                 case 'order':
                     $exchangedMaterials = null;

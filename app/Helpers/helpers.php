@@ -1,6 +1,10 @@
 <?php
 
 use App\User;
+use Picqer\Barcode\Types\TypeCode128;
+use Picqer\Barcode\Renderers\SvgRenderer;
+use Picqer\Barcode\BarcodeGeneratorSVG;
+use Picqer\Barcode\BarcodeGeneratorHTML;
 
 if( ! function_exists('isDev') ){
     /**
@@ -122,4 +126,23 @@ if ( ! function_exists('getPhoto') ) {
     }
 }
 
+if ( ! function_exists('generateBarcodeSVG') ) {
+    function generateBarcodeSVG( string $barcode, string $type, float $widthFactor = 2, float $height = 30, string $color = "black" ) : string
+    {
+        $renderer = (new BarcodeGeneratorSVG())->getBarcode($barcode, $type, $widthFactor, $height, $color);
+        $renderer = str_replace('<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $renderer);
+        $renderer = str_replace('<?xml version="1.0" standalone="no" ?>', '', $renderer);
+        $renderer = preg_replace('~^(?:\r?\n)+~', '', $renderer);
+
+        return $renderer;
+    }
+}
+
+if ( ! function_exists('generateBarcodeHTML') ) {
+    function generateBarcodeHTML( string $barcode, string $type, float $widthFactor = 2, float $height = 30, string $color = "black" ) : string
+    {
+        return (new BarcodeGeneratorHTML())
+            ->getBarcode($barcode, $type, $widthFactor, $height, $color);
+    }
+}
 ?>

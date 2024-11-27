@@ -239,6 +239,8 @@ class MaterialQuantityController extends Controller{
             'margin_bottom' => 5,
             'margin_left' => 5,
             'margin_right' => 5,
+            'tempDir' => storage_path('app/public/mpdf'),
+            'user' => auth()->user(),
         ));
 
         $html = view('pdf.materials_report', compact('store', 'materials', 'totals'));

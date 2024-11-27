@@ -3055,11 +3055,11 @@ var uvel,
           givenHolder = form.find('[data-calculatePayment-given]'),
           returnHolder = form.find('[data-calculatePayment-return]');
 
-      if (_this.is(':checked')) {
-        // $self.paymentPOS(form, currencySelector, givenHolder, returnHolder);
-      } else {
-        $self.paymentCash(form, currencySelector, givenHolder, returnHolder);
-      }
+    //   if (_this.is(':checked')) {
+    //     $self.paymentPOS(form, currencySelector, givenHolder, returnHolder);
+    //   } else {
+    //     $self.paymentCash(form, currencySelector, givenHolder, returnHolder);
+    //   }
     }
 
     this.paymentPOS = function(form, currencySelector, givenHolder, returnHolder) {

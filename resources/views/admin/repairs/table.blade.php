@@ -4,10 +4,17 @@
         $barcode = '';
         if ($repair->barcode) {
             $showBarcode = true;
-            $barcode = DNS1D::getBarcodeSVG($repair->barcode, "EAN13",1,33,"black", true);
+            $barcode = generateBarcodeSVG($repair->barcode, "C128",1,33,"black");
         }
     @endphp
-	@if($showBarcode)<td>{!! $barcode !!}</td>@endif
+	@if($showBarcode)
+        <td>
+            <div style="display:flex;flex-direction:column;">
+                <div class="barcode" style="text-align:center;">{!! $barcode !!}</div>
+                <div class="barcode-identifier" style="text-align:center;">{{$repair->barcode}}</div>
+            </div>
+        </td>
+    @endif
 	<td>{{$repair->id}}</td>
 	<td>{{$repair->customer_name}}</td>
 	<td>{{$repair->customer_phone}}</td>

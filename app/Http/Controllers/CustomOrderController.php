@@ -165,7 +165,9 @@ class CustomOrderController extends Controller{
             'margin-header' => 80,
             'margin-footer' => 0,
             // 'showImageErrors' => true, // Dev purposes
-            'title' => "Поръчка №".$custom->id
+            'title' => "Поръчка №".$custom->id,
+            'tempDir' => storage_path('app/public/mpdf'),
+            'user' => auth()->user(),
         ]);
 
         $html = '<style>@page{margin: 30px;}</style>'.view('pdf.custom_order', compact('custom'))->render();

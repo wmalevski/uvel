@@ -25,7 +25,6 @@ use App\Store;
 use App\MaterialQuantity;
 use Storage;
 use Auth;
-use Milon\Barcode\DNS1D;
 use App\Setting;
 use Illuminate\Support\Facades\Cache;
 
@@ -448,8 +447,7 @@ class ProductController extends Controller{
 
         $material =  Material::where('id', $product->material_id)->first();
         $jewel = Jewel::where('id',$product->jewel_id)->first();
-        $barcode = new DNS1D();
-        $barcode = $barcode->getBarcodeSVG($product->barcode, "EAN13",1,33,"black", true);
+        $barcode = generateBarcodeSVG($product->barcode, "C128",1,33,"black", true);
 
         $product_info = array(
             "id"                => $product->id,

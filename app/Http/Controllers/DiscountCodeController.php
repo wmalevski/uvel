@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Response;
 use Illuminate\Support\Facades\View;
-use Milon\Barcode\DNS1D;
 
 class DiscountCodeController extends Controller{
     /**
@@ -39,22 +38,20 @@ class DiscountCodeController extends Controller{
     public function store(Request $request){
         $validator = Validator::make( $request->all(), [
             'discount' => 'required|integer|between:0,100',
-            'barcode' => 'required|integer',
+            'barcode' => 'required',
         ]);
 
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
-
         $discount = DiscountCode::create([
             'discount' => $request->discount,
             'expires' => $request->date_expires,
             'barcode' => $request->barcode,
         ]);
-
         $userList = explode(',', $request->input('user_list'));
         $discount->users()->sync($userList);
-
+        
         if($request->lifetime == 'true' || !$request->date_expires){
             $discount->lifetime = 'yes';
         }
@@ -64,7 +61,6 @@ class DiscountCodeController extends Controller{
         $discount->active = 'yes';
 
         $discount->save();
-
         return Response::json(array('success' => View::make('admin/discounts/table',array('discount'=>$discount))->render()));
     }
 
@@ -72,27 +68,23 @@ class DiscountCodeController extends Controller{
         $discount = DiscountCode::where('id', $id)->first();
 
         if($discount) {
+            $discountCode = $discount->barcode;
             $mpdf = new \Mpdf\Mpdf([
                 'mode' => 'utf-8',
                 'format' => [40, 40],
+                'tempDir' => storage_path('app/public/mpdf'),
+                'user' => auth()->user(),
             ]);
 
             $barcode = null;
-            if ($discount->barcode) {
-              $barcodeHTML = new DNS1D();
-              $barcodeHTML = $barcodeHTML->getBarcodeSVG($discount->barcode, "EAN13", 1, 33, "black", true);
-              $barcode = str_replace(
-                [
-                  '<?xml version="1.0" standalone="no"?>', 
-                  '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">'
-                ], '', $barcodeHTML);
+            if ($discountCode) {
+                $barcode = generateBarcodeSVG("100", "C128", 1, 33, "black", true);
             }
 
-            $html = view('pdf.discount', compact('discount', 'barcode'))->render();
+            $html = view('pdf.discount', compact('discountCode', 'barcode'))->render();
 
             $mpdf->WriteHTML($html);
-
-            $mpdf->Output(str_replace(' ', '_', $discount->barcode).'_discount.pdf',\Mpdf\Output\Destination::DOWNLOAD);
+            return $mpdf->Output(str_replace(' ', '_', $discountCode).'_discount.pdf',\Mpdf\Output\Destination::DOWNLOAD);
         }
 
         abort(404, 'Product not found.');
@@ -148,7 +140,7 @@ class DiscountCodeController extends Controller{
     {
         $validator = Validator::make( $request->all(), [
             'discount' => 'required|integer|between:0,100',
-            'barcode' => 'required|integer',
+            'barcode' => 'required',
         ]);
 
         $userList = explode(',', $request->input('user_list'));

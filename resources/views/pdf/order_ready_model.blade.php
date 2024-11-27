@@ -18,7 +18,7 @@
         </div>
         <div style="width:50%;margin:0;padding:0;text-align:right;float:right;">
             Получена на: <b>{{$selling->created_at->format('d / m / Y')}}</b><br>
-            Изпълнение До: <b>{{ $selling->deadline ? $selling->deadline->format('d / m / Y') : '___ / ___ / ______'}}</b><br><br>
+            Изпълнение До: <b>{{ $selling->deadline ? \Carbon\Carbon::parse($selling->deadline)->format('d-m-Y') : '___ / ___ / ______'}}</b><br><br>
             Статус: <b>
             @switch($selling->model_status)
                 @case('pending') Очаква одобрение@break;

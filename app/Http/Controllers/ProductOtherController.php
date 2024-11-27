@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Response;
 use Storage;
-use Milon\Barcode\DNS1D;
 
 class ProductOtherController extends Controller
 {
@@ -143,18 +142,14 @@ class ProductOtherController extends Controller
                 'margin_bottom' => 0,
                 'margin_left' => 3,
                 'margin_right' => 0,
-                'mirrorMargins' => true
+                'mirrorMargins' => true,
+                'tempDir' => storage_path('app/public/mpdf'),
+                'user' => auth()->user(),
             ]);
 
             $barcodeSVG = NULL;
             if ($barcode) {
-              $barcodeHTML = new DNS1D();
-              $barcodeHTML = $barcodeHTML->getBarcodeSVG($barcode, "EAN13", 0.9, 14, "black", true);
-              $barcodeSVG = str_replace(
-                [
-                  '<?xml version="1.0" standalone="no"?>', 
-                  '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">'
-                ], '', $barcodeHTML);
+              $barcodeSVG = generateBarcodeSVG($barcode, "C128", 0.9, 14, "black");
             }
 
             $html = view('pdf.product_others', compact('barcode', 'barcodeSVG','productOther', 'productOtherType'))->render();
