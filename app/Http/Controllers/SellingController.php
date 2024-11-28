@@ -493,7 +493,7 @@ class SellingController extends Controller{
 
             $mpdf = new \Mpdf\Mpdf([
                 'mode' => 'utf-8',
-                'format' => [62, 40],
+                // 'format' => [62, 40],
                 'margin_top' => 4,
                 'margin_bottom' => 4,
                 'margin_left' => 4,
@@ -505,16 +505,12 @@ class SellingController extends Controller{
 
             $barcode = null;
             if ($product->barcode) {
-              $barcode = generateBarcodeSVG($product->barcode, "C128", 1, 33, "black");
+              $barcode = generateBarcodeSVG($product->barcode, "EAN13", 1, 33, "black");
             }
 
             $html = view('pdf.certificate', compact('product', 'material', 'model', 'weight', 'payment', 'stone', 'barcode'))->render();
 
             $mpdf->WriteHTML($html);
-
-            // For development purposes
-            // $mpdf->Output();
-            // exit;
 
             $mpdf->Output(str_replace(' ', '_', $product->name).'_certificate.pdf',\Mpdf\Output\Destination::DOWNLOAD);
         }
@@ -569,7 +565,7 @@ class SellingController extends Controller{
 
         $mpdf = new \Mpdf\Mpdf(array(
             'mode' => 'utf-8',
-            'format' => [62, 40],
+            // 'format' => [80, 80],
             'margin_top' => 4,
             'margin_bottom' => 4,
             'margin_left' => 4,
@@ -579,20 +575,14 @@ class SellingController extends Controller{
             'user' => auth()->user(),
         ));
         if ($model->barcode) {
-          $model->barcode = generateBarcodeSVG($model->barcode, "C128", 1, 33, "black");
+          $barcode = generateBarcodeSVG($model->barcode, "EAN13", 1, 33, "black");
         }
 
         $html = view('pdf.certificate_by_model',
-            // compact('product', 'material', 'model', 'weight', 'payment', 'stone')
-            compact('order', 'model', 'material', 'weight', 'stone')
+            compact('order', 'model', 'barcode', 'material', 'weight', 'stone')
         )->render();
 
         $mpdf->WriteHTML($html);
-
-        // For development purposes
-        // $mpdf->Output();
-        // exit;
-
         $mpdf->Output(str_replace(' ', '_', $model->name).'_certificate.pdf',\Mpdf\Output\Destination::DOWNLOAD);
     }
 
@@ -611,7 +601,7 @@ class SellingController extends Controller{
         if($orderID && $type !== 'order_by_model'){
             $selling = $selling::where('order_id', $orderID)->orderBy('id','DESC')->get();
             $payment = Payment::where('id', $selling->first()->payment_id)->first();
-            $store = Store::where('id', $payment->first()->store_id)->first();
+            $store = Store::where('id', $payment->store_id)->first();
         }
         else{
             switch($type){
@@ -734,7 +724,7 @@ class SellingController extends Controller{
                 if(isset($item->model_id)){
                   $productTmp = Model::where('id', $item->model_id)->first();
                   if ($productTmp->barcode) {
-                    $productTmp->barcode = generateBarcodeSVG($productTmp->barcode, "C128", 1, 33, "black");
+                    $productTmp->barcode = generateBarcodeSVG($productTmp->barcode, "EAN13", 1, 33, "black");
                   }
                     array_push($receipt_items,array(
                         'type'=>'model',
@@ -807,7 +797,7 @@ class SellingController extends Controller{
             $barcode = $product->barcode;
 
             if ($barcode) {
-                $barcode = generateBarcodeSVG($barcode, "C128", 1, 33, "black");
+                $barcode = generateBarcodeSVG($barcode, "EAN13", 1, 33, "black");
             }
 
             switch($type){

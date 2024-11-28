@@ -5,14 +5,14 @@
 <tr data-id="{{ $product->id }}">
     <td>
         @if($productImg)
-        <img class="admin-product-image" src="{{ asset("uploads/products_others/".$productImg) }}">
+        <img class="admin-product-image" src="{{ getPhoto("uploads/products_others/".$productImg) }}">
         @endif
     </td>
     <td>{{ $product->id }}</td>
     
     <td>
         <div style="display:flex;flex-direction:column;">
-            <div class="barcode" style="text-align:center;">{!! generateBarcodeSVG($product->barcode, "C128", 1, 33) !!}</div>
+            <div class="barcode" style="text-align:center;">{!! generateBarcodeSVG($product->barcode, "EAN13", 1, 33) !!}</div>
             <div class="barcode-identifier" style="text-align:center;">{{$product->barcode}}</div>
         </div>
     </td>

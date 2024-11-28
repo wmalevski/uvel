@@ -63,7 +63,7 @@ class GenerateLabelController extends Controller{
 
             $barcodeSVG = NULL;
             if ($barcode) {
-                $barcodeSVG = generateBarcodeSVG($barcode, "C128", 1, 33, "black", true);
+                $barcodeSVG = generateBarcodeSVG($barcode, "EAN13", 1, 22, "black", true);
             }
 
             $html = view('pdf.label', compact('barcode', 'barcodeSVG', 'weight', 'workmanship', 'product', 'material', 'stone'))->render();

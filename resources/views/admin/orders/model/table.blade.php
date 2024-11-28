@@ -1,6 +1,6 @@
 <tr data-id="{{ $order->id }}">
     <td>
-      <img class="admin-product-image" src="{{ asset("uploads/models/" . $order->photos->first()['photo']) }}">
+      <img class="admin-product-image" src="{{ getPhoto("uploads/models/" . $order->photos->first()['photo']) }}">
     </td>
     <td>{{ $order->id }}</td>
     <td>{{ $order->deadline ? \Carbon\Carbon::parse($order->deadline)->format('d/m/Y') : ''}}</td>

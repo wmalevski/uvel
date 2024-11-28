@@ -10,7 +10,10 @@
 <br><br>
 @if(isset($product))
 <div style="width:70%;float:left;"><b>Артикул</b>: {{$product->name}}</div>
-<div style="width:30%;float:left;text-align:right;">{!! $barcode !!}</div>
+<div style="width:30%;float:left;text-align:right;">
+    {!! $barcode !!}
+    <p style="text-align:center;">{{ $product->barcode }}</p>
+</div>
 @endif
 
 @if(isset($material) && !empty($material))

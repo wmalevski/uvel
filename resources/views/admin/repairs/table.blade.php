@@ -4,7 +4,7 @@
         $barcode = '';
         if ($repair->barcode) {
             $showBarcode = true;
-            $barcode = generateBarcodeSVG($repair->barcode, "C128",1,33,"black");
+            $barcode = generateBarcodeSVG($repair->barcode, "EAN13",1,33,"black");
         }
     @endphp
 	@if($showBarcode)

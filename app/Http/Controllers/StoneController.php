@@ -175,7 +175,7 @@ class StoneController extends Controller{
         foreach($stone_photos as $photo){
             $photosHtml .= '<div class="image-wrapper">
                 <div class="close"><span data-url="gallery/delete/'.$photo->id.'">&#215;</span></div>
-                <img src="'.asset("uploads/stones/" . $photo->photo).'" alt="" class="img-responsive" />
+                <img src="'.getPhoto("uploads/stones/" . $photo->photo).'" alt="" class="img-responsive" />
             </div>';
         }
 
@@ -212,7 +212,7 @@ class StoneController extends Controller{
             $photosHtml .= '
             <div class="image-wrapper">
             <div class="close"><span data-url="gallery/delete/'.$photo->id.'">&#215;</span></div>
-            <img src="'.asset("uploads/stones/" . $photo->photo).'" alt="" class="img-responsive" />
+            <img src="'.getPhoto("uploads/stones/" . $photo->photo).'" alt="" class="img-responsive" />
         </div>';
         }
 
@@ -293,7 +293,7 @@ class StoneController extends Controller{
             $photosHtml .= '
                 <div class="image-wrapper">
                 <div class="close"><span data-url="gallery/delete/'.$photo->id.'">&#215;</span></div>
-                <img src="'.asset("uploads/stones/" . $photo->photo).'" alt="" class="img-responsive" />
+                <img src="'.getPhoto("uploads/stones/" . $photo->photo).'" alt="" class="img-responsive" />
             </div>';
         }
 

@@ -1,6 +1,6 @@
 <tr data-id="{{ $slide->id }}">
         <td class="thumbnail--tooltip">
-            <ul  style="background-image: url({{ asset("uploads/slides/" . $slide->photo) }});">
+            <ul  style="background-image: url({{ getPhoto("uploads/slides/" . $slide->photo) }});">
                 </ul>
                 {{$slide->title}}
         </td>

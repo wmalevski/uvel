@@ -9,14 +9,14 @@
 				<div id="quick-shop-image" class="product-image-wrapper">
 					<a class="main-image">
 						<img alt="{{ $product->name }}" class="img-zoom img-responsive image-fly"
-							src="@if(App\Gallery::where('product_other_id',$product->id)->get()){{ asset("uploads/products_others/" . App\Gallery::where('product_other_id', $product->id)->first()->photo) }}@endif">
+							src="@if(App\Gallery::where('product_other_id',$product->id)->get()){{ getPhoto("uploads/products_others/" . App\Gallery::where('product_other_id', $product->id)->first()->photo) }}@endif">
 					</a>
 					<div id="gallery_main_qs" class="product-image-thumb">
 						@if(App\Gallery::where('product_other_id', $product->id)->first()->get())
 							@foreach(App\Gallery::where('product_other_id', $product->id)->get() as $data)
-							<a class="image-thumb active" href="{{ asset("uploads/products_others/" . $data->photo) }}" data-image="{{ asset("uploads/products_others/" . $data->photo) }}"
-							data-zoom-image="{{ asset("uploads/products_others/" . $data->photo) }}">
-							<img src="{{ asset("uploads/products_others/" . $data->photo) }}" alt="{{ $product->name }}" /></a>
+							<a class="image-thumb active" href="{{ getPhoto("uploads/products_others/" . $data->photo) }}" data-image="{{ getPhoto("uploads/products_others/" . $data->photo) }}"
+							data-zoom-image="{{ getPhoto("uploads/products_others/" . $data->photo) }}">
+							<img src="{{ getPhoto("uploads/products_others/" . $data->photo) }}" alt="{{ $product->name }}" /></a>
 							@endforeach
 						@endif
 					</div>

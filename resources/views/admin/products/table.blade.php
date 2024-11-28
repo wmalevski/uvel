@@ -9,12 +9,12 @@
                 @endphp
                 <button class="product-information-btn" data-form="" data-toggle="modal" data-target="#productInformation">
                     @if($prodPhoto)
-                    <img class="admin-product-image" src="{{ asset("uploads/products/".$prodPhoto) }}">
+                    <img class="admin-product-image" src="{{ getPhoto("uploads/products/".$prodPhoto) }}">
                     @endif
                 </button>
                 <ul class="product-hover-image" style="
                 @if($prodPhoto)
-                    background-image: url({{ asset("uploads/products/".$prodPhoto) }});
+                    background-image: url({{ getPhoto("uploads/products/".$prodPhoto) }});
                 @endif
                 "></ul>
             @elseif($product->model)
@@ -23,11 +23,11 @@
                     $modPhoto=($modPhoto && isset($modPhoto['photo'])?$modPhoto['photo']:null);
                 @endphp
                 @if($modPhoto)
-                <img class="admin-product-image" src="{{ asset("uploads/models/".$modPhoto) }}">
+                <img class="admin-product-image" src="{{ getPhoto("uploads/models/".$modPhoto) }}">
                 @endif
                 <ul class="product-hover-image" style="
                 @if($modPhoto)
-                background-image: url({{ asset("uploads/models/".$modPhoto) }});
+                background-image: url({{ getPhoto("uploads/models/".$modPhoto) }});
                 @endif
                 "></ul>
             @endif

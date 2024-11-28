@@ -62,7 +62,7 @@
                                                             <div class="close" >
                                                                 <span data-url="gallery/delete/{{$thumb->id}}">&#215;</span>
                                                             </div>
-                                                            <img  src="{{ asset("uploads/blog/" . $thumb->photo) }}" alt="{{ $article->slug }}"/>
+                                                            <img  src="{{ getPhoto("uploads/blog/" . $thumb->photo) }}" alt="{{ $article->slug }}"/>
                                                         </div>
                                                     @endif
                                                 @endforeach

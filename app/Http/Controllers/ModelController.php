@@ -704,7 +704,7 @@ class ModelController extends Controller{
             $photosHtml .= '
                 <div class="image-wrapper">
                 <div class="close"><span data-url="gallery/delete/'.$photo->id.'">&#215;</span></div>
-                <img src="'.asset("uploads/models/" . $photo->photo).'" alt="" class="img-responsive" />
+                <img src="'.getPhotos("uploads/models/" . $photo->photo).'" alt="" class="img-responsive" />
             </div>';
         }
 

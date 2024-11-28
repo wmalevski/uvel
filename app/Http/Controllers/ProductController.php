@@ -410,7 +410,7 @@ class ProductController extends Controller{
                 $photosHtml .= '
                     <div class="image-wrapper">
                     <div class="close"><span data-url="gallery/delete/'.$photo->id.'">&#215;</span></div>
-                    <img src="'.asset("uploads/products/" . $photo->photo).'" alt="" class="img-responsive" />
+                    <img src="'.getPhoto("uploads/products/" . $photo->photo).'" alt="" class="img-responsive" />
                 </div>';
             }
 
@@ -447,7 +447,7 @@ class ProductController extends Controller{
 
         $material =  Material::where('id', $product->material_id)->first();
         $jewel = Jewel::where('id',$product->jewel_id)->first();
-        $barcode = generateBarcodeSVG($product->barcode, "C128",1,33,"black", true);
+        $barcode = generateBarcodeSVG($product->barcode, "EAN13",1,23,"black", true);
 
         $product_info = array(
             "id"                => $product->id,

@@ -71,7 +71,7 @@ class DiscountCodeController extends Controller{
             $discountCode = $discount->barcode;
             $mpdf = new \Mpdf\Mpdf([
                 'mode' => 'utf-8',
-                'format' => [40, 40],
+                'format' => [50, 50],
                 'tempDir' => storage_path('app/public/mpdf'),
                 'user' => auth()->user(),
             ]);

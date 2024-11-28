@@ -10,16 +10,16 @@
   </td>
   <td>
     @if($order->model)
-      <img class="admin-product-image" src="{{ asset("uploads/models/" . $order->model->photos->first()['photo']) }}">
+      <img class="admin-product-image" src="{{ getPhoto("uploads/models/" . $order->model->photos->first()['photo']) }}">
     @elseif($order->product)
-      <img class="admin-product-image" src="{{ asset("uploads/products/" . $order->product->photos->first()['photo']) }}">
+      <img class="admin-product-image" src="{{ getPhoto("uploads/products/" . $order->product->photos->first()['photo']) }}">
     @endif
   </td>
   <td> @if($order->model) {{ $order->jewel->name }} @endif </td> 
   <td> {{ $order->retailPrice->price }} </td> 
   <td> 
     @if($order->weight_without_stones == 'yes')
-      {{ $order->weight }}
+      {{ $order->weightp }}
     @else
       {{ $order->gross_weight }}
     @endif

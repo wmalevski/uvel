@@ -6,19 +6,10 @@
                 $prodPhoto=$prod->photos->first();
                 $prodPhoto=($prodPhoto && isset($prodPhoto['photo'])?$prodPhoto['photo']:null);
             }
-
-            // $mod=App\Product::withTrashed()->find($product->product_id);
-            // if($mod){
-            //     $modPhoto=$mod->model->photos->first();
-            //     $modPhoto=($modPhoto && isset($modPhoto['photo'])?$modPhoto['photo']:null);
-            // }
         @endphp
         @if($prod && $prodPhoto)
-            <img class="admin-product-image" src="{{ asset("uploads/products/".$prodPhoto)}}">
-            <ul class="product-hover-image" style="background-image: url({{ asset("uploads/products/". $prodPhoto) }});"></ul>
-{{--         @elseif($mod && $modPhoto)
-            <img class="admin-product-image" src="{{ asset("uploads/models/".$modPhoto) }}">
-            <ul class="product-hover-image" style="background-image: url({{ asset("uploads/models/". $modPhoto) }});"></ul> --}}
+            <img class="admin-product-image" src="{{ getPhoto("uploads/products/".$prodPhoto)}}">
+            <ul class="product-hover-image" style="background-image: url({{ getPhoto("uploads/products/". $prodPhoto) }});"></ul>
         @endif
     </td>
     <td>{{ $item->product_id }}</td>

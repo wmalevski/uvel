@@ -256,7 +256,7 @@ class OrderController extends Controller
       }
 
       if ($barcode) {
-        $barcode = $barcodeHTML->generateBarcodeSVG($barcode, "C128", 1, 33, "black");
+        $barcode = generateBarcodeSVG($barcode, "EAN13", 1, 33, "black");
       }
 
       if ($order->exchanged_materials) {

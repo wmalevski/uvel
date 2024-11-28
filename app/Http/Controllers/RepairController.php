@@ -123,7 +123,7 @@ class RepairController extends Controller{
             
             $barcode = null;
             if ($repair->barcode) {
-              $barcode = $barcodeHTML->generateBarcodeSVG($repair->barcode, "C128", 1, 33, "black");
+              $barcode = $barcodeHTML->generateBarcodeSVG($repair->barcode, "EAN13", 1, 33, "black");
             }
 
             $html = view('pdf.repair', compact('repair', 'repair_type', 'store', 'material', 'barcode'))->render();
@@ -164,7 +164,7 @@ class RepairController extends Controller{
 
         $barcode = null;
         if ($repair->barcode) {
-          $barcode = $barcodeHTML->generateBarcodeSVG($repair->barcode, "C128", 1, 33, "black");
+          $barcode = $barcodeHTML->generateBarcodeSVG($repair->barcode, "EAN13", 1, 33, "black");
         }
 
         $html = view('pdf.repair', compact('repair', 'repair_type','store', 'material', 'barcode'))->render();

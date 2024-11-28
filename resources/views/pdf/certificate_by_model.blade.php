@@ -17,7 +17,10 @@
 	</div>
 	<div style="float:left;width:50%;text-align:right;">
 		<div style="text-align:center;font-size:8px;">№:{{$order->id}}</div>
-		<div>{!! $model->barcode !!}</div>
+		<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;">
+            <span>{!! $barcode !!}</span>
+            <span>{{ $model->barcode }}</span>
+        </div>
 	</div>
 </div>
 </body>

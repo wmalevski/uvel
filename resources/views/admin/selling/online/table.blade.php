@@ -27,18 +27,18 @@
 	@foreach(App\UserPaymentProduct::where('payment_id', $selling->payment->id)->get() as $product)
 		<div class="sell-product-thumbnail">
 		@if($product->product_id)
-			<img class="admin-product-image" rel="product" src="{{ asset("uploads/products/".App\Gallery::where(array(
+			<img class="admin-product-image" rel="product" src="{{ getPhoto("uploads/products/".App\Gallery::where(array(
 				'table'=>'products',
 				'product_id'=>$product->product_id
 			))->first()['photo']) }}" name="{{ $product->product_id }}"/>
 			<span>x {{ $product->quantity }}</span>
 		@elseif($product->product_other_id)
-			<img class="admin-product-image" rel="product_other" src="{{ asset("uploads/products_others/".App\Gallery::where(array(
+			<img class="admin-product-image" rel="product_other" src="{{ getPhoto("uploads/products_others/".App\Gallery::where(array(
 				'table'=>'products_others',
 				'product_other_id'=>$product->product_other_id
 			))->first()['photo']) }}" />
 		@elseif($product->model_id)
-			<img class="admin-product-image" rel="model" src="{{ asset("uploads/models/".App\Gallery::where(array(
+			<img class="admin-product-image" rel="model" src="{{ getPhoto("uploads/models/".App\Gallery::where(array(
 				'table'=>'models',
 				'model_id'=>$product->model_id
 			))->first()['photo']) }}" />

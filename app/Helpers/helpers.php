@@ -132,7 +132,7 @@ if ( ! function_exists('generateBarcodeSVG') ) {
         $renderer = (new BarcodeGeneratorSVG())->getBarcode($barcode, $type, $widthFactor, $height, $color);
         $renderer = str_replace('<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $renderer);
         $renderer = str_replace('<?xml version="1.0" standalone="no" ?>', '', $renderer);
-        $renderer = preg_replace('~^(?:\r?\n)+~', '', $renderer);
+        $renderer = preg_replace('~^(?:\r?\n)+~', '', $renderer); // Remove all leading EOLs
 
         return $renderer;
     }

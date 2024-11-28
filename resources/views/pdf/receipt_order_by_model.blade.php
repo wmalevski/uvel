@@ -1,4 +1,5 @@
 <h3 style="margin: 5px 0; text-align: center;">Магазин за златна и сребърна бижутерия</h3>
+@dd(123)
 <h3 style="margin: 5px 0; text-align: center;">{{$store->name}} - {{$store->location}}</h3>
 <h4 style="margin: 5px 0; text-align: center;">тел.: {{$store->phone}}</h4>
 <hr/>
@@ -10,7 +11,10 @@
 <br><br>
 @if(isset($model))
 <div style="width:70%;float:left;"><b>Артикул</b>: {{$model->name}}</div>
-<div style="width:30%;float:left;text-align:right;">{!! $barcode !!}</div>
+<div style="width:30%;float:left;text-align:right;">
+    {!! $barcode !!}
+    <p style="text-align:center;">{{ $model->barcode }}</p>
+</div>
 @endif
 
 @if(isset($material) && !empty($material))

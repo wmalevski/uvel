@@ -1,11 +1,11 @@
 <tr data-id="{{ $review->id }}">
     <td>
       @if($review->product_id)
-        <img class="admin-product-image" src="{{ asset("uploads/products/" . $review->product->photos->first()['photo']) }}">
+        <img class="admin-product-image" src="{{ getPhoto("uploads/products/" . $review->product->photos->first()['photo']) }}">
       @elseif($review->model_id)
-        <img class="admin-product-image" src="{{ asset("uploads/models/" . $review->model->photos->first()['photo']) }}">
+        <img class="admin-product-image" src="{{ getPhoto("uploads/models/" . $review->model->photos->first()['photo']) }}">
       @elseif($review->product_others_id)
-        <img class="admin-product-image" src="{{ asset("uploads/products_others/" . $review->productOther->photos->first()['photo']) }}">
+        <img class="admin-product-image" src="{{ getPhoto("uploads/products_others/" . $review->productOther->photos->first()['photo']) }}">
       @endif
     </td>
     <td>

@@ -11,7 +11,7 @@
         </div>
         <div style="width:50%;margin:0;padding:0;text-align:right;float:right;">
             Получена на: <b>{{$custom->created_at->format('d / m / Y')}}</b><br>
-            Изпълнение До: <b>{{ $custom->deadline ? $custom->deadline->format('d / m / Y') : '___ / ___ / ______'}}</b>
+            Изпълнение До: <b>{{ $custom->deadline ? Carbon\Carbon::parse($custom->deadline)->format('d / m / Y') : '___ / ___ / ______'}}</b>
             <br>
             Статус: <b>
             @switch($custom->status)

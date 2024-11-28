@@ -1,6 +1,6 @@
 <tr data-id="{{ $review->id }}">
     <td>
-      <img class="admin-product-image" src="{{ asset("uploads/models/" . $review->model->photos->first()['photo']) }}">
+      <img class="admin-product-image" src="{{ getPhoto("uploads/models/" . $review->model->photos->first()['photo']) }}">
     </td>
     <td>{{ $review->model->id }}</td>
     <td>{{ $review->user ? $review->user->email : "Анонимен" }}</td>

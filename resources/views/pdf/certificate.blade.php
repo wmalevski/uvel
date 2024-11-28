@@ -17,7 +17,10 @@
 	</div>
 	<div style="float:left;width:50%;text-align:right;">
 		<div style="text-align:center;font-size:8px;">№:{{$product->id}}</div>
-		<div>{!! $barcode !!}</div>
+		<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;">
+            <div>{!! $barcode !!}</div>
+            <div>{{$product->barcode}}</div>
+        </div>
 	</div>
 </div>
 </body>

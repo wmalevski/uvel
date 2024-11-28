@@ -149,7 +149,7 @@ class ProductOtherController extends Controller
 
             $barcodeSVG = NULL;
             if ($barcode) {
-              $barcodeSVG = generateBarcodeSVG($barcode, "C128", 0.9, 14, "black");
+              $barcodeSVG = generateBarcodeSVG($barcode, "EAN13", 0.9, 14, "black");
             }
 
             $html = view('pdf.product_others', compact('barcode', 'barcodeSVG','productOther', 'productOtherType'))->render();

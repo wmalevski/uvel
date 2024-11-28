@@ -15,8 +15,10 @@
     @switch($item['type'])
     @case('product')
         <div style="width:70%;float:left;"><b>Артикул</b>: {{$item['product']->name}}</div>
-        <div style="width:30%;float:left;text-align:right;">{!! $barcode !!}</div>
-
+        <div style="width:30%;float:left;text-align:right;">
+            {!! $barcode !!}
+            <p style="text-align:center;">{{$item['product']->barcode}}</p>
+        </div>
         @if(isset($item['material']) && !empty($item['material']))
         <div style="width:100%;float:left;"><b>Материал</b>: {{$item['material']->name}} {{$item['material']->code}}, {{$item['material']->color}}</div>
         @endif

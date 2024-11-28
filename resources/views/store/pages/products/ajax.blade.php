@@ -5,11 +5,11 @@
 			<a href="{{ route('single_product', ['product' => $product->id]) }}" class="container_item">
 				<img class="img-fill" alt="{{ $product->id }}" src="
 				@if(count($product->photos))
-				{{ asset("uploads/products/" . $product->photos->first()['photo']) }}
+				{{ getPhoto("uploads/products/" . $product->photos->first()['photo']) }}
 				@elseif(count($product->model->photos))
-				{{ asset("uploads/models/" . $product->model->photos->first()['photo']) }}
+				{{ getPhoto("uploads/models/" . $product->model->photos->first()['photo']) }}
 				@else
-				{{ asset('store/images/demo_375x375.png') }}
+				{{ getPhoto('store/images/demo_375x375.png') }}
 				@endif">
 			</a>
 			<div class="hbw">

@@ -3,10 +3,10 @@
     <td class="thumbnail--tooltip">
         @if(count($model->photos))
             <button class="model-information-btn" data-toggle="modal" data-target="#modelInformation">
-                <img class="admin-product-image" src="{{ asset("uploads/models/" . $model->photos->first()['photo']) }}">
+                <img class="admin-product-image" src="{{ getPhoto("uploads/models/" . $model->photos->first()['photo']) }}">
             </button>
             <ul class="product-hover-image"
-                style="background-image: url({{ asset("uploads/models/" . $model->photos->first()['photo']) }});"></ul>
+                style="background-image: url({{ getPhoto("uploads/models/" . $model->photos->first()['photo']) }});"></ul>
         @endif
     </td>
     <td>{{$model->name}}</td>
