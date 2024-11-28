@@ -116,7 +116,7 @@ class PriceController extends Controller{
             'material_id'=>$price->material_id,
             'type'=>($request->type == 'sell' ? 'buy' : 'sell')
         ))->first()->price;
-        $buy = $request->price;
+        $buy = (float) $request->price;
 
         try {
             $products = Product::where(array(
@@ -149,7 +149,7 @@ class PriceController extends Controller{
                     if( $product->status != 'sold' ) {
                       $productsBatch[] = [
                         'id' => $product->id,
-                        'price' => round($request->price * $product->weight),
+                        'price' => round(($request->type == 'sell' ? $buy : $sell) * $model->weight),
                         'workmanship' => round(($buy - $sell) * $product->weight),
                       ];
                     }
