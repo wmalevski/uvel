@@ -116,16 +116,24 @@
     table thead th{color:silver;}
 </style>
 <script type="text/javascript">
-    $(document).ready(function(){
-        $("table.repair-records-table.tablesort tbody").bind("DOMSubtreeModified", function(){
-            $('table.repair-records-table.tablesort tfoot tr th#travellingCounter b').html($("table.repair-records-table.tablesort tbody tr").length);
+    document.addEventListener("DOMContentLoaded", () => {
+        const tableBody = document.querySelector("table.repair-records-table.tablesort tbody");
+        const travellingCounter = document.querySelector("table.repair-records-table.tablesort tfoot tr th#travellingCounter b");
+        const travellingWeight = document.querySelector("table.repair-records-table.tablesort tfoot tr th#travellingWeight b");
 
-            weightCounter = 0;
-            $("table.repair-records-table.tablesort tbody tr").each(function(index,row){
-                weightCounter += parseFloat($(row).children('td:nth-child(4)').html().replace(' гр', ''));
+        const observer = new MutationObserver(() => {
+            const rowCount = tableBody.querySelectorAll("tr").length;
+            travellingCounter.textContent = rowCount;
+
+            let weightCounter = 0;
+            tableBody.querySelectorAll("tr").forEach(row => {
+                const weightText = row.querySelector("td:nth-child(4)")?.textContent || "0";
+                weightCounter += parseFloat(weightText.replace(" гр", "")) || 0;
             });
-            $('table.repair-records-table.tablesort tfoot tr th#travellingWeight b').html(weightCounter);
+            travellingWeight.textContent = weightCounter;
         });
+
+        observer.observe(tableBody, { childList: true, subtree: true });
     });
 </script>
 @endsection

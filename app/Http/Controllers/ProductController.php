@@ -137,10 +137,14 @@ class ProductController extends Controller{
                     ]
                 ];
             }
-
         }
 
-        return response()->json($pass_products, 200);
+        return response()->json([
+            'results' => $pass_products,
+            'pagination' => [
+                'more' => $products->hasMorePages()
+            ],
+        ]);
     }
 
     public function filter(Request $request){
