@@ -30,19 +30,20 @@
 
             <div style="clear: both;">
             @if (Illuminate\Support\Str::lower($material->name) == "злато")
-                <div style="float: left; width: 33.3%;">Грам: <b>{{$order->weight}}</b></div>
-                <div style="float: left; width: 33.3%;text-align:center;">Изработка: <b>{{$order->workmanship}}лв.</b></div>
-                <div style="float: left; width: 33.3%;text-align:right;">Цена: <b>{{$order->price}}лв.</b></div>
+                <div style="float: left; width: 25%;">Грам: <b>{{$order->weight}}</b></div>
+                <div style="float: left; width: 25%;">Размер: <b>{{$order->size}}</b></div>
+                <div style="float: left; width: 25%;">Изработка: <b>{{$order->workmanship}}лв.</b></div>
+                <div style="float: left; width: 25%;text-align:right;">Цена: <b>{{$order->price}}лв.</b></div>
             @else
-                <div style="float: left; width: 33.3%;">Грам: <b>{{$order->gross_weight}}</b></div>
-                <div style="float: left; width: 33.3%;text-align:center;">Изработка: <b>{{$order->workmanship}}лв.</b></div>
-                <div style="float: left; width: 33.3%;text-align:right;">Цена: <b>{{$order->price}}лв.</b></div>
+                <div style="float: left; width: 25%;">Грам: <b>{{$order->gross_weight}}</b></div>
+                <div style="float: left; width: 25%;">Размер: <b>{{$order->size}}</b></div>
+                <div style="float: left; width: 25%;">Изработка: <b>{{$order->workmanship}}лв.</b></div>
+                <div style="float: left; width: 25%;text-align:right;">Цена: <b>{{$order->price}}лв.</b></div>
             @endif
             </div>
         </div>
 
         <hr style="margin:5px 0 5px 0;clear: both;height:0;width:0;">
-
         <div style="width:50%;margin:0;padding:0;font-size:10px;text-align:left;float:left;">
             @if($order->earnest)Капаро: <b>{{$order->earnest}}лв.</b>@endif
         </div>

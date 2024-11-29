@@ -565,7 +565,7 @@ class SellingController extends Controller{
 
         $mpdf = new \Mpdf\Mpdf(array(
             'mode' => 'utf-8',
-            // 'format' => [80, 80],
+            'format' => [62, 42],
             'margin_top' => 4,
             'margin_bottom' => 4,
             'margin_left' => 4,
@@ -575,7 +575,7 @@ class SellingController extends Controller{
             'user' => auth()->user(),
         ));
         if ($model->barcode) {
-          $barcode = generateBarcodeSVG($model->barcode, "EAN13", 1, 33, "black");
+          $barcode = generateBarcodeSVG($model->barcode, "EAN13", 1, 25, "black");
         }
 
         $html = view('pdf.certificate_by_model',
