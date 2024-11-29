@@ -3321,7 +3321,7 @@ var uvel,
           closeBtn.innerHTML = '&#215;';
           $self.deleteImagesDropArea($(closeBtn));
 
-          mediaBlob.setAttribute('src', sourceTemp);
+          mediaBlob.setAttribute('src', reader.result);
           imageWrapper.append(closeBtn);
           imageWrapper.append(mediaBlob);
 
