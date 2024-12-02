@@ -346,7 +346,7 @@ class Product extends BaseModel
 
     $findModel = DefModel::find($request->model_id);
 
-    $product = Product::where('order_id', $request->order_id)->get();
+    $product = Product::where('order_id', $request->order_id)->first();
     if (!$product) {
         $product = new Product();
     }
