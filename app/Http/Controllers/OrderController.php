@@ -564,10 +564,7 @@ class OrderController extends Controller
             ['material_id', $request->material_id],
             ['store_id', Auth::user()->getStore()->id]
           ])->first();
-          dump(!$material || $material->quantity < $request->weight);
-          dump('$material->quantity', $material->quantity);
-          dump('$request->weight', $request->weight);
-          die;
+
           if (!$material || $material->quantity < $request->weight) {
             return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
           }
