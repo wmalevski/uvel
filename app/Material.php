@@ -73,13 +73,12 @@ class Material extends Model
 
     public function filterMaterials(Request $request, $returnModel = false){
         $search = $request->search;
-        $params = $request->all();
-
+        // $params = $request->all();
         // There are specific scenarios where header named 'search' is not present in the request so we have to overwrite it
-        if (is_null($search)) {
-            $search = reset($params);
-        }
-
+        // if (is_null($search)) {
+        //     $search = reset($params);
+        // }
+        // $search = $request->search;
         $materials = Material::where(function ($query) use ($search) {
                 $query->where('name', 'like', '%' .$search. '%')
                     ->orWhere('color', 'like', '%' .$search. '%')
