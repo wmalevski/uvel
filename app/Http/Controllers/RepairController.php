@@ -159,7 +159,9 @@ class RepairController extends Controller{
             'margin_bottom' => 10,
             'margin_left' => 10,
             'margin_right' => 10,
-            'mirrorMargins' => true
+            'mirrorMargins' => true,
+            'tempDir' => storage_path('app/public/mpdf'),
+            'user' => auth()->user(),
         ]);
 
         $barcode = null;

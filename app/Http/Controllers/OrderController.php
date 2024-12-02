@@ -344,7 +344,7 @@ class OrderController extends Controller
       }
     }
 
-    $orderStone = array();
+    $orderStones = array();
     if ($order->stones) {
       foreach ($order->stones  as $stone) {
         $nomenclature = Stone::where('id', $stone->stone_id)->first()->nomenclature->name;
@@ -366,7 +366,9 @@ class OrderController extends Controller
       'margin-header' => 80,
       'margin-footer' => 0,
       // 'showImageErrors' => true, // Dev purposes
-      'title' => "Поръчка №" . $order->id
+      'title' => "Поръчка №" . $order->id,
+      'tempDir' => storage_path('app/public/mpdf'),
+      'user' => auth()->user(),
     ]);
 
     $html = '<style>@page{margin: 30px;}</style>' . view('pdf.order_internal', compact('order', 'material', 'model', 'jewel', 'orderStones', 'orderImage', 'store'))->render();
@@ -562,7 +564,10 @@ class OrderController extends Controller
             ['material_id', $request->material_id],
             ['store_id', Auth::user()->getStore()->id]
           ])->first();
-
+          dump(!$material || $material->quantity < $request->weight);
+          dump('$material->quantity', $material->quantity);
+          dump('$request->weight', $request->weight);
+          die;
           if (!$material || $material->quantity < $request->weight) {
             return Response::json(['errors' => ['using' => ['Няма достатъчна наличност от този материал.']]], 401);
           }
