@@ -216,7 +216,8 @@ class OrderController extends Controller
     $user = Auth::user();
     $order_stones = $order->stones;
     $exchanged_materials = ($order->exchanged_materials ? unserialize($order->exchanged_materials) : null);
-    $models = Model::with(['jewel'])->take(env('SELECT_PRELOADED'))->get();
+    // $models = Model::with(['jewel'])->take(env('SELECT_PRELOADED'))->get();
+    $models = [$order->model];
     $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
     $prices = Price::where('type', 'sell')->get();
     $stones = Stone::with(['nomenclature', 'size', 'contour'])->take(env('SELECT_PRELOADED'))->get();
