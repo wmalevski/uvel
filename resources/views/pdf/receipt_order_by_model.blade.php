@@ -1,5 +1,4 @@
 <h3 style="margin: 5px 0; text-align: center;">Магазин за златна и сребърна бижутерия</h3>
-@dd(123)
 <h3 style="margin: 5px 0; text-align: center;">{{$store->name}} - {{$store->location}}</h3>
 <h4 style="margin: 5px 0; text-align: center;">тел.: {{$store->phone}}</h4>
 <hr/>
