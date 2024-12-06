@@ -123,7 +123,9 @@ class PriceController extends Controller{
                 'material_id'=>$price->material_id,
                 'retail_price_id'=>$price->id
             ))->with(['model']);
-
+            
+            $getFirstBuyPrice = false;
+            
             if ( ( strtolower($price->type) == 'buy' ) ) {
                 $getFirstBuyPrice = Price::where('type', 'buy')
                     ->where('material_id', $price->material_id)
@@ -147,26 +149,44 @@ class PriceController extends Controller{
                 foreach ($chunk as $product) {
                     $model = $product->model;
                     if( $product->status != 'sold' ) {
-                      $productsBatch[] = [
-                        'id' => $product->id,
-                        'price' => round(($request->type == 'sell' ? $buy : $sell) * $model->weight),
-                        'workmanship' => round(($buy - $sell) * $product->weight),
-                      ];
+                      if($getFirstBuyPrice) {
+                        $productsBatch[] = [
+                          'id' => $product->id,
+                          'price' => round(($request->type == 'sell' ? $buy : $sell) * $model->weight),
+                          'workmanship' => round(($price->price - $getFirstBuyPrice->price) * $product->weight),
+                        ];
+                      } else {
+                        $productsBatch[] = [
+                          'id' => $product->id,
+                          'price' => round(($request->type == 'sell' ? $buy : $sell) * $model->weight),
+                          'workmanship' => round(($buy - $sell) * $product->weight),
+                        ];
+                      }
 
                       if($product->id == 39168) {
                         dd([
                           '$buy' => $buy,
                           '$sell' => $sell,
+                          '$price->price' => $price->price,
+                          '$getFirstBuyPrice->price' => $getFirstBuyPrice->price,
                         ]);
                       }
                     }
 
                     if ($model) {
-                        $modelsBatch[] = [
+                        if($getFirstBuyPrice) {
+                          $modelsBatch[] = [
+                            'id' => $model->id,
+                            'price' => round(($request->type == 'sell' ? $buy : $sell) * $model->weight),
+                            'workmanship' => round(($price->price - $getFirstBuyPrice->price) * $model->weight),
+                          ];
+                        } else {
+                          $modelsBatch[] = [
                             'id' => $model->id,
                             'price' => round(($request->type == 'sell' ? $buy : $sell) * $model->weight),
                             'workmanship' => round(($buy - $sell) * $model->weight),
-                        ];
+                          ];
+                        }
                     }
                 }
             }
