@@ -146,6 +146,7 @@ class PriceController extends Controller{
 
             foreach ($products->chunk(5000) as $chunk) {
                 foreach ($chunk as $product) {
+                    $model = $product->model;
                     if( $product->status != 'sold' ) {
                       $productsBatch[] = [
                         'id' => $product->id,
@@ -162,7 +163,6 @@ class PriceController extends Controller{
                       }
                     }
 
-                    $model = $product->model;
                     if ($model) {
                         $modelsBatch[] = [
                             'id' => $model->id,
