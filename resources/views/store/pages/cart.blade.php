@@ -78,7 +78,7 @@
 										@foreach($conditions as $condition)
 											<div class="col-xs-24">
 												<span class="discount discount-label">{{ $condition->getValue() }}</span>
-												<span data-url="/ajax/removeDiscount/{{ $condition->getName() }}" class="discount discount-remove"><i class="fas fa-times"></i></span>
+												<span data-url="/online/cart/removeDiscount/{{ $condition->getName() }}" class="discount discount-remove"><i class="fas fa-times"></i></span>
 											</div>
 										@endforeach
 										</div>

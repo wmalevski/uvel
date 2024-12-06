@@ -17,7 +17,7 @@ class DiscountCodeController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $discounts = DiscountCode::with(['users', 'payments'])->orderBy('id', 'DESC')->get();
+        $discounts = DiscountCode::with('users')->orderBy('id', 'DESC')->get();
         $users = User::take(env('SELECT_PRELOADED'))->with('discountCodes')->get();
 
         return \View::make('admin/discounts/index', array('discounts' => $discounts, 'users' => $users));
@@ -44,14 +44,28 @@ class DiscountCodeController extends Controller{
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
-        $discount = DiscountCode::create([
-            'discount' => $request->discount,
-            'expires' => $request->date_expires,
-            'barcode' => $request->barcode,
-        ]);
-        $userList = explode(',', $request->input('user_list'));
-        $discount->users()->sync($userList);
-        
+
+        try {
+            $discount = DiscountCode::create([
+                'discount' => $request->discount,
+                'expires' => $request->date_expires,
+                'barcode' => $request->barcode,
+            ]);
+
+            if ( !is_null($request->has('group_id')) ) {
+                $discount->group()->associate($request->input('group_id'));
+            }
+
+            if ( !is_null($request->input('user_id')) ) {
+                $userList = explode(',', $request->input('user_list'));
+                $discount->users()->sync($userList);
+            }
+        } catch (\Throwable $e) {
+            return Response::json(['errors' => [
+                'message' => $e->getMessage()
+            ]], 404);
+        }
+
         if($request->lifetime == 'true' || !$request->date_expires){
             $discount->lifetime = 'yes';
         }
@@ -143,14 +157,20 @@ class DiscountCodeController extends Controller{
             'barcode' => 'required',
         ]);
 
-        $userList = explode(',', $request->input('user_list'));
-        $discountCode->users()->sync($userList);
-
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
         $users = User::all();
+
+        if ( !is_null($request->has('group_id')) ) {
+            $discountCode->group()->associate($request->input('group_id'));
+        }
+
+        if ( !is_null($request->input('user_list')) ) {
+            $userList = explode(',', $request->input('user_list'));
+            $discountCode->users()->sync($userList);
+        }
 
         $discountCode->discount = $request->discount;
         $discountCode->expires = $request->date_expires;

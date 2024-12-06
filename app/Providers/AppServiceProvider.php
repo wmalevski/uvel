@@ -3,7 +3,11 @@
 namespace App\Providers;
 
 use App\Http\Middleware\CheckUserRole;
+use App\Observers\UserGroupObserver;
+use App\Observers\UserObserver;
 use App\Role\RoleChecker;
+use App\User;
+use App\UserGroup;
 use Illuminate\Foundation\Application;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
@@ -31,6 +35,9 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Paginator::useBootstrap();
+
+        UserGroup::observe(UserGroupObserver::class);
+        User::observe(UserObserver::class);
     }
 
     /**

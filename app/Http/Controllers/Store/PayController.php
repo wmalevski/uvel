@@ -47,16 +47,23 @@ class PayController extends Controller
         $discount = new DiscountCode;
         $result = $discount->check($barcode);
         $setDiscount = false;
+        $isEligible = false;
 
         if (!$result) {
             $setDiscount = false;
-            return response()->json(['message' => 'Discount code not found'], 404);
+            return response()->json(['message' => __('Баркодът не е намерен')], 404);
         }
 
         if($result){
             $setDiscount = $result->discount;
-
-            $isEligible = $result->users->contains('id', $userId);
+            // Firstly check if the user is part of a group
+            if ( isset($result->group) ) {
+                $isEligible = $result->group->users->contains('id', $userId);
+            }
+            
+            if ( !$result->users->isEmpty() ) {
+                $isEligible = $result->users->contains('id', $userId);
+            }
 
             if (!$isEligible) {
                 $setDiscount = false;
@@ -70,14 +77,16 @@ class PayController extends Controller
                 }
             }
         }
+
         if($setDiscount){
-            $condition = new \Darryldecode\Cart\CartCondition(array(
+            $condition = new CartCondition(array(
                 'name' => $setDiscount,
                 'type' => 'discount',
                 'target' => 'subtotal',
                 'value' => '-'.$setDiscount.'%',
                 'attributes' => array(
-                    'discount_id' => $setDiscount,
+                    'discount_id' => $result->id,
+                    'discount' => $setDiscount,
                     'barcode' => $barcode,
                     'description' => 'Value added tax',
                     'more_data' => 'more data here'

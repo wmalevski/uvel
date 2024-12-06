@@ -41,37 +41,97 @@ var uvel,
         ajaxSetup: true,
 
       },
-      discounts: {
-        selector: '[name="discounts"]',
-        controllers: ['lifetimeDiscount'],
+      cashgroups: {
+        selector: '[name="cashgroup"]',
+        controllers: [],
         initialized: false,
         ajaxSetup: true,
-
+      },
+      currencies: {
+        selector: '[name="currencies"]',
+        controllers: [],
+        initialized: false,
+        ajaxSetup: true,
+      },
+      customOrder: {
+        selector: '[name="customOrder"]',
+        controllers: [
+            'imageHandling',
+        ],
+        initialized: false,
+        ajaxSetup: false,
+      },
+      discounts: {
+        selector: '[name="discounts"]',
+        controllers: [
+            'lifetimeDiscount'
+        ],
+        initialized: false,
+        ajaxSetup: true,
+      },
+      dailyReport: {
+        selector: '[name="dailyReport"]',
+        controllers: ['dailyReportAttach'],
+        initialized: false,
+        ajaxSetup: true,
+      },
+      dailyReports: {
+        selector: '[name="dailyReports"]',
+        controllers: [],
+        initialized: false,
+        ajaxSetup: true,
+      },
+      editPayments: {
+        selector: '[name="editPayments"]',
+        controllers: [],
+        initialized: false,
+        ajaxSetup: true,
+      },
+      expenseTypes: {
+        selector: '[name="expenseTypes"]',
+        controllers: [],
+        initialized: false,
+        ajaxSetup: true,
+      },
+      expenses: {
+        selector: '[name="expenses"]',
+        controllers: ['transferCheckboxInit'],
+        initialized: false,
+        ajaxSetup: true,
+      },
+      formGalleryImage: {
+        selector: '[name="formGalleryImage"]',
+        controllers: ['imageHandling'],
+        initialized: false,
+        ajaxSetup: false,
+      },
+      formGalleryVideo: {
+        selector: '[name="formGalleryVideo"]',
+        controllers: [],
+        initialized: false,
+        ajaxSetup: false,
+      },
+      formGallerySearch: {
+        selector: '[name="gallerySearchForm"]',
+        controllers: [],
+        initialized: false,
+        ajaxSetup: false,
+      },
+      incomeTypes: {
+        selector: '[name="incomeTypes"]',
+        controllers: [],
+        initialized: false,
+        ajaxSetup: true,
+      },
+      income: {
+        selector: '[name="income"]',
+        controllers: [],
+        initialized: false,
+        ajaxSetup: true,
       },
       jewels: {
         selector: '[name="jewels"]',
         controllers: [],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      stores: {
-        selector: '[name="stores"]',
-        controllers: [],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      otherProductsTypes: {
-        selector: '[name="productsOthersTypes"]',
-        controllers: [],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      otherProducts: {
-        selector: '[name="productsOthers"]',
-        controllers: ['imageHandling'],
         initialized: false,
         ajaxSetup: true,
 
@@ -104,29 +164,98 @@ var uvel,
         ajaxSetup: true,
 
       },
+      modelOrders: {
+        selector: '[name="model_order"]',
+        controllers: [],
+        initialized: false,
+        ajaxSetup: true,
+      },
+      models: {
+        selector: '[name="models"]',
+        controllers: [
+          'addMaterialsInit',
+          'calculateRepairAfterPriceInit',
+          'addStonesInit',
+          'removeMaterialsInit',
+          'removeStoneInit',
+          'calculateStonesInit',
+          'calculatePriceInit',
+          'materialPricesRequestInit',
+          'imageHandling'
+        ],
+        initialized: false,
+        ajaxSetup: true,
+
+      },
+      nomenclatures: {
+        selector: '[name="nomenclatures"]',
+        controllers: [],
+        initialized: false,
+        ajaxSetup: true,
+      },
+      otherProductsTypes: {
+        selector: '[name="productsOthersTypes"]',
+        controllers: [],
+        initialized: false,
+        ajaxSetup: true,
+      },
+      orders: {
+        selector: '[name="orders"]',
+        controllers: [
+          'addStonesInit',
+          'addAnother',
+          'manualReceipt',
+          'barcodeInput',
+          'removeMaterialsInit',
+          'removeStoneInit',
+          'calculateStonesInit',
+          'calculatePriceInit',
+          'materialPricesRequestInit',
+          'resetOrderExchangeFieldsAttach'
+        ],
+        select2obj: [{
+          selector: 'select[name="model_id"]',
+          callback: 'onOrdersFormSelectCallback'
+        }],
+        initialized: false,
+        ajaxSetup: true,
+      },
+      otherProducts: {
+        selector: '[name="productsOthers"]',
+        controllers: ['imageHandling'],
+        initialized: false,
+        ajaxSetup: true,
+      },
+      products: {
+        selector: '[name="products"]',
+        controllers: [
+          'addStonesInit',
+          'productLocationChange',
+          'removeStoneInit',
+          'calculateStonesInit',
+          'calculatePriceInit',
+          'materialPricesRequestInit',
+          'imageHandling'
+        ],
+        select2obj: [{
+          selector: 'select[name="model_id"]',
+          callback: 'productsModelSelectCallback'
+        }],
+        initialized: false,
+        ajaxSetup: true,
+      },
+      productsTravelling: {
+        selector: '[name="productsTravelling"]',
+        controllers: ['productTravellingBarcodeInput'],
+        select2obj: [{
+          selector: 'select[name="product_select"]',
+          callback: 'productTravellingSelectCallback'
+        }],
+        initialized: false,
+        ajaxSetup: true,
+      },
       prices: {
         selector: '[name="prices"]',
-        controllers: [],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      currencies: {
-        selector: '[name="currencies"]',
-        controllers: [],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      substitutions: {
-        selector: '[name="substitutions"]',
-        controllers: ['focusDatePicker'],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      users: {
-        selector: '[name="users"]',
         controllers: [],
         initialized: false,
         ajaxSetup: true,
@@ -137,14 +266,84 @@ var uvel,
         controllers: [],
         initialized: false,
         ajaxSetup: true,
-
       },
       partnermaterials: {
         selector: '[name="partnermaterials"]',
         controllers: [],
         initialized: false,
         ajaxSetup: true,
+      },
+      repairTypes: {
+        selector: '[name="repairTypes"]',
+        controllers: [],
+        initialized: false,
+        ajaxSetup: true,
+      },
+      repairs: {
+        selector: '[name="repairs"]',
+        controllers: [
+          'fillRepairPrice',
+          'calculateRepairAfterPriceInit',
+          'calculateRepairAfterPrice',
+          'focusDatePicker'
+        ],
+        initialized: false,
+        ajaxSetup: true,
+      },
+      returnRepair: {
+        selector: '[name="returnRepair"]',
+        controllers: [],
+        initialized: false,
+        ajaxSetup: true,
+      },
+      stores: {
+        selector: '[name="stores"]',
+        controllers: [],
+        initialized: false,
+        ajaxSetup: true,
+      },
+      substitutions: {
+        selector: '[name="substitutions"]',
+        controllers: ['focusDatePicker'],
+        initialized: false,
+        ajaxSetup: true,
 
+      },
+      subscribe: {
+        selector: '[name="subscribe"]',
+        controllers: [],
+        initialized: false,
+        ajaxSetup: true,
+      },
+      system_settings: {
+        selector: '[name="system_setting"]',
+        controllers: ['imageHandling'],
+        initialized: false,
+        ajaxSetup: true,
+      },
+      stonesQuantityIncrease: {
+        selector: '[name="stonesQuantityIncrease"]',
+        controllers: [],
+        initialized: false,
+        ajaxSetup: true,
+      },
+      stonesQuantityDecrease: {
+        selector: '[name="stonesQuantityDecrease"]',
+        controllers: [],
+        initialized: false,
+        ajaxSetup: true,
+      },
+      users: {
+        selector: '[name="users"]',
+        controllers: [],
+        initialized: false,
+        ajaxSetup: true,
+      },
+      addUserGroup: {
+        selector: '[name="addUserGroup"]',
+        controllers: [],
+        initialized: false,
+        ajaxSetup: false,
       },
       selling: {
         selector: '[name="selling"]',
@@ -191,97 +390,8 @@ var uvel,
         ajaxSetup: true,
 
       },
-      models: {
-        selector: '[name="models"]',
-        controllers: [
-          'addMaterialsInit',
-          'calculateRepairAfterPriceInit',
-          'addStonesInit',
-          'removeMaterialsInit',
-          'removeStoneInit',
-          'calculateStonesInit',
-          'calculatePriceInit',
-          'materialPricesRequestInit',
-          'imageHandling'
-        ],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      products: {
-        selector: '[name="products"]',
-        controllers: [
-          'addStonesInit',
-          'productLocationChange',
-          'removeStoneInit',
-          'calculateStonesInit',
-          'calculatePriceInit',
-          'materialPricesRequestInit',
-          'imageHandling'
-        ],
-        select2obj: [{
-          selector: 'select[name="model_id"]',
-          callback: 'productsModelSelectCallback'
-        }],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      productsTravelling: {
-        selector: '[name="productsTravelling"]',
-        controllers: ['productTravellingBarcodeInput'],
-        select2obj: [{
-          selector: 'select[name="product_select"]',
-          callback: 'productTravellingSelectCallback'
-        }],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      repairTypes: {
-        selector: '[name="repairTypes"]',
-        controllers: [],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      repairs: {
-        selector: '[name="repairs"]',
-        controllers: [
-          'fillRepairPrice',
-          'calculateRepairAfterPriceInit',
-          'calculateRepairAfterPrice',
-          'focusDatePicker'
-        ],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      returnRepair: {
-        selector: '[name="returnRepair"]',
-        controllers: [],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
       scanRepair: {
         selector: '[name="scanRepair"]',
-        controllers: [],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      customOrder: {
-        selector: '[name="customOrder"]',
-        controllers: [
-            'imageHandling',
-        ],
-        initialized: false,
-        ajaxSetup: false,
-
-      },
-      modelOrders: {
-        selector: '[name="model_order"]',
         controllers: [],
         initialized: false,
         ajaxSetup: true,
@@ -293,137 +403,6 @@ var uvel,
         initialized: false,
         ajaxSetup: true,
 
-      },
-      editPayments: {
-        selector: '[name="editPayments"]',
-        controllers: [],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      orders: {
-        selector: '[name="orders"]',
-        controllers: [
-          'addStonesInit',
-          'addAnother',
-          'manualReceipt',
-          'barcodeInput',
-          'removeMaterialsInit',
-          'removeStoneInit',
-          'calculateStonesInit',
-          'calculatePriceInit',
-          'materialPricesRequestInit',
-          'resetOrderExchangeFieldsAttach'
-        ],
-        select2obj: [{
-          selector: 'select[name="model_id"]',
-          callback: 'onOrdersFormSelectCallback'
-        }],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      nomenclatures: {
-        selector: '[name="nomenclatures"]',
-        controllers: [],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      dailyReport: {
-        selector: '[name="dailyReport"]',
-        controllers: ['dailyReportAttach'],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      expenseTypes: {
-        selector: '[name="expenseTypes"]',
-        controllers: [],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      expenses: {
-        selector: '[name="expenses"]',
-        controllers: ['transferCheckboxInit'],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      incomeTypes: {
-        selector: '[name="incomeTypes"]',
-        controllers: [],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      income: {
-        selector: '[name="income"]',
-        controllers: [],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      dailyReports: {
-        selector: '[name="dailyReports"]',
-        controllers: [],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      subscribe: {
-        selector: '[name="subscribe"]',
-        controllers: [],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      cashgroups: {
-        selector: '[name="cashgroup"]',
-        controllers: [],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      system_settings: {
-        selector: '[name="system_setting"]',
-        controllers: ['imageHandling'],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      stonesQuantityIncrease: {
-        selector: '[name="stonesQuantityIncrease"]',
-        controllers: [],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      stonesQuantityDecrease: {
-        selector: '[name="stonesQuantityDecrease"]',
-        controllers: [],
-        initialized: false,
-        ajaxSetup: true,
-
-      },
-      formGalleryImage: {
-        selector: '[name="formGalleryImage"]',
-        controllers: ['imageHandling'],
-        initialized: false,
-        ajaxSetup: false,
-      },
-      formGalleryVideo: {
-        selector: '[name="formGalleryVideo"]',
-        controllers: [],
-        initialized: false,
-        ajaxSetup: false,
-      },
-      formGallerySearch: {
-        selector: '[name="gallerySearchForm"]',
-        controllers: [],
-        initialized: false,
-        ajaxSetup: false,
       },
     }
 
@@ -3455,6 +3434,25 @@ var uvel,
       });
     }
 
+    this.openAddDiscountForm = function(form) {
+        
+    }
+
+    this.resolveDiscountScope = function(e) {
+        const targets = ['user_id', 'group_id'];
+        const currentSelect = $(e.currentTarget).attr('name');
+        if (targets.includes(currentSelect)) {
+            console.log(currentSelect)
+            const otherSelect = targets.find(target => target !== currentSelect);
+            $(`[name="${otherSelect}"]`).val('').trigger('change');
+
+            // detach all selected nodes from the multiselect
+            if ( !$(`[name="${currentSelect}"]`).attr( 'multiple' ) ) {
+                $(`[name="${otherSelect}"]`).html('');
+            }
+        }
+    }
+
     this.storeSelectInit = function() {
       var storeSelect = $('.store-select');
 
@@ -3503,7 +3501,6 @@ var uvel,
       $('body').addClass('modal-open');
 
       var closeModalTrigger = modal.find('[data-dismiss="modal"]');
-
       closeModalTrigger.on('click', function() {
         $self.closeModal(modal);
       });
@@ -3652,19 +3649,21 @@ var uvel,
     this.initializeSelect = function(select, callback, options) {
 
       $(select).select2(options);
-      $(select).on('select2:select', function(e) {
-        return $self.prepMultiSelectValues(e.currentTarget, 'user_list')
+      $(select).off('select2:select').on('select2:select', function(e) {
+        console.log(123)
+        $self.prepMultiSelectValues(e.currentTarget, 'user_list')
+        $self.resolveDiscountScope(e)
       });
-      $(select).on('select2:unselect', function(e) {
-        return $self.prepMultiSelectValues(e.currentTarget, 'user_list')
+      $(select).off('select2:unselect').on('select2:unselect', function(e) {
+        $self.prepMultiSelectValues(e.currentTarget, 'user_list')
       });
-      $(select).on("select2:opening", function (event) {
+      $(select).off('select2:opening').on("select2:opening", function (event) {
         if ($(this).is(":disabled")) {
           event.preventDefault();
         }
       });
 
-      $(select).on('select2:open', function () {
+      $(select).off('select2:open').on('select2:open', function () {
         if( this.selectedIndex > 0) {
           var viewport = $('.select2-results__options'),
               options = viewport.find('.select2-results__option');
@@ -3817,26 +3816,29 @@ var uvel,
       });
     }
 
+    this.processedGroups = new Set();
+
     /* To pass all the selected values to BE we need to temporarly store them inside of a hidden input */
-    this.prepMultiSelectValues = function(select, nodeName) {
+    this.prepMultiSelectValues = async function(select, nodeName) {
       if ( window.jQuery == undefined ) return;
       if ( !$(select).attr('multiple') ) return;
 
       try {
-        $collectedValues = $(select).siblings('input:hidden[name="'+ nodeName +'"]');
+        $collectedValues = $(select).siblings('input:hidden[name="' + nodeName + '"]');
         $selectedValues  = $(select).val();
-
-        /* Create input if one doesn't exist */
-        if ( !$collectedValues.length ) {
-          const hiddenInput = document.createElement('input');
-          hiddenInput.type  = 'hidden';
-          hiddenInput.name  = nodeName;
-          $selectParent     = $(select).parent();
-          $selectParent.append(hiddenInput);
+        
+        // Create the hidden input if it doesn't exist
+        if (!$collectedValues.length) {
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = nodeName;
+            $selectParent = $(select).parent();
+            $selectParent.append(hiddenInput);
+            $collectedValues = $(hiddenInput);
         }
 
         /* Set the values and make sure this method is used on select2:select */
-        $collectedValues.val($selectedValues)
+        $collectedValues.val($selectedValues.join(','));
       } catch (err) {
         let errorBag = [];
         errorBag['stackTrace'] = err.stack;

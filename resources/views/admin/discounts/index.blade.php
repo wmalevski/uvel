@@ -52,9 +52,18 @@ aria-hidden="true">
                         <div class="form-group col-md-12">
                             <label for="2">Потребител: </label>
                             <select name="user_id" class="form-control" data-search="/ajax/select_search/users/" multiple>
-                                <option value="">Избери</option>
+                                <option></option>
                             </select>
                             <input type="hidden" name="user_list" value="">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="2">Група: </label>
+                            <select name="group_id" class="form-control" data-search="/ajax/select_search/groups/">
+                                <option value="">Избери</option>
+                            </select>
                         </div>
                     </div>
 
@@ -103,6 +112,7 @@ aria-hidden="true">
                     <th>Валидна до</th>
                     <th>Статус</th>
                     <th>Потребител</th>
+                    <th>Група</th>
                     <th>Използвана</th>
                     <th data-sort-method="none">Действия</th>
                 </tr>
@@ -115,6 +125,9 @@ aria-hidden="true">
                     <th></th>
                     <th>
                         <input class="filter-input form-control" name="search" type="text" data-dynamic-search-param="byUser=" placeholder="Потребител">
+                    </th>
+                    <th>
+                        <input class="filter-input form-control" name="search" type="text" data-dynamic-search-param="byGroup=" placeholder="Група">
                     </th>
                     <th></th>
                     <th></th>

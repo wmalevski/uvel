@@ -1,3 +1,17 @@
+@php
+$users = null;
+$fillUserSelect = false;
+$fillGroupSelect = false;
+if ( isset($discount->group) ) {
+    $users = $discount->group->users;
+    $fillUserSelect = true;
+}
+
+if ( $discount->users->count() ) {
+    $users = $discount->users;
+    $fillGroupSelect = true;
+}
+@endphp
 
 <div class="editModalWrapper">
     <div class="modal-header">
@@ -59,16 +73,29 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="2">Потребител: </label>
-                    <select id="user_id" name="user_id[]" class="form-control" multiple="multiple">
-                        @foreach($users as $user)
-                            <option value="{{ $user->id }}"
-                                @if($discount->users->contains($user->id))
-                                    selected
+                    <select name="user_id" class="form-control" data-search="/ajax/select_search/users/" multiple>
+                        <option></option>
+                        @if ( $fillUserSelect )
+                            @foreach ($users as $user)
+                                @if (collect(old('user_id'))->contains($user->id))
+                                <option 
+                                    value="{{ $user->id }}" selected>
+                                    {{ $user->name }}
+                                </option>
                                 @endif
-                            >{{ $user->email }}</option>
-                        @endforeach
+                            @endforeach
+                        @endif
                     </select>
                     <input type="hidden" name="user_list" value="">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="2">Група: </label>
+                    <select name="group_id" class="form-control" data-search="/ajax/select_search/groups/">
+                        <option value="">Избери</option>
+                    </select>
                 </div>
             </div>
 

@@ -38,6 +38,7 @@ class UserPaymentController extends Controller{
 
             $shipping = array('city','street','street_number','postcode','phone');
 
+            $shipping_address = null;
             switch($request->shipping_method){
                 case 'office_address':
                     $restrictions['courier_city'] = 'required';
@@ -99,6 +100,8 @@ class UserPaymentController extends Controller{
 
             // SEND INTERNAL MAIL
             $cartItems = json_decode($request->cart_items, true);
+            $cartItems[0]['price'] = $request->amount;
+
             try {
                 Mail::send('order',
                     array(
@@ -109,7 +112,7 @@ class UserPaymentController extends Controller{
                         'content' => $request->information ?? 'Няма',
                         'cart_items' => $cartItems,
                         'shipping' => $shipping,
-                        'shipping_method' => $request->shipping_method,
+                        'shipping_method' => trans($request->payment_method),
                         'shipping_address' => $shipping_address,
                         'store' => $storeMeta,
                     ),
@@ -138,7 +141,7 @@ class UserPaymentController extends Controller{
                     array(
                         'name' => sprintf('%s %s', $member->first_name, $member->last_name),
                         'email' => $member->email,
-                        'payment_method' => $request->payment_method,
+                        'payment_method' => trans($request->payment_method),
                         'cart_items' => $cartItems,
                         'product_names' => $productNames,
                     ),

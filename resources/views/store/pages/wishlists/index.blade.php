@@ -25,13 +25,14 @@
 							<div class="image-container">
 								<a href="{{$wishListItem->checkWishListItemType($wishListItem)['url']}}">
 									@if ($wishListItem->product_id)
-										<img class="img-fill" src="@if($wishListItem->product->photos) {{ getPhotomodal fade model-information-modal inactive in show("uploads/products/" . $wishListItem->product->photos->first()['photo']) }}
-									@else {{ getPhotomodal fade model-information-modal inactive in show('store/images/demo_375x375.png') }}
+										<img class="img-fill" src="@if($wishListItem->product->photos) {{ getPhoto("uploads/products/" . $wishListItem->product->photos->first()['photo']) }}
+									@else {{ getPhoto('store/images/demo_375x375.png') }}
+
 									@endif"
 									class="img-responsive" alt="{{ $wishListItem->product->name }}">
 									@elseif ($wishListItem->model_id)
-										<img class="img-fill" src="@if($wishListItem->model->photos) {{ getPhotomodal fade model-information-modal inactive in show("uploads/models/" . $wishListItem->model->photos->first()['photo']) }}
-									@else {{ getPhotomodal fade model-information-modal inactive in show('store/images/demo_375x375.png') }}
+										<img class="img-fill" src="@if($wishListItem->model->photos) {{ getPhoto("uploads/models/" . $wishListItem->model->photos->first()['photo']) }}
+									@else {{ getPhoto('store/images/demo_375x375.png') }}
 									@endif" class="img-responsive" alt="{{ $wishListItem->model->name }}">
 									@endif
 								</a>

@@ -923,13 +923,14 @@ class SellingController extends Controller{
                 $partner_id = $card->user->id;
             }
 
-            $condition = new CartCustomCondition(array(
+            $condition = new CartCondition(array(
                 'name' => $setDiscount,
                 'type' => 'discount',
                 'target' => 'subtotal',
                 'value' => '-'.$setDiscount.'%',
                 'attributes' => array(
-                    'discount_id' => $setDiscount,
+                    'discount_id' => $card->id,
+                    'discount' => $setDiscount,
                     'description' => 'Value added tax',
                     'partner' => $partner,
                     'partner_id' => $partner_id
@@ -1000,11 +1001,25 @@ class SellingController extends Controller{
         $userId = Auth::user()->getId(); 
 
         $partner = 'false';
-
-        if(isset($card)){
-            if($card->user->isA('corporate_partner')){
-                $partner = 'true';
+        $card = null;
+        $barcode = $request->discountCode;
+        if($request->has('discountCode')){
+            $card = DiscountCode::where('barcode', $barcode)->first();
+            $users = [];
+            if ($card->users->count()) {
+                $users = $card->users;
             }
+
+            if ( isset($card->group) ) {
+                $users = $card->group->users;
+            }
+
+            foreach ($users as $user) {
+                if($user->isA('corporate_partner')){
+                    $partner = 'true';
+                }
+            }
+
         }
 
         $condition = new \Darryldecode\Cart\CartCondition(array(
@@ -1013,7 +1028,8 @@ class SellingController extends Controller{
             'target' => 'subtotal',
             'value' => '-'.$request->discount.'%',
             'attributes' => array(
-                'discount_id' => $request->discount,
+                'discount_id' => $card->id,
+                'discount' => $request->discount,
                 'description' => $request->description,
                 'more_data' => 'more data here',
                 'partner' => $partner
