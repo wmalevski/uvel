@@ -163,14 +163,14 @@ class PriceController extends Controller{
                         ];
                       }
 
-                      if($product->id == 39168) {
-                        dd([
-                          '$buy' => $buy,
-                          '$sell' => $sell,
-                          '$price->price' => $product->retailPrice->price,
-                          '$getFirstBuyPrice->price' => $getFirstBuyPrice->price,
-                        ]);
-                      }
+                      // if($product->id == 39168) {
+                      //   dd([
+                      //     '$buy' => $buy,
+                      //     '$sell' => $sell,
+                      //     '$price->price' => $product->retailPrice->price,
+                      //     '$getFirstBuyPrice->price' => $getFirstBuyPrice->price,
+                      //   ]);
+                      // }
                     }
 
                     if ($model) {
