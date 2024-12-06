@@ -153,7 +153,7 @@ class PriceController extends Controller{
                         $productsBatch[] = [
                           'id' => $product->id,
                           'price' => round(($request->type == 'sell' ? $buy : $sell) * $model->weight),
-                          'workmanship' => round(($price->price - $getFirstBuyPrice->price) * $product->weight),
+                          'workmanship' => round(($product->retailPrice->price - $getFirstBuyPrice->price) * $product->weight),
                         ];
                       } else {
                         $productsBatch[] = [
@@ -167,7 +167,7 @@ class PriceController extends Controller{
                         dd([
                           '$buy' => $buy,
                           '$sell' => $sell,
-                          '$price->price' => $price->price,
+                          '$price->price' => $product->retailPrice->price,
                           '$getFirstBuyPrice->price' => $getFirstBuyPrice->price,
                         ]);
                       }
@@ -178,7 +178,7 @@ class PriceController extends Controller{
                           $modelsBatch[] = [
                             'id' => $model->id,
                             'price' => round(($request->type == 'sell' ? $buy : $sell) * $model->weight),
-                            'workmanship' => round(($price->price - $getFirstBuyPrice->price) * $model->weight),
+                            'workmanship' => round(($product->retailPrice->price - $getFirstBuyPrice->price) * $model->weight),
                           ];
                         } else {
                           $modelsBatch[] = [
