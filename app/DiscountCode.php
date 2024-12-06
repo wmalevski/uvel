@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\User;
+use App\UserGroup;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
-use App\User;
 
 class DiscountCode extends Model{
     use SoftDeletes;
@@ -23,7 +26,7 @@ class DiscountCode extends Model{
     protected $casts = ['deleted_at'];
 
     public function check($barcode){
-        $discount = DiscountCode::with(['users'])->where('barcode', $barcode)->first();
+        $discount = DiscountCode::with(['users', 'group'])->where('barcode', $barcode)->first();
         $bool = false;
         if($discount){
             if($discount->expires != ''){
@@ -46,29 +49,37 @@ class DiscountCode extends Model{
         return $this->belongsTo('App\User');
     }
 
-    public function users()
+    public function group() : BelongsTo
+    {
+        return $this->belongsTo(UserGroup::class, 'group_id');
+    }
+
+    public function users() : BelongsToMany
     {
         return $this->belongsToMany(User::class, 'discountcode_user');
     }
 
-    public function payments(){
+    public function payments()
+    {
         return $this->hasMany('App\PaymentDiscount');
     }
 
     public static function filterDiscountCodes(Request $request, $query){
         $query = DiscountCode::where(function($query) use ($request){
-            if($request->byUser){
+            if($request->input('byUser')){
                 $query->with('user')->whereHas('user', function($q) use ($request){
-                    $q->where('email', 'LIKE', "%".$request->byUser."%");
+                    $q->where('email', 'LIKE', "%".$request->input('byUser')."%");
                 });
             }
 
-            if($request->byBarcode){
-                $query->whereRaw('barcode LIKE "%'.$request->byBarcode.'%"');
+            if($request->input("byBarcode")){
+                $query->whereRaw('barcode LIKE "%'.$request->input("byBarcode").'%"');
             }
 
-            if($request->byName == '' && $request->byBarcode == ''){
-                $query = DiscountCode::all();
+            if($request->input("byGroup")){
+                $query->with('group')->whereHas('group', function($q) use ($request){
+                    $q->where('name', 'LIKE', "%".$request->input('byGroup')."%");
+                });
             }
         });
 

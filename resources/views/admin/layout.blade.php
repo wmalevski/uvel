@@ -243,6 +243,10 @@
                                 <a class="sidebar-link" href="{{ route('partners') }}">Партньори</a>
                             </li>
 
+                            <li class="{{ request()->routeIs('user_groups') }}">
+                                <a class="sidebar-link" href="{{ route('user_groups') }}">Групи</a>
+                            </li>
+
                         </ul>
                     </li>
                 @endif

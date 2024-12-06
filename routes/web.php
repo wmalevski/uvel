@@ -157,6 +157,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         //Substitutions section
         Route::get('/users/substitutions', 'UserSubstitutionController@index')->name('substitutions');
 
+        //User groups section
+        Route::get('/users/groups', 'UserGroupController@index')->name('user_groups');
+        Route::post('/users/groups/create', 'UserGroupController@create')->name('user_groups_create');
+
         //Users in store
         Route::get('/stores/info/{store}', 'StoreController@show');
 
@@ -493,6 +497,10 @@ Route::group(['prefix' => 'ajax'], function() {
 
         // Gallery Section
         Route::post('/gallery/delete/{item}', 'PublicGalleryController@delete')->name('gallery_delete');
+
+        // User Group Section
+        Route::post('/users/groups/delete/{item}', 'UserGroupController@destroy')->name('user_groups_delete');
+        // Route::get('/users/groups/show/users/{item}', 'UserGroupController@showUserIds')->name('user_groups_users');
     });
 
     //Print
@@ -525,6 +533,7 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::get('/select_search/stones/contours', 'StoneContourController@select_search');
     Route::get('/select_search/stores', 'StoreController@select_search');
     Route::get('/select_search/users', 'UserController@select_search');
+    Route::get('/select_search/groups', 'UserGroupController@select_search');
     Route::get('/select_search/parentmaterials', 'MaterialController@select_search');
     Route::get('/select_materials/{type_id}', 'MaterialController@select_materials');
     Route::get('/select_material_prices/{id}', 'MaterialController@select_material_prices');

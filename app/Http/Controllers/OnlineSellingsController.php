@@ -20,7 +20,6 @@ use \Darryldecode\Cart\Helpers\Helpers as Helpers;
 use Response;
 use App\PaymentDiscount;
 use App\Setting;
-use App\Services\CartCustomCondition;
 
 class OnlineSellingsController extends Controller{
 	/**
@@ -96,13 +95,15 @@ class OnlineSellingsController extends Controller{
 		}
 
 		if(isset($setDiscount)){
-			$condition = new CartCustomCondition(array(
+			$condition = new CartCondition(array(
 				'name' => $setDiscount,
 				'type' => 'discount',
 				'target' => 'subtotal',
 				'value' => '-'.$setDiscount.'%',
 				'attributes' => array(
-					'discount_id' => $setDiscount,
+					'discount_id' => $card->id,
+                    'barcode' => $card->barcode,
+                    'discount' => $card->discount,
 					'description' => 'Value added tax',
 					'more_data' => 'more data here'
 				)

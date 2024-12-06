@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use App\DiscountCode;
 use Response;
 use Illuminate\Http\JsonResponse;
-use App\Services\CartCustomCondition;
+use \Darryldecode\Cart\CartCondition as CartCondition;
 
 class CartService {
     public function storeDiscount(Request $request, string $barcode = '')
@@ -41,13 +41,14 @@ class CartService {
             return Response::json(['success' => false]);
         }
 
-        $condition = new CartCustomCondition([
+        $condition = new CartCondition([
             'name' => $setDiscount,
             'type' => 'discount',
             'target' => 'subtotal',
             'value' => '-'.$setDiscount.'%',
             'attributes' => [
-                'discount_id' => $setDiscount,
+                'discount' => $setDiscount,
+                'discount_id' => $discountResult->id,
                 'barcode' => $barcode,
                 'description' => 'Value added tax',
                 'more_data' => 'more data here'

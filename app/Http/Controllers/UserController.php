@@ -1,18 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
-use Auth;
-use App\User;
 use App\Partner;
-use App\Store;
 use App\Permission;
-use Response;
+use App\Store;
+use App\User;
+use App\UserGroup;
+use Auth;
 use Bouncer;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\View;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
+use Response;
 
 class UserController extends Controller
 {
@@ -107,7 +108,6 @@ class UserController extends Controller
         $search = $request->search;
         $params = $request->all();
 
-        // There are specific scenarios where header named 'search' is not present in the request so we have to overwrite it
         if (is_null($search)) {
             $search = reset($params);
         }

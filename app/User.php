@@ -2,22 +2,24 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Silber\Bouncer\Database\HasRolesAndAbilities;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Http\Request;
 use App\DiscountCode;
-use App\UserSubstitution;
-use App\Store;
-use App\Role\UserRole;
 use App\Role\RoleChecker;
+use App\Role\UserRole;
+use App\Store;
+use App\UserSubstitution;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\Request;
+use Illuminate\Notifications\Notifiable;
+use Silber\Bouncer\Database\HasRolesAndAbilities;
+use Mavinoo\Batch\Traits\HasBatch;
 
 class User extends Authenticatable
 {
     use SoftDeletes;
     use Notifiable;
     use HasRolesAndAbilities;
+    use HasBatch;
 
     /**
      * The attributes that are mass assignable.

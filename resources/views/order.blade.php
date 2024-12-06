@@ -146,7 +146,11 @@
                 </ul>
             </section>
             @endif
-
+            @isset($discount_card)
+                <section>
+                    <p>Код за отстъпка: {{ $discount_card }}</p>
+                </section>
+            @endisset
             @if(isset($cart_items))
             <section>
                 <p>Количка : </p>

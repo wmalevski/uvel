@@ -27,7 +27,7 @@ class UserPayment extends Model{
 		$subtotal = round(Cart::session($session_id)->getSubTotal(),2);
 		$quantity = Cart::session($session_id)->getTotalQuantity();
 
-		if($subtotal <= 0){
+        if($subtotal <= 0){
 			return Redirect::back()->with('error', 'Нямате продукти в количката!');
 		}
 
@@ -44,12 +44,15 @@ class UserPayment extends Model{
 
 		// Process applied Discount Codes
 		$discount_codes = array();
-		foreach(Cart::session($session_id)->getConditions() as $k=>$v){
-			$attr = $v->getAttributes();
-			var_dump($attr);
+        foreach(Cart::session($session_id)->getConditions() as $k=>$v){
+            $attr = $v->getAttributes();
 			if(isset($attr['discount_id']) && isset($attr['barcode'])){
-				array_push($discount_codes, $attr['barcode']);
-				$payment->price -= $attr['discount_id'] * $one_percent; // The passed discount_id is the value in percents of the discount, thus the need to multiply it by 1% of the price
+                $discount_codes[] = [
+                    'discount_id' => $attr['discount_id'],
+                    'barcode' => $attr['barcode'],
+                    'discount' => $attr['discount'],
+                ];
+				$payment->price -= $attr['discount'] * $one_percent; // The passed discount_id is the value in percents of the discount, thus the need to multiply it by 1% of the price
 			}
 		}
 
@@ -75,16 +78,14 @@ class UserPayment extends Model{
 		}
 
 		$payment->save();
-
 		if(!empty($discount_codes)){
 			foreach($discount_codes as $k=>$v){
 				$payment_discount = new PaymentDiscount();
-				$payment_discount->discount_code_id = $v;
+				$payment_discount->discount_code_id = $v['discount_id'];
 				$payment_discount->payment_id = $payment->id;
 				$payment_discount->save();
 			}
 		}
-
 		$elements = array('App\UserPaymentProduct', 'App\Selling');
 
 		Cart::session($session_id)->getContent()->each(function($item) use ($elements,$payment,$request,$quantity){
