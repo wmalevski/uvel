@@ -133,7 +133,6 @@ class PriceController extends Controller{
                 if ( $getFirstBuyPrice->id == $price->id ) {
                     $products = Product::where(array(
                         'material_id'=>$price->material_id,
-                        // 'retail_price_id'=>$price->id
                     ))->with(['model']);
                 }
             }
@@ -153,6 +152,13 @@ class PriceController extends Controller{
                         'price' => round(($request->type == 'sell' ? $buy : $sell) * $model->weight),
                         'workmanship' => round(($buy - $sell) * $product->weight),
                       ];
+
+                      if($product->id == 39168) {
+                        dd([
+                          '$buy' => $buy,
+                          '$sell' => $sell,
+                        ]);
+                      }
                     }
 
                     if ($model) {
