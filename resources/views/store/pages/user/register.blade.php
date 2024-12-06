@@ -23,7 +23,7 @@
                         </div>
 
                         <div id="col-main" class="col-md-24 register-page clearfix">
-                            <form method="POST" action="{{ route('registerform') }}" accept-charset="UTF-8">
+                            <form method="POST" action="{{ route('registerform') }}" data-form-captcha id="create_customer" accept-charset="UTF-8">
                                 {{ csrf_field() }}
                                 <input value="create_customer" name="form_type" type="hidden"><input name="utf8" value="✓" type="hidden">
                                 <div 
