@@ -153,14 +153,6 @@ class PriceController extends Controller{
                         'price' => round(($request->type == 'sell' ? $buy : $sell) * $model->weight),
                         'workmanship' => round(($buy - $sell) * $product->weight),
                       ];
-
-                      if($product->id == 39168) {
-                        dd([
-                          'id' => $product->id,
-                          'price' => round(($request->type == 'sell' ? $buy : $sell) * $model->weight),
-                          'workmanship' => round(($buy - $sell) * $product->weight),
-                        ]);
-                      }
                     }
 
                     if ($model) {
