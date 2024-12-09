@@ -45,6 +45,11 @@ class DiscountCodeController extends Controller{
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
+        $isGlobal = false;
+        if ( $request->has('global_discountcode') ) {
+            $isGlobal = true;
+        }
+
         try {
             $discount = DiscountCode::create([
                 'discount' => $request->discount,
@@ -52,13 +57,15 @@ class DiscountCodeController extends Controller{
                 'barcode' => $request->barcode,
             ]);
 
-            if ( !is_null($request->has('group_id')) ) {
-                $discount->group()->associate($request->input('group_id'));
-            }
-
-            if ( !is_null($request->input('user_id')) ) {
-                $userList = explode(',', $request->input('user_list'));
-                $discount->users()->sync($userList);
+            if ( !$isGlobal ) {
+                if ( !is_null($request->has('group_id')) ) {
+                    $discount->group()->associate($request->input('group_id'));
+                }
+    
+                if ( !is_null($request->input('user_id')) ) {
+                    $userList = explode(',', $request->input('user_list'));
+                    $discount->users()->sync($userList);
+                }
             }
         } catch (\Throwable $e) {
             return Response::json(['errors' => [
@@ -68,6 +75,7 @@ class DiscountCodeController extends Controller{
 
         if($request->lifetime == 'true' || !$request->date_expires){
             $discount->lifetime = 'yes';
+            $discount->is_global = true;
         }
 
         $discount->barcode = $request->barcode;

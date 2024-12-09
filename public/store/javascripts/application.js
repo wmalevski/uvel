@@ -1050,7 +1050,6 @@ var uvelStore,
 
 	this.removeDiscount = function (removeBtn) {
 		var ajaxUrl = removeBtn.attr('data-url');
-
 		$.ajax({
 			method: 'GET',
 			url: ajaxUrl,
@@ -1082,7 +1081,7 @@ var uvelStore,
 				var newDiscount =
 					'<div class="col-xs-24">' +
 					'<span class="discount discount-label">' + label + '</span>' +
-					'<span data-url="/ajax/removeDiscount/' + discountID + '" class="discount discount-remove" rel-code="'+discountInput.val()+'">' +
+					'<span data-url="/online/cart/removeDiscount/' + discountID + '" class="discount discount-remove">' +
 					'<i class="fas fa-times"></i>' +
 					'</span>' +
 					'</div>';
@@ -1091,14 +1090,12 @@ var uvelStore,
 			}
 
 			discountContainer.html(newFields);
-
 			var removeDiscountTrigger = $('.discount-remove');
 			$self.removeDiscountAttach(removeDiscountTrigger);
-
 			totalDisplay.html(total + ' лв');
 			subtotalDisplay.html(subtotal + 'лв');
 
-			if(remove && $self.pendingDiscount){
+            if(remove && $self.pendingDiscount){
 				$self.addDiscount($self.pendingDiscount);
 				$self.pendingDiscount = false;
 			}

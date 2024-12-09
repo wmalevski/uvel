@@ -48,6 +48,15 @@ aria-hidden="true">
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                            <input type="checkbox" id="global_discountcode" name="global_discountcode" class="peer">
+                            <label for="global_discountcode" class="peers peer-greed js-sb ai-c">
+                                <span class="peer peer-greed">Глобален промокод</span>
+                            </label>
+                        </div>
+                    </div>
+
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="2">Потребител: </label>

@@ -64,7 +64,8 @@ var uvel,
       discounts: {
         selector: '[name="discounts"]',
         controllers: [
-            'lifetimeDiscount'
+            'lifetimeDiscount',
+            'globalDiscount'
         ],
         initialized: false,
         ajaxSetup: true,
@@ -1299,7 +1300,6 @@ var uvel,
             urlTaken = window.location.href.split('/'),
             _url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/',
             discountUrl = _this.attr('data-url');
-
         if (discountBarcode.length == 13) {
           var ajaxUrl = _url + discountUrl + discountBarcode;
           $self.ajaxFn('GET', ajaxUrl, $self.discountSuccess, '', '', '');
@@ -1317,7 +1317,6 @@ var uvel,
 
         for (key in discounts) {
           var discount = discounts[key];
-
           var newDiscount = '<span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">' +
               discount.value + '</span><span data-url="/ajax/removeDiscount/' +
               discount.attributes.discount_id + '" data-sell-removeDiscount class="discount-remove badge bgc-red-50 c-red-700 p-10 lh-0 tt-c badge-pill">' +
@@ -3434,15 +3433,31 @@ var uvel,
       });
     }
 
+    this.globalDiscount = function(form) {
+        const trigger = form.find('input[name="global_discountcode"]');
+  
+        trigger.on('change', function(event) {
+            var isSelected = event.currentTarget.checked;
+            form.find('[name="user_id"]')
+                .attr('disabled', isSelected)
+                .html('')
+                .val('');
+
+            form.find('[name="group_id"]')
+                .attr('disabled', isSelected)
+                .html('')
+                .val('');
+        });
+      }
+
     this.openAddDiscountForm = function(form) {
         
     }
 
-    this.resolveDiscountScope = function(e) {
+    this.clearDiscountCodeSelect = function(select) {
         const targets = ['user_id', 'group_id'];
-        const currentSelect = $(e.currentTarget).attr('name');
+        const currentSelect = $(select).attr('name');
         if (targets.includes(currentSelect)) {
-            console.log(currentSelect)
             const otherSelect = targets.find(target => target !== currentSelect);
             $(`[name="${otherSelect}"]`).val('').trigger('change');
 
@@ -3650,9 +3665,8 @@ var uvel,
 
       $(select).select2(options);
       $(select).off('select2:select').on('select2:select', function(e) {
-        console.log(123)
         $self.prepMultiSelectValues(e.currentTarget, 'user_list')
-        $self.resolveDiscountScope(e)
+        $self.clearDiscountCodeSelect(e.currentTarget)
       });
       $(select).off('select2:unselect').on('select2:unselect', function(e) {
         $self.prepMultiSelectValues(e.currentTarget, 'user_list')
