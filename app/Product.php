@@ -346,8 +346,11 @@ class Product extends BaseModel
 
     $findModel = DefModel::find($request->model_id);
 
-    $product = Product::where('order_id', $request->order_id)->first();
-    if (!$product) {
+    $product = Product::where('order_id', '!=', 'NULL')
+        ->where('order_id', '=', $request->order_id)
+        ->first();
+
+    if (is_null($product)) {
         $product = new Product();
     }
 
