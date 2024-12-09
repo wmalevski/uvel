@@ -51,7 +51,7 @@ class PayController extends Controller
 
         if (!$result) {
             $setDiscount = false;
-            return response()->json(['message' => __('Баркодът не е намерен')], 404);
+            return response()->json(['message' => __('Баркодът не е намерен')], 200);
         }
 
         if($result){
