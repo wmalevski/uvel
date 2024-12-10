@@ -3,8 +3,8 @@
  * Secret key and Site key get on https://www.google.com/recaptcha
  * */
 return [
-    'secret' => env('CAPTCHA_SECRET', 'default_secret'),
-    'sitekey' => env('CAPTCHA_SITEKEY', 'default_sitekey'),
+    'secret' => env('INVISIBLE_RECAPTCHA_SECRETKEY', 'default_secret'),
+    'sitekey' => env('INVISIBLE_RECAPTCHA_SITEKEY', 'default_sitekey'),
     /**
      * @var string|null Default ``null``.
      * Custom with function name (example customRequestCaptcha) or class@method (example \App\CustomRequestCaptcha@custom).

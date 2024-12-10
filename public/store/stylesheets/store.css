@@ -157,6 +157,8 @@ body {
 	text-align: left;
 }
 
+.grecaptcha-badge { visibility: hidden; }
+
 .element .row-left .hbw {
 	position: relative;
 	margin: 0 !important;

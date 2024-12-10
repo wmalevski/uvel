@@ -864,37 +864,24 @@ var uvelStore,
 		}
 	}
 
-	this.renderCaptcha = function(key) {
-		var captchas = document.querySelectorAll('[data-captcha]');
-
-		for (var i = 0; i < captchas.length; i++) {
-			render(captchas[i]);
-		}
-
-		function render(captcha) {
-			var data = captcha.dataset,
-				form = $(captcha.closest('form'));
-
-			_captchaWidgets[data.captcha] = grecaptcha.render(data.captcha, {
-				sitekey: key,
-				callback: function(response) {
-					if (response) {
-						$self[data.callback](form, response);
-						grecaptcha.reset(_captchaWidgets[data.captcha]);
-					}
-				}
-			});
-		}
-	}
-
 	this.executeCaptcha = function(captcha) {
 		var data = captcha.dataset;
-
-		grecaptcha.execute(_captchaWidgets[data.captcha]);
+        var form = $(captcha.closest('form'));
+        var captchaKey = $("[name='captcha_key']").val()
+        grecaptcha.ready(() => {
+            grecaptcha.execute(captchaKey, {action: data.captcha}).then(function(response) {
+                $self[data.callback](form, response);
+            });
+        })
 	}
 
 	this.formSubmit = function(form, response) {
-		form.find('[name="g-recaptcha-response"]').val(response);
+        const createInput = document.createElement('input')
+        $(createInput).attr('name', 'g-recaptcha-response')
+        $(createInput).attr('type', 'hidden')
+        $(createInput).attr('value', response)
+        form.append(createInput)
+
 		form.submit();
 	}
 
@@ -903,10 +890,9 @@ var uvelStore,
 			formSubmitAttach($(forms[i]));
 		}
 
-		function formSubmitAttach(form) {
+        function formSubmitAttach(form) {
 			var captcha = form.find('[data-captcha]')[0],
 				button = form.find('button[type="submit"]');
-
 			button.on('click', function(e){
 				e.preventDefault();
 				this.disabled = true;
@@ -1173,7 +1159,8 @@ var uvelStore,
 
 	this.submitCustomOrder = function (form) {
 		var inputFields = form.find('select , input, textarea');
-		$self.getFormFields(form, inputFields);
+        // form.submit();
+		// $self.getFormFields(form, inputFields);
 	}
 
 	this.addToCartAttach = function (addToCartBtn) {
@@ -1351,38 +1338,38 @@ var uvelStore,
 	}
 
 	this.getFormFields = function (form, inputFields) {
-		var ajaxRequestLink = form.attr('action'),
-			data = {
-				_token: $('meta[name="csrf-token"]').attr('content')
-			},
-			imageCollection = [];
+		// var ajaxRequestLink = form.attr('action'),
+		// 	data = {
+		// 		_token: $('meta[name="csrf-token"]').attr('content')
+		// 	},
+		// 	imageCollection = [];
 
-		inputFields.each(function (index, element) {
-			var _this = element,
-				inputType = _this.type,
-				dataKey = _this.name,
-				dataKeyValue = _this.value,
-				imagesInputFieldExists = dataKey == 'images';
+		// inputFields.each(function (index, element) {
+		// 	var _this = element,
+		// 		inputType = _this.type,
+		// 		dataKey = _this.name,
+		// 		dataKeyValue = _this.value,
+		// 		imagesInputFieldExists = dataKey == 'images';
 
-			data[dataKey] = dataKeyValue;
+		// 	data[dataKey] = dataKeyValue;
 
-			if (imagesInputFieldExists) {
-				var imagesHolder = $('.drop-area-gallery .image-wrapper img');
+		// 	if (imagesInputFieldExists) {
+		// 		var imagesHolder = $('.drop-area-gallery .image-wrapper img');
 
-				imagesHolder.each(function (index, element) {
-					var _imgSource = element.getAttribute('src');
-					imageCollection.push(_imgSource);
-				});
+		// 		imagesHolder.each(function (index, element) {
+		// 			var _imgSource = element.getAttribute('src');
+		// 			imageCollection.push(_imgSource);
+		// 		});
 
-				data.images = imageCollection;
-			}
-		});
+		// 		data.images = imageCollection;
+		// 	}
+		// });
 
-		$self.sendCustomOrderForm(form, ajaxRequestLink, data);
+        // $self.sendCustomOrderForm(form, ajaxRequestLink, data);
 	}
 
 	this.sendCustomOrderForm = function (form, ajaxRequestLink, data) {
-		$.ajax({
+        $.ajax({
 			method: 'POST',
 			url: ajaxRequestLink,
 			dataType: 'json',
