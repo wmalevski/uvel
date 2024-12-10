@@ -140,23 +140,6 @@ class UserPayment extends Model{
 		$email2sms = new Setting();
 		$email2sms = $email2sms->get('email2sms_on_order');
 
-		// Send Email-to-SMS to the admin, only if the environment is not LOCAL or DEVELOPMENT
-		if(
-			(strtolower($_ENV['APP_ENV'])!=='local'&&strtolower($_ENV['APP_ENV'])!=='development')
-			&&
-			filter_var($email2sms, FILTER_VALIDATE_EMAIL)
-		){
-//			Mail::send('store.emails.sms',array(
-//				'content' => "Porychka nalichni! ID ".$payment->id),
-//				function($message) use ($email2sms){
-//					$message
-//						->from($_ENV['MAIL_USERNAME'],$_ENV['APP_NAME'])
-//						->to($email2sms)
-//						->subject('Nalichni');
-//				}
-//			);
-		}
-
 
 		//Store the notification
 		$history = new History();

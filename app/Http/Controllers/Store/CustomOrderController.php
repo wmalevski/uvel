@@ -137,62 +137,6 @@ class CustomOrderController extends BaseController{
         }
 
         return redirect()->route('custom_order')->with('success', 'Поръчката Ви беше изпратена успешно');
-
-    //     if ( !isDev() ) {
-    //         $email2sms = new Setting();
-    //         $email2sms = $email2sms->get('email2sms_on_order');
-
-    //         // Send Email-to-SMS to the admin, only if the environment is not LOCAL or DEVELOPMENT
-    //            Mail::send('store.emails.sms',array(
-    //                'content' => "Porychka po model! ID ".$customOrder->id),
-    //                function($message) {
-    //                    $message
-    //                        ->from(config('mail.username'),config('app.name'))
-    //                        ->to(config('mail.host'))
-    //                        ->subject('Po model');
-    //                }
-    //            );
-
-    //         if(
-    //             (strtolower($_ENV['APP_ENV'])!=='local'&&strtolower($_ENV['APP_ENV'])!=='development')
-    //             &&
-    //             filter_var($email2sms, FILTER_VALIDATE_EMAIL)
-    //         ){
-    // //            Mail::send('store.emails.sms',array(
-    // //                'content' => "Porychka po model! ID ".$customOrder->id),
-    // //                function($message) use ($email2sms){
-    // //                    $message
-    // //                        ->from($_ENV['MAIL_USERNAME'],$_ENV['APP_NAME'])
-    // //                        ->to($email2sms)
-    // //                        ->subject('Po model');
-    // //                }
-    // //            );
-    //         }
-
-
-    //         //send email to uvelgold@gmail.com from the customer
-    //         $requestEmail = $request->email;
-
-    //         Mail::send('order',
-    //             array(
-    //                 'ID' => $customOrder->id,
-    //                 'name' => $request->name,
-    //                 'email' => $requestEmail,
-    //                 'city' => $request->city,
-    //                 'phone' => $request->phone,
-    //                 'content' => $request->content
-    //             ),
-    //             function($message) use ($requestEmail){
-    //                 $message
-    //                     ->replyTo($requestEmail)
-    //                     ->from(config('mail.username'), config('app.name'))
-    //                     ->to("uvelgold@gmail.com")
-    //                     ->subject('Uvel Поръчка');
-    //             }
-    //         );
-    //     }
-
-    //     return redirect()->back()->with('success', 'Поръчката Ви беше изпратена успешно');
     }
 
 }

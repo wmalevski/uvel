@@ -36,7 +36,6 @@ class ContactController extends BaseController
             return Redirect::back()->withErrors($validator);
         }
 
-        //Send email to support mail
         $requestEmail   = $request->email;
         $requestName    = $request->name;
 
