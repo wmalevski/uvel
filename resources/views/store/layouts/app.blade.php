@@ -50,6 +50,7 @@
     <script src="{{ asset('store/javascripts/bootstrap.min.3x.js') }}" type="text/javascript"></script>
     <script src="{{ asset('store/javascripts/cookies.js') }}" type="text/javascript"></script>
     <script src="{{ asset('store/javascripts/modernizr.js') }}" type="text/javascript"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render={{ config('app.recaptcha_key') }}"></script>
     <script src="{{ asset('store/javascripts/application.js') }}" type="text/javascript"></script>
     <script src="{{ asset('store/javascripts/jquery.owl.carousel.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('store/javascripts/jquery.bxslider.js') }}" type="text/javascript"></script>
@@ -58,7 +59,6 @@
     <script src="{{ asset('store/javascripts/jquery.zoom.js') }}" type="text/javascript"></script>
     <script src="{{ asset('store/javascripts/cs.script.js') }}" type="text/javascript"></script>
     <script src="{{ asset('store/javascripts/lodash.custom.min.js') }}" type="text/javascript"></script>
-    <script src="https://www.google.com/recaptcha/api.js?onload=renderCaptcha&render=explicit"></script>
     <script src="https://unpkg.com/nanogallery2@3.0.5/dist/jquery.nanogallery2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
 </head>
@@ -70,16 +70,12 @@
 
     <!-- Main Content -->
     @yield('content')
+    <input type="hidden" name="captcha_key" value={{ config('app.recaptcha_key') }}>
 
     <!-- Footer -->
     @include('store.parts._footer')
 
 <script src="{{ asset('store/javascripts/cs.global.js') }}" type="text/javascript"></script>
-<script>
-    var renderCaptcha = function() {
-        uvelStore.renderCaptcha('{{ config('app.recaptcha_key') }}');
-    }
-</script>
 @stack('scripts')
 @stack('scoped-scripts')
 </body>

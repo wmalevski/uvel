@@ -17,3 +17,4 @@ yarn-error.log
 /database/sqldump
 error_log
 /public/error_log
+/sqldump

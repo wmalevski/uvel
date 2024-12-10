@@ -56,6 +56,7 @@ class PayController extends Controller
 
         if($result){
             $setDiscount = $result->discount;
+            $isGlobal = $result->is_global == 'yes';
             // Firstly check if the user is part of a group
             if ( isset($result->group) ) {
                 $isEligible = $result->group->users->contains('id', $userId);
@@ -64,6 +65,11 @@ class PayController extends Controller
             if ( !$result->users->isEmpty() ) {
                 $isEligible = $result->users->contains('id', $userId);
             }
+
+            if ($isGlobal) {
+                $isEligible = true;
+            }
+
 
             if (!$isEligible) {
                 $setDiscount = false;
@@ -121,7 +127,6 @@ class PayController extends Controller
     public function removeDiscount(Request $request, $name){
         $userId = Auth::user()->getId();
         $conds = array();
-
         \Cart::removeCartCondition($name);
         \Cart::session($userId)->removeCartCondition($name);
 

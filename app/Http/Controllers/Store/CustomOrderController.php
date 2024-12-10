@@ -72,7 +72,7 @@ class CustomOrderController extends BaseController{
             'content'                 => 'required|string',
             'phone'                   => 'required',
             'city'                    => 'required',
-            'g-recaptcha-response'    => 'required|captcha'
+            'g-recaptcha-response'    => 'required|recaptcha'
         ]);
 
         if ($validator->fails()) {

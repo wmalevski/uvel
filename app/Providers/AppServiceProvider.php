@@ -34,6 +34,8 @@ class AppServiceProvider extends ServiceProvider
             return str_replace(':attribute',$attribute, ':attribute е невалиден.');
         });
 
+        Validator::extend('recaptcha', 'App\Rules\Recaptcha@passes');
+
         Paginator::useBootstrap();
 
         UserGroup::observe(UserGroupObserver::class);

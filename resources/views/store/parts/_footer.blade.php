@@ -1,31 +1,5 @@
 <footer id="footer">
   <div id="footer-content">
-    <!--
-		<h6 class="general-title contact-footer-title">Абониране</h6>
-		<div id="widget-newsletter">
-			<div class="container">
-				<div class="newsletter col-md-24">
-					<form action="{{ route('subscribe') }}" method="POST" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" data-form-captcha>
-						{{ csrf_field() }}
-						<span class="news-desc">Обещаваме, че изпращаме само най-доброто</span>
-						<div class="group_input">
-							<input class="form-control" type="email" placeholder="Вашият имейл адрес" name="email" id="email-input">
-							<div class="unpadding-top">
-								<div
-									id="subscribe_captcha"
-									data-size="invisible" data-captcha="subscribe_captcha" data-callback="formSubmit">
-								</div>
-								<button class="btn btn-1" type="submit">
-									<i class="fa fa-paper-plane"></i>
-								</button>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-		-->
-
     <div class="footer-content footer-content-top clearfix">
       <div class="container">
         <div class="footer-link-list col-md-5">
@@ -87,13 +61,12 @@
       <div class="container">
         <div class="copyright col-md-12">
           <a href="./about-us.html">Uvel</a> © {{ date('Y') }}. Всички права запазени!
+          <x-store.forms.captcha/>
         </div>
         <div id="widget-payment" class="col-md-12">
           <ul id="payments" class="list-inline animated">
             <li class="btooltip" data-toggle="tooltip" data-placement="top" title="Visa" data-original-title="Visa"><span class="icons visa"></span></li>
             <li class="btooltip" data-toggle="tooltip" data-placement="top" title="Mastercard" data-original-title="Mastercard"><span class="icons mastercard"></span></li>
-            <!-- <li class="btooltip" data-toggle="tooltip" data-placement="top" title="American Express" data-original-title="American Express"><span class="icons amex"></span></li>
-						<li class="btooltip" data-toggle="tooltip" data-placement="top" title="Paypal" data-original-title="Paypal"><span class="icons paypal"></span></li> -->
           </ul>
         </div>
       </div>

@@ -29,7 +29,7 @@ class ContactController extends BaseController
             'name' => 'required|string',
             'email' => 'required|string|email|max:255',
             'message' => 'required|string',
-            'g-recaptcha-response' => 'required|captcha'
+            'g-recaptcha-response' => 'required|recaptcha'
         ]);
 
         if ($validator->fails()) {

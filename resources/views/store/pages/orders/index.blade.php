@@ -43,7 +43,7 @@ if (Auth::check()) {
                 <div class="left-block col-md-12">
                   <form method="post"
                     action="{{ route('submit_custom_order') }}"
-                    {{-- data-form-captcha --}}
+                    data-form-captcha
                     class="contact-form customOrder-form"
                     accept-charset="UTF-8"
                     enctype="multipart/form-data"
@@ -53,7 +53,7 @@ if (Auth::check()) {
                     <input type="hidden" name="utf8" value="✓">
                     <div 
                       id="custom_order"
-                      data-size="invisible" data-captcha="custom_order" data-callback="submitCustomOrder">
+                      data-size="invisible" data-captcha="custom_order" data-callback="formSubmit">
                     </div>
                     <ul id="contact-form" class="row list-unstyled">
                       <li class="">
