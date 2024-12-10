@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Validator;
 
 class Recaptcha extends Validator implements ValidationRule
 {
+    protected $message = 'Recaptcha verification failed. Please try again.';
+
     /**
      * Run the validation rule.
      *
@@ -26,7 +28,13 @@ class Recaptcha extends Validator implements ValidationRule
                 ->verify($value, Request::ip());
             return $recaptchaResponse->isSuccess();
         } catch (\Throwable $th) {
-            $fail('нещо си');
+            $this->message = 'Възникна грешка при валидиране на google recaptcha';
+            return false;
         }
+    }
+
+    public function message()
+    {
+        return $this->message;
     }
 }
