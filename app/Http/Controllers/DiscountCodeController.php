@@ -44,6 +44,13 @@ class DiscountCodeController extends Controller{
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
+        if ( is_null($request->input('user_list')) && 
+            is_null($request->input('group_id')) && 
+            ($request->global_discountcode != 'true') ) {
+            return Response::json(['errors' => [
+                'message' => 'Моля изберете потребител група или отметнете "Глобален промокод"',
+            ]], 401);
+        }
 
         $isGlobal = false;
         if ( $request->has('global_discountcode') ) {
