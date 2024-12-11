@@ -67,7 +67,11 @@
                 <ul>
                     <li><strong>Плащане:</strong> В брой при доставка</li>
                     <li><strong>Начин на плащане:</strong> Наложен платеж</li>
-
+                    @isset($discount)
+                        <li><strong>Отстъпка:</strong> {{ $discount['discount'] }}%</li>
+                        <li><strong>Код за отстъпка:</strong> {{ $discount['barcode'] }}</li>
+                    @endisset
+                    @isset($total)<li><strong>Обща сума:</strong> {{ $total }}лв.</li>@endisset
                     @if(isset($cart_items))
                         <li><strong>Количка:</strong></li>
                         @if(is_array($cart_items))
@@ -81,7 +85,6 @@
                                     @endif
                                     <li><strong>Цена:</strong> {{ $i['price'] }}лв.</li>
                                 </ul>
-                                <hr>
                             @endforeach
                         @endif
                     @endif

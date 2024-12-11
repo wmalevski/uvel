@@ -99,8 +99,20 @@ class UserPaymentController extends Controller{
             }
 
             // SEND INTERNAL MAIL
-            $cartItems = json_decode($request->cart_items, true);
+            $cartItems             = json_decode($request->cart_items, true);
+            $subTotal              = round(Cart::session($memberId)->getSubTotal(),2);
+            $total                 = number_format(Cart::session($memberId)->getTotal(), 2, '.', '');
             $cartItems[0]['price'] = $request->amount;
+            $conditions            = Cart::session($memberId)->getConditions();
+            $discount              = null;
+
+            foreach ($conditions as $condition) {
+                if ( count($condition->getAttributes() ) === 0 ) {
+                    break;
+                }
+                $discount = $condition->getAttributes();
+                break;
+            }
 
             try {
                 Mail::send('order',
@@ -115,6 +127,8 @@ class UserPaymentController extends Controller{
                         'shipping_method' => trans($request->payment_method),
                         'shipping_address' => $shipping_address,
                         'store' => $storeMeta,
+                        'total' => $total,
+                        'discount' => $discount,
                     ),
                     function($message) {
                         $message
@@ -137,6 +151,7 @@ class UserPaymentController extends Controller{
 
             try {
                 $receiver = isDev() ? config('mail.from.address') : $member->email;
+
                 Mail::send('order-client',
                     array(
                         'name' => sprintf('%s %s', $member->first_name, $member->last_name),
@@ -144,8 +159,10 @@ class UserPaymentController extends Controller{
                         'payment_method' => trans($request->payment_method),
                         'cart_items' => $cartItems,
                         'product_names' => $productNames,
+                        'total' => $total,
+                        'discount' => $discount,
                     ),
-                    function($message) {
+                    function($message) use ($receiver) {
                         $message
                             ->to($receiver)
                             ->subject('Uvel Поръчка');

@@ -273,6 +273,10 @@ class CartController extends BaseController{
 
 		$remove = Cart::session($session_id)->remove($item);
 
+        if ( Cart::session($session_id)->isEmpty() ) {
+            Cart::session($session_id)->clearCartConditions();
+        }
+
 		$total = round(Cart::session($session_id)->getTotal(),2);
 		$subtotal = round(Cart::session($session_id)->getSubTotal(),2);
 		$quantity = Cart::session($session_id)->getTotalQuantity();

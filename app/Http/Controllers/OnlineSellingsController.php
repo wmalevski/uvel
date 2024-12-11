@@ -48,7 +48,8 @@ class OnlineSellingsController extends Controller{
 		$discount_codes = array();
 		if($discounts->count()>0){
 			foreach($discounts as $k=>$v){
-				$discount_codes[$v->discount_code_id]=DiscountCode::where('barcode',$v->discount_code_id)->first()->discount;
+                $discountModel = DiscountCode::find($v->discount_code_id);
+				$discount_codes[$discountModel->barcode] = $discountModel->discount;
 			}
 		}
 

@@ -146,28 +146,28 @@
                 </ul>
             </section>
             @endif
-            @isset($discount_card)
-                <section>
-                    <p>Код за отстъпка: {{ $discount_card }}</p>
-                </section>
+            @isset($discount)
+                <li><strong>Отстъпка:</strong> {{ $discount['discount'] }}%</li>
+                <li><strong>Код за отстъпка:</strong> {{ $discount['barcode'] }}</li>
             @endisset
-            @if(isset($cart_items))
+            @isset($total)<li><strong>Обща сума:</strong> {{ $total }}лв.</li>@endisset
+            @isset($cart_items)
             <section>
                 <p>Количка : </p>
                 @if(is_array($cart_items))
+                    <ul>
                     @foreach($cart_items as $i)
+                        <li>ID на артикула: <strong>{{ $i['attributes']['product_id'] }}</strong></li>
                         <ul>
-                            <li>ID на артикула: <strong>{{ $i['attributes']['product_id'] }}</strong></li>
-                            <ul>
-                                <li>Име: <strong>{{ $i['name'] }}</strong></li>
-                                <li>Количество: <strong>{{ $i['quantity'] }}бр.</strong></li>
-                                <li>Цена: <strong>{{ $i['price'] }}лв.</strong></li>
-                            </ul>
+                            <li>Име: <strong>{{ $i['name'] }}</strong></li>
+                            <li>Количество: <strong>{{ $i['quantity'] }}бр.</strong></li>
+                            <li>Цена: <strong>{{ $i['price'] }}лв.</strong></li>
                         </ul>
                     @endforeach
+                    </ul>
                 @endif
             </section>
-            @endif
+            @endisset
         </main>
 
         <footer class="email-footer">
