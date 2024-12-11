@@ -969,8 +969,7 @@ class SellingController extends Controller{
     public function removeDiscount(Request $request, $name){
         $userId = Auth::user()->getId();
         $conds = array();
-        Cart::removeCartCondition($name);
-        Cart::session($userId)->removeCartCondition($name);
+        Cart::session($userId)->clearCartConditions();
 
         $cartConditions = Cart::session($userId)->getConditionsByType('discount');
         foreach($cartConditions as $key => $condition){
@@ -1002,10 +1001,12 @@ class SellingController extends Controller{
 
         $partner = 'false';
         $card = null;
-        $barcode = $request->discountCode;
-        if($request->has('discountCode')){
+
+        if(!is_null($request->discountCode)){
+            $barcode = $request->discountCode;
             $card = DiscountCode::where('barcode', $barcode)->first();
             $users = [];
+
             if ($card->users->count()) {
                 $users = $card->users;
             }
@@ -1013,13 +1014,13 @@ class SellingController extends Controller{
             if ( isset($card->group) ) {
                 $users = $card->group->users;
             }
-
-            foreach ($users as $user) {
-                if($user->isA('corporate_partner')){
-                    $partner = 'true';
+            if ( count($users) != 0 ) {
+                foreach ($users as $user) {
+                    if($user->isA('corporate_partner')){
+                        $partner = 'true';
+                    }
                 }
             }
-
         }
 
         $condition = new \Darryldecode\Cart\CartCondition(array(
@@ -1028,11 +1029,11 @@ class SellingController extends Controller{
             'target' => 'subtotal',
             'value' => '-'.$request->discount.'%',
             'attributes' => array(
-                'discount_id' => $card->id,
+                'discount_id' => $card->id ?? 0,
                 'discount' => $request->discount,
                 'description' => $request->description,
                 'more_data' => 'more data here',
-                'partner' => $partner
+                'partner' => $partner,
             ),
             'order' => 1
         ));
