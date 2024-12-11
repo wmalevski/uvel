@@ -882,13 +882,7 @@ class SellingController extends Controller{
         return redirect()->route('admin');
     }
 
-    public function setDiscount(Request $request){
-
-        // if ( $request->discountCode != "" && $request->discount != "" ) {
-        //     return $this->cartService->storeDiscount($request, $barcode);
-        // } else {
-        //     return redirect()->back()->withErrors('Моля сканирайте/въведете карта за отстъпка');
-        // }
+    public function setDiscount(Request $request, $barcode){
         $userId = Auth::user()->getId(); 
 
         if(strlen($barcode) == 13){
@@ -896,8 +890,10 @@ class SellingController extends Controller{
             $result = json_encode($discount->check($barcode));
 
             if($result == 'true'){
-                $card = DiscountCode::where('barcode', $barcode)->first();
+                $card = $result;
                 $setDiscount = $card->discount;
+            } else {
+                return Response::json('Barcode not available: ' . $barcode, 404);
             }
         }else{
             $result = false;
@@ -1004,7 +1000,10 @@ class SellingController extends Controller{
 
         if(!is_null($request->discountCode)){
             $barcode = $request->discountCode;
-            $card = DiscountCode::where('barcode', $barcode)->first();
+            $card = (new DiscountCode)->check($request->discountCode);
+            if ( $card === false ) {
+                return Response::json('Barcode not available: ' . $barcode, 404);
+            }
             $users = [];
 
             if ($card->users->count()) {
