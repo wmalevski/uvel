@@ -884,23 +884,43 @@ class SellingController extends Controller{
 
     public function setDiscount(Request $request, $barcode){
 
-        // if ( $request->discountCode != "" && $request->discount != "" ) {
-        //     return $this->cartService->storeDiscount($request, $barcode);
-        // } else {
-        //     return redirect()->back()->withErrors('Моля сканирайте/въведете карта за отстъпка');
-        // }
         $userId = Auth::user()->getId(); 
 
         if(strlen($barcode) > 0){
-            $discount = new DiscountCode;
-            $result = json_encode($discount->check($barcode));
+          $discount = new DiscountCode;
+          $result = $discount->check($barcode);
 
-            if($result == 'true'){
-                $card = $result;
-                $setDiscount = $card->discount;
-            } else {
-                return Response::json('Barcode not available: ' . $barcode, 404);
-            }
+          if($result){
+              $card = $result;
+              $setDiscount = $card->discount;
+              $isGlobal = $result->is_global == 'yes';
+              // Firstly check if the user is part of a group
+              if ( isset($result->group) ) {
+                $isEligible = $result->group->users->contains('id', $userId);
+              }
+              
+              if ( !$result->users->isEmpty() ) {
+                  $isEligible = $result->users->contains('id', $userId);
+              }
+
+              if ($isGlobal) {
+                  $isEligible = true;
+              }
+
+              if (!$isEligible) {
+                  $setDiscount = false;
+              }
+
+              // Validate Discount's expiration date
+              if($result->lifetime=='no' && isset($result->expires)){
+                  $expires = Carbon::createFromFormat('d-m-Y', $result->expires);
+                  if($expires->lt(Carbon::now())){
+                      $setDiscount = false;
+                  }
+              }
+          } else {
+              return Response::json('Barcode not available: ' . $barcode, 404);
+          }
         }else{
             $result = false;
             $setDiscount = $barcode;
