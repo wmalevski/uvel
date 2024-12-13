@@ -99,7 +99,17 @@
 							</td>
 							<td>{{ $product->quantity }}</td>
 							<td>{{ $product->weight }} гр.</td>
-							<td>{{ $product->price }} лв.</td>
+							<td>
+                {{ $product->price }} лв.
+
+                @if(!empty($discount_codes))
+                  @foreach($discount_codes as $barcode=>$value)
+                    / {{ ($product->price * ($value/100) )}} след отстъпка
+                    @break
+                  @endforeach
+                </div>
+                @endif
+              </td>
 						</tr>
 						@endforeach
 					</tbody>
