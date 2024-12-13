@@ -104,7 +104,7 @@
 
                 @if(!empty($discount_codes))
                   @foreach($discount_codes as $barcode=>$value)
-                    / <b>{{ ($product->price - ($value/100) )}} лв.</b> след отстъпка
+                    / <b>{{ ($product->price - ($product->price*($value/100) ) )}} лв.</b> след отстъпка
                     @break
                   @endforeach
                 </div>
