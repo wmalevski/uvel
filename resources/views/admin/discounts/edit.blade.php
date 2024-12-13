@@ -2,6 +2,7 @@
 $users = null;
 $fillUserSelect = false;
 $fillGroupSelect = false;
+
 if ( isset($discount->group) ) {
     $users = $discount->group->users;
     $fillUserSelect = true;
@@ -70,20 +71,22 @@ if ( $discount->users->count() ) {
                 </div>
             </div>
 
+            <div class="form-group">
+                <div class="checkbox checkbox-circle checkbox-info peers ai-c mB-15">
+                    <input type="checkbox" id="global_discountcode" name="global_discountcode" class="peer" @if($discount->is_global == 'yes') checked @endif>
+                    <label for="global_discountcode" class="peers peer-greed js-sb ai-c">
+                        <span class="peer peer-greed">Глобален промокод</span>
+                    </label>
+                </div>
+            </div>
+
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="2">Потребител: </label>
-                    <select name="user_id" class="form-control" data-search="/ajax/select_search/users/" multiple>
+                    <select name="user_id" class="form-control" data-search="/ajax/select_search/users/" multiple @if($discount->is_global == 'yes') disabled @endif>
                         <option></option>
                         @if ( $fillUserSelect )
-                            @foreach ($users as $user)
-                                @if (collect(old('user_id'))->contains($user->id))
-                                <option 
-                                    value="{{ $user->id }}" selected>
-                                    {{ $user->name }}
-                                </option>
-                                @endif
-                            @endforeach
+                            {{-- To do --}}
                         @endif
                     </select>
                     <input type="hidden" name="user_list" value="">
@@ -93,8 +96,11 @@ if ( $discount->users->count() ) {
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="2">Група: </label>
-                    <select name="group_id" class="form-control" data-search="/ajax/select_search/groups/">
+                    <select name="group_id" class="form-control" data-search="/ajax/select_search/groups/" @if($discount->is_global == 'yes') disabled @endif>
                         <option value="">Избери</option>
+                        @if ( $fillGroupSelect )
+                            {{-- To do --}}
+                        @endif
                     </select>
                 </div>
             </div>

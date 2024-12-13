@@ -52,9 +52,9 @@ class DiscountCodeController extends Controller{
             ]], 401);
         }
 
-        $isGlobal = false;
-        if ( $request->has('global_discountcode') ) {
-            $isGlobal = true;
+        $isGlobal = 'no';
+        if ( $request->global_discountcode == 'true' ) {
+            $isGlobal = 'yes';
         }
 
         try {
@@ -64,7 +64,7 @@ class DiscountCodeController extends Controller{
                 'barcode' => $request->barcode,
             ]);
 
-            if ( !$isGlobal ) {
+            if ( $isGlobal == 'no' ) {
                 if ( !is_null($request->has('group_id')) ) {
                     $discount->group()->associate($request->input('group_id'));
                 }
@@ -82,7 +82,7 @@ class DiscountCodeController extends Controller{
 
         if($request->lifetime == 'true' || !$request->date_expires){
             $discount->lifetime = 'yes';
-            $discount->is_global = true;
+            $discount->is_global = $isGlobal;
         }
 
         $discount->barcode = $request->barcode;
@@ -178,13 +178,18 @@ class DiscountCodeController extends Controller{
 
         $users = User::all();
 
+        
         if ( !is_null($request->has('group_id')) ) {
             $discountCode->group()->associate($request->input('group_id'));
+        } else {
+            $discountCode->group()->dissociate();
         }
 
         if ( !is_null($request->input('user_list')) ) {
             $userList = explode(',', $request->input('user_list'));
             $discountCode->users()->sync($userList);
+        } else {
+            $discountCode->users()->sync([]);
         }
 
         $discountCode->discount = $request->discount;
@@ -195,6 +200,12 @@ class DiscountCodeController extends Controller{
             $discountCode->active = 'no';
         } else{
             $discountCode->active = 'yes';
+        }
+
+        if($request->global_discountcode == 'false'){
+            $discountCode->is_global = 'no';
+        } else{
+            $discountCode->is_global = 'yes';
         }
 
         if($request->lifetime == 'false'){
