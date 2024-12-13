@@ -1300,7 +1300,7 @@ var uvel,
             urlTaken = window.location.href.split('/'),
             _url = urlTaken[0] + '//' + urlTaken[2] + '/ajax/',
             discountUrl = _this.attr('data-url');
-        if (discountBarcode.length == 13) {
+        if (discountBarcode.length > 0) {
           var ajaxUrl = _url + discountUrl + discountBarcode;
           $self.ajaxFn('GET', ajaxUrl, $self.discountSuccess, '', '', '');
           _this.val('');

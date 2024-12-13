@@ -70,7 +70,6 @@ class PayController extends Controller
                 $isEligible = true;
             }
 
-
             if (!$isEligible) {
                 $setDiscount = false;
             }

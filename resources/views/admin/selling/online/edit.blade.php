@@ -59,8 +59,8 @@
 			<div class="form-row">
 				<div class="form-group col-md-12"><b>Отстъпки</b></div>
 				@foreach($discount_codes as $barcode=>$value)
-				<div class="form-group col-md-6">Код: <b>{{$barcode}}</b></div>
-				<div class="form-group col-md-6">Отстъпка: <b>-{{$value}}%</b></div>
+          <div class="form-group col-md-6">Код: <b>{{$barcode}}</b></div>
+          <div class="form-group col-md-6">Отстъпка: <b>-{{$value}}%</b></div>
 				@endforeach
 			</div>
 			@endif
@@ -99,7 +99,17 @@
 							</td>
 							<td>{{ $product->quantity }}</td>
 							<td>{{ $product->weight }} гр.</td>
-							<td>{{ $product->price }} лв.</td>
+							<td>
+                {{ $product->price }} лв.
+
+                @if(!empty($discount_codes))
+                  @foreach($discount_codes as $barcode=>$value)
+                    / <b>{{ ($product->price - ($product->price*($value/100) ) )}} лв.</b> след отстъпка
+                    @break
+                  @endforeach
+                </div>
+                @endif
+              </td>
 						</tr>
 						@endforeach
 					</tbody>
