@@ -16,7 +16,7 @@
     <td>@if($prod) {{ $prod->weight }} @endif</td>
     <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $item->created_at)->format('H:i d/m/Y') }} </td>
     <td>@if($item->store_to_id == $userStoreId && $item->status == 0) Потвърди приемане на продукт
-    @elseif($item->status == 1) {{ $item->date_received ? Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $item->date_received)->format('H:i d/m/Y') : '' }}
+    @elseif($item->status == 1) {{ $item->date_received ? (new Carbon\Carbon)->format('H:i d/m/Y', $item->date_received) : '' }}
     @else В изчакване на потвърждение от {{ $item->storeTo->name }}
     @endif
     </td>
