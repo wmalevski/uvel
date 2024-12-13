@@ -18,8 +18,7 @@ class StoreController extends Controller
      */
     public function index()
     {
-        $storeIds = [2,3];
-        $stores = Store::whereIn('id', $storeIds)->get();
+        $stores = Store::all();
         return \View::make('admin/stores/index', array('stores' => $stores));
     }
 
