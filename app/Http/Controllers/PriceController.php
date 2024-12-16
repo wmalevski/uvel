@@ -152,26 +152,26 @@ class PriceController extends Controller{
                       if($getFirstBuyPrice) {
                         $productsBatch[] = [
                           'id' => $product->id,
-                          'price' => round($product->retailPrice->price * $model->weight),
+                          'price' => round($product->retailPrice->price * $product->weight),
                           'workmanship' => round(($product->retailPrice->price - $getFirstBuyPrice->price) * $product->weight),
                         ];
                       } else {
                         $productsBatch[] = [
                           'id' => $product->id,
-                          'price' => round(($request->type == 'sell' ? $buy : $sell) * $model->weight),
+                          'price' => round(($request->type == 'sell' ? $buy : $sell) * $product->weight),
                           'workmanship' => round(($buy - $sell) * $product->weight),
                         ];
                       }
 
-                      if($product->id == 39891) {
-                        dd([
-                          '$buy' => $buy,
-                          '$sell' => $sell,
-                          'updated value' => round(($request->type == 'sell' ? $buy : $sell) * $model->weight),
-                          '$model->weight' => $model->weight,
-                          '$request->type' => $request->type
-                        ]);
-                      }
+                      // if($product->id == 39891) {
+                      //   dd([
+                      //     '$buy' => $buy,
+                      //     '$sell' => $sell,
+                      //     'updated value' => round(($request->type == 'sell' ? $buy : $sell) * $model->weight),
+                      //     '$model->weight' => $model->weight,
+                      //     '$request->type' => $request->type
+                      //   ]);
+                      // }
                     }
 
                     if ($model) {
