@@ -122,11 +122,13 @@ class RepairController extends Controller{
             ]);
             
             $barcode = null;
+            $barcodeString = '';
             if ($repair->barcode) {
-              $barcode = $barcodeHTML->generateBarcodeSVG($repair->barcode, "EAN13", 1, 33, "black");
+              $barcode = generateBarcodeSVG("100", "C128", 1, 33, "black", true);
+              $barcodeString = $repair->barcode;
             }
 
-            $html = view('pdf.repair', compact('repair', 'repair_type', 'store', 'material', 'barcode'))->render();
+            $html = view('pdf.repair', compact('repair', 'repair_type', 'store', 'material', 'barcode', 'barcodeString'))->render();
 
             $mpdf->WriteHTML($html);
 
@@ -165,11 +167,13 @@ class RepairController extends Controller{
         ]);
 
         $barcode = null;
+        $barcodeString = '';
         if ($repair->barcode) {
-          $barcode = $barcodeHTML->generateBarcodeSVG($repair->barcode, "EAN13", 1, 33, "black");
+          $barcode = generateBarcodeSVG("100", "C128", 1, 33, "black", true);
+          $barcodeString = $repair->barcode;
         }
 
-        $html = view('pdf.repair', compact('repair', 'repair_type','store', 'material', 'barcode'))->render();
+        $html = view('pdf.repair', compact('repair', 'repair_type','store', 'material', 'barcode', 'barcodeString'))->render();
         $mpdf->WriteHTML($html);
 
         // For development purposes

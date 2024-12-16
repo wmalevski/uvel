@@ -4,7 +4,9 @@
 
 <hr/>
 @if(isset($repair->barcode))
-<div style="position:fixed;top: 120px;right: 0;">{!! $barcode !!}</div>@endif
+<div style="position:fixed;top: 120px;right: 0;">{!! $barcode !!}</div>
+<div style="position:fixed;top: 160px;right: 0;">{!! $barcodeString !!}</div>
+@endif
 <h2 style="margin: 10px 0; text-align: center;"><strong>РЕМОНТ @if(isset($repair->id))№: {{$repair->id}}@endif</strong></h2>
 <h3 style="margin: 5px 0 20px; text-align: center;">бижутерско изделие</h3>
 

@@ -25,10 +25,9 @@ use Response;
 use App\PayPalPay;
 use App\DiscountCode;
 use App\Http\Controllers\Controller;
-use \Darryldecode\Cart\CartCondition as CartCondition;
+use \Darryldecode\Cart\CartCondition;
 use \Darryldecode\Cart\Helpers\Helpers as Helpers;
 use Carbon\Carbon;
-use App\Services\CartCustomCondition;
 
 class PayController extends Controller
 {
