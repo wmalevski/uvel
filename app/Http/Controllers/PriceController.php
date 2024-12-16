@@ -166,9 +166,7 @@ class PriceController extends Controller{
                       if($product->id == 39891) {
                         dd([
                           '$buy' => $buy,
-                          '$sell' => $sell,
-                          '$price->price' => $product->retailPrice->price,
-                          '$getFirstBuyPrice->price' => $getFirstBuyPrice->price,
+                          '$sell' => $sell
                         ]);
                       }
                     }
