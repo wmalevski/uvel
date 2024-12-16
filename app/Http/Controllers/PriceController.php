@@ -166,7 +166,10 @@ class PriceController extends Controller{
                       if($product->id == 39891) {
                         dd([
                           '$buy' => $buy,
-                          '$sell' => $sell
+                          '$sell' => $sell,
+                          'updated value' => round(($request->type == 'sell' ? $buy : $sell) * $model->weight),
+                          '$model->weight' => $model->weight,
+                          '$request->type' => $request->type
                         ]);
                       }
                     }
