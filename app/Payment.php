@@ -204,8 +204,8 @@ class Payment extends Model{
                     $product = Product::where('id',$item->attributes->product_id)->first();
 
                     if($product){
-                        // $product->status = 'sold';
-                        $product->status = 'reserved';
+                        $product->status = 'sold';
+                        // $product->status = 'reserved';
                         $product->save();
 
                         if($item->attributes->order != ''){

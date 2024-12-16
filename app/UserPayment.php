@@ -120,8 +120,8 @@ class UserPayment extends Model{
 				case 'product':
 					$product = Product::where('id', $item->attributes->product_id)->first();
 					if($product){
-						$payment->status = 'reserved';
-						// if($payment->payment_method == 'paypal' || $payment->shipping_method == 'office_address' || $payment->shipping_method == 'home_address'){
+						$product->status = 'reserved';
+						// if($payment->on_delivery == 'on_delivery' || $payment->payment_method == 'paypal' || $payment->shipping_method == 'office_address' || $payment->shipping_method == 'home_address'){
 						// 	$product->status = 'sold';
 						// }
 						$product->save();
