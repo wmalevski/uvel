@@ -24,7 +24,7 @@ use App\ProductOther;
 use App\DailyReport;
 use Carbon\Carbon;
 use App\Payment as Payment;
-use \Darryldecode\Cart\CartCondition as CartCondition;
+use \Darryldecode\Cart\CartCondition;
 use \Darryldecode\Cart\Helpers\Helpers as Helpers;
 use App\MaterialQuantity;
 use App\OrderItem;
@@ -33,7 +33,6 @@ use App\Material;
 use App\MaterialType;
 use App\ExchangeMaterial;
 use App\Services\CartService;
-use App\Services\CartCustomCondition;
 
 class SellingController extends Controller{
     private $cartService;
