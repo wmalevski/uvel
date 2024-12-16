@@ -317,4 +317,14 @@ class CartController extends BaseController{
 			));
 		}
 	}
+
+    public function clearCartSession()
+    {
+        $userId = Auth::user()->getId();
+        $cart = Cart::session($userId);
+        $cart->clear();
+        $cart->clearCartConditions();
+
+        return redirect()->route('store')->with('success', 'Cart session cleared successfully!');
+    }
 }

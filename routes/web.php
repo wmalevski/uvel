@@ -308,6 +308,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         //Models section
         Route::get('/models/{model}', 'ModelController@edit');
         Route::put('/models/{model}', 'ModelController@update');
+
+        Route::get('/clear/cart/session', 'App\Http\Controllers\Store\CartController@clearCartSession');
     });
 
 });
