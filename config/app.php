@@ -156,7 +156,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
         Darryldecode\Cart\CartServiceProvider::class,
-        App\Providers\CartCustomConditionServiceProvider::class,
+        // App\Providers\CartCustomConditionServiceProvider::class,
         // AlbertCht\InvisibleReCaptcha\InvisibleReCaptchaServiceProvider::class
     ],
 
