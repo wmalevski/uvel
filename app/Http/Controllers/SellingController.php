@@ -989,14 +989,12 @@ class SellingController extends Controller{
         Cart::session($userId)->clearCartConditions();
 
         $cartConditions = Cart::session($userId)->getConditionsByType('discount');
-        foreach($cartConditions as $key => $condition){
-            $conds[$key]['value'] = $condition->getValue();
-            $conds[$key]['name'] = $condition->getValue();
-            $conds[$key]['attributes'] = $condition->getAttributes();
+        foreach($cartConditions as $key => $condition) {
+          Cart::session($userId)->removeCartCondition($condition->getName());
         }
 
-        $total = round(Cart::session($userId)->getTotal(),2);
-        $subTotal = round(Cart::session(Auth::user()->getId())->getSubTotal(),2);
+        $total = round(Cart::session($userId)->getTotal(), 2);
+        $subTotal = round(Cart::session(Auth::user()->getId())->getSubTotal(), 2);
         $cartConditions = Cart::session(Auth::user()->getId())->getConditions();
         $condition = Cart::getConditions('discount');
         $priceCon = 0;
