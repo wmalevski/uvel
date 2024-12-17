@@ -38,7 +38,7 @@ class CustomOrderController extends Controller{
         $pass_photos = array();
 
         foreach($photos as $photo){
-            $ext_url = Storage::url('uploads/orders/'.$photo->photo);
+            $ext_url = Storage::url('storage/orders/'.$photo->photo);
             $info = pathinfo($ext_url);
             
             $image_name =  basename($ext_url,'.'.$info['extension']);
