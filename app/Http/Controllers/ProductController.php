@@ -203,8 +203,8 @@ class ProductController extends Controller{
         $pass_photos = array();
 
         foreach($photos as $photo){
-            $url =  Storage::get('storage/products/'.$photo->photo);
-            $ext_url = Storage::url('storage/products/'.$photo->photo);
+            $url =  Storage::get('products/'.$photo->photo);
+            $ext_url = Storage::url('products/'.$photo->photo);
 
             $info = pathinfo($ext_url);
 
