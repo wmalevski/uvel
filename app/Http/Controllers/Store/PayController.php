@@ -96,7 +96,6 @@ class PayController extends Controller
                     'more_data' => 'more data here'
                 )
             ));
-            Cart::condition($condition);
             Cart::session($userId)->condition($condition);
             $total = round(Cart::session($userId)->getTotal(),2);
             $subTotal = round(Cart::session($userId)->getSubTotal(),2);

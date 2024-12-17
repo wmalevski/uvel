@@ -110,7 +110,6 @@ class OnlineSellingsController extends Controller{
 				)
 			));
 
-			Cart::condition($condition);
 			Cart::session($userId)->condition($condition);
 
 			$total = round(Cart::session($userId)->getTotal(),2);

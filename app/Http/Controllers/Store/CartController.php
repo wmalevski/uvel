@@ -322,8 +322,8 @@ class CartController extends BaseController{
     {
         $userId = Auth::user()->getId();
         $cart = Cart::session($userId);
-        $cart->clear();
         $cart->clearCartConditions();
+        $cart->clear();
 
         return redirect()->route('store')->with('success', 'Cart session cleared successfully!');
     }

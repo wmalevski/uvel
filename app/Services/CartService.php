@@ -56,7 +56,6 @@ class CartService {
             ]
         ]);
 
-        Cart::condition($condition);
         Cart::session($userId)->condition($condition);
         $total          = round(Cart::session($userId)->getTotal(),2);
         $subTotal       = round(Cart::session($userId)->getSubTotal(),2);
