@@ -947,7 +947,8 @@ class SellingController extends Controller{
                 'target' => 'subtotal',
                 'value' => '-'.$setDiscount.'%',
                 'attributes' => array(
-                    'discount_id' => $card->id,
+                    // 'discount_id' => $card->id,
+                    'discount_id' => $setDiscount,
                     'discount' => $setDiscount,
                     'description' => 'Value added tax',
                     'partner' => $partner,
