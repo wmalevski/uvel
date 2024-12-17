@@ -10,7 +10,7 @@ if(isset($prodImagePhoto['photo'])){
 	<td>
 		@if(isset($productImage))
             <img class="admin-product-image" 
-                src="{{ getPhoto('uploads/orders/' . $productImage) }}" 
+                src="{{ getPhoto('storage/orders/' . $productImage) }}" 
                 alt="Product Image">
 		@else
 		<i>Няма</i>
