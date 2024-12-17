@@ -524,8 +524,8 @@ class ModelController extends Controller{
         $pass_photos = array();
 
         foreach($photos as $photo){
-            $url =  Storage::get('public/models/'.$photo->photo);
-            $ext_url = Storage::url('public/models/'.$photo->photo);
+            $url =  Storage::get('models/'.$photo->photo);
+            $ext_url = Storage::url('models/'.$photo->photo);
 
             $info = pathinfo($ext_url);
             $image_name =  basename($ext_url,'.'.$info['extension']);
