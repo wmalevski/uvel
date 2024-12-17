@@ -140,7 +140,7 @@
                 <ul>
                     <li>Град: <strong>{{$shipping['city']}}</strong></li>
                     <li>Улица: <strong>{{$shipping['street']}}</strong></li>
-                    <li>Улица #: <strong>{{$shipping['street_number']}}</strong></li>
+                    <li>Улица №: <strong>{{$shipping['street_number']}}</strong></li>
                     <li>Пощенски код: <strong>{{$shipping['postcode']}}</strong></li>
                     <li>Телефон: <strong>{{$shipping['phone']}}</strong></li>
                 </ul>
