@@ -47,8 +47,7 @@
   $change = number_format( floatval($exchange_material_sum + $orderPayment->given) + floatval($order->earnest ?? 0) - floatval($selling->price), 2, '.', '' );
 @endphp
 
-@dd($exchange_material_sum, $orderPayment->given, ($order->earnest ?? 0), $selling->price,( ($exchange_material_sum + $orderPayment->given) + ($order->earnest ?? 0) - $selling->price ), floatval( ($exchange_material_sum + $orderPayment->given) + ($order->earnest ?? 0) - $selling->price ), $change);
-<div style="text-align:right;"><b>Ресто</b>: {{ floatval( ($exchange_material_sum + $orderPayment->given) + ($order->earnest ?? 0) - $selling->price )}}лв.</div>
+<div style="text-align:right;"><b>Ресто</b>: {{ $change )}}лв.</div>
 
 <div style="clear: both;height:20px;"></div>
 
