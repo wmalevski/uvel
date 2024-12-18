@@ -1,3 +1,10 @@
+@php
+$prodImagePhoto=$order->photos->first();
+if(isset($prodImagePhoto['photo'])){
+	$productImage=$prodImagePhoto['photo'];
+}
+@endphp
+
 <div class="editModalWrapper">
 	<div class="modal-header">
 		<h5 class="modal-title" id="fullEditRepairLabel">Промени поръчка</h5>
@@ -74,7 +81,7 @@
                 @foreach($order->photos as $photo)
                     <div class='image-wrapper'>
                         <div class='close'><span data-url="gallery/delete/{{$photo['id']}}">&#215;</span></div>
-                        <img src="{{$photo['photo']}}" alt="" class="img-responsive" />
+                        <img src="{{ getPhoto("storage/orders/".$photo['photo']) }}" alt="" class="img-responsive" />
                     </div>
                 @endforeach
             </div>
