@@ -55,17 +55,17 @@ class Store extends Model
         $search = $request->search;
         $params = $request->all();
 
-        // There are specific scenarios where header named 'search' is not present in the request so we have to overwrite it
-        if (is_null($search)) {
-            $search = reset($params);
-        }
-        // There are specific scenarios where header named 'search' is not present in the request so  we have overwrite it
-        if (is_null($search)) {
-            foreach($request->all() as $k => $v) {
-                $search = $request->input($k);
-                break;
-            }
-        }
+        // // There are specific scenarios where header named 'search' is not present in the request so we have to overwrite it
+        // if (is_null($search)) {
+        //     $search = reset($params);
+        // }
+        // // There are specific scenarios where header named 'search' is not present in the request so  we have overwrite it
+        // if (is_null($search)) {
+        //     foreach($request->all() as $k => $v) {
+        //         $search = $request->input($k);
+        //         break;
+        //     }
+        // }
 
         $stores = Store::where(function ($query) use ($search) {
             $query
