@@ -779,7 +779,7 @@ class SellingController extends Controller{
             }
         }
 
-        if(isset($product) && $product !== true) {
+        if(isset($product)) {
             $mpdf = new \Mpdf\Mpdf([
                 'mode' => 'utf-8',
                 'format' => [148, 210],
@@ -793,10 +793,9 @@ class SellingController extends Controller{
             ]);
             $totalWeight = 0;
             $totalPrice = 0;
-            $barcode = $product->barcode;
 
-            if ($barcode) {
-                $barcode = generateBarcodeSVG($barcode, "EAN13", 1, 33, "black");
+            if (isset($product->barcode)) {
+                $barcode = generateBarcodeSVG($product->barcode, "EAN13", 1, 33, "black");
             }
 
             switch($type){
