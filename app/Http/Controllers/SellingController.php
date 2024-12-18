@@ -779,7 +779,7 @@ class SellingController extends Controller{
             }
         }
 
-        if(isset($product) && $type !== true) {
+        if(isset($product) && $product !== true) {
             $mpdf = new \Mpdf\Mpdf([
                 'mode' => 'utf-8',
                 'format' => [148, 210],
