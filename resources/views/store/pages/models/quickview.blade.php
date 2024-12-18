@@ -8,15 +8,15 @@
 				<div id="quick-shop-image" class="product-image-wrapper">
 					<a class="main-image" href="{{ route('single_model', ['model' => $model->id])  }}">
 						<img class="img-zoom img-responsive image-fly" alt="{{ $model->name }}"
-						 src="@if($model->photos){{ getPhoto("uploads/models/" . $model->photos->first()['photo']) }}@endif"/>
+						 src="@if($model->photos){{ getPhoto("models/" . $model->photos->first()['photo']) }}@endif"/>
 					</a>
 
 					<div id="gallery_main_qs" class="product-image-thumb">
 						@if($model->photos)
 						@foreach($model->photos as $image)
-						<a class="image-thumb active" href="{{ getPhoto("uploads/models/" . $image->photo) }}" data-image="{{ getPhoto("uploads/models/" . $image->photo) }}"
-						 data-zoom-image="{{ getPhoto("uploads/models/" . $image->photo) }}">
-						 <img src="{{ getPhoto("uploads/models/" . $image->photo) }}" alt="{{ $model->name }}" /></a>
+						<a class="image-thumb active" href="{{ getPhoto("models/" . $image->photo) }}" data-image="{{ getPhoto("models/" . $image->photo) }}"
+						 data-zoom-image="{{ getPhoto("models/" . $image->photo) }}">
+						 <img src="{{ getPhoto("models/" . $image->photo) }}" alt="{{ $model->name }}" /></a>
 						@endforeach
 						@endif
 					</div>

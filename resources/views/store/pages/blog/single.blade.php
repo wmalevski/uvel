@@ -41,7 +41,7 @@
 													<li>
 														@foreach($article->thumbnail as $thumb)
 															@if($thumb->language == $lng)
-																<img src="{{ asset("uploads/blog/" . $thumb->photo ) }}">
+																<img src="{{ getPhoto("blog/" . $thumb->photo ) }}">
 															@endif
 														@endforeach
 

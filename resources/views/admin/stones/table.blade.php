@@ -2,7 +2,7 @@
     <td class="thumbnail--tooltip">
         {{ $stone->nomenclature->name }}
         @if(count($stone->photos))
-            <ul style="background-image: url({{ getPhoto("uploads/stones/" . $stone->photos->first()['photo']) }});"></ul>
+            <ul style="background-image: url({{ getPhoto("stones/" . $stone->photos->first()['photo']) }});"></ul>
         @endif
     </td> 
     <td> @if($stone->type == 1) Синтетичен  @else Естествен  @endif </td> 

@@ -10,9 +10,9 @@
 					<a class="main-image" href="{{ route('single_product', ['product' => $product->id])  }}">
 						<img class="img-zoom img-responsive image-fly" alt="{{ $product->model->name }}" src="
 						@if(count($product->photos))
-						{{ getPhoto("uploads/products/" . $product->photos->first()['photo']) }}
+						{{ getPhoto("products/" . $product->photos->first()['photo']) }}
 						@elseif(count($product->model->photos))
-						{{ getPhoto("uploads/models/" . $product->model->photos->first()['photo']) }}
+						{{ getPhoto("models/" . $product->model->photos->first()['photo']) }}
 						@else
 						{{ getPhoto('store/images/demo_375x375.png') }}
 						@endif">
@@ -21,9 +21,9 @@
 					<div id="gallery_main_qs" class="product-image-thumb">
 						@if($product->photos)
 							@foreach($product->photos as $image)
-							<a class="image-thumb active" href="{{ getPhoto("uploads/products/" . $image->photo) }}" data-image="{{ getPhoto("uploads/products/" . $image->photo) }}"
-							data-zoom-image="{{ getPhoto("uploads/products/" . $image->photo) }}">
-							<img src="{{ getPhoto("uploads/products/" . $image->photo) }}" alt="{{ $product->model->name }}"/>
+							<a class="image-thumb active" href="{{ getPhoto("products/" . $image->photo) }}" data-image="{{ getPhoto("products/" . $image->photo) }}"
+							data-zoom-image="{{ getPhoto("products/" . $image->photo) }}">
+							<img src="{{ getPhoto("products/" . $image->photo) }}" alt="{{ $product->model->name }}"/>
 							</a>
 							@endforeach
 						@endif

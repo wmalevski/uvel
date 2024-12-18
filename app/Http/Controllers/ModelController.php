@@ -147,7 +147,7 @@ class ModelController extends Controller{
             }
         }
 
-        $path = public_path('uploads/models/');
+        $path = storage_path('models/');
 
         File::makeDirectory($path, 0775, true, true);
         Storage::disk('public')->makeDirectory('models', 0775, true);
@@ -164,9 +164,9 @@ class ModelController extends Controller{
                 $file_name = 'modelimage_'.uniqid().time().'.'.$ext;
 
                 $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                file_put_contents(public_path('uploads/models/').$file_name, $data);
+                file_put_contents(storage_path('models/').$file_name, $data);
 
-                Storage::disk('public')->put('models/'.$file_name, file_get_contents(public_path('uploads/models/').$file_name));
+                Storage::disk('public')->put('models/'.$file_name, file_get_contents(storage_path('models/').$file_name));
 
                 $photo = new Gallery();
                 $photo->photo = $file_name;
@@ -292,7 +292,7 @@ class ModelController extends Controller{
                 }
             }
 
-            $path = public_path('uploads/products/');
+            $path = storage_path('products/');
 
             File::makeDirectory($path, 0775, true, true);
             Storage::disk('public')->makeDirectory('models', 0775, true);
@@ -312,9 +312,9 @@ class ModelController extends Controller{
 
                     $file_name = 'productimage_'.uniqid().time().'.'.$ext;
                     $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                    file_put_contents(public_path('uploads/products/').$file_name, $data);
+                    file_put_contents(storage_path('products/').$file_name, $data);
 
-                    Storage::disk('public')->put('products/'.$file_name, file_get_contents(public_path('uploads/products/').$file_name));
+                    Storage::disk('public')->put('products/'.$file_name, file_get_contents(storage_path('products/').$file_name));
 
                     $photo = new Gallery();
                     $photo->photo = $file_name;
@@ -680,9 +680,9 @@ class ModelController extends Controller{
 
                 $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
 
-                file_put_contents(public_path('uploads/models/').$file_name, $data);
+                file_put_contents(storage_path('models/').$file_name, $data);
 
-                Storage::disk('public')->put('models/'.$file_name, file_get_contents(public_path('uploads/models/').$file_name));
+                Storage::disk('public')->put('models/'.$file_name, file_get_contents(storage_path('models/').$file_name));
 
                 $photo = new Gallery();
                 $photo->photo = $file_name;
@@ -704,7 +704,7 @@ class ModelController extends Controller{
             $photosHtml .= '
                 <div class="image-wrapper">
                 <div class="close"><span data-url="gallery/delete/'.$photo->id.'">&#215;</span></div>
-                <img src="'.getPhoto("uploads/models/" . $photo->photo).'" alt="" class="img-responsive" />
+                <img src="'.getPhoto("models/" . $photo->photo).'" alt="" class="img-responsive" />
             </div>';
         }
 
@@ -802,7 +802,7 @@ class ModelController extends Controller{
                     }
                 }
 
-                $path = public_path('uploads/products/');
+                $path = storage_path('products/');
 
                 File::makeDirectory($path, 0775, true, true);
                 Storage::disk('public')->makeDirectory('models', 0775, true);
@@ -822,9 +822,9 @@ class ModelController extends Controller{
 
                         $file_name = 'productimage_' . uniqid() . time() . '.' . $ext;
                         $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                        file_put_contents(public_path('uploads/products/') . $file_name, $data);
+                        file_put_contents(storage_path('products/') . $file_name, $data);
 
-                        Storage::disk('public')->put('products/' . $file_name, file_get_contents(public_path('uploads/products/') . $file_name));
+                        Storage::disk('public')->put('products/' . $file_name, file_get_contents(storage_path('products/') . $file_name));
 
                         $photo = new Gallery();
                         $photo->photo = $file_name;

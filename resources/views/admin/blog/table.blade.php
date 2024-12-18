@@ -3,7 +3,7 @@
         {{ $article->title }}
         @foreach($article->thumbnail as $thumb)
             @if($thumb->language == 'bg')
-                <ul style="background-image: url({{ asset("uploads/blog/" . $thumb->photo) }});">
+                <ul style="background-image: url({{ getPhoto("blog/" . $thumb->photo) }});">
             @endif
         @endforeach
         </ul>

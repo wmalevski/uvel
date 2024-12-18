@@ -99,7 +99,7 @@
 												<ul class="row-container list-unstyled clearfix">
 													<li class="row-left">
 														<a href="{{ route('single_product', ['product' => $product->id]) }}" class="container_item">
-															<img class="img-fill" alt="{{ $product->id }}" src="@if(count($product->photos)) {{ getPhoto("uploads/products/" . $product->photos->first()['photo']) }} @elseif(count($product->model->photos)){{ getPhoto("uploads/models/" . $product->model->photos->first()['photo']) }}@else {{ getPhoto('store/images/demo_375x375.png') }}@endif">
+															<img class="img-fill" alt="{{ $product->id }}" src="@if(count($product->photos)) {{ getPhoto("products/" . $product->photos->first()['photo']) }} @elseif(count($product->model->photos)){{ getPhoto("models/" . $product->model->photos->first()['photo']) }}@else {{ getPhoto('store/images/demo_375x375.png') }}@endif">
 														</a>
 														<div class="hbw"><span class="hoverBorderWrapper"></span></div>
 													</li>

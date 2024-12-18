@@ -36,8 +36,8 @@
 												<ul class="slide-product-image">
 													@foreach($product->photos as $photo)
 														<li class="image">
-															<a href="{{ getPhoto("uploads/products/" . $photo->photo) }}" class="cloud-zoom-gallery active">
-																<img alt="{{ $product->name }}" src="{{ getPhoto("uploads/products/" . $photo->photo) }}">
+															<a href="{{ getPhoto("products/" . $photo->photo) }}" class="cloud-zoom-gallery active">
+																<img alt="{{ $product->name }}" src="{{ getPhoto("products/" . $photo->photo) }}">
 															</a>
 														</li>
 													@endforeach
@@ -47,9 +47,9 @@
 										<div class="image featured col-smd-12 col-sm-12 fadeInUp not-animated" data-animate="fadeInUp">
 											<img alt="{{ $product->id }}" src="
 											@if(count($product->photos))
-											{{ getPhoto("uploads/products/" . $product->photos->first()['photo']) }}
+											{{ getPhoto("products/" . $product->photos->first()['photo']) }}
 											@elseif(count($product->model->photos))
-											{{ getPhoto("uploads/models/" . $product->model->photos->first()['photo']) }}
+											{{ getPhoto("models/" . $product->model->photos->first()['photo']) }}
 											@else
 											{{ getPhoto('store/images/demo_375x375.png') }}
 											@endif">
@@ -58,8 +58,8 @@
 											<ul style="opacity: 0; display: block;" class="slide-product-image owl-carousel owl-theme">
 												@foreach($product->photos as $photo)
 												<li class="image">
-													<a href="{{ getPhoto("uploads/products/" . $photo->photo) }}" class="cloud-zoom-gallery active">
-														<img src="{{ getPhoto("uploads/products/" . $photo->photo) }}" alt="{{ $product->name }}">
+													<a href="{{ getPhoto("products/" . $photo->photo) }}" class="cloud-zoom-gallery active">
+														<img src="{{ getPhoto("products/" . $photo->photo) }}" alt="{{ $product->name }}">
 													</a>
 												</li>
 												@endforeach
@@ -281,9 +281,9 @@
 														<a href="{{ route('single_product', ['product' => $product->id]) }}" class="container_item">
 															<img class="img-fill" alt="{{ $product->id }}" src="
 															@if(count($product->photos))
-															{{ getPhoto("uploads/products/" . $product->photos->first()['photo']) }}
+															{{ getPhoto("products/" . $product->photos->first()['photo']) }}
 															@elseif(count($product->model->photos))
-															{{ getPhoto("uploads/models/" . $product->model->photos->first()['photo']) }}
+															{{ getPhoto("models/" . $product->model->photos->first()['photo']) }}
 															@else
 															{{ getPhoto('store/images/demo_375x375.png') }}
 															@endif">

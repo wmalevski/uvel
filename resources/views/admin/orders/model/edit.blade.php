@@ -77,7 +77,7 @@
                     {!! $modelOptions !!}
 				</select>
 				<div id="modelPicture">
-					<img src="{{ getPhoto("uploads/models/" . $order->model->photos->first()['photo']) }}">
+					<img src="{{ getPhoto("models/" . $order->model->photos->first()['photo']) }}">
 				</div>
 			</div>
 

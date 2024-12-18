@@ -34,8 +34,8 @@
 												<ul class="slide-product-image">
 													@foreach($model->photos as $image)
 													<li class="image">
-														<a href="{{ asset("uploads/models/" . $image->photo) }}" class="cloud-zoom-gallery active">
-															<img src="{{ asset("uploads/models/" . $image->photo) }}" alt="{{ $model->name }}">
+														<a href="{{ getPhoto("models/" . $image->photo) }}" class="cloud-zoom-gallery active">
+															<img src="{{ getPhoto("models/" . $image->photo) }}" alt="{{ $model->name }}">
 														</a>
 													</li>
 													@endforeach
@@ -43,14 +43,14 @@
 											</div>
 										</div>
 										<div class="image featured col-smd-12 col-sm-12 fadeInUp not-animated" data-animate="fadeInUp">
-											<img src="{{ asset("uploads/models/" . $model->photos->first()['photo']) }}" alt="{{ $model->name }}">
+											<img src="{{ getPhoto("models/" . $model->photos->first()['photo']) }}" alt="{{ $model->name }}">
 										</div>
 										<div id="gallery_main_mobile" class="visible-xs product-image-thumb thumbs mobile_full_width ">
 											<ul style="opacity: 0; display: block;" class="slide-product-image owl-carousel owl-theme">
 												@foreach($model->photos as $image)
 												<li class="image">
-													<a href="{{ asset("uploads/models/" . $image->photo) }}" class="cloud-zoom-gallery active">
-														<img src="{{ asset("uploads/models/" . $image->photo) }}" alt="{{ $model->name }}">
+													<a href="{{ getPhoto("models/" . $image->photo) }}" class="cloud-zoom-gallery active">
+														<img src="{{ getPhoto("models/" . $image->photo) }}" alt="{{ $model->name }}">
 													</a>
 												</li>
 												@endforeach
@@ -242,8 +242,8 @@
 												<li class="row-left">
 													<a href="{{ route('single_model', ['model' => $model->id]) }}" class="container_item">
 														<img class="img-fill" alt="{{ $model->name }}" src="
-														@if($model->photos) {{ asset("/uploads/models/".$model->photos->first()['photo']) }}
-														@else {{ asset('store/images/demo_375x375.png') }}
+														@if($model->photos) {{ getPhoto("models/".$model->photos->first()['photo']) }}
+														@else {{ getPhoto('store/images/demo_375x375.png') }}
 														@endif">
 													</a>
 													<div class="hbw hidden-xs hidden-sm">

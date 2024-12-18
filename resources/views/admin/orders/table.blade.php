@@ -10,9 +10,9 @@
   </td>
   <td>
     @if($order->model)
-      <img class="admin-product-image" src="{{ getPhoto("uploads/models/" . $order->model->photos->first()['photo']) }}">
+      <img class="admin-product-image" src="{{ getPhoto("models/" . $order->model->photos->first()['photo']) }}">
     @elseif($order->product)
-      <img class="admin-product-image" src="{{ getPhoto("uploads/products/" . $order->product->photos->first()['photo']) }}">
+      <img class="admin-product-image" src="{{ getPhoto("products/" . $order->product->photos->first()['photo']) }}">
     @endif
   </td>
   <td> @if($order->model) {{ $order->jewel->name }} @endif </td> 

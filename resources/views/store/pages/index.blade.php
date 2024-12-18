@@ -40,7 +40,7 @@
 											<a  href="{{ route('single_translated_article', ['locale'=>app()->getLocale(), 'article' =>$article->slug])  }}">
 												@if($thumb->language == 'bg')
 													<div class="image-wrapper">
-														<img src="{{ asset("uploads/blog/" . $thumb->photo) }}" alt="{{ $article->slug }}"/>
+														<img src="{{ getPhoto("blog/" . $thumb->photo) }}" alt="{{ $article->slug }}"/>
 													</div>
 												@endif
 											</a>

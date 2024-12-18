@@ -46,7 +46,7 @@ class Gallery extends Model
 
     
     public function destroyWithPath(Gallery $photo){
-        unlink(public_path('uploads/'.$photo->table.'/').$photo->photo);
+        unlink(public_path('storage/'.$photo->table.'/').$photo->photo);
         $photo->delete();
     }
 }

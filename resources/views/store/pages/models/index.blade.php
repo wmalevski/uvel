@@ -85,7 +85,7 @@
 												<ul class="row-container list-unstyled clearfix">
 													<li class="row-left">
 														<a href="{{ route('single_model', ['model' => $model->id])  }}" class="container_item">
-															<img src="@if($model->photos) {{ getPhoto("uploads/models/" . $model->photos->first()['photo']) }} @else {{ getPhoto('store/images/demo_375x375.png') }} @endif"
+															<img src="@if($model->photos) {{ getPhoto("models/" . $model->photos->first()['photo']) }} @else {{ getPhoto('store/images/demo_375x375.png') }} @endif"
 															 class="img-fill" alt="{{ $model->name }}">
 														</a>
 														<div class="hbw hidden-xs hidden-sm">

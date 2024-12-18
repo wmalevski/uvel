@@ -154,7 +154,7 @@
           <div class='close'>
             <span data-url="gallery/delete/{{$photo->id}}">&#215;</span>
           </div>
-          <img src="{{ getPhoto("uploads/stones/" . $photo->photo) }}" alt="" class="img-responsive" />
+          <img src="{{ getPhoto("stones/" . $photo->photo) }}" alt="" class="img-responsive" />
         </div>
         @endforeach
       </div>

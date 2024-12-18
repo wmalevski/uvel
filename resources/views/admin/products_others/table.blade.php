@@ -5,7 +5,7 @@
 <tr data-id="{{ $product->id }}">
     <td>
         @if($productImg)
-        <img class="admin-product-image" src="{{ getPhoto("uploads/products_others/".$productImg) }}">
+        <img class="admin-product-image" src="{{ getPhoto("products_others/".$productImg) }}">
         @endif
     </td>
     <td>{{ $product->id }}</td>

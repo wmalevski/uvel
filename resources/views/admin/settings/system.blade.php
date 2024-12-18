@@ -78,7 +78,7 @@
 				$('img#setting_preview').attr('src',e.target.result);
 			};
 			reader.readAsDataURL(this.files[0]);
-			$('img#setting_preview').attr('rel-name','/uploads/'+this.files[0].name);
+			$('img#setting_preview').attr('rel-name','/storage/'+this.files[0].name);
 		});
 
 		// Form Submit

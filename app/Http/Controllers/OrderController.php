@@ -335,13 +335,13 @@ class OrderController extends Controller
       $photo = $order->model->photos->first();
       $photo = (isset($photo['photo']) ? $photo['photo'] : null);
       if ($photo) {
-        $orderImage = public_path("uploads/models/" . $photo);
+        $orderImage = storage_path("models/" . $photo);
       }
     } elseif ($order->product) {
       $photo = $order->product->photos->first();
       $photo = (isset($photo['photo']) ? $photo['photo'] : null);
       if ($photo) {
-        $orderImage = public_path("uploads/products/" . $photo);
+        $orderImage = storage_path("products/" . $photo);
       }
     }
 

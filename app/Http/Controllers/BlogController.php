@@ -150,7 +150,7 @@ class BlogController extends Controller
     }
 
     private function uploadPhotos($file_data, $article) {
-        $path = public_path('uploads/blog/');
+        $path = storage_path('blog/');
 
         File::makeDirectory($path, 0775, true, true);
 
@@ -169,9 +169,9 @@ class BlogController extends Controller
                 $file_name = 'productimage_' . $lang . '_' .uniqid().time().'.'.$ext;
 
                 $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                file_put_contents(public_path('uploads/blog/').$file_name, $data);
+                file_put_contents(storage_path('blog/').$file_name, $data);
 
-                Storage::disk('public')->put('blog/'.$file_name, file_get_contents(public_path('uploads/blog/').$file_name));
+                Storage::disk('public')->put('blog/'.$file_name, file_get_contents(storage_path('blog/').$file_name));
 
                 try {
                     $photo = new Gallery();

@@ -8,8 +8,8 @@
             }
         @endphp
         @if($prod && $prodPhoto)
-            <img class="admin-product-image" src="{{ getPhoto("uploads/products/".$prodPhoto)}}">
-            <ul class="product-hover-image" style="background-image: url({{ getPhoto("uploads/products/". $prodPhoto) }});"></ul>
+            <img class="admin-product-image" src="{{ getPhoto("products/".$prodPhoto)}}">
+            <ul class="product-hover-image" style="background-image: url({{ getPhoto("products/". $prodPhoto) }});"></ul>
         @endif
     </td>
     <td>{{ $item->product_id }}</td>

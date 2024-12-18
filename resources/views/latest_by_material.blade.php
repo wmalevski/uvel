@@ -15,10 +15,10 @@
                                         @php
                                             $imageSrc = getPhoto('store/images/demo_375x375.png');
                                             if(count($product->photos) && isset($product->photos->first()['photo']) ){
-                                                $imageSrc = getPhoto("uploads/products/" . $product->photos->first()['photo']);
+                                                $imageSrc = getPhoto("storage/products/" . $product->photos->first()['photo']);
                                             }
                                             elseif(count($product->model->photos) && isset($product->model->photos->first()['photo'])){
-                                                $imageSrc = getPhoto("uploads/models/" . $product->model->photos->first()['photo']);
+                                                $imageSrc = getPhoto("storage/models/" . $product->model->photos->first()['photo']);
                                             }
                                         @endphp
                                         <li class="element no_full_width" data-alpha="{{$product->name}}" data-price="{{$product->price}}" data-id="{{$product->id}}">

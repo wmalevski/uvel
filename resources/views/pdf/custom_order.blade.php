@@ -31,7 +31,7 @@
         <br style="clear:both;">
         <br style="clear:both;">
         <div style="width:100%;margin:0;padding:0;text-align:center;">
-            <img style="max-width:100%;" src="{{ public_path("uploads/orders/".$custom->photos->first()['photo']) }}" />
+            <img style="max-width:100%;" src="{{ getPhoto("orders/".$custom->photos->first()['photo']) }}" />
         </div>
 
     </div>

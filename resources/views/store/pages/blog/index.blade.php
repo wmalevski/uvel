@@ -40,7 +40,7 @@
 													<a class="img-fill-container" href="{{ route('single_translated_article', ['locale'=>$lng, 'product' => $article->slug])  }}">														
 														@foreach($article->thumbnail as $thumb)
 															@if($thumb->language == $lng)
-																<img class="img-fill" src="{{ asset("uploads/blog/" . $thumb->photo ) }}">
+																<img class="img-fill" src="{{ getPhoto("blog/" . $thumb->photo ) }}">
 															@endif
 														@endforeach
 													</a>

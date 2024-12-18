@@ -37,8 +37,8 @@
                                                     @if(App\Gallery::where('product_other_id', $product->id)->first()->get())
                                                         @foreach(App\Gallery::where('product_other_id', $product->id)->get() as $data)
                                                         <li class="image">
-                                                            <a href="{{ getPhoto("uploads/products_others/" . $data->photo) }}" class="cloud-zoom-gallery active">
-                                                                <img src="{{ getPhoto("uploads/products_others/" . $data->photo) }}" alt="{{ $product->name }}">
+                                                            <a href="{{ getPhoto("products_others/" . $data->photo) }}" class="cloud-zoom-gallery active">
+                                                                <img src="{{ getPhoto("products_others/" . $data->photo) }}" alt="{{ $product->name }}">
                                                             </a>
                                                         </li>
                                                         @endforeach
@@ -48,7 +48,7 @@
                                         </div>
                                         <div class="image featured col-smd-12 col-sm-12 fadeInUp not-animated" data-animate="fadeInUp">
                                             @if(App\Gallery::where('product_other_id', $product->id)->first()->get())
-                                                <img src="{{ getPhoto("uploads/products_others/" . App\Gallery::where('product_other_id', $product->id)->first()->photo) }}" alt="{{ $product->name }}">
+                                                <img src="{{ getPhoto("products_others/" . App\Gallery::where('product_other_id', $product->id)->first()->photo) }}" alt="{{ $product->name }}">
                                             @endif
                                         </div>
                                         <div id="gallery_main_mobile" class="visible-xs product-image-thumb thumbs mobile_full_width ">
@@ -56,8 +56,8 @@
                                                 @if($product->photos)
                                                 @foreach($product->photos as $image)
                                                 <li class="image">
-                                                    <a href="{{ getPhoto("uploads/products/" . $image->photo) }}" class="cloud-zoom-gallery active">
-                                                        <img src="{{ getPhoto("uploads/products/" . $image->photo) }}" alt="{{ $product->name }}">
+                                                    <a href="{{ getPhoto("products/" . $image->photo) }}" class="cloud-zoom-gallery active">
+                                                        <img src="{{ getPhoto("products/" . $image->photo) }}" alt="{{ $product->name }}">
                                                     </a>
                                                 </li>
                                                 @endforeach
@@ -271,7 +271,7 @@
                                                 <li class="row-left">
                                                     <a href="{{ route('single_product', ['product' => $product->id]) }}" class="container_item">
                                                         <img class="img-fill" alt="{{ $product->name }}"
-                                                                 src="@if(App\Gallery::where('product_other_id', $product->id)->first()) {{ getPhoto("uploads/products_others/" . App\Gallery::where('product_other_id', $product->id)->first()->photo) }}
+                                                                 src="@if(App\Gallery::where('product_other_id', $product->id)->first()) {{ getPhoto("products_others/" . App\Gallery::where('product_other_id', $product->id)->first()->photo) }}
                                                                  @else {{ getPhoto('store/images/demo_375x375.png') }} @endif">
                                                     </a>
                                                     <div class="hbw">

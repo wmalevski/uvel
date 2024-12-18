@@ -85,7 +85,7 @@ class CustomOrderController extends BaseController{
 
         $customOrder = CustomOrder::create($request->all());
 
-        $path = public_path('uploads/orders/');
+        $path = storage_path('orders/');
 
         File::makeDirectory($path, 0775, true, true);
         if ( !Storage::disk('public')->exists('orders') ) {

@@ -81,17 +81,17 @@
 							<td scope="row">
 							@if($product->product_id)
 								<div class="sell-product-thumbnail">
-									<img class="admin-product-image" rel="product" src="{{ asset("uploads/products/".App\Gallery::where(array('table'=>'products', 'product_id'=>$product->product_id ))->first()['photo']) }}" name="{{ $product->product_id }}"/>
+									<img class="admin-product-image" rel="product" src="{{ getPhoto("products/".App\Gallery::where(array('table'=>'products', 'product_id'=>$product->product_id ))->first()['photo']) }}" name="{{ $product->product_id }}"/>
 								</div>
 								&numero; {{ $product->product_id }}
 							@elseif($product->product_other_id)
 								<div class="sell-product-thumbnail">
-									<img class="admin-product-image" rel="product_other" src="{{ asset("uploads/products_others/".App\Gallery::where(array('table'=>'products_others', 'product_other_id'=>$product->product_other_id))->first()['photo']) }}" />
+									<img class="admin-product-image" rel="product_other" src="{{ getPhoto("products_others/".App\Gallery::where(array('table'=>'products_others', 'product_other_id'=>$product->product_other_id))->first()['photo']) }}" />
 								</div>
 								&numero; {{$product->product_other_id}}
 							@elseif($product->model_id)
 								<div class="sell-product-thumbnail">
-									<img class="admin-product-image" rel="model" src="{{ asset("uploads/models/".App\Gallery::where(array('table'=>'models', 'model_id'=>$product->model_id))->first()['photo']) }}" />
+									<img class="admin-product-image" rel="model" src="{{ getPhoto("models/".App\Gallery::where(array('table'=>'models', 'model_id'=>$product->model_id))->first()['photo']) }}" />
 								</div>
 								По Модел: {{ App\Model::where(array("id"=>$product->model_id))->first()->name }}<br>
 								Размер: {{ App\Selling::where(array('payment_id'=>$selling->id,'model_id'=>$product->model_id))->first()->model_size }}

@@ -126,7 +126,7 @@ class CartController extends BaseController{
 				if($productImage->count() > 0){
 					$productImage = $productImage->first();
 					if(isset($productImage->photo) && $productImage->photo!==''){
-						$imageSrc = getPhoto('uploads/'.$galleryTable.'/'.$productImage->photo);
+						$imageSrc = getPhoto($galleryTable.'/'.$productImage->photo);
 					}
 				}
 

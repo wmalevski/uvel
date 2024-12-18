@@ -104,7 +104,7 @@ class StoneController extends Controller{
         else {
             $stone = Stone::create($request->all());
 
-            $path = public_path('uploads/stones/');
+            $path = storage_path('stones/');
 
             File::makeDirectory($path, 0775, true, true);
             Storage::disk('public')->makeDirectory('stones', 0775, true);
@@ -114,9 +114,9 @@ class StoneController extends Controller{
                 foreach ($file_data as $img) {
                     $file_name = 'productimage_' . uniqid() . time() . '.png';
                     $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                    file_put_contents(public_path('uploads/stones/') . $file_name, $data);
+                    file_put_contents(storage_path('stones/') . $file_name, $data);
 
-                    Storage::disk('public')->put('stones/' . $file_name, file_get_contents(public_path('uploads/stones/') . $file_name));
+                    Storage::disk('public')->put('stones/' . $file_name, file_get_contents(storage_path('stones/') . $file_name));
 
                     $photo = new Gallery();
                     $photo->photo = $file_name;
@@ -175,7 +175,7 @@ class StoneController extends Controller{
         foreach($stone_photos as $photo){
             $photosHtml .= '<div class="image-wrapper">
                 <div class="close"><span data-url="gallery/delete/'.$photo->id.'">&#215;</span></div>
-                <img src="'.getPhoto("uploads/stones/" . $photo->photo).'" alt="" class="img-responsive" />
+                <img src="'.getPhoto("storage/stones/" . $photo->photo).'" alt="" class="img-responsive" />
             </div>';
         }
 
@@ -212,7 +212,7 @@ class StoneController extends Controller{
             $photosHtml .= '
             <div class="image-wrapper">
             <div class="close"><span data-url="gallery/delete/'.$photo->id.'">&#215;</span></div>
-            <img src="'.getPhoto("uploads/stones/" . $photo->photo).'" alt="" class="img-responsive" />
+            <img src="'.getPhoto("storage/stones/" . $photo->photo).'" alt="" class="img-responsive" />
         </div>';
         }
 
@@ -259,7 +259,7 @@ class StoneController extends Controller{
 
         $file_data = $request->input('images');
 
-        $path = public_path('uploads/stones/');
+        $path = storage_path('stones/');
 
         File::makeDirectory($path, 0775, true, true);
 
@@ -267,9 +267,9 @@ class StoneController extends Controller{
             foreach($file_data as $img){
                 $file_name = 'stoneimage_'.uniqid().time().'.png';
                 $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                file_put_contents(public_path('uploads/stones/').$file_name, $data);
+                file_put_contents(storage_path('stones/').$file_name, $data);
 
-                Storage::disk('public')->put('stones/'.$file_name, file_get_contents(public_path('uploads/stones/').$file_name));
+                Storage::disk('public')->put('stones/'.$file_name, file_get_contents(storage_path('stones/').$file_name));
 
                 $photo = new Gallery();
                 $photo->photo = $file_name;
@@ -293,7 +293,7 @@ class StoneController extends Controller{
             $photosHtml .= '
                 <div class="image-wrapper">
                 <div class="close"><span data-url="gallery/delete/'.$photo->id.'">&#215;</span></div>
-                <img src="'.getPhoto("uploads/stones/" . $photo->photo).'" alt="" class="img-responsive" />
+                <img src="'.getPhoto("storage/stones/" . $photo->photo).'" alt="" class="img-responsive" />
             </div>';
         }
 

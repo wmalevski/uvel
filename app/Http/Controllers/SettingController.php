@@ -86,9 +86,9 @@ class SettingController extends Controller{
 				$filename = $file->getClientOriginalName();
 
 				$image['filePath'] = $filename;
-				$file->move(public_path().'/uploads/', $filename);
+				$file->move(storage_path(), $filename);
 
-				$value = '/uploads/'.$filename;
+				$value = $filename;
 			}
 
 			Setting::set($request->setting_var, $value);

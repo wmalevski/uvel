@@ -95,7 +95,7 @@
 												<ul class="row-container list-unstyled clearfix">
 													<li class="row-left">
 														<a href="{{ route('single_product_other', ['product' => $product->id])  }}" class="container_item">
-															<img src="@if(App\Gallery::where('product_other_id',$product->id)->get()) {{ getPhoto("uploads/products_others/" . App\Gallery::where('product_other_id', $product->id)->first()->photo) }} @else {{ getPhoto('store/images/demo_375x375.png') }} @endif" class="img-fill" alt="{{ $product->name }}" />
+															<img src="@if(App\Gallery::where('product_other_id',$product->id)->get()) {{ getPhoto("products_others/" . App\Gallery::where('product_other_id', $product->id)->first()->photo) }} @else {{ getPhoto('store/images/demo_375x375.png') }} @endif" class="img-fill" alt="{{ $product->name }}" />
 														</a>
 														<div class="hbw"><span class="hoverBorderWrapper"></span></div>
 													</li>
