@@ -42,7 +42,7 @@
 <div style="text-align:right;"><b>Капаро</b>: {{$order->earnest ?: 0}}лв.</div>
 <div style="text-align:right;"><b>Обменен материал</b>: {{$exchange_material_sum}}лв.</div>
 <div style="text-align:right;"><b>Дадена сума</b>: {{$orderPayment->given}} лв.</div>
-<div style="text-align:right;"><b>Ресто</b>: {{ floatval( ($exchange_material_sum + $orderPayment->given) + $order->earnest - $selling->price )}}лв.</div>
+<div style="text-align:right;"><b>Ресто</b>: {{ floatval( ($exchange_material_sum + $orderPayment->given) + ($order->earnest ?? 0) - $selling->price )}}лв.</div>
 
 <div style="clear: both;height:20px;"></div>
 
