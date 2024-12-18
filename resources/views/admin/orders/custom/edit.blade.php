@@ -1,10 +1,3 @@
-@php
-$prodImagePhoto=$order->photos->first();
-if(isset($prodImagePhoto['photo'])){
-	$productImage=$prodImagePhoto['photo'];
-}
-@endphp
-
 <div class="editModalWrapper">
 	<div class="modal-header">
 		<h5 class="modal-title" id="fullEditRepairLabel">Промени поръчка</h5>
@@ -78,13 +71,13 @@ if(isset($prodImagePhoto['photo'])){
 						<input type="file" name="images" class="drop-area-input" id="images" accept="image/*">
 						<label class="button" for="images">{{__("Избери снимка")}}</label>
 						<div class="drop-area-gallery">
-                            @if( $productImage != '' )
-                                <div class="image-wrapper">
-                                    <div class="close">×</div>
-                                    <img src="{{ getPhoto("storage/orders/".$productImage) }}">
-                                </div>
-                            @endif
-                        </div>
+                @foreach($order->photos as $photo)
+                    <div class='image-wrapper'>
+                        <div class='close'><span data-url="gallery/delete/{{$photo['id']}}">&#215;</span></div>
+                        <img src="{{$photo['photo']}}" alt="" class="img-responsive" />
+                    </div>
+                @endforeach
+            </div>
 					</div>
 				</div>
 			</div>
