@@ -78,7 +78,6 @@ if(isset($prodImagePhoto['photo'])){
 						<input type="file" name="images" class="drop-area-input" id="images" accept="image/*">
 						<label class="button" for="images">{{__("Избери снимка")}}</label>
 						<div class="drop-area-gallery">
-              @dd($order->photos);
                 @foreach($order->photos as $photo)
                     <div class='image-wrapper'>
                         <div class='close'><span data-url="gallery/delete/{{$photo['id']}}">&#215;</span></div>
