@@ -44,9 +44,9 @@
 <div style="text-align:right;"><b>Дадена сума</b>: {{$orderPayment->given}} лв.</div>
 @php
 $earnest = $order->earnest ? $order->earnest : 0;
-$change = floatval( ($exchange_material_sum + $orderPayment->given) +  - $selling->price
+$change = floatval( ($exchange_material_sum + $orderPayment->given) + $earnest - $selling->price;
 @endphp
-<div style="text-align:right;"><b>Ресто</b>: {{ floatval( ($exchange_material_sum + $orderPayment->given) + $earnest - $selling->price )}}лв.</div>
+<div style="text-align:right;"><b>Ресто</b>: {{ $change )}}лв.</div>
 
 <div style="clear: both;height:20px;"></div>
 

@@ -442,7 +442,7 @@ Route::group(['prefix' => 'ajax'], function() {
             Route::post('/nomenclatures/delete/{nomenclature}', 'NomenclatureController@destroy');
 
         //Reviews section
-        Route::post('/reviews/delete/{review}', 'ReviewController@destroy')->name('destroy_review');
+        Route::post('/reviews/delete/{review}', 'ReviewController@destroy')->name('destroy_review_ajax');
 
         //Partners section
         Route::put('/partners/{partner}', 'PartnerController@update');
