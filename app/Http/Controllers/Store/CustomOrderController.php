@@ -72,7 +72,11 @@ class CustomOrderController extends BaseController{
             'content'                 => 'required|string',
             'phone'                   => 'required',
             'city'                    => 'required',
-            'g-recaptcha-response'    => 'required|recaptcha'
+            'g-recaptcha-response'    => 'required|recaptcha',
+            'images.*'                => 'file|max:2000|mimes:jpeg,png,jpg,gif',
+        ], [
+            'images.mimes'    => 'Каченият файл трябва да бъде в един от тези формати [jpeg,png,jpg,gif].',
+            'images.max'      => 'Каченият файл не трябва да надвишава 2mb.',
         ]);
 
         if ($validator->fails()) {
@@ -126,9 +130,8 @@ class CustomOrderController extends BaseController{
                             $photo->custom_order_id = $customOrder->id;
                             $photo->table           = 'orders';
                             $photo->save();
+                            $message->attach($url);
                         }
-
-                        $message->attach($url);
                     }
                 }
             );

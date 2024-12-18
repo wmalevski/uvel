@@ -100,7 +100,7 @@ if (Auth::check()) {
                       <li>
                         <label class="control-label">Снимки</label>
                         <div class="drop-area" name="add">
-                          <input type="file" name="images[]" class="drop-area-input" id="fileElem-add" accept="image/*">
+                          <input type="file" name="images[]" class="drop-area-input" id="fileElem-add" accept="image/*" multiple>
                           <label class="button" for="fileElem-add">
                             Качи снимка
                           </label>
