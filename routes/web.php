@@ -554,7 +554,7 @@ Route::group(['prefix' => 'ajax'], function() {
 
     Route::get('/sell/order_materials', 'PaymentController@order_materials');
 
-    Route::get('/cartMaterialsInfo', 'SellingController@cartMaterialsInfo')->name('cart_materials');
+    Route::get('/cartMaterialsInfo', 'SellingController@cartMaterialsInfo')->name('cart_materials_ajax');
 
     Route::post('/mailchimp', 'NewsletterController@store');
     Route::post('/mailchimp/unsubscribe/{subscriber}', 'NewsletterController@destroy');
