@@ -672,6 +672,7 @@ var uvel,
             priceContainer = modal.querySelector('.product-price'),
             stoneContainer = modal.querySelector('.product-stones'),
             barcodeContainer = modal.querySelector('.product-barcode'),
+            barcodeContainerIdentifier = modal.querySelector('.product-barcode-identifier'),
             stoneInnerContainer = modal.querySelector('.product-stones-inner'),
             stones = product.stones;
 
@@ -684,6 +685,7 @@ var uvel,
         workmanshipContainer.innerHTML = product.workmanshipPrice + 'лв.';
         sizeContainer.innerHTML = product.size;
         barcodeContainer.innerHTML = product.barcode;
+        barcodeContainerIdentifier.innerHTML = product.text_barcode;
         priceContainer.innerHTML = product.price + 'лв.';
 
         if (stones.length) {

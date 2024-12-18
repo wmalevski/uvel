@@ -462,6 +462,7 @@ class ProductController extends Controller{
             "material"          => $material->name . '-' . $material->code . '-' . $material->color,
             "stones"            => $product_stones,
             "barcode"           => $barcode,
+            "text_barcode"      => $product->barcode,
             "websiteVisible"    => $product->website_visible,
             "price"             => $product->price,
             "created"           => $product->created_at,

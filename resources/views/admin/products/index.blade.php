@@ -331,6 +331,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 						</ul>
 					</li>
 					<li><span class="product-barcode"></span></li>
+					<li><span class="product-barcode-identifier"></span></li>
 				</ul>
 			</div>
 		</div>
