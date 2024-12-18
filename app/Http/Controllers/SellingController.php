@@ -796,6 +796,8 @@ class SellingController extends Controller{
 
             if (isset($product->barcode)) {
                 $barcode = generateBarcodeSVG($product->barcode, "EAN13", 1, 33, "black");
+            } else {
+              $barcode = null;
             }
 
             switch($type){
