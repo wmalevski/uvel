@@ -181,7 +181,7 @@ class MaterialController extends Controller{
     }
 
     public function select_material_prices(Request $request, $id){
-        $materials = Material::find($id)->first();
+        $materials = Material::find($id);
         $paginatedResult = $materials->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
 
         $result_materials = array();
