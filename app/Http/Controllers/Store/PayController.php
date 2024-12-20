@@ -89,8 +89,8 @@ class PayController extends Controller
                 'target' => 'subtotal',
                 'value' => '-'.$setDiscount.'%',
                 'attributes' => array(
-                    // 'discount_id' => $result->id,
-                    'discount_id' => $setDiscount,
+                    'discount_id' => $result->id,
+                    // 'discount_id' => $setDiscount,
                     'discount' => $setDiscount,
                     'barcode' => $barcode,
                     'description' => 'Value added tax',
