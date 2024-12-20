@@ -21,7 +21,7 @@
 					<div class="drop-area-gallery">
 						<div class='image-wrapper'>
 							<div class='close'><span data-url=""></span></div>
-							<img src="" id="setting_preview" class="img-responsive" rel-name="" />
+							<img src="{{ $value }}" id="setting_preview" class="img-responsive" rel-name="" />
 						</div>
 					</div>
 				</div>
@@ -32,7 +32,7 @@
 					<div class="drop-area-gallery">
 						<div class='image-wrapper'>
 							<div class='close'><span data-url=""></span></div>
-							<img src="" id="setting_preview" class="img-responsive" rel-name="" />
+							<img src="{{ $value }}" id="setting_preview" class="img-responsive" rel-name="" />
 						</div>
 					</div>
 				</div>

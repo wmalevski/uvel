@@ -11,6 +11,7 @@ use App\Currency;
 use App\Setting;
 use DB;
 use Response;
+use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller{
 	/**
@@ -86,10 +87,12 @@ class SettingController extends Controller{
 				$filename = $file->getClientOriginalName();
 
 				$image['filePath'] = $filename;
-				$file->move(storage_path(), $filename);
 
-				$value = $filename;
-			}
+                $file->storeAs('settings', $filename);
+				// $file->move(storage_path(), $filename);
+
+				$value = Storage::url('settings/' . $filename);
+    			}
 
 			Setting::set($request->setting_var, $value);
 
