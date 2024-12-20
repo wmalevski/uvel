@@ -498,7 +498,7 @@ Route::group(['prefix' => 'ajax'], function() {
         Route::post('/filterCashRegister', 'CashRegisterController@ajaxFilter');
 
         // Gallery Section
-        Route::post('/gallery/delete/{item}', 'PublicGalleryController@delete')->name('gallery_delete');
+        Route::post('/publicgallery/delete/{item}', 'PublicGalleryController@delete')->name('gallery_delete');
 
         // User Group Section
         Route::post('/users/groups/delete/{item}', 'UserGroupController@destroy')->name('user_groups_delete');
