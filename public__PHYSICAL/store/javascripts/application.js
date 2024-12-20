@@ -1139,6 +1139,8 @@ var uvelStore,
 			paymentMethod = form.find('.payment-method'),
 			hiddenShippingInput = $('[type="hidden"][name="shipping_method"]'),
 			method = _this.attr('data-method');
+			
+		$('div.shipping-method input').removeAttr('required');
 
 		$('div.shipping-method.'+id+' input').attr('required','required');
 
