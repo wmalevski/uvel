@@ -83,7 +83,7 @@
 										@endforeach
 										</div>
 										<div class="form-group col-xs-24 col-sm-12">
-											<label>Въведете номер на карта за отстъпка:</label>
+											<label>Въведете промокод за отстъпка:</label>
 											<div class="input-group">
 												<input type="text" id="discountCard" class="form-control" name="discount" placeholder="Баркод">
 												<span class="input-group-addon"><i class="fas fa-barcode"></i></span>
