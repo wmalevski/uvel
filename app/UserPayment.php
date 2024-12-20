@@ -49,6 +49,7 @@ class UserPayment extends Model{
 			if(isset($attr['discount_id']) && isset($attr['barcode'])){
                 $discount_codes[] = [
                     'discount_id' => $attr['discount_id'],
+                    'id' => $attr['id'],
                     'barcode' => $attr['barcode'],
                     'discount' => $attr['discount'],
                 ];
@@ -81,7 +82,7 @@ class UserPayment extends Model{
 		if(!empty($discount_codes)){
 			foreach($discount_codes as $k=>$v){
 				$payment_discount = new PaymentDiscount();
-				$payment_discount->discount_code_id = $v['discount_id'];
+				$payment_discount->discount_code_id = $v['id'];
 				$payment_discount->payment_id = $payment->id;
 				$payment_discount->save();
 			}
