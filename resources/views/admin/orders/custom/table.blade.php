@@ -6,7 +6,7 @@ if(isset($prodImagePhoto['photo'])){
 @endphp
 <tr data-id="{{ $order->id }}">
 	<td>{{ $order->id }}</td>
-	<td>{{ $order->deadline ? Carbon\Carbon::createFromTimestamp($order->deadline)->format('d/m/Y') : ''}}</td>
+	<td>{{ $order->deadline ? Carbon\Carbon::createFromFormat('Y-m-d', $order->deadline)->format('d/m/Y') : ''}}</td>
 	<td>
 		@if(isset($productImage))
             <img class="admin-product-image" 

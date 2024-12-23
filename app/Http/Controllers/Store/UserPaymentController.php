@@ -102,7 +102,8 @@ class UserPaymentController extends Controller{
             $cartItems             = json_decode($request->cart_items, true);
             $subTotal              = round(Cart::session($memberId)->getSubTotal(),2);
             $total                 = number_format(Cart::session($memberId)->getTotal(), 2, '.', '');
-            $cartItems[0]['price'] = $request->amount;
+            //Vizo commented this, due to the fact that there is some issue with the cart info in the user email (not correct calc)
+            // $cartItems[0]['price'] = $request->amount;
             $conditions            = Cart::session($memberId)->getConditions();
             $discount              = null;
 

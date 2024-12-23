@@ -490,7 +490,7 @@ var uvelStore,
 			$removeFromCartTrigger = $('.remove-from-cart'),
 			$updateCartQuantityTrigger = $('.update-cart-quantity'),
 			$orderProductTrigger = $('.order_product'),
-			$sortTrigger = $('.sort'),
+			$sortTrigger = $('.sort');
 			// $formWithCaptcha = $('[data-form-captcha]');
 
 		$self.quickviewAttach($quickViewTrigger);
@@ -514,7 +514,7 @@ var uvelStore,
 		$self.handleErrors();
 		$self.checkIfNotHomePage();
 		$self.handleNavigationResizeAttach();
-		$self.formsWithCaptchaSubmit($formWithCaptcha);
+		// $self.formsWithCaptchaSubmit($formWithCaptcha);
 	};
 
 	this.handleNavigationResizeAttach = function() {

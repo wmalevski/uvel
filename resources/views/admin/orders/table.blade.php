@@ -19,7 +19,7 @@
   <td> {{ $order->retailPrice->price }} </td> 
   <td> 
     @if($order->weight_without_stones == 'yes')
-      {{ $order->weightp }}
+      {{ $order->weight }}
     @else
       {{ $order->gross_weight }}
     @endif
