@@ -491,7 +491,7 @@ var uvelStore,
 			$updateCartQuantityTrigger = $('.update-cart-quantity'),
 			$orderProductTrigger = $('.order_product'),
 			$sortTrigger = $('.sort'),
-			$formWithCaptcha = $('[data-form-captcha]');
+			// $formWithCaptcha = $('[data-form-captcha]');
 
 		$self.quickviewAttach($quickViewTrigger);
 		$self.imageHandling();

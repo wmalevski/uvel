@@ -41,7 +41,7 @@ class UserController extends BaseController{
             'phone' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
-            'g-recaptcha-response' => 'required|recaptcha'
+            // 'g-recaptcha-response' => 'required|recaptcha'
          ]);
 
          if ($validator->fails()) {
