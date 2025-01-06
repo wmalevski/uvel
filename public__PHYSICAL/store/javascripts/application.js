@@ -514,7 +514,7 @@ var uvelStore,
 		$self.handleErrors();
 		$self.checkIfNotHomePage();
 		$self.handleNavigationResizeAttach();
-		// $self.formsWithCaptchaSubmit($formWithCaptcha);
+		$self.formsWithCaptchaSubmit($formWithCaptcha);
 	};
 
 	this.handleNavigationResizeAttach = function() {
