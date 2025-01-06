@@ -72,7 +72,7 @@ class CustomOrderController extends BaseController{
             'content'                 => 'required|string',
             'phone'                   => 'required',
             'city'                    => 'required',
-            // 'g-recaptcha-response'    => 'required|recaptcha',
+            'g-recaptcha-response'    => 'required|recaptcha',
             'images.*'                => 'file|max:2000|mimes:jpeg,png,jpg,gif',
         ], [
             'images.mimes'    => 'Каченият файл трябва да бъде в един от тези формати [jpeg,png,jpg,gif].',
