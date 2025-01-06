@@ -26,7 +26,7 @@ class Recaptcha extends Validator implements ValidationRule
                 // ->setExpectedAction($parameters[0])
                 ->setScoreThreshold(0.7)
                 ->verify($value, Request::ip());
-            dd($recaptchaResponse);
+
             return $recaptchaResponse->isSuccess();
         } catch (\Throwable $th) {
             $this->message = 'Възникна грешка при валидиране на google recaptcha';
