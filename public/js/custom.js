@@ -1532,9 +1532,9 @@ var uvel,
 
           if(element.hasAttribute('data-material-id-price')) {
             var calculatingPrice = $(element).parents('.form-row').find('[name="calculating_price"]');
-            var chosenMaterialPrice = calculatingPrice[0].value;
             var chosenMaterial=$(element).parents('.form-row').find('select[name="material_type_id[]"] option').last();
             var chosenMaterialPriceID = chosenMaterial.attr('data-price-2-id');
+            var chosenMaterialPrice = chosenMaterial.attr('data-price-2')
 
             if(chosenMaterialPrice == "" ){
               chosenMaterialPrice = parseFloat(chosenMaterial.attr('data-price-2'));
