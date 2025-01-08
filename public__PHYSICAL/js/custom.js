@@ -1529,15 +1529,14 @@ var uvel,
         } else if (dataKey.indexOf('[]') !== -1) {
           dataKey = dataKey.replace('[]', '');
           (data[dataKey] = data[dataKey] || []).push(dataKeyValue);
-
           if(element.hasAttribute('data-material-id-price')) {
             var calculatingPrice = $(element).parents('.form-row').find('[name="calculating_price"]');
             var chosenMaterial=$(element).parents('.form-row').find('select[name="material_type_id[]"] option').last();
             var chosenMaterialPriceID = chosenMaterial.attr('data-price-2-id');
-            var chosenMaterialPrice = chosenMaterial.attr('data-price-2')
+            var chosenMaterialPrice = calculatingPrice.find(':selected').attr('data-price')
 
-            if(chosenMaterialPrice == "" ){
-              chosenMaterialPrice = parseFloat(chosenMaterial.attr('data-price-2'));
+            if(chosenMaterialPrice == "" || chosenMaterialPrice == undefined ){
+              chosenMaterialPrice = parseFloat(chosenMaterial.attr('data-price-1'));
             }
 
             calculatingPrice.find('option:last-child').attr('value', chosenMaterialPrice);
@@ -1547,12 +1546,11 @@ var uvel,
               material_price: chosenMaterialPrice,
               material_price_id: chosenMaterialPriceID
             });
-          }
-        } else {
-          data[dataKey] = dataKeyValue;
         }
-
-        if (dataKey.startsWith('images')) { 
+    } else {
+        data[dataKey] = dataKeyValue;
+    }
+        if (dataKey.startsWith('images')) {
           var imagesHolder = $(element).siblings('.drop-area-gallery').find('img');
           if (form[0].name == 'blog') {
             imagesHolder = imagesHolder.length ? imagesHolder : $(element).closest('.tab-pane').find('.uploaded-images-area img');
@@ -1580,7 +1578,6 @@ var uvel,
       });
 
       data.data_material_price = dataMaterialPrice;
-
       $self.sendFormRequest(form, ajaxRequestLink, formType, data);
     }
 
