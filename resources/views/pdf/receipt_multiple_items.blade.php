@@ -64,7 +64,8 @@
         @foreach($item['exchanged_materials'] as $mat)
             <li>
                 <div style="float:left;width:58%;">{{$mat->material->name}} {{$mat->material->code}}, {{$mat->material->color}}</div>
-                <div style="float:left;width:20%;text-align:right">{{$mat->material->prices->where('id', $mat->material_price_id)->first()->price}} лв. / гр.</div>
+                {{-- <div style="float:left;width:20%;text-align:right">{{$mat->material->prices->where('id', $mat->material_price_id)->first()->price}} лв. / гр.</div> --}}
+                <div style="float:left;width:20%;text-align:right">{{$mat->additional_price}} лв. / гр.</div>
                 <div style="float:left;width:20%;text-align:right">{{$mat->weight}} гр.</div>
             </li>
         @endforeach
