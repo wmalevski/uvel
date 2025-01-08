@@ -1538,8 +1538,9 @@ var uvel,
 
             if(chosenMaterialPrice == "" ){
               chosenMaterialPrice = parseFloat(chosenMaterial.attr('data-price-2'));
-              calculatingPrice.find('option:last-child').attr('value', chosenMaterialPrice);
             }
+
+            calculatingPrice.find('option:last-child').attr('value', chosenMaterialPrice);
 
             dataMaterialPrice.push({
               material_id: dataKeyValue,
@@ -1547,6 +1548,7 @@ var uvel,
               material_price_id: chosenMaterialPriceID
             });
           }
+
         } else {
           data[dataKey] = dataKeyValue;
         }
