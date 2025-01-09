@@ -18,14 +18,16 @@ class CartService {
         $userId         = $user->getId();
         $discount       = new DiscountCode;
         $discountResult = $discount->check($barcode);
-        $setDiscount    = $discountResult->discount;
-        $isEligible     = $discountResult->users->contains('id', $userId);
-        $isGlobal       = $discountResult->is_global;
 
         if (!$discountResult) {
             $setDiscount = false;
             return Response::json(['message' => 'Discount code not found'], 404);
         }
+        
+        $setDiscount    = $discountResult->discount;
+        $isEligible     = $discountResult->users->contains('id', $userId);
+        $isGlobal       = $discountResult->is_global;
+
 
         if (!($isEligible && $isGlobal == 'yes')) {
             $setDiscount = false;

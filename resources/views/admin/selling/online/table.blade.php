@@ -1,11 +1,13 @@
 <tr data-id="{{ $selling->id }}">
 	<td style="padding-right: 0;">
 		<span class="sell-status
-			@switch($selling->payment->status)
-				@case('waiting_user')sell-status--pending @break;
-				@case('waiting_staff')sell-status--pendingStaff @break;
-				@case('done')sell-status--done @break;
-			@endswitch"></span>
+      @if($selling->payment && $selling->payment->status)
+        @switch($selling->payment->status)
+          @case('waiting_user')sell-status--pending @break;
+          @case('waiting_staff')sell-status--pendingStaff @break;
+          @case('done')sell-status--done @break;
+        @endswitch
+      @endif"></span>
 	</td>
 	<td>{{ $selling->payment->user->email }}</td>
 	<td>
