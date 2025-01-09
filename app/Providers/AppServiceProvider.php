@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
+use Opcodes\LogViewer\Facades\LogViewer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -40,6 +41,12 @@ class AppServiceProvider extends ServiceProvider
 
         UserGroup::observe(UserGroupObserver::class);
         User::observe(UserObserver::class);
+    	LogViewer::auth(function ($request) {
+        	return $request->user()
+            	&& in_array($request->user()->email, [
+                	'admin@uvel.com',
+            	]);
+    	});
     }
 
     /**

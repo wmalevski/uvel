@@ -25,6 +25,7 @@
         "milon/barcode": "^11.0",
         "mpdf/mpdf": "^8.2",
         "nunomaduro/collision": "^8.0",
+        "opcodesio/log-viewer": "^3.12",
         "paypal/paypal-checkout-sdk": "^1.0",
         "picqer/php-barcode-generator": "^3.2",
         "silber/bouncer": "^1.0",

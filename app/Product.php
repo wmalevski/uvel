@@ -276,7 +276,7 @@ class Product extends BaseModel
       }
 
       if(isset($request->byBarcode) && $request->byBarcode!==''){
-        $query->where('barcode', 'LIKE', '%'.$request->byBarcode.'%');
+        $query->where('barcode', 'LIKE', '%'. $request->byBarcode .'%');
       }
 
       if(isset($request->byCode) && $request->byCode!==''){
@@ -309,7 +309,6 @@ class Product extends BaseModel
       $order = explode('-', $request->sortBy);
       $query->orderBy($order[0], $order[1]);
     }
-
     return $query;
   }
 
