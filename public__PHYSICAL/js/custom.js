@@ -1755,6 +1755,7 @@ var uvel,
       $self.deleteRow(newDeleteRowTrigger);
       $self.print(newPrintTrigger);
       $self.productImageClickAttach(form.parents('.main-content').find('table tbody tr').last()[0]);
+      $self.modelImageClickAttach(form.parents('.main-content').find('table tbody tr').last()[0]);
     }
 
     this.openSellingUrls = function(urlsArray) {
@@ -1946,6 +1947,7 @@ var uvel,
       $self.print(printBtn);
       $self.returnRepairBtnAction(returnRepairBtn);
       $self.productImageClickAttach(form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]')[0]);
+      $self.modelImageClickAttach(form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]')[0]);
     }
 
     // FUNCTION TO MOVE ROW FROM ONE TABLE TO ANOTHER WHEN EDITING ON SCREENS WITH MULTIPLE TABLES
