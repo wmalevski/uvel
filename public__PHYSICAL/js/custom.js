@@ -3800,6 +3800,7 @@ var uvel,
 
           $self.deleteRow($deleteButtons);
           $self.productImageClickAttach();
+          $self.modelImageClickAttach();
           $table.removeClass('inactive');
         };
 
@@ -3822,6 +3823,7 @@ var uvel,
           }
 
           $self.ajaxFn('GET', ajaxUrl, ajaxResultsResponse);
+          $self.productImageClickAttach();
           $self.modelImageClickAttach();
         };
 
