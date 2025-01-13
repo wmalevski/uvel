@@ -39,7 +39,6 @@
     <link href="https://unpkg.com/nanogallery2@3.0.5/dist/css/nanogallery2.woff.min.css" rel="stylesheet" type="text/css" media="all">
     <link href="https://unpkg.com/nanogallery2@3.0.5/dist/css/nanogallery2.min.css" rel="stylesheet" type="text/css" media="all">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css"/>
-    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
     @stack('css')
 
     <!-- JavaScript -->
