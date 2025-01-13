@@ -3,6 +3,7 @@ var uvel,
     var $self = this,
       $window = $(window),
       $body = $('body'),
+      $uploadedFiles = [],
       currentPressedBtn;
 
     /*
@@ -1529,27 +1530,28 @@ var uvel,
         } else if (dataKey.indexOf('[]') !== -1) {
           dataKey = dataKey.replace('[]', '');
           (data[dataKey] = data[dataKey] || []).push(dataKeyValue);
+
           if(element.hasAttribute('data-material-id-price')) {
             var calculatingPrice = $(element).parents('.form-row').find('[name="calculating_price"]');
+            var chosenMaterialPrice = calculatingPrice[0].value;
             var chosenMaterial=$(element).parents('.form-row').find('select[name="material_type_id[]"] option').last();
             var chosenMaterialPriceID = chosenMaterial.attr('data-price-2-id');
-            var chosenMaterialPrice = calculatingPrice.find(':selected').attr('data-price')
 
-            if(chosenMaterialPrice == "" || chosenMaterialPrice == undefined ){
-              chosenMaterialPrice = parseFloat(chosenMaterial.attr('data-price-1'));
+            if(chosenMaterialPrice == "" ){
+              chosenMaterialPrice = parseFloat(chosenMaterial.attr('data-price-2'));
+              calculatingPrice.find('option:last-child').attr('value', chosenMaterialPrice);
             }
-
-            calculatingPrice.find('option:last-child').attr('value', chosenMaterialPrice);
 
             dataMaterialPrice.push({
               material_id: dataKeyValue,
               material_price: chosenMaterialPrice,
               material_price_id: chosenMaterialPriceID
             });
+          }
+        } else {
+          data[dataKey] = dataKeyValue;
         }
-    } else {
-        data[dataKey] = dataKeyValue;
-    }
+
         if (dataKey.startsWith('images')) {
           var imagesHolder = $(element).siblings('.drop-area-gallery').find('img');
           if (form[0].name == 'blog') {
@@ -1578,6 +1580,7 @@ var uvel,
       });
 
       data.data_material_price = dataMaterialPrice;
+
       $self.sendFormRequest(form, ajaxRequestLink, formType, data);
     }
 
@@ -1755,7 +1758,6 @@ var uvel,
       $self.deleteRow(newDeleteRowTrigger);
       $self.print(newPrintTrigger);
       $self.productImageClickAttach(form.parents('.main-content').find('table tbody tr').last()[0]);
-      $self.modelImageClickAttach(form.parents('.main-content').find('table tbody tr').last()[0]);
     }
 
     this.openSellingUrls = function(urlsArray) {
@@ -1947,7 +1949,6 @@ var uvel,
       $self.print(printBtn);
       $self.returnRepairBtnAction(returnRepairBtn);
       $self.productImageClickAttach(form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]')[0]);
-      $self.modelImageClickAttach(form.parents('.main-content').find('table tbody tr[data-id="' + rowId + '"]')[0]);
     }
 
     // FUNCTION TO MOVE ROW FROM ONE TABLE TO ANOTHER WHEN EDITING ON SCREENS WITH MULTIPLE TABLES
@@ -3227,18 +3228,36 @@ var uvel,
       });
     }
 
-    this.uploadImages = function(event, form) {
-      var files = event.target.files,
-          collectionFiles = [];
+    this.uploadImages = function (event) {
+        var files = event.currentTarget.files,
+            collectionFiles = [];
 
-      for (var file of files) {
-        if (file.type == "image/svg+xml") {
-          alert("Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif");
-        } else {
-          collectionFiles.push(file);
+        const dt = new DataTransfer();
+        const fileUploadLimit = 5;
+        const remainingSlots = fileUploadLimit - $uploadedFiles.length;
+        const keepUploading = files.length > remainingSlots
+
+        if (keepUploading) {
+            alert(`Можете да качите само още ${remainingSlots} файл(а). Максималният лимит е ${fileUploadLimit} файла.`);
         }
-      }
-      $self.appendImages(collectionFiles, form, event);
+        for (var file of files) {
+            if (keepUploading) {
+                break;
+            }
+            if (file.type == 'image/svg+xml') {
+                alert('Избраният формат не се поддържа.\nФорматите които се поддържат са: jpg,jpeg,png,gif');
+            } else {
+                const fileMeta = { id: Math.random().toString(16).slice(2), file: file };
+                collectionFiles.push(fileMeta);
+            }
+        }
+        if ( keepUploading ) {
+            return false;
+        }
+        $uploadedFiles.push(...collectionFiles);
+        $uploadedFiles.forEach(filesObj => dt.items.add(filesObj.file));
+        event.currentTarget.files = dt.files;
+        $self.appendImages($uploadedFiles);
     }
 
     this.getBase64Image = function(img) {
@@ -3256,13 +3275,15 @@ var uvel,
       return dataURL;
     }
 
-    this.appendImages = function(collectionFiles, form, event) {
+    this.appendImages = function(collectionFiles, form = undefined) {
       var _instanceFiles = [],
-          filesInput = event.currentTarget;
-      form.find('.drop-area-gallery').empty();
+          $fileInput = $('.drop-area-input'),
+          $wrapper = $('.drop-area-gallery');
+          $wrapper.empty();
+
       collectionFiles.forEach(function(element) {
         var reader = new FileReader();
-        reader.readAsDataURL(element);
+        reader.readAsDataURL(element.file);
         reader.onloadend = function() {
           var getMimeType = function (uploadedObject) {
             if ( uploadedObject && 'type' in uploadedObject ) {
@@ -3273,9 +3294,8 @@ var uvel,
           var imageWrapper = document.createElement('div'),
               closeBtn = document.createElement('div'),
               mediaBlob,
-              sourceTemp = URL.createObjectURL(element);
-
-              switch (getMimeType(element)) {
+              sourceTemp = URL.createObjectURL(element.file);
+              switch (getMimeType(element.file)) {
                 case 'image':
                     mediaBlob = document.createElement('img')
                     break;
@@ -3286,7 +3306,7 @@ var uvel,
 
                     var sourceTag = document.createElement('source')
                     sourceTag.setAttribute('src', sourceTemp)
-                    sourceTag.setAttribute('type', element.type)
+                    sourceTag.setAttribute('type', element.file.type)
                     mediaBlob.appendChild(sourceTag)
                     break;
                 default:
@@ -3302,34 +3322,34 @@ var uvel,
           $self.deleteImagesDropArea($(closeBtn));
 
           mediaBlob.setAttribute('src', reader.result);
+          mediaBlob.dataset.index = element.id;
           imageWrapper.append(closeBtn);
           imageWrapper.append(mediaBlob);
 
-          if (filesInput.attributes.multiple) {
-            $(filesInput).siblings('.drop-area-gallery').append(imageWrapper);
+          if ($fileInput.attr('multiple')) {
+            $fileInput.siblings('.drop-area-gallery').append(imageWrapper);
           } else {
-            $(filesInput).siblings('.drop-area-gallery').html(imageWrapper);
+            $fileInput.siblings('.drop-area-gallery').html(imageWrapper);
           }
         }
       });
     }
 
-    this.deleteImagesDropArea = function(deleteBtn) {
-      deleteBtn.on('click', function() {
-        const fileInput  = $(this).parents('.drop-area-gallery').siblings('input');
-        const filesStack = fileInput[0].files;
-        const itemIndex  = $(this).parents('.image-wrapper').index();
-        const dt         = new DataTransfer();
+    this.deleteImagesDropArea = function (deleteBtn) {
+        deleteBtn.on('click', function (e) {
+            const $wrapper = $(this).parent('.image-wrapper');
+            const imageIndex = $wrapper.find('img').data('index');
+            const uploadImagesTrigger = $('.drop-area-input');
 
-        for (let i = 0; i < filesStack.length; i++) {
-            if (i !== itemIndex) {
-                dt.items.add(filesStack[i]);
+            if (imageIndex !== undefined) {
+                const fileIndex = $uploadedFiles.findIndex(filesObj => filesObj.id === imageIndex);
+                $uploadedFiles.splice(fileIndex, 1);
+                let dt = new DataTransfer();
+                $uploadedFiles.forEach(filesObj => dt.items.add(filesObj.file));
+                uploadImagesTrigger[0].files = dt.files;
+                $wrapper.remove();
             }
-        }
-        fileInput[0].files = dt.files;
-
-        $(this).parent('.image-wrapper').remove();
-      });
+        });
     }
 
     this.deleteImagesUploadArea = function(deleteBtn, form) {
@@ -3800,7 +3820,6 @@ var uvel,
 
           $self.deleteRow($deleteButtons);
           $self.productImageClickAttach();
-          $self.modelImageClickAttach();
           $table.removeClass('inactive');
         };
 
@@ -3823,7 +3842,6 @@ var uvel,
           }
 
           $self.ajaxFn('GET', ajaxUrl, ajaxResultsResponse);
-          $self.productImageClickAttach();
           $self.modelImageClickAttach();
         };
 
