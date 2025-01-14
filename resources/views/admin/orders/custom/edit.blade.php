@@ -75,7 +75,7 @@ if(isset($prodImagePhoto['photo'])){
 				<div class="form-group col-md-12">
 					<label for="1">Снимка: </label>
 					<div class="drop-area form-row justify-content-between" name="add">
-						<input type="file" name="images" class="drop-area-input" id="images" accept="image/*">
+						<input type="file" name="images" class="drop-area-input" id="images" accept="image/*" multiple>
 						<label class="button" for="images">{{__("Избери снимка")}}</label>
 						<div class="drop-area-gallery">
                 @foreach($order->photos as $photo)

@@ -13,7 +13,7 @@
 		@if(isset($payment->certificate) && $payment->certificate == 'yes')
 		<div>Цена: <b>{{$product->price}} лв.</b></div>
 		@endif
-		<div>{{date('d-m-y')}} cм.№: {{$product->id}}</div>
+		<div style="font-size:8px;">{{date('d-m-y')}} cм.№: {{$payment->id}}</div>
 	</div>
 	<div style="float:left;width:50%;text-align:right;">
 		<div style="text-align:center;font-size:8px;">№:{{$product->id}}</div>
