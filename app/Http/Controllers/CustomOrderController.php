@@ -76,8 +76,8 @@ class CustomOrderController extends Controller{
             'content' => 'required|string',
             'phone' => 'required',
             'city' => 'required',
-            'images.*' => 'file|max:30720|mimes:jpeg,png,jpg,gif',
-            'images' => 'required|array|max:5',
+            // 'images.*' => 'file|max:30720|mimes:jpeg,png,jpg,gif',
+            // 'images' => 'required|array|max:5',
         ]);
 
         if ($validator->fails()) {
@@ -98,11 +98,12 @@ class CustomOrderController extends Controller{
         $order->offer = $request->offer;
         $order->ready_product = $request->ready_product;
 
-        if($request->has('status_accept')){
+
+        if($request->has('status_accept') && $request->input('status_accept') != 'false'){
             $order->status = 'accepted';
-        } else if($request->has('status_ready')){
+        } else if($request->has('status_ready') && $request->input('status_ready') != 'false'){
             $order->status = 'ready';
-        } else if($request->has('status_delivered')){
+        } else if($request->has('status_delivered') && $request->input('status_delivered') != 'false'){
             $order->status = 'delivered';
         }
 
