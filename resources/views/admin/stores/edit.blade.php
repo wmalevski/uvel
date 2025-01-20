@@ -8,7 +8,7 @@
     </div>
 
     <form method="POST" name="stores" data-type="edit" action="stores/{{ $store->id }}">
-        <input name="_method" type="hidden" value="PUT">
+        
         <div class="modal-body">    
             <div class="info-cont">
             </div>

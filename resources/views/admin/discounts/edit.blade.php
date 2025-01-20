@@ -23,7 +23,7 @@ if ( $discount->users->count() ) {
     </div>
 
     <form method="POST" name="discounts" data-type="edit" action="discounts/{{ $discount->id }}">
-        <input name="_method" type="hidden" value="PUT">
+        
         <div class="modal-body">
             <div class="info-cont">
                 </div>

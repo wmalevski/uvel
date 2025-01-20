@@ -1,13 +1,24 @@
 
+@php
+$photo=$model->photos()->first();
+
+if(isset($photo['photo'])){
+	$photo=$photo['photo'];
+}
+@endphp
 <tr data-id="{{ $model->id }}">
     <td class="thumbnail--tooltip">
-        @if(count($model->photos))
-            <button class="model-information-btn" data-toggle="modal" data-target="#modelInformation">
-                <img class="admin-product-image" src="{{ getPhoto("models/" . $model->photos->first()['photo']) }}">
-            </button>
-            <ul class="product-hover-image"
-                style="background-image: url({{ getPhoto("models/" . $model->photos->first()['photo']) }});"></ul>
+        <button class="model-information-btn" data-toggle="modal" data-target="#modelInformation">
+            @if(isset($photo))
+                <img class="admin-product-image" src="{{ getPhoto("models/" . $model->photos()->first()['photo']) }}">
+            @else
+            <i>Няма</i>
+            @endif
+        </button>
+        @if(isset($photo))
+            <ul class="product-hover-image" style="background-image: url({{ getPhoto("models/" . $model->photos()->first()['photo']) }});"></ul>
         @endif
+
     </td>
     <td>{{$model->name}}</td>
     <td>{{$model->weight}} гр.</td>

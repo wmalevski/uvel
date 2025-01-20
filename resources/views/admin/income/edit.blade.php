@@ -5,7 +5,7 @@
 	</div>
 
 	<form method="POST" data-type="edit" name="income" action="income/{{ $income->id }}">
-		<input name="_method" type="hidden" value="PUT">
+		
 		<div class="modal-body">
 			<div class="info-cont"></div>
 			{{ csrf_field() }}

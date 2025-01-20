@@ -650,7 +650,7 @@
     });
 </script>
 
-
 @yield('footer-scripts')
+@stack('js')
 </body>
 </html>

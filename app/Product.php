@@ -209,7 +209,8 @@ class Product extends BaseModel
 
         $pass_photos[] = [
           'id' => $photo->id,
-          'base64' => 'data:image/' . $info['extension'] . ';base64,' . $base64
+          'base64' => 'data:image/' . $info['extension'] . ';base64,' . $base64,
+          'src' => $ext_url
         ];
       }
 
@@ -314,6 +315,7 @@ class Product extends BaseModel
 
   public function store($request, $responseType = 'JSON', $updatedStones = [])
   {
+
     $validate_data = [
       'jewel_id' => 'required',
       'material_id' => 'required',
@@ -385,12 +387,6 @@ class Product extends BaseModel
     $check_digit = $next_ten - $total_sum;
     $product->barcode = $digits . $check_digit;
 
-    $path = storage_path('products/');
-
-    File::makeDirectory($path, 0775, true, true);
-    Storage::disk('public')->makeDirectory('products', 0775, true);
-
-
     $findModel = ModelOption::where([
       ['material_id', '=', $request->material],
       ['model_id', '=', $request->model]
@@ -428,6 +424,14 @@ class Product extends BaseModel
 
     $product->save();
 
+    $images = $request->file('images');
+    if ( $request->hasFile('images') ) {
+        if (!Storage::exists('products')) {
+            Storage::makeDirectory('products');
+        }
+        updatePhotos($product, $images, 'products');
+    }
+
     if ($request->stones) {
       if ($stoneQuantity == 1) {
         foreach ($request->stones as $key => $stone) {
@@ -446,33 +450,6 @@ class Product extends BaseModel
             $product_stones->save();
           }
         }
-      }
-    }
-
-    $file_data = $request->input('images');
-    if ($file_data) {
-      foreach ($file_data as $img) {
-        $memi = substr($img, 5, strpos($img, ';') - 5);
-
-        $extension = explode('/', $memi);
-        if ($extension[1] == "svg+xml") {
-          $ext = 'png';
-        } else {
-          $ext = $extension[1];
-        }
-
-        $file_name = 'productimage_' . uniqid() . time() . '.' . $ext;
-
-        $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-        file_put_contents(storage_path('products/') . $file_name, $data);
-
-        Storage::disk('public')->put('products/' . $file_name, file_get_contents(storage_path('products/') . $file_name));
-
-        $photo = new Gallery();
-        $photo->photo = $file_name;
-        $photo->product_id = $product->id;
-        $photo->table = 'products';
-        $photo->save();
       }
     }
 

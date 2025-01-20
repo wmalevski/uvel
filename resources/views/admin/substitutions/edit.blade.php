@@ -7,7 +7,7 @@
         </div>
     
     <form method="POST" name="substitutions" data-type="edit" action="users/substitutions/{{ $substitution->id }}">
-        <input name="_method" type="hidden" value="PUT">
+        
         <div class="modal-body">    
             <div class="info-cont">
             </div>

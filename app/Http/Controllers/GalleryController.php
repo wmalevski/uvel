@@ -86,8 +86,12 @@ class GalleryController extends Controller
             return Response::json(['errors' => ['using' => ['Не е налична снимка.']]], 401);
         }
 
-        // unlink(storage_path($photo->table . '/') . $photo->photo);
-        unlink(public_path('storage/'.$photo->table.'/').$photo->photo);
+        try {
+            unlink(public_path('storage/'.$photo->table.'/').$photo->photo);
+        } catch(\Error $e) {
+            \Log::error('Failed to unlink photo: ' . public_path('storage/'.$photo->table.'/').$photo->photo);
+        }
+
         $photo->delete();
         return Response::json(array('success' => 'Успешно изтрито!'));
     }

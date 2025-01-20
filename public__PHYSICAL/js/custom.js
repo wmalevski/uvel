@@ -1,11 +1,11 @@
 var uvel,
+  imagesList = [],
   uvelController = function() {
     var $self = this,
       $window = $(window),
       $body = $('body'),
       $uploadedFiles = [],
       currentPressedBtn;
-
     /*
      * formsConfig: is an object containing metadata for each form.
      *
@@ -14,7 +14,7 @@ var uvel,
      * @controllers: An array of controllers or event handlers, such as 'submitForm',
      *  that are used to manage form actions.
      * @initialized: Boolean flag indicating whether the form has been initialized.
-     * @ajaxSetup: Determines whether the form's submit event is handled via AJAX 
+     * @ajaxSubmit: Determines whether the form's submit event is handled via AJAX 
      *  (true) or a native form submission is used (false).
      *
      * formsConfig.globalSettings: Contains configurations that apply globally across all forms.
@@ -32,27 +32,27 @@ var uvel,
         selector: '[name="blog"]',
         controllers: ['imageHandling'],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
 
       },
       cms: {
         selector: '[name="cms"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
 
       },
       cashgroups: {
         selector: '[name="cashgroup"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       currencies: {
         selector: '[name="currencies"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       customOrder: {
         selector: '[name="customOrder"]',
@@ -60,7 +60,7 @@ var uvel,
             'imageHandling',
         ],
         initialized: false,
-        ajaxSetup: false,
+        ajaxSubmit: true,
       },
       discounts: {
         selector: '[name="discounts"]',
@@ -69,108 +69,108 @@ var uvel,
             'globalDiscount'
         ],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       dailyReport: {
         selector: '[name="dailyReport"]',
         controllers: ['dailyReportAttach'],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       dailyReports: {
         selector: '[name="dailyReports"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       editPayments: {
         selector: '[name="editPayments"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       expenseTypes: {
         selector: '[name="expenseTypes"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       expenses: {
         selector: '[name="expenses"]',
         controllers: ['transferCheckboxInit'],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       formGalleryImage: {
         selector: '[name="formGalleryImage"]',
         controllers: ['imageHandling'],
         initialized: false,
-        ajaxSetup: false,
+        ajaxSubmit: false,
       },
       formGalleryVideo: {
         selector: '[name="formGalleryVideo"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: false,
+        ajaxSubmit: false,
       },
       formGallerySearch: {
         selector: '[name="gallerySearchForm"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: false,
+        ajaxSubmit: false,
       },
       incomeTypes: {
         selector: '[name="incomeTypes"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       income: {
         selector: '[name="income"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       jewels: {
         selector: '[name="jewels"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
 
       },
       materialTypes: {
         selector: '[name="materialsTypes"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
 
       },
       materials: {
         selector: '[name="materials"]',
         controllers: ['newMaterialInit'],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
 
       },
       materialsQuantity: {
         selector: '[name="materialsQuantity"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
 
       },
       materailsTraveling: {
         selector: '[name="sendMaterial"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
 
       },
       modelOrders: {
         selector: '[name="model_order"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       models: {
         selector: '[name="models"]',
@@ -186,20 +186,20 @@ var uvel,
           'imageHandling'
         ],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
 
       },
       nomenclatures: {
         selector: '[name="nomenclatures"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       otherProductsTypes: {
         selector: '[name="productsOthersTypes"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       orders: {
         selector: '[name="orders"]',
@@ -220,13 +220,13 @@ var uvel,
           callback: 'onOrdersFormSelectCallback'
         }],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       otherProducts: {
         selector: '[name="productsOthers"]',
         controllers: ['imageHandling'],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       products: {
         selector: '[name="products"]',
@@ -244,7 +244,7 @@ var uvel,
           callback: 'productsModelSelectCallback'
         }],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       productsTravelling: {
         selector: '[name="productsTravelling"]',
@@ -254,32 +254,32 @@ var uvel,
           callback: 'productTravellingSelectCallback'
         }],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       prices: {
         selector: '[name="prices"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
 
       },
       partners: {
         selector: '[name="partners"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       partnermaterials: {
         selector: '[name="partnermaterials"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       repairTypes: {
         selector: '[name="repairTypes"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       repairs: {
         selector: '[name="repairs"]',
@@ -290,75 +290,75 @@ var uvel,
           'focusDatePicker'
         ],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       returnRepair: {
         selector: '[name="returnRepair"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       stores: {
         selector: '[name="stores"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       substitutions: {
         selector: '[name="substitutions"]',
         controllers: ['focusDatePicker'],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
 
       },
       subscribe: {
         selector: '[name="subscribe"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       system_settings: {
         selector: '[name="system_setting"]',
         controllers: ['imageHandling'],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       stonesQuantityIncrease: {
         selector: '[name="stonesQuantityIncrease"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       stonesQuantityDecrease: {
         selector: '[name="stonesQuantityDecrease"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       users: {
         selector: '[name="users"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
       },
       addUserGroup: {
         selector: '[name="addUserGroup"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: false,
+        ajaxSubmit: false,
       },
       selling: {
         selector: '[name="selling"]',
         controllers: ['paymentInitializer'],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
 
       },
       sellingPartners: {
         selector: '[name="sellingPartners"]',
         controllers: ['partnerPaymentInit'],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
 
       },
       stones: {
@@ -368,42 +368,42 @@ var uvel,
           'imageHandling'
         ],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
 
       },
       stoneStyles: {
         selector: '[name="stoneStyles"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
 
       },
       stoneContours: {
         selector: '[name="stoneContours"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
 
       },
       stoneSizes: {
         selector: '[name="stoneSizes"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
 
       },
       scanRepair: {
         selector: '[name="scanRepair"]',
         controllers: [],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
 
       },
       slides: {
         selector: '[name="slides"]',
         controllers: ['imageHandling'],
         initialized: false,
-        ajaxSetup: true,
+        ajaxSubmit: true,
 
       },
     }
@@ -859,6 +859,7 @@ var uvel,
           openedForm = $this.attr('data-form'),
           formType = $this.attr('data-form-type'),
           formSettings = $self.formsConfig[openedForm];
+
       $('form[name="' + openedForm + '"]').find('button[type="submit"]').prop('disabled', true);
       if (formType == 'edit') {
         $self.appendingEditFormToTheModal($this, data, timeToOpenModal);
@@ -879,8 +880,13 @@ var uvel,
       }
 
       if ((formType == 'add' || formType == 'sell' || formType == 'partner-sell' || formType == 'quantity') && !formSettings.initialized) {
-        $self.initializeForm(formSettings, formType);
-        formSettings.initialized = true;
+        var attrUrl = currentPressedBtn.data('url');
+        if (typeof attrUrl !== 'undefined' && attrUrl !== false) {
+            $self.appendingCreateFormToTheModal($this, 500)
+        } else {
+            $self.initializeForm(formSettings, formType);
+            formSettings.initialized = true;
+        }
       } else {
         // Form already initialized
         console.log('form already initialized');
@@ -1415,7 +1421,7 @@ var uvel,
             selectElement = form.find(selector);
 
         selectElement.on('select2:select', function(event) {
-          $self[callback](event, selectElement, form);
+            $self[callback](event, selectElement, form);
         });
       }
     }
@@ -1425,7 +1431,7 @@ var uvel,
           formType = form.attr('data-type'),
           formConfig = $self.formsConfig[form.attr('name')];
       submitButton.click(function(e) {
-        if ( formConfig != undefined && ("ajaxSetup" in formConfig) && formConfig.ajaxSetup === false ) { // cut the execution of ajax request and submit the form natively
+        if ( formConfig != undefined && ("ajaxSubmit" in formConfig) && formConfig.ajaxSubmit === false ) { // cut the execution of ajax request and submit the form natively
           const formInputs = form.find('input:not([type=hidden]),textarea');
           const messages = {};
           formInputs.each(i => {
@@ -1501,87 +1507,49 @@ var uvel,
     }
 
     this.getFormFields = function(form, ajaxRequestLink, formType, inputFields) {
-      var data = {
-            _token: $self.formsConfig.globalSettings.token
-          },
-          imageCollection = [],
-          imageCollectionNames = [],
-          dataMaterialPrice = [];
-
-      if (formType == 'edit') {
-        data._method = 'PUT';
-      }
+        // We need to disable/enable the inputs or otherwise they wont be appended to DataObject
+        const disabledInputs = form[0].querySelectorAll(':disabled');
+        disabledInputs.forEach(input => input.disabled = false);
+        const formData = new FormData(form[0]);
+        disabledInputs.forEach(input => input.disabled = true);
+        var dataMaterialPrice = [];
 
       inputFields.each(function(index, element) {
         var inputType = element.type,
             dataKey = element.name,
             dataKeyValue = element.value;
-
         if ((inputType == 'radio' || inputType == 'checkbox') && dataKey.indexOf('[]') !== -1) {
-          dataKey = dataKey.replace('[]', '');
-          (data[dataKey] = data[dataKey] || []).push($(element).is(':checked'));
+            dataKey = dataKey.replace('[]', '');
+            formData.append(dataKey, $(element).is(':checked'));
         } else if (inputType == 'checkbox') {
-          data[dataKey] = $(element).is(':checked');
+            formData.append(dataKey, $(element).is(':checked'));
         } else if (inputType == 'radio') {
-          // if radio input is not checked, ignore it
-          if ($(element).is(':checked')) {
-            data[dataKey] = dataKeyValue;
-          }
+            if ($(element).is(':checked')) {
+                formData.append(dataKey, $(element).is(':checked'));
+            }
         } else if (dataKey.indexOf('[]') !== -1) {
-          dataKey = dataKey.replace('[]', '');
-          (data[dataKey] = data[dataKey] || []).push(dataKeyValue);
-
-          if(element.hasAttribute('data-material-id-price')) {
+            if(element.hasAttribute('data-material-id-price')) {
             var calculatingPrice = $(element).parents('.form-row').find('[name="calculating_price"]');
             var chosenMaterialPrice = calculatingPrice[0].value;
             var chosenMaterial=$(element).parents('.form-row').find('select[name="material_type_id[]"] option').last();
             var chosenMaterialPriceID = chosenMaterial.attr('data-price-2-id');
 
             if(chosenMaterialPrice == "" ){
-              chosenMaterialPrice = parseFloat(chosenMaterial.attr('data-price-2'));
-              calculatingPrice.find('option:last-child').attr('value', chosenMaterialPrice);
+                chosenMaterialPrice = parseFloat(chosenMaterial.attr('data-price-2'));
+                calculatingPrice.find('option:last-child').attr('value', chosenMaterialPrice);
             }
 
             dataMaterialPrice.push({
-              material_id: dataKeyValue,
-              material_price: chosenMaterialPrice,
-              material_price_id: chosenMaterialPriceID
+                material_id: dataKeyValue,
+                material_price: chosenMaterialPrice,
+                material_price_id: chosenMaterialPriceID
             });
-          }
-        } else {
-          data[dataKey] = dataKeyValue;
-        }
-
-        if (dataKey.startsWith('images')) {
-          var imagesHolder = $(element).siblings('.drop-area-gallery').find('img');
-          if (form[0].name == 'blog') {
-            imagesHolder = imagesHolder.length ? imagesHolder : $(element).closest('.tab-pane').find('.uploaded-images-area img');
-          }
-          if (imagesHolder.length) {
-            if (element.dataset.locale) {
-              data[dataKey] = $self.getBase64Image(imagesHolder[0]);
-            } else {
-              imagesHolder.each(function(index, element) {;
-                var imgSource = element.getAttribute('src'),
-                    imgName = element.getAttribute('data-name');
-                imageCollection.push(imgSource);
-
-                if(imgName) imageCollectionNames.push(imgName);
-              });
-
-              data.images = imageCollection;
-
-              if(!!imageCollectionNames) {
-                data.imageNames = imageCollectionNames;
-              }
+            formData.append('data_material_price', dataMaterialPrice);
             }
-          }
         }
       });
 
-      data.data_material_price = dataMaterialPrice;
-
-      $self.sendFormRequest(form, ajaxRequestLink, formType, data);
+      $self.sendFormRequest(form, ajaxRequestLink, formType, formData);
     }
 
     this.clearForm = function(form, formType) {
@@ -1684,13 +1652,14 @@ var uvel,
       $.ajax({
         method: 'POST',
         url: ajaxRequestUrl,
-        dataType: 'json',
         data: data,
+        processData: false,
+        contentType: false,
         success: function(response) {
           if (formType == 'add') {
             $self.appendResponseToTable(response, form);
             $('form').find('table tbody').empty();
-          } else if (formType == 'edit' || formType == 'quantity') {
+          } else if (formType == 'edit' || formType == 'quantity' || formType == 'add') {
             $self.replaceResponseRowToTheTable(form, response);
           }
           $self.formSuccessHandler(form, formType, response);
@@ -1703,9 +1672,7 @@ var uvel,
           }
         },
         complete: function() {
-          // scroll to top of form window
           form[0].scrollIntoView();
-          // re-enable submit buttons
           if(formType !== 'edit') {
             form.find('[type="submit"]').prop('disabled', false);
           }
@@ -1714,7 +1681,6 @@ var uvel,
     }
 
     // FUNCTION THAT READS ALL THE ERRORS RETURNED FROM THE REQUEST AND APPEND THEM IN THE MODAL-FORM-BODY
-
     this.formsErrorHandler = function(err, form) {
       var errorObject = form.find('[data-repair-scan]').length ? err.errors : err.responseJSON.errors,
           errorMessagesHolder = $('<div class="error--messages_holder"></div>');
@@ -1734,7 +1700,6 @@ var uvel,
     this.appendResponseToTable = function(response, form) {
       var responseHTML = response.success,
           table;
-
       if (response.targetTable) {
         table = form.parents('.main-content').find('table#' + response.targetTable + ' tbody');
       } else if (response.type == 'buy') {
@@ -1745,7 +1710,7 @@ var uvel,
         table = form.parents('.main-content').find('table tbody:not(form table tbody)');
       }
 
-      table.append(responseHTML);
+      table.prepend(responseHTML);
 
       var $openFormTriggers = table.find('[data-form]'),
           $deleteRowTiggers = table.find('.delete-btn'),
@@ -1836,8 +1801,51 @@ var uvel,
       }
     }
 
-    // APPENDING EDIT FORM TO THE MODAL
+    // APPENDING CREATE FORM TO THE MODAL
+    this.appendingCreateFormToTheModal = async function(currentButton, timeToOpenModal) {
+        var ajaxRequestLink = $self.buildAjaxRequestLink('requestForm', currentButton.attr('data-url'));
+        // Clear all forms off the DOM to prevent conflicting ids
+        if ( $('.modal').find('.modal-content').length) {
+            $('.modal').find('.modal-content').empty();
+        }
 
+        $.ajax({
+          url: ajaxRequestLink,
+          success: function(response) {
+            var modal = currentButton.parents().find('.add--modal_holder .modal-content');
+            modal.html(response);
+            $('button[type="submit"]').prop('disabled', true);
+            var openedForm = currentButton.attr('data-form'),
+                formType = currentButton.attr('data-form-type'),
+                formSettings = $self.formsConfig[openedForm];
+
+            var selects = $('form[data-type="add"] select');
+            $self.select2Looper(selects);
+            $self.initializeForm(formSettings, formType);
+
+            if (modal.find('.summernote').length > 0) {
+              modal.find('.summernote').summernote({
+                height: 300,
+                popover: {
+                  image: [],
+                  link: [],
+                  air: []
+                }
+              });
+            }
+            setTimeout(function() {
+              $('button[type="submit"]').prop('disabled', false);
+              var inputFields = $('form[name="' + openedForm + '"][data-type="add"]').find('input');
+              $self.enterPressBehaviour(inputFields);
+            }, timeToOpenModal);
+          },
+          error: function(xhr, status, error) {
+            console.error('status', status);
+            console.error('error', error);
+            console.error('responseText', xhr.responseText);
+          }
+        });
+    }
     this.appendingEditFormToTheModal = function(currentButton, data, timeToOpenModal) {
       if (currentButton[0].hasAttribute('data-repair-scan')) {
         currentButton.val('');
@@ -1862,14 +1870,21 @@ var uvel,
           params['id'] = decomposedLink[decomposedLinkLastIndex];
         }
 
+        // Clear all forms off the DOM to prevent conflicting ids
+        if ( $('.modal').find('.modal-content').length) {
+            $('.modal').find('.modal-content').empty();
+        }
+
         $.ajax({
           url: ajaxRequestLink,
           data: params,
           success: function(response) {
-
             var modal = currentButton.parents().find('.edit--modal_holder .modal-content');
             modal.html(response);
-
+            if ( imagesList != undefined || imagesList.length > 0 ) {
+                const $inputElement = modal.find('form [name^="images"]');
+                $self.hydrateInputNode(imagesList, $inputElement);
+            }
             $('button[type="submit"]').prop('disabled', true);
 
             var openedForm = currentButton.attr('data-form'),
@@ -1926,6 +1941,7 @@ var uvel,
           rowToChange = form.parents('.main-content').find('table[id="' + targetTable + '"] tbody tr[data-id="' + rowId + '"]'),
           iscurrentlyActive = rowToChange.closest('table').hasClass('active'),
           isCurrentlyBuy = rowToChange.closest('table').hasClass('buy');
+
 
       if (response.place == 'active' && !iscurrentlyActive) {
         $self.moveRowToTheTable(rowToChange, form.parents('.main-content').find('table.active tbody'), replaceRowHTML);
@@ -2487,8 +2503,7 @@ var uvel,
       var modelId = selectElement.val(),
           ajax = window.location.origin + '/' + selectElement[0].dataset.url,
           ajaxUrl = ajax + modelId;
-
-      $self.ajaxFn('GET', ajaxUrl, $self.modelRequestResponseHandler, '', form);
+          $self.ajaxFn('GET', ajaxUrl, $self.modelRequestResponseHandler, '', form);
     }
 
     this.modelRequestResponseHandler = function(response, form) {
@@ -2525,7 +2540,6 @@ var uvel,
       var imgEl = document.createElement('img');
       var wrapper = document.createElement('div');
       var $lastRowEl = form.find('[name=model_id]').parents('.form-row').find('.form-group.col-md-6').last();
-
       if ( Array.isArray(photos) && photos.length) {
         imgEl.className = 'admin-product-image';
         imgEl.src = photos[0].base64;
@@ -2534,6 +2548,12 @@ var uvel,
         wrapper.append(imgEl);
       }
 
+      if ( imagesList != undefined || imagesList.length > 0 ) {
+        const $inputElement = form.find('[name^="images"]');
+        $self.hydrateInputNode(imagesList, $inputElement);
+      }
+
+      $self.deleteImagesDropArea(closeBtn);
 
       $lastRowEl.hasClass('presentation-image-group') ? $lastRowEl.replaceWith(wrapper) : $lastRowEl.after(wrapper);
     }
@@ -2603,8 +2623,13 @@ var uvel,
 
     this.fillPhotos = function(photos, form) {
       var dropAreaGalleryHolder = form.find('.drop-area-gallery');
-
       dropAreaGalleryHolder.empty();
+      imagesList = photos;
+
+      if ( imagesList != undefined || imagesList.length > 0 ) {
+        const $inputElement = form.find('[name^="images"]');
+        $self.hydrateInputNode(imagesList, $inputElement);
+      }
 
       photos.forEach(function(photo) {
         var imageWrapper = $(document.createElement('div')),
@@ -3087,18 +3112,37 @@ var uvel,
     }
 
     this.imageHandling = function(form) {
-      var uploadImagesTrigger = form.find('.drop-area-input'),
+      $uploadedFiles = [] // refresh $uploadedFiles
+      var uploadImagesTrigger = form.find('[name^="images"]'),
           dropArea = form.find('.drop-area'),
-          deleteImagesTriggerDropArea = form.find('.drop-area-gallery .close'),
-          deleteImagesTriggerUploadArea = form.find('.uploaded-images-area .close');
+          deleteImagesTriggerDropArea = form.find('.drop-area-gallery .close');
+        setTimeout(() => {
+            const files = uploadImagesTrigger[0].files;
+            if ( files.length > 0 ) {
+                const closeBtn = form.children(".drop-area-gallery").find(".image-wrapper .close");
+                let collectionFiles = [];
+                Array.from(files).forEach( (file, index) => {
+                    const fileMeta = { id: Math.random().toString(16).slice(2), file: file };
+                    const imageNode = $('.image-wrapper').find('img')[index];
 
-      uploadImagesTrigger.on('change', function(event) {
+                    $(imageNode).data('index', fileMeta.id)
+                    collectionFiles.push(fileMeta);
+                })
+                $uploadedFiles.push(...collectionFiles);
+                closeBtn.each((i) => {
+                    const $trigger = $(closeBtn[i]);
+                    $self.deleteImagesUploadArea($trigger, form)
+                    $self.deleteImagesDropArea($trigger)
+                })
+            }
+        }, 1000)
+      uploadImagesTrigger.off("change").on('change', function(event) {
         $self.uploadImages(event, form);
       });
 
       $self.dragNdropImages(dropArea, form);
       $self.deleteImagesDropArea(deleteImagesTriggerDropArea);
-      $self.deleteImagesUploadArea(deleteImagesTriggerUploadArea, form);
+      $self.deleteImagesUploadArea(deleteImagesTriggerDropArea, form);
     }
 
     this.manualReceipt = function(form) {
@@ -3223,23 +3267,26 @@ var uvel,
             }
           }
         }
-
         $self.appendImages(collectionFiles, form);
       });
     }
 
-    this.uploadImages = function (event) {
+    this.uploadImages = function (event, form) {
         var files = event.currentTarget.files,
-            collectionFiles = [];
+            collectionFiles = [],
+            dt = new DataTransfer();
+        if (!files || files.length === 0) {
+            return; // Exit if no files are selected
+        }
 
-        const dt = new DataTransfer();
         const fileUploadLimit = 5;
         const remainingSlots = fileUploadLimit - $uploadedFiles.length;
         const keepUploading = files.length > remainingSlots
-
+        
         if (keepUploading) {
             alert(`Можете да качите само още ${remainingSlots} файл(а). Максималният лимит е ${fileUploadLimit} файла.`);
         }
+
         for (var file of files) {
             if (keepUploading) {
                 break;
@@ -3254,6 +3301,7 @@ var uvel,
         if ( keepUploading ) {
             return false;
         }
+
         $uploadedFiles.push(...collectionFiles);
         $uploadedFiles.forEach(filesObj => dt.items.add(filesObj.file));
         event.currentTarget.files = dt.files;
@@ -3280,8 +3328,7 @@ var uvel,
           $fileInput = $('.drop-area-input'),
           $wrapper = $('.drop-area-gallery');
           $wrapper.empty();
-
-      collectionFiles.forEach(function(element) {
+    collectionFiles.forEach(function(element) {
         var reader = new FileReader();
         reader.readAsDataURL(element.file);
         reader.onloadend = function() {
@@ -3336,24 +3383,30 @@ var uvel,
     }
 
     this.deleteImagesDropArea = function (deleteBtn) {
-        deleteBtn.on('click', function (e) {
+        deleteBtn.off('click').on('click', function (e) {
             const $wrapper = $(this).parent('.image-wrapper');
             const imageIndex = $wrapper.find('img').data('index');
             const uploadImagesTrigger = $('.drop-area-input');
-
-            if (imageIndex !== undefined) {
+            try {
+                if (imageIndex === undefined) {
+                    throw new Error(`Missing data-index attribute from ${$wrapper.find('img').attr('name')} input`)
+                }
                 const fileIndex = $uploadedFiles.findIndex(filesObj => filesObj.id === imageIndex);
                 $uploadedFiles.splice(fileIndex, 1);
                 let dt = new DataTransfer();
                 $uploadedFiles.forEach(filesObj => dt.items.add(filesObj.file));
                 uploadImagesTrigger[0].files = dt.files;
-                $wrapper.remove();
+            } catch (error) {
+                console.error(error)
+                alert('Не успяхте да изтриете снимката, моля опитайте отново.')
             }
+
+            $wrapper.remove();
         });
     }
 
     this.deleteImagesUploadArea = function(deleteBtn, form) {
-      deleteBtn.on('click', function() {
+      deleteBtn.off('click').on('click', function() {
         var _this = $(this),
             path = _this.find('span[data-url]').attr('data-url'),
             ajaxUrl = '/ajax/' + path;
@@ -3684,7 +3737,6 @@ var uvel,
     }
 
     this.initializeSelect = function(select, callback, options) {
-
       $(select).select2(options);
       $(select).off('select2:select').on('select2:select', function(e) {
         $self.prepMultiSelectValues(e.currentTarget, 'user_list')
@@ -3881,6 +3933,47 @@ var uvel,
         errorBag['message']    = err.message;
         console.error(err.message, errorBag)
       }
+    }
+
+    this.generateBlob = function(url) {
+        return fetch(url)
+            .then(response => response.blob())
+            .then(blob => {
+                const fileName = url.split('/').pop();
+                const mimeType = blob.type;
+                return new File([blob], fileName, { type: mimeType });
+            });
+    }
+
+    this.buildDataTransfer = async function(filesList) {
+        const dt = new DataTransfer();
+        await Promise.all(
+            filesList.map(async (file) => {
+                if (!file.src) {
+                    throw new Error(`File object is missing the 'src' property: ${JSON.stringify(file)}`);
+                }
+                const fileObject = await $self.generateBlob(file.src);
+                dt.items.add(fileObject);
+            })
+        );
+        return dt;
+    }
+
+    this.hydrateInputNode = async function(filesList, $node) {
+        if ( !($node instanceof jQuery) ) {
+            throw new TypeError(`Node element is not of type jQuery object: ${typeof $node}`);
+        }
+        if ($node.attr('type') != 'file') {
+            throw new TypeError(`Input node is not of type 'file'\nType: ${$node.attr('type')}`)
+        }
+        const dt = await $self.buildDataTransfer(filesList);
+        if ( dt.files.length ) {
+            $node[0].files = dt.files;
+            let closeBtn = $node.siblings('.drop-area-gallery').find('.close');
+            $self.deleteImagesDropArea(closeBtn);
+        }
+
+        return $node;
     }
   }
 

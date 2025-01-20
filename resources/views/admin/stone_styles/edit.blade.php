@@ -8,7 +8,7 @@
         </div>
     
         <form method="POST" name="stoneStyles" data-type="edit" action="stones/styles/{{ $style->id }}">
-            <input name="_method" type="hidden" value="PUT">
+            
             <div class="modal-body">    
                 <div class="info-cont">
                 </div>

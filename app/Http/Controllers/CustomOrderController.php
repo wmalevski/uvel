@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\View;
 use App\Gallery;
 use Response;
 use Mail;
+use Log;
 use File;
 use Storage;
 
@@ -75,11 +76,12 @@ class CustomOrderController extends Controller{
             'content' => 'required|string',
             'phone' => 'required',
             'city' => 'required',
-            'images' => 'file|max:2048|mimes:jpeg,png,jpg,gif',
+            'images.*' => 'file|max:30720|mimes:jpeg,png,jpg,gif',
+            'images' => 'required|array|max:5',
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
         $order->name = $request->name;
@@ -87,28 +89,6 @@ class CustomOrderController extends Controller{
         $order->content = $request->content;
         $order->phone = $request->phone;
         $order->city = $request->city;
-
-        $image = $request->file('images');
-        if ( $request->hasFile('images') ) {
-            if (!Storage::exists('orders')) {
-                Storage::makeDirectory('orders');
-            }
-
-            $mediaType = '';
-            $filename      = str_replace(' ', '', $image->getClientOriginalName());
-            $imagePath     = $image->storeAs('orders/', $filename);
-            $absolutePath  = storage_path('app/public/' . $imagePath);
-            $photo         = $order->photos->first();
-            if ( !$photo ) {
-                $photo = new Gallery();
-            }
-
-            $photo->photo = $filename;
-            $photo->custom_order_id = $order->id;
-            $photo->table = 'orders';
-
-            $photo->save();
-        }
 
         if(isset($request->deadline)){
             $temp = explode('/', $request->deadline);
@@ -127,7 +107,15 @@ class CustomOrderController extends Controller{
         }
 
         $order->save();
-        return redirect()->back()->with('success', 'Image uploaded successfully!');
+        $images = $request->file('images');
+        if ( $request->hasFile('images') ) {
+            if (!Storage::exists('orders')) {
+                Storage::makeDirectory('orders');
+            }
+            updatePhotos($order, $images, 'orders');
+        }
+
+        return Response::json(array('ID' => $order->id, 'table' => View::make('admin/orders/custom/table',array('order'=>$order))->render()));
     }
 
     public function filter(Request $request){
