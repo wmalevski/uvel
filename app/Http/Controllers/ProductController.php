@@ -160,6 +160,16 @@ class ProductController extends Controller{
         return $response;
     }
 
+    public function showCreate(Request $request)
+    {
+        $prices = Price::with(['material'])->where('type', 'sell')->get();
+        $stones = Stone::with('contour', 'size')->take(env('SELECT_PRELOADED'))->get();
+        $stores = Store::take(env('SELECT_PRELOADED'))->get();
+        $loggedUser = Auth::user();
+
+        return \View::make('admin/products/create', compact('prices', 'stones', 'stores', 'loggedUser'));
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -220,7 +230,8 @@ class ProductController extends Controller{
 
             $pass_photos[] = [
                 'id' => $photo->id,
-                'photo' => 'data:image/'.$ext.';base64,'.$base64
+                'photo' => 'data:image/'.$ext.';base64,'.$base64,
+                'src' => $ext_url
             ];
         }
 
@@ -323,38 +334,12 @@ class ProductController extends Controller{
 
             $product->save();
 
-            $path = storage_path('products/');
-
-            File::makeDirectory($path, 0775, true, true);
-
-            $file_data = $request->input('images');
-            if($file_data){
-                foreach($file_data as $img){
-                    $memi = substr($img, 5, strpos($img, ';')-5);
-
-                    $extension = explode('/',$memi);
-
-                    if($extension[1] == "svg+xml"){
-                        $ext = 'png';
-                    }else{
-                        $ext = $extension[1];
-                    }
-
-
-                    $file_name = 'productimage_'.uniqid().time().'.'.$ext;
-
-                    $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                    file_put_contents(storage_path('products/').$file_name, $data);
-
-                    Storage::disk('public')->put('products/'.$file_name, file_get_contents(storage_path('products/').$file_name));
-
-                    $photo = new Gallery();
-                    $photo->photo = $file_name;
-                    $photo->product_id = $product->id;
-                    $photo->table = 'products';
-
-                    $photo->save();
+            $images = $request->file('images');
+            if ( $request->hasFile('images') ) {
+                if (!Storage::exists('products')) {
+                    Storage::makeDirectory('products');
                 }
+                updatePhotos($product, $images, 'products');
             }
 
             foreach($product->stones as $productStone){

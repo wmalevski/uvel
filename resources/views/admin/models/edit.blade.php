@@ -6,8 +6,8 @@
     </button>
   </div>
 
-  <form method="POST" name="models" data-type="edit" action="models/{{ $model->id }}">
-    <input name="_method" type="hidden" value="PUT">
+  <form method="POST" name="models" data-type="edit" action="models/{{ $model->id }}" enctype="multipart/form-data">
+    
     <div class="modal-body">
       <div class="info-cont"></div>
       {{ csrf_field() }}
@@ -226,21 +226,22 @@
         </div>
       </div>
 
-      <div class="drop-area" name="edit">
-        <input type="file" name="images" class="drop-area-input" id="fileElem-edit" multiple accept="image/*">
-        <label class="button" for="fileElem-edit">Select some files</label>
-        <div class="drop-area-gallery"></div>
-      </div>
-
-      <div class="uploaded-images-area">
-        @foreach($basephotos as $photo)
-        <div class='image-wrapper'>
-          <div class='close'>
-            <span data-url="gallery/delete/{{$photo['id']}}">&#215;</span>
+      <div class="form-row">
+          <div class="form-group col-md-12">
+              <label for="1">Снимка: </label>
+              <div class="drop-area form-row justify-content-between" name="add">
+                <input type="file" name="images[]" class="drop-area-input" id="images" accept="image/*" multiple>
+                <label class="button" for="images">{{__("Избери снимка")}}</label>
+                  <div class="drop-area-gallery">
+                  @foreach($model->photos as $photo)
+                      <div class='image-wrapper'>
+                          <div class='close'><span data-url="gallery/delete/{{$photo['id']}}">&#215;</span></div>
+                          <img src="{{ getPhoto("storage/models/".$photo['photo']) }}" alt="" class="img-responsive" />
+                      </div>
+                  @endforeach
+                  </div>
+              </div>
           </div>
-          <img src="{{$photo['photo']}}" alt="" class="img-responsive" />
-        </div>
-        @endforeach
       </div>
 
       <div class="col-12 p-0">
@@ -286,3 +287,7 @@
 
   </form>
 </div>
+
+<script>
+    imagesList = {{ Illuminate\Support\Js::from($pass_photos) }}
+</script>

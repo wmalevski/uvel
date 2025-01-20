@@ -90,11 +90,6 @@ class ModelController extends Controller{
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
-        $file_data = $request->input('images');
-        if (!$file_data) {
-            return Response::json(['errors' => ['using' => [trans('admin/models.model_edit_picture_error')]]], 401);
-        }
-
         $model = new Model();
         $model->name = $request->name;
         $model->jewel_id = $request->jewel_id;
@@ -147,34 +142,14 @@ class ModelController extends Controller{
             }
         }
 
-        $path = storage_path('models/');
+        $images = $request->file('images');
 
-        File::makeDirectory($path, 0775, true, true);
-        Storage::disk('public')->makeDirectory('models', 0775, true);
-
-
-        if($file_data){
-            foreach($file_data as $img){
-                $memi = substr($img, 5, strpos($img, ';')-5);
-
-                $extension = explode('/',$memi);
-
-                $ext = ($extension[1] == "svg+xml"?'png':$extension[1]);
-
-                $file_name = 'modelimage_'.uniqid().time().'.'.$ext;
-
-                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                file_put_contents(storage_path('models/').$file_name, $data);
-
-                Storage::disk('public')->put('models/'.$file_name, file_get_contents(storage_path('models/').$file_name));
-
-                $photo = new Gallery();
-                $photo->photo = $file_name;
-                $photo->model_id = $model->id;
-                $photo->table = 'models';
-
-                $photo->save();
+        if ( $request->hasFile('images') ) {
+            if (!Storage::exists('models')) {
+                Storage::makeDirectory('models');
             }
+            $modelPhotos   = $model->photos;
+            updatePhotos($model, $images, 'models');
         }
 
         if($request->material_id){
@@ -291,39 +266,6 @@ class ModelController extends Controller{
                     }
                 }
             }
-
-            $path = storage_path('products/');
-
-            File::makeDirectory($path, 0775, true, true);
-            Storage::disk('public')->makeDirectory('models', 0775, true);
-
-            if($file_data){
-                foreach($file_data as $img){
-                    $memi = substr($img, 5, strpos($img, ';')-5);
-
-                    $extension = explode('/',$memi);
-
-                    if($extension[1] == "svg+xml"){
-                        $ext = 'png';
-                    }else{
-                        $ext = $extension[1];
-                    }
-
-
-                    $file_name = 'productimage_'.uniqid().time().'.'.$ext;
-                    $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                    file_put_contents(storage_path('products/').$file_name, $data);
-
-                    Storage::disk('public')->put('products/'.$file_name, file_get_contents(storage_path('products/').$file_name));
-
-                    $photo = new Gallery();
-                    $photo->photo = $file_name;
-                    $photo->product_id = $product->id;
-                    $photo->table = 'products';
-
-                    $photo->save();
-                }
-            }
         }
 
         return Response::json(array('success' => View::make('admin/models/table',array('model'=>$model))->render()));
@@ -372,6 +314,28 @@ class ModelController extends Controller{
                 ['model_id', '=', $model->id]
             ]
         )->get();
+        $pass_photos = [];
+
+        foreach($photos as $photo){
+            $ext_url = Storage::url('models/'.$photo->photo);
+            $info = pathinfo($ext_url);
+            
+            $image_name =  basename($ext_url,'.'.$info['extension']);
+            
+            $base64 = base64_encode($ext_url);
+            
+            if($info['extension'] == "svg"){
+                $ext = "png";
+            }else{
+                $ext = $info['extension'];
+            }
+            
+            $pass_photos[] = [
+                'id' => $photo->id,
+                'photo' => 'data:image/'.$ext.';base64,'.$base64,
+                'src' => $ext_url,
+            ];
+        }
 
         $options = $model->options;
 
@@ -397,7 +361,7 @@ class ModelController extends Controller{
             ];
         }
 
-        return \View::make('admin/models/edit', array('photos' => $photos, 'model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones, 'modelStones' => $modelStones, 'options' => $options, 'stones' => $stones, 'materials' => $materials, 'jsMaterials' =>  json_encode($pass_materials), 'jsStones' =>  json_encode($pass_stones), 'basephotos' => $this->getModelPhotos($photos)));
+        return \View::make('admin/models/edit', array('pass_photos' => $pass_photos, 'model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones, 'modelStones' => $modelStones, 'options' => $options, 'stones' => $stones, 'materials' => $materials, 'jsMaterials' =>  json_encode($pass_materials), 'jsStones' =>  json_encode($pass_stones), 'basephotos' => $this->getModelPhotos($photos)));
     }
 
     /**
@@ -590,11 +554,6 @@ class ModelController extends Controller{
         $model->release_product =  'no';
         if($request->release_product == 'true') $model->release_product =  'yes';
 
-
-        $path = public_path('storage/models/');
-
-        File::makeDirectory($path, 0775, true, true);
-
         $model->save();
         $deleteStones = ModelStone::where('model_id', $model->id)->delete();
 
@@ -629,12 +588,14 @@ class ModelController extends Controller{
                     $model_option->model_id = $model->id;
                     $model_option->material_id = $material;
                     $model_option->retail_price_id = $request->retail_price_id[$key];
-                    $model_option->default = $request->default_material[$key];
-
-                    if($request->default_material[$key] == 'true'){
-                        $model_option->default = "yes";
-                    }else{
-                        $model_option->default = "no";
+                    $model_option->default = "no";
+                    if ( !is_null($request->default_material) ) {
+                        $model_option->default = $request->default_material[$key];
+                        if($request->default_material[$key] == 'true'){
+                            $model_option->default = "yes";
+                        }else{
+                            $model_option->default = "no";
+                        }
                     }
 
                     $model_option->save();
@@ -651,45 +612,12 @@ class ModelController extends Controller{
             }
         }
 
-        $file_data = $request->input('images');
-
-        $check_photo = Gallery::where(
-            [
-                ['table', '=', 'models'],
-                ['model_id', '=', $model->id],
-                ['deleted_at', '=', null]
-            ]
-        )->first();
-
-        if(!isset($check_photo) && !$file_data) {
-            return Response::json(['errors' => ['using' => [trans('admin/models.model_edit_picture_error')]]], 401);
-        }
-
-        if($file_data){
-            foreach($file_data as $img){
-                $memi = substr($img, 5, strpos($img, ';')-5);
-
-                $extension = explode('/',$memi);
-                if($extension[1] == "svg+xml"){
-                    $ext = 'svg';
-                }else{
-                    $ext = $extension[1];
-                }
-
-                $file_name = 'modelimage_'.uniqid().time().'.'.$ext;
-
-                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-
-                file_put_contents(storage_path('models/').$file_name, $data);
-
-                Storage::disk('public')->put('models/'.$file_name, file_get_contents(storage_path('models/').$file_name));
-
-                $photo = new Gallery();
-                $photo->photo = $file_name;
-                $photo->model_id = $model->id;
-                $photo->table = 'models';
-                $photo->save();
+        if ( $request->hasFile('images') ) {
+            $images = $request->file('images');
+            if ( !count($images) ) {
+                return Response::json(['errors' => ['using' => [trans('admin/models.model_edit_picture_error')]]], 401);
             }
+            updatePhotos($model, $images, 'models');
         }
 
         $model_photos = Gallery::where(
@@ -801,42 +729,9 @@ class ModelController extends Controller{
                         }
                     }
                 }
-
-                $path = storage_path('products/');
-
-                File::makeDirectory($path, 0775, true, true);
-                Storage::disk('public')->makeDirectory('models', 0775, true);
-
-                if ($file_data) {
-                    foreach ($file_data as $img) {
-                        $memi = substr($img, 5, strpos($img, ';') - 5);
-
-                        $extension = explode('/', $memi);
-
-                        if ($extension[1] == "svg+xml") {
-                            $ext = 'png';
-                        } else {
-                            $ext = $extension[1];
-                        }
-
-
-                        $file_name = 'productimage_' . uniqid() . time() . '.' . $ext;
-                        $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                        file_put_contents(storage_path('products/') . $file_name, $data);
-
-                        Storage::disk('public')->put('products/' . $file_name, file_get_contents(storage_path('products/') . $file_name));
-
-                        $photo = new Gallery();
-                        $photo->photo = $file_name;
-                        $photo->product_id = $product->id;
-                        $photo->table = 'products';
-
-                        $photo->save();
-                    }
-                }
             }
         }
-
+    
         return Response::json(array('ID' => $model->id, 'table' => View::make('admin/models/table',array('model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones))->render(), 'photos' => $photosHtml));
     }
 

@@ -1,10 +1,13 @@
 <?php
 
 use App\User;
+use App\Gallery;
 use Picqer\Barcode\Types\TypeCode128;
 use Picqer\Barcode\Renderers\SvgRenderer;
 use Picqer\Barcode\BarcodeGeneratorSVG;
 use Picqer\Barcode\BarcodeGeneratorHTML;
+use Illuminate\Support\Facades\DB;
+
 
 if( ! function_exists('isDev') ){
     /**
@@ -143,6 +146,52 @@ if ( ! function_exists('generateBarcodeHTML') ) {
     {
         return (new BarcodeGeneratorHTML())
             ->getBarcode($barcode, $type, $widthFactor, $height, $color);
+    }
+}
+
+if ( ! function_exists('uploadPhotos') ) {
+    function updatePhotos($table, $photoFiles = [], $pathname = '')
+    {
+        $currentPhotos = $table->photos;
+        DB::transaction(function () use ($table, $photoFiles, $currentPhotos, $pathname) {
+            if (empty($photoFiles)) {
+                foreach ($currentPhotos as $photo) {
+                    $photo->delete();
+                }
+                return; // Exit early since there's nothing to add
+            }
+
+            foreach ($photoFiles as $file) {
+                $photo = $currentPhotos->shift() ?? new Gallery();
+                $filename      = str_replace(' ', '', $file->hashName());
+                $imagePath     = $file->storeAs($pathname, $filename);
+                $absolutePath  = storage_path('app/public/' . $imagePath);
+                
+                $photo->photo = $filename;
+                switch ($pathname) {
+                    case 'orders':
+                        $photo->custom_order_id = $table->id;
+                        break;
+                    case 'models':
+                        $photo->model_id = $table->id;
+                        break;
+                    case 'products':
+                        $photo->product_id = $table->id;
+                        break;
+                    default:
+                        break;
+                }
+
+                $photo->table = $pathname;
+                $photo->save();
+            }
+
+            foreach ($currentPhotos as $photo) {
+                $photo->delete();
+            }
+        });
+
+        return $currentPhotos;
     }
 }
 ?>

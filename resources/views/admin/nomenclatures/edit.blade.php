@@ -8,7 +8,7 @@
     </div>
 
     <form method="POST" name="nomenclatures" data-type="edit" action="nomenclatures/{{ $nomenclature->id }}">
-        <input name="_method" type="hidden" value="PUT">
+        
         <div class="modal-body">    
             <div class="info-cont">
             </div>
