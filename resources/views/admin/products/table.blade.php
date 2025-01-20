@@ -1,9 +1,9 @@
 @if (isset($product))
     <tr data-id="{{ $product->id }}">
         <td class="thumbnail--tooltip">
-            @if($product->photos)
+            @if($product->photos())
                 @php
-                    $prodPhoto=$product->photos->first();
+                    $prodPhoto=$product->photos()->first();
                     $prodPhoto=($prodPhoto && isset($prodPhoto['photo'])?$prodPhoto['photo']:null);
                     $productMaterial = $product->material;
                 @endphp
@@ -19,7 +19,7 @@
                 "></ul>
             @elseif($product->model)
                 @php
-                    $modPhoto=$product->model->photos->first();
+                    $modPhoto=$product->model->photos()->first();
                     $modPhoto=($modPhoto && isset($modPhoto['photo'])?$modPhoto['photo']:null);
                 @endphp
                 @if($modPhoto)

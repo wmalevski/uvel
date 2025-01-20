@@ -87,12 +87,12 @@ class PublicGalleryController extends Controller
     public function store(Request $request, PublicGallery $gallery)
     {
         $validator = Validator::make($request->all(), [
-            'images'        => 'required|array|max:5',
             'size'          => 'required|numeric',
             'archive_date'  => 'required|numeric|digits:6',
             'weight'        => 'required|numeric',
             'unique_number' => 'required|numeric',
             'images.*'      => 'file|max:30720|mimes:jpeg,png,jpg,gif,mp4,mov,avi,wmv,mkv',
+            'images'        => 'required|array|max:5',
             'media_type'    => 'required|in:image', // Ensures media_type is 'image',
         ], [
             'images.required' => 'Пропуснахте да качите файл.',

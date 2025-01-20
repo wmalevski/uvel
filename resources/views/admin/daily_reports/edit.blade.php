@@ -6,7 +6,7 @@
         </button>
     </div>
     <form method="POST" name="dailyReports" data-type="edit" action="dailyreports/{{ $report->id }}">
-        <input name="_method" type="hidden" value="PUT">
+        
         <div class="modal-body">
             <div class="info-cont"></div>
             {{ csrf_field() }}

@@ -5,7 +5,7 @@
     </button>
 </div>
 <form method="POST" action="repairs/return/{{ $repair->id }}" name="repairs">
-    <input name="_method" type="hidden" value="PUT">
+    
     <div class="modal-body">    
         <div class="info-cont">
         </div>

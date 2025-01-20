@@ -62,7 +62,13 @@ $newStoneRow =
 $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 @endphp
 @section('content')
-
+@if($errors->any())
+  <div class="d-flex flex-column justify-content-center align-items-center p-2">
+    @foreach($errors->all() as $error)
+      <p class="alert-danger">{{$error}}</p>
+    @endforeach
+  </div>
+@endif
 <div class="modal fade" id="addModel" role="dialog" aria-labelledby="addModelLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -70,7 +76,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 				<h5 class="modal-title" id="addModelLabel">Добавяне на модел</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			</div>
-			<form method="POST" action="models" name="models" data-type="add" autocomplete="off">
+			<form method="POST" action="models" name="models" data-type="add" autocomplete="off" enctype="multipart/form-data">
 				<div class="modal-body">
 					<div class="info-cont"></div>
 					{{ csrf_field() }}
@@ -165,7 +171,7 @@ $newStoneRow = str_replace("\n", "", str_replace("\r", "", $newStoneRow));
 					</div>
 
 					<div class="drop-area" name="add">
-						<input type="file" name="images" class="drop-area-input" id="fileElem-add" multiple accept="image/*">
+						<input type="file" name="images[]" class="drop-area-input" id="fileElem-add" multiple accept="image/*">
 						<label class="button" for="fileElem-add">Select some files</label>
 						<div class="drop-area-gallery"></div>
 					</div>

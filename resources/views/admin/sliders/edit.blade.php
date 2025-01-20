@@ -6,7 +6,7 @@
     </button>
 </div>
 <form method="POST" id="edit-slides-form" action="slides/{{ $slider->id }}" name="slides" data-type="edit">
-    <input name="_method" type="hidden" value="PUT">
+    
     <div class="modal-body">
         <div class="info-cont">
         </div>

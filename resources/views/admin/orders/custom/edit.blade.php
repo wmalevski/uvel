@@ -11,7 +11,7 @@ if(isset($prodImagePhoto['photo'])){
 		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	</div>
 
-	<form method="POST" data-type="edit" name="customOrder" action="custom/{{ $order->id }}" autocomplete="off" enctype="multipart/form-data">
+	<form method="POST" data-type="edit" name="customOrder" action="orders/custom/{{ $order->id }}" autocomplete="off" enctype="multipart/form-data">
 		<div class="modal-body">
 			<div class="info-cont"></div>
 			{{ csrf_field() }}
@@ -75,16 +75,16 @@ if(isset($prodImagePhoto['photo'])){
 				<div class="form-group col-md-12">
 					<label for="1">Снимка: </label>
 					<div class="drop-area form-row justify-content-between" name="add">
-						<input type="file" name="images" class="drop-area-input" id="images" accept="image/*" multiple>
+						<input type="file" name="images[]" class="drop-area-input" id="images" accept="image/*" multiple>
 						<label class="button" for="images">{{__("Избери снимка")}}</label>
 						<div class="drop-area-gallery">
-                @foreach($order->photos as $photo)
+                            @foreach($order->photos as $photo)
                     <div class='image-wrapper'>
                         <div class='close'><span data-url="gallery/delete/{{$photo['id']}}">&#215;</span></div>
                         <img src="{{ getPhoto("storage/orders/".$photo['photo']) }}" alt="" class="img-responsive" />
                     </div>
-                @endforeach
-            </div>
+                    @endforeach
+                </div>
 					</div>
 				</div>
 			</div>
@@ -119,4 +119,7 @@ if(isset($prodImagePhoto['photo'])){
 			<button type="submit" id="edit" data-state="edit_order" class="action--state_button edit-btn-modal btn btn-primary">Промени</button>
 		</div>
 	</form>
-	</div>
+</div>
+<script>
+    imagesList = {{ Illuminate\Support\Js::from($basephotos) }}
+</script>

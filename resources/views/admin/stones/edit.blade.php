@@ -7,7 +7,7 @@
   </div>
 
   <form method="POST" id="edit-stones-form" name="stones" data-type="edit" action="stones/{{ $stone->id }}">
-    <input name="_method" type="hidden" value="PUT">
+    
     <div class="modal-body">
       <div class="info-cont"></div>
       {{ csrf_field() }}

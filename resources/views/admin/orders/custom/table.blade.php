@@ -1,5 +1,6 @@
 @php
-$prodImagePhoto=$order->photos->first();
+$prodImagePhoto=$order->photos()->first();
+
 if(isset($prodImagePhoto['photo'])){
 	$productImage=$prodImagePhoto['photo'];
 }
