@@ -3960,20 +3960,22 @@ var uvel,
     }
 
     this.hydrateInputNode = async function(filesList, $node) {
-        if ( !($node instanceof jQuery) ) {
-            throw new TypeError(`Node element is not of type jQuery object: ${typeof $node}`);
+        if ($node.length) {
+            if ( !($node instanceof jQuery) ) {
+                throw new TypeError(`Node element is not of type jQuery object: ${typeof $node}`);
+            }
+            if ($node.attr('type') != 'file') {
+                throw new TypeError(`Input node is not of type 'file'\nType: ${$node.attr('type')}`)
+            }
+            const dt = await $self.buildDataTransfer(filesList);
+            if ( dt.files.length ) {
+                $node[0].files = dt.files;
+                let closeBtn = $node.siblings('.drop-area-gallery').find('.close');
+                $self.deleteImagesDropArea(closeBtn);
+            }
+            return $node;
         }
-        if ($node.attr('type') != 'file') {
-            throw new TypeError(`Input node is not of type 'file'\nType: ${$node.attr('type')}`)
-        }
-        const dt = await $self.buildDataTransfer(filesList);
-        if ( dt.files.length ) {
-            $node[0].files = dt.files;
-            let closeBtn = $node.siblings('.drop-area-gallery').find('.close');
-            $self.deleteImagesDropArea(closeBtn);
-        }
-
-        return $node;
+        return false;
     }
   }
 

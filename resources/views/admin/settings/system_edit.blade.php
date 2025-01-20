@@ -5,7 +5,6 @@
 	</div>
 
 	<form method="POST" name="system_setting" data-type="edit" action="/admin/system_settings/update/{{ $key }}">
-		<input name="_method" type="hidden" value="PUT" />
 		<input type="hidden" name="setting_var" value="{{ $key }}" />
 		<div class="modal-body">
 			<div class="info-cont">

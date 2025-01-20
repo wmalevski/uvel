@@ -33,7 +33,6 @@ $givenMaterialRowTpl = str_replace("\n", "", str_replace("\r", "", $givenMateria
 		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	</div>
 	<form method="POST" name="orders" data-type="edit" action="orders/{{ $order->id }}">
-		<input name="_method" type="hidden" value="PUT" />
 		<div class="modal-body">
 			<div class="info-cont"></div>
 			{{ csrf_field() }}

@@ -11,8 +11,6 @@
 			</div>
 
 			<form method="POST" name="system_setting" data-type="edit" action="/admin/system_settings/update/">
-				<input name="_method" type="hidden" value="PUT" />
-
 				<div class="modal-body">
 					<div class="info-cont"></div>
 					{{ csrf_field() }}

@@ -5,7 +5,6 @@
 	</div>
 
 	<form method="POST" data-type="edit" name="CMS" action="{{ route('cms_update', $key) }}">
-		<input name="_method" type="hidden" value="PUT" />
 		<input name="cms_key" type="hidden" value="{{ $key }}" />
 		<div class="modal-body">
 			<div class="info-cont">
