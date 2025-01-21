@@ -29,14 +29,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         // Route::post('/selling', 'SellingController@store'); // store method does not exist in SellingController
         Route::get('/selling/online', 'OnlineSellingsController@index')->name('online_selling');
         Route::get('/selling/online/{selling}', 'OnlineSellingsController@edit');
-        Route::post('/selling/online/{selling}', 'OnlineSellingsController@update');
+        Route::patch('/selling/online/{selling}', 'OnlineSellingsController@update');
         Route::get('/setDiscount/{barcode}', 'SellingController@setDiscount');
         Route::get('/cartMaterialsInfo', 'SellingController@cartMaterialsInfo')->name('cart_materials');
         Route::get('/sell/clearCart', 'SellingController@clearCart')->name('clear_cart');
 
         //Orders section
         Route::get('/orders/custom', 'CustomOrderController@index')->name('custom_orders');
-        Route::post('/orders/custom/{order}', 'CustomOrderController@update')->name('update_custom_order');
+        Route::patch('/orders/custom/{order}', 'CustomOrderController@update')->name('update_custom_order');
 
         //Product travelling
         Route::get('/productstravelling', 'ProductTravellingController@index')->name('products_travelling');
@@ -87,7 +87,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::post('/materials', 'MaterialController@store');
 
         Route::get('/materials/{material}', 'MaterialController@edit');
-        Route::post('/materials/{material}', 'MaterialController@update');
+        Route::patch('/materials/{material}', 'MaterialController@update');
 
         Route::post('/materials/accept/{material}', 'MaterialTravellingController@accept');
         Route::post('/materials/decline/{material}', 'MaterialTravellingController@decline');
@@ -225,7 +225,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::get('/slides', 'SliderController@index')->name('slides');
         Route::post('/slides', 'SliderController@store');
         Route::get('/slides/{slider}', 'SliderController@edit');
-        Route::post('/slides/{slider}', 'SliderController@update');
+        Route::patch('/slides/{slider}', 'SliderController@update');
 
         //Partners
         Route::get('/partners/{partner}', 'PartnerController@edit');
@@ -286,7 +286,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         // Info Blocks [CMS]
         Route::get('/cms', 'CMSController@ListBlocks')->name('cms');
         Route::get('/cms/edit/{info_block}', 'CMSController@EditBlock');
-        Route::post('/cms/update/{info_block}', 'CMSController@Update')->name('cms_update');
+        Route::patch('/cms/update/{info_block}', 'CMSController@Update')->name('cms_update');
 
         //Orders section
         Route::get('/orders/custom/{order}', 'CustomOrderController@edit');
@@ -309,7 +309,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
 
         //Models section
         Route::get('/models/{model}', 'ModelController@edit');
-        Route::post('/models/{model}', 'ModelController@update');
+        Route::patch('/models/{model}', 'ModelController@update');
 
         Route::get('/clear/cart/session', 'App\Http\Controllers\Store\CartController@clearCartSession');
     });
@@ -334,8 +334,8 @@ Route::group(['prefix' => 'ajax'], function() {
         Route::post('/sell/removeItem/{type}/{item}', 'SellingController@removeItem');
 
         //Orders
-        Route::post('/orders/custom/{order}', 'CustomOrderController@update');
-        Route::post('/orders/model/{order}', 'ModelOrderController@update');
+        Route::patch('/orders/custom/{order}', 'CustomOrderController@update');
+        Route::patch('/orders/model/{order}', 'ModelOrderController@update');
 
         //Product travelling
         Route::get('productstravelling/addByScan/{product}', 'ProductTravellingController@addByScan');
@@ -350,14 +350,14 @@ Route::group(['prefix' => 'ajax'], function() {
         //Discounts section
         Route::get('/discounts/print/{id}', 'DiscountCodeController@generate');
         Route::post('/discounts', 'DiscountCodeController@store');
-        Route::post('/discounts/{discountCode}', 'DiscountCodeController@update');
+        Route::patch('/discounts/{discountCode}', 'DiscountCodeController@update');
         Route::get('discounts/check/{barcode}', 'DiscountCodeController@check');
 
         //Materials section
         Route::post('/mquantity', 'MaterialQuantityController@store');
         Route::post('/mquantity/delete/{materialQuantity}', 'MaterialQuantityController@destroy');
         Route::post('/mquantity/deletebymaterial/{material}', 'MaterialQuantityController@deleteByMaterial');
-        Route::post('/mquantity/{materialQuantity}', 'MaterialQuantityController@update');
+        Route::patch('/mquantity/{materialQuantity}', 'MaterialQuantityController@update');
     });
 
     Route::group(['middleware' => ['check_user_role:' . \App\Role\UserRole::ROLE_STOREHOUSE]], function () {
@@ -377,17 +377,17 @@ Route::group(['prefix' => 'ajax'], function() {
 
         //Materials type
         Route::post('/materialstypes', 'MaterialTypeController@store');
-        Route::post('/materialstypes/{materialType}', 'MaterialTypeController@update');
+        Route::patch('/materialstypes/{materialType}', 'MaterialTypeController@update');
 
         //expense types
         Route::get('/expensetypes/edit/{type}', 'ExpenseTypeController@edit');
         Route::post('/expensetypes', 'ExpenseTypeController@store');
-        Route::post('/expensetypes/{type}', 'ExpenseTypeController@update');
+        Route::patch('/expensetypes/{type}', 'ExpenseTypeController@update');
 
         // Income types
         Route::get('/income_types/edit/{type}', 'IncomeTypeController@edit');
         Route::post('/income_types', 'IncomeTypeController@store');
-        Route::post('/income_types/{type}', 'IncomeTypeController@update');
+        Route::patch('/income_types/{type}', 'IncomeTypeController@update');
     });
 
     Route::group(['middleware' => ['check_user_role:' . \App\Role\UserRole::ROLE_ADMIN]], function () {
@@ -396,13 +396,13 @@ Route::group(['prefix' => 'ajax'], function() {
         Route::post('/blog/delete/{blog}', 'BlogController@destroy');
 
         //Expenses section
-        Route::post('/expenses/{expense}', 'ExpenseController@update');
+        Route::patch('/expenses/{expense}', 'ExpenseController@update');
         Route::post('/expenses/delete/{expense}', 'ExpenseController@destroy');
 
         //Slides section
         Route::post('/slides', 'SliderController@store');
         Route::post('/slides/delete/{slider}', 'SliderController@destroy');
-        Route::post('/slides/{slider}', 'SliderController@update');
+        Route::patch('/slides/{slider}', 'SliderController@update');
 
         //Dailyreports section
         Route::post('/dailyreports/delete/{report}', 'DailyReportController@destroy');
@@ -414,12 +414,12 @@ Route::group(['prefix' => 'ajax'], function() {
         Route::post('discounts/delete/{discountCode}', 'DiscountCodeController@destroy');
 
         //Substitutions section
-        Route::post('/users/substitutions/{userSubstitution}', 'UserSubstitutionController@update');
+        Route::patch('/users/substitutions/{userSubstitution}', 'UserSubstitutionController@update');
         Route::post('/users/substitutions/delete/{userSubstitution}', 'UserSubstitutionController@destroy');
 
         //Products section
         Route::post('/products/delete/{product}', 'ProductController@destroy');
-        Route::post('/products/{product}', 'ProductController@update');
+        Route::patch('/products/{product}', 'ProductController@update');
 
         //Products travelling section
         Route::post('/productstravelling/delete/{product}', 'ProductTravellingController@destroy');
@@ -428,7 +428,7 @@ Route::group(['prefix' => 'ajax'], function() {
         Route::post('/stones/delete/{stone}', 'StoneController@destroy');
         Route::get('/stones/sizes/{stoneSize}', 'StoneSizeController@edit');
         Route::get('/stones/styles/{stoneStyle}', 'StoneStyleController@edit');
-        Route::post('/stones/{stone}', 'StoneController@update');
+        Route::patch('/stones/{stone}', 'StoneController@update');
         Route::get('/stones/{stone}', 'StoneController@edit');
         Route::post('/stones/{stone}/topUp', 'StoneController@topUp');
         Route::post('/stones/{stone}/decreaseQnty', 'StoneController@decreaseQnty');
@@ -436,52 +436,52 @@ Route::group(['prefix' => 'ajax'], function() {
         Route::post('/stones/sizes/delete/{stoneSize}', 'StoneSizeController@destroy');
         Route::post('/stones/styles/delete/{stoneStyle}', 'StoneStyleController@destroy');
         Route::post('/stones/contours/delete/{stoneContour}', 'StoneContourController@destroy');
-        Route::post('/stones/sizes/{stoneSize}', 'StoneSizeController@update');
-        Route::post('/stones/styles/{stoneStyle}', 'StoneStyleController@update');
-        Route::post('/stones/contours/{stoneContour}', 'StoneContourController@update');
+        Route::patch('/stones/sizes/{stoneSize}', 'StoneSizeController@update');
+        Route::patch('/stones/styles/{stoneStyle}', 'StoneStyleController@update');
+        Route::patch('/stones/contours/{stoneContour}', 'StoneContourController@update');
             //Nomenclatures
-            Route::post('/nomenclatures/{nomenclature}', 'NomenclatureController@update');
+            Route::patch('/nomenclatures/{nomenclature}', 'NomenclatureController@update');
             Route::post('/nomenclatures/delete/{nomenclature}', 'NomenclatureController@destroy');
 
         //Reviews section
         Route::post('/reviews/delete/{review}', 'ReviewController@destroy')->name('destroy_review_ajax');
 
         //Partners section
-        Route::post('/partners/{partner}', 'PartnerController@update');
-        Route::post('/partnermaterials/{partner}/{material}', 'PartnerMaterialController@update');
+        Route::patch('/partners/{partner}', 'PartnerController@update');
+        Route::patch('/partnermaterials/{partner}/{material}', 'PartnerMaterialController@update');
 
         //Repairs section
         Route::post('/repairtypes', 'RepairTypeController@store');
-        Route::post('/repairtypes/{repairType}', 'RepairTypeController@update');
+        Route::patch('/repairtypes/{repairType}', 'RepairTypeController@update');
         Route::post('/repairtypes/delete/{repairType}', 'RepairTypeController@destroy');
 
         //Materials section
         Route::post('/materialstypes/delete/{materialType}', 'MaterialTypeController@destroy');
         Route::post('/materials', 'MaterialController@store');
         Route::post('/materials/delete/{material}', 'MaterialController@destroy');
-        Route::post('/materials/{material}', 'MaterialController@update');
+        Route::patch('/materials/{material}', 'MaterialController@update');
 
         //Jewels section
-        Route::post('/jewels/{jewel}', 'JewelController@update');
+        Route::patch('/jewels/{jewel}', 'JewelController@update');
         Route::post('/jewels/delete/{jewel}', 'JewelController@destroy');
 
         //Currencies
         Route::post('/settings/currencies', 'CurrencyController@store');
         Route::post('/settings/currencies/delete/{currency}', 'CurrencyController@destroy');
-        Route::post('/settings/currencies/{currency}', 'CurrencyController@update');
+        Route::patch('/settings/currencies/{currency}', 'CurrencyController@update');
 
         //Cashgroups
         Route::post('/settings/cashgroups/store', 'CashGroupController@store')->name('store_cashgroup');
-        Route::post('/settings/cashgroups/{cashGroup}', 'CashGroupController@update');
+        Route::patch('/settings/cashgroups/{cashGroup}', 'CashGroupController@update');
         Route::post('/settings/cashgroups/delete/{cashGroup}', 'CashGroupController@destroy')->name('destroy_cashgroup');
 
         //Price section
+        Route::patch('/prices/{price}', 'PriceController@update');
         Route::post('/prices/{material}', 'PriceController@store');
         Route::post('/prices/delete/{price}', 'PriceController@destroy');
-        Route::post('/prices/{price}', 'PriceController@update');
 
         //Models section
-        Route::post('/models/{model}', 'ModelController@update');
+        Route::patch('/models/{model}', 'ModelController@update');
         Route::post('/models/delete/{model}', 'ModelController@destroy');
 
         //Expenses types
@@ -491,7 +491,7 @@ Route::group(['prefix' => 'ajax'], function() {
         Route::post('/income_types/delete/{type}', 'IncomeTypeController@destroy');
 
         // Income
-        Route::post('/income/{income}', 'IncomeController@update');
+        Route::patch('/income/{income}', 'IncomeController@update');
         Route::post('/income/delete/{income}', 'IncomeController@destroy');
 
         Route::post('/filterInquiryDate', 'DailyReportController@filterInquiryDate');
@@ -562,13 +562,13 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/mailchimp/unsubscribe/{subscriber}', 'NewsletterController@destroy');
 
     Route::post('/orders', 'OrderController@store');
-    Route::post('/orders/{order}', 'OrderController@update');
+    Route::patch('/orders/{order}', 'OrderController@update');
     Route::get('/orders/getProductInfo/{product}', 'OrderController@getProductInfo')->name('getProductInfo');
     Route::get('/orders/getModelInfo/{model}', 'OrderController@getModelInfo')->name('getModelInfo');
     Route::post('/orders/delete/{order}', 'OrderController@destroy');
 
-    Route::post('/partners/{partner}', 'PartnerController@update');
-    Route::post('/partnermaterials/{partner}/{material}', 'PartnerMaterialController@update');
+    Route::patch('/partners/{partner}', 'PartnerController@update');
+    Route::patch('/partnermaterials/{partner}/{material}', 'PartnerMaterialController@update');
 
     Route::get('productstravelling/addByScan/{product}', 'ProductTravellingController@addByScan');
 
@@ -584,21 +584,21 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/dailyreports', 'DailyReportController@store');
 
     Route::post('/stores', 'StoreController@store');
-    Route::post('/stores/{store}', 'StoreController@update');
+    Route::patch('/stores/{store}', 'StoreController@update');
     Route::get('/stores/{store}', 'StoreController@edit');
     Route::post('/stores/delete/{store}', 'StoreController@destroy');
 
     Route::post('/nomenclatureс/delete/{nomenclature}', 'NomenclatureController@destroy');
 
     Route::get('/selling/online/{selling}', 'OnlineSellingsController@edit');
-    Route::post('/selling/online/{selling}', 'OnlineSellingsController@update');
+    Route::patch('/selling/online/{selling}', 'OnlineSellingsController@update');
 
-    Route::post('/blog/{article}', 'BlogController@update');
+    Route::patch('/blog/{article}', 'BlogController@update');
     Route::post('/blog/{article}', 'BlogController@destroy');
 
     Route::post('/sendMaterial', 'MaterialTravellingController@store');
 
-    Route::post('/users/{user}', 'UserController@update');
+    Route::patch('/users/{user}', 'UserController@update');
 
     Route::post('/users', 'UserController@store');
     Route::post('/users/delete/{user}', 'UserController@destroy');
@@ -609,24 +609,24 @@ Route::group(['prefix' => 'ajax'], function() {
     Route::post('/repairs/return/{id}', 'RepairController@returnRepair');
 
     Route::get('/repairs/edit/{barcode}', 'RepairController@edit');
-    Route::post('/repairs/edit/{barcode}', 'RepairController@update');
+    Route::patch('/repairs/edit/{barcode}', 'RepairController@update');
 
     Route::get('/repairs/{barcode}', 'RepairController@scan');
     Route::get('/repairs/certificate/{id}', 'RepairController@certificate')->name('repair_receipt');
     Route::post('/repairs/delete/{repair}', 'RepairController@destroy');
 
-    Route::post('/repairs/{repair}', 'RepairController@update');
+    Route::patch('/repairs/{repair}', 'RepairController@update');
 
     Route::get('/products/{model}', 'ProductController@chainedSelects');
 
     Route::post('/products', 'ProductController@store');
 
     Route::post('/productsotherstypes', 'ProductOtherTypeController@store');
-    Route::post('/productsotherstypes/{productOtherType}', 'ProductOtherTypeController@update');
+    Route::patch('/productsotherstypes/{productOtherType}', 'ProductOtherTypeController@update');
     Route::post('/productsotherstypes/delete/{productOtherType}', 'ProductOtherTypeController@destroy');
 
     Route::post('/productsothers', 'ProductOtherController@store');
-    Route::post('/productsothers/{productOther}', 'ProductOtherController@update');
+    Route::patch('/productsothers/{productOther}', 'ProductOtherController@update');
     Route::post('/productsothers/delete/{productOther}', 'ProductOtherController@destroy');
 
     Route::post('/sell/payment', 'PaymentController@store');
@@ -721,7 +721,7 @@ Route::group(['prefix' => 'online',  'namespace' => 'Store', 'middleware' => 'au
     Route::get('/wishlist/delete/{wishList}', 'WishListController@destroy')->name('destroy_wishlist_item');
 
     Route::get('/settings', 'UserController@edit')->name('user_settings');
-    Route::post('/settings', 'UserController@update')->name('user_settings_update');
+    Route::patch('/settings', 'UserController@update')->name('user_settings_update');
 
     Route::get('/model_order/{model}', 'ModelOrderController@store')->name('order_model');
 

@@ -1513,6 +1513,9 @@ var uvel,
         const formData = new FormData(form[0]);
         disabledInputs.forEach(input => input.disabled = true);
         var dataMaterialPrice = [];
+        if (formType == 'edit') {
+            formData.append('_method', 'PATCH');
+        }
 
       inputFields.each(function(index, element) {
         var inputType = element.type,
@@ -2547,13 +2550,6 @@ var uvel,
         wrapper.className = 'form-group col-md-6 presentation-image-group';
         wrapper.append(imgEl);
       }
-
-      if ( imagesList != undefined || imagesList.length > 0 ) {
-        const $inputElement = form.find('[name^="images"]');
-        $self.hydrateInputNode(imagesList, $inputElement);
-      }
-
-      $self.deleteImagesDropArea(closeBtn);
 
       $lastRowEl.hasClass('presentation-image-group') ? $lastRowEl.replaceWith(wrapper) : $lastRowEl.after(wrapper);
     }
