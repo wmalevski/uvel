@@ -60,6 +60,9 @@
     <script src="{{ asset('store/javascripts/lodash.custom.min.js') }}" type="text/javascript"></script>
     <script src="https://unpkg.com/nanogallery2@3.0.5/dist/jquery.nanogallery2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    
+    <!-- Google tag (gtag.js) --> 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H4WMSSC58R"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-H4WMSSC58R'); </script>
 </head>
 
 <body {{ !Request::routeIs('store') ? 'itemscope="" itemtype="http://schema.org/WebPage"' : '' }} class="{{ $bodyClass }} notouch">
