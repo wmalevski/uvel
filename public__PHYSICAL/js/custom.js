@@ -1465,94 +1465,115 @@ var uvel,
     }
 
     this.partnerPaymentSubmit = function(form, ajaxRequestLink, formType) {
-      var materials = form.find('[data-material-id]'),
-          workmanshipWanted = form.find('[data-worksmanship-wanted]').val(),
-          workmanshipGiven = form.find('[data-worksmanship-given]').val(),
-          receiptOptions = form.find('[type="radio"]'),
-          pay_method = form.find('[name="partner-pay-method"]')[0].checked,
-          data = {
-            _token: $self.formsConfig.globalSettings.token,
-            isPartner: true,
-            pay_method: pay_method,
-            workmanship: {
-              wanted: workmanshipWanted,
-              given: workmanshipGiven
-            },
-            materials: []
-          };
-
-      for (var i = 0; i < materials.length; i++) {
-        var material_id = materials[i].dataset.materialId,
+        const formData = new FormData();
+        if (formType == 'edit') {
+          formData.append('_method', 'PATCH');
+        }
+        var materials = form.find('[data-material-id]'),
+        workmanshipWanted = form.find('[data-worksmanship-wanted]').val(),
+        workmanshipGiven = form.find('[data-worksmanship-given]').val(),
+        receiptOptions = form.find('[type="radio"]'),
+        pay_method = form.find('[name="partner-pay-method"]')[0].checked;
+        
+        formData.append('_token', $self.formsConfig.globalSettings.token);
+        formData.append('isPartner', true);
+        formData.append('pay_method', pay_method)
+        formData.append('workmanship', JSON.stringify({
+            wanted: workmanshipWanted,
+            given: workmanshipGiven
+          }))
+        
+        for (var i = 0; i < materials.length; i++) {
+          var material_id = materials[i].dataset.materialId,
             material_partner_id = materials[i].querySelector('[data-material-partner]').dataset.materialPartner,
             material_weight = materials[i].querySelector('[data-material-weight]').textContent,
             material_given = materials[i].querySelector('[data-material-given]').value;
-
-        var material = {
-          material_partner_id: material_partner_id,
-          material_id: material_id,
-          material_weight: material_weight,
-          material_given: material_given
-        };
-
-        data.materials.push(material);
-      }
-
-      for (var i = 0; i < receiptOptions.length; i++) {
-        if (receiptOptions[i].checked) {
-          data[receiptOptions[i].id] = true;
+        
+          var material = {
+            material_partner_id: material_partner_id,
+            material_id: material_id,
+            material_weight: material_weight,
+            material_given: material_given
+          };
+        
+          formData.append('materials', JSON.stringify(material));
         }
-      }
-
-      $self.sendFormRequest(form, ajaxRequestLink, formType, data);
+        
+        for (var i = 0; i < receiptOptions.length; i++) {
+          if (receiptOptions[i].checked) {
+            formData.append(receiptOptions[i].id, true);
+          }
+        }
+        
+        $self.sendFormRequest(form, ajaxRequestLink, formType, formData);
     }
 
     this.getFormFields = function(form, ajaxRequestLink, formType, inputFields) {
-        // We need to disable/enable the inputs or otherwise they wont be appended to DataObject
+        let dataMaterialPrice = [];
         const disabledInputs = form[0].querySelectorAll(':disabled');
         disabledInputs.forEach(input => input.disabled = false);
+
         const formData = new FormData(form[0]);
         disabledInputs.forEach(input => input.disabled = true);
-        var dataMaterialPrice = [];
+
         if (formType == 'edit') {
             formData.append('_method', 'PATCH');
         }
 
-      inputFields.each(function(index, element) {
-        var inputType = element.type,
-            dataKey = element.name,
-            dataKeyValue = element.value;
-        if ((inputType == 'radio' || inputType == 'checkbox') && dataKey.indexOf('[]') !== -1) {
-            dataKey = dataKey.replace('[]', '');
-            formData.append(dataKey, $(element).is(':checked'));
-        } else if (inputType == 'checkbox') {
-            formData.append(dataKey, $(element).is(':checked'));
-        } else if (inputType == 'radio') {
-            if ($(element).is(':checked')) {
+        let processedKeys = new Set();
+        inputFields.each(function(index, element) {
+            var inputType = element.type,
+                dataKey = element.name,
+                dataKeyValue = element.value;
+
+            if ((inputType == 'radio' || inputType == 'checkbox') && dataKey.indexOf('[]') !== -1) {
+                if (!processedKeys.has(dataKey)) { // Execute once per unique input name in order to erease rendundant items
+                    if ( formData.get(dataKey) ) formData.delete(dataKey)
+                    processedKeys.add(dataKey);
+                }
+
+                formData.append(dataKey, $(element).is(':checked'))
+            } else if (inputType == 'checkbox') {
+                if (!processedKeys.has(dataKey)) { // Execute once per unique input name in order to erease rendundant items
+                    if ( formData.get(dataKey) ) formData.delete(dataKey)
+                    processedKeys.add(dataKey);
+                }
                 formData.append(dataKey, $(element).is(':checked'));
-            }
-        } else if (dataKey.indexOf('[]') !== -1) {
-            if(element.hasAttribute('data-material-id-price')) {
-            var calculatingPrice = $(element).parents('.form-row').find('[name="calculating_price"]');
-            var chosenMaterialPrice = calculatingPrice[0].value;
-            var chosenMaterial=$(element).parents('.form-row').find('select[name="material_type_id[]"] option').last();
-            var chosenMaterialPriceID = chosenMaterial.attr('data-price-2-id');
+            } else if (inputType == 'radio') {
+                if ($(element).is(':checked')) {
+                    if (!processedKeys.has(dataKey)) { // Execute once per unique input name in order to erease rendundant items
+                        if ( formData.get(dataKey) ) formData.delete(dataKey)
+                        processedKeys.add(dataKey);
+                    }
+                    formData.append(dataKey, dataKeyValue);
+                }
+            } else if (dataKey.indexOf('[]') !== -1) {
+                if (element.hasAttribute('data-material-id-price')) {
+                    var calculatingPrice = $(element).parents('.form-row').find('[name="calculating_price"]');
+                    var chosenMaterialPrice = calculatingPrice[0].value;
+                    var chosenMaterial=$(element).parents('.form-row').find('select[name="material_type_id[]"] option').last();
+                    var chosenMaterialPriceID = chosenMaterial.attr('data-price-2-id');
 
-            if(chosenMaterialPrice == "" ){
-                chosenMaterialPrice = parseFloat(chosenMaterial.attr('data-price-2'));
-                calculatingPrice.find('option:last-child').attr('value', chosenMaterialPrice);
-            }
+                    if(chosenMaterialPrice == "" ){
+                        chosenMaterialPrice = parseFloat(chosenMaterial.attr('data-price-2'));
+                        calculatingPrice.find('option:last-child').attr('value', chosenMaterialPrice);
+                    }
 
-            dataMaterialPrice.push({
-                material_id: dataKeyValue,
-                material_price: chosenMaterialPrice,
-                material_price_id: chosenMaterialPriceID
-            });
-            formData.append('data_material_price', dataMaterialPrice);
+                    dataMaterialPrice.push({
+                        material_id: dataKeyValue,
+                        material_price: chosenMaterialPrice,
+                        material_price_id: chosenMaterialPriceID
+                    });
+                }
             }
-        }
-      });
+        });
 
-      $self.sendFormRequest(form, ajaxRequestLink, formType, formData);
+        // for (let obj of dataMaterialPrice ) {
+        //     formData.append('data_material_price[]', obj);
+        // }
+        formData.append('data_material_price', JSON.stringify(dataMaterialPrice));
+
+        $self.sendFormRequest(form, ajaxRequestLink, formType, formData);
     }
 
     this.clearForm = function(form, formType) {
@@ -1662,7 +1683,7 @@ var uvel,
           if (formType == 'add') {
             $self.appendResponseToTable(response, form);
             $('form').find('table tbody').empty();
-          } else if (formType == 'edit' || formType == 'quantity' || formType == 'add') {
+          } else if (formType == 'edit' || formType == 'quantity') {
             $self.replaceResponseRowToTheTable(form, response);
           }
           $self.formSuccessHandler(form, formType, response);
@@ -1808,9 +1829,9 @@ var uvel,
     this.appendingCreateFormToTheModal = async function(currentButton, timeToOpenModal) {
         var ajaxRequestLink = $self.buildAjaxRequestLink('requestForm', currentButton.attr('data-url'));
         // Clear all forms off the DOM to prevent conflicting ids
-        if ( $('.modal').find('.modal-content').length) {
-            $('.modal').find('.modal-content').empty();
-        }
+        // if ( $('.modal').find('.modal-content').length) {
+        //     $('.modal').find('.modal-content').empty();
+        // }
 
         $.ajax({
           url: ajaxRequestLink,
@@ -1874,9 +1895,9 @@ var uvel,
         }
 
         // Clear all forms off the DOM to prevent conflicting ids
-        if ( $('.modal').find('.modal-content').length) {
-            $('.modal').find('.modal-content').empty();
-        }
+        // if ( $('.modal').find('.modal-content').length) {
+        //     $('.modal').find('.modal-content').empty();
+        // }
 
         $.ajax({
           url: ajaxRequestLink,
@@ -2098,12 +2119,13 @@ var uvel,
       $(newRow).addClass('form-row');
 
       newRow.innerHTML = hr + newMaterialRow;
-
+    
       var select = $(newRow).find('select').not('[data-search]'),
           selectsWithSearch = $(newRow).find('select[data-search]');
 
-      $(newRow).find('[data-calculateprice-default]').prop('checked', false).removeClass('not-clear');
-
+      var newRowInput = $(newRow).find('[data-calculateprice-default]');
+      newRowInput.prop('checked', false).removeClass('not-clear');
+    //   newRowInput.attr('name', newRowInput.attr('name').replace(/\d+/, (index) => +index + 1))
       materialsWrapper.append(newRow);
 
       var materialRows = materialsWrapper.find('.form-row'),
@@ -3112,26 +3134,28 @@ var uvel,
       var uploadImagesTrigger = form.find('[name^="images"]'),
           dropArea = form.find('.drop-area'),
           deleteImagesTriggerDropArea = form.find('.drop-area-gallery .close');
-        setTimeout(() => {
-            const files = uploadImagesTrigger[0].files;
-            if ( files.length > 0 ) {
-                const closeBtn = form.children(".drop-area-gallery").find(".image-wrapper .close");
-                let collectionFiles = [];
-                Array.from(files).forEach( (file, index) => {
-                    const fileMeta = { id: Math.random().toString(16).slice(2), file: file };
-                    const imageNode = $('.image-wrapper').find('img')[index];
-
-                    $(imageNode).data('index', fileMeta.id)
-                    collectionFiles.push(fileMeta);
-                })
-                $uploadedFiles.push(...collectionFiles);
-                closeBtn.each((i) => {
-                    const $trigger = $(closeBtn[i]);
-                    $self.deleteImagesUploadArea($trigger, form)
-                    $self.deleteImagesDropArea($trigger)
-                })
-            }
-        }, 1000)
+        if ( uploadImagesTrigger.length ) {
+            setTimeout(() => {
+                const files = uploadImagesTrigger[0].files;
+                if ( files.length > 0 ) {
+                    const closeBtn = form.children(".drop-area-gallery").find(".image-wrapper .close");
+                    let collectionFiles = [];
+                    Array.from(files).forEach( (file, index) => {
+                        const fileMeta = { id: Math.random().toString(16).slice(2), file: file };
+                        const imageNode = $('.image-wrapper').find('img')[index];
+    
+                        $(imageNode).data('index', fileMeta.id)
+                        collectionFiles.push(fileMeta);
+                    })
+                    $uploadedFiles.push(...collectionFiles);
+                    closeBtn.each((i) => {
+                        const $trigger = $(closeBtn[i]);
+                        $self.deleteImagesUploadArea($trigger, form)
+                        $self.deleteImagesDropArea($trigger)
+                    })
+                }
+            }, 1000)
+        }
       uploadImagesTrigger.off("change").on('change', function(event) {
         $self.uploadImages(event, form);
       });

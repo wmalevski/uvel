@@ -256,7 +256,8 @@ class Payment extends Model{
                         $expenseRegister->RecordExpense($request->exchangeRows_total, false, Auth::user()->getStore()->id);
                     }
 
-                    foreach($request->data_material_price as $key => $material){
+                    $pricingData = json_decode($request->data_material_price, true);
+                    foreach($pricingData as $key => $material){
                         if($material){
                             $exchange_material = new ExchangeMaterial();
                             $exchange_material->material_id = $material['material_id'];
