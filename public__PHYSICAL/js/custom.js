@@ -1550,14 +1550,14 @@ var uvel,
             } else if (dataKey.indexOf('[]') !== -1) {
                 if (element.hasAttribute('data-material-id-price')) {
                     var calculatingPrice = $(element).parents('.form-row').find('[name="calculating_price"]');
-                    var chosenMaterialPrice = calculatingPrice[0].value;
                     var chosenMaterial=$(element).parents('.form-row').find('select[name="material_type_id[]"] option').last();
                     var chosenMaterialPriceID = chosenMaterial.attr('data-price-2-id');
+                    var chosenMaterialPrice = calculatingPrice.find(':selected').attr('data-price')
 
-                    if(chosenMaterialPrice == "" ){
-                        chosenMaterialPrice = parseFloat(chosenMaterial.attr('data-price-2'));
-                        calculatingPrice.find('option:last-child').attr('value', chosenMaterialPrice);
+                    if(chosenMaterialPrice == "" || chosenMaterialPrice == undefined ){
+                      chosenMaterialPrice = parseFloat(chosenMaterial.attr('data-price-1'));
                     }
+                    calculatingPrice.find('option:last-child').attr('value', chosenMaterialPrice);
 
                     dataMaterialPrice.push({
                         material_id: dataKeyValue,
@@ -1568,9 +1568,6 @@ var uvel,
             }
         });
 
-        // for (let obj of dataMaterialPrice ) {
-        //     formData.append('data_material_price[]', obj);
-        // }
         formData.append('data_material_price', JSON.stringify(dataMaterialPrice));
 
         $self.sendFormRequest(form, ajaxRequestLink, formType, formData);

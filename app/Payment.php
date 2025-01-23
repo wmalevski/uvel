@@ -265,7 +265,8 @@ class Payment extends Model{
                             $exchange_material->order_id = $payment->id;
                             $exchange_material->weight = $request->weight[$key];
                             $exchange_material->sum_price = $request->exchangeRows_total;
-                            $exchange_material->additional_price = $request->calculating_price;
+
+                            $exchange_material->additional_price = $material['material_price'];
                             $exchange_material->material_price_id = $material['material_price_id'];
                             $exchange_material->save();
 
