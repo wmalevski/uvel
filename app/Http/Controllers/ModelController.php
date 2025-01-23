@@ -160,7 +160,6 @@ class ModelController extends Controller{
                     $model_option->material_id = $material;
                     $model_option->retail_price_id = $request->retail_price_id[$key];
                     $model_option->default = $request->default_material[$key];
-
                     if($request->default_material[$key] == 'true'){
                         $model_option->default = "yes";
                     }else{
@@ -589,7 +588,7 @@ class ModelController extends Controller{
                     $model_option->material_id = $material;
                     $model_option->retail_price_id = $request->retail_price_id[$key];
                     $model_option->default = "no";
-                    if ( !is_null($request->default_material) ) {
+                    if ( !is_null($request->default_material[$key]) ) {
                         $model_option->default = $request->default_material[$key];
                         if($request->default_material[$key] == 'true'){
                             $model_option->default = "yes";
@@ -655,7 +654,7 @@ class ModelController extends Controller{
                 $material->save();
             }
 
-            if (!count(Gallery::where('model_id', $model->id)->get())) {
+            if (Gallery::where('model_id', $model->id)->count()) {
                 $product = new Product();
                 $product->name = $request->name;
                 $product->model_id = $default->material_id;

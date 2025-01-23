@@ -83,7 +83,8 @@ class PaymentController extends Controller{
         }
 
         if($partner){
-            foreach($request->materials as $material){
+            $materialsArray = json_decode($request->materials, true);
+            foreach($materialsArray as $material){
                 $material = (array)$material;
                 $quantity = MaterialQuantity::where([
                     ['material_id', '=', $material['material_id']],
@@ -136,12 +137,13 @@ class PaymentController extends Controller{
                     }
                 }
 
-                $partner->money = $partner->money + ($request->workmanship['given'] - $request->workmanship['wanted']);
+                $workmanship = json_decode($request->workmanship, true);
+                $partner->money = $partner->money + ($workmanship['given'] - $workmanship['wanted']);
                 $partner->save();
 
-                $request->request->add(['given_sum' => $request->workmanship['given']]);
+                $request->request->add(['given_sum' => $workmanship['given']]);
                 $request->request->add(['pay_currency' => $defaultCurrency->id]);
-                $request->request->add(['wanted_sum' => $request->workmanship['wanted']]);
+                $request->request->add(['wanted_sum' => $workmanship['wanted']]);
                 $request->request->add(['partner_method' => true]);
 
                 if($request->pay_method == 'false'){
