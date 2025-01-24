@@ -199,7 +199,7 @@ class ProductController extends Controller{
         $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
         $prices = Price::where('type', 'sell')->get();
         // $stones = Stone::take(env('SELECT_PRELOADED'))->get();
-        $stones = Stone::take()->get();
+        $stones = Stone::all();
         $materials = Material::take(env('SELECT_PRELOADED'))->get();
         $stores = Store::take(env('SELECT_PRELOADED'))->get();
         $models = [$product->model];
