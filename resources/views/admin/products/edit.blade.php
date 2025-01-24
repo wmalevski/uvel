@@ -116,6 +116,7 @@
 
             <div class="model_stones">
                 @foreach($product_stones as $modelStone)
+                @dd($modelStone->stone_id, $stones)
                 <div class="form-row fields">
                     <div class="form-group col-md-8">
                         <label>Камъни: </label>
