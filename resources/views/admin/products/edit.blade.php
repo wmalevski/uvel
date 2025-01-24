@@ -122,26 +122,13 @@
 
                         <select name="stones[]" class="form-control" data-calculatePrice-stone data-search="/ajax/select_search/stones/">
                             <option value="">Избери</option>
-                            @php 
-                                $deaultSelected = false;
-                            @endphp
                             @foreach($stones as $stone)
-                            @php 
-                            if($modelStone->stone_id == $stone->id) $deaultSelected = true;
-                            @endphp
                             <option value="{{ $stone->id }}" @if($modelStone->stone_id == $stone->id) selected @endif
                                 data-type="{{ $stone->type }}" data-price="{{ $stone->price }}">
                                 {{ $stone->nomenclature->name }}
                                 ({{ $stone->contour->name }}, {{ $stone->size->name }})
                             </option>
                             @endforeach
-                            @if(!$deaultSelected)
-                            <option value="{{ $modelStone->stone_id }}" selected 
-                                data-type="{{ $modelStone->type }}" data-price="{{ $modelStone->price }}">
-                                {{ $modelStone->nomenclature->name }}
-                                ({{ $modelStone->contour->name }}, {{ $modelStone->size->name }})
-                            </option>
-                            @endif
                         </select>
                     </div>
 
