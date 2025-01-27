@@ -196,19 +196,13 @@ class ProductController extends Controller{
      */
     public function edit(Product $product){
         $product_stones = $product->stones;
-        $stoneIds = [];
-        foreach($product_stones as $productStone) {
-            array_push($stoneIds, $productStone->stone_id);
-        }
-
-        $jewels = Jewel::take(env('SELECT_PRELOADED'))->get();
-        $prices = Price::where('type', 'sell')->get();
-        $stones = Stone::whereIn('id', $stoneIds)->get();
-        // $stones = Stone::take(env('SELECT_PRELOADED'))->get();
-
-        $materials = Material::take(env('SELECT_PRELOADED'))->get();
-        $stores = Store::take(env('SELECT_PRELOADED'))->get();
-        $models = [$product->model];
+        $stoneIds       = $product_stones->pluck('stone_id')->toArray();
+        $jewels         = Jewel::take(env('SELECT_PRELOADED'))->get();
+        $prices         = Price::where('type', 'sell')->get();
+        $stones         = Stone::whereIn('id', $stoneIds)->get();
+        $materials      = Material::take(env('SELECT_PRELOADED'))->get();
+        $stores         = Store::take(env('SELECT_PRELOADED'))->get();
+        $models         = [$product->model];
 
         $photos = Gallery::where(
             [
