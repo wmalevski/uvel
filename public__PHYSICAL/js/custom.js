@@ -2636,20 +2636,18 @@ var uvel,
       workmanshipHolder.val(workmanshipPrice);
     }
 
-    this.fillPhotos = function(photos, form) {
+    this.fillPhotos = async function(photos, form) {
       var dropAreaGalleryHolder = form.find('.drop-area-gallery');
+      const $inputElement = form.find('[name^="images"]');
       dropAreaGalleryHolder.empty();
       imagesList = photos;
-
       if ( imagesList != undefined || imagesList.length > 0 ) {
-        const $inputElement = form.find('[name^="images"]');
-        $self.hydrateInputNode(imagesList, $inputElement);
+        await $self.hydrateInputNode(imagesList, $inputElement);
       }
-
       photos.forEach(function(photo) {
         var imageWrapper = $(document.createElement('div')),
             newImg = $(document.createElement('img')),
-            photoUrl = photo.base64,
+            photoUrl = photo.src,
             closeBtn = $(document.createElement('div'));
 
         imageWrapper.addClass('image-wrapper');
@@ -2657,12 +2655,25 @@ var uvel,
         closeBtn.addClass('close');
         closeBtn.html('x');
 
+
         imageWrapper.append(closeBtn);
         imageWrapper.append(newImg);
         dropAreaGalleryHolder.append(imageWrapper);
 
         $self.deleteImagesDropArea(closeBtn);
       });
+
+
+      let collectionFiles = [];
+      $uploadedFiles = [];
+      const files = $inputElement[0].files;
+      Array.from(files).forEach( (file, index) => {
+          const fileMeta = { id: Math.random().toString(16).slice(2), file: file };
+          const imageNode = $('.image-wrapper').find('img')[index];
+          $(imageNode)[0].dataset.index = fileMeta.id
+          collectionFiles.push(fileMeta);
+      })
+      $uploadedFiles.push(...collectionFiles);
     }
 
     this.paymentInitializer = function(form) {
@@ -3344,8 +3355,8 @@ var uvel,
       var _instanceFiles = [],
           $fileInput = $('.drop-area-input'),
           $wrapper = $('.drop-area-gallery');
-          $wrapper.empty();
-    collectionFiles.forEach(function(element) {
+        $wrapper.empty();
+        collectionFiles.forEach(function(element) {
         var reader = new FileReader();
         reader.readAsDataURL(element.file);
         reader.onloadend = function() {
