@@ -2637,43 +2637,29 @@ var uvel,
     }
 
     this.fillPhotos = async function(photos, form) {
-      var dropAreaGalleryHolder = form.find('.drop-area-gallery');
-      const $inputElement = form.find('[name^="images"]');
-      dropAreaGalleryHolder.empty();
-      imagesList = photos;
-      if ( imagesList != undefined || imagesList.length > 0 ) {
-        await $self.hydrateInputNode(imagesList, $inputElement);
-      }
-      photos.forEach(function(photo) {
-        var imageWrapper = $(document.createElement('div')),
-            newImg = $(document.createElement('img')),
-            photoUrl = photo.src,
-            closeBtn = $(document.createElement('div'));
+        $uploadedFiles = [];
+        form.find('.drop-area-gallery').empty();
+        var $inputElement = form.find('[name^="images"]');
+        await $self.hydrateInputNode(photos, $inputElement);
+        const files = $inputElement[0].files;
 
-        imageWrapper.addClass('image-wrapper');
-        newImg.attr('src', photoUrl);
-        closeBtn.addClass('close');
-        closeBtn.html('x');
+        if ( files.length > 0 ) {
+            const closeBtn = form.children(".drop-area-gallery").find(".image-wrapper .close");
+            let collectionFiles = [];
+            Array.from(files).forEach( (file, index) => {
+                const fileMeta = { id: Math.random().toString(16).slice(2), file: file };
+                const imageNode = $('.image-wrapper').find('img')[index];
 
-
-        imageWrapper.append(closeBtn);
-        imageWrapper.append(newImg);
-        dropAreaGalleryHolder.append(imageWrapper);
-
-        $self.deleteImagesDropArea(closeBtn);
-      });
-
-
-      let collectionFiles = [];
-      $uploadedFiles = [];
-      const files = $inputElement[0].files;
-      Array.from(files).forEach( (file, index) => {
-          const fileMeta = { id: Math.random().toString(16).slice(2), file: file };
-          const imageNode = $('.image-wrapper').find('img')[index];
-          $(imageNode)[0].dataset.index = fileMeta.id
-          collectionFiles.push(fileMeta);
-      })
-      $uploadedFiles.push(...collectionFiles);
+                $(imageNode).data('index', fileMeta.id)
+                collectionFiles.push(fileMeta);
+            })
+            $uploadedFiles.push(...collectionFiles);
+            closeBtn.each((i) => {
+                const $trigger = $(closeBtn[i]);
+                $self.deleteImagesDropArea($trigger)
+            })
+        }
+        return $self.appendImages($uploadedFiles, form)
     }
 
     this.paymentInitializer = function(form) {
