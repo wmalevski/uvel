@@ -32,6 +32,11 @@ class PriceController extends Controller{
         return \View::make('admin/prices/index', array('materials' => $materials));
     }
 
+    public function create(Material $material)
+    {
+        return view('admin.prices.create', compact('material'));
+    }
+
     /**
      * Store a newly created resource in storage.
      *

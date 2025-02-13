@@ -35,7 +35,7 @@ class JewelController extends Controller
      */
     public function create()
     {
-        //
+        return \View::make('admin/jewels/create');
     }
 
     /**

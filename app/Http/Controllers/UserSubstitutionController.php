@@ -41,7 +41,7 @@ class UserSubstitutionController extends Controller
      */
     public function create()
     {
-        //
+        return \View::make('admin/substitutions/create');
     }
 
     /**

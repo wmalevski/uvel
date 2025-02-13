@@ -881,7 +881,7 @@ var uvel,
 
       if ((formType == 'add' || formType == 'sell' || formType == 'partner-sell' || formType == 'quantity') && !formSettings.initialized) {
         var attrUrl = currentPressedBtn.data('url');
-        if (typeof attrUrl !== 'undefined' && attrUrl !== false) {
+        if (typeof attrUrl !== 'undefined' && attrUrl !== false && formType == 'add') {
             $self.appendingCreateFormToTheModal($this, 500)
         } else {
             $self.initializeForm(formSettings, formType);
@@ -1829,7 +1829,6 @@ var uvel,
         // if ( $('.modal').find('.modal-content').length) {
         //     $('.modal').find('.modal-content').empty();
         // }
-
         $.ajax({
           url: ajaxRequestLink,
           success: function(response) {
