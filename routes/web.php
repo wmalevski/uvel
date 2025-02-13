@@ -61,12 +61,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::post('/repairs', 'RepairController@store');
 
         Route::get('/orders', 'OrderController@index')->name('orders');
+        Route::get('/orders/create', 'OrderController@create')->name('orders.create');
 
         Route::get('/gallery', 'PublicGalleryController@index')->name('gallery');
         Route::post('/gallery/store/video', 'PublicGalleryController@uploadYoutubeVideo')->name('gallery_upload_video');
         Route::post('/gallery/store/image', 'PublicGalleryController@store')->name('gallery_upload_image');
 
         Route::get('/users', 'UserController@index')->name('users');
+        Route::get('/users/create', 'UserController@create');
 
         Route::get('/partners', 'PartnerController@index')->name('partners');
 
@@ -77,6 +79,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
 
         Route::get('/payments', 'PaymentController@index')->name('payments');
 
+        Route::get('/stores/create', 'StoreController@showCreate');
         Route::get('/stores/{store}', 'StoreController@edit');
 
         Route::get('/nomenclatures', 'NomenclatureController@index')->name('nomenclatures');
@@ -103,6 +106,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::post('/products', 'ProductController@store');
 
         Route::get('/productsothers', 'ProductOtherController@index')->name('products_others');
+        Route::get('/productsothers/create', 'ProductOtherController@create')->name('products_others.create');
         Route::get('/productsothers/{productOther}', 'ProductOtherController@edit');
 
         Route::get('/repairs/return/{repair}', 'RepairController@return');
@@ -115,11 +119,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::get('/orders/{order}', 'OrderController@edit');
 
         //Expenses
+        Route::get('/expenses/create', 'ExpenseController@create');
         Route::get('/expenses', 'ExpenseController@index')->name('expenses');
         Route::get('/expenses/{expense}', 'ExpenseController@edit');
 
         // Income
         Route::get('/income', 'IncomeController@index')->name('income');
+        Route::get('/income/create', 'IncomeController@showCreate')->name('income.create');
         Route::get('/income/{income}', 'IncomeController@edit');
 
         Route::get('/materialsreports', 'MaterialQuantityController@materialReport')->name('materials_reports');
@@ -151,11 +157,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::get('/dailyreports/{report}', 'DailyReportController@edit');
 
         //Discounts section
+        Route::get('/discounts/create', 'DiscountCodeController@showCreate');
         Route::get('/discounts', 'DiscountCodeController@index')->name('discounts');
         Route::get('/discounts/{discountCode}', 'DiscountCodeController@edit');
 
         //Substitutions section
         Route::get('/users/substitutions', 'UserSubstitutionController@index')->name('substitutions');
+        Route::get('/users/substitutions/create', 'UserSubstitutionController@create')->name('substitutions.create');
 
         //User groups section
         Route::get('/users/groups', 'UserGroupController@index')->name('user_groups');
@@ -193,13 +201,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
 
         //Jewels section
         Route::get('/jewels', 'JewelController@index')->name('jewels');
+        Route::get('/jewels/create', 'JewelController@create')->name('jewels.create');
         Route::post('/jewels', 'JewelController@store');
 
         //Expenses
         Route::get('/expensetypes', 'ExpenseTypeController@index')->name('expenses_types');
         Route::get('/expensetypes/edit/{type}', 'ExpenseTypeController@edit');
+        Route::get('/expensetypes/create', 'ExpenseTypeController@create');
 
         // Income
+        Route::get('/income_types/create', 'IncomeTypeController@create')->name('income_types.create');
         Route::get('/income_types', 'IncomeTypeController@index')->name('income_types');
         Route::get('/income_types/edit/{type}', 'IncomeTypeController@edit');
 
@@ -294,6 +305,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         //Price section
         Route::get('/prices', 'PriceController@index')->name('prices');
         Route::post('/prices', 'PriceController@index');
+        Route::get('/prices/create/{material}', 'PriceController@create')->name('prices.create');
 
         Route::get('/prices/{material}', 'PriceController@show')->name('view_price');
         Route::post('/prices/{material}', 'PriceController@store');
@@ -308,6 +320,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'store']], function 
         Route::get('/cash_register', 'CashRegisterController@index')->name('cash_register');
 
         //Models section
+        Route::get('/models/create', 'ModelController@showCreate');
         Route::get('/models/{model}', 'ModelController@edit');
         Route::patch('/models/{model}', 'ModelController@update');
 

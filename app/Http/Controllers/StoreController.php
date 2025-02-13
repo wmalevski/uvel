@@ -27,9 +27,9 @@ class StoreController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function showCreate()
     {
-        //
+        return \View::make('admin/stores/create');
     }
 
     /**

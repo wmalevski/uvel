@@ -205,6 +205,19 @@ class OrderController extends Controller
     return Response::json(array('success' => View::make('admin/orders/table', array('order' => $order))->render()));
   }
 
+  public function create()
+  {
+    $user = Auth::user();
+    $user_store           = Store::where('id', $user->store_id)->first();
+    $disable_store_select = $user->shUserSelectStore();
+
+    return \View::make('admin/orders/create', [
+      'loggedUser'           => $user,
+      'user_store'           => $user_store,
+      'disable_store_select' => $disable_store_select,
+    ]);
+  }
+
   /**
    * Show the form for editing the specified resource.
    *

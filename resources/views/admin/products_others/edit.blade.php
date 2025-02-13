@@ -6,7 +6,7 @@
     </button>
 </div>
 
-    <form method="POST" name="productsOthers" data-type="edit" action="productsothers/{{ $product->id }}">
+    <form method="POST" name="productsOthers" data-type="edit" action="productsothers/{{ $product->id }}" enctype="multipart/form-data">
         
         <div class="modal-body">
 
@@ -72,21 +72,23 @@
                     @endforeach
                 </select>
             </div>
-
-            <div class="drop-area" name="edit">
-                    <input type="file" name="images" class="drop-area-input" id="fileElem-edit" multiple accept="image/*" >
-                    <label class="button" for="fileElem-edit">Select some files</label>
-                    <div class="drop-area-gallery"></div>
-                </div>
-
-            <div class="uploaded-images-area">
-                    @foreach($basephotos as $photo)
-                        <div class='image-wrapper'>
-                            <div class='close'><span data-url="gallery/delete/{{$photo['id']}}">&#215;</span></div>
-                            <img src="{{$photo['photo']}}" alt="" class="img-responsive" />
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="1">Снимка: </label>
+                    <div class="drop-area form-row justify-content-between" name="add">
+                      <input type="file" name="images" class="drop-area-input" id="images" accept="image/*" multiple>
+                      <label class="button" for="images">{{__("Избери снимка")}}</label>
+                        <div class="drop-area-gallery">
+                        @foreach($product->photos as $photo)
+                            <div class='image-wrapper'>
+                                <div class='close'><span data-url="gallery/delete/{{$photo['id']}}">&#215;</span></div>
+                                <img src="{{ getPhoto("storage/products_others/".$photo['photo']) }}" alt="" class="img-responsive" />
+                            </div>
+                        @endforeach
                         </div>
-                    @endforeach 
+                    </div>
                 </div>
+            </div>
         </div>
 
         <div class="modal-footer">
@@ -95,3 +97,6 @@
         </div>
     </form>
 </div>
+<script>
+    imagesList = {{ Illuminate\Support\Js::from($basephotos) }}
+</script>

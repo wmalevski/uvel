@@ -166,8 +166,8 @@ if ( ! function_exists('uploadPhotos') ) {
                 $filename      = str_replace(' ', '', $file->hashName());
                 $imagePath     = $file->storeAs($pathname, $filename);
                 $absolutePath  = storage_path('app/public/' . $imagePath);
-                
                 $photo->photo = $filename;
+
                 switch ($pathname) {
                     case 'orders':
                         $photo->custom_order_id = $table->id;
@@ -177,6 +177,18 @@ if ( ! function_exists('uploadPhotos') ) {
                         break;
                     case 'products':
                         $photo->product_id = $table->id;
+                        break;
+                    case 'products_others':
+                        $photo->product_other_id = $table->id;
+                        break;
+                    case 'stones':
+                        $photo->stone_id = $table->id;
+                        break;
+                    case 'sliders':
+                        $photo->slider_id = $table->id;
+                        break;
+                    case 'blogs':
+                        $photo->blog_id = $table->id;
                         break;
                     default:
                         break;

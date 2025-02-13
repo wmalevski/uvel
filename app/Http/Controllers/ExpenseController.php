@@ -40,7 +40,15 @@ class ExpenseController extends Controller{
    */
   public function create()
   {
-    //
+    if(Auth::user()->role != 'admin') {
+        $expenses = Expense::where('store_from_id', Auth::user()->getStore()->id)->orWhere('store_to_id', Auth::user()->getStore()->id)->orderBy('id', 'DESC')->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
+      } else {
+        $expenses = Expense::orderBy('id', 'DESC')->paginate(\App\Setting::where('key','per_page')->first()->value ?? 30);
+      }
+      $expenses_types = ExpenseType::all();
+      $currencies = Currency::all();
+      $current_store = Auth::user()->getStore();
+    return view('admin.expenses.create', compact('expenses', 'expenses_types', 'currencies', 'current_store'));
   }
 
   /**

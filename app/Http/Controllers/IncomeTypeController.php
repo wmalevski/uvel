@@ -51,6 +51,11 @@ class IncomeTypeController extends Controller{
 		return \View::make('admin/income_types/edit',array('type'=>$type));
 	}
 
+    public function create()
+    {
+        return view('admin.income_types.create');
+    }
+
 	/**
 	 * Update the specified resource in storage.
 	 *

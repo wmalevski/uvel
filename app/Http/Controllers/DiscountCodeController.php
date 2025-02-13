@@ -140,9 +140,9 @@ class DiscountCodeController extends Controller{
      * @param  \App\DiscountCode  $discount_codes
      * @return \Illuminate\Http\Response
      */
-    public function show(DiscountCode $discountCode)
+    public function showCreate(Request $request)
     {
-        //
+        return \View::make('admin/discounts/create');
     }
 
     /**
