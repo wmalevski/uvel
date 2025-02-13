@@ -41,6 +41,7 @@ class ModelController extends Controller{
         $stones = Stone::with(['contour', 'size'])->take(env('SELECT_PRELOADED'))->get();
         // $stones = Stone::take(env('SELECT_PRELOADED'))->get();
         $materials = Material::take(env('SELECT_PRELOADED'))->get();
+        $loggedUser = Auth::user();
         // $materials = Material::with(['pricesSell', 'pricesBuy', 'parent'])->take(env('SELECT_PRELOADED'));
         $pass_stones = [];
 
@@ -63,6 +64,7 @@ class ModelController extends Controller{
             'jewels' => $jewels,
             'models' => $models,
             'stones' => $stones,
+            'loggedUser' => $loggedUser
         ));
     }
 
@@ -223,9 +225,8 @@ class ModelController extends Controller{
             $product->barcode = $digits . $check_digit;
 
             $product->website_visible =  'yes';
-
-
             $product->save();
+            updatePhotos($product, $images, 'products');
 
             $stoneQuantity = 1;
             if($request->stones){
@@ -361,6 +362,13 @@ class ModelController extends Controller{
         }
 
         return \View::make('admin/models/edit', array('pass_photos' => $pass_photos, 'model' => $model, 'jewels' => $jewels, 'prices' => $prices, 'stones' => $stones, 'modelStones' => $modelStones, 'options' => $options, 'stones' => $stones, 'materials' => $materials, 'jsMaterials' =>  json_encode($pass_materials), 'jsStones' =>  json_encode($pass_stones), 'basephotos' => $this->getModelPhotos($photos)));
+    }
+
+    public function showCreate(Request $request)
+    {
+        $loggedUser = Auth::user();
+
+        return \View::make('admin/models/create', compact('loggedUser'));
     }
 
     /**

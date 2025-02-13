@@ -25,11 +25,17 @@ class ProductOtherController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $products_others = ProductOther::all();
+        $products_others = ProductOther::orderBy('id', 'desc')
+            ->paginate(Setting::where('key','per_page')->first()->value ?? 30);
         $types = ProductOtherType::all();
         $stores = Store::take(env('SELECT_PRELOADED'))->get();
-
         return \View::make('admin/products_others/index', array('products_others' => $products_others, 'types' => $types, 'stores' => $stores));
+    }
+
+    public function create(){
+        $types = ProductOtherType::all();
+        $stores = Store::take(env('SELECT_PRELOADED'))->get();
+        return \View::make('admin/products_others/create', array('types' => $types, 'stores' => $stores));
     }
 
     /**
@@ -53,7 +59,6 @@ class ProductOtherController extends Controller
         }
 
         //$product = Products_others::create($request->all());
-
         $product = ProductOther::create([
             'name' => $request->name,
             'type_id' => $request->type_id,
@@ -77,39 +82,46 @@ class ProductOtherController extends Controller
         $next_ten = (ceil($total_sum/10))*10;
         $check_digit = $next_ten - $total_sum;
         $product->barcode = $digits . $check_digit;
+        $images = $request->file('images');
+
+        if ( $request->hasFile('images') ) {
+            if (!Storage::exists('products_others')) {
+                Storage::makeDirectory('products_others');
+            }
+
+            updatePhotos($product, $images, 'products_others');
+        }
 
         $product->save();
+        // File::makeDirectory($path, 0775, true, true);
 
-        $path = storage_path('products_others/');
-        File::makeDirectory($path, 0775, true, true);
+        // $file_data = $request->input('images');
+        // if($file_data){
+        //     foreach($file_data as $img){
+        //         $memi = substr($img, 5, strpos($img, ';')-5);
 
-        $file_data = $request->input('images');
-        if($file_data){
-            foreach($file_data as $img){
-                $memi = substr($img, 5, strpos($img, ';')-5);
-
-                $extension = explode('/',$memi);
-                if($extension[1] == "svg+xml"){
-                    $ext = 'png';
-                }else{
-                    $ext = $extension[1];
-                }
+        //         $extension = explode('/',$memi);
+        //         if($extension[1] == "svg+xml"){
+        //             $ext = 'png';
+        //         }else{
+        //             $ext = $extension[1];
+        //         }
 
 
-                $file_name = 'productotherimage_'.uniqid().time().'.'.$ext;
+        //         $file_name = 'productotherimage_'.uniqid().time().'.'.$ext;
 
-                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                file_put_contents(storage_path('products_others/').$file_name, $data);
+        //         $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+        //         file_put_contents(storage_path('products_others/').$file_name, $data);
 
-                Storage::disk('public')->put('products_others/'.$file_name, file_get_contents(storage_path('products_others/').$file_name));
+        //         Storage::disk('public')->put('products_others/'.$file_name, file_get_contents(storage_path('products_others/').$file_name));
 
-                $photo = new Gallery();
-                $photo->photo = $file_name;
-                $photo->product_other_id = $product->id;
-                $photo->table = 'products_others';
-                $photo->save();
-            }
-        }
+        //         $photo = new Gallery();
+        //         $photo->photo = $file_name;
+        //         $photo->product_other_id = $product->id;
+        //         $photo->table = 'products_others';
+        //         $photo->save();
+        //     }
+        // }
 
         return Response::json(array('success' => View::make('admin/products_others/table',array('product'=>$product))->render()));
     }
@@ -174,37 +186,64 @@ class ProductOtherController extends Controller
         $types = ProductOtherType::all();
         $stores = Store::take(env('SELECT_PRELOADED'))->get();
 
+        // $photos = Gallery::where(
+        //     [
+        //         ['table', '=', 'products_others'],
+        //         ['product_other_id', '=', $productOther->id]
+        //     ]
+        // )->get();
+        // $pass_photos = array();
+
+        // foreach($photos as $photo){
+        //     $url =  Storage::get('public/products_others/'.$photo->photo);
+        //     $ext_url = Storage::url('public/products_others/'.$photo->photo);
+
+        //     $info = pathinfo($ext_url);
+
+        //     $image_name =  basename($ext_url,'.'.$info['extension']);
+
+        //     $base64 = base64_encode($url);
+        //     if($info['extension'] == "svg"){
+        //         $ext = "png";
+        //     }else{
+        //         $ext = $info['extension'];
+        //     }
+        //     dd($ext);
+
+        //     $pass_photos[] = [
+        //         'id' => $photo->id,
+        //         'photo' => 'data:image/'.$ext.';base64,'.$base64
+        //     ];
+        // }
+
         $photos = Gallery::where(
             [
                 ['table', '=', 'products_others'],
                 ['product_other_id', '=', $productOther->id]
             ]
         )->get();
-
-        $pass_photos = array();
+        $pass_photos = [];
 
         foreach($photos as $photo){
-            $url =  Storage::get('public/products_others/'.$photo->photo);
-            $ext_url = Storage::url('public/products_others/'.$photo->photo);
-
+            $ext_url = Storage::url('products_others/'.$photo->photo);
             $info = pathinfo($ext_url);
-
             $image_name =  basename($ext_url,'.'.$info['extension']);
-
-            $base64 = base64_encode($url);
-
+            
+            $base64 = base64_encode($ext_url);
+            
             if($info['extension'] == "svg"){
                 $ext = "png";
             }else{
                 $ext = $info['extension'];
             }
-
+            
             $pass_photos[] = [
                 'id' => $photo->id,
-                'photo' => 'data:image/'.$ext.';base64,'.$base64
+                'photo' => 'data:image/'.$ext.';base64,'.$base64,
+                'src' => $ext_url,
             ];
+            
         }
-
 
         return \View::make('admin/products_others/edit', array('product' => $productOther, 'types' => $types, 'stores' => $stores, 'basephotos' => $pass_photos));
     }
@@ -248,38 +287,47 @@ class ProductOtherController extends Controller
             return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
         }
 
+
+        // $path = storage_path('products_others/');
+        // File::makeDirectory($path, 0775, true, true);
+
+        $images = $request->file('images');
+        if ( $request->hasFile('images') ) {
+            if (!Storage::exists('products_others')) {
+                Storage::makeDirectory('products_others');
+            }
+
+            updatePhotos($productOther, $images, 'products_others');
+        }
+
         $productOther->save();
 
-        $path = storage_path('products_others/');
-        File::makeDirectory($path, 0775, true, true);
+        // if($file_data){
+        //     foreach($file_data as $img){
+        //         $memi = substr($img, 5, strpos($img, ';')-5);
 
-        $file_data = $request->input('images');
-        if($file_data){
-            foreach($file_data as $img){
-                $memi = substr($img, 5, strpos($img, ';')-5);
-
-                $extension = explode('/',$memi);
-                if($extension[1] == "svg+xml"){
-                    $ext = 'png';
-                }else{
-                    $ext = $extension[1];
-                }
+        //         $extension = explode('/',$memi);
+        //         if($extension[1] == "svg+xml"){
+        //             $ext = 'png';
+        //         }else{
+        //             $ext = $extension[1];
+        //         }
 
 
-                $file_name = 'productotherimage_'.uniqid().time().'.'.$ext;
+        //         $file_name = 'productotherimage_'.uniqid().time().'.'.$ext;
 
-                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-                file_put_contents(storage_path('products_others/').$file_name, $data);
+        //         $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+        //         file_put_contents(storage_path('products_others/').$file_name, $data);
 
-                Storage::disk('public')->put('products_others/'.$file_name, file_get_contents(storage_path('products_others/').$file_name));
+        //         Storage::disk('public')->put('products_others/'.$file_name, file_get_contents(storage_path('products_others/').$file_name));
 
-                $photo = new Gallery();
-                $photo->photo = $file_name;
-                $photo->product_other_id = $productOther->id;
-                $photo->table = 'products_others';
-                $photo->save();
-            }
-        }
+        //         $photo = new Gallery();
+        //         $photo->photo = $file_name;
+        //         $photo->product_other_id = $productOther->id;
+        //         $photo->table = 'products_others';
+        //         $photo->save();
+        //     }
+        // }
 
         return Response::json(array('table' => View::make('admin/products_others/table',array('product'=>$productOther))->render(), 'ID' => $productOther->id));
     }

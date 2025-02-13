@@ -32,6 +32,13 @@ class IncomeController extends Controller{
 		return view('admin.income.index', compact('income', 'income_types', 'currencies', 'current_store'));
 	}
 
+    public function showCreate()
+    {
+		$income_types = IncomeType::all();
+		$currencies = Currency::all();
+		return view('admin.income.create', compact('income_types', 'currencies'));
+    }
+
 	/**
 	 * Store a newly created resource in storage.
 	 *

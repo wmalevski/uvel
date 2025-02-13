@@ -30,6 +30,11 @@ class UserController extends Controller
         return \View::make('admin/users/index', array('users' => $users, 'stores' => $stores));
     }
 
+    public function create()
+    {
+        return \View::make('admin/users/create');
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
