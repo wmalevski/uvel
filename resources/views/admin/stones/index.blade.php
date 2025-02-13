@@ -55,7 +55,7 @@ aria-hidden="true">
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-          <button type="submit" data-state="add_state" class="action--state_button btn btn-primary add-btn-modal">Добави</button>
+          <button type="submit" data-state="add_state" class="action--state_button btn btn-primary add-btn-modal">Извади</button>
         </div>
       </form>
     </div>
