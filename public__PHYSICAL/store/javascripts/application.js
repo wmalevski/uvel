@@ -1273,7 +1273,6 @@ var uvelStore,
             table = _this.closest('table'),
             updateCartBtn = table.find('.update-cart'),
             ajaxURL = _this.attr('data-url');
-
         $.ajax({
             method: 'GET',
             url: ajaxURL,
@@ -1292,6 +1291,12 @@ var uvelStore,
 
                 if (table.find('tbody').find('tr').length == 0) {
                     updateCartBtn.hide();
+                }
+
+                if ( $('[name="cart_items"]').length ) {
+                    $('[name="cart_items"]')
+                        .val(JSON.stringify(resp.items))
+                        .change();
                 }
             }
         })

@@ -273,18 +273,23 @@ class CartController extends BaseController{
 
 		$remove = Cart::session($session_id)->remove($item);
 
+        $items = [];
+        Cart::session($session_id)->getContent()->each(function($singleitem) use (&$items){
+			$items[] = $singleitem;
+		});
+
         if ( Cart::session($session_id)->isEmpty() ) {
             Cart::session($session_id)->clearCartConditions();
         }
 
-		$total = round(Cart::session($session_id)->getTotal(),2);
+        $total = round(Cart::session($session_id)->getTotal(),2);
 		$subtotal = round(Cart::session($session_id)->getSubTotal(),2);
 		$quantity = Cart::session($session_id)->getTotalQuantity();
 
 		$dds = round($subtotal - ($subtotal/1.2), 2);
 
 		if($remove){
-			return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'dds' => $dds));
+			return Response::json(array('success' => true, 'table' => $table, 'total' => $total, 'subtotal' => $subtotal, 'quantity' => $quantity, 'dds' => $dds, 'items' => $items));
 		}
 	}
 
