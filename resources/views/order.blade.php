@@ -153,7 +153,7 @@
             @isset($total)<li><strong>Обща сума:</strong> {{ $total }}лв.</li>@endisset
             @isset($cart_items)
             <section>
-                <p>Количка : </p>
+                <p>Количка: {{ count($cart_items) }}</p>
                 @if(is_array($cart_items))
                     <ul>
                     @foreach($cart_items as $i)
