@@ -3,6 +3,7 @@
     $useremail = '';
     $usercity = '';
     $userphone = '';
+    $content = '';
 
     if (Auth::check()) {
         $user = Auth::user();
