@@ -73,11 +73,12 @@
                     @endisset
                     @isset($total)<li><strong>Обща сума:</strong> {{ $total }}лв.</li>@endisset
                     @if(isset($cart_items))
-                        <li><strong>Количка:</strong></li>
-                        @if(is_array($cart_items))
-                            @foreach($cart_items as $i)
+                        <li><strong>Количка: {{ count($cart_items) }}</strong></li>
+                        @if( is_array($cart_items) )
+                            <ul>
+                                @foreach($cart_items as $i)
+                                <li><strong>Продукт No:</strong> {{ $i['attributes']['product_id'] }}</li>
                                 <ul>
-                                    <li><strong>Продукт No:</strong> {{ $i['attributes']['product_id'] }}</li>
                                     <li><strong>Модел:</strong> {{ $product_names[$loop->iteration-1] }}</li>
                                     <li><strong>Количество:</strong> {{ $i['quantity'] }}бр.</li>
                                     @if( array_key_exists('weight', $i) && !is_null($i['weight']) )
@@ -85,7 +86,8 @@
                                     @endif
                                     <li><strong>Цена:</strong> {{ $i['price'] }}лв.</li>
                                 </ul>
-                            @endforeach
+                                @endforeach
+                            </ul>
                         @endif
                     @endif
                 </ul>
