@@ -662,7 +662,8 @@ class ModelController extends Controller{
                 $material->save();
             }
 
-            if (Gallery::where('model_id', $model->id)->count()) {
+            $galleryConut = Gallery::where('model_id', $model->id)->count();
+            if ( !$galleryCount ) {
                 $product = new Product();
                 $product->name = $request->name;
                 $product->model_id = $default->material_id;
