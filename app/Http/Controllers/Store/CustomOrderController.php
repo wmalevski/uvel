@@ -116,8 +116,9 @@ class CustomOrderController extends BaseController{
                 ),
                 function($message) use ($file_data, $customOrder) {
                     $message
-                        ->to(config('mail.from.address'))
-                        ->subject('Uvel Поръчка');
+            ->from(config('mail.from.address'), config('mail.from.name'))
+            ->to('uvelgold@gmail.com') // 🚨 правилно, без config()
+            ->subject('Uvel Поръчка');
 
                     if($file_data){
                         foreach($file_data as $img) {

@@ -74,9 +74,11 @@
 																<li><span>Тегло: {{ $model->weight }}гр.</li>
 																<li><span>Вид:</span> {{ $model->jewel->name }}</li>
 																<li><span>Размер:</span> {{ $model->size }}</li>
+                                                                {{-- 
 															@if(isset($model->options->first()->material) && $model->options->first()->material->for_exchange == 'no')
                                                                 <li><span>Обмяна:</span>{{ $model->weight }}<span style="text-transform:initial"> гр. + {{ $model->workmanship }} лв.</span></li>
-                                                                @endif  
+                                                                @endif 
+                                                                --}}
                                                             </ul>
                                                         </li>
                                                     </ul>
@@ -95,7 +97,17 @@
 																</style>
 															<div id="purchase-1293235843">
 																<div class="detail-price" itemprop="price">
+                                                                    {{-- ChatGTP  --}}
+                                                                    {{--
 																	<span class="price">{{ number_format($model->price) }} лв.</span>
+                                                                    --}}
+                                                                    @php
+                                                                    $eur = $model->price / 1.95583;
+                                                                    @endphp
+                                                                <span class="price">
+                                                            {{ number_format($model->price, 0) }} лв /
+                                                            {{ number_format($eur, 0) }} €
+                                                                </span>                                                                    
 																	*с ДДС
 																</div>
 															</div>

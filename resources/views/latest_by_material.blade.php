@@ -42,7 +42,13 @@
                                                     </div>
                                                     <div class="product-content-right">
                                                         <div class="product-price">
-                                                            <span class="price">{{number_format($product->price)}} лв.</span>
+                                                            @php
+                                                                    $eur = $product->price / 1.95583;
+                                                                    @endphp
+
+                                                                <span class="price">
+                                                                {{ number_format($product->price, 0) }} лв / {{ number_format($eur, 0) }} €
+                                                                </span>
                                                         </div>
                                                     </div>
                                                     <div class="hover-appear">

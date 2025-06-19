@@ -44,9 +44,13 @@
 				</div>
 				<div id="quick-shop-container">
 					<div id="quick-shop-price-container" class="detail-price">
-						<span class="price_sale">
-							{{ number_format($model->price) }} лв.
-						</span>
+					@php
+                    $eur = $model->price / 1.95583;
+                    @endphp
+
+                    <span class="price_sale">
+                    {{ number_format($model->price, 0) }} лв / {{ number_format($eur, 0) }} €
+                    </span>
 						<span class="dash"></span>
 					</div>
 					<div class="others-bottom">

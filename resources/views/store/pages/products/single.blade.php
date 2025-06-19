@@ -91,9 +91,11 @@
 																<li><span>Вид:</span> {{ $product->jewel->name }}</li>
 																<li><span>Размер:</span> {{ $product->size }}</li>
 																<li><span>Налично в:</span> {{ $product->store_info->name }}</li>
+                                                                {{--
 @if(!in_array($product->material->name, array("сребро", "Сребро")))
 <li><span>Обмяна: {{ $weightWithoutStone }}<span style="text-transform:initial"> гр. + {{ $product->workmanship }} лв.</span></li>
 @endif
+    --}}
 															</ul>
 														</li>
 													</ul>
@@ -107,9 +109,13 @@
 														<div id="product-actions-1293235843" class="options clearfix">
 															<div id="purchase-1293235843">
 																<div class="detail-price" itemprop="price">
-																	<span class="price">
-																		{{ number_format($product->price) }} лв.
-																	</span>
+																	@php
+                                                                    $eur = $product->price / 1.95583;
+                                                                    @endphp
+
+                                                                <span class="price">
+                                                                {{ number_format($product->price, 0) }} лв / {{ number_format($eur, 0) }} €
+                                                                </span>
 																	*с ДДС
 																</div>
 															</div>

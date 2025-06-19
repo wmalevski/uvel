@@ -39,15 +39,20 @@ class ContactController extends BaseController
         $requestEmail   = $request->email;
         $requestName    = $request->name;
 
-        Mail::send('email',
-            array(
-                'name'          => $requestName,
-                'email'         => $requestEmail,
-                'user_message'  => $request->message
-            ), function($message) use ($requestName, $requestEmail) {
-                $message->from($requestEmail);
-                $message->to("uvelgold@gmail.com")->subject("Контактна форма: $requestName");
-        });
+       Mail::send('email',
+    [
+        'name'         => $request->name,
+        'email'        => $request->email,
+        'user_message' => $request->message
+    ],
+    function ($message) use ($request) {
+        $message
+            ->from(config('mail.from.address'), config('mail.from.name')) // напр. auto@uvel.bg
+            ->replyTo($request->email, $request->name)
+            ->to('uvelgold@gmail.com')
+            ->subject("Контактна форма: {$request->name}");
+    }
+);
 
         return Redirect::back()->with('success.contact', 'Съобщението ви беше изпратено успешно');
     }

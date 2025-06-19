@@ -98,8 +98,12 @@ class UserPaymentController extends Controller{
                 return Redirect::back()->withErrors($validator);
             }
 
-            // SEND INTERNAL MAIL
-            $cartItems             = json_decode($request->cart_items, true);
+            // SEND INTERNAL MAIL           
+            
+            //$cartItems             = json_decode($request->cart_items, true);
+            //Changed by ChatGTP
+            $cartItems = Cart::session($memberId)->getContent()->toArray();
+
             $subTotal              = round(Cart::session($memberId)->getSubTotal(),2);
             $total                 = number_format(Cart::session($memberId)->getTotal(), 2, '.', '');
             //Vizo commented this, due to the fact that there is some issue with the cart info in the user email (not correct calc)
@@ -132,10 +136,13 @@ class UserPaymentController extends Controller{
                         'discount' => $discount,
                     ),
                     function($message) {
-                        $message
-                            ->to(config('mail.from.address'))
-                            ->subject('Uvel Поръчка');
-                    }
+    $message
+        ->from(config('mail.from.address'), config('mail.from.name'))
+        ->to('uvelgold@gmail.com')
+        ->subject('Uvel Поръчка');
+}
+
+                           
                 );
             } catch (Exception $e) {
                 Log::error($e->getMessage());
