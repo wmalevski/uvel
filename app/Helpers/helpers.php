@@ -206,4 +206,24 @@ if ( ! function_exists('uploadPhotos') ) {
         return $currentPhotos;
     }
 }
+
+if (!function_exists('getCurrency')) {
+    function getCurrencyRate(string $code): string
+    {
+        $cacheKey = 'currency_rate_' . $code;
+        $currencyCode = strtoupper($code);
+        $currencyRate = 1.0;
+        $cachedRate = Cache::get($cacheKey);
+        if (Cache::has($cacheKey)) {
+            $currencyRate = $cachedRate;
+            return $currencyRate;
+        }
+        $currencyRate = Currency::where('name', $currencyCode)->value('currency');
+        if (!$currencyRate) {
+            throw new InvalidArgumentException("Currency code '{$currencyCode}' is not supported.");
+        }
+        Cache::put($cacheKey, $currencyRate, now()->addHours(24));
+        return $currencyRate;
+    }
+}
 ?>

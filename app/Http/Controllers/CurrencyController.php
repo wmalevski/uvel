@@ -88,13 +88,17 @@ class CurrencyController extends Controller
                 'currency' => 'numeric|between:0,100'
             ]);
 
+            $cacheKey = 'currency_rate_' .  $currency->name;
+            if (\Cache::has($cacheKey)) {
+                \Cache::forget($cacheKey);
+            }
+
             if ($validator->fails()) {
                 return Response::json(['errors' => $validator->getMessageBag()->toArray()], 401);
             }
 
             $currency->name = $request->name;
             $currency->currency = $request->currency;
-
             $currency->save();
 
             return Response::json(array('ID' => $currency->id, 'table' => View::make('admin/settings/currencytable',array('currency'=>$currency))->render()));
