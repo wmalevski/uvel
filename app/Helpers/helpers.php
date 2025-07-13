@@ -209,7 +209,7 @@ if ( ! function_exists('uploadPhotos') ) {
 }
 
 if (!function_exists('getCurrency')) {
-    function getCurrencyRate(string $code): float | int
+    function getCurrencyRate(string $code): string
     {
         $cacheKey = 'currency_rate_' . $code;
         $currencyCode = strtoupper($code);
@@ -227,5 +227,4 @@ if (!function_exists('getCurrency')) {
         return $currencyRate;
     }
 }
-
 ?>
