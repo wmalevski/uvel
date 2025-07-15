@@ -161,7 +161,7 @@
                         <ul>
                             <li>Име: <strong>{{ $i['name'] }}</strong></li>
                             <li>Количество: <strong>{{ $i['quantity'] }}бр.</strong></li>
-                            <li>Цена: <strong>{{ $i['price'] }}лв.</strong></li>
+                            <li>Цена: <strong>{{ $i['price'] }}лв. / {{ $i['price'] * getCurrencyRate('EUR') }} €</strong></li>
                         </ul>
                     @endforeach
                     </ul>

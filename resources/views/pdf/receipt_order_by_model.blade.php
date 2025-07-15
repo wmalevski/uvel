@@ -39,15 +39,15 @@
 
 <div style="clear: both;height:20px;"></div>
 
-<div style="text-align:right;"><b>Капаро</b>: {{$order->earnest ?: 0}}лв.</div>
-<div style="text-align:right;"><b>Обменен материал</b>: {{$exchange_material_sum}}лв.</div>
-<div style="text-align:right;"><b>Дадена сума</b>: {{$orderPayment->given}} лв.</div>
+<div style="text-align:right;"><b>Обменен материал</b>: {{$exchange_material_sum}}лв. / {{$exchange_material_sum * getCurrencyRate('EUR')}} €</div>
+<div style="text-align:right;"><b>Дадена сума</b>: {{$payment->given}} лв. / {{$payment->given * getCurrencyRate('EUR')}} €</div>
+<div style="text-align:right;"><b>Ресто</b>: {{ floatval( ($exchange_material_sum + $payment->given) - $payment->price )}}лв. / {{floatval( ($exchange_material_sum + $payment->given) - $payment->price ) * getCurrencyRate('EUR')}} €</div>
 
 @php
   $change = number_format( floatval($exchange_material_sum + $orderPayment->given) + floatval($order->earnest ?? 0) - floatval($selling->price), 2, '.', '' );
 @endphp
 
-<div style="text-align:right;"><b>Ресто</b>: {{ $change }}лв.</div>
+<div style="text-align:right;"><b>Ресто</b>: {{ $change }}лв. / {{ $change * getCurrencyRate('EUR') }} €</div>
 
 <div style="clear: both;height:20px;"></div>
 

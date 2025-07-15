@@ -7,7 +7,8 @@ use Picqer\Barcode\Renderers\SvgRenderer;
 use Picqer\Barcode\BarcodeGeneratorSVG;
 use Picqer\Barcode\BarcodeGeneratorHTML;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Cache;
+use App\Currency;
 
 if( ! function_exists('isDev') ){
     /**
@@ -208,7 +209,7 @@ if ( ! function_exists('uploadPhotos') ) {
 }
 
 if (!function_exists('getCurrency')) {
-    function getCurrencyRate(string $code): string
+    function getCurrencyRate(string $code): float | int
     {
         $cacheKey = 'currency_rate_' . $code;
         $currencyCode = strtoupper($code);
@@ -226,4 +227,5 @@ if (!function_exists('getCurrency')) {
         return $currencyRate;
     }
 }
+
 ?>
