@@ -47,7 +47,11 @@
   $change = number_format( floatval($exchange_material_sum + $orderPayment->given) + floatval($order->earnest ?? 0) - floatval($selling->price), 2, '.', '' );
 @endphp
 
+<<<<<<< HEAD
 <div style="text-align:right;"><b>Ресто</b>: {{ $change }}лв. / {{ ceil($change * getCurrencyRate('EUR')) }} €</div>
+=======
+<div style="text-align:right;"><b>Ресто</b>: {{ $change }}лв. / {{ $change * getCurrencyRate('EUR') }} €</div>
+>>>>>>> 7cc69c9e (Include euro prices based on db euro rate)
 
 <div style="clear: both;height:20px;"></div>
 

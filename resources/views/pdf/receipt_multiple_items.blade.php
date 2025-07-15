@@ -39,9 +39,15 @@
             <div style="float:left;width:33.3%;"><b>Грам</b>: {{$item['product']->weight}} гр.</div>
 
             @if($item['product']->workmanship)
+<<<<<<< HEAD
                 <div style="float:left;width:33.3%;"><b>Изработка</b>: {{$item['product']->workmanship}} лв. / {{ ceil($item['product']->workmanship * getCurrencyRate('EUR')) }} €</div>
             @endif
             <div style="float:left;width:33.3%;text-align:right;"><b>Цена</b>: {{$item['product']->price }} лв. / {{ ceil($item['product']->price * getCurrencyRate('EUR')) }} €</div>
+=======
+                <div style="float:left;width:33.3%;"><b>Изработка</b>: {{$item['product']->workmanship}} лв. / {{ $item['product']->workmanship * getCurrencyRate('EUR') }} €</div>
+            @endif
+            <div style="float:left;width:33.3%;text-align:right;"><b>Цена</b>: {{$item['product']->price }} лв. / {{ $item['product']->price * getCurrencyRate('EUR') }} €</div>
+>>>>>>> 7cc69c9e (Include euro prices based on db euro rate)
         @endif
 
         @break

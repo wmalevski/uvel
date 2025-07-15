@@ -34,7 +34,7 @@
     @if($product->workmanship)
         <div style="float:left;width:33.3%;"><b>Изработка</b>: {{ceil($product->workmanship * getCurrencyRate('EUR'))}} €</div>
     @endif
-    <div style="float:left;width:33.3%;text-align:right;"><b>Цена</b>: {{$product->price }} лв.</div>
+    <div style="float:left;width:33.3%;text-align:right;"><b>Цена</b>: {{$product->price }} лв. / {{$product->price * getCurrencyRate('EUR')}} €</div>
 @endif
 
 <div style="clear: both;height:20px;"></div>
