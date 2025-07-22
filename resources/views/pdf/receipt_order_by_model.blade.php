@@ -32,22 +32,22 @@
 	<div style="float:left;width:33.3%;"><b>Грам</b>: {{$weight['weight']}} гр.</div>
 
 	@if($model->workmanship)
-		<div style="float:left;width:33.3%;"><b>Изработка</b>: {{$order->workmanship}} лв.</div>
+		<div style="float:left;width:33.3%;"><b>Изработка</b>: {{ ceil($model->workmanship * getCurrencyRate('EUR')) }} €</div>
 	@endif
 	<div style="float:left;width:33.3%;text-align:right;"><b>Цена</b>: {{$order->price }} лв.</div>
 @endif
 
 <div style="clear: both;height:20px;"></div>
 
-<div style="text-align:right;"><b>Обменен материал</b>: {{$exchange_material_sum}}лв. / {{$exchange_material_sum * getCurrencyRate('EUR')}} €</div>
-<div style="text-align:right;"><b>Дадена сума</b>: {{$payment->given}} лв. / {{$payment->given * getCurrencyRate('EUR')}} €</div>
-<div style="text-align:right;"><b>Ресто</b>: {{ floatval( ($exchange_material_sum + $payment->given) - $payment->price )}}лв. / {{floatval( ($exchange_material_sum + $payment->given) - $payment->price ) * getCurrencyRate('EUR')}} €</div>
+<div style="text-align:right;"><b>Обменен материал</b>: {{$exchange_material_sum}}лв. / {{ceil($exchange_material_sum * getCurrencyRate('EUR'))}} €</div>
+<div style="text-align:right;"><b>Дадена сума</b>: {{$payment->given}} лв. / {{ceil($payment->given * getCurrencyRate('EUR'))}} €</div>
+<div style="text-align:right;"><b>Ресто</b>: {{ floatval( ($exchange_material_sum + $payment->given) - $payment->price )}}лв. / {{ceil( ($exchange_material_sum + $payment->given) - $payment->price ) * getCurrencyRate('EUR')}} €</div>
 
 @php
   $change = number_format( floatval($exchange_material_sum + $orderPayment->given) + floatval($order->earnest ?? 0) - floatval($selling->price), 2, '.', '' );
 @endphp
 
-<div style="text-align:right;"><b>Ресто</b>: {{ $change }}лв. / {{ $change * getCurrencyRate('EUR') }} €</div>
+<div style="text-align:right;"><b>Ресто</b>: {{ $change }}лв. / {{ ceil($change * getCurrencyRate('EUR')) }} €</div>
 
 <div style="clear: both;height:20px;"></div>
 

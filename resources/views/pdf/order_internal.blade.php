@@ -6,7 +6,7 @@
         <div style="width:50%;margin:0;padding:0;font-size:10px;text-align:left;float:left;">Изпълнение До: <b>{{$order->date_returned}}</b></div>
         <div style="width:50%;margin:0;padding:0;font-size:10px;text-align:left;float:left;">Клиент: <b>{{$order->customer_name}}</b></div>
         <div style="width:50%;margin:0;padding:0;font-size:10px;text-align:left;float:left;">Телефон: <b>{{$order->customer_phone}}</b></div>
-        <div style="width:100%;margin:0;padding:0;font-size:10px;text-align:right;float:left;">Цена: <b>{{$order->price}}</b> лв. / <b>{{$order->price * getCurrencyRate('EUR')}}</b> €</div>
+        <div style="width:100%;margin:0;padding:0;font-size:10px;text-align:right;float:left;">Цена: <b>{{$order->price}}</b> лв. / <b>{{ceil($order->price * getCurrencyRate('EUR'))}}</b> €</div>
         <br>
         <br>
         @if($model->name && $jewel->name)

@@ -43,7 +43,7 @@
                                                     <div class="product-content-right">
                                                         <div class="product-price">
                                                             @php
-                                                                $eur = $product->price * getCurrencyRate('EUR');
+                                                                $eur = ceil($product->price * getCurrencyRate('EUR'));
                                                             @endphp
 
                                                             <span class="price">

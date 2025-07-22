@@ -12,8 +12,8 @@
                 <td text-rotate="-90" style="font-size: 28px; font-weight: bold;">{{ $product->price }}лв</td>
                 <td style="padding-left: 15px; font-size: 28px; font-weight: bold;">
                     @php
-                        $workmanship_eu = $product->workmanship * getCurrencyRate('EUR');
-                        $product_price_eu = $product->price * getCurrencyRate('EUR');
+                        $workmanship_eu = ceil($product->workmanship * getCurrencyRate('EUR'));
+                        $product_price_eu = ceil($product->price * getCurrencyRate('EUR'));
                     @endphp
                     Гр: @if(isset($product->weight_without_stones) && $product->weight_without_stones == 'yes') {{ $product->weight }} @else {{ $product->gross_weight }} @endif<br/>
                     Р-р: {{ $product->size }}<br/>

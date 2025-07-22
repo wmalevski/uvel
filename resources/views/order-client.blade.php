@@ -84,7 +84,7 @@
                                     @if( array_key_exists('weight', $i) && !is_null($i['weight']) )
                                         <li><strong>Тегло:</strong> {{ $i['weight'] }} гр.</li>
                                     @endif
-                                    <li><strong>Цена:</strong> {{ $i['price'] }}лв. / {{ $i['price'] * getCurrencyRate('EUR') }} €</li>
+                                    <li><strong>Цена:</strong> {{ $i['price'] }}лв. / {{ ceil($i['price'] * getCurrencyRate('EUR')) }} €</li>
                                 </ul>
                                 @endforeach
                             </ul>
