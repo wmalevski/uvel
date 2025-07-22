@@ -37,13 +37,13 @@
 <hr style="clear:both;"/>
 @if($repair->weight_after || $repair->price_after)
 <div style="width:50%;float:left;"><b>Тегло след ремонт</b>: {{$repair->weight_after ?: $repair->weight}}гр.</div>
-<div style="width:50%;float:left;text-align:right;"><b>Цена след ремонт</b>: {{$repair->price_after ?: $repair->price}}лв.</div>
+<div style="width:50%;float:left;text-align:right;"><b>Цена след ремонт</b>: {{$repair->price_after ?: $repair->price}}лв. / {{ $repair->price_after > $repair->price ? ceil($repair->price_after * getCurrencyRate('EUR')) : ceil($repair->price * getCurrencyRate('EUR')) }}€</div>
 <hr style="clear:both;"/>
 @endif
 
-<div style="float: left; width: 33.33%;"><b>Цена: </b>{{$repair->price_after > $repair->price ? $repair->price_after : $repair->price}}лв.</div>
-<div style="float: left; width: 33.33%;text-align:center;"><b>Капаро: </b>{{$repair->prepaid}}лв.</div>
-<div style="float: left; width: 33.33%;text-align:right;"><b>Остатък: </b>{{$repair->price - $repair->prepaid}}лв.</div>
+<div style="float: left; width: 33.33%;"><b>Цена: </b>{{$repair->price_after > $repair->price ? $repair->price_after : $repair->price}}лв. / {{$repair->price_after > $repair->price ? ceil($repair->price_after * getCurrencyRate('EUR')) : ceil($repair->price * getCurrencyRate('EUR'))}}€</div>
+<div style="float: left; width: 33.33%;text-align:center;"><b>Капаро: </b>{{$repair->prepaid}}лв. / {{ceil($repair->prepaid * getCurrencyRate('EUR'))}}€</div>
+<div style="float: left; width: 33.33%;text-align:right;"><b>Остатък: </b>{{$repair->price - $repair->prepaid}} лв. / {{ceil(($repair->price - $repair->prepaid) * getCurrencyRate('EUR'))}}€</div>
 <hr style="clear:both;"/>
 
 <div style="float: left; width: 50%;"><b>Клиент</b> :</div>

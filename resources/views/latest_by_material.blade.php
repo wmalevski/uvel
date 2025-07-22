@@ -43,12 +43,12 @@
                                                     <div class="product-content-right">
                                                         <div class="product-price">
                                                             @php
-                                                                    $eur = $product->price / 1.95583;
-                                                                    @endphp
+                                                                $eur = ceil($product->price * getCurrencyRate('EUR'));
+                                                            @endphp
 
-                                                                <span class="price">
+                                                            <span class="price">
                                                                 {{ number_format($product->price, 0) }} лв / {{ number_format($eur, 0) }} €
-                                                                </span>
+                                                            </span>
                                                         </div>
                                                     </div>
                                                     <div class="hover-appear">

@@ -7,7 +7,8 @@ use Picqer\Barcode\Renderers\SvgRenderer;
 use Picqer\Barcode\BarcodeGeneratorSVG;
 use Picqer\Barcode\BarcodeGeneratorHTML;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Cache;
+use App\Currency;
 
 if( ! function_exists('isDev') ){
     /**
@@ -206,4 +207,25 @@ if ( ! function_exists('uploadPhotos') ) {
         return $currentPhotos;
     }
 }
+
+if (!function_exists('getCurrency')) {
+    function getCurrencyRate(string $code): float | int
+    {
+        $cacheKey = 'currency_rate_' . $code;
+        $currencyCode = strtoupper($code);
+        $currencyRate = 1.0;
+        $cachedRate = Cache::get($cacheKey);
+        if (Cache::has($cacheKey)) {
+            $currencyRate = $cachedRate;
+            return $currencyRate;
+        }
+        $currencyRate = Currency::where('name', $currencyCode)->value('currency');
+        if (!$currencyRate) {
+            throw new InvalidArgumentException("Currency code '{$currencyCode}' is not supported.");
+        }
+        Cache::put($cacheKey, $currencyRate, now()->addHours(24));
+        return $currencyRate;
+    }
+}
+
 ?>
