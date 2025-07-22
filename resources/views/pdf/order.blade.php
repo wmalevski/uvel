@@ -45,7 +45,7 @@
 
         <hr style="margin:5px 0 5px 0;clear: both;height:0;width:0;">
         <div style="width:50%;margin:0;padding:0;font-size:10px;text-align:left;float:left;">
-            @if($order->earnest)Капаро: <b>{{$order->earnest}}лв.</b>@endif
+            @if($order->earnest)Капаро: <b>{{$order->earnest}}лв. / {{ceil($order->earnest * getCurrencyRate('EUR'))}}€</b>@endif
         </div>
 
         <div style="width:100%;margin:0;padding:0;font-size:10px;text-align:left;float:left;">

@@ -17,8 +17,7 @@
                     @endphp
                     Гр: @if(isset($product->weight_without_stones) && $product->weight_without_stones == 'yes') {{ $product->weight }} @else {{ $product->gross_weight }} @endif<br/>
                     Р-р: {{ $product->size }}<br/>
-                    {{-- @if(isset($product->weight_without_stones) && $product->weight_without_stones == 'yes') Изр:{{ $workmanship }}лв @else Цена:{{ $product->price }}лв @endif<br/> --}}
-                    @if(isset($product->weight_without_stones) && $product->weight_without_stones == 'yes') Изр:{{ $workmanship_eu }}€ @else Цена:{{ $product_price_eu }}€@endif<br/>
+                    @if(isset($product->weight_without_stones) && $product->weight_without_stones == 'yes') {{ $workmanship_eu }}€ @else Цена:{{ $product_price_eu }}€@endif<br/>
                     <br/>
                 </td>
             </tr>
