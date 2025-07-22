@@ -32,12 +32,12 @@
             @if (Illuminate\Support\Str::lower($material->name) == "злато")
                 <div style="float: left; width: 25%;">Грам: <b>{{$order->weight}}</b></div>
                 <div style="float: left; width: 25%;">Размер: <b>{{$order->size}}</b></div>
-                <div style="float: left; width: 25%;">Изработка: <b>{{$order->workmanship}}лв.</b></div>
+                <div style="float: left; width: 25%;">Изработка: <b>{{$order->workmanship}}лв. / {{ceil($order->workmanship * getCurrencyRate('EUR'))}}€</b></div>
                 <div style="float: left; width: 25%;text-align:right;">Цена: <b>{{$order->price}}лв. / {{ceil($order->price * getCurrencyRate('EUR'))}}€</b></div>
             @else
                 <div style="float: left; width: 25%;">Грам: <b>{{$order->gross_weight}}</b></div>
                 <div style="float: left; width: 25%;">Размер: <b>{{$order->size}}</b></div>
-                <div style="float: left; width: 25%;">Изработка: <b>{{$order->workmanship}}лв.</b></div>
+                <div style="float: left; width: 25%;">Изработка: <b>{{$order->workmanship}}лв. / {{ceil($order->workmanship * getCurrencyRate('EUR'))}}€</b></div>
                 <div style="float: left; width: 25%;text-align:right;">Цена: <b>{{$order->price}}лв. / {{ceil($order->price * getCurrencyRate('EUR'))}}€</b></div>
             @endif
             </div>
