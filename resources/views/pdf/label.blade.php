@@ -14,11 +14,15 @@
                     @php
                         $workmanship_eu = ceil($product->workmanship * getCurrencyRate('EUR'));
                         $product_price_eu = ceil($product->price * getCurrencyRate('EUR'));
+                        $total = ceil($product->price + $product->workmanship);
+                        $total_eu = ceil($total * getCurrencyRate('EUR'));
                     @endphp
-                    Гр: @if(isset($product->weight_without_stones) && $product->weight_without_stones == 'yes') {{ $product->weight }} @else {{ $product->gross_weight }} @endif<br/>
-                    Р-р: {{ $product->size }}<br/>
-                    @if(isset($product->weight_without_stones) && $product->weight_without_stones == 'yes') {{ $workmanship_eu }}€ @else Цена:{{ $product_price_eu }}€@endif<br/>
+                    Гр: @if(isset($product->weight_without_stones) && $product->weight_without_stones == 'yes') {{ $product->weight }}
+                        @else {{ $product->gross_weight }}
+                    @endif
                     <br/>
+                    Р-р: {{ $product->size }}<br/>
+                    {{ $product_price_eu }} €
                 </td>
             </tr>
         </table>
