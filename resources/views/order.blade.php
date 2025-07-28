@@ -150,7 +150,7 @@
                 <li><strong>Отстъпка:</strong> {{ $discount['discount'] }}%</li>
                 <li><strong>Код за отстъпка:</strong> {{ $discount['barcode'] }}</li>
             @endisset
-            @isset($total)<li><strong>Обща сума:</strong> {{ $total }}лв.</li>@endisset
+            @isset($total)<li><strong>Обща сума:</strong> {{ $total }}лв. / {{ ceil($total * getCurrencyRate('EUR')) }} €</li>@endisset
             @isset($cart_items)
             <section>
                 <p>Количка: {{ count($cart_items) }}</p>

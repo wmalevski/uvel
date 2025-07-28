@@ -493,8 +493,9 @@ aria-hidden="true">
                             <div class="col-sm-3">
                                 <div class="input-group">
                                     <input type="hidden" name="deposit" value="{{ $total_prepaid }}" id="deposit_box" data-deposit/>
-                                    <input type="number" name="subTotal" value="{{ Cart::session(Auth::user()->id)->getSubTotal() }}" class="form-control" id="subTotal" data-sell-subTotal placeholder="" readonly>
-                                    <span class="input-group-addon">лв</span>
+                                    @php $deposit = ceil(Cart::session(Auth::user()->id)->getSubTotal() * getCurrencyRate('EUR')); @endphp
+                                    <input type="number" name="subTotal" value="{{ $deposit }}" class="form-control" id="subTotal" data-sell-subTotal placeholder="" readonly>
+                                    <span class="input-group-addon">&euro;</span>
                                 </div>
                             </div>
                         </div>
@@ -503,8 +504,9 @@ aria-hidden="true">
                             <label for="tax" class="col-sm-9 control-label">ДДС:</label>
                             <div class="col-sm-3">
                                 <div class="input-group">
-                                    <input type="number" name="tax" value="{{ $dds }}" class="form-control" id="tax" data-sell-tax placeholder="" readonly>
-                                    <span class="input-group-addon">лв</span>
+                                    @php $dds_eu = ceil($dds * getCurrencyRate('EUR')); @endphp
+                                    <input type="number" name="tax" value="{{ $dds_eu }}" class="form-control" id="tax" data-sell-tax placeholder="" readonly>
+                                    <span class="input-group-addon">&euro;</span>
                                 </div>
                             </div>
                         </div>
@@ -520,8 +522,9 @@ aria-hidden="true">
                             </label>
                             <div class="col-sm-3">
                                 <div class="input-group">
-                                    <input type="number" name="subTotal" value="{{ $priceCon }}" class="form-control" id="subTotal" placeholder="" data-sell-discountDisplay readonly>
-                                    <span class="input-group-addon">лв</span>
+                                    @php $priceCon_eu = ceil($priceCon * getCurrencyRate('EUR')); @endphp
+                                    <input type="number" name="subTotal" value="{{ $priceCon_eu }}" class="form-control" id="subTotal" placeholder="" data-sell-discountDisplay readonly>
+                                    <span class="input-group-addon">&euro;</span>
                                 </div>
                             </div>
                         </div>
@@ -530,8 +533,9 @@ aria-hidden="true">
                             <label for="total" class="col-sm-9 control-label">Крайна цена:</label>
                             <div class="col-sm-3">
                                 <div class="input-group">
-                                    <input type="number" name="total" value="{{ round(Cart::session(Auth::user()->id)->getTotal(),2) }}" class="form-control" id="total" data-calculatePayment-total placeholder="" readonly>
-                                    <span class="input-group-addon">лв</span>
+                                    @php $total_eu = ceil(Cart::session(Auth::user()->id)->getTotal() * getCurrencyRate('EUR')); @endphp
+                                    <input type="number" name="total" value="{{ $total_eu }}" class="form-control" id="total" data-calculatePayment-total placeholder="" readonly>
+                                    <span class="input-group-addon">&euro;</span>
                                 </div>
                             </div>
                         </div>
