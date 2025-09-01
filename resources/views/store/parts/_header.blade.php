@@ -5,11 +5,15 @@
 			<div class="col-md-6 phone-shopping"></div>
 			<div class="col-md-18">
 				<ul class="text-right">
-					<li class="customer-links hidden-xs">
+					<li class="customer-links">
 						<ul id="accounts" class="list-inline">
+							<li class="uvel-lux-section">
+								<span class="uvel-lux-text hidden-xs">Нов сайт за диамантени бижута – посети</span> 
+								<a class="uvel-lux-btn" href="https://uvel.net" target="_blank">{{'UVEL LUX'}}</a>
+							</li>
 							@auth
 								<li class="login"><a href="{{ route('user_account') }}" id="customer_register_link">{{ Auth::user()->email }}</a></li>
-								|
+								<li>|</li>
 								<li class="logout"><a href="{{ route('logout') }}" id="customer_register_link">Изход</a></li>
 							@endauth
 
@@ -80,7 +84,7 @@
 									<li class="nav-item dropdown">{!! StoreNav::nav_catalogue() !!}</li>
 									<li class="nav-item">{!! StoreNav::nav_catalogue_by_model() !!}</li>
 									<li class="nav-item"><a href="{{ route('custom_order') }}"><span>По ваш модел</span></a></li>
-									<li class="nav-item hidden"><a href="{{ route('store_gallery') }}"><span>Галерия</span></a></li>
+									<!-- <li class="nav-item hidden"><a href="{{ route('store_gallery') }}"><span>Галерия</span></a></li> -->
 									<!-- <li class="nav-item"><a href="{{ route('translated_articles', ['locale'=>app()->getLocale()]) }}"><span>Блог</span></a></li> -->
 									<li class="nav-item"><a href="{{ route('contactus') }}"><span>Контакти</span></a></li>
 								</ul>

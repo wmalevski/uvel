@@ -154,12 +154,14 @@ body {
 }
 
 #contact-form .g-recaptcha {
-	text-align: left;
+    text-align: left;
 }
 
+.grecaptcha-badge { visibility: hidden; }
+
 .element .row-left .hbw {
-	position: relative;
-	margin: 0 !important;
+    position: relative;
+    margin: 0 !important;
 }
 
 @media (max-width: 991px) {
@@ -282,9 +284,150 @@ header .col-md-18 {
     top: 50% !important;
     transform: translateY(-50%) !important;
 }
+.page.page-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
 
+.page.page-gallery .gallery-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.page.page-gallery #searchBar {
+    display: flex;
+    justify-content: center;
+}
+
+.page.page-gallery #searchBar .search-criteria-btns {
+    display: flex;
+    justify-content: start;
+    gap: 15px;
+}
+
+.page.page-gallery #searchBar .search-criteria-btns #search-refresh-btn {
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+}
+
+.page.page-gallery #searchBar .search-controls button {
+    background-color: #ffffff;
+    background-image: none;
+    border: 1px solid #dedede;
+}
+
+#albumNav ul {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    padding: 0 50px;
+    flex-wrap: wrap;
+}
+
+/*#uvel_gallery .gallery-cart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}*/
+
+#uvel_gallery { /* Masonry container */
+    -webkit-column-count: 4;
+    -moz-column-count:4;
+    column-count: 4;
+    -webkit-column-gap: 10px;
+    -moz-column-gap: 10px;
+    column-gap: 10px;
+/*    margin: 1.5em;*/
+    padding: 0;
+    font-size: .85em;
+}
+
+#uvel_gallery .gallery-item {
+    display: inline-block;
+    position: relative;
+    background: #fff;
+    border: 1px solid #bf8f00;
+    border-radius: 10px;
+    margin: 0 0 1.5em;
+    width: 100%;
+    transition: all;
+    -webkit-transition:0.5s ease all;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-shadow: 2px 2px 4px 0 #ccc;
+    z-index: 1;
+    min-height: 75px;
+}
+
+#uvel_gallery .gallery-item .image-footer-content {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    backdrop-filter: blur(5px);
+    font-size: 10px;
+    color: white;
+    mix-blend-mode: difference;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+    z-index: 1;
+}
+
+#uvel_gallery .gallery-item:hover {
+    transform: scale(0.95);
+}
+
+#uvel_gallery .gallery-item img,
+#uvel_gallery .gallery-item video {
+    max-width:100%;
+    width: 100%;
+    height: auto;
+    border-radius: 9.5px;
+    z-index: 1;
+}
+
+#uvel_gallery .gallery-item .basket {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    background-color: #bf8f00;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    cursor: pointer;
+    -webkit-transition:0.2s ease transform;
+    z-index: 2;
+}
+
+#uvel_gallery .gallery-item .basket i {
+    z-index: 2;
+}
+
+#uvel_gallery .gallery-item .basket:hover {
+    transform: scale(1.2);
+}
 
 /* MEDIA QUERIES */
+@media only screen and (min-width: 1201px) {
+    #uvel_gallery {
+        -moz-column-count: 4;
+        -webkit-column-count: 4;
+        column-count: 4;
+    }
+}
+
 @media (max-width: 991px) {
     .contact-content {
         padding: 0;
@@ -292,6 +435,10 @@ header .col-md-18 {
 
     .top-navigation .dropdown-menu {
         left: 8px;
+    }
+
+    .page.page-gallery .gallery-actions {
+        flex-direction: column;
     }
 }
 
@@ -336,11 +483,43 @@ header .col-md-18 {
     .top-navigation .dropdown-menu {
         left: 0;
     }
+
+    #uvel_gallery {
+        -moz-column-count: 3;
+        -webkit-column-count: 3;
+        column-count: 3;
+    }
 }
 
 @media (max-width: 540px) {
     #product-info-left .description .sub li {
         padding: 0;
+    }
+
+    #albumNav ul li .btn {
+        height: 30px;
+        font-size: 12px;
+    }
+
+    #uvel_gallery .gallery-cart {
+        height: 20px;
+        width: 10px;
+    }
+
+    #uvel_gallery .gallery-cart i {
+        font-size: 10px;
+    }
+
+    .page.page-gallery .gallery-actions {
+        font-size: 10px;
+    }
+}
+
+@media only screen and (min-width: 321px) and (max-width: 768px){
+    #uvel_gallery {
+        -moz-column-count: 2;
+        -webkit-column-count: 2;
+        column-count: 2;
     }
 }
 
@@ -348,5 +527,74 @@ header .col-md-18 {
     .navbar-toggle {
         padding-left: 16px;
         padding-right: 16px;
+    }
+
+    #uvel_gallery {
+        -moz-column-count: 1;
+        -webkit-column-count: 1;
+        column-count: 1;
+    }
+}
+
+/* UVEL LUX Button Styling */
+.uvel-lux-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000000;
+    color: #D4AF37 !important;
+    border: 2px solid #D4AF37;
+    border-radius: 25px;
+    padding: 8px 20px;
+    font-weight: bold;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-decoration: none !important;
+    letter-spacing: 0.5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    line-height: 1;
+    height: 28px;
+    margin-top: -2px;
+    vertical-align: middle;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.uvel-lux-btn:hover {
+    background-color: #D4AF37 !important;
+    color: #000000 !important;
+    text-decoration: none !important;
+}
+
+.uvel-lux-text {
+    font-size: 12px;
+    font-weight: bold;
+    color: #D4AF37;
+    margin-right: 8px;
+    letter-spacing: 0.3px;
+    text-transform: none;
+    vertical-align: middle;
+}
+
+/* Simple responsive fixes for UVEL LUX section */
+.uvel-lux-section {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Mobile responsive - hide text on small screens */
+@media (max-width: 767px) {
+    .uvel-lux-btn {
+        font-size: 10px;
+        padding: 6px 14px;
+        height: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .uvel-lux-btn {
+        font-size: 9px;
+        padding: 5px 12px;
+        height: 22px;
     }
 }
