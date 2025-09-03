@@ -1,32 +1,25 @@
 <header id="top" class="clearfix">
 	<!--top-->
 	<div class="container top">
-		<div class="top row">
-			<div class="col-md-6 phone-shopping"></div>
-			<div class="col-md-18">
-				<ul class="text-right">
-					<li class="customer-links">
-						<ul id="accounts" class="list-inline">
-							<li class="uvel-lux-section">
-								<span class="uvel-lux-text hidden-xs">Нов сайт за диамантени бижута – посети</span> 
-								<a class="uvel-lux-btn" href="https://uvel.net" target="_blank">{{'UVEL LUX'}}</a>
-							</li>
-							@auth
-								<li class="login"><a href="{{ route('user_account') }}" id="customer_register_link">{{ Auth::user()->email }}</a></li>
-								<li>|</li>
-								<li class="logout"><a href="{{ route('logout') }}" id="customer_register_link">Изход</a></li>
-							@endauth
+        <div class="top-navigation-wrapper">
+            <div class="uvel-lux-wrapper">
+                <font class="uvel-lux-text">Нов сайт за диамантени бижута – посети</font>
+                <a class="uvel-lux-btn" href="https://uvel.net" target="_blank">UVEL LUX</a>
+            </div>
+            <div class="auth-items" style="display: flex; gap:15px;">
+                @auth
+                    <a href="{{ route('user_account') }}" id="customer_register_link">{{ Auth::user()->email }}</a>
+                    <span>|</span>
+                    <a href="{{ route('logout') }}" id="customer_register_link">Изход</a>
+                @endauth
 
-							@guest
-								<li class="login"><a href="{{ route('login') }}" id="customer_register_link">Вход</a></li>
-								<li>/</li>
-								<li class="register"><a href="{{ route('register') }}" id="customer_register_link">Регистрирай се</a></li>
-							@endguest
-						</ul>
-					</li>
-				</ul>
-			</div>
-		</div>
+                @guest
+                    <span class="login"><a href="{{ route('login') }}" id="customer_register_link">Вход</a></span>
+                    <span>/</span>
+                    <a href="{{ route('register') }}" id="customer_register_link">Регистрирай се</a>
+                @endguest
+            </div>
+        </div>
 	</div>
 	<!--End top-->
 	<div class="line"></div>
