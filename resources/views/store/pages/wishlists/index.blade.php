@@ -25,15 +25,29 @@
 							<div class="image-container">
 								<a href="{{$wishListItem->checkWishListItemType($wishListItem)['url']}}">
 									@if ($wishListItem->product_id)
-										<img class="img-fill" src="@if($wishListItem->product->photos) {{ getPhoto("products/" . $wishListItem->product->photos->first()['photo']) }}
-									@else {{ getPhoto('store/images/demo_375x375.png') }}
-
-									@endif"
-									class="img-responsive" alt="{{ $wishListItem->product->name }}">
+										@php
+											$productPhotos = $wishListItem->product->photos;
+											$hasProductPhoto = $productPhotos && $productPhotos->first() && isset($productPhotos->first()['photo']);
+										@endphp
+										@if($hasProductPhoto)
+											<img class="img-fill img-responsive" src="{{ getPhoto('products/' . $productPhotos->first()['photo']) }}" alt="{{ $wishListItem->product->name }}">
+										@else
+											<div class="img-fill" style="display: flex; align-items: center; justify-content: center; background-color: #f5f5f5; color: #666; text-align: center; padding: 20px;">
+												Снимката не е налична
+											</div>
+										@endif
 									@elseif ($wishListItem->model_id)
-										<img class="img-fill" src="@if($wishListItem->model->photos) {{ getPhoto("models/" . $wishListItem->model->photos->first()['photo']) }}
-									@else {{ getPhoto('store/images/demo_375x375.png') }}
-									@endif" class="img-responsive" alt="{{ $wishListItem->model->name }}">
+										@php
+											$modelPhotos = $wishListItem->model->photos;
+											$hasModelPhoto = $modelPhotos && $modelPhotos->first() && isset($modelPhotos->first()['photo']);
+										@endphp
+										@if($hasModelPhoto)
+											<img class="img-fill img-responsive" src="{{ getPhoto('models/' . $modelPhotos->first()['photo']) }}" alt="{{ $wishListItem->model->name }}">
+										@else
+											<div class="img-fill" style="display: flex; align-items: center; justify-content: center; background-color: #f5f5f5; color: #666; text-align: center; padding: 20px;">
+												Снимката не е налична
+											</div>
+										@endif
 									@endif
 								</a>
 							</div>

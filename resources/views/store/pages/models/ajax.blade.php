@@ -3,8 +3,16 @@
     <ul class="row-container list-unstyled clearfix">
         <li class="row-left>
             <a href="{{ route('single_model', ['model' => $model->id])  }}" class="container_item">
-                <img src="@if($model->photos) {{ getPhoto("models/" . $model->photos->first()['photo']) }} @else {{ getPhoto('store/images/demo_375x375.png') }} @endif"
-                    class="img-fill" alt="{{ $model->name }}">
+                @php
+                    $hasModelPhoto = $model->photos && $model->photos->first() && isset($model->photos->first()['photo']);
+                @endphp
+                @if($hasModelPhoto)
+                    <img src="{{ getPhoto('models/' . $model->photos->first()['photo']) }}" class="img-fill" alt="{{ $model->name }}">
+                @else
+                    <div class="img-fill" style="display: flex; align-items: center; justify-content: center; background-color: #f5f5f5; color: #666; text-align: center; padding: 20px;">
+                        Снимката не е налична
+                    </div>
+                @endif
             </a>
             <div class="hbw hidden-xs hidden-sm ">
                 <span class="hoverBorderWrapper"></span>

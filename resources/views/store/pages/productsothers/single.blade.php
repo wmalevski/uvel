@@ -34,21 +34,34 @@
                                         <div id="detail-left-column" class="hidden-xs left-coloum col-sm-6 col-sm-6 fadeInRight not-animated" data-animate="fadeInRight">
                                             <div id="gallery_main" class="product-image-thumb thumbs full_width ">
                                                 <ul class="slide-product-image">
-                                                    @if(App\Gallery::where('product_other_id', $product->id)->first()->get())
-                                                        @foreach(App\Gallery::where('product_other_id', $product->id)->get() as $data)
+                                                    @php
+                                                        $galleries = App\Gallery::where('product_other_id', $product->id)->get();
+                                                    @endphp
+                                                    @if($galleries->count() > 0)
+                                                        @foreach($galleries as $data)
                                                         <li class="image">
                                                             <a href="{{ getPhoto("products_others/" . $data->photo) }}" class="cloud-zoom-gallery active">
                                                                 <img src="{{ getPhoto("products_others/" . $data->photo) }}" alt="{{ $product->name }}">
                                                             </a>
                                                         </li>
                                                         @endforeach
+                                                    @else
+                                                        <li class="image">
+                                                            <div style="display: flex; align-items: center; justify-content: center; background-color: #f5f5f5; color: #666; text-align: center; padding: 40px; min-height: 200px;">
+                                                                Снимките не са налични
+                                                            </div>
+                                                        </li>
                                                     @endif
                                                 </ul>
                                             </div>
                                         </div>
                                         <div class="image featured col-smd-12 col-sm-12 fadeInUp not-animated" data-animate="fadeInUp">
-                                            @if(App\Gallery::where('product_other_id', $product->id)->first()->get())
-                                                <img src="{{ getPhoto("products_others/" . App\Gallery::where('product_other_id', $product->id)->first()->photo) }}" alt="{{ $product->name }}">
+                                            @if($galleries->count() > 0)
+                                                <img src="{{ getPhoto("products_others/" . $galleries->first()->photo) }}" alt="{{ $product->name }}">
+                                            @else
+                                                <div style="display: flex; align-items: center; justify-content: center; background-color: #f5f5f5; color: #666; text-align: center; padding: 40px; min-height: 300px; width: 100%;">
+                                                    Снимката не е налична
+                                                </div>
                                             @endif
                                         </div>
                                         <div id="gallery_main_mobile" class="visible-xs product-image-thumb thumbs mobile_full_width ">

@@ -8,12 +8,24 @@
 			<div class="col-md-12 product-image">
 				<div id="quick-shop-image" class="product-image-wrapper">
 					<a class="main-image">
-						<img alt="{{ $product->name }}" class="img-zoom img-responsive image-fly"
-							src="@if(App\Gallery::where('product_other_id',$product->id)->get()){{ getPhoto("products_others/" . App\Gallery::where('product_other_id', $product->id)->first()->photo) }}@endif">
+						@php
+							$gallery = App\Gallery::where('product_other_id', $product->id)->first();
+							$hasImage = $gallery && $gallery->photo;
+						@endphp
+						@if($hasImage)
+							<img alt="{{ $product->name }}" class="img-zoom img-responsive image-fly" src="{{ getPhoto('products_others/' . $gallery->photo) }}">
+						@else
+							<div class="img-zoom img-responsive image-fly" style="display: flex; align-items: center; justify-content: center; background-color: #f5f5f5; color: #666; text-align: center; padding: 40px; min-height: 200px;">
+								Снимката не е налична
+							</div>
+						@endif
 					</a>
 					<div id="gallery_main_qs" class="product-image-thumb">
-						@if(App\Gallery::where('product_other_id', $product->id)->first()->get())
-							@foreach(App\Gallery::where('product_other_id', $product->id)->get() as $data)
+						@php
+							$galleries = App\Gallery::where('product_other_id', $product->id)->get();
+						@endphp
+						@if($galleries->count() > 0)
+							@foreach($galleries as $data)
 							<a class="image-thumb active" href="{{ getPhoto("products_others/" . $data->photo) }}" data-image="{{ getPhoto("products_others/" . $data->photo) }}"
 							data-zoom-image="{{ getPhoto("products_others/" . $data->photo) }}">
 							<img src="{{ getPhoto("products_others/" . $data->photo) }}" alt="{{ $product->name }}" /></a>

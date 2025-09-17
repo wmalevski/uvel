@@ -8,14 +8,19 @@
 				<div id="quick-shop-image" class="product-image-wrapper">
 
 					<a class="main-image" href="{{ route('single_product', ['product' => $product->id])  }}">
-						<img class="img-zoom img-responsive image-fly" alt="{{ $product->model->name }}" src="
-						@if(count($product->photos))
-						{{ getPhoto("products/" . $product->photos->first()['photo']) }}
-						@elseif(count($product->model->photos))
-						{{ getPhoto("models/" . $product->model->photos->first()['photo']) }}
+						@php
+							$hasProductPhoto = $product->photos && $product->photos->first() && isset($product->photos->first()['photo']);
+							$hasModelPhoto = $product->model && $product->model->photos && $product->model->photos->first() && isset($product->model->photos->first()['photo']);
+						@endphp
+						@if($hasProductPhoto)
+							<img class="img-zoom img-responsive image-fly" alt="{{ $product->model->name }}" src="{{ getPhoto('products/' . $product->photos->first()['photo']) }}">
+						@elseif($hasModelPhoto)
+							<img class="img-zoom img-responsive image-fly" alt="{{ $product->model->name }}" src="{{ getPhoto('models/' . $product->model->photos->first()['photo']) }}">
 						@else
-						{{ getPhoto('store/images/demo_375x375.png') }}
-						@endif">
+							<div class="img-zoom img-responsive image-fly" style="display: flex; align-items: center; justify-content: center; background-color: #f5f5f5; color: #666; text-align: center; padding: 40px; min-height: 200px;">
+								Снимката не е налична
+							</div>
+						@endif
 					</a>
 
 					<div id="gallery_main_qs" class="product-image-thumb">

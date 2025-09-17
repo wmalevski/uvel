@@ -1,11 +1,32 @@
 <tr data-id="{{ $review->id }}">
     <td>
       @if($review->product_id)
-        <img class="admin-product-image" src="{{ getPhoto("products/" . $review->product->photos->first()['photo']) }}">
+        @php
+          $hasProductPhoto = $review->product && $review->product->photos && $review->product->photos->first() && isset($review->product->photos->first()['photo']);
+        @endphp
+        @if($hasProductPhoto)
+          <img class="admin-product-image" src="{{ getPhoto('products/' . $review->product->photos->first()['photo']) }}">
+        @else
+          <span style="color: #666;">Няма снимка</span>
+        @endif
       @elseif($review->model_id)
-        <img class="admin-product-image" src="{{ getPhoto("models/" . $review->model->photos->first()['photo']) }}">
+        @php
+          $hasModelPhoto = $review->model && $review->model->photos && $review->model->photos->first() && isset($review->model->photos->first()['photo']);
+        @endphp
+        @if($hasModelPhoto)
+          <img class="admin-product-image" src="{{ getPhoto('models/' . $review->model->photos->first()['photo']) }}">
+        @else
+          <span style="color: #666;">Няма снимка</span>
+        @endif
       @elseif($review->product_others_id)
-        <img class="admin-product-image" src="{{ getPhoto("products_others/" . $review->productOther->photos->first()['photo']) }}">
+        @php
+          $hasOtherPhoto = $review->productOther && $review->productOther->photos && $review->productOther->photos->first() && isset($review->productOther->photos->first()['photo']);
+        @endphp
+        @if($hasOtherPhoto)
+          <img class="admin-product-image" src="{{ getPhoto('products_others/' . $review->productOther->photos->first()['photo']) }}">
+        @else
+          <span style="color: #666;">Няма снимка</span>
+        @endif
       @endif
     </td>
     <td>

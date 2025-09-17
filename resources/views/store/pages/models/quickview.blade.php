@@ -7,8 +7,16 @@
 			<div class="col-md-12 product-image">
 				<div id="quick-shop-image" class="product-image-wrapper">
 					<a class="main-image" href="{{ route('single_model', ['model' => $model->id])  }}">
-						<img class="img-zoom img-responsive image-fly" alt="{{ $model->name }}"
-						 src="@if($model->photos){{ getPhoto("models/" . $model->photos->first()['photo']) }}@endif"/>
+                        @php
+                            $hasModelPhoto = $model->photos && $model->photos->first() && isset($model->photos->first()['photo']);
+                        @endphp
+                        @if($hasModelPhoto)
+                            <img class="img-zoom img-responsive image-fly" alt="{{ $model->name }}" src="{{ getPhoto('models/' . $model->photos->first()['photo']) }}"/>
+                        @else
+                            <div class="img-zoom img-responsive image-fly" style="display: flex; align-items: center; justify-content: center; background-color: #f5f5f5; color: #666; text-align: center; padding: 40px; min-height: 200px;">
+                                Снимката не е налична
+                            </div>
+                        @endif
 					</a>
 
 					<div id="gallery_main_qs" class="product-image-thumb">

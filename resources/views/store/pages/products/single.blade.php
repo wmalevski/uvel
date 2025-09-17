@@ -45,14 +45,19 @@
 											</div>
 										</div>
 										<div class="image featured col-smd-12 col-sm-12 fadeInUp not-animated" data-animate="fadeInUp">
-											<img alt="{{ $product->id }}" src="
-											@if(count($product->photos))
-											{{ getPhoto("products/" . $product->photos->first()['photo']) }}
-											@elseif(count($product->model->photos))
-											{{ getPhoto("models/" . $product->model->photos->first()['photo']) }}
+											@php
+												$hasProductPhoto = $product->photos && $product->photos->first() && isset($product->photos->first()['photo']);
+												$hasModelPhoto = $product->model && $product->model->photos && $product->model->photos->first() && isset($product->model->photos->first()['photo']);
+											@endphp
+											@if($hasProductPhoto)
+												<img alt="{{ $product->id }}" src="{{ getPhoto('products/' . $product->photos->first()['photo']) }}">
+											@elseif($hasModelPhoto)
+												<img alt="{{ $product->id }}" src="{{ getPhoto('models/' . $product->model->photos->first()['photo']) }}">
 											@else
-											{{ getPhoto('store/images/demo_375x375.png') }}
-											@endif">
+												<div style="display: flex; align-items: center; justify-content: center; background-color: #f5f5f5; color: #666; text-align: center; padding: 40px; min-height: 300px; width: 100%;">
+													Снимката не е налична
+												</div>
+											@endif
 										</div>
 										<div id="gallery_main_mobile" class="visible-xs product-image-thumb thumbs mobile_full_width ">
 											<ul style="opacity: 0; display: block;" class="slide-product-image owl-carousel owl-theme">
@@ -285,14 +290,19 @@
 												<ul class="row-container list-unstyled clearfix">
 													<li class="row-left">
 														<a href="{{ route('single_product', ['product' => $product->id]) }}" class="container_item">
-															<img class="img-fill" alt="{{ $product->id }}" src="
-															@if(count($product->photos))
-															{{ getPhoto("products/" . $product->photos->first()['photo']) }}
-															@elseif(count($product->model->photos))
-															{{ getPhoto("models/" . $product->model->photos->first()['photo']) }}
+															@php
+																$hasProductPhoto = $product->photos && $product->photos->first() && isset($product->photos->first()['photo']);
+																$hasModelPhoto = $product->model && $product->model->photos && $product->model->photos->first() && isset($product->model->photos->first()['photo']);
+															@endphp
+															@if($hasProductPhoto)
+																<img class="img-fill" alt="{{ $product->id }}" src="{{ getPhoto('products/' . $product->photos->first()['photo']) }}">
+															@elseif($hasModelPhoto)
+																<img class="img-fill" alt="{{ $product->id }}" src="{{ getPhoto('models/' . $product->model->photos->first()['photo']) }}">
 															@else
-															{{ getPhoto('store/images/demo_375x375.png') }}
-															@endif">
+																<div class="img-fill" style="display: flex; align-items: center; justify-content: center; background-color: #f5f5f5; color: #666; text-align: center; padding: 20px;">
+																	Снимката не е налична
+																</div>
+															@endif
 														</a>
 														<div class="hbw">
 															<span class="hoverBorderWrapper"></span>

@@ -19,7 +19,14 @@
 			@php $order = $payment->order->first(); @endphp
 			Поръчка по модел № {{$order->id}}<br/>
 			{{$order->customer_name}}, {{$order->customer_phone}}
-			<img class="admin-product-image" src="{{getPhoto("models/".$order->model->photos->first()['photo'])}}"> {{$order->model->name}}
+			@php
+				$hasModelPhoto = $order->model && $order->model->photos && $order->model->photos->first() && isset($order->model->photos->first()['photo']);
+			@endphp
+			@if($hasModelPhoto)
+				<img class="admin-product-image" src="{{getPhoto('models/'.$order->model->photos->first()['photo'])}}"> {{$order->model->name}}
+			@else
+				<span style="color: #666;">Снимката не е налична</span> {{$order->model->name}}
+			@endif
 			<br/>
 		@elseif(isset($payment->sellings) && !$payment->order->first())
 		@foreach($payment->sellings as $key => $selling)

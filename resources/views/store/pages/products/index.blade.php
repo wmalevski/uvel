@@ -99,7 +99,24 @@
 												<ul class="row-container list-unstyled clearfix">
 													<li class="row-left">
 														<a href="{{ route('single_product', ['product' => $product->id]) }}" class="container_item">
-															<img class="img-fill" alt="{{ $product->id }}" src="@if(count($product->photos)) {{ getPhoto("products/" . $product->photos->first()['photo']) }} @elseif(count($product->model->photos)){{ getPhoto("models/" . $product->model->photos->first()['photo']) }}@else {{ getPhoto('store/images/demo_375x375.png') }}@endif">
+															@php
+																$hasImage = false;
+																$imagePath = '';
+																if ($product->photos && $product->photos->first() && isset($product->photos->first()['photo'])) {
+																	$imagePath = 'products/' . $product->photos->first()['photo'];
+																	$hasImage = true;
+																} elseif ($product->model && $product->model->photos && $product->model->photos->first() && isset($product->model->photos->first()['photo'])) {
+																	$imagePath = 'models/' . $product->model->photos->first()['photo'];
+																	$hasImage = true;
+																}
+															@endphp
+															@if($hasImage)
+																<img class="img-fill" alt="{{ $product->id }}" src="{{ getPhoto($imagePath) }}">
+															@else
+																<div class="img-fill" style="display: flex; align-items: center; justify-content: center; background-color: #f5f5f5; color: #666; text-align: center; padding: 20px;">
+																	Снимката не е налична
+																</div>
+															@endif
 														</a>
 														<div class="hbw"><span class="hoverBorderWrapper"></span></div>
 													</li>
