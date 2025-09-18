@@ -120,9 +120,23 @@ if ( ! function_exists('getPhoto') ) {
     function getPhoto(string $path) : string
     {
         try {
+            // First check if the file exists in the public disk (storage/app/public/)
+            if (\Storage::disk('public')->exists($path)) {
+                return \Storage::disk('public')->url($path);
+            }
+            
+            // Then check if it exists in the default disk (storage/app/)
             if (\Storage::exists($path)) {
                 return \Storage::url($path);
             }
+            
+            // For legacy images stored directly in storage/ directory
+            $legacyPath = storage_path($path);
+            if (file_exists($legacyPath)) {
+                return asset('storage/' . $path);
+            }
+            
+            // Fallback to asset path for other files
             return asset($path);
         } catch (\Throwable $th) {
             return '';
@@ -151,7 +165,7 @@ if ( ! function_exists('generateBarcodeHTML') ) {
 }
 
 if ( ! function_exists('uploadPhotos') ) {
-    function updatePhotos($table, $photoFiles = [], $pathname = '')
+    function updatePhotos(\Illuminate\Database\Eloquent\Model $table, $photoFiles = [], string $pathname = '')
     {
         $currentPhotos = $table->photos;
         DB::transaction(function () use ($table, $photoFiles, $currentPhotos, $pathname) {
@@ -161,40 +175,25 @@ if ( ! function_exists('uploadPhotos') ) {
                 }
                 return; // Exit early since there's nothing to add
             }
-
-            foreach ($photoFiles as $file) {
+            if (is_iterable($photoFiles) || is_array($photoFiles)) {
+                foreach ($photoFiles as $file) {
+                    $photo = $currentPhotos->shift() ?? new Gallery();
+                    $filename      = str_replace(' ', '', $file->hashName());
+                    $imagePath     = $file->storeAs($pathname, $filename, 'public');
+                    $absolutePath  = storage_path('app/public/' . $imagePath);
+                    $photo->photo = $filename;
+                    mapGalleryRelation($table,$photo, $pathname);
+                    $photo->table = $pathname;
+                    $photo->save();
+                }
+            } else {
+                $file = $photoFiles;
                 $photo = $currentPhotos->shift() ?? new Gallery();
                 $filename      = str_replace(' ', '', $file->hashName());
-                $imagePath     = $file->storeAs($pathname, $filename);
+                $imagePath     = $file->storeAs($pathname, $filename, 'public');
                 $absolutePath  = storage_path('app/public/' . $imagePath);
                 $photo->photo = $filename;
-
-                switch ($pathname) {
-                    case 'orders':
-                        $photo->custom_order_id = $table->id;
-                        break;
-                    case 'models':
-                        $photo->model_id = $table->id;
-                        break;
-                    case 'products':
-                        $photo->product_id = $table->id;
-                        break;
-                    case 'products_others':
-                        $photo->product_other_id = $table->id;
-                        break;
-                    case 'stones':
-                        $photo->stone_id = $table->id;
-                        break;
-                    case 'sliders':
-                        $photo->slider_id = $table->id;
-                        break;
-                    case 'blogs':
-                        $photo->blog_id = $table->id;
-                        break;
-                    default:
-                        break;
-                }
-
+                mapGalleryRelation($table,$photo, $pathname);
                 $photo->table = $pathname;
                 $photo->save();
             }
@@ -227,5 +226,31 @@ if (!function_exists('getCurrency')) {
         return $currencyRate;
     }
 }
-
+    function mapGalleryRelation(\Illuminate\Database\Eloquent\Model $table, Gallery $photo, string $path) {
+        switch ($path) {
+            case 'orders':
+                $photo->custom_order_id = $table->id;
+                break;
+            case 'models':
+                $photo->model_id = $table->id;
+                break;
+            case 'products':
+                $photo->product_id = $table->id;
+                break;
+            case 'products_others':
+                $photo->product_other_id = $table->id;
+                break;
+            case 'stones':
+                $photo->stone_id = $table->id;
+                break;
+            case 'sliders':
+                $photo->slider_id = $table->id;
+                break;
+            case 'blogs':
+                $photo->blog_id = $table->id;
+                break;
+            default:
+                break;
+        }
+    }
 ?>
